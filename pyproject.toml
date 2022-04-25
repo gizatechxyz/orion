@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "onnx-cairo"
+version = "0.1.0"
+description = "Scaffolding template for Cairo packages."
+authors = ["John Doe <john.doe@email.com>"]
+keywords = ["felucca"]
+include = ["onnx_cairo/*.cairo", "onnx_cairo/*/*.cairo"]
+
+[tool.poetry.dependencies]
+python = ">=3.7.11,<3.9"
+ecdsa = "^0.17.0"
+fastecdsa = "^2.2.3"
+sympy = "^1.10"
+cairo-nile = "^0.4.0"
+"starknet.py" = "^0.2.0-alpha.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.0.1"
+pytest-asyncio = "^0.18.2"
+black = {version = "^22.1.0", allow-prereleases = true}
+felucca = "^0.1.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

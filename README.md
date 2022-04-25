@@ -1,2 +1,1 @@
-# onnx-cairo
-ONNX Runtime in Cairo for deploying ML models in StarkNet
+# ONNX Cairo operators :sparkles:
