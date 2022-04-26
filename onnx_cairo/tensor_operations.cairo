@@ -1,5 +1,5 @@
 
-from small_math import (
+from onnx_cairo.small_math import (
     Fix64x61,
     Double,
     Double_to_Fix,
