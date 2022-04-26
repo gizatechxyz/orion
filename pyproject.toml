@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "onnx-cairo"
-version = "0.1.0"
+version = "0.1.1"
 description = "Scaffolding template for Cairo packages."
 authors = ["John Doe <john.doe@email.com>"]
 keywords = ["felucca"]
