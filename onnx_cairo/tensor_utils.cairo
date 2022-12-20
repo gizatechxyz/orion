@@ -1,8 +1,8 @@
-%builtins range_check
+# %builtins range_check
 
 from starkware.cairo.common.alloc import alloc
 
-from onnx_cairo.tensor_data_types import (
+from contracts.onnx_cairo.tensor_data_types import (
     Tensor,
     TensorFix,
     init_tensor,
@@ -10,37 +10,22 @@ from onnx_cairo.tensor_data_types import (
     init_tensor_from_double
 )
 
-from onnx_cairo.tensor_operations import (
+from contracts.onnx_cairo.tensor_operations import (
     arrays_add_felt,
     arrays_add_fix,
     arrays_mul_felt,
     arrays_mul_fix
 )
 
-from onnx_cairo.tensor_loader import (
-    generate_random_array,
-    generate_shift_value_array,
-    load_tensor_a,
-    load_vector_dim5_1,
-    load_vector_dim5_2
-)
-
-from onnx_cairo.tensor_error_handler import (
+from contracts.onnx_cairo.tensor_error_handler import (
     error_coder,
-    #error_coder_fix
+    error_coder_fix
 )
 
-from onnx_cairo.tensor_console_utils import (
-    show_array,
-    show_tensor
-)
-
-from small_math import (
+from contracts.onnx_cairo.small_math import (
     Fix64x61,
     Double,
     Double_to_Fix,
-    show_Double,
-    show_Fix,
 )
 
 # INDEX OPERATIONS
@@ -78,11 +63,11 @@ end
 ###################### FIX WRAPPERS FOR MATH OPERATIONS ########################## 
 func elem_x_elem_fix_add {range_check_ptr}(tensor_1: TensorFix, tensor_2: TensorFix) -> (res: TensorFix):
     alloc_locals
-    # let (check_equal_dims) = check_elem_x_elem_fix_req (tensor_1, tensor_2)
-    # if check_equal_dims == 0:
-    #     let (res_tensor) = error_coder_fix(1)
-    #     return (res = res_tensor)
-    # end
+    let (check_equal_dims) = check_elem_x_elem_fix_req (tensor_1, tensor_2)
+    if check_equal_dims == 0:
+        let (res_tensor) = error_coder_fix(1)
+        return (res = res_tensor)
+    end
     let (res_elements: Fix64x61*) = arrays_add_fix(tensor_1.elements, tensor_2.elements, tensor_1.elements_size) 
     let (res : TensorFix) = init_tensor_fix(tensor_1.dims_size, tensor_1.dims, tensor_1.elements_size, res_elements)
     return (res = res)
@@ -90,11 +75,11 @@ end
 
 func elem_x_elem_fix_mul {range_check_ptr}(tensor_1: TensorFix, tensor_2: TensorFix) -> (res: TensorFix):
     alloc_locals
-    # let (check_equal_dims) = check_elem_x_elem_fix_req (tensor_1, tensor_2)
-    # if check_equal_dims == 0:
-    #     let (res_tensor) = error_coder_fix(1)
-    #     return (res = res_tensor)
-    # end
+    let (check_equal_dims) = check_elem_x_elem_fix_req (tensor_1, tensor_2)
+    if check_equal_dims == 0:
+        let (res_tensor) = error_coder_fix(1)
+        return (res = res_tensor)
+    end
     let (res_elements: Fix64x61*) = arrays_mul_fix(tensor_1.elements, tensor_2.elements, tensor_1.elements_size) 
     let (res : TensorFix) = init_tensor_fix(tensor_1.dims_size, tensor_1.dims, tensor_1.elements_size, res_elements)
     return (res = res)
@@ -216,7 +201,7 @@ func loop__inner (
 end
 
 
-# GET VECTOR from onnx_cairo.tensor AND EXPAND VECTORS ------------------------------------------------------------
+# GET VECTOR FROM TENSOR AND EXPAND VECTORS ------------------------------------------------------------
 func expand_vector (
         res: felt*, tensor: Tensor, initial_elements: felt*, initial_elements_size: felt,
         vector_size: felt, step: felt, res_size: felt, index_initial_elements: felt):
@@ -357,7 +342,7 @@ func main {range_check_ptr}():
     # append_array (vector_1, vector_2, 5, 5)
     # show_array (vector_1, 10, 2)
 
-    # # GET VECTOR from onnx_cairo.tensor
+    # # GET VECTOR FROM TENSOR
     # let (vector_1) = generate_random_array(20, 1, 20)
     # show_array (vector_1, 20, 0)
     # let dims: felt* = alloc()
@@ -402,12 +387,12 @@ func main {range_check_ptr}():
     assert [dims] = 2
     assert [dims + 1] = 3
     let elements_double: Double* = alloc()
-    assert [elements_double] = Double(8965, 2)
-    assert [elements_double + Double.SIZE] = Double(1653, 2)
-    assert [elements_double + 2 * Double.SIZE] = Double(7653, 2)
-    assert [elements_double + 3 * Double.SIZE] = Double(4869, 2)
-    assert [elements_double + 4 * Double.SIZE] = Double(2237, 2)
-    assert [elements_double + 5 * Double.SIZE] = Double(6547, 2)
+    assert [elements_double] = Double(8965, 3)
+    assert [elements_double + Double.SIZE] = Double(1653, 3)
+    assert [elements_double + 2 * Double.SIZE] = Double(7653, 3)
+    assert [elements_double + 3 * Double.SIZE] = Double(4869, 3)
+    assert [elements_double + 4 * Double.SIZE] = Double(2237, 3)
+    assert [elements_double + 5 * Double.SIZE] = Double(6547, 3)
     let tensor_1: TensorFix = init_tensor_from_double (2, dims, 6, elements_double)
 
     let elements_fix: Fix64x61* = tensor_1.elements
@@ -417,25 +402,30 @@ func main {range_check_ptr}():
     let element_fix_4: Fix64x61 = [elements_fix + 3]
     let element_fix_5: Fix64x61 = [elements_fix + 4]
     let element_fix_6: Fix64x61 = [elements_fix + 5]
-    show_Fix (element_fix_1)
-    show_Fix (element_fix_2)
-    show_Fix (element_fix_3)
-    show_Fix (element_fix_4)
-    show_Fix (element_fix_5)
-    show_Fix (element_fix_6)
     let permutation_1 : felt* = alloc()
     assert  [permutation_1] = 1
     assert  [permutation_1 + 1] = 0
-    %{
-        print(' Permutation:')
-    %}    
     let (axis_sum_fix_res) = axis_sum_fix(tensor_1, permutation_1)
     let elements_res_fix: Fix64x61* = axis_sum_fix_res.elements
     let element_res_fix_1: Fix64x61 = [elements_res_fix]
     let element_res_fix_2: Fix64x61 = [elements_res_fix + 1]
     let element_res_fix_3: Fix64x61 = [elements_res_fix + 2]
-    show_Fix (element_res_fix_1)
-    show_Fix (element_res_fix_2)
-    show_Fix (element_res_fix_3)
+    let (tensor_res_add) = elem_x_elem_fix_add (tensor_1, tensor_1)
+    let elements_add_fix: Fix64x61* = tensor_res_add.elements
+    let element_add_fix_1: Fix64x61 = [elements_add_fix]
+    let element_add_fix_2: Fix64x61 = [elements_add_fix + 1]
+    let element_add_fix_3: Fix64x61 = [elements_add_fix + 2]
+    let element_add_fix_4: Fix64x61 = [elements_add_fix + 3]
+    let element_add_fix_5: Fix64x61 = [elements_add_fix + 4]
+    let element_add_fix_6: Fix64x61 = [elements_add_fix + 5]
+
+    let (tensor_res_mul) = elem_x_elem_fix_mul (tensor_1, tensor_1)
+    let elements_mul_fix: Fix64x61* = tensor_res_mul.elements
+    let element_mul_fix_1: Fix64x61 = [elements_mul_fix]
+    let element_mul_fix_2: Fix64x61 = [elements_mul_fix + 1]
+    let element_mul_fix_3: Fix64x61 = [elements_mul_fix + 2]
+    let element_mul_fix_4: Fix64x61 = [elements_mul_fix + 3]
+    let element_mul_fix_5: Fix64x61 = [elements_mul_fix + 4]
+    let element_mul_fix_6: Fix64x61 = [elements_mul_fix + 5]
     return()
 end

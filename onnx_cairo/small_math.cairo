@@ -41,29 +41,6 @@ func Small_Math_assert64x61 {range_check_ptr} (x: felt):
 end
 
 ########################################################################
-############## COUPLE OF SIMPLE DISPLAYING FUNCS #######################
-########################################################################
-
-func show_Double (x: Double):
-    tempvar mantisa = x.mantisa
-    tempvar power = x.pow
-    %{
-        doub = ids.mantisa / 10 ** ids.power
-        print(' Double: ' + str(doub))
-    %}
-    return()
-end
-
-func show_Fix (x: Fix64x61):
-    tempvar mantisa = x.val
-    %{
-        fix = ids.mantisa / ids.Small_Math_FRACT_PART
-        print(' Fix: ' + str(fix))
-    %}
-    return()
-end
-
-########################################################################
 ######################## MANAGING TYPES ################################
 ########################################################################
 

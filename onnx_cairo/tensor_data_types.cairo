@@ -1,10 +1,9 @@
 from starkware.cairo.common.alloc import alloc
 
-from onnx_cairo.small_math import (
+from contracts.onnx_cairo.small_math import (
     Fix64x61,
     Double,
     Double_to_Fix,
-    show_Double
 )
 
 struct Tensor:
@@ -40,7 +39,6 @@ func array_from_double_to_fix {range_check_ptr}(array_double: Double*, array_fix
         return()
     end
     let current_double: Double = [array_double + index * Double.SIZE]
-    show_Double(current_double)
     let (new_fix: Fix64x61) = Double_to_Fix (current_double)
     assert [array_fix + index * Fix64x61.SIZE] = new_fix
     array_from_double_to_fix (array_double, array_fix, size, index + 1)
