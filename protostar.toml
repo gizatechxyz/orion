@@ -1,0 +1,13 @@
+[project]
+protostar-version = "0.9.1"
+lib-path = "lib"
+
+[contracts]
+main = ["src/tensor_operations.cairo"]
+
+# Command Configuration
+[test]
+target = ["src"]
+
+[profile.testnet.project]
+network = "testnet"
