@@ -1,8 +1,8 @@
 from starkware.cairo.common.alloc import alloc
 
-from onnx_cairo.small_math import Fix64x61, Double, Double_to_Fix, Small_Math_mul, Small_Math_add
+from src.onnx_cairo.small_math import Fix64x61, Double, Double_to_Fix, Small_Math_mul, Small_Math_add
 
-from onnx_cairo.tensor_data_types import Tensor, TensorFix, init_tensor, init_tensor_fix
+from src.onnx_cairo.tensor_data_types import Tensor, TensorFix, init_tensor, init_tensor_fix
 
 // Error handling
 

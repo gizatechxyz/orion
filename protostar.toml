@@ -3,7 +3,9 @@ protostar-version = "0.9.1"
 lib-path = "lib"
 
 [contracts]
-main = ["src/onnx_cairo/tensor_operations.cairo"]
+operators = ["src/onnx_cairo/tensor_operations.cairo"]
+utils = ["src/onnx_cairo/tensor_utils.cairo"]
+data_types = ["src/onnx_cairo/tensor_data_types.cairo"]
 
 # Command Configuration
 [test]
