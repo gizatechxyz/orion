@@ -2,7 +2,7 @@
 
 from starkware.cairo.common.alloc import alloc
 
-from src.tensor_data_types import (
+from onnx_cairo.tensor_data_types import (
     Tensor,
     TensorFix,
     init_tensor,
@@ -10,16 +10,16 @@ from src.tensor_data_types import (
     init_tensor_from_double,
 )
 
-from src.tensor_operations import (
+from onnx_cairo.tensor_operations import (
     arrays_add_felt,
     arrays_add_fix,
     arrays_mul_felt,
     arrays_mul_fix,
 )
 
-from src.tensor_error_handler import error_coder, error_coder_fix
+from onnx_cairo.tensor_error_handler import error_coder, error_coder_fix
 
-from src.small_math import Fix64x61, Double, Double_to_Fix
+from onnx_cairo.small_math import Fix64x61, Double, Double_to_Fix
 
 // INDEX OPERATIONS
 

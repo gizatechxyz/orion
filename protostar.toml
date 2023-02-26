@@ -3,11 +3,15 @@ protostar-version = "0.9.1"
 lib-path = "lib"
 
 [contracts]
-main = ["src/tensor_operations.cairo"]
+main = ["src/onnx_cairo/tensor_operations.cairo"]
 
 # Command Configuration
 [test]
 target = ["src"]
+
+[format]
+target = ["src", "tests"]
+ignore-broken = true
 
 [profile.testnet.project]
 network = "testnet"

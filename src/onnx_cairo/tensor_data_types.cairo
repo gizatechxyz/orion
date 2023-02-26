@@ -1,6 +1,6 @@
 from starkware.cairo.common.alloc import alloc
 
-from src.small_math import Fix64x61, Double, Double_to_Fix
+from onnx_cairo.small_math import Fix64x61, Double, Double_to_Fix
 
 struct Tensor {
     dims_size: felt,
