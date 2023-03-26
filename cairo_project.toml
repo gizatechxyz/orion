@@ -1,0 +1,2 @@
+[crate_roots]
+onnx_cairo = "src"
