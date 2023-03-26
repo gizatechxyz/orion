@@ -6,7 +6,7 @@ In this repository you can find the new ONNX Runtime built using [Cairo](https:/
 
 ## Contributing
 
-New contributors are welcome to implement new ONNX Operators in Cairo 1.0! To see the full list of operator available click [here](https://github.com/onnx/onnx/blob/main/docs/Operators.md).
+New contributors are welcome to implement new ONNX Operators in Cairo 1.0! To see the full list of operators available click [here](https://github.com/onnx/onnx/blob/main/docs/Operators.md).
 
-More information here!.
+More information in the [contributors guidelines](https://github.com/franalgaba/onnx-cairo/blob/main/CONTRIBUTING.md).
 
