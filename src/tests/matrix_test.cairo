@@ -150,3 +150,22 @@ fn argmax_test() {
     assert(*result.at(0_usize) == 1_usize, 'row 0 max index: 1');
     assert(*result.at(1_usize) == 1_usize, 'row 1 max index: 1');
 }
+
+#[test]
+#[available_gas(2000000)]
+fn reduce_sum_test() {
+    // Test with random numbers
+
+    let mut vec = ArrayTrait::new();
+    vec.append(i33 { inner: 1_u32, sign: false });
+    vec.append(i33 { inner: 2_u32, sign: false });
+    vec.append(i33 { inner: 3_u32, sign: false });
+    vec.append(i33 { inner: 4_u32, sign: false });
+
+    let matrix = MatrixTrait::new(2_usize, 2_usize, vec);
+    let mut result = matrix.reduce_sum();
+
+    assert(result.inner == 10_usize, '10');
+    assert(result.sign == false, '10');
+}
+
