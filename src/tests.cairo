@@ -2,6 +2,6 @@
 
 mod matrix_test;
 mod int33_test;
-// mod quantization_test;
+mod quantization_test;
 mod relu_test;
-// mod vector_test;
+mod vector_test;

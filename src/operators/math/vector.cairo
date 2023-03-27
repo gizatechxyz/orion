@@ -28,7 +28,7 @@ fn __sum_two_vec(
             panic(data);
         },
     }
-    
+
     assert(vec1.len() == vec2.len(), 'Vectors must have the same size');
 
     // --- End of the recursion ---
@@ -48,17 +48,17 @@ fn __sum_two_vec(
 //=================== FIND IN VECTOR ==============//
 //=================================================//
 
-fn find_min_max(ref vec: Array::<i33>) -> (i33, i33) {
+fn find_min_max(vec: @Array::<i33>) -> (i33, i33) {
     // Initialize variables.
     let mut min_value = i33 { inner: 65535_u32, sign: false };
     let mut max_value = i33 { inner: 65535_u32, sign: true };
 
-    __find_min_max(ref vec, ref min_value, ref max_value, 0_usize, );
+    __find_min_max(vec, ref min_value, ref max_value, 0_usize, );
 
     return (min_value, max_value);
 }
 
-fn __find_min_max(ref vec: Array::<i33>, ref min_value: i33, ref max_value: i33, n: usize, ) {
+fn __find_min_max(vec: @Array::<i33>, ref min_value: i33, ref max_value: i33, n: usize, ) {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {
@@ -86,7 +86,7 @@ fn __find_min_max(ref vec: Array::<i33>, ref min_value: i33, ref max_value: i33,
     }
 
     // --- The process is repeated for the remaining elemets in the array --- 
-    __find_min_max(ref vec, ref min_value, ref max_value, n + 1_usize);
+    __find_min_max(vec, ref min_value, ref max_value, n + 1_usize);
 }
 
 //=====================================================//

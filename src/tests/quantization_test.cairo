@@ -15,7 +15,7 @@ fn quant_vec_test() {
     vec.append(i33 { inner: 19345_u32, sign: true });
     vec.append(i33 { inner: 15416_u32, sign: false });
 
-    let mut res = quant_vec(ref vec);
+    let mut res = quant_vec(@vec);
 
     assert(*res.at(0_usize).inner == 127_u32, '*result[0] == -127');
     assert(*res.at(0_usize).sign == true, '*result[0] -> negative');
