@@ -12,6 +12,15 @@ use onnx_cairo::operators::math::vector::find_min_max;
 // impl Arrayi33Drop of Drop::<Array::<i33>>;
 
 fn symetric_quant(min_val: i33, max_val: i33, data: i33) -> i33 {
+    match gas::withdraw_gas_all(get_builtin_costs()) {
+        Option::Some(x) => {},
+        Option::None(x) => {
+            let mut data = ArrayTrait::new();
+            data.append('Out of gas');
+            panic(data);
+        },
+    }
+    
     //  Define quantization range
     //  int8 range : [-127;127] 
     let q_min_int = i33 { inner: 127_u32, sign: true };
@@ -35,6 +44,15 @@ fn symetric_quant(min_val: i33, max_val: i33, data: i33) -> i33 {
 }
 
 fn quant_vec(ref vec: Array::<i33>) -> Array::<i33> {
+    match gas::withdraw_gas_all(get_builtin_costs()) {
+        Option::Some(x) => {},
+        Option::None(x) => {
+            let mut data = ArrayTrait::new();
+            data.append('Out of gas');
+            panic(data);
+        },
+    }
+
     let mut result = ArrayTrait::new();
 
     let (mut min_val, mut max_val) = find_min_max(ref vec);
@@ -47,6 +65,15 @@ fn quant_vec(ref vec: Array::<i33>) -> Array::<i33> {
 fn __quant_vec(
     ref min_val: i33, ref max_val: i33, ref vec: Array::<i33>, ref result: Array::<i33>, n: usize
 ) {
+    match gas::withdraw_gas_all(get_builtin_costs()) {
+        Option::Some(x) => {},
+        Option::None(x) => {
+            let mut data = ArrayTrait::new();
+            data.append('Out of gas');
+            panic(data);
+        },
+    }
+
     // --- End of the recursion ---
     if n == vec.len() {
         return ();

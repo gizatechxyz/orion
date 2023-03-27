@@ -19,6 +19,7 @@ trait MatrixTrait {
     fn add(self: @Matrix, other: @Matrix) -> Matrix;
     fn len(self: @Matrix) -> usize;
     fn argmax(self: @Matrix) -> Array::<usize>;
+    fn reduce_sum(self: @Matrix) -> i33;
 }
 
 impl MatrixImpl of MatrixTrait {
@@ -125,9 +126,27 @@ impl MatrixImpl of MatrixTrait {
 
         arr
     }
+
+    /// Computes the sum of all elements in the matrix.
+    fn reduce_sum(self: @Matrix) -> i33 {
+        let mut sum = i33 { inner: 0_u32, sign: true };
+
+        _reduce_sum_inner(self, ref sum, 0_usize);
+
+        sum
+    }
 }
 
 fn matrix_new(rows: usize, cols: usize, data: Array::<i33>) -> Matrix {
+    match gas::withdraw_gas_all(get_builtin_costs()) {
+        Option::Some(x) => {},
+        Option::None(x) => {
+            let mut data = ArrayTrait::new();
+            data.append('Out of gas');
+            panic(data);
+        },
+    }
+
     Matrix { rows: rows, cols: cols, data: data,  }
 }
 
@@ -138,6 +157,15 @@ fn matrix_new(rows: usize, cols: usize, data: Array::<i33>) -> Matrix {
 fn _row_dot_vec(
     self: @Matrix, ref arr: Array::<i33>, other: @Matrix, row_index: usize, col_index: usize
 ) -> i33 {
+    match gas::withdraw_gas_all(get_builtin_costs()) {
+        Option::Some(x) => {},
+        Option::None(x) => {
+            let mut data = ArrayTrait::new();
+            data.append('Out of gas');
+            panic(data);
+        },
+    }
+
     // End of the recursion
     if (col_index == *self.cols) {
         return (i33 { inner: 0_u32, sign: true });
@@ -176,6 +204,15 @@ fn _row_dot_vec(
 
 
 fn _dot_inner(self: @Matrix, ref arr: Array::<i33>, other: @Matrix, row_index: usize) {
+    match gas::withdraw_gas_all(get_builtin_costs()) {
+        Option::Some(x) => {},
+        Option::None(x) => {
+            let mut data = ArrayTrait::new();
+            data.append('Out of gas');
+            panic(data);
+        },
+    }
+
     // End of the recursion
     if row_index == *self.rows {
         return ();
@@ -195,6 +232,15 @@ fn _dot_inner(self: @Matrix, ref arr: Array::<i33>, other: @Matrix, row_index: u
 fn _row_add_vec(
     self: @Matrix, ref arr: Array::<i33>, other: @Matrix, row_index: usize, col_index: usize
 ) {
+    match gas::withdraw_gas_all(get_builtin_costs()) {
+        Option::Some(x) => {},
+        Option::None(x) => {
+            let mut data = ArrayTrait::new();
+            data.append('Out of gas');
+            panic(data);
+        },
+    }
+
     // End of the recursion
     if (col_index == *self.cols) {
         return ();
@@ -230,6 +276,15 @@ fn _row_add_vec(
 
 
 fn _add_inner(self: @Matrix, ref arr: Array::<i33>, other: @Matrix, row_index: usize) {
+    match gas::withdraw_gas_all(get_builtin_costs()) {
+        Option::Some(x) => {},
+        Option::None(x) => {
+            let mut data = ArrayTrait::new();
+            data.append('Out of gas');
+            panic(data);
+        },
+    }
+
     // End of the recursion
     if row_index == *self.rows {
         return ();
@@ -253,6 +308,15 @@ fn _row_argmax_vec(
     row_index: usize,
     col_index: usize
 ) {
+    match gas::withdraw_gas_all(get_builtin_costs()) {
+        Option::Some(x) => {},
+        Option::None(x) => {
+            let mut data = ArrayTrait::new();
+            data.append('Out of gas');
+            panic(data);
+        },
+    }
+
     // End of the recursion
     if (col_index == *self.cols) {
         arr.append(max_index);
@@ -269,6 +333,15 @@ fn _row_argmax_vec(
 
 
 fn _argmax_inner(self: @Matrix, ref arr: Array::<usize>, row_index: usize) {
+    match gas::withdraw_gas_all(get_builtin_costs()) {
+        Option::Some(x) => {},
+        Option::None(x) => {
+            let mut data = ArrayTrait::new();
+            data.append('Out of gas');
+            panic(data);
+        },
+    }
+
     // End of the recursion
     if row_index == *self.rows {
         return ();
@@ -280,3 +353,47 @@ fn _argmax_inner(self: @Matrix, ref arr: Array::<usize>, row_index: usize) {
     _argmax_inner(self, ref arr, row_index + 1_usize);
 }
 
+// *********************
+// * Matrix REDUCE_SUM *
+// *********************
+
+fn _row_reduce_sum_inner(self: @Matrix, ref sum: i33, row_index: usize, col_index: usize) {
+    match gas::withdraw_gas_all(get_builtin_costs()) {
+        Option::Some(x) => {},
+        Option::None(x) => {
+            let mut data = ArrayTrait::new();
+            data.append('Out of gas');
+            panic(data);
+        },
+    }
+    
+    // End of the recursion
+    if (col_index == *self.cols) {
+        return ();
+    }
+
+    let current_value = self.get(row_index, col_index);
+    sum = sum + current_value;
+
+    _row_reduce_sum_inner(self, ref sum, row_index, col_index + 1_usize);
+}
+
+fn _reduce_sum_inner(self: @Matrix, ref sum: i33, row_index: usize) {
+    match gas::withdraw_gas_all(get_builtin_costs()) {
+        Option::Some(x) => {},
+        Option::None(x) => {
+            let mut data = ArrayTrait::new();
+            data.append('Out of gas');
+            panic(data);
+        },
+    }
+
+    // End of the recursion
+    if row_index == *self.rows {
+        return ();
+    }
+
+    _row_reduce_sum_inner(self, ref sum, row_index, 0_usize);
+
+    _reduce_sum_inner(self, ref sum, row_index + 1_usize);
+}

@@ -17,6 +17,15 @@ fn relu(z: @Matrix) -> Matrix {
 }
 
 fn relu_inner(ref arr: Array::<i33>, input: @Array::<i33>, index: usize, len: usize) {
+    match gas::withdraw_gas_all(get_builtin_costs()) {
+        Option::Some(x) => {},
+        Option::None(x) => {
+            let mut data = ArrayTrait::new();
+            data.append('Out of gas');
+            panic(data);
+        },
+    }
+    
     if index == len {
         return ();
     }
