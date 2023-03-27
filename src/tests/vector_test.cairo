@@ -2,7 +2,7 @@ use array::ArrayTrait;
 use option::OptionTrait;
 
 use onnx_cairo::operators::math::vector::sum_two_vec;
-use onnx_cairo::operators::math::vector::find_min_max;
+use onnx_cairo::operators::math::vector::find_max;
 use onnx_cairo::operators::math::vector::find_min;
 use onnx_cairo::operators::math::vector::sum_vec;
 use onnx_cairo::operators::math::int33::i33;
@@ -72,53 +72,51 @@ fn sum_test() {
     assert(*result.at(2_usize).sign == false, 'result[2] == 16384');
 }
 
-// #[test]
-// #[available_gas(2000000)]
-// fn find_max_min_test() {
-//     let mut vec = ArrayTrait::new();
-//     vec.append(i33 { inner: 80_u32, sign: false });
-//     vec.append(i33 { inner: 80_u32, sign: true });
-//     vec.append(i33 { inner: 50_u32, sign: false });
-//     vec.append(i33 { inner: 50_u32, sign: true });
-//     vec.append(i33 { inner: 25_u32, sign: false });
-//     vec.append(i33 { inner: 25_u32, sign: true });
-//     vec.append(i33 { inner: 127_u32, sign: false });
-//     vec.append(i33 { inner: 128_u32, sign: true });
+#[test]
+#[available_gas(2000000)]
+fn find_min_test() {
+    let mut vec = ArrayTrait::new();
+    vec.append(i33 { inner: 80_u32, sign: false });
+    vec.append(i33 { inner: 80_u32, sign: true });
+    vec.append(i33 { inner: 50_u32, sign: false });
+    vec.append(i33 { inner: 50_u32, sign: true });
+    vec.append(i33 { inner: 25_u32, sign: false });
+    vec.append(i33 { inner: 25_u32, sign: true });
+    vec.append(i33 { inner: 127_u32, sign: false });
+    vec.append(i33 { inner: 128_u32, sign: true });
 
-//     let (min, max) = find_min_max(ref vec);
+    let min = find_min(@vec);
 
-//     assert(min.inner == 128_u32 & min.sign == true, 'min: -128');
-//     assert(max.inner == 127_u32 & max.sign == false, 'max: 127');
-// }
+    assert(min.inner == 128_u32 & min.sign == true, 'min: -128');
+}
 
-// #[test]
-// #[available_gas(2000000)]
-// fn find_min_test() {
-//     let mut vec = ArrayTrait::new();
-//     vec.append(i33 { inner: 80_u32, sign: false });
-//     vec.append(i33 { inner: 80_u32, sign: true });
-//     vec.append(i33 { inner: 50_u32, sign: false });
-//     vec.append(i33 { inner: 50_u32, sign: true });
-//     vec.append(i33 { inner: 25_u32, sign: false });
-//     vec.append(i33 { inner: 25_u32, sign: true });
-//     vec.append(i33 { inner: 127_u32, sign: false });
-//     vec.append(i33 { inner: 128_u32, sign: true });
+#[test]
+#[available_gas(2000000)]
+fn find_max_test() {
+    let mut vec = ArrayTrait::new();
+    vec.append(i33 { inner: 80_u32, sign: false });
+    vec.append(i33 { inner: 80_u32, sign: true });
+    vec.append(i33 { inner: 50_u32, sign: false });
+    vec.append(i33 { inner: 50_u32, sign: true });
+    vec.append(i33 { inner: 25_u32, sign: false });
+    vec.append(i33 { inner: 25_u32, sign: true });
+    vec.append(i33 { inner: 127_u32, sign: false });
+    vec.append(i33 { inner: 128_u32, sign: true });
 
-//     let min = find_min(@vec);
+    let max = find_max(@vec);
 
-//     assert(min.inner == 128_u32 & min.sign == true, 'min: -128');
-// }
+    assert(max.inner == 127_u32 & max.sign == false, 'max: 127');
+}
 
+#[test]
+#[available_gas(2000000)]
+fn sum_vec_test() {
+    let mut vec = ArrayTrait::new();
+    vec.append(i33 { inner: 80_u32, sign: false });
+    vec.append(i33 { inner: 80_u32, sign: true });
+    vec.append(i33 { inner: 50_u32, sign: false });
 
-// #[test]
-// #[available_gas(2000000)]
-// fn sum_vec_test() {
-//     let mut vec = ArrayTrait::new();
-//     vec.append(i33 { inner: 80_u32, sign: false });
-//     vec.append(i33 { inner: 80_u32, sign: true });
-//     vec.append(i33 { inner: 50_u32, sign: false });
+    let min = sum_vec(@vec);
 
-//     let min = sum_vec(@vec);
-
-//     assert(min.inner == 50_u32 & min.sign == false, 'sum: 50');
-// }
+    assert(min.inner == 50_u32 & min.sign == false, 'sum: 50');
+}

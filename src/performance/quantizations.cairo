@@ -7,7 +7,8 @@ use onnx_cairo::operators::math::int33;
 use onnx_cairo::operators::math::int33::i33;
 use onnx_cairo::operators::math::int33::max;
 use onnx_cairo::operators::math::int33::abs;
-use onnx_cairo::operators::math::vector::find_min_max;
+use onnx_cairo::operators::math::vector::find_min;
+use onnx_cairo::operators::math::vector::find_max;
 
 
 fn symetric_quant(min_val: i33, max_val: i33, data: i33) -> i33 {
@@ -54,7 +55,8 @@ fn quant_vec(vec: @Array::<i33>) -> Array::<i33> {
 
     let mut result = ArrayTrait::<i33>::new();
 
-    let (mut min_val, mut max_val) = find_min_max(vec);
+    let mut min_val = find_min(vec);
+    let mut max_val = find_max(vec);
 
     __quant_vec(ref min_val, ref max_val, vec, ref result, 0_usize);
 
