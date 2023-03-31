@@ -4,6 +4,4 @@
 
 In this repository you can find the new ONNX Runtime built using [Cairo](https://www.cairo-lang.org/). The purpose of this repository is to provide the runtime implementation for verfiable ML model inferences using STARKs.
 
-## Getting Started
-
-You can check our [official docs]() for contributors guidelines, how-to guides, architecture design and tutorials.
+**New contributors are welcome to implement new ONNX Operators in Cairo 1.0!**
