@@ -1,4 +1,4 @@
-## Setup
+## Getting Started
 
 ### Installing dependencies
 
