@@ -6,4 +6,4 @@ In this repository you can find the new ONNX Runtime built using [Cairo](https:/
 
 ## Getting Started
 
-New contributors are welcome to implement new ONNX Operators in Cairo 1.0! To learn about ONNX Cairo Runtime, how to develop and make a contribution, please check our docs.
+You can check our [official docs]() for contributors guidelines, how-to guides, architecture design and tutorials.

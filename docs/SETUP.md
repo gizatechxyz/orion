@@ -1,5 +1,7 @@
 ## Getting Started
 
+In this section you can find all the needed resources to setup the repository and start working with it.
+
 ### Installing dependencies
 
 #### Step 1: Install Cairo 1.0
