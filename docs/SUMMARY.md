@@ -1,5 +1,5 @@
 # Table of contents
 
-* [ONNX Cairo operators](docs/README.md)
-  * [Contributing](docs/CONTRIBUTING.md)
-  * [Setup](docs/SETUP.md)
+* [ONNX Cairo operators](./README.md)
+  * [Contributing](./CONTRIBUTING.md)
+  * [Setup](./SETUP.md)
