@@ -6,4 +6,4 @@ In this repository you can find the new ONNX Runtime built using [Cairo](https:/
 
 ## Getting Started
 
-You can check our [official docs]() for contributors guidelines, how-to guides, architecture design and tutorials.
+You can check our [official docs](https://giza-1.gitbook.io/onnx-cairo-runtime-main/) for contributors guidelines, how-to guides, architecture design and tutorials.
