@@ -5,4 +5,5 @@ mod int33_test;
 mod quantization_test;
 mod relu_test;
 mod vector_test;
+mod tensor_test;
 // mod softmax_test;
