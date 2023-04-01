@@ -5,5 +5,5 @@
   * [How to start contributing](./HOW_TO.md)
   * [Contributing Guidelines](./CONTRIBUTING.md)
   * [Compatibility](./COMPATIBILITY.md)
-  * [Tutorial](./TUTORIAL.md)
+  * [Tutorial: Verifiable NN inference for MNIST](./TUTORIAL.md)
 
