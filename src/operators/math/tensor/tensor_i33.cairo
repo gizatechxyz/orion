@@ -8,43 +8,115 @@ use onnx_cairo::operators::math::tensor::helpers::check_compatibility;
 use onnx_cairo::operators::math::tensor::core::stride;
 use onnx_cairo::operators::math::tensor::core::Tensor;
 use onnx_cairo::operators::math::tensor::core::TensorTrait;
-use onnx_cairo::operators::math::tensor::core::len_from_shape;
 use onnx_cairo::operators::math::tensor::core::ravel_index;
 use onnx_cairo::operators::math::tensor::core::unravel_index;
-use onnx_cairo::operators::math::tensor::core::broadcast_index_mapping;
+use onnx_cairo::operators::math::tensor::helpers::broadcast_index_mapping;
 use onnx_cairo::utils::check_gas;
 
 impl I33Tensor of TensorTrait::<i33> {
+    /// Creates tensor.
+    ///
+    /// # Arguments
+    ///
+    /// * `shape` - A reference to an array of usizes representing the shape of the tensor.
+    /// * `data` -  A reference to an array of i33 reprensenting the data of the tensor as flat array.
+    ///
+    /// # Returns
+    ///
+    /// The tensor.
+    ///
+    /// # Panics
+    ///
+    /// Panic if the shape of the matrix does not match the size of the data array.
     fn new(shape: @Array<usize>, data: @Array<i33>) -> Tensor<i33> {
         i33_new_tensor(shape, data)
     }
 
+    /// Returns the value of a particular element in the matrix.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A reference to the tensor.
+    /// * `indices` - The indices of the element.
+    ///
+    /// # Returns
+    ///
+    /// The value of the element at the specified indices.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the indices are out of bounds.
     fn at(self: @Tensor<i33>, indices: @Array<usize>) -> i33 {
         i33_at_tensor(self, indices)
     }
 
+    /// Returns the minimum value in the tensor.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A reference to the tensor.
+    ///
+    /// # Returns
+    ///
+    /// The minimum value in tensor.
+    // TODO: find minimum by axis
     fn min(self: @Tensor<i33>) -> i33 {
         i33_min_tensor(*self.data)
     }
 
+    /// Returns the maximum value in the tensor.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A reference to the tensor.
+    ///
+    /// # Returns
+    ///
+    /// The maximum value in tensor.
+    // TODO: find maximum by axis
     fn max(self: @Tensor<i33>) -> i33 {
         i33_max_tensor(*self.data)
     }
 
+    /// Returns the stride of a tensor.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A reference to the tensor.
+    ///
+    /// # Returns
+    ///
+    /// the stride of a tensor.
     fn stride(self: @Tensor<i33>) -> Array<usize> {
         stride(*self.shape)
     }
 
+    /// Returns the flat index corresponding to an array of indices.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A reference to the tensor.
+    /// * `indices` - A reference to the indices.
+    ///
+    /// # Returns
+    ///
+    /// the flat index corresponding to an array of indices.
     fn ravel_index(self: @Tensor<i33>, indices: @Array<usize>) -> usize {
         ravel_index(*self.shape, indices)
     }
 
+    /// Returns the array of indices corresponding to a flat index.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A reference to the tensor.
+    /// * `indices` - A reference to the indices.
+    ///
+    /// # Returns
+    ///
+    /// the array of indices corresponding to a flat index.
     fn unravel_index(self: @Tensor<i33>, index: usize) -> Array<usize> {
         unravel_index(index, *self.shape)
-    }
-
-    fn broadcast_index_mapping(self: @Tensor<i33>, indices: @Array<usize>) -> usize {
-        broadcast_index_mapping(*self.shape, indices)
     }
 }
 
@@ -141,8 +213,8 @@ fn __i33_add_tensor(self: @Tensor<i33>, other: @Tensor<i33>, ref result: Array::
     let indices_self = self.unravel_index(n);
     let indices_other = other.unravel_index(n);
 
-    let i = self.broadcast_index_mapping(@indices_self);
-    let j = other.broadcast_index_mapping(@indices_other);
+    let i = broadcast_index_mapping(*self.shape, @indices_self);
+    let j = broadcast_index_mapping(*other.shape, @indices_other);
 
     result.append(*(*self.data).at(i) + *(*other.data).at(j));
     __i33_add_tensor(self, other, ref result, n + 1_usize);
@@ -164,8 +236,8 @@ fn __i33_sub_tensor(self: @Tensor<i33>, other: @Tensor<i33>, ref result: Array::
     let indices_self = self.unravel_index(n);
     let indices_other = other.unravel_index(n);
 
-    let i = self.broadcast_index_mapping(@indices_self);
-    let j = other.broadcast_index_mapping(@indices_other);
+    let i = broadcast_index_mapping(*self.shape, @indices_self);
+    let j = broadcast_index_mapping(*other.shape, @indices_other);
 
     result.append(*(*self.data).at(i) - *(*other.data).at(j));
     __i33_sub_tensor(self, other, ref result, n + 1_usize);
@@ -187,8 +259,8 @@ fn __i33_mul_tensor(self: @Tensor<i33>, other: @Tensor<i33>, ref result: Array::
     let indices_self = self.unravel_index(n);
     let indices_other = other.unravel_index(n);
 
-    let i = self.broadcast_index_mapping(@indices_self);
-    let j = other.broadcast_index_mapping(@indices_other);
+    let i = broadcast_index_mapping(*self.shape, @indices_self);
+    let j = broadcast_index_mapping(*other.shape, @indices_other);
 
     result.append(*(*self.data).at(i) * *(*other.data).at(j));
     __i33_mul_tensor(self, other, ref result, n + 1_usize);
@@ -210,8 +282,8 @@ fn __i33_div_tensor(self: @Tensor<i33>, other: @Tensor<i33>, ref result: Array::
     let indices_self = self.unravel_index(n);
     let indices_other = other.unravel_index(n);
 
-    let i = self.broadcast_index_mapping(@indices_self);
-    let j = other.broadcast_index_mapping(@indices_other);
+    let i = broadcast_index_mapping(*self.shape, @indices_self);
+    let j = broadcast_index_mapping(*other.shape, @indices_other);
 
     result.append(*(*self.data).at(i) / *(*other.data).at(j));
     __i33_div_tensor(self, other, ref result, n + 1_usize);

@@ -2,6 +2,7 @@ use array::ArrayTrait;
 use option::OptionTrait;
 
 use onnx_cairo::utils::check_gas;
+use onnx_cairo::operators::math::tensor::core::stride;
 
 
 fn len_from_shape(shape: @Array<usize>, index: usize) -> usize {
@@ -34,4 +35,25 @@ fn check_compatibility(shape_1: @Array<usize>, shape_2: @Array<usize>, index: us
     );
 
     check_compatibility(shape_1, shape_2, index + 1_usize);
+}
+
+fn broadcast_index_mapping(shape: @Array<usize>, indices: @Array<usize>) -> usize {
+    let mut result = 0_usize;
+    __broadcast_index_mapping(shape, indices, ref result, 0_usize);
+
+    return result;
+}
+
+fn __broadcast_index_mapping(
+    shape: @Array<usize>, indices: @Array<usize>, ref result: usize, n: usize, 
+) {
+    check_gas();
+    if n == shape.len() {
+        return ();
+    }
+
+    let stride = stride(shape);
+    let index = (*indices.at(n) % *shape.at(n)) * *stride.at(n);
+    result += index;
+    __broadcast_index_mapping(shape, indices, ref result, n + 1_usize)
 }

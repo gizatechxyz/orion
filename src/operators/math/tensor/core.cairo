@@ -20,7 +20,6 @@ trait TensorTrait<T> {
     fn stride(self: @Tensor<T>) -> Array<usize>;
     fn ravel_index(self: @Tensor<T>, indices: @Array<usize>) -> usize;
     fn unravel_index(self: @Tensor<T>, index: usize) -> Array<usize>;
-    fn broadcast_index_mapping(self: @Tensor<T>, indices: @Array<usize>) -> usize;
 }
 
 // --- RAVEL ---
@@ -65,29 +64,6 @@ fn __unravel_index(
 
     result.append(coord);
     __unravel_index(remainder, shape, ref result, current_dim + 1_usize);
-}
-
-// --- BROADCAST INDEX MAPPING ---
-
-fn broadcast_index_mapping(shape: @Array<usize>, indices: @Array<usize>) -> usize {
-    let mut result = 0_usize;
-    __broadcast_index_mapping(shape, indices, ref result, 0_usize);
-
-    return result;
-}
-
-fn __broadcast_index_mapping(
-    shape: @Array<usize>, indices: @Array<usize>, ref result: usize, n: usize, 
-) {
-    check_gas();
-    if n == shape.len() {
-        return ();
-    }
-
-    let stride = stride(shape);
-    let index = (*indices.at(n) % *shape.at(n)) * *stride.at(n);
-    result += index;
-    __broadcast_index_mapping(shape, indices, ref result, n + 1_usize)
 }
 
 // --- STRIDE ---

@@ -8,8 +8,6 @@ use onnx_cairo::operators::math::tensor::core::TensorTrait;
 use onnx_cairo::operators::math::tensor::core::Tensor;
 use onnx_cairo::operators::math::tensor::core::ravel_index;
 use onnx_cairo::operators::math::tensor::core::unravel_index;
-use onnx_cairo::operators::math::tensor::core::broadcast_index_mapping;
-
 
 #[test]
 #[available_gas(2000000)]
