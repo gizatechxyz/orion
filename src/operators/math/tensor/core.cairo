@@ -21,11 +21,6 @@ trait TensorTrait<T> {
     fn ravel_index(self: @Tensor<T>, indices: @Array<usize>) -> usize;
     fn unravel_index(self: @Tensor<T>, index: usize) -> Array<usize>;
     fn broadcast_index_mapping(self: @Tensor<T>, indices: @Array<usize>) -> usize;
-    // Broadcast element-wise operations
-    fn add(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
-    fn sub(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
-    fn mul(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
-    fn div(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
 }
 
 // --- RAVEL ---

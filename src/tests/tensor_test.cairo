@@ -165,7 +165,7 @@ fn i33_add_tensor() {
     let tensor_1 = i33_tensor_helper();
     let tensor_2 = i33_tensor_helper();
 
-    let result = tensor_1.add(@tensor_2).data;
+    let result = (tensor_1 + tensor_2).data;
 
     assert(*result.at(0_usize).inner == 0_u32, 'result[0] = 0');
     assert(*result.at(1_usize).inner == 2_u32, 'result[1] = 2');
@@ -187,7 +187,7 @@ fn i33_add_tensor() {
     data.append(i33 { inner: 100_u32, sign: false });
     let tensor_2 = TensorTrait::<i33>::new(@sizes, @data);
 
-    let result = tensor_1.add(@tensor_2).data;
+    let result = (tensor_1 + tensor_2).data;
 
     assert(*result.at(0_usize).inner == 10_u32, 'result[0] = 10');
     assert(*result.at(1_usize).inner == 101_u32, 'result[1] = 101');
@@ -205,7 +205,7 @@ fn i33_sub_tensor() {
     let tensor_1 = i33_tensor_helper();
     let tensor_2 = i33_tensor_helper();
 
-    let result = tensor_1.sub(@tensor_2).data;
+    let result = (tensor_1 - tensor_2).data;
 
     assert(*result.at(0_usize).inner == 0_u32, 'result[0] = 0');
     assert(*result.at(1_usize).inner == 0_u32, 'result[1] = 0');
@@ -227,7 +227,7 @@ fn i33_sub_tensor() {
     data.append(i33 { inner: 1_u32, sign: false });
     let tensor_2 = TensorTrait::<i33>::new(@sizes, @data);
 
-    let result = tensor_1.sub(@tensor_2).data;
+    let result = (tensor_1 - tensor_2).data;
 
     assert(*result.at(0_usize).inner == 0_u32, 'result[0] = 0');
     assert(*result.at(1_usize).inner == 0_u32, 'result[1] = 0');
@@ -245,7 +245,7 @@ fn i33_mul_tensor() {
     let tensor_1 = i33_tensor_helper();
     let tensor_2 = i33_tensor_helper();
 
-    let result = tensor_1.mul(@tensor_2).data;
+    let result = (tensor_1 * tensor_2).data;
 
     assert(*result.at(0_usize).inner == 0_u32, 'result[0] = 0');
     assert(*result.at(1_usize).inner == 1_u32, 'result[1] = 1');
@@ -267,7 +267,7 @@ fn i33_mul_tensor() {
     data.append(i33 { inner: 100_u32, sign: false });
     let tensor_2 = TensorTrait::<i33>::new(@sizes, @data);
 
-    let result = tensor_1.mul(@tensor_2).data;
+    let result = (tensor_1 * tensor_2).data;
 
     assert(*result.at(0_usize).inner == 0_u32, 'result[0] = 0');
     assert(*result.at(1_usize).inner == 100_u32, 'result[1] = 100');
@@ -312,7 +312,7 @@ fn i33_div_tensor() {
     data.append(i33 { inner: 800_u32, sign: false });
     let tensor_2 = TensorTrait::<i33>::new(@sizes, @data);
 
-    let result = tensor_1.div(@tensor_2).data;
+    let result = (tensor_1 / tensor_2).data;
 
     assert(*result.at(0_usize).inner == 1_u32, 'result[0] = 1');
     assert(*result.at(1_usize).inner == 1_u32, 'result[1] = 1');
@@ -334,7 +334,7 @@ fn i33_div_tensor() {
     data.append(i33 { inner: 100_u32, sign: false });
     let tensor_2 = TensorTrait::<i33>::new(@sizes, @data);
 
-    let result = tensor_1.div(@tensor_2).data;
+    let result = (tensor_1 / tensor_2).data;
 
     assert(*result.at(0_usize).inner == 10_u32, 'result[0] = 10');
     assert(*result.at(1_usize).inner == 2_u32, 'result[1] = 2');

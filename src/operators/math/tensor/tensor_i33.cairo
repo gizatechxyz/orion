@@ -46,21 +46,29 @@ impl I33Tensor of TensorTrait::<i33> {
     fn broadcast_index_mapping(self: @Tensor<i33>, indices: @Array<usize>) -> usize {
         broadcast_index_mapping(*self.shape, indices)
     }
+}
 
-    fn add(self: @Tensor<i33>, other: @Tensor<i33>) -> Tensor<i33> {
-        i33_add_tensor(self, other)
+impl i33TensorAdd of Add::<Tensor<i33>> {
+    fn add(self: Tensor<i33>, other: Tensor<i33>) -> Tensor<i33> {
+        i33_add_tensor(@self, @other)
     }
+}
 
-    fn sub(self: @Tensor<i33>, other: @Tensor<i33>) -> Tensor<i33> {
-        i33_sub_tensor(self, other)
+impl i33TensorSub of Sub::<Tensor<i33>> {
+    fn sub(self: Tensor<i33>, other: Tensor<i33>) -> Tensor<i33> {
+        i33_sub_tensor(@self, @other)
     }
+}
 
-    fn mul(self: @Tensor<i33>, other: @Tensor<i33>) -> Tensor<i33> {
-        i33_mul_tensor(self, other)
+impl i33TensorMul of Mul::<Tensor<i33>> {
+    fn mul(self: Tensor<i33>, other: Tensor<i33>) -> Tensor<i33> {
+        i33_mul_tensor(@self, @other)
     }
+}
 
-    fn div(self: @Tensor<i33>, other: @Tensor<i33>) -> Tensor<i33> {
-        i33_div_tensor(self, other)
+impl i33TensorDiv of Div::<Tensor<i33>> {
+    fn div(self: Tensor<i33>, other: Tensor<i33>) -> Tensor<i33> {
+        i33_div_tensor(@self, @other)
     }
 }
 
