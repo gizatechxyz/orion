@@ -20,6 +20,7 @@ trait TensorTrait<T> {
     fn stride(self: @Tensor<T>) -> Array<usize>;
     fn ravel_index(self: @Tensor<T>, indices: @Array<usize>) -> usize;
     fn unravel_index(self: @Tensor<T>, index: usize) -> Array<usize>;
+    fn reduce_sum(self: @Tensor<T>, axis: usize) -> Tensor<T>;
 }
 
 // --- RAVEL ---

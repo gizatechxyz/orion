@@ -11,6 +11,8 @@ use onnx_cairo::operators::math::tensor::core::TensorTrait;
 use onnx_cairo::operators::math::tensor::core::ravel_index;
 use onnx_cairo::operators::math::tensor::core::unravel_index;
 use onnx_cairo::operators::math::tensor::helpers::broadcast_index_mapping;
+use onnx_cairo::operators::math::tensor::helpers::reduce_helper;
+use onnx_cairo::operators::math::tensor::helpers::len_from_shape;
 use onnx_cairo::utils::check_gas;
 
 impl I33Tensor of TensorTrait::<i33> {
@@ -117,6 +119,20 @@ impl I33Tensor of TensorTrait::<i33> {
     /// the array of indices corresponding to a flat index.
     fn unravel_index(self: @Tensor<i33>, index: usize) -> Array<usize> {
         unravel_index(index, *self.shape)
+    }
+
+    /// Computes the sum of elements across dimensions of a tensor.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A reference to the tensor.
+    /// * `axis` - The dimensions to reduce..
+    ///
+    /// # Returns
+    ///
+    /// The reduced tensor.
+    fn reduce_sum(self: @Tensor<i33>, axis: usize) -> Tensor<i33> {
+        i33_reduce_sum(self, axis)
     }
 }
 
@@ -289,3 +305,81 @@ fn __i33_div_tensor(self: @Tensor<i33>, other: @Tensor<i33>, ref result: Array::
     __i33_div_tensor(self, other, ref result, n + 1_usize);
 }
 
+// --- REDUCE SUM ---
+
+fn i33_reduce_sum(self: @Tensor<i33>, axis: usize) -> Tensor<i33> {
+    let mut output_shape = ArrayTrait::new();
+    let mut output_data = ArrayTrait::new();
+
+    reduce_helper(*self.shape, axis, ref output_shape, 0_usize);
+    __i33_reduce_sum(
+        self, @output_shape, len_from_shape(@output_shape, 0_usize), axis, ref output_data, 0_usize
+    );
+
+    return TensorTrait::<i33>::new(@output_shape, @output_data);
+}
+
+fn __i33_reduce_sum(
+    self: @Tensor<i33>,
+    output_shape: @Array<usize>,
+    output_data_len: usize,
+    axis: usize,
+    ref output_data: Array<i33>,
+    n: usize
+) {
+    check_gas();
+
+    if n == output_data_len {
+        return ();
+    }
+
+    let output_indices = unravel_index(n, output_shape);
+    let current_sum = accumulate_sum_recursive(self, @output_indices, axis, 0_usize);
+
+    output_data.append(current_sum);
+    __i33_reduce_sum(self, output_shape, output_data_len, axis, ref output_data, n + 1_usize);
+}
+
+fn accumulate_sum_recursive(
+    input: @Tensor<i33>, output_indices: @Array<usize>, axis: usize, axis_index: usize, 
+) -> i33 {
+    check_gas();
+
+    if axis_index == *(*input.shape).at(axis) {
+        return i33 { inner: 0_usize, sign: false };
+    }
+
+    let mut input_indices = ArrayTrait::new();
+    combine_indices(output_indices, axis_index, axis, ref input_indices, 0_usize);
+    let input_index = ravel_index(*input.shape, @input_indices);
+    let ele = *(*input.data).at(input_index);
+
+    let acc = accumulate_sum_recursive(input, output_indices, axis, axis_index + 1_usize);
+
+    return ele + acc;
+}
+
+// TODO to be removed when managed by slicing
+fn combine_indices(
+    output_indices: @Array<usize>,
+    axis_index: usize,
+    axis: usize,
+    ref result: Array<usize>,
+    n: usize
+) {
+    check_gas();
+
+    if n > output_indices.len() {
+        return ();
+    }
+
+    if n == axis {
+        result.append(axis_index);
+    } else if n > axis {
+        result.append(*output_indices.at(n - 1_usize));
+    } else {
+        result.append(*output_indices.at(n));
+    }
+
+    combine_indices(output_indices, axis_index, axis, ref result, n + 1_usize);
+}

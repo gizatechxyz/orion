@@ -5,13 +5,13 @@ use onnx_cairo::utils::check_gas;
 use onnx_cairo::operators::math::tensor::core::stride;
 
 
-fn len_from_shape(shape: @Array<usize>, index: usize) -> usize {
+fn len_from_shape(shape: @Array<usize>, n: usize) -> usize {
     check_gas();
-    if (index == shape.len()
+    if (n == shape.len()
         - 1_usize) {
-            return *shape.at(index);
+            return *shape.at(n);
         } else {
-            return *shape.at(index) * len_from_shape(shape, index + 1_usize);
+            return *shape.at(n) * len_from_shape(shape, n + 1_usize);
         }
 }
 
@@ -56,4 +56,18 @@ fn __broadcast_index_mapping(
     let index = (*indices.at(n) % *shape.at(n)) * *stride.at(n);
     result += index;
     __broadcast_index_mapping(shape, indices, ref result, n + 1_usize)
+}
+
+fn reduce_helper(
+    input_shape: @Array<usize>, axis: usize, ref output_shape: Array<usize>, n: usize
+) {
+    check_gas();
+    if n == input_shape.len() {
+        return ();
+    }
+
+    if n != axis {
+        output_shape.append(*input_shape.at(n));
+    }
+    reduce_helper(input_shape, axis, ref output_shape, n + 1_usize);
 }

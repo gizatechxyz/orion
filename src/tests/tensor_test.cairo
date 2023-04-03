@@ -8,6 +8,7 @@ use onnx_cairo::operators::math::tensor::core::TensorTrait;
 use onnx_cairo::operators::math::tensor::core::Tensor;
 use onnx_cairo::operators::math::tensor::core::ravel_index;
 use onnx_cairo::operators::math::tensor::core::unravel_index;
+use onnx_cairo::operators::math::tensor::tensor_i33::i33_reduce_sum;
 
 #[test]
 #[available_gas(2000000)]
@@ -342,6 +343,33 @@ fn i33_div_tensor() {
     assert(*result.at(5_usize).inner == 6_u32, 'result[5] = 6');
     assert(*result.at(6_usize).inner == 70_u32, 'result[6] = 70');
     assert(*result.at(7_usize).inner == 8_u32, 'result[7] = 8');
+}
+
+#[test]
+#[available_gas(20000000)]
+fn i33_tensor_reduce_sum() {
+    let tensor = i33_tensor_helper();
+
+    let result = i33_reduce_sum(@tensor, 0_usize);
+
+    assert(*result.data.at(0_usize).inner == 4_u32, 'result[0] = 4');
+    assert(*result.data.at(1_usize).inner == 6_u32, 'result[1] = 6');
+    assert(*result.data.at(2_usize).inner == 8_u32, 'result[2] = 8');
+    assert(*result.data.at(3_usize).inner == 10_u32, 'result[3] = 10');
+
+    let result = i33_reduce_sum(@tensor, 1_usize);
+
+    assert(*result.data.at(0_usize).inner == 2_u32, 'result[0] = 2');
+    assert(*result.data.at(1_usize).inner == 4_u32, 'result[1] = 4');
+    assert(*result.data.at(2_usize).inner == 10_u32, 'result[2] = 10');
+    assert(*result.data.at(3_usize).inner == 12_u32, 'result[3] = 12');
+
+    let result = i33_reduce_sum(@tensor, 2_usize);
+
+    assert(*result.data.at(0_usize).inner == 1_u32, 'result[0] = 1');
+    assert(*result.data.at(1_usize).inner == 5_u32, 'result[1] = 5');
+    assert(*result.data.at(2_usize).inner == 9_u32, 'result[2] = 9');
+    assert(*result.data.at(3_usize).inner == 13_u32, 'result[3] = 13');
 }
 
 fn i33_tensor_helper() -> Tensor<i33> {
