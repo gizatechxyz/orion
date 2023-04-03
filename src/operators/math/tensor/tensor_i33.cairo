@@ -27,12 +27,12 @@ impl I33Tensor of TensorTrait::<i33> {
     ///
     /// # Panics
     ///
-    /// Panic if the shape of the matrix does not match the size of the data array.
+    /// Panic if the shape of the tensor does not match the size of the data array.
     fn new(shape: @Array<usize>, data: @Array<i33>) -> Tensor<i33> {
         i33_new_tensor(shape, data)
     }
 
-    /// Returns the value of a particular element in the matrix.
+    /// Returns the value of a particular element in the tensor.
     ///
     /// # Arguments
     ///
