@@ -12,7 +12,7 @@ use onnx_cairo::operators::math::tensor::core::unravel_index;
 #[test]
 #[available_gas(2000000)]
 #[should_panic]
-fn i33_wrong_shape_tensor_test() {
+fn wrong_shape_tensor_test() {
     let mut sizes = ArrayTrait::new();
     sizes.append(2_usize);
     sizes.append(2_usize);
@@ -28,8 +28,8 @@ fn i33_wrong_shape_tensor_test() {
 
 #[test]
 #[available_gas(2000000)]
-fn i33_at_tensor_test() {
-    let tensor = i33_tensor_helper();
+fn at_tensor_test() {
+    let tensor = i33_tensor_3d_helper();
 
     let mut indices = ArrayTrait::new();
     indices.append(0_usize);
@@ -44,7 +44,7 @@ fn i33_at_tensor_test() {
 #[test]
 #[available_gas(2000000)]
 fn stride_test() {
-    let tensor = i33_tensor_helper();
+    let tensor = i33_tensor_3d_helper();
     let result = tensor.stride();
     assert(*result.at(0_usize) == 4_usize, 'stride x = 4');
     assert(*result.at(1_usize) == 2_usize, 'stride y = 2');
@@ -141,8 +141,8 @@ fn unravel_index_test() {
 
 #[test]
 #[available_gas(2000000)]
-fn i33_min_tensor() {
-    let tensor = i33_tensor_helper();
+fn min_tensor() {
+    let tensor = i33_tensor_3d_helper();
 
     let result = tensor.min().inner;
     assert(result == 0_u32, 'tensor.min = 0');
@@ -150,8 +150,8 @@ fn i33_min_tensor() {
 
 #[test]
 #[available_gas(2000000)]
-fn i33_max_tensor() {
-    let tensor = i33_tensor_helper();
+fn max_tensor() {
+    let tensor = i33_tensor_3d_helper();
 
     let result = tensor.max().inner;
     assert(result == 7_u32, 'tensor.max = 7');
@@ -159,9 +159,9 @@ fn i33_max_tensor() {
 
 #[test]
 #[available_gas(20000000)]
-fn i33_add_tensor() {
-    let tensor_1 = i33_tensor_helper();
-    let tensor_2 = i33_tensor_helper();
+fn add_tensor() {
+    let tensor_1 = i33_tensor_3d_helper();
+    let tensor_2 = i33_tensor_3d_helper();
 
     let result = (tensor_1 + tensor_2).data;
 
@@ -199,9 +199,9 @@ fn i33_add_tensor() {
 
 #[test]
 #[available_gas(20000000)]
-fn i33_sub_tensor() {
-    let tensor_1 = i33_tensor_helper();
-    let tensor_2 = i33_tensor_helper();
+fn sub_tensor() {
+    let tensor_1 = i33_tensor_3d_helper();
+    let tensor_2 = i33_tensor_3d_helper();
 
     let result = (tensor_1 - tensor_2).data;
 
@@ -239,9 +239,9 @@ fn i33_sub_tensor() {
 
 #[test]
 #[available_gas(20000000)]
-fn i33_mul_tensor() {
-    let tensor_1 = i33_tensor_helper();
-    let tensor_2 = i33_tensor_helper();
+fn mul_tensor() {
+    let tensor_1 = i33_tensor_3d_helper();
+    let tensor_2 = i33_tensor_3d_helper();
 
     let result = (tensor_1 * tensor_2).data;
 
@@ -279,7 +279,7 @@ fn i33_mul_tensor() {
 
 #[test]
 #[available_gas(20000000)]
-fn i33_div_tensor() {
+fn div_tensor() {
     let mut sizes = ArrayTrait::new();
     sizes.append(2_usize);
     sizes.append(2_usize);
@@ -346,8 +346,8 @@ fn i33_div_tensor() {
 
 #[test]
 #[available_gas(20000000)]
-fn i33_tensor_reduce_sum() {
-    let tensor = i33_tensor_helper();
+fn tensor_reduce_sum() {
+    let tensor = i33_tensor_3d_helper();
 
     let result = tensor.reduce_sum(0_usize);
 
@@ -371,7 +371,51 @@ fn i33_tensor_reduce_sum() {
     assert(*result.data.at(3_usize).inner == 13_u32, 'result[3] = 13');
 }
 
-fn i33_tensor_helper() -> Tensor<i33> {
+#[test]
+#[available_gas(20000000)]
+fn tensor_argmax() {
+    let tensor = i33_tensor_2d_helper();
+
+    let result = tensor.argmax(0_usize);
+
+    assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+    assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+    assert(result.data.len() == 2_usize, 'length == 2_usize');
+
+    let result = tensor.argmax(1_usize);
+
+    assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+    assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+    assert(result.data.len() == 2_usize, 'length == 2_usize');
+
+    let tensor = i33_tensor_3d_helper();
+
+    let result = tensor.argmax(0_usize);
+
+    assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+    assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+    assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
+    assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
+    assert(result.data.len() == 4_usize, 'length == 4_usize');
+
+    let result = tensor.argmax(1_usize);
+
+    assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+    assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+    assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
+    assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
+    assert(result.data.len() == 4_usize, 'length == 4_usize');
+
+    let result = tensor.argmax(2_usize);
+
+    assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+    assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+    assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
+    assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
+    assert(result.data.len() == 4_usize, 'length == 4_usize');
+}
+
+fn i33_tensor_3d_helper() -> Tensor<i33> {
     let mut sizes = ArrayTrait::new();
     sizes.append(2_usize);
     sizes.append(2_usize);
@@ -391,3 +435,20 @@ fn i33_tensor_helper() -> Tensor<i33> {
 
     return tensor;
 }
+
+fn i33_tensor_2d_helper() -> Tensor<i33> {
+    let mut sizes = ArrayTrait::new();
+    sizes.append(2_usize);
+    sizes.append(2_usize);
+
+    let mut data = ArrayTrait::new();
+    data.append(i33 { inner: 0_u32, sign: false });
+    data.append(i33 { inner: 1_u32, sign: false });
+    data.append(i33 { inner: 2_u32, sign: false });
+    data.append(i33 { inner: 3_u32, sign: false });
+
+    let tensor = TensorTrait::<i33>::new(@sizes, @data);
+
+    return tensor;
+}
+
