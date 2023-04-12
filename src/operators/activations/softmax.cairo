@@ -5,8 +5,8 @@ use option::OptionTrait;
 use onnx_cairo::operators::math::matrix::Matrix;
 use onnx_cairo::operators::math::matrix::MatrixTrait;
 
-use onnx_cairo::operators::math::int33;
-use onnx_cairo::operators::math::int33::i33;
+use onnx_cairo::operators::math::signed_integer;
+use onnx_cairo::operators::math::signed_integer::i32;
 
 use onnx_cairo::operators::math::vector::find_min;
 use onnx_cairo::operators::math::vector::sum_vec;
@@ -15,7 +15,7 @@ use onnx_cairo::operators::math::vector::sum_vec;
 // x = (x - min(x)) / sum(x)
 // pseudo-softmax: subtract by min value and divide by sum -> less sparse but similar properties as softmax
 fn softmax(z: @Matrix) -> Matrix {
-    let mut arr = ArrayTrait::<i33>::new();
+    let mut arr = ArrayTrait::<i32>::new();
 
     let min = find_min(z.data);
 
@@ -26,7 +26,7 @@ fn softmax(z: @Matrix) -> Matrix {
     MatrixTrait::new(*z.rows, *z.cols, arr)
 }
 
-fn _softmax(z: @Array::<i33>, ref arr: Array::<i33>, min: i33, sum: i33, index: usize) {
+fn _softmax(z: @Array::<i32>, ref arr: Array::<i32>, min: i32, sum: i32, index: usize) {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {
@@ -35,7 +35,7 @@ fn _softmax(z: @Array::<i33>, ref arr: Array::<i33>, min: i33, sum: i33, index: 
             panic(data);
         },
     }
-    
+
     if index == z.len() {
         return ();
     }

@@ -2,28 +2,28 @@ use array::ArrayTrait;
 use box::BoxTrait;
 use option::OptionTrait;
 
-use onnx_cairo::operators::math::int33;
-use onnx_cairo::operators::math::int33::i33;
+use onnx_cairo::operators::math::signed_integer::IntegerTrait;
+use onnx_cairo::operators::math::signed_integer::i32;
 
 #[derive(Drop)]
 struct Matrix {
     rows: usize,
     cols: usize,
-    data: Array::<i33>,
+    data: Array::<i32>,
 }
 
 trait MatrixTrait {
-    fn new(rows: usize, cols: usize, data: Array::<i33>) -> Matrix;
-    fn get(self: @Matrix, i: usize, j: usize) -> i33;
+    fn new(rows: usize, cols: usize, data: Array::<i32>) -> Matrix;
+    fn get(self: @Matrix, i: usize, j: usize) -> i32;
     fn dot(self: @Matrix, other: @Matrix) -> Matrix;
     fn add(self: @Matrix, other: @Matrix) -> Matrix;
     fn len(self: @Matrix) -> usize;
     fn argmax(self: @Matrix) -> Array::<usize>;
-    fn reduce_sum(self: @Matrix) -> i33;
+    fn reduce_sum(self: @Matrix) -> i32;
 }
 
 impl MatrixImpl of MatrixTrait {
-    fn new(rows: usize, cols: usize, data: Array::<i33>) -> Matrix {
+    fn new(rows: usize, cols: usize, data: Array::<i32>) -> Matrix {
         assert(data.len() == rows * cols, 'Matrix not match dimensions');
         matrix_new(rows, cols, data)
     }
@@ -43,7 +43,7 @@ impl MatrixImpl of MatrixTrait {
     /// # Panics
     ///
     /// Panics if the row index or column index is out of bounds.
-    fn get(self: @Matrix, i: usize, j: usize) -> i33 {
+    fn get(self: @Matrix, i: usize, j: usize) -> i32 {
         assert(i < *self.rows, 'row out of bounds');
         assert(j < *self.cols, 'column out of bounds');
 
@@ -65,9 +65,9 @@ impl MatrixImpl of MatrixTrait {
     ///
     /// Panics if the number of columns in the left-hand matrix does not match the number of rows in the right-hand matrix.
     fn dot(self: @Matrix, other: @Matrix) -> Matrix {
-        let mut arr = ArrayTrait::<i33>::new();
+        let mut arr = ArrayTrait::<i32>::new();
 
-        _dot_inner(self, ref arr, other, 0_usize);
+        _dot_mag(self, ref arr, other, 0_usize);
 
         MatrixTrait::new(*self.rows, *other.cols, arr)
     }
@@ -90,9 +90,9 @@ impl MatrixImpl of MatrixTrait {
         assert(*self.rows == *other.rows, 'Matrix not match dimensions');
         assert(*self.cols == *other.cols, 'Matrix not match dimensions');
 
-        let mut arr = ArrayTrait::<i33>::new();
+        let mut arr = ArrayTrait::<i32>::new();
 
-        _add_inner(self, ref arr, other, 0_usize);
+        _add_mag(self, ref arr, other, 0_usize);
 
         MatrixTrait::new(*self.rows, *self.cols, arr)
     }
@@ -122,22 +122,22 @@ impl MatrixImpl of MatrixTrait {
     fn argmax(self: @Matrix) -> Array::<usize> {
         let mut arr = ArrayTrait::<usize>::new();
 
-        _argmax_inner(self, ref arr, 0_usize);
+        _argmax_mag(self, ref arr, 0_usize);
 
         arr
     }
 
     /// Computes the sum of all elements in the matrix.
-    fn reduce_sum(self: @Matrix) -> i33 {
-        let mut sum = i33 { inner: 0_u32, sign: true };
+    fn reduce_sum(self: @Matrix) -> i32 {
+        let mut sum = IntegerTrait::new(0_u32, false);
 
-        _reduce_sum_inner(self, ref sum, 0_usize);
+        _reduce_sum_mag(self, ref sum, 0_usize);
 
         sum
     }
 }
 
-fn matrix_new(rows: usize, cols: usize, data: Array::<i33>) -> Matrix {
+fn matrix_new(rows: usize, cols: usize, data: Array::<i32>) -> Matrix {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {
@@ -155,8 +155,8 @@ fn matrix_new(rows: usize, cols: usize, data: Array::<i33>) -> Matrix {
 // **********************
 
 fn _row_dot_vec(
-    self: @Matrix, ref arr: Array::<i33>, other: @Matrix, row_index: usize, col_index: usize
-) -> i33 {
+    self: @Matrix, ref arr: Array::<i32>, other: @Matrix, row_index: usize, col_index: usize
+) -> i32 {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {
@@ -168,10 +168,10 @@ fn _row_dot_vec(
 
     // End of the recursion
     if (col_index == *self.cols) {
-        return (i33 { inner: 0_u32, sign: true });
+        return IntegerTrait::new(0_u32, false);
     }
 
-    let mut ele = i33 { inner: 0_u32, sign: true };
+    let mut ele = IntegerTrait::new(0_u32, false);
     // Calculates the product
     match self.data.get(*self.cols * row_index + col_index) {
         Option::Some(x) => {
@@ -184,7 +184,7 @@ fn _row_dot_vec(
         }
     }
 
-    let mut other_ele = i33 { inner: 0_u32, sign: true };
+    let mut other_ele = IntegerTrait::new(0_u32, false);
     match other.data.get(col_index) {
         Option::Some(x) => {
             other_ele = *x.unbox();
@@ -203,7 +203,7 @@ fn _row_dot_vec(
 }
 
 
-fn _dot_inner(self: @Matrix, ref arr: Array::<i33>, other: @Matrix, row_index: usize) {
+fn _dot_mag(self: @Matrix, ref arr: Array::<i32>, other: @Matrix, row_index: usize) {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {
@@ -222,7 +222,7 @@ fn _dot_inner(self: @Matrix, ref arr: Array::<i33>, other: @Matrix, row_index: u
     let dot = _row_dot_vec(self, ref arr, other, row_index, 0_usize);
 
     arr.append(dot);
-    _dot_inner(self, ref arr, other, row_index + 1_usize);
+    _dot_mag(self, ref arr, other, row_index + 1_usize);
 }
 
 // **************
@@ -230,7 +230,7 @@ fn _dot_inner(self: @Matrix, ref arr: Array::<i33>, other: @Matrix, row_index: u
 // **************
 
 fn _row_add_vec(
-    self: @Matrix, ref arr: Array::<i33>, other: @Matrix, row_index: usize, col_index: usize
+    self: @Matrix, ref arr: Array::<i32>, other: @Matrix, row_index: usize, col_index: usize
 ) {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
@@ -246,7 +246,7 @@ fn _row_add_vec(
         return ();
     }
 
-    let mut ele = i33 { inner: 0_u32, sign: true };
+    let mut ele = IntegerTrait::new(0_u32, false);
     // Calculates the product
     match self.data.get(*self.cols * row_index + col_index) {
         Option::Some(x) => {
@@ -259,7 +259,7 @@ fn _row_add_vec(
         }
     }
 
-    let mut other_ele = i33 { inner: 0_u32, sign: true };
+    let mut other_ele = IntegerTrait::new(0_u32, false);
     match other.data.get(*other.cols * row_index + col_index) {
         Option::Some(x) => {
             other_ele = *x.unbox();
@@ -275,7 +275,7 @@ fn _row_add_vec(
 }
 
 
-fn _add_inner(self: @Matrix, ref arr: Array::<i33>, other: @Matrix, row_index: usize) {
+fn _add_mag(self: @Matrix, ref arr: Array::<i32>, other: @Matrix, row_index: usize) {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {
@@ -293,7 +293,7 @@ fn _add_inner(self: @Matrix, ref arr: Array::<i33>, other: @Matrix, row_index: u
     // Compute dot product of the row
     _row_add_vec(self, ref arr, other, row_index, 0_usize);
 
-    _add_inner(self, ref arr, other, row_index + 1_usize);
+    _add_mag(self, ref arr, other, row_index + 1_usize);
 }
 
 // *****************
@@ -304,7 +304,7 @@ fn _row_argmax_vec(
     self: @Matrix,
     ref arr: Array::<usize>,
     max_index: usize,
-    max_value: i33,
+    max_value: i32,
     row_index: usize,
     col_index: usize
 ) {
@@ -332,7 +332,7 @@ fn _row_argmax_vec(
 }
 
 
-fn _argmax_inner(self: @Matrix, ref arr: Array::<usize>, row_index: usize) {
+fn _argmax_mag(self: @Matrix, ref arr: Array::<usize>, row_index: usize) {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {
@@ -348,16 +348,16 @@ fn _argmax_inner(self: @Matrix, ref arr: Array::<usize>, row_index: usize) {
     }
 
     // Compute dot product of the row
-    _row_argmax_vec(self, ref arr, 0_usize, i33 { inner: 0_u32, sign: true }, row_index, 0_usize);
+    _row_argmax_vec(self, ref arr, 0_usize, IntegerTrait::new(0_u32, false), row_index, 0_usize);
 
-    _argmax_inner(self, ref arr, row_index + 1_usize);
+    _argmax_mag(self, ref arr, row_index + 1_usize);
 }
 
 // *********************
 // * Matrix REDUCE_SUM *
 // *********************
 
-fn _row_reduce_sum_inner(self: @Matrix, ref sum: i33, row_index: usize, col_index: usize) {
+fn _row_reduce_sum_mag(self: @Matrix, ref sum: i32, row_index: usize, col_index: usize) {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {
@@ -366,7 +366,7 @@ fn _row_reduce_sum_inner(self: @Matrix, ref sum: i33, row_index: usize, col_inde
             panic(data);
         },
     }
-    
+
     // End of the recursion
     if (col_index == *self.cols) {
         return ();
@@ -375,10 +375,10 @@ fn _row_reduce_sum_inner(self: @Matrix, ref sum: i33, row_index: usize, col_inde
     let current_value = self.get(row_index, col_index);
     sum = sum + current_value;
 
-    _row_reduce_sum_inner(self, ref sum, row_index, col_index + 1_usize);
+    _row_reduce_sum_mag(self, ref sum, row_index, col_index + 1_usize);
 }
 
-fn _reduce_sum_inner(self: @Matrix, ref sum: i33, row_index: usize) {
+fn _reduce_sum_mag(self: @Matrix, ref sum: i32, row_index: usize) {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {
@@ -393,7 +393,7 @@ fn _reduce_sum_inner(self: @Matrix, ref sum: i33, row_index: usize) {
         return ();
     }
 
-    _row_reduce_sum_inner(self, ref sum, row_index, 0_usize);
+    _row_reduce_sum_mag(self, ref sum, row_index, 0_usize);
 
-    _reduce_sum_inner(self, ref sum, row_index + 1_usize);
+    _reduce_sum_mag(self, ref sum, row_index + 1_usize);
 }
