@@ -3,15 +3,12 @@
 
 use array::ArrayTrait;
 use option::OptionTrait;
-use onnx_cairo::operators::math::int33;
-use onnx_cairo::operators::math::int33::i33;
-use onnx_cairo::operators::math::int33::max;
-use onnx_cairo::operators::math::int33::abs;
+use onnx_cairo::operators::math::signed_integer::IntegerTrait;
+use onnx_cairo::operators::math::signed_integer::i32;
 use onnx_cairo::operators::math::vector::find_min;
 use onnx_cairo::operators::math::vector::find_max;
 
-
-fn symetric_quant(min_val: i33, max_val: i33, data: i33) -> i33 {
+fn symetric_quant(min_val: i32, max_val: i32, data: i32) -> i32 {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {
@@ -23,27 +20,28 @@ fn symetric_quant(min_val: i33, max_val: i33, data: i33) -> i33 {
 
     //  Define quantization range
     //  int8 range : [-127;127] 
-    let q_min_int = i33 { inner: 127_u32, sign: true };
-    let q_max_int = i33 { inner: 127_u32, sign: false };
+    let q_min_int = IntegerTrait::new(127_u32, true);
+    let q_max_int = IntegerTrait::new(127_u32, false);
 
-    let factor = i33 { inner: 1000_u32, sign: false };
+    let factor = IntegerTrait::new(1000_u32, false);
     let min_val = min_val * factor;
     let max_val = max_val * factor;
 
     //  Calculate the scale based on 8 bit symetric quantization
     //  scale = max(abs(data_range_max), abs(data_range_min)) * 2 / (quantization_range_max - quantization_range_min)
-    let scale = (max(abs(min_val), abs(max_val)) * i33 { inner: 2_u32, sign: false })
+
+    let scale = ((min_val.abs()).max(max_val.abs()) * IntegerTrait::new(2_u32, false))
         / (q_max_int - q_min_int);
 
     //  Quantize data based on the scale
     let quantized_data = (data * factor) / scale;
 
-    assert(quantized_data.inner <= 127_u32, 'out of range');
+    assert(quantized_data.mag <= 127_u32, 'out of range');
 
     return quantized_data;
 }
 
-fn quant_vec(vec: @Array::<i33>) -> Array::<i33> {
+fn quant_vec(vec: @Array::<i32>) -> Array::<i32> {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {
@@ -53,7 +51,7 @@ fn quant_vec(vec: @Array::<i33>) -> Array::<i33> {
         },
     }
 
-    let mut result = ArrayTrait::<i33>::new();
+    let mut result = ArrayTrait::<i32>::new();
 
     let mut min_val = find_min(vec);
     let mut max_val = find_max(vec);
@@ -64,7 +62,7 @@ fn quant_vec(vec: @Array::<i33>) -> Array::<i33> {
 }
 
 fn __quant_vec(
-    ref min_val: i33, ref max_val: i33, vec: @Array::<i33>, ref result: Array::<i33>, n: usize
+    ref min_val: i32, ref max_val: i32, vec: @Array::<i32>, ref result: Array::<i32>, n: usize
 ) {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},

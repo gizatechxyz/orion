@@ -5,18 +5,18 @@ use option::OptionTrait;
 use onnx_cairo::operators::math::matrix::Matrix;
 use onnx_cairo::operators::math::matrix::MatrixTrait;
 
-use onnx_cairo::operators::math::int33;
-use onnx_cairo::operators::math::int33::i33;
+use onnx_cairo::operators::math::signed_integer::IntegerTrait;
+use onnx_cairo::operators::math::signed_integer::i32;
 
 
 fn relu(z: @Matrix) -> Matrix {
-    let mut arr = ArrayTrait::<i33>::new();
+    let mut arr = ArrayTrait::<i32>::new();
 
     relu_inner(ref arr, z.data, 0_usize, z.data.len());
     MatrixTrait::new(*z.rows, *z.cols, arr)
 }
 
-fn relu_inner(ref arr: Array::<i33>, input: @Array::<i33>, index: usize, len: usize) {
+fn relu_inner(ref arr: Array::<i32>, input: @Array::<i32>, index: usize, len: usize) {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {
@@ -25,12 +25,12 @@ fn relu_inner(ref arr: Array::<i33>, input: @Array::<i33>, index: usize, len: us
             panic(data);
         },
     }
-    
+
     if index == len {
         return ();
     }
 
-    let val_0 = (i33 { inner: 0_u32, sign: true });
+    let val_0 = IntegerTrait::new(0_u32, false);
 
     // if x > 0 -> x
     if *input.at(
