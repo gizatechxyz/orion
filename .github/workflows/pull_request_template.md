@@ -13,17 +13,20 @@
 Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
 
 
-### What is the feature?
-(Describe what the feature is)
+### Screenshots of Proposed Changes Of The Website  (if any, please do not screen shot code changes)
+<!-- Note, if your images are too big, use the <img src="" width="" length="" />  syntax instead of ![image](link) to format the images -->
+<!-- If images are not loading properly, you might need to double check the syntax or add a newline after the closing </summary> tag -->
 
-### What is the solution?
-(Describe at a high level how the feature was implemented)
+<details>
+<summary>Visuals before changes are applied</summary>
 
-### What areas of the site does it impact?
-(Describe what parts of the site are impacted and*if*code touched other areas)
+![image](Paste_Your_Image_Link_Here_After_Attaching_Files)
 
-### How to test?
-(Describe the prerequisites and the steps to test)
+</details>
 
-## Other Notes
-(Add any additional information that would be useful to the developer or QA tester)
+<details>
+<summary>Visuals after changes are applied</summary>
+  
+![image](Paste_Your_Image_Link_Here_After_Attaching_Files)
+
+</details>
