@@ -1,12 +1,12 @@
 use array::ArrayTrait;
-use onnx_cairo::operators::math::int33;
-use onnx_cairo::operators::math::int33::i33;
+use onnx_cairo::operators::math::signed_integer::IntegerTrait;
+use onnx_cairo::operators::math::signed_integer::i32;
 
 //=================================================//
 //=================== SUM VECTORS =================//
 //=================================================//
 
-fn sum_two_vec(vec1: Array::<i33>, vec2: Array::<i33>) -> Array::<i33> {
+fn sum_two_vec(vec1: Array::<i32>, vec2: Array::<i32>) -> Array::<i32> {
     // Initialize variables.
     let mut _vec1 = vec1;
     let mut _vec2 = vec2;
@@ -18,7 +18,7 @@ fn sum_two_vec(vec1: Array::<i33>, vec2: Array::<i33>) -> Array::<i33> {
 }
 
 fn __sum_two_vec(
-    ref vec1: Array::<i33>, ref vec2: Array::<i33>, ref result: Array::<i33>, n: usize, 
+    ref vec1: Array::<i32>, ref vec2: Array::<i32>, ref result: Array::<i32>, n: usize, 
 ) {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
@@ -47,16 +47,16 @@ fn __sum_two_vec(
 //=================== FIND MIN IN VECTOR ==============//
 //=====================================================//
 
-fn find_min(vec: @Array::<i33>) -> i33 {
+fn find_min(vec: @Array::<i32>) -> i32 {
     // Initialize variables.
-    let mut min_value = i33 { inner: 65535_u32, sign: false };
+    let mut min_value = IntegerTrait::new(65535_u32, false);
 
     __find_min(vec, ref min_value, 0_usize);
 
     return min_value;
 }
 
-fn __find_min(vec: @Array::<i33>, ref min_value: i33, n: usize) {
+fn __find_min(vec: @Array::<i32>, ref min_value: i32, n: usize) {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {
@@ -72,7 +72,7 @@ fn __find_min(vec: @Array::<i33>, ref min_value: i33, n: usize) {
     }
 
     // --- Check the minimum value and update min_value if necessary --- 
-    let check_min = int33::min(min_value, *vec.at(n));
+    let check_min = min_value.min(*vec.at(n));
     if (min_value > check_min) {
         min_value = check_min;
     }
@@ -85,16 +85,16 @@ fn __find_min(vec: @Array::<i33>, ref min_value: i33, n: usize) {
 //=================== FIND MAX IN VECTOR ==============//
 //=====================================================//
 
-fn find_max(vec: @Array::<i33>) -> i33 {
+fn find_max(vec: @Array::<i32>) -> i32 {
     // Initialize variables.
-    let mut max_value = i33 { inner: 0_u32, sign: false };
+    let mut max_value = IntegerTrait::new(0_u32, false);
 
     __find_max(vec, ref max_value, 0_usize);
 
     return max_value;
 }
 
-fn __find_max(vec: @Array::<i33>, ref max_value: i33, n: usize) {
+fn __find_max(vec: @Array::<i32>, ref max_value: i32, n: usize) {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {
@@ -110,7 +110,7 @@ fn __find_max(vec: @Array::<i33>, ref max_value: i33, n: usize) {
     }
 
     // --- Check the minimum value and update min_value if necessary --- 
-    let check_max = int33::max(max_value, *vec.at(n));
+    let check_max = max_value.max(*vec.at(n));
     if (max_value < check_max) {
         max_value = check_max;
     }
@@ -123,16 +123,16 @@ fn __find_max(vec: @Array::<i33>, ref max_value: i33, n: usize) {
 //=================================================//
 //=================== SUM VECTOR ==================//
 //=================================================//
-fn sum_vec(vec: @Array::<i33>) -> i33 {
+fn sum_vec(vec: @Array::<i32>) -> i32 {
     // Initialize variables.
-    let mut result = i33 { inner: 0_u32, sign: false };
+    let mut result = IntegerTrait::new(0_u32, false);
 
     __sum_vec(vec, ref result, 0_usize);
 
     result
 }
 
-fn __sum_vec(vec: @Array::<i33>, ref result: i33, n: usize) {
+fn __sum_vec(vec: @Array::<i32>, ref result: i32, n: usize) {
     match gas::withdraw_gas_all(get_builtin_costs()) {
         Option::Some(x) => {},
         Option::None(x) => {

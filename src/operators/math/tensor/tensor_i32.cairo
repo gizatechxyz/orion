@@ -1,8 +1,8 @@
 use array::ArrayTrait;
 use option::OptionTrait;
 
-use onnx_cairo::operators::math::int33;
-use onnx_cairo::operators::math::int33::i33;
+use onnx_cairo::operators::math::signed_integer::IntegerTrait;
+use onnx_cairo::operators::math::signed_integer::i32;
 use onnx_cairo::operators::math::tensor::helpers::check_shape;
 use onnx_cairo::operators::math::tensor::helpers::check_compatibility;
 use onnx_cairo::operators::math::tensor::core::stride;
@@ -17,13 +17,13 @@ use onnx_cairo::operators::math::tensor::tensor_u32;
 
 use onnx_cairo::utils::check_gas;
 
-impl I33Tensor of TensorTrait::<i33> {
+impl i32Tensor of TensorTrait::<i32> {
     /// Creates tensor.
     ///
     /// # Arguments
     ///
     /// * `shape` - A reference to an array of usizes representing the shape of the tensor.
-    /// * `data` -  A reference to an array of i33 reprensenting the data of the tensor as flat array.
+    /// * `data` -  A reference to an array of i32 reprensenting the data of the tensor as flat array.
     ///
     /// # Returns
     ///
@@ -32,8 +32,8 @@ impl I33Tensor of TensorTrait::<i33> {
     /// # Panics
     ///
     /// Panic if the shape of the tensor does not match the size of the data array.
-    fn new(shape: @Array<usize>, data: @Array<i33>) -> Tensor<i33> {
-        i33_new_tensor(shape, data)
+    fn new(shape: @Array<usize>, data: @Array<i32>) -> Tensor<i32> {
+        i32_new_tensor(shape, data)
     }
 
     /// Returns the value of a particular element in the tensor.
@@ -50,8 +50,8 @@ impl I33Tensor of TensorTrait::<i33> {
     /// # Panics
     ///
     /// Panics if the indices are out of bounds.
-    fn at(self: @Tensor<i33>, indices: @Array<usize>) -> i33 {
-        i33_at_tensor(self, indices)
+    fn at(self: @Tensor<i32>, indices: @Array<usize>) -> i32 {
+        i32_at_tensor(self, indices)
     }
 
     /// Returns the minimum value in the tensor.
@@ -64,8 +64,8 @@ impl I33Tensor of TensorTrait::<i33> {
     ///
     /// The minimum value in tensor.
     // TODO: find minimum by axis
-    fn min(self: @Tensor<i33>) -> i33 {
-        i33_min_tensor(*self.data)
+    fn min(self: @Tensor<i32>) -> i32 {
+        i32_min_tensor(*self.data)
     }
 
     /// Returns the maximum value in the tensor.
@@ -78,8 +78,8 @@ impl I33Tensor of TensorTrait::<i33> {
     ///
     /// The maximum value in tensor.
     // TODO: find maximum by axis
-    fn max(self: @Tensor<i33>) -> i33 {
-        i33_max_tensor(*self.data)
+    fn max(self: @Tensor<i32>) -> i32 {
+        i32_max_tensor(*self.data)
     }
 
     /// Returns the stride of a tensor.
@@ -91,7 +91,7 @@ impl I33Tensor of TensorTrait::<i33> {
     /// # Returns
     ///
     /// the stride of a tensor.
-    fn stride(self: @Tensor<i33>) -> Array<usize> {
+    fn stride(self: @Tensor<i32>) -> Array<usize> {
         stride(*self.shape)
     }
 
@@ -105,7 +105,7 @@ impl I33Tensor of TensorTrait::<i33> {
     /// # Returns
     ///
     /// the flat index corresponding to an array of indices.
-    fn ravel_index(self: @Tensor<i33>, indices: @Array<usize>) -> usize {
+    fn ravel_index(self: @Tensor<i32>, indices: @Array<usize>) -> usize {
         ravel_index(*self.shape, indices)
     }
 
@@ -119,7 +119,7 @@ impl I33Tensor of TensorTrait::<i33> {
     /// # Returns
     ///
     /// the array of indices corresponding to a flat index.
-    fn unravel_index(self: @Tensor<i33>, index: usize) -> Array<usize> {
+    fn unravel_index(self: @Tensor<i32>, index: usize) -> Array<usize> {
         unravel_index(index, *self.shape)
     }
 
@@ -137,8 +137,8 @@ impl I33Tensor of TensorTrait::<i33> {
     /// # Panics
     ///
     /// Panic if the axis is larger than the dimension of the tensor.
-    fn reduce_sum(self: @Tensor<i33>, axis: usize) -> Tensor<i33> {
-        i33_reduce_sum(self, axis)
+    fn reduce_sum(self: @Tensor<i32>, axis: usize) -> Tensor<i32> {
+        i32_reduce_sum(self, axis)
     }
 
     /// Computes the argmax of a tensor.
@@ -155,96 +155,96 @@ impl I33Tensor of TensorTrait::<i33> {
     /// # Panics
     ///
     /// Panic if the axis is larger than the dimension of the tensor.
-    fn argmax(self: @Tensor<i33>, axis: usize) -> Tensor<usize> {
-        i33_argmax(self, axis)
+    fn argmax(self: @Tensor<i32>, axis: usize) -> Tensor<usize> {
+        i32_argmax(self, axis)
     }
 }
 
-impl I33TensorAdd of Add::<Tensor<i33>> {
-    fn add(self: Tensor<i33>, other: Tensor<i33>) -> Tensor<i33> {
-        i33_add_tensor(@self, @other)
+impl i32TensorAdd of Add::<Tensor<i32>> {
+    fn add(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
+        i32_add_tensor(@self, @other)
     }
 }
 
-impl I33TensorSub of Sub::<Tensor<i33>> {
-    fn sub(self: Tensor<i33>, other: Tensor<i33>) -> Tensor<i33> {
-        i33_sub_tensor(@self, @other)
+impl i32TensorSub of Sub::<Tensor<i32>> {
+    fn sub(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
+        i32_sub_tensor(@self, @other)
     }
 }
 
-impl I33TensorMul of Mul::<Tensor<i33>> {
-    fn mul(self: Tensor<i33>, other: Tensor<i33>) -> Tensor<i33> {
-        i33_mul_tensor(@self, @other)
+impl i32TensorMul of Mul::<Tensor<i32>> {
+    fn mul(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
+        i32_mul_tensor(@self, @other)
     }
 }
 
-impl I33TensorDiv of Div::<Tensor<i33>> {
-    fn div(self: Tensor<i33>, other: Tensor<i33>) -> Tensor<i33> {
-        i33_div_tensor(@self, @other)
+impl i32TensorDiv of Div::<Tensor<i32>> {
+    fn div(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
+        i32_div_tensor(@self, @other)
     }
 }
 
-fn i33_new_tensor(shape: @Array<usize>, data: @Array<i33>) -> Tensor<i33> {
-    check_shape::<i33>(shape, data);
-    Tensor::<i33> { shape, data }
+fn i32_new_tensor(shape: @Array<usize>, data: @Array<i32>) -> Tensor<i32> {
+    check_shape::<i32>(shape, data);
+    Tensor::<i32> { shape, data }
 }
 
 #[inline(always)]
-fn i33_at_tensor(self: @Tensor<i33>, indices: @Array<usize>) -> i33 {
+fn i32_at_tensor(self: @Tensor<i32>, indices: @Array<usize>) -> i32 {
     let data = *self.data;
     *data.at(self.ravel_index(indices))
 }
 
-fn i33_min_tensor(vec: @Array::<i33>) -> i33 {
-    let mut min_value = i33 { inner: 65535_u32, sign: false };
-    __i33_min_tensor(vec, ref min_value, 0_usize);
+fn i32_min_tensor(vec: @Array::<i32>) -> i32 {
+    let mut min_value = IntegerTrait::new(65535_u32, false);
+    __i32_min_tensor(vec, ref min_value, 0_usize);
     return min_value;
 }
 
-fn __i33_min_tensor(vec: @Array::<i33>, ref min_value: i33, n: usize) {
+fn __i32_min_tensor(vec: @Array::<i32>, ref min_value: i32, n: usize) {
     check_gas();
     if n == vec.len() {
         return ();
     }
 
-    let check_min = int33::min(min_value, *vec.at(n));
+    let check_min = min_value.min(*vec.at(n));
     if (min_value > check_min) {
         min_value = check_min;
     }
 
-    __i33_min_tensor(vec, ref min_value, n + 1_usize);
+    __i32_min_tensor(vec, ref min_value, n + 1_usize);
 }
 
-fn i33_max_tensor(vec: @Array::<i33>) -> i33 {
-    let mut max_value = i33 { inner: 0_u32, sign: false };
-    __i33_max_tensor(vec, ref max_value, 0_usize);
+fn i32_max_tensor(vec: @Array::<i32>) -> i32 {
+    let mut max_value = IntegerTrait::new(0_u32, false);
+    __i32_max_tensor(vec, ref max_value, 0_usize);
     return max_value;
 }
 
-fn __i33_max_tensor(vec: @Array::<i33>, ref max_value: i33, n: usize) {
+fn __i32_max_tensor(vec: @Array::<i32>, ref max_value: i32, n: usize) {
     check_gas();
     if n == vec.len() {
         return ();
     }
 
-    let check_max = int33::max(max_value, *vec.at(n));
+    let check_max = max_value.max(*vec.at(n));
     if (max_value < check_max) {
         max_value = check_max;
     }
 
-    __i33_max_tensor(vec, ref max_value, n + 1_usize);
+    __i32_max_tensor(vec, ref max_value, n + 1_usize);
 }
 
 // --- BROADCAST OPERATIONS ---
 
-fn i33_add_tensor(self: @Tensor<i33>, other: @Tensor<i33>) -> Tensor<i33> {
+fn i32_add_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
     check_compatibility(*self.shape, *other.shape, 0_usize);
     let mut result = ArrayTrait::new();
-    __i33_add_tensor(self, other, ref result, 0_usize);
-    return TensorTrait::<i33>::new(*self.shape, @result);
+    __i32_add_tensor(self, other, ref result, 0_usize);
+    return TensorTrait::<i32>::new(*self.shape, @result);
 }
 
-fn __i33_add_tensor(self: @Tensor<i33>, other: @Tensor<i33>, ref result: Array::<i33>, n: usize) {
+fn __i32_add_tensor(self: @Tensor<i32>, other: @Tensor<i32>, ref result: Array::<i32>, n: usize) {
     check_gas();
     if n == (*self.data).len() {
         return ();
@@ -257,17 +257,17 @@ fn __i33_add_tensor(self: @Tensor<i33>, other: @Tensor<i33>, ref result: Array::
     let j = broadcast_index_mapping(*other.shape, @indices_other);
 
     result.append(*(*self.data).at(i) + *(*other.data).at(j));
-    __i33_add_tensor(self, other, ref result, n + 1_usize);
+    __i32_add_tensor(self, other, ref result, n + 1_usize);
 }
 
-fn i33_sub_tensor(self: @Tensor<i33>, other: @Tensor<i33>) -> Tensor<i33> {
+fn i32_sub_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
     check_compatibility(*self.shape, *other.shape, 0_usize);
     let mut result = ArrayTrait::new();
-    __i33_sub_tensor(self, other, ref result, 0_usize);
-    return TensorTrait::<i33>::new(*self.shape, @result);
+    __i32_sub_tensor(self, other, ref result, 0_usize);
+    return TensorTrait::<i32>::new(*self.shape, @result);
 }
 
-fn __i33_sub_tensor(self: @Tensor<i33>, other: @Tensor<i33>, ref result: Array::<i33>, n: usize) {
+fn __i32_sub_tensor(self: @Tensor<i32>, other: @Tensor<i32>, ref result: Array::<i32>, n: usize) {
     check_gas();
     if n == (*self.data).len() {
         return ();
@@ -280,17 +280,17 @@ fn __i33_sub_tensor(self: @Tensor<i33>, other: @Tensor<i33>, ref result: Array::
     let j = broadcast_index_mapping(*other.shape, @indices_other);
 
     result.append(*(*self.data).at(i) - *(*other.data).at(j));
-    __i33_sub_tensor(self, other, ref result, n + 1_usize);
+    __i32_sub_tensor(self, other, ref result, n + 1_usize);
 }
 
-fn i33_mul_tensor(self: @Tensor<i33>, other: @Tensor<i33>) -> Tensor<i33> {
+fn i32_mul_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
     check_compatibility(*self.shape, *other.shape, 0_usize);
     let mut result = ArrayTrait::new();
-    __i33_mul_tensor(self, other, ref result, 0_usize);
-    return TensorTrait::<i33>::new(*self.shape, @result);
+    __i32_mul_tensor(self, other, ref result, 0_usize);
+    return TensorTrait::<i32>::new(*self.shape, @result);
 }
 
-fn __i33_mul_tensor(self: @Tensor<i33>, other: @Tensor<i33>, ref result: Array::<i33>, n: usize) {
+fn __i32_mul_tensor(self: @Tensor<i32>, other: @Tensor<i32>, ref result: Array::<i32>, n: usize) {
     check_gas();
     if n == (*self.data).len() {
         return ();
@@ -303,17 +303,17 @@ fn __i33_mul_tensor(self: @Tensor<i33>, other: @Tensor<i33>, ref result: Array::
     let j = broadcast_index_mapping(*other.shape, @indices_other);
 
     result.append(*(*self.data).at(i) * *(*other.data).at(j));
-    __i33_mul_tensor(self, other, ref result, n + 1_usize);
+    __i32_mul_tensor(self, other, ref result, n + 1_usize);
 }
 
-fn i33_div_tensor(self: @Tensor<i33>, other: @Tensor<i33>) -> Tensor<i33> {
+fn i32_div_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
     check_compatibility(*self.shape, *other.shape, 0_usize);
     let mut result = ArrayTrait::new();
-    __i33_div_tensor(self, other, ref result, 0_usize);
-    return TensorTrait::<i33>::new(*self.shape, @result);
+    __i32_div_tensor(self, other, ref result, 0_usize);
+    return TensorTrait::<i32>::new(*self.shape, @result);
 }
 
-fn __i33_div_tensor(self: @Tensor<i33>, other: @Tensor<i33>, ref result: Array::<i33>, n: usize) {
+fn __i32_div_tensor(self: @Tensor<i32>, other: @Tensor<i32>, ref result: Array::<i32>, n: usize) {
     check_gas();
     if n == (*self.data).len() {
         return ();
@@ -326,30 +326,30 @@ fn __i33_div_tensor(self: @Tensor<i33>, other: @Tensor<i33>, ref result: Array::
     let j = broadcast_index_mapping(*other.shape, @indices_other);
 
     result.append(*(*self.data).at(i) / *(*other.data).at(j));
-    __i33_div_tensor(self, other, ref result, n + 1_usize);
+    __i32_div_tensor(self, other, ref result, n + 1_usize);
 }
 
 // --- REDUCE OPERATIONS ---
 
 // REDUCE SUM
-fn i33_reduce_sum(self: @Tensor<i33>, axis: usize) -> Tensor<i33> {
+fn i32_reduce_sum(self: @Tensor<i32>, axis: usize) -> Tensor<i32> {
     let mut output_shape = ArrayTrait::new();
     let mut output_data = ArrayTrait::new();
 
     reduce_helper(*self.shape, axis, ref output_shape, 0_usize);
-    __i33_reduce_sum(
+    __i32_reduce_sum(
         self, @output_shape, len_from_shape(@output_shape, 0_usize), axis, ref output_data, 0_usize
     );
 
-    return TensorTrait::<i33>::new(@output_shape, @output_data);
+    return TensorTrait::<i32>::new(@output_shape, @output_data);
 }
 
-fn __i33_reduce_sum(
-    self: @Tensor<i33>,
+fn __i32_reduce_sum(
+    self: @Tensor<i32>,
     output_shape: @Array<usize>,
     output_data_len: usize,
     axis: usize,
-    ref output_data: Array<i33>,
+    ref output_data: Array<i32>,
     n: usize
 ) {
     check_gas();
@@ -362,16 +362,16 @@ fn __i33_reduce_sum(
     let current_sum = accumulate_sum_recursive(self, @output_indices, axis, 0_usize);
 
     output_data.append(current_sum);
-    __i33_reduce_sum(self, output_shape, output_data_len, axis, ref output_data, n + 1_usize);
+    __i32_reduce_sum(self, output_shape, output_data_len, axis, ref output_data, n + 1_usize);
 }
 
 fn accumulate_sum_recursive(
-    input: @Tensor<i33>, output_indices: @Array<usize>, axis: usize, axis_index: usize, 
-) -> i33 {
+    input: @Tensor<i32>, output_indices: @Array<usize>, axis: usize, axis_index: usize, 
+) -> i32 {
     check_gas();
 
     if axis_index == *(*input.shape).at(axis) {
-        return i33 { inner: 0_u32, sign: false };
+        return IntegerTrait::new(0_u32, false);
     }
 
     let mut input_indices = ArrayTrait::new();
@@ -410,20 +410,20 @@ fn combine_indices(
 }
 
 // ARGMAX
-fn i33_argmax(self: @Tensor<i33>, axis: usize) -> Tensor<usize> {
+fn i32_argmax(self: @Tensor<i32>, axis: usize) -> Tensor<usize> {
     let mut output_shape = ArrayTrait::new();
     let mut output_data = ArrayTrait::new();
 
     reduce_helper(*self.shape, axis, ref output_shape, 0_usize);
-    __i33_argmax(
+    __i32_argmax(
         self, @output_shape, len_from_shape(@output_shape, 0_usize), axis, ref output_data, 0_usize
     );
 
     return TensorTrait::<usize>::new(@output_shape, @output_data);
 }
 
-fn __i33_argmax(
-    self: @Tensor<i33>,
+fn __i32_argmax(
+    self: @Tensor<i32>,
     output_shape: @Array<usize>,
     output_data_len: usize,
     axis: usize,
@@ -438,19 +438,19 @@ fn __i33_argmax(
 
     let output_indices = unravel_index(n, output_shape);
     let current_argmax = accumulate_argmax(
-        self, @output_indices, axis, 0_usize, i33 { inner: 2147483648_usize, sign: true }, 0_usize
+        self, @output_indices, axis, 0_usize, IntegerTrait::new(2147483647_usize, false), 0_usize
     );
 
     output_data.append(current_argmax);
-    __i33_argmax(self, output_shape, output_data_len, axis, ref output_data, n + 1_usize);
+    __i32_argmax(self, output_shape, output_data_len, axis, ref output_data, n + 1_usize);
 }
 
 fn accumulate_argmax(
-    input: @Tensor<i33>,
+    input: @Tensor<i32>,
     output_indices: @Array<usize>,
     axis: usize,
     axis_index: usize,
-    max_value: i33,
+    max_value: i32,
     max_index: usize
 ) -> usize {
     check_gas();

@@ -152,7 +152,7 @@ impl U32Tensor of TensorTrait::<u32> {
     ///
     /// Panic if the axis is larger than the dimension of the tensor.
     fn argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
-        i33_argmax(self, axis)
+        i32_argmax(self, axis)
     }
 }
 
@@ -402,19 +402,19 @@ fn combine_indices(
     combine_indices(output_indices, axis_index, axis, ref result, n + 1_usize);
 }
 
-fn i33_argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
+fn i32_argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
     let mut output_shape = ArrayTrait::new();
     let mut output_data = ArrayTrait::new();
 
     reduce_helper(*self.shape, axis, ref output_shape, 0_usize);
-    __i33_argmax(
+    __i32_argmax(
         self, @output_shape, len_from_shape(@output_shape, 0_usize), axis, ref output_data, 0_usize
     );
 
     return TensorTrait::<usize>::new(@output_shape, @output_data);
 }
 
-fn __i33_argmax(
+fn __i32_argmax(
     self: @Tensor<u32>,
     output_shape: @Array<usize>,
     output_data_len: usize,
@@ -434,7 +434,7 @@ fn __i33_argmax(
     );
 
     output_data.append(current_argmax);
-    __i33_argmax(self, output_shape, output_data_len, axis, ref output_data, n + 1_usize);
+    __i32_argmax(self, output_shape, output_data_len, axis, ref output_data, n + 1_usize);
 }
 
 fn accumulate_argmax_recursive(
