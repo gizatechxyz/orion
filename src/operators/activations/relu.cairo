@@ -4,42 +4,29 @@ use option::OptionTrait;
 
 use onnx_cairo::operators::math::matrix::Matrix;
 use onnx_cairo::operators::math::matrix::MatrixTrait;
-
 use onnx_cairo::operators::math::signed_integer::IntegerTrait;
 use onnx_cairo::operators::math::signed_integer::i32;
-
+use onnx_cairo::utils::check_gas;
 
 fn relu(z: @Matrix) -> Matrix {
     let mut arr = ArrayTrait::<i32>::new();
 
-    relu_inner(ref arr, z.data, 0_usize, z.data.len());
+    let mut index: usize = 0;
+    loop {
+        check_gas();
+        let val_0 = IntegerTrait::new(0, false);
+
+        if *z.data.at(index) > val_0 {
+            arr.append(*z.data.at(index));
+        } else {
+            arr.append(val_0);
+        }
+
+        index += 1;
+        if index == z.data.len() {
+            break ();
+        };
+    };
+
     MatrixTrait::new(*z.rows, *z.cols, arr)
-}
-
-fn relu_inner(ref arr: Array::<i32>, input: @Array::<i32>, index: usize, len: usize) {
-    match gas::withdraw_gas_all(get_builtin_costs()) {
-        Option::Some(x) => {},
-        Option::None(x) => {
-            let mut data = ArrayTrait::new();
-            data.append('Out of gas');
-            panic(data);
-        },
-    }
-
-    if index == len {
-        return ();
-    }
-
-    let val_0 = IntegerTrait::new(0_u32, false);
-
-    // if x > 0 -> x
-    if *input.at(
-        index
-    ) > val_0 {
-        arr.append(*input.at(index));
-    } // if x < 0 -> 0
-    else {
-        arr.append(val_0);
-    }
-    relu_inner(ref arr, input, index + 1_usize, len);
 }

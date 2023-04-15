@@ -7,13 +7,14 @@ use onnx_cairo::operators::math::tensor::core::stride;
 
 fn len_from_shape(shape: @Array<usize>, n: usize) -> usize {
     check_gas();
-    if (n == shape.len()
-        - 1_usize) {
-            return *shape.at(n);
-        } else {
-            return *shape.at(n) * len_from_shape(shape, n + 1_usize);
-        }
+
+    if (n == shape.len()) {
+        return 1;
+    } else {
+        return *shape.at(n) * len_from_shape(shape, n + 1_usize);
+    }
 }
+
 
 fn check_shape<T>(shape: @Array<usize>, data: @Array<T>) {
     assert(len_from_shape(shape, 0_usize) == data.len(), 'wrong tensor shape');

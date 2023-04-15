@@ -9,8 +9,8 @@ struct Tensor<T> {
     data: @Array<T>
 }
 
-impl TensorCopy<T> of Copy::<Tensor::<T>>;
-impl TensorDrop<T> of Drop::<Tensor::<T>>;
+impl TensorCopy<T> of Copy<Tensor<T>>;
+impl TensorDrop<T> of Drop<Tensor<T>>;
 
 trait TensorTrait<T> {
     fn new(shape: @Array<usize>, data: @Array<T>) -> Tensor<T>;
@@ -28,64 +28,82 @@ trait TensorTrait<T> {
 // --- RAVEL ---
 
 fn ravel_index(shape: @Array<usize>, indices: @Array<usize>) -> usize {
-    __ravel_index(shape, indices, 0_usize)
-}
+    let mut raveled_index: usize = 0;
 
+    let mut i: usize = 0;
+    loop {
+        check_gas();
 
-fn __ravel_index(shape: @Array<usize>, indices: @Array<usize>, current_dim: usize) -> usize {
-    check_gas();
-    if current_dim == shape.len() - 1_usize {
-        return *indices.at(current_dim);
-    }
+        let first_dim_elements = len_from_shape(shape, i + 1);
+        let index = *indices.at(i) * first_dim_elements;
+        raveled_index += index;
 
-    let first_dim_elements = len_from_shape(shape, current_dim + 1_usize);
-    let index = *indices.at(current_dim) * first_dim_elements;
-    return index + __ravel_index(shape, indices, current_dim + 1_usize);
+        i += 1;
+        if i == shape.len() {
+            break ();
+        };
+    };
+
+    raveled_index
 }
 
 // --- UNRAVEL ---
 
 fn unravel_index(index: usize, shape: @Array<usize>) -> Array<usize> {
     let mut result = ArrayTrait::new();
-    __unravel_index(index, shape, ref result, 0_usize);
+    let mut remainder = index;
+
+    let mut current_dim: usize = 0;
+    loop {
+        check_gas();
+
+        let first_dim_elements = len_from_shape(shape, current_dim + 1);
+        let coord = remainder / first_dim_elements;
+        remainder = remainder % first_dim_elements;
+
+        result.append(coord);
+
+        current_dim += 1;
+        if current_dim >= shape.len() {
+            break ();
+        };
+    };
+
     return result;
-}
-
-fn __unravel_index(
-    index: usize, shape: @Array<usize>, ref result: Array<usize>, current_dim: usize
-) {
-    check_gas();
-    if current_dim == shape.len()
-        - 1_usize {
-            result.append(index % *shape.at(current_dim));
-            return ();
-        }
-
-    let first_dim_elements = len_from_shape(shape, current_dim + 1_usize);
-    let coord = index / first_dim_elements;
-    let remainder = index % first_dim_elements;
-
-    result.append(coord);
-    __unravel_index(remainder, shape, ref result, current_dim + 1_usize);
 }
 
 // --- STRIDE ---
 
 fn stride(shape: @Array<usize>) -> Array<usize> {
-    let mut result = ArrayTrait::new();
-    __stride(shape, ref result, shape.len() - 1_usize, 1_usize);
+    let mut result: Array<usize> = ArrayTrait::new();
+
+    let mut accumulated: usize = 1;
+
+    let mut temp_result = ArrayTrait::new();
+    let mut n: usize = shape.len() - 1;
+    loop {
+        check_gas();
+
+        temp_result.append(accumulated);
+
+        if n == 0 {
+            break ();
+        }
+        accumulated *= *shape.at(n);
+        n -= 1;
+    };
+
+    let mut i: usize = shape.len() - 1;
+    loop {
+        check_gas();
+
+        result.append(*temp_result.at(i));
+
+        if i == 0 {
+            break ();
+        }
+        i -= 1;
+    };
+
     return result;
-}
-
-fn __stride(shape: @Array<usize>, ref result: Array<usize>, n: usize, accumulated: usize) {
-    check_gas();
-
-    if n == 0_usize {
-        result.append(accumulated);
-        return ();
-    }
-
-    let new_accumulated = accumulated * *shape.at(n);
-    __stride(shape, ref result, n - 1_usize, new_accumulated);
-    result.append(accumulated);
 }

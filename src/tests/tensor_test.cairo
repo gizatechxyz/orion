@@ -47,6 +47,7 @@ fn at_tensor_test() {
 fn stride_test() {
     let tensor = i32_tensor_3d_helper();
     let result = tensor.stride();
+    print_felt252((*result.at(0_usize)).into());
     assert(*result.at(0_usize) == 4_usize, 'stride x = 4');
     assert(*result.at(1_usize) == 2_usize, 'stride y = 2');
     assert(*result.at(2_usize) == 1_usize, 'stride z = 1');

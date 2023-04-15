@@ -4,6 +4,7 @@ use option::OptionTrait;
 
 use onnx_cairo::operators::math::signed_integer::IntegerTrait;
 use onnx_cairo::operators::math::signed_integer::i32;
+use onnx_cairo::utils::check_gas;
 
 #[derive(Drop)]
 struct Matrix {
@@ -67,7 +68,20 @@ impl MatrixImpl of MatrixTrait {
     fn dot(self: @Matrix, other: @Matrix) -> Matrix {
         let mut arr = ArrayTrait::<i32>::new();
 
-        _dot_inner(self, ref arr, other, 0_usize);
+        let mut row_index: usize = 0;
+        loop {
+            check_gas();
+
+            // Compute dot product of the row
+            let dot = _row_dot_vec(self, ref arr, other, row_index, 0_usize);
+
+            arr.append(dot);
+
+            row_index += 1;
+            if row_index == *self.rows {
+                break ();
+            };
+        };
 
         MatrixTrait::new(*self.rows, *other.cols, arr)
     }
@@ -92,7 +106,17 @@ impl MatrixImpl of MatrixTrait {
 
         let mut arr = ArrayTrait::<i32>::new();
 
-        _add_inner(self, ref arr, other, 0_usize);
+        let mut row_index: usize = 0;
+        loop {
+            check_gas();
+
+            _row_add_vec(self, ref arr, other, row_index, 0);
+
+            row_index += 1;
+            if row_index == *self.rows {
+                break ();
+            };
+        };
 
         MatrixTrait::new(*self.rows, *self.cols, arr)
     }
@@ -122,7 +146,18 @@ impl MatrixImpl of MatrixTrait {
     fn argmax(self: @Matrix) -> Array::<usize> {
         let mut arr = ArrayTrait::<usize>::new();
 
-        _argmax_inner(self, ref arr, 0_usize);
+        let mut row_index: usize = 0;
+        loop {
+            check_gas();
+
+            // Compute dot product of the row
+            _row_argmax_vec(self, ref arr, 0, IntegerTrait::new(0, false), row_index, 0);
+
+            row_index += 1;
+            if row_index == *self.rows {
+                break ();
+            };
+        };
 
         arr
     }
@@ -131,22 +166,23 @@ impl MatrixImpl of MatrixTrait {
     fn reduce_sum(self: @Matrix) -> i32 {
         let mut sum = IntegerTrait::new(0_u32, false);
 
-        _reduce_sum_inner(self, ref sum, 0_usize);
+        let mut row_index: usize = 0;
+        loop {
+            check_gas();
+
+            _row_reduce_sum_inner(self, ref sum, row_index, 0);
+
+            row_index += 1;
+            if row_index == *self.rows {
+                break ();
+            };
+        };
 
         sum
     }
 }
 
 fn matrix_new(rows: usize, cols: usize, data: Array::<i32>) -> Matrix {
-    match gas::withdraw_gas_all(get_builtin_costs()) {
-        Option::Some(x) => {},
-        Option::None(x) => {
-            let mut data = ArrayTrait::new();
-            data.append('Out of gas');
-            panic(data);
-        },
-    }
-
     Matrix { rows: rows, cols: cols, data: data,  }
 }
 
@@ -157,14 +193,7 @@ fn matrix_new(rows: usize, cols: usize, data: Array::<i32>) -> Matrix {
 fn _row_dot_vec(
     self: @Matrix, ref arr: Array::<i32>, other: @Matrix, row_index: usize, col_index: usize
 ) -> i32 {
-    match gas::withdraw_gas_all(get_builtin_costs()) {
-        Option::Some(x) => {},
-        Option::None(x) => {
-            let mut data = ArrayTrait::new();
-            data.append('Out of gas');
-            panic(data);
-        },
-    }
+    check_gas();
 
     // End of the recursion
     if (col_index == *self.cols) {
@@ -202,29 +231,6 @@ fn _row_dot_vec(
     return acc + result;
 }
 
-
-fn _dot_inner(self: @Matrix, ref arr: Array::<i32>, other: @Matrix, row_index: usize) {
-    match gas::withdraw_gas_all(get_builtin_costs()) {
-        Option::Some(x) => {},
-        Option::None(x) => {
-            let mut data = ArrayTrait::new();
-            data.append('Out of gas');
-            panic(data);
-        },
-    }
-
-    // End of the recursion
-    if row_index == *self.rows {
-        return ();
-    }
-
-    // Compute dot product of the row
-    let dot = _row_dot_vec(self, ref arr, other, row_index, 0_usize);
-
-    arr.append(dot);
-    _dot_inner(self, ref arr, other, row_index + 1_usize);
-}
-
 // **************
 // * Matrix ADD *
 // **************
@@ -232,14 +238,7 @@ fn _dot_inner(self: @Matrix, ref arr: Array::<i32>, other: @Matrix, row_index: u
 fn _row_add_vec(
     self: @Matrix, ref arr: Array::<i32>, other: @Matrix, row_index: usize, col_index: usize
 ) {
-    match gas::withdraw_gas_all(get_builtin_costs()) {
-        Option::Some(x) => {},
-        Option::None(x) => {
-            let mut data = ArrayTrait::new();
-            data.append('Out of gas');
-            panic(data);
-        },
-    }
+    check_gas();
 
     // End of the recursion
     if (col_index == *self.cols) {
@@ -275,27 +274,6 @@ fn _row_add_vec(
 }
 
 
-fn _add_inner(self: @Matrix, ref arr: Array::<i32>, other: @Matrix, row_index: usize) {
-    match gas::withdraw_gas_all(get_builtin_costs()) {
-        Option::Some(x) => {},
-        Option::None(x) => {
-            let mut data = ArrayTrait::new();
-            data.append('Out of gas');
-            panic(data);
-        },
-    }
-
-    // End of the recursion
-    if row_index == *self.rows {
-        return ();
-    }
-
-    // Compute dot product of the row
-    _row_add_vec(self, ref arr, other, row_index, 0_usize);
-
-    _add_inner(self, ref arr, other, row_index + 1_usize);
-}
-
 // *****************
 // * Matrix ARGMAX *
 // *****************
@@ -308,14 +286,7 @@ fn _row_argmax_vec(
     row_index: usize,
     col_index: usize
 ) {
-    match gas::withdraw_gas_all(get_builtin_costs()) {
-        Option::Some(x) => {},
-        Option::None(x) => {
-            let mut data = ArrayTrait::new();
-            data.append('Out of gas');
-            panic(data);
-        },
-    }
+    check_gas();
 
     // End of the recursion
     if (col_index == *self.cols) {
@@ -332,40 +303,12 @@ fn _row_argmax_vec(
 }
 
 
-fn _argmax_inner(self: @Matrix, ref arr: Array::<usize>, row_index: usize) {
-    match gas::withdraw_gas_all(get_builtin_costs()) {
-        Option::Some(x) => {},
-        Option::None(x) => {
-            let mut data = ArrayTrait::new();
-            data.append('Out of gas');
-            panic(data);
-        },
-    }
-
-    // End of the recursion
-    if row_index == *self.rows {
-        return ();
-    }
-
-    // Compute dot product of the row
-    _row_argmax_vec(self, ref arr, 0_usize, IntegerTrait::new(0_u32, false), row_index, 0_usize);
-
-    _argmax_inner(self, ref arr, row_index + 1_usize);
-}
-
 // *********************
 // * Matrix REDUCE_SUM *
 // *********************
 
 fn _row_reduce_sum_inner(self: @Matrix, ref sum: i32, row_index: usize, col_index: usize) {
-    match gas::withdraw_gas_all(get_builtin_costs()) {
-        Option::Some(x) => {},
-        Option::None(x) => {
-            let mut data = ArrayTrait::new();
-            data.append('Out of gas');
-            panic(data);
-        },
-    }
+    check_gas();
 
     // End of the recursion
     if (col_index == *self.cols) {
@@ -376,24 +319,4 @@ fn _row_reduce_sum_inner(self: @Matrix, ref sum: i32, row_index: usize, col_inde
     sum = sum + current_value;
 
     _row_reduce_sum_inner(self, ref sum, row_index, col_index + 1_usize);
-}
-
-fn _reduce_sum_inner(self: @Matrix, ref sum: i32, row_index: usize) {
-    match gas::withdraw_gas_all(get_builtin_costs()) {
-        Option::Some(x) => {},
-        Option::None(x) => {
-            let mut data = ArrayTrait::new();
-            data.append('Out of gas');
-            panic(data);
-        },
-    }
-
-    // End of the recursion
-    if row_index == *self.rows {
-        return ();
-    }
-
-    _row_reduce_sum_inner(self, ref sum, row_index, 0_usize);
-
-    _reduce_sum_inner(self, ref sum, row_index + 1_usize);
 }
