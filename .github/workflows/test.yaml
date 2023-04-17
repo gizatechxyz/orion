@@ -6,7 +6,7 @@ on:
       - "**"
 
 env:
-  ARTIFACT_RELEASE_ARCHIVE_LINK: https://api.github.com/repos/starkware-libs/cairo/actions/artifacts/609478476/zip
+  ARTIFACT_RELEASE_ARCHIVE_LINK: https://api.github.com/repos/starkware-libs/cairo/actions/artifacts/639996353/zip
   ARTIFACT_RELEASE_ARCHIVE_NAME: cairo.zip
   RELEASE_ARCHIVE_NAME: x86_64-unknown-linux-musl.tar.gz
 
