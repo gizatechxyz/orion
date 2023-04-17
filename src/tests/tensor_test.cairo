@@ -378,41 +378,41 @@ fn tensor_argmax() {
     let tensor = i32_tensor_2d_helper();
 
     let result = tensor.argmax(0_usize);
-// assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
-// assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
-// assert(result.data.len() == 2_usize, 'length == 2_usize');
+assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+assert(result.data.len() == 2_usize, 'length == 2_usize');
 
-// let result = tensor.argmax(1_usize);
+let result = tensor.argmax(1_usize);
 
-// assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
-// assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
-// assert(result.data.len() == 2_usize, 'length == 2_usize');
+assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+assert(result.data.len() == 2_usize, 'length == 2_usize');
 
-// let tensor = i32_tensor_3d_helper();
+let tensor = i32_tensor_3d_helper();
 
-// let result = tensor.argmax(0_usize);
+let result = tensor.argmax(0_usize);
 
-// assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
-// assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
-// assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
-// assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
-// assert(result.data.len() == 4_usize, 'length == 4_usize');
+assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
+assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
+assert(result.data.len() == 4_usize, 'length == 4_usize');
 
-// let result = tensor.argmax(1_usize);
+let result = tensor.argmax(1_usize);
 
-// assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
-// assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
-// assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
-// assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
-// assert(result.data.len() == 4_usize, 'length == 4_usize');
+assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
+assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
+assert(result.data.len() == 4_usize, 'length == 4_usize');
 
-// let result = tensor.argmax(2_usize);
+let result = tensor.argmax(2_usize);
 
-// assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
-// assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
-// assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
-// assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
-// assert(result.data.len() == 4_usize, 'length == 4_usize');
+assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
+assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
+assert(result.data.len() == 4_usize, 'length == 4_usize');
 }
 
 fn i32_tensor_3d_helper() -> Tensor<i32> {

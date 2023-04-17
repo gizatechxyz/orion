@@ -87,3 +87,29 @@ fn reduce_helper(input_shape: Span<usize>, axis: usize) -> Span<usize> {
 
     return reduced.span();
 }
+
+fn combine_indices(output_indices: Span<usize>, axis_index: usize, axis: usize) -> Span<usize> {
+    let mut result = ArrayTrait::new();
+    let output_indices_len = output_indices.len();
+    let mut n: usize = 0;
+
+    loop {
+        check_gas();
+
+        if n > output_indices_len {
+            break ();
+        }
+
+        if n == axis {
+            result.append(axis_index);
+        } else if n > axis {
+            result.append(*output_indices.at(n - 1_usize));
+        } else {
+            result.append(*output_indices.at(n));
+        }
+
+        n += 1;
+    };
+
+    return result.span();
+}

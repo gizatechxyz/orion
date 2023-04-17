@@ -14,6 +14,7 @@ use onnx_cairo::operators::math::tensor::core::unravel_index;
 use onnx_cairo::operators::math::tensor::helpers::broadcast_index_mapping;
 use onnx_cairo::operators::math::tensor::helpers::reduce_helper;
 use onnx_cairo::operators::math::tensor::helpers::len_from_shape;
+use onnx_cairo::operators::math::tensor::helpers::combine_indices;
 use onnx_cairo::operators::math::tensor::tensor_u32;
 
 use onnx_cairo::utils::check_gas;
@@ -190,14 +191,13 @@ fn i32_new_tensor(shape: Span<usize>, data: @Array<i32>) -> Tensor<i32> {
     Tensor::<i32> { shape, data }
 }
 
-#[inline(always)]
 fn i32_at_tensor(self: @Tensor<i32>, indices: Span<usize>) -> i32 {
     let data = *self.data;
     *data.at(self.ravel_index(indices))
 }
 
 fn i32_min_tensor(vec: @Array::<i32>) -> i32 {
-    let mut min_value: i32 = IntegerTrait::new(65535_u32, false);
+    let mut min_value: i32 = IntegerTrait::new(2147483647_u32, false);
 
     let mut i: usize = 0;
     loop {
@@ -349,72 +349,47 @@ fn i32_reduce_sum(self: @Tensor<i32>, axis: usize) -> Tensor<i32> {
     let mut output_data = ArrayTrait::new();
 
     let output_shape = reduce_helper(*self.shape, axis);
-    __i32_reduce_sum(
-        self, output_shape, len_from_shape(output_shape), axis, ref output_data, 0_usize
-    );
+    let output_data_len = len_from_shape(output_shape);
+
+    let mut index: usize = 0;
+    loop {
+        check_gas();
+
+        let output_indices = unravel_index(index, output_shape);
+        let current_sum = accumulate_sum(self, output_indices, axis);
+
+        output_data.append(current_sum);
+
+        index += 1;
+        if index == output_data_len {
+            break ();
+        };
+    };
 
     return TensorTrait::<i32>::new(output_shape, @output_data);
 }
 
-fn __i32_reduce_sum(
-    self: @Tensor<i32>,
-    output_shape: Span<usize>,
-    output_data_len: usize,
-    axis: usize,
-    ref output_data: Array<i32>,
-    n: usize
-) {
-    check_gas();
+fn accumulate_sum(input: @Tensor<i32>, output_indices: Span<usize>, axis: usize) -> i32 {
+    let axis_len = *(*input.shape).at(axis);
+    let mut acc = IntegerTrait::new(0_u32, false);
 
-    if n == output_data_len {
-        return ();
-    }
+    let mut axis_index: usize = 0;
+    loop {
+        check_gas();
 
-    let output_indices = unravel_index(n, output_shape);
-    let current_sum = accumulate_sum_recursive(self, output_indices, axis, 0_usize);
+        if axis_index == axis_len {
+            break ();
+        }
 
-    output_data.append(current_sum);
-    __i32_reduce_sum(self, output_shape, output_data_len, axis, ref output_data, n + 1_usize);
-}
+        let input_indices = combine_indices(output_indices, axis_index, axis);
+        let input_index = ravel_index(*input.shape, input_indices);
+        let ele = *(*input.data).at(input_index);
 
-fn accumulate_sum_recursive(
-    input: @Tensor<i32>, output_indices: Span<usize>, axis: usize, axis_index: usize, 
-) -> i32 {
-    check_gas();
+        acc += ele;
+        axis_index += 1;
+    };
 
-    if axis_index == *(*input.shape).at(axis) {
-        return IntegerTrait::new(0_u32, false);
-    }
-
-    let mut input_indices = ArrayTrait::new();
-    combine_indices(output_indices, axis_index, axis, ref input_indices, 0_usize);
-    let input_index = ravel_index(*input.shape, input_indices.span());
-    let ele = *(*input.data).at(input_index);
-
-    let acc = accumulate_sum_recursive(input, output_indices, axis, axis_index + 1_usize);
-
-    return ele + acc;
-}
-
-// TODO to be removed when managed by slicing
-fn combine_indices(
-    output_indices: Span<usize>, axis_index: usize, axis: usize, ref result: Array<usize>, n: usize
-) {
-    check_gas();
-
-    if n > output_indices.len() {
-        return ();
-    }
-
-    if n == axis {
-        result.append(axis_index);
-    } else if n > axis {
-        result.append(*output_indices.at(n - 1_usize));
-    } else {
-        result.append(*output_indices.at(n));
-    }
-
-    combine_indices(output_indices, axis_index, axis, ref result, n + 1_usize);
+    return acc;
 }
 
 // ARGMAX
@@ -422,62 +397,54 @@ fn i32_argmax(self: @Tensor<i32>, axis: usize) -> Tensor<usize> {
     let mut output_data = ArrayTrait::new();
 
     let output_shape = reduce_helper(*self.shape, axis);
-    __i32_argmax(self, output_shape, len_from_shape(output_shape), axis, ref output_data, 0_usize);
+    let output_data_len = len_from_shape(output_shape);
+
+    let mut index: usize = 0;
+    loop {
+        check_gas();
+
+        let output_indices = unravel_index(index, output_shape);
+        let current_argmax = find_argmax(
+            self, output_indices, axis, 0, IntegerTrait::new(2147483648, true), 0
+        );
+
+        output_data.append(current_argmax);
+
+        index += 1;
+        if index == output_data_len {
+            break ();
+        };
+    };
 
     return TensorTrait::<usize>::new(output_shape, @output_data);
 }
 
-fn __i32_argmax(
-    self: @Tensor<i32>,
-    output_shape: Span<usize>,
-    output_data_len: usize,
-    axis: usize,
-    ref output_data: Array<usize>,
-    n: usize
-) {
-    check_gas();
-
-    if n == output_data_len {
-        return ();
-    }
-
-    let output_indices = unravel_index(n, output_shape);
-    let current_argmax = accumulate_argmax(
-        self, output_indices, axis, 0_usize, IntegerTrait::new(2147483647_usize, false), 0_usize
-    );
-
-    output_data.append(current_argmax);
-    __i32_argmax(self, output_shape, output_data_len, axis, ref output_data, n + 1_usize);
-}
-
-fn accumulate_argmax(
+fn find_argmax(
     input: @Tensor<i32>,
     output_indices: Span<usize>,
     axis: usize,
     axis_index: usize,
     max_value: i32,
-    max_index: usize
+    argmax: usize
 ) -> usize {
     check_gas();
 
     if axis_index == *(*input.shape).at(axis) {
-        return max_index;
+        return argmax;
     }
 
-    let mut input_indices = ArrayTrait::new();
-    combine_indices(output_indices, axis_index, axis, ref input_indices, 0_usize);
-    let input_index = ravel_index(*input.shape, input_indices.span());
+    let input_indices = combine_indices(output_indices, axis_index, axis);
+    let input_index = ravel_index(*input.shape, input_indices);
     let ele = *(*input.data).at(input_index);
 
-    if ele > max_value {
-        let max_value = ele;
-        let max_index = axis_index;
-        return accumulate_argmax(
-            input, output_indices, axis, axis_index + 1_usize, max_value, max_index
-        );
-    }
+    let (new_max_value, new_argmax) = if ele > max_value {
+        (ele, axis_index)
+    } else {
+        (max_value, argmax)
+    };
 
-    return accumulate_argmax(
-        input, output_indices, axis, axis_index + 1_usize, max_value, max_index
+    return find_argmax(
+        input, output_indices, axis, axis_index + 1_usize, new_max_value, new_argmax
     );
 }
+
