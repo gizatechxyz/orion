@@ -27,4 +27,4 @@ jobs:
           $(pwd)/cairo/bin/cairo-compile --version
           echo "$(pwd)/cairo/bin" >> $GITHUB_PATH
       - name: Test the code
-        run: make test
+        run: scarb run test
