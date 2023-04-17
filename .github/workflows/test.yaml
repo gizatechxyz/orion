@@ -29,4 +29,4 @@ jobs:
           echo "$(pwd)/cairo/bin" >> $GITHUB_PATH
 
       - name: Test the code
-        run: cairo-test -p .
+        run: cairo-test .
