@@ -4,71 +4,87 @@ use option::OptionTrait;
 use onnx_cairo::utils::check_gas;
 use onnx_cairo::operators::math::tensor::core::stride;
 
-
 fn len_from_shape(shape: @Array<usize>, n: usize) -> usize {
-    check_gas();
+    let mut result: usize = 1;
 
-    if (n == shape.len()) {
-        return 1;
-    } else {
-        return *shape.at(n) * len_from_shape(shape, n + 1_usize);
-    }
+    let mut i: usize = n;
+    loop {
+        check_gas();
+
+        if i == shape.len() {
+            break ();
+        }
+
+        result *= *shape.at(i);
+        i += 1;
+    };
+
+    return result;
 }
+
 
 
 fn check_shape<T>(shape: @Array<usize>, data: @Array<T>) {
     assert(len_from_shape(shape, 0_usize) == data.len(), 'wrong tensor shape');
 }
 
-fn check_compatibility(shape_1: @Array<usize>, shape_2: @Array<usize>, index: usize) {
-    check_gas();
+fn check_compatibility(shape_1: @Array<usize>, shape_2: @Array<usize>) {
     assert(shape_1.len() == shape_2.len(), 'tensors shape must match');
 
-    if index == shape_1.len() {
-        return ();
-    }
+    let mut n: usize = 0;
+    loop {
+        check_gas();
 
-    assert(
-        *shape_1.at(
-            index
-        ) == *shape_2.at(index) | *shape_1.at(index) == 1_usize | *shape_2.at(index) == 1_usize,
-        'tensors shape must match'
-    );
+        assert(
+            *shape_1.at(
+                n
+            ) == *shape_2.at(n) | *shape_1.at(n) == 1_usize | *shape_2.at(n) == 1_usize,
+            'tensors shape must match'
+        );
 
-    check_compatibility(shape_1, shape_2, index + 1_usize);
+        n += 1;
+        if n == shape_1.len() {
+            break ();
+        };
+    };
 }
 
 fn broadcast_index_mapping(shape: @Array<usize>, indices: @Array<usize>) -> usize {
     let mut result = 0_usize;
-    __broadcast_index_mapping(shape, indices, ref result, 0_usize);
+
+    let mut n: usize = 0;
+    loop {
+        check_gas();
+
+        let stride = stride(shape);
+        let index = (*indices.at(n) % *shape.at(n)) * *stride.at(n);
+        result += index;
+
+        n += 1;
+        if n == shape.len() {
+            break ();
+        };
+    };
 
     return result;
 }
 
-fn __broadcast_index_mapping(
-    shape: @Array<usize>, indices: @Array<usize>, ref result: usize, n: usize, 
-) {
-    check_gas();
-    if n == shape.len() {
-        return ();
-    }
+fn reduce_helper(input_shape: @Array<usize>, axis: usize) -> Array<usize> {
+    let mut reduced = ArrayTrait::new();
 
-    let stride = stride(shape);
-    let index = (*indices.at(n) % *shape.at(n)) * *stride.at(n);
-    result += index;
-    __broadcast_index_mapping(shape, indices, ref result, n + 1_usize)
-}
+    let mut n: usize = 0;
+    loop {
+        check_gas();
 
-fn reduce_helper(
-    input_shape: @Array<usize>, axis: usize, ref output_shape: Array<usize>, n: usize
-) {
-    check_gas();
-    if n == input_shape.len() {
-        return ();
-    }
+        if n != axis {
+            reduced.append(*input_shape.at(n));
+        }
 
-    if n != axis {
-        output_shape.append(*input_shape.at(n));
-    }
-    reduce_helper(input_shape, axis, ref output_shape, n + 1_usize);
+        n += 1;
+        if n == input_shape.len() {
+            break ();
+        };
+    };
+
+    return reduced;
 }

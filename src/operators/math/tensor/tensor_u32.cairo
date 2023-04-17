@@ -13,7 +13,7 @@ use onnx_cairo::operators::math::tensor::helpers::reduce_helper;
 use onnx_cairo::operators::math::tensor::helpers::len_from_shape;
 use onnx_cairo::utils::check_gas;
 
-impl U32Tensor of TensorTrait::<u32> {
+impl U32Tensor of TensorTrait<u32> {
     /// Creates tensor.
     ///
     /// # Arguments
@@ -156,25 +156,25 @@ impl U32Tensor of TensorTrait::<u32> {
     }
 }
 
-impl U32TensorAdd of Add::<Tensor<u32>> {
+impl U32TensorAdd of Add<Tensor<u32>> {
     fn add(self: Tensor<u32>, other: Tensor<u32>) -> Tensor<u32> {
         u32_add_tensor(@self, @other)
     }
 }
 
-impl U32TensorSub of Sub::<Tensor<u32>> {
+impl U32TensorSub of Sub<Tensor<u32>> {
     fn sub(self: Tensor<u32>, other: Tensor<u32>) -> Tensor<u32> {
         u32_sub_tensor(@self, @other)
     }
 }
 
-impl U32TensorMul of Mul::<Tensor<u32>> {
+impl U32TensorMul of Mul<Tensor<u32>> {
     fn mul(self: Tensor<u32>, other: Tensor<u32>) -> Tensor<u32> {
         u32_mul_tensor(@self, @other)
     }
 }
 
-impl U32TensorDiv of Div::<Tensor<u32>> {
+impl U32TensorDiv of Div<Tensor<u32>> {
     fn div(self: Tensor<u32>, other: Tensor<u32>) -> Tensor<u32> {
         u32_div_tensor(@self, @other)
     }
@@ -232,7 +232,7 @@ fn __u32_max_tensor(vec: @Array::<u32>, ref max_value: u32, n: usize) {
 // --- BROADCAST OPERATIONS ---
 
 fn u32_add_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
-    check_compatibility(*self.shape, *other.shape, 0_usize);
+    check_compatibility(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
     __u32_add_tensor(self, other, ref result, 0_usize);
     return TensorTrait::<u32>::new(*self.shape, @result);
@@ -255,7 +255,7 @@ fn __u32_add_tensor(self: @Tensor<u32>, other: @Tensor<u32>, ref result: Array::
 }
 
 fn u32_sub_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
-    check_compatibility(*self.shape, *other.shape, 0_usize);
+    check_compatibility(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
     __u32_sub_tensor(self, other, ref result, 0_usize);
     return TensorTrait::<u32>::new(*self.shape, @result);
@@ -278,7 +278,7 @@ fn __u32_sub_tensor(self: @Tensor<u32>, other: @Tensor<u32>, ref result: Array::
 }
 
 fn u32_mul_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
-    check_compatibility(*self.shape, *other.shape, 0_usize);
+    check_compatibility(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
     __u32_mul_tensor(self, other, ref result, 0_usize);
     return TensorTrait::<u32>::new(*self.shape, @result);
@@ -301,7 +301,7 @@ fn __u32_mul_tensor(self: @Tensor<u32>, other: @Tensor<u32>, ref result: Array::
 }
 
 fn u32_div_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
-    check_compatibility(*self.shape, *other.shape, 0_usize);
+    check_compatibility(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
     __u32_div_tensor(self, other, ref result, 0_usize);
     return TensorTrait::<u32>::new(*self.shape, @result);
@@ -326,10 +326,9 @@ fn __u32_div_tensor(self: @Tensor<u32>, other: @Tensor<u32>, ref result: Array::
 // --- REDUCE OPERATIONS ---
 
 fn u32_reduce_sum(self: @Tensor<u32>, axis: usize) -> Tensor<u32> {
-    let mut output_shape = ArrayTrait::new();
     let mut output_data = ArrayTrait::new();
 
-    reduce_helper(*self.shape, axis, ref output_shape, 0_usize);
+    let output_shape = reduce_helper(*self.shape, axis);
     __u32_reduce_sum(
         self, @output_shape, len_from_shape(@output_shape, 0_usize), axis, ref output_data, 0_usize
     );
@@ -403,10 +402,9 @@ fn combine_indices(
 }
 
 fn i32_argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
-    let mut output_shape = ArrayTrait::new();
     let mut output_data = ArrayTrait::new();
 
-    reduce_helper(*self.shape, axis, ref output_shape, 0_usize);
+    let output_shape = reduce_helper(*self.shape, axis);
     __i32_argmax(
         self, @output_shape, len_from_shape(@output_shape, 0_usize), axis, ref output_data, 0_usize
     );

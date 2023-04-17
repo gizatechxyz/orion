@@ -242,7 +242,7 @@ fn i32_max_tensor(vec: @Array::<i32>) -> i32 {
 // --- BROADCAST OPERATIONS ---
 
 fn i32_add_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-    check_compatibility(*self.shape, *other.shape, 0_usize);
+    check_compatibility(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
     let mut n: usize = 0;
@@ -267,7 +267,7 @@ fn i32_add_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
 }
 
 fn i32_sub_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-    check_compatibility(*self.shape, *other.shape, 0_usize);
+    check_compatibility(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
     let mut n: usize = 0;
@@ -292,7 +292,7 @@ fn i32_sub_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
 }
 
 fn i32_mul_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-    check_compatibility(*self.shape, *other.shape, 0_usize);
+    check_compatibility(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
     let mut n: usize = 0;
@@ -317,7 +317,7 @@ fn i32_mul_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
 }
 
 fn i32_div_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-    check_compatibility(*self.shape, *other.shape, 0_usize);
+    check_compatibility(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
     let mut n: usize = 0;
@@ -345,10 +345,9 @@ fn i32_div_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
 
 // REDUCE SUM
 fn i32_reduce_sum(self: @Tensor<i32>, axis: usize) -> Tensor<i32> {
-    let mut output_shape = ArrayTrait::new();
     let mut output_data = ArrayTrait::new();
 
-    reduce_helper(*self.shape, axis, ref output_shape, 0_usize);
+    let output_shape = reduce_helper(*self.shape, axis);
     __i32_reduce_sum(
         self, @output_shape, len_from_shape(@output_shape, 0_usize), axis, ref output_data, 0_usize
     );
@@ -423,10 +422,9 @@ fn combine_indices(
 
 // ARGMAX
 fn i32_argmax(self: @Tensor<i32>, axis: usize) -> Tensor<usize> {
-    let mut output_shape = ArrayTrait::new();
     let mut output_data = ArrayTrait::new();
 
-    reduce_helper(*self.shape, axis, ref output_shape, 0_usize);
+    let output_shape = reduce_helper(*self.shape, axis);
     __i32_argmax(
         self, @output_shape, len_from_shape(@output_shape, 0_usize), axis, ref output_data, 0_usize
     );
