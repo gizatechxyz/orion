@@ -1,10 +1,11 @@
 use array::ArrayTrait;
+use array::SpanTrait;
 use option::OptionTrait;
 
 use onnx_cairo::utils::check_gas;
 use onnx_cairo::operators::math::tensor::core::stride;
 
-fn len_from_shape(shape: @Array<usize>) -> usize {
+fn len_from_shape(shape: Span<usize>) -> usize {
     let mut result: usize = 1;
 
     let mut i: usize = 0;
@@ -22,11 +23,11 @@ fn len_from_shape(shape: @Array<usize>) -> usize {
     return result;
 }
 
-fn check_shape<T>(shape: @Array<usize>, data: @Array<T>) {
+fn check_shape<T>(shape: Span<usize>, data: @Array<T>) {
     assert(len_from_shape(shape) == data.len(), 'wrong tensor shape');
 }
 
-fn check_compatibility(shape_1: @Array<usize>, shape_2: @Array<usize>) {
+fn check_compatibility(shape_1: Span<usize>, shape_2: Span<usize>) {
     assert(shape_1.len() == shape_2.len(), 'tensors shape must match');
 
     let mut n: usize = 0;
@@ -47,7 +48,7 @@ fn check_compatibility(shape_1: @Array<usize>, shape_2: @Array<usize>) {
     };
 }
 
-fn broadcast_index_mapping(shape: @Array<usize>, indices: @Array<usize>) -> usize {
+fn broadcast_index_mapping(shape: Span<usize>, indices: Span<usize>) -> usize {
     let mut result = 0_usize;
 
     let mut n: usize = 0;
@@ -67,7 +68,7 @@ fn broadcast_index_mapping(shape: @Array<usize>, indices: @Array<usize>) -> usiz
     return result;
 }
 
-fn reduce_helper(input_shape: @Array<usize>, axis: usize) -> Array<usize> {
+fn reduce_helper(input_shape: Span<usize>, axis: usize) -> Span<usize> {
     let mut reduced = ArrayTrait::new();
 
     let mut n: usize = 0;
@@ -84,5 +85,5 @@ fn reduce_helper(input_shape: @Array<usize>, axis: usize) -> Array<usize> {
         };
     };
 
-    return reduced;
+    return reduced.span();
 }

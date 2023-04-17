@@ -1,11 +1,12 @@
 use array::ArrayTrait;
+use array::SpanTrait;
 use option::OptionTrait;
 
 use onnx_cairo::utils::check_gas;
 use onnx_cairo::operators::math::tensor::helpers::len_from_shape;
 
 struct Tensor<T> {
-    shape: @Array<usize>,
+    shape: Span<usize>,
     data: @Array<T>
 }
 
@@ -13,13 +14,13 @@ impl TensorCopy<T> of Copy<Tensor<T>>;
 impl TensorDrop<T> of Drop<Tensor<T>>;
 
 trait TensorTrait<T> {
-    fn new(shape: @Array<usize>, data: @Array<T>) -> Tensor<T>;
-    fn at(self: @Tensor<T>, indices: @Array<usize>) -> T;
+    fn new(shape: Span<usize>, data: @Array<T>) -> Tensor<T>;
+    fn at(self: @Tensor<T>, indices: Span<usize>) -> T;
     fn min(self: @Tensor<T>) -> T;
     fn max(self: @Tensor<T>) -> T;
-    fn stride(self: @Tensor<T>) -> Array<usize>;
-    fn ravel_index(self: @Tensor<T>, indices: @Array<usize>) -> usize;
-    fn unravel_index(self: @Tensor<T>, index: usize) -> Array<usize>;
+    fn stride(self: @Tensor<T>) -> Span<usize>;
+    fn ravel_index(self: @Tensor<T>, indices: Span<usize>) -> usize;
+    fn unravel_index(self: @Tensor<T>, index: usize) -> Span<usize>;
     // REDUCE OPERATIONS
     fn reduce_sum(self: @Tensor<T>, axis: usize) -> Tensor<T>;
     fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
@@ -27,7 +28,7 @@ trait TensorTrait<T> {
 
 // --- RAVEL ---
 
-fn ravel_index(shape: @Array<usize>, indices: @Array<usize>) -> usize {
+fn ravel_index(shape: Span<usize>, indices: Span<usize>) -> usize {
     let mut raveled_index: usize = 0;
 
     let mut current_dim: usize = 0;
@@ -61,7 +62,7 @@ fn ravel_index(shape: @Array<usize>, indices: @Array<usize>) -> usize {
 
 // --- UNRAVEL ---
 
-fn unravel_index(index: usize, shape: @Array<usize>) -> Array<usize> {
+fn unravel_index(index: usize, shape: Span<usize>) -> Span<usize> {
     let mut result = ArrayTrait::new();
     let mut remainder = index;
 
@@ -93,12 +94,12 @@ fn unravel_index(index: usize, shape: @Array<usize>) -> Array<usize> {
         };
     };
 
-    return result;
+    return result.span();
 }
 
 // --- STRIDE ---
 
-fn stride(shape: @Array<usize>) -> Array<usize> {
+fn stride(shape: Span<usize>) -> Span<usize> {
     let mut result: Array<usize> = ArrayTrait::new();
 
     let mut accumulated: usize = 1;
@@ -129,5 +130,5 @@ fn stride(shape: @Array<usize>) -> Array<usize> {
         i -= 1;
     };
 
-    return result;
+    return result.span();
 }
