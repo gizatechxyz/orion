@@ -30,16 +30,28 @@ trait TensorTrait<T> {
 fn ravel_index(shape: @Array<usize>, indices: @Array<usize>) -> usize {
     let mut raveled_index: usize = 0;
 
-    let mut i: usize = 0;
+    let mut current_dim: usize = 0;
     loop {
         check_gas();
 
-        let first_dim_elements = len_from_shape(shape, i + 1);
-        let index = *indices.at(i) * first_dim_elements;
+        let mut first_dim_elements = 1;
+        let mut n: usize = current_dim + 1;
+        loop {
+            check_gas();
+
+            if n == shape.len() {
+                break ();
+            }
+
+            first_dim_elements *= *shape.at(n);
+            n += 1;
+        };
+
+        let index = *indices.at(current_dim) * first_dim_elements;
         raveled_index += index;
 
-        i += 1;
-        if i == shape.len() {
+        current_dim += 1;
+        if current_dim == shape.len() {
             break ();
         };
     };
@@ -57,7 +69,19 @@ fn unravel_index(index: usize, shape: @Array<usize>) -> Array<usize> {
     loop {
         check_gas();
 
-        let first_dim_elements = len_from_shape(shape, current_dim + 1);
+        let mut first_dim_elements = 1;
+        let mut n: usize = current_dim + 1;
+        loop {
+            check_gas();
+
+            if n == shape.len() {
+                break ();
+            }
+
+            first_dim_elements *= *shape.at(n);
+            n += 1;
+        };
+
         let coord = remainder / first_dim_elements;
         remainder = remainder % first_dim_elements;
 

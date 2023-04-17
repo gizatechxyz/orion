@@ -4,10 +4,10 @@ use option::OptionTrait;
 use onnx_cairo::utils::check_gas;
 use onnx_cairo::operators::math::tensor::core::stride;
 
-fn len_from_shape(shape: @Array<usize>, n: usize) -> usize {
+fn len_from_shape(shape: @Array<usize>) -> usize {
     let mut result: usize = 1;
 
-    let mut i: usize = n;
+    let mut i: usize = 0;
     loop {
         check_gas();
 
@@ -22,10 +22,8 @@ fn len_from_shape(shape: @Array<usize>, n: usize) -> usize {
     return result;
 }
 
-
-
 fn check_shape<T>(shape: @Array<usize>, data: @Array<T>) {
-    assert(len_from_shape(shape, 0_usize) == data.len(), 'wrong tensor shape');
+    assert(len_from_shape(shape) == data.len(), 'wrong tensor shape');
 }
 
 fn check_compatibility(shape_1: @Array<usize>, shape_2: @Array<usize>) {

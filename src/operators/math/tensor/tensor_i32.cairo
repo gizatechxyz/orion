@@ -349,7 +349,7 @@ fn i32_reduce_sum(self: @Tensor<i32>, axis: usize) -> Tensor<i32> {
 
     let output_shape = reduce_helper(*self.shape, axis);
     __i32_reduce_sum(
-        self, @output_shape, len_from_shape(@output_shape, 0_usize), axis, ref output_data, 0_usize
+        self, @output_shape, len_from_shape(@output_shape), axis, ref output_data, 0_usize
     );
 
     return TensorTrait::<i32>::new(@output_shape, @output_data);
@@ -426,7 +426,7 @@ fn i32_argmax(self: @Tensor<i32>, axis: usize) -> Tensor<usize> {
 
     let output_shape = reduce_helper(*self.shape, axis);
     __i32_argmax(
-        self, @output_shape, len_from_shape(@output_shape, 0_usize), axis, ref output_data, 0_usize
+        self, @output_shape, len_from_shape(@output_shape), axis, ref output_data, 0_usize
     );
 
     return TensorTrait::<usize>::new(@output_shape, @output_data);
