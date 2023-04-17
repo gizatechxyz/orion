@@ -22,9 +22,11 @@ jobs:
           curl -H "Accept: application/vnd.github+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -L -o $ARTIFACT_RELEASE_ARCHIVE_NAME $ARTIFACT_RELEASE_ARCHIVE_LINK
           unzip $ARTIFACT_RELEASE_ARCHIVE_NAME
           tar -xvf $RELEASE_ARCHIVE_NAME
+
       - name: Check Cairo compiler version and add to path
         run: |
           $(pwd)/cairo/bin/cairo-compile --version
           echo "$(pwd)/cairo/bin" >> $GITHUB_PATH
+
       - name: Test the code
-        run: scarb run test
+        run: cairo-test -p .
