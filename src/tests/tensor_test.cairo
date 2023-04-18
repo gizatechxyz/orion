@@ -1,6 +1,6 @@
 use array::ArrayTrait;
+use array::SpanTrait;
 use traits::Into;
-use debug::print_felt252;
 
 use onnx_cairo::operators::math::signed_integer::IntegerTrait;
 use onnx_cairo::operators::math::signed_integer::i32;
@@ -24,7 +24,7 @@ fn wrong_shape_tensor_test() {
     data.append(IntegerTrait::new(1_u32, false));
     data.append(IntegerTrait::new(2_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(@sizes, @data);
+    let tensor = TensorTrait::<i32>::new(sizes.span(), @data);
 }
 
 #[test]
@@ -37,7 +37,7 @@ fn at_tensor_test() {
     indices.append(1_usize);
     indices.append(1_usize);
 
-    let result = tensor.at(@indices).mag;
+    let result = tensor.at(indices.span()).mag;
 
     assert(result == 3_u32, 'result[3] = 3');
 }
@@ -60,7 +60,7 @@ fn ravel_index_test() {
     shape.append(5_usize);
     let mut indices = ArrayTrait::new();
     indices.append(2_usize);
-    let result = ravel_index(@shape, @indices);
+    let result = ravel_index(shape.span(), indices.span());
     assert(result == 2_usize, 'result = 2');
 
     // 2D
@@ -70,7 +70,7 @@ fn ravel_index_test() {
     let mut indices = ArrayTrait::new();
     indices.append(1_usize);
     indices.append(2_usize);
-    let result = ravel_index(@shape, @indices);
+    let result = ravel_index(shape.span(), indices.span());
     assert(result == 6_usize, 'result = 6');
 
     // 3D
@@ -82,7 +82,7 @@ fn ravel_index_test() {
     indices.append(1_usize);
     indices.append(3_usize);
     indices.append(0_usize);
-    let result = ravel_index(@shape, @indices);
+    let result = ravel_index(shape.span(), indices.span());
     assert(result == 42_usize, 'result = 42');
 
     // 4D
@@ -96,7 +96,7 @@ fn ravel_index_test() {
     indices.append(2_usize);
     indices.append(5_usize);
     indices.append(6_usize);
-    let result = ravel_index(@shape, @indices);
+    let result = ravel_index(shape.span(), indices.span());
     assert(result == 142_usize, 'result = 142');
 }
 
@@ -106,14 +106,14 @@ fn unravel_index_test() {
     // 1D
     let mut shape = ArrayTrait::new();
     shape.append(5_usize);
-    let result = unravel_index(2_usize, @shape);
+    let result = unravel_index(2_usize, shape.span());
     assert(*result.at(0_usize) == 2_usize, 'result[0] = 2');
 
     // 2D
     let mut shape = ArrayTrait::new();
     shape.append(2_usize);
     shape.append(4_usize);
-    let result = unravel_index(6_usize, @shape);
+    let result = unravel_index(6_usize, shape.span());
     assert(*result.at(0_usize) == 1_usize, 'result[0] = 1');
     assert(*result.at(1_usize) == 2_usize, 'result[1] = 2');
 
@@ -122,7 +122,7 @@ fn unravel_index_test() {
     shape.append(2_usize);
     shape.append(4_usize);
     shape.append(6_usize);
-    let result = unravel_index(42_usize, @shape);
+    let result = unravel_index(42_usize, shape.span());
     assert(*result.at(0_usize) == 1_usize, 'result[0] = 1');
     assert(*result.at(1_usize) == 3_usize, 'result[1] = 3');
     assert(*result.at(2_usize) == 0_usize, 'result[2] = 0');
@@ -133,7 +133,7 @@ fn unravel_index_test() {
     shape.append(4_usize);
     shape.append(6_usize);
     shape.append(8_usize);
-    let result = unravel_index(142_usize, @shape);
+    let result = unravel_index(142_usize, shape.span());
     assert(*result.at(0_usize) == 0_usize, 'result[0] = 0');
     assert(*result.at(1_usize) == 2_usize, 'result[1] = 2');
     assert(*result.at(2_usize) == 5_usize, 'result[2] = 5');
@@ -184,7 +184,7 @@ fn add_tensor() {
     let mut data = ArrayTrait::new();
     data.append(IntegerTrait::new(10_u32, false));
     data.append(IntegerTrait::new(100_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(@sizes, @data);
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), @data);
 
     let result = (tensor_1 + tensor_2).data;
 
@@ -224,7 +224,7 @@ fn sub_tensor() {
     let mut data = ArrayTrait::new();
     data.append(IntegerTrait::new(0_u32, false));
     data.append(IntegerTrait::new(1_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(@sizes, @data);
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), @data);
 
     let result = (tensor_1 - tensor_2).data;
 
@@ -264,7 +264,7 @@ fn mul_tensor() {
     let mut data = ArrayTrait::new();
     data.append(IntegerTrait::new(10_u32, false));
     data.append(IntegerTrait::new(100_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(@sizes, @data);
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), @data);
 
     let result = (tensor_1 * tensor_2).data;
 
@@ -294,7 +294,7 @@ fn div_tensor() {
     data.append(IntegerTrait::new(600_u32, false));
     data.append(IntegerTrait::new(700_u32, false));
     data.append(IntegerTrait::new(800_u32, false));
-    let tensor_1 = TensorTrait::<i32>::new(@sizes, @data);
+    let tensor_1 = TensorTrait::<i32>::new(sizes.span(), @data);
 
     let mut sizes = ArrayTrait::new();
     sizes.append(2_usize);
@@ -309,7 +309,7 @@ fn div_tensor() {
     data.append(IntegerTrait::new(600_u32, false));
     data.append(IntegerTrait::new(700_u32, false));
     data.append(IntegerTrait::new(800_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(@sizes, @data);
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), @data);
 
     let result = (tensor_1 / tensor_2).data;
 
@@ -331,7 +331,7 @@ fn div_tensor() {
     let mut data = ArrayTrait::new();
     data.append(IntegerTrait::new(10_u32, false));
     data.append(IntegerTrait::new(100_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(@sizes, @data);
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), @data);
 
     let result = (tensor_1 / tensor_2).data;
 
@@ -378,42 +378,41 @@ fn tensor_argmax() {
     let tensor = i32_tensor_2d_helper();
 
     let result = tensor.argmax(0_usize);
+assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+assert(result.data.len() == 2_usize, 'length == 2_usize');
 
-    // assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
-    // assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
-    // assert(result.data.len() == 2_usize, 'length == 2_usize');
+let result = tensor.argmax(1_usize);
 
-    // let result = tensor.argmax(1_usize);
+assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+assert(result.data.len() == 2_usize, 'length == 2_usize');
 
-    // assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
-    // assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
-    // assert(result.data.len() == 2_usize, 'length == 2_usize');
+let tensor = i32_tensor_3d_helper();
 
-    // let tensor = i32_tensor_3d_helper();
+let result = tensor.argmax(0_usize);
 
-    // let result = tensor.argmax(0_usize);
+assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
+assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
+assert(result.data.len() == 4_usize, 'length == 4_usize');
 
-    // assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
-    // assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
-    // assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
-    // assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
-    // assert(result.data.len() == 4_usize, 'length == 4_usize');
+let result = tensor.argmax(1_usize);
 
-    // let result = tensor.argmax(1_usize);
+assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
+assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
+assert(result.data.len() == 4_usize, 'length == 4_usize');
 
-    // assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
-    // assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
-    // assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
-    // assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
-    // assert(result.data.len() == 4_usize, 'length == 4_usize');
+let result = tensor.argmax(2_usize);
 
-    // let result = tensor.argmax(2_usize);
-
-    // assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
-    // assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
-    // assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
-    // assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
-    // assert(result.data.len() == 4_usize, 'length == 4_usize');
+assert(*result.data.at(0_usize) == 1_usize, 'result[0] = 1');
+assert(*result.data.at(1_usize) == 1_usize, 'result[1] = 1');
+assert(*result.data.at(2_usize) == 1_usize, 'result[2] = 1');
+assert(*result.data.at(3_usize) == 1_usize, 'result[3] = 1');
+assert(result.data.len() == 4_usize, 'length == 4_usize');
 }
 
 fn i32_tensor_3d_helper() -> Tensor<i32> {
@@ -432,7 +431,7 @@ fn i32_tensor_3d_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(6_u32, false));
     data.append(IntegerTrait::new(7_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(@sizes, @data);
+    let tensor = TensorTrait::<i32>::new(sizes.span(), @data);
 
     return tensor;
 }
@@ -448,7 +447,7 @@ fn i32_tensor_2d_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(2_u32, false));
     data.append(IntegerTrait::new(3_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(@sizes, @data);
+    let tensor = TensorTrait::<i32>::new(sizes.span(), @data);
 
     return tensor;
 }
