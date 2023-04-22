@@ -4,6 +4,7 @@ use option::OptionTrait;
 
 use onnx_cairo::utils::check_gas;
 use onnx_cairo::operators::math::tensor::helpers::len_from_shape;
+use onnx_cairo::operators::math::tensor::helpers::check_shape;
 
 struct Tensor<T> {
     shape: Span<usize>,
@@ -21,6 +22,7 @@ trait TensorTrait<T> {
     fn stride(self: @Tensor<T>) -> Span<usize>;
     fn ravel_index(self: @Tensor<T>, indices: Span<usize>) -> usize;
     fn unravel_index(self: @Tensor<T>, index: usize) -> Span<usize>;
+    fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
     // REDUCE OPERATIONS
     fn reduce_sum(self: @Tensor<T>, axis: usize) -> Tensor<T>;
     fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
@@ -131,4 +133,12 @@ fn stride(shape: Span<usize>) -> Span<usize> {
     };
 
     return result.span();
+}
+
+// --- Reshape ---
+
+fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
+    check_shape(target_shape, *self.data);
+
+    Tensor::<T> { shape: target_shape, data: *self.data }
 }

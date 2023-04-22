@@ -9,6 +9,7 @@ use onnx_cairo::operators::math::tensor::core::Tensor;
 use onnx_cairo::operators::math::tensor::core::TensorTrait;
 use onnx_cairo::operators::math::tensor::core::ravel_index;
 use onnx_cairo::operators::math::tensor::core::unravel_index;
+use onnx_cairo::operators::math::tensor::core::reshape;
 use onnx_cairo::operators::math::tensor::helpers::broadcast_index_mapping;
 use onnx_cairo::operators::math::tensor::helpers::reduce_helper;
 use onnx_cairo::operators::math::tensor::helpers::len_from_shape;
@@ -119,6 +120,24 @@ impl U32Tensor of TensorTrait<u32> {
     /// the array of indices corresponding to a flat index.
     fn unravel_index(self: @Tensor<u32>, index: usize) -> Span<usize> {
         unravel_index(index, *self.shape)
+    }
+
+    /// Gives a new shape to an array without changing its data.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A reference to the tensor.
+    /// * `target_shape` - the new shape.
+    ///
+    /// # Returns
+    ///
+    /// the reshaped array.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the target shape is not compatible to the original shape.
+    fn reshape(self: @Tensor<u32>, target_shape: Span<usize>) -> Tensor<u32> {
+        reshape(self, target_shape)
     }
 
     /// Computes the sum of elements across dimensions of a tensor.
