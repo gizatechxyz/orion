@@ -4,15 +4,19 @@ use option::OptionTrait;
 
 use onnx_cairo::operators::math::tensor::helpers::check_shape;
 use onnx_cairo::operators::math::tensor::helpers::check_compatibility;
+use onnx_cairo::operators::math::tensor::core::new_tensor;
 use onnx_cairo::operators::math::tensor::core::stride;
 use onnx_cairo::operators::math::tensor::core::Tensor;
 use onnx_cairo::operators::math::tensor::core::TensorTrait;
 use onnx_cairo::operators::math::tensor::core::ravel_index;
 use onnx_cairo::operators::math::tensor::core::unravel_index;
+use onnx_cairo::operators::math::tensor::core::reshape;
 use onnx_cairo::operators::math::tensor::helpers::broadcast_index_mapping;
-use onnx_cairo::operators::math::tensor::helpers::reduce_helper;
+use onnx_cairo::operators::math::tensor::helpers::reduce_output_shape;
 use onnx_cairo::operators::math::tensor::helpers::len_from_shape;
 use onnx_cairo::operators::math::tensor::helpers::combine_indices;
+use onnx_cairo::operators::math::tensor::helpers::find_axis;
+use onnx_cairo::operators::math::tensor::helpers::permutation_output_shape;
 use onnx_cairo::utils::check_gas;
 
 impl U32Tensor of TensorTrait<u32> {
@@ -31,7 +35,7 @@ impl U32Tensor of TensorTrait<u32> {
     ///
     /// Panic if the shape of the tensor does not match the size of the data array.
     fn new(shape: Span<usize>, data: @Array<u32>) -> Tensor<u32> {
-        u32_new_tensor(shape, data)
+        new_tensor(shape, data)
     }
 
     /// Returns the value of a particular element in the tensor.
@@ -121,6 +125,24 @@ impl U32Tensor of TensorTrait<u32> {
         unravel_index(index, *self.shape)
     }
 
+    /// Gives a new shape to an array without changing its data.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A reference to the tensor.
+    /// * `target_shape` - the new shape.
+    ///
+    /// # Returns
+    ///
+    /// the reshaped array.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the target shape is not compatible to the original shape.
+    fn reshape(self: @Tensor<u32>, target_shape: Span<usize>) -> Tensor<u32> {
+        reshape(self, target_shape)
+    }
+
     /// Computes the sum of elements across dimensions of a tensor.
     ///
     /// # Arguments
@@ -156,6 +178,20 @@ impl U32Tensor of TensorTrait<u32> {
     fn argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
         u32_argmax(self, axis)
     }
+
+    /// Reorders the axes of an u32 tensor according to the given axes permutation.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A reference to the tensor.
+    /// * `axes` - The axes permutation.
+    ///
+    /// # Returns
+    ///
+    /// Returns transposed tensor.
+    fn transpose(self: @Tensor<u32>, axes: @Array<usize>) -> Tensor<u32> {
+        u32_transpose(self, axes)
+    }
 }
 
 impl U32TensorAdd of Add<Tensor<u32>> {
@@ -180,11 +216,6 @@ impl U32TensorDiv of Div<Tensor<u32>> {
     fn div(self: Tensor<u32>, other: Tensor<u32>) -> Tensor<u32> {
         u32_div_tensor(@self, @other)
     }
-}
-
-fn u32_new_tensor(shape: Span<usize>, data: @Array<u32>) -> Tensor<u32> {
-    check_shape::<u32>(shape, data);
-    Tensor::<u32> { shape, data }
 }
 
 fn u32_at_tensor(self: @Tensor<u32>, indices: Span<usize>) -> u32 {
@@ -336,10 +367,11 @@ fn u32_div_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 // --- REDUCE OPERATIONS ---
 
 // REDUCE SUM
+// Sums the elements along the given axis of an u32 tensor
 fn u32_reduce_sum(self: @Tensor<u32>, axis: usize) -> Tensor<u32> {
     let mut output_data = ArrayTrait::new();
 
-    let output_shape = reduce_helper(*self.shape, axis);
+    let output_shape = reduce_output_shape(*self.shape, axis);
     let output_data_len = len_from_shape(output_shape);
 
     let mut index: usize = 0;
@@ -360,6 +392,7 @@ fn u32_reduce_sum(self: @Tensor<u32>, axis: usize) -> Tensor<u32> {
     return TensorTrait::<u32>::new(output_shape, @output_data);
 }
 
+// Helper function that accumulates the sum of elements along a specific axis
 fn accumulate_sum(input: @Tensor<u32>, output_indices: Span<usize>, axis: usize) -> u32 {
     let axis_len = *(*input.shape).at(axis);
     let mut acc = 0_u32;
@@ -384,11 +417,11 @@ fn accumulate_sum(input: @Tensor<u32>, output_indices: Span<usize>, axis: usize)
 }
 
 // ARGMAX
-
+// Returns the indices of the maximum values along the given axis of an u32 tensor
 fn u32_argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
     let mut output_data = ArrayTrait::new();
 
-    let output_shape = reduce_helper(*self.shape, axis);
+    let output_shape = reduce_output_shape(*self.shape, axis);
     let output_data_len = len_from_shape(output_shape);
 
     let mut index: usize = 0;
@@ -409,6 +442,7 @@ fn u32_argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
     return TensorTrait::<usize>::new(output_shape, @output_data);
 }
 
+// Recursive helper function that finds the index of the maximum value along a specific axis
 fn find_argmax(
     input: @Tensor<u32>,
     output_indices: Span<usize>,
@@ -438,3 +472,42 @@ fn find_argmax(
     );
 }
 
+// TRANSPOSE
+// Reorders the axes of an u32 tensor according to the given axes permutation
+fn u32_transpose(self: @Tensor<u32>, axes: @Array<usize>) -> Tensor<u32> {
+    let output_shape = permutation_output_shape(*self.shape, axes);
+    let output_data_len = len_from_shape(output_shape);
+
+    let mut output_data = ArrayTrait::new();
+
+    let mut output_index: usize = 0;
+    loop {
+        check_gas();
+
+        if output_index == output_data_len {
+            break ();
+        }
+
+        let output_indices = unravel_index(output_index, output_shape);
+        let mut input_indices = ArrayTrait::new();
+
+        let mut output_axis: usize = 0;
+        loop {
+            check_gas();
+            if output_axis == axes.len() {
+                break ();
+            }
+
+            let input_axis = find_axis(axes, output_axis);
+            input_indices.append(*output_indices.at(input_axis));
+            output_axis += 1;
+        };
+
+        let input_index = ravel_index(*self.shape, input_indices.span());
+        output_data.append(*(*self.data).at(input_index));
+
+        output_index += 1;
+    };
+
+    return TensorTrait::<u32>::new(output_shape, @output_data);
+}
