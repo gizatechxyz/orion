@@ -23,13 +23,21 @@ trait TensorTrait<T> {
     fn ravel_index(self: @Tensor<T>, indices: Span<usize>) -> usize;
     fn unravel_index(self: @Tensor<T>, index: usize) -> Span<usize>;
     fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
+    fn transpose(self: @Tensor<T>, axes: @Array<usize>) -> Tensor<T>;
     // REDUCE OPERATIONS
     fn reduce_sum(self: @Tensor<T>, axis: usize) -> Tensor<T>;
     fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
 }
 
-// --- RAVEL ---
+// --- NEW ---
+// Constructs a new tensor with the given shape and data array after checking compatibility
+fn new_tensor<T>(shape: Span<usize>, data: @Array<T>) -> Tensor<T> {
+    check_shape::<T>(shape, data);
+    Tensor::<T> { shape, data }
+}
 
+// --- RAVEL ---
+// Converts a multi-dimensional index into a one-dimensional index for a tensor with the given shape
 fn ravel_index(shape: Span<usize>, indices: Span<usize>) -> usize {
     let mut raveled_index: usize = 0;
 
@@ -63,7 +71,7 @@ fn ravel_index(shape: Span<usize>, indices: Span<usize>) -> usize {
 }
 
 // --- UNRAVEL ---
-
+// Converts a one-dimensional index to a multi-dimensional index for a tensor with the given shape
 fn unravel_index(index: usize, shape: Span<usize>) -> Span<usize> {
     let mut result = ArrayTrait::new();
     let mut remainder = index;
@@ -100,7 +108,7 @@ fn unravel_index(index: usize, shape: Span<usize>) -> Span<usize> {
 }
 
 // --- STRIDE ---
-
+// Computes the stride of each dimension in the given shape
 fn stride(shape: Span<usize>) -> Span<usize> {
     let mut result: Array<usize> = ArrayTrait::new();
 
@@ -136,9 +144,7 @@ fn stride(shape: Span<usize>) -> Span<usize> {
 }
 
 // --- Reshape ---
-
+// Returns a new tensor with the specified target shape and the same data as the input tensor
 fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
-    check_shape(target_shape, *self.data);
-
-    Tensor::<T> { shape: target_shape, data: *self.data }
+    new_tensor(target_shape, *self.data)
 }
