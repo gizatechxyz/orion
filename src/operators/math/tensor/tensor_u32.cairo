@@ -1,3 +1,5 @@
+//! This module defines and implement a Tensor for u32 values.
+
 use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
@@ -20,209 +22,219 @@ use onnx_cairo::operators::math::tensor::helpers::permutation_output_shape;
 use onnx_cairo::utils::check_gas;
 
 impl U32Tensor of TensorTrait<u32> {
-    /// Creates tensor.
+    /// Creates a new u32 tensor with the given shape and data.
     ///
     /// # Arguments
-    ///
-    /// * `shape` - A reference to an array of usizes representing the shape of the tensor.
-    /// * `data` -  A reference to an array of u32 reprensenting the data of the tensor as flat array.
+    /// * `shape` - A span representing the shape of the tensor.
+    /// * `data` - A reference-counted array of u32 elements.
     ///
     /// # Returns
-    ///
-    /// The tensor.
-    ///
-    /// # Panics
-    ///
-    /// Panic if the shape of the tensor does not match the size of the data array.
+    /// * A new `Tensor<u32>` instance.
     fn new(shape: Span<usize>, data: @Array<u32>) -> Tensor<u32> {
         new_tensor(shape, data)
     }
 
-    /// Returns the value of a particular element in the tensor.
+    /// Retrieves the value at the specified indices of an u32 tensor.
     ///
     /// # Arguments
-    ///
-    /// * `self` - A reference to the tensor.
-    /// * `indices` - The indices of the element.
+    /// * `self` - The input tensor.
+    /// * `indices` - A span representing the indices to access.
     ///
     /// # Returns
-    ///
-    /// The value of the element at the specified indices.
-    ///
-    /// # Panics
-    ///
-    /// Panics if the indices are out of bounds.
+    /// * The u32 value at the specified indices.
     fn at(self: @Tensor<u32>, indices: Span<usize>) -> u32 {
         u32_at_tensor(self, indices)
     }
 
-    /// Returns the minimum value in the tensor.
+    /// Finds the minimum value in an u32 tensor.
     ///
     /// # Arguments
-    ///
-    /// * `self` - A reference to the tensor.
+    /// * `self` - The input tensor.
     ///
     /// # Returns
-    ///
-    /// The minimum value in tensor.
-    // TODO: find minimum by axis
+    /// * The minimum u32 value in the tensor.
     fn min(self: @Tensor<u32>) -> u32 {
         u32_min_tensor(*self.data)
     }
 
-    /// Returns the maximum value in the tensor.
+    /// Finds the maximum value in an u32 tensor.
     ///
     /// # Arguments
-    ///
-    /// * `self` - A reference to the tensor.
+    /// * `self` - The input tensor.
     ///
     /// # Returns
-    ///
-    /// The maximum value in tensor.
-    // TODO: find maximum by axis
+    /// * The maximum u32 value in the tensor.
     fn max(self: @Tensor<u32>) -> u32 {
         u32_max_tensor(*self.data)
     }
 
-    /// Returns the stride of a tensor.
+    /// Computes the stride of an u32 tensor.
     ///
     /// # Arguments
-    ///
-    /// * `self` - A reference to the tensor.
+    /// * `self` - The input tensor.
     ///
     /// # Returns
-    ///
-    /// the stride of a tensor.
+    /// * A span representing the stride of the tensor.
     fn stride(self: @Tensor<u32>) -> Span<usize> {
         stride(*self.shape)
     }
 
-    /// Returns the flat index corresponding to an array of indices.
+    /// Converts a multi-dimensional index to a one-dimensional index.
     ///
     /// # Arguments
-    ///
-    /// * `self` - A reference to the tensor.
-    /// * `indices` - A reference to the indices.
+    /// * `self` - The input tensor.
+    /// * `indices` - A span representing the indices.
     ///
     /// # Returns
-    ///
-    /// the flat index corresponding to an array of indices.
+    /// * The raveled index corresponding to the given indices.
     fn ravel_index(self: @Tensor<u32>, indices: Span<usize>) -> usize {
         ravel_index(*self.shape, indices)
     }
 
-    /// Returns the array of indices corresponding to a flat index.
+    /// Converts a one-dimensional index to a multi-dimensional index.
     ///
     /// # Arguments
-    ///
-    /// * `self` - A reference to the tensor.
-    /// * `indices` - A reference to the indices.
+    /// * `self` - The input tensor.
+    /// * `index` - The index to unravel.
     ///
     /// # Returns
-    ///
-    /// the array of indices corresponding to a flat index.
+    /// * A span representing the unraveled indices corresponding to the given index.
     fn unravel_index(self: @Tensor<u32>, index: usize) -> Span<usize> {
         unravel_index(index, *self.shape)
     }
 
-    /// Gives a new shape to an array without changing its data.
+    /// Reshapes an u32 tensor to the target shape.
     ///
     /// # Arguments
-    ///
-    /// * `self` - A reference to the tensor.
-    /// * `target_shape` - the new shape.
+    /// * `self` - The input tensor.
+    /// * `target_shape` - A span representing the target shape.
     ///
     /// # Returns
-    ///
-    /// the reshaped array.
-    ///
-    /// # Panics
-    ///
-    /// Panics if the target shape is not compatible to the original shape.
+    /// * A new `Tensor<u32>` instance with the specified shape.
     fn reshape(self: @Tensor<u32>, target_shape: Span<usize>) -> Tensor<u32> {
         reshape(self, target_shape)
     }
 
-    /// Computes the sum of elements across dimensions of a tensor.
+    /// Reduces an u32 tensor along the given axis by summing its elements.
     ///
     /// # Arguments
-    ///
-    /// * `self` - A reference to the tensor.
-    /// * `axis` - The dimensions to reduce..
+    /// * `self` - The input tensor.
+    /// * `axis` - The axis along which to reduce the tensor.
     ///
     /// # Returns
-    ///
-    /// The reduced tensor.
-    ///
-    /// # Panics
-    ///
-    /// Panic if the axis is larger than the dimension of the tensor.
+    /// * A new `Tensor<u32>` instance with the specified axis reduced by summing its elements.
     fn reduce_sum(self: @Tensor<u32>, axis: usize) -> Tensor<u32> {
         u32_reduce_sum(self, axis)
     }
 
-    /// Computes the argmax of a tensor.
+    /// Computes the indices of the maximum values along the given axis of an u32 tensor.
     ///
     /// # Arguments
-    ///
-    /// * `self` - A reference to the tensor.
-    /// * `axis` - The dimension along which argmax is performed.
+    /// * `self` - The input tensor.
+    /// * `axis` - The axis along which to compute the argmax.
     ///
     /// # Returns
-    ///
-    /// Returns the indices of the maximum values along an axis.
-    ///
-    /// # Panics
-    ///
-    /// Panic if the axis is larger than the dimension of the tensor.
+    /// * A new `Tensor<usize>` instance containing the indices of the maximum values along the specified axis.
     fn argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
         u32_argmax(self, axis)
     }
 
-    /// Reorders the axes of an u32 tensor according to the given axes permutation.
+    /// Transposes an u32 tensor according to the specified axes.
     ///
     /// # Arguments
-    ///
-    /// * `self` - A reference to the tensor.
-    /// * `axes` - The axes permutation.
+    /// * `self` - The input tensor.
+    /// * `axes` - A reference-counted array representing the order in which the axes should be transposed.
     ///
     /// # Returns
-    ///
-    /// Returns transposed tensor.
+    /// * A new `Tensor<u32>` instance with the axes transposed according to the specified order.
     fn transpose(self: @Tensor<u32>, axes: @Array<usize>) -> Tensor<u32> {
         u32_transpose(self, axes)
     }
 }
 
+/// Implements addition for `Tensor<u32>` using the `Add` trait.
 impl U32TensorAdd of Add<Tensor<u32>> {
+    /// Adds two `Tensor<u32>` instances element-wise.
+    ///
+    /// # Arguments
+    /// * `self` - The first tensor.
+    /// * `other` - The second tensor.
+    ///
+    /// # Returns
+    /// * A `Tensor<u32>` instance representing the result of the element-wise addition.
     fn add(self: Tensor<u32>, other: Tensor<u32>) -> Tensor<u32> {
         u32_add_tensor(@self, @other)
     }
 }
 
+/// Implements subtraction for `Tensor<u32>` using the `Sub` trait.
 impl U32TensorSub of Sub<Tensor<u32>> {
+    /// Subtracts two `Tensor<u32>` instances element-wise.
+    ///
+    /// # Arguments
+    /// * `self` - The first tensor.
+    /// * `other` - The second tensor.
+    ///
+    /// # Returns
+    /// * A `Tensor<u32>` instance representing the result of the element-wise subtraction.
     fn sub(self: Tensor<u32>, other: Tensor<u32>) -> Tensor<u32> {
         u32_sub_tensor(@self, @other)
     }
 }
 
+/// Implements multiplication for `Tensor<u32>` using the `Mul` trait.
 impl U32TensorMul of Mul<Tensor<u32>> {
+    /// Multiplies two `Tensor<u32>` instances element-wise.
+    ///
+    /// # Arguments
+    /// * `self` - The first tensor.
+    /// * `other` - The second tensor.
+    ///
+    /// # Returns
+    /// * A `Tensor<u32>` instance representing the result of the element-wise multiplication.
     fn mul(self: Tensor<u32>, other: Tensor<u32>) -> Tensor<u32> {
         u32_mul_tensor(@self, @other)
     }
 }
 
+/// Implements division for `Tensor<u32>` using the `Div` trait.
 impl U32TensorDiv of Div<Tensor<u32>> {
+    /// Divides two `Tensor<u32>` instances element-wise.
+    ///
+    /// # Arguments
+    /// * `self` - The first tensor.
+    /// * `other` - The second tensor.
+    ///
+    /// # Returns
+    /// * A `Tensor<u32>` instance representing the result of the element-wise division.
     fn div(self: Tensor<u32>, other: Tensor<u32>) -> Tensor<u32> {
         u32_div_tensor(@self, @other)
     }
 }
 
+/// Retrieves the value at the specified indices in a `Tensor<u32>`.
+///
+/// # Arguments
+/// * `self` - The tensor.
+/// * `indices` - A span containing the indices as usize elements.
+///
+/// # Returns
+/// * An u32 value at the specified indices in the tensor.
 fn u32_at_tensor(self: @Tensor<u32>, indices: Span<usize>) -> u32 {
     let data = *self.data;
     *data.at(self.ravel_index(indices))
 }
 
+/// Finds the minimum value in a `Tensor<u32>` array.
+///
+/// # Arguments
+/// * `vec` - A reference-counted Array of u32 elements.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * An u32 value representing the minimum value in the array.
 fn u32_min_tensor(vec: @Array::<u32>) -> u32 {
     let mut min_value = 4294967295_u32;
 
@@ -243,6 +255,16 @@ fn u32_min_tensor(vec: @Array::<u32>) -> u32 {
     return min_value;
 }
 
+/// Finds the maximum value in a `Tensor<u32>` array.
+///
+/// # Arguments
+/// * `vec` - A reference-counted Array of u32 elements.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * An u32 value representing the maximum value in the array.
 fn u32_max_tensor(vec: @Array::<u32>) -> u32 {
     let mut max_value = 0_u32;
     let mut i: usize = 0;
@@ -264,6 +286,17 @@ fn u32_max_tensor(vec: @Array::<u32>) -> u32 {
 
 // --- BROADCAST OPERATIONS ---
 
+/// Adds two `Tensor<u32>` instances element-wise with broadcasting.
+///
+/// # Arguments
+/// * `self` - The first tensor.
+/// * `other` - The second tensor.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * A `Tensor<u32>` instance representing the result of the element-wise addition with broadcasting.
 fn u32_add_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
     check_compatibility(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
@@ -289,6 +322,17 @@ fn u32_add_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
     return TensorTrait::<u32>::new(*self.shape, @result);
 }
 
+/// Subtracts two `Tensor<u32>` instances element-wise with broadcasting.
+///
+/// # Arguments
+/// * `self` - The first tensor.
+/// * `other` - The second tensor.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * A `Tensor<u32>` instance representing the result of the element-wise subtraction with broadcasting.
 fn u32_sub_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
     check_compatibility(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
@@ -314,6 +358,17 @@ fn u32_sub_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
     return TensorTrait::<u32>::new(*self.shape, @result);
 }
 
+/// Multiplies two `Tensor<u32>` instances element-wise with broadcasting.
+///
+/// # Arguments
+/// * `self` - The first tensor.
+/// * `other` - The second tensor.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * A `Tensor<u32>` instance representing the result of the element-wise multiplication with broadcasting.
 fn u32_mul_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
     check_compatibility(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
@@ -339,6 +394,17 @@ fn u32_mul_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
     return TensorTrait::<u32>::new(*self.shape, @result);
 }
 
+/// Divides two `Tensor<u32>` instances element-wise with broadcasting.
+///
+/// # Arguments
+/// * `self` - The first tensor.
+/// * `other` - The second tensor.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * A `Tensor<u32>` instance representing the result of the element-wise division with broadcasting.
 fn u32_div_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
     check_compatibility(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
@@ -364,10 +430,19 @@ fn u32_div_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
     return TensorTrait::<u32>::new(*self.shape, @result);
 }
 
-// --- REDUCE OPERATIONS ---
+/// --- REDUCE OPERATIONS ---
 
-// REDUCE SUM
-// Sums the elements along the given axis of an u32 tensor
+/// Sums the elements along the given axis of an u32 tensor.
+///
+/// # Arguments
+/// * `self` - The input tensor.
+/// * `axis` - The axis along which to sum the elements.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * A `Tensor<u32>` instance representing the result of the reduction.
 fn u32_reduce_sum(self: @Tensor<u32>, axis: usize) -> Tensor<u32> {
     let mut output_data = ArrayTrait::new();
 
@@ -392,7 +467,18 @@ fn u32_reduce_sum(self: @Tensor<u32>, axis: usize) -> Tensor<u32> {
     return TensorTrait::<u32>::new(output_shape, @output_data);
 }
 
-// Helper function that accumulates the sum of elements along a specific axis
+/// Helper function that accumulates the sum of elements along a specific axis.
+///
+/// # Arguments
+/// * `input` - The input tensor.
+/// * `output_indices` - A span of output indices.
+/// * `axis` - The axis along which to accumulate the sum.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * An u32 value representing the accumulated sum along the specified axis.
 fn accumulate_sum(input: @Tensor<u32>, output_indices: Span<usize>, axis: usize) -> u32 {
     let axis_len = *(*input.shape).at(axis);
     let mut acc = 0_u32;
@@ -416,8 +502,17 @@ fn accumulate_sum(input: @Tensor<u32>, output_indices: Span<usize>, axis: usize)
     return acc;
 }
 
-// ARGMAX
-// Returns the indices of the maximum values along the given axis of an u32 tensor
+/// Returns the indices of the maximum values along the given axis of an u32 tensor.
+///
+/// # Arguments
+/// * `self` - The input tensor.
+/// * `axis` - The axis along which to find the maximum values.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * A `Tensor<usize>` instance representing the indices of the maximum values along the given axis.
 fn u32_argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
     let mut output_data = ArrayTrait::new();
 
@@ -442,7 +537,21 @@ fn u32_argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
     return TensorTrait::<usize>::new(output_shape, @output_data);
 }
 
-// Recursive helper function that finds the index of the maximum value along a specific axis
+/// Recursive helper function that finds the index of the maximum value along a specific axis.
+///
+/// # Arguments
+/// * `input` - The input tensor.
+/// * `output_indices` - A span of output indices.
+/// * `axis` - The axis along which to find the maximum value.
+/// * `axis_index` - The current index along the specified axis.
+/// * `max_value` - The current maximum value found along the axis.
+/// * `argmax` - The current index of the maximum value along the axis.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * A usize value representing the index of the maximum value along the specified axis.
 fn find_argmax(
     input: @Tensor<u32>,
     output_indices: Span<usize>,
@@ -472,8 +581,17 @@ fn find_argmax(
     );
 }
 
-// TRANSPOSE
-// Reorders the axes of an u32 tensor according to the given axes permutation
+/// Reorders the axes of an u32 tensor according to the given axes permutation.
+///
+/// # Arguments
+/// * `self` - The input tensor.
+/// * `axes` - A reference-counted Array of usize elements representing the axes permutation.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * A `Tensor<u32>` instance with the axes reordered according to the given permutation.
 fn u32_transpose(self: @Tensor<u32>, axes: @Array<usize>) -> Tensor<u32> {
     let output_shape = permutation_output_shape(*self.shape, axes);
     let output_data_len = len_from_shape(output_shape);
