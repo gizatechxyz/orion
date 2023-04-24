@@ -81,11 +81,13 @@ fn check_compatibility(shape_1: Span<usize>, shape_2: Span<usize>) {
 /// * `indices` - A span containing the indices as usize elements.
 ///
 /// # Panics
+/// * Panics if shape and indices length are not equal.
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
 /// * A usize representing the index in the broadcasted tensor.
 fn broadcast_index_mapping(shape: Span<usize>, indices: Span<usize>) -> usize {
+    assert(shape.len() == indices.len(), 'shape/indices len must be equal');
     let mut result = 0_usize;
 
     let mut n: usize = 0;
@@ -112,11 +114,16 @@ fn broadcast_index_mapping(shape: Span<usize>, indices: Span<usize>) -> usize {
 /// * `axis` - A usize representing the axis to reduce.
 ///
 /// # Panics
+/// * Panics if input_shape is empty.
+/// * Panic if the axis is not in the valid range of the input_shape dimensions.
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
 /// * A Span of usize representing the output shape after reduction.
 fn reduce_output_shape(input_shape: Span<usize>, axis: usize) -> Span<usize> {
+    assert(input_shape.len() > 0, 'input_shape cannot be empty');
+    assert(axis <= input_shape.len(), 'axis is out of bound');
+
     let mut reduced = ArrayTrait::new();
 
     let mut n: usize = 0;
@@ -143,11 +150,15 @@ fn reduce_output_shape(input_shape: Span<usize>, axis: usize) -> Span<usize> {
 /// * `axes` - A reference-counted Array of usize elements representing the axes permutation.
 ///
 /// # Panics
+/// * Panics if shape and axes length are not equal.
+/// * Panic if the axis value in axes is not in the valid range of the input_shape dimensions.
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
 /// * A Span of usize representing the output shape after permutation.
 fn permutation_output_shape(input_shape: Span<usize>, axes: @Array<usize>) -> Span<usize> {
+    assert(input_shape.len() == axes.len(), 'input_shape/indices len unequal');
+
     let mut output_shape = ArrayTrait::new();
     let mut axis: usize = 0;
 
@@ -172,11 +183,14 @@ fn permutation_output_shape(input_shape: Span<usize>, axes: @Array<usize>) -> Sp
 /// * `axis` - A usize representing the specified axis.
 ///
 /// # Panics
+/// * Panics if the axis value is not in the range of the output_indices length.
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
 /// * A Span of usize representing the combined indices.
 fn combine_indices(output_indices: Span<usize>, axis_index: usize, axis: usize) -> Span<usize> {
+    assert(axis <= output_indices.len(), 'axis value is out of range');
+
     let mut result = ArrayTrait::new();
     let output_indices_len = output_indices.len();
     let mut n: usize = 0;
@@ -210,11 +224,14 @@ fn combine_indices(output_indices: Span<usize>, axis_index: usize, axis: usize) 
 /// * `target_axis` - A usize representing the target axis.
 ///
 /// # Panics
+/// * Panics if the target_axis value is not in the range of the axes dimensions.
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
 /// * A usize representing the index of the target axis in the given axes array.
 fn find_axis(axes: @Array<usize>, target_axis: usize) -> usize {
+    assert(target_axis < axes.len(), 'target_axis is out of range');
+
     let mut axis: usize = 0;
     loop {
         check_gas();

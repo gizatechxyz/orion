@@ -28,6 +28,9 @@ impl U32Tensor of TensorTrait<u32> {
     /// * `shape` - A span representing the shape of the tensor.
     /// * `data` - A reference-counted array of u32 elements.
     ///
+    /// # Panics
+    /// * Panics if the shape and data length are incompatible.
+    ///
     /// # Returns
     /// * A new `Tensor<u32>` instance.
     fn new(shape: Span<usize>, data: @Array<u32>) -> Tensor<u32> {
@@ -40,6 +43,9 @@ impl U32Tensor of TensorTrait<u32> {
     /// * `self` - The input tensor.
     /// * `indices` - A span representing the indices to access.
     ///
+    /// # Panics
+    /// * Panics the number of indices provided don't match the number of dimensions in the tensor.
+    ///
     /// # Returns
     /// * The u32 value at the specified indices.
     fn at(self: @Tensor<u32>, indices: Span<usize>) -> u32 {
@@ -50,6 +56,9 @@ impl U32Tensor of TensorTrait<u32> {
     ///
     /// # Arguments
     /// * `self` - The input tensor.
+    ///
+    /// # Panics
+    /// * Panics if gas limit is exceeded during execution.
     ///
     /// # Returns
     /// * The minimum u32 value in the tensor.
@@ -62,6 +71,9 @@ impl U32Tensor of TensorTrait<u32> {
     /// # Arguments
     /// * `self` - The input tensor.
     ///
+    /// # Panics
+    /// * Panics if gas limit is exceeded during execution.
+    ///
     /// # Returns
     /// * The maximum u32 value in the tensor.
     fn max(self: @Tensor<u32>) -> u32 {
@@ -72,6 +84,10 @@ impl U32Tensor of TensorTrait<u32> {
     ///
     /// # Arguments
     /// * `self` - The input tensor.
+    ///
+    /// # Panics
+    /// * Panics if shape is empty.
+    /// * Panics if gas limit is exceeded during execution.
     ///
     /// # Returns
     /// * A span representing the stride of the tensor.
@@ -85,6 +101,10 @@ impl U32Tensor of TensorTrait<u32> {
     /// * `self` - The input tensor.
     /// * `indices` - A span representing the indices.
     ///
+    /// # Panics
+    /// * Panics if the indices are out of bounds for the given shape.
+    /// * Panics if gas limit is exceeded during execution.
+    ///
     /// # Returns
     /// * The raveled index corresponding to the given indices.
     fn ravel_index(self: @Tensor<u32>, indices: Span<usize>) -> usize {
@@ -96,6 +116,10 @@ impl U32Tensor of TensorTrait<u32> {
     /// # Arguments
     /// * `self` - The input tensor.
     /// * `index` - The index to unravel.
+    ///
+    /// # Panics
+    /// * Panics if the index is out of bounds for the given shape.
+    /// * Panics if gas limit is exceeded during execution.
     ///
     /// # Returns
     /// * A span representing the unraveled indices corresponding to the given index.
@@ -109,6 +133,9 @@ impl U32Tensor of TensorTrait<u32> {
     /// * `self` - The input tensor.
     /// * `target_shape` - A span representing the target shape.
     ///
+    /// # Panics
+    /// * Panics if the target shape is incompatible with the input tensor's data.
+    ///
     /// # Returns
     /// * A new `Tensor<u32>` instance with the specified shape.
     fn reshape(self: @Tensor<u32>, target_shape: Span<usize>) -> Tensor<u32> {
@@ -120,6 +147,10 @@ impl U32Tensor of TensorTrait<u32> {
     /// # Arguments
     /// * `self` - The input tensor.
     /// * `axis` - The axis along which to reduce the tensor.
+    ///
+    /// # Panics
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    /// * Panics if gas limit is exceeded during execution.
     ///
     /// # Returns
     /// * A new `Tensor<u32>` instance with the specified axis reduced by summing its elements.
@@ -133,6 +164,10 @@ impl U32Tensor of TensorTrait<u32> {
     /// * `self` - The input tensor.
     /// * `axis` - The axis along which to compute the argmax.
     ///
+    /// # Panics
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    /// * Panics if gas limit is exceeded during execution.
+    ///
     /// # Returns
     /// * A new `Tensor<usize>` instance containing the indices of the maximum values along the specified axis.
     fn argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
@@ -144,6 +179,10 @@ impl U32Tensor of TensorTrait<u32> {
     /// # Arguments
     /// * `self` - The input tensor.
     /// * `axes` - A reference-counted array representing the order in which the axes should be transposed.
+    ///
+    /// # Panics
+    /// * Panics if the length of the axes array is not equal to the rank of the input tensor.
+    /// * Panics if gas limit is exceeded during execution.
     ///
     /// # Returns
     /// * A new `Tensor<u32>` instance with the axes transposed according to the specified order.
@@ -218,9 +257,13 @@ impl U32TensorDiv of Div<Tensor<u32>> {
 /// * `self` - The tensor.
 /// * `indices` - A span containing the indices as usize elements.
 ///
+/// # Panics
+/// * Panics the number of indices provided don't match the number of dimensions in the tensor.
+///
 /// # Returns
 /// * An u32 value at the specified indices in the tensor.
 fn u32_at_tensor(self: @Tensor<u32>, indices: Span<usize>) -> u32 {
+    assert(indices.len() == (*self.shape).len(), 'indices not match dimensions');
     let data = *self.data;
     *data.at(self.ravel_index(indices))
 }
@@ -293,6 +336,7 @@ fn u32_max_tensor(vec: @Array::<u32>) -> u32 {
 /// * `other` - The second tensor.
 ///
 /// # Panics
+/// * Panics if the shape of tensors are not compatible. 
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
@@ -329,6 +373,7 @@ fn u32_add_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 /// * `other` - The second tensor.
 ///
 /// # Panics
+/// * Panics if the shape of tensors are not compatible. 
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
@@ -365,6 +410,7 @@ fn u32_sub_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 /// * `other` - The second tensor.
 ///
 /// # Panics
+/// * Panics if the shape of tensors are not compatible. 
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
@@ -401,6 +447,7 @@ fn u32_mul_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 /// * `other` - The second tensor.
 ///
 /// # Panics
+/// * Panics if the shape of tensors are not compatible. 
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
@@ -439,11 +486,13 @@ fn u32_div_tensor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 /// * `axis` - The axis along which to sum the elements.
 ///
 /// # Panics
+/// * Panics if axis is not in the range of the input tensor's dimensions.
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
 /// * A `Tensor<u32>` instance representing the result of the reduction.
 fn u32_reduce_sum(self: @Tensor<u32>, axis: usize) -> Tensor<u32> {
+    assert(axis <= (*self.shape).len(), 'axis out of dimensions');
     let mut output_data = ArrayTrait::new();
 
     let output_shape = reduce_output_shape(*self.shape, axis);
@@ -509,11 +558,14 @@ fn accumulate_sum(input: @Tensor<u32>, output_indices: Span<usize>, axis: usize)
 /// * `axis` - The axis along which to find the maximum values.
 ///
 /// # Panics
+/// * Panics if axis is not in the range of the input tensor's dimensions.
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
 /// * A `Tensor<usize>` instance representing the indices of the maximum values along the given axis.
 fn u32_argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
+    assert(axis <= (*self.shape).len(), 'axis out of dimensions');
+
     let mut output_data = ArrayTrait::new();
 
     let output_shape = reduce_output_shape(*self.shape, axis);
@@ -588,11 +640,14 @@ fn find_argmax(
 /// * `axes` - A reference-counted Array of usize elements representing the axes permutation.
 ///
 /// # Panics
+/// * Panics if the length of the axes array is not equal to the rank of the input tensor.
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
 /// * A `Tensor<u32>` instance with the axes reordered according to the given permutation.
 fn u32_transpose(self: @Tensor<u32>, axes: @Array<usize>) -> Tensor<u32> {
+    assert(axes.len() == (*self.shape).len(), 'shape and axes length unequal');
+
     let output_shape = permutation_output_shape(*self.shape, axes);
     let output_data_len = len_from_shape(output_shape);
 

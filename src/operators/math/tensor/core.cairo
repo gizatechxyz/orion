@@ -76,6 +76,8 @@ fn new_tensor<T>(shape: Span<usize>, data: @Array<T>) -> Tensor<T> {
 /// # Returns
 /// * A usize representing the one-dimensional index.
 fn ravel_index(shape: Span<usize>, indices: Span<usize>) -> usize {
+    assert(shape.len() == indices.len(), 'shape & indices length unequal');
+
     let mut raveled_index: usize = 0;
 
     let mut current_dim: usize = 0;
@@ -115,11 +117,14 @@ fn ravel_index(shape: Span<usize>, indices: Span<usize>) -> usize {
 ///
 /// # Panics
 /// * Panics if the index is out of bounds for the given shape.
+/// * Panics if shape is empty.
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
 /// * A Span of usize representing the multi-dimensional index.
 fn unravel_index(index: usize, shape: Span<usize>) -> Span<usize> {
+    assert(shape.len() > 0, 'shape cannot be empty');
+
     let mut result = ArrayTrait::new();
     let mut remainder = index;
 
@@ -160,11 +165,14 @@ fn unravel_index(index: usize, shape: Span<usize>) -> Span<usize> {
 /// * `shape` - A span containing the shape of the tensor as usize elements.
 ///
 /// # Panics
+/// * Panics if shape is empty.
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
 /// * A Span of usize containing the stride for each dimension.
 fn stride(shape: Span<usize>) -> Span<usize> {
+    assert(shape.len() > 0, 'shape cannot be empty');
+
     let mut result: Array<usize> = ArrayTrait::new();
 
     let mut accumulated: usize = 1;
