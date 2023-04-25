@@ -24,7 +24,7 @@ fn wrong_shape_tensor_test() {
     data.append(IntegerTrait::new(1_u32, false));
     data.append(IntegerTrait::new(2_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), @data);
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
 }
 
 #[test]
@@ -184,7 +184,7 @@ fn add_tensor() {
     let mut data = ArrayTrait::new();
     data.append(IntegerTrait::new(10_u32, false));
     data.append(IntegerTrait::new(100_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), @data);
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span());
 
     let result = (tensor_1 + tensor_2).data;
 
@@ -224,7 +224,7 @@ fn sub_tensor() {
     let mut data = ArrayTrait::new();
     data.append(IntegerTrait::new(0_u32, false));
     data.append(IntegerTrait::new(1_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), @data);
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span());
 
     let result = (tensor_1 - tensor_2).data;
 
@@ -264,7 +264,7 @@ fn mul_tensor() {
     let mut data = ArrayTrait::new();
     data.append(IntegerTrait::new(10_u32, false));
     data.append(IntegerTrait::new(100_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), @data);
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span());
 
     let result = (tensor_1 * tensor_2).data;
 
@@ -294,7 +294,7 @@ fn div_tensor() {
     data.append(IntegerTrait::new(600_u32, false));
     data.append(IntegerTrait::new(700_u32, false));
     data.append(IntegerTrait::new(800_u32, false));
-    let tensor_1 = TensorTrait::<i32>::new(sizes.span(), @data);
+    let tensor_1 = TensorTrait::<i32>::new(sizes.span(), data.span());
 
     let mut sizes = ArrayTrait::new();
     sizes.append(2);
@@ -309,7 +309,7 @@ fn div_tensor() {
     data.append(IntegerTrait::new(600_u32, false));
     data.append(IntegerTrait::new(700_u32, false));
     data.append(IntegerTrait::new(800_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), @data);
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span());
 
     let result = (tensor_1 / tensor_2).data;
 
@@ -331,7 +331,7 @@ fn div_tensor() {
     let mut data = ArrayTrait::new();
     data.append(IntegerTrait::new(10_u32, false));
     data.append(IntegerTrait::new(100_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), @data);
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span());
 
     let result = (tensor_1 / tensor_2).data;
 
@@ -424,7 +424,7 @@ fn tensor_transpose_2D() {
 
     let tensor = i32_tensor_2x2_helper();
 
-    let result = tensor.transpose(@axes);
+    let result = tensor.transpose(axes.span());
 
     assert(*result.data.at(0).mag == 0, 'result[0] = 0');
     assert(*result.data.at(1).mag == 2, 'result[1] = 2');
@@ -435,7 +435,7 @@ fn tensor_transpose_2D() {
 
     let tensor = i32_tensor_3x2_helper();
 
-    let result = tensor.transpose(@axes);
+    let result = tensor.transpose(axes.span());
 
     assert(*result.data.at(0).mag == 0, 'result[0] = 0');
     assert(*result.data.at(1).mag == 2, 'result[1] = 2');
@@ -448,7 +448,7 @@ fn tensor_transpose_2D() {
 
     let tensor = i32_tensor_2x3_helper();
 
-    let result = tensor.transpose(@axes);
+    let result = tensor.transpose(axes.span());
 
     assert(*result.data.at(0).mag == 0, 'result[0] = 0');
     assert(*result.data.at(1).mag == 3, 'result[1] = 3');
@@ -470,7 +470,7 @@ fn tensor_transpose_3D() {
     axes.append(2);
     axes.append(0);
 
-    let result = tensor.transpose(@axes).data;
+    let result = tensor.transpose(axes.span()).data;
 
     assert(*result.at(0).mag == 0, 'result[0] = 0');
     assert(*result.at(1).mag == 4, 'result[1] = 4');
@@ -486,7 +486,7 @@ fn tensor_transpose_3D() {
     axes.append(1);
     axes.append(0);
 
-    let result = tensor.transpose(@axes).data;
+    let result = tensor.transpose(axes.span()).data;
 
     assert(*result.at(0).mag == 0, 'result[0] = 0');
     assert(*result.at(1).mag == 4, 'result[1] = 4');
@@ -502,7 +502,7 @@ fn tensor_transpose_3D() {
     axes.append(2);
     axes.append(1);
 
-    let result = tensor.transpose(@axes).data;
+    let result = tensor.transpose(axes.span()).data;
 
     assert(*result.at(0).mag == 0, 'result[0] = 0');
     assert(*result.at(1).mag == 2, 'result[1] = 2');
@@ -520,7 +520,7 @@ fn tensor_transpose_3D() {
     axes.append(2);
     axes.append(0);
 
-    let result = tensor.transpose(@axes);
+    let result = tensor.transpose(axes.span());
 
     assert(*result.data.at(0).mag == 0, 'result[0] = 0');
     assert(*result.data.at(1).mag == 4, 'result[1] = 4');
@@ -543,7 +543,7 @@ fn tensor_transpose_3D() {
     axes.append(1);
     axes.append(0);
 
-    let result = tensor.transpose(@axes);
+    let result = tensor.transpose(axes.span());
 
     assert(*result.data.at(0).mag == 0, 'result[0] = 0');
     assert(*result.data.at(1).mag == 4, 'result[1] = 4');
@@ -566,7 +566,7 @@ fn tensor_transpose_3D() {
     axes.append(2);
     axes.append(1);
 
-    let result = tensor.transpose(@axes);
+    let result = tensor.transpose(axes.span());
 
     assert(*result.data.at(0).mag == 0, 'result[0] = 0');
     assert(*result.data.at(1).mag == 2, 'result[1] = 2');
@@ -598,7 +598,7 @@ fn i32_tensor_2x2_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(2_u32, false));
     data.append(IntegerTrait::new(3_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), @data);
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -616,7 +616,7 @@ fn i32_tensor_3x2_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(4_u32, false));
     data.append(IntegerTrait::new(5_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), @data);
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -634,7 +634,7 @@ fn i32_tensor_2x3_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(4_u32, false));
     data.append(IntegerTrait::new(5_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), @data);
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -657,7 +657,7 @@ fn i32_tensor_2x2x2_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(6_u32, false));
     data.append(IntegerTrait::new(7_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), @data);
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -682,7 +682,7 @@ fn i32_tensor_3x2x2_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(10_u32, false));
     data.append(IntegerTrait::new(11_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), @data);
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
 
     return tensor;
 }

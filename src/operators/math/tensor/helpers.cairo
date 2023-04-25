@@ -37,11 +37,11 @@ fn len_from_shape(shape: Span<usize>) -> usize {
 ///
 /// # Arguments
 /// * `shape` - A span containing the shape of the tensor as usize elements.
-/// * `data` - A reference-counted Array of data elements of generic type T.
+/// * `data` -  A span containing the data elements of generic type T.
 ///
 /// # Panics
 /// * Panics if the shape and data array are incompatible.
-fn check_shape<T>(shape: Span<usize>, data: @Array<T>) {
+fn check_shape<T>(shape: Span<usize>, data: Span<T>) {
     assert(len_from_shape(shape) == data.len(), 'wrong tensor shape');
 }
 
@@ -147,7 +147,7 @@ fn reduce_output_shape(input_shape: Span<usize>, axis: usize) -> Span<usize> {
 ///
 /// # Arguments
 /// * `input_shape` - A span containing the input tensor's shape as usize elements.
-/// * `axes` - A reference-counted Array of usize elements representing the axes permutation.
+/// * `axes` -  A span containing the usize elements representing the axes permutation.
 ///
 /// # Panics
 /// * Panics if shape and axes length are not equal.
@@ -156,7 +156,7 @@ fn reduce_output_shape(input_shape: Span<usize>, axis: usize) -> Span<usize> {
 ///
 /// # Returns
 /// * A Span of usize representing the output shape after permutation.
-fn permutation_output_shape(input_shape: Span<usize>, axes: @Array<usize>) -> Span<usize> {
+fn permutation_output_shape(input_shape: Span<usize>, axes: Span<usize>) -> Span<usize> {
     assert(input_shape.len() == axes.len(), 'input_shape/indices len unequal');
 
     let mut output_shape = ArrayTrait::new();
@@ -220,7 +220,7 @@ fn combine_indices(output_indices: Span<usize>, axis_index: usize, axis: usize) 
 /// Helper function that finds the index of a target axis in the given axes array.
 ///
 /// # Arguments
-/// * `axes` - A reference-counted Array of usize elements representing the axes.
+/// * `axes` -  A span containing the usize elements representing the axes.
 /// * `target_axis` - A usize representing the target axis.
 ///
 /// # Panics
@@ -229,7 +229,7 @@ fn combine_indices(output_indices: Span<usize>, axis_index: usize, axis: usize) 
 ///
 /// # Returns
 /// * A usize representing the index of the target axis in the given axes array.
-fn find_axis(axes: @Array<usize>, target_axis: usize) -> usize {
+fn find_axis(axes: Span <usize>, target_axis: usize) -> usize {
     assert(target_axis < axes.len(), 'target_axis is out of range');
 
     let mut axis: usize = 0;

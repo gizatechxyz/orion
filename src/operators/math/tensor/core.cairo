@@ -10,10 +10,10 @@ use onnx_cairo::operators::math::tensor::helpers::check_shape;
 ///
 /// # Struct fields
 /// * `shape` - A span containing the shape of the tensor as usize elements.
-/// * `data` - A reference Array of data elements of generic type T.
+/// * `data` - A span containing the data elements of generic type T.
 struct Tensor<T> {
     shape: Span<usize>,
-    data: @Array<T>
+    data: Span<T>
 }
 
 impl TensorCopy<T> of Copy<Tensor<T>>;
@@ -34,7 +34,7 @@ impl TensorDrop<T> of Drop<Tensor<T>>;
 /// * `reduce_sum` - Reduces the tensor by summing along the specified axis.
 /// * `argmax` - Returns the index of the maximum value along the specified axis.
 trait TensorTrait<T> {
-    fn new(shape: Span<usize>, data: @Array<T>) -> Tensor<T>;
+    fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
     fn at(self: @Tensor<T>, indices: Span<usize>) -> T;
     fn min(self: @Tensor<T>) -> T;
     fn max(self: @Tensor<T>) -> T;
@@ -42,7 +42,7 @@ trait TensorTrait<T> {
     fn ravel_index(self: @Tensor<T>, indices: Span<usize>) -> usize;
     fn unravel_index(self: @Tensor<T>, index: usize) -> Span<usize>;
     fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
-    fn transpose(self: @Tensor<T>, axes: @Array<usize>) -> Tensor<T>;
+    fn transpose(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T>;
     fn reduce_sum(self: @Tensor<T>, axis: usize) -> Tensor<T>;
     fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
 }
@@ -51,14 +51,14 @@ trait TensorTrait<T> {
 ///
 /// # Arguments
 /// * `shape` - A span containing the shape of the tensor as usize elements.
-/// * `data` - A reference-counted Array of data elements of type T.
+/// * `data` -  A span containing the data elements of type T.
 ///
 /// # Panics
 /// * Panics if the shape and data length are incompatible.
 ///
 /// # Returns
 /// * A new Tensor with the specified shape and data.
-fn new_tensor<T>(shape: Span<usize>, data: @Array<T>) -> Tensor<T> {
+fn new_tensor<T>(shape: Span<usize>, data: Span<T>) -> Tensor<T> {
     check_shape::<T>(shape, data);
     Tensor::<T> { shape, data }
 }
