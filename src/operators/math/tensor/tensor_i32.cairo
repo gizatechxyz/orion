@@ -29,14 +29,14 @@ impl i32Tensor of TensorTrait<i32> {
     ///
     /// # Arguments
     /// * `shape` - A span representing the shape of the tensor.
-    /// * `data` - A reference-counted array of i32 elements.
+    /// * `data` -  A span containing the array of i32 elements.
     ///
     /// # Panics
     /// * Panics if the shape and data length are incompatible.
     ///
     /// # Returns
     /// * A new `Tensor<i32>` instance.
-    fn new(shape: Span<usize>, data: @Array<i32>) -> Tensor<i32> {
+    fn new(shape: Span<usize>, data: Span<i32>) -> Tensor<i32> {
         new_tensor(shape, data)
     }
 
@@ -181,7 +181,7 @@ impl i32Tensor of TensorTrait<i32> {
     ///
     /// # Arguments
     /// * `self` - The input tensor.
-    /// * `axes` - A reference-counted array representing the order in which the axes should be transposed.
+    /// * `axes` -  A span containing the array representing the order in which the axes should be transposed.
     ///
     /// # Panics
     /// * Panics if the length of the axes array is not equal to the rank of the input tensor.
@@ -189,7 +189,7 @@ impl i32Tensor of TensorTrait<i32> {
     ///
     /// # Returns
     /// * A new `Tensor<i32>` instance with the axes transposed according to the specified order.
-    fn transpose(self: @Tensor<i32>, axes: @Array<usize>) -> Tensor<i32> {
+    fn transpose(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
         i32_transpose(self, axes)
     }
 }
@@ -274,27 +274,27 @@ fn i32_at_tensor(self: @Tensor<i32>, indices: Span<usize>) -> i32 {
 /// Finds the minimum value in a `Tensor<i32>` array.
 ///
 /// # Arguments
-/// * `vec` - A reference-counted Array of i32 elements.
+/// * `vec` -  A span containing the data array of i32 elements.
 ///
 /// # Panics
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
 /// * An i32 value representing the minimum value in the array.
-fn i32_min_tensor(vec: @Array::<i32>) -> i32 {
+fn i32_min_tensor(mut vec: Span::<i32>) -> i32 {
     let mut min_value: i32 = IntegerTrait::new(2147483647_u32, false);
 
-    let mut i: usize = 0;
     loop {
         check_gas();
 
-        let check_min = min_value.min(*vec.at(i));
+        let current_value = *vec.pop_front().unwrap();
+
+        let check_min = min_value.min(current_value);
         if (min_value > check_min) {
             min_value = check_min;
         }
 
-        i += 1;
-        if i == vec.len() {
+        if vec.len() == 0 {
             break ();
         };
     };
@@ -305,34 +305,33 @@ fn i32_min_tensor(vec: @Array::<i32>) -> i32 {
 /// Finds the maximum value in a `Tensor<i32>` array.
 ///
 /// # Arguments
-/// * `vec` - A reference-counted Array of i32 elements.
+/// * `vec` -  A span containing the data array of i32 elements.
 ///
 /// # Panics
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
 /// * An i32 value representing the maximum value in the array.
-fn i32_max_tensor(vec: @Array::<i32>) -> i32 {
+fn i32_max_tensor(mut vec: Span::<i32>) -> i32 {
     let mut max_value: i32 = IntegerTrait::new(0_u32, false);
 
-    let mut i: usize = 0;
     loop {
         check_gas();
 
-        let check_max = max_value.max(*vec.at(i));
+        let current_value = *vec.pop_front().unwrap();
+
+        let check_max = max_value.max(current_value);
         if (max_value < check_max) {
             max_value = check_max;
         }
 
-        i += 1;
-        if i == vec.len() {
+        if vec.len() == 0 {
             break ();
         };
     };
 
     return max_value;
 }
-
 
 // --- BROADCAST OPERATIONS ---
 
@@ -370,7 +369,7 @@ fn i32_add_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         };
     };
 
-    return TensorTrait::<i32>::new(*self.shape, @result);
+    return TensorTrait::<i32>::new(*self.shape, result.span());
 }
 
 /// Subtracts two `Tensor<i32>` instances element-wise with broadcasting.
@@ -407,7 +406,7 @@ fn i32_sub_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         };
     };
 
-    return TensorTrait::<i32>::new(*self.shape, @result);
+    return TensorTrait::<i32>::new(*self.shape, result.span());
 }
 
 /// Multiplies two `Tensor<i32>` instances element-wise with broadcasting.
@@ -444,7 +443,7 @@ fn i32_mul_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         };
     };
 
-    return TensorTrait::<i32>::new(*self.shape, @result);
+    return TensorTrait::<i32>::new(*self.shape, result.span());
 }
 
 /// Divides two `Tensor<i32>` instances element-wise with broadcasting.
@@ -481,7 +480,7 @@ fn i32_div_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         };
     };
 
-    return TensorTrait::<i32>::new(*self.shape, @result);
+    return TensorTrait::<i32>::new(*self.shape, result.span());
 }
 
 /// --- REDUCE OPERATIONS ---
@@ -520,7 +519,7 @@ fn i32_reduce_sum(self: @Tensor<i32>, axis: usize) -> Tensor<i32> {
         };
     };
 
-    return TensorTrait::<i32>::new(output_shape, @output_data);
+    return TensorTrait::<i32>::new(output_shape, output_data.span());
 }
 
 /// Helper function that accumulates the sum of elements along a specific axis.
@@ -595,7 +594,7 @@ fn i32_argmax(self: @Tensor<i32>, axis: usize) -> Tensor<usize> {
         };
     };
 
-    return TensorTrait::<usize>::new(output_shape, @output_data);
+    return TensorTrait::<usize>::new(output_shape, output_data.span());
 }
 
 /// Recursive helper function that finds the index of the maximum value along a specific axis.
@@ -646,7 +645,7 @@ fn find_argmax(
 ///
 /// # Arguments
 /// * `self` - The input tensor.
-/// * `axes` - A reference-counted Array of usize elements representing the axes permutation.
+/// * `axes` -  A span containing the usize elements representing the axes permutation.
 ///
 /// # Panics
 /// * Panics if the length of the axes array is not equal to the rank of the input tensor.
@@ -654,7 +653,7 @@ fn find_argmax(
 ///
 /// # Returns
 /// * A `Tensor<i32>` instance with the axes reordered according to the given permutation.
-fn i32_transpose(self: @Tensor<i32>, axes: @Array<usize>) -> Tensor<i32> {
+fn i32_transpose(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
     assert(axes.len() == (*self.shape).len(), 'shape and axes length unequal');
 
     let output_shape = permutation_output_shape(*self.shape, axes);
@@ -691,5 +690,5 @@ fn i32_transpose(self: @Tensor<i32>, axes: @Array<usize>) -> Tensor<i32> {
         output_index += 1;
     };
 
-    return TensorTrait::<i32>::new(output_shape, @output_data);
+    return TensorTrait::<i32>::new(output_shape, output_data.span());
 }
