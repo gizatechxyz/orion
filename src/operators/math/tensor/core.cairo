@@ -97,19 +97,19 @@ fn ravel_index(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
     raveled_index
 }
 
-// /// Converts a one-dimensional index to a multi-dimensional index for a tensor with the given shape.
-// ///
-// /// # Arguments
-// /// * `index` - A usize representing the one-dimensional index.
-// /// * `shape` - A span containing the shape of the tensor as usize elements.
-// ///
-// /// # Panics
-// /// * Panics if the index is out of bounds for the given shape.
-// /// * Panics if shape is empty.
-// /// * Panics if gas limit is exceeded during execution.
-// ///
-// /// # Returns
-// /// * A Span of usize representing the multi-dimensional index.
+/// Converts a one-dimensional index to a multi-dimensional index for a tensor with the given shape.
+///
+/// # Arguments
+/// * `index` - A usize representing the one-dimensional index.
+/// * `shape` - A span containing the shape of the tensor as usize elements.
+///
+/// # Panics
+/// * Panics if the index is out of bounds for the given shape.
+/// * Panics if shape is empty.
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * A Span of usize representing the multi-dimensional index.
 fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
     assert(shape.len() > 0, 'shape cannot be empty');
 
