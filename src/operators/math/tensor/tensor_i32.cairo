@@ -281,20 +281,20 @@ fn i32_at_tensor(self: @Tensor<i32>, indices: Span<usize>) -> i32 {
 ///
 /// # Returns
 /// * An i32 value representing the minimum value in the array.
-fn i32_min_tensor(vec: Span::<i32>) -> i32 {
+fn i32_min_tensor(mut vec: Span::<i32>) -> i32 {
     let mut min_value: i32 = IntegerTrait::new(2147483647_u32, false);
 
-    let mut i: usize = 0;
     loop {
         check_gas();
 
-        let check_min = min_value.min(*vec.at(i));
+        let current_value = *vec.pop_front().unwrap();
+
+        let check_min = min_value.min(current_value);
         if (min_value > check_min) {
             min_value = check_min;
         }
 
-        i += 1;
-        if i == vec.len() {
+        if vec.len() == 0 {
             break ();
         };
     };
@@ -312,27 +312,26 @@ fn i32_min_tensor(vec: Span::<i32>) -> i32 {
 ///
 /// # Returns
 /// * An i32 value representing the maximum value in the array.
-fn i32_max_tensor(vec: Span::<i32>) -> i32 {
+fn i32_max_tensor(mut vec: Span::<i32>) -> i32 {
     let mut max_value: i32 = IntegerTrait::new(0_u32, false);
 
-    let mut i: usize = 0;
     loop {
         check_gas();
 
-        let check_max = max_value.max(*vec.at(i));
+        let current_value = *vec.pop_front().unwrap();
+
+        let check_max = max_value.max(current_value);
         if (max_value < check_max) {
             max_value = check_max;
         }
 
-        i += 1;
-        if i == vec.len() {
+        if vec.len() == 0 {
             break ();
         };
     };
 
     return max_value;
 }
-
 
 // --- BROADCAST OPERATIONS ---
 

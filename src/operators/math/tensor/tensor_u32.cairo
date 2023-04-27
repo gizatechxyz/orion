@@ -278,19 +278,18 @@ fn u32_at_tensor(self: @Tensor<u32>, indices: Span<usize>) -> u32 {
 ///
 /// # Returns
 /// * An u32 value representing the minimum value in the array.
-fn u32_min_tensor(vec: Span::<u32>) -> u32 {
+fn u32_min_tensor(mut vec: Span::<u32>) -> u32 {
     let mut min_value = 4294967295_u32;
-
-    let mut i: usize = 0;
     loop {
         check_gas();
 
-        if (min_value > *vec.at(i)) {
-            min_value = *vec.at(i);
+        let current_value = *vec.pop_front().unwrap();
+
+        if (min_value > current_value) {
+            min_value = current_value;
         }
 
-        i += 1;
-        if i == vec.len() {
+        if vec.len() == 0 {
             break ();
         };
     };
@@ -308,18 +307,18 @@ fn u32_min_tensor(vec: Span::<u32>) -> u32 {
 ///
 /// # Returns
 /// * An u32 value representing the maximum value in the array.
-fn u32_max_tensor(vec: Span::<u32>) -> u32 {
+fn u32_max_tensor(mut vec: Span::<u32>) -> u32 {
     let mut max_value = 0_u32;
-    let mut i: usize = 0;
     loop {
         check_gas();
 
-        if (max_value < *vec.at(i)) {
-            max_value = *vec.at(i);
+        let current_value = *vec.pop_front().unwrap();
+
+        if (max_value < current_value) {
+            max_value = current_value;
         }
 
-        i += 1;
-        if i == vec.len() {
+        if vec.len() == 0 {
             break ();
         };
     };

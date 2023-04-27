@@ -75,85 +75,61 @@ fn new_tensor<T>(shape: Span<usize>, data: Span<T>) -> Tensor<T> {
 ///
 /// # Returns
 /// * A usize representing the one-dimensional index.
-fn ravel_index(shape: Span<usize>, indices: Span<usize>) -> usize {
+fn ravel_index(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
     assert(shape.len() == indices.len(), 'shape & indices length unequal');
 
     let mut raveled_index: usize = 0;
+    let mut stride: usize = 1;
 
-    let mut current_dim: usize = 0;
     loop {
         check_gas();
 
-        let mut first_dim_elements = 1;
-        let mut n: usize = current_dim + 1;
-        loop {
-            check_gas();
-
-            if n == shape.len() {
-                break ();
-            }
-
-            first_dim_elements *= *shape.at(n);
-            n += 1;
-        };
-
-        let index = *indices.at(current_dim) * first_dim_elements;
-        raveled_index += index;
-
-        current_dim += 1;
-        if current_dim == shape.len() {
+        if shape.len() == 0 {
             break ();
-        };
+        }
+
+        let index = *indices.pop_back().unwrap();
+        raveled_index += index * stride;
+
+        stride *= *shape.pop_back().unwrap();
     };
 
     raveled_index
 }
 
-/// Converts a one-dimensional index to a multi-dimensional index for a tensor with the given shape.
-///
-/// # Arguments
-/// * `index` - A usize representing the one-dimensional index.
-/// * `shape` - A span containing the shape of the tensor as usize elements.
-///
-/// # Panics
-/// * Panics if the index is out of bounds for the given shape.
-/// * Panics if shape is empty.
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A Span of usize representing the multi-dimensional index.
-fn unravel_index(index: usize, shape: Span<usize>) -> Span<usize> {
+// /// Converts a one-dimensional index to a multi-dimensional index for a tensor with the given shape.
+// ///
+// /// # Arguments
+// /// * `index` - A usize representing the one-dimensional index.
+// /// * `shape` - A span containing the shape of the tensor as usize elements.
+// ///
+// /// # Panics
+// /// * Panics if the index is out of bounds for the given shape.
+// /// * Panics if shape is empty.
+// /// * Panics if gas limit is exceeded during execution.
+// ///
+// /// # Returns
+// /// * A Span of usize representing the multi-dimensional index.
+fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
     assert(shape.len() > 0, 'shape cannot be empty');
 
     let mut result = ArrayTrait::new();
     let mut remainder = index;
+    let mut stride = len_from_shape(shape);
 
-    let mut current_dim: usize = 0;
     loop {
         check_gas();
 
-        let mut first_dim_elements = 1;
-        let mut n: usize = current_dim + 1;
-        loop {
-            check_gas();
+        if shape.len() == 0 {
+            break ();
+        }
 
-            if n == shape.len() {
-                break ();
-            }
+        stride /= *shape.pop_front().unwrap();
 
-            first_dim_elements *= *shape.at(n);
-            n += 1;
-        };
-
-        let coord = remainder / first_dim_elements;
-        remainder = remainder % first_dim_elements;
+        let coord = remainder / stride;
+        remainder = remainder % stride;
 
         result.append(coord);
-
-        current_dim += 1;
-        if current_dim >= shape.len() {
-            break ();
-        };
     };
 
     return result.span();
@@ -170,28 +146,25 @@ fn unravel_index(index: usize, shape: Span<usize>) -> Span<usize> {
 ///
 /// # Returns
 /// * A Span of usize containing the stride for each dimension.
-fn stride(shape: Span<usize>) -> Span<usize> {
-    assert(shape.len() > 0, 'shape cannot be empty');
+fn stride(mut shape: Span<usize>) -> Span<usize> {
+    let shape_len = shape.len();
+    assert(shape_len > 0, 'shape cannot be empty');
 
     let mut result: Array<usize> = ArrayTrait::new();
-
     let mut accumulated: usize = 1;
-
     let mut temp_result = ArrayTrait::new();
-    let mut n: usize = shape.len() - 1;
     loop {
         check_gas();
 
         temp_result.append(accumulated);
 
-        if n == 0 {
+        if shape.len() == 0 {
             break ();
         }
-        accumulated *= *shape.at(n);
-        n -= 1;
+        accumulated *= *shape.pop_back().unwrap();
     };
 
-    let mut i: usize = shape.len() - 1;
+    let mut i: usize = shape_len - 1;
     loop {
         check_gas();
 
