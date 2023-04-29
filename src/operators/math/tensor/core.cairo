@@ -33,6 +33,7 @@ impl TensorDrop<T> of Drop<Tensor<T>>;
 /// * `transpose` - Returns a new tensor with the axes rearranged according to the given array.
 /// * `reduce_sum` - Reduces the tensor by summing along the specified axis.
 /// * `argmax` - Returns the index of the maximum value along the specified axis.
+/// * `matmul` - Performs matrix multiplication.
 trait TensorTrait<T> {
     fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
     fn at(self: @Tensor<T>, indices: Span<usize>) -> T;
