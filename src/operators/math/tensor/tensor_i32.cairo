@@ -783,7 +783,7 @@ fn i32_matmul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
 ///
 /// # Returns
 /// * An i32 representing the dot product of the two vectors.
-fn i32_dot_product(vec1: Span<i32>, vec2: Span<i32>) -> i32 {
+fn i32_dot_product(mut vec1: Span<i32>, mut vec2: Span<i32>) -> i32 {
     assert(vec1.len() == vec2.len(), 'vector lengths do not match');
 
     let mut result: i32 = IntegerTrait::new(0, false);
@@ -792,13 +792,12 @@ fn i32_dot_product(vec1: Span<i32>, vec2: Span<i32>) -> i32 {
 
     loop {
         check_gas();
-        if idx >= vec_len {
+        if vec1.len() == 0 {
             break ();
         }
 
-        let element_product = *vec1.at(idx) * *vec2.at(idx);
+        let element_product = *vec1.pop_front().unwrap() * *vec2.pop_front().unwrap();
         result += element_product;
-        idx += 1;
     };
 
     return result;

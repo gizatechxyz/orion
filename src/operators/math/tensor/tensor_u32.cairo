@@ -774,7 +774,7 @@ fn u32_matmul(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 ///
 /// # Returns
 /// * An u32 representing the dot product of the two vectors.
-fn u32_dot_product(vec1: Span<u32>, vec2: Span<u32>) -> u32 {
+fn u32_dot_product(mut vec1: Span<u32>, mut vec2: Span<u32>) -> u32 {
     assert(vec1.len() == vec2.len(), 'vector lengths do not match');
 
     let mut result: u32 = 0;
@@ -783,11 +783,11 @@ fn u32_dot_product(vec1: Span<u32>, vec2: Span<u32>) -> u32 {
 
     loop {
         check_gas();
-        if idx >= vec_len {
+        if vec1.len() == 0 {
             break ();
         }
 
-        let element_product = *vec1.at(idx) * *vec2.at(idx);
+        let element_product = *vec1.pop_front().unwrap() * *vec2.pop_front().unwrap();
         result += element_product;
         idx += 1;
     };
