@@ -753,13 +753,13 @@ fn u32_matmul(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 
     let (self_shape, other_shape) = prepare_shapes_for_matmul(self_shape, other_shape);
 
-    let (result_data, result_shape) = u32_matrix_multiply(
+    let result = u32_matrix_multiply(
         *self.data, self_shape, *other.data, other_shape
     );
 
-    let result_shape = adjust_output_shape_after_matmul(result_shape, self_ndim, other_ndim);
+    let result_shape = adjust_output_shape_after_matmul(result.shape, self_ndim, other_ndim);
 
-    return TensorTrait::<u32>::new(result_shape, result_data);
+    return TensorTrait::<u32>::new(result_shape, result.data);
 }
 
 /// Computes the dot product of two 1-dimensional u32 tensors.
@@ -809,12 +809,10 @@ fn u32_dot_product(mut vec1: Span<u32>, mut vec2: Span<u32>) -> u32 {
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
-/// * A Tuple with two elements:
-///   * A new Array containing the data elements of the resulting matrix as u32 elements.
-///   * A new Array containing the shape of the resulting matrix as usize elements.
+/// * Returns the restulting u32 tensor.
 fn u32_matrix_multiply(
     mat1: Span<u32>, mat1_shape: Span<usize>, mat2: Span<u32>, mat2_shape: Span<usize>
-) -> (Span<u32>, Span<usize>) {
+) -> Tensor<u32> {
     let m = *mat1_shape.at(0);
     let n = *mat1_shape.at(1);
     let p = *mat2_shape.at(1);
@@ -860,5 +858,5 @@ fn u32_matrix_multiply(
         i += 1;
     };
 
-    return (result_data.span(), result_shape.span());
+    return TensorTrait::new(result_shape.span(), result_data.span());
 }
