@@ -248,11 +248,12 @@ fn find_axis(mut axes: Span<usize>, target_axis: usize) -> usize {
     return axis;
 }
 
-/// Prepares the shapes of two tensors for matrix multiplication.
+/// Prepares the shape of a tensor for matrix multiplication.
 ///
 /// # Arguments
-/// * `self_shape` - A mutable span representing the shape of the first tensor.
-/// * `other_shape` - A mutable span representing the shape of the second tensor.
+/// * `shape` - A mutable span representing the shape of the tensor.
+/// * `is_first_tensor` - A boolean indicating whether the input tensor is the first (left) 
+///   tensor in the matrix multiplication operation.
 ///
 /// # Behavior
 /// This function adjusts the shapes of the tensors based on their dimensionality:
@@ -263,42 +264,41 @@ fn find_axis(mut axes: Span<usize>, target_axis: usize) -> usize {
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
-/// * A tuple of two spans representing the adjusted shapes of the input tensors.
-fn prepare_shapes_for_matmul(
-    mut self_shape: Span<usize>, mut other_shape: Span<usize>
-) -> (Span<usize>, Span<usize>) {
-    let self_ndim = self_shape.len();
-    let other_ndim = other_shape.len();
+/// * A span representing the adjusted shape of the tensor.
+fn prepare_shape_for_matmul(
+    mut shape: Span<usize>, is_first_tensor: bool
+) -> Span<usize> {
+    let ndim = shape.len();
 
-    if self_ndim == 1 {
-        // Prepend 1 to self_shape if it's 1-dimensional
-        let mut self_shape_adjusted = ArrayTrait::new();
-        self_shape_adjusted.append(1);
+    if ndim == 1 & is_first_tensor {
+        // Prepend 1 to shape if it's 1-dimensional
+        let mut shape_adjusted = ArrayTrait::new();
+        shape_adjusted.append(1);
         loop {
             check_gas();
-            if self_shape.len() == 0 {
+            if shape.len() == 0 {
                 break ();
             }
-            self_shape_adjusted.append(*self_shape.pop_front().unwrap());
+            shape_adjusted.append(*shape.pop_front().unwrap());
         };
 
-        return (self_shape_adjusted.span(), other_shape);
-    } else if other_ndim == 1 {
-        // Append 1 to other_shape if it's 1-dimensional
-        let mut other_shape_adjusted = ArrayTrait::new();
+        return shape_adjusted.span();
+    } else if ndim == 1 & !is_first_tensor {
+        // Append 1 to shape if it's 1-dimensional
+        let mut shape_adjusted = ArrayTrait::new();
         loop {
             check_gas();
-            if other_shape.len() == 0 {
+            if shape.len() == 0 {
                 break ();
             }
-            other_shape_adjusted.append(*other_shape.pop_front().unwrap());
+            shape_adjusted.append(*shape.pop_front().unwrap());
         };
-        other_shape_adjusted.append(1);
+        shape_adjusted.append(1);
 
-        return (self_shape, other_shape_adjusted.span());
+        return shape_adjusted.span();
     }
 
-    return (self_shape, other_shape);
+    return shape;
 }
 
 /// Adjusts the output shape of the matrix multiplication result based on the

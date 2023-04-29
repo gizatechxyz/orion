@@ -588,7 +588,7 @@ fn tensor_transpose_3D() {
 #[test]
 #[available_gas(200000000)]
 fn tensor_matmul() {
-    //! Case 1: Dot product (1D x 1D)
+    //! Case: Dot product (1D x 1D)
     let tensor_1 = i32_tensor_1x3_helper();
     let tensor_2 = i32_tensor_1x3_helper();
 
@@ -597,7 +597,7 @@ fn tensor_matmul() {
     assert(result.data.len() == 1, 'data len is 1');
     assert(result.shape.len() == 1, 'shape len is 1');
 
-    //! Case 2: Matrix multiplication (2D x 2D)
+    //! Case: Matrix multiplication (2D x 2D)
     let tensor_1 = i32_tensor_2x2_helper();
     let tensor_2 = i32_tensor_2x2_helper();
 
@@ -608,8 +608,12 @@ fn tensor_matmul() {
     assert(*result.data.at(3).mag == 11, 'result[3] = 11');
     assert(result.data.len() == 4, 'data len is 4');
     assert(result.shape.len() == 2, 'shape len is 2');
+}
 
-    //! Case 3: Matrix-Vector multiplication (2D x 1D)
+#[test]
+#[available_gas(200000000)]
+fn tensor_matmul_with_matrix_vec() {
+    //! Case: Matrix-Vector multiplication (2D x 1D)
     let tensor_1 = i32_tensor_3x3_helper();
     let tensor_2 = i32_tensor_1x3_helper();
 
@@ -620,7 +624,7 @@ fn tensor_matmul() {
     assert(result.data.len() == 3, 'data len is 3');
     assert(result.shape.len() == 1, 'shape len is 1');
 
-    //! Case 4: Matrix-Vector multiplication (1D x 2D)
+    //! Case: Matrix-Vector multiplication (1D x 2D)
     let tensor_1 = i32_tensor_1x3_helper();
     let tensor_2 = i32_tensor_3x3_helper();
 

@@ -21,7 +21,7 @@ use onnx_cairo::operators::math::tensor::helpers::len_from_shape;
 use onnx_cairo::operators::math::tensor::helpers::combine_indices;
 use onnx_cairo::operators::math::tensor::helpers::find_axis;
 use onnx_cairo::operators::math::tensor::helpers::permutation_output_shape;
-use onnx_cairo::operators::math::tensor::helpers::prepare_shapes_for_matmul;
+use onnx_cairo::operators::math::tensor::helpers::prepare_shape_for_matmul;
 use onnx_cairo::operators::math::tensor::helpers::adjust_output_shape_after_matmul;
 
 use onnx_cairo::operators::math::tensor::tensor_u32;
@@ -760,11 +760,10 @@ fn i32_matmul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         return TensorTrait::new(result_shape.span(), result_data.span());
     }
 
-    let (self_shape, other_shape) = prepare_shapes_for_matmul(self_shape, other_shape);
+    let self_shape = prepare_shape_for_matmul(self_shape, true);
+    let other_shape = prepare_shape_for_matmul(other_shape, false);
 
-    let result = i32_matrix_multiply(
-        *self.data, self_shape, *other.data, other_shape
-    );
+    let result = i32_matrix_multiply(*self.data, self_shape, *other.data, other_shape);
 
     let result_shape = adjust_output_shape_after_matmul(result.shape, self_ndim, other_ndim);
 
