@@ -692,3 +692,187 @@ fn i32_transpose(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
 
     return TensorTrait::<i32>::new(output_shape, output_data.span());
 }
+
+use debug::print_felt252;
+
+fn matmul(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
+    let self_shape = self.shape;
+    let other_shape = other.shape;
+    let self_ndim = self_shape.len();
+    let other_ndim = other_shape.len();
+
+    //! Case: Both tensors are 1-dimensional
+    if self_ndim == 1 & other_ndim == 1 {
+        let dot = dot_product(self.data, other.data);
+        let mut result_shape = ArrayTrait::new();
+        let mut result_data = ArrayTrait::new();
+        result_shape.append(1);
+        result_data.append(dot);
+        return TensorTrait::new(result_shape.span(), result_data.span());
+    }
+
+    let (self_shape, other_shape) = prepare_shapes_for_matmul(self_shape, other_shape);
+
+    let (result_data, result_shape) = matrix_multiply(
+        self.data, self_shape, other.data, other_shape
+    );
+
+    let result_shape = adjust_output_shape_after_matmul(result_shape, self_ndim, other_ndim);
+
+    return TensorTrait::<i32>::new(result_shape, result_data);
+}
+
+/// Computes the dot product of two 1-dimensional tensors.
+///
+/// # Arguments
+/// * `vec1` - A span containing the data elements of the first vector as i32 elements.
+/// * `vec2` - A span containing the data elements of the second vector as i32 elements.
+///
+/// # Panics
+/// * Panics if the lengths of the vectors do not match.
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * An i32 representing the dot product of the two vectors.
+fn dot_product(vec1: Span<i32>, vec2: Span<i32>) -> i32 {
+    assert(vec1.len() == vec2.len(), 'vector lengths do not match');
+
+    let mut result: i32 = IntegerTrait::new(0, false);
+    let vec_len = vec1.len();
+    let mut idx: usize = 0;
+
+    loop {
+        check_gas();
+        if idx >= vec_len {
+            break ();
+        }
+
+        let element_product = *vec1.at(idx) * *vec2.at(idx);
+        result += element_product;
+        idx += 1;
+    };
+
+    return result;
+}
+
+
+/// Computes the matrix multiplication of two 2-dimensional tensors.
+///
+/// # Arguments
+/// * `mat1` - A Span containing the data elements of the first matrix as i32 elements.
+/// * `mat1_shape` - A Span containing the shape of the first matrix as usize elements.
+/// * `mat2` - A Span containing the data elements of the second matrix as i32 elements.
+/// * `mat2_shape` - A Span containing the shape of the second matrix as usize elements.
+///
+/// # Panics
+/// * Panics if the inner dimensions of the matrices do not match.
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * A Tuple with two elements:
+///   * A new Array containing the data elements of the resulting matrix as i32 elements.
+///   * A new Array containing the shape of the resulting matrix as usize elements.
+fn matrix_multiply(
+    mat1: Span<i32>, mat1_shape: Span<usize>, mat2: Span<i32>, mat2_shape: Span<usize>
+) -> (Span<i32>, Span<usize>) {
+    let m = *mat1_shape.at(0);
+    let n = *mat1_shape.at(1);
+    let p = *mat2_shape.at(1);
+
+    let mut result_data = ArrayTrait::new();
+    let mut result_shape = ArrayTrait::new();
+    result_shape.append(m);
+    result_shape.append(p);
+
+    let mut i = 0_usize;
+    loop {
+        check_gas();
+        if i == m {
+            break ();
+        }
+
+        let mut j = 0_usize;
+        loop {
+            check_gas();
+            if j == p {
+                break ();
+            }
+
+            let mut sum: i32 = IntegerTrait::new(0, false);
+            let mut k = 0_usize;
+            loop {
+                check_gas();
+                if k == n {
+                    break ();
+                }
+
+                let mat1_index = i * n + k;
+                let mat2_index = k * p + j;
+                sum += *mat1.at(mat1_index) * *mat2.at(mat2_index);
+
+                k += 1;
+            };
+
+            result_data.append(sum);
+            j += 1;
+        };
+
+        i += 1;
+    };
+
+    return (result_data.span(), result_shape.span());
+}
+
+fn prepare_shapes_for_matmul(
+    mut self_shape: Span<usize>, mut other_shape: Span<usize>
+) -> (Span<usize>, Span<usize>) {
+    let self_ndim = self_shape.len();
+    let other_ndim = other_shape.len();
+
+    if self_ndim == 1 {
+        // Prepend 1 to self_shape if it's 1-dimensional
+        let mut self_shape_adjusted = ArrayTrait::new();
+        self_shape_adjusted.append(1);
+        loop {
+            check_gas();
+            if self_shape.len() == 0 {
+                break ();
+            }
+            self_shape_adjusted.append(*self_shape.pop_front().unwrap());
+        };
+
+        return (self_shape_adjusted.span(), other_shape);
+    } else if other_ndim == 1 {
+        // Append 1 to other_shape if it's 1-dimensional
+        let mut other_shape_adjusted = ArrayTrait::new();
+        loop {
+            check_gas();
+            if other_shape.len() == 0 {
+                break ();
+            }
+            other_shape_adjusted.append(*other_shape.pop_front().unwrap());
+        };
+        other_shape_adjusted.append(1);
+
+        return (self_shape, other_shape_adjusted.span());
+    }
+
+    return (self_shape, other_shape);
+}
+
+
+fn adjust_output_shape_after_matmul(
+    mut output_shape: Span<usize>, self_dim: usize, other_dim: usize
+) -> Span<usize> {
+    // If self_shape was 1-dimensional, remove the prepended 1 from the output_shape.
+    if self_dim == 1 {
+        let _ = output_shape.pop_front().unwrap();
+    }
+
+    // If other_shape was 1-dimensional, remove the appended 1 from the output_shape.
+    if other_dim == 1 {
+        let _ = output_shape.pop_back().unwrap();
+    }
+
+    return output_shape;
+}
