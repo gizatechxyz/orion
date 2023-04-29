@@ -23,7 +23,6 @@ use onnx_cairo::operators::math::tensor::helpers::find_axis;
 use onnx_cairo::operators::math::tensor::helpers::permutation_output_shape;
 use onnx_cairo::operators::math::tensor::helpers::prepare_shape_for_matmul;
 use onnx_cairo::operators::math::tensor::helpers::adjust_output_shape_after_matmul;
-
 use onnx_cairo::operators::math::tensor::tensor_u32;
 use onnx_cairo::utils::check_gas;
 

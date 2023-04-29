@@ -316,7 +316,6 @@ fn prepare_shape_for_matmul(
 ///
 /// # Returns
 /// * A span representing the adjusted output shape of the matrix multiplication result.
-
 fn adjust_output_shape_after_matmul(
     mut output_shape: Span<usize>, self_dim: usize, other_dim: usize
 ) -> Span<usize> {
