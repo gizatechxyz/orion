@@ -45,6 +45,7 @@ trait TensorTrait<T> {
     fn transpose(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T>;
     fn reduce_sum(self: @Tensor<T>, axis: usize) -> Tensor<T>;
     fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
+    fn matmul(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
 }
 
 /// Constructs a new tensor with the given shape and data array after checking compatibility.

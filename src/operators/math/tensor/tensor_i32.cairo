@@ -21,6 +21,9 @@ use onnx_cairo::operators::math::tensor::helpers::len_from_shape;
 use onnx_cairo::operators::math::tensor::helpers::combine_indices;
 use onnx_cairo::operators::math::tensor::helpers::find_axis;
 use onnx_cairo::operators::math::tensor::helpers::permutation_output_shape;
+use onnx_cairo::operators::math::tensor::helpers::prepare_shapes_for_matmul;
+use onnx_cairo::operators::math::tensor::helpers::adjust_output_shape_after_matmul;
+
 use onnx_cairo::operators::math::tensor::tensor_u32;
 use onnx_cairo::utils::check_gas;
 
@@ -191,6 +194,31 @@ impl i32Tensor of TensorTrait<i32> {
     /// * A new `Tensor<i32>` instance with the axes transposed according to the specified order.
     fn transpose(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
         i32_transpose(self, axes)
+    }
+
+    /// Performs matrix multiplication between two i32 tensors.
+    ///
+    /// # Arguments
+    /// * `self` - The first tensor.
+    /// * `other` - The second tensor.
+    ///
+    /// # Behavior
+    /// The behavior depends on the dimensionality of the tensors as follows:
+    /// * If both tensors are 1-dimensional, the dot product is returned.
+    /// * If both arguments are 2-dimensional, the matrix-matrix product is returned.
+    /// * If the first argument is 1-dimensional and the second argument is 2-dimensional,
+    ///   a 1 is prepended to its dimension for the purpose of the matrix multiply. After
+    ///   the matrix multiply, the prepended dimension is removed.
+    /// * If the first argument is 2-dimensional and the second argument is 1-dimensional,
+    ///   the matrix-vector product is returned.
+    ///
+    /// # Panics
+    /// * Panics if the dimension of the tensors is higher than two.
+    ///
+    /// # Returns
+    /// * A new `Tensor<i32>` resulting from the matrix multiplication.
+    fn matmul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
+        i32_matmul(self, other)
     }
 }
 
@@ -693,17 +721,38 @@ fn i32_transpose(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
     return TensorTrait::<i32>::new(output_shape, output_data.span());
 }
 
-use debug::print_felt252;
+/// Performs matrix multiplication between two i32 tensors.
+///
+/// # Arguments
+/// * `self` - The first tensor.
+/// * `other` - The second tensor.
+///
+/// # Behavior
+/// The behavior depends on the dimensionality of the tensors as follows:
+/// * If both tensors are 1-dimensional, the dot product is returned.
+/// * If both arguments are 2-dimensional, the matrix-matrix product is returned.
+/// * If the first argument is 1-dimensional and the second argument is 2-dimensional,
+///   a 1 is prepended to its dimension for the purpose of the matrix multiply. After
+///   the matrix multiply, the prepended dimension is removed.
+/// * If the first argument is 2-dimensional and the second argument is 1-dimensional,
+///   the matrix-vector product is returned.
+///
+/// # Panics
+/// * Panics if the dimension of the tensors is higher than two.
+///
+/// # Returns
+/// * A new `Tensor<i32>` resulting from the matrix multiplication.
+fn i32_matmul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
+    let self_shape = *self.shape;
+    let other_shape = *other.shape;
+    let self_ndim = (self_shape).len();
+    let other_ndim = (other_shape).len();
 
-fn matmul(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
-    let self_shape = self.shape;
-    let other_shape = other.shape;
-    let self_ndim = self_shape.len();
-    let other_ndim = other_shape.len();
+    assert(self_ndim <= 2 | other_ndim <= 2, 'supports only 1D and 2D matmul');
 
     //! Case: Both tensors are 1-dimensional
     if self_ndim == 1 & other_ndim == 1 {
-        let dot = dot_product(self.data, other.data);
+        let dot = i32_dot_product((*self).data, (*other).data);
         let mut result_shape = ArrayTrait::new();
         let mut result_data = ArrayTrait::new();
         result_shape.append(1);
@@ -713,8 +762,8 @@ fn matmul(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
 
     let (self_shape, other_shape) = prepare_shapes_for_matmul(self_shape, other_shape);
 
-    let (result_data, result_shape) = matrix_multiply(
-        self.data, self_shape, other.data, other_shape
+    let (result_data, result_shape) = i32_matrix_multiply(
+        *self.data, self_shape, *other.data, other_shape
     );
 
     let result_shape = adjust_output_shape_after_matmul(result_shape, self_ndim, other_ndim);
@@ -722,7 +771,7 @@ fn matmul(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
     return TensorTrait::<i32>::new(result_shape, result_data);
 }
 
-/// Computes the dot product of two 1-dimensional tensors.
+/// Computes the dot product of two 1-dimensional i32 tensors.
 ///
 /// # Arguments
 /// * `vec1` - A span containing the data elements of the first vector as i32 elements.
@@ -734,7 +783,7 @@ fn matmul(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
 ///
 /// # Returns
 /// * An i32 representing the dot product of the two vectors.
-fn dot_product(vec1: Span<i32>, vec2: Span<i32>) -> i32 {
+fn i32_dot_product(vec1: Span<i32>, vec2: Span<i32>) -> i32 {
     assert(vec1.len() == vec2.len(), 'vector lengths do not match');
 
     let mut result: i32 = IntegerTrait::new(0, false);
@@ -756,7 +805,7 @@ fn dot_product(vec1: Span<i32>, vec2: Span<i32>) -> i32 {
 }
 
 
-/// Computes the matrix multiplication of two 2-dimensional tensors.
+/// Computes the matrix multiplication of two 2-dimensional i32 tensors.
 ///
 /// # Arguments
 /// * `mat1` - A Span containing the data elements of the first matrix as i32 elements.
@@ -772,7 +821,7 @@ fn dot_product(vec1: Span<i32>, vec2: Span<i32>) -> i32 {
 /// * A Tuple with two elements:
 ///   * A new Array containing the data elements of the resulting matrix as i32 elements.
 ///   * A new Array containing the shape of the resulting matrix as usize elements.
-fn matrix_multiply(
+fn i32_matrix_multiply(
     mat1: Span<i32>, mat1_shape: Span<usize>, mat2: Span<i32>, mat2_shape: Span<usize>
 ) -> (Span<i32>, Span<usize>) {
     let m = *mat1_shape.at(0);
@@ -821,58 +870,4 @@ fn matrix_multiply(
     };
 
     return (result_data.span(), result_shape.span());
-}
-
-fn prepare_shapes_for_matmul(
-    mut self_shape: Span<usize>, mut other_shape: Span<usize>
-) -> (Span<usize>, Span<usize>) {
-    let self_ndim = self_shape.len();
-    let other_ndim = other_shape.len();
-
-    if self_ndim == 1 {
-        // Prepend 1 to self_shape if it's 1-dimensional
-        let mut self_shape_adjusted = ArrayTrait::new();
-        self_shape_adjusted.append(1);
-        loop {
-            check_gas();
-            if self_shape.len() == 0 {
-                break ();
-            }
-            self_shape_adjusted.append(*self_shape.pop_front().unwrap());
-        };
-
-        return (self_shape_adjusted.span(), other_shape);
-    } else if other_ndim == 1 {
-        // Append 1 to other_shape if it's 1-dimensional
-        let mut other_shape_adjusted = ArrayTrait::new();
-        loop {
-            check_gas();
-            if other_shape.len() == 0 {
-                break ();
-            }
-            other_shape_adjusted.append(*other_shape.pop_front().unwrap());
-        };
-        other_shape_adjusted.append(1);
-
-        return (self_shape, other_shape_adjusted.span());
-    }
-
-    return (self_shape, other_shape);
-}
-
-
-fn adjust_output_shape_after_matmul(
-    mut output_shape: Span<usize>, self_dim: usize, other_dim: usize
-) -> Span<usize> {
-    // If self_shape was 1-dimensional, remove the prepended 1 from the output_shape.
-    if self_dim == 1 {
-        let _ = output_shape.pop_front().unwrap();
-    }
-
-    // If other_shape was 1-dimensional, remove the appended 1 from the output_shape.
-    if other_dim == 1 {
-        let _ = output_shape.pop_back().unwrap();
-    }
-
-    return output_shape;
 }
