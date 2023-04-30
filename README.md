@@ -21,7 +21,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
+<<<<<<< HEAD
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/franalgaba"><img src="https://avatars.githubusercontent.com/u/24293857?v=4?s=100" width="100px;" alt="Fran Algaba"/><br /><sub><b>Fran Algaba</b></sub></a><br /><a href="https://github.com/franalgaba/onnx-cairo/commits?author=franalgaba" title="Code">💻</a></td>
+=======
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/raphaelDkhn"><img src="https://avatars.githubusercontent.com/u/113879115?v=4?s=100" width="100px;" alt="raphaelDkhn"/><br /><sub><b>raphaelDkhn</b></sub></a><br /><a href="https://github.com/franalgaba/onnx-cairo/commits?author=raphaelDkhn" title="Code">💻</a></td>
+>>>>>>> 5ed577ee73ec75254069836fbd76cac7e842816f
     </tr>
   </tbody>
 </table>
