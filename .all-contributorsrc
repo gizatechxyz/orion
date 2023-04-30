@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "franalgaba",
+      "name": "Fran Algaba",
+      "avatar_url": "https://avatars.githubusercontent.com/u/24293857?v=4",
+      "profile": "https://github.com/franalgaba",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "onnx-cairo",
+  "projectOwner": "franalgaba"
+}
