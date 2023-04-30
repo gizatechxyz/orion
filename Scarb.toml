@@ -1,0 +1,9 @@
+[package]
+name = "onnx_cairo"
+version = "0.0.1"
+description = "ONNX Runtime built in Cairo 1.0"
+homepage = "https://github.com/franalgaba/onnx-cairo"
+
+[scripts]
+sierra = "cairo-compile . -r"
+test = "cairo-test ."

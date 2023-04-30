@@ -7,8 +7,6 @@ In this repository you can find the new ONNX Runtime built using [Cairo](https:/
 ✨🚀 **New contributors are welcome to implement new ONNX Operators in Cairo 1.0!** 🌟💡
 
 ## 📚 How to use our docs
-
-You can check our official docs [here](https://giza-1.gitbook.io/onnx-cairo-runtime-main/).
  
 - ⚙️ **ONNX Cairo Runtime** includes our Getting Started guide, API Reference, and more advances features of the core like Tensor, Operators and OPtimizations.
 
@@ -18,7 +16,7 @@ You can check our official docs [here](https://giza-1.gitbook.io/onnx-cairo-runt
 
 ## 🌟 What's new
 
-For a detailed list of changes, please refer to the [CHANGELOG](./docs/CHANGELOG.md) file.
+For a detailed list of changes, please refer to the [CHANGELOG](./CHANGELOG.md) file.
 
 ## 🤝 Join the community!
 
@@ -32,7 +30,7 @@ For a full list of all authors and contributors, see [the contributors page](htt
 
 This project is licensed under the **MIT license**.
 
-See [LICENSE](LICENSE) for more information.
+See [LICENSE](../LICENSE) for more information.
 
 ## Contributors
 
