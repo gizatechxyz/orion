@@ -6,5 +6,6 @@ mod quantization_test;
 mod relu_test;
 mod vector_test;
 mod tensor_test;
+mod helpers;
 // mod softmax_test;
 

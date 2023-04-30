@@ -1,32 +1,35 @@
 use array::ArrayTrait;
+use array::SpanTrait;
 use traits::Into;
 use option::OptionTrait;
 
-use onnx_cairo::operators::math::matrix::Matrix;
-use onnx_cairo::operators::math::matrix::MatrixTrait;
 use onnx_cairo::operators::math::signed_integer::IntegerTrait;
 use onnx_cairo::operators::math::signed_integer::i32;
+use onnx_cairo::operators::math::tensor::core::Tensor;
+use onnx_cairo::operators::math::tensor::core::TensorTrait;
+use onnx_cairo::operators::math::tensor::tensor_i32;
 use onnx_cairo::utils::check_gas;
 
-fn relu(z: @Matrix) -> Matrix {
-    let mut arr = ArrayTrait::<i32>::new();
+fn relu(z: @Tensor<i32>) -> Tensor<i32> {
+    let mut data_result = ArrayTrait::<i32>::new();
+    let mut data = *z.data;
 
-    let mut index: usize = 0;
+    let zero = IntegerTrait::<i32>::new(0, false);
     loop {
         check_gas();
-        let val_0 = IntegerTrait::new(0, false);
 
-        if *z.data.at(index) > val_0 {
-            arr.append(*z.data.at(index));
-        } else {
-            arr.append(val_0);
-        }
-
-        index += 1;
-        if index == z.data.len() {
+        if data.len() == 0 {
             break ();
+        };
+
+        let current_index = *data.pop_front().unwrap();
+        if current_index > zero {
+            data_result.append(current_index);
+        } else {
+            data_result.append(zero);
         };
     };
 
-    MatrixTrait::new(*z.rows, *z.cols, arr)
+    return TensorTrait::<i32>::new(*z.shape, data_result.span());
 }
+
