@@ -2,7 +2,7 @@
 
 New contributors are welcome to implement new ONNX Operators in Cairo 1.0! To see the full list of operators available click [here](https://github.com/onnx/onnx/blob/main/docs/Operators.md).
 
-* Start by reading the [Engineering Design](https://onnxruntime.ai/docs/reference/high-level-design.html). More documentation can be found in the [repo docs folder](./docs/) and [on the repo wiki](https://github.com/microsoft/onnxruntime/wiki), as well as the user facing docs on the [ONNX Runtime website](https://onnxruntime.ai/docs).
+* Start by reading the [Engineering Design](https://onnxruntime.ai/docs/reference/high-level-design.html). More documentation can be found in the [repo docs folder](../) and [on the repo wiki](https://github.com/microsoft/onnxruntime/wiki), as well as the user facing docs on the [ONNX Runtime website](https://onnxruntime.ai/docs).
 
 * Read documentation about [Cairo](https://www.cairo-lang.org/resource-guide/) and the [context surrounding Cairo](https://perama-v.github.io/cairo/description/).
 

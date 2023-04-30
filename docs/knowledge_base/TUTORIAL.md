@@ -11,7 +11,7 @@ In this tutorial we will build a Neural Network using the ONNX Cairo 1.0 Runtime
 
 ## Setup
 
-Follow the steps defined in the section [Getting Started](./SETUP.md) for Cairo 1.0 setup instructions.
+Follow the steps defined in the section [Getting Started](../onnx_cairo_runtime/GETTING_STARTED.md) for Cairo 1.0 setup instructions.
 
 ## Building our Neural Network in Tensorflow
 

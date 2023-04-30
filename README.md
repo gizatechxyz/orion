@@ -8,6 +8,8 @@ In this repository you can find the new ONNX Runtime built using [Cairo](https:/
 
 ## 📚 How to use our docs
 
+You can check our official docs [here](https://giza-1.gitbook.io/onnx-cairo-runtime-main/).
+ 
 - ⚙️ **ONNX Cairo Runtime** includes our Getting Started guide, API Reference, and more advances features of the core like Tensor, Operators and OPtimizations.
 
 - 🧩 **Algorithms** is an open collection of algorithms implemented using the ONNX Cairo Runtime to be used by the community.
@@ -16,7 +18,7 @@ In this repository you can find the new ONNX Runtime built using [Cairo](https:/
 
 ## 🌟 What's new
 
-For a detailed list of changes, please refer to the [CHANGELOG.md](./docs/CHANGELOG.md) file.
+For a detailed list of changes, please refer to the [CHANGELOG](./docs/CHANGELOG.md) file.
 
 ## 🤝 Join the community!
 
@@ -24,7 +26,7 @@ Join the community and help build a safer and transparent AI in our [Discord](ht
 
 ## ✍️ Authors & contributors
 
-For a full list of all authors and contributors, see [the contributors page](https://github.com/stark-rocket/quaireaux/contributors).
+For a full list of all authors and contributors, see [the contributors page](https://github.com/franalgaba/onnx-cairo/graphs/contributors).
 
 ## License
 
