@@ -585,6 +585,72 @@ fn tensor_transpose_3D() {
     assert(*result.shape.at(2) == 2, 'shape[2] = 2');
 }
 
+#[test]
+#[available_gas(200000000)]
+fn tensor_matmul() {
+    //! Case: Dot product (1D x 1D)
+    let tensor_1 = i32_tensor_1x3_helper();
+    let tensor_2 = i32_tensor_1x3_helper();
+
+    let result = tensor_1.matmul(@tensor_2);
+    assert(*result.data.at(0).mag == 5, 'result[0] = 5');
+    assert(result.data.len() == 1, 'data len is 1');
+    assert(result.shape.len() == 1, 'shape len is 1');
+
+    //! Case: Matrix multiplication (2D x 2D)
+    let tensor_1 = i32_tensor_2x2_helper();
+    let tensor_2 = i32_tensor_2x2_helper();
+
+    let result = tensor_1.matmul(@tensor_2);
+    assert(*result.data.at(0).mag == 2, 'result[0] = 2');
+    assert(*result.data.at(1).mag == 3, 'result[1] = 3');
+    assert(*result.data.at(2).mag == 6, 'result[2] = 6');
+    assert(*result.data.at(3).mag == 11, 'result[3] = 11');
+    assert(result.data.len() == 4, 'data len is 4');
+    assert(result.shape.len() == 2, 'shape len is 2');
+}
+
+#[test]
+#[available_gas(200000000)]
+fn tensor_matmul_with_matrix_vec() {
+    //! Case: Matrix-Vector multiplication (2D x 1D)
+    let tensor_1 = i32_tensor_3x3_helper();
+    let tensor_2 = i32_tensor_1x3_helper();
+
+    let result = tensor_1.matmul(@tensor_2);
+    assert(*result.data.at(0).mag == 5, 'result[0] = 5');
+    assert(*result.data.at(1).mag == 14, 'result[1] = 14');
+    assert(*result.data.at(2).mag == 23, 'result[2] = 23');
+    assert(result.data.len() == 3, 'data len is 3');
+    assert(result.shape.len() == 1, 'shape len is 1');
+
+    //! Case: Matrix-Vector multiplication (1D x 2D)
+    let tensor_1 = i32_tensor_1x3_helper();
+    let tensor_2 = i32_tensor_3x3_helper();
+
+    let result = tensor_1.matmul(@tensor_2);
+    assert(*result.data.at(0).mag == 15, 'result[0] = 15');
+    assert(*result.data.at(1).mag == 18, 'result[1] = 18');
+    assert(*result.data.at(2).mag == 21, 'result[2] = 21');
+    assert(result.data.len() == 3, 'data len is 3');
+    assert(result.shape.len() == 1, 'shape len is 1');
+}
+
+// 1D - Helpers
+fn i32_tensor_1x3_helper() -> Tensor<i32> {
+    let mut sizes = ArrayTrait::new();
+    sizes.append(3);
+
+    let mut data = ArrayTrait::new();
+    data.append(IntegerTrait::new(0_u32, false));
+    data.append(IntegerTrait::new(1_u32, false));
+    data.append(IntegerTrait::new(2_u32, false));
+
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
+
+    return tensor;
+}
+
 // 2D - Helpers
 
 fn i32_tensor_2x2_helper() -> Tensor<i32> {
@@ -597,6 +663,27 @@ fn i32_tensor_2x2_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(1_u32, false));
     data.append(IntegerTrait::new(2_u32, false));
     data.append(IntegerTrait::new(3_u32, false));
+
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
+
+    return tensor;
+}
+
+fn i32_tensor_3x3_helper() -> Tensor<i32> {
+    let mut sizes = ArrayTrait::new();
+    sizes.append(3);
+    sizes.append(3);
+
+    let mut data = ArrayTrait::new();
+    data.append(IntegerTrait::new(0_u32, false));
+    data.append(IntegerTrait::new(1_u32, false));
+    data.append(IntegerTrait::new(2_u32, false));
+    data.append(IntegerTrait::new(3_u32, false));
+    data.append(IntegerTrait::new(4_u32, false));
+    data.append(IntegerTrait::new(5_u32, false));
+    data.append(IntegerTrait::new(6_u32, false));
+    data.append(IntegerTrait::new(7_u32, false));
+    data.append(IntegerTrait::new(8_u32, false));
 
     let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
 
