@@ -222,10 +222,33 @@ impl U32Tensor of TensorTrait<u32> {
         matmul(self, other)
     }
 
+    /// Applies the rectified linear unit (ReLU) activation function element-wise to a given u32 tensor.
+    ///
+    /// The ReLU function is defined as f(x) = max(0, x), where x is the input element.
+    ///
+    /// # Arguments
+    /// * `z` - A reference to an u32 tensor to which the ReLU function will be applied.
+    ///
+    /// # Panics
+    /// * Panics if gas limit is exceeded during execution.
+    ///
+    /// # Returns
+    /// * A new u32 tensor with the same shape as the input tensor and the ReLU function
+    ///   applied element-wise.
     fn relu(self: @Tensor<u32>) -> Tensor<u32> {
         relu(self)
     }
 
+    /// Quantizes an u32 tensor using symmetric quantization.
+    ///
+    /// # Arguments
+    /// * `tensor` - A reference to an u32 tensor to be quantized.
+    ///
+    /// # Panics
+    /// * Panics if gas limit is exceeded during execution.
+    ///
+    /// # Returns
+    /// * A new u32 tensor with the same shape as the input tensor, containing the quantized values.
     fn quantize_linear(self: @Tensor<u32>) -> Tensor<u32> {
         quantize_tensor(self)
     }

@@ -7,6 +7,18 @@ use onnx_cairo::operators::tensor::tensor_u32;
 use onnx_cairo::utils::u32_max;
 use onnx_cairo::utils::check_gas;
 
+/// Symmetrically quantizes the input `data` value using the specified range.
+///
+/// # Arguments
+/// * `min_val` - The minimum value of the input data range.
+/// * `max_val` - The maximum value of the input data range.
+/// * `data` - The u32 data value to be quantized.
+///
+/// # Panics
+/// * Panics if the quantized value is out of the range of [-127, 127].
+///
+/// # Returns
+/// * An u32 quantized value.
 fn symetric_quant(min_val: u32, max_val: u32, data: u32) -> u32 {
     //  Define quantization range
     //  int8 range : [0;255] 
@@ -30,6 +42,16 @@ fn symetric_quant(min_val: u32, max_val: u32, data: u32) -> u32 {
     return quantized_data;
 }
 
+/// Quantizes an u32 tensor using symmetric quantization.
+///
+/// # Arguments
+/// * `tensor` - A reference to an u32 tensor to be quantized.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * A new u32 tensor with the same shape as the input tensor, containing the quantized values.
 fn quantize_tensor(tensor: @Tensor::<u32>) -> Tensor::<u32> {
     let mut result_data = ArrayTrait::<u32>::new();
 
