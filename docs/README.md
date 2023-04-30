@@ -31,15 +31,3 @@ For a full list of all authors and contributors, see [the contributors page](htt
 This project is licensed under the **MIT license**.
 
 See [LICENSE](../LICENSE) for more information.
-
-## Contributors
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
