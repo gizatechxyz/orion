@@ -16,7 +16,7 @@ You can see below the list of current supported ONNX Operators:
 |  Argmax   | :white_check_mark: |
 | ReduceSum | :white_check_mark: |
 |   ReLU    | :white_check_mark: |
-|  Softmax  | :white_check_mark: |
+|  Softmax  | :hourglass: |
 
 Performance optimizations:
 
