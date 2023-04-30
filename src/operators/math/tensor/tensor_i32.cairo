@@ -21,8 +21,8 @@ use onnx_cairo::operators::math::tensor::helpers::len_from_shape;
 use onnx_cairo::operators::math::tensor::helpers::combine_indices;
 use onnx_cairo::operators::math::tensor::helpers::find_axis;
 use onnx_cairo::operators::math::tensor::helpers::permutation_output_shape;
-use onnx_cairo::operators::math::tensor::helpers::prepare_shape_for_matmul;
-use onnx_cairo::operators::math::tensor::helpers::adjust_output_shape_after_matmul;
+use onnx_cairo::operators::math::tensor::helpers::prepare_shape_for_mul;
+use onnx_cairo::operators::math::tensor::helpers::adjust_output_shape_after_mul;
 use onnx_cairo::operators::math::tensor::tensor_u32;
 use onnx_cairo::utils::check_gas;
 
@@ -216,8 +216,8 @@ impl i32Tensor of TensorTrait<i32> {
     ///
     /// # Returns
     /// * A new `Tensor<i32>` resulting from the matrix multiplication.
-    fn matmul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-        i32_matmul(self, other)
+    fn mul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
+        i32_mul(self, other)
     }
 }
 
@@ -741,13 +741,13 @@ fn i32_transpose(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
 ///
 /// # Returns
 /// * A new `Tensor<i32>` resulting from the matrix multiplication.
-fn i32_matmul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
+fn i32_mul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
     let self_shape = *self.shape;
     let other_shape = *other.shape;
     let self_ndim = (self_shape).len();
     let other_ndim = (other_shape).len();
 
-    assert(self_ndim <= 2 | other_ndim <= 2, 'supports only 1D and 2D matmul');
+    assert(self_ndim <= 2 | other_ndim <= 2, 'supports only 1D and 2D mul');
 
     //! Case: Both tensors are 1-dimensional
     if self_ndim == 1 & other_ndim == 1 {
@@ -759,12 +759,12 @@ fn i32_matmul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         return TensorTrait::new(result_shape.span(), result_data.span());
     }
 
-    let self_shape = prepare_shape_for_matmul(self_shape, true);
-    let other_shape = prepare_shape_for_matmul(other_shape, false);
+    let self_shape = prepare_shape_for_mul(self_shape, true);
+    let other_shape = prepare_shape_for_mul(other_shape, false);
 
     let result = i32_matrix_multiply(*self.data, self_shape, *other.data, other_shape);
 
-    let result_shape = adjust_output_shape_after_matmul(result.shape, self_ndim, other_ndim);
+    let result_shape = adjust_output_shape_after_mul(result.shape, self_ndim, other_ndim);
 
     return TensorTrait::<i32>::new(result_shape, result.data);
 }
