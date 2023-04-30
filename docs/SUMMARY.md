@@ -6,7 +6,7 @@
     * [Compatibility](./onnx_cairo_runtime/COMPATIBILITY.md)
   * 🧩 [Algorithms](./algorithms/README.md)
   * 🧠 [Knowledge Base](./knowledge_base/README.md)
-    * [How to start contributing](./HOW_TO.md)
-    * [Contributing Guidelines](./CONTRIBUTING.md)
-    * [Tutorial](./TUTORIAL.md)
+    * [How to start contributing](./knowledge_base/HOW_TO.md)
+    * [Contributing Guidelines](./knowledge_base/CONTRIBUTING.md)
+    * [Tutorial](./knowledge_base/TUTORIAL.md)
 
