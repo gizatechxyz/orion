@@ -6,16 +6,14 @@ use onnx_cairo::operators::math::signed_integer::integer_trait::IntegerTrait;
 use onnx_cairo::operators::math::signed_integer::i32::i32;
 use onnx_cairo::operators::tensor::tensor_i32;
 use onnx_cairo::operators::tensor::core::TensorTrait;
-use onnx_cairo::operators::tensor::core::Tensor;
 use onnx_cairo::operators::tensor::core::ravel_index;
 use onnx_cairo::operators::tensor::core::unravel_index;
-use onnx_cairo::tests::helpers::i32_tensor_1x3_helper;
-use onnx_cairo::tests::helpers::i32_tensor_2x2_helper;
-use onnx_cairo::tests::helpers::i32_tensor_3x3_helper;
-use onnx_cairo::tests::helpers::i32_tensor_3x2_helper;
-use onnx_cairo::tests::helpers::i32_tensor_2x3_helper;
-use onnx_cairo::tests::helpers::i32_tensor_2x2x2_helper;
-use onnx_cairo::tests::helpers::i32_tensor_3x2x2_helper;
+use onnx_cairo::tests::operators::tensor::helpers::i32_tensor_2x2_helper;
+use onnx_cairo::tests::operators::tensor::helpers::i32_tensor_3x3_helper;
+use onnx_cairo::tests::operators::tensor::helpers::i32_tensor_3x2_helper;
+use onnx_cairo::tests::operators::tensor::helpers::i32_tensor_2x3_helper;
+use onnx_cairo::tests::operators::tensor::helpers::i32_tensor_2x2x2_helper;
+use onnx_cairo::tests::operators::tensor::helpers::i32_tensor_3x2x2_helper;
 
 #[test]
 #[available_gas(2000000)]
@@ -145,24 +143,6 @@ fn unravel_index_test() {
     assert(*result.at(1) == 2, 'result[1] = 2');
     assert(*result.at(2) == 5, 'result[2] = 5');
     assert(*result.at(3) == 6, 'result[3] = 6');
-}
-
-#[test]
-#[available_gas(2000000)]
-fn min_tensor() {
-    let tensor = i32_tensor_2x2x2_helper();
-
-    let result = tensor.min().mag;
-    assert(result == 0_u32, 'tensor.min = 0');
-}
-
-#[test]
-#[available_gas(2000000)]
-fn max_tensor() {
-    let tensor = i32_tensor_2x2x2_helper();
-
-    let result = tensor.max().mag;
-    assert(result == 7_u32, 'tensor.max = 7');
 }
 
 #[test]
@@ -353,76 +333,6 @@ fn div_tensor() {
 }
 
 #[test]
-#[available_gas(20000000)]
-fn tensor_reduce_sum() {
-    let tensor = i32_tensor_2x2x2_helper();
-
-    let result = tensor.reduce_sum(0);
-
-    assert(*result.data.at(0).mag == 4_u32, 'result[0] = 4');
-    assert(*result.data.at(1).mag == 6_u32, 'result[1] = 6');
-    assert(*result.data.at(2).mag == 8_u32, 'result[2] = 8');
-    assert(*result.data.at(3).mag == 10_u32, 'result[3] = 10');
-
-    let result = tensor.reduce_sum(1).data;
-
-    assert(*result.at(0).mag == 2_u32, 'result[0] = 2');
-    assert(*result.at(1).mag == 4_u32, 'result[1] = 4');
-    assert(*result.at(2).mag == 10_u32, 'result[2] = 10');
-    assert(*result.at(3).mag == 12_u32, 'result[3] = 12');
-
-    let result = tensor.reduce_sum(2).data;
-
-    assert(*result.at(0).mag == 1_u32, 'result[0] = 1');
-    assert(*result.at(1).mag == 5_u32, 'result[1] = 5');
-    assert(*result.at(2).mag == 9_u32, 'result[2] = 9');
-    assert(*result.at(3).mag == 13_u32, 'result[3] = 13');
-}
-
-#[test]
-#[available_gas(20000000)]
-fn tensor_argmax() {
-    let tensor = i32_tensor_2x2_helper();
-
-    let result = tensor.argmax(0);
-    assert(*result.data.at(0) == 1, 'result[0] = 1');
-    assert(*result.data.at(1) == 1, 'result[1] = 1');
-    assert(result.data.len() == 2, 'length == 2');
-
-    let result = tensor.argmax(1);
-
-    assert(*result.data.at(0) == 1, 'result[0] = 1');
-    assert(*result.data.at(1) == 1, 'result[1] = 1');
-    assert(result.data.len() == 2, 'length == 2');
-
-    let tensor = i32_tensor_2x2x2_helper();
-
-    let result = tensor.argmax(0).data;
-
-    assert(*result.at(0) == 1, 'result[0] = 1');
-    assert(*result.at(1) == 1, 'result[1] = 1');
-    assert(*result.at(2) == 1, 'result[2] = 1');
-    assert(*result.at(3) == 1, 'result[3] = 1');
-    assert(result.len() == 4, 'length == 4');
-
-    let result = tensor.argmax(1).data;
-
-    assert(*result.at(0) == 1, 'result[0] = 1');
-    assert(*result.at(1) == 1, 'result[1] = 1');
-    assert(*result.at(2) == 1, 'result[2] = 1');
-    assert(*result.at(3) == 1, 'result[3] = 1');
-    assert(result.len() == 4, 'length == 4');
-
-    let result = tensor.argmax(2).data;
-
-    assert(*result.at(0) == 1, 'result[0] = 1');
-    assert(*result.at(1) == 1, 'result[1] = 1');
-    assert(*result.at(2) == 1, 'result[2] = 1');
-    assert(*result.at(3) == 1, 'result[3] = 1');
-    assert(result.len() == 4, 'length == 4');
-}
-
-#[test]
 #[available_gas(200000000)]
 fn tensor_transpose_2D() {
     let mut axes: Array<usize> = ArrayTrait::new();
@@ -590,55 +500,4 @@ fn tensor_transpose_3D() {
     assert(*result.shape.at(0) == 3, 'shape[0] = 3');
     assert(*result.shape.at(1) == 2, 'shape[1] = 2');
     assert(*result.shape.at(2) == 2, 'shape[2] = 2');
-}
-
-#[test]
-#[available_gas(200000000)]
-fn tensor_matmul() {
-    //! Case: Dot product (1D x 1D)
-    let tensor_1 = i32_tensor_1x3_helper();
-    let tensor_2 = i32_tensor_1x3_helper();
-
-    let result = tensor_1.matmul(@tensor_2);
-    assert(*result.data.at(0).mag == 5, 'result[0] = 5');
-    assert(result.data.len() == 1, 'data len is 1');
-    assert(result.shape.len() == 1, 'shape len is 1');
-
-    //! Case: Matrix multiplication (2D x 2D)
-    let tensor_1 = i32_tensor_2x2_helper();
-    let tensor_2 = i32_tensor_2x2_helper();
-
-    let result = tensor_1.matmul(@tensor_2);
-    assert(*result.data.at(0).mag == 2, 'result[0] = 2');
-    assert(*result.data.at(1).mag == 3, 'result[1] = 3');
-    assert(*result.data.at(2).mag == 6, 'result[2] = 6');
-    assert(*result.data.at(3).mag == 11, 'result[3] = 11');
-    assert(result.data.len() == 4, 'data len is 4');
-    assert(result.shape.len() == 2, 'shape len is 2');
-}
-
-#[test]
-#[available_gas(200000000)]
-fn tensor_matmul_with_matrix_vec() {
-    //! Case: Matrix-Vector multiplication (2D x 1D)
-    let tensor_1 = i32_tensor_3x3_helper();
-    let tensor_2 = i32_tensor_1x3_helper();
-
-    let result = tensor_1.matmul(@tensor_2);
-    assert(*result.data.at(0).mag == 5, 'result[0] = 5');
-    assert(*result.data.at(1).mag == 14, 'result[1] = 14');
-    assert(*result.data.at(2).mag == 23, 'result[2] = 23');
-    assert(result.data.len() == 3, 'data len is 3');
-    assert(result.shape.len() == 1, 'shape len is 1');
-
-    //! Case: Matrix-Vector multiplication (1D x 2D)
-    let tensor_1 = i32_tensor_1x3_helper();
-    let tensor_2 = i32_tensor_3x3_helper();
-
-    let result = tensor_1.matmul(@tensor_2);
-    assert(*result.data.at(0).mag == 15, 'result[0] = 15');
-    assert(*result.data.at(1).mag == 18, 'result[1] = 18');
-    assert(*result.data.at(2).mag == 21, 'result[2] = 21');
-    assert(result.data.len() == 3, 'data len is 3');
-    assert(result.shape.len() == 1, 'shape len is 1');
 }

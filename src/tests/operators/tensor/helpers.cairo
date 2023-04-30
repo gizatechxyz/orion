@@ -7,9 +7,6 @@ use onnx_cairo::operators::tensor::tensor_i32;
 use onnx_cairo::operators::tensor::core::TensorTrait;
 use onnx_cairo::operators::tensor::core::Tensor;
 
-
-/// ==== TENSOR ====
-
 // 1D
 fn i32_tensor_1x3_helper() -> Tensor<i32> {
     let mut sizes = ArrayTrait::new();
