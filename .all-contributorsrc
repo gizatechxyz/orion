@@ -7,6 +7,15 @@
   "commitConvention": "angular",
   "contributors": [
     {
+      "login": "franalgaba",
+      "name": "Fran Algaba",
+      "avatar_url": "https://avatars.githubusercontent.com/u/24293857?v=4",
+      "profile": "https://github.com/franalgaba",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
       "login": "raphaelDkhn",
       "name": "raphaelDkhn",
       "avatar_url": "https://avatars.githubusercontent.com/u/113879115?v=4",
