@@ -8,5 +8,5 @@
   * 🧠 [Knowledge Base](./knowledge_base/README.md)
     * [How to start contributing](./knowledge_base/HOW_TO.md)
     * [Contributing Guidelines](./knowledge_base/CONTRIBUTING.md)
-    * [Tutorial](./knowledge_base/TUTORIAL.md)
+    * [Tutorial: Verifiable NN inference for MNIST](./knowledge_base/TUTORIAL.md)
 
