@@ -13,8 +13,13 @@ src
 │   │   └── softmax.cairo
 │   ├── activations.cairo
 │   ├── math
-│   │   ├── signed_integer.cairo
 │   │   ├── matrix.cairo
+│   │   ├── signed_integer.cairo
+│   │   ├── tensor
+│   │   │   ├── core.cairo
+│   │   │   ├── helpers.cairo
+│   │   │   ├── tensor_i32.cairo
+│   │   │   └── tensor_u32.cairo
 │   │   ├── tensor.cairo
 │   │   └── vector.cairo
 │   └── math.cairo
@@ -23,13 +28,15 @@ src
 │   └── quantizations.cairo
 ├── performance.cairo
 ├── tests
-│   ├── signed_integer_test.cairo
 │   ├── matrix_test.cairo
 │   ├── quantization_test.cairo
 │   ├── relu_test.cairo
+│   ├── signed_integer_test.cairo
 │   ├── softmax_test.cairo
+│   ├── tensor_test.cairo
 │   └── vector_test.cairo
-└── tests.cairo
+├── tests.cairo
+└── utils.cairo
 ```
 
 - To add a new operation to the Matrix / Tensor implementation you have to implement it inside the `src/operators/math/matrix.cairo` following the same `impl` structure.

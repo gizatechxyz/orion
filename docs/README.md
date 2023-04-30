@@ -16,7 +16,7 @@ In this repository you can find the new ONNX Runtime built using [Cairo](https:/
 
 ## 🌟 What's new
 
-Render Changelog
+For a detailed list of changes, please refer to the [CHANGELOG.md](./CHANGELOG.md) file.
 
 ## 🤝 Join the community!
 
@@ -30,7 +30,7 @@ For a full list of all authors and contributors, see [the contributors page](htt
 
 This project is licensed under the **MIT license**.
 
-See [LICENSE](LICENSE) for more information.
+See [LICENSE](../LICENSE) for more information.
 
 ## Contributors
 
