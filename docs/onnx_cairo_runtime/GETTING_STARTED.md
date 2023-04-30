@@ -16,5 +16,5 @@ Follow the installation guide in [Scarb's Website](https://docs.swmansion.com/sc
 
 ##### VS Code Extension
 
-- Install the Cairo 1 extension for proper syntax highlighting and code navigation.
+Install the Cairo 1 extension for proper syntax highlighting and code navigation.
 Just follow the steps indicated [here](https://github.com/starkware-libs/cairo/blob/main/vscode-cairo/README.md).
