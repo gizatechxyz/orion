@@ -3,8 +3,8 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use onnx_cairo::utils::check_gas;
-use onnx_cairo::operators::math::tensor::helpers::len_from_shape;
-use onnx_cairo::operators::math::tensor::helpers::check_shape;
+use onnx_cairo::operators::tensor::helpers::len_from_shape;
+use onnx_cairo::operators::tensor::helpers::check_shape;
 
 /// A generic Tensor struct representing n-dimensional arrays.
 ///
@@ -47,6 +47,8 @@ trait TensorTrait<T> {
     fn reduce_sum(self: @Tensor<T>, axis: usize) -> Tensor<T>;
     fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
     fn matmul(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
+    fn relu(self: @Tensor<T>) -> Tensor<T>;
+    fn quantize_linear(self: @Tensor<T>) -> Tensor<T>;
 }
 
 /// Constructs a new tensor with the given shape and data array after checking compatibility.

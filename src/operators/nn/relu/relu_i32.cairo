@@ -3,11 +3,11 @@ use array::SpanTrait;
 use traits::Into;
 use option::OptionTrait;
 
-use onnx_cairo::operators::math::signed_integer::IntegerTrait;
-use onnx_cairo::operators::math::signed_integer::i32;
-use onnx_cairo::operators::math::tensor::core::Tensor;
-use onnx_cairo::operators::math::tensor::core::TensorTrait;
-use onnx_cairo::operators::math::tensor::tensor_i32;
+use onnx_cairo::operators::math::signed_integer::integer_trait::IntegerTrait;
+use onnx_cairo::operators::math::signed_integer::i32::i32;
+use onnx_cairo::operators::tensor::core::Tensor;
+use onnx_cairo::operators::tensor::core::TensorTrait;
+use onnx_cairo::operators::tensor::tensor_i32;
 use onnx_cairo::utils::check_gas;
 
 fn relu(z: @Tensor<i32>) -> Tensor<i32> {
@@ -32,4 +32,3 @@ fn relu(z: @Tensor<i32>) -> Tensor<i32> {
 
     return TensorTrait::<i32>::new(*z.shape, data_result.span());
 }
-

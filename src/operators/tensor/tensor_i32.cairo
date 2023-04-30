@@ -4,26 +4,31 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::operators::math::signed_integer::IntegerTrait;
-use onnx_cairo::operators::math::signed_integer::i32;
-use onnx_cairo::operators::math::tensor::helpers::check_shape;
-use onnx_cairo::operators::math::tensor::helpers::check_compatibility;
-use onnx_cairo::operators::math::tensor::core::new_tensor;
-use onnx_cairo::operators::math::tensor::core::stride;
-use onnx_cairo::operators::math::tensor::core::Tensor;
-use onnx_cairo::operators::math::tensor::core::TensorTrait;
-use onnx_cairo::operators::math::tensor::core::ravel_index;
-use onnx_cairo::operators::math::tensor::core::unravel_index;
-use onnx_cairo::operators::math::tensor::core::reshape;
-use onnx_cairo::operators::math::tensor::helpers::broadcast_index_mapping;
-use onnx_cairo::operators::math::tensor::helpers::reduce_output_shape;
-use onnx_cairo::operators::math::tensor::helpers::len_from_shape;
-use onnx_cairo::operators::math::tensor::helpers::combine_indices;
-use onnx_cairo::operators::math::tensor::helpers::find_axis;
-use onnx_cairo::operators::math::tensor::helpers::permutation_output_shape;
-use onnx_cairo::operators::math::tensor::helpers::prepare_shape_for_matmul;
-use onnx_cairo::operators::math::tensor::helpers::adjust_output_shape_after_matmul;
-use onnx_cairo::operators::math::tensor::tensor_u32;
+use onnx_cairo::operators::math::signed_integer::integer_trait::IntegerTrait;
+use onnx_cairo::operators::math::signed_integer::i32::i32;
+use onnx_cairo::operators::tensor::helpers::check_shape;
+use onnx_cairo::operators::tensor::helpers::check_compatibility;
+use onnx_cairo::operators::tensor::core::new_tensor;
+use onnx_cairo::operators::tensor::core::stride;
+use onnx_cairo::operators::tensor::core::Tensor;
+use onnx_cairo::operators::tensor::core::TensorTrait;
+use onnx_cairo::operators::tensor::core::ravel_index;
+use onnx_cairo::operators::tensor::core::unravel_index;
+use onnx_cairo::operators::tensor::core::reshape;
+use onnx_cairo::operators::tensor::helpers::broadcast_index_mapping;
+use onnx_cairo::operators::tensor::helpers::reduce_output_shape;
+use onnx_cairo::operators::tensor::helpers::len_from_shape;
+use onnx_cairo::operators::tensor::helpers::combine_indices;
+use onnx_cairo::operators::tensor::helpers::find_axis;
+use onnx_cairo::operators::tensor::helpers::permutation_output_shape;
+use onnx_cairo::operators::tensor::tensor_u32;
+use onnx_cairo::operators::nn::relu::relu_i32::relu;
+use onnx_cairo::operators::math::min::min_i32::min_in_tensor;
+use onnx_cairo::operators::math::max::max_i32::max_in_tensor;
+use onnx_cairo::operators::math::reduce_sum::reduce_sum_i32::reduce_sum;
+use onnx_cairo::operators::math::argmax::argmax_i32::argmax;
+use onnx_cairo::operators::linalg::matmul::matmul_i32::matmul;
+use onnx_cairo::performance::quantizations::quant_i32::quantize_tensor;
 use onnx_cairo::utils::check_gas;
 
 impl i32Tensor of TensorTrait<i32> {
@@ -68,7 +73,7 @@ impl i32Tensor of TensorTrait<i32> {
     /// # Returns
     /// * The minimum i32 value in the tensor.
     fn min(self: @Tensor<i32>) -> i32 {
-        i32_min_tensor(*self.data)
+        min_in_tensor(*self.data)
     }
 
     /// Finds the maximum value in an i32 tensor.
@@ -82,7 +87,7 @@ impl i32Tensor of TensorTrait<i32> {
     /// # Returns
     /// * The maximum i32 value in the tensor.
     fn max(self: @Tensor<i32>) -> i32 {
-        i32_max_tensor(*self.data)
+        max_in_tensor(*self.data)
     }
 
     /// Computes the stride of an i32 tensor.
@@ -160,7 +165,7 @@ impl i32Tensor of TensorTrait<i32> {
     /// # Returns
     /// * A new `Tensor<i32>` instance with the specified axis reduced by summing its elements.
     fn reduce_sum(self: @Tensor<i32>, axis: usize) -> Tensor<i32> {
-        i32_reduce_sum(self, axis)
+        reduce_sum(self, axis)
     }
 
     /// Computes the indices of the maximum values along the given axis of an i32 tensor.
@@ -176,7 +181,7 @@ impl i32Tensor of TensorTrait<i32> {
     /// # Returns
     /// * A new `Tensor<usize>` instance containing the indices of the maximum values along the specified axis.
     fn argmax(self: @Tensor<i32>, axis: usize) -> Tensor<usize> {
-        i32_argmax(self, axis)
+        argmax(self, axis)
     }
 
     /// Transposes an i32 tensor according to the specified axes.
@@ -217,7 +222,15 @@ impl i32Tensor of TensorTrait<i32> {
     /// # Returns
     /// * A new `Tensor<i32>` resulting from the matrix multiplication.
     fn matmul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-        i32_matmul(self, other)
+        matmul(self, other)
+    }
+
+    fn relu(self: @Tensor<i32>) -> Tensor<i32> {
+        relu(self)
+    }
+
+    fn quantize_linear(self: @Tensor<i32>) -> Tensor<i32> {
+        quantize_tensor(self)
     }
 }
 
@@ -296,68 +309,6 @@ fn i32_at_tensor(self: @Tensor<i32>, indices: Span<usize>) -> i32 {
     assert(indices.len() == (*self.shape).len(), 'indices not match dimensions');
     let data = *self.data;
     *data.at(self.ravel_index(indices))
-}
-
-/// Finds the minimum value in a `Tensor<i32>` array.
-///
-/// # Arguments
-/// * `vec` -  A span containing the data array of i32 elements.
-///
-/// # Panics
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * An i32 value representing the minimum value in the array.
-fn i32_min_tensor(mut vec: Span::<i32>) -> i32 {
-    let mut min_value: i32 = IntegerTrait::new(2147483647_u32, false);
-
-    loop {
-        check_gas();
-
-        let current_value = *vec.pop_front().unwrap();
-
-        let check_min = min_value.min(current_value);
-        if (min_value > check_min) {
-            min_value = check_min;
-        }
-
-        if vec.len() == 0 {
-            break ();
-        };
-    };
-
-    return min_value;
-}
-
-/// Finds the maximum value in a `Tensor<i32>` array.
-///
-/// # Arguments
-/// * `vec` -  A span containing the data array of i32 elements.
-///
-/// # Panics
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * An i32 value representing the maximum value in the array.
-fn i32_max_tensor(mut vec: Span::<i32>) -> i32 {
-    let mut max_value: i32 = IntegerTrait::new(0_u32, false);
-
-    loop {
-        check_gas();
-
-        let current_value = *vec.pop_front().unwrap();
-
-        let check_max = max_value.max(current_value);
-        if (max_value < check_max) {
-            max_value = check_max;
-        }
-
-        if vec.len() == 0 {
-            break ();
-        };
-    };
-
-    return max_value;
 }
 
 // --- BROADCAST OPERATIONS ---
@@ -510,164 +461,6 @@ fn i32_div_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
     return TensorTrait::<i32>::new(*self.shape, result.span());
 }
 
-/// --- REDUCE OPERATIONS ---
-
-/// Sums the elements along the given axis of an i32 tensor.
-///
-/// # Arguments
-/// * `self` - The input tensor.
-/// * `axis` - The axis along which to sum the elements.
-///
-/// # Panics
-/// * Panics if axis is not in the range of the input tensor's dimensions.
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<i32>` instance representing the result of the reduction.
-fn i32_reduce_sum(self: @Tensor<i32>, axis: usize) -> Tensor<i32> {
-    assert(axis <= (*self.shape).len(), 'axis out of dimensions');
-    let mut output_data = ArrayTrait::new();
-
-    let output_shape = reduce_output_shape(*self.shape, axis);
-    let output_data_len = len_from_shape(output_shape);
-
-    let mut index: usize = 0;
-    loop {
-        check_gas();
-
-        let output_indices = unravel_index(index, output_shape);
-        let current_sum = accumulate_sum(self, output_indices, axis);
-
-        output_data.append(current_sum);
-
-        index += 1;
-        if index == output_data_len {
-            break ();
-        };
-    };
-
-    return TensorTrait::<i32>::new(output_shape, output_data.span());
-}
-
-/// Helper function that accumulates the sum of elements along a specific axis.
-///
-/// # Arguments
-/// * `input` - The input tensor.
-/// * `output_indices` - A span of output indices.
-/// * `axis` - The axis along which to accumulate the sum.
-///
-/// # Panics
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * An i32 value representing the accumulated sum along the specified axis.
-fn accumulate_sum(input: @Tensor<i32>, output_indices: Span<usize>, axis: usize) -> i32 {
-    let axis_len = *(*input.shape).at(axis);
-    let mut acc = IntegerTrait::new(0_u32, false);
-
-    let mut axis_index: usize = 0;
-    loop {
-        check_gas();
-
-        if axis_index == axis_len {
-            break ();
-        }
-
-        let input_indices = combine_indices(output_indices, axis_index, axis);
-        let input_index = ravel_index(*input.shape, input_indices);
-        let ele = *(*input.data).at(input_index);
-
-        acc += ele;
-        axis_index += 1;
-    };
-
-    return acc;
-}
-
-/// Returns the indices of the maximum values along the given axis of an i32 tensor.
-///
-/// # Arguments
-/// * `self` - The input tensor.
-/// * `axis` - The axis along which to find the maximum values.
-///
-/// # Panics
-/// * Panics if axis is not in the range of the input tensor's dimensions.
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<usize>` instance representing the indices of the maximum values along the given axis.
-fn i32_argmax(self: @Tensor<i32>, axis: usize) -> Tensor<usize> {
-    assert(axis <= (*self.shape).len(), 'axis out of dimensions');
-
-    let mut output_data = ArrayTrait::new();
-
-    let output_shape = reduce_output_shape(*self.shape, axis);
-    let output_data_len = len_from_shape(output_shape);
-
-    let mut index: usize = 0;
-    loop {
-        check_gas();
-
-        let output_indices = unravel_index(index, output_shape);
-        let current_argmax = find_argmax(
-            self, output_indices, axis, 0, IntegerTrait::new(2147483648, true), 0
-        );
-
-        output_data.append(current_argmax);
-
-        index += 1;
-        if index == output_data_len {
-            break ();
-        };
-    };
-
-    return TensorTrait::<usize>::new(output_shape, output_data.span());
-}
-
-/// Recursive helper function that finds the index of the maximum value along a specific axis.
-///
-/// # Arguments
-/// * `input` - The input tensor.
-/// * `output_indices` - A span of output indices.
-/// * `axis` - The axis along which to find the maximum value.
-/// * `axis_index` - The current index along the specified axis.
-/// * `max_value` - The current maximum value found along the axis.
-/// * `argmax` - The current index of the maximum value along the axis.
-///
-/// # Panics
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A usize value representing the index of the maximum value along the specified axis.
-fn find_argmax(
-    input: @Tensor<i32>,
-    output_indices: Span<usize>,
-    axis: usize,
-    axis_index: usize,
-    max_value: i32,
-    argmax: usize
-) -> usize {
-    check_gas();
-
-    if axis_index == *(*input.shape).at(axis) {
-        return argmax;
-    }
-
-    let input_indices = combine_indices(output_indices, axis_index, axis);
-    let input_index = ravel_index(*input.shape, input_indices);
-    let ele = *(*input.data).at(input_index);
-
-    let (new_max_value, new_argmax) = if ele > max_value {
-        (ele, axis_index)
-    } else {
-        (max_value, argmax)
-    };
-
-    return find_argmax(
-        input, output_indices, axis, axis_index + 1_usize, new_max_value, new_argmax
-    );
-}
-
 /// Reorders the axes of an i32 tensor according to the given axes permutation.
 ///
 /// # Arguments
@@ -718,151 +511,4 @@ fn i32_transpose(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
     };
 
     return TensorTrait::<i32>::new(output_shape, output_data.span());
-}
-
-/// Performs matrix multiplication between two i32 tensors.
-///
-/// # Arguments
-/// * `self` - The first tensor.
-/// * `other` - The second tensor.
-///
-/// # Behavior
-/// The behavior depends on the dimensionality of the tensors as follows:
-/// * If both tensors are 1-dimensional, the dot product is returned.
-/// * If both arguments are 2-dimensional, the matrix-matrix product is returned.
-/// * If the first argument is 1-dimensional and the second argument is 2-dimensional,
-///   a 1 is prepended to its dimension for the purpose of the matrix multiply. After
-///   the matrix multiply, the prepended dimension is removed.
-/// * If the first argument is 2-dimensional and the second argument is 1-dimensional,
-///   the matrix-vector product is returned.
-///
-/// # Panics
-/// * Panics if the dimension of the tensors is higher than two.
-///
-/// # Returns
-/// * A new `Tensor<i32>` resulting from the matrix multiplication.
-fn i32_matmul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-    let self_shape = *self.shape;
-    let other_shape = *other.shape;
-    let self_ndim = (self_shape).len();
-    let other_ndim = (other_shape).len();
-
-    assert(self_ndim <= 2 | other_ndim <= 2, 'supports only 1D and 2D matmul');
-
-    //! Case: Both tensors are 1-dimensional
-    if self_ndim == 1 & other_ndim == 1 {
-        let dot = i32_dot_product((*self).data, (*other).data);
-        let mut result_shape = ArrayTrait::new();
-        let mut result_data = ArrayTrait::new();
-        result_shape.append(1);
-        result_data.append(dot);
-        return TensorTrait::new(result_shape.span(), result_data.span());
-    }
-
-    let self_shape = prepare_shape_for_matmul(self_shape, true);
-    let other_shape = prepare_shape_for_matmul(other_shape, false);
-
-    let result = i32_matrix_multiply(*self.data, self_shape, *other.data, other_shape);
-
-    let result_shape = adjust_output_shape_after_matmul(result.shape, self_ndim, other_ndim);
-
-    return TensorTrait::<i32>::new(result_shape, result.data);
-}
-
-/// Computes the dot product of two 1-dimensional i32 tensors.
-///
-/// # Arguments
-/// * `vec1` - A span containing the data elements of the first vector as i32 elements.
-/// * `vec2` - A span containing the data elements of the second vector as i32 elements.
-///
-/// # Panics
-/// * Panics if the lengths of the vectors do not match.
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * An i32 representing the dot product of the two vectors.
-fn i32_dot_product(mut vec1: Span<i32>, mut vec2: Span<i32>) -> i32 {
-    assert(vec1.len() == vec2.len(), 'vector lengths do not match');
-
-    let mut result: i32 = IntegerTrait::new(0, false);
-    let vec_len = vec1.len();
-    let mut idx: usize = 0;
-
-    loop {
-        check_gas();
-        if vec1.len() == 0 {
-            break ();
-        }
-
-        let element_product = *vec1.pop_front().unwrap() * *vec2.pop_front().unwrap();
-        result += element_product;
-    };
-
-    return result;
-}
-
-
-/// Computes the matrix multiplication of two 2-dimensional i32 tensors.
-///
-/// # Arguments
-/// * `mat1` - A Span containing the data elements of the first matrix as i32 elements.
-/// * `mat1_shape` - A Span containing the shape of the first matrix as usize elements.
-/// * `mat2` - A Span containing the data elements of the second matrix as i32 elements.
-/// * `mat2_shape` - A Span containing the shape of the second matrix as usize elements.
-///
-/// # Panics
-/// * Panics if the inner dimensions of the matrices do not match.
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * Returns the restulting i32 tensor.
-fn i32_matrix_multiply(
-    mat1: Span<i32>, mat1_shape: Span<usize>, mat2: Span<i32>, mat2_shape: Span<usize>
-) -> Tensor<i32> {
-    let m = *mat1_shape.at(0);
-    let n = *mat1_shape.at(1);
-    let p = *mat2_shape.at(1);
-
-    let mut result_data = ArrayTrait::new();
-    let mut result_shape = ArrayTrait::new();
-    result_shape.append(m);
-    result_shape.append(p);
-
-    let mut i = 0_usize;
-    loop {
-        check_gas();
-        if i == m {
-            break ();
-        }
-
-        let mut j = 0_usize;
-        loop {
-            check_gas();
-            if j == p {
-                break ();
-            }
-
-            let mut sum: i32 = IntegerTrait::new(0, false);
-            let mut k = 0_usize;
-            loop {
-                check_gas();
-                if k == n {
-                    break ();
-                }
-
-                let mat1_index = i * n + k;
-                let mat2_index = k * p + j;
-                sum += *mat1.at(mat1_index) * *mat2.at(mat2_index);
-
-                k += 1;
-            };
-
-            result_data.append(sum);
-            j += 1;
-        };
-
-        i += 1;
-    };
-
-    return TensorTrait::new(result_shape.span(), result_data.span());
 }
