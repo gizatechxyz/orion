@@ -1,6 +1,6 @@
-# How to start contributing
+# ✨ How to start contributing
 
-- To start contributing first you need to decide which ONNX Operator you want to implement in the Cairo Runtime. You can check the compatibility list here. Please search the [issue tracker](https://github.com/franalgaba/onnx-cairo/issues) for a similar idea first: there may already be an issue you can contribute to.
+- To start contributing first you need to decide which ONNX Operator you want to implement in the Cairo Runtime. You can check the compatibility list here. Please search the [issue tracker](https://github.com/franalgaba/onnx-cairo/issues) for a similar idea first: there may already be an issue you can contribute to. 🔍
 
 - Now you can start working in your new operator! First let's explore the folder structure for the project:
 

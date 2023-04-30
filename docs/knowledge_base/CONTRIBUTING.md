@@ -1,4 +1,4 @@
-# Contributing
+# 🤝 Contributing
 
 New contributors are welcome to implement new ONNX Operators in Cairo 1.0! To see the full list of operators available click [here](https://github.com/onnx/onnx/blob/main/docs/Operators.md).
 
@@ -6,7 +6,7 @@ New contributors are welcome to implement new ONNX Operators in Cairo 1.0! To se
 
 * Read documentation about [Cairo](https://www.cairo-lang.org/resource-guide/) and the [context surrounding Cairo](https://perama-v.github.io/cairo/description/).
 
-## Process details
+## 📝 Process details
 
 Please search the [issue tracker](https://github.com/franalgaba/onnx-cairo/issues) for a similar idea first: there may already be an issue you can contribute to.
 
