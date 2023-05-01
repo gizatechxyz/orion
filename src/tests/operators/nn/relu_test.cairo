@@ -8,6 +8,7 @@ use onnx_cairo::operators::tensor::core::TensorTrait;
 use onnx_cairo::operators::tensor::tensor_i32;
 use onnx_cairo::operators::math::signed_integer::integer_trait::IntegerTrait;
 use onnx_cairo::operators::math::signed_integer::i32::i32;
+use onnx_cairo::operators::nn::nn_i32::nn;
 
 #[test]
 #[available_gas(2000000)]
@@ -28,7 +29,7 @@ fn relu_test() {
     data.append(val_4);
 
     let mut tensor = TensorTrait::new(shape.span(), data.span());
-    let mut result = tensor.relu();
+    let mut result = nn::relu(@tensor);
 
     let data_0 = *result.data.at(0);
     assert(data_0.mag == 1_u32, 'result[0] == 1');

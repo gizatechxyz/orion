@@ -22,13 +22,11 @@ use onnx_cairo::operators::tensor::helpers::combine_indices;
 use onnx_cairo::operators::tensor::helpers::find_axis;
 use onnx_cairo::operators::tensor::helpers::permutation_output_shape;
 use onnx_cairo::operators::tensor::tensor_u32;
-use onnx_cairo::operators::nn::relu::relu_i32::relu;
 use onnx_cairo::operators::math::min::min_i32::min_in_tensor;
 use onnx_cairo::operators::math::max::max_i32::max_in_tensor;
 use onnx_cairo::operators::math::reduce_sum::reduce_sum_i32::reduce_sum;
 use onnx_cairo::operators::math::argmax::argmax_i32::argmax;
 use onnx_cairo::operators::linalg::matmul::matmul_i32::matmul;
-use onnx_cairo::performance::quantizations::quant_i32::quantize_tensor;
 use onnx_cairo::utils::check_gas;
 
 impl i32Tensor of TensorTrait<i32> {
@@ -223,37 +221,6 @@ impl i32Tensor of TensorTrait<i32> {
     /// * A new `Tensor<i32>` resulting from the matrix multiplication.
     fn matmul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         matmul(self, other)
-    }
-
-    /// Applies the rectified linear unit (ReLU) activation function element-wise to a given i32 tensor.
-    ///
-    /// The ReLU function is defined as f(x) = max(0, x), where x is the input element.
-    ///
-    /// # Arguments
-    /// * `z` - A reference to an i32 tensor to which the ReLU function will be applied.
-    ///
-    /// # Panics
-    /// * Panics if gas limit is exceeded during execution.
-    ///
-    /// # Returns
-    /// * A new i32 tensor with the same shape as the input tensor and the ReLU function
-    ///   applied element-wise.
-    fn relu(self: @Tensor<i32>) -> Tensor<i32> {
-        relu(self)
-    }
-
-    /// Quantizes an i32 tensor using symmetric quantization.
-    ///
-    /// # Arguments
-    /// * `tensor` - A reference to an i32 tensor to be quantized.
-    ///
-    /// # Panics
-    /// * Panics if gas limit is exceeded during execution.
-    ///
-    /// # Returns
-    /// * A new i32 tensor with the same shape as the input tensor, containing the quantized values.
-    fn quantize_linear(self: @Tensor<i32>) -> Tensor<i32> {
-        quantize_tensor(self)
     }
 }
 

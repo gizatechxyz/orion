@@ -43,10 +43,14 @@ src
 │   │   └── signed_integer.cairo
 │   ├── math.cairo
 │   ├── nn
-│   │   ├── relu
-│   │   │   ├── relu_i32.cairo
-│   │   │   └── relu_u32.cairo
-│   │   └── relu.cairo
+│   │   ├── functional
+│   │   │   ├── relu
+│   │   │   │   ├── relu_i32.cairo
+│   │   │   │   └── relu_u32.cairo
+│   │   │   └── relu.cairo
+│   │   ├── functional.cairo
+│   │   ├── nn_i32.cairo
+│   │   └── nn_u32.cairo
 │   ├── nn.cairo
 │   ├── tensor
 │   │   ├── core.cairo
@@ -56,10 +60,14 @@ src
 │   └── tensor.cairo
 ├── operators.cairo
 ├── performance
-│   ├── quantizations
-│   │   ├── quant_i32.cairo
-│   │   └── quant_u32.cairo
-│   └── quantizations.cairo
+│   ├── functional
+│   │   ├── quantization
+│   │   │   ├── quant_i32.cairo
+│   │   │   └── quant_u32.cairo
+│   │   └── quantization.cairo
+│   ├── functional.cairo
+│   ├── performance_i32.cairo
+│   └── performance_u32.cairo
 ├── performance.cairo
 ├── tests
 │   ├── operators

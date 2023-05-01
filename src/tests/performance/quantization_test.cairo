@@ -5,6 +5,7 @@ use onnx_cairo::operators::math::signed_integer::integer_trait::IntegerTrait;
 use onnx_cairo::operators::math::signed_integer::i32::i32;
 use onnx_cairo::operators::tensor::tensor_i32;
 use onnx_cairo::operators::tensor::core::TensorTrait;
+use onnx_cairo::performance::performance_i32::performance::quantize_linear;
 
 
 #[test]
@@ -24,7 +25,7 @@ fn quant_vec_test() {
 
     let tensor = TensorTrait::new(shape.span(), data.span());
 
-    let mut res = tensor.quantize_linear();
+    let mut res = quantize_linear(@tensor);
 
     assert(*res.data.at(0_usize).mag == 127_u32, '*result[0] == -127');
     assert(*res.data.at(0_usize).sign == true, '*result[0] -> negative');

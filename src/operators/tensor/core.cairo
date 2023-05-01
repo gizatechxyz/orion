@@ -34,8 +34,6 @@ impl TensorDrop<T> of Drop<Tensor<T>>;
 /// * `reduce_sum` - Reduces the tensor by summing along the specified axis.
 /// * `argmax` - Returns the index of the maximum value along the specified axis.
 /// * `matmul` - Performs matrix multiplication.
-/// * `relu` - Applies the rectified linear unit (ReLU) activation function element-wise to a given tensor.
-/// * `quantize_linear` - Quantizes an u32 tensor using symmetric quantization.
 trait TensorTrait<T> {
     fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
     fn at(self: @Tensor<T>, indices: Span<usize>) -> T;
@@ -49,8 +47,6 @@ trait TensorTrait<T> {
     fn reduce_sum(self: @Tensor<T>, axis: usize) -> Tensor<T>;
     fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
     fn matmul(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
-    fn relu(self: @Tensor<T>) -> Tensor<T>;
-    fn quantize_linear(self: @Tensor<T>) -> Tensor<T>;
 }
 
 /// Constructs a new tensor with the given shape and data array after checking compatibility.
