@@ -1,8 +1,7 @@
-# ✨ How to start contributing
+# How to start contributing
 
-- To start contributing first you need to decide which ONNX Operator you want to implement in the Cairo Runtime. You can check the compatibility list here. Please search the [issue tracker](https://github.com/franalgaba/onnx-cairo/issues) for a similar idea first: there may already be an issue you can contribute to. 🔍
-
-- Now you can start working in your new operator! First let's explore the folder structure for the project:
+* To start contributing first you need to decide which ONNX Operator you want to implement in the Cairo Runtime. You can check the compatibility list here. Please search the [issue tracker](https://github.com/franalgaba/onnx-cairo/issues) for a similar idea first: there may already be an issue you can contribute to. 🔍
+* Now you can start working in your new operator! First let's explore the folder structure for the project:
 The project is organized into several modules, grouped by functionality. Each module has its own folder, which contains the main module file (e.g., matmul.cairo) and separate implementation files for different data types (e.g., matmul_i32.cairo, matmul_u32.cairo).
 
 ```
