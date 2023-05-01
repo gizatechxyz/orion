@@ -11,7 +11,7 @@ In this repository you can find the new ONNX Runtime built using [Cairo](https:/
 
 ## 📚 How to use our docs
 
-You can check our official docs [here](https://giza-1.gitbook.io/onnx-cairo-runtime-main/).
+You can check our official docs [here](https://onnx-cairo.gizatech.xyz/).
  
 - ⚙️ **ONNX Cairo Runtime** includes our Getting Started guide, API Reference, and more advanced features of the core like Tensor, Operators and Optimizations.
 
