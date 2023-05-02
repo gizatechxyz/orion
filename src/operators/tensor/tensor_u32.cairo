@@ -4,6 +4,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
+use onnx_cairo::operators::math::fixed_point::types::FixedType;
 use onnx_cairo::operators::tensor::helpers::check_shape;
 use onnx_cairo::operators::tensor::helpers::check_compatibility;
 use onnx_cairo::operators::tensor::core::new_tensor;
@@ -24,6 +25,7 @@ use onnx_cairo::operators::math::max::max_u32::max_in_tensor;
 use onnx_cairo::operators::math::reduce_sum::reduce_sum_u32::reduce_sum;
 use onnx_cairo::operators::math::argmax::argmax_u32::argmax;
 use onnx_cairo::operators::linalg::matmul::matmul_u32::matmul;
+use onnx_cairo::operators::math::exp::exp_u32::exp;
 use onnx_cairo::utils::check_gas;
 
 impl U32Tensor of TensorTrait<u32> {
@@ -218,6 +220,23 @@ impl U32Tensor of TensorTrait<u32> {
     /// * A new `Tensor<u32>` resulting from the matrix multiplication.
     fn matmul(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
         matmul(self, other)
+    }
+
+    /// Calculates the exponential function (e^x) for each element in a tensor of u32 values.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A tensor of i32 values representing the input tensor.
+    ///
+    /// # Panics
+    ///
+    /// * If gas limit is reached during computation.
+    ///
+    /// # Returns
+    ///
+    /// * A tensor of fixed point numbers representing the result 
+    fn exp(self: @Tensor<u32>) -> Tensor<FixedType> {
+        exp(self)
     }
 }
 

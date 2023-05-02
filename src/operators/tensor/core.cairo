@@ -5,6 +5,7 @@ use option::OptionTrait;
 use onnx_cairo::utils::check_gas;
 use onnx_cairo::operators::tensor::helpers::len_from_shape;
 use onnx_cairo::operators::tensor::helpers::check_shape;
+use onnx_cairo::operators::math::fixed_point::types::FixedType;
 
 /// A generic Tensor struct representing n-dimensional arrays.
 ///
@@ -34,6 +35,7 @@ impl TensorDrop<T> of Drop<Tensor<T>>;
 /// * `reduce_sum` - Reduces the tensor by summing along the specified axis.
 /// * `argmax` - Returns the index of the maximum value along the specified axis.
 /// * `matmul` - Performs matrix multiplication.
+/// * `exp` - Calculates the exponential function (e^x) for each element in a tensor.
 trait TensorTrait<T> {
     fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
     fn at(self: @Tensor<T>, indices: Span<usize>) -> T;
@@ -47,6 +49,7 @@ trait TensorTrait<T> {
     fn reduce_sum(self: @Tensor<T>, axis: usize) -> Tensor<T>;
     fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
     fn matmul(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
+    fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
 }
 
 /// Constructs a new tensor with the given shape and data array after checking compatibility.
