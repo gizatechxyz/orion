@@ -89,17 +89,17 @@ fn ceil(a: FixedType) -> FixedType {
 ///
 /// * The result of the division of the input fixed point numbers.
 fn div(a: FixedType, b: FixedType) -> FixedType {
-    let res_sign = a.sign ^ b.sign;
-    let (a_high, a_low) = integer::u128_wide_mul(a.mag, ONE_u128);
-    let a_u256 = u256 { low: a_low, high: a_high };
-    let b_u256 = u256 { low: b.mag, high: 0_u128 };
-    let res_u256 = a_u256 / b_u256;
+        let res_sign = a.sign ^ b.sign;
 
-    assert(res_u256.high == 0_u128, 'result overflow');
+        // Invert b to preserve precision as much as possible
+        // TODO: replace if / when there is a felt div_rem supported
+        let (a_high, a_low) = integer::u128_wide_mul(a.mag, ONE_u128);
+        let b_inv = MAX_u128 / b.mag;
+        let res_u128 = a_low / b.mag + a_high * b_inv;
 
-    // Re-apply sign
-    return Fixed::new(res_u256.low, res_sign);
-}
+        // Re-apply sign
+        return FixedType { mag: res_u128, sign: res_sign };
+    }
 
 /// Checks whether two fixed point numbers are equal.
 ///
