@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Remove duplicate files in docs.
+
+## [Unreleased] - 2023-05-01
+
+### Changed
+
 - Removed Matrix and Vector types.
 - Refactored functions to be Tensor-centric.
 - Reorganize code structure.
