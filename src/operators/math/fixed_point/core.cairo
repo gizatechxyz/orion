@@ -475,6 +475,42 @@ fn sub(a: FixedType, b: FixedType) -> FixedType {
     return Fixed::from_felt(a.into() - b.into());
 }
 
+/// Returns maximum value between two Fixed Points.
+///
+/// # Arguments
+///
+/// * `a` - The first fixed point number.
+/// * `b` - The second fixed point number.
+///
+/// # Returns
+///
+/// * The max Fixed Point value .
+fn max (a: FixedType, b: FixedType) -> FixedType {
+    if (a >= b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
+/// Returns minimum value between two Fixed Points.
+///
+/// # Arguments
+///
+/// * `a` - The first fixed point number.
+/// * `b` - The second fixed point number.
+///
+/// # Returns
+///
+/// * The min Fixed Point value.
+fn min (a: FixedType, b: FixedType) -> FixedType {
+    if (a <= b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
 /// INTERNAL
 
 /// Calculates the most significant bit of a u128 number.
