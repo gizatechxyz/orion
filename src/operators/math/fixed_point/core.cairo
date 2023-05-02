@@ -15,9 +15,6 @@ use option::OptionTrait;
 use result::ResultTrait;
 use result::ResultTraitImpl;
 use traits::Into;
-use integer::u256_safe_divmod;
-use integer::u256_as_non_zero;
-use integer::u256_from_felt252;
 
 use onnx_cairo::operators::math::fixed_point::types::HALF_u128;
 use onnx_cairo::operators::math::fixed_point::types::MAX_u128;
@@ -361,15 +358,14 @@ fn lt(a: FixedType, b: FixedType) -> bool {
 /// * A FixedType value representing the product of the two input numbers.
 fn mul(a: FixedType, b: FixedType) -> FixedType {
     let res_sign = a.sign ^ b.sign;
-    let (high, low) = integer::u128_wide_mul(a.mag, b.mag);
-    let res_u256 = u256 { low: low, high: high };
-    let ONE_u256 = u256 { low: ONE_u128, high: 0_u128 };
-    let (scaled_u256, _) = u256_safe_divmod(res_u256, u256_as_non_zero(ONE_u256));
 
-    assert(scaled_u256.high == 0_u128, 'result overflow');
+    // Use u128 to multiply and shift back down
+    // TODO: replace if / when there is a felt div_rem supported
+    let (high, low) = integer::u128_wide_mul(a.mag, b.mag);
+    let res_u128 = high  + (low / ONE_u128);
 
     // Re-apply sign
-    return Fixed::new(scaled_u256.low, res_sign);
+    return FixedType { mag: res_u128, sign: res_sign };
 }
 
 /// Checks whether the first fixed point number is not equal to the second fixed point number.
@@ -485,7 +481,7 @@ fn sub(a: FixedType, b: FixedType) -> FixedType {
 /// # Returns
 ///
 /// * The max Fixed Point value .
-fn max (a: FixedType, b: FixedType) -> FixedType {
+fn max(a: FixedType, b: FixedType) -> FixedType {
     if (a >= b) {
         return a;
     } else {
@@ -503,7 +499,7 @@ fn max (a: FixedType, b: FixedType) -> FixedType {
 /// # Returns
 ///
 /// * The min Fixed Point value.
-fn min (a: FixedType, b: FixedType) -> FixedType {
+fn min(a: FixedType, b: FixedType) -> FixedType {
     if (a <= b) {
         return a;
     } else {
