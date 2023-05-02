@@ -3,3 +3,4 @@
 
 mod quant_i32;
 mod quant_u32;
+mod quant_fp;

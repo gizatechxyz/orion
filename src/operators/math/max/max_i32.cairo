@@ -19,7 +19,7 @@ use onnx_cairo::utils::check_gas;
 /// # Returns
 /// * An i32 value representing the maximum value in the array.
 fn max_in_tensor(mut vec: Span::<i32>) -> i32 {
-    let mut max_value: i32 = IntegerTrait::new(0_u32, false);
+    let mut max_value: i32 = IntegerTrait::new(2147483647_u32, true);
 
     loop {
         check_gas();
