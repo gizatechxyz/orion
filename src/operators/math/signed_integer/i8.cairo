@@ -1,4 +1,5 @@
 use onnx_cairo::operators::math::signed_integer::integer_trait::IntegerTrait;
+use onnx_cairo::utils::check_gas;
 
 // ====================== INT 8 ======================
 
@@ -316,6 +317,7 @@ fn i8_rem(a: i8, b: i8) -> i8 {
 // # Returns
 // * `(i8, i8)` - A tuple containing the quotient and the remainder of dividing `a` by `b`.
 fn i8_div_rem(a: i8, b: i8) -> (i8, i8) {
+    check_gas();
     let quotient = i8_div(a, b);
     let remainder = i8_rem(a, b);
 

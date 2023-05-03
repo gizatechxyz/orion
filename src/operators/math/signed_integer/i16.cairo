@@ -1,4 +1,5 @@
 use onnx_cairo::operators::math::signed_integer::integer_trait::IntegerTrait;
+use onnx_cairo::utils::check_gas;
 
 // ====================== INT 16 ======================
 
@@ -316,6 +317,7 @@ fn i16_rem(a: i16, b: i16) -> i16 {
 // # Returns
 // * `(i16, i16)` - A tuple containing the quotient and the remainder of dividing `a` by `b`.
 fn i16_div_rem(a: i16, b: i16) -> (i16, i16) {
+    check_gas();
     let quotient = i16_div(a, b);
     let remainder = i16_rem(a, b);
 

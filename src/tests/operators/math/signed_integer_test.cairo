@@ -179,6 +179,7 @@ fn test_div_no_rem() {
 }
 
 #[test]
+#[available_gas(20000000)]
 fn test_div_rem() {
     // Test division and remainder of positive integers
     let a = IntegerTrait::<i32>::new(13_u32, false);
