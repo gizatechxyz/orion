@@ -26,7 +26,7 @@ use onnx_cairo::operators::math::fixed_point::types::FixedAdd;
 use onnx_cairo::operators::math::fixed_point::types::FixedDiv;
 use onnx_cairo::operators::math::fixed_point::types::FixedMul;
 use onnx_cairo::operators::math::fixed_point::types::FixedNeg;
-
+use onnx_cairo::utils::check_gas;
 
 //! PUBLIC
 
@@ -54,6 +54,7 @@ fn abs(a: FixedType) -> FixedType {
 ///
 /// * The sum of the input fixed point numbers.
 fn add(a: FixedType, b: FixedType) -> FixedType {
+    check_gas();
     return Fixed::from_felt(a.into() + b.into());
 }
 
@@ -89,17 +90,18 @@ fn ceil(a: FixedType) -> FixedType {
 ///
 /// * The result of the division of the input fixed point numbers.
 fn div(a: FixedType, b: FixedType) -> FixedType {
-        let res_sign = a.sign ^ b.sign;
+    check_gas();
+    let res_sign = a.sign ^ b.sign;
 
-        // Invert b to preserve precision as much as possible
-        // TODO: replace if / when there is a felt div_rem supported
-        let (a_high, a_low) = integer::u128_wide_mul(a.mag, ONE_u128);
-        let b_inv = MAX_u128 / b.mag;
-        let res_u128 = a_low / b.mag + a_high * b_inv;
+    // Invert b to preserve precision as much as possible
+    // TODO: replace if / when there is a felt div_rem supported
+    let (a_high, a_low) = integer::u128_wide_mul(a.mag, ONE_u128);
+    let b_inv = MAX_u128 / b.mag;
+    let res_u128 = a_low / b.mag + a_high * b_inv;
 
-        // Re-apply sign
-        return FixedType { mag: res_u128, sign: res_sign };
-    }
+    // Re-apply sign
+    return FixedType { mag: res_u128, sign: res_sign };
+}
 
 /// Checks whether two fixed point numbers are equal.
 ///
@@ -357,12 +359,14 @@ fn lt(a: FixedType, b: FixedType) -> bool {
 ///
 /// * A FixedType value representing the product of the two input numbers.
 fn mul(a: FixedType, b: FixedType) -> FixedType {
+    check_gas();
+
     let res_sign = a.sign ^ b.sign;
 
     // Use u128 to multiply and shift back down
     // TODO: replace if / when there is a felt div_rem supported
     let (high, low) = integer::u128_wide_mul(a.mag, b.mag);
-    let res_u128 = high  + (low / ONE_u128);
+    let res_u128 = high + (low / ONE_u128);
 
     // Re-apply sign
     return FixedType { mag: res_u128, sign: res_sign };
@@ -468,6 +472,7 @@ fn sqrt(a: FixedType) -> FixedType {
 ///
 /// * A fixed point number representing the result of the subtraction.
 fn sub(a: FixedType, b: FixedType) -> FixedType {
+    check_gas();
     return Fixed::from_felt(a.into() - b.into());
 }
 

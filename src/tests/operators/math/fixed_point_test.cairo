@@ -153,6 +153,7 @@ fn test_ne_() {
 }
 
 #[test]
+#[available_gas(2000000)]
 fn test_add() {
     let a = Fixed::from_unscaled_felt(1);
     let b = Fixed::from_unscaled_felt(2);
@@ -160,6 +161,7 @@ fn test_add() {
 }
 
 #[test]
+#[available_gas(2000000)]
 fn test_add_eq() {
     let mut a = Fixed::from_unscaled_felt(1);
     let b = Fixed::from_unscaled_felt(2);
@@ -168,6 +170,7 @@ fn test_add_eq() {
 }
 
 #[test]
+#[available_gas(2000000)]
 fn test_sub() {
     let a = Fixed::from_unscaled_felt(5);
     let b = Fixed::from_unscaled_felt(2);
@@ -176,6 +179,7 @@ fn test_sub() {
 }
 
 #[test]
+#[available_gas(2000000)]
 fn test_sub_eq() {
     let mut a = Fixed::from_unscaled_felt(5);
     let b = Fixed::from_unscaled_felt(2);
@@ -184,6 +188,7 @@ fn test_sub_eq() {
 }
 
 #[test]
+#[available_gas(2000000)]
 fn test_mul_pos() {
     let a = Fixed::from_unscaled_felt(5);
     let b = Fixed::from_unscaled_felt(2);
@@ -207,6 +212,7 @@ fn test_mul_pos() {
 }
 
 #[test]
+#[available_gas(2000000)]
 fn test_mul_neg() {
     let a = Fixed::from_unscaled_felt(5);
     let b = Fixed::from_unscaled_felt(-2);
@@ -215,6 +221,7 @@ fn test_mul_neg() {
 }
 
 #[test]
+#[available_gas(2000000)]
 fn test_mul_eq() {
     let mut a = Fixed::from_unscaled_felt(5);
     let b = Fixed::from_unscaled_felt(-2);
@@ -223,6 +230,7 @@ fn test_mul_eq() {
 }
 
 #[test]
+#[available_gas(2000000)]
 fn test_div_() {
     let a = Fixed::from_unscaled_felt(10);
     let b = Fixed::from_felt(194615706); // 2.9
