@@ -120,8 +120,8 @@ fn broadcast_index_mapping(mut shape: Span<usize>, mut indices: Span<usize>) -> 
 ///
 /// # Returns
 /// * A Span of usize representing the output shape after reduction.
-fn reduce_output_shape(input_shape: Span<usize>, axis: usize, keepdims: bool) -> Span<usize> {
-    assert(axis <= input_shape.len(), 'axis out of dimensions');
+fn reduce_output_shape(mut input_shape: Span<usize>, axis: usize, keepdims: bool) -> Span<usize> {
+    assert(axis < input_shape.len(), 'axis out of dimensions');
 
     let mut output_shape = ArrayTrait::new();
     let mut n: usize = 0;
@@ -129,16 +129,18 @@ fn reduce_output_shape(input_shape: Span<usize>, axis: usize, keepdims: bool) ->
     loop {
         check_gas();
 
-        if n == input_shape.len() {
+        if input_shape.len() == 0 {
             break ();
         }
 
+        let current_dim = *input_shape.pop_front().unwrap();
+
         if n == axis {
             if keepdims {
-                output_shape.append(1); // Retain the reduced dimension with length 1
+                output_shape.append(1);
             }
         } else {
-            output_shape.append(*input_shape.at(n));
+            output_shape.append(current_dim);
         }
 
         n += 1;
@@ -146,6 +148,7 @@ fn reduce_output_shape(input_shape: Span<usize>, axis: usize, keepdims: bool) ->
 
     return output_shape.span();
 }
+
 
 /// Helper function that computes the output shape of a tensor after applying the axes permutation.
 ///
@@ -287,7 +290,7 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
         };
 
         let broadcasted_dim = u32_max(dim1, dim2);
-        temp_result.append(broadcasted_dim); 
+        temp_result.append(broadcasted_dim);
 
         if shape1.len() == 0 & shape2.len() == 0 {
             break ();

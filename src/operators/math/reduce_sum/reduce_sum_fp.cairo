@@ -19,6 +19,7 @@ use onnx_cairo::utils::check_gas;
 /// # Arguments
 /// * `self` - The input tensor.
 /// * `axis` - The axis along which to sum the elements.
+/// * `keepdims` - If true, retains reduced dimensions with length 1.
 ///
 /// # Panics
 /// * Panics if axis is not in the range of the input tensor's dimensions.
