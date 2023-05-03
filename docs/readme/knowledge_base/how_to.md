@@ -11,24 +11,38 @@ src
 │   ├── linalg
 │   │   ├── matmul
 │   │   │   ├── helpers.cairo
+│   │   │   ├── matmul_fp.cairo
 │   │   │   ├── matmul_i32.cairo
 │   │   │   └── matmul_u32.cairo
 │   │   └── matmul.cairo
 │   ├── linalg.cairo
 │   ├── math
 │   │   ├── argmax
+│   │   │   ├── argmax_fp.cairo
 │   │   │   ├── argmax_i32.cairo
 │   │   │   └── argmax_u32.cairo
 │   │   ├── argmax.cairo
+│   │   ├── exp
+│   │   │   ├── exp_fp.cairo
+│   │   │   ├── exp_i32.cairo
+│   │   │   └── exp_u32.cairo
+│   │   ├── exp.cairo
+│   │   ├── fixed_point
+│   │   │   ├── core.cairo
+│   │   │   └── types.cairo
+│   │   ├── fixed_point.cairo
 │   │   ├── max
+│   │   │   ├── max_fp.cairo
 │   │   │   ├── max_i32.cairo
 │   │   │   └── max_u32.cairo
 │   │   ├── max.cairo
 │   │   ├── min
+│   │   │   ├── min_fp.cairo
 │   │   │   ├── min_i32.cairo
 │   │   │   └── min_u32.cairo
 │   │   ├── min.cairo
 │   │   ├── reduce_sum
+│   │   │   ├── reduce_sum_fp.cairo
 │   │   │   ├── reduce_sum_i32.cairo
 │   │   │   └── reduce_sum_u32.cairo
 │   │   ├── reduce_sum.cairo
@@ -46,7 +60,11 @@ src
 │   │   │   ├── relu
 │   │   │   │   ├── relu_i32.cairo
 │   │   │   │   └── relu_u32.cairo
-│   │   │   └── relu.cairo
+│   │   │   ├── relu.cairo
+│   │   │   ├── softmax
+│   │   │   │   ├── softmax_i32.cairo
+│   │   │   │   └── softmax_u32.cairo
+│   │   │   └── softmax.cairo
 │   │   ├── functional.cairo
 │   │   ├── nn_i32.cairo
 │   │   └── nn_u32.cairo
@@ -54,6 +72,7 @@ src
 │   ├── tensor
 │   │   ├── core.cairo
 │   │   ├── helpers.cairo
+│   │   ├── tensor_fp.cairo
 │   │   ├── tensor_i32.cairo
 │   │   └── tensor_u32.cairo
 │   └── tensor.cairo
@@ -61,6 +80,7 @@ src
 ├── performance
 │   ├── functional
 │   │   ├── quantization
+│   │   │   ├── quant_fp.cairo
 │   │   │   ├── quant_i32.cairo
 │   │   │   └── quant_u32.cairo
 │   │   └── quantization.cairo
@@ -75,13 +95,16 @@ src
 │   │   ├── linalg.cairo
 │   │   ├── math
 │   │   │   ├── argmax_test.cairo
+│   │   │   ├── exp_test.cairo
+│   │   │   ├── fixed_point_test.cairo
 │   │   │   ├── max_test.cairo
 │   │   │   ├── min_test.cairo
 │   │   │   ├── reduce_sum_test.cairo
 │   │   │   └── signed_integer_test.cairo
 │   │   ├── math.cairo
 │   │   ├── nn
-│   │   │   └── relu_test.cairo
+│   │   │   ├── relu_test.cairo
+│   │   │   └── softmax_test.cairo
 │   │   ├── nn.cairo
 │   │   ├── tensor
 │   │   │   ├── helpers.cairo
