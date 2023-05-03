@@ -3,6 +3,7 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use onnx_cairo::utils::check_gas;
+use onnx_cairo::utils::u32_max;
 use onnx_cairo::operators::tensor::core::stride;
 
 /// Calculates the number of elements in a tensor given its shape.
@@ -250,4 +251,59 @@ fn find_axis(mut axes: Span<usize>, target_axis: usize) -> usize {
         axis += 1;
     };
     return axis;
+}
+
+/// Computes the broadcasted shape of two tensors.
+///
+/// # Arguments
+/// * `shape1` - A span containing the shape of the first tensor as usize elements.
+/// * `shape2` - A span containing the shape of the second tensor as usize elements.
+///
+/// # Panics
+/// * Panics if the shapes of the tensors are not compatible.
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * A Span of usize representing the broadcasted shape.
+fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usize> {
+    check_compatibility(shape1, shape2);
+    let mut result: Array<usize> = ArrayTrait::new();
+    let mut temp_result = ArrayTrait::new();
+
+    loop {
+        check_gas();
+
+        // Get dimensions from shape1 and shape2, or use 1 if there are no more dimensions
+        let dim1 = if shape1.len() > 0 {
+            *shape1.pop_back().unwrap()
+        } else {
+            1
+        };
+
+        let dim2 = if shape2.len() > 0 {
+            *shape2.pop_back().unwrap()
+        } else {
+            1
+        };
+
+        let broadcasted_dim = u32_max(dim1, dim2);
+        temp_result.append(broadcasted_dim); 
+
+        if shape1.len() == 0 & shape2.len() == 0 {
+            break ();
+        };
+    };
+
+    // Copy the broadcasted dimensions to the result array in the correct order
+    let mut temp_result: Span<usize> = temp_result.span();
+    loop {
+        check_gas();
+
+        if temp_result.len() == 0 {
+            break ();
+        }
+        result.append(*temp_result.pop_back().unwrap());
+    };
+
+    return result.span();
 }

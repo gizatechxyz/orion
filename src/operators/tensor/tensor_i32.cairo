@@ -9,6 +9,7 @@ use onnx_cairo::operators::math::signed_integer::i32::i32;
 use onnx_cairo::operators::math::fixed_point::types::FixedType;
 use onnx_cairo::operators::tensor::helpers::check_shape;
 use onnx_cairo::operators::tensor::helpers::check_compatibility;
+use onnx_cairo::operators::tensor::helpers::broadcast_shape;
 use onnx_cairo::operators::tensor::core::new_tensor;
 use onnx_cairo::operators::tensor::core::stride;
 use onnx_cairo::operators::tensor::core::Tensor;
@@ -335,28 +336,29 @@ fn i32_at_tensor(self: @Tensor<i32>, indices: Span<usize>) -> i32 {
 /// # Returns
 /// * A `Tensor<i32>` instance representing the result of the element-wise addition with broadcasting.
 fn i32_add_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-    check_compatibility(*self.shape, *other.shape);
+    let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
+
+    let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
     loop {
         check_gas();
 
-        let indices_self = self.unravel_index(n);
-        let indices_other = other.unravel_index(n);
+        let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
-        let i = broadcast_index_mapping(*self.shape, indices_self);
-        let j = broadcast_index_mapping(*other.shape, indices_other);
+        let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
+        let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
 
-        result.append(*(*self.data).at(i) + *(*other.data).at(j));
+        result.append(*(*self.data).at(indices_self) + *(*other.data).at(indices_other));
 
         n += 1;
-        if n == (*self.data).len() {
+        if n == num_elements {
             break ();
         };
     };
 
-    return TensorTrait::<i32>::new(*self.shape, result.span());
+    return TensorTrait::<i32>::new(broadcasted_shape, result.span());
 }
 
 /// Subtracts two `Tensor<i32>` instances element-wise with broadcasting.
@@ -372,28 +374,29 @@ fn i32_add_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
 /// # Returns
 /// * A `Tensor<i32>` instance representing the result of the element-wise subtraction with broadcasting.
 fn i32_sub_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-    check_compatibility(*self.shape, *other.shape);
+    let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
+
+    let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
     loop {
         check_gas();
 
-        let indices_self = self.unravel_index(n);
-        let indices_other = other.unravel_index(n);
+        let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
-        let i = broadcast_index_mapping(*self.shape, indices_self);
-        let j = broadcast_index_mapping(*other.shape, indices_other);
+        let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
+        let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
 
-        result.append(*(*self.data).at(i) - *(*other.data).at(j));
+        result.append(*(*self.data).at(indices_self) - *(*other.data).at(indices_other));
 
         n += 1;
-        if n == (*self.data).len() {
+        if n == num_elements {
             break ();
         };
     };
 
-    return TensorTrait::<i32>::new(*self.shape, result.span());
+    return TensorTrait::<i32>::new(broadcasted_shape, result.span());
 }
 
 /// Multiplies two `Tensor<i32>` instances element-wise with broadcasting.
@@ -409,28 +412,29 @@ fn i32_sub_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
 /// # Returns
 /// * A `Tensor<i32>` instance representing the result of the element-wise multiplication with broadcasting.
 fn i32_mul_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-    check_compatibility(*self.shape, *other.shape);
+    let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
+
+    let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
     loop {
         check_gas();
 
-        let indices_self = self.unravel_index(n);
-        let indices_other = other.unravel_index(n);
+        let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
-        let i = broadcast_index_mapping(*self.shape, indices_self);
-        let j = broadcast_index_mapping(*other.shape, indices_other);
+        let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
+        let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
 
-        result.append(*(*self.data).at(i) * *(*other.data).at(j));
+        result.append(*(*self.data).at(indices_self) * *(*other.data).at(indices_other));
 
         n += 1;
-        if n == (*self.data).len() {
+        if n == num_elements {
             break ();
         };
     };
 
-    return TensorTrait::<i32>::new(*self.shape, result.span());
+    return TensorTrait::<i32>::new(broadcasted_shape, result.span());
 }
 
 /// Divides two `Tensor<i32>` instances element-wise with broadcasting.
@@ -446,28 +450,29 @@ fn i32_mul_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
 /// # Returns
 /// * A `Tensor<i32>` instance representing the result of the element-wise division with broadcasting.
 fn i32_div_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-    check_compatibility(*self.shape, *other.shape);
+    let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
+
+    let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
     loop {
         check_gas();
 
-        let indices_self = self.unravel_index(n);
-        let indices_other = other.unravel_index(n);
+        let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
-        let i = broadcast_index_mapping(*self.shape, indices_self);
-        let j = broadcast_index_mapping(*other.shape, indices_other);
+        let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
+        let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
 
-        result.append(*(*self.data).at(i) / *(*other.data).at(j));
+        result.append(*(*self.data).at(indices_self) / *(*other.data).at(indices_other));
 
         n += 1;
-        if n == (*self.data).len() {
+        if n == num_elements {
             break ();
         };
     };
 
-    return TensorTrait::<i32>::new(*self.shape, result.span());
+    return TensorTrait::<i32>::new(broadcasted_shape, result.span());
 }
 
 /// Reorders the axes of an i32 tensor according to the given axes permutation.
