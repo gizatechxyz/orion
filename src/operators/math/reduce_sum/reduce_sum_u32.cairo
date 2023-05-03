@@ -24,11 +24,11 @@ use onnx_cairo::utils::check_gas;
 ///
 /// # Returns
 /// * A `Tensor<u32>` instance representing the result of the reduction.
-fn reduce_sum(self: @Tensor<u32>, axis: usize) -> Tensor<u32> {
+fn reduce_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
     assert(axis <= (*self.shape).len(), 'axis out of dimensions');
     let mut output_data = ArrayTrait::new();
 
-    let output_shape = reduce_output_shape(*self.shape, axis);
+    let output_shape = reduce_output_shape(*self.shape, axis, false);
     let output_data_len = len_from_shape(output_shape);
 
     let mut index: usize = 0;

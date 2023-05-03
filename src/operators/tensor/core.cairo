@@ -46,7 +46,7 @@ trait TensorTrait<T> {
     fn unravel_index(self: @Tensor<T>, index: usize) -> Span<usize>;
     fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
     fn transpose(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T>;
-    fn reduce_sum(self: @Tensor<T>, axis: usize) -> Tensor<T>;
+    fn reduce_sum(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
     fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
     fn matmul(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
     fn exp(self: @Tensor<T>) -> Tensor<FixedType>;

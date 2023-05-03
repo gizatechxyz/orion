@@ -161,8 +161,8 @@ impl U32Tensor of TensorTrait<u32> {
     ///
     /// # Returns
     /// * A new `Tensor<u32>` instance with the specified axis reduced by summing its elements.
-    fn reduce_sum(self: @Tensor<u32>, axis: usize) -> Tensor<u32> {
-        reduce_sum(self, axis)
+    fn reduce_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        reduce_sum(self, axis, keepdims)
     }
 
     /// Computes the indices of the maximum values along the given axis of an u32 tensor.

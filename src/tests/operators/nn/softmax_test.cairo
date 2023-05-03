@@ -16,10 +16,7 @@ use debug::print_felt252;
 #[available_gas(20000000)]
 fn softmax_test() {
     let tensor = i32_tensor_2x2_helper();
-    let mut result = nn::softmax(@tensor, 1).data;
-
-    //assert((*result.at(0).mag).into() == 18048353, 'result[0] = 0.2689');
-    
+    let mut result = nn::softmax(@tensor, 1).data;    
 
     print_felt252((*result.at(0).mag).into());
     print_felt252((*result.at(1).mag).into());

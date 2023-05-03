@@ -119,28 +119,31 @@ fn broadcast_index_mapping(mut shape: Span<usize>, mut indices: Span<usize>) -> 
 ///
 /// # Returns
 /// * A Span of usize representing the output shape after reduction.
-fn reduce_output_shape(mut input_shape: Span<usize>, axis: usize) -> Span<usize> {
-    let input_shape_len = input_shape.len();
+fn reduce_output_shape(input_shape: Span<usize>, axis: usize, keepdims: bool) -> Span<usize> {
+    assert(axis <= input_shape.len(), 'axis out of dimensions');
 
-    assert(input_shape_len > 0, 'input_shape cannot be empty');
-    assert(axis <= input_shape_len, 'axis is out of bound');
+    let mut output_shape = ArrayTrait::new();
+    let mut n: usize = 0;
 
-    let mut reduced = ArrayTrait::new();
-    let mut current_axis: usize = 0;
     loop {
         check_gas();
 
-        if current_axis != axis {
-            reduced.append(*input_shape.pop_front().unwrap());
+        if n == input_shape.len() {
+            break ();
         }
 
-        current_axis += 1;
-        if current_axis == input_shape_len {
-            break ();
-        };
+        if n == axis {
+            if keepdims {
+                output_shape.append(1); // Retain the reduced dimension with length 1
+            }
+        } else {
+            output_shape.append(*input_shape.at(n));
+        }
+
+        n += 1;
     };
 
-    return reduced.span();
+    return output_shape.span();
 }
 
 /// Helper function that computes the output shape of a tensor after applying the axes permutation.
@@ -215,6 +218,7 @@ fn combine_indices(output_indices: Span<usize>, axis_index: usize, axis: usize) 
 
     return result.span();
 }
+
 
 /// Helper function that finds the index of a target axis in the given axes array.
 ///

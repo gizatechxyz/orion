@@ -23,7 +23,7 @@ use onnx_cairo::utils::check_gas;
 /// to the input tensor along the specified axis.
 fn softmax_u32(z: @Tensor<u32>, axis: usize) -> Tensor<FixedType> {
     let exp_tensor = z.exp();
-    let sum = exp_tensor.reduce_sum(axis);
+    let sum = exp_tensor.reduce_sum(axis, true);
     let softmax = exp_tensor / sum;
 
     return softmax;

@@ -163,8 +163,8 @@ impl FixedTypeTensor of TensorTrait<FixedType> {
     ///
     /// # Returns
     /// * A new `Tensor<FixedType>` instance with the specified axis reduced by summing its elements.
-    fn reduce_sum(self: @Tensor<FixedType>, axis: usize) -> Tensor<FixedType> {
-        reduce_sum(self, axis)
+    fn reduce_sum(self: @Tensor<FixedType>, axis: usize, keepdims: bool) -> Tensor<FixedType> {
+        reduce_sum(self, axis, keepdims)
     }
 
     /// Computes the indices of the maximum values along the given axis of an FixedType tensor.
