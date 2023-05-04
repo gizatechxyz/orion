@@ -36,8 +36,8 @@ impl i8Impl of IntegerTrait<i8, u8> {
 
 // Implements the Add trait for i8.
 impl i8Add of Add<i8> {
-    fn add(a: i8, b: i8) -> i8 {
-        i8_add(a, b)
+    fn add(lhs: i8, rhs: i8) -> i8 {
+        i8_add(lhs, rhs)
     }
 }
 
@@ -51,8 +51,8 @@ impl i8AddEq of AddEq<i8> {
 
 // Implements the Sub trait for i8.
 impl i8Sub of Sub<i8> {
-    fn sub(a: i8, b: i8) -> i8 {
-        i8_sub(a, b)
+    fn sub(lhs: i8, rhs: i8) -> i8 {
+        i8_sub(lhs, rhs)
     }
 }
 
@@ -66,8 +66,8 @@ impl i8SubEq of SubEq<i8> {
 
 // Implements the Mul trait for i8.
 impl i8Mul of Mul<i8> {
-    fn mul(a: i8, b: i8) -> i8 {
-        i8_mul(a, b)
+    fn mul(lhs: i8, rhs: i8) -> i8 {
+        i8_mul(lhs, rhs)
     }
 }
 
@@ -81,8 +81,8 @@ impl i8MulEq of MulEq<i8> {
 
 // Implements the Div trait for i8.
 impl i8Div of Div<i8> {
-    fn div(a: i8, b: i8) -> i8 {
-        i8_div(a, b)
+    fn div(lhs: i8, rhs: i8) -> i8 {
+        i8_div(lhs, rhs)
     }
 }
 
@@ -96,8 +96,8 @@ impl i8DivEq of DivEq<i8> {
 
 // Implements the Rem trait for i8.
 impl i8Rem of Rem<i8> {
-    fn rem(a: i8, b: i8) -> i8 {
-        i8_rem(a, b)
+    fn rem(lhs: i8, rhs: i8) -> i8 {
+        i8_rem(lhs, rhs)
     }
 }
 
@@ -111,36 +111,36 @@ impl i8RemEq of RemEq<i8> {
 
 // Implements the PartialEq trait for i8.
 impl i8PartialEq of PartialEq<i8> {
-    fn eq(a: i8, b: i8) -> bool {
-        i8_eq(a, b)
+    fn eq(lhs: i8, rhs: i8) -> bool {
+        i8_eq(lhs, rhs)
     }
 
-    fn ne(a: i8, b: i8) -> bool {
-        i8_ne(a, b)
+    fn ne(lhs: i8, rhs: i8) -> bool {
+        i8_ne(lhs, rhs)
     }
 }
 
 // Implements the PartialOrd trait for i8.
 impl i8PartialOrd of PartialOrd<i8> {
-    fn le(a: i8, b: i8) -> bool {
-        i8_le(a, b)
+    fn le(lhs: i8, rhs: i8) -> bool {
+        i8_le(rhs, lhs)
     }
-    fn ge(a: i8, b: i8) -> bool {
-        i8_ge(a, b)
+    fn ge(lhs: i8, rhs: i8) -> bool {
+        i8_ge(lhs, rhs)
     }
 
-    fn lt(a: i8, b: i8) -> bool {
-        i8_lt(a, b)
+    fn lt(lhs: i8, rhs: i8) -> bool {
+        i8_lt(lhs, rhs)
     }
-    fn gt(a: i8, b: i8) -> bool {
-        i8_gt(a, b)
+    fn gt(lhs: i8, rhs: i8) -> bool {
+        i8_gt(lhs, rhs)
     }
 }
 
 // Implements the Neg trait for i8.
 impl i8Neg of Neg<i8> {
-    fn neg(x: i8) -> i8 {
-        i8_neg(x)
+    fn neg(a: i8) -> i8 {
+        i8_neg(a)
     }
 }
 

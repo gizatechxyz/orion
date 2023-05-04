@@ -1,3 +1,4 @@
+use core::traits::TryInto;
 /// A fixed point arithmetic library for handling signed fixed point numbers.
 ///
 /// The library provides basic arithmetic operations, trigonometric functions,
@@ -19,6 +20,7 @@ use traits::Into;
 use onnx_cairo::operators::math::fixed_point::types::HALF_u128;
 use onnx_cairo::operators::math::fixed_point::types::MAX_u128;
 use onnx_cairo::operators::math::fixed_point::types::ONE_u128;
+use onnx_cairo::operators::math::fixed_point::types::ONE_u64;
 use onnx_cairo::operators::math::fixed_point::types::Fixed;
 use onnx_cairo::operators::math::fixed_point::types::FixedInto;
 use onnx_cairo::operators::math::fixed_point::types::FixedType;
@@ -457,8 +459,8 @@ fn sqrt(a: FixedType) -> FixedType {
     assert(a.sign == false, 'must be positive');
     let root = integer::u128_sqrt(a.mag);
     let scale_root = integer::u128_sqrt(ONE_u128);
-    let res_u128 = root * ONE_u128 / scale_root;
-    return Fixed::new(res_u128, false);
+    let res_u64 = root * ONE_u64 / scale_root;
+    return Fixed::new(res_u64.into(), false);
 }
 
 /// Subtracts one fixed point number from another.

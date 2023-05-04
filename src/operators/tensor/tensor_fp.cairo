@@ -253,8 +253,8 @@ impl FixedTypeTensorAdd of Add<Tensor<FixedType>> {
     ///
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise addition.
-    fn add(self: Tensor<FixedType>, other: Tensor<FixedType>) -> Tensor<FixedType> {
-        FixedType_add_tensor(@self, @other)
+    fn add(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
+        FixedType_add_tensor(@lhs, @rhs)
     }
 }
 
@@ -268,8 +268,8 @@ impl FixedTypeTensorSub of Sub<Tensor<FixedType>> {
     ///
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise subtraction.
-    fn sub(self: Tensor<FixedType>, other: Tensor<FixedType>) -> Tensor<FixedType> {
-        FixedType_sub_tensor(@self, @other)
+    fn sub(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
+        FixedType_sub_tensor(@lhs, @rhs)
     }
 }
 
@@ -283,8 +283,8 @@ impl FixedTypeTensorMul of Mul<Tensor<FixedType>> {
     ///
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise multiplication.
-    fn mul(self: Tensor<FixedType>, other: Tensor<FixedType>) -> Tensor<FixedType> {
-        FixedType_mul_tensor(@self, @other)
+    fn mul(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
+        FixedType_mul_tensor(@lhs, @rhs)
     }
 }
 
@@ -298,8 +298,8 @@ impl FixedTypeTensorDiv of Div<Tensor<FixedType>> {
     ///
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise division.
-    fn div(self: Tensor<FixedType>, other: Tensor<FixedType>) -> Tensor<FixedType> {
-        FixedType_div_tensor(@self, @other)
+    fn div(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
+        FixedType_div_tensor(@lhs, @rhs)
     }
 }
 

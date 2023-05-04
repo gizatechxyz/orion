@@ -12,7 +12,7 @@ struct i64 {
     sign: bool,
 }
 
-impl i64Impl of IntegerTrait::<i64, u64> {
+impl i64Impl of IntegerTrait<i64, u64> {
     fn new(mag: u64, sign: bool) -> i64 {
         i64_new(mag, sign)
     }
@@ -35,14 +35,14 @@ impl i64Impl of IntegerTrait::<i64, u64> {
 }
 
 // Implements the Add trait for i64.
-impl i64Add of Add::<i64> {
-    fn add(a: i64, b: i64) -> i64 {
-        i64_add(a, b)
+impl i64Add of Add<i64> {
+    fn add(lhs: i64, rhs: i64) -> i64 {
+        i64_add(lhs, rhs)
     }
 }
 
 // Implements the AddEq trait for i64.
-impl i64AddEq of AddEq::<i64> {
+impl i64AddEq of AddEq<i64> {
     #[inline(always)]
     fn add_eq(ref self: i64, other: i64) {
         self = Add::add(self, other);
@@ -50,14 +50,14 @@ impl i64AddEq of AddEq::<i64> {
 }
 
 // Implements the Sub trait for i64.
-impl i64Sub of Sub::<i64> {
-    fn sub(a: i64, b: i64) -> i64 {
-        i64_sub(a, b)
+impl i64Sub of Sub<i64> {
+    fn sub(lhs: i64, rhs: i64) -> i64 {
+        i64_sub(lhs, rhs)
     }
 }
 
 // Implements the SubEq trait for i64.
-impl i64SubEq of SubEq::<i64> {
+impl i64SubEq of SubEq<i64> {
     #[inline(always)]
     fn sub_eq(ref self: i64, other: i64) {
         self = Sub::sub(self, other);
@@ -65,14 +65,14 @@ impl i64SubEq of SubEq::<i64> {
 }
 
 // Implements the Mul trait for i64.
-impl i64Mul of Mul::<i64> {
-    fn mul(a: i64, b: i64) -> i64 {
-        i64_mul(a, b)
+impl i64Mul of Mul<i64> {
+    fn mul(lhs: i64, rhs: i64) -> i64 {
+        i64_mul(lhs, rhs)
     }
 }
 
 // Implements the MulEq trait for i64.
-impl i64MulEq of MulEq::<i64> {
+impl i64MulEq of MulEq<i64> {
     #[inline(always)]
     fn mul_eq(ref self: i64, other: i64) {
         self = Mul::mul(self, other);
@@ -80,14 +80,14 @@ impl i64MulEq of MulEq::<i64> {
 }
 
 // Implements the Div trait for i64.
-impl i64Div of Div::<i64> {
-    fn div(a: i64, b: i64) -> i64 {
-        i64_div(a, b)
+impl i64Div of Div<i64> {
+    fn div(lhs: i64, rhs: i64) -> i64 {
+        i64_div(lhs, rhs)
     }
 }
 
 // Implements the DivEq trait for i64.
-impl i64DivEq of DivEq::<i64> {
+impl i64DivEq of DivEq<i64> {
     #[inline(always)]
     fn div_eq(ref self: i64, other: i64) {
         self = Div::div(self, other);
@@ -95,14 +95,14 @@ impl i64DivEq of DivEq::<i64> {
 }
 
 // Implements the Rem trait for i64.
-impl i64Rem of Rem::<i64> {
-    fn rem(a: i64, b: i64) -> i64 {
-        i64_rem(a, b)
+impl i64Rem of Rem<i64> {
+    fn rem(lhs: i64, rhs: i64) -> i64 {
+        i64_rem(lhs, rhs)
     }
 }
 
 // Implements the RemEq trait for i64.
-impl i64RemEq of RemEq::<i64> {
+impl i64RemEq of RemEq<i64> {
     #[inline(always)]
     fn rem_eq(ref self: i64, other: i64) {
         self = Rem::rem(self, other);
@@ -110,37 +110,37 @@ impl i64RemEq of RemEq::<i64> {
 }
 
 // Implements the PartialEq trait for i64.
-impl i64PartialEq of PartialEq::<i64> {
-    fn eq(a: i64, b: i64) -> bool {
-        i64_eq(a, b)
+impl i64PartialEq of PartialEq<i64> {
+    fn eq(lhs: i64, rhs: i64) -> bool {
+        i64_eq(lhs, rhs)
     }
 
-    fn ne(a: i64, b: i64) -> bool {
-        i64_ne(a, b)
+    fn ne(lhs: i64, rhs: i64) -> bool {
+        i64_ne(lhs, rhs)
     }
 }
 
 // Implements the PartialOrd trait for i64.
-impl i64PartialOrd of PartialOrd::<i64> {
-    fn le(a: i64, b: i64) -> bool {
-        i64_le(a, b)
+impl i64PartialOrd of PartialOrd<i64> {
+    fn le(lhs: i64, rhs: i64) -> bool {
+        i64_le(lhs, rhs)
     }
-    fn ge(a: i64, b: i64) -> bool {
-        i64_ge(a, b)
+    fn ge(lhs: i64, rhs: i64) -> bool {
+        i64_ge(lhs, rhs)
     }
 
-    fn lt(a: i64, b: i64) -> bool {
-        i64_lt(a, b)
+    fn lt(lhs: i64, rhs: i64) -> bool {
+        i64_lt(lhs, rhs)
     }
-    fn gt(a: i64, b: i64) -> bool {
-        i64_gt(a, b)
+    fn gt(lhs: i64, rhs: i64) -> bool {
+        i64_gt(lhs, rhs)
     }
 }
 
 // Implements the Neg trait for i64.
-impl i64Neg of Neg::<i64> {
-    fn neg(x: i64) -> i64 {
-        i64_neg(x)
+impl i64Neg of Neg<i64> {
+    fn neg(a: i64) -> i64 {
+        i64_neg(a)
     }
 }
 

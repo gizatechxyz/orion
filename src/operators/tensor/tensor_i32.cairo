@@ -254,8 +254,8 @@ impl i32TensorAdd of Add<Tensor<i32>> {
     ///
     /// # Returns
     /// * A `Tensor<i32>` instance representing the result of the element-wise addition.
-    fn add(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
-        i32_add_tensor(@self, @other)
+    fn add(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        i32_add_tensor(@lhs, @rhs)
     }
 }
 
@@ -269,8 +269,8 @@ impl i32TensorSub of Sub<Tensor<i32>> {
     ///
     /// # Returns
     /// * A `Tensor<i32>` instance representing the result of the element-wise subtraction.
-    fn sub(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
-        i32_sub_tensor(@self, @other)
+    fn sub(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        i32_sub_tensor(@lhs, @rhs)
     }
 }
 
@@ -284,8 +284,8 @@ impl i32TensorMul of Mul<Tensor<i32>> {
     ///
     /// # Returns
     /// * A `Tensor<i32>` instance representing the result of the element-wise multiplication.
-    fn mul(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
-        i32_mul_tensor(@self, @other)
+    fn mul(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        i32_mul_tensor(@lhs, @rhs)
     }
 }
 
@@ -299,8 +299,8 @@ impl i32TensorDiv of Div<Tensor<i32>> {
     ///
     /// # Returns
     /// * A `Tensor<i32>` instance representing the result of the element-wise division.
-    fn div(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
-        i32_div_tensor(@self, @other)
+    fn div(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        i32_div_tensor(@lhs, @rhs)
     }
 }
 
