@@ -176,6 +176,46 @@ fn add_tensor() {
     let result = (tensor_1 + tensor_2).data;
 
     assert(*result.at(0).mag == 10_u32, 'result[0] = 10');
+    assert(*result.at(1).mag == 11_u32, 'result[1] = 11');
+    assert(*result.at(2).mag == 102_u32, 'result[2] = 102');
+    assert(*result.at(3).mag == 103_u32, 'result[3] = 103');
+    assert(*result.at(4).mag == 14_u32, 'result[4] = 14');
+    assert(*result.at(5).mag == 15_u32, 'result[5] = 15');
+    assert(*result.at(6).mag == 106_u32, 'result[6] = 106');
+    assert(*result.at(7).mag == 107_u32, 'result[7] = 107');
+
+    let mut sizes = ArrayTrait::new();
+    sizes.append(2);
+    sizes.append(1);
+    sizes.append(1);
+    let mut data = ArrayTrait::new();
+    data.append(IntegerTrait::new(10_u32, false));
+    data.append(IntegerTrait::new(100_u32, false));
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span());
+
+    let result = (tensor_1 + tensor_2).data;
+
+    assert(*result.at(0).mag == 10_u32, 'result[0] = 10');
+    assert(*result.at(1).mag == 11_u32, 'result[1] = 11');
+    assert(*result.at(2).mag == 12_u32, 'result[2] = 12');
+    assert(*result.at(3).mag == 13_u32, 'result[3] = 13');
+    assert(*result.at(4).mag == 104_u32, 'result[4] = 104');
+    assert(*result.at(5).mag == 105_u32, 'result[5] = 105');
+    assert(*result.at(6).mag == 106_u32, 'result[6] = 106');
+    assert(*result.at(7).mag == 107_u32, 'result[7] = 107');
+
+    let mut sizes = ArrayTrait::new();
+    sizes.append(1);
+    sizes.append(1);
+    sizes.append(2);
+    let mut data = ArrayTrait::new();
+    data.append(IntegerTrait::new(10_u32, false));
+    data.append(IntegerTrait::new(100_u32, false));
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span());
+
+    let result = (tensor_1 + tensor_2).data;
+
+    assert(*result.at(0).mag == 10_u32, 'result[0] = 10');
     assert(*result.at(1).mag == 101_u32, 'result[1] = 101');
     assert(*result.at(2).mag == 12_u32, 'result[2] = 12');
     assert(*result.at(3).mag == 103_u32, 'result[3] = 103');
@@ -186,7 +226,7 @@ fn add_tensor() {
 }
 
 #[test]
-#[available_gas(20000000)]
+#[available_gas(200000000)]
 fn sub_tensor() {
     let tensor_1 = i32_tensor_2x2x2_helper();
     let tensor_2 = i32_tensor_2x2x2_helper();
@@ -216,12 +256,12 @@ fn sub_tensor() {
     let result = (tensor_1 - tensor_2).data;
 
     assert(*result.at(0).mag == 0_u32, 'result[0] = 0');
-    assert(*result.at(1).mag == 0_u32, 'result[1] = 0');
-    assert(*result.at(2).mag == 2_u32, 'result[2] = 2');
+    assert(*result.at(1).mag == 1_u32, 'result[1] = 1');
+    assert(*result.at(2).mag == 1_u32, 'result[2] = 1');
     assert(*result.at(3).mag == 2_u32, 'result[3] = 2');
     assert(*result.at(4).mag == 4_u32, 'result[4] = 4');
-    assert(*result.at(5).mag == 4_u32, 'result[5] = 4');
-    assert(*result.at(6).mag == 6_u32, 'result[6] = 6');
+    assert(*result.at(5).mag == 5_u32, 'result[5] = 5');
+    assert(*result.at(6).mag == 5_u32, 'result[6] = 5');
     assert(*result.at(7).mag == 6_u32, 'result[7] = 6');
 }
 
@@ -256,12 +296,12 @@ fn mul_tensor() {
     let result = (tensor_1 * tensor_2).data;
 
     assert(*result.at(0).mag == 0_u32, 'result[0] = 0');
-    assert(*result.at(1).mag == 100_u32, 'result[1] = 100');
-    assert(*result.at(2).mag == 20_u32, 'result[2] = 20');
+    assert(*result.at(1).mag == 10_u32, 'result[1] = 10');
+    assert(*result.at(2).mag == 200_u32, 'result[2] = 200');
     assert(*result.at(3).mag == 300_u32, 'result[3] = 300');
     assert(*result.at(4).mag == 40_u32, 'result[4] = 40');
-    assert(*result.at(5).mag == 500_u32, 'result[5] = 500');
-    assert(*result.at(6).mag == 60_u32, 'result[6] = 60');
+    assert(*result.at(5).mag == 50_u32, 'result[5] = 50');
+    assert(*result.at(6).mag == 600_u32, 'result[6] = 600');
     assert(*result.at(7).mag == 700_u32, 'result[7] = 700');
 }
 
@@ -323,12 +363,12 @@ fn div_tensor() {
     let result = (tensor_1 / tensor_2).data;
 
     assert(*result.at(0).mag == 10_u32, 'result[0] = 10');
-    assert(*result.at(1).mag == 2_u32, 'result[1] = 2');
-    assert(*result.at(2).mag == 30_u32, 'result[2] = 30');
+    assert(*result.at(1).mag == 20_u32, 'result[1] = 20');
+    assert(*result.at(2).mag == 3_u32, 'result[2] = 3');
     assert(*result.at(3).mag == 4_u32, 'result[3] = 4');
     assert(*result.at(4).mag == 50_u32, 'result[4] = 50');
-    assert(*result.at(5).mag == 6_u32, 'result[5] = 6');
-    assert(*result.at(6).mag == 70_u32, 'result[6] = 70');
+    assert(*result.at(5).mag == 60_u32, 'result[5] = 60');
+    assert(*result.at(6).mag == 7_u32, 'result[6] = 7');
     assert(*result.at(7).mag == 8_u32, 'result[7] = 8');
 }
 
