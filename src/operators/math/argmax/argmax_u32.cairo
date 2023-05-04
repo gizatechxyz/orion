@@ -30,7 +30,7 @@ fn argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
 
     let mut output_data = ArrayTrait::new();
 
-    let output_shape = reduce_output_shape(*self.shape, axis);
+    let output_shape = reduce_output_shape(*self.shape, axis, false);
     let output_data_len = len_from_shape(output_shape);
 
     let mut index: usize = 0;

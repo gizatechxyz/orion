@@ -19,6 +19,7 @@ use onnx_cairo::utils::check_gas;
 /// # Arguments
 /// * `self` - The input tensor.
 /// * `axis` - The axis along which to sum the elements.
+/// * `keepdims` - If true, retains reduced dimensions with length 1.
 ///
 /// # Panics
 /// * Panics if axis is not in the range of the input tensor's dimensions.
@@ -26,11 +27,11 @@ use onnx_cairo::utils::check_gas;
 ///
 /// # Returns
 /// * A `Tensor<FixedType>` instance representing the result of the reduction.
-fn reduce_sum(self: @Tensor<FixedType>, axis: usize) -> Tensor<FixedType> {
+fn reduce_sum(self: @Tensor<FixedType>, axis: usize, keepdims: bool) -> Tensor<FixedType> {
     assert(axis <= (*self.shape).len(), 'axis out of dimensions');
     let mut output_data = ArrayTrait::new();
 
-    let output_shape = reduce_output_shape(*self.shape, axis);
+    let output_shape = reduce_output_shape(*self.shape, axis, false);
     let output_data_len = len_from_shape(output_shape);
 
     let mut index: usize = 0;
@@ -48,8 +49,14 @@ fn reduce_sum(self: @Tensor<FixedType>, axis: usize) -> Tensor<FixedType> {
         };
     };
 
-    return TensorTrait::<FixedType>::new(output_shape, output_data.span());
+    if keepdims {
+        let output_shape = reduce_output_shape(*self.shape, axis, true);
+        return TensorTrait::<FixedType>::new(output_shape, output_data.span());
+    } else {
+        return TensorTrait::<FixedType>::new(output_shape, output_data.span());
+    }
 }
+
 
 /// Helper function that accumulates the sum of elements along a specific axis.
 ///
@@ -63,6 +70,8 @@ fn reduce_sum(self: @Tensor<FixedType>, axis: usize) -> Tensor<FixedType> {
 ///
 /// # Returns
 /// * An FixedType value representing the accumulated sum along the specified axis.
+use debug::print_felt252;
+use traits::Into;
 fn accumulate_sum(
     input: @Tensor<FixedType>, output_indices: Span<usize>, axis: usize
 ) -> FixedType {
@@ -80,7 +89,6 @@ fn accumulate_sum(
         let input_indices = combine_indices(output_indices, axis_index, axis);
         let input_index = ravel_index(*input.shape, input_indices);
         let ele = *(*input.data).at(input_index);
-
         acc += ele;
         axis_index += 1;
     };

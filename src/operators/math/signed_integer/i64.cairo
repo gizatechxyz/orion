@@ -1,4 +1,5 @@
 use onnx_cairo::operators::math::signed_integer::integer_trait::IntegerTrait;
+use onnx_cairo::utils::check_gas;
 
 // ====================== INT 64 ======================
 
@@ -316,6 +317,7 @@ fn i64_rem(a: i64, b: i64) -> i64 {
 // # Returns
 // * `(i64, i64)` - A tuple containing the quotient and the remainder of dividing `a` by `b`.
 fn i64_div_rem(a: i64, b: i64) -> (i64, i64) {
+    check_gas();
     let quotient = i64_div(a, b);
     let remainder = i64_rem(a, b);
 

@@ -28,6 +28,7 @@ use onnx_cairo::operators::math::max::max_fp::max_in_tensor;
 use onnx_cairo::operators::math::reduce_sum::reduce_sum_fp::reduce_sum;
 use onnx_cairo::operators::math::argmax::argmax_fp::argmax;
 use onnx_cairo::operators::linalg::matmul::matmul_fp::matmul;
+use onnx_cairo::operators::math::exp::exp_fp::exp;
 use onnx_cairo::utils::check_gas;
 
 impl FixedTypeTensor of TensorTrait<FixedType> {
@@ -163,8 +164,8 @@ impl FixedTypeTensor of TensorTrait<FixedType> {
     ///
     /// # Returns
     /// * A new `Tensor<FixedType>` instance with the specified axis reduced by summing its elements.
-    fn reduce_sum(self: @Tensor<FixedType>, axis: usize) -> Tensor<FixedType> {
-        reduce_sum(self, axis)
+    fn reduce_sum(self: @Tensor<FixedType>, axis: usize, keepdims: bool) -> Tensor<FixedType> {
+        reduce_sum(self, axis, keepdims)
     }
 
     /// Computes the indices of the maximum values along the given axis of an FixedType tensor.
@@ -222,6 +223,23 @@ impl FixedTypeTensor of TensorTrait<FixedType> {
     /// * A new `Tensor<FixedType>` resulting from the matrix multiplication.
     fn matmul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType> {
         matmul(self, other)
+    }
+
+    /// Calculates the exponential function (e^x) for each element in a tensor of FixedType values.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A tensor of FixedType values representing the input tensor.
+    ///
+    /// # Panics
+    ///
+    /// * If gas limit is reached during computation.
+    ///
+    /// # Returns
+    ///
+    /// * A tensor of fixed point numbers representing the result 
+    fn exp(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        exp(self)
     }
 }
 

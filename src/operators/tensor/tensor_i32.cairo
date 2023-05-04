@@ -6,6 +6,7 @@ use option::OptionTrait;
 
 use onnx_cairo::operators::math::signed_integer::integer_trait::IntegerTrait;
 use onnx_cairo::operators::math::signed_integer::i32::i32;
+use onnx_cairo::operators::math::fixed_point::types::FixedType;
 use onnx_cairo::operators::tensor::helpers::check_shape;
 use onnx_cairo::operators::tensor::helpers::check_compatibility;
 use onnx_cairo::operators::tensor::helpers::broadcast_shape;
@@ -28,6 +29,7 @@ use onnx_cairo::operators::math::max::max_i32::max_in_tensor;
 use onnx_cairo::operators::math::reduce_sum::reduce_sum_i32::reduce_sum;
 use onnx_cairo::operators::math::argmax::argmax_i32::argmax;
 use onnx_cairo::operators::linalg::matmul::matmul_i32::matmul;
+use onnx_cairo::operators::math::exp::exp_i32::exp;
 use onnx_cairo::utils::check_gas;
 
 impl i32Tensor of TensorTrait<i32> {
@@ -163,8 +165,8 @@ impl i32Tensor of TensorTrait<i32> {
     ///
     /// # Returns
     /// * A new `Tensor<i32>` instance with the specified axis reduced by summing its elements.
-    fn reduce_sum(self: @Tensor<i32>, axis: usize) -> Tensor<i32> {
-        reduce_sum(self, axis)
+    fn reduce_sum(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
+        reduce_sum(self, axis, keepdims)
     }
 
     /// Computes the indices of the maximum values along the given axis of an i32 tensor.
@@ -222,6 +224,23 @@ impl i32Tensor of TensorTrait<i32> {
     /// * A new `Tensor<i32>` resulting from the matrix multiplication.
     fn matmul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         matmul(self, other)
+    }
+
+    /// Calculates the exponential function (e^x) for each element in a tensor of i32 values.
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - A tensor of i32 values representing the input tensor.
+    ///
+    /// # Panics
+    ///
+    /// * If gas limit is reached during computation.
+    ///
+    /// # Returns
+    ///
+    /// * A tensor of fixed point numbers representing the result 
+    fn exp(self: @Tensor<i32>) -> Tensor<FixedType> {
+        exp(self)
     }
 }
 
