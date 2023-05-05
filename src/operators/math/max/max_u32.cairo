@@ -1,8 +1,6 @@
-use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::operators::tensor::tensor_u32;
 use onnx_cairo::utils::check_gas;
 
 /// Finds the maximum value in a `Tensor<u32>` array.

@@ -3,8 +3,7 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use onnx_cairo::utils::check_gas;
-use onnx_cairo::operators::tensor::helpers::len_from_shape;
-use onnx_cairo::operators::tensor::helpers::check_shape;
+use onnx_cairo::operators::tensor::helpers::{len_from_shape, check_shape};
 use onnx_cairo::operators::math::fixed_point::types::FixedType;
 
 /// A generic Tensor struct representing n-dimensional arrays.

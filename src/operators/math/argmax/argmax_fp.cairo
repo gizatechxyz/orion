@@ -1,19 +1,10 @@
 use array::ArrayTrait;
 use array::SpanTrait;
-use option::OptionTrait;
 
-use onnx_cairo::operators::math::fixed_point::types::Fixed;
-use onnx_cairo::operators::math::fixed_point::types::FixedType;
-use onnx_cairo::operators::math::fixed_point::types::MAX_u128;
-use onnx_cairo::operators::tensor::tensor_fp;
+use onnx_cairo::operators::math::fixed_point::types::{Fixed, FixedType, MAX_u128};
 use onnx_cairo::operators::tensor::tensor_u32;
-use onnx_cairo::operators::tensor::core::Tensor;
-use onnx_cairo::operators::tensor::core::TensorTrait;
-use onnx_cairo::operators::tensor::core::ravel_index;
-use onnx_cairo::operators::tensor::core::unravel_index;
-use onnx_cairo::operators::tensor::helpers::reduce_output_shape;
-use onnx_cairo::operators::tensor::helpers::len_from_shape;
-use onnx_cairo::operators::tensor::helpers::combine_indices;
+use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
+use onnx_cairo::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
 use onnx_cairo::utils::check_gas;
 
 /// Returns the indices of the maximum values along the given axis of an FixedType tensor.

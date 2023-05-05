@@ -2,11 +2,9 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::operators::math::fixed_point::types::Fixed;
-use onnx_cairo::operators::math::fixed_point::types::FixedType;
+use onnx_cairo::operators::math::fixed_point::types::{Fixed, FixedType};
 use onnx_cairo::operators::math::fixed_point::core::max;
-use onnx_cairo::operators::tensor::core::Tensor;
-use onnx_cairo::operators::tensor::core::TensorTrait;
+use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
 use onnx_cairo::operators::tensor::tensor_fp;
 use onnx_cairo::utils::check_gas;
 

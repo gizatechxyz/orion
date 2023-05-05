@@ -1,17 +1,10 @@
 use array::ArrayTrait;
 use array::SpanTrait;
-use option::OptionTrait;
 
-use onnx_cairo::operators::math::signed_integer::integer_trait::IntegerTrait;
-use onnx_cairo::operators::math::signed_integer::i32::i32;
+use onnx_cairo::operators::math::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use onnx_cairo::operators::tensor::tensor_i32;
-use onnx_cairo::operators::tensor::core::Tensor;
-use onnx_cairo::operators::tensor::core::TensorTrait;
-use onnx_cairo::operators::tensor::core::ravel_index;
-use onnx_cairo::operators::tensor::core::unravel_index;
-use onnx_cairo::operators::tensor::helpers::reduce_output_shape;
-use onnx_cairo::operators::tensor::helpers::len_from_shape;
-use onnx_cairo::operators::tensor::helpers::combine_indices;
+use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
+use onnx_cairo::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
 use onnx_cairo::utils::check_gas;
 
 /// Sums the elements along the given axis of an i32 tensor.

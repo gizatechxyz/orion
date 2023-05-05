@@ -12,7 +12,7 @@ struct i128 {
     sign: bool,
 }
 
-impl i128Impl of IntegerTrait::<i128, u128> {
+impl i128Impl of IntegerTrait<i128, u128> {
     fn new(mag: u128, sign: bool) -> i128 {
         i128_new(mag, sign)
     }
@@ -35,14 +35,14 @@ impl i128Impl of IntegerTrait::<i128, u128> {
 }
 
 // Implements the Add trait for i128.
-impl i128Add of Add::<i128> {
-    fn add(a: i128, b: i128) -> i128 {
-        i128_add(a, b)
+impl i128Add of Add<i128> {
+    fn add(lhs: i128, rhs: i128) -> i128 {
+        i128_add(lhs, rhs)
     }
 }
 
 // Implements the AddEq trait for i128.
-impl i128AddEq of AddEq::<i128> {
+impl i128AddEq of AddEq<i128> {
     #[inline(always)]
     fn add_eq(ref self: i128, other: i128) {
         self = Add::add(self, other);
@@ -50,14 +50,14 @@ impl i128AddEq of AddEq::<i128> {
 }
 
 // Implements the Sub trait for i128.
-impl i128Sub of Sub::<i128> {
-    fn sub(a: i128, b: i128) -> i128 {
-        i128_sub(a, b)
+impl i128Sub of Sub<i128> {
+    fn sub(lhs: i128, rhs: i128) -> i128 {
+        i128_sub(lhs, rhs)
     }
 }
 
 // Implements the SubEq trait for i128.
-impl i128SubEq of SubEq::<i128> {
+impl i128SubEq of SubEq<i128> {
     #[inline(always)]
     fn sub_eq(ref self: i128, other: i128) {
         self = Sub::sub(self, other);
@@ -65,14 +65,14 @@ impl i128SubEq of SubEq::<i128> {
 }
 
 // Implements the Mul trait for i128.
-impl i128Mul of Mul::<i128> {
-    fn mul(a: i128, b: i128) -> i128 {
-        i128_mul(a, b)
+impl i128Mul of Mul<i128> {
+    fn mul(lhs: i128, rhs: i128) -> i128 {
+        i128_mul(lhs, rhs)
     }
 }
 
 // Implements the MulEq trait for i128.
-impl i128MulEq of MulEq::<i128> {
+impl i128MulEq of MulEq<i128> {
     #[inline(always)]
     fn mul_eq(ref self: i128, other: i128) {
         self = Mul::mul(self, other);
@@ -80,14 +80,14 @@ impl i128MulEq of MulEq::<i128> {
 }
 
 // Implements the Div trait for i128.
-impl i128Div of Div::<i128> {
-    fn div(a: i128, b: i128) -> i128 {
-        i128_div(a, b)
+impl i128Div of Div<i128> {
+    fn div(lhs: i128, rhs: i128) -> i128 {
+        i128_div(lhs, rhs)
     }
 }
 
 // Implements the DivEq trait for i128.
-impl i128DivEq of DivEq::<i128> {
+impl i128DivEq of DivEq<i128> {
     #[inline(always)]
     fn div_eq(ref self: i128, other: i128) {
         self = Div::div(self, other);
@@ -95,14 +95,14 @@ impl i128DivEq of DivEq::<i128> {
 }
 
 // Implements the Rem trait for i128.
-impl i128Rem of Rem::<i128> {
-    fn rem(a: i128, b: i128) -> i128 {
-        i128_rem(a, b)
+impl i128Rem of Rem<i128> {
+    fn rem(lhs: i128, rhs: i128) -> i128 {
+        i128_rem(lhs, rhs)
     }
 }
 
 // Implements the RemEq trait for i128.
-impl i128RemEq of RemEq::<i128> {
+impl i128RemEq of RemEq<i128> {
     #[inline(always)]
     fn rem_eq(ref self: i128, other: i128) {
         self = Rem::rem(self, other);
@@ -110,37 +110,37 @@ impl i128RemEq of RemEq::<i128> {
 }
 
 // Implements the PartialEq trait for i128.
-impl i128PartialEq of PartialEq::<i128> {
-    fn eq(a: i128, b: i128) -> bool {
-        i128_eq(a, b)
+impl i128PartialEq of PartialEq<i128> {
+    fn eq(lhs: i128, rhs: i128) -> bool {
+        i128_eq(lhs, rhs)
     }
 
-    fn ne(a: i128, b: i128) -> bool {
-        i128_ne(a, b)
+    fn ne(lhs: i128, rhs: i128) -> bool {
+        i128_ne(lhs, rhs)
     }
 }
 
 // Implements the PartialOrd trait for i128.
-impl i128PartialOrd of PartialOrd::<i128> {
-    fn le(a: i128, b: i128) -> bool {
-        i128_le(a, b)
+impl i128PartialOrd of PartialOrd<i128> {
+    fn le(lhs: i128, rhs: i128) -> bool {
+        i128_le(lhs, rhs)
     }
-    fn ge(a: i128, b: i128) -> bool {
-        i128_ge(a, b)
+    fn ge(lhs: i128, rhs: i128) -> bool {
+        i128_ge(lhs, rhs)
     }
 
-    fn lt(a: i128, b: i128) -> bool {
-        i128_lt(a, b)
+    fn lt(lhs: i128, rhs: i128) -> bool {
+        i128_lt(lhs, rhs)
     }
-    fn gt(a: i128, b: i128) -> bool {
-        i128_gt(a, b)
+    fn gt(lhs: i128, rhs: i128) -> bool {
+        i128_gt(lhs, rhs)
     }
 }
 
 // Implements the Neg trait for i128.
-impl i128Neg of Neg::<i128> {
-    fn neg(x: i128) -> i128 {
-        i128_neg(x)
+impl i128Neg of Neg<i128> {
+    fn neg(a: i128) -> i128 {
+        i128_neg(a)
     }
 }
 

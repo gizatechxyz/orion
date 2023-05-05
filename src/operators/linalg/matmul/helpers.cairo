@@ -21,9 +21,7 @@ use onnx_cairo::utils::check_gas;
 ///
 /// # Returns
 /// * A span representing the adjusted shape of the tensor.
-fn prepare_shape_for_matmul(
-    mut shape: Span<usize>, is_first_tensor: bool
-) -> Span<usize> {
+fn prepare_shape_for_matmul(mut shape: Span<usize>, is_first_tensor: bool) -> Span<usize> {
     let ndim = shape.len();
 
     if ndim == 1 & is_first_tensor {

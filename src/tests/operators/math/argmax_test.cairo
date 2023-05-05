@@ -1,15 +1,8 @@
-use array::ArrayTrait;
 use array::SpanTrait;
-use traits::Into;
 
-use onnx_cairo::operators::math::signed_integer::integer_trait::IntegerTrait;
-use onnx_cairo::operators::math::signed_integer::i32::i32;
 use onnx_cairo::operators::tensor::tensor_i32;
 use onnx_cairo::operators::tensor::core::TensorTrait;
-use onnx_cairo::operators::tensor::core::Tensor;
-use onnx_cairo::tests::operators::tensor::helpers::i32_tensor_2x2_helper;
-use onnx_cairo::tests::operators::tensor::helpers::i32_tensor_2x2x2_helper;
-
+use onnx_cairo::tests::operators::tensor::helpers::{i32_tensor_2x2_helper, i32_tensor_2x2x2_helper};
 
 #[test]
 #[available_gas(20000000)]

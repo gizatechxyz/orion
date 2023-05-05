@@ -12,7 +12,7 @@ struct i16 {
     sign: bool,
 }
 
-impl i16Impl of IntegerTrait::<i16, u16> {
+impl i16Impl of IntegerTrait<i16, u16> {
     fn new(mag: u16, sign: bool) -> i16 {
         i16_new(mag, sign)
     }
@@ -35,14 +35,14 @@ impl i16Impl of IntegerTrait::<i16, u16> {
 }
 
 // Implements the Add trait for i16.
-impl i16Add of Add::<i16> {
-    fn add(a: i16, b: i16) -> i16 {
-        i16_add(a, b)
+impl i16Add of Add<i16> {
+    fn add(lhs: i16, rhs: i16) -> i16 {
+        i16_add(lhs, rhs)
     }
 }
 
 // Implements the AddEq trait for i16.
-impl i16AddEq of AddEq::<i16> {
+impl i16AddEq of AddEq<i16> {
     #[inline(always)]
     fn add_eq(ref self: i16, other: i16) {
         self = Add::add(self, other);
@@ -50,14 +50,14 @@ impl i16AddEq of AddEq::<i16> {
 }
 
 // Implements the Sub trait for i16.
-impl i16Sub of Sub::<i16> {
-    fn sub(a: i16, b: i16) -> i16 {
-        i16_sub(a, b)
+impl i16Sub of Sub<i16> {
+    fn sub(lhs: i16, rhs: i16) -> i16 {
+        i16_sub(lhs, rhs)
     }
 }
 
 // Implements the SubEq trait for i16.
-impl i16SubEq of SubEq::<i16> {
+impl i16SubEq of SubEq<i16> {
     #[inline(always)]
     fn sub_eq(ref self: i16, other: i16) {
         self = Sub::sub(self, other);
@@ -65,14 +65,14 @@ impl i16SubEq of SubEq::<i16> {
 }
 
 // Implements the Mul trait for i16.
-impl i16Mul of Mul::<i16> {
-    fn mul(a: i16, b: i16) -> i16 {
-        i16_mul(a, b)
+impl i16Mul of Mul<i16> {
+    fn mul(lhs: i16, rhs: i16) -> i16 {
+        i16_mul(lhs, rhs)
     }
 }
 
 // Implements the MulEq trait for i16.
-impl i16MulEq of MulEq::<i16> {
+impl i16MulEq of MulEq<i16> {
     #[inline(always)]
     fn mul_eq(ref self: i16, other: i16) {
         self = Mul::mul(self, other);
@@ -80,14 +80,14 @@ impl i16MulEq of MulEq::<i16> {
 }
 
 // Implements the Div trait for i16.
-impl i16Div of Div::<i16> {
-    fn div(a: i16, b: i16) -> i16 {
-        i16_div(a, b)
+impl i16Div of Div<i16> {
+    fn div(lhs: i16, rhs: i16) -> i16 {
+        i16_div(lhs, rhs)
     }
 }
 
 // Implements the DivEq trait for i16.
-impl i16DivEq of DivEq::<i16> {
+impl i16DivEq of DivEq<i16> {
     #[inline(always)]
     fn div_eq(ref self: i16, other: i16) {
         self = Div::div(self, other);
@@ -95,14 +95,14 @@ impl i16DivEq of DivEq::<i16> {
 }
 
 // Implements the Rem trait for i16.
-impl i16Rem of Rem::<i16> {
-    fn rem(a: i16, b: i16) -> i16 {
-        i16_rem(a, b)
+impl i16Rem of Rem<i16> {
+    fn rem(lhs: i16, rhs: i16) -> i16 {
+        i16_rem(lhs, rhs)
     }
 }
 
 // Implements the RemEq trait for i16.
-impl i16RemEq of RemEq::<i16> {
+impl i16RemEq of RemEq<i16> {
     #[inline(always)]
     fn rem_eq(ref self: i16, other: i16) {
         self = Rem::rem(self, other);
@@ -110,37 +110,37 @@ impl i16RemEq of RemEq::<i16> {
 }
 
 // Implements the PartialEq trait for i16.
-impl i16PartialEq of PartialEq::<i16> {
-    fn eq(a: i16, b: i16) -> bool {
-        i16_eq(a, b)
+impl i16PartialEq of PartialEq<i16> {
+    fn eq(lhs: i16, rhs: i16) -> bool {
+        i16_eq(lhs, rhs)
     }
 
-    fn ne(a: i16, b: i16) -> bool {
-        i16_ne(a, b)
+    fn ne(lhs: i16, rhs: i16) -> bool {
+        i16_ne(lhs, rhs)
     }
 }
 
 // Implements the PartialOrd trait for i16.
-impl i16PartialOrd of PartialOrd::<i16> {
-    fn le(a: i16, b: i16) -> bool {
-        i16_le(a, b)
+impl i16PartialOrd of PartialOrd<i16> {
+    fn le(lhs: i16, rhs: i16) -> bool {
+        i16_le(lhs, rhs)
     }
-    fn ge(a: i16, b: i16) -> bool {
-        i16_ge(a, b)
+    fn ge(lhs: i16, rhs: i16) -> bool {
+        i16_ge(lhs, rhs)
     }
 
-    fn lt(a: i16, b: i16) -> bool {
-        i16_lt(a, b)
+    fn lt(lhs: i16, rhs: i16) -> bool {
+        i16_lt(lhs, rhs)
     }
-    fn gt(a: i16, b: i16) -> bool {
-        i16_gt(a, b)
+    fn gt(lhs: i16, rhs: i16) -> bool {
+        i16_gt(lhs, rhs)
     }
 }
 
 // Implements the Neg trait for i16.
-impl i16Neg of Neg::<i16> {
-    fn neg(x: i16) -> i16 {
-        i16_neg(x)
+impl i16Neg of Neg<i16> {
+    fn neg(a: i16) -> i16 {
+        i16_neg(a)
     }
 }
 

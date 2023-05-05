@@ -2,27 +2,16 @@
 
 use array::ArrayTrait;
 use array::SpanTrait;
-use option::OptionTrait;
 
-use onnx_cairo::operators::math::signed_integer::integer_trait::IntegerTrait;
 use onnx_cairo::operators::math::signed_integer::i32::i32;
 use onnx_cairo::operators::math::fixed_point::types::FixedType;
-use onnx_cairo::operators::tensor::helpers::check_shape;
-use onnx_cairo::operators::tensor::helpers::check_compatibility;
 use onnx_cairo::operators::tensor::helpers::broadcast_shape;
-use onnx_cairo::operators::tensor::core::new_tensor;
-use onnx_cairo::operators::tensor::core::stride;
-use onnx_cairo::operators::tensor::core::Tensor;
-use onnx_cairo::operators::tensor::core::TensorTrait;
-use onnx_cairo::operators::tensor::core::ravel_index;
-use onnx_cairo::operators::tensor::core::unravel_index;
-use onnx_cairo::operators::tensor::core::reshape;
-use onnx_cairo::operators::tensor::helpers::broadcast_index_mapping;
-use onnx_cairo::operators::tensor::helpers::reduce_output_shape;
-use onnx_cairo::operators::tensor::helpers::len_from_shape;
-use onnx_cairo::operators::tensor::helpers::combine_indices;
-use onnx_cairo::operators::tensor::helpers::find_axis;
-use onnx_cairo::operators::tensor::helpers::permutation_output_shape;
+use onnx_cairo::operators::tensor::core::{
+    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape
+};
+use onnx_cairo::operators::tensor::helpers::{
+    broadcast_index_mapping, len_from_shape, find_axis, permutation_output_shape
+};
 use onnx_cairo::operators::tensor::tensor_u32;
 use onnx_cairo::operators::math::min::min_i32::min_in_tensor;
 use onnx_cairo::operators::math::max::max_i32::max_in_tensor;
@@ -249,13 +238,13 @@ impl i32TensorAdd of Add<Tensor<i32>> {
     /// Adds two `Tensor<i32>` instances element-wise.
     ///
     /// # Arguments
-    /// * `self` - The first tensor.
-    /// * `other` - The second tensor.
+    /// * `lhs` - The first tensor.
+    /// * `rhs` - The second tensor.
     ///
     /// # Returns
     /// * A `Tensor<i32>` instance representing the result of the element-wise addition.
-    fn add(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
-        i32_add_tensor(@self, @other)
+    fn add(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        i32_add_tensor(@lhs, @rhs)
     }
 }
 
@@ -264,13 +253,13 @@ impl i32TensorSub of Sub<Tensor<i32>> {
     /// Subtracts two `Tensor<i32>` instances element-wise.
     ///
     /// # Arguments
-    /// * `self` - The first tensor.
-    /// * `other` - The second tensor.
+    /// * `lhs` - The first tensor.
+    /// * `rhs` - The second tensor.
     ///
     /// # Returns
     /// * A `Tensor<i32>` instance representing the result of the element-wise subtraction.
-    fn sub(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
-        i32_sub_tensor(@self, @other)
+    fn sub(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        i32_sub_tensor(@lhs, @rhs)
     }
 }
 
@@ -279,13 +268,13 @@ impl i32TensorMul of Mul<Tensor<i32>> {
     /// Multiplies two `Tensor<i32>` instances element-wise.
     ///
     /// # Arguments
-    /// * `self` - The first tensor.
-    /// * `other` - The second tensor.
+    /// * `lhs` - The first tensor.
+    /// * `rhs` - The second tensor.
     ///
     /// # Returns
     /// * A `Tensor<i32>` instance representing the result of the element-wise multiplication.
-    fn mul(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
-        i32_mul_tensor(@self, @other)
+    fn mul(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        i32_mul_tensor(@lhs, @rhs)
     }
 }
 
@@ -294,13 +283,13 @@ impl i32TensorDiv of Div<Tensor<i32>> {
     /// Divides two `Tensor<i32>` instances element-wise.
     ///
     /// # Arguments
-    /// * `self` - The first tensor.
-    /// * `other` - The second tensor.
+    /// * `lhs` - The first tensor.
+    /// * `rhs` - The second tensor.
     ///
     /// # Returns
     /// * A `Tensor<i32>` instance representing the result of the element-wise division.
-    fn div(self: Tensor<i32>, other: Tensor<i32>) -> Tensor<i32> {
-        i32_div_tensor(@self, @other)
+    fn div(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        i32_div_tensor(@lhs, @rhs)
     }
 }
 

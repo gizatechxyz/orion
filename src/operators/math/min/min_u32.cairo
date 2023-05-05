@@ -1,4 +1,3 @@
-use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 

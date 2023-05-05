@@ -36,8 +36,8 @@ impl i32Impl of IntegerTrait<i32, u32> {
 
 // Implements the Add trait for i32.
 impl i32Add of Add<i32> {
-    fn add(a: i32, b: i32) -> i32 {
-        i32_add(a, b)
+    fn add(lhs: i32, rhs: i32) -> i32 {
+        i32_add(lhs, rhs)
     }
 }
 
@@ -51,8 +51,8 @@ impl i32AddEq of AddEq<i32> {
 
 // Implements the Sub trait for i32.
 impl i32Sub of Sub<i32> {
-    fn sub(a: i32, b: i32) -> i32 {
-        i32_sub(a, b)
+    fn sub(lhs: i32, rhs: i32) -> i32 {
+        i32_sub(lhs, rhs)
     }
 }
 
@@ -66,8 +66,8 @@ impl i32SubEq of SubEq<i32> {
 
 // Implements the Mul trait for i32.
 impl i32Mul of Mul<i32> {
-    fn mul(a: i32, b: i32) -> i32 {
-        i32_mul(a, b)
+    fn mul(lhs: i32, rhs: i32) -> i32 {
+        i32_mul(lhs, rhs)
     }
 }
 
@@ -81,8 +81,8 @@ impl i32MulEq of MulEq<i32> {
 
 // Implements the Div trait for i32.
 impl i32Div of Div<i32> {
-    fn div(a: i32, b: i32) -> i32 {
-        i32_div(a, b)
+    fn div(lhs: i32, rhs: i32) -> i32 {
+        i32_div(lhs, rhs)
     }
 }
 
@@ -96,8 +96,8 @@ impl i32DivEq of DivEq<i32> {
 
 // Implements the Rem trait for i32.
 impl i32Rem of Rem<i32> {
-    fn rem(a: i32, b: i32) -> i32 {
-        i32_rem(a, b)
+    fn rem(lhs: i32, rhs: i32) -> i32 {
+        i32_rem(lhs, rhs)
     }
 }
 
@@ -111,36 +111,36 @@ impl i32RemEq of RemEq<i32> {
 
 // Implements the PartialEq trait for i32.
 impl i32PartialEq of PartialEq<i32> {
-    fn eq(a: i32, b: i32) -> bool {
-        i32_eq(a, b)
+    fn eq(lhs: i32, rhs: i32) -> bool {
+        i32_eq(lhs, rhs)
     }
 
-    fn ne(a: i32, b: i32) -> bool {
-        i32_ne(a, b)
+    fn ne(lhs: i32, rhs: i32) -> bool {
+        i32_ne(lhs, rhs)
     }
 }
 
 // Implements the PartialOrd trait for i32.
 impl i32PartialOrd of PartialOrd<i32> {
-    fn le(a: i32, b: i32) -> bool {
-        i32_le(a, b)
+    fn le(lhs: i32, rhs: i32) -> bool {
+        i32_le(lhs, rhs)
     }
-    fn ge(a: i32, b: i32) -> bool {
-        i32_ge(a, b)
+    fn ge(lhs: i32, rhs: i32) -> bool {
+        i32_ge(lhs, rhs)
     }
 
-    fn lt(a: i32, b: i32) -> bool {
-        i32_lt(a, b)
+    fn lt(lhs: i32, rhs: i32) -> bool {
+        i32_lt(lhs, rhs)
     }
-    fn gt(a: i32, b: i32) -> bool {
-        i32_gt(a, b)
+    fn gt(lhs: i32, rhs: i32) -> bool {
+        i32_gt(lhs, rhs)
     }
 }
 
 // Implements the Neg trait for i32.
 impl i32Neg of Neg<i32> {
-    fn neg(x: i32) -> i32 {
-        i32_neg(x)
+    fn neg(a: i32) -> i32 {
+        i32_neg(a)
     }
 }
 
