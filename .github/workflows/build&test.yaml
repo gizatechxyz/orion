@@ -1,0 +1,26 @@
+name: Build_&_Test
+
+on:
+  workflow_dispatch:
+
+env:
+  SCARB_VERSION: v0.2.0-alpha.2
+
+jobs:
+  build_test:
+    name: build_test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Scarb
+        run: |
+          wget https://github.com/software-mansion/scarb/releases/download/${{ env.SCARB_VERSION }}/scarb-${{ env.SCARB_VERSION }}-x86_64-unknown-linux-gnu.tar.gz
+          tar -xvzf scarb-${{ env.SCARB_VERSION }}-x86_64-unknown-linux-gnu.tar.gz
+          echo "$GITHUB_WORKSPACE/scarb-${{ env.SCARB_VERSION }}-x86_64-unknown-linux-gnu/bin" >> $GITHUB_PATH
+
+      - name: Scarb Build
+        run: scarb build
+
+      - name: Scarb Run Test
+        run: scarb run test
