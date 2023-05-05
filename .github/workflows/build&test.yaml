@@ -1,7 +1,9 @@
 name: Build_&_Test
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - "**"
 
 env:
   SCARB_VERSION: v0.2.0-alpha.2
