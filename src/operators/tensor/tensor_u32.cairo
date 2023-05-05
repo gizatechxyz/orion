@@ -2,25 +2,15 @@
 
 use array::ArrayTrait;
 use array::SpanTrait;
-use option::OptionTrait;
 
 use onnx_cairo::operators::math::fixed_point::types::FixedType;
-use onnx_cairo::operators::tensor::helpers::check_shape;
-use onnx_cairo::operators::tensor::helpers::check_compatibility;
 use onnx_cairo::operators::tensor::helpers::broadcast_shape;
-use onnx_cairo::operators::tensor::core::new_tensor;
-use onnx_cairo::operators::tensor::core::stride;
-use onnx_cairo::operators::tensor::core::Tensor;
-use onnx_cairo::operators::tensor::core::TensorTrait;
-use onnx_cairo::operators::tensor::core::ravel_index;
-use onnx_cairo::operators::tensor::core::unravel_index;
-use onnx_cairo::operators::tensor::core::reshape;
-use onnx_cairo::operators::tensor::helpers::broadcast_index_mapping;
-use onnx_cairo::operators::tensor::helpers::reduce_output_shape;
-use onnx_cairo::operators::tensor::helpers::len_from_shape;
-use onnx_cairo::operators::tensor::helpers::combine_indices;
-use onnx_cairo::operators::tensor::helpers::find_axis;
-use onnx_cairo::operators::tensor::helpers::permutation_output_shape;
+use onnx_cairo::operators::tensor::core::{
+    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape
+};
+use onnx_cairo::operators::tensor::helpers::{
+    broadcast_index_mapping, len_from_shape, find_axis, permutation_output_shape
+};
 use onnx_cairo::operators::math::min::min_u32::min_in_tensor;
 use onnx_cairo::operators::math::max::max_u32::max_in_tensor;
 use onnx_cairo::operators::math::reduce_sum::reduce_sum_u32::reduce_sum;
@@ -227,7 +217,7 @@ impl U32Tensor of TensorTrait<u32> {
     ///
     /// # Arguments
     ///
-    /// * `self` - A tensor of i32 values representing the input tensor.
+    /// * `self` - A tensor of u32 values representing the input tensor.
     ///
     /// # Panics
     ///

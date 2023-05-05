@@ -1,5 +1,4 @@
 use array::ArrayTrait;
-use option::OptionTrait;
 
 // Fake macro to compute gas left
 // TODO: Remove when automatically handled by compiler.

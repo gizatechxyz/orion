@@ -1,4 +1,3 @@
-use core::traits::TryInto;
 /// A fixed point arithmetic library for handling signed fixed point numbers.
 ///
 /// The library provides basic arithmetic operations, trigonometric functions,
@@ -9,25 +8,11 @@ use core::traits::TryInto;
 /// Fixed Point Q5.26 -> https://github.com/tensorflow/tensorflow/blob/305fec9fddc3bdb5bb574a134b955bf4b07fd795/tensorflow/lite/kernels/internal/reference/softmax.h#L66
 /// Implemented from https://github.com/influenceth/cubit and adjusted to Q5.26
 
-use array::array_append;
-use array::array_new;
-use gas::withdraw_gas_all;
-use option::OptionTrait;
-use result::ResultTrait;
-use result::ResultTraitImpl;
 use traits::Into;
 
-use onnx_cairo::operators::math::fixed_point::types::HALF_u128;
-use onnx_cairo::operators::math::fixed_point::types::MAX_u128;
-use onnx_cairo::operators::math::fixed_point::types::ONE_u128;
-use onnx_cairo::operators::math::fixed_point::types::ONE_u64;
-use onnx_cairo::operators::math::fixed_point::types::Fixed;
-use onnx_cairo::operators::math::fixed_point::types::FixedInto;
-use onnx_cairo::operators::math::fixed_point::types::FixedType;
-use onnx_cairo::operators::math::fixed_point::types::FixedAdd;
-use onnx_cairo::operators::math::fixed_point::types::FixedDiv;
-use onnx_cairo::operators::math::fixed_point::types::FixedMul;
-use onnx_cairo::operators::math::fixed_point::types::FixedNeg;
+use onnx_cairo::operators::math::fixed_point::types::{
+    HALF_u128, MAX_u128, ONE_u128, ONE_u64, Fixed, FixedType,
+};
 use onnx_cairo::utils::check_gas;
 
 //! PUBLIC
@@ -275,14 +260,7 @@ fn ln(a: FixedType) -> FixedType {
 ///
 /// * A FixedType value representing the binary logarithm of the input number.
 fn log2(a: FixedType) -> FixedType {
-    match withdraw_gas_all(get_builtin_costs()) {
-        Option::Some(_) => {},
-        Option::None(_) => {
-            let mut data = array_new::<felt252>();
-            array_append::<felt252>(ref data, 'OOG');
-            panic(data);
-        },
-    }
+    check_gas();
 
     assert(a.sign == false, 'must be positive');
 
@@ -526,14 +504,7 @@ fn min(a: FixedType, b: FixedType) -> FixedType {
 ///
 /// * A u128 value representing the most significant bit.
 fn _msb(a: u128) -> u128 {
-    match withdraw_gas_all(get_builtin_costs()) {
-        Option::Some(_) => {},
-        Option::None(_) => {
-            let mut data = array_new::<felt252>();
-            array_append::<felt252>(ref data, 'OOG');
-            panic(data);
-        },
-    }
+    check_gas();
 
     if (a <= ONE_u128) {
         return 0_u128;
@@ -555,14 +526,7 @@ fn _msb(a: u128) -> u128 {
 ///
 /// * A fixed point number representing the result of x^y.
 fn _pow_int(a: FixedType, b: u128, sign: bool) -> FixedType {
-    match withdraw_gas_all(get_builtin_costs()) {
-        Option::Some(_) => {},
-        Option::None(_) => {
-            let mut data = array_new::<felt252>();
-            array_append::<felt252>(ref data, 'OOG');
-            panic(data);
-        },
-    }
+    check_gas();
 
     if (sign == true) {
         return Fixed::new(ONE_u128, false) / _pow_int(a, b, false);

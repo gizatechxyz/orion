@@ -2,17 +2,12 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::operators::tensor::tensor_u32;
-use onnx_cairo::operators::tensor::core::Tensor;
-use onnx_cairo::operators::tensor::core::TensorTrait;
-use onnx_cairo::operators::tensor::core::ravel_index;
-use onnx_cairo::operators::tensor::core::unravel_index;
-use onnx_cairo::operators::tensor::helpers::reduce_output_shape;
-use onnx_cairo::operators::tensor::helpers::len_from_shape;
-use onnx_cairo::operators::tensor::helpers::combine_indices;
-use onnx_cairo::operators::linalg::matmul::helpers::prepare_shape_for_matmul;
-use onnx_cairo::operators::linalg::matmul::helpers::adjust_output_shape_after_matmul;
 use onnx_cairo::utils::check_gas;
+use onnx_cairo::operators::tensor::tensor_u32;
+use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait, };
+use onnx_cairo::operators::linalg::matmul::helpers::{
+    prepare_shape_for_matmul, adjust_output_shape_after_matmul
+};
 
 /// Performs matrix multiplication between two u32 tensors.
 ///

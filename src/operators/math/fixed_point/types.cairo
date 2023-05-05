@@ -1,7 +1,5 @@
 use debug::PrintTrait;
 use option::OptionTrait;
-use result::ResultTrait;
-use result::ResultTraitImpl;
 use traits::Into;
 
 use onnx_cairo::operators::math::fixed_point::core;

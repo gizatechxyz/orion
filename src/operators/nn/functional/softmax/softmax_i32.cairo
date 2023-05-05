@@ -1,22 +1,7 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use traits::Into;
-use option::OptionTrait;
-
-use onnx_cairo::operators::math::signed_integer::integer_trait::IntegerTrait;
 use onnx_cairo::operators::math::signed_integer::i32::i32;
-use onnx_cairo::operators::tensor::core::Tensor;
-use onnx_cairo::operators::tensor::core::TensorTrait;
-use onnx_cairo::operators::tensor::tensor_i32;
-use onnx_cairo::operators::tensor::tensor_fp;
-use onnx_cairo::operators::tensor::helpers::len_from_shape;
-use onnx_cairo::operators::tensor::helpers::broadcast_index_mapping;
-
-use onnx_cairo::operators::tensor::core::unravel_index;
-use onnx_cairo::operators::tensor::core::ravel_index;
-
+use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
+use onnx_cairo::operators::tensor::{tensor_i32, tensor_fp};
 use onnx_cairo::operators::math::fixed_point::core::FixedType;
-use onnx_cairo::utils::check_gas;
 
 /// Calculates the softmax function for a tensor of i32 values along the specified axis.
 ///

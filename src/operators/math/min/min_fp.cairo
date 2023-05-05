@@ -1,12 +1,8 @@
-use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::operators::math::fixed_point::types::Fixed;
-use onnx_cairo::operators::math::fixed_point::types::FixedType;
-use onnx_cairo::operators::math::fixed_point::types::MAX_u128;
+use onnx_cairo::operators::math::fixed_point::types::{Fixed, FixedType, MAX_u128};
 use onnx_cairo::operators::math::fixed_point::core::min;
-use onnx_cairo::operators::tensor::tensor_fp;
 use onnx_cairo::utils::check_gas;
 
 /// Finds the minimum value in a `Tensor<FixedType>` array.

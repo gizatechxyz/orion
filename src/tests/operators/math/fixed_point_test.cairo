@@ -1,22 +1,8 @@
 use option::OptionTrait;
 use traits::Into;
 
-use onnx_cairo::operators::math::fixed_point::types::ONE;
-use onnx_cairo::operators::math::fixed_point::types::ONE_u128;
-use onnx_cairo::operators::math::fixed_point::types::HALF;
-use onnx_cairo::operators::math::fixed_point::types::_felt_abs;
-use onnx_cairo::operators::math::fixed_point::types::_felt_sign;
-use onnx_cairo::operators::math::fixed_point::types::Fixed;
-use onnx_cairo::operators::math::fixed_point::types::FixedInto;
-use onnx_cairo::operators::math::fixed_point::types::FixedPartialEq;
-use onnx_cairo::operators::math::fixed_point::types::FixedPartialOrd;
-use onnx_cairo::operators::math::fixed_point::types::FixedAdd;
-use onnx_cairo::operators::math::fixed_point::types::FixedAddEq;
-use onnx_cairo::operators::math::fixed_point::types::FixedSub;
-use onnx_cairo::operators::math::fixed_point::types::FixedSubEq;
-use onnx_cairo::operators::math::fixed_point::types::FixedMul;
-use onnx_cairo::operators::math::fixed_point::types::FixedMulEq;
-use onnx_cairo::operators::math::fixed_point::types::FixedDiv;
+use onnx_cairo::operators::math::fixed_point::types::{ONE, _felt_abs, _felt_sign, Fixed, };
+
 use onnx_cairo::operators::math::fixed_point::core;
 
 #[test]

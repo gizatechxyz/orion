@@ -1,10 +1,8 @@
 use array::ArrayTrait;
 use array::SpanTrait;
-use traits::Into;
 use option::OptionTrait;
 
-use onnx_cairo::operators::tensor::core::Tensor;
-use onnx_cairo::operators::tensor::core::TensorTrait;
+use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
 use onnx_cairo::operators::tensor::tensor_u32;
 use onnx_cairo::utils::check_gas;
 
