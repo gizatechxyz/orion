@@ -236,8 +236,8 @@ impl U32TensorAdd of Add<Tensor<u32>> {
     /// Adds two `Tensor<u32>` instances element-wise.
     ///
     /// # Arguments
-    /// * `self` - The first tensor.
-    /// * `other` - The second tensor.
+    /// * `lhs` - The first tensor.
+    /// * `rhs` - The second tensor.
     ///
     /// # Returns
     /// * A `Tensor<u32>` instance representing the result of the element-wise addition.
@@ -251,8 +251,8 @@ impl U32TensorSub of Sub<Tensor<u32>> {
     /// Subtracts two `Tensor<u32>` instances element-wise.
     ///
     /// # Arguments
-    /// * `self` - The first tensor.
-    /// * `other` - The second tensor.
+    /// * `lhs` - The first tensor.
+    /// * `rhs` - The second tensor.
     ///
     /// # Returns
     /// * A `Tensor<u32>` instance representing the result of the element-wise subtraction.
@@ -266,8 +266,8 @@ impl U32TensorMul of Mul<Tensor<u32>> {
     /// Multiplies two `Tensor<u32>` instances element-wise.
     ///
     /// # Arguments
-    /// * `self` - The first tensor.
-    /// * `other` - The second tensor.
+    /// * `lhs` - The first tensor.
+    /// * `rhs` - The second tensor.
     ///
     /// # Returns
     /// * A `Tensor<u32>` instance representing the result of the element-wise multiplication.
@@ -281,8 +281,8 @@ impl U32TensorDiv of Div<Tensor<u32>> {
     /// Divides two `Tensor<u32>` instances element-wise.
     ///
     /// # Arguments
-    /// * `self` - The first tensor.
-    /// * `other` - The second tensor.
+    /// * `lhs` - The first tensor.
+    /// * `rhs` - The second tensor.
     ///
     /// # Returns
     /// * A `Tensor<u32>` instance representing the result of the element-wise division.

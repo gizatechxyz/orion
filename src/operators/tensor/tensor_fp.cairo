@@ -237,8 +237,8 @@ impl FixedTypeTensorAdd of Add<Tensor<FixedType>> {
     /// Adds two `Tensor<FixedType>` instances element-wise.
     ///
     /// # Arguments
-    /// * `self` - The first tensor.
-    /// * `other` - The second tensor.
+    /// * `lhs` - The first tensor.
+    /// * `rhs` - The second tensor.
     ///
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise addition.
@@ -252,8 +252,8 @@ impl FixedTypeTensorSub of Sub<Tensor<FixedType>> {
     /// Subtracts two `Tensor<FixedType>` instances element-wise.
     ///
     /// # Arguments
-    /// * `self` - The first tensor.
-    /// * `other` - The second tensor.
+    /// * `lhs` - The first tensor.
+    /// * `rhs` - The second tensor.
     ///
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise subtraction.
@@ -267,8 +267,8 @@ impl FixedTypeTensorMul of Mul<Tensor<FixedType>> {
     /// Multiplies two `Tensor<FixedType>` instances element-wise.
     ///
     /// # Arguments
-    /// * `self` - The first tensor.
-    /// * `other` - The second tensor.
+    /// * `lhs` - The first tensor.
+    /// * `rhs` - The second tensor.
     ///
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise multiplication.
@@ -282,8 +282,8 @@ impl FixedTypeTensorDiv of Div<Tensor<FixedType>> {
     /// Divides two `Tensor<FixedType>` instances element-wise.
     ///
     /// # Arguments
-    /// * `self` - The first tensor.
-    /// * `other` - The second tensor.
+    /// * `lhs` - The first tensor.
+    /// * `rhs` - The second tensor.
     ///
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise division.
