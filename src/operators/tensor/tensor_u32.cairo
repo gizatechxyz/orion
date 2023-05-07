@@ -7,12 +7,12 @@ use onnx_cairo::numbers::fixed_point::types::FixedType;
 use onnx_cairo::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape
 };
-use onnx_cairo::operators::tensor::helpers::{len_from_shape, find_axis, permutation_output_shape};
 use onnx_cairo::operators::tensor::math::min::min_u32::min_in_tensor;
 use onnx_cairo::operators::tensor::math::max::max_u32::max_in_tensor;
 use onnx_cairo::operators::tensor::math::reduce_sum::reduce_sum_u32::reduce_sum;
 use onnx_cairo::operators::tensor::math::argmax::argmax_u32::argmax;
 use onnx_cairo::operators::tensor::linalg::matmul::matmul_u32::matmul;
+use onnx_cairo::operators::tensor::linalg::transpose::transpose_u32::transpose;
 use onnx_cairo::operators::tensor::math::exp::exp_u32::exp;
 use onnx_cairo::operators::tensor::math::arithmetic::arithmetic_u32::{add, sub, mul, div};
 use onnx_cairo::utils::check_gas;
@@ -183,7 +183,7 @@ impl U32Tensor of TensorTrait<u32> {
     /// # Returns
     /// * A new `Tensor<u32>` instance with the axes transposed according to the specified order.
     fn transpose(self: @Tensor<u32>, axes: Span<usize>) -> Tensor<u32> {
-        u32_transpose(self, axes)
+        transpose(self, axes)
     }
 
     /// Performs matrix multiplication between two u32 tensors.
@@ -304,56 +304,4 @@ fn u32_at_tensor(self: @Tensor<u32>, indices: Span<usize>) -> u32 {
     assert(indices.len() == (*self.shape).len(), 'indices not match dimensions');
     let data = *self.data;
     *data.at(self.ravel_index(indices))
-}
-
-/// Reorders the axes of an u32 tensor according to the given axes permutation.
-///
-/// # Arguments
-/// * `self` - The input tensor.
-/// * `axes` -  A span containing the data representing the axes permutation.
-///
-/// # Panics
-/// * Panics if the length of the axes array is not equal to the rank of the input tensor.
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<u32>` instance with the axes reordered according to the given permutation.
-fn u32_transpose(self: @Tensor<u32>, axes: Span<usize>) -> Tensor<u32> {
-    assert(axes.len() == (*self.shape).len(), 'shape and axes length unequal');
-
-    let output_shape = permutation_output_shape(*self.shape, axes);
-    let output_data_len = len_from_shape(output_shape);
-
-    let mut output_data = ArrayTrait::new();
-
-    let mut output_index: usize = 0;
-    loop {
-        check_gas();
-
-        if output_index == output_data_len {
-            break ();
-        }
-
-        let output_indices = unravel_index(output_index, output_shape);
-        let mut input_indices = ArrayTrait::new();
-
-        let mut output_axis: usize = 0;
-        loop {
-            check_gas();
-            if output_axis == axes.len() {
-                break ();
-            }
-
-            let input_axis = find_axis(axes, output_axis);
-            input_indices.append(*output_indices.at(input_axis));
-            output_axis += 1;
-        };
-
-        let input_index = ravel_index(*self.shape, input_indices.span());
-        output_data.append(*(*self.data).at(input_index));
-
-        output_index += 1;
-    };
-
-    return TensorTrait::<u32>::new(output_shape, output_data.span());
 }
