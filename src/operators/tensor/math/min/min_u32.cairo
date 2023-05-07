@@ -1,7 +1,7 @@
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::operators::tensor::tensor_u32;
+use onnx_cairo::operators::tensor::implementations::impl_tensor_u32;
 use onnx_cairo::utils::check_gas;
 
 /// Finds the minimum value in a `Tensor<u32>` array.

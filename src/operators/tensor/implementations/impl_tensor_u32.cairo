@@ -5,7 +5,7 @@ use array::SpanTrait;
 
 use onnx_cairo::numbers::fixed_point::types::FixedType;
 use onnx_cairo::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape
+    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor
 };
 use onnx_cairo::operators::tensor::math::min::min_u32::min_in_tensor;
 use onnx_cairo::operators::tensor::math::max::max_u32::max_in_tensor;
@@ -45,7 +45,7 @@ impl U32Tensor of TensorTrait<u32> {
     /// # Returns
     /// * The u32 value at the specified indices.
     fn at(self: @Tensor<u32>, indices: Span<usize>) -> u32 {
-        u32_at_tensor(self, indices)
+        *at_tensor(self, indices)
     }
 
     /// Finds the minimum value in an u32 tensor.
@@ -287,21 +287,4 @@ impl U32TensorDiv of Div<Tensor<u32>> {
     fn div(lhs: Tensor<u32>, rhs: Tensor<u32>) -> Tensor<u32> {
         div(@lhs, @rhs)
     }
-}
-
-/// Retrieves the value at the specified indices in a `Tensor<u32>`.
-///
-/// # Arguments
-/// * `self` - The tensor.
-/// * `indices` - A span containing the indices as usize elements.
-///
-/// # Panics
-/// * Panics the number of indices provided don't match the number of dimensions in the tensor.
-///
-/// # Returns
-/// * An u32 value at the specified indices in the tensor.
-fn u32_at_tensor(self: @Tensor<u32>, indices: Span<usize>) -> u32 {
-    assert(indices.len() == (*self.shape).len(), 'indices not match dimensions');
-    let data = *self.data;
-    *data.at(self.ravel_index(indices))
 }

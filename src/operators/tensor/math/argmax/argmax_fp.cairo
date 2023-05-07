@@ -2,7 +2,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 
 use onnx_cairo::numbers::fixed_point::types::{Fixed, FixedType, MAX_u128};
-use onnx_cairo::operators::tensor::tensor_u32;
+use onnx_cairo::operators::tensor::implementations::impl_tensor_u32;
 use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use onnx_cairo::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
 use onnx_cairo::utils::check_gas;

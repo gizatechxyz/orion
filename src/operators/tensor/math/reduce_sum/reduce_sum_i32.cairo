@@ -2,7 +2,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 
 use onnx_cairo::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use onnx_cairo::operators::tensor::tensor_i32;
+use onnx_cairo::operators::tensor::implementations::impl_tensor_i32;
 use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use onnx_cairo::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
 use onnx_cairo::utils::check_gas;

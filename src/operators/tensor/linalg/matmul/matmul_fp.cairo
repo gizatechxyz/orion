@@ -3,7 +3,7 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use onnx_cairo::utils::check_gas;
-use onnx_cairo::operators::tensor::tensor_fp;
+use onnx_cairo::operators::tensor::implementations::impl_tensor_fp;
 use onnx_cairo::numbers::fixed_point::types::{Fixed, FixedType};
 use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
 use onnx_cairo::operators::tensor::linalg::matmul::helpers::{

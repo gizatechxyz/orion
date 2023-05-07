@@ -5,7 +5,7 @@ use onnx_cairo::operators::tensor::helpers::broadcast_shape;
 
 use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait, unravel_index, };
 use onnx_cairo::operators::tensor::helpers::{broadcast_index_mapping, len_from_shape, };
-use onnx_cairo::operators::tensor::tensor_u32;
+use onnx_cairo::operators::tensor::implementations::impl_tensor_u32;
 use onnx_cairo::utils::check_gas;
 
 /// Adds two `Tensor<u32>` instances element-wise with broadcasting.

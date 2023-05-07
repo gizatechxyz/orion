@@ -6,7 +6,7 @@ use onnx_cairo::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape
 };
 use onnx_cairo::operators::tensor::helpers::{len_from_shape, find_axis, permutation_output_shape};
-use onnx_cairo::operators::tensor::tensor_fp;
+use onnx_cairo::operators::tensor::implementations::impl_tensor_fp;
 use onnx_cairo::utils::check_gas;
 
 

@@ -1,5 +1,5 @@
 use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
-use onnx_cairo::operators::tensor::{tensor_u32, tensor_fp};
+use onnx_cairo::operators::tensor::implementations::{impl_tensor_u32, impl_tensor_fp};
 use onnx_cairo::numbers::fixed_point::core::FixedType;
 
 /// Calculates the softmax function for a tensor of u32 values along the specified axis.

@@ -197,3 +197,21 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
 fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
     new_tensor(target_shape, *self.data)
 }
+
+/// Retrieves the value at the specified indices in a `Tensor<T>`.
+///
+/// # Arguments
+/// * `self` - The tensor.
+/// * `indices` - A span containing the indices as usize elements.
+///
+/// # Panics
+/// * Panics the number of indices provided don't match the number of dimensions in the tensor.
+///
+/// # Returns
+/// * The value at the specified indices in the tensor.
+fn at_tensor<T>(self: @Tensor<T>, indices: Span<usize>) -> @T {
+    assert(indices.len() == (*self.shape).len(), 'indices not match dimensions');
+    let data = *self.data;
+
+    return data.at(ravel_index(*self.shape, indices));
+}
