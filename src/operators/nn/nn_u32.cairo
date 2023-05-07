@@ -2,7 +2,7 @@ mod nn {
     use onnx_cairo::operators::tensor::core::Tensor;
     use onnx_cairo::operators::nn::functional::relu::relu_u32::relu_u32;
     use onnx_cairo::operators::nn::functional::softmax::softmax_u32::softmax_u32;
-    use onnx_cairo::operators::math::fixed_point::core::FixedType;
+    use onnx_cairo::numbers::fixed_point::core::FixedType;
 
     /// Applies the rectified linear unit (ReLU) activation function element-wise to a given u32 tensor.
     ///

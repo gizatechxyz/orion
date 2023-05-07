@@ -3,22 +3,19 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use onnx_cairo::operators::math::signed_integer::i32::i32;
-use onnx_cairo::operators::math::fixed_point::types::FixedType;
-use onnx_cairo::operators::tensor::helpers::broadcast_shape;
+use onnx_cairo::numbers::signed_integer::i32::i32;
+use onnx_cairo::numbers::fixed_point::types::FixedType;
 use onnx_cairo::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape
 };
-use onnx_cairo::operators::tensor::helpers::{
-    broadcast_index_mapping, len_from_shape, find_axis, permutation_output_shape
-};
-use onnx_cairo::operators::tensor::tensor_u32;
-use onnx_cairo::operators::math::min::min_i32::min_in_tensor;
-use onnx_cairo::operators::math::max::max_i32::max_in_tensor;
-use onnx_cairo::operators::math::reduce_sum::reduce_sum_i32::reduce_sum;
-use onnx_cairo::operators::math::argmax::argmax_i32::argmax;
-use onnx_cairo::operators::linalg::matmul::matmul_i32::matmul;
-use onnx_cairo::operators::math::exp::exp_i32::exp;
+use onnx_cairo::operators::tensor::helpers::{len_from_shape, find_axis, permutation_output_shape};
+use onnx_cairo::operators::tensor::math::min::min_i32::min_in_tensor;
+use onnx_cairo::operators::tensor::math::max::max_i32::max_in_tensor;
+use onnx_cairo::operators::tensor::math::reduce_sum::reduce_sum_i32::reduce_sum;
+use onnx_cairo::operators::tensor::math::argmax::argmax_i32::argmax;
+use onnx_cairo::operators::tensor::linalg::matmul::matmul_i32::matmul;
+use onnx_cairo::operators::tensor::math::exp::exp_i32::exp;
+use onnx_cairo::operators::tensor::math::arithmetic::arithmetic_i32::{add, sub, mul, div};
 use onnx_cairo::utils::check_gas;
 
 impl i32Tensor of TensorTrait<i32> {
@@ -244,7 +241,7 @@ impl i32TensorAdd of Add<Tensor<i32>> {
     /// # Returns
     /// * A `Tensor<i32>` instance representing the result of the element-wise addition.
     fn add(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
-        i32_add_tensor(@lhs, @rhs)
+        add(@lhs, @rhs)
     }
 }
 
@@ -259,7 +256,7 @@ impl i32TensorSub of Sub<Tensor<i32>> {
     /// # Returns
     /// * A `Tensor<i32>` instance representing the result of the element-wise subtraction.
     fn sub(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
-        i32_sub_tensor(@lhs, @rhs)
+        sub(@lhs, @rhs)
     }
 }
 
@@ -274,7 +271,7 @@ impl i32TensorMul of Mul<Tensor<i32>> {
     /// # Returns
     /// * A `Tensor<i32>` instance representing the result of the element-wise multiplication.
     fn mul(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
-        i32_mul_tensor(@lhs, @rhs)
+        mul(@lhs, @rhs)
     }
 }
 
@@ -289,7 +286,7 @@ impl i32TensorDiv of Div<Tensor<i32>> {
     /// # Returns
     /// * A `Tensor<i32>` instance representing the result of the element-wise division.
     fn div(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
-        i32_div_tensor(@lhs, @rhs)
+        div(@lhs, @rhs)
     }
 }
 
@@ -310,159 +307,6 @@ fn i32_at_tensor(self: @Tensor<i32>, indices: Span<usize>) -> i32 {
     *data.at(self.ravel_index(indices))
 }
 
-// --- BROADCAST OPERATIONS ---
-
-/// Adds two `Tensor<i32>` instances element-wise with broadcasting.
-///
-/// # Arguments
-/// * `self` - The first tensor.
-/// * `other` - The second tensor.
-///
-/// # Panics
-/// * Panics if the shape of tensors are not compatible. 
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<i32>` instance representing the result of the element-wise addition with broadcasting.
-fn i32_add_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-    let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
-
-    let num_elements = len_from_shape(broadcasted_shape);
-
-    let mut n: usize = 0;
-    loop {
-        check_gas();
-
-        let indices_broadcasted = unravel_index(n, broadcasted_shape);
-
-        let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
-        let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
-
-        result.append(*(*self.data).at(indices_self) + *(*other.data).at(indices_other));
-
-        n += 1;
-        if n == num_elements {
-            break ();
-        };
-    };
-
-    return TensorTrait::<i32>::new(broadcasted_shape, result.span());
-}
-
-/// Subtracts two `Tensor<i32>` instances element-wise with broadcasting.
-///
-/// # Arguments
-/// * `self` - The first tensor.
-/// * `other` - The second tensor.
-///
-/// # Panics
-/// * Panics if the shape of tensors are not compatible. 
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<i32>` instance representing the result of the element-wise subtraction with broadcasting.
-fn i32_sub_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-    let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
-
-    let num_elements = len_from_shape(broadcasted_shape);
-
-    let mut n: usize = 0;
-    loop {
-        check_gas();
-
-        let indices_broadcasted = unravel_index(n, broadcasted_shape);
-
-        let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
-        let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
-
-        result.append(*(*self.data).at(indices_self) - *(*other.data).at(indices_other));
-
-        n += 1;
-        if n == num_elements {
-            break ();
-        };
-    };
-
-    return TensorTrait::<i32>::new(broadcasted_shape, result.span());
-}
-
-/// Multiplies two `Tensor<i32>` instances element-wise with broadcasting.
-///
-/// # Arguments
-/// * `self` - The first tensor.
-/// * `other` - The second tensor.
-///
-/// # Panics
-/// * Panics if the shape of tensors are not compatible. 
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<i32>` instance representing the result of the element-wise multiplication with broadcasting.
-fn i32_mul_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-    let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
-
-    let num_elements = len_from_shape(broadcasted_shape);
-
-    let mut n: usize = 0;
-    loop {
-        check_gas();
-
-        let indices_broadcasted = unravel_index(n, broadcasted_shape);
-
-        let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
-        let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
-
-        result.append(*(*self.data).at(indices_self) * *(*other.data).at(indices_other));
-
-        n += 1;
-        if n == num_elements {
-            break ();
-        };
-    };
-
-    return TensorTrait::<i32>::new(broadcasted_shape, result.span());
-}
-
-/// Divides two `Tensor<i32>` instances element-wise with broadcasting.
-///
-/// # Arguments
-/// * `self` - The first tensor.
-/// * `other` - The second tensor.
-///
-/// # Panics
-/// * Panics if the shape of tensors are not compatible. 
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<i32>` instance representing the result of the element-wise division with broadcasting.
-fn i32_div_tensor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
-    let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
-
-    let num_elements = len_from_shape(broadcasted_shape);
-
-    let mut n: usize = 0;
-    loop {
-        check_gas();
-
-        let indices_broadcasted = unravel_index(n, broadcasted_shape);
-
-        let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
-        let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
-
-        result.append(*(*self.data).at(indices_self) / *(*other.data).at(indices_other));
-
-        n += 1;
-        if n == num_elements {
-            break ();
-        };
-    };
-
-    return TensorTrait::<i32>::new(broadcasted_shape, result.span());
-}
 
 /// Reorders the axes of an i32 tensor according to the given axes permutation.
 ///

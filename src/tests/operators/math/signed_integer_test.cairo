@@ -1,4 +1,4 @@
-use onnx_cairo::operators::math::signed_integer::{integer_trait::IntegerTrait, i32::i32};
+use onnx_cairo::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 
 #[test]
 fn test_add() {

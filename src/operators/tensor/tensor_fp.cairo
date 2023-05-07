@@ -3,21 +3,18 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use onnx_cairo::operators::math::fixed_point::types::FixedType;
-use onnx_cairo::operators::tensor::helpers::broadcast_shape;
+use onnx_cairo::numbers::fixed_point::types::FixedType;
 use onnx_cairo::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape
 };
-use onnx_cairo::operators::tensor::helpers::{
-    broadcast_index_mapping, len_from_shape, find_axis, permutation_output_shape
-};
-use onnx_cairo::operators::tensor::tensor_u32;
-use onnx_cairo::operators::math::min::min_fp::min_in_tensor;
-use onnx_cairo::operators::math::max::max_fp::max_in_tensor;
-use onnx_cairo::operators::math::reduce_sum::reduce_sum_fp::reduce_sum;
-use onnx_cairo::operators::math::argmax::argmax_fp::argmax;
-use onnx_cairo::operators::linalg::matmul::matmul_fp::matmul;
-use onnx_cairo::operators::math::exp::exp_fp::exp;
+use onnx_cairo::operators::tensor::helpers::{len_from_shape, find_axis, permutation_output_shape};
+use onnx_cairo::operators::tensor::math::min::min_fp::min_in_tensor;
+use onnx_cairo::operators::tensor::math::max::max_fp::max_in_tensor;
+use onnx_cairo::operators::tensor::math::reduce_sum::reduce_sum_fp::reduce_sum;
+use onnx_cairo::operators::tensor::math::argmax::argmax_fp::argmax;
+use onnx_cairo::operators::tensor::linalg::matmul::matmul_fp::matmul;
+use onnx_cairo::operators::tensor::math::exp::exp_fp::exp;
+use onnx_cairo::operators::tensor::math::arithmetic::arithmetic_fp::{add, sub, mul, div};
 use onnx_cairo::utils::check_gas;
 
 impl FixedTypeTensor of TensorTrait<FixedType> {
@@ -243,7 +240,7 @@ impl FixedTypeTensorAdd of Add<Tensor<FixedType>> {
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise addition.
     fn add(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
-        FixedType_add_tensor(@lhs, @rhs)
+        add(@lhs, @rhs)
     }
 }
 
@@ -258,7 +255,7 @@ impl FixedTypeTensorSub of Sub<Tensor<FixedType>> {
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise subtraction.
     fn sub(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
-        FixedType_sub_tensor(@lhs, @rhs)
+        sub(@lhs, @rhs)
     }
 }
 
@@ -273,7 +270,7 @@ impl FixedTypeTensorMul of Mul<Tensor<FixedType>> {
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise multiplication.
     fn mul(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
-        FixedType_mul_tensor(@lhs, @rhs)
+        mul(@lhs, @rhs)
     }
 }
 
@@ -288,7 +285,7 @@ impl FixedTypeTensorDiv of Div<Tensor<FixedType>> {
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise division.
     fn div(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
-        FixedType_div_tensor(@lhs, @rhs)
+        div(@lhs, @rhs)
     }
 }
 
@@ -307,160 +304,6 @@ fn FixedType_at_tensor(self: @Tensor<FixedType>, indices: Span<usize>) -> FixedT
     assert(indices.len() == (*self.shape).len(), 'indices not match dimensions');
     let data = *self.data;
     *data.at(self.ravel_index(indices))
-}
-
-// --- BROADCAST OPERATIONS ---
-
-/// Adds two `Tensor<FixedType>` instances element-wise with broadcasting.
-///
-/// # Arguments
-/// * `self` - The first tensor.
-/// * `other` - The second tensor.
-///
-/// # Panics
-/// * Panics if the shape of tensors are not compatible. 
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<FixedType>` instance representing the result of the element-wise addition with broadcasting.
-fn FixedType_add_tensor(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType> {
-    let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
-
-    let num_elements = len_from_shape(broadcasted_shape);
-
-    let mut n: usize = 0;
-    loop {
-        check_gas();
-
-        let indices_broadcasted = unravel_index(n, broadcasted_shape);
-
-        let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
-        let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
-
-        result.append(*(*self.data).at(indices_self) + *(*other.data).at(indices_other));
-
-        n += 1;
-        if n == num_elements {
-            break ();
-        };
-    };
-
-    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span());
-}
-
-/// Subtracts two `Tensor<FixedType>` instances element-wise with broadcasting.
-///
-/// # Arguments
-/// * `self` - The first tensor.
-/// * `other` - The second tensor.
-///
-/// # Panics
-/// * Panics if the shape of tensors are not compatible. 
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<FixedType>` instance representing the result of the element-wise subtraction with broadcasting.
-fn FixedType_sub_tensor(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType> {
-    let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
-
-    let num_elements = len_from_shape(broadcasted_shape);
-
-    let mut n: usize = 0;
-    loop {
-        check_gas();
-
-        let indices_broadcasted = unravel_index(n, broadcasted_shape);
-
-        let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
-        let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
-
-        result.append(*(*self.data).at(indices_self) - *(*other.data).at(indices_other));
-
-        n += 1;
-        if n == num_elements {
-            break ();
-        };
-    };
-
-    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span());
-}
-
-/// Multiplies two `Tensor<FixedType>` instances element-wise with broadcasting.
-///
-/// # Arguments
-/// * `self` - The first tensor.
-/// * `other` - The second tensor.
-///
-/// # Panics
-/// * Panics if the shape of tensors are not compatible. 
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<FixedType>` instance representing the result of the element-wise multiplication with broadcasting.
-fn FixedType_mul_tensor(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType> {
-    let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
-
-    let num_elements = len_from_shape(broadcasted_shape);
-
-    let mut n: usize = 0;
-    loop {
-        check_gas();
-
-        let indices_broadcasted = unravel_index(n, broadcasted_shape);
-
-        let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
-        let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
-
-        result.append(*(*self.data).at(indices_self) * *(*other.data).at(indices_other));
-
-        n += 1;
-        if n == num_elements {
-            break ();
-        };
-    };
-
-    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span());
-}
-
-/// Divides two `Tensor<FixedType>` instances element-wise with broadcasting.
-///
-/// # Arguments
-/// * `self` - The first tensor.
-/// * `other` - The second tensor.
-///
-/// # Panics
-/// * Panics if the shape of tensors are not compatible. 
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<FixedType>` instance representing the result of the element-wise division with broadcasting.
-fn FixedType_div_tensor(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType> {
-    let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
-
-    let num_elements = len_from_shape(broadcasted_shape);
-
-    let mut n: usize = 0;
-    loop {
-        check_gas();
-
-        let indices_broadcasted = unravel_index(n, broadcasted_shape);
-
-        let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
-        let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
-
-        result.append(*(*self.data).at(indices_self) / *(*other.data).at(indices_other));
-
-        n += 1;
-        if n == num_elements {
-            break ();
-        };
-    };
-
-    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span());
 }
 
 /// Reorders the axes of an FixedType tensor according to the given axes permutation.
