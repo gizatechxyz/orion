@@ -7,54 +7,21 @@ The project is organized into several modules, grouped by functionality. Each mo
 ```
 src
 ├── lib.cairo
+├── numbers
+│   ├── fixed_point
+│   │   ├── core.cairo
+│   │   └── types.cairo
+│   ├── fixed_point.cairo
+│   ├── signed_integer
+│   │   ├── i128.cairo
+│   │   ├── i16.cairo
+│   │   ├── i32.cairo
+│   │   ├── i64.cairo
+│   │   ├── i8.cairo
+│   │   └── integer_trait.cairo
+│   └── signed_integer.cairo
+├── numbers.cairo
 ├── operators
-│   ├── linalg
-│   │   ├── matmul
-│   │   │   ├── helpers.cairo
-│   │   │   ├── matmul_fp.cairo
-│   │   │   ├── matmul_i32.cairo
-│   │   │   └── matmul_u32.cairo
-│   │   └── matmul.cairo
-│   ├── linalg.cairo
-│   ├── math
-│   │   ├── argmax
-│   │   │   ├── argmax_fp.cairo
-│   │   │   ├── argmax_i32.cairo
-│   │   │   └── argmax_u32.cairo
-│   │   ├── argmax.cairo
-│   │   ├── exp
-│   │   │   ├── exp_fp.cairo
-│   │   │   ├── exp_i32.cairo
-│   │   │   └── exp_u32.cairo
-│   │   ├── exp.cairo
-│   │   ├── fixed_point
-│   │   │   ├── core.cairo
-│   │   │   └── types.cairo
-│   │   ├── fixed_point.cairo
-│   │   ├── max
-│   │   │   ├── max_fp.cairo
-│   │   │   ├── max_i32.cairo
-│   │   │   └── max_u32.cairo
-│   │   ├── max.cairo
-│   │   ├── min
-│   │   │   ├── min_fp.cairo
-│   │   │   ├── min_i32.cairo
-│   │   │   └── min_u32.cairo
-│   │   ├── min.cairo
-│   │   ├── reduce_sum
-│   │   │   ├── reduce_sum_fp.cairo
-│   │   │   ├── reduce_sum_i32.cairo
-│   │   │   └── reduce_sum_u32.cairo
-│   │   ├── reduce_sum.cairo
-│   │   ├── signed_integer
-│   │   │   ├── i128.cairo
-│   │   │   ├── i16.cairo
-│   │   │   ├── i32.cairo
-│   │   │   ├── i64.cairo
-│   │   │   ├── i8.cairo
-│   │   │   └── integer_trait.cairo
-│   │   └── signed_integer.cairo
-│   ├── math.cairo
 │   ├── nn
 │   │   ├── functional
 │   │   │   ├── relu
@@ -72,6 +39,46 @@ src
 │   ├── tensor
 │   │   ├── core.cairo
 │   │   ├── helpers.cairo
+│   │   ├── linalg
+│   │   │   ├── matmul
+│   │   │   │   ├── helpers.cairo
+│   │   │   │   ├── matmul_fp.cairo
+│   │   │   │   ├── matmul_i32.cairo
+│   │   │   │   └── matmul_u32.cairo
+│   │   │   └── matmul.cairo
+│   │   ├── linalg.cairo
+│   │   ├── math
+│   │   │   ├── argmax
+│   │   │   │   ├── argmax_fp.cairo
+│   │   │   │   ├── argmax_i32.cairo
+│   │   │   │   └── argmax_u32.cairo
+│   │   │   ├── argmax.cairo
+│   │   │   ├── arithmetic
+│   │   │   │   ├── arithmetic_fp.cairo
+│   │   │   │   ├── arithmetic_i32.cairo
+│   │   │   │   └── arithmetic_u32.cairo
+│   │   │   ├── arithmetic.cairo
+│   │   │   ├── exp
+│   │   │   │   ├── exp_fp.cairo
+│   │   │   │   ├── exp_i32.cairo
+│   │   │   │   └── exp_u32.cairo
+│   │   │   ├── exp.cairo
+│   │   │   ├── max
+│   │   │   │   ├── max_fp.cairo
+│   │   │   │   ├── max_i32.cairo
+│   │   │   │   └── max_u32.cairo
+│   │   │   ├── max.cairo
+│   │   │   ├── min
+│   │   │   │   ├── min_fp.cairo
+│   │   │   │   ├── min_i32.cairo
+│   │   │   │   └── min_u32.cairo
+│   │   │   ├── min.cairo
+│   │   │   ├── reduce_sum
+│   │   │   │   ├── reduce_sum_fp.cairo
+│   │   │   │   ├── reduce_sum_i32.cairo
+│   │   │   │   └── reduce_sum_u32.cairo
+│   │   │   └── reduce_sum.cairo
+│   │   ├── math.cairo
 │   │   ├── tensor_fp.cairo
 │   │   ├── tensor_i32.cairo
 │   │   └── tensor_u32.cairo
