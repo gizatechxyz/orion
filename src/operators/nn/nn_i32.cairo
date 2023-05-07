@@ -1,4 +1,4 @@
-mod nn {
+mod NN {
     use onnx_cairo::operators::tensor::core::Tensor;
     use onnx_cairo::numbers::signed_integer::i32::i32;
     use onnx_cairo::operators::nn::functional::relu::relu_i32::relu_i32;

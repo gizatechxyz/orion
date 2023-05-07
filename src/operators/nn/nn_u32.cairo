@@ -1,4 +1,4 @@
-mod nn {
+mod NN {
     use onnx_cairo::operators::tensor::core::Tensor;
     use onnx_cairo::operators::nn::functional::relu::relu_u32::relu_u32;
     use onnx_cairo::operators::nn::functional::softmax::softmax_u32::softmax_u32;
