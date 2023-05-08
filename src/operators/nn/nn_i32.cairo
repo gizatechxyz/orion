@@ -1,9 +1,9 @@
-mod nn {
+mod NN {
     use onnx_cairo::operators::tensor::core::Tensor;
-    use onnx_cairo::operators::math::signed_integer::i32::i32;
+    use onnx_cairo::numbers::signed_integer::i32::i32;
     use onnx_cairo::operators::nn::functional::relu::relu_i32::relu_i32;
     use onnx_cairo::operators::nn::functional::softmax::softmax_i32::softmax_i32;
-    use onnx_cairo::operators::math::fixed_point::core::FixedType;
+    use onnx_cairo::numbers::fixed_point::core::FixedType;
 
     /// Applies the rectified linear unit (ReLU) activation function element-wise to a given i32 tensor.
     ///

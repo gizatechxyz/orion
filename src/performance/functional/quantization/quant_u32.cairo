@@ -3,7 +3,7 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
-use onnx_cairo::operators::tensor::tensor_u32;
+use onnx_cairo::operators::tensor::implementations::impl_tensor_u32;
 use onnx_cairo::utils::u32_max;
 use onnx_cairo::utils::check_gas;
 

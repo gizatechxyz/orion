@@ -1,7 +1,7 @@
-use onnx_cairo::operators::math::signed_integer::i32::i32;
+use onnx_cairo::numbers::signed_integer::i32::i32;
 use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
-use onnx_cairo::operators::tensor::{tensor_i32, tensor_fp};
-use onnx_cairo::operators::math::fixed_point::core::FixedType;
+use onnx_cairo::operators::tensor::implementations::{impl_tensor_i32, impl_tensor_fp};
+use onnx_cairo::numbers::fixed_point::core::FixedType;
 
 /// Calculates the softmax function for a tensor of i32 values along the specified axis.
 ///

@@ -1,9 +1,9 @@
 use option::OptionTrait;
 use traits::Into;
 
-use onnx_cairo::operators::math::fixed_point::types::{ONE, _felt_abs, _felt_sign, Fixed, };
+use onnx_cairo::numbers::fixed_point::types::{ONE, _felt_abs, _felt_sign, Fixed, };
 
-use onnx_cairo::operators::math::fixed_point::core;
+use onnx_cairo::numbers::fixed_point::core;
 
 #[test]
 fn test_into() {
