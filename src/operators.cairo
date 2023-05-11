@@ -1,2 +1,2 @@
-mod activations;
-mod math;
+mod tensor;
+mod nn;

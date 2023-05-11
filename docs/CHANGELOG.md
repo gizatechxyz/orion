@@ -4,6 +4,54 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - 2023-05-07
+### Changed
+
+- Update code structure.
+
+## [Unreleased] - 2023-05-05
+### Changed
+
+- Upgrade code to cairo alpha-v1.0.0-rc0:
+  - update syntax to fit with cairo alpha-v1.0.0-rc0 
+  - refactor imports
+
+## [Unreleased] - 2023-05-05
+
+### Added
+
+- Added exponential element-wise operation
+- Added softmax 
+
+## [Unreleased] - 2023-05-04
+
+### Fixed
+
+- Broadcast operations (add/sub/mul/div)
+
+
+## [Unreleased] - 2023-05-02
+
+### Added
+
+- Implemented Fixed Point Q5.26
+- Implemented Tensor with Fixed Type
+
+## [Unreleased] - 2023-05-01
+
+### Changed
+
+- Remove duplicate files in docs.
+
+## [Unreleased] - 2023-05-01
+
+### Changed
+
+- Removed Matrix and Vector types.
+- Refactored functions to be Tensor-centric.
+- Reorganize code structure.
+- Temporarily remove softmax.
+
 ## [Unreleased] - 2023-04-29
 
 ### Added

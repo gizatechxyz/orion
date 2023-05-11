@@ -1,5 +1,4 @@
 use array::ArrayTrait;
-use option::OptionTrait;
 
 // Fake macro to compute gas left
 // TODO: Remove when automatically handled by compiler.
@@ -12,5 +11,13 @@ fn check_gas() {
             data.append('Out of gas');
             panic(data);
         }
+    }
+}
+
+fn u32_max(a: u32, b: u32) -> u32 {
+    if a > b {
+        a
+    } else {
+        b
     }
 }

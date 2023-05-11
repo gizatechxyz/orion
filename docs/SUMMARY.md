@@ -9,7 +9,6 @@
 
 * [Get Started](apis/get-started.md)
 * [Compatibility](apis/compatibility.md)
-* [Operators](apis/operators/README.md)
   * [Tensor](apis/operators/tensor/README.md)
     * [TensorTrait::new](apis/operators/tensor/tensortrait-new.md)
     * [tensor.at](apis/operators/tensor/tensor.at.md)

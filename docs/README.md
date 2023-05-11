@@ -11,8 +11,6 @@ ONNX Runtime is an open-source, high-performance inference engine for machine le
 
 ONNX Runtime inference can enable faster user experiences and lower costs, supporting models from deep learning frameworks such as PyTorch and TensorFlow/Keras as well as classical machine learning libraries such as scikit-learn, LightGBM, XGBoost, etc. ONNX Runtime is compatible with various hardware, drivers, and operating systems, and provides optimal performance by leveraging hardware accelerators where applicable alongside graph optimizations and transforms. [Learn more →](https://www.onnxruntime.ai/docs/#onnx-runtime-for-inferencing)
 
-
-
 This library proposes a new ONNX runtime built with [Cairo](https://www.cairo-lang.org/). The purpose is to provide a runtime implementation for verifiable ML model inferences using [STARKs](https://starkware.co/stark/).
 
 ### 🌱 Where to start?
