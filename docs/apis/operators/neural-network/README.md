@@ -19,13 +19,14 @@ ONNX-Cairo supports currently two `NN` types.
 
 ```rust
 use onnx_cairo::operators::nn::nn_i32::NN;
-// OR 
+// OR
 use onnx_cairo::operators::nn::nn_u32::NN;
 ```
 
 `NN` module contains the primitive functions to build a Neural Network.
 
-| function                   | description                                             |
-| -------------------------- | ------------------------------------------------------- |
-| [`relu`](nn-relu.md)       | Applies the rectified linear unit function element-wise |
-| [`softmax`](nn-softmax.md) | Computes softmax activations.                           |
+| function                   | description                                                                               |
+| -------------------------- | ----------------------------------------------------------------------------------------- |
+| [`relu`](nn-relu.md)       | Applies the rectified linear unit function element-wise                                   |
+| [`softmax`](nn-softmax.md) | Computes softmax activations.                                                             |
+| [`linear`](nn-linear.md)   | Performs a linear transformation of the input tensor using the provided weights and bias. |
