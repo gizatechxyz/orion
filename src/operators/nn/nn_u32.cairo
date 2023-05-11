@@ -2,6 +2,7 @@ mod NN {
     use onnx_cairo::operators::tensor::core::Tensor;
     use onnx_cairo::operators::nn::functional::relu::relu_u32::relu_u32;
     use onnx_cairo::operators::nn::functional::softmax::softmax_u32::softmax_u32;
+    use onnx_cairo::operators::nn::functional::linear::linear_u32::linear_u32;
     use onnx_cairo::numbers::fixed_point::core::FixedType;
 
     /// Applies the rectified linear unit (ReLU) activation function element-wise to a given u32 tensor.
@@ -34,5 +35,24 @@ mod NN {
     /// to the input tensor along the specified axis.
     fn softmax(tensor: @Tensor<u32>, axis: usize) -> Tensor<FixedType> {
         softmax_u32(tensor, axis)
+    }
+
+    /// Performs a linear transformation of the input tensor using the provided weights and bias.
+    ///
+    /// # Arguments
+    /// * `inputs` - A 1D tensor of u32 values representing the input tensor.
+    /// * `weights` - A 2D tensor of u32 values representing the weights for the linear transformation.
+    /// * `bias` - A 1D tensor of u32 values representing the bias for the linear transformation.
+    /// * `quantized` - A boolean flag indicating whether or not to quantize the result of the linear transformation.
+    ///
+    /// # Panics
+    /// This function asserts that the input tensor `inputs` must be 1D, weights tensor must be 2D, and bias tensor must be 1D.
+    ///
+    /// # Returns
+    /// * A tensor of u32 values representing the result of the linear transformation, possibly quantized.
+    fn linear(
+        inputs: Tensor<u32>, weights: Tensor<u32>, bias: Tensor<u32>, quantized: bool
+    ) -> Tensor<u32> {
+        linear_u32(inputs, weights, bias, quantized)
     }
 }

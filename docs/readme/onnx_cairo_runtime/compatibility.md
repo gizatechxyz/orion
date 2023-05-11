@@ -17,6 +17,7 @@ You can see below the list of current supported ONNX Operators:
 | ReduceSum | :white_check_mark: |
 |   ReLU    | :white_check_mark: |
 |  Softmax  | :white_check_mark: |
+|  Linear   | :white_check_mark: |
 
 Performance optimizations:
 
@@ -24,4 +25,4 @@ Performance optimizations:
 | :----------------: | :----------------: |
 | 8-bit quantization | :white_check_mark: |
 
-Current Operators support: **6/156 (7%)**
+Current Operators support: **12/156 (7%)**
