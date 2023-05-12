@@ -3,7 +3,8 @@ use array::SpanTrait;
 use onnx_cairo::numbers::signed_integer::i32::i32;
 use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
 use onnx_cairo::operators::tensor::implementations::impl_tensor_i32;
-use onnx_cairo::performance::performance_i32::performance::quantize_linear;
+use onnx_cairo::performance::core::PerfomanceTrait;
+use onnx_cairo::performance::implementations::impl_performance_i32;
 
 /// Performs a linear transformation of the input tensor using the provided weights and bias.
 ///
@@ -29,7 +30,7 @@ fn linear_i32(
     let sum = dot + bias;
 
     if quantized {
-        return quantize_linear(@sum);
+        return PerfomanceTrait::quantize_linear(@sum);
     }
 
     return sum;

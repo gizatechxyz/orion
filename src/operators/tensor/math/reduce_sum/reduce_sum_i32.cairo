@@ -65,9 +65,7 @@ fn reduce_sum(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
 /// * An i32 value representing the accumulated sum along the specified axis.
 use debug::print_felt252;
 use traits::Into;
-fn accumulate_sum(
-    input: @Tensor<i32>, output_indices: Span<usize>, axis: usize
-) -> i32 {
+fn accumulate_sum(input: @Tensor<i32>, output_indices: Span<usize>, axis: usize) -> i32 {
     let axis_len = *(*input.shape).at(axis);
     let mut acc = IntegerTrait::new(0, false);
 

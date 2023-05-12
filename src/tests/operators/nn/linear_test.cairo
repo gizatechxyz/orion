@@ -4,7 +4,8 @@ use array::SpanTrait;
 use onnx_cairo::operators::tensor::core::TensorTrait;
 use onnx_cairo::operators::tensor::implementations::impl_tensor_i32;
 use onnx_cairo::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use onnx_cairo::operators::nn::nn_i32::NN;
+use onnx_cairo::operators::nn::core::NNTrait;
+use onnx_cairo::operators::nn::implementations::impl_nn_i32;
 
 use debug::PrintTrait;
 
@@ -42,7 +43,7 @@ fn linear_test() {
     let bias = TensorTrait::new(shape.span(), data.span());
 
     // TEST UNQUANTIZED
-    let result = NN::linear(inputs, weights, bias, false).data;
+    let result = NNTrait::linear(inputs, weights, bias, false).data;
     assert(
         *result.at(0_usize).mag == 5541_u32 & *result.at(0_usize).sign == false, 'result[0] = 5541'
     );
@@ -51,7 +52,7 @@ fn linear_test() {
     );
 
     // TEST QUANTIZED
-    let result = NN::linear(inputs, weights, bias, true).data;
+    let result = NNTrait::linear(inputs, weights, bias, true).data;
     assert(
         *result.at(0_usize).mag == 127_u32 & *result.at(0_usize).sign == false, 'result[0] = 127'
     );

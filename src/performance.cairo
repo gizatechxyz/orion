@@ -1,3 +1,3 @@
 mod functional;
-mod performance_i32;
-mod performance_u32;
+mod implementations;
+mod core;
