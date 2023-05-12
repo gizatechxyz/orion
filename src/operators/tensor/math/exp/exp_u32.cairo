@@ -9,20 +9,7 @@ use onnx_cairo::numbers::signed_integer::i32::i32;
 use onnx_cairo::operators::tensor::implementations::impl_tensor_fp;
 use onnx_cairo::utils::check_gas;
 
-/// Calculates the exponential function (e^x) for each element in a tensor of u32 values.
-///
-/// # Arguments
-///
-/// * `self` - A tensor of u32 values representing the input tensor.
-///
-/// # Panics
-///
-/// * If gas limit is reached during computation.
-///
-/// # Returns
-///
-/// * A tensor of fixed point numbers representing the result 
-/// of applying the exponential function to each element in the input tensor.
+/// Cf: TensorTrait::exp docstring
 fn exp(self: @Tensor<u32>) -> Tensor<FixedType> {
     let mut result = ArrayTrait::new();
     let mut data = *self.data;

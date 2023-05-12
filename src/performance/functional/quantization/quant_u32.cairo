@@ -42,16 +42,7 @@ fn symetric_quant(min_val: u32, max_val: u32, data: u32) -> u32 {
     return quantized_data;
 }
 
-/// Quantizes an u32 tensor using symmetric quantization.
-///
-/// # Arguments
-/// * `tensor` - A reference to an u32 tensor to be quantized.
-///
-/// # Panics
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A new u32 tensor with the same shape as the input tensor, containing the quantized values.
+/// Cf: PerfomanceTrait::quantize_linear docstring
 fn quantize_tensor(tensor: @Tensor::<u32>) -> Tensor::<u32> {
     let mut result_data = ArrayTrait::<u32>::new();
 

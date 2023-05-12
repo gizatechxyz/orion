@@ -10,27 +10,7 @@ use onnx_cairo::operators::tensor::linalg::matmul::helpers::{
     prepare_shape_for_matmul, adjust_output_shape_after_matmul
 };
 
-/// Performs matrix multiplication between two FixedType tensors.
-///
-/// # Arguments
-/// * `self` - The first tensor.
-/// * `other` - The second tensor.
-///
-/// # Behavior
-/// The behavior depends on the dimensionality of the tensors as follows:
-/// * If both tensors are 1-dimensional, the dot product is returned.
-/// * If both arguments are 2-dimensional, the matrix-matrix product is returned.
-/// * If the first argument is 1-dimensional and the second argument is 2-dimensional,
-///   a 1 is prepended to its dimension for the purpose of the matrix multiply. After
-///   the matrix multiply, the prepended dimension is removed.
-/// * If the first argument is 2-dimensional and the second argument is 1-dimensional,
-///   the matrix-vector product is returned.
-///
-/// # Panics
-/// * Panics if the dimension of the tensors is higher than two.
-///
-/// # Returns
-/// * A new `Tensor<FixedType>` resulting from the matrix multiplication.
+/// Cf: TensorTrait::matmul docstring
 fn matmul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType> {
     let self_shape = *self.shape;
     let other_shape = *other.shape;

@@ -673,11 +673,13 @@ trait TensorTrait<T> {
     fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
 }
 
+/// Cf: TensorTrait::new docstring
 fn new_tensor<T>(shape: Span<usize>, data: Span<T>) -> Tensor<T> {
     check_shape::<T>(shape, data);
     Tensor::<T> { shape, data }
 }
 
+/// Cf: TensorTrait::ravel_index docstring
 fn ravel_index(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
     assert(shape.len() == indices.len(), 'shape & indices length unequal');
 
@@ -700,6 +702,7 @@ fn ravel_index(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
     raveled_index
 }
 
+/// Cf: TensorTrait::unravel_index docstring
 fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
     assert(shape.len() > 0, 'shape cannot be empty');
 
@@ -725,6 +728,7 @@ fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
     return result.span();
 }
 
+/// Cf: TensorTrait::stride docstring
 fn stride(mut shape: Span<usize>) -> Span<usize> {
     let shape_len = shape.len();
     assert(shape_len > 0, 'shape cannot be empty');
@@ -758,12 +762,12 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
     return result.span();
 }
 
-
+/// Cf: TensorTrait::reshape docstring
 fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
     new_tensor(target_shape, *self.data)
 }
 
-
+/// Cf: TensorTrait::at docstring
 fn at_tensor<T>(self: @Tensor<T>, indices: Span<usize>) -> @T {
     assert(indices.len() == (*self.shape).len(), 'indices not match dimensions');
     let data = *self.data;

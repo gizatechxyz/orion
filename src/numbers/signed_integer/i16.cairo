@@ -156,12 +156,7 @@ fn i16_check_sign_zero(x: i16) {
     }
 }
 
-// Create a new int16.
-// # Arguments
-// * `mag` - The magnitude
-// * `sign` - The sign of the integer
-// # Panics
-// Panics if `mag` is out of range.
+/// Cf: IntegerTrait::new docstring
 fn i16_new(mag: u16, sign: bool) -> i16 {
     if sign == true {
         assert(mag <= 32768_u16, 'int: out of range');
@@ -310,12 +305,7 @@ fn i16_rem(a: i16, b: i16) -> i16 {
     return a - (b * (a / b));
 }
 
-// Calculates both the quotient and the remainder of the division of a first i16 by a second i16.
-// # Arguments
-// * `a` - The i16 dividend.
-// * `b` - The i16 divisor.
-// # Returns
-// * `(i16, i16)` - A tuple containing the quotient and the remainder of dividing `a` by `b`.
+/// Cf: IntegerTrait::div_rem docstring
 fn i16_div_rem(a: i16, b: i16) -> (i16, i16) {
     check_gas();
     let quotient = i16_div(a, b);
@@ -422,21 +412,12 @@ fn i16_neg(x: i16) -> i16 {
     return IntegerTrait::new(x.mag, !x.sign);
 }
 
-// Computes the absolute value of the given i16 integer.
-// # Arguments
-// * `x` - The i16 integer to compute the absolute value of.
-// # Returns
-// * `i16` - The absolute value of `x`.
+/// Cf: IntegerTrait::abs docstring
 fn i16_abs(x: i16) -> i16 {
     return IntegerTrait::new(x.mag, false);
 }
 
-// Computes the maximum between two i16 integers.
-// # Arguments
-// * `a` - The first i16 integer to compare.
-// * `b` - The second i16 integer to compare.
-// # Returns
-// * `i16` - The maximum between `a` and `b`.
+/// Cf: IntegerTrait::max docstring
 fn i16_max(a: i16, b: i16) -> i16 {
     if (a > b) {
         return a;
@@ -445,12 +426,7 @@ fn i16_max(a: i16, b: i16) -> i16 {
     }
 }
 
-// Computes the minimum between two i16 integers.
-// # Arguments
-// * `a` - The first i16 integer to compare.
-// * `b` - The second i16 integer to compare.
-// # Returns
-// * `i16` - The minimum between `a` and `b`.
+/// Cf: IntegerTrait::min docstring
 fn i16_min(a: i16, b: i16) -> i16 {
     if (a < b) {
         return a;

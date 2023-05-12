@@ -4,16 +4,7 @@ use option::OptionTrait;
 use onnx_cairo::operators::tensor::implementations::impl_tensor_u32;
 use onnx_cairo::utils::check_gas;
 
-/// Finds the minimum value in a `Tensor<u32>` array.
-///
-/// # Arguments
-/// * `vec` -  A span containing the data array of u32 elements.
-///
-/// # Panics
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * An u32 value representing the minimum value in the array.
+/// Cf: TensorTrait::min docstring
 fn min_in_tensor(mut vec: Span::<u32>) -> u32 {
     let mut min_value = 4294967295_u32;
     loop {

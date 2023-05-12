@@ -17,19 +17,10 @@ use onnx_cairo::utils::check_gas;
 
 //! PUBLIC
 
-/// Returns the absolute value of a fixed point number.
-///
-/// # Arguments
-///
-/// * `a` - A fixed point number.
-///
-/// # Returns
-///
-/// * The absolute value of the input fixed point number.
+/// Cf: Fixed::abs docstring
 fn abs(a: FixedType) -> FixedType {
     return Fixed::new(a.mag, false);
 }
-
 /// Adds two fixed point numbers and returns the result.
 ///
 /// # Arguments
@@ -45,15 +36,7 @@ fn add(a: FixedType, b: FixedType) -> FixedType {
     return Fixed::from_felt(a.into() + b.into());
 }
 
-/// Returns the smallest integer greater than or equal to the input fixed point number.
-///
-/// # Arguments
-///
-/// * `a` - A fixed point number.
-///
-/// # Returns
-///
-/// * The smallest integer greater than or equal to the input fixed point number.
+/// Cf: Fixed::ceil docstring
 fn ceil(a: FixedType) -> FixedType {
     let (div_u128, rem_u128) = _split_unsigned(a);
 
@@ -65,7 +48,6 @@ fn ceil(a: FixedType) -> FixedType {
         return Fixed::from_unscaled_felt(div_u128.into() * -1);
     }
 }
-
 /// Divides the first fixed point number by the second fixed point number and returns the result.
 ///
 /// # Arguments
@@ -89,7 +71,6 @@ fn div(a: FixedType, b: FixedType) -> FixedType {
     // Re-apply sign
     return FixedType { mag: res_u128, sign: res_sign };
 }
-
 /// Checks whether two fixed point numbers are equal.
 ///
 /// # Arguments
@@ -104,28 +85,12 @@ fn eq(a: FixedType, b: FixedType) -> bool {
     return a.mag == b.mag & a.sign == b.sign;
 }
 
-/// Calculates the natural exponent of a fixed point number: e^x
-///
-/// # Arguments
-///
-/// * `a` - A fixed point number.
-///
-/// # Returns
-///
-/// * The natural exponent of the input fixed point number.
+/// Cf: Fixed::exp docstring 
 fn exp(a: FixedType) -> FixedType {
     return exp2(Fixed::new(96817625_u128, false) * a); // log2(e) * 2^26 ≈ 96817625
 }
 
-/// Calculates the binary exponent of a fixed point number: 2^x
-///
-/// # Arguments
-///
-/// * `a` - A fixed point number.
-///
-/// # Returns
-///
-/// * The binary exponent of the input fixed point number.
+/// Cf: Fixed::exp2 docstring
 fn exp2(a: FixedType) -> FixedType {
     if (a.mag == 0_u128) {
         return Fixed::new(ONE_u128, false);
@@ -162,15 +127,7 @@ fn exp2(a: FixedType) -> FixedType {
     }
 }
 
-/// Returns the largest integer less than or equal to the input fixed point number.
-///
-/// # Arguments
-///
-/// * `a` - A fixed point number.
-///
-/// # Returns
-///
-/// * The largest integer less than or equal to the input fixed point number.
+/// Cf: Fixed::floor docstring
 fn floor(a: FixedType) -> FixedType {
     let (div_u128, rem_u128) = _split_unsigned(a);
 
@@ -237,28 +194,12 @@ fn le(a: FixedType, b: FixedType) -> bool {
     }
 }
 
-/// Calculates the natural logarithm of a fixed point number: ln(x).
-///
-/// # Arguments
-///
-/// * `a` - A fixed point number greater than zero.
-///
-/// # Returns
-///
-/// * A FixedType value representing the natural logarithm of the input number.
+/// Cf: Fixed::ln docstring
 fn ln(a: FixedType) -> FixedType {
     return Fixed::new(46516320_u128, false) * log2(a); // ln(2) = 0.693...
 }
 
-/// Calculates the binary logarithm of a fixed point number: log2(x).
-///
-/// # Arguments
-///
-/// * `a` - A fixed point number greater than zero.
-///
-/// # Returns
-///
-/// * A FixedType value representing the binary logarithm of the input number.
+/// Cf: Fixed::log2 docstring
 fn log2(a: FixedType) -> FixedType {
     check_gas();
 
@@ -297,15 +238,7 @@ fn log2(a: FixedType) -> FixedType {
     return r1 + t0 + Fixed::new_unscaled(msb_u128, false);
 }
 
-/// Calculates the base 10 logarithm of a fixed point number: log10(x).
-///
-/// # Arguments
-///
-/// * `a` - A fixed point number greater than zero.
-///
-/// # Returns
-///
-/// * A FixedType value representing the base 10 logarithm of the input number.
+/// Cf: Fixed::log10 docstring
 fn log10(a: FixedType) -> FixedType {
     return Fixed::new(20201781_u128, false) * log2(a); // log10(2) = 0.301...
 }
@@ -383,16 +316,7 @@ fn neg(a: FixedType) -> FixedType {
     }
 }
 
-/// Calculates the value of x^y for two fixed point numbers and checks for overflow before returning.
-///
-/// # Arguments
-///
-/// * `a` - The base fixed point number (x).
-/// * `b` - The exponent fixed point number (y).
-///
-/// # Returns
-///
-/// * A fixed point number representing the result of x^y.
+/// Cf: Fixed::pow docstring
 fn pow(a: FixedType, b: FixedType) -> FixedType {
     let (div_u128, rem_u128) = _split_unsigned(b);
 
@@ -405,15 +329,7 @@ fn pow(a: FixedType, b: FixedType) -> FixedType {
     return exp(b * ln(a));
 }
 
-/// Rounds a fixed point number to the nearest whole number.
-///
-/// # Arguments
-///
-/// * `a` - The fixed point number to round.
-///
-/// # Returns
-///
-/// * A fixed point number representing the rounded value.
+/// Cf: Fixed::round docstring
 fn round(a: FixedType) -> FixedType {
     let (div_u128, rem_u128) = _split_unsigned(a);
 
@@ -424,15 +340,7 @@ fn round(a: FixedType) -> FixedType {
     }
 }
 
-/// Calculates the square root of a positive fixed point number.
-///
-/// # Arguments
-///
-/// * `a` - The fixed point number to calculate the square root of. Must be positive.
-///
-/// # Returns
-///
-/// * A fixed point number representing the square root of the input value.
+/// Cf: Fixed::sqrt docstring
 fn sqrt(a: FixedType) -> FixedType {
     assert(a.sign == false, 'must be positive');
     let root = integer::u128_sqrt(a.mag);

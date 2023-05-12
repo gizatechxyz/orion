@@ -156,12 +156,7 @@ fn i128_check_sign_zero(x: i128) {
     }
 }
 
-// Create a new int128.
-// # Arguments
-// * `mag` - The magnitude
-// * `sign` - The sign of the integer
-// # Panics
-// Panics if `mag` is out of range.
+/// Cf: IntegerTrait::new docstring
 fn i128_new(mag: u128, sign: bool) -> i128 {
     if sign == true {
         assert(mag <= 170141183460469231731687303715884105728_u128, 'int: out of range');
@@ -310,12 +305,7 @@ fn i128_rem(a: i128, b: i128) -> i128 {
     return a - (b * (a / b));
 }
 
-// Calculates both the quotient and the remainder of the division of a first i128 by a second i128.
-// # Arguments
-// * `a` - The i128 dividend.
-// * `b` - The i128 divisor.
-// # Returns
-// * `(i128, i128)` - A tuple containing the quotient and the remainder of dividing `a` by `b`.
+/// Cf: IntegerTrait::div_rem docstring
 fn i128_div_rem(a: i128, b: i128) -> (i128, i128) {
     check_gas();
     let quotient = i128_div(a, b);
@@ -422,21 +412,12 @@ fn i128_neg(x: i128) -> i128 {
     return IntegerTrait::new(x.mag, !x.sign);
 }
 
-// Computes the absolute value of the given i128 integer.
-// # Arguments
-// * `x` - The i128 integer to compute the absolute value of.
-// # Returns
-// * `i128` - The absolute value of `x`.
+/// Cf: IntegerTrait::abs docstring
 fn i128_abs(x: i128) -> i128 {
     return IntegerTrait::new(x.mag, false);
 }
 
-// Computes the maximum between two i128 integers.
-// # Arguments
-// * `a` - The first i128 integer to compare.
-// * `b` - The second i128 integer to compare.
-// # Returns
-// * `i128` - The maximum between `a` and `b`.
+/// Cf: IntegerTrait::max docstring
 fn i128_max(a: i128, b: i128) -> i128 {
     if (a > b) {
         return a;
@@ -445,12 +426,7 @@ fn i128_max(a: i128, b: i128) -> i128 {
     }
 }
 
-// Computes the minimum between two i128 integers.
-// # Arguments
-// * `a` - The first i128 integer to compare.
-// * `b` - The second i128 integer to compare.
-// # Returns
-// * `i128` - The minimum between `a` and `b`.
+/// Cf: IntegerTrait::new docstring
 fn i128_min(a: i128, b: i128) -> i128 {
     if (a < b) {
         return a;

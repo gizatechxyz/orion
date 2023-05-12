@@ -44,16 +44,7 @@ fn symetric_quant(min_val: FixedType, max_val: FixedType, data: FixedType) -> Fi
     return quantized_data;
 }
 
-/// Quantizes an FixedType tensor using symmetric quantization.
-///
-/// # Arguments
-/// * `tensor` - A reference to an FixedType tensor to be quantized.
-///
-/// # Panics
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A new FixedType tensor with the same shape as the input tensor, containing the quantized values.
+/// Cf: PerfomanceTrait::quantize_linear docstring
 fn quantize_tensor(tensor: @Tensor::<FixedType>) -> Tensor::<FixedType> {
     let mut result_data = ArrayTrait::<FixedType>::new();
 

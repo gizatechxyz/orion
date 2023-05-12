@@ -5,19 +5,7 @@ use onnx_cairo::operators::tensor::implementations::impl_tensor_u32;
 use onnx_cairo::performance::core::PerfomanceTrait;
 use onnx_cairo::performance::implementations::impl_performance_u32;
 
-/// Performs a linear transformation of the input tensor using the provided weights and bias.
-///
-/// # Arguments
-/// * `z` - A 1D tensor of u32 values representing the input tensor.
-/// * `weights` - A 2D tensor of u32 values representing the weights for the linear transformation.
-/// * `bias` - A 1D tensor of u32 values representing the bias for the linear transformation.
-/// * `quantized` - A boolean flag indicating whether or not to quantize the result of the linear transformation.
-///
-/// # Panics
-/// This function asserts that the input tensor `z` must be 1D, weights tensor must be 2D, and bias tensor must be 1D.
-///
-/// # Returns
-/// * A tensor of u32 values representing the result of the linear transformation, possibly quantized.
+/// Cf: NNTrait::linear docstring
 fn linear_u32(
     z: Tensor<u32>, weights: Tensor<u32>, bias: Tensor<u32>, quantized: bool
 ) -> Tensor<u32> {
