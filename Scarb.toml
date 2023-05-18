@@ -7,3 +7,4 @@ homepage = "https://github.com/franalgaba/onnx-cairo"
 [scripts]
 sierra = "cairo-compile . -r"
 test = "cairo-test ."
+docgen = "cd docgen && cargo run"

@@ -14,52 +14,40 @@ struct Tensor<T> {
 impl TensorCopy<T> of Copy<Tensor<T>>;
 impl TensorDrop<T> of Drop<Tensor<T>>;
 
-/// | function                                           | description                                                                 |
-/// | -------------------------------------------------- | --------------------------------------------------------------------------- |
-/// | [`TensorTrait::new`](tensortrait-new.md)           | Constructs a new Tensor with the given shape and data array.                |
-/// | [`tensor.at`](tensor.at.md)                        | Accesses the element at the given multi-dimensional index.                  |
-/// | [`tensor.min`](tensor.min.md)                      | Returns the minimum value in the tensor.                                    |
-/// | [`tensor.max`](tensor.max.md)                      | Returns the maximum value in the tensor.                                    |
-/// | [`tensor.stride`](tensor.stride.md)                | Computes the stride of each dimension in the tensor.                        |
-/// | [`tensor.ravel_index`](tensor.ravel\_index.md)     | Converts a multi-dimensional index to a one-dimensional index.              |
-/// | [`tensor.unravel_index`](tensor.unravel\_index.md) | Converts a one-dimensional index to a multi-dimensional index.              |
-/// | [`tensor.reshape`](tensor.reshape.md)              | Returns a new tensor with the specified target shape and the same data.     |
-/// | [`tensor.transpose`](tensor.transpose.md)          | Returns a new tensor with the axes rearranged according to the given array. |
-/// | [`tensor.reduce_sum`](tensor.reduce\_sum.md)       | Reduces the tensor by summing along the specified axis.                     |
-/// | [`tensor.argmax`](tensor.argmax.md)                | Returns the index of the maximum value along the specified axis.            |
-/// | [`tensor.matmul`](tensor.matmul.md)                | Performs matrix multiplication.                                             |
-/// | [`tensor.exp`](tensor.exp.md)                      | Calculates the exponential function (e^x) for each element in a tensor.     |
+/// Trait
+///
+/// new - Constructs a new Tensor with the given shape and data array.
+/// at - Accesses the element at the given multi-dimensional index.
+/// min - Returns the minimum value in the tensor.    
+/// max - Returns the maximum value in the tensor.
+/// stride - Computes the stride of each dimension in the tensor.
+/// ravel_index - Converts a multi-dimensional index to a one-dimensional index.
+/// unravel_index - Converts a one-dimensional index to a multi-dimensional index.
+/// reshape - Returns a new tensor with the specified target shape and the same data. 
+/// transpose - Returns a new tensor with the axes rearranged according to the given array.
+/// reduce_sum - Reduces the tensor by summing along the specified axis.
+/// argmax - Returns the index of the maximum value along the specified axis.  
+/// matmul - Performs matrix multiplication. 
+/// exp - Calculates the exponential function (e^x) for each element in a tensor.
 trait TensorTrait<T> {
-    /// # TensorTrait::new
-    /// 
+    /// # Description
+    ///
     /// Returns a new tensor with the given shape and data.
     /// 
-    /// ```rust
-    /// fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
-    /// ```
+    /// # Arguments
     /// 
-    /// #### Args
-    /// 
-    /// | Name    | Type          | Description                                  |
-    /// | ------- | ------------- | -------------------------------------------- |
-    /// | `shape` | `Span<usize>` | A span representing the shape of the tensor. |
-    /// | `data`  | `Span<T>`     | A span containing the array of elements.     |
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Panics
-    /// 
-    /// | TypeError                                             |
-    /// | ----------------------------------------------------- |
-    /// | Panics if the shape and data length are incompatible. |
-    /// 
-    /// #### Returns
-    /// 
+    /// * `shape`(`Span<usize>`) - A span representing the shape of the tensor.
+    /// * `data` (`Span<T>`) - A span containing the array of elements.
+    ///
+    /// # Panics
+    ///
+    /// * Panics if the shape and data length are incompatible.
+    ///
+    /// # Returns
+    ///
     /// A new `Tensor<T>` instance.
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Examples
+    ///
+    /// # Examples
     /// 
     /// Let's create new u32 Tensors.
     /// 
@@ -118,37 +106,26 @@ trait TensorTrait<T> {
     ///     return tensor;
     /// }
     /// ```
+    ///
     fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
-    /// # tensor.argmax
-    /// 
+    /// # Description
+    ///
     /// Returns the index of the maximum value along the specified axis.
-    /// 
-    /// ```rust
-    /// fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
-    /// ```
-    /// 
-    /// #### Args
-    /// 
-    /// | Name   | Type         | Description                                 |
-    /// | ------ | ------------ | ------------------------------------------- |
-    /// | `self` | `@Tensor<T>` | The input tensor.                           |
-    /// | `axis` | `usize`      | The axis along which to compute the argmax. |
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Panics
-    /// 
-    /// | TypeError                                                            |
-    /// | -------------------------------------------------------------------- |
-    /// | Panics if axis is not in the range of the input tensor's dimensions. |
-    /// 
-    /// #### Returns
-    /// 
+    ///
+    /// # Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The axis along which to compute the argmax.
+    ///
+    /// # Panics
+    ///
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// # Returns
+    ///
     /// A new `Tensor<T>` instance containing the indices of the maximum values along the specified axis.
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Examples
+    ///
+    /// # Examples
     /// 
     /// ```rust
     /// fn argmax_example() -> Tensor<usize> {
@@ -160,31 +137,22 @@ trait TensorTrait<T> {
     ///     return tensor.argmax(0);
     /// }
     /// >>> [[1,1],[1,1]]
-    /// ```
+    /// ``` 
+    /// 
     fn at(self: @Tensor<T>, indices: Span<usize>) -> T;
-    /// # tensor.min
-    /// 
+    /// # Description
+    ///
     /// Returns the minimum value in the tensor.
-    /// 
-    /// ```rust
-    /// fn min(self: @Tensor<T>) -> T;
-    /// ```
-    /// 
-    /// #### Args
-    /// 
-    /// | Name   | Type         | Description       |
-    /// | ------ | ------------ | ----------------- |
-    /// | `self` | `@Tensor<T>` | The input tensor. |
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Returns
-    /// 
+    ///
+    /// # Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// # Returns
+    ///
     /// The minimum `T` value in the tensor.
     /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Examples
+    /// # Examples
     /// 
     /// ```rust
     /// fn min_example() -> u32 {
@@ -197,30 +165,21 @@ trait TensorTrait<T> {
     /// }
     /// >>> 0
     /// ```
+    ///
     fn min(self: @Tensor<T>) -> T;
-    /// # tensor.max
+    /// # Description
     /// 
     /// Returns the maximum value in the tensor.
-    /// 
-    /// ```rust
-    /// fn max(self: @Tensor<T>) -> T;
-    /// ```
-    /// 
-    /// #### Args
-    /// 
-    /// | Name   | Type         | Description       |
-    /// | ------ | ------------ | ----------------- |
-    /// | `self` | `@Tensor<T>` | The input tensor. |
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Returns
-    /// 
+    ///
+    /// # Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// # Returns
+    ///
     /// The maximum `T` value in the tensor.
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Examples
+    ///
+    /// Examples
     /// 
     /// ```rust
     /// fn max_example() -> u32 {
@@ -235,27 +194,18 @@ trait TensorTrait<T> {
     /// ```
     /// 
     fn max(self: @Tensor<T>) -> T;
-    /// # tensor.stride
-    /// 
+    /// # Description
+    ///
     /// Computes the stride of each dimension in the tensor.
-    /// 
-    /// ```rust
-    /// fn stride(self: @Tensor<T>) -> Span<usize>;
-    /// ```
-    /// 
-    /// #### Args
-    /// 
-    /// | Name   | Type         | Description       |
-    /// | ------ | ------------ | ----------------- |
-    /// | `self` | `@Tensor<T>` | The input tensor. |
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Returns
-    /// 
+    ///
+    /// # Args
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// # Returns
+    ///
     /// A span of usize representing the stride for each dimension of the tensor.
-    /// 
-    /// #### Examples
+    ///
+    /// # Examples
     /// 
     /// ```rust
     /// fn stride_example() -> Span<usize> {
@@ -268,35 +218,26 @@ trait TensorTrait<T> {
     /// }
     /// >>> [4,2,1]
     /// ```
+    ///
     fn stride(self: @Tensor<T>) -> Span<usize>;
-    /// # tensor.ravel\_index
-    /// 
+    /// # Description
+    ///
     /// Converts a multi-dimensional index to a one-dimensional index.
     /// 
-    /// ```rust
-    /// fn ravel_index(self: @Tensor<T>, indices: Span<usize>) -> usize;
-    /// ```
-    /// 
-    /// #### Args
-    /// 
-    /// | Name      | Type          | Description                         |
-    /// | --------- | ------------- | ----------------------------------- |
-    /// | `self`    | `@Tensor<T>`  | The input tensor.                   |
-    /// | `indices` | `Span<usize>` | The indices of the Tensor to ravel. |
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Panics
-    /// 
-    /// | TypeError                                                    |
-    /// | ------------------------------------------------------------ |
-    /// | Panics if the indices are out of bounds of the Tensor shape. |
-    /// 
-    /// #### Returns
+    /// # Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `indices`(`Span<usize>`) - The indices of the Tensor to ravel.
+    ///
+    /// # Panics 
+    ///
+    /// * Panics if the indices are out of bounds of the Tensor shape.
+    ///
+    /// # Returns
     /// 
     /// The index corresponding to the given indices.
-    /// 
-    /// #### Examples
+    ///
+    /// # Examples
     /// 
     /// ```rust
     /// fn ravel_index_example() -> usize {
@@ -317,35 +258,26 @@ trait TensorTrait<T> {
     /// // This means that the value of indices [1,3,0] 
     /// // of a multidimensional array can be found at index 10 of Tensor.data.
     /// ```
+    ///    
     fn ravel_index(self: @Tensor<T>, indices: Span<usize>) -> usize;
-    /// # tensor.unravel\_index
-    /// 
+    /// # Description
+    ///
     /// Converts a one-dimensional index to a multi-dimensional index.
-    /// 
-    /// ```rust
-    /// fn unravel_index(self: @Tensor<T>, index: usize) -> Span<usize>;
-    /// ```
-    /// 
-    /// #### Args
-    /// 
-    /// | Name      | Type          | Description           |
-    /// | --------- | ------------- | --------------------- |
-    /// | `self`    | `@Tensor<T>`  | The input tensor.     |
-    /// | `indices` | `Span<usize>` | The index to unravel. |
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Panics
-    /// 
-    /// | TypeError                                                 |
-    /// | --------------------------------------------------------- |
-    /// | Panics if the index is out of bounds of the Tensor shape. |
-    /// 
-    /// #### Returns
-    /// 
+    ///
+    /// # Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `indices`(`Span<usize>`) - The index to unravel.
+    ///
+    /// # Panics
+    ///
+    /// * Panics if the index is out of bounds of the Tensor shape.
+    ///
+    /// # Returns
+    ///
     /// The unraveled indices corresponding to the given index.
-    /// 
-    /// #### Examples
+    ///
+    /// # Examples
     /// 
     /// ```rust
     /// fn unravel_index_example() -> Span<usize> {
@@ -360,37 +292,26 @@ trait TensorTrait<T> {
     /// // This means that the value of index 3 of Tensor.data
     /// // can be found at indices [0,1,1] in multidimensional representation.
     /// ```
+    ///
     fn unravel_index(self: @Tensor<T>, index: usize) -> Span<usize>;
-    /// # tensor.reshape
-    /// 
+    /// # Description
+    ///
     /// Returns a new tensor with the specified target shape and the same data as the input tensor.
-    /// 
-    /// ```rust
-    /// fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
-    /// ```
-    /// 
-    /// #### Args
-    /// 
-    /// | Name           | Type          | Description                                       |
-    /// | -------------- | ------------- | ------------------------------------------------- |
-    /// | `self`         | `@Tensor<T>`  | The input tensor.                                 |
-    /// | `target_shape` | `Span<usize>` | A span containing the target shape of the tensor. |
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Panics
-    /// 
-    /// | TypeError                                                                |
-    /// | ------------------------------------------------------------------------ |
-    /// | Panics if the target shape is incompatible with the input tensor's data. |
-    /// 
-    /// #### Returns
-    /// 
+    ///
+    /// # Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `target_shape`(Span<usize>) - A span containing the target shape of the tensor.
+    ///
+    /// # Panics
+    ///
+    /// * Panics if the target shape is incompatible with the input tensor's data.
+    ///
+    /// # Returns
+    ///
     /// A new `Tensor<T>` with the specified target shape and the same data.
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Examples
+    ///
+    /// # Examples
     /// 
     /// ```rust
     /// fn reshape_tensor_example() -> Tensor<u32> {
@@ -408,37 +329,26 @@ trait TensorTrait<T> {
     /// }
     /// >>> [[0,1,2,3], [4,5,6,7]]
     /// ```
+    ///
     fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
-    /// # tensor.transpose
-    /// 
+    /// # Description
+    ///
     /// Returns a new tensor with the axes rearranged according to the given permutation.
+    ///
+    /// # Args
     /// 
-    /// ```rust
-    /// fn transpose(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T>;
-    /// ```
-    /// 
-    /// #### Args
-    /// 
-    /// | Name   | Type          | Description                                                |
-    /// | ------ | ------------- | ---------------------------------------------------------- |
-    /// | `self` | `@Tensor<T>`  | The input tensor.                                          |
-    /// | `axes` | `Span<usize>` | The usize elements representing the axes to be transposed. |
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Panics
-    /// 
-    /// | TypeError                                                                            |
-    /// | ------------------------------------------------------------------------------------ |
-    /// | Panics if the length of the axes array is not equal to the rank of the input tensor. |
-    /// 
-    /// #### Returns
-    /// 
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axes`(`Span<usize>`) - The usize elements representing the axes to be transposed.
+    ///
+    /// # Panics
+    ///
+    /// * Panics if the length of the axes array is not equal to the rank of the input tensor.
+    ///
+    /// # Returns
+    ///
     /// A `Tensor<T>` instance with the axes reordered according to the given permutation.
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Examples
+    ///
+    /// # Examples
     /// 
     /// ```rust
     /// fn transpose_tensor_example() -> Tensor<u32> {
@@ -457,39 +367,28 @@ trait TensorTrait<T> {
     /// }
     /// >>> [[[0,4],[1,5]],[[2,6],[3,7]]]
     /// ```
+    ///
     fn transpose(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T>;
-    /// # tensor.reduce\_sum
-    /// 
+    /// # Description
+    ///
     /// Reduces a tensor by summing its elements along a specified axis.
+    ///
+    /// # Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The dimension to reduce.
+    /// * `keepdims`(`bool`) - If true, retains reduced dimensions with length 1.
+    ///
+    /// # Panics 
     /// 
-    /// ```rust
-    /// fn reduce_sum(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
-    /// ```
-    /// 
-    /// #### Args
-    /// 
-    /// | Name       | Type         | Description                                        |
-    /// | ---------- | ------------ | -------------------------------------------------- |
-    /// | `self`     | `@Tensor<T>` | The input tensor.                                  |
-    /// | `axis`     | `usize`      | The dimension to reduce.                           |
-    /// | `keepdims` | `bool`       | If true, retains reduced dimensions with length 1. |
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Panics
-    /// 
-    /// | TypeError                                                            |
-    /// | -------------------------------------------------------------------- |
-    /// | Panics if axis is not in the range of the input tensor's dimensions. |
-    /// 
-    /// #### Returns
-    /// 
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// # Returns
+    ///
     /// A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Examples
-    /// 
+    ///
+    /// # Examples
+    ///
     /// ```rust
     /// fn reduce_sum_example() -> Tensor<u32> {
     ///     // We instantiate a 3D Tensor here.
@@ -501,38 +400,27 @@ trait TensorTrait<T> {
     /// }
     /// >>> [[4,6],[8,10]]
     /// ```
+    ///
     fn reduce_sum(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
-    /// # tensor.argmax
-    /// 
+    /// # Description
+    ///
     /// Returns the index of the maximum value along the specified axis.
-    /// 
-    /// ```rust
-    /// fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
-    /// ```
-    /// 
-    /// #### Args
-    /// 
-    /// | Name   | Type         | Description                                 |
-    /// | ------ | ------------ | ------------------------------------------- |
-    /// | `self` | `@Tensor<T>` | The input tensor.                           |
-    /// | `axis` | `usize`      | The axis along which to compute the argmax. |
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Panics
-    /// 
-    /// | TypeError                                                            |
-    /// | -------------------------------------------------------------------- |
-    /// | Panics if axis is not in the range of the input tensor's dimensions. |
-    /// 
-    /// #### Returns
-    /// 
+    ///
+    /// # Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The axis along which to compute the argmax.
+    ///
+    /// # Panics
+    ///
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// # Returns 
+    ///
     /// A new `Tensor<T>` instance containing the indices of the maximum values along the specified axis.
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Examples
-    /// 
+    ///
+    /// # Examples
+    ///
     /// ```rust
     /// fn argmax_example() -> Tensor<usize> {
     ///     // We instantiate a 3D Tensor here.
@@ -544,45 +432,32 @@ trait TensorTrait<T> {
     /// }
     /// >>> [[1,1],[1,1]]
     /// ```
+    ///
     fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
-    /// # tensor.matmul
+    /// # Description
     /// 
     /// Performs matrix product of two tensors.
-    /// 
-    /// ```rust
-    /// fn matmul(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
-    /// ```
-    /// 
     /// The behavior depends on the dimensionality of the tensors as follows:
-    /// 
     /// * If both tensors are 1-dimensional, the dot product is returned.
     /// * If both arguments are 2-dimensional, the matrix-matrix product is returned.
     /// * If the first argument is 1-dimensional and the second argument is 2-dimensional, a 1 is prepended to its dimension for the purpose of the matrix multiply. After the matrix multiply, the prepended dimension is removed.
     /// * If the first argument is 2-dimensional and the second argument is 1-dimensional, the matrix-vector product is returned.
     /// 
-    /// #### Args
-    /// 
-    /// | Name    | Type         | Description                        |
-    /// | ------- | ------------ | ---------------------------------- |
-    /// | `self`  | `@Tensor<T>` | the first tensor to be multiplied  |
-    /// | `other` | `@Tensor<T>` | the second tensor to be multiplied |
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Panics
-    /// 
-    /// | TypeError                                                  |
-    /// | ---------------------------------------------------------- |
-    /// | Panics if the dimension of the tensors is higher than two. |
-    /// 
-    /// #### Returns
-    /// 
+    /// # Args
+    ///
+    /// * `self`(`@Tensor<T>`) - the first tensor to be multiplied
+    /// * `other`(`@Tensor<T>`) - the second tensor to be multiplied
+    ///
+    /// # Panics
+    ///
+    /// * Panics if the dimension of the tensors is higher than two.
+    ///
+    /// # Returns
+    ///
     /// A new `Tensor<T>` resulting from the matrix multiplication.
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Examples
-    /// 
+    ///
+    /// # Examples
+    ///
     /// Case 1: Dot product of two vectors (1D \* 1D)
     /// 
     /// ```rust
@@ -630,33 +505,25 @@ trait TensorTrait<T> {
     /// }
     /// >>> [5,14,23]
     /// ```
+    ///
     fn matmul(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
-    /// # tensor.exp
-    /// 
+    /// # Description
+    ///
     /// Computes the exponential of all elements of the input tensor.
-    /// 
     /// $$
     /// y_i=e^{x_i}
     /// $$
-    /// 
-    /// ```rust
-    /// fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
-    /// ```
-    /// 
-    /// #### Args
-    /// 
-    /// | Name   | Type         | Description       |
-    /// | ------ | ------------ | ----------------- |
-    /// | `self` | `@Tensor<T>` | The input tensor. |
-    /// 
-    /// > _`<T>` generic type depends on Tensor dtype._
-    /// 
-    /// #### Returns
-    /// 
-    /// Returns a new tensor in [`FixedType`](../../numbers/fixed-point/) with the exponential of the elements of the input tensor.
-    /// 
-    /// #### Examples
-    /// 
+    ///
+    /// # Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// # Returns
+    ///
+    /// Returns a new tensor in `FixedType` with the exponential of the elements of the input tensor.
+    ///
+    /// # Examples
+    ///
     /// ```rust
     /// fn exp_example() -> Tensor<FixedType> {
     ///     // We instantiate a 2D Tensor here.
@@ -670,6 +537,7 @@ trait TensorTrait<T> {
     /// // The fixed point representation of
     /// // [[1, 2.718281],[7.38905, 20.085536]]
     /// ```
+    ///
     fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
 }
 
