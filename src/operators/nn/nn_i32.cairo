@@ -2,6 +2,7 @@ mod NN {
     use onnx_cairo::operators::tensor::core::Tensor;
     use onnx_cairo::numbers::signed_integer::i32::i32;
     use onnx_cairo::operators::nn::functional::relu::relu_i32::relu_i32;
+    use onnx_cairo::operators::nn::functional::leaky_relu::leaky_relu_i32::leaky_relu_i32;
     use onnx_cairo::operators::nn::functional::softmax::softmax_i32::softmax_i32;
     use onnx_cairo::numbers::fixed_point::core::FixedType;
 
@@ -20,6 +21,24 @@ mod NN {
     ///   applied element-wise.
     fn relu(tensor: @Tensor<i32>) -> Tensor<i32> {
         relu_i32(tensor)
+    }
+
+    /// Applies the leaky rectified linear unit (Leaky ReLU) activation function element-wise to a given i32 tensor.
+    ///
+    /// The Leaky ReLU function is defined as f(x) = alpha * x if x < 0, f(x) = x otherwise, where x is the input element.
+    ///
+    /// # Arguments
+    /// * `z` - A snapshot of a i32 tensor to which the Leaky ReLU function will be applied.
+    /// * `alpha` - A snapshot of a FixedType scalar that defines the alpha value of the Leaky ReLU function.
+    ///
+    /// # Panics
+    /// * Panics if gas limit is exceeded during execution.
+    ///
+    /// # Returns
+    /// * A new FixedType tensor with the same shape as the input tensor and the Leaky ReLU function
+    ///   applied element-wise.
+    fn leaky_relu(z: @Tensor<i32>, alpha: @FixedType) -> Tensor<FixedType> {
+        leaky_relu_i32(z, alpha)
     }
 
     /// Calculates the softmax function for a tensor of i32 values along the specified axis.
