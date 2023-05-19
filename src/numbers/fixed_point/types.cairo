@@ -67,6 +67,11 @@ trait Fixed {
 
 impl FixedImpl of Fixed {
     fn new(mag: u128, sign: bool) -> FixedType {
+        if sign == true {
+            assert(mag <= MAX_u128, 'fixed type: out of range');
+        } else {
+            assert(mag <= MAX_u128 - 1_u128 , 'fixed type: out of range');
+        }
         return FixedType { mag: mag, sign: sign };
     }
 
