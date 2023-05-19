@@ -23,6 +23,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "ojetokun",
+      "name": "Lanre Ojetokun",
+      "avatar_url": "https://avatars.githubusercontent.com/u/74370710?v=4",
+      "profile": "https://github.com/ojetokun",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -30,5 +40,5 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "projectName": "onnx-cairo",
-  "projectOwner": "franalgaba"
+  "projectOwner": "gizatechxyz"
 }
