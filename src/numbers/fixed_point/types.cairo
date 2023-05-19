@@ -70,7 +70,7 @@ impl FixedImpl of Fixed {
         if sign == true {
             assert(mag <= MAX_u128, 'fixed type: out of range');
         } else {
-            assert(mag <= MAX_u128 - 1_u128 , 'fixed type: out of range');
+            assert(mag <= MAX_u128 - 1_u128, 'fixed type: out of range');
         }
         return FixedType { mag: mag, sign: sign };
     }
@@ -139,7 +139,7 @@ impl FixedImpl of Fixed {
 impl FixedPrint of PrintTrait<FixedType> {
     fn print(self: FixedType) {
         self.sign.print();
-        self.mag.into().print();
+        self.mag.print();
     }
 }
 
