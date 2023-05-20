@@ -33,10 +33,10 @@ fn relu_u32(z: @Tensor<u32>, threshold:u32 ) -> Tensor<u32> {
         };
 
         let current_index = *data.pop_front().unwrap();
-        if current_index >= threshold {
-            data_result.append(current_index);
-        } else {
+        if current_index < threshold {
             data_result.append(zero);
+        } else {
+            data_result.append(current_index);
         };
     };
 
