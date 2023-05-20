@@ -11,6 +11,7 @@ mod NN {
     ///
     /// # Arguments
     /// * `z` - A reference to an u32 tensor to which the ReLU function will be applied.
+    /// * `threshold` - a u32 scalar that defines the threshold below which the Relu function returns 0.
     ///
     /// # Panics
     /// * Panics if gas limit is exceeded during execution.
@@ -18,8 +19,8 @@ mod NN {
     /// # Returns
     /// * A new u32 tensor with the same shape as the input tensor and the ReLU function
     ///   applied element-wise.
-    fn relu(tensor: @Tensor<u32>) -> Tensor<u32> {
-        relu_u32(tensor)
+    fn relu(tensor: @Tensor<u32>,threshold:u32) -> Tensor<u32> {
+        relu_u32(tensor,threshold)
     }
 
     /// Applies the leaky rectified linear unit (Leaky ReLU) activation function element-wise to a given u32 tensor.

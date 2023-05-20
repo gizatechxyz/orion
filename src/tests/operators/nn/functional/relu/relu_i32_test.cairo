@@ -8,7 +8,7 @@ use onnx_cairo::operators::nn::nn_i32::NN;
 
 #[test]
 #[available_gas(2000000)]
-fn relu_test() {
+fn relu_i32_test() {
     let mut shape = ArrayTrait::<usize>::new();
     shape.append(2);
     shape.append(2);

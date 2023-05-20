@@ -12,6 +12,7 @@ use onnx_cairo::utils::check_gas;
 ///
 /// # Arguments
 /// * `z` - A reference to an u32 tensor to which the ReLU function will be applied.
+/// * `threshold` - a u32 scalar that defines the threshold below which the Relu function returns 0.
 ///
 /// # Panics
 /// * Panics if gas limit is exceeded during execution.
@@ -19,7 +20,7 @@ use onnx_cairo::utils::check_gas;
 /// # Returns
 /// * A new u32 tensor with the same shape as the input tensor and the ReLU function
 ///   applied element-wise.
-fn relu_u32(z: @Tensor<u32>) -> Tensor<u32> {
+fn relu_u32(z: @Tensor<u32>, threshold:u32 ) -> Tensor<u32> {
     let mut data_result = ArrayTrait::<u32>::new();
     let mut data = *z.data;
 
@@ -32,10 +33,10 @@ fn relu_u32(z: @Tensor<u32>) -> Tensor<u32> {
         };
 
         let current_index = *data.pop_front().unwrap();
-        if current_index > zero {
-            data_result.append(current_index);
-        } else {
+        if current_index < threshold {
             data_result.append(zero);
+        } else {
+            data_result.append(current_index);
         };
     };
 
