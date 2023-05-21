@@ -1,18 +1,18 @@
 use onnx_cairo::operators::tensor::core::Tensor;
 use onnx_cairo::numbers::fixed_point::core::FixedType;
 
-/// | function                                    | description                                      |
-/// | ------------------------------------------- | ------------------------------------------------ |
-/// | [`quantize_linear`](linear-quantization.md) | Quantizes a Tensor using symmetric quantization. |
+/// Trait
+///
+/// quantize_linear - Quantizes a Tensor using symmetric quantization.
 trait PerfomanceTrait<T> {
     /// # Linear Quantization
-    /// 
-    /// Quantizes a Tensor using symmetric quantization.
     /// 
     /// ```rust
     /// fn quantize_linear(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     /// 
+    /// Quantizes a Tensor using symmetric quantization.
+    ///
     /// This is an 8-bit linear quantization of a tensor. This method allows tensors to be stored at lower bitwidths than those of fixed-point precision.
     /// 
     /// During quantization, the unquantized values are mapped to an 8 bit quantization space of the form:
@@ -25,21 +25,15 @@ trait PerfomanceTrait<T> {
     ///  scale = max(abs(data_range_max), abs(data_range_min)) * 2 / (quantization_range_max - quantization_range_min)
     /// ```
     /// 
-    /// #### Args
-    /// 
-    /// | Name     | Type         | Description       |
-    /// | -------- | ------------ | ----------------- |
-    /// | `tensor` | `@Tensor<T>` | The input tensor. |
-    /// 
-    /// > _`<T>` generic type depends on `performance` dtype._
-    /// 
-    /// #### Returns
-    /// 
+    /// ## Args
+    ///
+    /// * `tensor`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
     /// A new `Tensor<T>` with the same shape as the input tensor, containing the quantized values.
-    /// 
-    /// > _`<T>` generic type depends on `performance` dtype._
-    /// 
-    /// #### Examples
+    ///
+    /// ## Examples
     /// 
     /// ```rust
     /// use onnx_cairo::performance::core::PerfomanceTrait;
@@ -55,5 +49,6 @@ trait PerfomanceTrait<T> {
     /// }
     /// >>> [[-127, 101, -51],[124, -80, 64]]
     /// ```
+    ///
     fn quantize_linear(self: @Tensor<T>) -> Tensor<T>;
 }
