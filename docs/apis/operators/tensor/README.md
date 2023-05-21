@@ -122,6 +122,14 @@ use onnx_cairo::operators::tensor::core::TensorTrait;
 
 
 
+
+
+
+
+
+
+
+
 ### Arithmetic Operations
 
 `Tensor` implements arithmetic traits. This allows you to perform basic arithmetic operations using the associated operators. (`+`, `-`, `*`, `/` ) Tensors arithmetic operations supports broadcasting.
