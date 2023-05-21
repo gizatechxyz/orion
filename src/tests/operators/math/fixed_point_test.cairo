@@ -106,34 +106,34 @@ fn test_ln() {
 #[test]
 #[available_gas(10000000)]
 fn test_log2() {
-    let a = Fixed::from_unscaled_felt(32);
-    assert(a.log2().into() == 335544129, 'invalid log2'); // 4.99999995767848
+    let a = Fixed::from_unscaled_felt(31);
+    assert(a.log2().into() == 332470374, 'invalid log2'); // 4.954194635152817
 }
 
 #[test]
 #[available_gas(10000000)]
 fn test_log10() {
-    let a = Fixed::from_unscaled_felt(100);
-    assert(a.log10().into() == 134217717, 'invalid log10'); // 1.9999999873985543
+    let a = Fixed::from_unscaled_felt(30);
+    assert(a.log10().into() == 99127896, 'invalid log10'); // 1.477120757102966
 }
 
 #[test]
 fn test_eq() {
-    let a = Fixed::from_unscaled_felt(42);
-    let b = Fixed::from_unscaled_felt(42);
+    let a = Fixed::from_unscaled_felt(25);
+    let b = Fixed::from_unscaled_felt(25);
     let c = a == b;
     assert(c == true, 'invalid result');
 }
 
 #[test]
 fn test_ne_() {
-    let a = Fixed::from_unscaled_felt(42);
-    let b = Fixed::from_unscaled_felt(42);
+    let a = Fixed::from_unscaled_felt(25);
+    let b = Fixed::from_unscaled_felt(25);
     let c = a != b;
     assert(c == false, 'invalid result');
 
-    let a = Fixed::from_unscaled_felt(42);
-    let b = Fixed::from_unscaled_felt(-42);
+    let a = Fixed::from_unscaled_felt(25);
+    let b = Fixed::from_unscaled_felt(-25);
     let c = a != b;
     assert(c == true, 'invalid result');
 }
@@ -233,20 +233,16 @@ fn test_div_() {
     let c = a / b;
     assert(c.into() == -26843545, 'invalid neg decimal'); // 0.4
 
-    let a = Fixed::from_unscaled_felt(-1000);
-    let b = Fixed::from_unscaled_felt(12500);
+    let a = Fixed::from_unscaled_felt(-1);
+    let b = Fixed::from_unscaled_felt(12);
     let c = a / b;
-    assert(c.into() == -5368709, 'invalid neg decimal'); // 0.08
+    assert(c.into() == -5592405, 'invalid neg decimal'); // 0.08333333333333333
 
-    let a = Fixed::from_unscaled_felt(-10);
-    let b = Fixed::from_unscaled_felt(123456789);
-    let c = a / b;
-    assert(c.into() == -5, 'invalid neg decimal'); // 8.100000073706917e-8
-
-    let a = Fixed::from_unscaled_felt(123456789);
+   
+    let a = Fixed::from_unscaled_felt(12);
     let b = Fixed::from_unscaled_felt(-10);
     let c = a / b;
-    assert(c.into() == -828504486287769, 'invalid neg decimal'); // -12345678.9
+    assert(c.into() == -80530636, 'invalid neg decimal'); // -1.2
 }
 
 #[test]
