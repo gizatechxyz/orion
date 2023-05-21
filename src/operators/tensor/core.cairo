@@ -30,29 +30,33 @@ impl TensorDrop<T> of Drop<Tensor<T>>;
 /// matmul - Performs matrix multiplication. 
 /// exp - Calculates the exponential function (e^x) for each element in a tensor.
 trait TensorTrait<T> {
-    /// # Description
+    /// # TensorTrait::new
+    ///
+    /// ```rust 
+    ///    fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
+    /// ```
     ///
     /// Returns a new tensor with the given shape and data.
     /// 
-    /// # Arguments
+    /// ## Args
     /// 
     /// * `shape`(`Span<usize>`) - A span representing the shape of the tensor.
     /// * `data` (`Span<T>`) - A span containing the array of elements.
     ///
-    /// # Panics
+    /// ## Panics
     ///
     /// * Panics if the shape and data length are incompatible.
     ///
-    /// # Returns
+    /// ## Returns
     ///
     /// A new `Tensor<T>` instance.
     ///
-    /// # Examples
+    /// ## Examples
     /// 
     /// Let's create new u32 Tensors.
     /// 
     /// ```rust
-    /// /// 1D TENSOR
+    /// // 1D TENSOR
     /// fn tensor_1D() -> Tensor<u32> {
     ///     let mut shape = ArrayTrait::new();
     ///     shape.append(3);
@@ -67,7 +71,7 @@ trait TensorTrait<T> {
     ///     return tensor;
     /// }
     /// 
-    /// /// 2D TENSOR
+    /// // 2D TENSOR
     /// fn tensor_2D() -> Tensor<u32> {
     ///     let mut shape = ArrayTrait::new();
     ///     shape.append(2);
@@ -84,7 +88,7 @@ trait TensorTrait<T> {
     ///     return tensor;
     /// }
     /// 
-    /// /// 3D TENSOR
+    /// // 3D TENSOR
     /// fn tensor_3D() -> Tensor<u32> {
     ///     let mut shape = ArrayTrait::new();
     ///     shape.append(2);
@@ -108,51 +112,65 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
-    /// # Description
+    /// # tensor.at
     ///
-    /// Returns the index of the maximum value along the specified axis.
+    /// ```rust 
+    ///    fn at(self: @Tensor<T>, indices: Span<usize>) -> T;
+    /// ```
     ///
-    /// # Args
+    /// Retrieves the value at the specified indices of a Tensor.
+    ///
+    /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
-    /// * `axis`(`usize`) - The axis along which to compute the argmax.
+    /// * `indices`(`Span<usize>`) - The indices to access element of the Tensor.
     ///
-    /// # Panics
+    /// ## Panics
     ///
-    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    /// * Panics if the number of indices provided don't match the number of dimensions in the tensor.
     ///
-    /// # Returns
+    /// ## Returns
     ///
-    /// A new `Tensor<T>` instance containing the indices of the maximum values along the specified axis.
+    /// The `T` value at the specified indices.
     ///
     /// # Examples
     /// 
     /// ```rust
-    /// fn argmax_example() -> Tensor<usize> {
+    /// fn at_example() -> u32 {
     ///     // We instantiate a 3D Tensor here.
     ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
     ///     let tensor = u32_tensor_2x2x2_helper();
+    ///     
+    ///     // We set indices to access element of the Tensor.
+    ///     let mut indices = ArrayTrait::new();
+    ///     indices.append(0);
+    ///     indices.append(1);
+    ///     indices.append(1);
     /// 		
-    ///     // We can call `argmax` function as follows.
-    ///     return tensor.argmax(0);
+    ///     // We can call `at` function as follows.
+    ///     return tensor.at(indices.span());
     /// }
-    /// >>> [[1,1],[1,1]]
-    /// ``` 
+    /// >>> 3
+    /// ```
     /// 
     fn at(self: @Tensor<T>, indices: Span<usize>) -> T;
-    /// # Description
+    /// # tensor.min
+    ///
+    /// ```rust 
+    ///    fn min(self: @Tensor<T>) -> T;
+    /// ```
     ///
     /// Returns the minimum value in the tensor.
     ///
-    /// # Args
+    /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
     ///
-    /// # Returns
+    /// ## Returns
     ///
     /// The minimum `T` value in the tensor.
     /// 
-    /// # Examples
+    /// ## Examples
     /// 
     /// ```rust
     /// fn min_example() -> u32 {
@@ -167,15 +185,19 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn min(self: @Tensor<T>) -> T;
-    /// # Description
-    /// 
+    /// # tensor.max
+    ///
+    /// ```rust 
+    ///    fn max(self: @Tensor<T>) -> T;
+    /// ```
+    ///
     /// Returns the maximum value in the tensor.
     ///
-    /// # Args
+    /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
     ///
-    /// # Returns
+    /// ## Returns
     ///
     /// The maximum `T` value in the tensor.
     ///
@@ -194,18 +216,22 @@ trait TensorTrait<T> {
     /// ```
     /// 
     fn max(self: @Tensor<T>) -> T;
-    /// # Description
+    /// # tensor.stride
+    ///
+    /// ```rust 
+    ///    fn stride(self: @Tensor<T>) -> Span<usize>;
+    /// ```
     ///
     /// Computes the stride of each dimension in the tensor.
     ///
-    /// # Args
+    /// ## Args
     /// * `self`(`@Tensor<T>`) - The input tensor.
     ///
-    /// # Returns
+    /// ## Returns
     ///
     /// A span of usize representing the stride for each dimension of the tensor.
     ///
-    /// # Examples
+    /// ## Examples
     /// 
     /// ```rust
     /// fn stride_example() -> Span<usize> {
@@ -220,24 +246,28 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn stride(self: @Tensor<T>) -> Span<usize>;
-    /// # Description
+    /// # tensor.ravel_index
+    ///
+    /// ```rust 
+    ///     fn ravel_index(self: @Tensor<T>, indices: Span<usize>) -> usize;
+    /// ```
     ///
     /// Converts a multi-dimensional index to a one-dimensional index.
     /// 
-    /// # Args
+    /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
     /// * `indices`(`Span<usize>`) - The indices of the Tensor to ravel.
     ///
-    /// # Panics 
+    /// ## Panics 
     ///
     /// * Panics if the indices are out of bounds of the Tensor shape.
     ///
-    /// # Returns
+    /// ## Returns
     /// 
     /// The index corresponding to the given indices.
     ///
-    /// # Examples
+    /// ## Examples
     /// 
     /// ```rust
     /// fn ravel_index_example() -> usize {
@@ -260,24 +290,28 @@ trait TensorTrait<T> {
     /// ```
     ///    
     fn ravel_index(self: @Tensor<T>, indices: Span<usize>) -> usize;
-    /// # Description
+    /// # tensor.unravel_index
+    ///
+    /// ```rust 
+    ///    fn unravel_index(self: @Tensor<T>, index: usize) -> Span<usize>;
+    /// ```
     ///
     /// Converts a one-dimensional index to a multi-dimensional index.
     ///
-    /// # Args
+    /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
     /// * `indices`(`Span<usize>`) - The index to unravel.
     ///
-    /// # Panics
+    /// ## Panics
     ///
     /// * Panics if the index is out of bounds of the Tensor shape.
     ///
-    /// # Returns
+    /// ## Returns
     ///
     /// The unraveled indices corresponding to the given index.
     ///
-    /// # Examples
+    /// ## Examples
     /// 
     /// ```rust
     /// fn unravel_index_example() -> Span<usize> {
@@ -294,24 +328,28 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn unravel_index(self: @Tensor<T>, index: usize) -> Span<usize>;
-    /// # Description
+    /// # tensor.reshape
+    ///
+    /// ```rust 
+    ///    fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
+    /// ```
     ///
     /// Returns a new tensor with the specified target shape and the same data as the input tensor.
     ///
-    /// # Args
+    /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
     /// * `target_shape`(Span<usize>) - A span containing the target shape of the tensor.
     ///
-    /// # Panics
+    /// ## Panics
     ///
     /// * Panics if the target shape is incompatible with the input tensor's data.
     ///
-    /// # Returns
+    /// ## Returns
     ///
     /// A new `Tensor<T>` with the specified target shape and the same data.
     ///
-    /// # Examples
+    /// ## Examples
     /// 
     /// ```rust
     /// fn reshape_tensor_example() -> Tensor<u32> {
@@ -331,24 +369,28 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
-    /// # Description
+    /// # tensor.transpose
     ///
-    /// Returns a new tensor with the axes rearranged according to the given permutation.
+    /// ```rust 
+    ///    fn transpose(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T>;
+    /// ```
     ///
-    /// # Args
+    /// Returns a new tensor with the axes rearranged according to the given permutation. Test
+    ///
+    /// ## Args
     /// 
     /// * `self`(`@Tensor<T>`) - The input tensor.
     /// * `axes`(`Span<usize>`) - The usize elements representing the axes to be transposed.
     ///
-    /// # Panics
+    /// ## Panics
     ///
     /// * Panics if the length of the axes array is not equal to the rank of the input tensor.
     ///
-    /// # Returns
+    /// ## Returns
     ///
     /// A `Tensor<T>` instance with the axes reordered according to the given permutation.
     ///
-    /// # Examples
+    /// ## Examples
     /// 
     /// ```rust
     /// fn transpose_tensor_example() -> Tensor<u32> {
@@ -369,25 +411,29 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn transpose(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T>;
-    /// # Description
+    /// ## tensor.reduce_sum
+    ///
+    /// ```rust 
+    ///    fn reduce_sum(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
+    /// ```
     ///
     /// Reduces a tensor by summing its elements along a specified axis.
     ///
-    /// # Args
+    /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
     /// * `axis`(`usize`) - The dimension to reduce.
     /// * `keepdims`(`bool`) - If true, retains reduced dimensions with length 1.
     ///
-    /// # Panics 
+    /// ## Panics 
     /// 
     /// * Panics if axis is not in the range of the input tensor's dimensions.
     ///
-    /// # Returns
+    /// ## Returns
     ///
     /// A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
     ///
-    /// # Examples
+    /// ## Examples
     ///
     /// ```rust
     /// fn reduce_sum_example() -> Tensor<u32> {
@@ -402,24 +448,28 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn reduce_sum(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
-    /// # Description
+    /// # tensor.argmax
+    ///
+    /// ```rust 
+    ///    fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
+    /// ```
     ///
     /// Returns the index of the maximum value along the specified axis.
     ///
-    /// # Args
+    /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
     /// * `axis`(`usize`) - The axis along which to compute the argmax.
     ///
-    /// # Panics
+    /// ## Panics
     ///
     /// * Panics if axis is not in the range of the input tensor's dimensions.
     ///
-    /// # Returns 
+    /// ## Returns 
     ///
     /// A new `Tensor<T>` instance containing the indices of the maximum values along the specified axis.
     ///
-    /// # Examples
+    /// ## Examples
     ///
     /// ```rust
     /// fn argmax_example() -> Tensor<usize> {
@@ -434,8 +484,12 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
-    /// # Description
-    /// 
+    /// # tensor.matmul
+    ///
+    /// ```rust 
+    ///    fn matmul(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
     /// Performs matrix product of two tensors.
     /// The behavior depends on the dimensionality of the tensors as follows:
     /// * If both tensors are 1-dimensional, the dot product is returned.
@@ -443,20 +497,20 @@ trait TensorTrait<T> {
     /// * If the first argument is 1-dimensional and the second argument is 2-dimensional, a 1 is prepended to its dimension for the purpose of the matrix multiply. After the matrix multiply, the prepended dimension is removed.
     /// * If the first argument is 2-dimensional and the second argument is 1-dimensional, the matrix-vector product is returned.
     /// 
-    /// # Args
+    /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - the first tensor to be multiplied
     /// * `other`(`@Tensor<T>`) - the second tensor to be multiplied
     ///
-    /// # Panics
+    /// ## Panics
     ///
     /// * Panics if the dimension of the tensors is higher than two.
     ///
-    /// # Returns
+    /// ## Returns
     ///
     /// A new `Tensor<T>` resulting from the matrix multiplication.
     ///
-    /// # Examples
+    /// ## Examples
     ///
     /// Case 1: Dot product of two vectors (1D \* 1D)
     /// 
@@ -507,22 +561,26 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn matmul(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
-    /// # Description
+    /// # tensor.exp
+    ///
+    /// ```rust 
+    ///     fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// ```
     ///
     /// Computes the exponential of all elements of the input tensor.
     /// $$
     /// y_i=e^{x_i}
     /// $$
     ///
-    /// # Args
+    /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
     ///
-    /// # Returns
+    /// ## Returns
     ///
     /// Returns a new tensor in `FixedType` with the exponential of the elements of the input tensor.
     ///
-    /// # Examples
+    /// ## Examples
     ///
     /// ```rust
     /// fn exp_example() -> Tensor<FixedType> {

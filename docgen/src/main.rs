@@ -1,94 +1,78 @@
 use std::fs;
-use std::collections::HashMap;
-use regex::Regex; 
+use std::path::Path;
+use regex::Regex;
 
 fn main() {
-    tensor_description();
-    tensor_doc();
+    doc_trait();
+    doc_functions();
 }
 
-fn tensor_description() {
-    // Read the core.cairo file
-    let core_contents = fs
-        ::read_to_string("../src/operators/tensor/core.cairo")
-        .expect("Something went wrong reading the core.cairo file");
+fn doc_trait() {
+    // Open and read core.cairo file
+    let path = Path::new("../src/operators/tensor/core.cairo");
+    let contents = fs::read_to_string(&path).expect("Could not read the file");
 
-    // Extract the table from the core.cairo contents
-    let start_index = core_contents.find("function").unwrap();
-    let end_index = core_contents.find("trait TensorTrait<T>").unwrap();
-    let table = core_contents[start_index..end_index].to_string();
+    // Create a regular expression to match the comment lines
+    let re = Regex::new(r#"/// (\w+) - (.*)"#).unwrap();
 
-    // Remove the /// from the table
-    let table = table.replace("/// ", "");
+    // Initialize an empty string to store our new formatted table
+    let mut table = String::from("| function | description |\n| --- | --- |\n");
 
-    // Read the README.md file
-    let mut readme_contents = fs
-        ::read_to_string("../docs/apis/operators/tensor/README.md")
-        .expect("Something went wrong reading the README.md file");
-
-    // Find the location of the existing table in the README.md contents
-    let readme_start_index = readme_contents.find("function").unwrap();
-    let readme_end_index = readme_contents.find("### Arithmetic Operations").unwrap();
-
-    // Replace the existing table in the README.md contents with the table from core.cairo
-    readme_contents.replace_range(readme_start_index..readme_end_index - 1, &table);
-
-    // Write the updated contents back to the README.md file
-    fs::write("../docs/apis/operators/tensor/README.md", readme_contents).expect(
-        "Something went wrong writing to the README.md file"
-    );
-}
-
-fn tensor_doc() {
-    // Read the core.cairo file
-    let core_contents = fs
-        ::read_to_string("../src/operators/tensor/core.cairo")
-        .expect("Something went wrong reading the core.cairo file");
-
-    // Split the core.cairo contents into lines
-    let lines: Vec<&str> = core_contents.split('\n').collect();
-
-    // Initialize a hashmap to store function documentation
-    let mut function_docs: HashMap<String, String> = HashMap::new();
-
-    // String to temporarily store the function name and its docs
-    let mut function_name: String = String::new();
-    let mut function_docs_temp: String = String::new();
-
-    // Boolean to store if we are currently inside the TensorTrait block
-    let mut in_tensor_trait_block = false;
-
-    // Parse the lines to find function documentation
-    for line in lines {
-        if line.contains("trait TensorTrait<T> {") {
-            in_tensor_trait_block = true;
+    // Go through the file and look for comments with our specific format
+    for cap in re.captures_iter(&contents) {
+        // Check if the function is the Trait definition and skip it
+        if &cap[1] == "Trait" {
             continue;
         }
 
-        if line.contains("}") && in_tensor_trait_block {
-            in_tensor_trait_block = false;
-            continue;
-        }
-
-        if in_tensor_trait_block {
-            let re = Regex::new(r"^.* fn ([a-zA-Z_][a-zA-Z_0-9]*)\(").unwrap();
-            if let Some(cap) = re.captures(line) {
-                function_name = cap[1].to_string();
-            } else if line.starts_with("/// ") {
-                function_docs_temp.push_str(&line.replace("/// ", ""));
-                function_docs_temp.push_str("\n");
-            } else if line == "}" {
-                function_docs.insert(function_name.clone(), function_docs_temp.clone());
-                function_docs_temp.clear();
-            }
-        }
+        // Add the function name and description to our table
+        let func_name = format!(
+            "[`tensor.{}`](tensor.{}.md)",
+            &cap[1],
+            &cap[1].replace("_", "\\_")
+        );
+        let func_desc = &cap[2];
+        table += &format!("| {} | {} |\n", func_name, func_desc);
     }
 
-    // For each function, replace its documentation in the respective markdown file
-    for (function_name, docs) in function_docs {
-        let file_path = format!("../docs/apis/operators/tensor/{}.md", function_name);
-        fs::write(&file_path, docs).expect(
-            "Something went wrong writing to the function documentation file"
-        );
+    // Open the README.md file
+    let readme_path = Path::new("../docs/apis/operators/tensor/README.md");
+    let readme = fs::read_to_string(&readme_path).expect("Could not read the file");
+
+    // Use regex to replace the table, including the "| fun" line and two empty lines before and after
+    let re_table = Regex::new(r"(?ms)\n\n\| fun.*?\n\n").unwrap();
+    let new_readme = re_table.replace(&readme, &("\n\n".to_owned() + &table + "\n\n"));
+
+    // Write the updated contents back to README.md
+    fs::write(&readme_path, &*new_readme).expect("Could not write the file");
+}
+
+fn doc_functions() {
+    // Step 1 and 2: Go to the file and read it into a string
+    let filepath = "../src/operators/tensor/core.cairo";
+    let contents = fs::read_to_string(filepath).expect("Something went wrong reading the file");
+
+    // Step 3: Find the TensorTrait block
+    let trait_re = Regex::new(r"(?s)trait\s+TensorTrait<T>\s*\{.*?\n\s*\}").unwrap();
+    let trait_match = trait_re.captures(&contents).unwrap();
+    let trait_block = trait_match.get(0).unwrap().as_str();
+
+    // Step 4: Iterate over each function
+    let func_re = Regex::new(r"(?s)(///.*?\n)\s*fn (\w+)\((.*?)\) -> (.*?);").unwrap();
+    for func_match in func_re.captures_iter(trait_block) {
+        let func_name = func_match.get(2).unwrap().as_str();
+        let doc_comment = func_match.get(1).unwrap().as_str();
+
+        // Step 5 and 6: Go to the appropriate markdown file and write the transformed doc comment
+        let markdown_filename = format!("../docs/apis/operators/tensor/tensor.{}.md", func_name);
+
+        let transformed_comment = doc_comment
+            .lines()
+            .map(|line| line.trim_start().trim_start_matches("///").trim())
+            .collect::<Vec<_>>()
+            .join("\n");
+
+        // Step 7: Write or replace the transformed comment into the markdown file
+        fs::write(markdown_filename, transformed_comment).expect("Unable to write file");
     }
 }
