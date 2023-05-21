@@ -2,13 +2,17 @@ use onnx_cairo::operators::tensor::core::Tensor;
 use onnx_cairo::numbers::fixed_point::core::FixedType;
 
 
-/// | function                   | description                                             |
-/// | -------------------------- | ------------------------------------------------------- |
-/// | [`relu`](nn-relu.md)       | Applies the rectified linear unit function element-wise |
-/// | [`softmax`](nn-softmax.md) | Computes softmax activations.                           |
-/// | [`linear`](nn-linear.md)   | Performs a linear transformation of the input tensor using the provided weights and bias.|
+/// Trait
+///
+/// relu - Applies the rectified linear unit function element-wise
+/// softmax - Computes softmax activations.
+/// linear - Performs a linear transformation of the input tensor using the provided weights and bias.  
 trait NNTrait<T> {
     /// # NNTrait::relu
+    ///
+    /// ```rust 
+    ///    fn relu(tensor: @Tensor<T>) -> Tensor<T>;
+    /// ```
     /// 
     /// Applies the rectified linear unit function element-wise
     /// 
@@ -16,25 +20,15 @@ trait NNTrait<T> {
     /// ReLU(x)=(x)^+=max(0,x)
     /// $$
     /// 
-    /// ```rust
-    /// fn relu(tensor: @Tensor<T>) -> Tensor<T>;
-    /// ```
-    /// 
-    /// #### Args
-    /// 
-    /// | Name     | Type         | Description       |
-    /// | -------- | ------------ | ----------------- |
-    /// | `tensor` | `@Tensor<T>` | The input tensor. |
-    /// 
-    /// > _`<T>` generic type depends on NN dtype._
-    /// 
-    /// #### Returns
+    /// ## Args
+    ///
+    /// * `tensor`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
     /// 
     /// A `Tensor<T>` with the same shape as the input tensor.
-    /// 
-    /// > _`<T>` generic type depends on NN dtype._
-    /// 
-    /// #### Examples
+    ///
+    /// ## Examples
     /// 
     /// ```rust
     /// use onnx_cairo::operators::nn::core::NNTrait;
@@ -51,35 +45,30 @@ trait NNTrait<T> {
     /// }
     /// >>> [[1,2],[0,0]]
     /// ```
+    /// 
     fn relu(tensor: @Tensor<T>) -> Tensor<T>;
     /// # NNTrait::softmax
-    /// 
+    ///
+    /// ```rust 
+    ///    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>;
+    /// ```
+    ///
     /// Applies the Softmax function to an n-dimensional input Tensor rescaling them so that the elements of the n-dimensional output Tensor lie in the range \[0,1] and sum to 1.
     /// 
     /// $$
     /// \text{softmax}(x_i) = \frac{e^{x_i}}{\sum_{j=1}^n e^{x_j}}
     /// $$
     /// 
-    /// ```rust
-    /// fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>;
-    /// ```
-    /// 
-    /// Values returned between 0 and 1 are represented as [Fixed Points](../../numbers/fixed-point/) in this implementation.
-    /// 
-    /// #### Args
-    /// 
-    /// | Name     | Type         | Description                                  |
-    /// | -------- | ------------ | -------------------------------------------- |
-    /// | `tensor` | `@Tensor<T>` | The input tensor.                            |
-    /// | `axis`   | `usize`      | The axis along which to compute the softmax. |
-    /// 
-    /// > _`<T>` generic type depends on NN dtype._
-    /// 
-    /// #### Returns
-    /// 
+    /// ## Args
+    ///
+    /// * `tensor`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The axis along which to compute the softmax.
+    ///
+    /// ## Returns
+    ///
     /// A Tensor of fixed point numbers with the same shape than the input Tensor.
-    /// 
-    /// #### Examples
+    ///
+    /// ## Examples
     /// 
     /// ```rust
     /// use onnx_cairo::operators::nn::core::NNTrait;
@@ -97,40 +86,34 @@ trait NNTrait<T> {
     ///     // The fixed point representation of
     ///     // [[0.2689, 0.7311],[0.2689, 0.7311]]
     /// ```
+    ///
     fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>;
     /// # NNTrait::linear
-    /// 
-    /// Performs a linear transformation of the input tensor using the provided weights and bias.
+    ///
     /// 
     /// ```rust
     /// fn linear(inputs: Tensor<T>, weights: Tensor<T>, bias: Tensor<T>, quantized: bool) -> Tensor<T>
     /// ```
     /// 
-    /// #### Args
+    /// Performs a linear transformation of the input tensor using the provided weights and bias.
+    ///
+    /// ## Args
+    ///
+    /// * `tensor`(`@Tensor<T>`) - A 1D tensor representing the input tensor.
+    /// * `weights`(`@Tensor<T>`) - A 2D tensor representing the weights.
+    /// * `bias`(`@Tensor<T>`) - A 1D tensor representing the bias.
+    /// * `quantized`(`bool`) - A boolean flag indicating whether or not to quantize the result.
+    ///
+    /// ## Panics
     /// 
-    /// | Name     | Type         | Description       |
-    /// | -------- | ------------ | ----------------- |
-    /// | `tensor` | `@Tensor<T>` | A 1D tensor representing the input tensor. |
-    /// | `weights` | `@Tensor<T>` | A 2D tensor representing the weights. |
-    /// | `bias` | `@Tensor<T>` | A 1D tensor representing the bias. |
-    /// | `quantized` | `bool` | A boolean flag indicating whether or not to quantize the result. |
-    /// 
-    /// > _`<T>` generic type depends on NN dtype._
-    /// 
-    /// #### Panics
-    /// 
-    /// | TypeError                                                            |
-    /// | -------------------------------------------------------------------- |
-    /// | This function asserts that the input tensor `inputs` must be 1D, weights tensor must be 2D, and bias tensor must be 1D. |
-    /// 
-    /// #### Returns
-    /// 
+    /// This function asserts that the input tensor `inputs` must be 1D, weights tensor must be 2D, and bias tensor must be 1D.
+    ///
+    /// ## Returns
+    ///
     /// A `Tensor<T>` representing the result of the linear transformation, possibly quantized.
-    /// 
-    /// > _`<T>` generic type depends on NN dtype._
-    /// 
-    /// #### Examples
-    /// 
+    ///
+    /// ## Examples
+    ///
     /// ```rust
     /// use onnx_cairo::operators::nn::core::NNTrait;
     /// use onnx_cairo::operators::nn::implementations::impl_nn_i32;
@@ -153,5 +136,6 @@ trait NNTrait<T> {
     /// }
     /// >>> [127, -6]
     /// ````
+    ///
     fn linear(inputs: Tensor<T>, weights: Tensor<T>, bias: Tensor<T>, quantized: bool) -> Tensor<T>;
 }
