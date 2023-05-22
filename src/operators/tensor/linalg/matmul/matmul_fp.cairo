@@ -2,11 +2,11 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::utils::check_gas;
-use onnx_cairo::operators::tensor::implementations::impl_tensor_fp;
-use onnx_cairo::numbers::fixed_point::types::{Fixed, FixedType};
-use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
-use onnx_cairo::operators::tensor::linalg::matmul::helpers::{
+use orion::utils::check_gas;
+use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::numbers::fixed_point::types::{Fixed, FixedType};
+use orion::operators::tensor::core::{Tensor, TensorTrait};
+use orion::operators::tensor::linalg::matmul::helpers::{
     prepare_shape_for_matmul, adjust_output_shape_after_matmul
 };
 
@@ -55,8 +55,6 @@ fn dot_product(mut vec1: Span<FixedType>, mut vec2: Span<FixedType>) -> FixedTyp
     assert(vec1.len() == vec2.len(), 'vector lengths do not match');
 
     let mut result: FixedType = Fixed::new_unscaled(0, false);
-    let vec_len = vec1.len();
-    let mut idx: usize = 0;
 
     loop {
         check_gas();

@@ -2,11 +2,11 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::numbers::fixed_point::types::{Fixed, FixedType};
-use onnx_cairo::numbers::fixed_point::core::max;
-use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
-use onnx_cairo::operators::tensor::implementations::impl_tensor_fp;
-use onnx_cairo::utils::check_gas;
+use orion::numbers::fixed_point::types::{Fixed, FixedType};
+use orion::numbers::fixed_point::core::max;
+use orion::operators::tensor::core::{Tensor, TensorTrait};
+use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::utils::check_gas;
 
 /// Symmetrically quantizes the input `data` value using the specified range.
 ///

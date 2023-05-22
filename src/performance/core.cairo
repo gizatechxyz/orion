@@ -1,5 +1,5 @@
-use onnx_cairo::operators::tensor::core::Tensor;
-use onnx_cairo::numbers::fixed_point::core::FixedType;
+use orion::operators::tensor::core::Tensor;
+use orion::numbers::fixed_point::core::FixedType;
 
 /// Trait
 ///
@@ -36,8 +36,8 @@ trait PerfomanceTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use onnx_cairo::performance::core::PerfomanceTrait;
-    /// use onnx_cairo::performance::implementations::impl_performance_i32;
+    /// use orion::performance::core::PerfomanceTrait;
+    /// use orion::performance::implementations::impl_performance_i32;
     /// 
     /// fn quantize_linear_example() -> Tensor<i32> {
     ///     // We instantiate a 2D Tensor here.

@@ -1,5 +1,5 @@
-use onnx_cairo::operators::tensor::core::Tensor;
-use onnx_cairo::numbers::fixed_point::core::FixedType;
+use orion::operators::tensor::core::Tensor;
+use orion::numbers::fixed_point::core::FixedType;
 
 
 /// Trait
@@ -33,8 +33,8 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use onnx_cairo::operators::nn::core::NNTrait;
-    /// use onnx_cairo::operators::nn::implementations::impl_nn_i32;
+    /// use orion::operators::nn::core::NNTrait;
+    /// use orion::operators::nn::implementations::impl_nn_i32;
     /// 
     /// fn relu_example() -> Tensor<u32> {
     ///     // We instantiate a 2D Tensor here and set threshold to 0.
@@ -73,8 +73,8 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use onnx_cairo::operators::nn::core::NNTrait;
-    /// use onnx_cairo::operators::nn::implementations::impl_nn_u32;
+    /// use orion::operators::nn::core::NNTrait;
+    /// use orion::operators::nn::implementations::impl_nn_u32;
     /// 
     /// fn softmax_example() -> Tensor<FixedType> {
     ///     // We instantiate a 2D Tensor here.
@@ -116,8 +116,8 @@ trait NNTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use onnx_cairo::operators::nn::core::NNTrait;
-    /// use onnx_cairo::operators::nn::implementations::impl_nn_i32;
+    /// use orion::operators::nn::core::NNTrait;
+    /// use orion::operators::nn::implementations::impl_nn_i32;
     /// 
     /// fn linear_layer_example() -> Tensor<u32> {
     ///     // We instantiate inputs here.
@@ -164,8 +164,8 @@ trait NNTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use onnx_cairo::operators::nn::core::NNTrait;
-    /// use onnx_cairo::operators::nn::implementations::impl_nn_i32;
+    /// use orion::operators::nn::core::NNTrait;
+    /// use orion::operators::nn::implementations::impl_nn_i32;
     /// 
     /// fn leaky_relu_example() -> Tensor<u32> {
     ///     // We instantiate a 2D Tensor here, the alpha and set threshold to 0.
@@ -179,6 +179,5 @@ trait NNTrait<T> {
     /// }
     /// ```
     /// 
-
     fn leaky_relu(inputs: @Tensor<T>, alpha: @FixedType, threshold: T) -> Tensor<FixedType>;
 }

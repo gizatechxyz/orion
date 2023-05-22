@@ -3,20 +3,20 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use onnx_cairo::numbers::signed_integer::i32::i32;
-use onnx_cairo::numbers::fixed_point::types::FixedType;
-use onnx_cairo::operators::tensor::core::{
+use orion::numbers::signed_integer::i32::i32;
+use orion::numbers::fixed_point::types::FixedType;
+use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor
 };
-use onnx_cairo::operators::tensor::math::min::min_i32::min_in_tensor;
-use onnx_cairo::operators::tensor::math::max::max_i32::max_in_tensor;
-use onnx_cairo::operators::tensor::math::reduce_sum::reduce_sum_i32::reduce_sum;
-use onnx_cairo::operators::tensor::math::argmax::argmax_i32::argmax;
-use onnx_cairo::operators::tensor::linalg::matmul::matmul_i32::matmul;
-use onnx_cairo::operators::tensor::linalg::transpose::transpose_i32::transpose;
-use onnx_cairo::operators::tensor::math::exp::exp_i32::exp;
-use onnx_cairo::operators::tensor::math::arithmetic::arithmetic_i32::{add, sub, mul, div};
-use onnx_cairo::utils::check_gas;
+use orion::operators::tensor::math::min::min_i32::min_in_tensor;
+use orion::operators::tensor::math::max::max_i32::max_in_tensor;
+use orion::operators::tensor::math::reduce_sum::reduce_sum_i32::reduce_sum;
+use orion::operators::tensor::math::argmax::argmax_i32::argmax;
+use orion::operators::tensor::linalg::matmul::matmul_i32::matmul;
+use orion::operators::tensor::linalg::transpose::transpose_i32::transpose;
+use orion::operators::tensor::math::exp::exp_i32::exp;
+use orion::operators::tensor::math::arithmetic::arithmetic_i32::{add, sub, mul, div};
+use orion::utils::check_gas;
 
 impl i32Tensor of TensorTrait<i32> {
     fn new(shape: Span<usize>, data: Span<i32>) -> Tensor<i32> {

@@ -1,7 +1,7 @@
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::utils::check_gas;
+use orion::utils::check_gas;
 
 /// Cf: TensorTrait::max docstring
 fn max_in_tensor(mut vec: Span::<u32>) -> u32 {

@@ -20,7 +20,7 @@ scale = max(abs(data_range_max), abs(data_range_min)) * 2 / (quantization_range_
 
 ## Args
 
-* `tensor`(`@Tensor<T>`) - The input tensor.
+- `tensor`(`@Tensor<T>`) - The input tensor.
 
 ## Returns
 
@@ -29,8 +29,8 @@ A new `Tensor<T>` with the same shape as the input tensor, containing the quanti
 ## Examples
 
 ```rust
-use onnx_cairo::performance::core::PerfomanceTrait;
-use onnx_cairo::performance::implementations::impl_performance_i32;
+use orion::performance::core::PerfomanceTrait;
+use orion::performance::implementations::impl_performance_i32;
 
 fn quantize_linear_example() -> Tensor<i32> {
 // We instantiate a 2D Tensor here.

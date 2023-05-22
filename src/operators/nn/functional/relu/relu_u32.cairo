@@ -2,9 +2,9 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
-use onnx_cairo::operators::tensor::implementations::impl_tensor_u32;
-use onnx_cairo::utils::check_gas;
+use orion::operators::tensor::core::{Tensor, TensorTrait};
+use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::utils::check_gas;
 
 /// Cf: NNTrait::relu docstring
 fn relu_u32(z: @Tensor<u32>, threshold:u32 ) -> Tensor<u32> {

@@ -1,6 +1,6 @@
 # Get Started
 
-In this section, we will guide you to start using our APIs successfully. We will help you install Cairo 1.0 and add ONNX Cairo dependency in your project.
+In this section, we will guide you to start using our APIs successfully. We will help you install Cairo 1.0 and add Orion dependency in your project.
 
 ## 📦 Installations
 
@@ -32,27 +32,29 @@ Follow the instructions [here](https://docs.swmansion.com/scarb/docs/guides/crea
 
 </details>
 
-## ⚙️ Add `onnx_cairo` dependency in your project
+## ⚙️ Add `orion` dependency in your project
 
 If your `Scarb.toml` doesn't already have a `[dependencies]` section, add it, then list the package name and the URL to its Git repository.
 
 {% code title="Scarb.toml" %}
+
 ```toml
 [dependencies]
-onnx_cairo = { git = "https://github.com/gizatechxyz/onnx-cairo" }
+orion = { git = "https://github.com/gizatechxyz/onnx-cairo" }
 ```
+
 {% endcode %}
 
-Now, run `scarb build`, and Scarb will fetch `onnx_cairo` dependency and all its dependencies. Then it will compile your package with all of these packages included:
+Now, run `scarb build`, and Scarb will fetch `orion` dependency and all its dependencies. Then it will compile your package with all of these packages included:
 
 ```sh
 scarb build
 ```
 
-You can now use the `onnx_cairo` in your files:
+You can now use the `orion` in your files:
 
 ```rust
-use onnx_cairo::operators::nn::nn_i32::NN;
+use orion::operators::nn::nn_i32::NN;
 
 fn relu_example() -> Tensor<u32> {
     let tensor = u32_tensor_2x2_helper();
@@ -60,6 +62,6 @@ fn relu_example() -> Tensor<u32> {
 }
 ```
 
-## 🔭 Discover the ONNX-Cairo APIs
+## 🔭 Discover the Orion APIs
 
 <table data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td></td><td>⚙️ <strong>Operators</strong></td><td>A set of standardized math functions that are used in the computation of neural network models.</td><td><a href="operators/">operators</a></td></tr><tr><td></td><td>🔢 <strong>Numbers</strong></td><td>A full implementation of Signed Integer and Fixed Point Q5.26 in Cairo 1.0.</td><td><a href="numbers/">numbers</a></td></tr><tr><td></td><td>🚀 <strong>Performance</strong></td><td>A set of functions to increase the performance of your model.</td><td><a href="performance/">performance</a></td></tr></tbody></table>

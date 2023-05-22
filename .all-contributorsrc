@@ -49,6 +49,6 @@
   "skipCi": true,
   "repoType": "github",
   "repoHost": "https://github.com",
-  "projectName": "onnx-cairo",
+  "projectName": "orion",
   "projectOwner": "gizatechxyz"
 }

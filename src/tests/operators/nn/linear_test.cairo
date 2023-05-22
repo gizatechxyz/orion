@@ -1,11 +1,11 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use onnx_cairo::operators::tensor::core::TensorTrait;
-use onnx_cairo::operators::tensor::implementations::impl_tensor_i32;
-use onnx_cairo::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use onnx_cairo::operators::nn::core::NNTrait;
-use onnx_cairo::operators::nn::implementations::impl_nn_i32;
+use orion::operators::tensor::core::TensorTrait;
+use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
+use orion::operators::nn::core::NNTrait;
+use orion::operators::nn::implementations::impl_nn_i32;
 
 use debug::PrintTrait;
 

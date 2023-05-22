@@ -1,9 +1,20 @@
-# ONNX Cairo Runtime :sparkles:
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<div align="center">
+  <img src="docs/images/orion-banner.jpeg" height="256">
+</div>
+
+<div align="center">
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+</div>
+
+# Orion: a library for Validity ML in Cairo 1.0 :sparkles:
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-ONNX-Cairo Runtime is a Cairo library that provides two high-level features:
+Orion is a Cairo library that provides two high-level features:
 
 * Tensor computation (like Numpy) in Cairo 1.0.
 * Verifiable Machine Learning models using STARKS.
@@ -22,9 +33,9 @@ This library proposes a new ONNX runtime built with [Cairo](https://www.cairo-la
 
 You can check our official docs [here](https://onnx-cairo.gizatech.xyz/).
  
-- ⚙️ **ONNX Cairo Runtime** includes our Getting Started guide, API Reference, and more advanced features of the core like Tensor, Operators and Optimizations.
+- ⚙️ **APIs** includes our Getting Started guide, API Reference, and more advanced features of the core like Tensor, Operators and Optimizations.
 
-- 🧩 **Algorithms** is an open collection of algorithms implemented using the ONNX Cairo Runtime to be used by the community.
+- 🧩 **Algorithms** is an open collection of algorithms implemented using Orion to be used by the community.
 
 - 🧠 **Knowledge base** is a self-serve library of tips, step-by-step tutorials, and articles that answer your questions about creating verifiable ML models in Cairo.
 

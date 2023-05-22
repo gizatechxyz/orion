@@ -1,10 +1,10 @@
-use onnx_cairo::operators::tensor::core::Tensor;
-use onnx_cairo::operators::nn::core::NNTrait;
-use onnx_cairo::operators::nn::functional::relu::relu_u32::relu_u32;
-use onnx_cairo::operators::nn::functional::softmax::softmax_u32::softmax_u32;
-use onnx_cairo::operators::nn::functional::linear::linear_u32::linear_u32;
-use onnx_cairo::operators::nn::functional::leaky_relu::leaky_relu_u32::leaky_relu_u32;
-use onnx_cairo::numbers::fixed_point::core::FixedType;
+use orion::operators::tensor::core::Tensor;
+use orion::operators::nn::core::NNTrait;
+use orion::operators::nn::functional::relu::relu_u32::relu_u32;
+use orion::operators::nn::functional::softmax::softmax_u32::softmax_u32;
+use orion::operators::nn::functional::linear::linear_u32::linear_u32;
+use orion::operators::nn::functional::leaky_relu::leaky_relu_u32::leaky_relu_u32;
+use orion::numbers::fixed_point::core::FixedType;
 
 impl u32NN of NNTrait<u32> {
     fn relu(tensor: @Tensor<u32>, threshold: u32) -> Tensor<u32> {

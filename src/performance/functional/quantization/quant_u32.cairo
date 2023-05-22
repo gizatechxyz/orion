@@ -2,10 +2,10 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
-use onnx_cairo::operators::tensor::implementations::impl_tensor_u32;
-use onnx_cairo::utils::u32_max;
-use onnx_cairo::utils::check_gas;
+use orion::operators::tensor::core::{Tensor, TensorTrait};
+use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::utils::u32_max;
+use orion::utils::check_gas;
 
 /// Symmetrically quantizes the input `data` value using the specified range.
 ///

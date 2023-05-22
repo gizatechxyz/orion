@@ -1,9 +1,9 @@
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::numbers::fixed_point::types::{Fixed, FixedType, MAX_u128};
-use onnx_cairo::numbers::fixed_point::core::min;
-use onnx_cairo::utils::check_gas;
+use orion::numbers::fixed_point::types::{Fixed, FixedType, MAX_u128};
+use orion::numbers::fixed_point::core::min;
+use orion::utils::check_gas;
 
 /// Cf: TensorTrait::min docstring
 fn min_in_tensor(mut vec: Span::<FixedType>) -> FixedType {

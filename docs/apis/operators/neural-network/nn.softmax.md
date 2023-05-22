@@ -12,8 +12,8 @@ $$
 
 ## Args
 
-* `tensor`(`@Tensor<T>`) - The input tensor.
-* `axis`(`usize`) - The axis along which to compute the softmax.
+- `tensor`(`@Tensor<T>`) - The input tensor.
+- `axis`(`usize`) - The axis along which to compute the softmax.
 
 ## Returns
 
@@ -22,8 +22,8 @@ A Tensor of fixed point numbers with the same shape than the input Tensor.
 ## Examples
 
 ```rust
-use onnx_cairo::operators::nn::core::NNTrait;
-use onnx_cairo::operators::nn::implementations::impl_nn_u32;
+use orion::operators::nn::core::NNTrait;
+use orion::operators::nn::implementations::impl_nn_u32;
 
 fn softmax_example() -> Tensor<FixedType> {
 // We instantiate a 2D Tensor here.

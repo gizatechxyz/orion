@@ -3,11 +3,11 @@ use array::SpanTrait;
 use option::OptionTrait;
 use traits::Into;
 
-use onnx_cairo::numbers::fixed_point::types::{Fixed, FixedType};
-use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
-use onnx_cairo::numbers::signed_integer::i32::i32;
-use onnx_cairo::operators::tensor::implementations::impl_tensor_fp;
-use onnx_cairo::utils::check_gas;
+use orion::numbers::fixed_point::types::{Fixed, FixedType};
+use orion::operators::tensor::core::{Tensor, TensorTrait};
+use orion::numbers::signed_integer::i32::i32;
+use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::utils::check_gas;
 
 /// Cf: TensorTrait::exp docstring
 fn exp(self: @Tensor<i32>) -> Tensor<FixedType> {

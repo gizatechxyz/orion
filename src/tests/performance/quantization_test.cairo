@@ -1,11 +1,11 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use onnx_cairo::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use onnx_cairo::operators::tensor::implementations::impl_tensor_i32;
-use onnx_cairo::operators::tensor::core::TensorTrait;
-use onnx_cairo::performance::core::PerfomanceTrait;
-use onnx_cairo::performance::implementations::impl_performance_i32;
+use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
+use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::core::TensorTrait;
+use orion::performance::core::PerfomanceTrait;
+use orion::performance::implementations::impl_performance_i32;
 
 
 #[test]

@@ -1,13 +1,12 @@
-use core::traits::TryInto;
 use core::traits::Into;
 use array::ArrayTrait;
 use option::OptionTrait;
 use array::SpanTrait;
-use onnx_cairo::numbers::fixed_point::types::{FixedType, Fixed, ONE_u128};
-use onnx_cairo::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use onnx_cairo::operators::tensor::implementations::impl_tensor_fp;
-use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
-use onnx_cairo::utils::check_gas;
+use orion::numbers::fixed_point::types::{FixedType, Fixed, ONE_u128};
+use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
+use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::operators::tensor::core::{Tensor, TensorTrait};
+use orion::utils::check_gas;
 
 /// Cf: NNTrait::leaky_relu docstring
 fn leaky_relu_i32(z: @Tensor<i32>, alpha: @FixedType, threshold: i32) -> Tensor<FixedType> {
