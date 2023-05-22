@@ -1,4 +1,8 @@
-# Orion: Cairo library for Validity ML ✨
+---
+description: ONNX Runtime in Cairo 1.0
+---
+
+# Orion
 
 Orion is a Cairo library that provides two high-level features:
 
@@ -15,7 +19,7 @@ This library proposes a new ONNX runtime built with [Cairo](https://www.cairo-la
 
 ### 🌱 Where to start?
 
-<table data-view="cards"><thead><tr><th align="center"></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td align="center"></td><td>🧱 <strong>APIs</strong></td><td>Three APIs that will help you to build your Validity ML models.</td><td><a href="apis/get-started.md">get-started.md</a></td></tr><tr><td align="center"></td><td>🧩 <strong>Algorithms</strong></td><td>Discover all algorithms built by the community, or build your own. </td><td><a href="community/algorithms.md">algorithms.md</a></td></tr><tr><td align="center"></td><td>📖 <strong>Tutorials</strong></td><td>Try out the awesome guides and tutorials created by the community.</td><td><a href="resources/tutorials.md">tutorials.md</a></td></tr></tbody></table>
+<table data-view="cards"><thead><tr><th align="center"></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td align="center"></td><td>🧱 <strong>APIs</strong></td><td>Three APIs that will help you to build your Validity ML models.</td><td><a href="apis/get-started.md">get-started.md</a></td></tr><tr><td align="center"></td><td>🧩 <strong>Algorithms</strong></td><td>Discover all algorithms built by the community, or build your own.</td><td><a href="community/algorithms.md">algorithms.md</a></td></tr><tr><td align="center"></td><td>📖 <strong>Tutorials</strong></td><td>Try out the awesome guides and tutorials created by the community.</td><td><a href="resources/tutorials.md">tutorials.md</a></td></tr></tbody></table>
 
 ### ✨ What's new?
 
