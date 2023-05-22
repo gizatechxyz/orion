@@ -55,8 +55,6 @@ fn dot_product(mut vec1: Span<FixedType>, mut vec2: Span<FixedType>) -> FixedTyp
     assert(vec1.len() == vec2.len(), 'vector lengths do not match');
 
     let mut result: FixedType = Fixed::new_unscaled(0, false);
-    let vec_len = vec1.len();
-    let mut idx: usize = 0;
 
     loop {
         check_gas();

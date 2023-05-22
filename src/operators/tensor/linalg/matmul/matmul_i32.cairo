@@ -55,8 +55,6 @@ fn dot_product(mut vec1: Span<i32>, mut vec2: Span<i32>) -> i32 {
     assert(vec1.len() == vec2.len(), 'vector lengths do not match');
 
     let mut result: i32 = IntegerTrait::new(0, false);
-    let vec_len = vec1.len();
-    let mut idx: usize = 0;
 
     loop {
         check_gas();

@@ -54,8 +54,6 @@ fn dot_product(mut vec1: Span<u32>, mut vec2: Span<u32>) -> u32 {
     assert(vec1.len() == vec2.len(), 'vector lengths do not match');
 
     let mut result: u32 = 0;
-    let vec_len = vec1.len();
-    let mut idx: usize = 0;
 
     loop {
         check_gas();
@@ -65,7 +63,6 @@ fn dot_product(mut vec1: Span<u32>, mut vec2: Span<u32>) -> u32 {
 
         let element_product = *vec1.pop_front().unwrap() * *vec2.pop_front().unwrap();
         result += element_product;
-        idx += 1;
     };
 
     return result;

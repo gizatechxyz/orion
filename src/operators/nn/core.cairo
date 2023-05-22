@@ -179,6 +179,5 @@ trait NNTrait<T> {
     /// }
     /// ```
     /// 
-
     fn leaky_relu(inputs: @Tensor<T>, alpha: @FixedType, threshold: T) -> Tensor<FixedType>;
 }
