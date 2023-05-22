@@ -31,7 +31,7 @@ This library proposes a new ONNX runtime built with [Cairo](https://www.cairo-la
 
 ## 📚 How to use our docs
 
-You can check our official docs [here](https://onnx-cairo.gizatech.xyz/).
+You can check our official docs [here](https://orion.gizatech.xyz/).
  
 - ⚙️ **APIs** includes our Getting Started guide, API Reference, and more advanced features of the core like Tensor, Operators and Optimizations.
 
