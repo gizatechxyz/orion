@@ -2,24 +2,12 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::operators::tensor::implementations::impl_tensor_u32;
-use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
-use onnx_cairo::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
-use onnx_cairo::utils::check_gas;
+use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
+use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
+use orion::utils::check_gas;
 
-/// Sums the elements along the given axis of an u32 tensor.
-///
-/// # Arguments
-/// * `self` - The input tensor.
-/// * `axis` - The axis along which to sum the elements.
-/// * `keepdims` - If true, retains reduced dimensions with length 1.
-///
-/// # Panics
-/// * Panics if axis is not in the range of the input tensor's dimensions.
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<u32>` instance representing the result of the reduction.
+/// Cf: TensorTrait::reduce_sum docstring
 fn reduce_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
     assert(axis <= (*self.shape).len(), 'axis out of dimensions');
     let mut output_data = ArrayTrait::new();

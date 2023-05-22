@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased] - 2023-05-22
+### Changed
+
+- Remove unused variables.
+- Renaming. Replace ONNX-Cairo with Orion.
+
+
 ## [Unreleased] - 2023-05-20
 ### Changed
 
@@ -25,16 +33,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added range check to FixedType
 
+## [Unreleased] - 2023-05-21
+
+### Add
+
+- `docgen` script to generate documentation from docstrings.
+
+### Changed
+
+- NN and Performance modules to NNTrait and PerformanceTrait
+
+## [Unreleased] - 2023-05-11
+
+### Added
+
+- Added linear layer (dtype: Tensor<i32>, Tensor<u32>)
+
 ## [Unreleased] - 2023-05-07
+
 ### Changed
 
 - Update code structure.
 
 ## [Unreleased] - 2023-05-05
+
 ### Changed
 
 - Upgrade code to cairo alpha-v1.0.0-rc0:
-  - update syntax to fit with cairo alpha-v1.0.0-rc0 
+  - update syntax to fit with cairo alpha-v1.0.0-rc0
   - refactor imports
 
 ## [Unreleased] - 2023-05-05
@@ -42,14 +68,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Added exponential element-wise operation
-- Added softmax 
+- Added softmax
 
 ## [Unreleased] - 2023-05-04
 
 ### Fixed
 
 - Broadcast operations (add/sub/mul/div)
-
 
 ## [Unreleased] - 2023-05-02
 
@@ -129,7 +154,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Refactored signed integer implementation:
   - Improved compatibility with existing regimes (i8, i32, i64, i128).
-  - Implemented i8, i32, i64, i128 with magnitudes bounded by 2**(n-1).
+  - Implemented i8, i32, i64, i128 with magnitudes bounded by 2\*\*(n-1).
   - No breaking changes or API changes introduced.
 
 ## [Unreleased] - 2023-03-31

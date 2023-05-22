@@ -1,27 +1,15 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use onnx_cairo::numbers::signed_integer::i32::i32;
-use onnx_cairo::operators::tensor::core::{
+use orion::numbers::signed_integer::i32::i32;
+use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape
 };
-use onnx_cairo::operators::tensor::helpers::{len_from_shape, find_axis, permutation_output_shape};
-use onnx_cairo::operators::tensor::implementations::impl_tensor_i32;
-use onnx_cairo::utils::check_gas;
+use orion::operators::tensor::helpers::{len_from_shape, find_axis, permutation_output_shape};
+use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::utils::check_gas;
 
-
-/// Reorders the axes of an i32 tensor according to the given axes permutation.
-///
-/// # Arguments
-/// * `self` - The input tensor.
-/// * `axes` -  A span containing the usize elements representing the axes permutation.
-///
-/// # Panics
-/// * Panics if the length of the axes array is not equal to the rank of the input tensor.
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<i32>` instance with the axes reordered according to the given permutation.
+/// Cf: TensorTrait::transpose docstring
 fn transpose(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
     assert(axes.len() == (*self.shape).len(), 'shape and axes length unequal');
 

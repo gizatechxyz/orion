@@ -1,25 +1,13 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use onnx_cairo::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use onnx_cairo::operators::tensor::implementations::impl_tensor_i32;
-use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
-use onnx_cairo::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
-use onnx_cairo::utils::check_gas;
+use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
+use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
+use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
+use orion::utils::check_gas;
 
-/// Sums the elements along the given axis of an i32 tensor.
-///
-/// # Arguments
-/// * `self` - The input tensor.
-/// * `axis` - The axis along which to sum the elements.
-/// * `keepdims` - If true, retains reduced dimensions with length 1.
-///
-/// # Panics
-/// * Panics if axis is not in the range of the input tensor's dimensions.
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<i32>` instance representing the result of the reduction.
+/// Cf: TensorTrait::reduce_sum docstring
 fn reduce_sum(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
     assert(axis <= (*self.shape).len(), 'axis out of dimensions');
     let mut output_data = ArrayTrait::new();
@@ -65,9 +53,7 @@ fn reduce_sum(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
 /// * An i32 value representing the accumulated sum along the specified axis.
 use debug::print_felt252;
 use traits::Into;
-fn accumulate_sum(
-    input: @Tensor<i32>, output_indices: Span<usize>, axis: usize
-) -> i32 {
+fn accumulate_sum(input: @Tensor<i32>, output_indices: Span<usize>, axis: usize) -> i32 {
     let axis_len = *(*input.shape).at(axis);
     let mut acc = IntegerTrait::new(0, false);
 

@@ -2,24 +2,12 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::numbers::fixed_point::types::{Fixed, FixedType};
-use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
-use onnx_cairo::operators::tensor::implementations::impl_tensor_fp;
-use onnx_cairo::utils::check_gas;
+use orion::numbers::fixed_point::types::{Fixed, FixedType};
+use orion::operators::tensor::core::{Tensor, TensorTrait};
+use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::utils::check_gas;
 
-/// Calculates the exponential function (e^x) for each element in a tensor of FixedType values.
-///
-/// # Arguments
-///
-/// * `self` - A tensor of FixedType values representing the input tensor.
-///
-/// # Panics
-///
-/// * If gas limit is reached during computation.
-///
-/// # Returns
-///
-/// * A tensor of fixed point numbers representing the result 
+/// Cf: TensorTrait::exp docstring
 fn exp(self: @Tensor<FixedType>) -> Tensor<FixedType> {
     let mut result = ArrayTrait::new();
     let mut data = *self.data;

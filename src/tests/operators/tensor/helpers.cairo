@@ -2,9 +2,9 @@ use array::ArrayTrait;
 use array::SpanTrait;
 
 
-use onnx_cairo::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use onnx_cairo::operators::tensor::implementations::impl_tensor_i32;
-use onnx_cairo::operators::tensor::core::{TensorTrait, Tensor};
+use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
+use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::core::{TensorTrait, Tensor};
 
 // 1D
 fn i32_tensor_1x3_helper() -> Tensor<i32> {

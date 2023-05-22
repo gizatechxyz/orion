@@ -2,34 +2,14 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::utils::check_gas;
-use onnx_cairo::operators::tensor::implementations::impl_tensor_u32;
-use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait, };
-use onnx_cairo::operators::tensor::linalg::matmul::helpers::{
+use orion::utils::check_gas;
+use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::operators::tensor::core::{Tensor, TensorTrait, };
+use orion::operators::tensor::linalg::matmul::helpers::{
     prepare_shape_for_matmul, adjust_output_shape_after_matmul
 };
 
-/// Performs matrix multiplication between two u32 tensors.
-///
-/// # Arguments
-/// * `self` - The first tensor.
-/// * `other` - The second tensor.
-///
-/// # Behavior
-/// The behavior depends on the dimensionality of the tensors as follows:
-/// * If both tensors are 1-dimensional, the dot product is returned.
-/// * If both arguments are 2-dimensional, the matrix-matrix product is returned.
-/// * If the first argument is 1-dimensional and the second argument is 2-dimensional,
-///   a 1 is prepended to its dimension for the purpose of the matrix multiply. After
-///   the matrix multiply, the prepended dimension is removed.
-/// * If the first argument is 2-dimensional and the second argument is 1-dimensional,
-///   the matrix-vector product is returned.
-///
-/// # Panics
-/// * Panics if the dimension of the tensors is higher than two.
-///
-/// # Returns
-/// * A new `Tensor<u32>` resulting from the matrix multiplication.
+/// Cf: TensorTrait::matmul docstring
 fn matmul(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
     let self_shape = *self.shape;
     let other_shape = *other.shape;
@@ -74,8 +54,6 @@ fn dot_product(mut vec1: Span<u32>, mut vec2: Span<u32>) -> u32 {
     assert(vec1.len() == vec2.len(), 'vector lengths do not match');
 
     let mut result: u32 = 0;
-    let vec_len = vec1.len();
-    let mut idx: usize = 0;
 
     loop {
         check_gas();
@@ -85,7 +63,6 @@ fn dot_product(mut vec1: Span<u32>, mut vec2: Span<u32>) -> u32 {
 
         let element_product = *vec1.pop_front().unwrap() * *vec2.pop_front().unwrap();
         result += element_product;
-        idx += 1;
     };
 
     return result;

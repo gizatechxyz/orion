@@ -1,11 +1,31 @@
-# ONNX Cairo Runtime :sparkles:
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<div align="center">
+  <img src="docs/images/orion-banner.jpeg" height="256">
+</div>
+
+<div align="center">
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+</div>
+
+# Orion: a library for Validity ML in Cairo 1.0 :sparkles:
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-**ONNX Runtime inference** can enable faster user experiences and lower costs, supporting models from deep learning frameworks such as PyTorch and TensorFlow/Keras as well as classical machine learning libraries such as scikit-learn, LightGBM, XGBoost, etc. ONNX Runtime is compatible with various hardware, drivers, and operating systems, and provides optimal performance by leveraging hardware accelerators where applicable alongside graph optimizations and transforms. [Learn more &rarr;](https://www.onnxruntime.ai/docs/#onnx-runtime-for-inferencing)
+Orion is a Cairo library that provides two high-level features:
 
-In this repository you can find the new ONNX Runtime built using [Cairo](https://www.cairo-lang.org/). The purpose of this repository is to provide the runtime implementation for verfiable ML model inferences using STARKs.
+* Tensor computation (like Numpy) in Cairo 1.0.
+* Verifiable Machine Learning models using STARKS.
+
+### 🤔 What is ONNX Runtime inference?
+
+ONNX Runtime is an open-source, high-performance inference engine for machine learning models in the Open Neural Network Exchange (ONNX) format. ONNX is an interoperable format that allows deep learning models to be represented, shared, and executed across different AI frameworks and platforms.
+
+ONNX Runtime inference can enable faster user experiences and lower costs, supporting models from deep learning frameworks such as PyTorch and TensorFlow/Keras as well as classical machine learning libraries such as scikit-learn, LightGBM, XGBoost, etc. ONNX Runtime is compatible with various hardware, drivers, and operating systems, and provides optimal performance by leveraging hardware accelerators where applicable alongside graph optimizations and transforms. [Learn more →](https://www.onnxruntime.ai/docs/#onnx-runtime-for-inferencing)
+
+This library proposes a new ONNX runtime built with [Cairo](https://www.cairo-lang.org/). The purpose is to provide a runtime implementation for verifiable ML model inferences using [STARKs](https://starkware.co/stark/).
 
 ✨🚀 **New contributors are welcome to implement new ONNX Operators in Cairo 1.0!** 🌟💡
 
@@ -13,9 +33,9 @@ In this repository you can find the new ONNX Runtime built using [Cairo](https:/
 
 You can check our official docs [here](https://onnx-cairo.gizatech.xyz/).
  
-- ⚙️ **ONNX Cairo Runtime** includes our Getting Started guide, API Reference, and more advanced features of the core like Tensor, Operators and Optimizations.
+- ⚙️ **APIs** includes our Getting Started guide, API Reference, and more advanced features of the core like Tensor, Operators and Optimizations.
 
-- 🧩 **Algorithms** is an open collection of algorithms implemented using the ONNX Cairo Runtime to be used by the community.
+- 🧩 **Algorithms** is an open collection of algorithms implemented using Orion to be used by the community.
 
 - 🧠 **Knowledge base** is a self-serve library of tips, step-by-step tutorials, and articles that answer your questions about creating verifiable ML models in Cairo.
 

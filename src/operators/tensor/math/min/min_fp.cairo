@@ -1,20 +1,11 @@
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::numbers::fixed_point::types::{Fixed, FixedType, MAX_u128};
-use onnx_cairo::numbers::fixed_point::core::min;
-use onnx_cairo::utils::check_gas;
+use orion::numbers::fixed_point::types::{Fixed, FixedType, MAX_u128};
+use orion::numbers::fixed_point::core::min;
+use orion::utils::check_gas;
 
-/// Finds the minimum value in a `Tensor<FixedType>` array.
-///
-/// # Arguments
-/// * `vec` -  A span containing the data array of FixedType elements.
-///
-/// # Panics
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * An FixedType value representing the minimum value in the array.
+/// Cf: TensorTrait::min docstring
 fn min_in_tensor(mut vec: Span::<FixedType>) -> FixedType {
     let mut min_value: FixedType = Fixed::new(MAX_u128, false);
 

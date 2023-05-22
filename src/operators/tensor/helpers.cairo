@@ -2,8 +2,8 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::utils::{check_gas, u32_max};
-use onnx_cairo::operators::tensor::core::stride;
+use orion::utils::{check_gas, u32_max};
+use orion::operators::tensor::core::stride;
 
 /// Calculates the number of elements in a tensor given its shape.
 ///

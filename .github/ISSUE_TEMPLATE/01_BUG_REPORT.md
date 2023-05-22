@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Create a report to help ONNX-Cairo to improve
+about: Create a report to help Orion to improve
 title: "bug: "
 labels: "bug"
 assignees: ""
@@ -8,7 +8,7 @@ assignees: ""
 
 # Bug Report
 
-**ONNX-Cairo version:**
+**Orion version:**
 
 <!-- Please specify commit or tag version. -->
 

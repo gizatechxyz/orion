@@ -1,10 +1,11 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use onnx_cairo::operators::tensor::core::TensorTrait;
-use onnx_cairo::operators::tensor::implementations::impl_tensor_u32;
-use onnx_cairo::numbers::signed_integer::{integer_trait::IntegerTrait};
-use onnx_cairo::operators::nn::nn_u32::NN;
+use orion::operators::tensor::core::TensorTrait;
+use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::numbers::signed_integer::{integer_trait::IntegerTrait};
+use orion::operators::nn::core::NNTrait;
+use orion::operators::nn::implementations::impl_nn_u32;
 
 #[test]
 #[available_gas(2000000)]
@@ -26,7 +27,7 @@ fn relu_u32_test() {
 
     let mut tensor = TensorTrait::new(shape.span(), data.span());
     let threshold = 3_u32;
-    let mut result = NN::relu(@tensor,threshold);
+    let mut result = NNTrait::relu(@tensor, threshold);
 
     let data_0 = *result.data.at(0);
     assert(data_0 == 0, 'result[0] == 0');
@@ -39,5 +40,4 @@ fn relu_u32_test() {
 
     let data_3 = *result.data.at(3);
     assert(data_3 == 4, 'result[3] == 4');
-    
 }

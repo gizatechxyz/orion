@@ -1,5 +1,5 @@
-use onnx_cairo::numbers::signed_integer::integer_trait::IntegerTrait;
-use onnx_cairo::utils::check_gas;
+use orion::numbers::signed_integer::integer_trait::IntegerTrait;
+use orion::utils::check_gas;
 
 // ====================== INT 64 ======================
 
@@ -156,12 +156,7 @@ fn i64_check_sign_zero(x: i64) {
     }
 }
 
-// Create a new int64.
-// # Arguments
-// * `mag` - The magnitude
-// * `sign` - The sign of the integer
-// # Panics
-// Panics if `mag` is out of range.
+/// Cf: IntegerTrait::new docstring
 fn i64_new(mag: u64, sign: bool) -> i64 {
     if sign == true {
         assert(mag <= 9223372036854775808_u64, 'int: out of range');
@@ -310,12 +305,7 @@ fn i64_rem(a: i64, b: i64) -> i64 {
     return a - (b * (a / b));
 }
 
-// Calculates both the quotient and the remainder of the division of a first i64 by a second i64.
-// # Arguments
-// * `a` - The i64 dividend.
-// * `b` - The i64 divisor.
-// # Returns
-// * `(i64, i64)` - A tuple containing the quotient and the remainder of dividing `a` by `b`.
+/// Cf: IntegerTrait::div_rem docstring
 fn i64_div_rem(a: i64, b: i64) -> (i64, i64) {
     check_gas();
     let quotient = i64_div(a, b);
@@ -422,21 +412,12 @@ fn i64_neg(x: i64) -> i64 {
     return IntegerTrait::new(x.mag, !x.sign);
 }
 
-// Computes the absolute value of the given i64 integer.
-// # Arguments
-// * `x` - The i64 integer to compute the absolute value of.
-// # Returns
-// * `i64` - The absolute value of `x`.
+/// Cf: IntegerTrait::abs docstring
 fn i64_abs(x: i64) -> i64 {
     return IntegerTrait::new(x.mag, false);
 }
 
-// Computes the maximum between two i64 integers.
-// # Arguments
-// * `a` - The first i64 integer to compare.
-// * `b` - The second i64 integer to compare.
-// # Returns
-// * `i64` - The maximum between `a` and `b`.
+/// Cf: IntegerTrait::max docstring
 fn i64_max(a: i64, b: i64) -> i64 {
     if (a > b) {
         return a;
@@ -445,12 +426,7 @@ fn i64_max(a: i64, b: i64) -> i64 {
     }
 }
 
-// Computes the minimum between two i64 integers.
-// # Arguments
-// * `a` - The first i64 integer to compare.
-// * `b` - The second i64 integer to compare.
-// # Returns
-// * `i64` - The minimum between `a` and `b`.
+/// Cf: IntegerTrait::min docstring
 fn i64_min(a: i64, b: i64) -> i64 {
     if (a < b) {
         return a;

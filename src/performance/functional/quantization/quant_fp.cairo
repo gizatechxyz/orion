@@ -2,11 +2,11 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::numbers::fixed_point::types::{Fixed, FixedType};
-use onnx_cairo::numbers::fixed_point::core::max;
-use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
-use onnx_cairo::operators::tensor::implementations::impl_tensor_fp;
-use onnx_cairo::utils::check_gas;
+use orion::numbers::fixed_point::types::{Fixed, FixedType};
+use orion::numbers::fixed_point::core::max;
+use orion::operators::tensor::core::{Tensor, TensorTrait};
+use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::utils::check_gas;
 
 /// Symmetrically quantizes the input `data` value using the specified range.
 ///
@@ -44,16 +44,7 @@ fn symetric_quant(min_val: FixedType, max_val: FixedType, data: FixedType) -> Fi
     return quantized_data;
 }
 
-/// Quantizes an FixedType tensor using symmetric quantization.
-///
-/// # Arguments
-/// * `tensor` - A reference to an FixedType tensor to be quantized.
-///
-/// # Panics
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A new FixedType tensor with the same shape as the input tensor, containing the quantized values.
+/// Cf: PerfomanceTrait::quantize_linear docstring
 fn quantize_tensor(tensor: @Tensor::<FixedType>) -> Tensor::<FixedType> {
     let mut result_data = ArrayTrait::<FixedType>::new();
 

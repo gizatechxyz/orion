@@ -4,27 +4,28 @@ To see the full list of available ONNX Operators refer to [this table](https://g
 
 You can see below the list of current supported ONNX Operators:
 
-|  Operator |      Implemented     |
-| :-------: | :------------------: |
-|    Dot    | :white\_check\_mark: |
-|    Add    | :white\_check\_mark: |
-|    Sub    | :white\_check\_mark: |
-|    Mul    | :white\_check\_mark: |
-|    Div    | :white\_check\_mark: |
-|    Exp    | :white\_check\_mark: |
-|   MatMul  | :white\_check\_mark: |
-|  Reshape  | :white\_check\_mark: |
-| Transpose | :white\_check\_mark: |
-|   Argmax  | :white\_check\_mark: |
-| ReduceSum | :white\_check\_mark: |
-|    ReLU   | :white\_check\_mark: |
-|  Softmax  | :white\_check\_mark: |
+|  Operator  |    Implemented     |
+| :--------: | :----------------: |
+|    Dot     | :white_check_mark: |
+|    Add     | :white_check_mark: |
+|    Sub     | :white_check_mark: |
+|    Mul     | :white_check_mark: |
+|    Div     | :white_check_mark: |
+|    Exp     | :white_check_mark: |
+|   MatMul   | :white_check_mark: |
+|  Reshape   | :white_check_mark: |
+| Transpose  | :white_check_mark: |
+|   Argmax   | :white_check_mark: |
+| ReduceSum  | :white_check_mark: |
+|    ReLU    | :white_check_mark: |
+| Leaky ReLU | :white_check_mark: |
+|  Softmax   | :white_check_mark: |
+|   Linear   | :white_check_mark: |
 
 Performance optimizations:
 
-|    Optimization    |      Implemented     |
-| :----------------: | :------------------: |
-| 8-bit quantization | :white\_check\_mark: |
+|    Optimization    |    Implemented     |
+| :----------------: | :----------------: |
+| 8-bit quantization | :white_check_mark: |
 
-Current Operators support: **13/156 (8%)**
-
+Current Operators support: **15/156 (9%)**

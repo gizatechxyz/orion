@@ -1,7 +1,7 @@
 # Signed Integer
 
 ```rust
-use onnx_cairo::numbers::signed_integer;
+use orion::numbers::signed_integer;
 ```
 
 A `signed_integer` is represented by a structure containing both the magnitude and its sign as a boolean.
@@ -18,7 +18,7 @@ struct i32 {
 
 ### Data types
 
-ONNX-Cairo supports currently five `signed_integer` types.
+Orion supports currently five `signed_integer` types.
 
 | Data type       | dtype  |
 | --------------- | ------ |
@@ -31,18 +31,18 @@ ONNX-Cairo supports currently five `signed_integer` types.
 ### **IntegerTrait**
 
 ```rust
-use onnx_cairo::numbers::signed_integer::IntegerTrait;
+use orion::numbers::signed_integer::IntegerTrait;
 ```
 
 `IntegerTrait` defines the operations that can be performed on an integer.
 
-| function                                   | description                                                   |
-| ------------------------------------------ | ------------------------------------------------------------- |
-| [`IntegerTrait::new`](integertrait-new.md) | Constructs a new `signed_integer`                             |
-| [`int.div_rem`](int.div\_rem.md)           | Computes `signed_integer` division and modulus simultaneously |
-| [`int.abs`](int.abs.md)                    | Computes the absolute value of the given `signed_integer`     |
-| [`int.max`](int.max.md)                    | Returns the maximum between two `signed_integer`              |
-| [`int.min`](int.min.md)                    | Returns the minimum between two `signed_integer`              |
+| function                        | description                                                   |
+| ------------------------------- | ------------------------------------------------------------- |
+| [`int.new`](int.new.md)         | Constructs a new `signed_integer                              |
+| [`int.div_rem`](int.div_rem.md) | Computes `signed_integer` division and modulus simultaneously |
+| [`int.abs`](int.abs.md)         | Computes the absolute value of the given `signed_integer`     |
+| [`int.max`](int.max.md)         | Returns the maximum between two `signed_integer`              |
+| [`int.min`](int.min.md)         | Returns the minimum between two `signed_integer`              |
 
 ### Arithmetic & Comparison operators
 

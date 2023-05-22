@@ -1,5 +1,5 @@
-use onnx_cairo::numbers::signed_integer::integer_trait::IntegerTrait;
-use onnx_cairo::utils::check_gas;
+use orion::numbers::signed_integer::integer_trait::IntegerTrait;
+use orion::utils::check_gas;
 
 // ====================== INT 8 ======================
 
@@ -156,12 +156,7 @@ fn i8_check_sign_zero(x: i8) {
     }
 }
 
-// Create a new int8.
-// # Arguments
-// * `mag` - The magnitude
-// * `sign` - The sign of the integer
-// # Panics
-// Panics if `mag` is out of range.
+/// Cf: IntegerTrait::new docstring
 fn i8_new(mag: u8, sign: bool) -> i8 {
     if sign == true {
         assert(mag <= 128_u8, 'int: out of range');
@@ -310,12 +305,7 @@ fn i8_rem(a: i8, b: i8) -> i8 {
     return a - (b * (a / b));
 }
 
-// Calculates both the quotient and the remainder of the division of a first i8 by a second i8.
-// # Arguments
-// * `a` - The i8 dividend.
-// * `b` - The i8 divisor.
-// # Returns
-// * `(i8, i8)` - A tuple containing the quotient and the remainder of dividing `a` by `b`.
+/// Cf: IntegerTrait::div_rem docstring
 fn i8_div_rem(a: i8, b: i8) -> (i8, i8) {
     check_gas();
     let quotient = i8_div(a, b);
@@ -422,21 +412,12 @@ fn i8_neg(x: i8) -> i8 {
     return IntegerTrait::new(x.mag, !x.sign);
 }
 
-// Computes the absolute value of the given i8 integer.
-// # Arguments
-// * `x` - The i8 integer to compute the absolute value of.
-// # Returns
-// * `i8` - The absolute value of `x`.
+/// Cf: IntegerTrait::abs docstring
 fn i8_abs(x: i8) -> i8 {
     return IntegerTrait::new(x.mag, false);
 }
 
-// Computes the maximum between two i8 integers.
-// # Arguments
-// * `a` - The first i8 integer to compare.
-// * `b` - The second i8 integer to compare.
-// # Returns
-// * `i8` - The maximum between `a` and `b`.
+/// Cf: IntegerTrait::max docstring
 fn i8_max(a: i8, b: i8) -> i8 {
     if (a > b) {
         return a;
@@ -445,12 +426,7 @@ fn i8_max(a: i8, b: i8) -> i8 {
     }
 }
 
-// Computes the minimum between two i8 integers.
-// # Arguments
-// * `a` - The first i8 integer to compare.
-// * `b` - The second i8 integer to compare.
-// # Returns
-// * `i8` - The minimum between `a` and `b`.
+/// Cf: IntegerTrait::min docstring
 fn i8_min(a: i8, b: i8) -> i8 {
     if (a < b) {
         return a;
