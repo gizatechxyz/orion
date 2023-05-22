@@ -11,7 +11,7 @@
 * [Compatibility](apis/compatibility.md)
 * [Operators](apis/operators/README.md)
   * [Tensor](apis/operators/tensor/README.md)
-    * [tensor.new](apis/operators/tensor/tensortrait.new.md)
+    * [tensor.new](apis/operators/tensor/tensor.new.md)
     * [tensor.at](apis/operators/tensor/tensor.at.md)
     * [tensor.min](apis/operators/tensor/tensor.min.md)
     * [tensor.max](apis/operators/tensor/tensor.max.md)
@@ -26,10 +26,9 @@
     * [tensor.exp](apis/operators/tensor/tensor.exp.md)
   * [Neural Network](apis/operators/neural-network/README.md)
     * [nn.relu](apis/operators/neural-network/nn.relu.md)
-    * [nn.leaky_relu](apis/operators/neural-network/nn.leaky_relu.md)
+    * [nn.leaky\_relu](apis/operators/neural-network/nn.leaky\_relu.md)
     * [nn.softmax](apis/operators/neural-network/nn.softmax.md)
     * [nn.linear](apis/operators/neural-network/nn.linear.md)
-
 * [Numbers](apis/numbers/README.md)
   * [Signed Integer](apis/numbers/signed-integer/README.md)
     * [int.new](apis/numbers/signed-integer/int.new.md)
@@ -39,9 +38,9 @@
     * [int.min](apis/numbers/signed-integer/int.min.md)
   * [Fixed Point](apis/numbers/fixed-point/README.md)
     * [fp.new](apis/numbers/fixed-point/fp.new.md)
-    * [fp.new\_unscaled](apis/numbers/fixed-point/fp.new_unscaled.md)
-    * [fp.from\_felt](apis/numbers/fixed-point/fp.from_felt.md)
-    * [fp.from\_unscaled\_felt](apis/numbers/fixed-point/fp.from_unscaled_felt.md)
+    * [fp.new\_unscaled](apis/numbers/fixed-point/fp.new\_unscaled.md)
+    * [fp.from\_felt](apis/numbers/fixed-point/fp.from\_felt.md)
+    * [fp.from\_unscaled\_felt](apis/numbers/fixed-point/fp.from\_unscaled\_felt.md)
     * [fp.abs](apis/numbers/fixed-point/fp.abs.md)
     * [fp.ceil](apis/numbers/fixed-point/fp.ceil.md)
     * [fp.floor](apis/numbers/fixed-point/fp.floor.md)
@@ -54,7 +53,7 @@
     * [fp.round](apis/numbers/fixed-point/fp.round.md)
     * [fp.sqrt](apis/numbers/fixed-point/fp.sqrt.md)
 * [Performance](apis/performance/README.md)
-  * [Linear Quantization](apis/performance/performance.quantize_linear.md)
+  * [Linear Quantization](apis/performance/performance.quantize\_linear.md)
 
 ## 💖 Community
 
