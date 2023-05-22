@@ -1,4 +1,4 @@
-# Orion
+# Orion: Cairo library for Validity ML ✨
 
 Orion is a Cairo library that provides two high-level features:
 
