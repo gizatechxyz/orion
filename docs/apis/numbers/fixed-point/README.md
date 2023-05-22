@@ -38,9 +38,9 @@ use onnx_cairo::numbers::fixed_point::Fixed;
 | function | description |
 | --- | --- |
 | [`fp.new`](fp.new.md) | Constructs a new `FixedType` instance. |
-| [`fp.new_unscaled`](fp.new\_unscaled.md) | Creates a new `FixedType` instance with the specified unscaled magnitude and sign. |
-| [`fp.from_felt`](fp.from\_felt.md) | Creates a new `FixedType` instance from a `felt252` value. |
-| [`fp.from_unscaled_felt`](fp.from\_unscaled\_felt.md) | Creates a new `FixedType` instance from an unscaled `felt252` value. |
+| [`fp.new_unscaled`](fp.new_unscaled.md) | Creates a new `FixedType` instance with the specified unscaled magnitude and sign. |
+| [`fp.from_felt`](fp.from_felt.md) | Creates a new `FixedType` instance from a `felt252` value. |
+| [`fp.from_unscaled_felt`](fp.from_unscaled_felt.md) | Creates a new `FixedType` instance from an unscaled `felt252` value. |
 | [`fp.abs`](fp.abs.md) | Returns the absolute value of the fixed point number. |
 | [`fp.ceil`](fp.ceil.md) | Returns the smallest integer greater than or equal to the fixed point number. |
 | [`fp.floor`](fp.floor.md) | Returns the largest integer less than or equal to the fixed point number. |
@@ -52,13 +52,6 @@ use onnx_cairo::numbers::fixed_point::Fixed;
 | [`fp.pow`](fp.pow.md) | Returns the result of raising the fixed point number to the power of another fixed point number |
 | [`fp.round`](fp.round.md) | Rounds the fixed point number to the nearest whole number. |
 | [`fp.sqrt`](fp.sqrt.md) | Returns the square root of the fixed point number. |
-
-
-
-
-
-
-
 
 ### Arithmetic & Comparison operators
 
@@ -76,7 +69,7 @@ fn add_fp_example() {
 
     // We can add two fixed point as follows.
     let result = a + b;
-    
+
     assert(result == Fixed::from_unscaled_felt(3), 'invalid result');
 }
 ```
@@ -86,7 +79,7 @@ fn compare_fp_example() -> bool {
     // We instantiate two fixed point from felt here.
     // a = 42
     // b = -10
-    let a = Fixed::from_unscaled_felt(42); 
+    let a = Fixed::from_unscaled_felt(42);
     let b = Fixed::from_unscaled_felt(-10);
 
     // We can compare two fixed point as follows.

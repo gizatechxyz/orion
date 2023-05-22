@@ -26,7 +26,9 @@ fn relu_i32_test() {
     data.append(val_4);
 
     let mut tensor = TensorTrait::new(shape.span(), data.span());
-    let mut result = NNTrait::relu(@tensor);
+    let threshold = IntegerTrait::new(0, false);
+
+    let mut result = NNTrait::relu(@tensor, threshold);
 
     let data_0 = *result.data.at(0);
     assert(data_0.mag == 1_u32, 'result[0] == 1');

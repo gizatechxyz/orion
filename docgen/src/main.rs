@@ -69,7 +69,7 @@ fn doc_trait(trait_path: &str, doc_path: &str, label: &str) {
             label,
             &cap[1],
             label,
-            &cap[1].replace("_", "\\_")
+            &cap[1]
         );
         let func_desc = &cap[2];
         table += &format!("| {} | {} |\n", func_name, func_desc);
@@ -82,7 +82,7 @@ fn doc_trait(trait_path: &str, doc_path: &str, label: &str) {
 
     // Use regex to replace the table, including the "| fun" line and two empty lines before and after
     let re_table = Regex::new(r"(?ms)\n\n\| fun.*?\n\n").unwrap();
-    let new_readme = re_table.replace(&readme, &("\n\n".to_owned() + &table + "\n\n"));
+    let new_readme = re_table.replace(&readme, &("\n\n".to_owned() + &table + "\n"));
 
     // Write the updated contents back to README.md
     fs::write(&readme_path, &*new_readme).expect("Could not write the file");

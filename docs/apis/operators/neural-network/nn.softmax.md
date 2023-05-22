@@ -23,7 +23,7 @@ A Tensor of fixed point numbers with the same shape than the input Tensor.
 
 ```rust
 use onnx_cairo::operators::nn::core::NNTrait;
-use onnx_cairo::operators::nn::implementations::impl_nn_i32;
+use onnx_cairo::operators::nn::implementations::impl_nn_u32;
 
 fn softmax_example() -> Tensor<FixedType> {
 // We instantiate a 2D Tensor here.

@@ -4,7 +4,7 @@
 fn transpose(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T>;
 ```
 
-Returns a new tensor with the axes rearranged according to the given permutation. Test
+Returns a new tensor with the axes rearranged according to the given permutation.
 
 ## Args
 
