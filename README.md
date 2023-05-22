@@ -5,7 +5,6 @@
 </div>
 
 <div align="center">
-<br />
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 </div>
