@@ -1,5 +1,5 @@
-use onnx_cairo::numbers::signed_integer::integer_trait::IntegerTrait;
-use onnx_cairo::utils::check_gas;
+use orion::numbers::signed_integer::integer_trait::IntegerTrait;
+use orion::utils::check_gas;
 
 // ====================== INT 16 ======================
 

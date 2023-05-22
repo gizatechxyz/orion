@@ -1,9 +1,9 @@
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::numbers::fixed_point::types::{Fixed, FixedType, MAX_u128};
-use onnx_cairo::numbers::fixed_point::core::max;
-use onnx_cairo::utils::check_gas;
+use orion::numbers::fixed_point::types::{Fixed, FixedType, MAX_u128};
+use orion::numbers::fixed_point::core::max;
+use orion::utils::check_gas;
 
 /// Cf: TensorTrait::max docstring
 fn max_in_tensor(mut vec: Span::<FixedType>) -> FixedType {

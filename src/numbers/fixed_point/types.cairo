@@ -2,7 +2,7 @@ use debug::PrintTrait;
 use option::OptionTrait;
 use traits::Into;
 
-use onnx_cairo::numbers::fixed_point::core;
+use orion::numbers::fixed_point::core;
 
 /// CONSTANTS
 

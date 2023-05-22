@@ -1,9 +1,9 @@
 use array::SpanTrait;
 use traits::Into;
 
-use onnx_cairo::operators::tensor::implementations::impl_tensor_i32;
-use onnx_cairo::operators::tensor::core::{TensorTrait, };
-use onnx_cairo::tests::operators::tensor::helpers::i32_tensor_2x2_helper;
+use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::core::{TensorTrait, };
+use orion::tests::operators::tensor::helpers::i32_tensor_2x2_helper;
 
 #[test]
 #[available_gas(20000000)]

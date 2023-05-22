@@ -2,9 +2,9 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::utils::check_gas;
-use onnx_cairo::operators::tensor::helpers::{len_from_shape, check_shape};
-use onnx_cairo::numbers::fixed_point::types::FixedType;
+use orion::utils::check_gas;
+use orion::operators::tensor::helpers::{len_from_shape, check_shape};
+use orion::numbers::fixed_point::types::FixedType;
 
 struct Tensor<T> {
     shape: Span<usize>,

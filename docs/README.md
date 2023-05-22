@@ -1,6 +1,6 @@
-# ONNX-Cairo Runtime
+# Orion
 
-ONNX-Cairo Runtime is a Cairo library that provides two high-level features:
+Orion is a Cairo library that provides two high-level features:
 
 * Tensor computation (like Numpy) in Cairo 1.0.
 * Verifiable Machine Learning models using STARKS.

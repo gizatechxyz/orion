@@ -1,8 +1,8 @@
 use array::SpanTrait;
 
-use onnx_cairo::tests::operators::tensor::helpers::i32_tensor_2x2_helper;
-use onnx_cairo::operators::nn::core::NNTrait;
-use onnx_cairo::operators::nn::implementations::impl_nn_i32;
+use orion::tests::operators::tensor::helpers::i32_tensor_2x2_helper;
+use orion::operators::nn::core::NNTrait;
+use orion::operators::nn::implementations::impl_nn_i32;
 
 use debug::print_felt252;
 

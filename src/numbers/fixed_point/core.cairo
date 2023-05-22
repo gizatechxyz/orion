@@ -10,10 +10,10 @@
 
 use traits::Into;
 
-use onnx_cairo::numbers::fixed_point::types::{
+use orion::numbers::fixed_point::types::{
     HALF_u128, MAX_u128, ONE_u128, ONE_u64, Fixed, FixedType,
 };
-use onnx_cairo::utils::check_gas;
+use orion::utils::check_gas;
 
 //! PUBLIC
 

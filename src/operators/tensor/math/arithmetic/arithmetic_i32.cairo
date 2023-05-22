@@ -1,13 +1,13 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use onnx_cairo::numbers::signed_integer::i32::i32;
-use onnx_cairo::operators::tensor::helpers::broadcast_shape;
+use orion::numbers::signed_integer::i32::i32;
+use orion::operators::tensor::helpers::broadcast_shape;
 
-use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait, unravel_index, };
-use onnx_cairo::operators::tensor::helpers::{broadcast_index_mapping, len_from_shape, };
-use onnx_cairo::operators::tensor::implementations::impl_tensor_i32;
-use onnx_cairo::utils::check_gas;
+use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index, };
+use orion::operators::tensor::helpers::{broadcast_index_mapping, len_from_shape, };
+use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::utils::check_gas;
 
 /// Adds two `Tensor<i32>` instances element-wise with broadcasting.
 ///

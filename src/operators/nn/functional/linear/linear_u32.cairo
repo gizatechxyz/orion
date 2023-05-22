@@ -1,9 +1,9 @@
 use array::SpanTrait;
 
-use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
-use onnx_cairo::operators::tensor::implementations::impl_tensor_u32;
-use onnx_cairo::performance::core::PerfomanceTrait;
-use onnx_cairo::performance::implementations::impl_performance_u32;
+use orion::operators::tensor::core::{Tensor, TensorTrait};
+use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::performance::core::PerfomanceTrait;
+use orion::performance::implementations::impl_performance_u32;
 
 /// Cf: NNTrait::linear docstring
 fn linear_u32(

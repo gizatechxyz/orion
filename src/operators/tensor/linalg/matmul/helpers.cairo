@@ -2,7 +2,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::utils::check_gas;
+use orion::utils::check_gas;
 
 /// Prepares the shape of a tensor for matrix multiplication.
 ///

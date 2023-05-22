@@ -1,8 +1,8 @@
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::operators::tensor::implementations::impl_tensor_u32;
-use onnx_cairo::utils::check_gas;
+use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::utils::check_gas;
 
 /// Cf: TensorTrait::min docstring
 fn min_in_tensor(mut vec: Span::<u32>) -> u32 {

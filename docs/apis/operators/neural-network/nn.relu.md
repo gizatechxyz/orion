@@ -12,8 +12,8 @@ $$
 
 ## Args
 
-* `tensor`(`@Tensor<T>`) - The input tensor.
-* `threshold`(`T`) - A scalar that defines the threshold below which the Relu function returns 0.
+- `tensor`(`@Tensor<T>`) - The input tensor.
+- `threshold`(`T`) - A scalar that defines the threshold below which the Relu function returns 0.
 
 ## Returns
 
@@ -22,8 +22,8 @@ A `Tensor<T>` with the same shape as the input tensor.
 ## Examples
 
 ```rust
-use onnx_cairo::operators::nn::core::NNTrait;
-use onnx_cairo::operators::nn::implementations::impl_nn_i32;
+use orion::operators::nn::core::NNTrait;
+use orion::operators::nn::implementations::impl_nn_i32;
 
 fn relu_example() -> Tensor<u32> {
 // We instantiate a 2D Tensor here and set threshold to 0.

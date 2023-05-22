@@ -1,13 +1,13 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use onnx_cairo::numbers::fixed_point::types::FixedType;
-use onnx_cairo::operators::tensor::core::{
+use orion::numbers::fixed_point::types::FixedType;
+use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape
 };
-use onnx_cairo::operators::tensor::helpers::{len_from_shape, find_axis, permutation_output_shape};
-use onnx_cairo::operators::tensor::implementations::impl_tensor_fp;
-use onnx_cairo::utils::check_gas;
+use orion::operators::tensor::helpers::{len_from_shape, find_axis, permutation_output_shape};
+use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::utils::check_gas;
 
 /// Cf: TensorTrait::transpose docstring
 fn transpose(self: @Tensor<FixedType>, axes: Span<usize>) -> Tensor<FixedType> {

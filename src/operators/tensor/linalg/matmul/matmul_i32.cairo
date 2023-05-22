@@ -2,11 +2,11 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use onnx_cairo::utils::check_gas;
-use onnx_cairo::operators::tensor::implementations::impl_tensor_i32;
-use onnx_cairo::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
-use onnx_cairo::operators::tensor::linalg::matmul::helpers::{
+use orion::utils::check_gas;
+use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
+use orion::operators::tensor::core::{Tensor, TensorTrait};
+use orion::operators::tensor::linalg::matmul::helpers::{
     prepare_shape_for_matmul, adjust_output_shape_after_matmul
 };
 
