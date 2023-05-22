@@ -8,6 +8,7 @@
 <br />
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
+</div>
 
 # Orion :sparkles:
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
