@@ -17,6 +17,7 @@ Orion supports currently two `performance` types.
 | 32-bit integer (signed)   | `performance_i32` |
 | 32-bit integer (unsigned) | `performance_u32` |
 
-| function                                                        | description                                      |
-| --------------------------------------------------------------- | ------------------------------------------------ |
-| [`performance.quantize_linear`](performance.quantize_linear.md) | Quantizes a Tensor using symmetric quantization. |
+| function | description |
+| --- | --- |
+| [`performance.quantize_linear`](https://orion.gizatech.xyz/apis/performance/performance.quantize_linear.md) | Quantizes a Tensor using symmetric quantization. |
+
