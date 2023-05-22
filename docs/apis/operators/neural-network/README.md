@@ -15,7 +15,7 @@ ONNX-Cairo supports currently two `NN` types.
 | 32-bit integer (signed)   | `nn_i32` |
 | 32-bit integer (unsigned) | `nn_u32` |
 
-### NN Module
+### NN**Trait**
 
 ```rust
 use onnx_cairo::operators::nn::nn_i32::NN;
@@ -23,10 +23,12 @@ use onnx_cairo::operators::nn::nn_i32::NN;
 use onnx_cairo::operators::nn::nn_u32::NN;
 ```
 
-`NN` module contains the primitive functions to build a Neural Network.
+`NNTrait` contains the primitive functions to build a Neural Network.
 
-| function                   | description                                                                               |
-| -------------------------- | ----------------------------------------------------------------------------------------- |
-| [`relu`](nn-relu.md)       | Applies the rectified linear unit function element-wise                                   |
-| [`softmax`](nn-softmax.md) | Computes softmax activations.                                                             |
-| [`linear`](nn-linear.md)   | Performs a linear transformation of the input tensor using the provided weights and bias. |
+| function | description |
+| --- | --- |
+| [`nn.relu`](nn.relu.md) | Applies the rectified linear unit function element-wise. |
+| [`nn.leaky_relu`](nn.leaky_relu.md) | Applies the leaky rectified linear unit (Leaky ReLU) activation function element-wise. |
+| [`nn.softmax`](nn.softmax.md) | Computes softmax activations. |
+| [`nn.linear`](nn.linear.md) | Performs a linear transformation of the input tensor using the provided weights and bias. |
+

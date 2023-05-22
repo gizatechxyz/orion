@@ -6,18 +6,7 @@ use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unra
 use onnx_cairo::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
 use onnx_cairo::utils::check_gas;
 
-/// Returns the indices of the maximum values along the given axis of an u32 tensor.
-///
-/// # Arguments
-/// * `self` - The input tensor.
-/// * `axis` - The axis along which to find the maximum values.
-///
-/// # Panics
-/// * Panics if axis is not in the range of the input tensor's dimensions.
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<usize>` instance representing the indices of the maximum values along the given axis.
+/// Cf: TensorTrait::argmax docstring
 fn argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
     assert(axis <= (*self.shape).len(), 'axis out of dimensions');
 

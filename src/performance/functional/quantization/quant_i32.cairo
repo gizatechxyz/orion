@@ -43,16 +43,7 @@ fn symetric_quant(min_val: i32, max_val: i32, data: i32) -> i32 {
     return quantized_data;
 }
 
-/// Quantizes an i32 tensor using symmetric quantization.
-///
-/// # Arguments
-/// * `tensor` - A reference to an i32 tensor to be quantized.
-///
-/// # Panics
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A new i32 tensor with the same shape as the input tensor, containing the quantized values.
+/// Cf: PerfomanceTrait::quantize_linear docstring
 fn quantize_tensor(tensor: @Tensor::<i32>) -> Tensor::<i32> {
     let mut result_data = ArrayTrait::<i32>::new();
 

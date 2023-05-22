@@ -8,19 +8,7 @@ use onnx_cairo::operators::tensor::helpers::{len_from_shape, find_axis, permutat
 use onnx_cairo::operators::tensor::implementations::impl_tensor_u32;
 use onnx_cairo::utils::check_gas;
 
-
-/// Reorders the axes of an u32 tensor according to the given axes permutation.
-///
-/// # Arguments
-/// * `self` - The input tensor.
-/// * `axes` -  A span containing the data representing the axes permutation.
-///
-/// # Panics
-/// * Panics if the length of the axes array is not equal to the rank of the input tensor.
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * A `Tensor<u32>` instance with the axes reordered according to the given permutation.
+/// Cf: TensorTrait::transpose docstring
 fn transpose(self: @Tensor<u32>, axes: Span<usize>) -> Tensor<u32> {
     assert(axes.len() == (*self.shape).len(), 'shape and axes length unequal');
 

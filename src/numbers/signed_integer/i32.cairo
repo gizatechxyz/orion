@@ -156,12 +156,7 @@ fn i32_check_sign_zero(x: i32) {
     }
 }
 
-// Create a new int32.
-// # Arguments
-// * `mag` - The magnitude
-// * `sign` - The sign of the integer
-// # Panics
-// Panics if `mag` is out of range.
+/// Cf: IntegerTrait::new docstring
 fn i32_new(mag: u32, sign: bool) -> i32 {
     if sign == true {
         assert(mag <= 2147483648_u32, 'int: out of range');
@@ -310,12 +305,7 @@ fn i32_rem(a: i32, b: i32) -> i32 {
     return a - (b * (a / b));
 }
 
-// Calculates both the quotient and the remainder of the division of a first i32 by a second i32.
-// # Arguments
-// * `a` - The i32 dividend.
-// * `b` - The i32 divisor.
-// # Returns
-// * `(i32, i32)` - A tuple containing the quotient and the remainder of dividing `a` by `b`.
+/// Cf: IntegerTrait::div_rem docstring
 fn i32_div_rem(a: i32, b: i32) -> (i32, i32) {
     check_gas();
     let quotient = i32_div(a, b);
@@ -422,21 +412,12 @@ fn i32_neg(x: i32) -> i32 {
     return IntegerTrait::new(x.mag, !x.sign);
 }
 
-// Computes the absolute value of the given i32 integer.
-// # Arguments
-// * `x` - The i32 integer to compute the absolute value of.
-// # Returns
-// * `i32` - The absolute value of `x`.
+/// Cf: IntegerTrait::abs docstring
 fn i32_abs(x: i32) -> i32 {
     return IntegerTrait::new(x.mag, false);
 }
 
-// Computes the maximum between two i32 integers.
-// # Arguments
-// * `a` - The first i32 integer to compare.
-// * `b` - The second i32 integer to compare.
-// # Returns
-// * `i32` - The maximum between `a` and `b`.
+/// Cf: IntegerTrait::max docstring
 fn i32_max(a: i32, b: i32) -> i32 {
     if (a > b) {
         return a;
@@ -445,12 +426,7 @@ fn i32_max(a: i32, b: i32) -> i32 {
     }
 }
 
-// Computes the minimum between two i32 integers.
-// # Arguments
-// * `a` - The first i32 integer to compare.
-// * `b` - The second i32 integer to compare.
-// # Returns
-// * `i32` - The minimum between `a` and `b`.
+/// Cf: IntegerTrait::min docstring
 fn i32_min(a: i32, b: i32) -> i32 {
     if (a < b) {
         return a;

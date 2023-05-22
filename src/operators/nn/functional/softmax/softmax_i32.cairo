@@ -3,17 +3,7 @@ use onnx_cairo::operators::tensor::core::{Tensor, TensorTrait};
 use onnx_cairo::operators::tensor::implementations::{impl_tensor_i32, impl_tensor_fp};
 use onnx_cairo::numbers::fixed_point::core::FixedType;
 
-/// Calculates the softmax function for a tensor of i32 values along the specified axis.
-///
-/// # Arguments
-///
-/// * `z` - A tensor of i32 values representing the input tensor.
-/// * `axis` - The axis along which to compute the softmax function.
-///
-/// # Returns
-///
-/// * A tensor of fixed point numbers representing the result of applying the softmax function 
-/// to the input tensor along the specified axis.
+/// Cf: NNTrait::softmax docstring
 fn softmax_i32(z: @Tensor<i32>, axis: usize) -> Tensor<FixedType> {
     let exp_tensor = z.exp();
     let sum = exp_tensor.reduce_sum(axis, true);

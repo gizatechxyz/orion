@@ -16,7 +16,8 @@ Please search the [issue tracker](https://github.com/franalgaba/onnx-cairo/issue
 4. **Implementation**
    * A feature can be implemented by you, the ONNX Cairo Runtime team, or other community members. Code contributions are greatly appreciated: feel free to work on any reviewed feature you proposed, or choose one in the backlog and send us a PR. If you are new to the project and want to work on an existing issue, we recommend starting with issues that are tagged with <mark style="background-color:green;">good first issue</mark>. Please let us know in the issue comments if you are actively working on implementing a feature so we can ensure it's assigned to you.
    * Unit tests: New code **must** be accompanied by unit tests.
-   * Documentation and sample updates: If the PR affects any of the documentation or samples then include those updates in the same PR.
+   * Documentation and sample updates: If the PR affects any of the documentation or samples then include those updates in the same PR. 
+   Run `scarb run docgen` to generate documentation from docstrings.
    * Once a feature is complete and tested according to the contribution guidelines follow these steps:
      1. Follow the [standard GitHub process to open a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests)
      2. Add reviewers who have context from the earlier discussion. If you can't find a reviewer, add  [**franalgaba**](https://github.com/franalgaba) or [**raphaelDkhn**](https://github.com/raphaelDkhn).
