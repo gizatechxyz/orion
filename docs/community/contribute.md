@@ -16,11 +16,10 @@ Please search the [issue tracker](https://github.com/franalgaba/onnx-cairo/issue
 4. **Implementation**
    * A feature can be implemented by you, the Orion team, or other community members. Code contributions are greatly appreciated: feel free to work on any reviewed feature you proposed, or choose one in the backlog and send us a PR. If you are new to the project and want to work on an existing issue, we recommend starting with issues that are tagged with <mark style="background-color:green;">good first issue</mark>. Please let us know in the issue comments if you are actively working on implementing a feature so we can ensure it's assigned to you.
    * Unit tests: New code **must** be accompanied by unit tests.
-   * Documentation and sample updates: If the PR affects any of the documentation or samples then include those updates in the same PR. 
-   Run `scarb run docgen` to generate documentation from docstrings.
+   * Documentation and sample updates: If the PR affects any of the documentation or samples then include those updates in the same PR. Run `scarb run docgen` to generate documentation from docstrings.
    * Once a feature is complete and tested according to the contribution guidelines follow these steps:
      1. Follow the [standard GitHub process to open a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests)
-     2. Add reviewers who have context from the earlier discussion. If you can't find a reviewer, add  [**franalgaba**](https://github.com/franalgaba) or [**raphaelDkhn**](https://github.com/raphaelDkhn).
+     2. Add reviewers who have context from the earlier discussion. If you can't find a reviewer, add [**franalgaba**](https://github.com/franalgaba) or [**raphaelDkhn**](https://github.com/raphaelDkhn).
 
 </details>
 
@@ -30,7 +29,7 @@ Please search the [issue tracker](https://github.com/franalgaba/onnx-cairo/issue
 
 New contributors are welcome to implement new ONNX Operators or new features in Cairo 1.0! To see the full list of operators available in ONNX standard click [here](https://github.com/onnx/onnx/blob/main/docs/Operators.md). You can check the compatibility list [here](../apis/compatibility.md).
 
-### Orion repository
+#### Orion repository
 
 Orion is composed of three APIs: **Operators**, **Numbers** and **Performance**. Directories in Orion repository are organized in a similar way:
 
@@ -58,7 +57,7 @@ src
     └── performance
 ```
 
-### Create new methods
+#### Create new methods
 
 To create a new method or function in the library, follow these steps:
 
