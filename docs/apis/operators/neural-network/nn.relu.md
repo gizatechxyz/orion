@@ -12,8 +12,8 @@ $$
 
 ## Args
 
-- `tensor`(`@Tensor<T>`) - The input tensor.
-- `threshold`(`T`) - A scalar that defines the threshold below which the Relu function returns 0.
+* `tensor`(`@Tensor<T>`) - The input tensor.
+* `threshold`(`T`) - A scalar that defines the threshold below which the Relu function returns 0.
 
 ## Returns
 

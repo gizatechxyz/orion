@@ -8,7 +8,8 @@ fn main() {
     let doc_path = "docs/apis/operators/tensor";
     let label = "tensor";
     let trait_name = "TensorTrait";
-    doc_trait(trait_path, doc_path, label);
+    let doc_url = "https://orion.gizatech.xyz/apis/operators/tensor/";
+    doc_trait(trait_path, doc_path, label, doc_url);
     doc_functions(trait_path, doc_path, trait_name, label);
 
     // NN DOC
@@ -16,7 +17,8 @@ fn main() {
     let doc_path = "docs/apis/operators/neural-network";
     let label = "nn";
     let trait_name = "NNTrait";
-    doc_trait(trait_path, doc_path, label);
+    let doc_url = "https://orion.gizatech.xyz/apis/operators/neural-network/";
+    doc_trait(trait_path, doc_path, label, doc_url);
     doc_functions(trait_path, doc_path, trait_name, label);
 
     // FIXED POINT DOC
@@ -24,15 +26,17 @@ fn main() {
     let doc_path = "docs/apis/numbers/fixed-point";
     let label = "fp";
     let trait_name = "Fixed";
-    doc_trait(trait_path, doc_path, label);
+    let doc_url = "https://orion.gizatech.xyz/apis/numbers/fixed-point/";
+    doc_trait(trait_path, doc_path, label, doc_url);
     doc_functions(trait_path, doc_path, trait_name, label);
 
     // SIGNED INTEGER DOC
     let trait_path = "src/numbers/signed_integer/integer_trait.cairo";
     let doc_path = "docs/apis/numbers/signed-integer";
     let label = "int";
-    let trait_name = "IntegerTrait";
-    doc_trait(trait_path, doc_path, label);
+    let trait_name: &str = "IntegerTrait";
+    let doc_url = "https://orion.gizatech.xyz/apis/numbers/signed-integer/";
+    doc_trait(trait_path, doc_path, label, doc_url);
     doc_functions(trait_path, doc_path, trait_name, label);
 
     // PERFORMANCE DOC
@@ -40,11 +44,12 @@ fn main() {
     let doc_path = "docs/apis/performance";
     let label = "performance";
     let trait_name = "PerfomanceTrait";
-    doc_trait(trait_path, doc_path, label);
+    let doc_url = "https://orion.gizatech.xyz/apis/performance/";
+    doc_trait(trait_path, doc_path, label, doc_url);
     doc_functions(trait_path, doc_path, trait_name, label);
 }
 
-fn doc_trait(trait_path: &str, doc_path: &str, label: &str) {
+fn doc_trait(trait_path: &str, doc_path: &str, label: &str, doc_url: &str) {
     // Open and read core.cairo file
     let path_str = format!("../{}", trait_path);
     let path = Path::new(&path_str);
@@ -64,13 +69,7 @@ fn doc_trait(trait_path: &str, doc_path: &str, label: &str) {
         }
 
         // Add the function name and description to our table
-        let func_name = format!(
-            "[`{}.{}`]({}.{}.md)",
-            label,
-            &cap[1],
-            label,
-            &cap[1]
-        );
+        let func_name = format!("[`{}.{}`]({}{}.{}.md)", label, &cap[1], doc_url, label, &cap[1]);
         let func_desc = &cap[2];
         table += &format!("| {} | {} |\n", func_name, func_desc);
     }

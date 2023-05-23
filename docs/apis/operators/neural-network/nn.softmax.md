@@ -12,8 +12,8 @@ $$
 
 ## Args
 
-- `tensor`(`@Tensor<T>`) - The input tensor.
-- `axis`(`usize`) - The axis along which to compute the softmax.
+* `tensor`(`@Tensor<T>`) - The input tensor.
+* `axis`(`usize`) - The axis along which to compute the softmax.
 
 ## Returns
 

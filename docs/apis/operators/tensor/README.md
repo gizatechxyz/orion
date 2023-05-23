@@ -35,21 +35,21 @@ use orion::operators::tensor::core::TensorTrait;
 
 `TensorTrait` defines the operations that can be performed on a Tensor.
 
-| function                                          | description                                                                 |
-| ------------------------------------------------- | --------------------------------------------------------------------------- |
-| [`tensor.new`](tensor.new.md)                     | Constructs a new Tensor with the given shape and data array.                |
-| [`tensor.at`](tensor.at.md)                       | Accesses the element at the given multi-dimensional index.                  |
-| [`tensor.min`](tensor.min.md)                     | Returns the minimum value in the tensor.                                    |
-| [`tensor.max`](tensor.max.md)                     | Returns the maximum value in the tensor.                                    |
-| [`tensor.stride`](tensor.stride.md)               | Computes the stride of each dimension in the tensor.                        |
-| [`tensor.ravel_index`](tensor.ravel_index.md)     | Converts a multi-dimensional index to a one-dimensional index.              |
-| [`tensor.unravel_index`](tensor.unravel_index.md) | Converts a one-dimensional index to a multi-dimensional index.              |
-| [`tensor.reshape`](tensor.reshape.md)             | Returns a new tensor with the specified target shape and the same data.     |
-| [`tensor.transpose`](tensor.transpose.md)         | Returns a new tensor with the axes rearranged according to the given array. |
-| [`tensor.reduce_sum`](tensor.reduce_sum.md)       | Reduces the tensor by summing along the specified axis.                     |
-| [`tensor.argmax`](tensor.argmax.md)               | Returns the index of the maximum value along the specified axis.            |
-| [`tensor.matmul`](tensor.matmul.md)               | Performs matrix multiplication.                                             |
-| [`tensor.exp`](tensor.exp.md)                     | Calculates the exponential function (e^x) for each element in a tensor.     |
+| function | description |
+| --- | --- |
+| [`tensor.new`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.new.md) | Constructs a new Tensor with the given shape and data array. |
+| [`tensor.at`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.at.md) | Accesses the element at the given multi-dimensional index. |
+| [`tensor.min`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.min.md) | Returns the minimum value in the tensor.     |
+| [`tensor.max`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.max.md) | Returns the maximum value in the tensor. |
+| [`tensor.stride`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.stride.md) | Computes the stride of each dimension in the tensor. |
+| [`tensor.ravel_index`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.ravel_index.md) | Converts a multi-dimensional index to a one-dimensional index. |
+| [`tensor.unravel_index`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.unravel_index.md) | Converts a one-dimensional index to a multi-dimensional index. |
+| [`tensor.reshape`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.reshape.md) | Returns a new tensor with the specified target shape and the same data.  |
+| [`tensor.transpose`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.transpose.md) | Returns a new tensor with the axes rearranged according to the given array. |
+| [`tensor.reduce_sum`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.reduce_sum.md) | Reduces the tensor by summing along the specified axis. |
+| [`tensor.argmax`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.argmax.md) | Returns the index of the maximum value along the specified axis.   |
+| [`tensor.matmul`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.matmul.md) | Performs matrix multiplication.  |
+| [`tensor.exp`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.exp.md) | Calculates the exponential function (e^x) for each element in a tensor. |
 
 ### Arithmetic Operations
 
