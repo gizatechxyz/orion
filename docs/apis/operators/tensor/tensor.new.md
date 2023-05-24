@@ -1,4 +1,4 @@
-# tensor.new
+# TensorTrait::new
 
 ```rust
 fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
