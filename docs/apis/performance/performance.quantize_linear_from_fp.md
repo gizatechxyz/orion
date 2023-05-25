@@ -1,10 +1,10 @@
-# performance.quantize_linear
+# performance.quantize_linear_from_fp
 
 ```rust
-fn quantize_linear(self: @Tensor<T>) -> Tensor<T>;
+fn quantize_linear_from_fp(self: @Tensor<FixedType>) -> Tensor<T>;
 ```
 
-Quantizes a Tensor using symmetric quantization.
+Quantizes a FixedType Tensor using symmetric quantization.
 
 This is an 8-bit linear quantization of a tensor. This method allows tensors to be stored at lower bitwidths than those of fixed-point precision.
 
@@ -20,7 +20,7 @@ scale = max(abs(data_range_max), abs(data_range_min)) * 2 / (quantization_range_
 
 ## Args
 
-* `tensor`(`@Tensor<T>`) - The input tensor.
+* `tensor`(`@Tensor<FixedType>`) - The input FixedType tensor.
 
 ## Returns
 
@@ -33,12 +33,12 @@ use orion::performance::core::PerfomanceTrait;
 use orion::performance::implementations::impl_performance_i32;
 
 fn quantize_linear_example() -> Tensor<i32> {
-// We instantiate a 2D Tensor here.
-// [[-30523, 24327, -12288],[29837, -19345, 15416]]
-let tensor = i32_tensor_3x2_helper();
+// We instantiate a FixedType 2D Tensor here.
+// [[838860800, 1258291200, 1677721600],[-838860800, -1258291200, -1677721600]]
+let tensor = fp_tensor_3x2_helper();
 
-// We can call `quantize_linear` function as follows.
-return PerfomanceTrait::quantize_linear(@tensor);
+// We can call `quantize_linear_from_fp` function as follows.
+return PerfomanceTrait::quantize_linear_from_fp(@tensor);
 }
->>> [[-127, 101, -51],[124, -80, 64]]
+>>> [[63, 95, 127],[-63, -95, -127]]
 ```

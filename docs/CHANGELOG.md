@@ -9,32 +9,52 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added softplus implementation and tests
 
+## [Unreleased] - 2023-05-25
+### Added
+
+- Add Linear Quantization from FixedType Tensor
+
+## [Unreleased] - 2023-05-25
+
+### Changed
+
+- Fix docgen.
+
+## [Unreleased] - 2023-05-25
+
+### Changed
+
+- Replace Fixed Point Q5.26 with Q8.23
 
 ## [Unreleased] - 2023-05-22
+
 ### Changed
 
 - Remove unused variables.
 - Renaming. Replace ONNX-Cairo with Orion.
 
-
 ## [Unreleased] - 2023-05-20
+
 ### Changed
 
 - Updated relu u32 function to have a threshold parameter
 - Updated relu test folder structure
 
 ## [Unreleased] - 2023-05-19
+
 ### Added
 
 - Added leaky relu
 - Updated NN test folder structure
 
 ## [Unreleased] - 2023-05-19
+
 ### Added
 
 - Added range check to FixedType
 
 ## [Unreleased] - 2023-05-19
+
 ### Added
 
 - Added range check to FixedType
