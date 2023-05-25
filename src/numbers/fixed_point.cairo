@@ -1,3 +1,3 @@
-//! Fixed-Point implemented from https://github.com/influenceth/cubit and adjusted to Q5.26
+//! Fixed-Point implemented from https://github.com/influenceth/cubit and adjusted to Q8.23
 mod core;
 mod types;

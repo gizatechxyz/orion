@@ -38,11 +38,11 @@ use orion::numbers::signed_integer::IntegerTrait;
 
 | function | description |
 | --- | --- |
-| [`int.new`](https://orion.gizatech.xyz/apis/numbers/signed-integer/int.new.md) | Constructs a new `signed_integer |
-| [`int.div_rem`](https://orion.gizatech.xyz/apis/numbers/signed-integer/int.div_rem.md) | Computes `signed_integer` division and modulus simultaneously |
-| [`int.abs`](https://orion.gizatech.xyz/apis/numbers/signed-integer/int.abs.md) | Computes the absolute value of the given `signed_integer` |
-| [`int.max`](https://orion.gizatech.xyz/apis/numbers/signed-integer/int.max.md) | Returns the maximum between two `signed_integer` |
-| [`int.min`](https://orion.gizatech.xyz/apis/numbers/signed-integer/int.min.md) | Returns the minimum between two `signed_integer` |
+| [`int.new`](int.new.md) | Constructs a new `signed_integer |
+| [`int.div_rem`](int.div\_rem.md) | Computes `signed_integer` division and modulus simultaneously |
+| [`int.abs`](int.abs.md) | Computes the absolute value of the given `signed_integer` |
+| [`int.max`](int.max.md) | Returns the maximum between two `signed_integer` |
+| [`int.min`](int.min.md) | Returns the minimum between two `signed_integer` |
 
 ### Arithmetic & Comparison operators
 

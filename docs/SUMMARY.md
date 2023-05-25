@@ -28,6 +28,7 @@
     * [nn.relu](apis/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](apis/operators/neural-network/nn.leaky\_relu.md)
     * [nn.softmax](apis/operators/neural-network/nn.softmax.md)
+    * [nn.softplux](apis/operators/neural-network/nn.softplus.md)
     * [nn.linear](apis/operators/neural-network/nn.linear.md)
 * [Numbers](apis/numbers/README.md)
   * [Signed Integer](apis/numbers/signed-integer/README.md)
@@ -53,7 +54,9 @@
     * [fp.round](apis/numbers/fixed-point/fp.round.md)
     * [fp.sqrt](apis/numbers/fixed-point/fp.sqrt.md)
 * [Performance](apis/performance/README.md)
-  * [Linear Quantization](apis/performance/performance.quantize\_linear.md)
+  * [performance.quantize\_linear](apis/performance/performance.quantize\_linear.md)
+  * [performance.quantize\_linear\_from\_fp](apis/performance/performance.quantize\_linear\_from\_fp.md)
+
 
 ## 💖 Community
 

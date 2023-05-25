@@ -23,9 +23,9 @@ Orion supports currently three tensor types.
 | -------------------------- | ------------------- |
 | 32-bit integer (signed)    | `Tensor<i32>`       |
 | 32-bit integer (unsigned)  | `Tensor<u32>`       |
-| Fixed point Q5.26 (signed) | `Tensor<FixedType>` |
+| Fixed point Q8.23 (signed) | `Tensor<FixedType>` |
 
-***
+---
 
 ### Tensor**Trait**
 
@@ -37,19 +37,19 @@ use orion::operators::tensor::core::TensorTrait;
 
 | function | description |
 | --- | --- |
-| [`tensor.new`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.new.md) | Constructs a new Tensor with the given shape and data array. |
-| [`tensor.at`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.at.md) | Accesses the element at the given multi-dimensional index. |
-| [`tensor.min`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.min.md) | Returns the minimum value in the tensor.     |
-| [`tensor.max`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.max.md) | Returns the maximum value in the tensor. |
-| [`tensor.stride`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.stride.md) | Computes the stride of each dimension in the tensor. |
-| [`tensor.ravel_index`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.ravel_index.md) | Converts a multi-dimensional index to a one-dimensional index. |
-| [`tensor.unravel_index`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.unravel_index.md) | Converts a one-dimensional index to a multi-dimensional index. |
-| [`tensor.reshape`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.reshape.md) | Returns a new tensor with the specified target shape and the same data.  |
-| [`tensor.transpose`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.transpose.md) | Returns a new tensor with the axes rearranged according to the given array. |
-| [`tensor.reduce_sum`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.reduce_sum.md) | Reduces the tensor by summing along the specified axis. |
-| [`tensor.argmax`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.argmax.md) | Returns the index of the maximum value along the specified axis.   |
-| [`tensor.matmul`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.matmul.md) | Performs matrix multiplication.  |
-| [`tensor.exp`](https://orion.gizatech.xyz/apis/operators/tensor/tensor.exp.md) | Calculates the exponential function (e^x) for each element in a tensor. |
+| [`tensor.new`](tensor.new.md) | Constructs a new Tensor with the given shape and data array. |
+| [`tensor.at`](tensor.at.md) | Accesses the element at the given multi-dimensional index. |
+| [`tensor.min`](tensor.min.md) | Returns the minimum value in the tensor.     |
+| [`tensor.max`](tensor.max.md) | Returns the maximum value in the tensor. |
+| [`tensor.stride`](tensor.stride.md) | Computes the stride of each dimension in the tensor. |
+| [`tensor.ravel_index`](tensor.ravel\_index.md) | Converts a multi-dimensional index to a one-dimensional index. |
+| [`tensor.unravel_index`](tensor.unravel\_index.md) | Converts a one-dimensional index to a multi-dimensional index. |
+| [`tensor.reshape`](tensor.reshape.md) | Returns a new tensor with the specified target shape and the same data.  |
+| [`tensor.transpose`](tensor.transpose.md) | Returns a new tensor with the axes rearranged according to the given array. |
+| [`tensor.reduce_sum`](tensor.reduce\_sum.md) | Reduces the tensor by summing along the specified axis. |
+| [`tensor.argmax`](tensor.argmax.md) | Returns the index of the maximum value along the specified axis.   |
+| [`tensor.matmul`](tensor.matmul.md) | Performs matrix multiplication.  |
+| [`tensor.exp`](tensor.exp.md) | Calculates the exponential function (e^x) for each element in a tensor. |
 
 ### Arithmetic Operations
 
@@ -57,8 +57,8 @@ use orion::operators::tensor::core::TensorTrait;
 
 Two tensors are “broadcastable” if the following rules hold:
 
-* Each tensor has at least one dimension.
-* When iterating over the dimension sizes, starting at the trailing dimension, the dimension sizes must either be equal, one of them is 1, or one of them does not exist.
+- Each tensor has at least one dimension.
+- When iterating over the dimension sizes, starting at the trailing dimension, the dimension sizes must either be equal, one of them is 1, or one of them does not exist.
 
 #### Examples
 

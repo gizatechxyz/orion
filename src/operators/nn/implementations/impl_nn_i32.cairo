@@ -4,6 +4,7 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional::relu::relu_i32::relu_i32;
 use orion::operators::nn::functional::softmax::softmax_i32::softmax_i32;
 use orion::operators::nn::functional::softsign::softsign_i32::softsign_i32;
+use orion::operators::nn::functional::softplus::softplus_i32::softplus_i32;
 use orion::operators::nn::functional::linear::linear_i32::linear_i32;
 use orion::operators::nn::functional::leaky_relu::leaky_relu_i32::leaky_relu_i32;
 use orion::numbers::fixed_point::core::FixedType;
@@ -19,6 +20,10 @@ impl i32NN of NNTrait<i32> {
 
     fn softsign(tensor: @Tensor<i32>) -> Tensor<FixedType> {
         softsign_i32(tensor)
+    }
+
+    fn softplus(tensor: @Tensor<i32>) -> Tensor<FixedType> {
+        softplus_i32(tensor)
     }
 
     fn linear(

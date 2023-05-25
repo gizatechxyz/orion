@@ -1,3 +1,4 @@
+use core::debug::PrintTrait;
 use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
@@ -23,12 +24,8 @@ use orion::utils::check_gas;
 fn symetric_quant(min_val: FixedType, max_val: FixedType, data: FixedType) -> FixedType {
     //  Define quantization range
     //  int8 range : [-127;127] 
-    let q_min_int = Fixed::new_unscaled(127_u128, true);
-    let q_max_int = Fixed::new_unscaled(127_u128, false);
-
-    let factor = Fixed::new_unscaled(1000_u128, false);
-    let min_val = min_val * factor;
-    let max_val = max_val * factor;
+    let q_min_int = Fixed::new(1065353216, true); // -127
+    let q_max_int = Fixed::new(1065353216, false); // 127
 
     //  Calculate the scale based on 8 bit symetric quantization
     //  scale = max(abs(data_range_max), abs(data_range_min)) * 2 / (quantization_range_max - quantization_range_min)
@@ -37,9 +34,9 @@ fn symetric_quant(min_val: FixedType, max_val: FixedType, data: FixedType) -> Fi
         / (q_max_int - q_min_int);
 
     //  Quantize data based on the scale
-    let quantized_data = (data * factor) / scale;
+    let quantized_data = data / scale;
 
-    assert(quantized_data.mag <= 127_u128, 'out of range');
+    assert(quantized_data.mag < 1073741824, 'out of range');
 
     return quantized_data;
 }
