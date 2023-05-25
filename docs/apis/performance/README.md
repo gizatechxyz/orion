@@ -19,5 +19,5 @@ Orion supports currently two `performance` types.
 
 | function | description |
 | --- | --- |
-| [`performance.quantize\_linear`](performance.quantize\_linear.md) | Quantizes a Tensor using symmetric quantization. |
+| [`performance.quantize_linear`](performance.quantize\_linear.md) | Quantizes a Tensor using symmetric quantization. |
 

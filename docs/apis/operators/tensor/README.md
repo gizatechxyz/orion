@@ -42,11 +42,11 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.min`](tensor.min.md) | Returns the minimum value in the tensor.     |
 | [`tensor.max`](tensor.max.md) | Returns the maximum value in the tensor. |
 | [`tensor.stride`](tensor.stride.md) | Computes the stride of each dimension in the tensor. |
-| [`tensor.ravel\_index`](tensor.ravel\_index.md) | Converts a multi-dimensional index to a one-dimensional index. |
-| [`tensor.unravel\_index`](tensor.unravel\_index.md) | Converts a one-dimensional index to a multi-dimensional index. |
+| [`tensor.ravel_index`](tensor.ravel\_index.md) | Converts a multi-dimensional index to a one-dimensional index. |
+| [`tensor.unravel_index`](tensor.unravel\_index.md) | Converts a one-dimensional index to a multi-dimensional index. |
 | [`tensor.reshape`](tensor.reshape.md) | Returns a new tensor with the specified target shape and the same data.  |
 | [`tensor.transpose`](tensor.transpose.md) | Returns a new tensor with the axes rearranged according to the given array. |
-| [`tensor.reduce\_sum`](tensor.reduce\_sum.md) | Reduces the tensor by summing along the specified axis. |
+| [`tensor.reduce_sum`](tensor.reduce\_sum.md) | Reduces the tensor by summing along the specified axis. |
 | [`tensor.argmax`](tensor.argmax.md) | Returns the index of the maximum value along the specified axis.   |
 | [`tensor.matmul`](tensor.matmul.md) | Performs matrix multiplication.  |
 | [`tensor.exp`](tensor.exp.md) | Calculates the exponential function (e^x) for each element in a tensor. |

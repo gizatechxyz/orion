@@ -67,7 +67,7 @@ fn doc_trait(trait_path: &str, doc_path: &str, label: &str) {
         let func_name = format!(
             "[`{}.{}`]({}.{}.md)",
             label,
-            &cap[1].replace('_', r"\_"),
+            &cap[1],
             label,
             &cap[1].replace('_', r"\_")
         );
