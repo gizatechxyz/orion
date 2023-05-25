@@ -28,6 +28,7 @@
     * [nn.relu](apis/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](apis/operators/neural-network/nn.leaky\_relu.md)
     * [nn.softmax](apis/operators/neural-network/nn.softmax.md)
+    * [nn.softsign](apis/operators/neural-network/nn.softsign.md)
     * [nn.softplux](apis/operators/neural-network/nn.softplus.md)
     * [nn.linear](apis/operators/neural-network/nn.linear.md)
 * [Numbers](apis/numbers/README.md)

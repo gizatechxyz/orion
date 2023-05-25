@@ -7,6 +7,7 @@ use orion::numbers::fixed_point::core::FixedType;
 /// relu - Applies the rectified linear unit function element-wise.
 /// leaky_relu - Applies the leaky rectified linear unit (Leaky ReLU) activation function element-wise.
 /// softmax - Computes softmax activations.
+/// softsign - Applies the Softsign function element-wise.
 /// softplus - Applies the Softplus function element-wise.
 /// linear - Performs a linear transformation of the input tensor using the provided weights and bias.
 trait NNTrait<T> {
@@ -91,6 +92,7 @@ trait NNTrait<T> {
     /// ```
     ///
     fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>;
+    /// # NNTrait::softsign
     ///
     /// ```rust 
     ///    fn softsign(tensor: @Tensor<T>) -> Tensor<FixedType>;

@@ -30,6 +30,7 @@ use orion::operators::nn::nn_u32::NN;
 | [`nn.relu`](nn.relu.md) | Applies the rectified linear unit function element-wise. |
 | [`nn.leaky_relu`](nn.leaky\_relu.md) | Applies the leaky rectified linear unit (Leaky ReLU) activation function element-wise. |
 | [`nn.softmax`](nn.softmax.md) | Computes softmax activations. |
+| [`nn.softsign`](nn.softsign.md) | Applies the Softsign function element-wise. |
 | [`nn.softplus`](nn.softplus.md) | Applies the Softplus function element-wise. |
 | [`nn.linear`](nn.linear.md) | Performs a linear transformation of the input tensor using the provided weights and bias. |
 

@@ -1,3 +1,4 @@
+# NNTrait::softsign
 
 ```rust
 fn softsign(tensor: @Tensor<T>) -> Tensor<FixedType>;
