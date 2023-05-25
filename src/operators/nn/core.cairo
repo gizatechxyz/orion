@@ -84,7 +84,7 @@ trait NNTrait<T> {
     ///     // We can call `softmax` function as follows.
     ///     return NNTrait::softmax(@tensor, 1);
     /// }
-    /// >>> [[18048353,49060510],[18048352,49060511]]
+    /// >>> [[2255697,6132911],[2255697,6132911]]
     ///     // The fixed point representation of
     ///     // [[0.2689, 0.7311],[0.2689, 0.7311]]
     /// ```

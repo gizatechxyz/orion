@@ -7,7 +7,6 @@ use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::implementations::impl_nn_i32;
 
-use debug::PrintTrait;
 
 #[test]
 #[available_gas(20000000)]

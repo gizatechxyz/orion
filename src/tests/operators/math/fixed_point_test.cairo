@@ -1,8 +1,8 @@
 use option::OptionTrait;
 use traits::Into;
 
-use orion::numbers::fixed_point::types::{ONE, _felt_abs, _felt_sign, Fixed, };
 
+use orion::numbers::fixed_point::types::{ONE, _felt_abs, _felt_sign, Fixed, };
 use orion::numbers::fixed_point::core;
 
 #[test]
@@ -45,19 +45,19 @@ fn test_abs() {
 
 #[test]
 fn test_ceil() {
-    let a = Fixed::from_felt(194615506); // 2.9
+    let a = Fixed::from_felt(24326963); // 2.9
     assert(a.ceil().into() == 3 * ONE, 'invalid pos decimal');
 }
 
 #[test]
 fn test_floor() {
-    let a = Fixed::from_felt(194615506); // 2.9
+    let a = Fixed::from_felt(24326963); // 2.9
     assert(a.floor().into() == 2 * ONE, 'invalid pos decimal');
 }
 
 #[test]
 fn test_round() {
-    let a = Fixed::from_felt(194615506); // 2.9
+    let a = Fixed::from_felt(24326963); // 2.9
     assert(a.round().into() == 3 * ONE, 'invalid pos decimal');
 }
 
@@ -86,14 +86,14 @@ fn test_pow() {
 #[available_gas(10000000)]
 fn test_exp() {
     let a = Fixed::from_unscaled_felt(2);
-    assert(a.exp().into() == 495871144, 'invalid exp of 2'); // 7.389056317241236
+    assert(a.exp().into() == 61983880, 'invalid exp of 2'); // 7.389056317241236
 }
 
 #[test]
 #[available_gas(10000000)]
 fn test_exp2() {
     let a = Fixed::from_unscaled_felt(2);
-    assert(a.exp2().into() == 268435456, 'invalid exp2 of 2'); // 3.99999957248 = 4
+    assert(a.exp2().into() == 33554432, 'invalid exp2 of 2'); // 3.99999957248 = 4
 }
 
 #[test]
@@ -107,14 +107,14 @@ fn test_ln() {
 #[available_gas(10000000)]
 fn test_log2() {
     let a = Fixed::from_unscaled_felt(31);
-    assert(a.log2().into() == 332470374, 'invalid log2'); // 4.954194635152817
+    assert(a.log2().into() == 41558887, 'invalid log2'); // 4.954194635152817
 }
 
 #[test]
 #[available_gas(10000000)]
 fn test_log10() {
     let a = Fixed::from_unscaled_felt(30);
-    assert(a.log10().into() == 99127896, 'invalid log10'); // 1.477120757102966
+    assert(a.log10().into() == 12391003, 'invalid log10'); // 1.477120757102966
 }
 
 #[test]
@@ -186,13 +186,13 @@ fn test_mul_pos() {
     let c = a * b;
     assert(c.into() == 81 * ONE, 'invalid result');
 
-    let a = Fixed::from_felt(83886080); // 1.25
-    let b = Fixed::from_felt(154350387); // 2.3
+    let a = Fixed::from_felt(10485760); // 1.25
+    let b = Fixed::from_felt(19293798); // 2.3
     let c = a * b;
-    assert(c.into() == 192937983, 'invalid result'); // 2.875
+    assert(c.into() == 24117247, 'invalid result'); // 2.875
 
     let a = Fixed::from_unscaled_felt(0);
-    let b = Fixed::from_felt(154350387); // 2.3
+    let b = Fixed::from_felt(19293798); // 2.3
     let c = a * b;
     assert(c.into() == 0, 'invalid result');
 }
@@ -219,30 +219,29 @@ fn test_mul_eq() {
 #[available_gas(2000000)]
 fn test_div_() {
     let a = Fixed::from_unscaled_felt(10);
-    let b = Fixed::from_felt(194615706); // 2.9
+    let b = Fixed::from_felt(24326963); // 2.9
     let c = a / b;
-    assert(c.into() == 231409875, 'invalid pos decimal'); // 3.4482758620689653
+    assert(c.into() == 28926234, 'invalid pos decimal'); // 3.4482758620689653
 
     let a = Fixed::from_unscaled_felt(10);
     let b = Fixed::from_unscaled_felt(5);
     let c = a / b;
-    assert(c.into() == 134217728, 'invalid pos integer'); // 2
+    assert(c.into() == 16777216, 'invalid pos integer'); // 2
 
     let a = Fixed::from_unscaled_felt(-2);
     let b = Fixed::from_unscaled_felt(5);
     let c = a / b;
-    assert(c.into() == -26843545, 'invalid neg decimal'); // 0.4
+    assert(c.into() == -3355443, 'invalid neg decimal'); // -0.4
 
     let a = Fixed::from_unscaled_felt(-1);
     let b = Fixed::from_unscaled_felt(12);
     let c = a / b;
-    assert(c.into() == -5592405, 'invalid neg decimal'); // 0.08333333333333333
+    assert(c.into() == -699050, 'invalid neg decimal'); // -0.08333333333333333
 
-   
     let a = Fixed::from_unscaled_felt(12);
     let b = Fixed::from_unscaled_felt(-10);
     let c = a / b;
-    assert(c.into() == -80530636, 'invalid neg decimal'); // -1.2
+    assert(c.into() == -10066329, 'invalid neg decimal'); // -1.2
 }
 
 #[test]

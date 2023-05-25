@@ -31,17 +31,17 @@ fn leaky_relu_i32_test() {
     data.append(val_6);
 
     let mut tensor = TensorTrait::new(shape.span(), data.span());
-    let alpha = Fixed::new(6710886_u128, false); // 0.1
+    let alpha = Fixed::new(838861, false); // 0.1
     let threshold = IntegerTrait::new(0, false);
 
     let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
     let data_0 = *result.data.at(0);
-    assert(data_0.mag == ONE_u128, 'result[0] == 67108864'); // 1
+    assert(data_0.mag == ONE_u128, 'result[0] == 8388608'); // 1
     assert(data_0.sign == false, 'result[0].sign == false');
 
     let data_3 = *result.data.at(3);
-    assert(data_3.mag == 13421772, 'result[3] == 113421772'); // 2 * 0.1 = 0.2
+    assert(data_3.mag == 1677722, 'result[3] == 1677722'); // 2 * 0.1 = 0.2
     assert(data_3.sign == true, 'result[3].sign == true');
 
     let data_5 = *result.data.at(5);
