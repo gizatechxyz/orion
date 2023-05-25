@@ -51,4 +51,5 @@ trait PerfomanceTrait<T> {
     /// ```
     ///
     fn quantize_linear(self: @Tensor<T>) -> Tensor<T>;
+    fn quantize_linear_from_fp(self: @Tensor<FixedType>) -> Tensor<T>;
 }
