@@ -8,8 +8,7 @@ fn main() {
     let doc_path = "docs/apis/operators/tensor";
     let label = "tensor";
     let trait_name = "TensorTrait";
-    let doc_url = "https://orion.gizatech.xyz/apis/operators/tensor/";
-    doc_trait(trait_path, doc_path, label, doc_url);
+    doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 
     // NN DOC
@@ -17,8 +16,7 @@ fn main() {
     let doc_path = "docs/apis/operators/neural-network";
     let label = "nn";
     let trait_name = "NNTrait";
-    let doc_url = "https://orion.gizatech.xyz/apis/operators/neural-network/";
-    doc_trait(trait_path, doc_path, label, doc_url);
+    doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 
     // FIXED POINT DOC
@@ -26,8 +24,7 @@ fn main() {
     let doc_path = "docs/apis/numbers/fixed-point";
     let label = "fp";
     let trait_name = "Fixed";
-    let doc_url = "https://orion.gizatech.xyz/apis/numbers/fixed-point/";
-    doc_trait(trait_path, doc_path, label, doc_url);
+    doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 
     // SIGNED INTEGER DOC
@@ -35,8 +32,7 @@ fn main() {
     let doc_path = "docs/apis/numbers/signed-integer";
     let label = "int";
     let trait_name: &str = "IntegerTrait";
-    let doc_url = "https://orion.gizatech.xyz/apis/numbers/signed-integer/";
-    doc_trait(trait_path, doc_path, label, doc_url);
+    doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 
     // PERFORMANCE DOC
@@ -44,12 +40,11 @@ fn main() {
     let doc_path = "docs/apis/performance";
     let label = "performance";
     let trait_name = "PerfomanceTrait";
-    let doc_url = "https://orion.gizatech.xyz/apis/performance/";
-    doc_trait(trait_path, doc_path, label, doc_url);
+    doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 }
 
-fn doc_trait(trait_path: &str, doc_path: &str, label: &str, doc_url: &str) {
+fn doc_trait(trait_path: &str, doc_path: &str, label: &str) {
     // Open and read core.cairo file
     let path_str = format!("../{}", trait_path);
     let path = Path::new(&path_str);
@@ -69,7 +64,13 @@ fn doc_trait(trait_path: &str, doc_path: &str, label: &str, doc_url: &str) {
         }
 
         // Add the function name and description to our table
-        let func_name = format!("[`{}.{}`]({}{}.{}.md)", label, &cap[1], doc_url, label, &cap[1]);
+        let func_name = format!(
+            "[`{}.{}`]({}.{}.md)",
+            label,
+            &cap[1].replace('_', r"\_"),
+            label,
+            &cap[1].replace('_', r"\_")
+        );
         let func_desc = &cap[2];
         table += &format!("| {} | {} |\n", func_name, func_desc);
     }
@@ -79,8 +80,8 @@ fn doc_trait(trait_path: &str, doc_path: &str, label: &str, doc_url: &str) {
     let readme_path = Path::new(&readme_path_str);
     let readme = fs::read_to_string(&readme_path).expect("Could not read the file");
 
-    // Use regex to replace the table, including the "| fun" line and two empty lines before and after
-    let re_table = Regex::new(r"(?ms)\n\n\| fun.*?\n\n").unwrap();
+    // Use regex to replace the table
+    let re_table = Regex::new(r"(?ms)\n\n\| fun.*?(\n[^|]|\z)").unwrap();
     let new_readme = re_table.replace(&readme, &("\n\n".to_owned() + &table + "\n"));
 
     // Write the updated contents back to README.md
