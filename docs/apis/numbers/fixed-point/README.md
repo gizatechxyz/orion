@@ -35,23 +35,23 @@ use orion::numbers::fixed_point::Fixed;
 
 `Fixed` trait defines the operations that can be performed on a fixed point.
 
-| function                                            | description                                                                                     |
-| --------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| [`fp.new`](fp.new.md)                               | Constructs a new `FixedType` instance.                                                          |
-| [`fp.new_unscaled`](fp.new_unscaled.md)             | Creates a new `FixedType` instance with the specified unscaled magnitude and sign.              |
-| [`fp.from_felt`](fp.from_felt.md)                   | Creates a new `FixedType` instance from a `felt252` value.                                      |
-| [`fp.from_unscaled_felt`](fp.from_unscaled_felt.md) | Creates a new `FixedType` instance from an unscaled `felt252` value.                            |
-| [`fp.abs`](fp.abs.md)                               | Returns the absolute value of the fixed point number.                                           |
-| [`fp.ceil`](fp.ceil.md)                             | Returns the smallest integer greater than or equal to the fixed point number.                   |
-| [`fp.floor`](fp.floor.md)                           | Returns the largest integer less than or equal to the fixed point number.                       |
-| [`fp.exp`](fp.exp.md)                               | Returns the value of e raised to the power of the fixed point number.                           |
-| [`fp.exp2`](fp.exp2.md)                             | Returns the value of 2 raised to the power of the fixed point number.                           |
-| [`fp.ln`](fp.ln.md)                                 | Returns the natural logarithm of the fixed point number.                                        |
-| [`fp.log2`](fp.log2.md)                             | Returns the base-2 logarithm of the fixed point number.                                         |
-| [`fp.log10`](fp.log10.md)                           | Returns the base-10 logarithm of the fixed point number.                                        |
-| [`fp.pow`](fp.pow.md)                               | Returns the result of raising the fixed point number to the power of another fixed point number |
-| [`fp.round`](fp.round.md)                           | Rounds the fixed point number to the nearest whole number.                                      |
-| [`fp.sqrt`](fp.sqrt.md)                             | Returns the square root of the fixed point number.                                              |
+| function | description |
+| --- | --- |
+| [`fp.new`](fp.new.md) | Constructs a new `FixedType` instance. |
+| [`fp.new_unscaled`](fp.new\_unscaled.md) | Creates a new `FixedType` instance with the specified unscaled magnitude and sign. |
+| [`fp.from_felt`](fp.from\_felt.md) | Creates a new `FixedType` instance from a `felt252` value. |
+| [`fp.from_unscaled_felt`](fp.from\_unscaled\_felt.md) | Creates a new `FixedType` instance from an unscaled `felt252` value. |
+| [`fp.abs`](fp.abs.md) | Returns the absolute value of the fixed point number. |
+| [`fp.ceil`](fp.ceil.md) | Returns the smallest integer greater than or equal to the fixed point number. |
+| [`fp.floor`](fp.floor.md) | Returns the largest integer less than or equal to the fixed point number. |
+| [`fp.exp`](fp.exp.md) | Returns the value of e raised to the power of the fixed point number.  |
+| [`fp.exp2`](fp.exp2.md) | Returns the value of 2 raised to the power of the fixed point number. |
+| [`fp.ln`](fp.ln.md) | Returns the natural logarithm of the fixed point number. |
+| [`fp.log2`](fp.log2.md) | Returns the base-2 logarithm of the fixed point number. |
+| [`fp.log10`](fp.log10.md) | Returns the base-10 logarithm of the fixed point number. |
+| [`fp.pow`](fp.pow.md) | Returns the result of raising the fixed point number to the power of another fixed point number |
+| [`fp.round`](fp.round.md) | Rounds the fixed point number to the nearest whole number. |
+| [`fp.sqrt`](fp.sqrt.md) | Returns the square root of the fixed point number. |
 
 ### Arithmetic & Comparison operators
 

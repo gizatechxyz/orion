@@ -30,7 +30,7 @@ impl TensorDrop<T> of Drop<Tensor<T>>;
 /// matmul - Performs matrix multiplication. 
 /// exp - Calculates the exponential function (e^x) for each element in a tensor.
 trait TensorTrait<T> {
-    /// # TensorTrait::new
+    /// # tensor.new
     ///
     /// ```rust 
     ///    fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
