@@ -1,3 +1,4 @@
+# NNTrait::softplus
 
 ```rust
 fn softplus(tensor: @Tensor<T>) -> Tensor<FixedType>;
