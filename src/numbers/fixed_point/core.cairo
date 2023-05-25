@@ -5,8 +5,8 @@
 /// Fixed point numbers are represented as a struct FixedType with a magnitude
 /// and a sign. The magnitude represents the absolute value of the number, and
 /// the sign indicates whether the number is positive or negative.
-/// Fixed Point Q5.26 -> https://github.com/tensorflow/tensorflow/blob/305fec9fddc3bdb5bb574a134b955bf4b07fd795/tensorflow/lite/kernels/internal/reference/softmax.h#L66
-/// Implemented from https://github.com/influenceth/cubit and adjusted to Q5.26
+/// Fixed Point Q8.23 -> https://github.com/tensorflow/tensorflow/blob/305fec9fddc3bdb5bb574a134b955bf4b07fd795/tensorflow/lite/kernels/internal/reference/softmax.h#L66
+/// Implemented from https://github.com/influenceth/cubit and adjusted to Q8.23
 
 use traits::Into;
 

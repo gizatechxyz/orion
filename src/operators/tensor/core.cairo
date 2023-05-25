@@ -591,7 +591,7 @@ trait TensorTrait<T> {
     ///     // We can call `exp` function as follows.
     ///     return tensor.exp();
     /// }
-    /// >>> [[67108864,182420802],[495871144,1347917552]]
+    /// >>> [[8388608,22802594],[61983844,168489688]]
     /// // The fixed point representation of
     /// // [[1, 2.718281],[7.38905, 20.085536]]
     /// ```
