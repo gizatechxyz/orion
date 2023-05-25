@@ -53,7 +53,9 @@
     * [fp.round](apis/numbers/fixed-point/fp.round.md)
     * [fp.sqrt](apis/numbers/fixed-point/fp.sqrt.md)
 * [Performance](apis/performance/README.md)
-  * [Linear Quantization](apis/performance/performance.quantize\_linear.md)
+  * [performance.quantize\_linear](apis/performance/performance.quantize\_linear.md)
+  * [performance.quantize\_linear\_from\_fp](apis/performance/performance.quantize\_linear\_from\_fp.md)
+
 
 ## 💖 Community
 
