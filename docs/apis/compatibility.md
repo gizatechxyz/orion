@@ -20,6 +20,7 @@ You can see below the list of current supported ONNX Operators:
 |    ReLU    | :white_check_mark: |
 | Leaky ReLU | :white_check_mark: |
 |  Softmax   | :white_check_mark: |
+|  Softplus  | :white_check_mark: |
 |   Linear   | :white_check_mark: |
 
 Performance optimizations:
@@ -28,4 +29,4 @@ Performance optimizations:
 | :----------------: | :----------------: |
 | 8-bit quantization | :white_check_mark: |
 
-Current Operators support: **15/156 (9%)**
+Current Operators support: **16/156 (10%)**
