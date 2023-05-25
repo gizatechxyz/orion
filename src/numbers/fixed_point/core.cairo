@@ -87,7 +87,7 @@ fn eq(a: FixedType, b: FixedType) -> bool {
 
 /// Cf: Fixed::exp docstring 
 fn exp(a: FixedType) -> FixedType {
-    return exp2(Fixed::new(96817625_u128, false) * a); // log2(e) * 2^26 ≈ 96817625
+    return exp2(Fixed::new(12102203, false) * a); // log2(e) * 2^23 ≈ 12102203
 }
 
 /// Cf: Fixed::exp2 docstring
@@ -99,14 +99,14 @@ fn exp2(a: FixedType) -> FixedType {
     let (int_part, frac_part) = _split_unsigned(a);
     let int_res = _pow_int(Fixed::new_unscaled(2_u128, false), int_part, false);
 
-    let t8 = Fixed::new(152_u128, false);
-    let t7 = Fixed::new(843_u128, false);
-    let t6 = Fixed::new(10593_u128, false);
-    let t5 = Fixed::new(89275_u128, false);
-    let t4 = Fixed::new(645557_u128, false);
-    let t3 = Fixed::new(3724792_u128, false);
-    let t2 = Fixed::new(16121331_u128, false);
-    let t1 = Fixed::new(46516320_u128, false);
+    let t8 = Fixed::new(19_u128, false);
+    let t7 = Fixed::new(105_u128, false);
+    let t6 = Fixed::new(1324_u128, false);
+    let t5 = Fixed::new(11159_u128, false);
+    let t4 = Fixed::new(80695_u128, false);
+    let t3 = Fixed::new(465599_u128, false);
+    let t2 = Fixed::new(2015166_u128, false);
+    let t1 = Fixed::new(5814540_u128, false);
 
     let frac_fixed = Fixed::new(frac_part, false);
     let r8 = t8 * frac_fixed;
@@ -196,7 +196,7 @@ fn le(a: FixedType, b: FixedType) -> bool {
 
 /// Cf: Fixed::ln docstring
 fn ln(a: FixedType) -> FixedType {
-    return Fixed::new(46516320_u128, false) * log2(a); // ln(2) = 0.693...
+    return Fixed::new(5814540_u128, false) * log2(a); // ln(2) = 0.693...
 }
 
 /// Cf: Fixed::log2 docstring
@@ -217,15 +217,15 @@ fn log2(a: FixedType) -> FixedType {
     let divisor = _pow_int(Fixed::new_unscaled(2_u128, false), msb_u128, false);
     let norm = a / divisor;
 
-    let t8 = Fixed::new(609947_u128, true);
-    let t7 = Fixed::new(8311147_u128, false);
-    let t6 = Fixed::new(50221432_u128, true);
-    let t5 = Fixed::new(177085162_u128, false);
-    let t4 = Fixed::new(403554714_u128, true);
-    let t3 = Fixed::new(623171909_u128, false);
-    let t2 = Fixed::new(671567545_u128, true);
-    let t1 = Fixed::new(547259664_u128, false);
-    let t0 = Fixed::new(229874243_u128, true);
+    let t8 = Fixed::new(76243_u128, true);
+    let t7 = Fixed::new(1038893_u128, false);
+    let t6 = Fixed::new(6277679_u128, true);
+    let t5 = Fixed::new(22135645_u128, false);
+    let t4 = Fixed::new(50444339_u128, true);
+    let t3 = Fixed::new(77896489_u128, false);
+    let t2 = Fixed::new(83945943_u128, true);
+    let t1 = Fixed::new(68407458_u128, false);
+    let t0 = Fixed::new(28734280_u128, true);
 
     let r8 = t8 * norm;
     let r7 = (r8 + t7) * norm;
@@ -240,7 +240,7 @@ fn log2(a: FixedType) -> FixedType {
 
 /// Cf: Fixed::log10 docstring
 fn log10(a: FixedType) -> FixedType {
-    return Fixed::new(20201781_u128, false) * log2(a); // log10(2) = 0.301...
+    return Fixed::new(2525223_u128, false) * log2(a); // log10(2) = 0.301...
 }
 
 /// Checks whether the first fixed point number is less than the second fixed point number.
