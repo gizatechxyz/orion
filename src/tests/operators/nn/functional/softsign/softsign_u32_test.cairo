@@ -1,4 +1,3 @@
-use core::debug::PrintTrait;
 use core::traits::Into;
 use array::ArrayTrait;
 use array::SpanTrait;
@@ -35,12 +34,12 @@ fn softsign_u32_test() {
     assert(data_0 == Fixed::new(0, false), 'result[0] == 0'); // 0 
 
     let data_1 = *result.data.at(1);
-    assert(data_1 == Fixed::new(33554432, false), 'result[1] == 33554432'); // 0.5
+    assert(data_1 == Fixed::new(4194304, false), 'result[1] == 4194304'); // 0.5
 
     let data_2 = *result.data.at(2);
-    assert(data_2 == Fixed::new(44739242, false), 'result[2] == 44739242'); // 0.67
+    assert(data_2 == Fixed::new(5592405, false), 'result[2] == 5592405'); // 0.67
 
     let data_3 = *result.data.at(3);
-    assert(data_3 == Fixed::new(50331648, false), 'result[3] == 50331648'); // 0.75
+    assert(data_3 == Fixed::new(6291456, false), 'result[3] == 6291456'); // 0.75
 }
 

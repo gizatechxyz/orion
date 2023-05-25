@@ -24,24 +24,24 @@ fn softplus_i32_test() {
     data.append(val_2);
     data.append(val_3);
     data.append(val_4);
-    
+
     let mut tensor = TensorTrait::new(shape.span(), data.span());
     let mut result = NNTrait::softplus(@tensor);
 
     let data_0 = *result.data.at(0);
-    assert(data_0.mag == 46516187, 'result[0] == 46516187'); // 0.6931452
+    assert(data_0.mag == 5814556, 'result[0] == 5814556'); // 0.6931452
     assert(data_0.sign == false, 'result[0].sign == false');
-    
+
     let data_1 = *result.data.at(1);
-    assert(data_1.mag == 88131451, 'result[1] == 88131451'); // 1.31326096
+    assert(data_1.mag == 11016447, 'result[1] == 11016447'); // 1.31326096
     assert(data_1.sign == false, 'result[1].sign == false');
 
     let data_2 = *result.data.at(2);
-    assert(data_2.mag == 8517992, 'result[2] == 8517992'); // 0.12692797
+    assert(data_2.mag == 1064751, 'result[2] == 1064751'); // 0.12692797
     assert(data_2.sign == false, 'result[2].sign == false');
 
     let data_3 = *result.data.at(3);
-    assert(data_3.mag == 3260638, 'result[3] == 3260638'); // 0.04858729
+    assert(data_3.mag == 407580, 'result[3] == 407580'); // 0.04858729
     assert(data_3.sign == false, 'result[3].sign == false');
 }
 
