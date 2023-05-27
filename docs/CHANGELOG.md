@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added equality (element-wise) operator and tests
 
+### Fixed
+
+- Fixed imports to allow tests in linear_test.cairo work
+
 ## [Unreleased] - 2023-05-24
 
 ### Added
