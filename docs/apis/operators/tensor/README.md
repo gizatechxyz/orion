@@ -50,6 +50,7 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.argmax`](tensor.argmax.md) | Returns the index of the maximum value along the specified axis.   |
 | [`tensor.matmul`](tensor.matmul.md) | Performs matrix multiplication.  |
 | [`tensor.exp`](tensor.exp.md) | Calculates the exponential function (e^x) for each element in a tensor. |
+| [`tensor.eq`](tensor.eq.md) | Check if two tensors are equal element-wise. |
 
 ### Arithmetic Operations
 

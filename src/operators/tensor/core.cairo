@@ -29,6 +29,7 @@ impl TensorDrop<T> of Drop<Tensor<T>>;
 /// argmax - Returns the index of the maximum value along the specified axis.  
 /// matmul - Performs matrix multiplication. 
 /// exp - Calculates the exponential function (e^x) for each element in a tensor.
+/// eq - Check if two tensors are equal element-wise.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -654,8 +655,7 @@ trait TensorTrait<T> {
     /// >>> [1,1,1,0,0,0,0,0,0]
     /// ```
     ///
-    fn eq(self:@Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
-
+    fn eq(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
 }
 
 /// Cf: TensorTrait::new docstring
