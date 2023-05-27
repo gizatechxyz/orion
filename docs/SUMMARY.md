@@ -24,6 +24,7 @@
     * [tensor.argmax](apis/operators/tensor/tensor.argmax.md)
     * [tensor.matmul](apis/operators/tensor/tensor.matmul.md)
     * [tensor.exp](apis/operators/tensor/tensor.exp.md)
+    * [tensor.eq](apis/operators/tensor/tensor.eq.md)
   * [Neural Network](apis/operators/neural-network/README.md)
     * [nn.relu](apis/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](apis/operators/neural-network/nn.leaky\_relu.md)

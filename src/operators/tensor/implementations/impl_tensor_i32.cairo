@@ -12,6 +12,7 @@ use orion::operators::tensor::math::min::min_i32::min_in_tensor;
 use orion::operators::tensor::math::max::max_i32::max_in_tensor;
 use orion::operators::tensor::math::reduce_sum::reduce_sum_i32::reduce_sum;
 use orion::operators::tensor::math::argmax::argmax_i32::argmax;
+use orion::operators::tensor::math::equal::equal_i32::equal;
 use orion::operators::tensor::linalg::matmul::matmul_i32::matmul;
 use orion::operators::tensor::linalg::transpose::transpose_i32::transpose;
 use orion::operators::tensor::math::exp::exp_i32::exp;
@@ -69,6 +70,10 @@ impl i32Tensor of TensorTrait<i32> {
 
     fn exp(self: @Tensor<i32>) -> Tensor<FixedType> {
         exp(self)
+    }
+
+    fn eq(self:@Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+        equal(self, other)
     }
 }
 
