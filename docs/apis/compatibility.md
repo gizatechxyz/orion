@@ -11,6 +11,7 @@ You can see below the list of current supported ONNX Operators:
 |    Sub     | :white_check_mark: |
 |    Mul     | :white_check_mark: |
 |    Div     | :white_check_mark: |
+|    Equal   | :white_check_mark: |
 |    Exp     | :white_check_mark: |
 |   MatMul   | :white_check_mark: |
 |  Reshape   | :white_check_mark: |
@@ -30,4 +31,4 @@ Performance optimizations:
 | :----------------: | :----------------: |
 | 8-bit quantization | :white_check_mark: |
 
-Current Operators support: **16/156 (10%)**
+Current Operators support: **18/156 (11%)**

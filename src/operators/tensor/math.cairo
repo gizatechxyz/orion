@@ -4,3 +4,4 @@ mod reduce_sum;
 mod argmax;
 mod exp;
 mod arithmetic;
+mod equal;

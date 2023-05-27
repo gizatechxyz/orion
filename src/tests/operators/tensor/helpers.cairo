@@ -78,6 +78,21 @@ fn i32_tensor_3x2_helper() -> Tensor<i32> {
     return tensor;
 }
 
+fn i32_tensor_3x1_helper() -> Tensor<i32> {
+    let mut sizes = ArrayTrait::new();
+    sizes.append(3);
+    sizes.append(1);
+
+    let mut data = ArrayTrait::new();
+    data.append(IntegerTrait::new(0_u32, false));
+    data.append(IntegerTrait::new(1_u32, false));
+    data.append(IntegerTrait::new(2_u32, false));
+
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
+
+    return tensor;
+}
+
 fn i32_tensor_2x3_helper() -> Tensor<i32> {
     let mut sizes = ArrayTrait::new();
     sizes.append(2);
