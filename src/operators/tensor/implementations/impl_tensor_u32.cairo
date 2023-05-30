@@ -13,6 +13,7 @@ use orion::operators::tensor::math::reduce_sum::reduce_sum_u32::reduce_sum;
 use orion::operators::tensor::math::argmax::argmax_u32::argmax;
 use orion::operators::tensor::linalg::matmul::matmul_u32::matmul;
 use orion::operators::tensor::math::equal::equal_u32::equal;
+use orion::operators::tensor::math::abs::abs_u32::abs;
 use orion::operators::tensor::linalg::transpose::transpose_u32::transpose;
 use orion::operators::tensor::math::exp::exp_u32::exp;
 use orion::operators::tensor::math::arithmetic::arithmetic_u32::{add, sub, mul, div};
@@ -73,6 +74,10 @@ impl U32Tensor of TensorTrait<u32> {
     
     fn eq(self:@Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         equal(self, other)
+    }
+
+    fn abs(self: @Tensor<u32>) -> Tensor<u32> {
+        abs(self)
     }
 }
 
