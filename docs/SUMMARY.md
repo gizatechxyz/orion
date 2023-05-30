@@ -29,6 +29,7 @@
   * [Neural Network](apis/operators/neural-network/README.md)
     * [nn.relu](apis/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](apis/operators/neural-network/nn.leaky\_relu.md)
+    * [nn.sigmoid](apis/operators/neural-network/nn.sigmoid.md)
     * [nn.softmax](apis/operators/neural-network/nn.softmax.md)
     * [nn.softsign](apis/operators/neural-network/nn.softsign.md)
     * [nn.softplux](apis/operators/neural-network/nn.softplus.md)
