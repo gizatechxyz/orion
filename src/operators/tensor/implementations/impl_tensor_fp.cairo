@@ -10,6 +10,7 @@ use orion::operators::tensor::core::{
 use orion::operators::tensor::math::min::min_fp::min_in_tensor;
 use orion::operators::tensor::math::max::max_fp::max_in_tensor;
 use orion::operators::tensor::math::equal::equal_fp::equal;
+use orion::operators::tensor::math::abs::abs_fp::abs;
 use orion::operators::tensor::math::reduce_sum::reduce_sum_fp::reduce_sum;
 use orion::operators::tensor::math::argmax::argmax_fp::argmax;
 use orion::operators::tensor::linalg::matmul::matmul_fp::matmul;
@@ -73,6 +74,10 @@ impl FixedTypeTensor of TensorTrait<FixedType> {
 
     fn eq(self:@Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         equal(self, other)
+    }
+
+    fn abs(self:@Tensor<FixedType>) -> Tensor<FixedType> {
+        abs(self)
     }
 }
 

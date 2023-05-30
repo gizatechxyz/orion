@@ -6,3 +6,4 @@ mod signed_integer_test;
 mod fixed_point_test;
 mod exp_test;
 mod equal;
+mod abs;
