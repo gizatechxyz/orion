@@ -370,8 +370,11 @@ fn i32_gt(a: i32, b: i32) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is less than `b`, `false` otherwise.
 fn i32_lt(a: i32, b: i32) -> bool {
-    // The result is the inverse of the greater than function.
-    return !i32_gt(a, b);
+    if (a.sign != b.sign) {
+        return a.sign;
+    } else {
+        return (a.mag != b.mag) & ((a.mag < b.mag) ^ a.sign);
+    }
 }
 
 // Checks if the first i32 integer is less than or equal to the second.
