@@ -370,8 +370,11 @@ fn i64_gt(a: i64, b: i64) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is less than `b`, `false` otherwise.
 fn i64_lt(a: i64, b: i64) -> bool {
-    // The result is the inverse of the greater than function.
-    return !i64_gt(a, b);
+    if (a.sign != b.sign) {
+        return a.sign;
+    } else {
+        return (a.mag != b.mag) & ((a.mag < b.mag) ^ a.sign);
+    }
 }
 
 // Checks if the first i64 integer is less than or equal to the second.

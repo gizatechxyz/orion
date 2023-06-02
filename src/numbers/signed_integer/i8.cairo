@@ -370,8 +370,11 @@ fn i8_gt(a: i8, b: i8) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is less than `b`, `false` otherwise.
 fn i8_lt(a: i8, b: i8) -> bool {
-    // The result is the inverse of the greater than function.
-    return !i8_gt(a, b);
+    if (a.sign != b.sign) {
+        return a.sign;
+    } else {
+        return (a.mag != b.mag) & ((a.mag < b.mag) ^ a.sign);
+    }
 }
 
 // Checks if the first i8 integer is less than or equal to the second.
