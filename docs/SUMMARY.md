@@ -27,6 +27,8 @@
     * [tensor.eq](apis/operators/tensor/tensor.eq.md)
     * [tensor.greater](apis/operators/tensor/tensor.greater.md)
     * [tensor.greater_equal](apis/operators/tensor/tensor.greater_equal.md)
+    * [tensor.less](apis/operators/tensor/tensor.less.md)
+    * [tensor.less_equal](apis/operators/tensor/tensor.less_equal.md)
     * [tensor.abs](apis/operators/tensor/tensor.abs.md)
   * [Neural Network](apis/operators/neural-network/README.md)
     * [nn.relu](apis/operators/neural-network/nn.relu.md)

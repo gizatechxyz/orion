@@ -5,4 +5,6 @@ mod argmax;
 mod exp;
 mod arithmetic;
 mod equal;
+mod less;
+mod less_equal;
 mod abs;
