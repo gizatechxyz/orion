@@ -12,6 +12,7 @@ You can see below the list of current supported ONNX Operators:
 |    Mul     | :white_check_mark: |
 |    Div     | :white_check_mark: |
 |    Equal   | :white_check_mark: |
+|    Greater | :white_check_mark: |
 |    Less    | :white_check_mark: |
 |    Abs     | :white_check_mark: |
 |    Exp     | :white_check_mark: |
