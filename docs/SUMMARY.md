@@ -25,6 +25,8 @@
     * [tensor.matmul](apis/operators/tensor/tensor.matmul.md)
     * [tensor.exp](apis/operators/tensor/tensor.exp.md)
     * [tensor.eq](apis/operators/tensor/tensor.eq.md)
+    * [tensor.less](apis/operators/tensor/tensor.less.md)
+    * [tensor.less_equal](apis/operators/tensor/tensor.less_equal.md)
     * [tensor.abs](apis/operators/tensor/tensor.abs.md)
   * [Neural Network](apis/operators/neural-network/README.md)
     * [nn.relu](apis/operators/neural-network/nn.relu.md)
