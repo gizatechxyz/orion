@@ -370,8 +370,11 @@ fn i128_gt(a: i128, b: i128) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is less than `b`, `false` otherwise.
 fn i128_lt(a: i128, b: i128) -> bool {
-    // The result is the inverse of the greater than function.
-    return !i128_gt(a, b);
+    if (a.sign != b.sign) {
+        return a.sign;
+    } else {
+        return (a.mag != b.mag) & ((a.mag < b.mag) ^ a.sign);
+    }
 }
 
 // Checks if the first i128 integer is less than or equal to the second.
