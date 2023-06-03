@@ -34,4 +34,4 @@ Performance optimizations:
 | :----------------: | :----------------: |
 | 8-bit quantization | :white_check_mark: |
 
-Current Operators support: **20/156 (12%)**
+Current Operators support: **21/156 (13%)**
