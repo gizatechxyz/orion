@@ -6,6 +6,8 @@ mod signed_integer_test;
 mod fixed_point_test;
 mod exp_test;
 mod equal;
+mod greater;
+mod greater_equal;
 mod less;
 mod less_equal;
 mod abs;
