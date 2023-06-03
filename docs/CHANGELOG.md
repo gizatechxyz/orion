@@ -4,13 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - 2023-06-03
+
+### Changed
+
+- Refactor fixed point to support multiple implementations
+
 ## [Unreleased] - 2023-06-01
+
 ### Added
 
 - Added greater tensor operator and tests
 - Added less tensor operator and tests
 
 ## [Unreleased] - 2023-05-30
+
 ### Added
 
 - Added abs tensor operator and tests

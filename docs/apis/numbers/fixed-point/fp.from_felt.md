@@ -1,26 +1,26 @@
-# Fixed::from\_felt
+# FixedTrait::from\_felt
 
 
 ```rust
-fn from_felt(val: felt252) -> FixedType;
+fn from_felt(val: felt252) -> FixedType<T>;
 ```
 
-Creates a new FixedType instance from a felt252 value.
+Creates a new fixed point instance from a felt252 value.
 
 ## Args
 
-* `val`(`felt252`) - `felt252` value to convert in FixedType
+* `val`(`felt252`) - `felt252` value to convert in FixedType<T>
 
 ## Returns
 
-A new `FixedType` instance.
+A new fixed point instance.
 
 ## Examples
 
 ```rust
-fn from_felt_example() -> FixedType {
+fn from_felt_example() -> FixedType<T> {
 // We can call `from_felt` function as follows .
-Fixed::from_felt(194615706);
+FixedTrait::from_felt(194615706);
 }
 >>> {mag: 194615706, sign: false} // = 2.9
 ```

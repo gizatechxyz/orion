@@ -1,10 +1,10 @@
-# Fixed::new
+# FixedTrait::new
 
 ```rust
-fn new(mag: u128, sign: bool) -> FixedType;
+fn new(mag: u128, sign: bool) -> FixedType<T>;
 ```
 
-Constructs a new FixedType instance.
+Constructs a new fixed point instance.
 
 ## Args
 
@@ -13,14 +13,14 @@ Constructs a new FixedType instance.
 
 ## Returns
 
-A new `FixedType` instance.
+A new fixed point instance.
 
 ## Examples
 
 ```rust
-fn new_fp_example() -> FixedType {
+fn new_fp_example() -> FixedType<T> {
 // We can call `new` function as follows.
-Fixed::new(67108864, false)
+FixedTrait::new(67108864, false)
 }
 >>> {mag: 67108864, sign: false} // = 1
 ```

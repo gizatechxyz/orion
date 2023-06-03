@@ -1,14 +1,14 @@
 # fp.log2
 
 ```rust
-fn log2(self: FixedType) -> FixedType;
+fn log2(self: FixedType<T>) -> FixedType<T>;
 ```
 
 Returns the base-2 logarithm of the fixed point number.
 
 ## Args
 
-* `self`(`FixedType`) - The input fixed point
+* `self`(`FixedType<T>`) - The input fixed point
 
 ## Panics
 
@@ -16,14 +16,14 @@ Returns the base-2 logarithm of the fixed point number.
 
 ## Returns
 
-A FixedType value representing the binary logarithm of the input number.
+A fixed point representing the binary logarithm of the input number.
 
 ## Examples
 
 ```rust
-fn log2_fp_example() -> FixedType {
+fn log2_fp_example() -> FixedType<T> {
 // We instantiate fixed point here.
-let fp = Fixed::from_unscaled_felt(32);
+let fp = FixedTrait::from_unscaled_felt(32);
 
 // We can call `log2` function as follows.
 fp.log2()

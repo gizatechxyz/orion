@@ -1,7 +1,7 @@
 # NNTrait::softsign
 
 ```rust
-fn softsign(tensor: @Tensor<T>) -> Tensor<FixedType>;
+fn softsign(tensor: @Tensor<T>) -> Tensor<FixedType<F>>;
 ```
 
 Applies the Softsign function to an n-dimensional input Tensor such that the elements of the n-dimensional output Tensor lie in the range \[-1,1].
@@ -24,7 +24,7 @@ A Tensor of fixed point numbers with the same shape than the input Tensor.
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::implementations::impl_nn_u32;
 
-fn softsign_example() -> Tensor<FixedType> {
+fn softsign_example() -> Tensor<FixedType<F>> {
 // We instantiate a 2D Tensor here.
 // [[0,1],[2,3]]
 let tensor = u32_tensor_2x2_helper();

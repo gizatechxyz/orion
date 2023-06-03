@@ -1,14 +1,14 @@
 # fp.ceil
 
 ```rust
-fn ceil(self: FixedType) -> FixedType;
+fn ceil(self: FixedType<T>) -> FixedType<T>;
 ```
 
 Returns the smallest integer greater than or equal to the fixed point number.
 
 ## Args
 
-*`self`(`FixedType`) - The input fixed point
+*`self`(`FixedType<T>`) - The input fixed point
 
 ## Returns
 
@@ -17,9 +17,9 @@ The smallest integer greater than or equal to the input fixed point number.
 ## Examples
 
 ```rust
-fn ceil_fp_example() -> FixedType {
+fn ceil_fp_example() -> FixedType<T> {
 // We instantiate fixed point here.
-let fp = Fixed::from_felt(194615506); // 2.9
+let fp = FixedTrait::from_felt(194615506); // 2.9
 
 // We can call `ceil` function as follows.
 fp.ceil()

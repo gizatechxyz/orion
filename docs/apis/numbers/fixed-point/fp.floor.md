@@ -1,14 +1,14 @@
 # fp.floor
 
 ```rust
-fn floor(self: FixedType) -> FixedType;
+fn floor(self: FixedType<T>) -> FixedType<T>;
 ```
 
 Returns the largest integer less than or equal to the fixed point number.
 
 ## Args
 
-* `self`(`FixedType`) - The input fixed point
+* `self`(`FixedType<T>`) - The input fixed point
 
 ## Returns
 
@@ -17,9 +17,9 @@ Returns the largest integer less than or equal to the input fixed point number.
 ## Examples
 
 ```rust
-fn floor_fp_example() -> FixedType {
+fn floor_fp_example() -> FixedType<T> {
 // We instantiate fixed point here.
-let fp = Fixed::from_felt(194615506); // 2.9
+let fp = FixedTrait::from_felt(194615506); // 2.9
 
 // We can call `floor` function as follows.
 fp.floor()

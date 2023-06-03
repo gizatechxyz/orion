@@ -1,10 +1,10 @@
-# Fixed::new\_unscaled
+# FixedTrait::new\_unscaled
 
 ```rust
-fn new_unscaled(mag: u128, sign: bool) -> FixedType;
+fn new_unscaled(mag: u128, sign: bool) -> FixedType<T>;
 ```
 
-Creates a new FixedType instance with the specified unscaled magnitude and sign.
+Creates a new fixed point instance with the specified unscaled magnitude and sign.
 
 ## Args
 
@@ -13,14 +13,14 @@ Creates a new FixedType instance with the specified unscaled magnitude and sign.
 
 ## Returns
 
-A new `FixedType` instance.
+A new fixed point instance.
 
 ## Examples
 
 ```rust
-fn new_unscaled_example() -> FixedType {
+fn new_unscaled_example() -> FixedType<T> {
 // We can call `new_unscaled` function as follows.
-Fixed::new_unscaled(1);
+FixedTrait::new_unscaled(1);
 }
 >>> {mag: 67108864, sign: false}
 ```
