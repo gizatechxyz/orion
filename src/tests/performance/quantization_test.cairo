@@ -2,9 +2,9 @@ use array::ArrayTrait;
 use array::SpanTrait;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use orion::numbers::fixed_point::types::{Fixed, FixedType};
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::implementations::impl_tensor_i32;
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::operators::tensor::implementations::impl_tensor_fp8x23;
 use orion::operators::tensor::core::TensorTrait;
 use orion::performance::core::PerfomanceTrait;
 use orion::performance::implementations::impl_performance_i32;
@@ -56,12 +56,12 @@ fn quantize_linear_from_fp_test() {
     shape.append(2);
 
     let mut data = ArrayTrait::<FixedType>::new();
-    data.append(Fixed::new(838860800, false)); // 100
-    data.append(Fixed::new(1258291200, false)); // 150
-    data.append(Fixed::new(1677721600, false)); // 200
-    data.append(Fixed::new(838860800, true)); // -100
-    data.append(Fixed::new(1258291200, true)); // -150
-    data.append(Fixed::new(1677721600, true)); // -200
+    data.append(FixedTrait::new(838860800, false)); // 100
+    data.append(FixedTrait::new(1258291200, false)); // 150
+    data.append(FixedTrait::new(1677721600, false)); // 200
+    data.append(FixedTrait::new(838860800, true)); // -100
+    data.append(FixedTrait::new(1258291200, true)); // -150
+    data.append(FixedTrait::new(1677721600, true)); // -200
 
     let tensor = TensorTrait::<FixedType>::new(shape.span(), data.span());
 

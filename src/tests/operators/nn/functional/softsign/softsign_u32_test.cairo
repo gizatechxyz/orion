@@ -7,7 +7,9 @@ use orion::operators::tensor::implementations::impl_tensor_u32;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait};
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::implementations::impl_nn_u32;
-use orion::numbers::fixed_point::types::{FixedType, Fixed, ONE_u128};
+use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23;
 
 #[test]
 #[available_gas(2000000)]
@@ -31,15 +33,15 @@ fn softsign_u32_test() {
     let mut result = NNTrait::softsign(@tensor);
 
     let data_0 = *result.data.at(0);
-    assert(data_0 == Fixed::new(0, false), 'result[0] == 0'); // 0 
+    assert(data_0 == FixedTrait::new(0, false), 'result[0] == 0'); // 0 
 
     let data_1 = *result.data.at(1);
-    assert(data_1 == Fixed::new(4194304, false), 'result[1] == 4194304'); // 0.5
+    assert(data_1 == FixedTrait::new(4194304, false), 'result[1] == 4194304'); // 0.5
 
     let data_2 = *result.data.at(2);
-    assert(data_2 == Fixed::new(5592405, false), 'result[2] == 5592405'); // 0.67
+    assert(data_2 == FixedTrait::new(5592405, false), 'result[2] == 5592405'); // 0.67
 
     let data_3 = *result.data.at(3);
-    assert(data_3 == Fixed::new(6291456, false), 'result[3] == 6291456'); // 0.75
+    assert(data_3 == FixedTrait::new(6291456, false), 'result[3] == 6291456'); // 0.75
 }
 

@@ -1,6 +1,5 @@
 use orion::operators::tensor::core::Tensor;
-use orion::numbers::fixed_point::core::FixedType;
-
+use orion::numbers::fixed_point::core::{FixedType};
 
 /// Trait
 ///
@@ -10,7 +9,7 @@ use orion::numbers::fixed_point::core::FixedType;
 /// softsign - Applies the Softsign function element-wise.
 /// softplus - Applies the Softplus function element-wise.
 /// linear - Performs a linear transformation of the input tensor using the provided weights and bias.
-trait NNTrait<T> {
+trait NNTrait<T, F> {
     /// # NNTrait::relu
     ///
     /// ```rust 
@@ -54,7 +53,7 @@ trait NNTrait<T> {
     /// # NNTrait::softmax
     ///
     /// ```rust 
-    ///    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>;
+    ///    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType<F>>;
     /// ```
     ///
     /// Applies the Softmax function to an n-dimensional input Tensor rescaling them so that the elements of the n-dimensional output Tensor lie in the range \[0,1] and sum to 1.
@@ -78,7 +77,7 @@ trait NNTrait<T> {
     /// use orion::operators::nn::core::NNTrait;
     /// use orion::operators::nn::implementations::impl_nn_u32;
     /// 
-    /// fn softmax_example() -> Tensor<FixedType> {
+    /// fn softmax_example() -> Tensor<FixedType<F>> {
     ///     // We instantiate a 2D Tensor here.
     ///     // [[0,1],[2,3]]
     ///     let tensor = u32_tensor_2x2_helper();
@@ -91,11 +90,11 @@ trait NNTrait<T> {
     ///     // [[0.2689, 0.7311],[0.2689, 0.7311]]
     /// ```
     ///
-    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>;
+    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType<F>>;
     /// # NNTrait::softsign
     ///
     /// ```rust 
-    ///    fn softsign(tensor: @Tensor<T>) -> Tensor<FixedType>;
+    ///    fn softsign(tensor: @Tensor<T>) -> Tensor<FixedType<F>>;
     /// ```
     ///
     /// Applies the Softsign function to an n-dimensional input Tensor such that the elements of the n-dimensional output Tensor lie in the range \[-1,1]. 
@@ -118,7 +117,7 @@ trait NNTrait<T> {
     /// use orion::operators::nn::core::NNTrait;
     /// use orion::operators::nn::implementations::impl_nn_u32;
     /// 
-    /// fn softsign_example() -> Tensor<FixedType> {
+    /// fn softsign_example() -> Tensor<FixedType<F>> {
     ///     // We instantiate a 2D Tensor here.
     ///     // [[0,1],[2,3]]
     ///     let tensor = u32_tensor_2x2_helper();
@@ -131,11 +130,11 @@ trait NNTrait<T> {
     ///     // [[0, 0.5],[0.67, 0.75]]
     /// ```
     ///
-    fn softsign(tensor: @Tensor<T>) -> Tensor<FixedType>;
+    fn softsign(tensor: @Tensor<T>) -> Tensor<FixedType<F>>;
     /// # NNTrait::softplus
     ///
     /// ```rust 
-    ///    fn softplus(tensor: @Tensor<T>) -> Tensor<FixedType>;
+    ///    fn softplus(tensor: @Tensor<T>) -> Tensor<FixedType<F>>;
     /// ```
     ///
     /// Applies the Softplus function to an n-dimensional input Tensor such that the elements of the n-dimensional output Tensor lie in the range \[-1,1].
@@ -158,7 +157,7 @@ trait NNTrait<T> {
     /// use orion::operators::nn::core::NNTrait;
     /// use orion::operators::nn::implementations::impl_nn_u32;
     /// 
-    /// fn softplus_example() -> Tensor<FixedType> {
+    /// fn softplus_example() -> Tensor<FixedType<F>> {
     ///     // We instantiate a 2D Tensor here.
     ///     // [[0,1],[2,3]]
     ///     let tensor = u32_tensor_2x2_helper();
@@ -171,7 +170,7 @@ trait NNTrait<T> {
     ///     // [[0.6931452, 1.31326096],[2.12692796, 3.04858728]]
     /// ```
     ///
-    fn softplus(tensor: @Tensor<T>) -> Tensor<FixedType>;
+    fn softplus(tensor: @Tensor<T>) -> Tensor<FixedType<F>>;
     /// # NNTrait::linear
     /// 
     /// ```rust
@@ -220,11 +219,13 @@ trait NNTrait<T> {
     /// >>> [127, -6]
     /// ````
     ///
-    fn linear(inputs: Tensor<T>, weights: Tensor<T>, bias: Tensor<T>, quantized: bool) -> Tensor<T>;
+    fn linear(
+        inputs: Tensor<T>, weights: Tensor<T>, bias: Tensor<T>, quantized: bool
+    ) -> Tensor<T>;
     /// # NNTrait::leaky_relu
     /// 
     /// ```rust
-    ///  fn leaky_relu(inputs: @Tensor<T>, alpha: @FixedType, threshold: T) -> Tensor<FixedType>
+    ///  fn leaky_relu(inputs: @Tensor<T>, alpha: @FixedType, threshold: T) -> Tensor<FixedType<F>>
     /// ```
     ///
     /// Applies the leaky rectified linear unit (Leaky ReLU) activation function element-wise to a given tensor.
@@ -261,5 +262,7 @@ trait NNTrait<T> {
     /// }
     /// ```
     /// 
-    fn leaky_relu(inputs: @Tensor<T>, alpha: @FixedType, threshold: T) -> Tensor<FixedType>;
+    fn leaky_relu(
+        inputs: @Tensor<T>, alpha: @FixedType<F>, threshold: T
+    ) -> Tensor<FixedType<F>>;
 }

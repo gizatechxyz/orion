@@ -4,7 +4,7 @@ use option::OptionTrait;
 
 use orion::utils::check_gas;
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::fixed_point::types::FixedType;
+use orion::numbers::fixed_point::core::FixedType;
 
 struct Tensor<T> {
     shape: Span<usize>,
@@ -30,7 +30,7 @@ impl TensorDrop<T> of Drop<Tensor<T>>;
 /// matmul - Performs matrix multiplication. 
 /// exp - Calculates the exponential function (e^x) for each element in a tensor.
 /// eq - Check if two tensors are equal element-wise.
-trait TensorTrait<T> {
+trait TensorTrait<T, F> {
     /// # tensor.new
     ///
     /// ```rust 
@@ -565,7 +565,7 @@ trait TensorTrait<T> {
     /// # tensor.exp
     ///
     /// ```rust 
-    ///     fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
+    ///     fn exp(self: @Tensor<T>) -> Tensor<FixedType<F>>;
     /// ```
     ///
     /// Computes the exponential of all elements of the input tensor.
@@ -597,7 +597,7 @@ trait TensorTrait<T> {
     /// // [[1, 2.718281],[7.38905, 20.085536]]
     /// ```
     ///
-    fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn exp(self: @Tensor<T>) -> Tensor<FixedType<F>>;
     /// #tensor.eq
     ///
     /// ```rust

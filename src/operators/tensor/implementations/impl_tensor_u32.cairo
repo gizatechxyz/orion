@@ -3,7 +3,8 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use orion::numbers::fixed_point::types::FixedType;
+use orion::numbers::fixed_point::core::FixedType;
+use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor
 };
@@ -17,11 +18,11 @@ use orion::operators::tensor::math::less::less_u32::less;
 use orion::operators::tensor::math::less_equal::less_equal_u32::less_equal;
 use orion::operators::tensor::math::abs::abs_u32::abs;
 use orion::operators::tensor::linalg::transpose::transpose_u32::transpose;
-use orion::operators::tensor::math::exp::exp_u32::exp;
+use orion::operators::tensor::math::exp::exp_u32::exp_u32_fp8x23;
 use orion::operators::tensor::math::arithmetic::arithmetic_u32::{add, sub, mul, div};
 use orion::utils::check_gas;
 
-impl U32Tensor of TensorTrait<u32> {
+impl Tensor_u32_fp8x23 of TensorTrait<u32, fp8x23> {
     fn new(shape: Span<usize>, data: Span<u32>) -> Tensor<u32> {
         new_tensor(shape, data)
     }
@@ -70,19 +71,19 @@ impl U32Tensor of TensorTrait<u32> {
         matmul(self, other)
     }
 
-    fn exp(self: @Tensor<u32>) -> Tensor<FixedType> {
-        exp(self)
+    fn exp(self: @Tensor<u32>) -> Tensor<FixedType<fp8x23>> {
+        exp_u32_fp8x23(self)
     }
-    
-    fn eq(self:@Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+
+    fn eq(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         equal(self, other)
     }
 
-    fn less(self:@Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+    fn less(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         less(self, other)
     }
 
-    fn less_equal(self:@Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         less_equal(self, other)
     }
 

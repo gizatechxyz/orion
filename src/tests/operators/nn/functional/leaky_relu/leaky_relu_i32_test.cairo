@@ -4,9 +4,11 @@ use array::SpanTrait;
 use orion::operators::tensor::core::TensorTrait;
 use orion::operators::tensor::implementations::impl_tensor_i32;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use orion::operators::nn::core::NNTrait;
+use orion::operators::nn::core::{NNTrait};
 use orion::operators::nn::implementations::impl_nn_i32;
-use orion::numbers::fixed_point::types::{FixedType, Fixed, ONE_u128};
+use orion::numbers::fixed_point::core::{FixedTrait};
+use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23;
 
 #[test]
 #[available_gas(2000000)]
@@ -31,13 +33,13 @@ fn leaky_relu_i32_test() {
     data.append(val_6);
 
     let mut tensor = TensorTrait::new(shape.span(), data.span());
-    let alpha = Fixed::new(838861, false); // 0.1
+    let alpha = FixedTrait::<fp8x23>::new(838861, false); // 0.1
     let threshold = IntegerTrait::new(0, false);
 
     let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
     let data_0 = *result.data.at(0);
-    assert(data_0.mag == ONE_u128, 'result[0] == 8388608'); // 1
+    assert(data_0.mag == impl_8x23::ONE, 'result[0] == 8388608'); // 1
     assert(data_0.sign == false, 'result[0].sign == false');
 
     let data_3 = *result.data.at(3);

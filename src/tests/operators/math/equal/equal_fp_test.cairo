@@ -1,10 +1,9 @@
 use array::SpanTrait;
 use array::{ArrayTrait};
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::operators::tensor::implementations::impl_tensor_fp8x23;
 use orion::operators::tensor::core::TensorTrait;
-use orion::numbers::fixed_point::types::{Fixed,FixedType};
-
-
+use orion::numbers::fixed_point::core::{FixedTrait,FixedType};
+use orion::numbers::fixed_point::implementations::impl_8x23;
 
 #[test]
 #[available_gas(2000000)]
@@ -14,27 +13,27 @@ fn tensor_eq_fp() {
     sizes.append(3);
 
     let mut arr_1 = ArrayTrait::<FixedType>::new();
-    arr_1.append(Fixed::new(0,false));
-    arr_1.append(Fixed::new(1,false));
-    arr_1.append(Fixed::new(2,false));
-    arr_1.append(Fixed::new(3,false));
-    arr_1.append(Fixed::new(4,false));
-    arr_1.append(Fixed::new(5,false));
-    arr_1.append(Fixed::new(6,false));
-    arr_1.append(Fixed::new(7,false));
-    arr_1.append(Fixed::new(8,false));
+    arr_1.append(FixedTrait::new(0,false));
+    arr_1.append(FixedTrait::new(1,false));
+    arr_1.append(FixedTrait::new(2,false));
+    arr_1.append(FixedTrait::new(3,false));
+    arr_1.append(FixedTrait::new(4,false));
+    arr_1.append(FixedTrait::new(5,false));
+    arr_1.append(FixedTrait::new(6,false));
+    arr_1.append(FixedTrait::new(7,false));
+    arr_1.append(FixedTrait::new(8,false));
 
     
     let mut arr_2 = ArrayTrait::<FixedType>::new();
-    arr_2.append(Fixed::new(10,false));
-    arr_2.append(Fixed::new(11,false));
-    arr_2.append(Fixed::new(2,true));
-    arr_2.append(Fixed::new(3,true));
-    arr_2.append(Fixed::new(4,false));
-    arr_2.append(Fixed::new(5,false));
-    arr_2.append(Fixed::new(16,false));
-    arr_2.append(Fixed::new(17,false));
-    arr_2.append(Fixed::new(18,false));
+    arr_2.append(FixedTrait::new(10,false));
+    arr_2.append(FixedTrait::new(11,false));
+    arr_2.append(FixedTrait::new(2,true));
+    arr_2.append(FixedTrait::new(3,true));
+    arr_2.append(FixedTrait::new(4,false));
+    arr_2.append(FixedTrait::new(5,false));
+    arr_2.append(FixedTrait::new(16,false));
+    arr_2.append(FixedTrait::new(17,false));
+    arr_2.append(FixedTrait::new(18,false));
 
 
     let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span());
@@ -66,23 +65,23 @@ fn tensor_eq_fp_broadcast() {
     sizes_2.append(3);
 
     let mut arr_1 = ArrayTrait::<FixedType>::new();
-    arr_1.append(Fixed::new(0,false));
-    arr_1.append(Fixed::new(1,false));
-    arr_1.append(Fixed::new(2,false));
-    arr_1.append(Fixed::new(3,false));
-    arr_1.append(Fixed::new(4,false));
-    arr_1.append(Fixed::new(5,false));
-    arr_1.append(Fixed::new(6,false));
-    arr_1.append(Fixed::new(7,false));
-    arr_1.append(Fixed::new(8,false));
-    arr_1.append(Fixed::new(9,false));
-    arr_1.append(Fixed::new(10,false));
-    arr_1.append(Fixed::new(11,false));
+    arr_1.append(FixedTrait::new(0,false));
+    arr_1.append(FixedTrait::new(1,false));
+    arr_1.append(FixedTrait::new(2,false));
+    arr_1.append(FixedTrait::new(3,false));
+    arr_1.append(FixedTrait::new(4,false));
+    arr_1.append(FixedTrait::new(5,false));
+    arr_1.append(FixedTrait::new(6,false));
+    arr_1.append(FixedTrait::new(7,false));
+    arr_1.append(FixedTrait::new(8,false));
+    arr_1.append(FixedTrait::new(9,false));
+    arr_1.append(FixedTrait::new(10,false));
+    arr_1.append(FixedTrait::new(11,false));
 
     let mut arr_2 = ArrayTrait::<FixedType>::new();
-    arr_2.append(Fixed::new(0,false));
-    arr_2.append(Fixed::new(1,false));
-    arr_2.append(Fixed::new(2,false));
+    arr_2.append(FixedTrait::new(0,false));
+    arr_2.append(FixedTrait::new(1,false));
+    arr_2.append(FixedTrait::new(2,false));
     
     let tensor_a = TensorTrait::<FixedType>::new(sizes_1.span(), arr_1.span());
     let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span());

@@ -2,27 +2,30 @@ use option::OptionTrait;
 use traits::Into;
 
 
-use orion::numbers::fixed_point::types::{ONE, _felt_abs, _felt_sign, Fixed, };
+use orion::numbers::fixed_point::implementations::impl_8x23::{ONE, _felt_abs, _felt_sign };
+use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::numbers::fixed_point::core::{FixedTrait,FixedType};
 use orion::numbers::fixed_point::core;
 
 #[test]
 fn test_into() {
-    let a = Fixed::from_unscaled_felt(5);
-    assert(a.into() == 5 * ONE, 'invalid result');
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(5);
+    assert(a.into() == 5 * ONE.into(), 'invalid result');
 }
 
 #[test]
 #[should_panic]
 fn test_overflow_large() {
     let too_large = 0x100000000000000000000000000000000;
-    Fixed::from_felt(too_large);
+    FixedTrait::<fp8x23>::from_felt(too_large);
 }
 
 #[test]
 #[should_panic]
 fn test_overflow_small() {
     let too_small = -0x100000000000000000000000000000000;
-    Fixed::from_felt(too_small);
+    FixedTrait::<fp8x23>::from_felt(too_small);
 }
 
 #[test]
@@ -45,95 +48,95 @@ fn test_abs() {
 
 #[test]
 fn test_ceil() {
-    let a = Fixed::from_felt(24326963); // 2.9
-    assert(a.ceil().into() == 3 * ONE, 'invalid pos decimal');
+    let a = FixedTrait::<fp8x23>::from_felt(24326963); // 2.9
+    assert(a.ceil().into() == 3 * ONE.into(), 'invalid pos decimal');
 }
 
 #[test]
 fn test_floor() {
-    let a = Fixed::from_felt(24326963); // 2.9
-    assert(a.floor().into() == 2 * ONE, 'invalid pos decimal');
+    let a = FixedTrait::<fp8x23>::from_felt(24326963); // 2.9
+    assert(a.floor().into() == 2 * ONE.into(), 'invalid pos decimal');
 }
 
 #[test]
 fn test_round() {
-    let a = Fixed::from_felt(24326963); // 2.9
-    assert(a.round().into() == 3 * ONE, 'invalid pos decimal');
+    let a = FixedTrait::<fp8x23>::from_felt(24326963); // 2.9
+    assert(a.round().into() == 3 * ONE.into(), 'invalid pos decimal');
 }
 
 #[test]
 #[should_panic]
 fn test_sqrt_fail() {
-    let a = Fixed::from_unscaled_felt(-25);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(-25);
     a.sqrt();
 }
 
 #[test]
 fn test_sqrt() {
-    let a = Fixed::from_unscaled_felt(0);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(0);
     assert(a.sqrt().into() == 0, 'invalid zero root');
 }
 
 #[test]
 #[available_gas(10000000)]
 fn test_pow() {
-    let a = Fixed::from_unscaled_felt(3);
-    let b = Fixed::from_unscaled_felt(4);
-    assert(a.pow(b).into() == 81 * ONE, 'invalid pos base power');
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(3);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(4);
+    assert(a.pow(b).into() == 81 * ONE.into(), 'invalid pos base power');
 }
 
 #[test]
 #[available_gas(10000000)]
 fn test_exp() {
-    let a = Fixed::from_unscaled_felt(2);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(2);
     assert(a.exp().into() == 61983880, 'invalid exp of 2'); // 7.389056317241236
 }
 
 #[test]
 #[available_gas(10000000)]
 fn test_exp2() {
-    let a = Fixed::from_unscaled_felt(2);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(2);
     assert(a.exp2().into() == 33554432, 'invalid exp2 of 2'); // 3.99999957248 = 4
 }
 
 #[test]
 #[available_gas(10000000)]
 fn test_ln() {
-    let a = Fixed::from_unscaled_felt(1);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(1);
     assert(a.ln().into() == 0, 'invalid ln of 1');
 }
 
 #[test]
 #[available_gas(10000000)]
 fn test_log2() {
-    let a = Fixed::from_unscaled_felt(31);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(31);
     assert(a.log2().into() == 41558887, 'invalid log2'); // 4.954194635152817
 }
 
 #[test]
 #[available_gas(10000000)]
 fn test_log10() {
-    let a = Fixed::from_unscaled_felt(30);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(30);
     assert(a.log10().into() == 12391003, 'invalid log10'); // 1.477120757102966
 }
 
 #[test]
 fn test_eq() {
-    let a = Fixed::from_unscaled_felt(25);
-    let b = Fixed::from_unscaled_felt(25);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(25);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(25);
     let c = a == b;
     assert(c == true, 'invalid result');
 }
 
 #[test]
 fn test_ne_() {
-    let a = Fixed::from_unscaled_felt(25);
-    let b = Fixed::from_unscaled_felt(25);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(25);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(25);
     let c = a != b;
     assert(c == false, 'invalid result');
 
-    let a = Fixed::from_unscaled_felt(25);
-    let b = Fixed::from_unscaled_felt(-25);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(25);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(-25);
     let c = a != b;
     assert(c == true, 'invalid result');
 }
@@ -141,58 +144,58 @@ fn test_ne_() {
 #[test]
 #[available_gas(2000000)]
 fn test_add() {
-    let a = Fixed::from_unscaled_felt(1);
-    let b = Fixed::from_unscaled_felt(2);
-    assert(a + b == Fixed::from_unscaled_felt(3), 'invalid result');
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(1);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(2);
+    assert(a + b == FixedTrait::<fp8x23>::from_unscaled_felt(3), 'invalid result');
 }
 
 #[test]
 #[available_gas(2000000)]
 fn test_add_eq() {
-    let mut a = Fixed::from_unscaled_felt(1);
-    let b = Fixed::from_unscaled_felt(2);
+    let mut a = FixedTrait::<fp8x23>::from_unscaled_felt(1);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(2);
     a += b;
-    assert(a.into() == 3 * ONE, 'invalid result');
+    assert(a.into() == 3 * ONE.into(), 'invalid result');
 }
 
 #[test]
 #[available_gas(2000000)]
 fn test_sub() {
-    let a = Fixed::from_unscaled_felt(5);
-    let b = Fixed::from_unscaled_felt(2);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(5);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(2);
     let c = a - b;
-    assert(c.into() == 3 * ONE, 'false result invalid');
+    assert(c.into() == 3 * ONE.into(), 'false result invalid');
 }
 
 #[test]
 #[available_gas(2000000)]
 fn test_sub_eq() {
-    let mut a = Fixed::from_unscaled_felt(5);
-    let b = Fixed::from_unscaled_felt(2);
+    let mut a = FixedTrait::<fp8x23>::from_unscaled_felt(5);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(2);
     a -= b;
-    assert(a.into() == 3 * ONE, 'invalid result');
+    assert(a.into() == 3 * ONE.into(), 'invalid result');
 }
 
 #[test]
 #[available_gas(2000000)]
 fn test_mul_pos() {
-    let a = Fixed::from_unscaled_felt(5);
-    let b = Fixed::from_unscaled_felt(2);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(5);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(2);
     let c = a * b;
-    assert(c.into() == 10 * ONE, 'invalid result');
+    assert(c.into() == 10 * ONE.into(), 'invalid result');
 
-    let a = Fixed::from_unscaled_felt(9);
-    let b = Fixed::from_unscaled_felt(9);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(9);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(9);
     let c = a * b;
-    assert(c.into() == 81 * ONE, 'invalid result');
+    assert(c.into() == 81 * ONE.into(), 'invalid result');
 
-    let a = Fixed::from_felt(10485760); // 1.25
-    let b = Fixed::from_felt(19293798); // 2.3
+    let a = FixedTrait::<fp8x23>::from_felt(10485760); // 1.25
+    let b = FixedTrait::<fp8x23>::from_felt(19293798); // 2.3
     let c = a * b;
     assert(c.into() == 24117247, 'invalid result'); // 2.875
 
-    let a = Fixed::from_unscaled_felt(0);
-    let b = Fixed::from_felt(19293798); // 2.3
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(0);
+    let b = FixedTrait::<fp8x23>::from_felt(19293798); // 2.3
     let c = a * b;
     assert(c.into() == 0, 'invalid result');
 }
@@ -200,55 +203,55 @@ fn test_mul_pos() {
 #[test]
 #[available_gas(2000000)]
 fn test_mul_neg() {
-    let a = Fixed::from_unscaled_felt(5);
-    let b = Fixed::from_unscaled_felt(-2);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(5);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(-2);
     let c = a * b;
-    assert(c.into() == -10 * ONE, 'true result invalid');
+    assert(c.into() == -10 * ONE.into(), 'true result invalid');
 }
 
 #[test]
 #[available_gas(2000000)]
 fn test_mul_eq() {
-    let mut a = Fixed::from_unscaled_felt(5);
-    let b = Fixed::from_unscaled_felt(-2);
+    let mut a = FixedTrait::<fp8x23>::from_unscaled_felt(5);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(-2);
     a *= b;
-    assert(a.into() == -10 * ONE, 'invalid result');
+    assert(a.into() == -10 * ONE.into(), 'invalid result');
 }
 
 #[test]
 #[available_gas(2000000)]
 fn test_div_() {
-    let a = Fixed::from_unscaled_felt(10);
-    let b = Fixed::from_felt(24326963); // 2.9
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(10);
+    let b = FixedTrait::<fp8x23>::from_felt(24326963); // 2.9
     let c = a / b;
     assert(c.into() == 28926234, 'invalid pos decimal'); // 3.4482758620689653
 
-    let a = Fixed::from_unscaled_felt(10);
-    let b = Fixed::from_unscaled_felt(5);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(10);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(5);
     let c = a / b;
     assert(c.into() == 16777216, 'invalid pos integer'); // 2
 
-    let a = Fixed::from_unscaled_felt(-2);
-    let b = Fixed::from_unscaled_felt(5);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(-2);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(5);
     let c = a / b;
     assert(c.into() == -3355443, 'invalid neg decimal'); // -0.4
 
-    let a = Fixed::from_unscaled_felt(-1);
-    let b = Fixed::from_unscaled_felt(12);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(-1);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(12);
     let c = a / b;
     assert(c.into() == -699050, 'invalid neg decimal'); // -0.08333333333333333
 
-    let a = Fixed::from_unscaled_felt(12);
-    let b = Fixed::from_unscaled_felt(-10);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(12);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(-10);
     let c = a / b;
     assert(c.into() == -10066329, 'invalid neg decimal'); // -1.2
 }
 
 #[test]
 fn test_le() {
-    let a = Fixed::from_unscaled_felt(1);
-    let b = Fixed::from_unscaled_felt(0);
-    let c = Fixed::from_unscaled_felt(-1);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(1);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(0);
+    let c = FixedTrait::<fp8x23>::from_unscaled_felt(-1);
 
     assert(a <= a, 'a <= a');
     assert(a <= b == false, 'a <= b');
@@ -265,9 +268,9 @@ fn test_le() {
 
 #[test]
 fn test_lt() {
-    let a = Fixed::from_unscaled_felt(1);
-    let b = Fixed::from_unscaled_felt(0);
-    let c = Fixed::from_unscaled_felt(-1);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(1);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(0);
+    let c = FixedTrait::<fp8x23>::from_unscaled_felt(-1);
 
     assert(a < a == false, 'a < a');
     assert(a < b == false, 'a < b');
@@ -284,9 +287,9 @@ fn test_lt() {
 
 #[test]
 fn test_ge() {
-    let a = Fixed::from_unscaled_felt(1);
-    let b = Fixed::from_unscaled_felt(0);
-    let c = Fixed::from_unscaled_felt(-1);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(1);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(0);
+    let c = FixedTrait::<fp8x23>::from_unscaled_felt(-1);
 
     assert(a >= a, 'a >= a');
     assert(a >= b, 'a >= b');
@@ -303,9 +306,9 @@ fn test_ge() {
 
 #[test]
 fn test_gt() {
-    let a = Fixed::from_unscaled_felt(1);
-    let b = Fixed::from_unscaled_felt(0);
-    let c = Fixed::from_unscaled_felt(-1);
+    let a = FixedTrait::<fp8x23>::from_unscaled_felt(1);
+    let b = FixedTrait::<fp8x23>::from_unscaled_felt(0);
+    let c = FixedTrait::<fp8x23>::from_unscaled_felt(-1);
 
     assert(a > a == false, 'a > a');
     assert(a > b, 'a > b');

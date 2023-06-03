@@ -2,13 +2,14 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use orion::numbers::fixed_point::types::{Fixed, FixedType};
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::operators::tensor::implementations::impl_tensor_fp8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 use orion::utils::check_gas;
 
 /// Cf: TensorTrait::exp docstring
-fn exp(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+fn exp(self: @Tensor<FixedType<fp8x23>>) -> Tensor<FixedType<fp8x23>> {
     let mut result = ArrayTrait::new();
     let mut data = *self.data;
 
@@ -16,7 +17,7 @@ fn exp(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         check_gas();
 
         let ele = *data.pop_front().unwrap();
-        result.append(Fixed::exp(ele));
+        result.append(FixedTrait::exp(ele));
 
         if (data.len() == 0) {
             break ();

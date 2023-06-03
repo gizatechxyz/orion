@@ -1,12 +1,13 @@
 use traits::Into;
 
-use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23, ONE, ONE_u64, MAX, HALF};
-use orion::numbers::fixed_point::core::FixedTrait;
+use orion::numbers::fixed_point::implementations::impl_8x23::{ONE, ONE_u64, MAX, HALF, fp8x23};
+use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::utils::check_gas;
 
 /// Cf: FixedTrait::abs docstring
-fn abs(a: FP8x23) -> FP8x23 {
-    return FixedTrait::<FP8x23>::new(a.mag, false);
+fn abs(a: FixedType<fp8x23>) -> FixedType<fp8x23> {
+    return FixedTrait::new(a.mag, false);
 }
 
 /// Adds two fixed point numbers and returns the result.
@@ -19,13 +20,13 @@ fn abs(a: FP8x23) -> FP8x23 {
 /// # Returns
 ///
 /// * The sum of the input fixed point numbers.
-fn add(a: FP8x23, b: FP8x23) -> FP8x23 {
+fn add(a: FixedType<fp8x23>, b: FixedType<fp8x23>) -> FixedType<fp8x23> {
     check_gas();
     return FixedTrait::from_felt(a.into() + b.into());
 }
 
 /// Cf: FixedTrait::ceil docstring
-fn ceil(a: FP8x23) -> FP8x23 {
+fn ceil(a: FixedType<fp8x23>) -> FixedType<fp8x23> {
     let (div_u128, rem_u128) = _split_unsigned(a);
 
     if (rem_u128 == 0_u128) {
@@ -46,7 +47,7 @@ fn ceil(a: FP8x23) -> FP8x23 {
 /// # Returns
 ///
 /// * The result of the division of the input fixed point numbers.
-fn div(a: FP8x23, b: FP8x23) -> FP8x23 {
+fn div(a: FixedType<fp8x23>, b: FixedType<fp8x23>) -> FixedType<fp8x23> {
     check_gas();
     let res_sign = a.sign ^ b.sign;
 
@@ -57,7 +58,7 @@ fn div(a: FP8x23, b: FP8x23) -> FP8x23 {
     let res_u128 = a_low / b.mag + a_high * b_inv;
 
     // Re-apply sign
-    return FP8x23 { mag: res_u128, sign: res_sign };
+    return FixedType { mag: res_u128, sign: res_sign };
 }
 /// Checks whether two fixed point numbers are equal.
 ///
@@ -69,17 +70,17 @@ fn div(a: FP8x23, b: FP8x23) -> FP8x23 {
 /// # Returns
 ///
 /// * A boolean value that indicates whether the input fixed point numbers are equal.
-fn eq(a: FP8x23, b: FP8x23) -> bool {
+fn eq(a: FixedType<fp8x23>, b: FixedType<fp8x23>) -> bool {
     return a.mag == b.mag & a.sign == b.sign;
 }
 
 /// Cf: FixedTrait::exp docstring 
-fn exp(a: FP8x23) -> FP8x23 {
+fn exp(a: FixedType<fp8x23>) -> FixedType<fp8x23> {
     return exp2(FixedTrait::new(12102203, false) * a); // log2(e) * 2^23 ≈ 12102203
 }
 
 /// Cf: FixedTrait::exp2 docstring
-fn exp2(a: FP8x23) -> FP8x23 {
+fn exp2(a: FixedType<fp8x23>) -> FixedType<fp8x23> {
     if (a.mag == 0_u128) {
         return FixedTrait::new(ONE, false);
     }
@@ -116,7 +117,7 @@ fn exp2(a: FP8x23) -> FP8x23 {
 }
 
 /// Cf: FixedTrait::floor docstring
-fn floor(a: FP8x23) -> FP8x23 {
+fn floor(a: FixedType<fp8x23>) -> FixedType<fp8x23> {
     let (div_u128, rem_u128) = _split_unsigned(a);
 
     if (rem_u128 == 0_u128) {
@@ -138,7 +139,7 @@ fn floor(a: FP8x23) -> FP8x23 {
 /// # Returns
 ///
 /// * A boolean value that indicates whether the first fixed point number is greater than or equal to the second fixed point number.
-fn ge(a: FP8x23, b: FP8x23) -> bool {
+fn ge(a: FixedType<fp8x23>, b: FixedType<fp8x23>) -> bool {
     if (a.sign != b.sign) {
         return !a.sign;
     } else {
@@ -156,7 +157,7 @@ fn ge(a: FP8x23, b: FP8x23) -> bool {
 /// # Returns
 ///
 /// * A boolean value that indicates whether the first fixed point number is greater than the second fixed point number.
-fn gt(a: FP8x23, b: FP8x23) -> bool {
+fn gt(a: FixedType<fp8x23>, b: FixedType<fp8x23>) -> bool {
     if (a.sign != b.sign) {
         return !a.sign;
     } else {
@@ -174,7 +175,7 @@ fn gt(a: FP8x23, b: FP8x23) -> bool {
 /// # Returns
 ///
 /// * A boolean value that indicates whether the first fixed point number is less than or equal to the second fixed point number.
-fn le(a: FP8x23, b: FP8x23) -> bool {
+fn le(a: FixedType<fp8x23>, b: FixedType<fp8x23>) -> bool {
     if (a.sign != b.sign) {
         return a.sign;
     } else {
@@ -183,12 +184,12 @@ fn le(a: FP8x23, b: FP8x23) -> bool {
 }
 
 /// Cf: FixedTrait::ln docstring
-fn ln(a: FP8x23) -> FP8x23 {
+fn ln(a: FixedType<fp8x23>) -> FixedType<fp8x23> {
     return FixedTrait::new(5814540_u128, false) * log2(a); // ln(2) = 0.693...
 }
 
 /// Cf: FixedTrait::log2 docstring
-fn log2(a: FP8x23) -> FP8x23 {
+fn log2(a: FixedType<fp8x23>) -> FixedType<fp8x23> {
     check_gas();
 
     assert(a.sign == false, 'must be positive');
@@ -227,7 +228,7 @@ fn log2(a: FP8x23) -> FP8x23 {
 }
 
 /// Cf: FixedTrait::log10 docstring
-fn log10(a: FP8x23) -> FP8x23 {
+fn log10(a: FixedType<fp8x23>) -> FixedType<fp8x23> {
     return FixedTrait::new(2525223_u128, false) * log2(a); // log10(2) = 0.301...
 }
 
@@ -241,7 +242,7 @@ fn log10(a: FP8x23) -> FP8x23 {
 /// # Returns
 ///
 /// * A boolean value that indicates whether the first fixed point number is less than the second fixed point number.
-fn lt(a: FP8x23, b: FP8x23) -> bool {
+fn lt(a: FixedType<fp8x23>, b: FixedType<fp8x23>) -> bool {
     if (a.sign != b.sign) {
         return a.sign;
     } else {
@@ -258,8 +259,8 @@ fn lt(a: FP8x23, b: FP8x23) -> bool {
 ///
 /// # Returns
 ///
-/// * A FP8x23 value representing the product of the two input numbers.
-fn mul(a: FP8x23, b: FP8x23) -> FP8x23 {
+/// * A FixedType<fp8x23> value representing the product of the two input numbers.
+fn mul(a: FixedType<fp8x23>, b: FixedType<fp8x23>) -> FixedType<fp8x23> {
     check_gas();
 
     let res_sign = a.sign ^ b.sign;
@@ -270,7 +271,7 @@ fn mul(a: FP8x23, b: FP8x23) -> FP8x23 {
     let res_u128 = high + (low / ONE);
 
     // Re-apply sign
-    return FP8x23 { mag: res_u128, sign: res_sign };
+    return FixedType { mag: res_u128, sign: res_sign };
 }
 
 /// Checks whether the first fixed point number is not equal to the second fixed point number.
@@ -283,7 +284,7 @@ fn mul(a: FP8x23, b: FP8x23) -> FP8x23 {
 /// # Returns
 ///
 /// * A boolean value that indicates whether the first fixed point number is not equal to the second fixed point number.
-fn ne(a: FP8x23, b: FP8x23) -> bool {
+fn ne(a: FixedType<fp8x23>, b: FixedType<fp8x23>) -> bool {
     return a.mag != b.mag | a.sign != b.sign;
 }
 
@@ -295,8 +296,8 @@ fn ne(a: FP8x23, b: FP8x23) -> bool {
 ///
 /// # Returns
 ///
-/// * A FP8x23 value representing the negation of the input number.
-fn neg(a: FP8x23) -> FP8x23 {
+/// * A FixedType<fp8x23> value representing the negation of the input number.
+fn neg(a: FixedType<fp8x23>) -> FixedType<fp8x23> {
     if (a.sign == false) {
         return FixedTrait::new(a.mag, true);
     } else {
@@ -305,7 +306,7 @@ fn neg(a: FP8x23) -> FP8x23 {
 }
 
 /// Cf: FixedTrait::pow docstring
-fn pow(a: FP8x23, b: FP8x23) -> FP8x23 {
+fn pow(a: FixedType<fp8x23>, b: FixedType<fp8x23>) -> FixedType<fp8x23> {
     let (div_u128, rem_u128) = _split_unsigned(b);
 
     // use the more performant integer pow when y is an int
@@ -318,7 +319,7 @@ fn pow(a: FP8x23, b: FP8x23) -> FP8x23 {
 }
 
 /// Cf: FixedTrait::round docstring
-fn round(a: FP8x23) -> FP8x23 {
+fn round(a: FixedType<fp8x23>) -> FixedType<fp8x23> {
     let (div_u128, rem_u128) = _split_unsigned(a);
 
     if (HALF <= rem_u128) {
@@ -329,7 +330,7 @@ fn round(a: FP8x23) -> FP8x23 {
 }
 
 /// Cf: FixedTrait::sqrt docstring
-fn sqrt(a: FP8x23) -> FP8x23 {
+fn sqrt(a: FixedType<fp8x23>) -> FixedType<fp8x23> {
     assert(a.sign == false, 'must be positive');
     let root = integer::u128_sqrt(a.mag);
     let scale_root = integer::u128_sqrt(ONE);
@@ -347,7 +348,7 @@ fn sqrt(a: FP8x23) -> FP8x23 {
 /// # Returns
 ///
 /// * A fixed point number representing the result of the subtraction.
-fn sub(a: FP8x23, b: FP8x23) -> FP8x23 {
+fn sub(a: FixedType<fp8x23>, b: FixedType<fp8x23>) -> FixedType<fp8x23> {
     check_gas();
     return FixedTrait::from_felt(a.into() - b.into());
 }
@@ -362,7 +363,7 @@ fn sub(a: FP8x23, b: FP8x23) -> FP8x23 {
 /// # Returns
 ///
 /// * The max FixedTrait Point value .
-fn max(a: FP8x23, b: FP8x23) -> FP8x23 {
+fn max(a: FixedType<fp8x23>, b: FixedType<fp8x23>) -> FixedType<fp8x23> {
     if (a >= b) {
         return a;
     } else {
@@ -380,7 +381,7 @@ fn max(a: FP8x23, b: FP8x23) -> FP8x23 {
 /// # Returns
 ///
 /// * The min FixedTrait Point value.
-fn min(a: FP8x23, b: FP8x23) -> FP8x23 {
+fn min(a: FixedType<fp8x23>, b: FixedType<fp8x23>) -> FixedType<fp8x23> {
     if (a <= b) {
         return a;
     } else {
@@ -421,7 +422,7 @@ fn _msb(a: u128) -> u128 {
 /// # Returns
 ///
 /// * A fixed point number representing the result of x^y.
-fn _pow_int(a: FP8x23, b: u128, sign: bool) -> FP8x23 {
+fn _pow_int(a: FixedType<fp8x23>, b: u128, sign: bool) -> FixedType<fp8x23> {
     check_gas();
 
     if (sign == true) {
@@ -448,6 +449,6 @@ fn _pow_int(a: FP8x23, b: u128, sign: bool) -> FP8x23 {
 /// # Returns
 ///
 /// * A tuple of two u128 numbers representing the division and remainder of the input number divided by `ONE`.
-fn _split_unsigned(a: FP8x23) -> (u128, u128) {
+fn _split_unsigned(a: FixedType<fp8x23>) -> (u128, u128) {
     return integer::u128_safe_divmod(a.mag, integer::u128_as_non_zero(ONE));
 }

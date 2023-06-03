@@ -3,10 +3,13 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use orion::numbers::fixed_point::types::{Fixed, FixedType};
-use orion::numbers::fixed_point::core::max;
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+use orion::numbers::fixed_point::math::math_8x23::max;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::operators::tensor::implementations::impl_tensor_fp8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23;
+
 use orion::utils::check_gas;
 
 /// Symmetrically quantizes the input `data` value using the specified range.
@@ -21,16 +24,16 @@ use orion::utils::check_gas;
 ///
 /// # Returns
 /// * An FixedType quantized value.
-fn symetric_quant(min_val: FixedType, max_val: FixedType, data: FixedType) -> FixedType {
+fn symetric_quant(min_val: FixedType<fp8x23>, max_val: FixedType<fp8x23>, data: FixedType<fp8x23>) -> FixedType<fp8x23> {
     //  Define quantization range
     //  int8 range : [-127;127] 
-    let q_min_int = Fixed::new(1065353216, true); // -127
-    let q_max_int = Fixed::new(1065353216, false); // 127
+    let q_min_int = FixedTrait::<fp8x23>::new(1065353216, true); // -127
+    let q_max_int = FixedTrait::<fp8x23>::new(1065353216, false); // 127
 
     //  Calculate the scale based on 8 bit symetric quantization
     //  scale = max(abs(data_range_max), abs(data_range_min)) * 2 / (quantization_range_max - quantization_range_min)
 
-    let scale = (max(min_val.abs(), max_val.abs()) * Fixed::new_unscaled(2_u128, false))
+    let scale = (max(min_val.abs(), max_val.abs()) * FixedTrait::<fp8x23>::new_unscaled(2_u128, false))
         / (q_max_int - q_min_int);
 
     //  Quantize data based on the scale
@@ -42,7 +45,7 @@ fn symetric_quant(min_val: FixedType, max_val: FixedType, data: FixedType) -> Fi
 }
 
 /// Cf: PerfomanceTrait::quantize_linear docstring
-fn quantize_tensor(tensor: @Tensor::<FixedType>) -> Tensor::<FixedType> {
+fn quantize_tensor(tensor: @Tensor::<FixedType<fp8x23>>) -> Tensor::<FixedType<fp8x23>> {
     let mut result_data = ArrayTrait::<FixedType>::new();
 
     let min_val = tensor.min();

@@ -1,14 +1,18 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use orion::numbers::fixed_point::types::{Fixed, FixedType};
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+use orion::operators::tensor::implementations::impl_tensor_fp8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
 use orion::utils::check_gas;
 
 /// Cf: TensorTrait::reduce_sum docstring
-fn reduce_sum(self: @Tensor<FixedType>, axis: usize, keepdims: bool) -> Tensor<FixedType> {
+fn reduce_sum(
+    self: @Tensor<FixedType<fp8x23>>, axis: usize, keepdims: bool
+) -> Tensor<FixedType<fp8x23>> {
     assert(axis <= (*self.shape).len(), 'axis out of dimensions');
     let mut output_data = ArrayTrait::new();
 
@@ -51,13 +55,11 @@ fn reduce_sum(self: @Tensor<FixedType>, axis: usize, keepdims: bool) -> Tensor<F
 ///
 /// # Returns
 /// * An FixedType value representing the accumulated sum along the specified axis.
-use debug::print_felt252;
-use traits::Into;
 fn accumulate_sum(
-    input: @Tensor<FixedType>, output_indices: Span<usize>, axis: usize
-) -> FixedType {
+    input: @Tensor<FixedType<fp8x23>>, output_indices: Span<usize>, axis: usize
+) -> FixedType<fp8x23> {
     let axis_len = *(*input.shape).at(axis);
-    let mut acc = Fixed::new_unscaled(0, false);
+    let mut acc = FixedTrait::new_unscaled(0, false);
 
     let mut axis_index: usize = 0;
     loop {

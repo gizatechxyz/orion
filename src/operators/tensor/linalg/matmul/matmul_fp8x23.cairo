@@ -3,15 +3,19 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use orion::utils::check_gas;
-use orion::operators::tensor::implementations::impl_tensor_fp;
-use orion::numbers::fixed_point::types::{Fixed, FixedType};
+use orion::operators::tensor::implementations::impl_tensor_fp8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::linalg::matmul::helpers::{
     prepare_shape_for_matmul, adjust_output_shape_after_matmul
 };
 
 /// Cf: TensorTrait::matmul docstring
-fn matmul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType> {
+fn matmul(
+    self: @Tensor<FixedType<fp8x23>>, other: @Tensor<FixedType<fp8x23>>
+) -> Tensor<FixedType<fp8x23>> {
     let self_shape = *self.shape;
     let other_shape = *other.shape;
     let self_ndim = (self_shape).len();
@@ -26,7 +30,8 @@ fn matmul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedTy
         let mut result_data = ArrayTrait::new();
         result_shape.append(1);
         result_data.append(dot);
-        return TensorTrait::new(result_shape.span(), result_data.span());
+        return TensorTrait::<FixedType<fp8x23>,
+        fp8x23>::new(result_shape.span(), result_data.span());
     }
 
     let self_shape = prepare_shape_for_matmul(self_shape, true);
@@ -51,10 +56,12 @@ fn matmul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedTy
 ///
 /// # Returns
 /// * An FixedType representing the dot product of the two vectors.
-fn dot_product(mut vec1: Span<FixedType>, mut vec2: Span<FixedType>) -> FixedType {
+fn dot_product(
+    mut vec1: Span<FixedType<fp8x23>>, mut vec2: Span<FixedType<fp8x23>>
+) -> FixedType<fp8x23> {
     assert(vec1.len() == vec2.len(), 'vector lengths do not match');
 
-    let mut result: FixedType = Fixed::new_unscaled(0, false);
+    let mut result: FixedType = FixedTrait::new_unscaled(0, false);
 
     loop {
         check_gas();
@@ -85,8 +92,11 @@ fn dot_product(mut vec1: Span<FixedType>, mut vec2: Span<FixedType>) -> FixedTyp
 /// # Returns
 /// * Returns the restulting FixedType tensor.
 fn matrix_multiply(
-    mat1: Span<FixedType>, mat1_shape: Span<usize>, mat2: Span<FixedType>, mat2_shape: Span<usize>
-) -> Tensor<FixedType> {
+    mat1: Span<FixedType<fp8x23>>,
+    mat1_shape: Span<usize>,
+    mat2: Span<FixedType<fp8x23>>,
+    mat2_shape: Span<usize>
+) -> Tensor<FixedType<fp8x23>> {
     let m = *mat1_shape.at(0);
     let n = *mat1_shape.at(1);
     let p = *mat2_shape.at(1);
@@ -110,7 +120,7 @@ fn matrix_multiply(
                 break ();
             }
 
-            let mut sum: FixedType = Fixed::new_unscaled(0, false);
+            let mut sum: FixedType = FixedTrait::<fp8x23>::new_unscaled(0, false);
             let mut k = 0_usize;
             loop {
                 check_gas();
@@ -132,5 +142,5 @@ fn matrix_multiply(
         i += 1;
     };
 
-    return TensorTrait::new(result_shape.span(), result_data.span());
+    return TensorTrait::<FixedType<fp8x23>, fp8x23>::new(result_shape.span(), result_data.span());
 }

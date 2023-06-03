@@ -2,15 +2,20 @@ use core::traits::Into;
 use array::ArrayTrait;
 use option::OptionTrait;
 use array::SpanTrait;
-use orion::numbers::fixed_point::types::{FixedType, Fixed, ONE_u128};
+
+use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::operators::tensor::implementations::impl_tensor_fp8x23;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::utils::check_gas;
 
 /// Cf: NNTrait::leaky_relu docstring
-fn leaky_relu_i32(z: @Tensor<i32>, alpha: @FixedType, threshold: i32) -> Tensor<FixedType> {
-    assert(*alpha.mag < ONE_u128, 'alpha must be less than 1_fp');
+fn leaky_relu_i32_fp8x23(
+    z: @Tensor<i32>, alpha: @FixedType<fp8x23>, threshold: i32
+) -> Tensor<FixedType<fp8x23>> {
+    assert(*alpha.mag < impl_8x23::ONE, 'alpha must be less than 1_fp');
 
     let mut data_result = ArrayTrait::<FixedType>::new();
     let mut data = *z.data;
@@ -22,7 +27,9 @@ fn leaky_relu_i32(z: @Tensor<i32>, alpha: @FixedType, threshold: i32) -> Tensor<
         };
 
         let current_index = *data.pop_front().unwrap();
-        let fp_current_index = Fixed::new_unscaled(current_index.mag.into(), current_index.sign);
+        let fp_current_index = FixedTrait::<fp8x23>::new_unscaled(
+            current_index.mag.into(), current_index.sign
+        );
         if current_index >= threshold {
             data_result.append(fp_current_index);
         } else {
@@ -30,6 +37,6 @@ fn leaky_relu_i32(z: @Tensor<i32>, alpha: @FixedType, threshold: i32) -> Tensor<
         };
     };
 
-    return TensorTrait::<FixedType>::new(*z.shape, data_result.span());
+    return TensorTrait::new(*z.shape, data_result.span());
 }
 
