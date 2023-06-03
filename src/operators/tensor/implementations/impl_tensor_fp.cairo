@@ -10,6 +10,8 @@ use orion::operators::tensor::core::{
 use orion::operators::tensor::math::min::min_fp::min_in_tensor;
 use orion::operators::tensor::math::max::max_fp::max_in_tensor;
 use orion::operators::tensor::math::equal::equal_fp::equal;
+use orion::operators::tensor::math::greater::greater_fp::greater;
+use orion::operators::tensor::math::greater_equal::greater_equal_fp::greater_equal;
 use orion::operators::tensor::math::less::less_fp::less;
 use orion::operators::tensor::math::less_equal::less_equal_fp::less_equal;
 use orion::operators::tensor::math::abs::abs_fp::abs;
@@ -78,6 +80,14 @@ impl FixedTypeTensor of TensorTrait<FixedType> {
         equal(self, other)
     }
 
+    fn greater(self:@Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
+        greater(self, other)
+    }
+
+    fn greater_equal(self:@Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
+        greater_equal(self, other)
+    }
+    
     fn less(self:@Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         less(self, other)
     }
