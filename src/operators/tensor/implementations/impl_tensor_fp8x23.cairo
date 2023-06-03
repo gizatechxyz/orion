@@ -20,6 +20,8 @@ use orion::operators::tensor::linalg::matmul::matmul_fp8x23::matmul;
 use orion::operators::tensor::linalg::transpose::transpose_fp8x23::transpose;
 use orion::operators::tensor::math::exp::exp_fp8x23::exp;
 use orion::operators::tensor::math::arithmetic::arithmetic_fp8x23::{add, sub, mul, div};
+use orion::operators::tensor::math::greater::greater_fp8x23::greater;
+use orion::operators::tensor::math::greater_equal::greater_equal_fp8x23::greater_equal;
 use orion::utils::check_gas;
 
 impl Tensor_fp8x23 of TensorTrait<FixedType<fp8x23>, fp8x23> {
@@ -83,6 +85,18 @@ impl Tensor_fp8x23 of TensorTrait<FixedType<fp8x23>, fp8x23> {
 
     fn eq(self: @Tensor<FixedType<fp8x23>>, other: @Tensor<FixedType<fp8x23>>) -> Tensor<usize> {
         equal(self, other)
+    }
+
+    fn greater(
+        self: @Tensor<FixedType<fp8x23>>, other: @Tensor<FixedType<fp8x23>>
+    ) -> Tensor<usize> {
+        greater(self, other)
+    }
+
+    fn greater_equal(
+        self: @Tensor<FixedType<fp8x23>>, other: @Tensor<FixedType<fp8x23>>
+    ) -> Tensor<usize> {
+        greater_equal(self, other)
     }
 
     fn less(self: @Tensor<FixedType<fp8x23>>, other: @Tensor<FixedType<fp8x23>>) -> Tensor<usize> {
