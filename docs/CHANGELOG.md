@@ -10,6 +10,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Refactor fixed point to support multiple implementations
 
+### Fixed
+
+- Fix greater operator.
+- Update compatibility.md
+
+## [Unreleased] - 2023-06-02
+
+### Fixed
+
+- Fix reduce_sum on 1D Tensor.
+
 ## [Unreleased] - 2023-06-01
 
 ### Added

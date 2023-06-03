@@ -13,7 +13,7 @@ fn less_equal(y: @Tensor<i32>, z: @Tensor<i32>) -> Tensor<usize> {
     check_compatibility(*y.shape,*z.shape);
 
     let mut data_result = ArrayTrait::<usize>::new();
-    let (mut smaller, mut bigger, order_swapped) = if (*y.data).len() < (*z.data).len() { 
+    let (mut smaller, mut bigger, retains_input_order) = if (*y.data).len() < (*z.data).len() { 
         (y, z, true) 
     } else { 
         (z, y, false)
@@ -33,7 +33,7 @@ fn less_equal(y: @Tensor<i32>, z: @Tensor<i32>) -> Tensor<usize> {
         let bigger_current_index = *bigger_data.pop_front().unwrap();
         let smaller_current_index = *smaller_data.at(smaller_index);
 
-        let (y_value, z_value) = if order_swapped {
+        let (y_value, z_value) = if retains_input_order {
             (smaller_current_index, bigger_current_index)
         } else {
             (bigger_current_index, smaller_current_index)
