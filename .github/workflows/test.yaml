@@ -1,14 +1,10 @@
 name: Tests
 
-on:
-  push:
-    branches:
-      - "**"
+on: [push, pull_request]
 
 env:
-  ARTIFACT_RELEASE_ARCHIVE_LINK: https://api.github.com/repos/starkware-libs/cairo/actions/artifacts/725598688/zip
-  ARTIFACT_RELEASE_ARCHIVE_NAME: cairo.zip
-  RELEASE_ARCHIVE_NAME: x86_64-unknown-linux-musl.tar.gz
+  ARCHIVE_LINK: https://github.com/starkware-libs/cairo/releases/download/v1.1.0/release-x86_64-unknown-linux-musl.tar.gz
+  ARCHIVE_NAME: cairo.zip
 
 jobs:
   main:
@@ -19,9 +15,8 @@ jobs:
 
       - name: Install cairo compiler
         run: |
-          curl -H "Accept: application/vnd.github+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -L -o $ARTIFACT_RELEASE_ARCHIVE_NAME $ARTIFACT_RELEASE_ARCHIVE_LINK
-          unzip $ARTIFACT_RELEASE_ARCHIVE_NAME
-          tar -xvf $RELEASE_ARCHIVE_NAME
+          curl -L -o $ARCHIVE_NAME $ARCHIVE_LINK
+          tar -xvf $ARCHIVE_NAME
 
       - name: Check Cairo compiler version and add to path
         run: |
