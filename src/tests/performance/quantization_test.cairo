@@ -5,6 +5,7 @@ use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::implementations::impl_tensor_i32;
 use orion::operators::tensor::implementations::impl_tensor_fp8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23;
 use orion::operators::tensor::core::TensorTrait;
 use orion::performance::core::PerfomanceTrait;
 use orion::performance::implementations::impl_performance_i32;

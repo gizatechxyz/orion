@@ -6,10 +6,11 @@ use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::impl_tensor_fp8x23;
 use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23;
 use orion::utils::check_gas;
 
 /// Cf: TensorTrait::exp docstring
-fn exp(self: @Tensor<FixedType<fp8x23>>) -> Tensor<FixedType<fp8x23>> {
+fn exp(self: @Tensor<FixedType>) -> Tensor<FixedType> {
     let mut result = ArrayTrait::new();
     let mut data = *self.data;
 

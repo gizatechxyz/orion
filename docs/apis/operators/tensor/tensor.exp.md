@@ -1,7 +1,7 @@
 # tensor.exp
 
 ```rust
-fn exp(self: @Tensor<T>) -> Tensor<FixedType<F>>;
+fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
 ```
 
 Computes the exponential of all elements of the input tensor.

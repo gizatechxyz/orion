@@ -15,8 +15,8 @@ use orion::utils::check_gas;
 
 /// Cf: NNTrait::leaky_relu docstring
 fn leaky_relu_u32_fp8x23(
-    z: @Tensor<u32>, alpha: @FixedType<fp8x23>, threshold: u32
-) -> Tensor<FixedType<fp8x23>> {
+    z: @Tensor<u32>, alpha: @FixedType, threshold: u32
+) -> Tensor<FixedType> {
     assert(*alpha.mag < impl_8x23::ONE, 'alpha must be less than 1_fp');
 
     let mut data_result = ArrayTrait::<FixedType>::new();
@@ -29,7 +29,7 @@ fn leaky_relu_u32_fp8x23(
         };
 
         let current_index = *data.pop_front().unwrap();
-        let fp_current_index = FixedTrait::<fp8x23>::new_unscaled(current_index.into(), false);
+        let fp_current_index = FixedTrait::new_unscaled(current_index.into(), false);
         if current_index >= threshold {
             data_result.append(fp_current_index);
         } else {

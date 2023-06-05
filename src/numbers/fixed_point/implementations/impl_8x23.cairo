@@ -18,8 +18,8 @@ const MAX: u128 = 2147483647; // 2 ** 31 - 1
 
 /// IMPLS
 
-impl FP8x23Impl of FixedTrait<fp8x23> {
-    fn new(mag: u128, sign: bool) -> FixedType<fp8x23> {
+impl FP8x23Impl of FixedTrait {
+    fn new(mag: u128, sign: bool) -> FixedType {
         if sign == true {
             assert(mag <= MAX, 'fixed type: out of range');
         } else {
@@ -28,76 +28,76 @@ impl FP8x23Impl of FixedTrait<fp8x23> {
         return FixedType { mag: mag, sign: sign };
     }
 
-    fn new_unscaled(mag: u128, sign: bool) -> FixedType<fp8x23> {
+    fn new_unscaled(mag: u128, sign: bool) -> FixedType {
         return FixedTrait::new(mag * ONE, sign);
     }
 
-    fn from_felt(val: felt252) -> FixedType<fp8x23> {
+    fn from_felt(val: felt252) -> FixedType {
         let mag = integer::u128_try_from_felt252(_felt_abs(val)).unwrap();
         return FixedTrait::new(mag, _felt_sign(val));
     }
 
-    fn from_unscaled_felt(val: felt252) -> FixedType<fp8x23> {
+    fn from_unscaled_felt(val: felt252) -> FixedType {
         return FixedTrait::from_felt(val * ONE.into());
     }
 
-    fn abs(self: FixedType<fp8x23>) -> FixedType<fp8x23> {
+    fn abs(self: FixedType) -> FixedType {
         return math_8x23::abs(self);
     }
 
 
-    fn ceil(self: FixedType<fp8x23>) -> FixedType<fp8x23> {
+    fn ceil(self: FixedType) -> FixedType {
         return math_8x23::ceil(self);
     }
 
 
-    fn floor(self: FixedType<fp8x23>) -> FixedType<fp8x23> {
+    fn floor(self: FixedType) -> FixedType {
         return math_8x23::floor(self);
     }
 
-    fn exp(self: FixedType<fp8x23>) -> FixedType<fp8x23> {
+    fn exp(self: FixedType) -> FixedType {
         return math_8x23::exp(self);
     }
 
-    fn exp2(self: FixedType<fp8x23>) -> FixedType<fp8x23> {
+    fn exp2(self: FixedType) -> FixedType {
         return math_8x23::exp2(self);
     }
 
-    fn ln(self: FixedType<fp8x23>) -> FixedType<fp8x23> {
+    fn ln(self: FixedType) -> FixedType {
         return math_8x23::ln(self);
     }
 
-    fn log2(self: FixedType<fp8x23>) -> FixedType<fp8x23> {
+    fn log2(self: FixedType) -> FixedType {
         return math_8x23::log2(self);
     }
 
-    fn log10(self: FixedType<fp8x23>) -> FixedType<fp8x23> {
+    fn log10(self: FixedType) -> FixedType {
         return math_8x23::log10(self);
     }
 
-    fn pow(self: FixedType<fp8x23>, b: FixedType<fp8x23>) -> FixedType<fp8x23> {
+    fn pow(self: FixedType, b: FixedType) -> FixedType {
         return math_8x23::pow(self, b);
     }
 
-    fn round(self: FixedType<fp8x23>) -> FixedType<fp8x23> {
+    fn round(self: FixedType) -> FixedType {
         return math_8x23::round(self);
     }
 
 
-    fn sqrt(self: FixedType<fp8x23>) -> FixedType<fp8x23> {
+    fn sqrt(self: FixedType) -> FixedType {
         return math_8x23::sqrt(self);
     }
 }
 
-impl FP8x23Print of PrintTrait<FixedType<fp8x23>> {
-    fn print(self: FixedType<fp8x23>) {
+impl FP8x23Print of PrintTrait<FixedType> {
+    fn print(self: FixedType) {
         self.sign.print();
         self.mag.print();
     }
 }
 
-impl FP8x23Into of Into<FixedType<fp8x23>, felt252> {
-    fn into(self: FixedType<fp8x23>) -> felt252 {
+impl FP8x23Into of Into<FixedType, felt252> {
+    fn into(self: FixedType) -> felt252 {
         let mag_felt = self.mag.into();
 
         if (self.sign == true) {
@@ -108,95 +108,95 @@ impl FP8x23Into of Into<FixedType<fp8x23>, felt252> {
     }
 }
 
-impl FP8x23PartialEq of PartialEq<FixedType<fp8x23>> {
+impl FP8x23PartialEq of PartialEq<FixedType> {
     #[inline(always)]
-    fn eq(lhs: FixedType<fp8x23>, rhs: FixedType<fp8x23>) -> bool {
+    fn eq(lhs: FixedType, rhs: FixedType) -> bool {
         return math_8x23::eq(lhs, rhs);
     }
 
     #[inline(always)]
-    fn ne(lhs: FixedType<fp8x23>, rhs: FixedType<fp8x23>) -> bool {
+    fn ne(lhs: FixedType, rhs: FixedType) -> bool {
         return math_8x23::ne(lhs, rhs);
     }
 }
 
-impl FP8x23Add of Add<FixedType<fp8x23>> {
-    fn add(lhs: FixedType<fp8x23>, rhs: FixedType<fp8x23>) -> FixedType<fp8x23> {
+impl FP8x23Add of Add<FixedType> {
+    fn add(lhs: FixedType, rhs: FixedType) -> FixedType {
         return math_8x23::add(lhs, rhs);
     }
 }
 
-impl FP8x23AddEq of AddEq<FixedType<fp8x23>> {
+impl FP8x23AddEq of AddEq<FixedType> {
     #[inline(always)]
-    fn add_eq(ref self: FixedType<fp8x23>, other: FixedType<fp8x23>) {
+    fn add_eq(ref self: FixedType, other: FixedType) {
         self = Add::add(self, other);
     }
 }
 
-impl FP8x23Sub of Sub<FixedType<fp8x23>> {
-    fn sub(lhs: FixedType<fp8x23>, rhs: FixedType<fp8x23>) -> FixedType<fp8x23> {
+impl FP8x23Sub of Sub<FixedType> {
+    fn sub(lhs: FixedType, rhs: FixedType) -> FixedType {
         return math_8x23::sub(lhs, rhs);
     }
 }
 
-impl FP8x23SubEq of SubEq<FixedType<fp8x23>> {
+impl FP8x23SubEq of SubEq<FixedType> {
     #[inline(always)]
-    fn sub_eq(ref self: FixedType<fp8x23>, other: FixedType<fp8x23>) {
+    fn sub_eq(ref self: FixedType, other: FixedType) {
         self = Sub::sub(self, other);
     }
 }
 
-impl FP8x23Mul of Mul<FixedType<fp8x23>> {
-    fn mul(lhs: FixedType<fp8x23>, rhs: FixedType<fp8x23>) -> FixedType<fp8x23> {
+impl FP8x23Mul of Mul<FixedType> {
+    fn mul(lhs: FixedType, rhs: FixedType) -> FixedType {
         return math_8x23::mul(lhs, rhs);
     }
 }
 
-impl FP8x23MulEq of MulEq<FixedType<fp8x23>> {
+impl FP8x23MulEq of MulEq<FixedType> {
     #[inline(always)]
-    fn mul_eq(ref self: FixedType<fp8x23>, other: FixedType<fp8x23>) {
+    fn mul_eq(ref self: FixedType, other: FixedType) {
         self = Mul::mul(self, other);
     }
 }
 
-impl FP8x23Div of Div<FixedType<fp8x23>> {
-    fn div(lhs: FixedType<fp8x23>, rhs: FixedType<fp8x23>) -> FixedType<fp8x23> {
+impl FP8x23Div of Div<FixedType> {
+    fn div(lhs: FixedType, rhs: FixedType) -> FixedType {
         return math_8x23::div(lhs, rhs);
     }
 }
 
-impl FP8x23DivEq of DivEq<FixedType<fp8x23>> {
+impl FP8x23DivEq of DivEq<FixedType> {
     #[inline(always)]
-    fn div_eq(ref self: FixedType<fp8x23>, other: FixedType<fp8x23>) {
+    fn div_eq(ref self: FixedType, other: FixedType) {
         self = Div::div(self, other);
     }
 }
 
-impl FP8x23PartialOrd of PartialOrd<FixedType<fp8x23>> {
+impl FP8x23PartialOrd of PartialOrd<FixedType> {
     #[inline(always)]
-    fn ge(lhs: FixedType<fp8x23>, rhs: FixedType<fp8x23>) -> bool {
+    fn ge(lhs: FixedType, rhs: FixedType) -> bool {
         return math_8x23::ge(lhs, rhs);
     }
 
     #[inline(always)]
-    fn gt(lhs: FixedType<fp8x23>, rhs: FixedType<fp8x23>) -> bool {
+    fn gt(lhs: FixedType, rhs: FixedType) -> bool {
         return math_8x23::gt(lhs, rhs);
     }
 
     #[inline(always)]
-    fn le(lhs: FixedType<fp8x23>, rhs: FixedType<fp8x23>) -> bool {
+    fn le(lhs: FixedType, rhs: FixedType) -> bool {
         return math_8x23::le(lhs, rhs);
     }
 
     #[inline(always)]
-    fn lt(lhs: FixedType<fp8x23>, rhs: FixedType<fp8x23>) -> bool {
+    fn lt(lhs: FixedType, rhs: FixedType) -> bool {
         return math_8x23::lt(lhs, rhs);
     }
 }
 
-impl FP8x23Neg of Neg<FixedType<fp8x23>> {
+impl FP8x23Neg of Neg<FixedType> {
     #[inline(always)]
-    fn neg(a: FixedType<fp8x23>) -> FixedType<fp8x23> {
+    fn neg(a: FixedType) -> FixedType {
         return math_8x23::neg(a);
     }
 }

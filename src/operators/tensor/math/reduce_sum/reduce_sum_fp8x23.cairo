@@ -12,8 +12,8 @@ use orion::utils::check_gas;
 
 /// Cf: TensorTrait::reduce_sum docstring
 fn reduce_sum(
-    self: @Tensor<FixedType<fp8x23>>, axis: usize, keepdims: bool
-) -> Tensor<FixedType<fp8x23>> {
+    self: @Tensor<FixedType>, axis: usize, keepdims: bool
+) -> Tensor<FixedType> {
     assert(axis <= (*self.shape).len(), 'axis out of dimensions');
     let mut output_data = ArrayTrait::new();
 
@@ -67,11 +67,11 @@ fn reduce_sum(
 /// # Returns
 /// * An FixedType value representing the accumulated sum along the specified axis.
 fn accumulate_sum(
-    mut input_data: Span<FixedType<fp8x23>>,
+    mut input_data: Span<FixedType>,
     input_shape: Span<usize>,
     output_indices: Span<usize>,
     axis: usize
-) -> FixedType<fp8x23> {
+) -> FixedType {
     let axis_len = *(input_shape).at(axis);
     let mut acc = FixedTrait::new(0, false);
 

@@ -10,7 +10,7 @@ use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, com
 use orion::utils::check_gas;
 
 /// Cf: TensorTrait::argmax docstring
-fn argmax(self: @Tensor<FixedType<fp8x23>>, axis: usize) -> Tensor<usize> {
+fn argmax(self: @Tensor<FixedType>, axis: usize) -> Tensor<usize> {
     assert(axis <= (*self.shape).len(), 'axis out of dimensions');
 
     let mut output_data = ArrayTrait::new();
@@ -24,7 +24,7 @@ fn argmax(self: @Tensor<FixedType<fp8x23>>, axis: usize) -> Tensor<usize> {
 
         let output_indices = unravel_index(index, output_shape);
         let current_argmax = find_argmax(
-            self, output_indices, axis, 0, FixedTrait::<fp8x23>::new(impl_8x23::MAX, true), 0
+            self, output_indices, axis, 0, FixedTrait::new(impl_8x23::MAX, true), 0
         );
 
         output_data.append(current_argmax);
@@ -54,11 +54,11 @@ fn argmax(self: @Tensor<FixedType<fp8x23>>, axis: usize) -> Tensor<usize> {
 /// # Returns
 /// * A usize value representing the index of the maximum value along the specified axis.
 fn find_argmax(
-    input: @Tensor<FixedType<fp8x23>>,
+    input: @Tensor<FixedType>,
     output_indices: Span<usize>,
     axis: usize,
     axis_index: usize,
-    max_value: FixedType<fp8x23>,
+    max_value: FixedType,
     argmax: usize
 ) -> usize {
     check_gas();

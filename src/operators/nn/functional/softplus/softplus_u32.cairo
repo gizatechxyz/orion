@@ -12,10 +12,10 @@ use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 use orion::utils::check_gas;
 
 /// Cf: NNTrait::softplus docstring
-fn softplus_u32_fp8x23(z: @Tensor<u32>) -> Tensor<FixedType<fp8x23>> {
+fn softplus_u32_fp8x23(z: @Tensor<u32>) -> Tensor<FixedType> {
     let mut data_result = ArrayTrait::<FixedType>::new();
     let mut data = *z.data;
-    let fp_one = FixedTrait::<fp8x23>::new_unscaled(1, false);
+    let fp_one = FixedTrait::new_unscaled(1, false);
     loop {
         check_gas();
         if data.len() == 0 {

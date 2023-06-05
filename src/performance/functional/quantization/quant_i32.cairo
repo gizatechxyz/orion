@@ -72,7 +72,7 @@ fn quantize_tensor(tensor: @Tensor::<i32>) -> Tensor::<i32> {
 }
 
 /// Cf: PerfomanceTrait::quantize_linear_from_fp docstring
-fn quantize_fp8x23_tensor(tensor: @Tensor::<FixedType<fp8x23>>) -> Tensor::<i32> {
+fn quantize_fp8x23_tensor(tensor: @Tensor::<FixedType>) -> Tensor::<i32> {
     let mut result_data = ArrayTrait::<i32>::new();
 
     let min_val = tensor.min();

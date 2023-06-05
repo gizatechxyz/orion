@@ -16,15 +16,15 @@ impl NN_i32_fp8x23 of NNTrait<i32, fp8x23> {
         relu_i32(tensor, threshold)
     }
 
-    fn softmax(tensor: @Tensor<i32>, axis: usize) -> Tensor<FixedType<fp8x23>> {
+    fn softmax(tensor: @Tensor<i32>, axis: usize) -> Tensor<FixedType> {
         softmax_i32_fp8x23(tensor, axis)
     }
 
-    fn softsign(tensor: @Tensor<i32>) -> Tensor<FixedType<fp8x23>> {
+    fn softsign(tensor: @Tensor<i32>) -> Tensor<FixedType> {
         softsign_i32_fp8x23(tensor)
     }
 
-    fn softplus(tensor: @Tensor<i32>) -> Tensor<FixedType<fp8x23>> {
+    fn softplus(tensor: @Tensor<i32>) -> Tensor<FixedType> {
         softplus_i32_fp8x23(tensor)
     }
 
@@ -35,8 +35,8 @@ impl NN_i32_fp8x23 of NNTrait<i32, fp8x23> {
     }
 
     fn leaky_relu(
-        inputs: @Tensor<i32>, alpha: @FixedType<fp8x23>, threshold: i32
-    ) -> Tensor<FixedType<fp8x23>> {
+        inputs: @Tensor<i32>, alpha: @FixedType, threshold: i32
+    ) -> Tensor<FixedType> {
         leaky_relu_i32_fp8x23(inputs, alpha, threshold)
     }
 }

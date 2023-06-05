@@ -12,7 +12,7 @@ use orion::utils::check_gas;
 
 
 /// Cf: NNTrait::softsign docstring
-fn softsign_u32_fp8x23(z: @Tensor<u32>) -> Tensor<FixedType<fp8x23>> {
+fn softsign_u32_fp8x23(z: @Tensor<u32>) -> Tensor<FixedType> {
     let mut data_result = ArrayTrait::new();
     let mut data = *z.data;
     let fp_one = FixedTrait::new(1, false);

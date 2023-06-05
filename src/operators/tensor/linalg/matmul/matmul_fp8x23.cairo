@@ -14,8 +14,8 @@ use orion::operators::tensor::linalg::matmul::helpers::{
 
 /// Cf: TensorTrait::matmul docstring
 fn matmul(
-    self: @Tensor<FixedType<fp8x23>>, other: @Tensor<FixedType<fp8x23>>
-) -> Tensor<FixedType<fp8x23>> {
+    self: @Tensor<FixedType>, other: @Tensor<FixedType>
+) -> Tensor<FixedType> {
     let self_shape = *self.shape;
     let other_shape = *other.shape;
     let self_ndim = (self_shape).len();
@@ -30,7 +30,7 @@ fn matmul(
         let mut result_data = ArrayTrait::new();
         result_shape.append(1);
         result_data.append(dot);
-        return TensorTrait::<FixedType<fp8x23>,
+        return TensorTrait::<FixedType,
         fp8x23>::new(result_shape.span(), result_data.span());
     }
 
@@ -57,8 +57,8 @@ fn matmul(
 /// # Returns
 /// * An FixedType representing the dot product of the two vectors.
 fn dot_product(
-    mut vec1: Span<FixedType<fp8x23>>, mut vec2: Span<FixedType<fp8x23>>
-) -> FixedType<fp8x23> {
+    mut vec1: Span<FixedType>, mut vec2: Span<FixedType>
+) -> FixedType {
     assert(vec1.len() == vec2.len(), 'vector lengths do not match');
 
     let mut result: FixedType = FixedTrait::new_unscaled(0, false);
@@ -92,11 +92,11 @@ fn dot_product(
 /// # Returns
 /// * Returns the restulting FixedType tensor.
 fn matrix_multiply(
-    mat1: Span<FixedType<fp8x23>>,
+    mat1: Span<FixedType>,
     mat1_shape: Span<usize>,
-    mat2: Span<FixedType<fp8x23>>,
+    mat2: Span<FixedType>,
     mat2_shape: Span<usize>
-) -> Tensor<FixedType<fp8x23>> {
+) -> Tensor<FixedType> {
     let m = *mat1_shape.at(0);
     let n = *mat1_shape.at(1);
     let p = *mat2_shape.at(1);
@@ -120,7 +120,7 @@ fn matrix_multiply(
                 break ();
             }
 
-            let mut sum: FixedType = FixedTrait::<fp8x23>::new_unscaled(0, false);
+            let mut sum: FixedType = FixedTrait::new_unscaled(0, false);
             let mut k = 0_usize;
             loop {
                 check_gas();
@@ -142,5 +142,5 @@ fn matrix_multiply(
         i += 1;
     };
 
-    return TensorTrait::<FixedType<fp8x23>, fp8x23>::new(result_shape.span(), result_data.span());
+    return TensorTrait::<FixedType, fp8x23>::new(result_shape.span(), result_data.span());
 }

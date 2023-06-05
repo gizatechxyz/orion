@@ -33,7 +33,7 @@ fn leaky_relu_i32_test() {
     data.append(val_6);
 
     let mut tensor = TensorTrait::new(shape.span(), data.span());
-    let alpha = FixedTrait::<fp8x23>::new(838861, false); // 0.1
+    let alpha = FixedTrait::new(838861, false); // 0.1
     let threshold = IntegerTrait::new(0, false);
 
     let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);

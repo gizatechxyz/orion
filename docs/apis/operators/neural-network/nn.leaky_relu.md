@@ -1,7 +1,7 @@
 # NNTrait::leaky_relu
 
 ```rust
-fn leaky_relu(inputs: @Tensor<T>, alpha: @FixedType, threshold: T) -> Tensor<FixedType<F>>
+fn leaky_relu(inputs: @Tensor<T>, alpha: @FixedType, threshold: T) -> Tensor<FixedType>
 ```
 
 Applies the leaky rectified linear unit (Leaky ReLU) activation function element-wise to a given tensor.

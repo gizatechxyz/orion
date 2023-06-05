@@ -11,7 +11,7 @@ use orion::utils::check_gas;
 use orion::operators::tensor::helpers::check_compatibility;
 
 /// Cf: TensorTrait::less docstring
-fn less(y: @Tensor<FixedType<fp8x23>>, z: @Tensor<FixedType<fp8x23>>) -> Tensor<usize> {
+fn less(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> {
     check_compatibility(*y.shape, *z.shape);
 
     let mut data_result = ArrayTrait::<usize>::new();

@@ -1,7 +1,7 @@
 # FixedTrait::new\_unscaled
 
 ```rust
-fn new_unscaled(mag: u128, sign: bool) -> FixedType<T>;
+fn new_unscaled(mag: u128, sign: bool) -> FixedType;
 ```
 
 Creates a new fixed point instance with the specified unscaled magnitude and sign.
@@ -18,7 +18,7 @@ A new fixed point instance.
 ## Examples
 
 ```rust
-fn new_unscaled_example() -> FixedType<T> {
+fn new_unscaled_example() -> FixedType {
 // We can call `new_unscaled` function as follows.
 FixedTrait::new_unscaled(1);
 }

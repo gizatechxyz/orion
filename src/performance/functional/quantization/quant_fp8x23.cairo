@@ -24,16 +24,16 @@ use orion::utils::check_gas;
 ///
 /// # Returns
 /// * An FixedType quantized value.
-fn symetric_quant(min_val: FixedType<fp8x23>, max_val: FixedType<fp8x23>, data: FixedType<fp8x23>) -> FixedType<fp8x23> {
+fn symetric_quant(min_val: FixedType, max_val: FixedType, data: FixedType) -> FixedType {
     //  Define quantization range
     //  int8 range : [-127;127] 
-    let q_min_int = FixedTrait::<fp8x23>::new(1065353216, true); // -127
-    let q_max_int = FixedTrait::<fp8x23>::new(1065353216, false); // 127
+    let q_min_int = FixedTrait::new(1065353216, true); // -127
+    let q_max_int = FixedTrait::new(1065353216, false); // 127
 
     //  Calculate the scale based on 8 bit symetric quantization
     //  scale = max(abs(data_range_max), abs(data_range_min)) * 2 / (quantization_range_max - quantization_range_min)
 
-    let scale = (max(min_val.abs(), max_val.abs()) * FixedTrait::<fp8x23>::new_unscaled(2_u128, false))
+    let scale = (max(min_val.abs(), max_val.abs()) * FixedTrait::new_unscaled(2_u128, false))
         / (q_max_int - q_min_int);
 
     //  Quantize data based on the scale
@@ -45,7 +45,7 @@ fn symetric_quant(min_val: FixedType<fp8x23>, max_val: FixedType<fp8x23>, data: 
 }
 
 /// Cf: PerfomanceTrait::quantize_linear docstring
-fn quantize_tensor(tensor: @Tensor::<FixedType<fp8x23>>) -> Tensor::<FixedType<fp8x23>> {
+fn quantize_tensor(tensor: @Tensor::<FixedType>) -> Tensor::<FixedType> {
     let mut result_data = ArrayTrait::<FixedType>::new();
 
     let min_val = tensor.min();

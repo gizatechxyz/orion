@@ -1,14 +1,14 @@
 # fp.round
 
 ```rust
-fn round(self: FixedType<T>) -> FixedType<T>;
+fn round(self: FixedType) -> FixedType;
 ```
 
 Rounds the fixed point number to the nearest whole number.
 
 ## Args
 
-* `self`(`FixedType<T>`) - The input fixed point
+* `self`(`FixedType`) - The input fixed point
 
 ## Returns
 
@@ -18,7 +18,7 @@ A fixed point number representing the rounded value.
 
 
 ```rust
-fn round_fp_example() -> FixedType<T> {
+fn round_fp_example() -> FixedType {
 // We instantiate FixedTrait points here.
 let a = FixedTrait::from_felt(194615506); // 2.9
 

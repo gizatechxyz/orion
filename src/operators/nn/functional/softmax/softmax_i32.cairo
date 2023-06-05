@@ -5,7 +5,7 @@ use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 use orion::numbers::fixed_point::core::FixedType;
 
 /// Cf: NNTrait::softmax docstring
-fn softmax_i32_fp8x23(z: @Tensor<i32>, axis: usize) -> Tensor<FixedType<fp8x23>> {
+fn softmax_i32_fp8x23(z: @Tensor<i32>, axis: usize) -> Tensor<FixedType> {
     let exp_tensor = z.exp();
     let sum = exp_tensor.reduce_sum(axis, true);
     let softmax = exp_tensor / sum;

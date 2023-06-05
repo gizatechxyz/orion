@@ -13,7 +13,7 @@ use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 use orion::utils::check_gas;
 
 /// Cf: TensorTrait::transpose docstring
-fn transpose(self: @Tensor<FixedType<fp8x23>>, axes: Span<usize>) -> Tensor<FixedType<fp8x23>> {
+fn transpose(self: @Tensor<FixedType>, axes: Span<usize>) -> Tensor<FixedType> {
     assert(axes.len() == (*self.shape).len(), 'shape and axes length unequal');
 
     let output_shape = permutation_output_shape(*self.shape, axes);

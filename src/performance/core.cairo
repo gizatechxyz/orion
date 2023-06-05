@@ -74,7 +74,7 @@ trait PerfomanceTrait<T, F> {
     /// 
     /// ## Args
     ///
-    /// * `tensor`(`@Tensor<FixedType<F>>`) - The input FixedType tensor.
+    /// * `tensor`(`@Tensor<FixedType>`) - The input FixedType tensor.
     ///
     /// ## Returns
     ///
@@ -97,5 +97,5 @@ trait PerfomanceTrait<T, F> {
     /// >>> [[63, 95, 127],[-63, -95, -127]]
     /// ```
     ///
-    fn quantize_linear_from_fp(self: @Tensor<FixedType<F>>) -> Tensor<T>;
+    fn quantize_linear_from_fp(self: @Tensor<FixedType>) -> Tensor<T>;
 }

@@ -8,7 +8,7 @@ use orion::numbers::fixed_point::math::math_8x23::max;
 use orion::utils::check_gas;
 
 /// Cf: TensorTrait::max docstring
-fn max_in_tensor(mut vec: Span::<FixedType<fp8x23>>) -> FixedType<fp8x23> {
+fn max_in_tensor(mut vec: Span::<FixedType>) -> FixedType {
     let mut max_value: FixedType = FixedTrait::new(impl_8x23::MAX, true);
 
     loop {

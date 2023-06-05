@@ -73,7 +73,7 @@ impl Tensor_u32_fp8x23 of TensorTrait<u32, fp8x23> {
         matmul(self, other)
     }
 
-    fn exp(self: @Tensor<u32>) -> Tensor<FixedType<fp8x23>> {
+    fn exp(self: @Tensor<u32>) -> Tensor<FixedType> {
         exp_u32_fp8x23(self)
     }
 

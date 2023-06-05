@@ -565,7 +565,7 @@ trait TensorTrait<T, F> {
     /// # tensor.exp
     ///
     /// ```rust 
-    ///     fn exp(self: @Tensor<T>) -> Tensor<FixedType<F>>;
+    ///     fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
     /// ```
     ///
     /// Computes the exponential of all elements of the input tensor.
@@ -597,7 +597,7 @@ trait TensorTrait<T, F> {
     /// // [[1, 2.718281],[7.38905, 20.085536]]
     /// ```
     ///
-    fn exp(self: @Tensor<T>) -> Tensor<FixedType<F>>;
+    fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
     /// #tensor.eq
     ///
     /// ```rust

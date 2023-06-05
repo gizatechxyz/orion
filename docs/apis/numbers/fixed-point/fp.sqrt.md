@@ -1,14 +1,14 @@
 # fp.sqrt
 
 ```rust
-fn sqrt(self: FixedType<T>) -> FixedType<T>;
+fn sqrt(self: FixedType) -> FixedType;
 ```
 
 Returns the square root of the fixed point number.
 
 ## Args
 
-`self`(`FixedType<T>`) - The input fixed point
+`self`(`FixedType`) - The input fixed point
 
 ## Panics
 
@@ -21,7 +21,7 @@ A fixed point number representing the square root of the input value.
 ## Examples
 
 ```rust
-fn sqrt_fp_example() -> FixedType<T> {
+fn sqrt_fp_example() -> FixedType {
 // We instantiate FixedTrait points here.
 let a = FixedTrait::from_unscaled_felt(25);
 

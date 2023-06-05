@@ -9,7 +9,7 @@ impl Performance_i32_fp8x23 of PerfomanceTrait<u32, fp8x23> {
         quantize_tensor(self)
     }
 
-    fn quantize_linear_from_fp(self: @Tensor<FixedType<fp8x23>>) -> Tensor<u32> {
+    fn quantize_linear_from_fp(self: @Tensor<FixedType>) -> Tensor<u32> {
         quantize_fp_tensor(self)
     }
 }

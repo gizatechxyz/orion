@@ -29,12 +29,12 @@ fn u32_max(a: u32, b: u32) -> u32 {
     }
 }
 
-fn fp8x23_to_i32(x: FixedType<fp8x23>) -> i32 {
+fn fp8x23_to_i32(x: FixedType) -> i32 {
     let unscaled_mag = x.mag / impl_8x23::ONE;
     return IntegerTrait::new(unscaled_mag.try_into().unwrap(), x.sign);
 }
 
-fn fp8x23_to_u32(x: FixedType<fp8x23>) -> u32 {
+fn fp8x23_to_u32(x: FixedType) -> u32 {
     let unscaled_mag = x.mag / impl_8x23::ONE;
     return unscaled_mag.try_into().unwrap();
 }

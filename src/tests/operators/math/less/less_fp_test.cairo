@@ -3,8 +3,7 @@ use array::{ArrayTrait};
 use orion::operators::tensor::implementations::impl_tensor_fp8x23;
 use orion::operators::tensor::core::TensorTrait;
 use orion::numbers::fixed_point::core::{FixedTrait,FixedType};
-
-
+use orion::numbers::fixed_point::implementations::impl_8x23;
 
 #[test]
 #[available_gas(2000000)]

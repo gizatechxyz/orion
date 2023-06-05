@@ -24,8 +24,8 @@ use orion::utils::check_gas;
 /// # Returns
 /// * A `Tensor<FixedType>` instance representing the result of the element-wise addition with broadcasting.
 fn add(
-    self: @Tensor<FixedType<fp8x23>>, other: @Tensor<FixedType<fp8x23>>
-) -> Tensor<FixedType<fp8x23>> {
+    self: @Tensor<FixedType>, other: @Tensor<FixedType>
+) -> Tensor<FixedType> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
@@ -64,8 +64,8 @@ fn add(
 /// # Returns
 /// * A `Tensor<FixedType>` instance representing the result of the element-wise subtraction with broadcasting.
 fn sub(
-    self: @Tensor<FixedType<fp8x23>>, other: @Tensor<FixedType<fp8x23>>
-) -> Tensor<FixedType<fp8x23>> {
+    self: @Tensor<FixedType>, other: @Tensor<FixedType>
+) -> Tensor<FixedType> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
@@ -104,8 +104,8 @@ fn sub(
 /// # Returns
 /// * A `Tensor<FixedType>` instance representing the result of the element-wise multiplication with broadcasting.
 fn mul(
-    self: @Tensor<FixedType<fp8x23>>, other: @Tensor<FixedType<fp8x23>>
-) -> Tensor<FixedType<fp8x23>> {
+    self: @Tensor<FixedType>, other: @Tensor<FixedType>
+) -> Tensor<FixedType> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
@@ -144,8 +144,8 @@ fn mul(
 /// # Returns
 /// * A `Tensor<FixedType>` instance representing the result of the element-wise division with broadcasting.
 fn div(
-    self: @Tensor<FixedType<fp8x23>>, other: @Tensor<FixedType<fp8x23>>
-) -> Tensor<FixedType<fp8x23>> {
+    self: @Tensor<FixedType>, other: @Tensor<FixedType>
+) -> Tensor<FixedType> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
