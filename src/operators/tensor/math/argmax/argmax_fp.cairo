@@ -3,7 +3,7 @@ use array::SpanTrait;
 
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::numbers::fixed_point::implementations::impl_8x23;
-use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
+
 use orion::operators::tensor::implementations::impl_tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};

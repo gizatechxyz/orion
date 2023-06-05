@@ -9,7 +9,7 @@ use orion::numbers::fixed_point::core::{FixedType};
 /// softsign - Applies the Softsign function element-wise.
 /// softplus - Applies the Softplus function element-wise.
 /// linear - Performs a linear transformation of the input tensor using the provided weights and bias.
-trait NNTrait<T, F> {
+trait NNTrait<T> {
     /// # NNTrait::relu
     ///
     /// ```rust 

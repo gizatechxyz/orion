@@ -7,7 +7,7 @@ use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::nn::core::{NNTrait};
 use orion::operators::nn::implementations::impl_nn_i32;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
-use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
+
 use orion::numbers::fixed_point::implementations::impl_8x23;
 
 #[test]

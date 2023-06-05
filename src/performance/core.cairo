@@ -5,7 +5,7 @@ use orion::numbers::fixed_point::core::FixedType;
 ///
 /// quantize_linear - Quantizes a Tensor using symmetric quantization.
 /// quantize_linear_from_fp - Quantizes a FixedType Tensor using symmetric quantization.
-trait PerfomanceTrait<T, F> {
+trait PerfomanceTrait<T> {
     /// # performance.quantize_linear
     /// 
     /// ```rust

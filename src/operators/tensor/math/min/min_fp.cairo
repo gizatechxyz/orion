@@ -3,7 +3,7 @@ use option::OptionTrait;
 
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::numbers::fixed_point::implementations::impl_8x23;
-use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
+
 use orion::numbers::fixed_point::math::math_8x23::min;
 use orion::utils::check_gas;
 

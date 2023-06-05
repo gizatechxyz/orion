@@ -4,7 +4,6 @@ use array::ArrayTrait;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 use orion::numbers::fixed_point::implementations::impl_8x23;
 
 // Fake macro to compute gas left

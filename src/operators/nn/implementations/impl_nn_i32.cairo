@@ -8,9 +8,9 @@ use orion::operators::nn::functional::softplus::softplus_i32::softplus_i32;
 use orion::operators::nn::functional::linear::linear_i32::linear_i32;
 use orion::operators::nn::functional::leaky_relu::leaky_relu_i32::leaky_relu_i32;
 use orion::numbers::fixed_point::core::{FixedType};
-use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 
-impl NN_i32 of NNTrait<i32, fp8x23> {
+
+impl NN_i32 of NNTrait<i32> {
 
     fn relu(tensor: @Tensor<i32>, threshold: i32) -> Tensor<i32> {
         relu_i32(tensor, threshold)

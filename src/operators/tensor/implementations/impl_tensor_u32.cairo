@@ -4,7 +4,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 
 use orion::numbers::fixed_point::core::FixedType;
-use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
+
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ExtraParams, ravel_index, unravel_index, reshape,
     at_tensor
