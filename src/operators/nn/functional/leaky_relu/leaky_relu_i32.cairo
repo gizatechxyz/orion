@@ -7,12 +7,12 @@ use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
 use orion::numbers::fixed_point::implementations::impl_8x23;
 use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use orion::operators::tensor::implementations::impl_tensor_fp8x23;
+use orion::operators::tensor::implementations::impl_tensor_fp;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::utils::check_gas;
 
 /// Cf: NNTrait::leaky_relu docstring
-fn leaky_relu_i32_fp8x23(
+fn leaky_relu_i32(
     z: @Tensor<i32>, alpha: @FixedType, threshold: i32
 ) -> Tensor<FixedType> {
     assert(*alpha.mag < impl_8x23::ONE, 'alpha must be less than 1_fp');

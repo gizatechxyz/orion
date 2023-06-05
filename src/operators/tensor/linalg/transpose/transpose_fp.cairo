@@ -6,7 +6,7 @@ use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape
 };
 use orion::operators::tensor::helpers::{len_from_shape, find_axis, permutation_output_shape};
-use orion::operators::tensor::implementations::impl_tensor_fp8x23;
+use orion::operators::tensor::implementations::impl_tensor_fp;
 use orion::numbers::fixed_point::implementations::impl_8x23;
 use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 

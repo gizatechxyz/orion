@@ -4,7 +4,7 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::operators::tensor::implementations::{impl_tensor_fp8x23};
+use orion::operators::tensor::implementations::{impl_tensor_fp};
 use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
 use orion::numbers::fixed_point::implementations::impl_8x23;
 use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
@@ -12,7 +12,7 @@ use orion::utils::check_gas;
 
 
 /// Cf: NNTrait::softsign docstring
-fn softsign_u32_fp8x23(z: @Tensor<u32>) -> Tensor<FixedType> {
+fn softsign_u32(z: @Tensor<u32>) -> Tensor<FixedType> {
     let mut data_result = ArrayTrait::new();
     let mut data = *z.data;
     let fp_one = FixedTrait::new(1, false);

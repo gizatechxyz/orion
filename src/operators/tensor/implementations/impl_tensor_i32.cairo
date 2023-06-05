@@ -22,11 +22,11 @@ use orion::operators::tensor::math::less_equal::less_equal_i32::less_equal;
 use orion::operators::tensor::math::abs::abs_i32::abs;
 use orion::operators::tensor::linalg::matmul::matmul_i32::matmul;
 use orion::operators::tensor::linalg::transpose::transpose_i32::transpose;
-use orion::operators::tensor::math::exp::exp_i32::exp_i32_fp8x23;
+use orion::operators::tensor::math::exp::exp_i32::exp_i32_fp;
 use orion::operators::tensor::math::arithmetic::arithmetic_i32::{add, sub, mul, div};
 use orion::utils::check_gas;
 
-impl Tensor_i32_fp8x23 of TensorTrait<i32> {
+impl Tensor_i32 of TensorTrait<i32> {
     fn new(shape: Span<usize>, data: Span<i32>, extra: Option<ExtraParams>) -> Tensor<i32> {
         new_tensor(shape, data, extra)
     }
@@ -76,7 +76,7 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32> {
     }
 
     fn exp(self: @Tensor<i32>) -> Tensor<FixedType> {
-        exp_i32_fp8x23(self)
+        exp_i32_fp(self)
     }
 
     fn eq(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {

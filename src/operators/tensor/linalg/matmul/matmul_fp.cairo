@@ -3,7 +3,7 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use orion::utils::check_gas;
-use orion::operators::tensor::implementations::impl_tensor_fp8x23;
+use orion::operators::tensor::implementations::impl_tensor_fp;
 use orion::numbers::fixed_point::implementations::impl_8x23;
 use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};

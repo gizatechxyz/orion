@@ -9,23 +9,23 @@ use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams,  TensorTrait, ravel_index, unravel_index, reshape, at_tensor
 };
-use orion::operators::tensor::math::min::min_fp8x23::min_in_tensor;
-use orion::operators::tensor::math::max::max_fp8x23::max_in_tensor;
-use orion::operators::tensor::math::equal::equal_fp8x23::equal;
-use orion::operators::tensor::math::less::less_fp8x23::less;
-use orion::operators::tensor::math::less_equal::less_equal_fp8x23::less_equal;
-use orion::operators::tensor::math::abs::abs_fp8x23::abs;
-use orion::operators::tensor::math::reduce_sum::reduce_sum_fp8x23::reduce_sum;
-use orion::operators::tensor::math::argmax::argmax_fp8x23::argmax;
-use orion::operators::tensor::linalg::matmul::matmul_fp8x23::matmul;
-use orion::operators::tensor::linalg::transpose::transpose_fp8x23::transpose;
-use orion::operators::tensor::math::exp::exp_fp8x23::exp;
-use orion::operators::tensor::math::arithmetic::arithmetic_fp8x23::{add, sub, mul, div};
-use orion::operators::tensor::math::greater::greater_fp8x23::greater;
-use orion::operators::tensor::math::greater_equal::greater_equal_fp8x23::greater_equal;
+use orion::operators::tensor::math::min::min_fp::min_in_tensor;
+use orion::operators::tensor::math::max::max_fp::max_in_tensor;
+use orion::operators::tensor::math::equal::equal_fp::equal;
+use orion::operators::tensor::math::less::less_fp::less;
+use orion::operators::tensor::math::less_equal::less_equal_fp::less_equal;
+use orion::operators::tensor::math::abs::abs_fp::abs;
+use orion::operators::tensor::math::reduce_sum::reduce_sum_fp::reduce_sum;
+use orion::operators::tensor::math::argmax::argmax_fp::argmax;
+use orion::operators::tensor::linalg::matmul::matmul_fp::matmul;
+use orion::operators::tensor::linalg::transpose::transpose_fp::transpose;
+use orion::operators::tensor::math::exp::exp_fp::exp;
+use orion::operators::tensor::math::arithmetic::arithmetic_fp::{add, sub, mul, div};
+use orion::operators::tensor::math::greater::greater_fp::greater;
+use orion::operators::tensor::math::greater_equal::greater_equal_fp::greater_equal;
 use orion::utils::check_gas;
 
-impl Tensor_fp8x23 of TensorTrait<FixedType> {
+impl Tensor_fp of TensorTrait<FixedType> {
     fn new(
         shape: Span<usize>, data: Span<FixedType>, extra: Option<ExtraParams>
     ) -> Tensor<FixedType> {
