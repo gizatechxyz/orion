@@ -49,5 +49,5 @@ fn less(y: @Tensor<i32>, z: @Tensor<i32>) -> Tensor<usize> {
         smaller_index = (1 + smaller_index) % smaller_data.len() ;
     };
 
-    return TensorTrait::<usize>::new(*bigger.shape, data_result.span());
+    return TensorTrait::<usize>::new(*bigger.shape, data_result.span(), *y.extra);
 }

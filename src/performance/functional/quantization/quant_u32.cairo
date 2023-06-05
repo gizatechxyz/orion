@@ -67,7 +67,7 @@ fn quantize_tensor(tensor: @Tensor::<u32>) -> Tensor::<u32> {
         };
     };
 
-    return TensorTrait::new(*tensor.shape, result_data.span());
+    return TensorTrait::new(*tensor.shape, result_data.span(), *tensor.extra);
 }
 
 /// Cf: PerfomanceTrait::quantize_linear_from_fp docstring
@@ -90,5 +90,5 @@ fn quantize_fp_tensor(tensor: @Tensor::<FixedType>) -> Tensor::<u32> {
         };
     };
 
-    return TensorTrait::new(*tensor.shape, result_data.span());
+    return TensorTrait::new(*tensor.shape, result_data.span(), *tensor.extra);
 }

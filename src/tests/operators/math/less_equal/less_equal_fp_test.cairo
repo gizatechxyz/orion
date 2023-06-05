@@ -1,8 +1,8 @@
 use array::SpanTrait;
 use array::{ArrayTrait};
 use orion::operators::tensor::implementations::impl_tensor_fp8x23;
-use orion::operators::tensor::core::TensorTrait;
-use orion::numbers::fixed_point::core::{FixedTrait,FixedType};
+use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
 use orion::numbers::fixed_point::implementations::impl_8x23;
 
 #[test]
@@ -13,31 +13,31 @@ fn tensor_less_equal_fp() {
     sizes.append(3);
 
     let mut arr_1 = ArrayTrait::<FixedType>::new();
-    arr_1.append(FixedTrait::new(0,false));
-    arr_1.append(FixedTrait::new(1,false));
-    arr_1.append(FixedTrait::new(2,false));
-    arr_1.append(FixedTrait::new(3,false));
-    arr_1.append(FixedTrait::new(4,false));
-    arr_1.append(FixedTrait::new(5,false));
-    arr_1.append(FixedTrait::new(6,false));
-    arr_1.append(FixedTrait::new(7,false));
-    arr_1.append(FixedTrait::new(8,false));
+    arr_1.append(FixedTrait::new(0, false));
+    arr_1.append(FixedTrait::new(1, false));
+    arr_1.append(FixedTrait::new(2, false));
+    arr_1.append(FixedTrait::new(3, false));
+    arr_1.append(FixedTrait::new(4, false));
+    arr_1.append(FixedTrait::new(5, false));
+    arr_1.append(FixedTrait::new(6, false));
+    arr_1.append(FixedTrait::new(7, false));
+    arr_1.append(FixedTrait::new(8, false));
 
-    
     let mut arr_2 = ArrayTrait::<FixedType>::new();
-    arr_2.append(FixedTrait::new(10,false));
-    arr_2.append(FixedTrait::new(11,false));
-    arr_2.append(FixedTrait::new(2,true));
-    arr_2.append(FixedTrait::new(3,true));
-    arr_2.append(FixedTrait::new(4,false));
-    arr_2.append(FixedTrait::new(5,false));
-    arr_2.append(FixedTrait::new(16,false));
-    arr_2.append(FixedTrait::new(17,false));
-    arr_2.append(FixedTrait::new(18,false));
+    arr_2.append(FixedTrait::new(10, false));
+    arr_2.append(FixedTrait::new(11, false));
+    arr_2.append(FixedTrait::new(2, true));
+    arr_2.append(FixedTrait::new(3, true));
+    arr_2.append(FixedTrait::new(4, false));
+    arr_2.append(FixedTrait::new(5, false));
+    arr_2.append(FixedTrait::new(16, false));
+    arr_2.append(FixedTrait::new(17, false));
+    arr_2.append(FixedTrait::new(18, false));
 
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-    let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span());
-    let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span());
+    let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span(), Option::Some(extra));
+    let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), Option::Some(extra));
 
     let result_a = tensor_a.less_equal(@tensor_b);
     assert(*result_a.data.at(0) == 1, 'result[0] = 1');
@@ -78,26 +78,28 @@ fn tensor_less_equal_fp_broadcast() {
     sizes_2.append(3);
 
     let mut arr_1 = ArrayTrait::<FixedType>::new();
-    arr_1.append(FixedTrait::new(0,false));
-    arr_1.append(FixedTrait::new(1,false));
-    arr_1.append(FixedTrait::new(2,false));
-    arr_1.append(FixedTrait::new(3,false));
-    arr_1.append(FixedTrait::new(4,false));
-    arr_1.append(FixedTrait::new(5,false));
-    arr_1.append(FixedTrait::new(6,false));
-    arr_1.append(FixedTrait::new(7,false));
-    arr_1.append(FixedTrait::new(8,false));
-    arr_1.append(FixedTrait::new(9,false));
-    arr_1.append(FixedTrait::new(10,false));
-    arr_1.append(FixedTrait::new(11,false));
+    arr_1.append(FixedTrait::new(0, false));
+    arr_1.append(FixedTrait::new(1, false));
+    arr_1.append(FixedTrait::new(2, false));
+    arr_1.append(FixedTrait::new(3, false));
+    arr_1.append(FixedTrait::new(4, false));
+    arr_1.append(FixedTrait::new(5, false));
+    arr_1.append(FixedTrait::new(6, false));
+    arr_1.append(FixedTrait::new(7, false));
+    arr_1.append(FixedTrait::new(8, false));
+    arr_1.append(FixedTrait::new(9, false));
+    arr_1.append(FixedTrait::new(10, false));
+    arr_1.append(FixedTrait::new(11, false));
 
     let mut arr_2 = ArrayTrait::<FixedType>::new();
-    arr_2.append(FixedTrait::new(0,false));
-    arr_2.append(FixedTrait::new(1,false));
-    arr_2.append(FixedTrait::new(2,false));
-    
-    let tensor_a = TensorTrait::<FixedType>::new(sizes_1.span(), arr_1.span());
-    let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span());
+    arr_2.append(FixedTrait::new(0, false));
+    arr_2.append(FixedTrait::new(1, false));
+    arr_2.append(FixedTrait::new(2, false));
+
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
+
+    let tensor_a = TensorTrait::<FixedType>::new(sizes_1.span(), arr_1.span(), Option::Some(extra));
+    let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span(), Option::Some(extra));
 
     let result_a = tensor_b.less_equal(@tensor_a);
     assert(*result_a.data.at(0) == 1, 'result[0] = 1');

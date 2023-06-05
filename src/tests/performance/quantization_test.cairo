@@ -2,11 +2,11 @@ use array::ArrayTrait;
 use array::SpanTrait;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
 use orion::operators::tensor::implementations::impl_tensor_i32;
 use orion::operators::tensor::implementations::impl_tensor_fp8x23;
 use orion::numbers::fixed_point::implementations::impl_8x23;
-use orion::operators::tensor::core::TensorTrait;
+use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::performance::core::PerfomanceTrait;
 use orion::performance::implementations::impl_performance_i32;
 
@@ -25,8 +25,9 @@ fn quantize_linear_test() {
     data.append(IntegerTrait::new(29837_u32, false));
     data.append(IntegerTrait::new(19345_u32, true));
     data.append(IntegerTrait::new(15416_u32, false));
+    let extra = Option::<ExtraParams>::None(());
 
-    let tensor = TensorTrait::new(shape.span(), data.span());
+    let tensor = TensorTrait::new(shape.span(), data.span(), extra);
 
     let mut res = PerfomanceTrait::quantize_linear(@tensor);
 
@@ -64,7 +65,9 @@ fn quantize_linear_from_fp_test() {
     data.append(FixedTrait::new(1258291200, true)); // -150
     data.append(FixedTrait::new(1677721600, true)); // -200
 
-    let tensor = TensorTrait::<FixedType>::new(shape.span(), data.span());
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
+
+    let tensor = TensorTrait::<FixedType>::new(shape.span(), data.span(), Option::Some(extra));
 
     let mut res = PerfomanceTrait::<i32>::quantize_linear_from_fp(@tensor);
 

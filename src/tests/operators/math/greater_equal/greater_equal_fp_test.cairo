@@ -1,8 +1,8 @@
 use array::SpanTrait;
 use array::{ArrayTrait};
 use orion::operators::tensor::implementations::impl_tensor_fp8x23;
-use orion::operators::tensor::core::TensorTrait;
-use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
 use orion::numbers::fixed_point::implementations::impl_8x23;
 
 
@@ -35,8 +35,10 @@ fn tensor_greater_equal_fp() {
     arr_2.append(FixedTrait::new(17, false));
     arr_2.append(FixedTrait::new(18, false));
 
-    let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span());
-    let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span());
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
+
+    let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span(), Option::Some(extra));
+    let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), Option::Some(extra));
 
     let result_a = tensor_a.greater_equal(@tensor_b);
     assert(*result_a.data.at(0) == 0, 'result[0] = 0');
@@ -95,8 +97,10 @@ fn tensor_greater_equal_fp_broadcast() {
     arr_2.append(FixedTrait::new(1, false));
     arr_2.append(FixedTrait::new(2, false));
 
-    let tensor_a = TensorTrait::<FixedType>::new(sizes_1.span(), arr_1.span());
-    let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span());
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
+
+    let tensor_a = TensorTrait::<FixedType>::new(sizes_1.span(), arr_1.span(), Option::Some(extra));
+    let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span(), Option::Some(extra));
 
     let result_a = tensor_b.greater_equal(@tensor_a);
     assert(*result_a.data.at(0) == 1, 'result[0] = 1');

@@ -34,5 +34,5 @@ fn exp_i32_fp8x23(self: @Tensor<i32>) -> Tensor<FixedType> {
         };
     };
 
-    return TensorTrait::<FixedType>::new(*self.shape, result.span());
+    return TensorTrait::<FixedType>::new(*self.shape, result.span(), *self.extra);
 }

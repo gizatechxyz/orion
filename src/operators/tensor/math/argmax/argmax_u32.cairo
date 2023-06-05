@@ -30,7 +30,7 @@ fn argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
         };
     };
 
-    return TensorTrait::<usize>::new(output_shape, output_data.span());
+    return TensorTrait::<usize>::new(output_shape, output_data.span(), *self.extra);
 }
 
 /// Recursive helper function that finds the index of the maximum value along a specific axis.

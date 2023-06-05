@@ -5,6 +5,12 @@ struct FixedType {
     sign: bool
 }
 
+/// A struct listing fixed point implementations.
+#[derive(Copy, Drop)]
+enum FixedImpl {
+    FP8x23: ()
+}
+
 /// Trait
 ///
 /// new - Constructs a new fixed point instance.

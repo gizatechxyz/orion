@@ -24,7 +24,7 @@ fn reduce_sum(
         let mut output_shape = ArrayTrait::new();
         output_shape.append(1);
 
-        return TensorTrait::<FixedType>::new(output_shape.span(), output_data.span());
+        return TensorTrait::<FixedType>::new(output_shape.span(), output_data.span(), *self.extra);
     } else {
         let output_shape = reduce_output_shape(*self.shape, axis, false);
         let output_data_len = len_from_shape(output_shape);
@@ -45,9 +45,9 @@ fn reduce_sum(
 
         if keepdims {
             let output_shape = reduce_output_shape(*self.shape, axis, true);
-            return TensorTrait::<FixedType>::new(output_shape, output_data.span());
+            return TensorTrait::<FixedType>::new(output_shape, output_data.span(), *self.extra);
         } else {
-            return TensorTrait::<FixedType>::new(output_shape, output_data.span());
+            return TensorTrait::<FixedType>::new(output_shape, output_data.span(), *self.extra);
         }
     }
 }

@@ -1,9 +1,10 @@
 use array::SpanTrait;
 use array::ArrayTrait;
+use option::OptionTrait;
 
 use orion::operators::tensor::implementations::impl_tensor_fp8x23;
-use orion::operators::tensor::core::TensorTrait;
-use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
 use orion::numbers::fixed_point::implementations::impl_8x23;
 
 
@@ -25,7 +26,11 @@ fn tensor_abs_fp() {
     arr.append(FixedTrait::new(7, true));
     arr.append(FixedTrait::new(8, false));
 
-    let tensor = TensorTrait::<FixedType>::new(sizes.span(), arr.span());
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
+
+    let tensor = TensorTrait::<FixedType>::new(
+        sizes.span(), arr.span(), Option::Some(extra)
+    );
 
     let result = tensor.abs();
     assert(*result.data.at(0) == FixedTrait::new(0, false), 'result[0] = 0');

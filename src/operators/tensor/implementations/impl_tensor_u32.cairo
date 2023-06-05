@@ -6,7 +6,8 @@ use array::SpanTrait;
 use orion::numbers::fixed_point::core::FixedType;
 use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor
+    new_tensor, stride, Tensor, TensorTrait, ExtraParams, ravel_index, unravel_index, reshape,
+    at_tensor
 };
 use orion::operators::tensor::math::min::min_u32::min_in_tensor;
 use orion::operators::tensor::math::max::max_u32::max_in_tensor;
@@ -24,9 +25,9 @@ use orion::operators::tensor::math::exp::exp_u32::exp_u32_fp8x23;
 use orion::operators::tensor::math::arithmetic::arithmetic_u32::{add, sub, mul, div};
 use orion::utils::check_gas;
 
-impl Tensor_u32_fp8x23 of TensorTrait<u32, fp8x23> {
-    fn new(shape: Span<usize>, data: Span<u32>) -> Tensor<u32> {
-        new_tensor(shape, data)
+impl Tensor_u32_fp8x23 of TensorTrait<u32> {
+    fn new(shape: Span<usize>, data: Span<u32>, extra: Option<ExtraParams>) -> Tensor<u32> {
+        new_tensor(shape, data, extra)
     }
 
     fn at(self: @Tensor<u32>, indices: Span<usize>) -> u32 {
@@ -81,15 +82,15 @@ impl Tensor_u32_fp8x23 of TensorTrait<u32, fp8x23> {
         equal(self, other)
     }
 
-    fn greater(self:@Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+    fn greater(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         greater(self, other)
     }
 
-    fn greater_equal(self:@Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+    fn greater_equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         greater_equal(self, other)
     }
-    
-    fn less(self:@Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+
+    fn less(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         less(self, other)
     }
 

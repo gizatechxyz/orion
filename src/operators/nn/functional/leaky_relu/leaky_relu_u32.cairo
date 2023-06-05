@@ -37,6 +37,6 @@ fn leaky_relu_u32_fp8x23(
         };
     };
 
-    return TensorTrait::new(*z.shape, data_result.span());
+    return TensorTrait::new(*z.shape, data_result.span(), *z.extra);
 }
 

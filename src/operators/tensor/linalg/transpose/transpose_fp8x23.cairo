@@ -50,5 +50,5 @@ fn transpose(self: @Tensor<FixedType>, axes: Span<usize>) -> Tensor<FixedType> {
         output_index += 1;
     };
 
-    return TensorTrait::<FixedType>::new(output_shape, output_data.span());
+    return TensorTrait::new(output_shape, output_data.span(), *self.extra);
 }

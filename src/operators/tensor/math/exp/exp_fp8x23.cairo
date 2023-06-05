@@ -25,5 +25,5 @@ fn exp(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         };
     };
 
-    return TensorTrait::<FixedType>::new(*self.shape, result.span());
+    return TensorTrait::<FixedType>::new(*self.shape, result.span(), *self.extra);
 }

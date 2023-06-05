@@ -23,9 +23,7 @@ use orion::utils::check_gas;
 ///
 /// # Returns
 /// * A `Tensor<FixedType>` instance representing the result of the element-wise addition with broadcasting.
-fn add(
-    self: @Tensor<FixedType>, other: @Tensor<FixedType>
-) -> Tensor<FixedType> {
+fn add(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
@@ -48,7 +46,7 @@ fn add(
         };
     };
 
-    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span());
+    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
 /// Subtracts two `Tensor<FixedType>` instances element-wise with broadcasting.
@@ -63,9 +61,7 @@ fn add(
 ///
 /// # Returns
 /// * A `Tensor<FixedType>` instance representing the result of the element-wise subtraction with broadcasting.
-fn sub(
-    self: @Tensor<FixedType>, other: @Tensor<FixedType>
-) -> Tensor<FixedType> {
+fn sub(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
@@ -88,7 +84,7 @@ fn sub(
         };
     };
 
-    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span());
+    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
 /// Multiplies two `Tensor<FixedType>` instances element-wise with broadcasting.
@@ -103,9 +99,7 @@ fn sub(
 ///
 /// # Returns
 /// * A `Tensor<FixedType>` instance representing the result of the element-wise multiplication with broadcasting.
-fn mul(
-    self: @Tensor<FixedType>, other: @Tensor<FixedType>
-) -> Tensor<FixedType> {
+fn mul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
@@ -128,7 +122,7 @@ fn mul(
         };
     };
 
-    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span());
+    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
 /// Divides two `Tensor<FixedType>` instances element-wise with broadcasting.
@@ -143,9 +137,7 @@ fn mul(
 ///
 /// # Returns
 /// * A `Tensor<FixedType>` instance representing the result of the element-wise division with broadcasting.
-fn div(
-    self: @Tensor<FixedType>, other: @Tensor<FixedType>
-) -> Tensor<FixedType> {
+fn div(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
@@ -168,5 +160,5 @@ fn div(
         };
     };
 
-    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span());
+    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span(), *self.extra);
 }

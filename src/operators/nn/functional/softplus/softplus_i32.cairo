@@ -30,6 +30,6 @@ fn softplus_i32_fp8x23(z: @Tensor<i32>) -> Tensor<FixedType> {
         let result = (fp_one + fp_current_index.exp()).ln();
         data_result.append(result);
     };
-    return TensorTrait::new(*z.shape, data_result.span());
+    return TensorTrait::new(*z.shape, data_result.span(), *z.extra);
 }
 

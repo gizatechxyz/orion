@@ -1,12 +1,12 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use orion::operators::tensor::core::TensorTrait;
+use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::operators::tensor::implementations::impl_tensor_i32;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::nn::core::{NNTrait};
 use orion::operators::nn::implementations::impl_nn_i32;
-use orion::numbers::fixed_point::core::{FixedTrait};
+use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
 use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 use orion::numbers::fixed_point::implementations::impl_8x23;
 
@@ -32,7 +32,9 @@ fn leaky_relu_i32_test() {
     data.append(val_5);
     data.append(val_6);
 
-    let mut tensor = TensorTrait::new(shape.span(), data.span());
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
+
+    let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
     let alpha = FixedTrait::new(838861, false); // 0.1
     let threshold = IntegerTrait::new(0, false);
 

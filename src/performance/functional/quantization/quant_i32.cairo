@@ -68,7 +68,7 @@ fn quantize_tensor(tensor: @Tensor::<i32>) -> Tensor::<i32> {
         };
     };
 
-    return TensorTrait::new(*tensor.shape, result_data.span());
+    return TensorTrait::new(*tensor.shape, result_data.span(), *tensor.extra);
 }
 
 /// Cf: PerfomanceTrait::quantize_linear_from_fp docstring
@@ -91,5 +91,5 @@ fn quantize_fp8x23_tensor(tensor: @Tensor::<FixedType>) -> Tensor::<i32> {
         };
     };
 
-    return TensorTrait::new(*tensor.shape, result_data.span());
+    return TensorTrait::new(*tensor.shape, result_data.span(), *tensor.extra);
 }

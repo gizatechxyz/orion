@@ -64,5 +64,5 @@ fn quantize_tensor(tensor: @Tensor::<FixedType>) -> Tensor::<FixedType> {
         };
     };
 
-    return TensorTrait::new(*tensor.shape, result_data.span());
+    return TensorTrait::new(*tensor.shape, result_data.span(), *tensor.extra);
 }

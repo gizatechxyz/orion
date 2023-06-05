@@ -27,6 +27,6 @@ fn softsign_u32_fp8x23(z: @Tensor<u32>) -> Tensor<FixedType> {
         let result = fp_current_index / (fp_one + fp_current_index.abs());
         data_result.append(result);
     };
-    return TensorTrait::new(*z.shape, data_result.span());
+    return TensorTrait::new(*z.shape, data_result.span(), *z.extra);
 }
 

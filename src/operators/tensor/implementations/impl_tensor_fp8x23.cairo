@@ -2,11 +2,12 @@
 
 use array::ArrayTrait;
 use array::SpanTrait;
+use option::OptionTrait;
 
 use orion::numbers::fixed_point::core::FixedType;
 use orion::numbers::fixed_point::implementations::impl_8x23::fp8x23;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor
+    new_tensor, stride, Tensor, ExtraParams,  TensorTrait, ravel_index, unravel_index, reshape, at_tensor
 };
 use orion::operators::tensor::math::min::min_fp8x23::min_in_tensor;
 use orion::operators::tensor::math::max::max_fp8x23::max_in_tensor;
@@ -24,9 +25,11 @@ use orion::operators::tensor::math::greater::greater_fp8x23::greater;
 use orion::operators::tensor::math::greater_equal::greater_equal_fp8x23::greater_equal;
 use orion::utils::check_gas;
 
-impl Tensor_fp8x23 of TensorTrait<FixedType, fp8x23> {
-    fn new(shape: Span<usize>, data: Span<FixedType>) -> Tensor<FixedType> {
-        new_tensor(shape, data)
+impl Tensor_fp8x23 of TensorTrait<FixedType> {
+    fn new(
+        shape: Span<usize>, data: Span<FixedType>, extra: Option<ExtraParams>
+    ) -> Tensor<FixedType> {
+        new_tensor(shape, data, extra)
     }
 
     fn at(self: @Tensor<FixedType>, indices: Span<usize>) -> FixedType {
@@ -53,15 +56,11 @@ impl Tensor_fp8x23 of TensorTrait<FixedType, fp8x23> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(
-        self: @Tensor<FixedType>, target_shape: Span<usize>
-    ) -> Tensor<FixedType> {
+    fn reshape(self: @Tensor<FixedType>, target_shape: Span<usize>) -> Tensor<FixedType> {
         reshape(self, target_shape)
     }
 
-    fn reduce_sum(
-        self: @Tensor<FixedType>, axis: usize, keepdims: bool
-    ) -> Tensor<FixedType> {
+    fn reduce_sum(self: @Tensor<FixedType>, axis: usize, keepdims: bool) -> Tensor<FixedType> {
         reduce_sum(self, axis, keepdims)
     }
 
@@ -73,9 +72,7 @@ impl Tensor_fp8x23 of TensorTrait<FixedType, fp8x23> {
         transpose(self, axes)
     }
 
-    fn matmul(
-        self: @Tensor<FixedType>, other: @Tensor<FixedType>
-    ) -> Tensor<FixedType> {
+    fn matmul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType> {
         matmul(self, other)
     }
 
@@ -87,15 +84,11 @@ impl Tensor_fp8x23 of TensorTrait<FixedType, fp8x23> {
         equal(self, other)
     }
 
-    fn greater(
-        self: @Tensor<FixedType>, other: @Tensor<FixedType>
-    ) -> Tensor<usize> {
+    fn greater(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         greater(self, other)
     }
 
-    fn greater_equal(
-        self: @Tensor<FixedType>, other: @Tensor<FixedType>
-    ) -> Tensor<usize> {
+    fn greater_equal(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         greater_equal(self, other)
     }
 
@@ -103,9 +96,7 @@ impl Tensor_fp8x23 of TensorTrait<FixedType, fp8x23> {
         less(self, other)
     }
 
-    fn less_equal(
-        self: @Tensor<FixedType>, other: @Tensor<FixedType>
-    ) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         less_equal(self, other)
     }
 
@@ -124,9 +115,7 @@ impl FixedTypeTensorAdd of Add<Tensor<FixedType>> {
     ///
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise addition.
-    fn add(
-        lhs: Tensor<FixedType>, rhs: Tensor<FixedType>
-    ) -> Tensor<FixedType> {
+    fn add(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
         add(@lhs, @rhs)
     }
 }
@@ -141,9 +130,7 @@ impl FixedTypeTensorSub of Sub<Tensor<FixedType>> {
     ///
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise subtraction.
-    fn sub(
-        lhs: Tensor<FixedType>, rhs: Tensor<FixedType>
-    ) -> Tensor<FixedType> {
+    fn sub(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
         sub(@lhs, @rhs)
     }
 }
@@ -158,9 +145,7 @@ impl FixedTypeTensorMul of Mul<Tensor<FixedType>> {
     ///
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise multiplication.
-    fn mul(
-        lhs: Tensor<FixedType>, rhs: Tensor<FixedType>
-    ) -> Tensor<FixedType> {
+    fn mul(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
         mul(@lhs, @rhs)
     }
 }
@@ -175,9 +160,7 @@ impl FixedTypeTensorDiv of Div<Tensor<FixedType>> {
     ///
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise division.
-    fn div(
-        lhs: Tensor<FixedType>, rhs: Tensor<FixedType>
-    ) -> Tensor<FixedType> {
+    fn div(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
         div(@lhs, @rhs)
     }
 }

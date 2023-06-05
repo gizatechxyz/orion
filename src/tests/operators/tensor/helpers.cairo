@@ -4,7 +4,7 @@ use array::SpanTrait;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::tensor::implementations::impl_tensor_i32;
-use orion::operators::tensor::core::{TensorTrait, Tensor};
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 
 // 1D
 fn i32_tensor_1x3_helper() -> Tensor<i32> {
@@ -15,8 +15,9 @@ fn i32_tensor_1x3_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(0_u32, false));
     data.append(IntegerTrait::new(1_u32, false));
     data.append(IntegerTrait::new(2_u32, false));
+    let extra = Option::<ExtraParams>::None(());
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     return tensor;
 }
@@ -33,8 +34,9 @@ fn i32_tensor_2x2_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(1_u32, false));
     data.append(IntegerTrait::new(2_u32, false));
     data.append(IntegerTrait::new(3_u32, false));
+    let extra = Option::<ExtraParams>::None(());
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     return tensor;
 }
@@ -55,7 +57,9 @@ fn i32_tensor_3x3_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(7_u32, false));
     data.append(IntegerTrait::new(8_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     return tensor;
 }
@@ -73,7 +77,9 @@ fn i32_tensor_3x2_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(4_u32, false));
     data.append(IntegerTrait::new(5_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     return tensor;
 }
@@ -88,7 +94,9 @@ fn i32_tensor_3x1_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(1_u32, false));
     data.append(IntegerTrait::new(2_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     return tensor;
 }
@@ -106,7 +114,9 @@ fn i32_tensor_2x3_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(4_u32, false));
     data.append(IntegerTrait::new(5_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     return tensor;
 }
@@ -129,7 +139,9 @@ fn i32_tensor_2x2x2_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(6_u32, false));
     data.append(IntegerTrait::new(7_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     return tensor;
 }
@@ -154,7 +166,9 @@ fn i32_tensor_3x2x2_helper() -> Tensor<i32> {
     data.append(IntegerTrait::new(10_u32, false));
     data.append(IntegerTrait::new(11_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     return tensor;
 }

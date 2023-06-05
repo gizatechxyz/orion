@@ -4,15 +4,19 @@ use option::OptionTrait;
 
 use orion::utils::check_gas;
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::fixed_point::core::FixedType;
+use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
 
+#[derive(Copy, Drop)]
 struct Tensor<T> {
     shape: Span<usize>,
-    data: Span<T>
+    data: Span<T>,
+    extra: Option<ExtraParams>
 }
 
-impl TensorCopy<T> of Copy<Tensor<T>>;
-impl TensorDrop<T> of Drop<Tensor<T>>;
+#[derive(Copy, Drop)]
+struct ExtraParams {
+    fixed_point: Option<FixedImpl>
+}
 
 /// Trait
 ///
@@ -30,7 +34,7 @@ impl TensorDrop<T> of Drop<Tensor<T>>;
 /// matmul - Performs matrix multiplication. 
 /// exp - Calculates the exponential function (e^x) for each element in a tensor.
 /// eq - Check if two tensors are equal element-wise.
-trait TensorTrait<T, F> {
+trait TensorTrait<T> {
     /// # tensor.new
     ///
     /// ```rust 
@@ -112,7 +116,7 @@ trait TensorTrait<T, F> {
     /// }
     /// ```
     ///
-    fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
+    fn new(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T>;
     /// # tensor.at
     ///
     /// ```rust 
@@ -923,9 +927,9 @@ trait TensorTrait<T, F> {
 }
 
 /// Cf: TensorTrait::new docstring
-fn new_tensor<T>(shape: Span<usize>, data: Span<T>) -> Tensor<T> {
+fn new_tensor<T>(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T> {
     check_shape::<T>(shape, data);
-    Tensor::<T> { shape, data }
+    Tensor::<T> { shape, data, extra }
 }
 
 /// Cf: TensorTrait::ravel_index docstring
@@ -1013,7 +1017,7 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
 
 /// Cf: TensorTrait::reshape docstring
 fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
-    new_tensor(target_shape, *self.data)
+    new_tensor(target_shape, *self.data, *self.extra)
 }
 
 /// Cf: TensorTrait::at docstring
