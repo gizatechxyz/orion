@@ -1,7 +1,7 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use orion::operators::tensor::core::TensorTrait;
+use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::operators::tensor::implementations::impl_tensor_i32;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::nn::core::NNTrait;
@@ -18,7 +18,8 @@ fn linear_test() {
     data.append(i32 { mag: 71_u32, sign: true });
     data.append(i32 { mag: 38_u32, sign: false });
     data.append(i32 { mag: 62_u32, sign: false });
-    let inputs = TensorTrait::new(shape.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+    let inputs = TensorTrait::new(shape.span(), data.span(), extra);
 
     // SET WEIGHTS
     let mut shape = ArrayTrait::<usize>::new();
@@ -31,7 +32,8 @@ fn linear_test() {
     data.append(i32 { mag: 33_u32, sign: true });
     data.append(i32 { mag: 34_u32, sign: true });
     data.append(i32 { mag: 20_u32, sign: true });
-    let weights = TensorTrait::new(shape.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+    let weights = TensorTrait::new(shape.span(), data.span(), extra);
 
     // SET BIAS 
     let mut shape = ArrayTrait::<usize>::new();
@@ -39,7 +41,8 @@ fn linear_test() {
     let mut data = ArrayTrait::new();
     data.append(i32 { mag: 61_u32, sign: false });
     data.append(i32 { mag: 71_u32, sign: true });
-    let bias = TensorTrait::new(shape.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+    let bias = TensorTrait::new(shape.span(), data.span(), extra);
 
     // TEST UNQUANTIZED
     let result = NNTrait::linear(inputs, weights, bias, false).data;

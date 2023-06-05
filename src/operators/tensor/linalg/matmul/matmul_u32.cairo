@@ -4,7 +4,7 @@ use option::OptionTrait;
 
 use orion::utils::check_gas;
 use orion::operators::tensor::implementations::impl_tensor_u32;
-use orion::operators::tensor::core::{Tensor, TensorTrait, };
+use orion::operators::tensor::core::{Tensor, ExtraParams, TensorTrait, };
 use orion::operators::tensor::linalg::matmul::helpers::{
     prepare_shape_for_matmul, adjust_output_shape_after_matmul
 };
@@ -25,7 +25,7 @@ fn matmul(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
         let mut result_data = ArrayTrait::new();
         result_shape.append(1);
         result_data.append(dot);
-        return TensorTrait::new(result_shape.span(), result_data.span());
+        return TensorTrait::new(result_shape.span(), result_data.span(), *self.extra);
     }
 
     let self_shape = prepare_shape_for_matmul(self_shape, true);
@@ -35,7 +35,7 @@ fn matmul(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 
     let result_shape = adjust_output_shape_after_matmul(result.shape, self_ndim, other_ndim);
 
-    return TensorTrait::<u32>::new(result_shape, result.data);
+    return TensorTrait::<u32>::new(result_shape, result.data, *self.extra);
 }
 
 /// Computes the dot product of two 1-dimensional u32 tensors.
@@ -131,5 +131,5 @@ fn matrix_multiply(
         i += 1;
     };
 
-    return TensorTrait::new(result_shape.span(), result_data.span());
+    return TensorTrait::new(result_shape.span(), result_data.span(), Option::None(()));
 }

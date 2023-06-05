@@ -12,14 +12,14 @@ Returns the base-10 logarithm of the fixed point number.
 
 ## Returns
 
-A FixedType value representing the base 10 logarithm of the input number.
+A fixed point representing the base 10 logarithm of the input number.
 
 ## Examples
 
 ```rust
 fn log10_fp_example() -> FixedType {
 // We instantiate fixed point here.
-let fp = Fixed::from_unscaled_felt(100);
+let fp = FixedTrait::from_unscaled_felt(100);
 
 // We can call `log10` function as follows.
 fp.log10()

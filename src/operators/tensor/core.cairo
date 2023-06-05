@@ -4,15 +4,19 @@ use option::OptionTrait;
 
 use orion::utils::check_gas;
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::fixed_point::types::FixedType;
+use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
 
+#[derive(Copy, Drop)]
 struct Tensor<T> {
     shape: Span<usize>,
-    data: Span<T>
+    data: Span<T>,
+    extra: Option<ExtraParams>
 }
 
-impl TensorCopy<T> of Copy<Tensor<T>>;
-impl TensorDrop<T> of Drop<Tensor<T>>;
+#[derive(Copy, Drop)]
+struct ExtraParams {
+    fixed_point: Option<FixedImpl>
+}
 
 /// Trait
 ///
@@ -43,6 +47,7 @@ trait TensorTrait<T> {
     /// 
     /// * `shape`(`Span<usize>`) - A span representing the shape of the tensor.
     /// * `data` (`Span<T>`) - A span containing the array of elements.
+    /// * `extra` (`Option<ExtraParams>`) - A parameter for extra tensor options.
     ///
     /// ## Panics
     ///
@@ -66,8 +71,10 @@ trait TensorTrait<T> {
     ///     data.append(0_u32);
     ///     data.append(1_u32);
     ///     data.append(2_u32);
+    ///
+    ///     let extra = Option::<ExtraParams>::None(());
     /// 		
-    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span());
+    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
     /// 		
     ///     return tensor;
     /// }
@@ -84,7 +91,9 @@ trait TensorTrait<T> {
     ///     data.append(2_u32);
     ///     data.append(3_u32);
     /// 
-    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span());
+    ///     let extra = Option::<ExtraParams>::None(());
+    ///
+    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
     /// 
     ///     return tensor;
     /// }
@@ -105,14 +114,16 @@ trait TensorTrait<T> {
     ///     data.append(5_u32);
     ///     data.append(6_u32);
     ///     data.append(7_u32);
-    /// 
-    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span());
+    ///
+    ///     let extra = Option::<ExtraParams>::None(());
+    ///
+    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
     /// 
     ///     return tensor;
     /// }
     /// ```
     ///
-    fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
+    fn new(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T>;
     /// # tensor.at
     ///
     /// ```rust 
@@ -923,9 +934,9 @@ trait TensorTrait<T> {
 }
 
 /// Cf: TensorTrait::new docstring
-fn new_tensor<T>(shape: Span<usize>, data: Span<T>) -> Tensor<T> {
+fn new_tensor<T>(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T> {
     check_shape::<T>(shape, data);
-    Tensor::<T> { shape, data }
+    Tensor::<T> { shape, data, extra }
 }
 
 /// Cf: TensorTrait::ravel_index docstring
@@ -1013,7 +1024,7 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
 
 /// Cf: TensorTrait::reshape docstring
 fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
-    new_tensor(target_shape, *self.data)
+    new_tensor(target_shape, *self.data, *self.extra)
 }
 
 /// Cf: TensorTrait::at docstring

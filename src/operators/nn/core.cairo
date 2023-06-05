@@ -1,6 +1,5 @@
 use orion::operators::tensor::core::Tensor;
-use orion::numbers::fixed_point::core::FixedType;
-
+use orion::numbers::fixed_point::core::{FixedType};
 
 /// Trait
 ///
@@ -220,7 +219,9 @@ trait NNTrait<T> {
     /// >>> [127, -6]
     /// ````
     ///
-    fn linear(inputs: Tensor<T>, weights: Tensor<T>, bias: Tensor<T>, quantized: bool) -> Tensor<T>;
+    fn linear(
+        inputs: Tensor<T>, weights: Tensor<T>, bias: Tensor<T>, quantized: bool
+    ) -> Tensor<T>;
     /// # NNTrait::leaky_relu
     /// 
     /// ```rust
@@ -261,5 +262,7 @@ trait NNTrait<T> {
     /// }
     /// ```
     /// 
-    fn leaky_relu(inputs: @Tensor<T>, alpha: @FixedType, threshold: T) -> Tensor<FixedType>;
+    fn leaky_relu(
+        inputs: @Tensor<T>, alpha: @FixedType, threshold: T
+    ) -> Tensor<FixedType>;
 }

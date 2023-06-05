@@ -19,7 +19,7 @@ The absolute value of the input fixed point number.
 ```rust
 fn abs_fp_example() -> FixedType {
 // We instantiate fixed point here.
-let fp = Fixed::from_unscaled_felt(-1);
+let fp = FixedTrait::from_unscaled_felt(-1);
 
 // We can call `abs` function as follows.
 fp.abs()

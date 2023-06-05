@@ -5,15 +5,17 @@ use option::OptionTrait;
 
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::{impl_tensor_fp};
-use orion::numbers::fixed_point::core::{FixedType,Fixed};
+use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+use orion::numbers::fixed_point::implementations::impl_8x23;
+
 use orion::utils::check_gas;
 
 
 /// Cf: NNTrait::softsign docstring
 fn softsign_u32(z: @Tensor<u32>) -> Tensor<FixedType> {
-    let mut data_result = ArrayTrait::<FixedType>::new();
+    let mut data_result = ArrayTrait::new();
     let mut data = *z.data;
-    let fp_one = Fixed::new(1, false);
+    let fp_one = FixedTrait::new(1, false);
     loop {
         check_gas();
         if data.len() == 0 {
@@ -21,10 +23,10 @@ fn softsign_u32(z: @Tensor<u32>) -> Tensor<FixedType> {
         };
 
         let current_index = *data.pop_front().unwrap();
-        let fp_current_index = Fixed::new(current_index.into(), false);
+        let fp_current_index = FixedTrait::new(current_index.into(), false);
         let result = fp_current_index / (fp_one + fp_current_index.abs());
         data_result.append(result);
     };
-    return TensorTrait::<FixedType>::new(*z.shape, data_result.span());
+    return TensorTrait::new(*z.shape, data_result.span(), *z.extra);
 }
 

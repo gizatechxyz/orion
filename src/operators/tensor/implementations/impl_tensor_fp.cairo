@@ -2,16 +2,16 @@
 
 use array::ArrayTrait;
 use array::SpanTrait;
+use option::OptionTrait;
 
-use orion::numbers::fixed_point::types::FixedType;
+use orion::numbers::fixed_point::core::FixedType;
+
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor
+    new_tensor, stride, Tensor, ExtraParams,  TensorTrait, ravel_index, unravel_index, reshape, at_tensor
 };
 use orion::operators::tensor::math::min::min_fp::min_in_tensor;
 use orion::operators::tensor::math::max::max_fp::max_in_tensor;
 use orion::operators::tensor::math::equal::equal_fp::equal;
-use orion::operators::tensor::math::greater::greater_fp::greater;
-use orion::operators::tensor::math::greater_equal::greater_equal_fp::greater_equal;
 use orion::operators::tensor::math::less::less_fp::less;
 use orion::operators::tensor::math::less_equal::less_equal_fp::less_equal;
 use orion::operators::tensor::math::abs::abs_fp::abs;
@@ -21,11 +21,15 @@ use orion::operators::tensor::linalg::matmul::matmul_fp::matmul;
 use orion::operators::tensor::linalg::transpose::transpose_fp::transpose;
 use orion::operators::tensor::math::exp::exp_fp::exp;
 use orion::operators::tensor::math::arithmetic::arithmetic_fp::{add, sub, mul, div};
+use orion::operators::tensor::math::greater::greater_fp::greater;
+use orion::operators::tensor::math::greater_equal::greater_equal_fp::greater_equal;
 use orion::utils::check_gas;
 
-impl FixedTypeTensor of TensorTrait<FixedType> {
-    fn new(shape: Span<usize>, data: Span<FixedType>) -> Tensor<FixedType> {
-        new_tensor(shape, data)
+impl Tensor_fp of TensorTrait<FixedType> {
+    fn new(
+        shape: Span<usize>, data: Span<FixedType>, extra: Option<ExtraParams>
+    ) -> Tensor<FixedType> {
+        new_tensor(shape, data, extra)
     }
 
     fn at(self: @Tensor<FixedType>, indices: Span<usize>) -> FixedType {
@@ -76,27 +80,27 @@ impl FixedTypeTensor of TensorTrait<FixedType> {
         exp(self)
     }
 
-    fn eq(self:@Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
+    fn eq(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         equal(self, other)
     }
 
-    fn greater(self:@Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
+    fn greater(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         greater(self, other)
     }
 
-    fn greater_equal(self:@Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
+    fn greater_equal(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         greater_equal(self, other)
     }
-    
-    fn less(self:@Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
+
+    fn less(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         less(self, other)
     }
 
-    fn less_equal(self:@Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         less_equal(self, other)
     }
 
-    fn abs(self:@Tensor<FixedType>) -> Tensor<FixedType> {
+    fn abs(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         abs(self)
     }
 }

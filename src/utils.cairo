@@ -3,9 +3,8 @@ use option::OptionTrait;
 use array::ArrayTrait;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use orion::numbers::fixed_point::types::{Fixed, FixedType};
-use orion::numbers::fixed_point::types::ONE_u128;
-
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+use orion::numbers::fixed_point::implementations::impl_8x23;
 
 // Fake macro to compute gas left
 // TODO: Remove when automatically handled by compiler.
@@ -29,12 +28,12 @@ fn u32_max(a: u32, b: u32) -> u32 {
     }
 }
 
-fn fp_to_i32(x: FixedType) -> i32 {
-    let unscaled_mag = x.mag / ONE_u128;
+fn fp8x23_to_i32(x: FixedType) -> i32 {
+    let unscaled_mag = x.mag / impl_8x23::ONE;
     return IntegerTrait::new(unscaled_mag.try_into().unwrap(), x.sign);
 }
 
-fn fp_to_u32(x: FixedType) -> u32 {
-    let unscaled_mag = x.mag / ONE_u128;
+fn fp8x23_to_u32(x: FixedType) -> u32 {
+    let unscaled_mag = x.mag / impl_8x23::ONE;
     return unscaled_mag.try_into().unwrap();
 }

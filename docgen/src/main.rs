@@ -20,10 +20,10 @@ fn main() {
     doc_functions(trait_path, doc_path, trait_name, label);
 
     // FIXED POINT DOC
-    let trait_path = "src/numbers/fixed_point/types.cairo";
+    let trait_path = "src/numbers/fixed_point/core.cairo";
     let doc_path = "docs/apis/numbers/fixed-point";
     let label = "fp";
-    let trait_name = "Fixed";
+    let trait_name = "FixedTrait";
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 

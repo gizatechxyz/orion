@@ -2,14 +2,18 @@ use core::option::OptionTrait;
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use orion::numbers::fixed_point::types::{Fixed, FixedType};
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::numbers::fixed_point::implementations::impl_8x23;
+
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
 use orion::utils::check_gas;
 
 /// Cf: TensorTrait::reduce_sum docstring
-fn reduce_sum(self: @Tensor<FixedType>, axis: usize, keepdims: bool) -> Tensor<FixedType> {
+fn reduce_sum(
+    self: @Tensor<FixedType>, axis: usize, keepdims: bool
+) -> Tensor<FixedType> {
     assert(axis <= (*self.shape).len(), 'axis out of dimensions');
     let mut output_data = ArrayTrait::new();
 
@@ -20,7 +24,7 @@ fn reduce_sum(self: @Tensor<FixedType>, axis: usize, keepdims: bool) -> Tensor<F
         let mut output_shape = ArrayTrait::new();
         output_shape.append(1);
 
-        return TensorTrait::<FixedType>::new(output_shape.span(), output_data.span());
+        return TensorTrait::<FixedType>::new(output_shape.span(), output_data.span(), *self.extra);
     } else {
         let output_shape = reduce_output_shape(*self.shape, axis, false);
         let output_data_len = len_from_shape(output_shape);
@@ -41,9 +45,9 @@ fn reduce_sum(self: @Tensor<FixedType>, axis: usize, keepdims: bool) -> Tensor<F
 
         if keepdims {
             let output_shape = reduce_output_shape(*self.shape, axis, true);
-            return TensorTrait::<FixedType>::new(output_shape, output_data.span());
+            return TensorTrait::<FixedType>::new(output_shape, output_data.span(), *self.extra);
         } else {
-            return TensorTrait::<FixedType>::new(output_shape, output_data.span());
+            return TensorTrait::<FixedType>::new(output_shape, output_data.span(), *self.extra);
         }
     }
 }
@@ -63,10 +67,13 @@ fn reduce_sum(self: @Tensor<FixedType>, axis: usize, keepdims: bool) -> Tensor<F
 /// # Returns
 /// * An FixedType value representing the accumulated sum along the specified axis.
 fn accumulate_sum(
-    mut input_data: Span<FixedType>, input_shape: Span<usize>, output_indices: Span<usize>, axis: usize
+    mut input_data: Span<FixedType>,
+    input_shape: Span<usize>,
+    output_indices: Span<usize>,
+    axis: usize
 ) -> FixedType {
     let axis_len = *(input_shape).at(axis);
-    let mut acc = Fixed::new(0, false);
+    let mut acc = FixedTrait::new(0, false);
 
     let mut axis_index: usize = 0;
 

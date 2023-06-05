@@ -1,7 +1,7 @@
 use array::SpanTrait;
 use array::{ArrayTrait};
 use orion::operators::tensor::implementations::impl_tensor_u32;
-use orion::operators::tensor::core::TensorTrait;
+use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 
 #[test]
 #[available_gas(2000000)]
@@ -20,7 +20,6 @@ fn tensor_greater_equal_u32() {
     arr_1.append(6_u32);
     arr_1.append(7_u32);
     arr_1.append(8_u32);
-    
 
     let mut arr_2 = ArrayTrait::<u32>::new();
     arr_2.append(10_u32);
@@ -33,10 +32,10 @@ fn tensor_greater_equal_u32() {
     arr_2.append(17_u32);
     arr_2.append(18_u32);
 
-    
-    
-    let tensor_a = TensorTrait::<u32>::new(sizes.span(), arr_1.span());
-    let tensor_b = TensorTrait::<u32>::new(sizes.span(), arr_2.span());
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor_a = TensorTrait::<u32>::new(sizes.span(), arr_1.span(), extra);
+    let tensor_b = TensorTrait::<u32>::new(sizes.span(), arr_2.span(), extra);
 
     let result_a = tensor_a.greater_equal(@tensor_b);
     assert(*result_a.data.at(0) == 0, 'result[0] = 0');
@@ -94,10 +93,11 @@ fn tensor_greater_equal_u32_broadcast() {
     arr_2.append(0_u32);
     arr_2.append(1_u32);
     arr_2.append(2_u32);
-    
-    
-    let tensor_a = TensorTrait::<u32>::new(sizes_1.span(), arr_1.span());
-    let tensor_b = TensorTrait::<u32>::new(sizes_2.span(), arr_2.span());
+
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor_a = TensorTrait::<u32>::new(sizes_1.span(), arr_1.span(), extra);
+    let tensor_b = TensorTrait::<u32>::new(sizes_2.span(), arr_2.span(), extra);
 
     let result_a = tensor_b.greater_equal(@tensor_a);
     assert(*result_a.data.at(0) == 1, 'result[0] = 1');

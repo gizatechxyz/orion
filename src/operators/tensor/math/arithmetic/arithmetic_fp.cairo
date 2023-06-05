@@ -1,7 +1,9 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use orion::numbers::fixed_point::types::FixedType;
+use orion::numbers::fixed_point::core::FixedType;
+use orion::numbers::fixed_point::implementations::impl_8x23;
+
 use orion::operators::tensor::helpers::broadcast_shape;
 
 use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index, };
@@ -44,7 +46,7 @@ fn add(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
         };
     };
 
-    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span());
+    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
 /// Subtracts two `Tensor<FixedType>` instances element-wise with broadcasting.
@@ -82,7 +84,7 @@ fn sub(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
         };
     };
 
-    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span());
+    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
 /// Multiplies two `Tensor<FixedType>` instances element-wise with broadcasting.
@@ -120,7 +122,7 @@ fn mul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
         };
     };
 
-    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span());
+    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
 /// Divides two `Tensor<FixedType>` instances element-wise with broadcasting.
@@ -158,5 +160,5 @@ fn div(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
         };
     };
 
-    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span());
+    return TensorTrait::<FixedType>::new(broadcasted_shape, result.span(), *self.extra);
 }

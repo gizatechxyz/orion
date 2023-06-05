@@ -1,7 +1,9 @@
 use array::ArrayTrait;
 use option::OptionTrait;
 use array::SpanTrait;
-use orion::numbers::fixed_point::types::FixedType;
+use orion::numbers::fixed_point::core::FixedType;
+
+use orion::numbers::fixed_point::implementations::impl_8x23;
 use orion::operators::tensor::implementations::impl_tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::utils::check_gas;
@@ -49,5 +51,5 @@ fn greater(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> {
         smaller_index = (1 + smaller_index) % smaller_data.len() ;
     };
 
-    return TensorTrait::<usize>::new(*bigger.shape, data_result.span());
+    return TensorTrait::<usize>::new(*bigger.shape, data_result.span(), *y.extra);
 }

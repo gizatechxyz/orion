@@ -1,8 +1,11 @@
 use array::ArrayTrait;
 use option::OptionTrait;
 use array::SpanTrait;
-use orion::numbers::fixed_point::types::{Fixed,FixedType};
+
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::implementations::impl_tensor_fp;
+
+use orion::numbers::fixed_point::implementations::impl_8x23;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::utils::check_gas;
 
@@ -22,5 +25,5 @@ fn abs(z: @Tensor<FixedType>) -> Tensor<FixedType> {
         data_result.append(current_index.abs());
     };
 
-    return TensorTrait::<FixedType>::new(*z.shape, data_result.span());
+    return TensorTrait::new(*z.shape, data_result.span(), *z.extra);
 }

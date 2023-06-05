@@ -1,11 +1,13 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use orion::operators::tensor::core::TensorTrait;
+use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::operators::tensor::implementations::impl_tensor_i32;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::implementations::impl_nn_i32;
+use orion::numbers::fixed_point::core::FixedImpl;
+
 
 #[test]
 #[available_gas(5000000)]
@@ -25,7 +27,9 @@ fn softplus_i32_test() {
     data.append(val_3);
     data.append(val_4);
 
-    let mut tensor = TensorTrait::new(shape.span(), data.span());
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
+
+    let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
     let mut result = NNTrait::softplus(@tensor);
 
     let data_0 = *result.data.at(0);

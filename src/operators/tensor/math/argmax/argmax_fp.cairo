@@ -1,7 +1,9 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use orion::numbers::fixed_point::types::{Fixed, FixedType, MAX_u128};
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+use orion::numbers::fixed_point::implementations::impl_8x23;
+
 use orion::operators::tensor::implementations::impl_tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
@@ -22,7 +24,7 @@ fn argmax(self: @Tensor<FixedType>, axis: usize) -> Tensor<usize> {
 
         let output_indices = unravel_index(index, output_shape);
         let current_argmax = find_argmax(
-            self, output_indices, axis, 0, Fixed::new(MAX_u128, true), 0
+            self, output_indices, axis, 0, FixedTrait::new(impl_8x23::MAX, true), 0
         );
 
         output_data.append(current_argmax);
@@ -33,7 +35,7 @@ fn argmax(self: @Tensor<FixedType>, axis: usize) -> Tensor<usize> {
         };
     };
 
-    return TensorTrait::<usize>::new(output_shape, output_data.span());
+    return TensorTrait::<usize>::new(output_shape, output_data.span(), *self.extra);
 }
 
 /// Recursive helper function that finds the index of the maximum value along a specific axis.

@@ -4,8 +4,10 @@ use option::OptionTrait;
 
 use orion::utils::check_gas;
 use orion::operators::tensor::implementations::impl_tensor_fp;
-use orion::numbers::fixed_point::types::{Fixed, FixedType};
-use orion::operators::tensor::core::{Tensor, TensorTrait};
+use orion::numbers::fixed_point::implementations::impl_8x23;
+
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+use orion::operators::tensor::core::{Tensor, ExtraParams, TensorTrait};
 use orion::operators::tensor::linalg::matmul::helpers::{
     prepare_shape_for_matmul, adjust_output_shape_after_matmul
 };
@@ -26,7 +28,7 @@ fn matmul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedTy
         let mut result_data = ArrayTrait::new();
         result_shape.append(1);
         result_data.append(dot);
-        return TensorTrait::new(result_shape.span(), result_data.span());
+        return TensorTrait::<FixedType>::new(result_shape.span(), result_data.span(), *self.extra);
     }
 
     let self_shape = prepare_shape_for_matmul(self_shape, true);
@@ -36,7 +38,7 @@ fn matmul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedTy
 
     let result_shape = adjust_output_shape_after_matmul(result.shape, self_ndim, other_ndim);
 
-    return TensorTrait::<FixedType>::new(result_shape, result.data);
+    return TensorTrait::new(result_shape, result.data, *self.extra);
 }
 
 /// Computes the dot product of two 1-dimensional FixedType tensors.
@@ -54,7 +56,7 @@ fn matmul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedTy
 fn dot_product(mut vec1: Span<FixedType>, mut vec2: Span<FixedType>) -> FixedType {
     assert(vec1.len() == vec2.len(), 'vector lengths do not match');
 
-    let mut result: FixedType = Fixed::new_unscaled(0, false);
+    let mut result: FixedType = FixedTrait::new_unscaled(0, false);
 
     loop {
         check_gas();
@@ -110,7 +112,7 @@ fn matrix_multiply(
                 break ();
             }
 
-            let mut sum: FixedType = Fixed::new_unscaled(0, false);
+            let mut sum: FixedType = FixedTrait::new_unscaled(0, false);
             let mut k = 0_usize;
             loop {
                 check_gas();
@@ -132,5 +134,5 @@ fn matrix_multiply(
         i += 1;
     };
 
-    return TensorTrait::new(result_shape.span(), result_data.span());
+    return TensorTrait::new(result_shape.span(), result_data.span(), Option::None(()));
 }

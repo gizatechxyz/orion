@@ -37,10 +37,10 @@ use orion::numbers::fixed_point::Fixed;
 
 | function | description |
 | --- | --- |
-| [`fp.new`](fp.new.md) | Constructs a new `FixedType` instance. |
-| [`fp.new_unscaled`](fp.new\_unscaled.md) | Creates a new `FixedType` instance with the specified unscaled magnitude and sign. |
-| [`fp.from_felt`](fp.from\_felt.md) | Creates a new `FixedType` instance from a `felt252` value. |
-| [`fp.from_unscaled_felt`](fp.from\_unscaled\_felt.md) | Creates a new `FixedType` instance from an unscaled `felt252` value. |
+| [`fp.new`](fp.new.md) | Constructs a new fixed point instance. |
+| [`fp.new_unscaled`](fp.new\_unscaled.md) | Creates a new fixed point instance with the specified unscaled magnitude and sign. |
+| [`fp.from_felt`](fp.from\_felt.md) | Creates a new fixed point instance from a `felt252` value. |
+| [`fp.from_unscaled_felt`](fp.from\_unscaled\_felt.md) | Creates a new fixed point instance from an unscaled `felt252` value. |
 | [`fp.abs`](fp.abs.md) | Returns the absolute value of the fixed point number. |
 | [`fp.ceil`](fp.ceil.md) | Returns the smallest integer greater than or equal to the fixed point number. |
 | [`fp.floor`](fp.floor.md) | Returns the largest integer less than or equal to the fixed point number. |
