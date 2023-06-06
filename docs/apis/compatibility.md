@@ -23,6 +23,7 @@ You can see below the list of current supported ONNX Operators:
 | ReduceSum  | :white_check_mark: |
 |    ReLU    | :white_check_mark: |
 | Leaky ReLU | :white_check_mark: |
+|  Sigmoid   | :white_check_mark: |
 |  Softmax   | :white_check_mark: |
 |  Softsign  | :white_check_mark: |
 |  Softplus  | :white_check_mark: |
