@@ -1,3 +1,4 @@
+use core::option::OptionTrait;
 use array::ArrayTrait;
 use array::SpanTrait;
 
@@ -34,16 +35,16 @@ fn softplus_u32_test() {
     let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
     let mut result = NNTrait::softplus(@tensor);
 
-    let data_0 = *result.data.at(0);
-    assert(data_0 == FixedTrait::new(5814556, false), 'result[0] == 5814556'); // 0.6931452
+    let data = *result.data.at(0);
+    assert(data == FixedTrait::new(5814556, false), 'result[0] == 5814556'); // 0.6931452
 
-    let data_1 = *result.data.at(1);
-    assert(data_1 == FixedTrait::new(11016447, false), 'result[1] == 11016447'); // 1.31326096
+    let data = *result.data.at(1);
+    assert(data == FixedTrait::new(11016447, false), 'result[1] == 11016447'); // 1.31326096
 
-    let data_2 = *result.data.at(2);
-    assert(data_2 == FixedTrait::new(17841964, false), 'result[2] == 17841964'); // 2.12692796
+    let data = *result.data.at(2);
+    assert(data == FixedTrait::new(17841964, false), 'result[2] == 17841964'); // 2.12692796
 
-    let data_3 = *result.data.at(3);
-    assert(data_3 == FixedTrait::new(25573406, false), 'result[3] == 25573406'); // 3.04858728
+    let data = *result.data.at(3);
+    assert(data == FixedTrait::new(25573406, false), 'result[3] == 25573406'); // 3.04858728
 }
 

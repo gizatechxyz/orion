@@ -1,3 +1,4 @@
+use core::option::OptionTrait;
 use array::ArrayTrait;
 use array::SpanTrait;
 
@@ -31,20 +32,20 @@ fn softsign_i32_test() {
     let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
     let mut result = NNTrait::softsign(@tensor);
 
-    let data_0 = *result.data.at(0);
-    assert(data_0.mag == 0, 'result[0] == 0'); // 0
-    assert(data_0.sign == false, 'result[0].sign == false');
+    let data = *result.data.at(0);
+    assert(data.mag == 0, 'result[0] == 0'); // 0
+    assert(data.sign == false, 'result[0].sign == false');
 
-    let data_1 = *result.data.at(1);
-    assert(data_1.mag == 4194304, 'result[1] == 4194304'); // 0.5
-    assert(data_1.sign == false, 'result[1].sign == false');
+    let data = *result.data.at(1);
+    assert(data.mag == 4194304, 'result[1] == 4194304'); // 0.5
+    assert(data.sign == false, 'result[1].sign == false');
 
-    let data_2 = *result.data.at(2);
-    assert(data_2.mag == 5592405, 'result[2] == 5592405'); // -0.67
-    assert(data_2.sign == true, 'result[2].sign == true');
+    let data = *result.data.at(2);
+    assert(data.mag == 5592405, 'result[2] == 5592405'); // -0.67
+    assert(data.sign == true, 'result[2].sign == true');
 
-    let data_3 = *result.data.at(3);
-    assert(data_3.mag == 6291456, 'result[3] == 6291456'); // -0.75
-    assert(data_3.sign == true, 'result[3].sign == true');
+    let data = *result.data.at(3);
+    assert(data.mag == 6291456, 'result[3] == 6291456'); // -0.75
+    assert(data.sign == true, 'result[3].sign == true');
 }
 

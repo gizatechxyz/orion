@@ -25,9 +25,9 @@ struct ExtraParams {
 ```
 
 **ExtraParams**
-| Params      | dtype               | desciption                                               |
-| ----------- | ------------------- | -------------------------------------------------------- |
-| fixed_point | `Option<FixedImpl>` | Specifies the type of Fixed Point a Tensor can supports. |
+| Params      | dtype               | default     | desciption                                               |
+| ----------- | ------------------- | ----------- | -------------------------------------------------------- |
+| fixed_point | `Option<FixedImpl>` | `FP16x16()` | Specifies the type of Fixed Point a Tensor can supports. |
 
 ### Data types
 

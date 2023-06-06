@@ -8,7 +8,7 @@ use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::impl_tensor_i32;
 use orion::operators::tensor::implementations::impl_tensor_fp;
-use orion::performance::functional::quantization::quant_fp::symetric_quant as symetric_quant_fp;
+use orion::performance::functional::quantization::quant_fp::core::symetric_quant as symetric_quant_fp;
 use orion::utils::check_gas;
 use orion::utils::fp8x23_to_i32;
 
@@ -83,7 +83,10 @@ fn quantize_fp_tensor(tensor: @Tensor::<FixedType>) -> Tensor::<i32> {
     loop {
         check_gas();
 
-        let quantized = symetric_quant_fp(min_val, max_val, *data.pop_front().unwrap());
+        let quantized = symetric_quant_fp(
+            min_val, max_val, *data.pop_front().unwrap(), *tensor.extra
+        )
+            .unwrap();
         result_data.append(fp8x23_to_i32(quantized));
 
         if data.len() == 0 {

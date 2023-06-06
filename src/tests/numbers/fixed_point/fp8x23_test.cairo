@@ -2,10 +2,10 @@ use option::OptionTrait;
 use traits::Into;
 
 
-use orion::numbers::fixed_point::implementations::impl_8x23::{ONE, _felt_abs, _felt_sign };
+use orion::numbers::fixed_point::implementations::impl_8x23::{ONE, _felt_abs, _felt_sign};
 
 use orion::numbers::fixed_point::implementations::impl_8x23;
-use orion::numbers::fixed_point::core::{FixedTrait,FixedType};
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::numbers::fixed_point::core;
 
 #[test]
