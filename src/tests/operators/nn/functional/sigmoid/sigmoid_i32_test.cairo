@@ -1,14 +1,14 @@
 use array::ArrayTrait;
 use core::debug::PrintTrait;
 use array::SpanTrait;
+use core::Into;
 
-use orion::operators::tensor::core::TensorTrait;
+use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::operators::tensor::implementations::impl_tensor_i32;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::implementations::impl_nn_i32;
-use orion::numbers::fixed_point::types::Fixed;
-
+use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
 
 
 #[test]
@@ -29,19 +29,21 @@ fn sigmoid_i32_test() {
     data.append(val_3);
     data.append(val_4);
 
-    let mut tensor = TensorTrait::new(shape.span(), data.span());
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) };
+
+    let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
     let mut result = NNTrait::sigmoid(@tensor);
 
-    let data_0 = *result.data.at(0);
-    assert(data_0 == Fixed::new(4194304, false), 'result[0] == 4194304'); // 0.5
+    let data = *result.data.at(0).mag;
+    assert(data == 32768, 'result[0] == 4194304'); // 0.5
 
-    let data_1 = *result.data.at(1);
-    assert(data_1 == Fixed::new(6132564, false), 'result[1] == 6132564'); // 0.7310586
+    let data = *result.data.at(1).mag;
+    assert(data == 47910, 'result[1] == 47910'); // 0.7310...
 
-    let data_2 = *result.data.at(2);
-    assert(data_2 == Fixed::new(999946, false), 'result[2] == 999946'); // 0.11920285
+    let data = *result.data.at(2).mag;
+    assert(data == 7812, 'result[2] == 7812'); // 0.11920...
 
-    let data_3 = *result.data.at(3);
-    assert(data_3 == Fixed::new(8388608, false), 'result[3] == 8388608'); // 1
+    let data = *result.data.at(3).mag;
+    assert(data == 65536, 'result[3] == 65536'); // 1
 }
 

@@ -3,7 +3,7 @@ use orion::operators::tensor::core::Tensor;
 use orion::numbers::signed_integer::i32::i32;
 use orion::operators::nn::core::{NNTrait};
 use orion::operators::nn::functional::relu::relu_i32::relu_i32;
-use orion::operators::nn::functional::sigmoid::sigmoid_i32::sigmoid_i32;
+use orion::operators::nn::functional::sigmoid::sigmoid_i32::core::sigmoid_i32;
 use orion::operators::nn::functional::softmax::softmax_i32::softmax_i32;
 use orion::operators::nn::functional::softsign::softsign_i32::core::softsign_i32;
 use orion::operators::nn::functional::softplus::softplus_i32::core::softplus_i32;
@@ -18,7 +18,7 @@ impl NN_i32 of NNTrait<i32> {
     }
 
     fn sigmoid(tensor: @Tensor<i32>) -> Tensor<FixedType> {
-        sigmoid_i32(tensor)
+        sigmoid_i32(tensor).unwrap()
     }
 
     fn softmax(tensor: @Tensor<i32>, axis: usize) -> Tensor<FixedType> {
