@@ -2,6 +2,7 @@
 
 use array::ArrayTrait;
 use array::SpanTrait;
+use option::OptionTrait;
 
 use orion::numbers::signed_integer::i32::i32;
 use orion::numbers::fixed_point::core::FixedType;
@@ -22,7 +23,7 @@ use orion::operators::tensor::math::less_equal::less_equal_i32::less_equal;
 use orion::operators::tensor::math::abs::abs_i32::abs;
 use orion::operators::tensor::linalg::matmul::matmul_i32::matmul;
 use orion::operators::tensor::linalg::transpose::transpose_i32::transpose;
-use orion::operators::tensor::math::exp::exp_i32::exp_i32_fp;
+use orion::operators::tensor::math::exp::exp_i32::core::exp_i32;
 use orion::operators::tensor::math::arithmetic::arithmetic_i32::{add, sub, mul, div};
 use orion::utils::check_gas;
 
@@ -76,7 +77,7 @@ impl Tensor_i32 of TensorTrait<i32> {
     }
 
     fn exp(self: @Tensor<i32>) -> Tensor<FixedType> {
-        exp_i32_fp(self)
+        exp_i32(self).unwrap()
     }
 
     fn eq(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {

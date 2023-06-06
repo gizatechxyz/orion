@@ -1,3 +1,4 @@
+use core::option::OptionTrait;
 use array::ArrayTrait;
 use array::SpanTrait;
 

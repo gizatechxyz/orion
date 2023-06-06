@@ -7,22 +7,23 @@ use option::OptionTrait;
 use orion::numbers::fixed_point::core::FixedType;
 
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, ExtraParams,  TensorTrait, ravel_index, unravel_index, reshape, at_tensor
+    new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
+    at_tensor
 };
-use orion::operators::tensor::math::min::min_fp::min_in_tensor;
-use orion::operators::tensor::math::max::max_fp::max_in_tensor;
-use orion::operators::tensor::math::equal::equal_fp::equal;
-use orion::operators::tensor::math::less::less_fp::less;
-use orion::operators::tensor::math::less_equal::less_equal_fp::less_equal;
-use orion::operators::tensor::math::abs::abs_fp::abs;
-use orion::operators::tensor::math::reduce_sum::reduce_sum_fp::reduce_sum;
-use orion::operators::tensor::math::argmax::argmax_fp::argmax;
-use orion::operators::tensor::linalg::matmul::matmul_fp::matmul;
-use orion::operators::tensor::linalg::transpose::transpose_fp::transpose;
-use orion::operators::tensor::math::exp::exp_fp::exp;
-use orion::operators::tensor::math::arithmetic::arithmetic_fp::{add, sub, mul, div};
-use orion::operators::tensor::math::greater::greater_fp::greater;
-use orion::operators::tensor::math::greater_equal::greater_equal_fp::greater_equal;
+use orion::operators::tensor::math::min::min_fp::core::min_in_tensor;
+use orion::operators::tensor::math::max::max_fp::core::max_in_tensor;
+use orion::operators::tensor::math::equal::equal_fp::core::equal;
+use orion::operators::tensor::math::less::less_fp::core::less;
+use orion::operators::tensor::math::less_equal::less_equal_fp::core::less_equal;
+use orion::operators::tensor::math::abs::abs_fp::core::abs;
+use orion::operators::tensor::math::reduce_sum::reduce_sum_fp::core::reduce_sum;
+use orion::operators::tensor::math::argmax::argmax_fp::core::argmax;
+use orion::operators::tensor::linalg::matmul::matmul_fp::core::matmul;
+use orion::operators::tensor::linalg::transpose::transpose_fp::core::transpose;
+use orion::operators::tensor::math::exp::exp_fp::core::exp;
+use orion::operators::tensor::math::arithmetic::arithmetic_fp::core::{add, sub, mul, div};
+use orion::operators::tensor::math::greater::greater_fp::core::greater;
+use orion::operators::tensor::math::greater_equal::greater_equal_fp::core::greater_equal;
 use orion::utils::check_gas;
 
 impl Tensor_fp of TensorTrait<FixedType> {
@@ -37,11 +38,11 @@ impl Tensor_fp of TensorTrait<FixedType> {
     }
 
     fn min(self: @Tensor<FixedType>) -> FixedType {
-        min_in_tensor(*self.data)
+        min_in_tensor(*self.data, *self.extra).unwrap()
     }
 
     fn max(self: @Tensor<FixedType>) -> FixedType {
-        max_in_tensor(*self.data)
+        max_in_tensor(*self.data, *self.extra).unwrap()
     }
 
     fn stride(self: @Tensor<FixedType>) -> Span<usize> {
@@ -61,47 +62,47 @@ impl Tensor_fp of TensorTrait<FixedType> {
     }
 
     fn reduce_sum(self: @Tensor<FixedType>, axis: usize, keepdims: bool) -> Tensor<FixedType> {
-        reduce_sum(self, axis, keepdims)
+        reduce_sum(self, axis, keepdims).unwrap()
     }
 
     fn argmax(self: @Tensor<FixedType>, axis: usize) -> Tensor<usize> {
-        argmax(self, axis)
+        argmax(self, axis).unwrap()
     }
 
     fn transpose(self: @Tensor<FixedType>, axes: Span<usize>) -> Tensor<FixedType> {
-        transpose(self, axes)
+        transpose(self, axes).unwrap()
     }
 
     fn matmul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType> {
-        matmul(self, other)
+        matmul(self, other).unwrap()
     }
 
     fn exp(self: @Tensor<FixedType>) -> Tensor<FixedType> {
-        exp(self)
+        exp(self).unwrap()
     }
 
     fn eq(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
-        equal(self, other)
+        equal(self, other).unwrap()
     }
 
     fn greater(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
-        greater(self, other)
+        greater(self, other).unwrap()
     }
 
     fn greater_equal(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
-        greater_equal(self, other)
+        greater_equal(self, other).unwrap()
     }
 
     fn less(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
-        less(self, other)
+        less(self, other).unwrap()
     }
 
     fn less_equal(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
-        less_equal(self, other)
+        less_equal(self, other).unwrap()
     }
 
     fn abs(self: @Tensor<FixedType>) -> Tensor<FixedType> {
-        abs(self)
+        abs(self).unwrap()
     }
 }
 
@@ -116,7 +117,7 @@ impl FixedTypeTensorAdd of Add<Tensor<FixedType>> {
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise addition.
     fn add(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
-        add(@lhs, @rhs)
+        add(@lhs, @rhs).unwrap()
     }
 }
 
@@ -131,7 +132,7 @@ impl FixedTypeTensorSub of Sub<Tensor<FixedType>> {
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise subtraction.
     fn sub(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
-        sub(@lhs, @rhs)
+        sub(@lhs, @rhs).unwrap()
     }
 }
 
@@ -146,7 +147,7 @@ impl FixedTypeTensorMul of Mul<Tensor<FixedType>> {
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise multiplication.
     fn mul(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
-        mul(@lhs, @rhs)
+        mul(@lhs, @rhs).unwrap()
     }
 }
 
@@ -161,6 +162,6 @@ impl FixedTypeTensorDiv of Div<Tensor<FixedType>> {
     /// # Returns
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise division.
     fn div(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
-        div(@lhs, @rhs)
+        div(@lhs, @rhs).unwrap()
     }
 }

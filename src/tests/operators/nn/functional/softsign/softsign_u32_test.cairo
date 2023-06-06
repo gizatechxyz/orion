@@ -1,3 +1,4 @@
+use core::option::OptionTrait;
 use core::traits::Into;
 use array::ArrayTrait;
 use array::SpanTrait;
@@ -35,16 +36,16 @@ fn softsign_u32_test() {
     let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
     let mut result = NNTrait::softsign(@tensor);
 
-    let data_0 = *result.data.at(0);
-    assert(data_0 == FixedTrait::new(0, false), 'result[0] == 0'); // 0 
+    let data = *result.data.at(0);
+    assert(data == FixedTrait::new(0, false), 'result[0] == 0'); // 0 
 
-    let data_1 = *result.data.at(1);
-    assert(data_1 == FixedTrait::new(4194304, false), 'result[1] == 4194304'); // 0.5
+    let data = *result.data.at(1);
+    assert(data == FixedTrait::new(4194304, false), 'result[1] == 4194304'); // 0.5
 
-    let data_2 = *result.data.at(2);
-    assert(data_2 == FixedTrait::new(5592405, false), 'result[2] == 5592405'); // 0.67
+    let data = *result.data.at(2);
+    assert(data == FixedTrait::new(5592405, false), 'result[2] == 5592405'); // 0.67
 
-    let data_3 = *result.data.at(3);
-    assert(data_3 == FixedTrait::new(6291456, false), 'result[3] == 6291456'); // 0.75
+    let data = *result.data.at(3);
+    assert(data == FixedTrait::new(6291456, false), 'result[3] == 6291456'); // 0.75
 }
 

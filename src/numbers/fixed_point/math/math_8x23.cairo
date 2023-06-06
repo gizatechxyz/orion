@@ -1,6 +1,6 @@
 use traits::Into;
 
-use orion::numbers::fixed_point::implementations::impl_8x23::{ONE, ONE_u64, MAX, HALF, fp8x23};
+use orion::numbers::fixed_point::implementations::impl_8x23::{ONE, ONE_u64, MAX, HALF};
 use orion::numbers::fixed_point::implementations::impl_8x23;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::utils::check_gas;

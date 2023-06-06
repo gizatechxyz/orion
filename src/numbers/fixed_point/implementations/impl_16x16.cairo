@@ -5,9 +5,6 @@ use traits::Into;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::numbers::fixed_point::math::math_16x16;
 
-#[derive(Copy, Drop)]
-extern type fp16x16;
-
 const PRIME: felt252 = 3618502788666131213697322783095070105623107215331596699973092056135872020480;
 const HALF_PRIME: felt252 =
     1809251394333065606848661391547535052811553607665798349986546028067936010240;
