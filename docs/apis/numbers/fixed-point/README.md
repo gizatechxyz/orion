@@ -1,14 +1,14 @@
 # Fixed Point
 
 {% hint style="info" %}
-This library has been modified from [cubit](https://github.com/influenceth/cubit) library by [influenceth](https://github.com/influenceth) and adjusted to match with Q8.23 fixed point.
+This library has been modified from [cubit](https://github.com/influenceth/cubit) library by [influenceth](https://github.com/influenceth) and adjusted to match with Q8.23 and Q16.16 fixed point.
 {% endhint %}
 
 ```rust
 use orion::numbers::fixed_point;
 ```
 
-This API provides basic some operations for signed fixed point Q8.23 numbers. Fixed point numbers are represented as a struct `FixedType` with a magnitude and a sign.
+This API provides basic some operations for signed fixed point Q8.23 and Q16.16 numbers. Fixed point numbers are represented as a struct `FixedType` with a magnitude and a sign.
 
 The magnitude represents the absolute value of the number, and the sign indicates whether the number is positive or negative.
 
@@ -26,6 +26,7 @@ Orion supports currently one fixed point type.
 | Data type | dtype       |
 | --------- | ----------- |
 | Q8.23     | `FixedType` |
+| Q16.16    | `FixedType` |
 
 ### **`Fixed` Trait**
 
@@ -37,10 +38,10 @@ use orion::numbers::fixed_point::Fixed;
 
 | function | description |
 | --- | --- |
-| [`fp.new`](fp.new.md) | Constructs a new `FixedType` instance. |
-| [`fp.new_unscaled`](fp.new\_unscaled.md) | Creates a new `FixedType` instance with the specified unscaled magnitude and sign. |
-| [`fp.from_felt`](fp.from\_felt.md) | Creates a new `FixedType` instance from a `felt252` value. |
-| [`fp.from_unscaled_felt`](fp.from\_unscaled\_felt.md) | Creates a new `FixedType` instance from an unscaled `felt252` value. |
+| [`fp.new`](fp.new.md) | Constructs a new fixed point instance. |
+| [`fp.new_unscaled`](fp.new\_unscaled.md) | Creates a new fixed point instance with the specified unscaled magnitude and sign. |
+| [`fp.from_felt`](fp.from\_felt.md) | Creates a new fixed point instance from a `felt252` value. |
+| [`fp.from_unscaled_felt`](fp.from\_unscaled\_felt.md) | Creates a new fixed point instance from an unscaled `felt252` value. |
 | [`fp.abs`](fp.abs.md) | Returns the absolute value of the fixed point number. |
 | [`fp.ceil`](fp.ceil.md) | Returns the smallest integer greater than or equal to the fixed point number. |
 | [`fp.floor`](fp.floor.md) | Returns the largest integer less than or equal to the fixed point number. |

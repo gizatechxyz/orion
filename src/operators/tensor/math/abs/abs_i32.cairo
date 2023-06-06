@@ -22,5 +22,5 @@ fn abs(z: @Tensor<i32>) -> Tensor<i32> {
         data_result.append(current_index.abs());
     };
 
-    return TensorTrait::<i32>::new(*z.shape, data_result.span());
+    return TensorTrait::<i32>::new(*z.shape, data_result.span(), *z.extra);
 }

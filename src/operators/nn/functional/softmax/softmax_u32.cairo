@@ -1,6 +1,8 @@
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::{impl_tensor_u32, impl_tensor_fp};
+
 use orion::numbers::fixed_point::core::FixedType;
+
 
 /// Cf: NNTrait::softmax docstring
 fn softmax_u32(z: @Tensor<u32>, axis: usize) -> Tensor<FixedType> {

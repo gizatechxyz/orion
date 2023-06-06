@@ -46,5 +46,5 @@ fn transpose(self: @Tensor<u32>, axes: Span<usize>) -> Tensor<u32> {
         output_index += 1;
     };
 
-    return TensorTrait::<u32>::new(output_shape, output_data.span());
+    return TensorTrait::new(output_shape, output_data.span(), *self.extra);
 }

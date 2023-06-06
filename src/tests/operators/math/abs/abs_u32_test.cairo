@@ -1,7 +1,7 @@
 use array::SpanTrait;
 use array::ArrayTrait;
 use orion::operators::tensor::implementations::impl_tensor_u32;
-use orion::operators::tensor::core::TensorTrait;
+use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 
 
 
@@ -23,7 +23,9 @@ fn tensor_abs_u32() {
     arr.append(7);
     arr.append(8);
 
-    let tensor = TensorTrait::<u32>::new(sizes.span(), arr.span());
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor = TensorTrait::<u32>::new(sizes.span(), arr.span(), extra);
 
     let result = tensor.abs();
     assert(*result.data.at(0) == 0, 'result[0] = 0');

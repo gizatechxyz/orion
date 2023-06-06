@@ -6,24 +6,38 @@ A Tensor represents a multi-dimensional array of elements.
 use orion::operators::tensor;
 ```
 
-A `Tensor` represents a multi-dimensional array of elements and is depicted as a struct containing both the tensor's shape and a flattened array of its data. The generic Tensor is defined as follows:
+A `Tensor` represents a multi-dimensional array of elements and is depicted as a struct containing both the tensor's shape,a flattened array of its data and extra parameters. The generic Tensor is defined as follows:
 
 ```rust
 struct Tensor<T> {
     shape: Span<usize>,
     data: Span<T>
+    extra: Option<ExtraParams>
 }
 ```
+
+`ExtraParams` is a struct containing additional parameters for the tensor.
+
+```rust
+struct ExtraParams {
+    fixed_point: Option<FixedImpl>
+}
+```
+
+**ExtraParams**
+| Params      | dtype               | default     | desciption                                               |
+| ----------- | ------------------- | ----------- | -------------------------------------------------------- |
+| fixed_point | `Option<FixedImpl>` | `FP16x16()` | Specifies the type of Fixed Point a Tensor can supports. |
 
 ### Data types
 
 Orion supports currently three tensor types.
 
-| Data type                  | dtype               |
-| -------------------------- | ------------------- |
-| 32-bit integer (signed)    | `Tensor<i32>`       |
-| 32-bit integer (unsigned)  | `Tensor<u32>`       |
-| Fixed point Q8.23 (signed) | `Tensor<FixedType>` |
+| Data type                 | dtype               |
+| ------------------------- | ------------------- |
+| 32-bit integer (signed)   | `Tensor<i32>`       |
+| 32-bit integer (unsigned) | `Tensor<u32>`       |
+| Fixed point  (signed)     | `Tensor<FixedType>` |
 
 ---
 

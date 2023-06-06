@@ -1,9 +1,9 @@
 use array::SpanTrait;
 use array::{ArrayTrait};
-use orion::operators::tensor::implementations::impl_tensor_i32;
-use orion::numbers::signed_integer::{integer_trait::IntegerTrait,i32::i32};
 
-use orion::operators::tensor::core::TensorTrait;
+use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
+use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 
 #[test]
 #[available_gas(2000000)]
@@ -13,33 +13,31 @@ fn tensor_eq_i32() {
     sizes.append(3);
 
     let mut arr_1 = ArrayTrait::<i32>::new();
-    arr_1.append(IntegerTrait::new(0,false));
-    arr_1.append(IntegerTrait::new(1,false));
-    arr_1.append(IntegerTrait::new(2,false));
-    arr_1.append(IntegerTrait::new(3,false));
-    arr_1.append(IntegerTrait::new(4,false));
-    arr_1.append(IntegerTrait::new(5,false));
-    arr_1.append(IntegerTrait::new(6,false));
-    arr_1.append(IntegerTrait::new(7,false));
-    arr_1.append(IntegerTrait::new(8,false));
-
-    
+    arr_1.append(IntegerTrait::new(0, false));
+    arr_1.append(IntegerTrait::new(1, false));
+    arr_1.append(IntegerTrait::new(2, false));
+    arr_1.append(IntegerTrait::new(3, false));
+    arr_1.append(IntegerTrait::new(4, false));
+    arr_1.append(IntegerTrait::new(5, false));
+    arr_1.append(IntegerTrait::new(6, false));
+    arr_1.append(IntegerTrait::new(7, false));
+    arr_1.append(IntegerTrait::new(8, false));
 
     let mut arr_2 = ArrayTrait::<i32>::new();
-    arr_2.append(IntegerTrait::new(10,false));
-    arr_2.append(IntegerTrait::new(11,false));
-    arr_2.append(IntegerTrait::new(12,false));
-    arr_2.append(IntegerTrait::new(3,true));
-    arr_2.append(IntegerTrait::new(4,false));
-    arr_2.append(IntegerTrait::new(5,false));
-    arr_2.append(IntegerTrait::new(16,false));
-    arr_2.append(IntegerTrait::new(17,false));
-    arr_2.append(IntegerTrait::new(18,false));
+    arr_2.append(IntegerTrait::new(10, false));
+    arr_2.append(IntegerTrait::new(11, false));
+    arr_2.append(IntegerTrait::new(12, false));
+    arr_2.append(IntegerTrait::new(3, true));
+    arr_2.append(IntegerTrait::new(4, false));
+    arr_2.append(IntegerTrait::new(5, false));
+    arr_2.append(IntegerTrait::new(16, false));
+    arr_2.append(IntegerTrait::new(17, false));
+    arr_2.append(IntegerTrait::new(18, false));
 
-    
-    
-    let tensor_a = TensorTrait::<i32>::new(sizes.span(), arr_1.span());
-    let tensor_b = TensorTrait::<i32>::new(sizes.span(), arr_2.span());
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor_a = TensorTrait::<i32>::new(sizes.span(), arr_1.span(), extra);
+    let tensor_b = TensorTrait::<i32>::new(sizes.span(), arr_2.span(), extra);
 
     let result = tensor_a.eq(@tensor_b);
     assert(*result.data.at(0) == 0, 'result[0] = 0');
@@ -67,30 +65,28 @@ fn tensor_eq_i32_broadcast() {
     sizes_2.append(3);
 
     let mut arr_1 = ArrayTrait::<i32>::new();
-    arr_1.append(IntegerTrait::new(0,false));
-    arr_1.append(IntegerTrait::new(1,false));
-    arr_1.append(IntegerTrait::new(2,false));
-    arr_1.append(IntegerTrait::new(3,false));
-    arr_1.append(IntegerTrait::new(4,false));
-    arr_1.append(IntegerTrait::new(5,false));
-    arr_1.append(IntegerTrait::new(6,false));
-    arr_1.append(IntegerTrait::new(7,false));
-    arr_1.append(IntegerTrait::new(8,false));
-    arr_1.append(IntegerTrait::new(9,false));
-    arr_1.append(IntegerTrait::new(10,false));
-    arr_1.append(IntegerTrait::new(11,false));
-
-    
+    arr_1.append(IntegerTrait::new(0, false));
+    arr_1.append(IntegerTrait::new(1, false));
+    arr_1.append(IntegerTrait::new(2, false));
+    arr_1.append(IntegerTrait::new(3, false));
+    arr_1.append(IntegerTrait::new(4, false));
+    arr_1.append(IntegerTrait::new(5, false));
+    arr_1.append(IntegerTrait::new(6, false));
+    arr_1.append(IntegerTrait::new(7, false));
+    arr_1.append(IntegerTrait::new(8, false));
+    arr_1.append(IntegerTrait::new(9, false));
+    arr_1.append(IntegerTrait::new(10, false));
+    arr_1.append(IntegerTrait::new(11, false));
 
     let mut arr_2 = ArrayTrait::<i32>::new();
-    arr_2.append(IntegerTrait::new(0,false));
-    arr_2.append(IntegerTrait::new(1,false));
-    arr_2.append(IntegerTrait::new(2,false));
+    arr_2.append(IntegerTrait::new(0, false));
+    arr_2.append(IntegerTrait::new(1, false));
+    arr_2.append(IntegerTrait::new(2, false));
 
-    
-    
-    let tensor_a = TensorTrait::<i32>::new(sizes_1.span(), arr_1.span());
-    let tensor_b = TensorTrait::<i32>::new(sizes_2.span(), arr_2.span());
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor_a = TensorTrait::<i32>::new(sizes_1.span(), arr_1.span(), extra);
+    let tensor_b = TensorTrait::<i32>::new(sizes_2.span(), arr_2.span(), extra);
 
     let result_a = tensor_b.eq(@tensor_a);
     assert(*result_a.data.at(0) == 1, 'result[0] = 1');

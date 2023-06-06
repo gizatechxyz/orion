@@ -3,6 +3,9 @@ use array::SpanTrait;
 use traits::Into;
 
 use orion::tests::operators::tensor::helpers::i32_tensor_2x2_helper;
+use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::numbers::fixed_point::core::FixedImpl;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::implementations::impl_nn_i32;
 
@@ -12,6 +15,8 @@ use debug::print_felt252;
 #[available_gas(20000000)]
 fn softmax_test() {
     let tensor = i32_tensor_2x2_helper();
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
+    let tensor = TensorTrait::new(tensor.shape, tensor.data, Option::Some(extra));
 
     let mut result = NNTrait::softmax(@tensor, 0).data;
 

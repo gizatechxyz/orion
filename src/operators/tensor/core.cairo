@@ -4,15 +4,19 @@ use option::OptionTrait;
 
 use orion::utils::check_gas;
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::fixed_point::types::FixedType;
+use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
 
+#[derive(Copy, Drop)]
 struct Tensor<T> {
     shape: Span<usize>,
-    data: Span<T>
+    data: Span<T>,
+    extra: Option<ExtraParams>
 }
 
-impl TensorCopy<T> of Copy<Tensor<T>>;
-impl TensorDrop<T> of Drop<Tensor<T>>;
+#[derive(Copy, Drop)]
+struct ExtraParams {
+    fixed_point: Option<FixedImpl>
+}
 
 /// Trait
 ///
@@ -43,6 +47,7 @@ trait TensorTrait<T> {
     /// 
     /// * `shape`(`Span<usize>`) - A span representing the shape of the tensor.
     /// * `data` (`Span<T>`) - A span containing the array of elements.
+    /// * `extra` (`Option<ExtraParams>`) - A parameter for extra tensor options.
     ///
     /// ## Panics
     ///
@@ -66,8 +71,10 @@ trait TensorTrait<T> {
     ///     data.append(0_u32);
     ///     data.append(1_u32);
     ///     data.append(2_u32);
+    ///
+    ///     let extra = Option::<ExtraParams>::None(());
     /// 		
-    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span());
+    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
     /// 		
     ///     return tensor;
     /// }
@@ -84,7 +91,9 @@ trait TensorTrait<T> {
     ///     data.append(2_u32);
     ///     data.append(3_u32);
     /// 
-    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span());
+    ///     let extra = Option::<ExtraParams>::None(());
+    ///
+    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
     /// 
     ///     return tensor;
     /// }
@@ -105,14 +114,16 @@ trait TensorTrait<T> {
     ///     data.append(5_u32);
     ///     data.append(6_u32);
     ///     data.append(7_u32);
-    /// 
-    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span());
+    ///
+    ///     let extra = Option::<ExtraParams>::None(());
+    ///
+    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
     /// 
     ///     return tensor;
     /// }
     /// ```
     ///
-    fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
+    fn new(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T>;
     /// # tensor.at
     ///
     /// ```rust 
@@ -656,6 +667,238 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn eq(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.greater
+    ///
+    /// ```rust
+    ///     fn greater(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Check if each element of the first tensor is greater than the corresponding element of the second tensor.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// fn greater_example() -> Tensor<usize> {
+    ///     // We instantiate two 3D Tensor here.
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
+    ///     let tensor_y = u32_tensor_2x2x2_helper();
+    ///     let tensor_z = u32_tensor_2x2x2_helper();
+    ///     let result = tensor_y.greater(@tensor_z);
+    ///     return result;
+    /// }
+    /// >>> [0,0,0,0,0,0,0,1,1]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// fn greater_example() -> Tensor<usize> {
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2]]
+    ///     let tensor_y = u32_tensor_3x3_helper();
+    ///     let tensor_z = u32_tensor_3x1_helper();
+    ///     let result = tensor_y.greater(@tensor_z);
+    ///     // We could equally do something like:
+    ///     // let result = tensor_z.greater(@tensor_y);
+    ///     return result;
+    /// }
+    /// >>> [0,0,0,1,1,1,1,1,1]
+    /// ```
+    ///
+    fn greater(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.greater_equal
+    ///
+    /// ```rust
+    ///     fn greater_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Check if each element of the first tensor is greater than or equal to the corresponding element of the second tensor.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// fn greater_equal_example() -> Tensor<usize> {
+    ///     // We instantiate two 3D Tensor here.
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
+    ///     let tensor_y = u32_tensor_2x2x2_helper();
+    ///     let tensor_z = u32_tensor_2x2x2_helper();
+    ///     let result = tensor_y.greater_equal(@tensor_z);
+    ///     return result;
+    /// }
+    /// >>> [1,1,1,1,1,1,0,1,1]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// fn greater_equal_example() -> Tensor<usize> {
+    ///     // tensor_y = [[0,1,2],[3,4,5],[0,0,0]]
+    ///     // tensor_z = [[0,1,2]]
+    ///     let tensor_y = u32_tensor_3x3_helper();
+    ///     let tensor_z = u32_tensor_3x1_helper();
+    ///     let result = tensor_y.greater_equal(@tensor_z);
+    ///     // We could equally do something like:
+    ///     // let result = tensor_z.greater_equal(@tensor_y);
+    ///     return result;
+    /// }
+    /// >>> [1,1,1,1,1,1,0,0,0]
+    /// ```
+    ///
+    fn greater_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.less
+    ///
+    /// ```rust
+    ///     fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Check if each element of the first tensor is less than the corresponding element of the second tensor.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// fn less_example() -> Tensor<usize> {
+    ///     // We instantiate two 3D Tensor here.
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
+    ///     let tensor_y = u32_tensor_2x2x2_helper();
+    ///     let tensor_z = u32_tensor_2x2x2_helper();
+    ///     let result = tensor_y.less(@tensor_z);
+    ///     return result;
+    /// }
+    /// >>> [0,0,0,0,0,0,1,0,0]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// fn less_example() -> Tensor<usize> {
+    ///     // tensor_y = [[0,1,2],[3,4,5],[0,0,0]]
+    ///     // tensor_z = [[0,1,2]]       
+    ///     let tensor_y = u32_tensor_3x3_helper();
+    ///     let tensor_z = u32_tensor_3x1_helper();
+    ///     let result = tensor_y.less(@tensor_z);
+    ///     // We could equally do something like:
+    ///     // let result = tensor_z.less(@tensor_y);
+    ///     return result;
+    /// }
+    /// >>> [0,0,0,0,0,0,0,1,1]
+    /// ```
+    ///
+    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.less_equal
+    ///
+    /// ```rust
+    ///     fn less_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Check if each element of the first tensor is less than or equal to the corresponding element of the second tensor.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// fn less_equal_example() -> Tensor<usize> {
+    ///     // We instantiate two 3D Tensor here.
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
+    ///     let tensor_y = u32_tensor_2x2x2_helper();
+    ///     let tensor_z = u32_tensor_2x2x2_helper();
+    ///     let result = tensor_y.less_equal(@tensor_z);
+    ///     return result;
+    /// }
+    /// >>> [1,1,1,1,1,1,1,0,0]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// fn less_equal_example() -> Tensor<usize> {
+    ///     // tensor_y = [[0,1,2],[3,4,5],[0,0,0]]
+    ///     // tensor_z = [[0,1,2]]       
+    ///     let tensor_y = u32_tensor_3x3_helper();
+    ///     let tensor_z = u32_tensor_3x1_helper();
+    ///     let result = tensor_y.less_equal(@tensor_z);
+    ///     // We could equally do something like:
+    ///     // let result = tensor_z.less_equal(@tensor_y);
+    ///     return result;
+    /// }
+    /// >>> [1,1,1,0,0,0,1,1,1]
+    /// ```
+    ///
+    fn less_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// #tensor.abs
     ///
     /// ```rust
@@ -691,9 +934,9 @@ trait TensorTrait<T> {
 }
 
 /// Cf: TensorTrait::new docstring
-fn new_tensor<T>(shape: Span<usize>, data: Span<T>) -> Tensor<T> {
+fn new_tensor<T>(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T> {
     check_shape::<T>(shape, data);
-    Tensor::<T> { shape, data }
+    Tensor::<T> { shape, data, extra }
 }
 
 /// Cf: TensorTrait::ravel_index docstring
@@ -781,7 +1024,7 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
 
 /// Cf: TensorTrait::reshape docstring
 fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
-    new_tensor(target_shape, *self.data)
+    new_tensor(target_shape, *self.data, *self.extra)
 }
 
 /// Cf: TensorTrait::at docstring
