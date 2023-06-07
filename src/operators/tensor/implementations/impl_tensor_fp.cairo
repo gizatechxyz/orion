@@ -16,6 +16,7 @@ use orion::operators::tensor::math::equal::equal_fp::core::equal;
 use orion::operators::tensor::math::less::less_fp::core::less;
 use orion::operators::tensor::math::less_equal::less_equal_fp::core::less_equal;
 use orion::operators::tensor::math::abs::abs_fp::core::abs;
+use orion::operators::tensor::math::ceil::ceil_fp::core::ceil;
 use orion::operators::tensor::math::reduce_sum::reduce_sum_fp::core::reduce_sum;
 use orion::operators::tensor::math::argmax::argmax_fp::core::argmax;
 use orion::operators::tensor::linalg::matmul::matmul_fp::core::matmul;
@@ -103,6 +104,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn abs(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         abs(self).unwrap()
+    }
+
+    fn ceil(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        ceil(self).unwrap()
     }
 }
 
