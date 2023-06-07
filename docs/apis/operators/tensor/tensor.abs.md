@@ -22,7 +22,7 @@ the absolute value of all elements in the input tensor.
 fn abs_example() -> Tensor<i32> {
 // We instantiate a 3D Tensor here.
 // tensor = [[0,-1,2],[-3,4,5],[-6,7,-8]]
-let tensor = i32_tensor_2x2x2_helper();
+let tensor = i32_tensor_3x3x3_helper();
 let result = tensor.abs();
 return result;
 }
