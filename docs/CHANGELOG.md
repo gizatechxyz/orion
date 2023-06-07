@@ -9,6 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Added ceil operator
 
+### Fixed
+- Fixed abs tensor operator doc
+
 ## [Unreleased] - 2023-06-06
 
 ### Added
