@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased] - 2023-06-07
 
+### Changed
+
+- Remove the check range from the creation of a new fixed point, 
+  so that we can use fp for wide calculations. 
+  A future PR will restore the check range with a better design.
+
+## [Unreleased] - 2023-06-07
+
 ### Added
 - Added ceil operator
 

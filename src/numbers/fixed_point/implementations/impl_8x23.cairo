@@ -17,11 +17,7 @@ const MAX: u128 = 2147483647; // 2 ** 31 - 1
 
 impl FP8x23Impl of FixedTrait {
     fn new(mag: u128, sign: bool) -> FixedType {
-        if sign == true {
-            assert(mag <= MAX, 'fixed type: out of range');
-        } else {
-            assert(mag <= MAX - 1_u128, 'fixed type: out of range');
-        }
+        // TODO: check range
         return FixedType { mag: mag, sign: sign };
     }
 
