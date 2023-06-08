@@ -1,4 +1,5 @@
 mod argmax_test;
+mod argmin;
 mod max_test;
 mod min_test;
 mod reduce_sum_test;
