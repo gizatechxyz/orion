@@ -609,6 +609,44 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// # tensor.ln
+    ///
+    /// ```rust 
+    ///     fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// ```
+    ///
+    /// Computes the natural log of all elements of the input tensor.
+    /// $$
+    /// y_i=ln({x_i})
+    /// $$
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// Returns a new tensor in `FixedType` with the natural log of the elements of the input tensor.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// fn ln_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 2D Tensor here.
+    ///     // [[1,2],[3,4]]
+    ///     Note that we cannot use the helper tensor since it includes a 0 value
+    ///     and we cannot take the natural log ln(0) since it's undefined.
+    ///     let tensor = [[1,2],[3,100]];
+    /// 		
+    ///     // We can call `ln` function as follows.
+    ///     return tensor.ln();
+    /// }
+    /// >>> [[0,5814538],[9215825,38630966]]
+    /// // The fixed point representation of
+    /// // [[0, 0.693147],[1.098612, 4.605170]]
+    /// ```
+    ///
+    fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
     /// #tensor.eq
     ///
     /// ```rust
