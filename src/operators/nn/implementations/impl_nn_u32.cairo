@@ -24,6 +24,10 @@ impl NN_u32 of NNTrait<u32> {
         softmax_u32(tensor, axis)
     }
 
+    fn logsoftmax(tensor: @Tensor<u32>, axis: usize) -> Tensor<FixedType> {
+        logsoftmax_u32(tensor, axis)
+    }
+
     fn softsign(tensor: @Tensor<u32>) -> Tensor<FixedType> {
         softsign_u32(tensor).unwrap()
     }
