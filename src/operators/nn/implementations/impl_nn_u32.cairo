@@ -4,6 +4,7 @@ use orion::operators::nn::core::{NNTrait};
 use orion::operators::nn::functional::relu::relu_u32::relu_u32;
 use orion::operators::nn::functional::sigmoid::sigmoid_u32::core::sigmoid_u32;
 use orion::operators::nn::functional::softmax::softmax_u32::softmax_u32;
+use orion::operators::nn::functional::logsoftmax::logsoftmax_u32::logsoftmax_u32;
 use orion::operators::nn::functional::softsign::softsign_u32::core::softsign_u32;
 use orion::operators::nn::functional::softplus::softplus_u32::core::softplus_u32;
 use orion::operators::nn::functional::linear::linear_u32::linear_u32;

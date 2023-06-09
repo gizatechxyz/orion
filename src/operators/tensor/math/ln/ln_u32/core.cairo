@@ -1,6 +1,5 @@
 use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
 use orion::operators::tensor::core::{Tensor};
-use orion::numbers::signed_integer::i32::i32;
 use orion::operators::tensor::math::ln::ln_u32::fp8x23;
 use orion::operators::tensor::math::ln::ln_u32::fp16x16;
 
