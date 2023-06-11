@@ -11,12 +11,13 @@ You can see below the list of current supported ONNX Operators:
 |    Sub     | :white_check_mark: |
 |    Mul     | :white_check_mark: |
 |    Div     | :white_check_mark: |
-|    Equal   | :white_check_mark: |
-|    Greater | :white_check_mark: |
+|   Equal    | :white_check_mark: |
+|  Greater   | :white_check_mark: |
 |    Less    | :white_check_mark: |
 |    Abs     | :white_check_mark: |
 |    Ceil    | :white_check_mark: |
 |    Exp     | :white_check_mark: |
+|     Ln     | :white_check_mark: |
 |   MatMul   | :white_check_mark: |
 |  Reshape   | :white_check_mark: |
 | Transpose  | :white_check_mark: |
@@ -26,6 +27,7 @@ You can see below the list of current supported ONNX Operators:
 | Leaky ReLU | :white_check_mark: |
 |  Sigmoid   | :white_check_mark: |
 |  Softmax   | :white_check_mark: |
+| Logsoftmax | :white_check_mark: |
 |  Softsign  | :white_check_mark: |
 |  Softplus  | :white_check_mark: |
 |   Linear   | :white_check_mark: |

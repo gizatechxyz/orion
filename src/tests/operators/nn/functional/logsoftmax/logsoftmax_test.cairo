@@ -21,30 +21,12 @@ fn logsoftmax_test() {
 
     let mut result = NNTrait::logsoftmax(@tensor, 0).data;
 
-    // let test1 = *result.at(0).mag.into();
-    // test1.print();
-    // let test2 = *result.at(1).mag.into();
-    // test2.print();
-    // let test3 = *result.at(2).mag.into();
-    // test3.print();
-    // let test4 = *result.at(3).mag.into();
-    // test4.print();
-
     assert(*result.at(0).mag == 17841970, 'result[0] = -2.12693');
     assert(*result.at(1).mag == 17841970, 'result[1] = -2.12695');
     assert(*result.at(2).mag == 1064751, 'result[2] = -0.12692');
     assert(*result.at(3).mag == 1064751, 'result[3] = -0.12692');
 
      let mut result = NNTrait::logsoftmax(@tensor, 1).data;
-
-    // let test1 = *result.at(0).mag.into();
-    // test1.print();
-    // let test2 = *result.at(1).mag.into();
-    // test2.print();
-    // let test3 = *result.at(2).mag.into();
-    // test3.print();
-    // let test4 = *result.at(3).mag.into();
-    // test4.print();
 
     assert(*result.at(0).mag == 11016451, 'result[0] = -1.3134');
     assert(*result.at(1).mag == 2627827, 'result[1] = -0.3132');
