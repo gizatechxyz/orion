@@ -22,6 +22,7 @@
     * [tensor.transpose](apis/operators/tensor/tensor.transpose.md)
     * [tensor.reduce\_sum](apis/operators/tensor/tensor.reduce\_sum.md)
     * [tensor.argmax](apis/operators/tensor/tensor.argmax.md)
+    * [tensor.argmin](apis/operators/tensor/tensor.argmin.md)
     * [tensor.matmul](apis/operators/tensor/tensor.matmul.md)
     * [tensor.exp](apis/operators/tensor/tensor.exp.md)
     * [tensor.eq](apis/operators/tensor/tensor.eq.md)
