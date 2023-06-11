@@ -15,6 +15,7 @@ use orion::operators::tensor::math::min::min_i32::min_in_tensor;
 use orion::operators::tensor::math::max::max_i32::max_in_tensor;
 use orion::operators::tensor::math::reduce_sum::reduce_sum_i32::reduce_sum;
 use orion::operators::tensor::math::argmax::argmax_i32::argmax;
+use orion::operators::tensor::math::argmin::argmin_i32::argmin;
 use orion::operators::tensor::math::equal::equal_i32::equal;
 use orion::operators::tensor::math::greater::greater_i32::greater;
 use orion::operators::tensor::math::greater_equal::greater_equal_i32::greater_equal;
@@ -67,6 +68,10 @@ impl Tensor_i32 of TensorTrait<i32> {
 
     fn argmax(self: @Tensor<i32>, axis: usize) -> Tensor<usize> {
         argmax(self, axis)
+    }
+
+    fn argmin(self: @Tensor<i32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+        argmin(self, axis, keepdims, select_last_index)
     }
 
     fn transpose(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
