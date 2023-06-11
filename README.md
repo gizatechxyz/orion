@@ -9,10 +9,28 @@
 <!-- prettier-ignore-end -->
 </div>
 
+<div align="center">
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+<br />
+
+[![GitHub Workflow Status](https://github.com/gizatechxyz/orion/actions/workflows/test.yaml/badge.svg)](https://github.com/gizatechxyz/orion/actions/workflows/test.yaml)
+[![Project license](https://img.shields.io/github/license/gizatechxyz/orion.svg?style=flat-square)](LICENSE)
+[![Pull Requests welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg?style=flat-square)](https://github.com/gizatechxyz/orion/issues?q=is%3Aissue+is%3Aopen)
+[![Join the community](https://dcbadge.vercel.app/api/server/FR3Cd88x6r?style=flat-square)](https://discord.gg/FR3Cd88x6r)
+</div>
+
+
 # Orion: Cairo library for Validity ML ✨
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-green.svg?style=flat-square)](#contributors-)
+<a href="https://orion.gizatech.xyz/community/contribute">
+<img src="https://img.shields.io/badge/Contributor%20starter%20pack-Doc-green?logo=github"
+ />
+</a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+
 
 Orion is a Cairo library that provides two high-level features:
 
