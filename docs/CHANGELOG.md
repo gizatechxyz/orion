@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - 2023-06-11
+
+### Changed
+
+- Added ln functionality to tensor trait. Added Logsoftmax implementation for nn trait.
+- Added tests for both.
+  
 ## [Unreleased] - 2023-06-08
 
 ### Added
@@ -13,29 +20,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Remove the check range from the creation of a new fixed point, 
-  so that we can use fp for wide calculations. 
+- Remove the check range from the creation of a new fixed point,
+  so that we can use fp for wide calculations.
   A future PR will restore the check range with a better design.
 
 ## [Unreleased] - 2023-06-07
 
 ### Added
+
 - Added ceil operator
 
 ### Fixed
+
 - Fixed abs tensor operator doc
 
 ## [Unreleased] - 2023-06-06
 
 ### Added
+
 - Add fixed-point Q16.16 implementation
 
 ### Changed
+
 - Refactor operators and performance functions to support multiple fixed-point implementations.
 
 ## [Unreleased] - 2023-06-05
 
 ### Added
+
 - extra parameter to Tensor.
 
 ## [Unreleased] - 2023-06-03

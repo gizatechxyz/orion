@@ -2,8 +2,8 @@
 
 ## 👋 Welcome
 
-* [Orion](README.md)
-* [Why Validity ML?](welcome/why-validity-ml.md)
+- [Orion](README.md)
+- [Why Validity ML?](welcome/why-validity-ml.md)
 
 ## 🧱 APIs
 
@@ -25,6 +25,7 @@
     * [tensor.argmin](apis/operators/tensor/tensor.argmin.md)
     * [tensor.matmul](apis/operators/tensor/tensor.matmul.md)
     * [tensor.exp](apis/operators/tensor/tensor.exp.md)
+    * [tensor.ln](apis/operators/tensor/tensor.ln.md)
     * [tensor.eq](apis/operators/tensor/tensor.eq.md)
     * [tensor.greater](apis/operators/tensor/tensor.greater.md)
     * [tensor.greater_equal](apis/operators/tensor/tensor.greater_equal.md)
@@ -37,6 +38,7 @@
     * [nn.leaky\_relu](apis/operators/neural-network/nn.leaky\_relu.md)
     * [nn.sigmoid](apis/operators/neural-network/nn.sigmoid.md)
     * [nn.softmax](apis/operators/neural-network/nn.softmax.md)
+    * [nn.logsoftmax](apis/operators/neural-network/nn.logsoftmax.md)
     * [nn.softsign](apis/operators/neural-network/nn.softsign.md)
     * [nn.softplux](apis/operators/neural-network/nn.softplus.md)
     * [nn.linear](apis/operators/neural-network/nn.linear.md)
@@ -70,9 +72,9 @@
 
 ## 💖 Community
 
-* [Algorithms](community/algorithms.md)
-* [Contribute](community/contribute.md)
+- [Algorithms](community/algorithms.md)
+- [Contribute](community/contribute.md)
 
 ## 📖 Resources
 
-* [Tutorials](resources/tutorials.md)
+- [Tutorials](resources/tutorials.md)

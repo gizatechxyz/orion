@@ -5,3 +5,4 @@ mod softmax;
 mod softsign;
 mod softplus;
 mod linear;
+mod logsoftmax;
