@@ -33,9 +33,6 @@ data.append(IntegerTrait::new(3_u32, false));
 data.append(IntegerTrait::new(100_u32, false));
 let extra = Option::<ExtraParams>::None(());
 let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra)
-/// Note that we cannot use the helper tensor since it includes a 0 value
-/// and we cannot take the natural log ln(0) since it's undefined.
-
 
 // We can call `ln` function as follows.
 return tensor.ln();
