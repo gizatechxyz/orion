@@ -22,6 +22,7 @@ You can see below the list of current supported ONNX Operators:
 |  Reshape   | :white_check_mark: |
 | Transpose  | :white_check_mark: |
 |   Argmax   | :white_check_mark: |
+|   Argmin   | :white_check_mark: |
 | ReduceSum  | :white_check_mark: |
 |    ReLU    | :white_check_mark: |
 | Leaky ReLU | :white_check_mark: |
@@ -38,4 +39,4 @@ Performance optimizations:
 | :----------------: | :----------------: |
 | 8-bit quantization | :white_check_mark: |
 
-Current Operators support: **23/156 (14%)**
+Current Operators support: **24/156 (15%)**

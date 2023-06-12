@@ -19,6 +19,7 @@ use orion::operators::tensor::math::abs::abs_fp::core::abs;
 use orion::operators::tensor::math::ceil::ceil_fp::core::ceil;
 use orion::operators::tensor::math::reduce_sum::reduce_sum_fp::core::reduce_sum;
 use orion::operators::tensor::math::argmax::argmax_fp::core::argmax;
+use orion::operators::tensor::math::argmin::argmin_fp::core::argmin;
 use orion::operators::tensor::linalg::matmul::matmul_fp::core::matmul;
 use orion::operators::tensor::linalg::transpose::transpose_fp::core::transpose;
 use orion::operators::tensor::math::exp::exp_fp::core::exp;
@@ -69,6 +70,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn argmax(self: @Tensor<FixedType>, axis: usize) -> Tensor<usize> {
         argmax(self, axis).unwrap()
+    }
+
+    fn argmin(self: @Tensor<FixedType>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+        argmin(self, axis, keepdims, select_last_index).unwrap()
     }
 
     fn transpose(self: @Tensor<FixedType>, axes: Span<usize>) -> Tensor<FixedType> {
