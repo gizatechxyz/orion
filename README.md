@@ -23,11 +23,7 @@
 
 # Orion: Cairo library for Validity ML ✨
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-green.svg?style=flat-square)](#contributors-)
-<a href="https://orion.gizatech.xyz/community/contribute">
-<img src="https://img.shields.io/badge/Contributor%20starter%20pack-Doc-green?logo=github"
- />
-</a>
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 
@@ -85,10 +81,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/franalgaba"><img src="https://avatars.githubusercontent.com/u/24293857?v=4?s=100" width="100px;" alt="Fran Algaba"/><br /><sub><b>Fran Algaba</b></sub></a><br /><a href="https://github.com/gizatechxyz/onnx-cairo/commits?author=franalgaba" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/raphaelDkhn"><img src="https://avatars.githubusercontent.com/u/113879115?v=4?s=100" width="100px;" alt="raphaelDkhn"/><br /><sub><b>raphaelDkhn</b></sub></a><br /><a href="https://github.com/gizatechxyz/onnx-cairo/commits?author=raphaelDkhn" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ojetokun"><img src="https://avatars.githubusercontent.com/u/74370710?v=4?s=100" width="100px;" alt="Lanre Ojetokun"/><br /><sub><b>Lanre Ojetokun</b></sub></a><br /><a href="https://github.com/gizatechxyz/onnx-cairo/commits?author=ojetokun" title="Code">💻</a> <a href="https://github.com/gizatechxyz/onnx-cairo/issues?q=author%3Aojetokun" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/moodysalem"><img src="https://avatars.githubusercontent.com/u/7897876?v=4?s=100" width="100px;" alt="Moody Salem"/><br /><sub><b>Moody Salem</b></sub></a><br /><a href="https://github.com/gizatechxyz/onnx-cairo/commits?author=moodysalem" title="Code">💻</a> <a href="https://github.com/gizatechxyz/onnx-cairo/issues?q=author%3Amoodysalem" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/franalgaba"><img src="https://avatars.githubusercontent.com/u/24293857?v=4?s=100" width="100px;" alt="Fran Algaba"/><br /><sub><b>Fran Algaba</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=franalgaba" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/raphaelDkhn"><img src="https://avatars.githubusercontent.com/u/113879115?v=4?s=100" width="100px;" alt="raphaelDkhn"/><br /><sub><b>raphaelDkhn</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=raphaelDkhn" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ojetokun"><img src="https://avatars.githubusercontent.com/u/74370710?v=4?s=100" width="100px;" alt="Lanre Ojetokun"/><br /><sub><b>Lanre Ojetokun</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=ojetokun" title="Code">💻</a> <a href="https://github.com/gizatechxyz/orion/issues?q=author%3Aojetokun" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/moodysalem"><img src="https://avatars.githubusercontent.com/u/7897876?v=4?s=100" width="100px;" alt="Moody Salem"/><br /><sub><b>Moody Salem</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=moodysalem" title="Code">💻</a> <a href="https://github.com/gizatechxyz/orion/issues?q=author%3Amoodysalem" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Roee-87"><img src="https://avatars.githubusercontent.com/u/112157037?v=4?s=100" width="100px;" alt="Roy Rotstein"/><br /><sub><b>Roy Rotstein</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=Roee-87" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
