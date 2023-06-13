@@ -23,7 +23,7 @@
 
 # Orion: Cairo library for Validity ML ✨
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 
@@ -86,6 +86,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ojetokun"><img src="https://avatars.githubusercontent.com/u/74370710?v=4?s=100" width="100px;" alt="Lanre Ojetokun"/><br /><sub><b>Lanre Ojetokun</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=ojetokun" title="Code">💻</a> <a href="https://github.com/gizatechxyz/orion/issues?q=author%3Aojetokun" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/moodysalem"><img src="https://avatars.githubusercontent.com/u/7897876?v=4?s=100" width="100px;" alt="Moody Salem"/><br /><sub><b>Moody Salem</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=moodysalem" title="Code">💻</a> <a href="https://github.com/gizatechxyz/orion/issues?q=author%3Amoodysalem" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Roee-87"><img src="https://avatars.githubusercontent.com/u/112157037?v=4?s=100" width="100px;" alt="Roy Rotstein"/><br /><sub><b>Roy Rotstein</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=Roee-87" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/omahs"><img src="https://avatars.githubusercontent.com/u/73983677?v=4?s=100" width="100px;" alt="omahs"/><br /><sub><b>omahs</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=omahs" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
