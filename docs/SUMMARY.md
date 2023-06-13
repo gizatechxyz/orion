@@ -2,8 +2,8 @@
 
 ## 👋 Welcome
 
-- [Orion](README.md)
-- [Why Validity ML?](welcome/why-validity-ml.md)
+* [Orion](README.md)
+* [Why Validity ML?](welcome/why-validity-ml.md)
 
 ## 🧱 APIs
 
@@ -28,9 +28,9 @@
     * [tensor.ln](apis/operators/tensor/tensor.ln.md)
     * [tensor.eq](apis/operators/tensor/tensor.eq.md)
     * [tensor.greater](apis/operators/tensor/tensor.greater.md)
-    * [tensor.greater_equal](apis/operators/tensor/tensor.greater_equal.md)
+    * [tensor.greater\_equal](apis/operators/tensor/tensor.greater\_equal.md)
     * [tensor.less](apis/operators/tensor/tensor.less.md)
-    * [tensor.less_equal](apis/operators/tensor/tensor.less_equal.md)
+    * [tensor.less\_equal](apis/operators/tensor/tensor.less\_equal.md)
     * [tensor.abs](apis/operators/tensor/tensor.abs.md)
     * [tensor.ceil](apis/operators/tensor/tensor.ceil.md)
   * [Neural Network](apis/operators/neural-network/README.md)
@@ -69,12 +69,12 @@
   * [performance.quantize\_linear](apis/performance/performance.quantize\_linear.md)
   * [performance.quantize\_linear\_from\_fp](apis/performance/performance.quantize\_linear\_from\_fp.md)
 
-
 ## 💖 Community
 
-- [Algorithms](community/algorithms.md)
-- [Contribute](community/contribute.md)
+* [Algorithms](community/algorithms.md)
+* [Contribute](community/contribute.md)
 
 ## 📖 Resources
 
-- [Tutorials](resources/tutorials.md)
+* [Tutorials](resources/tutorials/README.md)
+  * [MNIST Classification with Feedforward Neural Network](resources/tutorials/mnist-classification-with-feedforward-neural-network.md)
