@@ -77,4 +77,4 @@
 ## 📖 Resources
 
 * [Tutorials](resources/tutorials/README.md)
-  * [MNIST Classification with Feedforward Neural Network](resources/tutorials/mnist-classification-with-feedforward-neural-network.md)
+  * [MNIST Classification with Orion](resources/tutorials/mnist-classification-with-orion.md)
