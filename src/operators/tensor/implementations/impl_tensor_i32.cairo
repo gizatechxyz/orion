@@ -28,6 +28,7 @@ use orion::operators::tensor::linalg::transpose::transpose_i32::transpose;
 use orion::operators::tensor::math::exp::exp_i32::core::exp_i32;
 use orion::operators::tensor::math::ln::ln_i32::core::ln_i32;
 use orion::operators::tensor::math::arithmetic::arithmetic_i32::{add, sub, mul, div};
+use orion::operators::tensor::math::cosh::cosh_i32::core::cosh_i32;
 use orion::utils::check_gas;
 
 impl Tensor_i32 of TensorTrait<i32> {
@@ -117,6 +118,10 @@ impl Tensor_i32 of TensorTrait<i32> {
 
     fn ceil(self: @Tensor<i32>) -> Tensor<i32> {
         ceil(self)
+    }
+
+    fn cosh(self: @Tensor<i32>) -> Tensor<FixedType> {
+        cosh_i32(self).unwrap()
     }
 }
 

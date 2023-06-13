@@ -27,6 +27,7 @@ use orion::operators::tensor::math::ln::ln_fp::core::ln;
 use orion::operators::tensor::math::arithmetic::arithmetic_fp::core::{add, sub, mul, div};
 use orion::operators::tensor::math::greater::greater_fp::core::greater;
 use orion::operators::tensor::math::greater_equal::greater_equal_fp::core::greater_equal;
+use orion::operators::tensor::math::cosh::cosh_fp::core::cosh;
 use orion::utils::check_gas;
 
 impl Tensor_fp of TensorTrait<FixedType> {
@@ -72,7 +73,12 @@ impl Tensor_fp of TensorTrait<FixedType> {
         argmax(self, axis).unwrap()
     }
 
-    fn argmin(self: @Tensor<FixedType>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+    fn argmin(
+        self: @Tensor<FixedType>,
+        axis: usize,
+        keepdims: Option<bool>,
+        select_last_index: Option<bool>
+    ) -> Tensor<usize> {
         argmin(self, axis, keepdims, select_last_index).unwrap()
     }
 
@@ -118,6 +124,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn ceil(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         ceil(self).unwrap()
+    }
+
+    fn cosh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        cosh(self).unwrap()
     }
 }
 

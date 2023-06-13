@@ -563,7 +563,9 @@ trait TensorTrait<T> {
     /// >>> [[[0,0],[1,1]]]
     /// ```
     ///
-    fn argmin(self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize>;
+    fn argmin(
+        self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize>;
     /// # tensor.matmul
     ///
     /// ```rust 
@@ -1076,6 +1078,38 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn ceil(self: @Tensor<T>) -> Tensor<T>;
+    /// #tensor.cosh
+    ///
+    /// ```rust
+    ///     fn cosh(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the hyperbolic cosine of each element in the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the hyperbolic cosine of the values in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn cosh_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 3D Tensor here.
+    ///     // tensor = [[0,1,2]]
+    ///     let tensor = fp8x23_tensor_1x3_helper();
+    ///     let result = tensor.cosh();
+    ///     return result;
+    /// }
+    /// >>> [1,0.5403,3.7622]
+    /// ```
+    ///
+    fn cosh(self: @Tensor<T>) -> Tensor<FixedType>;
 }
 
 /// Cf: TensorTrait::new docstring

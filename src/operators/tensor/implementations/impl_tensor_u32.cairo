@@ -27,6 +27,7 @@ use orion::operators::tensor::linalg::transpose::transpose_u32::transpose;
 use orion::operators::tensor::math::exp::exp_u32::core::exp_u32;
 use orion::operators::tensor::math::ln::ln_u32::core::ln_u32;
 use orion::operators::tensor::math::arithmetic::arithmetic_u32::{add, sub, mul, div};
+use orion::operators::tensor::math::cosh::cosh_u32::core::cosh_u32;
 use orion::utils::check_gas;
 
 impl Tensor_u32 of TensorTrait<u32> {
@@ -70,7 +71,9 @@ impl Tensor_u32 of TensorTrait<u32> {
         argmax(self, axis)
     }
 
-    fn argmin(self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+    fn argmin(
+        self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize> {
         argmin(self, axis, keepdims, select_last_index)
     }
 
@@ -117,6 +120,10 @@ impl Tensor_u32 of TensorTrait<u32> {
 
     fn ceil(self: @Tensor<u32>) -> Tensor<u32> {
         ceil(self)
+    }
+
+    fn cosh(self: @Tensor<u32>) -> Tensor<FixedType> {
+        cosh_u32(self).unwrap()
     }
 }
 
