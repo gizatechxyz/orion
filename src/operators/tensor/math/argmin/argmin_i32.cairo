@@ -1,8 +1,5 @@
-use core::option::OptionTrait;
-use core::clone::Clone;
 use array::ArrayTrait;
 use array::SpanTrait;
-use debug::PrintTrait;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::tensor::implementations::{impl_tensor_i32, impl_tensor_u32};
@@ -12,31 +9,23 @@ use orion::utils::check_gas;
 
 /// Cf: TensorTrait::argmin docstring
 fn argmin(
-    mut self: @Tensor<i32>, 
+    self: @Tensor<i32>, 
     axis: usize, 
     keepdims: Option<bool>, 
     select_last_index:Option<bool> 
     ) -> Tensor<usize> {
 
-    let keepdims = if (*self.shape).len() == 1 {
-            false
-        } else {
-            match keepdims {
-                Option::Some(val) => val,
-                Option::None(_) => true,
-            }
+    let keepdims = match keepdims {
+        Option::Some(val) => val,
+        Option::None(_) => true,
     };
-    
+
     let select_last_index = match select_last_index {
         Option::Some(val) => val,
         Option::None(_) => false,
     };
     
     assert(axis <= (*self.shape).len(), 'axis out of dimensions');
-
-    if (*self.shape).len() == 1 {
-        self = make_2d(self);
-    } 
 
     let mut output_data = ArrayTrait::new();
 
@@ -114,18 +103,4 @@ fn find_argmin(
     return find_argmin(
         input, output_indices, axis, axis_index + 1_usize, new_min_value, new_argmin,select_last_index
     );
-}
-
-/// Convert a 1D tensor to a 2D tensor with a second dimension of size 1.
-///
-/// # Arguments
-/// * `input` - The input tensor.
-///
-/// # Returns
-/// * The input tensor reshaped to have an additional dimension of size 1
-fn make_2d(input: @Tensor<i32>) -> @Tensor<i32> {
-    let mut new_shape = ArrayTrait::new();
-    new_shape.append(*(*input.shape).at(0));
-    new_shape.append(1);
-    @input.reshape(new_shape.span())
 }
