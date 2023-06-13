@@ -128,7 +128,7 @@ At this point, we have trained a regular model.&#x20;
 
 The aim of this tutorial is to guide you through the process of performing verifiable inference with the Orion library. As stated before, Orion exclusively performs inference on 8-bit quantized models. Typically, quantization is executed via two distinct methods: Quantization Aware Training (QAT) or Post-Training Quantization (PTQ), which occurs after the training phase. In this tutorial we will use QAT method.&#x20;
 
-Concretely QAT is a method where the quantization error is emulated during the training phase itself. In this process, the weights and activations of the model are quantized, and this information is used during both the forward and backward passes of training. This allows the model to learn and adapt to the quantization error. It ennsures that once the model is fully quantized post-training, it has already accounted for the effects of quantization, resulting in improved accuracy.
+Concretely QAT is a method where the quantization error is emulated during the training phase itself. In this process, the weights and activations of the model are quantized, and this information is used during both the forward and backward passes of training. This allows the model to learn and adapt to the quantization error. It ensures that once the model is fully quantized post-training, it has already accounted for the effects of quantization, resulting in improved accuracy.
 
 We will use TensorFlow Model Optimization Toolkit to finetune the pre-trained model for QAT.
 
