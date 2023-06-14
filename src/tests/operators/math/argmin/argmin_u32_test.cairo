@@ -3,6 +3,40 @@ use array::{ArrayTrait,SpanTrait};
 use orion::operators::tensor::implementations::impl_tensor_u32;
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 
+#[test]
+#[available_gas(20000000)]
+fn tensor1x3_argmin_u32() {
+    let mut sizes = ArrayTrait::new();
+    sizes.append(3);
+
+    let mut data = ArrayTrait::new();
+    data.append(0);
+    data.append(1);
+    data.append(2);
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor = TensorTrait::<u32>::new(sizes.span(), data.span(), extra);
+    
+    let result = tensor.argmin(0,Option::None(()),Option::None(()));
+    assert(*result.data.at(0) == 0, 'result[0] = 0');
+    assert(result.data.len() == 1, 'length == 1');
+    assert(result.shape.len() == 1, 'result.shape.len() == 1');
+
+
+    let mut data = ArrayTrait::new();
+    data.append(1);
+    data.append(2);
+    data.append(0);
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor = TensorTrait::<u32>::new(sizes.span(), data.span(), extra);
+    
+    let result = tensor.argmin(0,Option::None(()),Option::None(()));
+    assert(*result.data.at(0) == 2, 'result[0] = 2');
+    assert(result.data.len() == 1, 'length == 1');
+    assert(result.shape.len() == 1, 'result.shape.len() == 1');
+}
+
 
 #[test]
 #[available_gas(20000000)]

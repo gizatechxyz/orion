@@ -5,6 +5,42 @@ use orion::numbers::fixed_point::implementations::impl_8x23;
 
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 
+
+#[test]
+#[available_gas(20000000)]
+fn tensor1x3_argmin_fp() {
+    let mut sizes = ArrayTrait::new();
+    sizes.append(3);
+
+    let mut data = ArrayTrait::new();
+    data.append(FixedTrait::new(0, false));
+    data.append(FixedTrait::new(1, false));
+    data.append(FixedTrait::new(2, false));
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
+    
+    let result = tensor.argmin(0,Option::None(()),Option::None(()));
+    assert(*result.data.at(0) == 0, 'result[0] = 0');
+    assert(result.data.len() == 1, 'length == 1');
+    assert(result.shape.len() == 1, 'result.shape.len() == 1');
+
+
+    let mut data = ArrayTrait::new();
+    data.append(FixedTrait::new(0, false));
+    data.append(FixedTrait::new(1, false));
+    data.append(FixedTrait::new(2, true));
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
+    
+    let result = tensor.argmin(0,Option::None(()),Option::None(()));
+    assert(*result.data.at(0) == 2, 'result[0] = 2');
+    assert(result.data.len() == 1, 'length == 1');
+    assert(result.shape.len() == 1, 'result.shape.len() == 1');
+}
+
+
 #[test]
 #[available_gas(20000000)]
 fn tensor2x2_argmin_fp() {
