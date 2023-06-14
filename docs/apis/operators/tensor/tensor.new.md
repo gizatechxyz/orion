@@ -1,7 +1,7 @@
 # tensor.new
 
 ```rust
-fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
+fn new(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T>;
 ```
 
 Returns a new tensor with the given shape and data.
