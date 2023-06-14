@@ -62,9 +62,17 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.transpose`](tensor.transpose.md) | Returns a new tensor with the axes rearranged according to the given array. |
 | [`tensor.reduce_sum`](tensor.reduce\_sum.md) | Reduces the tensor by summing along the specified axis. |
 | [`tensor.argmax`](tensor.argmax.md) | Returns the index of the maximum value along the specified axis.   |
+| [`tensor.argmin`](tensor.argmin.md) | Returns the index of the minimum value along the specified axis. |
 | [`tensor.matmul`](tensor.matmul.md) | Performs matrix multiplication.  |
 | [`tensor.exp`](tensor.exp.md) | Calculates the exponential function (e^x) for each element in a tensor. |
+| [`tensor.ln`](tensor.ln.md) | Computes the natural log of all elements of the input tensor. |
 | [`tensor.eq`](tensor.eq.md) | Check if two tensors are equal element-wise. |
+| [`tensor.greater`](tensor.greater.md) | Check if each element of the first tensor is greater than the corresponding element of the second tensor. |
+| [`tensor.greater_equal`](tensor.greater\_equal.md) | Check if each element of the first tensor is greater than or equal to the corresponding element of the second tensor. |
+| [`tensor.less`](tensor.less.md) | Check if each element of the first tensor is less than the corresponding element of the second tensor. |
+| [`tensor.less_equal`](tensor.less\_equal.md) | Check if each element of the first tensor is less than or equal to the corresponding element of the second tensor. |
+| [`tensor.abs`](tensor.abs.md) | Computes the absolute value of all elements in the input tensor. |
+| [`tensor.ceil`](tensor.ceil.md) | Rounds up the value of each element in the input tensor. |
 
 ### Arithmetic Operations
 

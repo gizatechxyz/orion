@@ -5,7 +5,9 @@ use orion::numbers::fixed_point::core::{FixedType};
 ///
 /// relu - Applies the rectified linear unit function element-wise.
 /// leaky_relu - Applies the leaky rectified linear unit (Leaky ReLU) activation function element-wise.
+/// sigmoid - Applies the Sigmoid function to an n-dimensional input tensor.
 /// softmax - Computes softmax activations.
+/// logsoftmax - Applies the natural log to Softmax function to an n-dimensional input Tensor.
 /// softsign - Applies the Softsign function element-wise.
 /// softplus - Applies the Softplus function element-wise.
 /// linear - Performs a linear transformation of the input tensor using the provided weights and bias.
@@ -94,7 +96,7 @@ trait NNTrait<T> {
     /// # NNTrait::logsoftmax
     ///
     /// ```rust 
-    ///    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>;
+    ///    fn logsoftmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>
     /// ```
     ///
     /// Applies the natural log to Softmax function to an n-dimensional input Tensor consisting of values in the range \[0,1].
@@ -123,7 +125,7 @@ trait NNTrait<T> {
     ///     // [[0,1],[2,3]]
     ///     let tensor = u32_tensor_2x2_helper();
     /// 		
-    ///     // We can call `softmax` function as follows.
+    ///     // We can call `logsoftmax` function as follows.
     ///     return NNTrait::logsoftmax(@tensor, 1);
     /// }
     ///     This will first generate the softmax output tensor
@@ -227,7 +229,7 @@ trait NNTrait<T> {
     /// Applies the Softplus function to an n-dimensional input Tensor such that the elements of the n-dimensional output Tensor lie in the range \[-1,1].
     /// 
     /// $$
-    /// \text{softplus{x_i} = \ln(1 + e^{x_i})
+    /// \text{softplus}(x_i) = log({1 + e^{x_i}})
     /// $$
     /// 
     /// ## Args

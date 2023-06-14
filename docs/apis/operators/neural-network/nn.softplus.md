@@ -7,7 +7,7 @@ fn softplus(tensor: @Tensor<T>) -> Tensor<FixedType>;
 Applies the Softplus function to an n-dimensional input Tensor such that the elements of the n-dimensional output Tensor lie in the range \[-1,1].
 
 $$
-\text{softplus{x_i} = \ln(1 + e^{x_i})
+\text{softplus}(x_i) = log({1 + e^{x_i}})
 $$
 
 ## Args

@@ -1,7 +1,7 @@
 # NNTrait::logsoftmax
 
 ```rust
-fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>;
+fn logsoftmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>
 ```
 
 Applies the natural log to Softmax function to an n-dimensional input Tensor consisting of values in the range \[0,1].
@@ -30,7 +30,7 @@ fn logsoftmax_example() -> Tensor<FixedType> {
 // [[0,1],[2,3]]
 let tensor = u32_tensor_2x2_helper();
 
-// We can call `softmax` function as follows.
+// We can call `logsoftmax` function as follows.
 return NNTrait::logsoftmax(@tensor, 1);
 }
 This will first generate the softmax output tensor

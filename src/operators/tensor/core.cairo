@@ -31,14 +31,22 @@ struct ExtraParams {
 /// transpose - Returns a new tensor with the axes rearranged according to the given array.
 /// reduce_sum - Reduces the tensor by summing along the specified axis.
 /// argmax - Returns the index of the maximum value along the specified axis.  
+/// argmin - Returns the index of the minimum value along the specified axis.
 /// matmul - Performs matrix multiplication. 
 /// exp - Calculates the exponential function (e^x) for each element in a tensor.
+/// ln - Computes the natural log of all elements of the input tensor.
 /// eq - Check if two tensors are equal element-wise.
+/// greater - Check if each element of the first tensor is greater than the corresponding element of the second tensor.
+/// greater_equal - Check if each element of the first tensor is greater than or equal to the corresponding element of the second tensor.
+/// less - Check if each element of the first tensor is less than the corresponding element of the second tensor.
+/// less_equal - Check if each element of the first tensor is less than or equal to the corresponding element of the second tensor.
+/// abs - Computes the absolute value of all elements in the input tensor.
+/// ceil - Rounds up the value of each element in the input tensor.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
     /// ```rust 
-    ///    fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
+    ///    fn new(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T>;
     /// ```
     ///
     /// Returns a new tensor with the given shape and data.
