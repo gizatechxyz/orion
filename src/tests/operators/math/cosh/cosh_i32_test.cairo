@@ -1,8 +1,6 @@
 use array::SpanTrait;
 use traits::Into;
 use array::ArrayTrait;
-use debug::PrintTrait;
-
 
 use orion::operators::tensor::implementations::impl_tensor_i32;
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams };
@@ -29,17 +27,6 @@ fn cosh_test() {
     
     
     let result = tensor.cosh().data; 
-
-    let result1 = *result.at(0);
-    result1.print();
-    let result2 = *result.at(1);
-    result2.print();
-    let result3 = *result.at(2);
-    result3.print();
-    let result4 = *result.at(3);
-    result4.print();
-    let result5 = *result.at(4);
-    result5.print();
 
     assert((*result.at(0).mag).into() == 246550, 'result[0] = 3.7622');
     assert(*result.at(0).sign == false, 'result[0] = false');

@@ -1,6 +1,5 @@
 use array::SpanTrait;
 use traits::Into;
-use debug::PrintTrait;
 use array::ArrayTrait;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};

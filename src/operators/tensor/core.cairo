@@ -1144,10 +1144,10 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn sinh(self: @Tensor<T>) -> Tensor<FixedType>;
-    /// #tensor.sinh
+    /// #tensor.tanh
     ///
     /// ```rust
-    ///     fn sinh(self: @Tensor<T>) -> Tensor<T>;
+    ///     fn tanh(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the hyperbolic cosine of each element in the input tensor.

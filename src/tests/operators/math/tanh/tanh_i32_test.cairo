@@ -1,6 +1,5 @@
 use array::SpanTrait;
 use traits::Into;
-use debug::PrintTrait;
 use array::ArrayTrait;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
@@ -26,17 +25,6 @@ fn tanh_i32_test() {
     let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = tensor.tanh().data; 
-
-    // let result1 = *result.at(0);
-    // result1.print();
-    // let result2 = *result.at(1);
-    // result2.print();
-    // let result3 = *result.at(2);
-    // result3.print();
-    // let result4 = *result.at(3);
-    // result4.print();
-    // let result5 = *result.at(4);
-    // result5.print();
 
     assert((*result.at(0).mag).into() == 63178, 'result[0] = 0.96403');
     assert(*result.at(0).sign == true, 'result[0] = true');
