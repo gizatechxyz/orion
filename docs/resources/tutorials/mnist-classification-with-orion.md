@@ -1,5 +1,7 @@
 # MNIST Classification with Orion
 
+<figure><img src="../../.gitbook/assets/photo_2023-06-14_13-50-17.jpg" alt=""><figcaption></figcaption></figure>
+
 Orion is a dedicated Cairo-based library designed specifically to build machine learning models for ValidityML. Its purpose is to facilitate verifiable inference. Orion exclusively operates with 8-bit quantized models, an approach intended to optimize performance. In this tutorial, you will be guided on how to train your model using Quantized Aware Training using MNIST dataset, how to convert your pre-trained model to Cairo 1, and how to perform inference with Orion.
 
 {% hint style="info" %}
@@ -21,9 +23,9 @@ The MNIST database comprises a collection of 70,000 images of handwritten digits
 
 <figure><img src="../../.gitbook/assets/1_Ft2rLuO82eItlvJn5HOi9A.webp" alt=""><figcaption><p>Source: Wikimedia</p></figcaption></figure>
 
-## Train the model with Quantization-Aware Training&#x20;
+## Train the model with Quantization-Aware Training
 
-We will be using [Tensorflow](https://www.tensorflow.org/) to train a neural network to recognize MNIST's handwritten digits in this tutorial. TensorFlow is a very popular framework for deep learning.&#x20;
+We will be using [Tensorflow](https://www.tensorflow.org/) to train a neural network to recognize MNIST's handwritten digits in this tutorial. TensorFlow is a very popular framework for deep learning.
 
 ### Dataset Preparation
 
@@ -38,7 +40,7 @@ import numpy as np
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 ```
 
-We have a total of 70,000 grayscale images, each with a dimension of 28 x 28 pixels. 60,000 images are for training and the remaining 10,000 are for testing.&#x20;
+We have a total of 70,000 grayscale images, each with a dimension of 28 x 28 pixels. 60,000 images are for training and the remaining 10,000 are for testing.
 
 We now need to pre-process our data. For the purposes of this tutorial and performance, we'll resize the images to 14 x 14 pixels. You'll see later that the neural network's input layer supports a 1D tensor. We, therefore, need to flatten and normalize our data.
 
@@ -64,8 +66,7 @@ x_test /= 255
 
 ### Model Definition and Training
 
-We will design a straightforward feedforward neural network. Here's the model architecture we'll use:\
-
+We will design a straightforward feedforward neural network. Here's the model architecture we'll use:\\
 
 <figure><img src="../../.gitbook/assets/Capture d’écran 2023-06-08 à 17.59.46.png" alt="" width="375"><figcaption><p>Model architecture visualization from Netron.app</p></figcaption></figure>
 
@@ -122,11 +123,11 @@ Epoch 10/10
 1500/1500 [==============================] - 1s 392us/step - loss: 0.2593 - accuracy: 0.9256 - val_loss: 0.2467 - val_accuracy: 0.9302
 ```
 
-At this point, we have trained a regular model.&#x20;
+At this point, we have trained a regular model.
 
 ### Making the model Quantization Aware
 
-The aim of this tutorial is to guide you through the process of performing verifiable inference with the Orion library. As stated before, Orion exclusively performs inference on 8-bit quantized models. Typically, quantization is executed via two distinct methods: Quantization Aware Training (QAT) or Post-Training Quantization (PTQ), which occurs after the training phase. In this tutorial we will use QAT method.&#x20;
+The aim of this tutorial is to guide you through the process of performing verifiable inference with the Orion library. As stated before, Orion exclusively performs inference on 8-bit quantized models. Typically, quantization is executed via two distinct methods: Quantization Aware Training (QAT) or Post-Training Quantization (PTQ), which occurs after the training phase. In this tutorial we will use QAT method.
 
 Concretely QAT is a method where the quantization error is emulated during the training phase itself. In this process, the weights and activations of the model are quantized, and this information is used during both the forward and backward passes of training. This allows the model to learn and adapt to the quantization error. It ensures that once the model is fully quantized post-training, it has already accounted for the effects of quantization, resulting in improved accuracy.
 
@@ -330,7 +331,7 @@ Now let's convert the pre-trained model to Cairo, in order to perform verifiable
 
 ## Convert your model to Cairo
 
-In this section, you will generate Cairo files for each bias and weight of the model.&#x20;
+In this section, you will generate Cairo files for each bias and weight of the model.
 
 ### Create a new Scarb project
 
@@ -382,7 +383,7 @@ tensors = {
 }
 ```
 
-Now let's generate Cairo files for each tensor in the object.&#x20;
+Now let's generate Cairo files for each tensor in the object.
 
 <pre class="language-python"><code class="lang-python"># Create the directory if it doesn't exist
 os.makedirs('src/generated', exist_ok=True)
@@ -510,7 +511,7 @@ mod generated;
 mod nn;
 ```
 
-Now, let's build the layers of our neural network in `nn.cairo`. As a reminder, this was the architecture of the model we defined earlier:&#x20;
+Now, let's build the layers of our neural network in `nn.cairo`. As a reminder, this was the architecture of the model we defined earlier:
 
 `Input -> FC1 (activation = 'relu') -> FC2 (activation= 'softmax') -> Output`
 
@@ -582,7 +583,7 @@ mod nn;
 mod test;
 ```
 
-In your test file, create a function `mnist_nn_test`.&#x20;
+In your test file, create a function `mnist_nn_test`.
 
 ```rust
 #[test]
@@ -592,7 +593,7 @@ fn mnist_nn_test() {
 }
 ```
 
-Now let's import and set the input data and the parameters generated previously.&#x20;
+Now let's import and set the input data and the parameters generated previously.
 
 ```rust
 use mnist_nn::generated::input::input;
@@ -687,7 +688,7 @@ test mnist_nn::test::mnist_nn_test ... ok
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 filtered out;
 ```
 
-Bravo 👏 You can be proud of yourself! You just built your first Neural Network in Cairo 1.0 with Orion.&#x20;
+Bravo 👏 You can be proud of yourself! You just built your first Neural Network in Cairo 1.0 with Orion.
 
 Orion leverages Cairo to guarantee the reliability of inference, providing developers with a user-friendly framework to build complex and verifiable machine learning models. We invite the community to join us in shaping a future where trustworthy AI becomes a reliable resource for all.
 
