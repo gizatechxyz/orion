@@ -1100,7 +1100,7 @@ trait TensorTrait<T> {
     ///
     /// ```rust
     /// fn cosh_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 3D Tensor here.
+    ///     // We instantiate a 1D Tensor here.
     ///     // tensor = [[0,1,2]]
     ///     let tensor = fp8x23_tensor_1x3_helper();
     ///     let result = tensor.cosh();
@@ -1116,7 +1116,7 @@ trait TensorTrait<T> {
     ///     fn sinh(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
-    /// Computes the hyperbolic cosine of each element in the input tensor.
+    /// Computes the hyperbolic sine of each element in the input tensor.
     /// 
     /// ## Args
     ///
@@ -1132,9 +1132,9 @@ trait TensorTrait<T> {
     ///
     /// ```rust
     /// fn sinh_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 3D Tensor here.
+    ///     // We instantiate a 1D Tensor here.
     ///     // tensor = [[0,1,2]]
-    ///     // for each value val we calculate hyperbolic sin with the formula:
+    ///     // for each value val we calculate hyperbolic sine with the formula:
     ///     // (exp(val)-exp(-val))/2
     ///     let tensor = fp8x23_tensor_1x3_helper();
     ///     let result = tensor.sinh();
@@ -1150,7 +1150,7 @@ trait TensorTrait<T> {
     ///     fn tanh(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
-    /// Computes the hyperbolic cosine of each element in the input tensor.
+    /// Computes the hyperbolic tangent of each element in the input tensor.
     /// 
     /// ## Args
     ///
@@ -1168,7 +1168,7 @@ trait TensorTrait<T> {
     /// fn tanh_example() -> Tensor<FixedType> {
     ///     // We instantiate a 1D Tensor here.
     ///     // tensor = [[0,1,2, -1, -2]]
-    ///     // for each value val we calculate hyperbolic sin with the formula:
+    ///     // for each value val we calculate hyperbolic tangent with the formula:
     ///     // (exp(val)+exp(-val))/(exp(val)-exp(-val))
     ///     let tensor = fp8x23_tensor_1x3_helper();
     ///     let result = tensor.tanh();
