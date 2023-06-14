@@ -2,7 +2,6 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 use traits::Into;
-use debug::PrintTrait;
 
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
@@ -12,8 +11,8 @@ use orion::numbers::signed_integer::i32::i32;
 use orion::numbers::fixed_point::implementations::impl_16x16;
 use orion::utils::check_gas;
 
-/// Cf: TensorTrait::cosh docstring
-fn cosh(self: @Tensor<i32>) -> Tensor<FixedType> {
+/// Cf: TensorTrait::tanh docstring
+fn tanh(self: @Tensor<i32>) -> Tensor<FixedType> {
     let mut result = ArrayTrait::new();
     let mut data = *self.data;
 
@@ -21,28 +20,28 @@ fn cosh(self: @Tensor<i32>) -> Tensor<FixedType> {
         check_gas();
 
         let ele = *data.pop_front().unwrap();
-        
+
         if ele.sign == true {
             let ele_pos = FixedTrait::from_unscaled_felt(ele.mag.into()*-1);
             let neg_ele = FixedTrait::from_unscaled_felt(ele.mag.into());
-
             let ele_exp = FixedTrait::exp(ele_pos);
             let neg_ele_exp = FixedTrait::exp(neg_ele);
-            let sum = ele_exp + neg_ele_exp;
-            let answer = sum / FixedTrait::from_unscaled_felt(2);
+            let num = ele_exp - neg_ele_exp;
+            let den = ele_exp + neg_ele_exp;
+            let answer = num / den;
 
             result.append(answer);
-        }
-        else {
-            let ele_pos = FixedTrait::from_unscaled_felt(ele.mag.into());
-            let neg_ele = FixedTrait::from_unscaled_felt(ele.mag.into()*-1);
+        } else {
+        
+        let ele_pos = FixedTrait::from_unscaled_felt(ele.mag.into());
+        let neg_ele = FixedTrait::from_unscaled_felt(ele.mag.into()*-1);
+        let ele_exp = FixedTrait::exp(ele_pos);
+        let neg_ele_exp = FixedTrait::exp(neg_ele);
+        let num = ele_exp - neg_ele_exp;
+        let den = ele_exp + neg_ele_exp;
+        let answer = num / den;
 
-            let ele_exp = FixedTrait::exp(ele_pos);
-            let neg_ele_exp = FixedTrait::exp(neg_ele);
-            let sum = ele_exp + neg_ele_exp;
-            let answer = sum / FixedTrait::from_unscaled_felt(2);
-
-            result.append(answer);
+        result.append(answer);
         }
 
         if (data.len() == 0) {

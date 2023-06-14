@@ -33,6 +33,8 @@ You can see below the list of current supported ONNX Operators:
 |  Softplus  | :white_check_mark: |
 |   Linear   | :white_check_mark: |
 |    Cosh    | :white_check_mark: |
+|    Sinh    | :white_check_mark: |
+|    Tanh    | :white_check_mark: |
 
 Performance optimizations:
 

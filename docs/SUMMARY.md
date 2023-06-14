@@ -34,6 +34,8 @@
     - [tensor.abs](apis/operators/tensor/tensor.abs.md)
     - [tensor.ceil](apis/operators/tensor/tensor.ceil.md)
     - [tensor.cosh](apis/operators/tensor/tensor.cosh.md)
+    - [tensor.sinh](apis/operators/tensor/tensor.sinh.md)
+    - [tensor.tanh](apis/operators/tensor/tensor.tanh.md)
   - [Neural Network](apis/operators/neural-network/README.md)
     - [nn.relu](apis/operators/neural-network/nn.relu.md)
     - [nn.leaky_relu](apis/operators/neural-network/nn.leaky_relu.md)

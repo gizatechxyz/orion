@@ -12,4 +12,6 @@ mod less_equal;
 mod abs;
 mod ceil;
 mod ln_test;
-mod cosh_test;
+mod cosh;
+mod sinh;
+mod tanh;

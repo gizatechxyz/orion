@@ -14,3 +14,5 @@ mod less_equal;
 mod abs;
 mod ceil;
 mod cosh;
+mod sinh;
+mod tanh;

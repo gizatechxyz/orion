@@ -29,6 +29,8 @@ use orion::operators::tensor::math::exp::exp_i32::core::exp_i32;
 use orion::operators::tensor::math::ln::ln_i32::core::ln_i32;
 use orion::operators::tensor::math::arithmetic::arithmetic_i32::{add, sub, mul, div};
 use orion::operators::tensor::math::cosh::cosh_i32::core::cosh_i32;
+use orion::operators::tensor::math::sinh::sinh_i32::core::sinh;
+use orion::operators::tensor::math::tanh::tanh_i32::core::tanh;
 use orion::utils::check_gas;
 
 impl Tensor_i32 of TensorTrait<i32> {
@@ -123,6 +125,14 @@ impl Tensor_i32 of TensorTrait<i32> {
     fn cosh(self: @Tensor<i32>) -> Tensor<FixedType> {
         cosh_i32(self).unwrap()
     }
+
+    fn sinh(self: @Tensor<i32>) -> Tensor<FixedType> {
+        sinh(self).unwrap()
+    } 
+
+    fn tanh(self: @Tensor<i32>) -> Tensor<FixedType> {
+        tanh(self).unwrap()
+    }          
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

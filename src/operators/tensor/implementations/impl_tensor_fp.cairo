@@ -28,6 +28,8 @@ use orion::operators::tensor::math::arithmetic::arithmetic_fp::core::{add, sub, 
 use orion::operators::tensor::math::greater::greater_fp::core::greater;
 use orion::operators::tensor::math::greater_equal::greater_equal_fp::core::greater_equal;
 use orion::operators::tensor::math::cosh::cosh_fp::core::cosh;
+use orion::operators::tensor::math::sinh::sinh_fp::core::sinh;
+use orion::operators::tensor::math::tanh::tanh_fp::core::tanh;
 use orion::utils::check_gas;
 
 impl Tensor_fp of TensorTrait<FixedType> {
@@ -128,6 +130,14 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn cosh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         cosh(self).unwrap()
+    }
+
+    fn sinh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        sinh(self).unwrap()
+    }
+
+    fn tanh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        tanh(self).unwrap()
     }
 }
 

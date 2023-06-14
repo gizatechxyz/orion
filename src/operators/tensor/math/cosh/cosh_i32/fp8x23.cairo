@@ -21,14 +21,28 @@ fn cosh(self: @Tensor<i32>) -> Tensor<FixedType> {
 
         let ele = *data.pop_front().unwrap();
         
-        let ele_pos = FixedTrait::from_unscaled_felt(ele.mag.into());
-        let neg_ele = FixedTrait::from_unscaled_felt(ele.mag.into()*-1);
+        if ele.sign == true {
+            let ele_pos = FixedTrait::from_unscaled_felt(ele.mag.into()*-1);
+            let neg_ele = FixedTrait::from_unscaled_felt(ele.mag.into());
 
-        let ele_exp = FixedTrait::exp(ele_pos);
-        let neg_ele_exp = FixedTrait::exp(neg_ele);
-        let sum = ele_exp + neg_ele_exp;
+            let ele_exp = FixedTrait::exp(ele_pos);
+            let neg_ele_exp = FixedTrait::exp(neg_ele);
+            let sum = ele_exp + neg_ele_exp;
+            let answer = sum / FixedTrait::from_unscaled_felt(2);
 
-        result.append(sum / FixedTrait::from_unscaled_felt(2));
+            result.append(answer);
+        }
+        else {
+            let ele_pos = FixedTrait::from_unscaled_felt(ele.mag.into());
+            let neg_ele = FixedTrait::from_unscaled_felt(ele.mag.into()*-1);
+
+            let ele_exp = FixedTrait::exp(ele_pos);
+            let neg_ele_exp = FixedTrait::exp(neg_ele);
+            let sum = ele_exp + neg_ele_exp;
+            let answer = sum / FixedTrait::from_unscaled_felt(2);
+
+            result.append(answer);
+        }
 
         if (data.len() == 0) {
             break ();
