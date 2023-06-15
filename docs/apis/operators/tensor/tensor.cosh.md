@@ -8,7 +8,8 @@ Computes the hyperbolic cosine of each element in the input tensor.
 
 ## Args
 
-- `self`(`@Tensor<T>`) - The input tensor.
+* `self`(`@Tensor<T>`) - The input tensor.
+
 
 ## Returns
 
@@ -21,6 +22,7 @@ the hyperbolic cosine of the values in the input tensor.
 fn cosh_example() -> Tensor<FixedType> {
 // We instantiate a 1D Tensor here.
 // tensor = [[0,1,2]]
+let tensor = fp8x23_tensor_1x3_helper();
 let result = tensor.cosh();
 return result;
 }

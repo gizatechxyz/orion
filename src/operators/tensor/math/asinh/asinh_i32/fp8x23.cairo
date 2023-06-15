@@ -22,19 +22,25 @@ fn asinh(self: @Tensor<i32>) -> Tensor<FixedType> {
         let ele = *data.pop_front().unwrap();
         
         if ele.sign == true {
-            let x = FixedTrait::from_unscaled_felt(ele.mag.into()*-1);
-            let x_sq_plus_one = (x * x) + FixedTrait::new_unscaled(1, false);
-            let sqrt = x_sq_plus_one.sqrt();
-            let sqrt_plus_x = sqrt + x;
-            let answer = sqrt_plus_x.ln();
+            let ele_pos = FixedTrait::from_unscaled_felt(ele.mag.into()*-1);
+            let neg_ele = FixedTrait::from_unscaled_felt(ele.mag.into());
+
+            let ele_exp = FixedTrait::exp(ele_pos);
+            let neg_ele_exp = FixedTrait::exp(neg_ele);
+            let sum = ele_exp + neg_ele_exp;
+            let answer = sum / FixedTrait::from_unscaled_felt(2);
+
             result.append(answer);
         }
         else {
-            let x = FixedTrait::from_unscaled_felt(ele.mag.into());
-            let x_sq_plus_one = (x * x) + FixedTrait::new_unscaled(1, false);
-            let sqrt = x_sq_plus_one.sqrt();
-            let sqrt_plus_x = sqrt + x;
-            let answer = sqrt_plus_x.ln();
+            let ele_pos = FixedTrait::from_unscaled_felt(ele.mag.into());
+            let neg_ele = FixedTrait::from_unscaled_felt(ele.mag.into()*-1);
+
+            let ele_exp = FixedTrait::exp(ele_pos);
+            let neg_ele_exp = FixedTrait::exp(neg_ele);
+            let sum = ele_exp + neg_ele_exp;
+            let answer = sum / FixedTrait::from_unscaled_felt(2);
+
             result.append(answer);
         }
 

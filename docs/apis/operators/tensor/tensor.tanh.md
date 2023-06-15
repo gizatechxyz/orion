@@ -8,7 +8,8 @@ Computes the hyperbolic tangent of each element in the input tensor.
 
 ## Args
 
-- `self`(`@Tensor<T>`) - The input tensor.
+* `self`(`@Tensor<T>`) - The input tensor.
+
 
 ## Returns
 
@@ -23,6 +24,7 @@ fn tanh_example() -> Tensor<FixedType> {
 // tensor = [[0,1,2, -1, -2]]
 // for each value val we calculate hyperbolic tangent with the formula:
 // (exp(val)+exp(-val))/(exp(val)-exp(-val))
+let tensor = fp8x23_tensor_1x3_helper();
 let result = tensor.tanh();
 return result;
 }

@@ -27,15 +27,15 @@ fn asinh_i32_test() {
     
     let result = tensor.asinh().data; 
 
-    // assert((*result.at(0).mag.into()) == 95080, 'result[0] = -1.4436');
-    // assert(*result.at(0).sign == true, 'result[0] = true');
-    // assert((*result.at(1).mag.into()) == 57785, 'result[1] = -0.8814');
-    // assert(*result.at(1).sign == true, 'result[1] = true');
-    // assert((*result.at(2).mag.into()) == 0, 'result[2] = 0');
-    // assert(*result.at(3).sign == false, 'result[3] = false');
-    // assert((*result.at(3).mag.into()) == 57756, 'result[3] = 0.8814');
-    // assert(*result.at(4).sign == false, 'result[4] = false');
-    // assert((*result.at(4).mag.into()) == 94583, 'result[4] = 1.4436');
+    assert((*result.at(0).mag.into()) == 95080, 'result[0] = -1.4436');
+    assert(*result.at(0).sign == true, 'result[0] = true');
+    assert((*result.at(1).mag.into()) == 57785, 'result[1] = -0.8814');
+    assert(*result.at(1).sign == true, 'result[1] = true');
+    assert((*result.at(2).mag.into()) == 0, 'result[2] = 0');
+    assert(*result.at(3).sign == false, 'result[3] = false');
+    assert((*result.at(3).mag.into()) == 57756, 'result[3] = 0.8814');
+    assert(*result.at(4).sign == false, 'result[4] = false');
+    assert((*result.at(4).mag.into()) == 94583, 'result[4] = 1.4436');
 
 
 }

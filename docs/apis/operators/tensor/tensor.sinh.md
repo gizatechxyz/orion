@@ -8,7 +8,8 @@ Computes the hyperbolic sine of each element in the input tensor.
 
 ## Args
 
-- `self`(`@Tensor<T>`) - The input tensor.
+* `self`(`@Tensor<T>`) - The input tensor.
+
 
 ## Returns
 

@@ -16,3 +16,4 @@ mod cosh;
 mod sinh;
 mod tanh;
 mod asinh;
+mod acosh;

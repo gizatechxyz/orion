@@ -36,6 +36,7 @@ You can see below the list of current supported ONNX Operators:
 |    Sinh    | :white_check_mark: |
 |    Tanh    | :white_check_mark: |
 |   Asinh    | :white_check_mark: |
+|   Acosh    | :white_check_mark: |
 
 Performance optimizations:
 
@@ -43,4 +44,4 @@ Performance optimizations:
 | :----------------: | :----------------: |
 | 8-bit quantization | :white_check_mark: |
 
-Current Operators support: **29/156 (19%)**
+Current Operators support: **31/156 (20%)**
