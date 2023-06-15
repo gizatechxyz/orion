@@ -1,20 +1,19 @@
-#tensor.sinh
+#tensor.tanh
 
 ```rust
-fn sinh(self: @Tensor<T>) -> Tensor<T>;
+fn tanh(self: @Tensor<T>) -> Tensor<T>;
 ```
 
-Computes the hyperbolic cosine of each element in the input tensor.
+Computes the hyperbolic tangent of each element in the input tensor.
 
 ## Args
 
-* `self`(`@Tensor<T>`) - The input tensor.
-
+- `self`(`@Tensor<T>`) - The input tensor.
 
 ## Returns
 
 A new `Tensor<T>` of the same shape as the input tensor with
-the hyperbolic sine of the values in the input tensor.
+the hyperbolic tangent of the values in the input tensor.
 
 ## Example
 
@@ -22,9 +21,8 @@ the hyperbolic sine of the values in the input tensor.
 fn tanh_example() -> Tensor<FixedType> {
 // We instantiate a 1D Tensor here.
 // tensor = [[0,1,2, -1, -2]]
-// for each value val we calculate hyperbolic sin with the formula:
+// for each value val we calculate hyperbolic tangent with the formula:
 // (exp(val)+exp(-val))/(exp(val)-exp(-val))
-let tensor = fp8x23_tensor_1x3_helper();
 let result = tensor.tanh();
 return result;
 }

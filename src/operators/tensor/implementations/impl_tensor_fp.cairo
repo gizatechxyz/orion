@@ -30,6 +30,7 @@ use orion::operators::tensor::math::greater_equal::greater_equal_fp::core::great
 use orion::operators::tensor::math::cosh::cosh_fp::core::cosh;
 use orion::operators::tensor::math::sinh::sinh_fp::core::sinh;
 use orion::operators::tensor::math::tanh::tanh_fp::core::tanh;
+use orion::operators::tensor::math::asinh::asinh_fp::core::asinh;
 use orion::utils::check_gas;
 
 impl Tensor_fp of TensorTrait<FixedType> {
@@ -139,6 +140,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
     fn tanh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         tanh(self).unwrap()
     }
+
+    fn asinh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        asinh(self).unwrap()
+    }    
 }
 
 /// Implements addition for `Tensor<FixedType>` using the `Add` trait.

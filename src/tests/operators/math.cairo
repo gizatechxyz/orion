@@ -15,3 +15,4 @@ mod ln_test;
 mod cosh;
 mod sinh;
 mod tanh;
+mod asinh;

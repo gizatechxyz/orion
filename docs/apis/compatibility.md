@@ -35,6 +35,7 @@ You can see below the list of current supported ONNX Operators:
 |    Cosh    | :white_check_mark: |
 |    Sinh    | :white_check_mark: |
 |    Tanh    | :white_check_mark: |
+|   Asinh    | :white_check_mark: |
 
 Performance optimizations:
 

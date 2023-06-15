@@ -3,7 +3,7 @@ use orion::operators::tensor::core::{Tensor};
 use orion::operators::tensor::math::cosh::cosh_fp::fp8x23;
 use orion::operators::tensor::math::cosh::cosh_fp::fp16x16;
 
-/// Cf: TensorTrait::exp docstring
+/// Cf: TensorTrait::cosh docstring
 fn cosh(self: @Tensor<FixedType>) -> Option<Tensor<FixedType>> {
     match *self.extra {
         Option::Some(extra_params) => match extra_params.fixed_point {

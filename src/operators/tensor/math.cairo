@@ -16,3 +16,4 @@ mod ceil;
 mod cosh;
 mod sinh;
 mod tanh;
+mod asinh;

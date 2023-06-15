@@ -30,6 +30,7 @@ use orion::operators::tensor::math::arithmetic::arithmetic_u32::{add, sub, mul, 
 use orion::operators::tensor::math::cosh::cosh_u32::core::cosh_u32;
 use orion::operators::tensor::math::sinh::sinh_u32::core::sinh;
 use orion::operators::tensor::math::tanh::tanh_u32::core::tanh;
+use orion::operators::tensor::math::asinh::asinh_u32::core::asinh;
 use orion::utils::check_gas;
 
 impl Tensor_u32 of TensorTrait<u32> {
@@ -134,6 +135,10 @@ impl Tensor_u32 of TensorTrait<u32> {
 
     fn tanh(self: @Tensor<u32>) -> Tensor<FixedType> {
         tanh(self).unwrap()
+    }
+
+    fn asinh(self: @Tensor<u32>) -> Tensor<FixedType> {
+        asinh(self).unwrap()
     }
 }
 

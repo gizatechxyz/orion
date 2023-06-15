@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+-Added sinh and tests for fp, i32, u32. Corrected typos in docs for sinh, cosh, tanh.
+
+## [Unreleased] - 2023-06-14
+
+### Added
+
 -Added cosh, sinh, tanh tensor operators and tests for fp, i32, u32
 
 ## [Unreleased] - 2023-06-13

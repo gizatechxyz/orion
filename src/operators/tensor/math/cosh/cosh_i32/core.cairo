@@ -4,7 +4,7 @@ use orion::numbers::signed_integer::i32::i32;
 use orion::operators::tensor::math::cosh::cosh_i32::fp8x23;
 use orion::operators::tensor::math::cosh::cosh_i32::fp16x16;
 
-/// Cf: TensorTrait::exp docstring
+/// Cf: TensorTrait::cosh docstring
 fn cosh_i32(self: @Tensor<i32>) -> Option<Tensor<FixedType>> {
     match *self.extra {
         Option::Some(extra_params) => match extra_params.fixed_point {
