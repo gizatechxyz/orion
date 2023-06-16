@@ -1,8 +1,10 @@
 
 #[cfg(test)]
-mod tensor1D_argmin_u32 {
+mod tensor1D_argmin_fp {
     use array::{ArrayTrait,SpanTrait};
-    use orion::operators::tensor::implementations::impl_tensor_u32;
+    use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+    use orion::numbers::fixed_point::implementations::impl_8x23;
+    use orion::operators::tensor::implementations::impl_tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 
     #[test]
@@ -17,18 +19,31 @@ mod tensor1D_argmin_u32 {
         sizes.append(3);
 
         let mut data = ArrayTrait::new();
-        data.append(0);
-        data.append(1);
-        data.append(2);
+        data.append(FixedTrait::new(0, false));
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(2, false));
         let extra = Option::<ExtraParams>::None(());
 
-        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
         
         let result = tensor.argmin(0,Option::None(()),Option::None(()));
         assert(*result.data.at(0) == 0, 'result[0] = 0');
         assert(result.data.len() == 1, 'length == 1');
         assert(result.shape.len() == 1, 'result.shape.len() == 1');
 
+
+        let mut data = ArrayTrait::new();
+        data.append(FixedTrait::new(0, false));
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(2, true));
+        let extra = Option::<ExtraParams>::None(());
+
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
+        
+        let result = tensor.argmin(0,Option::None(()),Option::None(()));
+        assert(*result.data.at(0) == 2, 'result[0] = 2');
+        assert(result.data.len() == 1, 'length == 1');
+        assert(result.shape.len() == 1, 'result.shape.len() == 1');
 
     }
 
@@ -46,15 +61,15 @@ mod tensor1D_argmin_u32 {
         sizes.append(3);
 
         let mut data = ArrayTrait::new();
-        data.append(0);
-        data.append(1);
-        data.append(2);
+        data.append(FixedTrait::new(0, false));
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(2, true));
         let extra = Option::<ExtraParams>::None(());
 
-        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
         
         let result = tensor.argmin(0,Option::Some(false),Option::None(()));
-        assert(*result.data.at(0) == 0, 'result[0] = 0');
+        assert(*result.data.at(0) == 2, 'result[0] = 2');
         assert(result.data.len() == 1, 'length == 1');
         assert(result.shape.len() == 1, 'result.shape.len() == 1');
     }
@@ -71,12 +86,12 @@ mod tensor1D_argmin_u32 {
         sizes.append(3);
 
         let mut data = ArrayTrait::new();
-        data.append(1);
-        data.append(1);
-        data.append(1);
+        data.append(FixedTrait::new(1, true));
+        data.append(FixedTrait::new(1, true));
+        data.append(FixedTrait::new(1, true));
         let extra = Option::<ExtraParams>::None(());
 
-        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
         
         let result = tensor.argmin(0,Option::None(()),Option::Some(false));
         assert(*result.data.at(0) == 0, 'result[0] = 0');
@@ -89,12 +104,12 @@ mod tensor1D_argmin_u32 {
 
 
         let mut data = ArrayTrait::new();
-        data.append(1);
-        data.append(1);
-        data.append(1);
+        data.append(FixedTrait::new(1, true));
+        data.append(FixedTrait::new(1, true));
+        data.append(FixedTrait::new(1, true));
         let extra = Option::<ExtraParams>::None(());
 
-        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
 
         let result = tensor.argmin(0,Option::None(()),Option::Some(true));
         assert(*result.data.at(0) == 2, 'result[0] = 2');
@@ -106,11 +121,15 @@ mod tensor1D_argmin_u32 {
 
 
 #[cfg(test)]
-mod tensor2x2_argmin_u32 {
+mod tensor2x2_argmin_fp {
     use array::{ArrayTrait,SpanTrait};
-    use orion::operators::tensor::implementations::impl_tensor_u32;
+    use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+    use orion::numbers::fixed_point::implementations::impl_8x23;
+    use orion::operators::tensor::implementations::impl_tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-    use orion::tests::operators::tensor::helpers::helpers_u32::{u32_tensor_1x3_helper,u32_tensor_2x2_helper, u32_tensor_2x2x2_helper};
+    use orion::tests::operators::tensor::helpers::helpers_fp::fp8x23_helpers::{
+        fp_tensor_1x3_helper,fp_tensor_2x2_helper, fp_tensor_2x2x2_helper
+    };
 
     #[test]
     #[available_gas(20000000)]
@@ -119,7 +138,7 @@ mod tensor2x2_argmin_u32 {
         // case: default parameters 
         ////////////////////////////////////////////
 
-        let tensor = u32_tensor_2x2_helper();
+        let tensor = fp_tensor_2x2_helper();
 
         let result = tensor.argmin(0,Option::None(()),Option::None(()));
         assert(*result.data.at(0) == 0, 'result[0] = 0');
@@ -144,7 +163,7 @@ mod tensor2x2_argmin_u32 {
         ////////////////////////////////////////////
         // case: keepdims == false
         ////////////////////////////////////////////
-        let tensor = u32_tensor_2x2_helper();
+        let tensor = fp_tensor_2x2_helper();
 
         let result = tensor.argmin(1,Option::Some(false),Option::None(()));
         assert(*result.data.at(0) == 0, 'result[0] = 0');
@@ -166,12 +185,12 @@ mod tensor2x2_argmin_u32 {
         sizes.append(2);
 
         let mut data = ArrayTrait::new();
-        data.append(1);
-        data.append(1);
-        data.append(1);
-        data.append(1);
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(1, false));
         let extra = Option::<ExtraParams>::None(());
-        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
 
         let result = tensor.argmin(1,Option::None(()),Option::Some(false));
         assert(*result.data.at(0) == 0, 'result[0] = 0');
@@ -187,12 +206,12 @@ mod tensor2x2_argmin_u32 {
         sizes.append(2);
 
         let mut data = ArrayTrait::new();
-        data.append(1);
-        data.append(1);
-        data.append(1);
-        data.append(1);
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(1, false));
         let extra = Option::<ExtraParams>::None(());
-        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
 
         let result = tensor.argmin(1,Option::None(()),Option::Some(true));
         assert(*result.data.at(0) == 1, 'result[0] = 1');
@@ -204,11 +223,15 @@ mod tensor2x2_argmin_u32 {
 
 
 #[cfg(test)]
-mod tensor2x2x2_argmin_u32 {
+mod tensor2x2x2_argmin_fp {
     use array::{ArrayTrait,SpanTrait};
-    use orion::operators::tensor::implementations::impl_tensor_u32;
+    use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+    use orion::numbers::fixed_point::implementations::impl_8x23;
+    use orion::operators::tensor::implementations::impl_tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-    use orion::tests::operators::tensor::helpers::helpers_u32::{u32_tensor_1x3_helper,u32_tensor_2x2_helper, u32_tensor_2x2x2_helper};
+    use orion::tests::operators::tensor::helpers::helpers_fp::fp8x23_helpers::{
+        fp_tensor_1x3_helper,fp_tensor_2x2_helper, fp_tensor_2x2x2_helper
+    };
 
     #[test]
     #[available_gas(20000000)]
@@ -216,7 +239,7 @@ mod tensor2x2x2_argmin_u32 {
         ////////////////////////////////////////////
         // case: default parameters
         ////////////////////////////////////////////
-        let tensor = u32_tensor_2x2x2_helper();
+        let tensor = fp_tensor_2x2x2_helper();
 
         let result = tensor.argmin(0,Option::None(()),Option::None(()));
 
@@ -257,7 +280,7 @@ mod tensor2x2x2_argmin_u32 {
         // case: keepdims == false
         ////////////////////////////////////////////
 
-        let tensor = u32_tensor_2x2x2_helper();
+        let tensor = fp_tensor_2x2x2_helper();
         let result = tensor.argmin(0,Option::Some(false),Option::None(()));
         assert(*result.data.at(0) == 0, 'result[0] = 0');
         assert(*result.data.at(1) == 0, 'result[1] = 0');
@@ -265,9 +288,6 @@ mod tensor2x2x2_argmin_u32 {
         assert(*result.data.at(3) == 0, 'result[3] = 0');
         assert(result.data.len() == 4, 'length == 4');
         assert(result.shape.len() == 2, 'result.shape.len() == 2');
-
-
-
     }
 
     #[test]
@@ -283,17 +303,17 @@ mod tensor2x2x2_argmin_u32 {
         sizes.append(2);
 
         let mut data = ArrayTrait::new();
-        data.append(1);
-        data.append(1);
-        data.append(1);
-        data.append(1);
-        data.append(1);
-        data.append(1);
-        data.append(1);
-        data.append(1);
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(1, false));
+        data.append(FixedTrait::new(1, false));
 
         let extra = Option::<ExtraParams>::None(());
-        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
         let result = tensor.argmin(0,Option::None(()),Option::Some(false));
         assert(*result.data.at(0) == 0, 'result[0] = 0');
         assert(*result.data.at(1) == 0, 'result[1] = 0');
@@ -309,7 +329,7 @@ mod tensor2x2x2_argmin_u32 {
 
 
         let extra = Option::<ExtraParams>::None(());
-        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
         let result = tensor.argmin(0,Option::None(()),Option::Some(true));
         assert(*result.data.at(0) == 1, 'result[0] = 1');
         assert(*result.data.at(1) == 1, 'result[1] = 1');
