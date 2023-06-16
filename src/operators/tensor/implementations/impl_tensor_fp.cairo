@@ -68,8 +68,8 @@ impl Tensor_fp of TensorTrait<FixedType> {
         reduce_sum(self, axis, keepdims).unwrap()
     }
 
-    fn argmax(self: @Tensor<FixedType>, axis: usize) -> Tensor<usize> {
-        argmax(self, axis).unwrap()
+    fn argmax(self: @Tensor<FixedType>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+        argmax(self, axis, keepdims, select_last_index).unwrap()
     }
 
     fn argmin(self: @Tensor<FixedType>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {

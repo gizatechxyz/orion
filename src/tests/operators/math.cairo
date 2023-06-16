@@ -1,4 +1,4 @@
-mod argmax_test;
+mod argmax;
 mod argmin;
 mod max_test;
 mod min_test;
