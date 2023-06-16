@@ -76,6 +76,7 @@ fn find_argmax_1D< T,
 /// * `axis_index` - The current index along the specified axis.
 /// * `max_value` - The current maximum value found along the axis.
 /// * `argmax` - The current index of the maximum value along the axis.
+/// * `select_last_index` - Whether to select last occurrence of the max value along the axis.
 ///
 /// # Panics
 /// * Panics if gas limit is exceeded during execution.
@@ -84,6 +85,7 @@ fn find_argmax_1D< T,
 /// * A usize value representing the index of the maximum value along the specified axis.
 fn find_argmax< T, 
     impl TPartialOrd: PartialOrd<T>,
+    impl TPartialEq: PartialEq<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
 >(
@@ -92,7 +94,8 @@ fn find_argmax< T,
     axis: usize,
     axis_index: usize,
     max_value: T,
-    argmax: usize
+    argmax: usize,
+    select_last_index: bool
 ) -> usize {
     check_gas();
 
@@ -107,10 +110,14 @@ fn find_argmax< T,
     let (new_max_value, new_argmax) = if ele > max_value {
         (ele, axis_index)
     } else {
-        (max_value, argmax)
+        if select_last_index & (ele == max_value) {
+            (ele, axis_index)
+        } else {
+            (max_value, argmax)
+        }
     };
 
     return find_argmax(
-        input, output_indices, axis, axis_index + 1_usize, new_max_value, new_argmax
+        input, output_indices, axis, axis_index + 1_usize, new_max_value, new_argmax,select_last_index
     );
 }

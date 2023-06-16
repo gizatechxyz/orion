@@ -11,17 +11,35 @@ use orion::operators::tensor::math::argmax::helpers::{find_argmax_1D, find_argma
 use orion::utils::check_gas;
 
 /// Cf: TensorTrait::argmax docstring
-fn argmax(self: @Tensor<FixedType>, axis: usize) -> Tensor<usize> {
-    assert(axis <= (*self.shape).len(), 'axis out of dimensions');
+fn argmax(
+    self: @Tensor<FixedType>, 
+    axis: usize, 
+    keepdims: Option<bool>, 
+    select_last_index:Option<bool> 
+    ) -> Tensor<usize> {
 
-    if (*self.shape).len() == 1 { 
-        return find_argmax_1D(self, axis, true, false);
-    }
+    let keepdims = match keepdims {
+        Option::Some(val) => val,
+        Option::None(_) => true,
+    };
+
+    let select_last_index = match select_last_index {
+        Option::Some(val) => val,
+        Option::None(_) => false,
+    };
+
+    assert(axis <= (*self.shape).len(), 'axis out of dimensions');
     
+    if (*self.shape).len() == 1 { 
+        return find_argmax_1D(self, axis, true, select_last_index);
+    }
+
     let mut output_data = ArrayTrait::new();
 
     let output_shape = reduce_output_shape(*self.shape, axis, false);
     let output_data_len = len_from_shape(output_shape);
+    
+    let MIN = FixedTrait::new(impl_16x16::MIN_MAG, true);
 
     let mut index: usize = 0;
     loop {
@@ -29,7 +47,7 @@ fn argmax(self: @Tensor<FixedType>, axis: usize) -> Tensor<usize> {
 
         let output_indices = unravel_index(index, output_shape);
         let current_argmax = find_argmax(
-            self, output_indices, axis, 0, FixedTrait::new(impl_16x16::MAX, true), 0
+            self, output_indices, axis, 0, MIN, 0, select_last_index
         );
 
         output_data.append(current_argmax);
@@ -40,5 +58,5 @@ fn argmax(self: @Tensor<FixedType>, axis: usize) -> Tensor<usize> {
         };
     };
 
-    return TensorTrait::<usize>::new(output_shape, output_data.span(), *self.extra);
+    return TensorTrait::<usize>::new(reduce_output_shape(*self.shape, axis, keepdims), output_data.span(), *self.extra);
 }

@@ -12,6 +12,7 @@ const ONE: u128 = 65536; // 2 ** 16
 const ONE_u64: u64 = 65536; // 2 ** 16
 const HALF: u128 = 32768; // 2 ** 15
 const MAX: u128 = 4294967295; // 2 ** 32 - 1
+const MIN_MAG: u128 = 4294967296; // 2 ** 32
 
 /// IMPLS
 
