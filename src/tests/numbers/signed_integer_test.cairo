@@ -1,4 +1,13 @@
+use core::traits::Into;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
+
+#[test]
+fn test_into() {
+    let x = IntegerTrait::<i32>::new(42_u32, false);
+    assert(x.into() == 42, 'should convert to felt252');
+    let x = IntegerTrait::<i32>::new(42_u32, true);
+    assert(x.into() == -42, 'should convert to felt252');
+}
 
 #[test]
 fn test_add() {
