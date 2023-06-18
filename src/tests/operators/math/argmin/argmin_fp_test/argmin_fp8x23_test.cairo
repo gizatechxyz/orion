@@ -1,6 +1,6 @@
 
 #[cfg(test)]
-mod tensor1D_argmin_fp {
+mod tensor1D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
     use orion::numbers::fixed_point::implementations::impl_8x23;
@@ -118,10 +118,8 @@ mod tensor1D_argmin_fp {
     }
 }
 
-
-
 #[cfg(test)]
-mod tensor2x2_argmin_fp {
+mod tensor2D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
     use orion::numbers::fixed_point::implementations::impl_8x23;
@@ -221,9 +219,8 @@ mod tensor2x2_argmin_fp {
     }
 }
 
-
 #[cfg(test)]
-mod tensor2x2x2_argmin_fp {
+mod tensor3D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
     use orion::numbers::fixed_point::implementations::impl_8x23;

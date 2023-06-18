@@ -7,7 +7,6 @@ use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
 use orion::numbers::fixed_point::implementations::impl_8x23;
 
-
 #[test]
 #[available_gas(2000000)]
 fn tensor_abs_fp() {

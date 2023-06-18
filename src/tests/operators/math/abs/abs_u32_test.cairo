@@ -3,8 +3,6 @@ use array::ArrayTrait;
 use orion::operators::tensor::implementations::impl_tensor_u32;
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 
-
-
 #[test]
 #[available_gas(2000000)]
 fn tensor_abs_u32() {
