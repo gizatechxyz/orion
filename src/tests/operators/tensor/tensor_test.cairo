@@ -5,7 +5,7 @@ use traits::Into;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::tensor::implementations::impl_tensor_i32;
 use orion::operators::tensor::core::{TensorTrait, ExtraParams, ravel_index, unravel_index};
-use orion::tests::operators::tensor::helpers::helpers_i32::{
+use orion::tests::helpers::tensor::i32::{
     i32_tensor_2x2_helper, i32_tensor_3x2_helper, i32_tensor_2x3_helper, i32_tensor_2x2x2_helper,
     i32_tensor_3x2x2_helper
 };

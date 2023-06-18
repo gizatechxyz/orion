@@ -119,7 +119,7 @@ mod tensor2x2_argmax_fp {
     use orion::numbers::fixed_point::implementations::impl_16x16;
     use orion::operators::tensor::implementations::impl_tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-    use orion::tests::operators::tensor::helpers::helpers_fp::fp16x16_helpers::{
+    use orion::tests::helpers::tensor::fixed_point::fp16x16::{
         fp_tensor_1x3_helper,fp_tensor_2x2_helper, fp_tensor_2x2x2_helper
     };
 
@@ -210,7 +210,7 @@ mod tensor2x2x2_argmax_fp {
     use orion::numbers::fixed_point::implementations::impl_16x16;
     use orion::operators::tensor::implementations::impl_tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-    use orion::tests::operators::tensor::helpers::helpers_fp::fp16x16_helpers::{
+    use orion::tests::helpers::tensor::fixed_point::fp16x16::{
         fp_tensor_1x3_helper,fp_tensor_2x2_helper, fp_tensor_2x2x2_helper
     };
 
