@@ -1,5 +1,6 @@
 use array::ArrayTrait;
 use array::SpanTrait;
+use traits::Into;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::tensor::implementations::impl_tensor_i32;
@@ -149,14 +150,14 @@ fn add_tensor() {
 
     let result = (tensor_1 + tensor_2).data;
 
-    assert(*result.at(0).mag == 0_u32, 'result[0] = 0');
-    assert(*result.at(1).mag == 2_u32, 'result[1] = 2');
-    assert(*result.at(2).mag == 4_u32, 'result[2] = 4');
-    assert(*result.at(3).mag == 6_u32, 'result[3] = 6');
-    assert(*result.at(4).mag == 8_u32, 'result[4] = 8');
-    assert(*result.at(5).mag == 10_u32, 'result[5] = 10');
-    assert(*result.at(6).mag == 12_u32, 'result[6] = 12');
-    assert(*result.at(7).mag == 14_u32, 'result[7] = 14');
+    assert((*result[0]).into() == 0, 'result[0] = 0');
+    assert((*result[1]).into() == 2, 'result[1] = 2');
+    assert((*result[2]).into() == 4, 'result[2] = 4');
+    assert((*result[3]).into() == 6, 'result[3] = 6');
+    assert((*result[4]).into() == 8, 'result[4] = 8');
+    assert((*result[5]).into() == 10, 'result[5] = 10');
+    assert((*result[6]).into() == 12, 'result[6] = 12');
+    assert((*result[7]).into() == 14, 'result[7] = 14');
 
     // broadcast operation 
 
@@ -172,14 +173,14 @@ fn add_tensor() {
 
     let result = (tensor_1 + tensor_2).data;
 
-    assert(*result.at(0).mag == 10_u32, 'result[0] = 10');
-    assert(*result.at(1).mag == 11_u32, 'result[1] = 11');
-    assert(*result.at(2).mag == 102_u32, 'result[2] = 102');
-    assert(*result.at(3).mag == 103_u32, 'result[3] = 103');
-    assert(*result.at(4).mag == 14_u32, 'result[4] = 14');
-    assert(*result.at(5).mag == 15_u32, 'result[5] = 15');
-    assert(*result.at(6).mag == 106_u32, 'result[6] = 106');
-    assert(*result.at(7).mag == 107_u32, 'result[7] = 107');
+    assert((*result[0]).into() == 10, 'result[0] = 10');
+    assert((*result[1]).into() == 11, 'result[1] = 11');
+    assert((*result[2]).into() == 102, 'result[2] = 102');
+    assert((*result[3]).into() == 103, 'result[3] = 103');
+    assert((*result[4]).into() == 14, 'result[4] = 14');
+    assert((*result[5]).into() == 15, 'result[5] = 15');
+    assert((*result[6]).into() == 106, 'result[6] = 106');
+    assert((*result[7]).into() == 107, 'result[7] = 107');
 
     let mut sizes = ArrayTrait::new();
     sizes.append(2);
@@ -193,14 +194,14 @@ fn add_tensor() {
 
     let result = (tensor_1 + tensor_2).data;
 
-    assert(*result.at(0).mag == 10_u32, 'result[0] = 10');
-    assert(*result.at(1).mag == 11_u32, 'result[1] = 11');
-    assert(*result.at(2).mag == 12_u32, 'result[2] = 12');
-    assert(*result.at(3).mag == 13_u32, 'result[3] = 13');
-    assert(*result.at(4).mag == 104_u32, 'result[4] = 104');
-    assert(*result.at(5).mag == 105_u32, 'result[5] = 105');
-    assert(*result.at(6).mag == 106_u32, 'result[6] = 106');
-    assert(*result.at(7).mag == 107_u32, 'result[7] = 107');
+    assert((*result[0]).into() == 10, 'result[0] = 10');
+    assert((*result[1]).into() == 11, 'result[1] = 11');
+    assert((*result[2]).into() == 12, 'result[2] = 12');
+    assert((*result[3]).into() == 13, 'result[3] = 13');
+    assert((*result[4]).into() == 104, 'result[4] = 104');
+    assert((*result[5]).into() == 105, 'result[5] = 105');
+    assert((*result[6]).into() == 106, 'result[6] = 106');
+    assert((*result[7]).into() == 107, 'result[7] = 107');
 
     let mut sizes = ArrayTrait::new();
     sizes.append(1);
@@ -214,14 +215,14 @@ fn add_tensor() {
 
     let result = (tensor_1 + tensor_2).data;
 
-    assert(*result.at(0).mag == 10_u32, 'result[0] = 10');
-    assert(*result.at(1).mag == 101_u32, 'result[1] = 101');
-    assert(*result.at(2).mag == 12_u32, 'result[2] = 12');
-    assert(*result.at(3).mag == 103_u32, 'result[3] = 103');
-    assert(*result.at(4).mag == 14_u32, 'result[4] = 14');
-    assert(*result.at(5).mag == 105_u32, 'result[5] = 105');
-    assert(*result.at(6).mag == 16_u32, 'result[6] = 16');
-    assert(*result.at(7).mag == 107_u32, 'result[7] = 107');
+    assert((*result[0]).into() == 10, 'result[0] = 10');
+    assert((*result[1]).into() == 101, 'result[1] = 101');
+    assert((*result[2]).into() == 12, 'result[2] = 12');
+    assert((*result[3]).into() == 103, 'result[3] = 103');
+    assert((*result[4]).into() == 14, 'result[4] = 14');
+    assert((*result[5]).into() == 105, 'result[5] = 105');
+    assert((*result[6]).into() == 16, 'result[6] = 16');
+    assert((*result[7]).into() == 107, 'result[7] = 107');
 }
 
 #[test]
@@ -232,14 +233,14 @@ fn sub_tensor() {
 
     let result = (tensor_1 - tensor_2).data;
 
-    assert(*result.at(0).mag == 0_u32, 'result[0] = 0');
-    assert(*result.at(1).mag == 0_u32, 'result[1] = 0');
-    assert(*result.at(2).mag == 0_u32, 'result[2] = 0');
-    assert(*result.at(3).mag == 0_u32, 'result[3] = 0');
-    assert(*result.at(4).mag == 0_u32, 'result[4] = 0');
-    assert(*result.at(5).mag == 0_u32, 'result[5] = 0');
-    assert(*result.at(6).mag == 0_u32, 'result[6] = 0');
-    assert(*result.at(7).mag == 0_u32, 'result[7] = 0');
+    assert((*result[0]).into() == 0, 'result[0] = 0');
+    assert((*result[1]).into() == 0, 'result[1] = 0');
+    assert((*result[2]).into() == 0, 'result[2] = 0');
+    assert((*result[3]).into() == 0, 'result[3] = 0');
+    assert((*result[4]).into() == 0, 'result[4] = 0');
+    assert((*result[5]).into() == 0, 'result[5] = 0');
+    assert((*result[6]).into() == 0, 'result[6] = 0');
+    assert((*result[7]).into() == 0, 'result[7] = 0');
 
     // broadcast operation 
 
@@ -255,14 +256,14 @@ fn sub_tensor() {
 
     let result = (tensor_1 - tensor_2).data;
 
-    assert(*result.at(0).mag == 0_u32, 'result[0] = 0');
-    assert(*result.at(1).mag == 1_u32, 'result[1] = 1');
-    assert(*result.at(2).mag == 1_u32, 'result[2] = 1');
-    assert(*result.at(3).mag == 2_u32, 'result[3] = 2');
-    assert(*result.at(4).mag == 4_u32, 'result[4] = 4');
-    assert(*result.at(5).mag == 5_u32, 'result[5] = 5');
-    assert(*result.at(6).mag == 5_u32, 'result[6] = 5');
-    assert(*result.at(7).mag == 6_u32, 'result[7] = 6');
+    assert((*result[0]).into() == 0, 'result[0] = 0');
+    assert((*result[1]).into() == 1, 'result[1] = 1');
+    assert((*result[2]).into() == 1, 'result[2] = 1');
+    assert((*result[3]).into() == 2, 'result[3] = 2');
+    assert((*result[4]).into() == 4, 'result[4] = 4');
+    assert((*result[5]).into() == 5, 'result[5] = 5');
+    assert((*result[6]).into() == 5, 'result[6] = 5');
+    assert((*result[7]).into() == 6, 'result[7] = 6');
 }
 
 #[test]
@@ -273,14 +274,14 @@ fn mul_tensor() {
 
     let result = (tensor_1 * tensor_2).data;
 
-    assert(*result.at(0).mag == 0_u32, 'result[0] = 0');
-    assert(*result.at(1).mag == 1_u32, 'result[1] = 1');
-    assert(*result.at(2).mag == 4_u32, 'result[2] = 4');
-    assert(*result.at(3).mag == 9_u32, 'result[3] = 9');
-    assert(*result.at(4).mag == 16_u32, 'result[4] = 16');
-    assert(*result.at(5).mag == 25_u32, 'result[5] = 25');
-    assert(*result.at(6).mag == 36_u32, 'result[6] = 36');
-    assert(*result.at(7).mag == 49_u32, 'result[7] = 49');
+    assert((*result[0]).into() == 0, 'result[0] = 0');
+    assert((*result[1]).into() == 1, 'result[1] = 1');
+    assert((*result[2]).into() == 4, 'result[2] = 4');
+    assert((*result[3]).into() == 9, 'result[3] = 9');
+    assert((*result[4]).into() == 16, 'result[4] = 16');
+    assert((*result[5]).into() == 25, 'result[5] = 25');
+    assert((*result[6]).into() == 36, 'result[6] = 36');
+    assert((*result[7]).into() == 49, 'result[7] = 49');
 
     // broadcast operation 
 
@@ -296,14 +297,14 @@ fn mul_tensor() {
 
     let result = (tensor_1 * tensor_2).data;
 
-    assert(*result.at(0).mag == 0_u32, 'result[0] = 0');
-    assert(*result.at(1).mag == 10_u32, 'result[1] = 10');
-    assert(*result.at(2).mag == 200_u32, 'result[2] = 200');
-    assert(*result.at(3).mag == 300_u32, 'result[3] = 300');
-    assert(*result.at(4).mag == 40_u32, 'result[4] = 40');
-    assert(*result.at(5).mag == 50_u32, 'result[5] = 50');
-    assert(*result.at(6).mag == 600_u32, 'result[6] = 600');
-    assert(*result.at(7).mag == 700_u32, 'result[7] = 700');
+    assert((*result[0]).into() == 0, 'result[0] = 0');
+    assert((*result[1]).into() == 10, 'result[1] = 10');
+    assert((*result[2]).into() == 200, 'result[2] = 200');
+    assert((*result[3]).into() == 300, 'result[3] = 300');
+    assert((*result[4]).into() == 40, 'result[4] = 40');
+    assert((*result[5]).into() == 50, 'result[5] = 50');
+    assert((*result[6]).into() == 600, 'result[6] = 600');
+    assert((*result[7]).into() == 700, 'result[7] = 700');
 }
 
 #[test]
@@ -343,14 +344,14 @@ fn div_tensor() {
 
     let result = (tensor_1 / tensor_2).data;
 
-    assert(*result.at(0).mag == 1_u32, 'result[0] = 1');
-    assert(*result.at(1).mag == 1_u32, 'result[1] = 1');
-    assert(*result.at(2).mag == 1_u32, 'result[2] = 1');
-    assert(*result.at(3).mag == 1_u32, 'result[3] = 1');
-    assert(*result.at(4).mag == 1_u32, 'result[4] = 1');
-    assert(*result.at(5).mag == 1_u32, 'result[5] = 1');
-    assert(*result.at(6).mag == 1_u32, 'result[6] = 1');
-    assert(*result.at(7).mag == 1_u32, 'result[7] = 1');
+    assert((*result[0]).into() == 1, 'result[0] = 1');
+    assert((*result[1]).into() == 1, 'result[1] = 1');
+    assert((*result[2]).into() == 1, 'result[2] = 1');
+    assert((*result[3]).into() == 1, 'result[3] = 1');
+    assert((*result[4]).into() == 1, 'result[4] = 1');
+    assert((*result[5]).into() == 1, 'result[5] = 1');
+    assert((*result[6]).into() == 1, 'result[6] = 1');
+    assert((*result[7]).into() == 1, 'result[7] = 1');
 
     // broadcast operation 
 
@@ -366,14 +367,14 @@ fn div_tensor() {
 
     let result = (tensor_1 / tensor_2).data;
 
-    assert(*result.at(0).mag == 10_u32, 'result[0] = 10');
-    assert(*result.at(1).mag == 20_u32, 'result[1] = 20');
-    assert(*result.at(2).mag == 3_u32, 'result[2] = 3');
-    assert(*result.at(3).mag == 4_u32, 'result[3] = 4');
-    assert(*result.at(4).mag == 50_u32, 'result[4] = 50');
-    assert(*result.at(5).mag == 60_u32, 'result[5] = 60');
-    assert(*result.at(6).mag == 7_u32, 'result[6] = 7');
-    assert(*result.at(7).mag == 8_u32, 'result[7] = 8');
+    assert((*result[0]).into() == 10, 'result[0] = 10');
+    assert((*result[1]).into() == 20, 'result[1] = 20');
+    assert((*result[2]).into() == 3, 'result[2] = 3');
+    assert((*result[3]).into() == 4, 'result[3] = 4');
+    assert((*result[4]).into() == 50, 'result[4] = 50');
+    assert((*result[5]).into() == 60, 'result[5] = 60');
+    assert((*result[6]).into() == 7, 'result[6] = 7');
+    assert((*result[7]).into() == 8, 'result[7] = 8');
 }
 
 #[test]
@@ -387,10 +388,10 @@ fn tensor_transpose_2D() {
 
     let result = tensor.transpose(axes.span());
 
-    assert(*result.data.at(0).mag == 0, 'result[0] = 0');
-    assert(*result.data.at(1).mag == 2, 'result[1] = 2');
-    assert(*result.data.at(2).mag == 1, 'result[2] = 1');
-    assert(*result.data.at(3).mag == 3, 'result[3] = 3');
+    assert((*result.data[0]).into() == 0, 'result[0] = 0');
+    assert((*result.data[1]).into() == 2, 'result[1] = 2');
+    assert((*result.data[2]).into() == 1, 'result[2] = 1');
+    assert((*result.data[3]).into() == 3, 'result[3] = 3');
     assert(*result.shape.at(0) == 2, 'shape[0] = 2');
     assert(*result.shape.at(1) == 2, 'shape[1] = 2');
 
@@ -398,12 +399,12 @@ fn tensor_transpose_2D() {
 
     let result = tensor.transpose(axes.span());
 
-    assert(*result.data.at(0).mag == 0, 'result[0] = 0');
-    assert(*result.data.at(1).mag == 2, 'result[1] = 2');
-    assert(*result.data.at(2).mag == 4, 'result[2] = 4');
-    assert(*result.data.at(3).mag == 1, 'result[3] = 1');
-    assert(*result.data.at(4).mag == 3, 'result[4] = 3');
-    assert(*result.data.at(5).mag == 5, 'result[5] = 5');
+    assert((*result.data[0]).into() == 0, 'result[0] = 0');
+    assert((*result.data[1]).into() == 2, 'result[1] = 2');
+    assert((*result.data[2]).into() == 4, 'result[2] = 4');
+    assert((*result.data[3]).into() == 1, 'result[3] = 1');
+    assert((*result.data[4]).into() == 3, 'result[4] = 3');
+    assert((*result.data[5]).into() == 5, 'result[5] = 5');
     assert(*result.shape.at(0) == 2, 'shape[0] = 2');
     assert(*result.shape.at(1) == 3, 'shape[1] = 3');
 
@@ -411,12 +412,12 @@ fn tensor_transpose_2D() {
 
     let result = tensor.transpose(axes.span());
 
-    assert(*result.data.at(0).mag == 0, 'result[0] = 0');
-    assert(*result.data.at(1).mag == 3, 'result[1] = 3');
-    assert(*result.data.at(2).mag == 1, 'result[2] = 1');
-    assert(*result.data.at(3).mag == 4, 'result[3] = 4');
-    assert(*result.data.at(4).mag == 2, 'result[4] = 2');
-    assert(*result.data.at(5).mag == 5, 'result[5] = 5');
+    assert((*result.data[0]).into() == 0, 'result[0] = 0');
+    assert((*result.data[1]).into() == 3, 'result[1] = 3');
+    assert((*result.data[2]).into() == 1, 'result[2] = 1');
+    assert((*result.data[3]).into() == 4, 'result[3] = 4');
+    assert((*result.data[4]).into() == 2, 'result[4] = 2');
+    assert((*result.data[5]).into() == 5, 'result[5] = 5');
     assert(*result.shape.at(0) == 3, 'shape[0] = 3');
     assert(*result.shape.at(1) == 2, 'shape[1] = 2');
 }
@@ -433,14 +434,14 @@ fn tensor_transpose_3D() {
 
     let result = tensor.transpose(axes.span()).data;
 
-    assert(*result.at(0).mag == 0, 'result[0] = 0');
-    assert(*result.at(1).mag == 4, 'result[1] = 4');
-    assert(*result.at(2).mag == 1, 'result[2] = 1');
-    assert(*result.at(3).mag == 5, 'result[3] = 5');
-    assert(*result.at(4).mag == 2, 'result[4] = 2');
-    assert(*result.at(5).mag == 6, 'result[5] = 6');
-    assert(*result.at(6).mag == 3, 'result[6] = 3');
-    assert(*result.at(7).mag == 7, 'result[7] = 7');
+    assert((*result[0]).into() == 0, 'result[0] = 0');
+    assert((*result[1]).into() == 4, 'result[1] = 4');
+    assert((*result[2]).into() == 1, 'result[2] = 1');
+    assert((*result[3]).into() == 5, 'result[3] = 5');
+    assert((*result[4]).into() == 2, 'result[4] = 2');
+    assert((*result[5]).into() == 6, 'result[5] = 6');
+    assert((*result[6]).into() == 3, 'result[6] = 3');
+    assert((*result[7]).into() == 7, 'result[7] = 7');
 
     let mut axes: Array<usize> = ArrayTrait::new();
     axes.append(2);
@@ -449,14 +450,14 @@ fn tensor_transpose_3D() {
 
     let result = tensor.transpose(axes.span()).data;
 
-    assert(*result.at(0).mag == 0, 'result[0] = 0');
-    assert(*result.at(1).mag == 4, 'result[1] = 4');
-    assert(*result.at(2).mag == 2, 'result[2] = 2');
-    assert(*result.at(3).mag == 6, 'result[3] = 6');
-    assert(*result.at(4).mag == 1, 'result[4] = 1');
-    assert(*result.at(5).mag == 5, 'result[5] = 5');
-    assert(*result.at(6).mag == 3, 'result[6] = 3');
-    assert(*result.at(7).mag == 7, 'result[7] = 7');
+    assert((*result[0]).into() == 0, 'result[0] = 0');
+    assert((*result[1]).into() == 4, 'result[1] = 4');
+    assert((*result[2]).into() == 2, 'result[2] = 2');
+    assert((*result[3]).into() == 6, 'result[3] = 6');
+    assert((*result[4]).into() == 1, 'result[4] = 1');
+    assert((*result[5]).into() == 5, 'result[5] = 5');
+    assert((*result[6]).into() == 3, 'result[6] = 3');
+    assert((*result[7]).into() == 7, 'result[7] = 7');
 
     let mut axes: Array<usize> = ArrayTrait::new();
     axes.append(0);
@@ -465,14 +466,14 @@ fn tensor_transpose_3D() {
 
     let result = tensor.transpose(axes.span()).data;
 
-    assert(*result.at(0).mag == 0, 'result[0] = 0');
-    assert(*result.at(1).mag == 2, 'result[1] = 2');
-    assert(*result.at(2).mag == 1, 'result[2] = 1');
-    assert(*result.at(3).mag == 3, 'result[3] = 3');
-    assert(*result.at(4).mag == 4, 'result[4] = 4');
-    assert(*result.at(5).mag == 6, 'result[5] = 6');
-    assert(*result.at(6).mag == 5, 'result[6] = 5');
-    assert(*result.at(7).mag == 7, 'result[7] = 7');
+    assert((*result[0]).into() == 0, 'result[0] = 0');
+    assert((*result[1]).into() == 2, 'result[1] = 2');
+    assert((*result[2]).into() == 1, 'result[2] = 1');
+    assert((*result[3]).into() == 3, 'result[3] = 3');
+    assert((*result[4]).into() == 4, 'result[4] = 4');
+    assert((*result[5]).into() == 6, 'result[5] = 6');
+    assert((*result[6]).into() == 5, 'result[6] = 5');
+    assert((*result[7]).into() == 7, 'result[7] = 7');
 
     let tensor = i32_tensor_3x2x2_helper();
 
@@ -483,18 +484,18 @@ fn tensor_transpose_3D() {
 
     let result = tensor.transpose(axes.span());
 
-    assert(*result.data.at(0).mag == 0, 'result[0] = 0');
-    assert(*result.data.at(1).mag == 4, 'result[1] = 4');
-    assert(*result.data.at(2).mag == 8, 'result[2] = 8');
-    assert(*result.data.at(3).mag == 1, 'result[3] = 1');
-    assert(*result.data.at(4).mag == 5, 'result[4] = 5');
-    assert(*result.data.at(5).mag == 9, 'result[5] = 9');
-    assert(*result.data.at(6).mag == 2, 'result[6] = 2');
-    assert(*result.data.at(7).mag == 6, 'result[7] = 6');
-    assert(*result.data.at(8).mag == 10, 'result[7] = 10');
-    assert(*result.data.at(9).mag == 3, 'result[7] = 3');
-    assert(*result.data.at(10).mag == 7, 'result[7] = 7');
-    assert(*result.data.at(11).mag == 11, 'result[7] = 11');
+    assert((*result.data[0]).into() == 0, 'result[0] = 0');
+    assert((*result.data[1]).into() == 4, 'result[1] = 4');
+    assert((*result.data[2]).into() == 8, 'result[2] = 8');
+    assert((*result.data[3]).into() == 1, 'result[3] = 1');
+    assert((*result.data[4]).into() == 5, 'result[4] = 5');
+    assert((*result.data[5]).into() == 9, 'result[5] = 9');
+    assert((*result.data[6]).into() == 2, 'result[6] = 2');
+    assert((*result.data[7]).into() == 6, 'result[7] = 6');
+    assert((*result.data[8]).into() == 10, 'result[7] = 10');
+    assert((*result.data[9]).into() == 3, 'result[7] = 3');
+    assert((*result.data[10]).into() == 7, 'result[7] = 7');
+    assert((*result.data[11]).into() == 11, 'result[7] = 11');
     assert(*result.shape.at(0) == 2, 'shape[0] = 2');
     assert(*result.shape.at(1) == 2, 'shape[1] = 2');
     assert(*result.shape.at(2) == 3, 'shape[2] = 3');
@@ -506,18 +507,18 @@ fn tensor_transpose_3D() {
 
     let result = tensor.transpose(axes.span());
 
-    assert(*result.data.at(0).mag == 0, 'result[0] = 0');
-    assert(*result.data.at(1).mag == 4, 'result[1] = 4');
-    assert(*result.data.at(2).mag == 8, 'result[2] = 8');
-    assert(*result.data.at(3).mag == 2, 'result[3] = 2');
-    assert(*result.data.at(4).mag == 6, 'result[4] = 6');
-    assert(*result.data.at(5).mag == 10, 'result[5] = 10');
-    assert(*result.data.at(6).mag == 1, 'result[6] = 1');
-    assert(*result.data.at(7).mag == 5, 'result[7] = 5');
-    assert(*result.data.at(8).mag == 9, 'result[7] = 9');
-    assert(*result.data.at(9).mag == 3, 'result[7] = 3');
-    assert(*result.data.at(10).mag == 7, 'result[7] = 7');
-    assert(*result.data.at(11).mag == 11, 'result[7] = 11');
+    assert((*result.data[0]).into() == 0, 'result[0] = 0');
+    assert((*result.data[1]).into() == 4, 'result[1] = 4');
+    assert((*result.data[2]).into() == 8, 'result[2] = 8');
+    assert((*result.data[3]).into() == 2, 'result[3] = 2');
+    assert((*result.data[4]).into() == 6, 'result[4] = 6');
+    assert((*result.data[5]).into() == 10, 'result[5] = 10');
+    assert((*result.data[6]).into() == 1, 'result[6] = 1');
+    assert((*result.data[7]).into() == 5, 'result[7] = 5');
+    assert((*result.data[8]).into() == 9, 'result[7] = 9');
+    assert((*result.data[9]).into() == 3, 'result[7] = 3');
+    assert((*result.data[10]).into() == 7, 'result[7] = 7');
+    assert((*result.data[11]).into() == 11, 'result[7] = 11');
     assert(*result.shape.at(0) == 2, 'shape[0] = 2');
     assert(*result.shape.at(1) == 2, 'shape[1] = 2');
     assert(*result.shape.at(2) == 3, 'shape[2] = 3');
@@ -529,18 +530,18 @@ fn tensor_transpose_3D() {
 
     let result = tensor.transpose(axes.span());
 
-    assert(*result.data.at(0).mag == 0, 'result[0] = 0');
-    assert(*result.data.at(1).mag == 2, 'result[1] = 2');
-    assert(*result.data.at(2).mag == 1, 'result[2] = 1');
-    assert(*result.data.at(3).mag == 3, 'result[3] = 3');
-    assert(*result.data.at(4).mag == 4, 'result[4] = 4');
-    assert(*result.data.at(5).mag == 6, 'result[5] = 6');
-    assert(*result.data.at(6).mag == 5, 'result[6] = 5');
-    assert(*result.data.at(7).mag == 7, 'result[7] = 7');
-    assert(*result.data.at(8).mag == 8, 'result[7] = 8');
-    assert(*result.data.at(9).mag == 10, 'result[7] = 10');
-    assert(*result.data.at(10).mag == 9, 'result[7] = 9');
-    assert(*result.data.at(11).mag == 11, 'result[7] = 11');
+    assert((*result.data[0]).into() == 0, 'result[0] = 0');
+    assert((*result.data[1]).into() == 2, 'result[1] = 2');
+    assert((*result.data[2]).into() == 1, 'result[2] = 1');
+    assert((*result.data[3]).into() == 3, 'result[3] = 3');
+    assert((*result.data[4]).into() == 4, 'result[4] = 4');
+    assert((*result.data[5]).into() == 6, 'result[5] = 6');
+    assert((*result.data[6]).into() == 5, 'result[6] = 5');
+    assert((*result.data[7]).into() == 7, 'result[7] = 7');
+    assert((*result.data[8]).into() == 8, 'result[7] = 8');
+    assert((*result.data[9]).into() == 10, 'result[7] = 10');
+    assert((*result.data[10]).into() == 9, 'result[7] = 9');
+    assert((*result.data[11]).into() == 11, 'result[7] = 11');
     assert(*result.shape.at(0) == 3, 'shape[0] = 3');
     assert(*result.shape.at(1) == 2, 'shape[1] = 2');
     assert(*result.shape.at(2) == 2, 'shape[2] = 2');
