@@ -12,9 +12,9 @@ fn i32_tensor_1x3_helper() -> Tensor<i32> {
     sizes.append(3);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, false));
-    data.append(IntegerTrait::new(2_u32, false));
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: false });
+    data.append(i32 { mag: 2, sign: false });
     let extra = Option::<ExtraParams>::None(());
 
     let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
@@ -27,9 +27,9 @@ fn i32_tensor_1x3_neg_helper() -> Tensor<i32> {
     sizes.append(3);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, true));
-    data.append(IntegerTrait::new(2_u32, true));
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: true });
+    data.append(i32 { mag: 2, sign: true });
     let extra = Option::<ExtraParams>::None(());
 
     let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
@@ -45,10 +45,10 @@ fn i32_tensor_2x2_helper() -> Tensor<i32> {
     sizes.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, false));
-    data.append(IntegerTrait::new(2_u32, false));
-    data.append(IntegerTrait::new(3_u32, false));
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: false });
+    data.append(i32 { mag: 2, sign: false });
+    data.append(i32 { mag: 3, sign: false });
     let extra = Option::<ExtraParams>::None(());
 
     let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
@@ -62,10 +62,10 @@ fn i32_tensor_2x2_neg_helper() -> Tensor<i32> {
     sizes.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, true));
-    data.append(IntegerTrait::new(2_u32, true));
-    data.append(IntegerTrait::new(3_u32, true));
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: true });
+    data.append(i32 { mag: 2, sign: true });
+    data.append(i32 { mag: 3, sign: true });
     let extra = Option::<ExtraParams>::None(());
 
     let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
@@ -79,15 +79,15 @@ fn i32_tensor_3x3_helper() -> Tensor<i32> {
     sizes.append(3);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, false));
-    data.append(IntegerTrait::new(2_u32, false));
-    data.append(IntegerTrait::new(3_u32, false));
-    data.append(IntegerTrait::new(4_u32, false));
-    data.append(IntegerTrait::new(5_u32, false));
-    data.append(IntegerTrait::new(6_u32, false));
-    data.append(IntegerTrait::new(7_u32, false));
-    data.append(IntegerTrait::new(8_u32, false));
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: false });
+    data.append(i32 { mag: 2, sign: false });
+    data.append(i32 { mag: 3, sign: false });
+    data.append(i32 { mag: 4, sign: false });
+    data.append(i32 { mag: 5, sign: false });
+    data.append(i32 { mag: 6, sign: false });
+    data.append(i32 { mag: 7, sign: false });
+    data.append(i32 { mag: 8, sign: false });
 
     let extra = Option::<ExtraParams>::None(());
 
@@ -102,15 +102,15 @@ fn i32_tensor_3x3_neg_helper() -> Tensor<i32> {
     sizes.append(3);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, true));
-    data.append(IntegerTrait::new(2_u32, true));
-    data.append(IntegerTrait::new(3_u32, true));
-    data.append(IntegerTrait::new(4_u32, true));
-    data.append(IntegerTrait::new(5_u32, true));
-    data.append(IntegerTrait::new(6_u32, true));
-    data.append(IntegerTrait::new(7_u32, true));
-    data.append(IntegerTrait::new(8_u32, true));
+    data.append(i32 { mag: 0_u32, sign: false });
+    data.append(i32 { mag: 1_u32, sign: true });
+    data.append(i32 { mag: 2_u32, sign: true });
+    data.append(i32 { mag: 3_u32, sign: true });
+    data.append(i32 { mag: 4_u32, sign: true });
+    data.append(i32 { mag: 5_u32, sign: true });
+    data.append(i32 { mag: 6_u32, sign: true });
+    data.append(i32 { mag: 7_u32, sign: true });
+    data.append(i32 { mag: 8_u32, sign: true });
 
     let extra = Option::<ExtraParams>::None(());
 
@@ -125,12 +125,12 @@ fn i32_tensor_3x2_helper() -> Tensor<i32> {
     sizes.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, false));
-    data.append(IntegerTrait::new(2_u32, false));
-    data.append(IntegerTrait::new(3_u32, false));
-    data.append(IntegerTrait::new(4_u32, false));
-    data.append(IntegerTrait::new(5_u32, false));
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: false });
+    data.append(i32 { mag: 2, sign: false });
+    data.append(i32 { mag: 3, sign: false });
+    data.append(i32 { mag: 4, sign: false });
+    data.append(i32 { mag: 5, sign: false });
 
     let extra = Option::<ExtraParams>::None(());
 
@@ -145,12 +145,12 @@ fn i32_tensor_3x2_neg_helper() -> Tensor<i32> {
     sizes.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, true));
-    data.append(IntegerTrait::new(2_u32, true));
-    data.append(IntegerTrait::new(3_u32, true));
-    data.append(IntegerTrait::new(4_u32, true));
-    data.append(IntegerTrait::new(5_u32, true));
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: true });
+    data.append(i32 { mag: 2, sign: true });
+    data.append(i32 { mag: 3, sign: true });
+    data.append(i32 { mag: 4, sign: true });
+    data.append(i32 { mag: 5, sign: true });
 
     let extra = Option::<ExtraParams>::None(());
 
@@ -165,9 +165,9 @@ fn i32_tensor_3x1_helper() -> Tensor<i32> {
     sizes.append(1);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, false));
-    data.append(IntegerTrait::new(2_u32, false));
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: false });
+    data.append(i32 { mag: 2, sign: false });
 
     let extra = Option::<ExtraParams>::None(());
 
@@ -182,9 +182,9 @@ fn i32_tensor_3x1_neg_helper() -> Tensor<i32> {
     sizes.append(1);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, true));
-    data.append(IntegerTrait::new(2_u32, true));
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: true });
+    data.append(i32 { mag: 2, sign: true });
 
     let extra = Option::<ExtraParams>::None(());
 
@@ -199,12 +199,12 @@ fn i32_tensor_2x3_helper() -> Tensor<i32> {
     sizes.append(3);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, false));
-    data.append(IntegerTrait::new(2_u32, false));
-    data.append(IntegerTrait::new(3_u32, false));
-    data.append(IntegerTrait::new(4_u32, false));
-    data.append(IntegerTrait::new(5_u32, false));
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: false });
+    data.append(i32 { mag: 2, sign: false });
+    data.append(i32 { mag: 3, sign: false });
+    data.append(i32 { mag: 4, sign: false });
+    data.append(i32 { mag: 5, sign: false });
 
     let extra = Option::<ExtraParams>::None(());
 
@@ -219,12 +219,12 @@ fn i32_tensor_2x3_neg_helper() -> Tensor<i32> {
     sizes.append(3);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, true));
-    data.append(IntegerTrait::new(2_u32, true));
-    data.append(IntegerTrait::new(3_u32, true));
-    data.append(IntegerTrait::new(4_u32, true));
-    data.append(IntegerTrait::new(5_u32, true));
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: true });
+    data.append(i32 { mag: 2, sign: true });
+    data.append(i32 { mag: 3, sign: true });
+    data.append(i32 { mag: 4, sign: true });
+    data.append(i32 { mag: 5, sign: true });
 
     let extra = Option::<ExtraParams>::None(());
 
@@ -242,14 +242,14 @@ fn i32_tensor_2x2x2_helper() -> Tensor<i32> {
     sizes.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, false));
-    data.append(IntegerTrait::new(2_u32, false));
-    data.append(IntegerTrait::new(3_u32, false));
-    data.append(IntegerTrait::new(4_u32, false));
-    data.append(IntegerTrait::new(5_u32, false));
-    data.append(IntegerTrait::new(6_u32, false));
-    data.append(IntegerTrait::new(7_u32, false));
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: false });
+    data.append(i32 { mag: 2, sign: false });
+    data.append(i32 { mag: 3, sign: false });
+    data.append(i32 { mag: 4, sign: false });
+    data.append(i32 { mag: 5, sign: false });
+    data.append(i32 { mag: 6, sign: false });
+    data.append(i32 { mag: 7, sign: false });
 
     let extra = Option::<ExtraParams>::None(());
 
@@ -265,14 +265,14 @@ fn i32_tensor_2x2x2_neg_helper() -> Tensor<i32> {
     sizes.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, true));
-    data.append(IntegerTrait::new(2_u32, true));
-    data.append(IntegerTrait::new(3_u32, true));
-    data.append(IntegerTrait::new(4_u32, true));
-    data.append(IntegerTrait::new(5_u32, true));
-    data.append(IntegerTrait::new(6_u32, true));
-    data.append(IntegerTrait::new(7_u32, true));
+    data.append(i32 { mag: 0_u32, sign: false });
+    data.append(i32 { mag: 1_u32, sign: true });
+    data.append(i32 { mag: 2_u32, sign: true });
+    data.append(i32 { mag: 3_u32, sign: true });
+    data.append(i32 { mag: 4_u32, sign: true });
+    data.append(i32 { mag: 5_u32, sign: true });
+    data.append(i32 { mag: 6_u32, sign: true });
+    data.append(i32 { mag: 7_u32, sign: true });
 
     let extra = Option::<ExtraParams>::None(());
 
@@ -288,18 +288,18 @@ fn i32_tensor_3x2x2_helper() -> Tensor<i32> {
     sizes.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, false));
-    data.append(IntegerTrait::new(2_u32, false));
-    data.append(IntegerTrait::new(3_u32, false));
-    data.append(IntegerTrait::new(4_u32, false));
-    data.append(IntegerTrait::new(5_u32, false));
-    data.append(IntegerTrait::new(6_u32, false));
-    data.append(IntegerTrait::new(7_u32, false));
-    data.append(IntegerTrait::new(8_u32, false));
-    data.append(IntegerTrait::new(9_u32, false));
-    data.append(IntegerTrait::new(10_u32, false));
-    data.append(IntegerTrait::new(11_u32, false));
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: false });
+    data.append(i32 { mag: 2, sign: false });
+    data.append(i32 { mag: 3, sign: false });
+    data.append(i32 { mag: 4, sign: false });
+    data.append(i32 { mag: 5, sign: false });
+    data.append(i32 { mag: 6, sign: false });
+    data.append(i32 { mag: 7, sign: false });
+    data.append(i32 { mag: 8, sign: false });
+    data.append(i32 { mag: 9, sign: false });
+    data.append(i32 { mag: 10, sign: false });
+    data.append(i32 { mag: 11, sign: false });
 
     let extra = Option::<ExtraParams>::None(());
 
@@ -315,18 +315,18 @@ fn i32_tensor_3x2x2_neg_helper() -> Tensor<i32> {
     sizes.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, true));
-    data.append(IntegerTrait::new(2_u32, true));
-    data.append(IntegerTrait::new(3_u32, true));
-    data.append(IntegerTrait::new(4_u32, true));
-    data.append(IntegerTrait::new(5_u32, true));
-    data.append(IntegerTrait::new(6_u32, true));
-    data.append(IntegerTrait::new(7_u32, true));
-    data.append(IntegerTrait::new(8_u32, true));
-    data.append(IntegerTrait::new(9_u32, true));
-    data.append(IntegerTrait::new(10_u32, true));
-    data.append(IntegerTrait::new(11_u32, true));
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: true });
+    data.append(i32 { mag: 2, sign: true });
+    data.append(i32 { mag: 3, sign: true });
+    data.append(i32 { mag: 4, sign: true });
+    data.append(i32 { mag: 5, sign: true });
+    data.append(i32 { mag: 6, sign: true });
+    data.append(i32 { mag: 7, sign: true });
+    data.append(i32 { mag: 8, sign: true });
+    data.append(i32 { mag: 9, sign: true });
+    data.append(i32 { mag: 10, sign: true });
+    data.append(i32 { mag: 11, sign: true });
 
     let extra = Option::<ExtraParams>::None(());
 
