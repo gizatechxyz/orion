@@ -1,6 +1,6 @@
 
 #[cfg(test)]
-mod tensor1D {
+mod tensor_1D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
     use orion::numbers::fixed_point::implementations::impl_16x16;
@@ -119,7 +119,7 @@ mod tensor1D {
 }
 
 #[cfg(test)]
-mod tensor2D {
+mod tensor_2D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
     use orion::numbers::fixed_point::implementations::impl_16x16;
@@ -220,7 +220,7 @@ mod tensor2D {
 }
 
 #[cfg(test)]
-mod tensor3D {
+mod tensor_3D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
     use orion::numbers::fixed_point::implementations::impl_16x16;

@@ -1,6 +1,6 @@
 
 #[cfg(test)]
-mod tensor1D {
+mod tensor_1D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
     use orion::operators::tensor::implementations::impl_tensor_i32;
@@ -118,7 +118,7 @@ mod tensor1D {
 }
 
 #[cfg(test)]
-mod tensor2D {
+mod tensor_2D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
     use orion::operators::tensor::implementations::impl_tensor_i32;
@@ -216,7 +216,7 @@ mod tensor2D {
 }
 
 #[cfg(test)]
-mod tensor3D {
+mod tensor_3D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
     use orion::operators::tensor::implementations::impl_tensor_i32;

@@ -1,6 +1,6 @@
 
 #[cfg(test)]
-mod tensor1D {
+mod tensor_1D {
     use array::{ArrayTrait,SpanTrait};
     use orion::operators::tensor::implementations::impl_tensor_u32;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
@@ -95,7 +95,7 @@ mod tensor1D {
 }
 
 #[cfg(test)]
-mod tensor2D {
+mod tensor_2D {
     use array::{ArrayTrait,SpanTrait};
     use orion::operators::tensor::implementations::impl_tensor_u32;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
@@ -180,7 +180,7 @@ mod tensor2D {
 }
 
 #[cfg(test)]
-mod tensor3D {
+mod tensor_3D {
     use array::{ArrayTrait,SpanTrait};
     use orion::operators::tensor::implementations::impl_tensor_u32;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
