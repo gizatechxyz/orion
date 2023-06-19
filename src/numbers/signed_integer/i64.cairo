@@ -1,3 +1,5 @@
+use traits::Into;
+
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::utils::check_gas;
 
@@ -31,6 +33,19 @@ impl i64Impl of IntegerTrait<i64, u64> {
 
     fn min(self: i64, other: i64) -> i64 {
         i64_min(self, other)
+    }
+}
+
+// Implements the Into trait for i64.
+impl i32Into of Into<i64, felt252> {
+    fn into(self: i64) -> felt252 {
+        let mag_felt = self.mag.into();
+
+        if (self.sign == true) {
+            return mag_felt * -1;
+        } else {
+            return mag_felt;
+        }
     }
 }
 
