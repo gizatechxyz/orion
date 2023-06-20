@@ -4,12 +4,12 @@ use traits::Into;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
-use orion::operators::tensor::implementations::impl_tensor_i32;
-use orion::operators::tensor::implementations::impl_tensor_fp;
-use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::performance::core::PerfomanceTrait;
-use orion::performance::implementations::impl_performance_i32;
+use orion::performance::implementations::impl_performance_i32::Performance_i32;
 
 
 #[test]
@@ -20,12 +20,12 @@ fn quantize_linear_test() {
     shape.append(2);
 
     let mut data = ArrayTrait::<i32>::new();
-    data.append(IntegerTrait::new(30523_u32, true));
-    data.append(IntegerTrait::new(24327_u32, false));
-    data.append(IntegerTrait::new(12288_u32, true));
-    data.append(IntegerTrait::new(29837_u32, false));
-    data.append(IntegerTrait::new(19345_u32, true));
-    data.append(IntegerTrait::new(15416_u32, false));
+    data.append(IntegerTrait::new(30523, true));
+    data.append(IntegerTrait::new(24327, false));
+    data.append(IntegerTrait::new(12288, true));
+    data.append(IntegerTrait::new(29837, false));
+    data.append(IntegerTrait::new(19345, true));
+    data.append(IntegerTrait::new(15416, false));
     let extra = Option::<ExtraParams>::None(());
 
     let tensor = TensorTrait::new(shape.span(), data.span(), extra);

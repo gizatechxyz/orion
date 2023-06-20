@@ -1,7 +1,7 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
 use orion::operators::tensor::math::argmax::helpers::{find_argmax_1D, find_argmax};
@@ -9,12 +9,8 @@ use orion::utils::check_gas;
 
 /// Cf: TensorTrait::argmax docstring
 fn argmax(
-    self: @Tensor<u32>, 
-    axis: usize, 
-    keepdims: Option<bool>, 
-    select_last_index:Option<bool> 
-    ) -> Tensor<usize> {
-
+    self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+) -> Tensor<usize> {
     let keepdims = match keepdims {
         Option::Some(val) => val,
         Option::None(_) => true,
@@ -24,10 +20,10 @@ fn argmax(
         Option::Some(val) => val,
         Option::None(_) => false,
     };
-    
+
     assert(axis <= (*self.shape).len(), 'axis out of dimensions');
 
-    if (*self.shape).len() == 1 { 
+    if (*self.shape).len() == 1 {
         return find_argmax_1D(self, axis, true, select_last_index);
     }
 
@@ -41,9 +37,7 @@ fn argmax(
         check_gas();
 
         let output_indices = unravel_index(index, output_shape);
-        let current_argmax = find_argmax(
-            self, output_indices, axis, 0, 0, 0, select_last_index
-        );
+        let current_argmax = find_argmax(self, output_indices, axis, 0, 0, 0, select_last_index);
 
         output_data.append(current_argmax);
 
@@ -53,5 +47,7 @@ fn argmax(
         };
     };
 
-    return TensorTrait::<usize>::new(reduce_output_shape(*self.shape, axis, keepdims), output_data.span(), *self.extra);
+    return TensorTrait::<usize>::new(
+        reduce_output_shape(*self.shape, axis, keepdims), output_data.span(), *self.extra
+    );
 }

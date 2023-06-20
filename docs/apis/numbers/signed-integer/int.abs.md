@@ -19,7 +19,7 @@ A signed integer `<T>`, representing the absolute value of `self` .
 ```rust
 fn abs_example() -> i32 {
 // We instantiate signed integers here.
-let int = IntegerTrait::<i32>::new(42_u32, true);
+let int = IntegerTrait::<i32>::new(42, true);
 
 // We can call `abs` function as follows.
 a.abs()

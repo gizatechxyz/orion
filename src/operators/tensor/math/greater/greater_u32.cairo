@@ -1,7 +1,7 @@
 use array::ArrayTrait;
 use option::OptionTrait;
 use array::SpanTrait;
-use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::utils::check_gas;
 use orion::operators::tensor::helpers::check_compatibility;

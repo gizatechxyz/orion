@@ -1,5 +1,5 @@
 use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
-use orion::numbers::fixed_point::implementations::impl_16x16;
+use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::math::abs::abs_fp::fp8x23;
 use orion::operators::tensor::math::abs::abs_fp::fp16x16;

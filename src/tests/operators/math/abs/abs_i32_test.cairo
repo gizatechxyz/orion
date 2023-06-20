@@ -2,7 +2,7 @@ use array::SpanTrait;
 use array::ArrayTrait;
 use core::traits::Into;
 
-use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::tests::helpers::tensor::i32::i32_tensor_1x3_neg_helper;
 use orion::tests::helpers::tensor::i32::i32_tensor_2x2_neg_helper;

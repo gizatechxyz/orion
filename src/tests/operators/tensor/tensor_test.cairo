@@ -3,7 +3,9 @@ use array::SpanTrait;
 use traits::Into;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_i32::{
+    Tensor_i32, i32TensorAdd, i32TensorSub, i32TensorMul, i32TensorDiv
+};
 use orion::operators::tensor::core::{TensorTrait, ExtraParams, ravel_index, unravel_index};
 use orion::tests::helpers::tensor::i32::{
     i32_tensor_2x2_helper, i32_tensor_3x2_helper, i32_tensor_2x3_helper, i32_tensor_2x2x2_helper,
@@ -20,9 +22,9 @@ fn wrong_shape_tensor_test() {
     sizes.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, false));
-    data.append(IntegerTrait::new(2_u32, false));
+    data.append(IntegerTrait::new(0, false));
+    data.append(IntegerTrait::new(1, false));
+    data.append(IntegerTrait::new(2, false));
 
     let extra = Option::<ExtraParams>::None(());
 
@@ -41,7 +43,7 @@ fn at_tensor_test() {
 
     let result = tensor.at(indices.span()).mag;
 
-    assert(result == 3_u32, 'result[3] = 3');
+    assert(result == 3, 'result[3] = 3');
 }
 
 #[test]
@@ -166,8 +168,8 @@ fn add_tensor() {
     sizes.append(2);
     sizes.append(1);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(10_u32, false));
-    data.append(IntegerTrait::new(100_u32, false));
+    data.append(IntegerTrait::new(10, false));
+    data.append(IntegerTrait::new(100, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
@@ -187,8 +189,8 @@ fn add_tensor() {
     sizes.append(1);
     sizes.append(1);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(10_u32, false));
-    data.append(IntegerTrait::new(100_u32, false));
+    data.append(IntegerTrait::new(10, false));
+    data.append(IntegerTrait::new(100, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
@@ -208,8 +210,8 @@ fn add_tensor() {
     sizes.append(1);
     sizes.append(2);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(10_u32, false));
-    data.append(IntegerTrait::new(100_u32, false));
+    data.append(IntegerTrait::new(10, false));
+    data.append(IntegerTrait::new(100, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
@@ -249,8 +251,8 @@ fn sub_tensor() {
     sizes.append(2);
     sizes.append(1);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, false));
+    data.append(IntegerTrait::new(0, false));
+    data.append(IntegerTrait::new(1, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
@@ -290,8 +292,8 @@ fn mul_tensor() {
     sizes.append(2);
     sizes.append(1);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(10_u32, false));
-    data.append(IntegerTrait::new(100_u32, false));
+    data.append(IntegerTrait::new(10, false));
+    data.append(IntegerTrait::new(100, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
@@ -315,14 +317,14 @@ fn div_tensor() {
     sizes.append(2);
     sizes.append(2);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(100_u32, false));
-    data.append(IntegerTrait::new(200_u32, false));
-    data.append(IntegerTrait::new(300_u32, false));
-    data.append(IntegerTrait::new(400_u32, false));
-    data.append(IntegerTrait::new(500_u32, false));
-    data.append(IntegerTrait::new(600_u32, false));
-    data.append(IntegerTrait::new(700_u32, false));
-    data.append(IntegerTrait::new(800_u32, false));
+    data.append(IntegerTrait::new(100, false));
+    data.append(IntegerTrait::new(200, false));
+    data.append(IntegerTrait::new(300, false));
+    data.append(IntegerTrait::new(400, false));
+    data.append(IntegerTrait::new(500, false));
+    data.append(IntegerTrait::new(600, false));
+    data.append(IntegerTrait::new(700, false));
+    data.append(IntegerTrait::new(800, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_1 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
@@ -331,14 +333,14 @@ fn div_tensor() {
     sizes.append(2);
     sizes.append(2);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(100_u32, false));
-    data.append(IntegerTrait::new(200_u32, false));
-    data.append(IntegerTrait::new(300_u32, false));
-    data.append(IntegerTrait::new(400_u32, false));
-    data.append(IntegerTrait::new(500_u32, false));
-    data.append(IntegerTrait::new(600_u32, false));
-    data.append(IntegerTrait::new(700_u32, false));
-    data.append(IntegerTrait::new(800_u32, false));
+    data.append(IntegerTrait::new(100, false));
+    data.append(IntegerTrait::new(200, false));
+    data.append(IntegerTrait::new(300, false));
+    data.append(IntegerTrait::new(400, false));
+    data.append(IntegerTrait::new(500, false));
+    data.append(IntegerTrait::new(600, false));
+    data.append(IntegerTrait::new(700, false));
+    data.append(IntegerTrait::new(800, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
@@ -360,8 +362,8 @@ fn div_tensor() {
     sizes.append(2);
     sizes.append(1);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(10_u32, false));
-    data.append(IntegerTrait::new(100_u32, false));
+    data.append(IntegerTrait::new(10, false));
+    data.append(IntegerTrait::new(100, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 

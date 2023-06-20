@@ -5,7 +5,7 @@ use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape
 };
 use orion::operators::tensor::helpers::{len_from_shape, find_axis, permutation_output_shape};
-use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::utils::check_gas;
 
 /// Cf: TensorTrait::transpose docstring

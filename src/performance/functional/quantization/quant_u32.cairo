@@ -5,8 +5,8 @@ use option::OptionTrait;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::operators::tensor::implementations::impl_tensor_u32;
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::performance::functional::quantization::quant_fp::core::symetric_quant as symetric_quant_fp;
 use orion::utils::u32_max;
 use orion::utils::check_gas;
@@ -42,7 +42,7 @@ fn symetric_quant(min_val: u32, max_val: u32, data: u32) -> u32 {
     //  Quantize data based on the scale
     let quantized_data = (data * factor) / scale;
 
-    assert(quantized_data <= 255_u32, 'out of range');
+    assert(quantized_data <= 255, 'out of range');
 
     return quantized_data;
 }

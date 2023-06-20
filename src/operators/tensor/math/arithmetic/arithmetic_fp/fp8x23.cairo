@@ -2,13 +2,13 @@ use array::ArrayTrait;
 use array::SpanTrait;
 
 use orion::numbers::fixed_point::core::FixedType;
-use orion::numbers::fixed_point::implementations::impl_8x23;
-
+use orion::numbers::fixed_point::implementations::impl_8x23::{
+    FP8x23Add, FP8x23Sub, FP8x23Mul, FP8x23Div
+};
 use orion::operators::tensor::helpers::broadcast_shape;
-
-use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index, };
+use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index};
 use orion::operators::tensor::helpers::{broadcast_index_mapping, len_from_shape, };
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::utils::check_gas;
 
 /// Adds two `Tensor<FixedType>` instances element-wise with broadcasting.

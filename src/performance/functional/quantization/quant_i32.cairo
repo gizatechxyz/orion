@@ -6,8 +6,8 @@ use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::operators::tensor::implementations::impl_tensor_i32;
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::performance::functional::quantization::quant_fp::core::symetric_quant as symetric_quant_fp;
 use orion::utils::check_gas;
 use orion::utils::fp8x23_to_i32;
@@ -27,23 +27,23 @@ use orion::utils::fp8x23_to_i32;
 fn symetric_quant(min_val: i32, max_val: i32, data: i32) -> i32 {
     //  Define quantization range
     //  int8 range : [-127;127] 
-    let q_min_int = IntegerTrait::new(127_u32, true);
-    let q_max_int = IntegerTrait::new(127_u32, false);
+    let q_min_int = IntegerTrait::new(127, true);
+    let q_max_int = IntegerTrait::new(127, false);
 
-    let factor = IntegerTrait::new(1000_u32, false);
+    let factor = IntegerTrait::new(1000, false);
     let min_val = min_val * factor;
     let max_val = max_val * factor;
 
     //  Calculate the scale based on 8 bit symetric quantization
     //  scale = max(abs(data_range_max), abs(data_range_min)) * 2 / (quantization_range_max - quantization_range_min)
 
-    let scale = ((min_val.abs()).max(max_val.abs()) * IntegerTrait::new(2_u32, false))
+    let scale = ((min_val.abs()).max(max_val.abs()) * IntegerTrait::new(2, false))
         / (q_max_int - q_min_int);
 
     //  Quantize data based on the scale
     let quantized_data = (data * factor) / scale;
 
-    assert(quantized_data.mag <= 127_u32, 'out of range');
+    assert(quantized_data.mag <= 127, 'out of range');
 
     return quantized_data;
 }

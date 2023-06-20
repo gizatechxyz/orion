@@ -3,10 +3,10 @@ use array::SpanTrait;
 use traits::Into;
 
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::nn::core::NNTrait;
-use orion::operators::nn::implementations::impl_nn_i32;
+use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
 
 #[test]
 #[available_gas(2000000)]
@@ -16,10 +16,10 @@ fn relu_i32_test() {
     shape.append(2);
 
     let mut data = ArrayTrait::<i32>::new();
-    let val_1 = IntegerTrait::new(1_u32, false);
-    let val_2 = IntegerTrait::new(2_u32, false);
-    let val_3 = IntegerTrait::new(1_u32, true);
-    let val_4 = IntegerTrait::new(2_u32, true);
+    let val_1 = IntegerTrait::new(1, false);
+    let val_2 = IntegerTrait::new(2, false);
+    let val_3 = IntegerTrait::new(1, true);
+    let val_4 = IntegerTrait::new(2, true);
 
     data.append(val_1);
     data.append(val_2);

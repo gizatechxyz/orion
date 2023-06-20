@@ -24,7 +24,7 @@ A new FixedType tensor with the same shape as the input tensor and the Leaky ReL
 
 ```rust
 use orion::operators::nn::core::NNTrait;
-use orion::operators::nn::implementations::impl_nn_i32;
+use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
 
 fn leaky_relu_example() -> Tensor<u32> {
 // We instantiate a 2D Tensor here, the alpha and set threshold to 0.

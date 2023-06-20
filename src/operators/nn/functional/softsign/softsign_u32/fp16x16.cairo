@@ -4,9 +4,9 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::operators::tensor::implementations::{impl_tensor_fp};
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::impl_16x16;
+use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16Add, FP16x16Div};
 use orion::utils::check_gas;
 
 /// Cf: NNTrait::softsign docstring

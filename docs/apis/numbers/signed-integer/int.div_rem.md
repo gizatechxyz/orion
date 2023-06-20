@@ -24,8 +24,8 @@ A tuple of signed integer `<T>`, containing the quotient and the remainder of th
 ```rust
 fn div_rem_example() -> (i32, i32) {
 // We instantiate signed integers here.
-let a = IntegerTrait::<i32>::new(13_u32, false);
-let b = IntegerTrait::<i32>::new(5_u32, false);
+let a = IntegerTrait::<i32>::new(13, false);
+let b = IntegerTrait::<i32>::new(5, false);
 
 // We can call `div_rem` function as follows.
 a.div_rem(b)

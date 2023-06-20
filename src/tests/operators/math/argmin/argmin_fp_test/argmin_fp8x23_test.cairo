@@ -3,8 +3,8 @@
 mod tensor_1D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-    use orion::numbers::fixed_point::implementations::impl_8x23;
-    use orion::operators::tensor::implementations::impl_tensor_fp;
+    use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
+    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 
     #[test]
@@ -122,8 +122,8 @@ mod tensor_1D {
 mod tensor_2D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-    use orion::numbers::fixed_point::implementations::impl_8x23;
-    use orion::operators::tensor::implementations::impl_tensor_fp;
+    use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
+    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
     use orion::tests::helpers::tensor::fixed_point::fp8x23::{
         fp_tensor_1x3_helper,fp_tensor_2x2_helper, fp_tensor_2x2x2_helper
@@ -223,8 +223,8 @@ mod tensor_2D {
 mod tensor_3D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-    use orion::numbers::fixed_point::implementations::impl_8x23;
-    use orion::operators::tensor::implementations::impl_tensor_fp;
+    use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
+    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
     use orion::tests::helpers::tensor::fixed_point::fp8x23::{
         fp_tensor_1x3_helper,fp_tensor_2x2_helper, fp_tensor_2x2x2_helper

@@ -126,12 +126,12 @@ impl i32RemEq of RemEq<i32> {
 
 // Implements the PartialEq trait for i32.
 impl i32PartialEq of PartialEq<i32> {
-    fn eq(lhs: i32, rhs: i32) -> bool {
-        i32_eq(lhs, rhs)
+    fn eq(lhs: @i32, rhs: @i32) -> bool {
+        i32_eq(*lhs, *rhs)
     }
 
-    fn ne(lhs: i32, rhs: i32) -> bool {
-        i32_ne(lhs, rhs)
+    fn ne(lhs: @i32, rhs: @i32) -> bool {
+        i32_ne(*lhs, *rhs)
     }
 }
 
@@ -166,7 +166,7 @@ impl i32Neg of Neg<i32> {
 // # Panics
 // Panics if `x` is zero and has a sign that is not false.
 fn i32_check_sign_zero(x: i32) {
-    if x.mag == 0_u32 {
+    if x.mag == 0 {
         assert(x.sign == false, 'sign of 0 must be false');
     }
 }
@@ -174,9 +174,9 @@ fn i32_check_sign_zero(x: i32) {
 /// Cf: IntegerTrait::new docstring
 fn i32_new(mag: u32, sign: bool) -> i32 {
     if sign == true {
-        assert(mag <= 2147483648_u32, 'int: out of range');
+        assert(mag <= 2147483648, 'int: out of range');
     } else {
-        assert(mag <= 2147483647_u32, 'int: out of range');
+        assert(mag <= 2147483647, 'int: out of range');
     }
     i32 { mag, sign }
 }
@@ -195,7 +195,7 @@ fn i32_add(a: i32, b: i32) -> i32 {
     // the sum of their absolute values can be returned.
     if a.sign == b.sign {
         let sum = a.mag + b.mag;
-        if (sum == 0_u32) {
+        if (sum == 0) {
             return IntegerTrait::new(sum, false);
         }
         return IntegerTrait::new(sum, a.sign);
@@ -209,7 +209,7 @@ fn i32_add(a: i32, b: i32) -> i32 {
         };
         let difference = larger.mag - smaller.mag;
 
-        if (difference == 0_u32) {
+        if (difference == 0) {
             return IntegerTrait::new(difference, false);
         }
         return IntegerTrait::new(difference, larger.sign);
@@ -226,7 +226,7 @@ fn i32_sub(a: i32, b: i32) -> i32 {
     i32_check_sign_zero(a);
     i32_check_sign_zero(b);
 
-    if (b.mag == 0_u32) {
+    if (b.mag == 0) {
         return a;
     }
 
@@ -254,7 +254,7 @@ fn i32_mul(a: i32, b: i32) -> i32 {
     // The product is the product of the absolute values of the operands.
     let mag = a.mag * b.mag;
 
-    if (mag == 0_u32) {
+    if (mag == 0) {
         return IntegerTrait::new(mag, false);
     }
 
@@ -270,7 +270,7 @@ fn i32_mul(a: i32, b: i32) -> i32 {
 fn i32_div(a: i32, b: i32) -> i32 {
     i32_check_sign_zero(a);
     // Check that the divisor is not zero.
-    assert(b.mag != 0_u32, 'b can not be 0');
+    assert(b.mag != 0, 'b can not be 0');
 
     // The sign of the quotient is the XOR of the signs of the operands.
     let sign = a.sign ^ b.sign;
@@ -282,27 +282,27 @@ fn i32_div(a: i32, b: i32) -> i32 {
 
     // If the operands have different signs, rounding is necessary.
     // First, check if the quotient is an integer.
-    if (a.mag % b.mag == 0_u32) {
+    if (a.mag % b.mag == 0) {
         let quotient = a.mag / b.mag;
-        if (quotient == 0_u32) {
+        if (quotient == 0) {
             return IntegerTrait::new(quotient, false);
         }
         return IntegerTrait::new(quotient, sign);
     }
 
     // If the quotient is not an integer, multiply the dividend by 10 to move the decimal point over.
-    let quotient = (a.mag * 10_u32) / b.mag;
-    let last_digit = quotient % 10_u32;
+    let quotient = (a.mag * 10) / b.mag;
+    let last_digit = quotient % 10;
 
-    if (quotient == 0_u32) {
+    if (quotient == 0) {
         return IntegerTrait::new(quotient, false);
     }
 
     // Check the last digit to determine rounding direction.
-    if (last_digit <= 5_u32) {
-        return IntegerTrait::new(quotient / 10_u32, sign);
+    if (last_digit <= 5) {
+        return IntegerTrait::new(quotient / 10, sign);
     } else {
-        return IntegerTrait::new((quotient / 10_u32) + 1_u32, sign);
+        return IntegerTrait::new((quotient / 10) + 1, sign);
     }
 }
 
@@ -315,7 +315,7 @@ fn i32_div(a: i32, b: i32) -> i32 {
 fn i32_rem(a: i32, b: i32) -> i32 {
     i32_check_sign_zero(a);
     // Check that the divisor is not zero.
-    assert(b.mag != 0_u32, 'b can not be 0');
+    assert(b.mag != 0, 'b can not be 0');
 
     return a - (b * (a / b));
 }
@@ -337,7 +337,7 @@ fn i32_div_rem(a: i32, b: i32) -> (i32, i32) {
 // * `bool` - `true` if the two integers are equal, `false` otherwise.
 fn i32_eq(a: i32, b: i32) -> bool {
     // Check if the two integers have the same sign and the same absolute value.
-    if a.sign == b.sign & a.mag == b.mag {
+    if a.sign == b.sign && a.mag == b.mag {
         return true;
     }
 
@@ -388,7 +388,7 @@ fn i32_lt(a: i32, b: i32) -> bool {
     if (a.sign != b.sign) {
         return a.sign;
     } else {
-        return (a.mag != b.mag) & ((a.mag < b.mag) ^ a.sign);
+        return a.mag != b.mag && (a.mag < b.mag) ^ a.sign;
     }
 }
 
@@ -399,7 +399,7 @@ fn i32_lt(a: i32, b: i32) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is less than or equal to `b`, `false` otherwise.
 fn i32_le(a: i32, b: i32) -> bool {
-    if (a == b | i32_lt(a, b) == true) {
+    if (a == b || i32_lt(a, b) == true) {
         return true;
     } else {
         return false;
@@ -413,7 +413,7 @@ fn i32_le(a: i32, b: i32) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is greater than or equal to `b`, `false` otherwise.
 fn i32_ge(a: i32, b: i32) -> bool {
-    if (a == b | i32_gt(a, b) == true) {
+    if (a == b || i32_gt(a, b) == true) {
         return true;
     } else {
         return false;

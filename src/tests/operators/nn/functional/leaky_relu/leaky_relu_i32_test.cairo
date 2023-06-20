@@ -4,12 +4,13 @@ use array::SpanTrait;
 use traits::Into;
 
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::nn::core::{NNTrait};
-use orion::operators::nn::implementations::impl_nn_i32;
+use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
-use orion::numbers::fixed_point::implementations::impl_8x23;
+
+use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23Impl, ONE};
 
 #[test]
 #[available_gas(2000000)]
@@ -19,12 +20,12 @@ fn leaky_relu_i32_test() {
     shape.append(3);
 
     let mut data = ArrayTrait::<i32>::new();
-    let val_1 = IntegerTrait::new(1_u32, false);
-    let val_2 = IntegerTrait::new(2_u32, false);
-    let val_3 = IntegerTrait::new(1_u32, true);
-    let val_4 = IntegerTrait::new(2_u32, true);
-    let val_5 = IntegerTrait::new(0_u32, false);
-    let val_6 = IntegerTrait::new(0_u32, false);
+    let val_1 = IntegerTrait::new(1, false);
+    let val_2 = IntegerTrait::new(2, false);
+    let val_3 = IntegerTrait::new(1, true);
+    let val_4 = IntegerTrait::new(2, true);
+    let val_5 = IntegerTrait::new(0, false);
+    let val_6 = IntegerTrait::new(0, false);
 
     data.append(val_1);
     data.append(val_2);

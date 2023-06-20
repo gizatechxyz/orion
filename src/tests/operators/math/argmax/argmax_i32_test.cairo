@@ -3,7 +3,7 @@
 mod tensor_1D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-    use orion::operators::tensor::implementations::impl_tensor_i32;
+    use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 
     #[test]
@@ -18,9 +18,9 @@ mod tensor_1D {
         sizes.append(3);
 
         let mut data = ArrayTrait::new();
-        data.append(IntegerTrait::new(0_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(2_u32, false));
+        data.append(IntegerTrait::new(0, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(2, false));
         let extra = Option::<ExtraParams>::None(());
 
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
@@ -32,9 +32,9 @@ mod tensor_1D {
 
 
         let mut data = ArrayTrait::new();
-        data.append(IntegerTrait::new(0_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(2_u32, true));
+        data.append(IntegerTrait::new(0, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(2, true));
         let extra = Option::<ExtraParams>::None(());
 
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
@@ -60,9 +60,9 @@ mod tensor_1D {
         sizes.append(3);
 
         let mut data = ArrayTrait::new();
-        data.append(IntegerTrait::new(0_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(2_u32, true));
+        data.append(IntegerTrait::new(0, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(2, true));
         let extra = Option::<ExtraParams>::None(());
 
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
@@ -85,9 +85,9 @@ mod tensor_1D {
         sizes.append(3);
 
         let mut data = ArrayTrait::new();
-        data.append(IntegerTrait::new(1_u32, true));
-        data.append(IntegerTrait::new(1_u32, true));
-        data.append(IntegerTrait::new(1_u32, true));
+        data.append(IntegerTrait::new(1, true));
+        data.append(IntegerTrait::new(1, true));
+        data.append(IntegerTrait::new(1, true));
         let extra = Option::<ExtraParams>::None(());
 
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
@@ -112,7 +112,7 @@ mod tensor_1D {
 mod tensor_2D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-    use orion::operators::tensor::implementations::impl_tensor_i32;
+    use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
     use orion::tests::helpers::tensor::i32::{i32_tensor_1x3_helper,i32_tensor_2x2_helper, i32_tensor_2x2x2_helper};
 
@@ -170,10 +170,10 @@ mod tensor_2D {
         sizes.append(2);
 
         let mut data = ArrayTrait::new();
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
         let extra = Option::<ExtraParams>::None(());
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
@@ -198,7 +198,7 @@ mod tensor_2D {
 mod tensor_3D {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-    use orion::operators::tensor::implementations::impl_tensor_i32;
+    use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
     use orion::tests::helpers::tensor::i32::{i32_tensor_1x3_helper,i32_tensor_2x2_helper, i32_tensor_2x2x2_helper};
 
@@ -275,14 +275,14 @@ mod tensor_3D {
         sizes.append(2);
 
         let mut data = ArrayTrait::new();
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
 
         let extra = Option::<ExtraParams>::None(());
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
