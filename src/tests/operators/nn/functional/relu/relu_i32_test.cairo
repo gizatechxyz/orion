@@ -15,10 +15,10 @@ fn relu_i32_test() {
     shape.append(2);
 
     let mut data = ArrayTrait::<i32>::new();
-    let val_1 = IntegerTrait::new(1_u32, false);
-    let val_2 = IntegerTrait::new(2_u32, false);
-    let val_3 = IntegerTrait::new(1_u32, true);
-    let val_4 = IntegerTrait::new(2_u32, true);
+    let val_1 = IntegerTrait::new(1, false);
+    let val_2 = IntegerTrait::new(2, false);
+    let val_3 = IntegerTrait::new(1, true);
+    let val_4 = IntegerTrait::new(2, true);
 
     data.append(val_1);
     data.append(val_2);
@@ -33,10 +33,10 @@ fn relu_i32_test() {
     let mut result = NNTrait::relu(@tensor, threshold);
 
     let data_0 = *result.data.at(0);
-    assert(data_0.mag == 1_u32, 'result[0] == 1');
+    assert(data_0.mag == 1, 'result[0] == 1');
     assert(data_0.sign == false, 'result[0] == 1');
 
     let data_3 = *result.data.at(3);
-    assert(data_3.mag == 0_u32, 'result[3] == 0');
+    assert(data_3.mag == 0, 'result[3] == 0');
     assert(data_3.sign == false, 'result[3] == 0');
 }

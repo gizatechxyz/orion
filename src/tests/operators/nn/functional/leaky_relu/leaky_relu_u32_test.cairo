@@ -19,12 +19,12 @@ fn leaky_relu_u32_test() {
     shape.append(3);
 
     let mut data = ArrayTrait::<u32>::new();
-    let val_1 = 4_u32;
-    let val_2 = 3_u32;
-    let val_3 = 2_u32;
-    let val_4 = 1_u32;
-    let val_5 = 0_u32;
-    let val_6 = 0_u32;
+    let val_1 = 4;
+    let val_2 = 3;
+    let val_3 = 2;
+    let val_4 = 1;
+    let val_5 = 0;
+    let val_6 = 0;
 
     data.append(val_1);
     data.append(val_2);
@@ -37,7 +37,7 @@ fn leaky_relu_u32_test() {
 
     let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
     let alpha = FixedTrait::new(838861, false); // 0.1
-    let threshold = 3_u32;
+    let threshold = 3;
     let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
     let data = *result.data.at(0);

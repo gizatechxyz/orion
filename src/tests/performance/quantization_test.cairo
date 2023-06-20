@@ -19,34 +19,34 @@ fn quantize_linear_test() {
     shape.append(2);
 
     let mut data = ArrayTrait::<i32>::new();
-    data.append(IntegerTrait::new(30523_u32, true));
-    data.append(IntegerTrait::new(24327_u32, false));
-    data.append(IntegerTrait::new(12288_u32, true));
-    data.append(IntegerTrait::new(29837_u32, false));
-    data.append(IntegerTrait::new(19345_u32, true));
-    data.append(IntegerTrait::new(15416_u32, false));
+    data.append(IntegerTrait::new(30523, true));
+    data.append(IntegerTrait::new(24327, false));
+    data.append(IntegerTrait::new(12288, true));
+    data.append(IntegerTrait::new(29837, false));
+    data.append(IntegerTrait::new(19345, true));
+    data.append(IntegerTrait::new(15416, false));
     let extra = Option::<ExtraParams>::None(());
 
     let tensor = TensorTrait::new(shape.span(), data.span(), extra);
 
     let mut res = PerfomanceTrait::quantize_linear(@tensor);
 
-    assert(*res.data.at(0_usize).mag == 127_u32, '*result[0] == -127');
+    assert(*res.data.at(0_usize).mag == 127, '*result[0] == -127');
     assert(*res.data.at(0_usize).sign == true, '*result[0] -> negative');
 
-    assert(*res.data.at(1_usize).mag == 101_u32, '*result[1] == 101');
+    assert(*res.data.at(1_usize).mag == 101, '*result[1] == 101');
     assert(*res.data.at(1_usize).sign == false, '*result[1] -> positive');
 
-    assert(*res.data.at(2_usize).mag == 51_u32, '*result[2] == -51');
+    assert(*res.data.at(2_usize).mag == 51, '*result[2] == -51');
     assert(*res.data.at(2_usize).sign == true, '*result[2] -> negative');
 
-    assert(*res.data.at(3_usize).mag == 124_u32, '*result[3] == 124');
+    assert(*res.data.at(3_usize).mag == 124, '*result[3] == 124');
     assert(*res.data.at(3_usize).sign == false, '*result[3] -> positive');
 
-    assert(*res.data.at(4_usize).mag == 80_u32, '*result[4] == -80');
+    assert(*res.data.at(4_usize).mag == 80, '*result[4] == -80');
     assert(*res.data.at(4_usize).sign == true, '*result[4] -> negative');
 
-    assert(*res.data.at(5_usize).mag == 64_u32, '*result[5] == 64');
+    assert(*res.data.at(5_usize).mag == 64, '*result[5] == 64');
     assert(*res.data.at(5_usize).sign == false, '*result[5] -> positive');
 }
 

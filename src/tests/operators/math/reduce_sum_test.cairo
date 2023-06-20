@@ -23,22 +23,22 @@ fn reduce_sum_3d() {
 
     let result = tensor.reduce_sum(0, false);
 
-    assert(*result.data.at(0).mag == 4_u32, 'result[0] = 4');
-    assert(*result.data.at(1).mag == 6_u32, 'result[1] = 6');
-    assert(*result.data.at(2).mag == 8_u32, 'result[2] = 8');
-    assert(*result.data.at(3).mag == 10_u32, 'result[3] = 10');
+    assert(*result.data.at(0).mag == 4, 'result[0] = 4');
+    assert(*result.data.at(1).mag == 6, 'result[1] = 6');
+    assert(*result.data.at(2).mag == 8, 'result[2] = 8');
+    assert(*result.data.at(3).mag == 10, 'result[3] = 10');
 
     let result = tensor.reduce_sum(1, false).data;
 
-    assert(*result.at(0).mag == 2_u32, 'result[0] = 2');
-    assert(*result.at(1).mag == 4_u32, 'result[1] = 4');
-    assert(*result.at(2).mag == 10_u32, 'result[2] = 10');
-    assert(*result.at(3).mag == 12_u32, 'result[3] = 12');
+    assert(*result.at(0).mag == 2, 'result[0] = 2');
+    assert(*result.at(1).mag == 4, 'result[1] = 4');
+    assert(*result.at(2).mag == 10, 'result[2] = 10');
+    assert(*result.at(3).mag == 12, 'result[3] = 12');
 
     let result = tensor.reduce_sum(2, false).data;
 
-    assert(*result.at(0).mag == 1_u32, 'result[0] = 1');
-    assert(*result.at(1).mag == 5_u32, 'result[1] = 5');
-    assert(*result.at(2).mag == 9_u32, 'result[2] = 9');
-    assert(*result.at(3).mag == 13_u32, 'result[3] = 13');
+    assert(*result.at(0).mag == 1, 'result[0] = 1');
+    assert(*result.at(1).mag == 5, 'result[1] = 5');
+    assert(*result.at(2).mag == 9, 'result[2] = 9');
+    assert(*result.at(3).mag == 13, 'result[3] = 13');
 }

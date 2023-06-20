@@ -18,9 +18,9 @@ mod tensor1D_argmin_i32 {
         sizes.append(3);
 
         let mut data = ArrayTrait::new();
-        data.append(IntegerTrait::new(0_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(2_u32, false));
+        data.append(IntegerTrait::new(0, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(2, false));
         let extra = Option::<ExtraParams>::None(());
 
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
@@ -32,9 +32,9 @@ mod tensor1D_argmin_i32 {
 
 
         let mut data = ArrayTrait::new();
-        data.append(IntegerTrait::new(0_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(2_u32, true));
+        data.append(IntegerTrait::new(0, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(2, true));
         let extra = Option::<ExtraParams>::None(());
 
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
@@ -60,9 +60,9 @@ mod tensor1D_argmin_i32 {
         sizes.append(3);
 
         let mut data = ArrayTrait::new();
-        data.append(IntegerTrait::new(0_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(2_u32, true));
+        data.append(IntegerTrait::new(0, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(2, true));
         let extra = Option::<ExtraParams>::None(());
 
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
@@ -85,9 +85,9 @@ mod tensor1D_argmin_i32 {
         sizes.append(3);
 
         let mut data = ArrayTrait::new();
-        data.append(IntegerTrait::new(1_u32, true));
-        data.append(IntegerTrait::new(1_u32, true));
-        data.append(IntegerTrait::new(1_u32, true));
+        data.append(IntegerTrait::new(1, true));
+        data.append(IntegerTrait::new(1, true));
+        data.append(IntegerTrait::new(1, true));
         let extra = Option::<ExtraParams>::None(());
 
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
@@ -103,9 +103,9 @@ mod tensor1D_argmin_i32 {
 
 
         let mut data = ArrayTrait::new();
-        data.append(IntegerTrait::new(1_u32, true));
-        data.append(IntegerTrait::new(1_u32, true));
-        data.append(IntegerTrait::new(1_u32, true));
+        data.append(IntegerTrait::new(1, true));
+        data.append(IntegerTrait::new(1, true));
+        data.append(IntegerTrait::new(1, true));
         let extra = Option::<ExtraParams>::None(());
 
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
@@ -181,10 +181,10 @@ mod tensor2x2_argmin_i32 {
         sizes.append(2);
 
         let mut data = ArrayTrait::new();
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
         let extra = Option::<ExtraParams>::None(());
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
@@ -202,10 +202,10 @@ mod tensor2x2_argmin_i32 {
         sizes.append(2);
 
         let mut data = ArrayTrait::new();
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
         let extra = Option::<ExtraParams>::None(());
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
@@ -299,14 +299,14 @@ mod tensor2x2x2_argmin_i32 {
         sizes.append(2);
 
         let mut data = ArrayTrait::new();
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
-        data.append(IntegerTrait::new(1_u32, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
+        data.append(IntegerTrait::new(1, false));
 
         let extra = Option::<ExtraParams>::None(());
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);

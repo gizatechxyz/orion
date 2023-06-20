@@ -42,7 +42,7 @@ fn symetric_quant(min_val: u32, max_val: u32, data: u32) -> u32 {
     //  Quantize data based on the scale
     let quantized_data = (data * factor) / scale;
 
-    assert(quantized_data <= 255_u32, 'out of range');
+    assert(quantized_data <= 255, 'out of range');
 
     return quantized_data;
 }

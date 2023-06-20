@@ -36,7 +36,7 @@ fn argmin(
     let output_shape = reduce_output_shape(*self.shape, axis, false);
     let output_data_len = len_from_shape(output_shape);
 
-    let MAX = 4294967295_u32; // 2 ** 32 - 1
+    let MAX = 4294967295; // 2 ** 32 - 1
 
     let mut index: usize = 0;
     loop {

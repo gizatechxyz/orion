@@ -15,10 +15,10 @@ fn relu_u32_test() {
     shape.append(2);
 
     let mut data = ArrayTrait::<u32>::new();
-    let val_1 = 1_u32;
-    let val_2 = 2_u32;
-    let val_3 = 3_u32;
-    let val_4 = 4_u32;
+    let val_1 = 1;
+    let val_2 = 2;
+    let val_3 = 3;
+    let val_4 = 4;
 
     data.append(val_1);
     data.append(val_2);
@@ -28,7 +28,7 @@ fn relu_u32_test() {
     let extra = Option::<ExtraParams>::None(());
 
     let mut tensor = TensorTrait::new(shape.span(), data.span(), extra);
-    let threshold = 3_u32;
+    let threshold = 3;
     let mut result = NNTrait::relu(@tensor, threshold);
 
     let data_0 = *result.data.at(0);

@@ -23,7 +23,7 @@ fn sigmoid_i32(z: @Tensor<i32>) -> Tensor<FixedType> {
             break ();
         };
 
-        let current_index = *data.pop_front().unwrap() * IntegerTrait::new(1_u32, true);
+        let current_index = *data.pop_front().unwrap() * IntegerTrait::new(1, true);
         let fp_current_index = FixedTrait::new_unscaled(
             current_index.mag.into(), current_index.sign
         );

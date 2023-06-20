@@ -8,5 +8,5 @@ fn min_tensor() {
     let tensor = i32_tensor_2x2x2_helper();
 
     let result = tensor.min().mag;
-    assert(result == 0_u32, 'tensor.min = 0');
+    assert(result == 0, 'tensor.min = 0');
 }

@@ -21,10 +21,10 @@ fn softsign_u32_test() {
     shape.append(2);
 
     let mut data = ArrayTrait::<u32>::new();
-    let val_1 = 0_u32;
-    let val_2 = 1_u32;
-    let val_3 = 2_u32;
-    let val_4 = 3_u32;
+    let val_1 = 0;
+    let val_2 = 1;
+    let val_3 = 2;
+    let val_4 = 3;
 
     data.append(val_1);
     data.append(val_2);

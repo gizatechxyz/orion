@@ -17,10 +17,10 @@ fn softsign_i32_test() {
     shape.append(2);
 
     let mut data = ArrayTrait::<i32>::new();
-    let val_1 = IntegerTrait::new(0_u32, false);
-    let val_2 = IntegerTrait::new(1_u32, false);
-    let val_3 = IntegerTrait::new(2_u32, true);
-    let val_4 = IntegerTrait::new(3_u32, true);
+    let val_1 = IntegerTrait::new(0, false);
+    let val_2 = IntegerTrait::new(1, false);
+    let val_3 = IntegerTrait::new(2, true);
+    let val_4 = IntegerTrait::new(3, true);
 
     data.append(val_1);
     data.append(val_2);

@@ -11,26 +11,26 @@ fn tensor_less_u32() {
     sizes.append(3);
 
     let mut arr_1 = ArrayTrait::<u32>::new();
-    arr_1.append(0_u32);
-    arr_1.append(1_u32);
-    arr_1.append(2_u32);
-    arr_1.append(3_u32);
-    arr_1.append(4_u32);
-    arr_1.append(7_u32);
-    arr_1.append(6_u32);
-    arr_1.append(7_u32);
-    arr_1.append(8_u32);
+    arr_1.append(0);
+    arr_1.append(1);
+    arr_1.append(2);
+    arr_1.append(3);
+    arr_1.append(4);
+    arr_1.append(7);
+    arr_1.append(6);
+    arr_1.append(7);
+    arr_1.append(8);
 
     let mut arr_2 = ArrayTrait::<u32>::new();
-    arr_2.append(10_u32);
-    arr_2.append(11_u32);
-    arr_2.append(12_u32);
-    arr_2.append(13_u32);
-    arr_2.append(4_u32);
-    arr_2.append(5_u32);
-    arr_2.append(16_u32);
-    arr_2.append(17_u32);
-    arr_2.append(18_u32);
+    arr_2.append(10);
+    arr_2.append(11);
+    arr_2.append(12);
+    arr_2.append(13);
+    arr_2.append(4);
+    arr_2.append(5);
+    arr_2.append(16);
+    arr_2.append(17);
+    arr_2.append(18);
 
     let extra = Option::<ExtraParams>::None(());
 
@@ -76,23 +76,23 @@ fn tensor_less_u32_broadcast() {
     sizes_2.append(3);
 
     let mut arr_1 = ArrayTrait::<u32>::new();
-    arr_1.append(0_u32);
-    arr_1.append(1_u32);
-    arr_1.append(2_u32);
-    arr_1.append(3_u32);
-    arr_1.append(4_u32);
-    arr_1.append(5_u32);
-    arr_1.append(6_u32);
-    arr_1.append(7_u32);
-    arr_1.append(8_u32);
-    arr_1.append(9_u32);
-    arr_1.append(10_u32);
-    arr_1.append(11_u32);
+    arr_1.append(0);
+    arr_1.append(1);
+    arr_1.append(2);
+    arr_1.append(3);
+    arr_1.append(4);
+    arr_1.append(5);
+    arr_1.append(6);
+    arr_1.append(7);
+    arr_1.append(8);
+    arr_1.append(9);
+    arr_1.append(10);
+    arr_1.append(11);
 
     let mut arr_2 = ArrayTrait::<u32>::new();
-    arr_2.append(0_u32);
-    arr_2.append(1_u32);
-    arr_2.append(2_u32);
+    arr_2.append(0);
+    arr_2.append(1);
+    arr_2.append(2);
 
     let extra = Option::<ExtraParams>::None(());
 

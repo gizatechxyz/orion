@@ -6,7 +6,7 @@ use orion::utils::check_gas;
 
 /// Cf: TensorTrait::max docstring
 fn max_in_tensor(mut vec: Span::<i32>) -> i32 {
-    let mut max_value: i32 = IntegerTrait::new(2147483647_u32, true);
+    let mut max_value: i32 = IntegerTrait::new(2147483647, true);
 
     loop {
         check_gas();

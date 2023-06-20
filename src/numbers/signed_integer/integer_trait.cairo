@@ -72,8 +72,8 @@ trait IntegerTrait<T, U> {
     /// ```rust
     /// fn div_rem_example() -> (i32, i32) {
     ///     // We instantiate signed integers here.
-    ///     let a = IntegerTrait::<i32>::new(13_u32, false);
-    ///     let b = IntegerTrait::<i32>::new(5_u32, false);
+    ///     let a = IntegerTrait::<i32>::new(13, false);
+    ///     let b = IntegerTrait::<i32>::new(5, false);
     ///     
     ///     // We can call `div_rem` function as follows.
     ///     a.div_rem(b)
@@ -103,7 +103,7 @@ trait IntegerTrait<T, U> {
     /// ```rust
     /// fn abs_example() -> i32 {
     ///     // We instantiate signed integers here.
-    ///     let int = IntegerTrait::<i32>::new(42_u32, true);
+    ///     let int = IntegerTrait::<i32>::new(42, true);
     ///     
     ///     // We can call `abs` function as follows.
     ///     a.abs()
@@ -134,8 +134,8 @@ trait IntegerTrait<T, U> {
     /// ```rust
     /// fn max_example() -> i32 {
     ///     // We instantiate signed integer here.
-    ///     let a = IntegerTrait::<i32>::new(42_u32, true);
-    ///     let b = IntegerTrait::<i32>::new(13_u32, false);
+    ///     let a = IntegerTrait::<i32>::new(42, true);
+    ///     let b = IntegerTrait::<i32>::new(13, false);
     ///     
     ///     // We can call `max` function as follows.
     ///     a.max(b)
@@ -167,8 +167,8 @@ trait IntegerTrait<T, U> {
     /// ```rust
     /// fn min_example() -> i32 {
     ///     // We instantiate signed integer here.
-    ///     let a = IntegerTrait::<i32>::new(42_u32, true);
-    ///     let b = IntegerTrait::<i32>::new(13_u32, false);
+    ///     let a = IntegerTrait::<i32>::new(42, true);
+    ///     let b = IntegerTrait::<i32>::new(13, false);
     ///     
     ///     // We can call `max` function as follows.
     ///     a.min(b)

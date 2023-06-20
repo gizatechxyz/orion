@@ -37,7 +37,7 @@ fn argmin(
     let output_shape = reduce_output_shape(*self.shape, axis, false);
     let output_data_len = len_from_shape(output_shape);
 
-    let MAX = IntegerTrait::<i32>::new(2147483647_u32, false);
+    let MAX = IntegerTrait::<i32>::new(2147483647, false);
 
     let mut index: usize = 0;
     loop {
