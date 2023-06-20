@@ -1,3 +1,5 @@
+use traits::Into;
+
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::utils::check_gas;
 
@@ -31,6 +33,19 @@ impl i64Impl of IntegerTrait<i64, u64> {
 
     fn min(self: i64, other: i64) -> i64 {
         i64_min(self, other)
+    }
+}
+
+// Implements the Into trait for i64.
+impl i32Into of Into<i64, felt252> {
+    fn into(self: i64) -> felt252 {
+        let mag_felt = self.mag.into();
+
+        if (self.sign == true) {
+            return mag_felt * -1;
+        } else {
+            return mag_felt;
+        }
     }
 }
 
@@ -370,8 +385,11 @@ fn i64_gt(a: i64, b: i64) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is less than `b`, `false` otherwise.
 fn i64_lt(a: i64, b: i64) -> bool {
-    // The result is the inverse of the greater than function.
-    return !i64_gt(a, b);
+    if (a.sign != b.sign) {
+        return a.sign;
+    } else {
+        return (a.mag != b.mag) & ((a.mag < b.mag) ^ a.sign);
+    }
 }
 
 // Checks if the first i64 integer is less than or equal to the second.

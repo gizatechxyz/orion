@@ -1,7 +1,7 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use orion::operators::tensor::core::TensorTrait;
+use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::operators::tensor::implementations::impl_tensor_u32;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait};
 use orion::operators::nn::core::NNTrait;
@@ -25,7 +25,9 @@ fn relu_u32_test() {
     data.append(val_3);
     data.append(val_4);
 
-    let mut tensor = TensorTrait::new(shape.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+
+    let mut tensor = TensorTrait::new(shape.span(), data.span(), extra);
     let threshold = 3_u32;
     let mut result = NNTrait::relu(@tensor, threshold);
 

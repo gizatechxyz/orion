@@ -1,7 +1,14 @@
-mod argmax_test;
+mod argmax;
+mod argmin;
 mod max_test;
 mod min_test;
 mod reduce_sum_test;
-mod signed_integer_test;
-mod fixed_point_test;
 mod exp_test;
+mod equal;
+mod greater;
+mod greater_equal;
+mod less;
+mod less_equal;
+mod abs;
+mod ceil;
+mod ln_test;

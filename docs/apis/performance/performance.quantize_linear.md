@@ -1,4 +1,4 @@
-# Linear Quantization
+# performance.quantize_linear
 
 ```rust
 fn quantize_linear(self: @Tensor<T>) -> Tensor<T>;
@@ -20,7 +20,7 @@ scale = max(abs(data_range_max), abs(data_range_min)) * 2 / (quantization_range_
 
 ## Args
 
-- `tensor`(`@Tensor<T>`) - The input tensor.
+* `tensor`(`@Tensor<T>`) - The input tensor.
 
 ## Returns
 

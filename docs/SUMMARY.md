@@ -22,12 +22,25 @@
     * [tensor.transpose](apis/operators/tensor/tensor.transpose.md)
     * [tensor.reduce\_sum](apis/operators/tensor/tensor.reduce\_sum.md)
     * [tensor.argmax](apis/operators/tensor/tensor.argmax.md)
+    * [tensor.argmin](apis/operators/tensor/tensor.argmin.md)
     * [tensor.matmul](apis/operators/tensor/tensor.matmul.md)
     * [tensor.exp](apis/operators/tensor/tensor.exp.md)
+    * [tensor.ln](apis/operators/tensor/tensor.ln.md)
+    * [tensor.eq](apis/operators/tensor/tensor.eq.md)
+    * [tensor.greater](apis/operators/tensor/tensor.greater.md)
+    * [tensor.greater\_equal](apis/operators/tensor/tensor.greater\_equal.md)
+    * [tensor.less](apis/operators/tensor/tensor.less.md)
+    * [tensor.less\_equal](apis/operators/tensor/tensor.less\_equal.md)
+    * [tensor.abs](apis/operators/tensor/tensor.abs.md)
+    * [tensor.ceil](apis/operators/tensor/tensor.ceil.md)
   * [Neural Network](apis/operators/neural-network/README.md)
     * [nn.relu](apis/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](apis/operators/neural-network/nn.leaky\_relu.md)
+    * [nn.sigmoid](apis/operators/neural-network/nn.sigmoid.md)
     * [nn.softmax](apis/operators/neural-network/nn.softmax.md)
+    * [nn.logsoftmax](apis/operators/neural-network/nn.logsoftmax.md)
+    * [nn.softsign](apis/operators/neural-network/nn.softsign.md)
+    * [nn.softplus](apis/operators/neural-network/nn.softplus.md)
     * [nn.linear](apis/operators/neural-network/nn.linear.md)
 * [Numbers](apis/numbers/README.md)
   * [Signed Integer](apis/numbers/signed-integer/README.md)
@@ -53,7 +66,8 @@
     * [fp.round](apis/numbers/fixed-point/fp.round.md)
     * [fp.sqrt](apis/numbers/fixed-point/fp.sqrt.md)
 * [Performance](apis/performance/README.md)
-  * [Linear Quantization](apis/performance/performance.quantize\_linear.md)
+  * [performance.quantize\_linear](apis/performance/performance.quantize\_linear.md)
+  * [performance.quantize\_linear\_from\_fp](apis/performance/performance.quantize\_linear\_from\_fp.md)
 
 ## 💖 Community
 
@@ -62,4 +76,5 @@
 
 ## 📖 Resources
 
-* [Tutorials](resources/tutorials.md)
+* [Tutorials](resources/tutorials/README.md)
+  * [MNIST Classification with Orion](resources/tutorials/mnist-classification-with-orion.md)

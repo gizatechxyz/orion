@@ -43,6 +43,24 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "Roee-87",
+      "name": "Roy Rotstein",
+      "avatar_url": "https://avatars.githubusercontent.com/u/112157037?v=4",
+      "profile": "https://github.com/Roee-87",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "omahs",
+      "name": "omahs",
+      "avatar_url": "https://avatars.githubusercontent.com/u/73983677?v=4",
+      "profile": "https://github.com/omahs",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -50,5 +68,6 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "projectName": "orion",
-  "projectOwner": "gizatechxyz"
+  "projectOwner": "gizatechxyz",
+  "commitType": "docs"
 }

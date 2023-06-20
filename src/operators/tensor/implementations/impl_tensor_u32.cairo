@@ -2,24 +2,36 @@
 
 use array::ArrayTrait;
 use array::SpanTrait;
+use core::option::OptionTrait;
 
-use orion::numbers::fixed_point::types::FixedType;
+use orion::numbers::fixed_point::core::FixedType;
+
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor
+    new_tensor, stride, Tensor, TensorTrait, ExtraParams, ravel_index, unravel_index, reshape,
+    at_tensor
 };
 use orion::operators::tensor::math::min::min_u32::min_in_tensor;
 use orion::operators::tensor::math::max::max_u32::max_in_tensor;
 use orion::operators::tensor::math::reduce_sum::reduce_sum_u32::reduce_sum;
 use orion::operators::tensor::math::argmax::argmax_u32::argmax;
+use orion::operators::tensor::math::argmin::argmin_u32::argmin;
 use orion::operators::tensor::linalg::matmul::matmul_u32::matmul;
+use orion::operators::tensor::math::equal::equal_u32::equal;
+use orion::operators::tensor::math::greater::greater_u32::greater;
+use orion::operators::tensor::math::greater_equal::greater_equal_u32::greater_equal;
+use orion::operators::tensor::math::less::less_u32::less;
+use orion::operators::tensor::math::less_equal::less_equal_u32::less_equal;
+use orion::operators::tensor::math::abs::abs_u32::abs;
+use orion::operators::tensor::math::ceil::ceil_u32::ceil;
 use orion::operators::tensor::linalg::transpose::transpose_u32::transpose;
-use orion::operators::tensor::math::exp::exp_u32::exp;
+use orion::operators::tensor::math::exp::exp_u32::core::exp_u32;
+use orion::operators::tensor::math::ln::ln_u32::core::ln_u32;
 use orion::operators::tensor::math::arithmetic::arithmetic_u32::{add, sub, mul, div};
 use orion::utils::check_gas;
 
-impl U32Tensor of TensorTrait<u32> {
-    fn new(shape: Span<usize>, data: Span<u32>) -> Tensor<u32> {
-        new_tensor(shape, data)
+impl Tensor_u32 of TensorTrait<u32> {
+    fn new(shape: Span<usize>, data: Span<u32>, extra: Option<ExtraParams>) -> Tensor<u32> {
+        new_tensor(shape, data, extra)
     }
 
     fn at(self: @Tensor<u32>, indices: Span<usize>) -> u32 {
@@ -54,8 +66,12 @@ impl U32Tensor of TensorTrait<u32> {
         reduce_sum(self, axis, keepdims)
     }
 
-    fn argmax(self: @Tensor<u32>, axis: usize) -> Tensor<usize> {
-        argmax(self, axis)
+    fn argmax(self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+        argmax(self, axis, keepdims, select_last_index)
+    }
+
+    fn argmin(self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+        argmin(self, axis, keepdims, select_last_index)
     }
 
     fn transpose(self: @Tensor<u32>, axes: Span<usize>) -> Tensor<u32> {
@@ -67,7 +83,40 @@ impl U32Tensor of TensorTrait<u32> {
     }
 
     fn exp(self: @Tensor<u32>) -> Tensor<FixedType> {
-        exp(self)
+        exp_u32(self).unwrap()
+    }
+
+    fn ln(self: @Tensor<u32>) -> Tensor<FixedType> {
+        ln_u32(self).unwrap()
+    }
+
+    fn eq(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        equal(self, other)
+    }
+
+    fn greater(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        greater(self, other)
+    }
+
+    fn greater_equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        greater_equal(self, other)
+    }
+
+    fn less(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        less(self, other)
+    }
+
+    fn less_equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        less_equal(self, other)
+    }
+
+
+    fn abs(self: @Tensor<u32>) -> Tensor<u32> {
+        abs(self)
+    }
+
+    fn ceil(self: @Tensor<u32>) -> Tensor<u32> {
+        ceil(self)
     }
 }
 

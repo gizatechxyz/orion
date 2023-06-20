@@ -1,3 +1,5 @@
+use traits::Into;
+
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::utils::check_gas;
 
@@ -31,6 +33,19 @@ impl i128Impl of IntegerTrait<i128, u128> {
 
     fn min(self: i128, other: i128) -> i128 {
         i128_min(self, other)
+    }
+}
+
+// Implements the Into trait for i128.
+impl i32Into of Into<i128, felt252> {
+    fn into(self: i128) -> felt252 {
+        let mag_felt = self.mag.into();
+
+        if (self.sign == true) {
+            return mag_felt * -1;
+        } else {
+            return mag_felt;
+        }
     }
 }
 
@@ -370,8 +385,11 @@ fn i128_gt(a: i128, b: i128) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is less than `b`, `false` otherwise.
 fn i128_lt(a: i128, b: i128) -> bool {
-    // The result is the inverse of the greater than function.
-    return !i128_gt(a, b);
+    if (a.sign != b.sign) {
+        return a.sign;
+    } else {
+        return (a.mag != b.mag) & ((a.mag < b.mag) ^ a.sign);
+    }
 }
 
 // Checks if the first i128 integer is less than or equal to the second.

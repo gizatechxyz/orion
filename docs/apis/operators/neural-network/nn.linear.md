@@ -8,14 +8,14 @@ Performs a linear transformation of the input tensor using the provided weights 
 
 ## Args
 
-- `tensor`(`@Tensor<T>`) - A 1D tensor representing the input tensor.
-- `weights`(`@Tensor<T>`) - A 2D tensor representing the weights.
-- `bias`(`@Tensor<T>`) - A 1D tensor representing the bias.
-- `quantized`(`bool`) - A boolean flag indicating whether or not to quantize the result.
+* `tensor`(`@Tensor<T>`) - A 1D tensor representing the input tensor.
+* `weights`(`@Tensor<T>`) - A 2D tensor representing the weights.
+* `bias`(`@Tensor<T>`) - A 1D tensor representing the bias.
+* `quantized`(`bool`) - A boolean flag indicating whether or not to quantize the result.
 
 ## Panics
 
-- This function asserts that the input tensor `inputs` must be 1D, weights tensor must be 2D, and bias tensor must be 1D.
+* This function asserts that the input tensor `inputs` must be 1D, weights tensor must be 2D, and bias tensor must be 1D.
 
 ## Returns
 
@@ -44,4 +44,4 @@ let weights = u32_bias_helper();
 return NNTrait::linear(inputs, weights, bias, true);
 }
 >>> [127, -6]
-```
+````

@@ -2,10 +2,15 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::performance::functional::quantization::quant_fp::core::symetric_quant as symetric_quant_fp;
 use orion::utils::check_gas;
+use orion::utils::fp8x23_to_i32;
 
 /// Symmetrically quantizes the input `data` value using the specified range.
 ///
@@ -63,5 +68,31 @@ fn quantize_tensor(tensor: @Tensor::<i32>) -> Tensor::<i32> {
         };
     };
 
-    return TensorTrait::new(*tensor.shape, result_data.span());
+    return TensorTrait::new(*tensor.shape, result_data.span(), *tensor.extra);
+}
+
+/// Cf: PerfomanceTrait::quantize_linear_from_fp docstring
+fn quantize_fp_tensor(tensor: @Tensor::<FixedType>) -> Tensor::<i32> {
+    let mut result_data = ArrayTrait::<i32>::new();
+
+    let min_val = tensor.min();
+    let max_val = tensor.max();
+
+    let mut data = *tensor.data;
+
+    loop {
+        check_gas();
+
+        let quantized = symetric_quant_fp(
+            min_val, max_val, *data.pop_front().unwrap(), *tensor.extra
+        )
+            .unwrap();
+        result_data.append(fp8x23_to_i32(quantized));
+
+        if data.len() == 0 {
+            break ();
+        };
+    };
+
+    return TensorTrait::new(*tensor.shape, result_data.span(), *tensor.extra);
 }
