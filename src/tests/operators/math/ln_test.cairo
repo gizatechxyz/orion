@@ -4,7 +4,7 @@ use array::ArrayTrait;
 
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 
-use orion::tests::operators::tensor::helpers::helpers_i32::i32_tensor_2x2_helper;
+use orion::tests::helpers::tensor::i32::i32_tensor_2x2_helper;
 use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};

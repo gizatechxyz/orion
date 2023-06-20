@@ -9,7 +9,7 @@ use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
 use orion::numbers::fixed_point::core::FixedImpl;
-use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23Impl, FP8x23Into};
 
 #[test]
 #[available_gas(2000000)]

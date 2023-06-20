@@ -1,8 +1,8 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
-use orion::numbers::fixed_point::implementations::impl_8x23;
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 
 // 1D

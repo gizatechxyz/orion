@@ -5,7 +5,7 @@ use orion::tests::helpers::tensor::i32::i32_tensor_2x2_helper;
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::numbers::fixed_point::core::FixedImpl;
-use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23Impl, FP8x23Into};
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
 

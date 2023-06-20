@@ -2,13 +2,13 @@ use array::SpanTrait;
 use array::ArrayTrait;
 use core::traits::Into;
 
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::tests::helpers::tensor::fixed_point::fp8x23::{
     fp_tensor_1x3_neg_helper, fp_tensor_2x2_neg_helper, fp_tensor_2x2x2_neg_helper
 };
 use orion::numbers::fixed_point::core::{FixedTrait};
-use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23Impl, FP8x23PartialEq};
 
 
 // ===== 1D ===== //

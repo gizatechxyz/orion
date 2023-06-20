@@ -1,10 +1,10 @@
 use array::SpanTrait;
 use array::{ArrayTrait};
 
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
 
 
 // ===== 1D ===== //

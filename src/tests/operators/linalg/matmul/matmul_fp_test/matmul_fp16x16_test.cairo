@@ -2,9 +2,9 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use traits::Into;
 
-use orion::numbers::fixed_point::implementations::impl_16x16;
+use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16PartialEq};
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::operators::tensor::core::TensorTrait;
 use orion::tests::helpers::tensor::fixed_point::fp16x16::{
     fp_tensor_1x3_helper, fp_tensor_2x2_helper, fp_tensor_3x3_helper
