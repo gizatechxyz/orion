@@ -2,8 +2,8 @@ use array::ArrayTrait;
 use option::OptionTrait;
 use array::SpanTrait;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-use orion::operators::tensor::implementations::impl_tensor_fp;
-use orion::numbers::fixed_point::implementations::impl_16x16;
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::utils::check_gas;
 

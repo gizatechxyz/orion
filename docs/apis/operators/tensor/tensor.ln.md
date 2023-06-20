@@ -27,10 +27,10 @@ let mut sizes = ArrayTrait::new();
 sizes.append(4);
 
 let mut data = ArrayTrait::new();
-data.append(IntegerTrait::new(1_u32, false));
-data.append(IntegerTrait::new(2_u32, false));
-data.append(IntegerTrait::new(3_u32, false));
-data.append(IntegerTrait::new(100_u32, false));
+data.append(IntegerTrait::new(1, false));
+data.append(IntegerTrait::new(2, false));
+data.append(IntegerTrait::new(3, false));
+data.append(IntegerTrait::new(100, false));
 let extra = Option::<ExtraParams>::None(());
 let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra)
 

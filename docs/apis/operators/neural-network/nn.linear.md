@@ -25,7 +25,7 @@ A `Tensor<T>` representing the result of the linear transformation, possibly qua
 
 ```rust
 use orion::operators::nn::core::NNTrait;
-use orion::operators::nn::implementations::impl_nn_i32;
+use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
 
 fn linear_layer_example() -> Tensor<u32> {
 // We instantiate inputs here.

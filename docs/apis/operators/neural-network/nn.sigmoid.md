@@ -22,7 +22,7 @@ A Tensor of fixed point numbers with the same shape than the input Tensor.
 
 ```rust
 use orion::operators::nn::core::NNTrait;
-use orion::operators::nn::implementations::impl_nn_u32;
+use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
 
 fn sigmoid_example() -> Tensor<FixedType> {
 // We instantiate a 2D Tensor here.

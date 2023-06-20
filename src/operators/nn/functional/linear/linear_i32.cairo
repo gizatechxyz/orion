@@ -2,9 +2,9 @@ use array::SpanTrait;
 
 use orion::numbers::signed_integer::i32::i32;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32, i32TensorAdd};
 use orion::performance::core::PerfomanceTrait;
-use orion::performance::implementations::impl_performance_i32;
+use orion::performance::implementations::impl_performance_i32::Performance_i32;
 
 /// Cf: NNTrait::linear docstring
 fn linear_i32(

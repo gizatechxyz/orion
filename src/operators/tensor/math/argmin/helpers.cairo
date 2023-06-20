@@ -3,7 +3,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use orion::operators::tensor::implementations:: impl_tensor_u32;
+use orion::operators::tensor::implementations:: impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape,combine_indices};
 use orion::utils::check_gas;
@@ -54,7 +54,7 @@ fn find_argmin_1D< T,
                 min_index = count;
 
             } else {
-                if select_last_index & (current_value == min) {
+                if select_last_index && current_value == min {
                     min_index = count;
                 }
             }; 
@@ -110,7 +110,7 @@ fn find_argmin< T,
     let (new_min_value, new_argmin) = if ele < min_value {
         (ele, axis_index)
     } else {
-        if select_last_index & (ele == min_value) {
+        if select_last_index && ele == min_value {
             (ele, axis_index)
         } else {
             (min_value, argmin)

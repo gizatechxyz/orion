@@ -76,9 +76,9 @@ trait TensorTrait<T> {
     ///     shape.append(3);
     /// 		
     ///     let mut data = ArrayTrait::new();
-    ///     data.append(0_u32);
-    ///     data.append(1_u32);
-    ///     data.append(2_u32);
+    ///     data.append(0);
+    ///     data.append(1);
+    ///     data.append(2);
     ///
     ///     let extra = Option::<ExtraParams>::None(());
     /// 		
@@ -94,10 +94,10 @@ trait TensorTrait<T> {
     ///     shape.append(2);
     /// 
     ///     let mut data = ArrayTrait::new();
-    ///     data.append(0_u32);
-    ///     data.append(1_u32);
-    ///     data.append(2_u32);
-    ///     data.append(3_u32);
+    ///     data.append(0);
+    ///     data.append(1);
+    ///     data.append(2);
+    ///     data.append(3);
     /// 
     ///     let extra = Option::<ExtraParams>::None(());
     ///
@@ -114,14 +114,14 @@ trait TensorTrait<T> {
     ///     shape.append(2);
     /// 
     ///     let mut data = ArrayTrait::new();
-    ///     data.append(0_u32);
-    ///     data.append(1_u32);
-    ///     data.append(2_u32);
-    ///     data.append(3_u32);
-    ///     data.append(4_u32);
-    ///     data.append(5_u32);
-    ///     data.append(6_u32);
-    ///     data.append(7_u32);
+    ///     data.append(0);
+    ///     data.append(1);
+    ///     data.append(2);
+    ///     data.append(3);
+    ///     data.append(4);
+    ///     data.append(5);
+    ///     data.append(6);
+    ///     data.append(7);
     ///
     ///     let extra = Option::<ExtraParams>::None(());
     ///
@@ -746,10 +746,10 @@ trait TensorTrait<T> {
     ///     sizes.append(4);
     /// 
     ///     let mut data = ArrayTrait::new();
-    ///     data.append(IntegerTrait::new(1_u32, false));
-    ///     data.append(IntegerTrait::new(2_u32, false));
-    ///     data.append(IntegerTrait::new(3_u32, false));
-    ///     data.append(IntegerTrait::new(100_u32, false));
+    ///     data.append(IntegerTrait::new(1, false));
+    ///     data.append(IntegerTrait::new(2, false));
+    ///     data.append(IntegerTrait::new(3, false));
+    ///     data.append(IntegerTrait::new(100, false));
     ///     let extra = Option::<ExtraParams>::None(());
     ///     let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra)
     /// 		

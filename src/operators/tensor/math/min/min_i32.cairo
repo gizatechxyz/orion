@@ -6,7 +6,7 @@ use orion::utils::check_gas;
 
 /// Cf: TensorTrait::min docstring
 fn min_in_tensor(mut vec: Span::<i32>) -> i32 {
-    let mut min_value: i32 = IntegerTrait::new(2147483647_u32, false);
+    let mut min_value: i32 = IntegerTrait::new(2147483647, false);
 
     loop {
         check_gas();

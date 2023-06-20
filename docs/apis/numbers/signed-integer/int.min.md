@@ -21,8 +21,8 @@ A signed integer `<T>`, The minimum between `self` and `other`.
 ```rust
 fn min_example() -> i32 {
 // We instantiate signed integer here.
-let a = IntegerTrait::<i32>::new(42_u32, true);
-let b = IntegerTrait::<i32>::new(13_u32, false);
+let a = IntegerTrait::<i32>::new(42, true);
+let b = IntegerTrait::<i32>::new(13, false);
 
 // We can call `max` function as follows.
 a.min(b)

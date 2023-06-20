@@ -3,9 +3,9 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use orion::operators::tensor::implementations:: impl_tensor_u32;
+use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index};
-use orion::operators::tensor::helpers::{reduce_output_shape,combine_indices};
+use orion::operators::tensor::helpers::{reduce_output_shape, combine_indices};
 use orion::utils::check_gas;
 
 /// Helper function that finds the index of the maximum value in a flat tensor.
@@ -21,50 +21,47 @@ use orion::utils::check_gas;
 ///
 /// # Returns
 /// * A usize value representing the index of the maximum value along the specified axis.
-fn find_argmax_1D< T, 
+fn find_argmax_1D<
+    T,
     impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
 >(
-    input: @Tensor<T>,
-    axis: usize, 
-    keepdims:bool, 
-    select_last_index: bool
-    ) -> Tensor<usize>{
+    input: @Tensor<T>, axis: usize, keepdims: bool, select_last_index: bool
+) -> Tensor<usize> {
+    let mut output_data = ArrayTrait::<usize>::new();
+    let mut data = *input.data;
 
-        let mut output_data = ArrayTrait::<usize>::new();
-        let mut data = *input.data;
+    let mut max = *data.pop_front().unwrap();
+    let mut max_index = 0_usize;
+    let mut count = 0_usize;
+    loop {
+        check_gas();
 
-        let mut max = *data.pop_front().unwrap();
-        let mut max_index = 0_usize;
-        let mut count = 0_usize;
-        loop {
-            check_gas();
-            
-            if data.len() == 0 {
-                break ();
-            };
-
-            count += 1;
-
-            let current_value = *data.pop_front().unwrap();
-            if current_value > max {
-                max = current_value;
-                max_index = count;
-
-            } else {
-                if select_last_index & (current_value == max) {
-                    max_index = count;
-                }
-            }; 
+        if data.len() == 0 {
+            break ();
         };
 
-        output_data.append(max_index);
+        count += 1;
 
-        return TensorTrait::<usize>::new(reduce_output_shape(*input.shape, axis, keepdims), output_data.span(), *input.extra);
+        let current_value = *data.pop_front().unwrap();
+        if current_value > max {
+            max = current_value;
+            max_index = count;
+        } else {
+            if select_last_index && current_value == max {
+                max_index = count;
+            }
+        };
+    };
+
+    output_data.append(max_index);
+
+    return TensorTrait::<usize>::new(
+        reduce_output_shape(*input.shape, axis, keepdims), output_data.span(), *input.extra
+    );
 }
-
 
 
 /// Recursive helper function that finds the index of the maximum value along a specific axis.
@@ -83,7 +80,8 @@ fn find_argmax_1D< T,
 ///
 /// # Returns
 /// * A usize value representing the index of the maximum value along the specified axis.
-fn find_argmax< T, 
+fn find_argmax<
+    T,
     impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
     impl TCopy: Copy<T>,
@@ -110,7 +108,7 @@ fn find_argmax< T,
     let (new_max_value, new_argmax) = if ele > max_value {
         (ele, axis_index)
     } else {
-        if select_last_index & (ele == max_value) {
+        if select_last_index && ele == max_value {
             (ele, axis_index)
         } else {
             (max_value, argmax)
@@ -118,6 +116,12 @@ fn find_argmax< T,
     };
 
     return find_argmax(
-        input, output_indices, axis, axis_index + 1_usize, new_max_value, new_argmax,select_last_index
+        input,
+        output_indices,
+        axis,
+        axis_index + 1_usize,
+        new_max_value,
+        new_argmax,
+        select_last_index
     );
 }

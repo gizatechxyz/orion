@@ -1,10 +1,10 @@
 use array::SpanTrait;
 use array::ArrayTrait;
 use option::OptionTrait;
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
-use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23Impl, FP8x23PartialEq};
 
 
 #[test]
@@ -22,15 +22,17 @@ fn tensor_ceil_fp() {
 
     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-    let tensor = TensorTrait::<FixedType>::new(
-        sizes.span(), arr.span(), Option::Some(extra)
-    );
+    let tensor = TensorTrait::<FixedType>::new(sizes.span(), arr.span(), Option::Some(extra));
 
     let result = tensor.ceil();
     assert(*result.data.at(0) == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
     assert(*result.data.at(1) == FixedTrait::new_unscaled(1, false), 'result[1] = 8388608'); // 1
-    assert(*result.data.at(2) == FixedTrait::new_unscaled(12, false),'result[2] = 100663296'); // 12 
-    assert(*result.data.at(3) == FixedTrait::new_unscaled(11, true), 'result[3] = -92274688'); // -11 
+    assert(
+        *result.data.at(2) == FixedTrait::new_unscaled(12, false), 'result[2] = 100663296'
+    ); // 12 
+    assert(
+        *result.data.at(3) == FixedTrait::new_unscaled(11, true), 'result[3] = -92274688'
+    ); // -11 
     assert(result.data.len() == tensor.data.len(), 'tensor length mismatch');
 }
 

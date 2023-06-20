@@ -2,7 +2,9 @@ use array::ArrayTrait;
 use array::SpanTrait;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_i32::{
+    Tensor_i32, i32TensorAdd, i32TensorSub, i32TensorMul, i32TensorDiv
+};
 use orion::operators::tensor::core::{TensorTrait, ExtraParams, ravel_index, unravel_index};
 use orion::tests::operators::tensor::helpers::helpers_i32::{
     i32_tensor_2x2_helper, i32_tensor_3x2_helper, i32_tensor_2x3_helper, i32_tensor_2x2x2_helper,
@@ -19,9 +21,9 @@ fn wrong_shape_tensor_test() {
     sizes.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, false));
-    data.append(IntegerTrait::new(2_u32, false));
+    data.append(IntegerTrait::new(0, false));
+    data.append(IntegerTrait::new(1, false));
+    data.append(IntegerTrait::new(2, false));
 
     let extra = Option::<ExtraParams>::None(());
 
@@ -40,7 +42,7 @@ fn at_tensor_test() {
 
     let result = tensor.at(indices.span()).mag;
 
-    assert(result == 3_u32, 'result[3] = 3');
+    assert(result == 3, 'result[3] = 3');
 }
 
 #[test]
@@ -149,14 +151,14 @@ fn add_tensor() {
 
     let result = (tensor_1 + tensor_2).data;
 
-    assert(*result.at(0).mag == 0_u32, 'result[0] = 0');
-    assert(*result.at(1).mag == 2_u32, 'result[1] = 2');
-    assert(*result.at(2).mag == 4_u32, 'result[2] = 4');
-    assert(*result.at(3).mag == 6_u32, 'result[3] = 6');
-    assert(*result.at(4).mag == 8_u32, 'result[4] = 8');
-    assert(*result.at(5).mag == 10_u32, 'result[5] = 10');
-    assert(*result.at(6).mag == 12_u32, 'result[6] = 12');
-    assert(*result.at(7).mag == 14_u32, 'result[7] = 14');
+    assert(*result.at(0).mag == 0, 'result[0] = 0');
+    assert(*result.at(1).mag == 2, 'result[1] = 2');
+    assert(*result.at(2).mag == 4, 'result[2] = 4');
+    assert(*result.at(3).mag == 6, 'result[3] = 6');
+    assert(*result.at(4).mag == 8, 'result[4] = 8');
+    assert(*result.at(5).mag == 10, 'result[5] = 10');
+    assert(*result.at(6).mag == 12, 'result[6] = 12');
+    assert(*result.at(7).mag == 14, 'result[7] = 14');
 
     // broadcast operation 
 
@@ -165,63 +167,63 @@ fn add_tensor() {
     sizes.append(2);
     sizes.append(1);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(10_u32, false));
-    data.append(IntegerTrait::new(100_u32, false));
+    data.append(IntegerTrait::new(10, false));
+    data.append(IntegerTrait::new(100, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = (tensor_1 + tensor_2).data;
 
-    assert(*result.at(0).mag == 10_u32, 'result[0] = 10');
-    assert(*result.at(1).mag == 11_u32, 'result[1] = 11');
-    assert(*result.at(2).mag == 102_u32, 'result[2] = 102');
-    assert(*result.at(3).mag == 103_u32, 'result[3] = 103');
-    assert(*result.at(4).mag == 14_u32, 'result[4] = 14');
-    assert(*result.at(5).mag == 15_u32, 'result[5] = 15');
-    assert(*result.at(6).mag == 106_u32, 'result[6] = 106');
-    assert(*result.at(7).mag == 107_u32, 'result[7] = 107');
+    assert(*result.at(0).mag == 10, 'result[0] = 10');
+    assert(*result.at(1).mag == 11, 'result[1] = 11');
+    assert(*result.at(2).mag == 102, 'result[2] = 102');
+    assert(*result.at(3).mag == 103, 'result[3] = 103');
+    assert(*result.at(4).mag == 14, 'result[4] = 14');
+    assert(*result.at(5).mag == 15, 'result[5] = 15');
+    assert(*result.at(6).mag == 106, 'result[6] = 106');
+    assert(*result.at(7).mag == 107, 'result[7] = 107');
 
     let mut sizes = ArrayTrait::new();
     sizes.append(2);
     sizes.append(1);
     sizes.append(1);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(10_u32, false));
-    data.append(IntegerTrait::new(100_u32, false));
+    data.append(IntegerTrait::new(10, false));
+    data.append(IntegerTrait::new(100, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = (tensor_1 + tensor_2).data;
 
-    assert(*result.at(0).mag == 10_u32, 'result[0] = 10');
-    assert(*result.at(1).mag == 11_u32, 'result[1] = 11');
-    assert(*result.at(2).mag == 12_u32, 'result[2] = 12');
-    assert(*result.at(3).mag == 13_u32, 'result[3] = 13');
-    assert(*result.at(4).mag == 104_u32, 'result[4] = 104');
-    assert(*result.at(5).mag == 105_u32, 'result[5] = 105');
-    assert(*result.at(6).mag == 106_u32, 'result[6] = 106');
-    assert(*result.at(7).mag == 107_u32, 'result[7] = 107');
+    assert(*result.at(0).mag == 10, 'result[0] = 10');
+    assert(*result.at(1).mag == 11, 'result[1] = 11');
+    assert(*result.at(2).mag == 12, 'result[2] = 12');
+    assert(*result.at(3).mag == 13, 'result[3] = 13');
+    assert(*result.at(4).mag == 104, 'result[4] = 104');
+    assert(*result.at(5).mag == 105, 'result[5] = 105');
+    assert(*result.at(6).mag == 106, 'result[6] = 106');
+    assert(*result.at(7).mag == 107, 'result[7] = 107');
 
     let mut sizes = ArrayTrait::new();
     sizes.append(1);
     sizes.append(1);
     sizes.append(2);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(10_u32, false));
-    data.append(IntegerTrait::new(100_u32, false));
+    data.append(IntegerTrait::new(10, false));
+    data.append(IntegerTrait::new(100, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = (tensor_1 + tensor_2).data;
 
-    assert(*result.at(0).mag == 10_u32, 'result[0] = 10');
-    assert(*result.at(1).mag == 101_u32, 'result[1] = 101');
-    assert(*result.at(2).mag == 12_u32, 'result[2] = 12');
-    assert(*result.at(3).mag == 103_u32, 'result[3] = 103');
-    assert(*result.at(4).mag == 14_u32, 'result[4] = 14');
-    assert(*result.at(5).mag == 105_u32, 'result[5] = 105');
-    assert(*result.at(6).mag == 16_u32, 'result[6] = 16');
-    assert(*result.at(7).mag == 107_u32, 'result[7] = 107');
+    assert(*result.at(0).mag == 10, 'result[0] = 10');
+    assert(*result.at(1).mag == 101, 'result[1] = 101');
+    assert(*result.at(2).mag == 12, 'result[2] = 12');
+    assert(*result.at(3).mag == 103, 'result[3] = 103');
+    assert(*result.at(4).mag == 14, 'result[4] = 14');
+    assert(*result.at(5).mag == 105, 'result[5] = 105');
+    assert(*result.at(6).mag == 16, 'result[6] = 16');
+    assert(*result.at(7).mag == 107, 'result[7] = 107');
 }
 
 #[test]
@@ -232,14 +234,14 @@ fn sub_tensor() {
 
     let result = (tensor_1 - tensor_2).data;
 
-    assert(*result.at(0).mag == 0_u32, 'result[0] = 0');
-    assert(*result.at(1).mag == 0_u32, 'result[1] = 0');
-    assert(*result.at(2).mag == 0_u32, 'result[2] = 0');
-    assert(*result.at(3).mag == 0_u32, 'result[3] = 0');
-    assert(*result.at(4).mag == 0_u32, 'result[4] = 0');
-    assert(*result.at(5).mag == 0_u32, 'result[5] = 0');
-    assert(*result.at(6).mag == 0_u32, 'result[6] = 0');
-    assert(*result.at(7).mag == 0_u32, 'result[7] = 0');
+    assert(*result.at(0).mag == 0, 'result[0] = 0');
+    assert(*result.at(1).mag == 0, 'result[1] = 0');
+    assert(*result.at(2).mag == 0, 'result[2] = 0');
+    assert(*result.at(3).mag == 0, 'result[3] = 0');
+    assert(*result.at(4).mag == 0, 'result[4] = 0');
+    assert(*result.at(5).mag == 0, 'result[5] = 0');
+    assert(*result.at(6).mag == 0, 'result[6] = 0');
+    assert(*result.at(7).mag == 0, 'result[7] = 0');
 
     // broadcast operation 
 
@@ -248,21 +250,21 @@ fn sub_tensor() {
     sizes.append(2);
     sizes.append(1);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(0_u32, false));
-    data.append(IntegerTrait::new(1_u32, false));
+    data.append(IntegerTrait::new(0, false));
+    data.append(IntegerTrait::new(1, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = (tensor_1 - tensor_2).data;
 
-    assert(*result.at(0).mag == 0_u32, 'result[0] = 0');
-    assert(*result.at(1).mag == 1_u32, 'result[1] = 1');
-    assert(*result.at(2).mag == 1_u32, 'result[2] = 1');
-    assert(*result.at(3).mag == 2_u32, 'result[3] = 2');
-    assert(*result.at(4).mag == 4_u32, 'result[4] = 4');
-    assert(*result.at(5).mag == 5_u32, 'result[5] = 5');
-    assert(*result.at(6).mag == 5_u32, 'result[6] = 5');
-    assert(*result.at(7).mag == 6_u32, 'result[7] = 6');
+    assert(*result.at(0).mag == 0, 'result[0] = 0');
+    assert(*result.at(1).mag == 1, 'result[1] = 1');
+    assert(*result.at(2).mag == 1, 'result[2] = 1');
+    assert(*result.at(3).mag == 2, 'result[3] = 2');
+    assert(*result.at(4).mag == 4, 'result[4] = 4');
+    assert(*result.at(5).mag == 5, 'result[5] = 5');
+    assert(*result.at(6).mag == 5, 'result[6] = 5');
+    assert(*result.at(7).mag == 6, 'result[7] = 6');
 }
 
 #[test]
@@ -273,14 +275,14 @@ fn mul_tensor() {
 
     let result = (tensor_1 * tensor_2).data;
 
-    assert(*result.at(0).mag == 0_u32, 'result[0] = 0');
-    assert(*result.at(1).mag == 1_u32, 'result[1] = 1');
-    assert(*result.at(2).mag == 4_u32, 'result[2] = 4');
-    assert(*result.at(3).mag == 9_u32, 'result[3] = 9');
-    assert(*result.at(4).mag == 16_u32, 'result[4] = 16');
-    assert(*result.at(5).mag == 25_u32, 'result[5] = 25');
-    assert(*result.at(6).mag == 36_u32, 'result[6] = 36');
-    assert(*result.at(7).mag == 49_u32, 'result[7] = 49');
+    assert(*result.at(0).mag == 0, 'result[0] = 0');
+    assert(*result.at(1).mag == 1, 'result[1] = 1');
+    assert(*result.at(2).mag == 4, 'result[2] = 4');
+    assert(*result.at(3).mag == 9, 'result[3] = 9');
+    assert(*result.at(4).mag == 16, 'result[4] = 16');
+    assert(*result.at(5).mag == 25, 'result[5] = 25');
+    assert(*result.at(6).mag == 36, 'result[6] = 36');
+    assert(*result.at(7).mag == 49, 'result[7] = 49');
 
     // broadcast operation 
 
@@ -289,21 +291,21 @@ fn mul_tensor() {
     sizes.append(2);
     sizes.append(1);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(10_u32, false));
-    data.append(IntegerTrait::new(100_u32, false));
+    data.append(IntegerTrait::new(10, false));
+    data.append(IntegerTrait::new(100, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = (tensor_1 * tensor_2).data;
 
-    assert(*result.at(0).mag == 0_u32, 'result[0] = 0');
-    assert(*result.at(1).mag == 10_u32, 'result[1] = 10');
-    assert(*result.at(2).mag == 200_u32, 'result[2] = 200');
-    assert(*result.at(3).mag == 300_u32, 'result[3] = 300');
-    assert(*result.at(4).mag == 40_u32, 'result[4] = 40');
-    assert(*result.at(5).mag == 50_u32, 'result[5] = 50');
-    assert(*result.at(6).mag == 600_u32, 'result[6] = 600');
-    assert(*result.at(7).mag == 700_u32, 'result[7] = 700');
+    assert(*result.at(0).mag == 0, 'result[0] = 0');
+    assert(*result.at(1).mag == 10, 'result[1] = 10');
+    assert(*result.at(2).mag == 200, 'result[2] = 200');
+    assert(*result.at(3).mag == 300, 'result[3] = 300');
+    assert(*result.at(4).mag == 40, 'result[4] = 40');
+    assert(*result.at(5).mag == 50, 'result[5] = 50');
+    assert(*result.at(6).mag == 600, 'result[6] = 600');
+    assert(*result.at(7).mag == 700, 'result[7] = 700');
 }
 
 #[test]
@@ -314,14 +316,14 @@ fn div_tensor() {
     sizes.append(2);
     sizes.append(2);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(100_u32, false));
-    data.append(IntegerTrait::new(200_u32, false));
-    data.append(IntegerTrait::new(300_u32, false));
-    data.append(IntegerTrait::new(400_u32, false));
-    data.append(IntegerTrait::new(500_u32, false));
-    data.append(IntegerTrait::new(600_u32, false));
-    data.append(IntegerTrait::new(700_u32, false));
-    data.append(IntegerTrait::new(800_u32, false));
+    data.append(IntegerTrait::new(100, false));
+    data.append(IntegerTrait::new(200, false));
+    data.append(IntegerTrait::new(300, false));
+    data.append(IntegerTrait::new(400, false));
+    data.append(IntegerTrait::new(500, false));
+    data.append(IntegerTrait::new(600, false));
+    data.append(IntegerTrait::new(700, false));
+    data.append(IntegerTrait::new(800, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_1 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
@@ -330,27 +332,27 @@ fn div_tensor() {
     sizes.append(2);
     sizes.append(2);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(100_u32, false));
-    data.append(IntegerTrait::new(200_u32, false));
-    data.append(IntegerTrait::new(300_u32, false));
-    data.append(IntegerTrait::new(400_u32, false));
-    data.append(IntegerTrait::new(500_u32, false));
-    data.append(IntegerTrait::new(600_u32, false));
-    data.append(IntegerTrait::new(700_u32, false));
-    data.append(IntegerTrait::new(800_u32, false));
+    data.append(IntegerTrait::new(100, false));
+    data.append(IntegerTrait::new(200, false));
+    data.append(IntegerTrait::new(300, false));
+    data.append(IntegerTrait::new(400, false));
+    data.append(IntegerTrait::new(500, false));
+    data.append(IntegerTrait::new(600, false));
+    data.append(IntegerTrait::new(700, false));
+    data.append(IntegerTrait::new(800, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = (tensor_1 / tensor_2).data;
 
-    assert(*result.at(0).mag == 1_u32, 'result[0] = 1');
-    assert(*result.at(1).mag == 1_u32, 'result[1] = 1');
-    assert(*result.at(2).mag == 1_u32, 'result[2] = 1');
-    assert(*result.at(3).mag == 1_u32, 'result[3] = 1');
-    assert(*result.at(4).mag == 1_u32, 'result[4] = 1');
-    assert(*result.at(5).mag == 1_u32, 'result[5] = 1');
-    assert(*result.at(6).mag == 1_u32, 'result[6] = 1');
-    assert(*result.at(7).mag == 1_u32, 'result[7] = 1');
+    assert(*result.at(0).mag == 1, 'result[0] = 1');
+    assert(*result.at(1).mag == 1, 'result[1] = 1');
+    assert(*result.at(2).mag == 1, 'result[2] = 1');
+    assert(*result.at(3).mag == 1, 'result[3] = 1');
+    assert(*result.at(4).mag == 1, 'result[4] = 1');
+    assert(*result.at(5).mag == 1, 'result[5] = 1');
+    assert(*result.at(6).mag == 1, 'result[6] = 1');
+    assert(*result.at(7).mag == 1, 'result[7] = 1');
 
     // broadcast operation 
 
@@ -359,21 +361,21 @@ fn div_tensor() {
     sizes.append(2);
     sizes.append(1);
     let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(10_u32, false));
-    data.append(IntegerTrait::new(100_u32, false));
+    data.append(IntegerTrait::new(10, false));
+    data.append(IntegerTrait::new(100, false));
     let extra = Option::<ExtraParams>::None(());
     let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = (tensor_1 / tensor_2).data;
 
-    assert(*result.at(0).mag == 10_u32, 'result[0] = 10');
-    assert(*result.at(1).mag == 20_u32, 'result[1] = 20');
-    assert(*result.at(2).mag == 3_u32, 'result[2] = 3');
-    assert(*result.at(3).mag == 4_u32, 'result[3] = 4');
-    assert(*result.at(4).mag == 50_u32, 'result[4] = 50');
-    assert(*result.at(5).mag == 60_u32, 'result[5] = 60');
-    assert(*result.at(6).mag == 7_u32, 'result[6] = 7');
-    assert(*result.at(7).mag == 8_u32, 'result[7] = 8');
+    assert(*result.at(0).mag == 10, 'result[0] = 10');
+    assert(*result.at(1).mag == 20, 'result[1] = 20');
+    assert(*result.at(2).mag == 3, 'result[2] = 3');
+    assert(*result.at(3).mag == 4, 'result[3] = 4');
+    assert(*result.at(4).mag == 50, 'result[4] = 50');
+    assert(*result.at(5).mag == 60, 'result[5] = 60');
+    assert(*result.at(6).mag == 7, 'result[6] = 7');
+    assert(*result.at(7).mag == 8, 'result[7] = 8');
 }
 
 #[test]

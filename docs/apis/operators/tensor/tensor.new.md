@@ -31,9 +31,9 @@ let mut shape = ArrayTrait::new();
 shape.append(3);
 
 let mut data = ArrayTrait::new();
-data.append(0_u32);
-data.append(1_u32);
-data.append(2_u32);
+data.append(0);
+data.append(1);
+data.append(2);
 
 let extra = Option::<ExtraParams>::None(());
 
@@ -49,10 +49,10 @@ shape.append(2);
 shape.append(2);
 
 let mut data = ArrayTrait::new();
-data.append(0_u32);
-data.append(1_u32);
-data.append(2_u32);
-data.append(3_u32);
+data.append(0);
+data.append(1);
+data.append(2);
+data.append(3);
 
 let extra = Option::<ExtraParams>::None(());
 
@@ -69,14 +69,14 @@ shape.append(2);
 shape.append(2);
 
 let mut data = ArrayTrait::new();
-data.append(0_u32);
-data.append(1_u32);
-data.append(2_u32);
-data.append(3_u32);
-data.append(4_u32);
-data.append(5_u32);
-data.append(6_u32);
-data.append(7_u32);
+data.append(0);
+data.append(1);
+data.append(2);
+data.append(3);
+data.append(4);
+data.append(5);
+data.append(6);
+data.append(7);
 
 let extra = Option::<ExtraParams>::None(());
 

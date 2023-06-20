@@ -4,10 +4,10 @@ use traits::Into;
 
 use orion::tests::operators::tensor::helpers::helpers_i32::i32_tensor_2x2_helper;
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::numbers::fixed_point::core::FixedImpl;
 use orion::operators::nn::core::NNTrait;
-use orion::operators::nn::implementations::impl_nn_i32;
+use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
 
 use debug::print_felt252;
 

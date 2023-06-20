@@ -104,13 +104,13 @@ impl FP8x23Into of Into<FixedType, felt252> {
 
 impl FP8x23PartialEq of PartialEq<FixedType> {
     #[inline(always)]
-    fn eq(lhs: FixedType, rhs: FixedType) -> bool {
-        return math_8x23::eq(lhs, rhs);
+    fn eq(lhs: @FixedType, rhs: @FixedType) -> bool {
+        return math_8x23::eq(*lhs, *rhs);
     }
 
     #[inline(always)]
-    fn ne(lhs: FixedType, rhs: FixedType) -> bool {
-        return math_8x23::ne(lhs, rhs);
+    fn ne(lhs: @FixedType, rhs: @FixedType) -> bool {
+        return math_8x23::ne(*lhs, *rhs);
     }
 }
 
