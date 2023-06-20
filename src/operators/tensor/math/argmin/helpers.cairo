@@ -54,7 +54,7 @@ fn find_argmin_1D< T,
                 min_index = count;
 
             } else {
-                if select_last_index & (current_value == min) {
+                if select_last_index && current_value == min {
                     min_index = count;
                 }
             }; 
@@ -110,7 +110,7 @@ fn find_argmin< T,
     let (new_min_value, new_argmin) = if ele < min_value {
         (ele, axis_index)
     } else {
-        if select_last_index & (ele == min_value) {
+        if select_last_index && ele == min_value {
             (ele, axis_index)
         } else {
             (min_value, argmin)

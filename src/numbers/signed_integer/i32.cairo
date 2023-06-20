@@ -337,7 +337,7 @@ fn i32_div_rem(a: i32, b: i32) -> (i32, i32) {
 // * `bool` - `true` if the two integers are equal, `false` otherwise.
 fn i32_eq(a: i32, b: i32) -> bool {
     // Check if the two integers have the same sign and the same absolute value.
-    if (a.sign == b.sign) & (a.mag == b.mag) {
+    if a.sign == b.sign && a.mag == b.mag {
         return true;
     }
 
@@ -388,7 +388,7 @@ fn i32_lt(a: i32, b: i32) -> bool {
     if (a.sign != b.sign) {
         return a.sign;
     } else {
-        return (a.mag != b.mag) & ((a.mag < b.mag) ^ a.sign);
+        return a.mag != b.mag && (a.mag < b.mag) ^ a.sign;
     }
 }
 
@@ -399,7 +399,7 @@ fn i32_lt(a: i32, b: i32) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is less than or equal to `b`, `false` otherwise.
 fn i32_le(a: i32, b: i32) -> bool {
-    if ((a == b) | (i32_lt(a, b) == true)) {
+    if (a == b || i32_lt(a, b) == true) {
         return true;
     } else {
         return false;
@@ -413,7 +413,7 @@ fn i32_le(a: i32, b: i32) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is greater than or equal to `b`, `false` otherwise.
 fn i32_ge(a: i32, b: i32) -> bool {
-    if ((a == b )| (i32_gt(a, b) == true)) {
+    if (a == b || i32_gt(a, b) == true) {
         return true;
     } else {
         return false;

@@ -74,7 +74,7 @@ fn div(a: FixedType, b: FixedType) -> FixedType {
 ///
 /// * A boolean value that indicates whether the input fixed point numbers are equal.
 fn eq(a: FixedType, b: FixedType) -> bool {
-    return (a.mag == b.mag) & (a.sign == b.sign);
+    return a.mag == b.mag && a.sign == b.sign;
 }
 
 /// Cf: FixedTrait::exp docstring 
@@ -144,7 +144,7 @@ fn ge(a: FixedType, b: FixedType) -> bool {
     if (a.sign != b.sign) {
         return !a.sign;
     } else {
-        return (a.mag == b.mag) | ((a.mag > b.mag) ^ a.sign);
+        return a.mag == b.mag || (a.mag > b.mag) ^ a.sign;
     }
 }
 
@@ -162,7 +162,7 @@ fn gt(a: FixedType, b: FixedType) -> bool {
     if (a.sign != b.sign) {
         return !a.sign;
     } else {
-        return (a.mag != b.mag) & ((a.mag > b.mag) ^ a.sign);
+        return a.mag != b.mag && (a.mag > b.mag) ^ a.sign;
     }
 }
 
@@ -180,7 +180,7 @@ fn le(a: FixedType, b: FixedType) -> bool {
     if (a.sign != b.sign) {
         return a.sign;
     } else {
-        return (a.mag == b.mag) | ((a.mag < b.mag) ^ a.sign);
+        return a.mag == b.mag || (a.mag < b.mag) ^ a.sign;
     }
 }
 
@@ -247,7 +247,7 @@ fn lt(a: FixedType, b: FixedType) -> bool {
     if (a.sign != b.sign) {
         return a.sign;
     } else {
-        return (a.mag != b.mag) & ((a.mag < b.mag) ^ a.sign);
+        return a.mag != b.mag && (a.mag < b.mag) ^ a.sign;
     }
 }
 
@@ -286,7 +286,7 @@ fn mul(a: FixedType, b: FixedType) -> FixedType {
 ///
 /// * A boolean value that indicates whether the first fixed point number is not equal to the second fixed point number.
 fn ne(a: FixedType, b: FixedType) -> bool {
-    return (a.mag != b.mag) | (a.sign != b.sign);
+    return a.mag != b.mag || a.sign != b.sign;
 }
 
 /// Negates a fixed point number.

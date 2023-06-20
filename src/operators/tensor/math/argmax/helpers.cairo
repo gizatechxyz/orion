@@ -50,7 +50,7 @@ fn find_argmax_1D<
             max = current_value;
             max_index = count;
         } else {
-            if select_last_index & (current_value == max) {
+            if select_last_index && current_value == max {
                 max_index = count;
             }
         };
@@ -108,7 +108,7 @@ fn find_argmax<
     let (new_max_value, new_argmax) = if ele > max_value {
         (ele, axis_index)
     } else {
-        if select_last_index & (ele == max_value) {
+        if select_last_index && ele == max_value {
             (ele, axis_index)
         } else {
             (max_value, argmax)

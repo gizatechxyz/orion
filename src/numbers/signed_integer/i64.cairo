@@ -337,7 +337,7 @@ fn i64_div_rem(a: i64, b: i64) -> (i64, i64) {
 // * `bool` - `true` if the two integers are equal, `false` otherwise.
 fn i64_eq(a: i64, b: i64) -> bool {
     // Check if the two integers have the same sign and the same absolute value.
-    if (a.sign == b.sign )& (a.mag == b.mag) {
+    if a.sign == b.sign && a.mag == b.mag {
         return true;
     }
 
@@ -388,7 +388,7 @@ fn i64_lt(a: i64, b: i64) -> bool {
     if (a.sign != b.sign) {
         return a.sign;
     } else {
-        return (a.mag != b.mag) & ((a.mag < b.mag) ^ a.sign);
+        return a.mag != b.mag && (a.mag < b.mag) ^ a.sign;
     }
 }
 
@@ -399,7 +399,7 @@ fn i64_lt(a: i64, b: i64) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is less than or equal to `b`, `false` otherwise.
 fn i64_le(a: i64, b: i64) -> bool {
-    if ((a == b) | (i64_lt(a, b) == true)) {
+    if (a == b || i64_lt(a, b) == true) {
         return true;
     } else {
         return false;
@@ -413,7 +413,7 @@ fn i64_le(a: i64, b: i64) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is greater than or equal to `b`, `false` otherwise.
 fn i64_ge(a: i64, b: i64) -> bool {
-    if ((a == b) | (i64_gt(a, b) == true)) {
+    if (a == b || i64_gt(a, b) == true) {
         return true;
     } else {
         return false;
