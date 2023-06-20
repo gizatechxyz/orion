@@ -1,7 +1,7 @@
 # tensor.new
 
 ```rust
-fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
+fn new(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T>;
 ```
 
 Returns a new tensor with the given shape and data.
@@ -10,6 +10,7 @@ Returns a new tensor with the given shape and data.
 
 * `shape`(`Span<usize>`) - A span representing the shape of the tensor.
 * `data` (`Span<T>`) - A span containing the array of elements.
+* `extra` (`Option<ExtraParams>`) - A parameter for extra tensor options.
 
 ## Panics
 
@@ -34,7 +35,9 @@ data.append(0_u32);
 data.append(1_u32);
 data.append(2_u32);
 
-let tensor = TensorTrait::<u32>::new(shape.span(), data.span());
+let extra = Option::<ExtraParams>::None(());
+
+let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
 
 return tensor;
 }
@@ -51,7 +54,9 @@ data.append(1_u32);
 data.append(2_u32);
 data.append(3_u32);
 
-let tensor = TensorTrait::<u32>::new(shape.span(), data.span());
+let extra = Option::<ExtraParams>::None(());
+
+let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
 
 return tensor;
 }
@@ -73,7 +78,9 @@ data.append(5_u32);
 data.append(6_u32);
 data.append(7_u32);
 
-let tensor = TensorTrait::<u32>::new(shape.span(), data.span());
+let extra = Option::<ExtraParams>::None(());
+
+let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
 
 return tensor;
 }

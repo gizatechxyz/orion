@@ -3,8 +3,8 @@ use array::SpanTrait;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::tensor::implementations::impl_tensor_i32;
-use orion::operators::tensor::core::{TensorTrait, ravel_index, unravel_index};
-use orion::tests::operators::tensor::helpers::{
+use orion::operators::tensor::core::{TensorTrait, ExtraParams, ravel_index, unravel_index};
+use orion::tests::operators::tensor::helpers::helpers_i32::{
     i32_tensor_2x2_helper, i32_tensor_3x2_helper, i32_tensor_2x3_helper, i32_tensor_2x2x2_helper,
     i32_tensor_3x2x2_helper
 };
@@ -23,7 +23,9 @@ fn wrong_shape_tensor_test() {
     data.append(IntegerTrait::new(1_u32, false));
     data.append(IntegerTrait::new(2_u32, false));
 
-    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 }
 
 #[test]
@@ -165,7 +167,8 @@ fn add_tensor() {
     let mut data = ArrayTrait::new();
     data.append(IntegerTrait::new(10_u32, false));
     data.append(IntegerTrait::new(100_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = (tensor_1 + tensor_2).data;
 
@@ -185,7 +188,8 @@ fn add_tensor() {
     let mut data = ArrayTrait::new();
     data.append(IntegerTrait::new(10_u32, false));
     data.append(IntegerTrait::new(100_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = (tensor_1 + tensor_2).data;
 
@@ -205,7 +209,8 @@ fn add_tensor() {
     let mut data = ArrayTrait::new();
     data.append(IntegerTrait::new(10_u32, false));
     data.append(IntegerTrait::new(100_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = (tensor_1 + tensor_2).data;
 
@@ -245,7 +250,8 @@ fn sub_tensor() {
     let mut data = ArrayTrait::new();
     data.append(IntegerTrait::new(0_u32, false));
     data.append(IntegerTrait::new(1_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = (tensor_1 - tensor_2).data;
 
@@ -285,7 +291,8 @@ fn mul_tensor() {
     let mut data = ArrayTrait::new();
     data.append(IntegerTrait::new(10_u32, false));
     data.append(IntegerTrait::new(100_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = (tensor_1 * tensor_2).data;
 
@@ -315,7 +322,8 @@ fn div_tensor() {
     data.append(IntegerTrait::new(600_u32, false));
     data.append(IntegerTrait::new(700_u32, false));
     data.append(IntegerTrait::new(800_u32, false));
-    let tensor_1 = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+    let tensor_1 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let mut sizes = ArrayTrait::new();
     sizes.append(2);
@@ -330,7 +338,8 @@ fn div_tensor() {
     data.append(IntegerTrait::new(600_u32, false));
     data.append(IntegerTrait::new(700_u32, false));
     data.append(IntegerTrait::new(800_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = (tensor_1 / tensor_2).data;
 
@@ -352,7 +361,8 @@ fn div_tensor() {
     let mut data = ArrayTrait::new();
     data.append(IntegerTrait::new(10_u32, false));
     data.append(IntegerTrait::new(100_u32, false));
-    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span());
+    let extra = Option::<ExtraParams>::None(());
+    let tensor_2 = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
     let result = (tensor_1 / tensor_2).data;
 

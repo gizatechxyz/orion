@@ -20,10 +20,10 @@ fn main() {
     doc_functions(trait_path, doc_path, trait_name, label);
 
     // FIXED POINT DOC
-    let trait_path = "src/numbers/fixed_point/types.cairo";
+    let trait_path = "src/numbers/fixed_point/core.cairo";
     let doc_path = "docs/apis/numbers/fixed-point";
     let label = "fp";
-    let trait_name = "Fixed";
+    let trait_name = "FixedTrait";
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 
@@ -31,7 +31,7 @@ fn main() {
     let trait_path = "src/numbers/signed_integer/integer_trait.cairo";
     let doc_path = "docs/apis/numbers/signed-integer";
     let label = "int";
-    let trait_name = "IntegerTrait";
+    let trait_name: &str = "IntegerTrait";
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 
@@ -69,7 +69,7 @@ fn doc_trait(trait_path: &str, doc_path: &str, label: &str) {
             label,
             &cap[1],
             label,
-            &cap[1]
+            &cap[1].replace('_', r"\_")
         );
         let func_desc = &cap[2];
         table += &format!("| {} | {} |\n", func_name, func_desc);
@@ -80,8 +80,8 @@ fn doc_trait(trait_path: &str, doc_path: &str, label: &str) {
     let readme_path = Path::new(&readme_path_str);
     let readme = fs::read_to_string(&readme_path).expect("Could not read the file");
 
-    // Use regex to replace the table, including the "| fun" line and two empty lines before and after
-    let re_table = Regex::new(r"(?ms)\n\n\| fun.*?\n\n").unwrap();
+    // Use regex to replace the table
+    let re_table = Regex::new(r"(?ms)\n\n\| fun.*?(\n[^|]|\z)").unwrap();
     let new_readme = re_table.replace(&readme, &("\n\n".to_owned() + &table + "\n"));
 
     // Write the updated contents back to README.md

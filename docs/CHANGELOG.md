@@ -4,31 +4,163 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - 2023-06-17
+
+### Added
+- Into trait to signed integers
+
+## [Unreleased] - 2023-06-16
+
+### Changed
+- Updated argmax function parameters 
+- Restructured tests for argmax and argmin
+
+## [Unreleased] - 2023-06-11
+
+### Changed
+
+- Added ln functionality to tensor trait. Added Logsoftmax implementation for nn trait.
+- Added tests for both.
+  
+## [Unreleased] - 2023-06-08
+
+### Added
+- Added argmin tensor operator
+
+## [Unreleased] - 2023-06-07
+
+### Changed
+
+- Remove the check range from the creation of a new fixed point,
+  so that we can use fp for wide calculations.
+  A future PR will restore the check range with a better design.
+
+## [Unreleased] - 2023-06-07
+
+### Added
+
+- Added ceil operator
+
+### Fixed
+
+- Fixed abs tensor operator doc
+
+## [Unreleased] - 2023-06-06
+
+### Added
+
+- Add fixed-point Q16.16 implementation
+
+### Changed
+
+- Refactor operators and performance functions to support multiple fixed-point implementations.
+
+## [Unreleased] - 2023-06-05
+
+### Added
+
+- extra parameter to Tensor.
+
+## [Unreleased] - 2023-06-03
+
+### Changed
+
+- Refactor fixed point to support multiple implementations
+
+### Fixed
+
+- Fix greater operator.
+- Update compatibility.md
+
+## [Unreleased] - 2023-06-02
+
+### Fixed
+
+- Fix reduce_sum on 1D Tensor.
+
+## [Unreleased] - 2023-06-01
+
+### Added
+
+- Added greater tensor operator and tests
+- Added less tensor operator and tests
+
+## [Unreleased] - 2023-05-30
+
+### Added
+
+- Added abs tensor operator and tests
+- Added sigmoid operator and tests
+
+## [Unreleased] - 2023-05-27
+
+### Added
+
+- Added equality (element-wise) operator and tests
+
+### Fixed
+
+- Fixed imports to allow tests in linear_test.cairo work
+
+## [Unreleased] - 2023-05-24
+
+### Added
+
+- Added softsign implementation and tests
+
+## [Unreleased] - 2023-05-25
+
+### Added
+
+- Add Linear Quantization from FixedType Tensor
+
+## [Unreleased] - 2023-05-25
+
+### Changed
+
+- Fix docgen.
+
+## [Unreleased] - 2023-05-25
+
+### Changed
+
+- Replace Fixed Point Q5.26 with Q8.23
+
+## [Unreleased] - 2023-05-24
+
+### Added
+
+- Added softplus implementation and tests
+
 ## [Unreleased] - 2023-05-22
+
 ### Changed
 
 - Remove unused variables.
 - Renaming. Replace ONNX-Cairo with Orion.
 
-
 ## [Unreleased] - 2023-05-20
+
 ### Changed
 
 - Updated relu u32 function to have a threshold parameter
 - Updated relu test folder structure
 
 ## [Unreleased] - 2023-05-19
+
 ### Added
 
 - Added leaky relu
 - Updated NN test folder structure
 
 ## [Unreleased] - 2023-05-19
+
 ### Added
 
 - Added range check to FixedType
 
 ## [Unreleased] - 2023-05-19
+
 ### Added
 
 - Added range check to FixedType

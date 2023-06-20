@@ -19,9 +19,9 @@ A fixed point number representing the result of x^y.
 
 ```rust
 fn pow_fp_example() -> FixedType {
-// We instantiate fixed points here.
-let a = Fixed::from_unscaled_felt(3);
-let b = Fixed::from_unscaled_felt(4);
+// We instantiate FixedTrait points here.
+let a = FixedTrait::from_unscaled_felt(3);
+let b = FixedTrait::from_unscaled_felt(4);
 
 // We can call `pow` function as follows.
 a.pow(b)

@@ -4,15 +4,19 @@ use option::OptionTrait;
 
 use orion::utils::check_gas;
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::fixed_point::types::FixedType;
+use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
 
+#[derive(Copy, Drop)]
 struct Tensor<T> {
     shape: Span<usize>,
-    data: Span<T>
+    data: Span<T>,
+    extra: Option<ExtraParams>
 }
 
-impl TensorCopy<T> of Copy<Tensor<T>>;
-impl TensorDrop<T> of Drop<Tensor<T>>;
+#[derive(Copy, Drop)]
+struct ExtraParams {
+    fixed_point: Option<FixedImpl>
+}
 
 /// Trait
 ///
@@ -27,13 +31,22 @@ impl TensorDrop<T> of Drop<Tensor<T>>;
 /// transpose - Returns a new tensor with the axes rearranged according to the given array.
 /// reduce_sum - Reduces the tensor by summing along the specified axis.
 /// argmax - Returns the index of the maximum value along the specified axis.  
+/// argmin - Returns the index of the minimum value along the specified axis.
 /// matmul - Performs matrix multiplication. 
 /// exp - Calculates the exponential function (e^x) for each element in a tensor.
+/// ln - Computes the natural log of all elements of the input tensor.
+/// eq - Check if two tensors are equal element-wise.
+/// greater - Check if each element of the first tensor is greater than the corresponding element of the second tensor.
+/// greater_equal - Check if each element of the first tensor is greater than or equal to the corresponding element of the second tensor.
+/// less - Check if each element of the first tensor is less than the corresponding element of the second tensor.
+/// less_equal - Check if each element of the first tensor is less than or equal to the corresponding element of the second tensor.
+/// abs - Computes the absolute value of all elements in the input tensor.
+/// ceil - Rounds up the value of each element in the input tensor.
 trait TensorTrait<T> {
-    /// # TensorTrait::new
+    /// # tensor.new
     ///
     /// ```rust 
-    ///    fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
+    ///    fn new(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T>;
     /// ```
     ///
     /// Returns a new tensor with the given shape and data.
@@ -42,6 +55,7 @@ trait TensorTrait<T> {
     /// 
     /// * `shape`(`Span<usize>`) - A span representing the shape of the tensor.
     /// * `data` (`Span<T>`) - A span containing the array of elements.
+    /// * `extra` (`Option<ExtraParams>`) - A parameter for extra tensor options.
     ///
     /// ## Panics
     ///
@@ -65,8 +79,10 @@ trait TensorTrait<T> {
     ///     data.append(0_u32);
     ///     data.append(1_u32);
     ///     data.append(2_u32);
+    ///
+    ///     let extra = Option::<ExtraParams>::None(());
     /// 		
-    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span());
+    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
     /// 		
     ///     return tensor;
     /// }
@@ -83,7 +99,9 @@ trait TensorTrait<T> {
     ///     data.append(2_u32);
     ///     data.append(3_u32);
     /// 
-    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span());
+    ///     let extra = Option::<ExtraParams>::None(());
+    ///
+    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
     /// 
     ///     return tensor;
     /// }
@@ -104,14 +122,16 @@ trait TensorTrait<T> {
     ///     data.append(5_u32);
     ///     data.append(6_u32);
     ///     data.append(7_u32);
-    /// 
-    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span());
+    ///
+    ///     let extra = Option::<ExtraParams>::None(());
+    ///
+    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
     /// 
     ///     return tensor;
     /// }
     /// ```
     ///
-    fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
+    fn new(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T>;
     /// # tensor.at
     ///
     /// ```rust 
@@ -451,7 +471,7 @@ trait TensorTrait<T> {
     /// # tensor.argmax
     ///
     /// ```rust 
-    ///    fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
+    ///    fn argmax(self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize>;
     /// ```
     ///
     /// Returns the index of the maximum value along the specified axis.
@@ -460,6 +480,8 @@ trait TensorTrait<T> {
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
     /// * `axis`(`usize`) - The axis along which to compute the argmax.
+    /// * `keepdims`(`Option<bool>`) - If true, retains reduced dimensions with length 1. Defaults to true.
+    /// * `select_last_index`(`Option<bool>`) - If true, the index of the last occurrence of the maximum value is returned. Defaults to false.   
     ///
     /// ## Panics
     ///
@@ -470,20 +492,118 @@ trait TensorTrait<T> {
     /// A new `Tensor<T>` instance containing the indices of the maximum values along the specified axis.
     ///
     /// ## Examples
+    /// 
+    /// Case 1: argmax with default parameters
     ///
     /// ```rust
     /// fn argmax_example() -> Tensor<usize> {
     ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
+    ///     // [[[0,1],[2,3]],[[4,4],[5,5]]]
     ///     let tensor = u32_tensor_2x2x2_helper();
     /// 		
     ///     // We can call `argmax` function as follows.
-    ///     return tensor.argmax(0);
+    ///     return tensor.argmax(2,Option::None(()),Option::None(()));
     /// }
-    /// >>> [[1,1],[1,1]]
+    /// >>> [[[1,1],[0,0]]]
+    ///
+    /// ```
+    /// Case 2: argmax with keepdims set to false
+    ///
+    /// ```rust
+    /// fn argmax_example() -> Tensor<usize> {
+    ///     // We instantiate a 3D Tensor here.
+    ///     // [[[0,1],[2,3]],[[4,4],[5,5]]]
+    ///     let tensor = u32_tensor_2x2x2_helper();
+    ///
+    ///     // We can call `argmax` function as follows.
+    ///     return tensor.argmax(2,Option::Some(false),Option::None(()));
+    /// }
+    /// >>> [[1,1],[0,0]]
     /// ```
     ///
-    fn argmax(self: @Tensor<T>, axis: usize) -> Tensor<usize>;
+    /// Case 3: argmax with select_last_index set to true
+    ///
+    /// ```rust
+    /// fn argmax_example() -> Tensor<usize> {
+    ///     // We instantiate a 3D Tensor here.
+    ///     // [[[0,1],[2,3]],[[4,4],[5,5]]]
+    ///     let tensor = u32_tensor_2x2x2_helper();
+    ///
+    ///     // We can call `argmax` function as follows.
+    ///     return tensor.argmax(2,Option::None(()),Option::Some(true));
+    /// }
+    /// >>> [[[1,1],[1,1]]]
+    /// ```
+    ///
+    fn argmax(self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize>;
+    /// # tensor.argmin
+    ///
+    /// ```rust 
+    ///    fn argmin(self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Returns the index of the minimum value along the specified axis.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The axis along which to compute the argmin.
+    /// * `keepdims`(`Option<bool>`) - If true, retains reduced dimensions with length 1. Defaults to true.
+    /// * `select_last_index`(`Option<bool>`) - If true, the index of the last occurrence of the minimum value is returned. Defaults to false.   
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` instance containing the indices of the minimum values along the specified axis.
+    ///
+    /// ## Examples
+    /// 
+    /// Case 1: argmin with default parameters
+    ///
+    /// ```rust
+    /// fn argmin_example() -> Tensor<usize> {
+    ///     // We instantiate a 3D Tensor here.
+    ///     // [[[0,1],[2,3]],[[4,4],[5,5]]]
+    ///     let tensor = u32_tensor_2x2x2_helper();
+    /// 		
+    ///     // We can call `argmin` function as follows.
+    ///     return tensor.argmin(2,Option::None(()),Option::None(()));
+    /// }
+    /// >>> [[[0,0],[0,0]]]
+    ///
+    /// ```
+    /// Case 2: argmin with keepdims set to false
+    ///
+    /// ```rust
+    /// fn argmin_example() -> Tensor<usize> {
+    ///     // We instantiate a 3D Tensor here.
+    ///     // [[[0,1],[2,3]],[[4,4],[5,5]]]
+    ///     let tensor = u32_tensor_2x2x2_helper();
+    ///
+    ///     // We can call `argmin` function as follows.
+    ///     return tensor.argmin(2,Option::Some(false),Option::None(()));
+    /// }
+    /// >>> [[0,0],[0,0]]
+    /// ```
+    ///
+    /// Case 3: argmin with select_last_index set to true
+    ///
+    /// ```rust
+    /// fn argmin_example() -> Tensor<usize> {
+    ///     // We instantiate a 3D Tensor here.
+    ///     // [[[0,1],[2,3]],[[4,4],[5,5]]]
+    ///     let tensor = u32_tensor_2x2x2_helper();
+    ///
+    ///     // We can call `argmin` function as follows.
+    ///     return tensor.argmin(2,Option::None(()),Option::Some(true));
+    /// }
+    /// >>> [[[0,0],[1,1]]]
+    /// ```
+    ///
+    fn argmin(self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize>;
     /// # tensor.matmul
     ///
     /// ```rust 
@@ -591,18 +711,417 @@ trait TensorTrait<T> {
     ///     // We can call `exp` function as follows.
     ///     return tensor.exp();
     /// }
-    /// >>> [[67108864,182420802],[495871144,1347917552]]
+    /// >>> [[8388608,22802594],[61983844,168489688]]
     /// // The fixed point representation of
     /// // [[1, 2.718281],[7.38905, 20.085536]]
     /// ```
     ///
     fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// # tensor.ln
+    ///
+    /// ```rust 
+    ///     fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// ```
+    ///
+    /// Computes the natural log of all elements of the input tensor.
+    /// $$
+    /// y_i=ln({x_i})
+    /// $$
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// Returns a new tensor in `FixedType` with the natural log of the elements of the input tensor.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// fn ln_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // [[1,2,3,100]]
+    ///     let mut sizes = ArrayTrait::new();
+    ///     sizes.append(4);
+    /// 
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(IntegerTrait::new(1_u32, false));
+    ///     data.append(IntegerTrait::new(2_u32, false));
+    ///     data.append(IntegerTrait::new(3_u32, false));
+    ///     data.append(IntegerTrait::new(100_u32, false));
+    ///     let extra = Option::<ExtraParams>::None(());
+    ///     let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra)
+    /// 		
+    ///     // We can call `ln` function as follows.
+    ///     return tensor.ln();
+    /// }
+    /// >>> [[0, 5814538, 9215825, 38630966]]
+    /// // The fixed point representation of
+    /// /// [[0, 0.693147, 1.098612, 4.605170]]
+    /// ```
+    ///
+    fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// #tensor.eq
+    ///
+    /// ```rust
+    ///     fn eq(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Check if two tensors are equal element-wise.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be equated
+    /// * `other`(`@Tensor<T>`) - The second tensor to be equated
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (1 if equal, 0 otherwise) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// fn eq_example() -> Tensor<usize> {
+    ///     // We instantiate two 3D Tensor here.
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
+    ///     let tensor_y = u32_tensor_2x2x2_helper();
+    ///     let tensor_z = u32_tensor_2x2x2_helper();
+    ///     let result = tensor_y.eq(@tensor_z);
+    ///     return result;
+    /// }
+    /// >>> [1,1,1,1,1,0,0,0]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// fn eq_example() -> Tensor<usize> {
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2]]       
+    ///     let tensor_y = u32_tensor_3x3_helper();
+    ///     let tensor_z = u32_tensor_3x1_helper();
+    ///     let result = tensor_y.eq(@tensor_z);
+    ///     // We could equally do something like:
+    ///     // let result = tensor_z.eq(@tensor_y);
+    ///     return result;
+    /// }
+    /// >>> [1,1,1,0,0,0,0,0,0]
+    /// ```
+    ///
+    fn eq(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.greater
+    ///
+    /// ```rust
+    ///     fn greater(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Check if each element of the first tensor is greater than the corresponding element of the second tensor.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// fn greater_example() -> Tensor<usize> {
+    ///     // We instantiate two 3D Tensor here.
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
+    ///     let tensor_y = u32_tensor_2x2x2_helper();
+    ///     let tensor_z = u32_tensor_2x2x2_helper();
+    ///     let result = tensor_y.greater(@tensor_z);
+    ///     return result;
+    /// }
+    /// >>> [0,0,0,0,0,0,0,1,1]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// fn greater_example() -> Tensor<usize> {
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2]]
+    ///     let tensor_y = u32_tensor_3x3_helper();
+    ///     let tensor_z = u32_tensor_3x1_helper();
+    ///     let result = tensor_y.greater(@tensor_z);
+    ///     // We could equally do something like:
+    ///     // let result = tensor_z.greater(@tensor_y);
+    ///     return result;
+    /// }
+    /// >>> [0,0,0,1,1,1,1,1,1]
+    /// ```
+    ///
+    fn greater(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.greater_equal
+    ///
+    /// ```rust
+    ///     fn greater_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Check if each element of the first tensor is greater than or equal to the corresponding element of the second tensor.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// fn greater_equal_example() -> Tensor<usize> {
+    ///     // We instantiate two 3D Tensor here.
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
+    ///     let tensor_y = u32_tensor_2x2x2_helper();
+    ///     let tensor_z = u32_tensor_2x2x2_helper();
+    ///     let result = tensor_y.greater_equal(@tensor_z);
+    ///     return result;
+    /// }
+    /// >>> [1,1,1,1,1,1,0,1,1]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// fn greater_equal_example() -> Tensor<usize> {
+    ///     // tensor_y = [[0,1,2],[3,4,5],[0,0,0]]
+    ///     // tensor_z = [[0,1,2]]
+    ///     let tensor_y = u32_tensor_3x3_helper();
+    ///     let tensor_z = u32_tensor_3x1_helper();
+    ///     let result = tensor_y.greater_equal(@tensor_z);
+    ///     // We could equally do something like:
+    ///     // let result = tensor_z.greater_equal(@tensor_y);
+    ///     return result;
+    /// }
+    /// >>> [1,1,1,1,1,1,0,0,0]
+    /// ```
+    ///
+    fn greater_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.less
+    ///
+    /// ```rust
+    ///     fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Check if each element of the first tensor is less than the corresponding element of the second tensor.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// fn less_example() -> Tensor<usize> {
+    ///     // We instantiate two 3D Tensor here.
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
+    ///     let tensor_y = u32_tensor_2x2x2_helper();
+    ///     let tensor_z = u32_tensor_2x2x2_helper();
+    ///     let result = tensor_y.less(@tensor_z);
+    ///     return result;
+    /// }
+    /// >>> [0,0,0,0,0,0,1,0,0]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// fn less_example() -> Tensor<usize> {
+    ///     // tensor_y = [[0,1,2],[3,4,5],[0,0,0]]
+    ///     // tensor_z = [[0,1,2]]       
+    ///     let tensor_y = u32_tensor_3x3_helper();
+    ///     let tensor_z = u32_tensor_3x1_helper();
+    ///     let result = tensor_y.less(@tensor_z);
+    ///     // We could equally do something like:
+    ///     // let result = tensor_z.less(@tensor_y);
+    ///     return result;
+    /// }
+    /// >>> [0,0,0,0,0,0,0,1,1]
+    /// ```
+    ///
+    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.less_equal
+    ///
+    /// ```rust
+    ///     fn less_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Check if each element of the first tensor is less than or equal to the corresponding element of the second tensor.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// fn less_equal_example() -> Tensor<usize> {
+    ///     // We instantiate two 3D Tensor here.
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
+    ///     let tensor_y = u32_tensor_2x2x2_helper();
+    ///     let tensor_z = u32_tensor_2x2x2_helper();
+    ///     let result = tensor_y.less_equal(@tensor_z);
+    ///     return result;
+    /// }
+    /// >>> [1,1,1,1,1,1,1,0,0]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// fn less_equal_example() -> Tensor<usize> {
+    ///     // tensor_y = [[0,1,2],[3,4,5],[0,0,0]]
+    ///     // tensor_z = [[0,1,2]]       
+    ///     let tensor_y = u32_tensor_3x3_helper();
+    ///     let tensor_z = u32_tensor_3x1_helper();
+    ///     let result = tensor_y.less_equal(@tensor_z);
+    ///     // We could equally do something like:
+    ///     // let result = tensor_z.less_equal(@tensor_y);
+    ///     return result;
+    /// }
+    /// >>> [1,1,1,0,0,0,1,1,1]
+    /// ```
+    ///
+    fn less_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.abs
+    ///
+    /// ```rust
+    ///     fn abs(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the absolute value of all elements in the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the absolute value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn abs_example() -> Tensor<i32> {
+    ///     // We instantiate a 3D Tensor here.
+    ///     // tensor = [[0,-1,2],[-3,4,5],[-6,7,-8]]
+    ///     let tensor = i32_tensor_3x3x3_helper();
+    ///     let result = tensor.abs();
+    ///     return result;
+    /// }
+    /// >>> [0,1,2,3,4,5,6,7,8]
+    /// ```
+    ///
+    fn abs(self: @Tensor<T>) -> Tensor<T>;
+    /// #tensor.ceil
+    ///
+    /// ```rust
+    ///     fn ceil(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Rounds up the value of each element in the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the rounded up value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn ceil_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 3D Tensor here.
+    ///     // tensor = [[0,0.003576,11.9999947548,-11.9999947548]]
+    ///     let tensor = fp8x23_tensor_1x4_helper();
+    ///     let result = tensor.ceil();
+    ///     return result;
+    /// }
+    /// >>> [0,1,12,-11]
+    /// ```
+    ///
+    fn ceil(self: @Tensor<T>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring
-fn new_tensor<T>(shape: Span<usize>, data: Span<T>) -> Tensor<T> {
+fn new_tensor<T>(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T> {
     check_shape::<T>(shape, data);
-    Tensor::<T> { shape, data }
+    Tensor::<T> { shape, data, extra }
 }
 
 /// Cf: TensorTrait::ravel_index docstring
@@ -690,7 +1209,7 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
 
 /// Cf: TensorTrait::reshape docstring
 fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
-    new_tensor(target_shape, *self.data)
+    new_tensor(target_shape, *self.data, *self.extra)
 }
 
 /// Cf: TensorTrait::at docstring

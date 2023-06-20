@@ -1,12 +1,15 @@
 use orion::operators::tensor::core::Tensor;
-use orion::numbers::fixed_point::core::FixedType;
-
+use orion::numbers::fixed_point::core::{FixedType};
 
 /// Trait
 ///
 /// relu - Applies the rectified linear unit function element-wise.
 /// leaky_relu - Applies the leaky rectified linear unit (Leaky ReLU) activation function element-wise.
+/// sigmoid - Applies the Sigmoid function to an n-dimensional input tensor.
 /// softmax - Computes softmax activations.
+/// logsoftmax - Applies the natural log to Softmax function to an n-dimensional input Tensor.
+/// softsign - Applies the Softsign function element-wise.
+/// softplus - Applies the Softplus function element-wise.
 /// linear - Performs a linear transformation of the input tensor using the provided weights and bias.
 trait NNTrait<T> {
     /// # NNTrait::relu
@@ -84,12 +87,179 @@ trait NNTrait<T> {
     ///     // We can call `softmax` function as follows.
     ///     return NNTrait::softmax(@tensor, 1);
     /// }
-    /// >>> [[18048353,49060510],[18048352,49060511]]
+    /// >>> [[2255697,6132911],[2255697,6132911]]
     ///     // The fixed point representation of
     ///     // [[0.2689, 0.7311],[0.2689, 0.7311]]
     /// ```
     ///
     fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>;
+    /// # NNTrait::logsoftmax
+    ///
+    /// ```rust 
+    ///    fn logsoftmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>
+    /// ```
+    ///
+    /// Applies the natural log to Softmax function to an n-dimensional input Tensor consisting of values in the range \[0,1].
+    /// 
+    /// $$
+    /// \text{log softmax}(x_i) = \ln(frac{e^{x_i}}{\sum_{j=1}^n e^{x_j}})
+    /// $$
+    /// 
+    /// ## Args
+    ///
+    /// * `tensor`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The axis along which to compute the natural lof softmax outputs.
+    ///
+    /// ## Returns
+    ///
+    /// A Tensor of fixed point numbers with the same shape than the input Tensor.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use orion::operators::nn::core::NNTrait;
+    /// use orion::operators::nn::implementations::impl_nn_u32;
+    /// 
+    /// fn logsoftmax_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 2D Tensor here.
+    ///     // [[0,1],[2,3]]
+    ///     let tensor = u32_tensor_2x2_helper();
+    /// 		
+    ///     // We can call `logsoftmax` function as follows.
+    ///     return NNTrait::logsoftmax(@tensor, 1);
+    /// }
+    ///     This will first generate the softmax output tensor
+    /// >>> [[2255697,6132911],[2255697,6132911]]
+    ///     // The fixed point representation of
+    ///     // [[0.2689, 0.7311],[0.2689, 0.7311]]
+    ///     
+    ///     Applying the natural log to this tensor yields
+    /// >>> 
+    ///     // The fixed point representation of:
+    ///     // [[-1.3134, -0.3132],[-1.3134, -0.3132]]
+    /// ```
+    ///
+    fn logsoftmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>;
+    /// # NNTrait::sigmoid
+    ///
+    /// ```rust 
+    ///    fn sigmoid(tensor: @Tensor<T>) -> Tensor<FixedType>;
+    /// ```
+    ///
+    /// Applies the Sigmoid function to an n-dimensional input tensor rescaling them so that the elements of the n-dimensional output Tensor lie in the range \[0,1].
+    /// 
+    /// $$
+    /// \text{sigmoid}(x_i) = \frac{1}{1 + e^{-x_i}}
+    /// $$
+    /// 
+    /// ## Args
+    ///
+    /// * `tensor`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// A Tensor of fixed point numbers with the same shape than the input Tensor.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use orion::operators::nn::core::NNTrait;
+    /// use orion::operators::nn::implementations::impl_nn_u32;
+    /// 
+    /// fn sigmoid_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 2D Tensor here.
+    ///     // [[0,1],[2,3]]
+    ///     let tensor = u32_tensor_2x2_helper();
+    /// 		
+    ///     // We can call `sigmoid` function as follows.
+    ///     return NNTrait::sigmoid(@tensor);
+    /// }
+    /// >>> [[4194304,6132564],[7388661,7990771]]
+    ///     // The fixed point representation of
+    ///     // [[0.5, 0.7310586],[0.88079703, 0.95257413]]
+    /// ```
+    ///
+    fn sigmoid(tensor: @Tensor<T>) -> Tensor<FixedType>;
+    /// # NNTrait::softsign
+    ///
+    /// ```rust 
+    ///    fn softsign(tensor: @Tensor<T>) -> Tensor<FixedType>;
+    /// ```
+    ///
+    /// Applies the Softsign function to an n-dimensional input Tensor such that the elements of the n-dimensional output Tensor lie in the range \[-1,1]. 
+    /// 
+    /// $$
+    /// \text{softsign}(x_i) = \frac{x_i}{1 + |x_i|}
+    /// $$
+    /// 
+    /// ## Args
+    ///
+    /// * `tensor`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// A Tensor of fixed point numbers with the same shape than the input Tensor.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use orion::operators::nn::core::NNTrait;
+    /// use orion::operators::nn::implementations::impl_nn_u32;
+    /// 
+    /// fn softsign_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 2D Tensor here.
+    ///     // [[0,1],[2,3]]
+    ///     let tensor = u32_tensor_2x2_helper();
+    /// 		
+    ///     // We can call `softsign` function as follows.
+    ///     return NNTrait::softsign(@tensor);
+    /// }
+    /// >>> [[0,33554432],[44739242,50331648]]
+    ///     // The fixed point representation of
+    ///     // [[0, 0.5],[0.67, 0.75]]
+    /// ```
+    ///
+    fn softsign(tensor: @Tensor<T>) -> Tensor<FixedType>;
+    /// # NNTrait::softplus
+    ///
+    /// ```rust 
+    ///    fn softplus(tensor: @Tensor<T>) -> Tensor<FixedType>;
+    /// ```
+    ///
+    /// Applies the Softplus function to an n-dimensional input Tensor such that the elements of the n-dimensional output Tensor lie in the range \[-1,1].
+    /// 
+    /// $$
+    /// \text{softplus}(x_i) = log({1 + e^{x_i}})
+    /// $$
+    /// 
+    /// ## Args
+    ///
+    /// * `tensor`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// A Tensor of fixed point numbers with the same shape than the input Tensor.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use orion::operators::nn::core::NNTrait;
+    /// use orion::operators::nn::implementations::impl_nn_u32;
+    /// 
+    /// fn softplus_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 2D Tensor here.
+    ///     // [[0,1],[2,3]]
+    ///     let tensor = u32_tensor_2x2_helper();
+    /// 		
+    ///     // We can call `softplus` function as follows.
+    ///     return NNTrait::softplus(@tensor);
+    /// }
+    /// >>> [[46516187,88131451],[142735719,204587229]]
+    ///     // The fixed point representation of
+    ///     // [[0.6931452, 1.31326096],[2.12692796, 3.04858728]]
+    /// ```
+    ///
+    fn softplus(tensor: @Tensor<T>) -> Tensor<FixedType>;
     /// # NNTrait::linear
     /// 
     /// ```rust

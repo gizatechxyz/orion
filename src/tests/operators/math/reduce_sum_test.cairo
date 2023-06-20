@@ -2,11 +2,23 @@ use array::SpanTrait;
 
 use orion::operators::tensor::implementations::impl_tensor_i32;
 use orion::operators::tensor::core::TensorTrait;
-use orion::tests::operators::tensor::helpers::i32_tensor_2x2x2_helper;
+use orion::tests::operators::tensor::helpers::helpers_i32::{i32_tensor_2x2x2_helper, i32_tensor_1x3_helper};
+
+use debug::PrintTrait;
 
 #[test]
 #[available_gas(20000000)]
-fn tensor_reduce_sum() {
+fn reduce_sum_1d() {
+    let tensor = i32_tensor_1x3_helper();
+
+    let result = tensor.reduce_sum(0, false);
+    assert(*result.data.at(0).mag == 3, 'result[0] = 3');
+    assert(result.data.len() == 1, 'result.len = 1');
+}
+
+#[test]
+#[available_gas(20000000)]
+fn reduce_sum_3d() {
     let tensor = i32_tensor_2x2x2_helper();
 
     let result = tensor.reduce_sum(0, false);

@@ -28,5 +28,5 @@ fn relu_i32(z: @Tensor<i32>, threshold: i32) -> Tensor<i32> {
         };
     };
 
-    return TensorTrait::<i32>::new(*z.shape, data_result.span());
+    return TensorTrait::<i32>::new(*z.shape, data_result.span(), *z.extra);
 }

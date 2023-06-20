@@ -44,7 +44,7 @@ fn add(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         };
     };
 
-    return TensorTrait::<i32>::new(broadcasted_shape, result.span());
+    return TensorTrait::<i32>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
 /// Subtracts two `Tensor<i32>` instances element-wise with broadcasting.
@@ -82,7 +82,7 @@ fn sub(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         };
     };
 
-    return TensorTrait::<i32>::new(broadcasted_shape, result.span());
+    return TensorTrait::<i32>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
 /// Multiplies two `Tensor<i32>` instances element-wise with broadcasting.
@@ -120,7 +120,7 @@ fn mul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         };
     };
 
-    return TensorTrait::<i32>::new(broadcasted_shape, result.span());
+    return TensorTrait::<i32>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
 /// Divides two `Tensor<i32>` instances element-wise with broadcasting.
@@ -158,5 +158,5 @@ fn div(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         };
     };
 
-    return TensorTrait::<i32>::new(broadcasted_shape, result.span());
+    return TensorTrait::<i32>::new(broadcasted_shape, result.span(), *self.extra);
 }
