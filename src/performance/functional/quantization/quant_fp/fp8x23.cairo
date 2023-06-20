@@ -6,9 +6,10 @@ use option::OptionTrait;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::numbers::fixed_point::math::math_8x23::max;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::operators::tensor::implementations::impl_tensor_fp;
-
-use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+use orion::numbers::fixed_point::implementations::impl_8x23::{
+    FP8x23Impl, FP8x23Mul, FP8x23Div, FP8x23Sub
+};
 
 use orion::utils::check_gas;
 

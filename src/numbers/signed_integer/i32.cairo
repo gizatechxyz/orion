@@ -126,12 +126,12 @@ impl i32RemEq of RemEq<i32> {
 
 // Implements the PartialEq trait for i32.
 impl i32PartialEq of PartialEq<i32> {
-    fn eq(lhs: i32, rhs: i32) -> bool {
-        i32_eq(lhs, rhs)
+    fn eq(lhs: @i32, rhs: @i32) -> bool {
+        i32_eq(*lhs, *rhs)
     }
 
-    fn ne(lhs: i32, rhs: i32) -> bool {
-        i32_ne(lhs, rhs)
+    fn ne(lhs: @i32, rhs: @i32) -> bool {
+        i32_ne(*lhs, *rhs)
     }
 }
 
@@ -337,7 +337,7 @@ fn i32_div_rem(a: i32, b: i32) -> (i32, i32) {
 // * `bool` - `true` if the two integers are equal, `false` otherwise.
 fn i32_eq(a: i32, b: i32) -> bool {
     // Check if the two integers have the same sign and the same absolute value.
-    if a.sign == b.sign & a.mag == b.mag {
+    if (a.sign == b.sign) & (a.mag == b.mag) {
         return true;
     }
 
@@ -399,7 +399,7 @@ fn i32_lt(a: i32, b: i32) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is less than or equal to `b`, `false` otherwise.
 fn i32_le(a: i32, b: i32) -> bool {
-    if (a == b | i32_lt(a, b) == true) {
+    if ((a == b) | (i32_lt(a, b) == true)) {
         return true;
     } else {
         return false;
@@ -413,7 +413,7 @@ fn i32_le(a: i32, b: i32) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is greater than or equal to `b`, `false` otherwise.
 fn i32_ge(a: i32, b: i32) -> bool {
-    if (a == b | i32_gt(a, b) == true) {
+    if ((a == b )| (i32_gt(a, b) == true)) {
         return true;
     } else {
         return false;

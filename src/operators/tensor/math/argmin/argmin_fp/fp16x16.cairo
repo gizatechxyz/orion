@@ -2,9 +2,10 @@ use array::ArrayTrait;
 use array::SpanTrait;
 
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-use orion::numbers::fixed_point::implementations::impl_16x16;
-
-use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::numbers::fixed_point::implementations::impl_16x16::{
+    FP16x16Impl, FP16x16PartialOrd, FP16x16PartialEq, MAX
+};
+use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
 use orion::operators::tensor::math::argmin::helpers::{find_argmin_1D,find_argmin};
@@ -40,7 +41,7 @@ fn argmin(
     let output_shape = reduce_output_shape(*self.shape, axis, false);
     let output_data_len = len_from_shape(output_shape);
 
-    let MAX = FixedTrait::new(impl_16x16::MAX , false);
+    let MAX = FixedTrait::new(MAX , false);
 
     let mut index: usize = 0;
     loop {

@@ -191,34 +191,34 @@ fn test_div_rem() {
     let a = IntegerTrait::<i32>::new(13_u32, false);
     let b = IntegerTrait::<i32>::new(5_u32, false);
     let (q, r) = a.div_rem(b);
-    assert(q.mag == 2_u32 & r.mag == 3_u32, '13 // 5 = 2 r 3');
+    assert((q.mag == 2_u32) & (r.mag == 3_u32), '13 // 5 = 2 r 3');
     assert(q.sign == false & r.sign == false, '13 // 5 -> positive');
 
     // Test division and remainder of negative integers
     let a = IntegerTrait::<i32>::new(13_u32, true);
     let b = IntegerTrait::<i32>::new(5_u32, true);
     let (q, r) = a.div_rem(b);
-    assert(q.mag == 2_u32 & r.mag == 3_u32, '-13 // -5 = 2 r -3');
+    assert((q.mag == 2_u32) & (r.mag == 3_u32), '-13 // -5 = 2 r -3');
     assert(q.sign == false & r.sign == true, '-13 // -5 -> positive');
 
     // Test division and remainder of positive and negative integers
     let a = IntegerTrait::<i32>::new(13_u32, false);
     let b = IntegerTrait::<i32>::new(5_u32, true);
     let (q, r) = a.div_rem(b);
-    assert(q.mag == 3_u32 & r.mag == 2_u32, '13 // -5 = -3 r -2');
+    assert((q.mag == 3_u32) & (r.mag == 2_u32), '13 // -5 = -3 r -2');
     assert(q.sign == true & r.sign == true, '13 // -5 -> negative');
 
     // Test division with a = zero
     let a = IntegerTrait::<i32>::new(0_u32, false);
     let b = IntegerTrait::<i32>::new(10_u32, false);
     let (q, r) = a.div_rem(b);
-    assert(q.mag == 0_u32 & r.mag == 0_u32, '0 // 10 = 0 r 0');
+    assert((q.mag == 0_u32) & (r.mag == 0_u32), '0 // 10 = 0 r 0');
     assert(q.sign == false & r.sign == false, '0 // 10 -> positive');
 
     // Test division and remainder with a negative dividend and positive divisor
     let a = IntegerTrait::<i32>::new(13_u32, true);
     let b = IntegerTrait::<i32>::new(5_u32, false);
     let (q, r) = a.div_rem(b);
-    assert(q.mag == 3_u32 & r.mag == 2_u32, '-13 // 5 = -3 r 2');
+    assert((q.mag == 3_u32) & (r.mag == 2_u32), '-13 // 5 = -3 r 2');
     assert(q.sign == true & r.sign == false, '-13 // 5 -> negative');
 }

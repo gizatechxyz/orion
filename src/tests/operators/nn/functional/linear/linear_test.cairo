@@ -2,10 +2,10 @@ use array::ArrayTrait;
 use array::SpanTrait;
 
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::nn::core::NNTrait;
-use orion::operators::nn::implementations::impl_nn_i32;
+use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
 
 
 #[test]
@@ -47,16 +47,21 @@ fn linear_test() {
     // TEST UNQUANTIZED
     let result = NNTrait::linear(inputs, weights, bias, false).data;
     assert(
-        *result.at(0_usize).mag == 5541_u32 & *result.at(0_usize).sign == false, 'result[0] = 5541'
+        (*result.at(0_usize).mag == 5541_u32) & (*result.at(0_usize).sign == false),
+        'result[0] = 5541'
     );
     assert(
-        *result.at(1_usize).mag == 260_u32 & *result.at(1_usize).sign == true, 'result[1] = -260'
+        (*result.at(1_usize).mag == 260_u32) & (*result.at(1_usize).sign == true),
+        'result[1] = -260'
     );
 
     // TEST QUANTIZED
     let result = NNTrait::linear(inputs, weights, bias, true).data;
     assert(
-        *result.at(0_usize).mag == 127_u32 & *result.at(0_usize).sign == false, 'result[0] = 127'
+        (*result.at(0_usize).mag == 127_u32) & (*result.at(0_usize).sign == false),
+        'result[0] = 127'
     );
-    assert(*result.at(1_usize).mag == 6_u32 & *result.at(1_usize).sign == true, 'result[1] = -6');
+    assert(
+        (*result.at(1_usize).mag == 6_u32) & (*result.at(1_usize).sign == true), 'result[1] = -6'
+    );
 }

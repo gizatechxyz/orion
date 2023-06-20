@@ -121,7 +121,7 @@ impl Tensor_u32 of TensorTrait<u32> {
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.
-impl U32TensorAdd of Add<Tensor<u32>> {
+impl u32TensorAdd of Add<Tensor<u32>> {
     /// Adds two `Tensor<u32>` instances element-wise.
     ///
     /// # Arguments
@@ -136,7 +136,7 @@ impl U32TensorAdd of Add<Tensor<u32>> {
 }
 
 /// Implements subtraction for `Tensor<u32>` using the `Sub` trait.
-impl U32TensorSub of Sub<Tensor<u32>> {
+impl u32TensorSub of Sub<Tensor<u32>> {
     /// Subtracts two `Tensor<u32>` instances element-wise.
     ///
     /// # Arguments
@@ -151,7 +151,7 @@ impl U32TensorSub of Sub<Tensor<u32>> {
 }
 
 /// Implements multiplication for `Tensor<u32>` using the `Mul` trait.
-impl U32TensorMul of Mul<Tensor<u32>> {
+impl u32TensorMul of Mul<Tensor<u32>> {
     /// Multiplies two `Tensor<u32>` instances element-wise.
     ///
     /// # Arguments
@@ -166,7 +166,7 @@ impl U32TensorMul of Mul<Tensor<u32>> {
 }
 
 /// Implements division for `Tensor<u32>` using the `Div` trait.
-impl U32TensorDiv of Div<Tensor<u32>> {
+impl u32TensorDiv of Div<Tensor<u32>> {
     /// Divides two `Tensor<u32>` instances element-wise.
     ///
     /// # Arguments

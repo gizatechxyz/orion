@@ -1,4 +1,4 @@
-use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::operators::tensor::core::TensorTrait;
 use orion::tests::operators::tensor::helpers::helpers_i32::i32_tensor_2x2x2_helper;
 

@@ -3,8 +3,8 @@
 mod tensor1D_argmax_fp {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-    use orion::numbers::fixed_point::implementations::impl_16x16;
-    use orion::operators::tensor::implementations::impl_tensor_fp;
+    use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
+    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 
     
@@ -116,8 +116,8 @@ mod tensor1D_argmax_fp {
 mod tensor2x2_argmax_fp {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-    use orion::numbers::fixed_point::implementations::impl_16x16;
-    use orion::operators::tensor::implementations::impl_tensor_fp;
+    use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
+    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
     use orion::tests::operators::tensor::helpers::helpers_fp::fp16x16_helpers::{
         fp_tensor_1x3_helper,fp_tensor_2x2_helper, fp_tensor_2x2x2_helper
@@ -207,8 +207,8 @@ mod tensor2x2_argmax_fp {
 mod tensor2x2x2_argmax_fp {
     use array::{ArrayTrait,SpanTrait};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-    use orion::numbers::fixed_point::implementations::impl_16x16;
-    use orion::operators::tensor::implementations::impl_tensor_fp;
+    use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
+    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
     use orion::tests::operators::tensor::helpers::helpers_fp::fp16x16_helpers::{
         fp_tensor_1x3_helper,fp_tensor_2x2_helper, fp_tensor_2x2x2_helper

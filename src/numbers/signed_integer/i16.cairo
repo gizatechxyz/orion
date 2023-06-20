@@ -126,12 +126,12 @@ impl i16RemEq of RemEq<i16> {
 
 // Implements the PartialEq trait for i16.
 impl i16PartialEq of PartialEq<i16> {
-    fn eq(lhs: i16, rhs: i16) -> bool {
-        i16_eq(lhs, rhs)
+    fn eq(lhs: @i16, rhs: @i16) -> bool {
+        i16_eq(*lhs, *rhs)
     }
 
-    fn ne(lhs: i16, rhs: i16) -> bool {
-        i16_ne(lhs, rhs)
+    fn ne(lhs: @i16, rhs: @i16) -> bool {
+        i16_ne(*lhs, *rhs)
     }
 }
 
@@ -337,7 +337,7 @@ fn i16_div_rem(a: i16, b: i16) -> (i16, i16) {
 // * `bool` - `true` if the two integers are equal, `false` otherwise.
 fn i16_eq(a: i16, b: i16) -> bool {
     // Check if the two integers have the same sign and the same absolute value.
-    if a.sign == b.sign & a.mag == b.mag {
+    if (a.sign == b.sign) & (a.mag == b.mag) {
         return true;
     }
 
@@ -399,7 +399,7 @@ fn i16_lt(a: i16, b: i16) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is less than or equal to `b`, `false` otherwise.
 fn i16_le(a: i16, b: i16) -> bool {
-    if (a == b | i16_lt(a, b) == true) {
+    if ((a == b) | (i16_lt(a, b) == true)) {
         return true;
     } else {
         return false;
@@ -413,7 +413,7 @@ fn i16_le(a: i16, b: i16) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is greater than or equal to `b`, `false` otherwise.
 fn i16_ge(a: i16, b: i16) -> bool {
-    if (a == b | i16_gt(a, b) == true) {
+    if ((a == b) | i16_gt(a, b) == true) {
         return true;
     } else {
         return false;

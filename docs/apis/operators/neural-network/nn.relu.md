@@ -23,7 +23,7 @@ A `Tensor<T>` with the same shape as the input tensor.
 
 ```rust
 use orion::operators::nn::core::NNTrait;
-use orion::operators::nn::implementations::impl_nn_i32;
+use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
 
 fn relu_example() -> Tensor<u32> {
 // We instantiate a 2D Tensor here and set threshold to 0.

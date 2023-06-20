@@ -3,7 +3,7 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use orion::utils::check_gas;
-use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::tensor::core::{Tensor, ExtraParams, TensorTrait};
 use orion::operators::tensor::linalg::matmul::helpers::{
@@ -17,10 +17,10 @@ fn matmul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
     let self_ndim = (self_shape).len();
     let other_ndim = (other_shape).len();
 
-    assert(self_ndim <= 2 | other_ndim <= 2, 'supports only 1D and 2D matmul');
+    assert((self_ndim <= 2) | (other_ndim <= 2), 'supports only 1D and 2D matmul');
 
     //! Case: Both tensors are 1-dimensional
-    if self_ndim == 1 & other_ndim == 1 {
+    if (self_ndim == 1) & (other_ndim == 1) {
         let dot = dot_product((*self).data, (*other).data);
         let mut result_shape = ArrayTrait::new();
         let mut result_data = ArrayTrait::new();

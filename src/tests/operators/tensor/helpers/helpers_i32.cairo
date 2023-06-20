@@ -3,7 +3,7 @@ use array::SpanTrait;
 
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use orion::operators::tensor::implementations::impl_tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 
 // 1D

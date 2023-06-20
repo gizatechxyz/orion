@@ -3,10 +3,10 @@ use array::ArrayTrait;
 use array::SpanTrait;
 
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::operators::nn::core::NNTrait;
-use orion::operators::nn::implementations::impl_nn_u32;
+use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
 
 #[test]

@@ -1,6 +1,6 @@
 use array::ArrayTrait;
 use array::SpanTrait;
-use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 
 // 1D

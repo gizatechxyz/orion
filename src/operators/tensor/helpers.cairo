@@ -65,7 +65,7 @@ fn check_compatibility(mut shape_1: Span<usize>, mut shape_2: Span<usize>) {
         let shape_2_val = *shape_2.pop_front().unwrap();
 
         assert(
-            shape_1_val == shape_2_val | shape_1_val == 1 | shape_2_val == 1,
+            (shape_1_val == shape_2_val) | (shape_1_val == 1) | (shape_2_val == 1),
             'tensors shape must match'
         );
     };
@@ -291,7 +291,7 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
         let broadcasted_dim = u32_max(dim1, dim2);
         temp_result.append(broadcasted_dim);
 
-        if shape1.len() == 0 & shape2.len() == 0 {
+        if (shape1.len() == 0) & (shape2.len() == 0) {
             break ();
         };
     };

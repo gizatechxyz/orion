@@ -2,7 +2,7 @@
 #[cfg(test)]
 mod tensor1D_argmax_u32 {
     use array::{ArrayTrait,SpanTrait};
-    use orion::operators::tensor::implementations::impl_tensor_u32;
+    use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
     
     #[test]
@@ -99,7 +99,7 @@ mod tensor1D_argmax_u32 {
 #[cfg(test)]
 mod tensor2x2_argmax_u32 {
     use array::{ArrayTrait,SpanTrait};
-    use orion::operators::tensor::implementations::impl_tensor_u32;
+    use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
     use orion::tests::operators::tensor::helpers::helpers_u32::{u32_tensor_1x3_helper,u32_tensor_2x2_helper, u32_tensor_2x2x2_helper};
 
@@ -185,7 +185,7 @@ mod tensor2x2_argmax_u32 {
 #[cfg(test)]
 mod tensor2x2x2_argmax_u32 {
     use array::{ArrayTrait,SpanTrait};
-    use orion::operators::tensor::implementations::impl_tensor_u32;
+    use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
     use orion::tests::operators::tensor::helpers::helpers_u32::{u32_tensor_1x3_helper,u32_tensor_2x2_helper, u32_tensor_2x2x2_helper};
 

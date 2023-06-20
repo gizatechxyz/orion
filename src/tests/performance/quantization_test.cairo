@@ -3,12 +3,12 @@ use array::SpanTrait;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
-use orion::operators::tensor::implementations::impl_tensor_i32;
-use orion::operators::tensor::implementations::impl_tensor_fp;
-use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::performance::core::PerfomanceTrait;
-use orion::performance::implementations::impl_performance_i32;
+use orion::performance::implementations::impl_performance_i32::Performance_i32;
 
 
 #[test]

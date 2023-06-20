@@ -1,7 +1,7 @@
 use array::SpanTrait;
 use option::OptionTrait;
 
-use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::utils::check_gas;
 
 /// Cf: TensorTrait::min docstring

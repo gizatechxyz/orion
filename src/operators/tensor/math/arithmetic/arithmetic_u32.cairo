@@ -5,7 +5,7 @@ use orion::operators::tensor::helpers::broadcast_shape;
 
 use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index, };
 use orion::operators::tensor::helpers::{broadcast_index_mapping, len_from_shape, };
-use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::utils::check_gas;
 
 /// Adds two `Tensor<u32>` instances element-wise with broadcasting.

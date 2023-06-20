@@ -1,6 +1,7 @@
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::operators::tensor::implementations::{impl_tensor_u32, impl_tensor_fp};
-
+use orion::operators::tensor::implementations::{
+    impl_tensor_u32::Tensor_u32, impl_tensor_fp::{Tensor_fp, FixedTypeTensorDiv}
+};
 use orion::numbers::fixed_point::core::FixedType;
 
 

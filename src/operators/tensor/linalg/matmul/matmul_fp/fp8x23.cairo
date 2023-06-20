@@ -3,9 +3,8 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use orion::utils::check_gas;
-use orion::operators::tensor::implementations::impl_tensor_fp;
-use orion::numbers::fixed_point::implementations::impl_8x23;
-
+use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23Impl, FP8x23Mul, FP8x23AddEq};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::core::{Tensor, ExtraParams, TensorTrait};
 use orion::operators::tensor::linalg::matmul::helpers::{
@@ -19,10 +18,10 @@ fn matmul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedTy
     let self_ndim = (self_shape).len();
     let other_ndim = (other_shape).len();
 
-    assert(self_ndim <= 2 | other_ndim <= 2, 'supports only 1D and 2D matmul');
+    assert((self_ndim <= 2) | (other_ndim <= 2), 'supports only 1D and 2D matmul');
 
     //! Case: Both tensors are 1-dimensional
-    if self_ndim == 1 & other_ndim == 1 {
+    if (self_ndim == 1) & (other_ndim == 1) {
         let dot = dot_product((*self).data, (*other).data);
         let mut result_shape = ArrayTrait::new();
         let mut result_data = ArrayTrait::new();

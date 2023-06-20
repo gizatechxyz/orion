@@ -83,14 +83,14 @@ impl FP16x16Impl of FixedTrait {
     }
 }
 
-impl fp16x16Print of PrintTrait<FixedType> {
+impl FP16x16Print of PrintTrait<FixedType> {
     fn print(self: FixedType) {
         self.sign.print();
         self.mag.print();
     }
 }
 
-impl fp16x16Into of Into<FixedType, felt252> {
+impl FP16x16Into of Into<FixedType, felt252> {
     fn into(self: FixedType) -> felt252 {
         let mag_felt = self.mag.into();
 
@@ -102,71 +102,71 @@ impl fp16x16Into of Into<FixedType, felt252> {
     }
 }
 
-impl fp16x16PartialEq of PartialEq<FixedType> {
+impl FP16x16PartialEq of PartialEq<FixedType> {
     #[inline(always)]
-    fn eq(lhs: FixedType, rhs: FixedType) -> bool {
-        return math_16x16::eq(lhs, rhs);
+    fn eq(lhs: @FixedType, rhs: @FixedType) -> bool {
+        return math_16x16::eq(*lhs, *rhs);
     }
 
     #[inline(always)]
-    fn ne(lhs: FixedType, rhs: FixedType) -> bool {
-        return math_16x16::ne(lhs, rhs);
+    fn ne(lhs: @FixedType, rhs: @FixedType) -> bool {
+        return math_16x16::ne(*lhs, *rhs);
     }
 }
 
-impl fp16x16Add of Add<FixedType> {
+impl FP16x16Add of Add<FixedType> {
     fn add(lhs: FixedType, rhs: FixedType) -> FixedType {
         return math_16x16::add(lhs, rhs);
     }
 }
 
-impl fp16x16AddEq of AddEq<FixedType> {
+impl FP16x16AddEq of AddEq<FixedType> {
     #[inline(always)]
     fn add_eq(ref self: FixedType, other: FixedType) {
         self = Add::add(self, other);
     }
 }
 
-impl fp16x16Sub of Sub<FixedType> {
+impl FP16x16Sub of Sub<FixedType> {
     fn sub(lhs: FixedType, rhs: FixedType) -> FixedType {
         return math_16x16::sub(lhs, rhs);
     }
 }
 
-impl fp16x16SubEq of SubEq<FixedType> {
+impl FP16x16SubEq of SubEq<FixedType> {
     #[inline(always)]
     fn sub_eq(ref self: FixedType, other: FixedType) {
         self = Sub::sub(self, other);
     }
 }
 
-impl fp16x16Mul of Mul<FixedType> {
+impl FP16x16Mul of Mul<FixedType> {
     fn mul(lhs: FixedType, rhs: FixedType) -> FixedType {
         return math_16x16::mul(lhs, rhs);
     }
 }
 
-impl fp16x16MulEq of MulEq<FixedType> {
+impl FP16x16MulEq of MulEq<FixedType> {
     #[inline(always)]
     fn mul_eq(ref self: FixedType, other: FixedType) {
         self = Mul::mul(self, other);
     }
 }
 
-impl fp16x16Div of Div<FixedType> {
+impl FP16x16Div of Div<FixedType> {
     fn div(lhs: FixedType, rhs: FixedType) -> FixedType {
         return math_16x16::div(lhs, rhs);
     }
 }
 
-impl fp16x16DivEq of DivEq<FixedType> {
+impl FP16x16DivEq of DivEq<FixedType> {
     #[inline(always)]
     fn div_eq(ref self: FixedType, other: FixedType) {
         self = Div::div(self, other);
     }
 }
 
-impl fp16x16PartialOrd of PartialOrd<FixedType> {
+impl FP16x16PartialOrd of PartialOrd<FixedType> {
     #[inline(always)]
     fn ge(lhs: FixedType, rhs: FixedType) -> bool {
         return math_16x16::ge(lhs, rhs);
@@ -188,7 +188,7 @@ impl fp16x16PartialOrd of PartialOrd<FixedType> {
     }
 }
 
-impl fp16x16Neg of Neg<FixedType> {
+impl FP16x16Neg of Neg<FixedType> {
     #[inline(always)]
     fn neg(a: FixedType) -> FixedType {
         return math_16x16::neg(a);
