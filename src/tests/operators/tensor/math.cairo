@@ -12,3 +12,4 @@ mod less_equal;
 mod abs;
 mod ceil;
 mod ln;
+mod arithmetic;
