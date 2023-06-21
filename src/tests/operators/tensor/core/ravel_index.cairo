@@ -48,7 +48,7 @@ mod tensor_3D {
 
     #[test]
     #[available_gas(2000000)]
-    fn tensor_at() {
+    fn tensor_ravel_index() {
         let mut shape = ArrayTrait::new();
         shape.append(2);
         shape.append(4);
