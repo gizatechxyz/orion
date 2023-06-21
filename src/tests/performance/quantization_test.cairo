@@ -1,5 +1,6 @@
 use array::ArrayTrait;
 use array::SpanTrait;
+use traits::Into;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
@@ -31,23 +32,12 @@ fn quantize_linear_test() {
 
     let mut res = PerfomanceTrait::quantize_linear(@tensor);
 
-    assert(*res.data.at(0_usize).mag == 127, '*result[0] == -127');
-    assert(*res.data.at(0_usize).sign == true, '*result[0] -> negative');
-
-    assert(*res.data.at(1_usize).mag == 101, '*result[1] == 101');
-    assert(*res.data.at(1_usize).sign == false, '*result[1] -> positive');
-
-    assert(*res.data.at(2_usize).mag == 51, '*result[2] == -51');
-    assert(*res.data.at(2_usize).sign == true, '*result[2] -> negative');
-
-    assert(*res.data.at(3_usize).mag == 124, '*result[3] == 124');
-    assert(*res.data.at(3_usize).sign == false, '*result[3] -> positive');
-
-    assert(*res.data.at(4_usize).mag == 80, '*result[4] == -80');
-    assert(*res.data.at(4_usize).sign == true, '*result[4] -> negative');
-
-    assert(*res.data.at(5_usize).mag == 64, '*result[5] == 64');
-    assert(*res.data.at(5_usize).sign == false, '*result[5] -> positive');
+    assert((*res.data[0]).into() == -127, '*result[0] == -127');
+    assert((*res.data[1]).into() == 101, '*result[1] == 101');
+    assert((*res.data[2]).into() == -51, '*result[2] == -51');
+    assert((*res.data[3]).into() == 124, '*result[3] == 124');
+    assert((*res.data[4]).into() == -80, '*result[4] == -80');
+    assert((*res.data[5]).into() == 64, '*result[5] == 64');
 }
 
 #[test]
@@ -71,21 +61,10 @@ fn quantize_linear_from_fp_test() {
 
     let mut res = PerfomanceTrait::<i32>::quantize_linear_from_fp(@tensor);
 
-    assert(*res.data.at(0_usize).mag == 63, '*result[0] == 63');
-    assert(*res.data.at(0_usize).sign == false, '*result[0] -> positive');
-
-    assert(*res.data.at(1_usize).mag == 95, '*result[1] == 95');
-    assert(*res.data.at(1_usize).sign == false, '*result[1] -> positive');
-
-    assert(*res.data.at(2_usize).mag == 127, '*result[2] == 127');
-    assert(*res.data.at(2_usize).sign == false, '*result[2] -> positive');
-
-    assert(*res.data.at(3_usize).mag == 63, '*result[3] == -63');
-    assert(*res.data.at(3_usize).sign == true, '*result[3] -> negative');
-
-    assert(*res.data.at(4_usize).mag == 95, '*result[4] == -95');
-    assert(*res.data.at(4_usize).sign == true, '*result[4] -> negative');
-
-    assert(*res.data.at(5_usize).mag == 127, '*result[5] == -127');
-    assert(*res.data.at(5_usize).sign == true, '*result[5] -> negative');
+    assert((*res.data[0]).into() == 63, '*result[0] == 63');
+    assert((*res.data[1]).into() == 95, '*result[1] == 95');
+    assert((*res.data[2]).into() == 127, '*result[2] == 127');
+    assert((*res.data[3]).into() == -63, '*result[3] == -63');
+    assert((*res.data[4]).into() == -95, '*result[4] == -95');
+    assert((*res.data[5]).into() == -127, '*result[5] == -127');
 }

@@ -1,2 +1,3 @@
-mod tensor_test;
-mod helpers;
+mod math;
+mod linalg;
+mod core;

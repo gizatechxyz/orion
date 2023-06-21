@@ -1,5 +1,6 @@
 use array::ArrayTrait;
 use array::SpanTrait;
+use traits::Into;
 
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
@@ -33,10 +34,6 @@ fn relu_i32_test() {
     let mut result = NNTrait::relu(@tensor, threshold);
 
     let data_0 = *result.data.at(0);
-    assert(data_0.mag == 1, 'result[0] == 1');
-    assert(data_0.sign == false, 'result[0] == 1');
-
-    let data_3 = *result.data.at(3);
-    assert(data_3.mag == 0, 'result[3] == 0');
-    assert(data_3.sign == false, 'result[3] == 0');
+    assert((*result.data.at(0)).into() == 1, 'result[0] == 1');
+    assert((*result.data.at(3)).into() == 0, 'result[3] == 0');
 }

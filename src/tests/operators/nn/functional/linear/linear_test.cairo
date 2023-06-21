@@ -1,5 +1,6 @@
 use array::ArrayTrait;
 use array::SpanTrait;
+use traits::Into;
 
 use orion::operators::tensor::core::{TensorTrait, ExtraParams};
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
@@ -46,22 +47,11 @@ fn linear_test() {
 
     // TEST UNQUANTIZED
     let result = NNTrait::linear(inputs, weights, bias, false).data;
-    assert(
-        *result.at(0_usize).mag == 5541 && *result.at(0_usize).sign == false,
-        'result[0] = 5541'
-    );
-    assert(
-        *result.at(1_usize).mag == 260 && *result.at(1_usize).sign == true,
-        'result[1] = -260'
-    );
+    assert((*result[0]).into() == 5541, 'result[0] = 5541');
+    assert((*result[1]).into() == -260, 'result[1] = -260');
 
     // TEST QUANTIZED
     let result = NNTrait::linear(inputs, weights, bias, true).data;
-    assert(
-        *result.at(0_usize).mag == 127 && *result.at(0_usize).sign == false,
-        'result[0] = 127'
-    );
-    assert(
-        *result.at(1_usize).mag == 6 && *result.at(1_usize).sign == true, 'result[1] = -6'
-    );
+    assert((*result[0]).into() == 127, 'result[0] = 127');
+    assert((*result[1]).into() == -6, 'result[1] = -6');
 }

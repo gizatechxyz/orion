@@ -9,10 +9,10 @@ use orion::utils::check_gas;
 
 /// Cf: TensorTrait::reduce_sum docstring
 fn reduce_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
-    assert(axis <= (*self.shape).len(), 'axis out of dimensions');
     let mut output_data = ArrayTrait::new();
 
     if (*self.shape).len() == 1 {
+        assert(axis == 0, 'axis out of dimensions');
         let current_sum = accumulate_sum(*self.data, *self.shape, *self.shape, axis);
         output_data.append(current_sum);
 
@@ -21,6 +21,7 @@ fn reduce_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
 
         return TensorTrait::<u32>::new(output_shape.span(), output_data.span(), *self.extra);
     } else {
+        assert(axis <= (*self.shape).len(), 'axis out of dimensions');
         let output_shape = reduce_output_shape(*self.shape, axis, false);
         let output_data_len = len_from_shape(output_shape);
         let mut index: usize = 0;
