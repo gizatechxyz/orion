@@ -1,258 +1,284 @@
-use array::SpanTrait;
-use array::{ArrayTrait};
-
-use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-use orion::operators::tensor::core::{TensorTrait, ExtraParams};
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
-
-
 // ===== 1D ===== //
 
-#[test]
-#[available_gas(2000000)]
-fn tensor_eq_1D() {
-    let mut sizes = ArrayTrait::new();
-    sizes.append(3);
+#[cfg(test)]
+mod tensor_1D {
+    use array::SpanTrait;
+    use array::{ArrayTrait};
 
-    let mut arr_1 = ArrayTrait::<FixedType>::new();
-    arr_1.append(FixedTrait::new_unscaled(0, false));
-    arr_1.append(FixedTrait::new_unscaled(1, true));
-    arr_1.append(FixedTrait::new_unscaled(2, false));
+    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+    use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+    use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+    use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
 
-    let mut arr_2 = ArrayTrait::<FixedType>::new();
-    arr_2.append(FixedTrait::new_unscaled(10, false));
-    arr_2.append(FixedTrait::new_unscaled(11, false));
-    arr_2.append(FixedTrait::new_unscaled(2, false));
+    #[test]
+    #[available_gas(2000000)]
+    fn tensor_eq_1D() {
+        let mut sizes = ArrayTrait::new();
+        sizes.append(3);
 
-    let extra = Option::<ExtraParams>::None(());
+        let mut arr_1 = ArrayTrait::<FixedType>::new();
+        arr_1.append(FixedTrait::new_unscaled(0, false));
+        arr_1.append(FixedTrait::new_unscaled(1, true));
+        arr_1.append(FixedTrait::new_unscaled(2, false));
 
-    let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span(), extra);
-    let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), extra);
+        let mut arr_2 = ArrayTrait::<FixedType>::new();
+        arr_2.append(FixedTrait::new_unscaled(10, false));
+        arr_2.append(FixedTrait::new_unscaled(11, false));
+        arr_2.append(FixedTrait::new_unscaled(2, false));
 
-    let result = tensor_a.eq(@tensor_b);
-    assert(*result.data.at(0) == 0, 'result[0] = 0');
-    assert(*result.data.at(1) == 0, 'result[1] = 0');
-    assert(*result.data.at(2) == 1, 'result[2] = 1');
+        let extra = Option::<ExtraParams>::None(());
 
-    assert(result.data.len() == tensor_a.data.len(), 'tensor length mismatch');
+        let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span(), extra);
+        let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), extra);
+
+        let result = tensor_a.eq(@tensor_b);
+        assert(*result.data.at(0) == 0, 'result[0] = 0');
+        assert(*result.data.at(1) == 0, 'result[1] = 0');
+        assert(*result.data.at(2) == 1, 'result[2] = 1');
+
+        assert(result.data.len() == tensor_a.data.len(), 'tensor length mismatch');
+    }
 }
+
 
 // ===== 2D ===== //
 
-#[test]
-#[available_gas(2000000)]
-fn tensor_eq_2D() {
-    let mut sizes = ArrayTrait::new();
-    sizes.append(3);
-    sizes.append(3);
+#[cfg(test)]
+mod tensor_2D {
+    use array::SpanTrait;
+    use array::{ArrayTrait};
 
-    let mut arr_1 = ArrayTrait::<FixedType>::new();
-    arr_1.append(FixedTrait::new_unscaled(0, false));
-    arr_1.append(FixedTrait::new_unscaled(1, false));
-    arr_1.append(FixedTrait::new_unscaled(2, false));
-    arr_1.append(FixedTrait::new_unscaled(3, false));
-    arr_1.append(FixedTrait::new_unscaled(4, false));
-    arr_1.append(FixedTrait::new_unscaled(5, false));
-    arr_1.append(FixedTrait::new_unscaled(6, false));
-    arr_1.append(FixedTrait::new_unscaled(7, false));
-    arr_1.append(FixedTrait::new_unscaled(8, false));
+    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+    use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+    use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+    use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
 
-    let mut arr_2 = ArrayTrait::<FixedType>::new();
-    arr_2.append(FixedTrait::new_unscaled(10, false));
-    arr_2.append(FixedTrait::new_unscaled(11, false));
-    arr_2.append(FixedTrait::new_unscaled(12, false));
-    arr_2.append(FixedTrait::new_unscaled(3, true));
-    arr_2.append(FixedTrait::new_unscaled(4, false));
-    arr_2.append(FixedTrait::new_unscaled(5, false));
-    arr_2.append(FixedTrait::new_unscaled(16, false));
-    arr_2.append(FixedTrait::new_unscaled(17, false));
-    arr_2.append(FixedTrait::new_unscaled(18, false));
 
-    let extra = Option::<ExtraParams>::None(());
+    #[test]
+    #[available_gas(2000000)]
+    fn tensor_eq_2D() {
+        let mut sizes = ArrayTrait::new();
+        sizes.append(3);
+        sizes.append(3);
 
-    let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span(), extra);
-    let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), extra);
+        let mut arr_1 = ArrayTrait::<FixedType>::new();
+        arr_1.append(FixedTrait::new_unscaled(0, false));
+        arr_1.append(FixedTrait::new_unscaled(1, false));
+        arr_1.append(FixedTrait::new_unscaled(2, false));
+        arr_1.append(FixedTrait::new_unscaled(3, false));
+        arr_1.append(FixedTrait::new_unscaled(4, false));
+        arr_1.append(FixedTrait::new_unscaled(5, false));
+        arr_1.append(FixedTrait::new_unscaled(6, false));
+        arr_1.append(FixedTrait::new_unscaled(7, false));
+        arr_1.append(FixedTrait::new_unscaled(8, false));
 
-    let result = tensor_a.eq(@tensor_b);
-    assert(*result.data.at(0) == 0, 'result[0] = 0');
-    assert(*result.data.at(1) == 0, 'result[1] = 0');
-    assert(*result.data.at(2) == 0, 'result[2] = 0');
-    assert(*result.data.at(3) == 0, 'result[3] = 0');
-    assert(*result.data.at(4) == 1, 'result[4] = 1');
-    assert(*result.data.at(5) == 1, 'result[5] = 1');
-    assert(*result.data.at(6) == 0, 'result[6] = 0');
-    assert(*result.data.at(7) == 0, 'result[7] = 0');
-    assert(*result.data.at(8) == 0, 'result[8] = 0');
+        let mut arr_2 = ArrayTrait::<FixedType>::new();
+        arr_2.append(FixedTrait::new_unscaled(10, false));
+        arr_2.append(FixedTrait::new_unscaled(11, false));
+        arr_2.append(FixedTrait::new_unscaled(12, false));
+        arr_2.append(FixedTrait::new_unscaled(3, true));
+        arr_2.append(FixedTrait::new_unscaled(4, false));
+        arr_2.append(FixedTrait::new_unscaled(5, false));
+        arr_2.append(FixedTrait::new_unscaled(16, false));
+        arr_2.append(FixedTrait::new_unscaled(17, false));
+        arr_2.append(FixedTrait::new_unscaled(18, false));
 
-    assert(result.data.len() == tensor_a.data.len(), 'tensor length mismatch');
-}
+        let extra = Option::<ExtraParams>::None(());
 
-#[test]
-#[available_gas(2000000)]
-fn tensor_eq_broadcast_2D() {
-    let mut sizes_1 = ArrayTrait::new();
-    sizes_1.append(4);
-    sizes_1.append(3);
+        let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span(), extra);
+        let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), extra);
 
-    let mut sizes_2 = ArrayTrait::new();
-    sizes_2.append(1);
-    sizes_2.append(3);
+        let result = tensor_a.eq(@tensor_b);
+        assert(*result.data.at(0) == 0, 'result[0] = 0');
+        assert(*result.data.at(1) == 0, 'result[1] = 0');
+        assert(*result.data.at(2) == 0, 'result[2] = 0');
+        assert(*result.data.at(3) == 0, 'result[3] = 0');
+        assert(*result.data.at(4) == 1, 'result[4] = 1');
+        assert(*result.data.at(5) == 1, 'result[5] = 1');
+        assert(*result.data.at(6) == 0, 'result[6] = 0');
+        assert(*result.data.at(7) == 0, 'result[7] = 0');
+        assert(*result.data.at(8) == 0, 'result[8] = 0');
 
-    let mut arr_1 = ArrayTrait::<FixedType>::new();
-    arr_1.append(FixedTrait::new_unscaled(0, false));
-    arr_1.append(FixedTrait::new_unscaled(1, false));
-    arr_1.append(FixedTrait::new_unscaled(2, false));
-    arr_1.append(FixedTrait::new_unscaled(3, false));
-    arr_1.append(FixedTrait::new_unscaled(4, false));
-    arr_1.append(FixedTrait::new_unscaled(5, false));
-    arr_1.append(FixedTrait::new_unscaled(6, false));
-    arr_1.append(FixedTrait::new_unscaled(7, false));
-    arr_1.append(FixedTrait::new_unscaled(8, false));
-    arr_1.append(FixedTrait::new_unscaled(9, false));
-    arr_1.append(FixedTrait::new_unscaled(10, false));
-    arr_1.append(FixedTrait::new_unscaled(11, false));
+        assert(result.data.len() == tensor_a.data.len(), 'tensor length mismatch');
+    }
 
-    let mut arr_2 = ArrayTrait::<FixedType>::new();
-    arr_2.append(FixedTrait::new_unscaled(0, false));
-    arr_2.append(FixedTrait::new_unscaled(1, false));
-    arr_2.append(FixedTrait::new_unscaled(2, false));
+    #[test]
+    #[available_gas(2000000)]
+    fn tensor_eq_broadcast_2D() {
+        let mut sizes_1 = ArrayTrait::new();
+        sizes_1.append(4);
+        sizes_1.append(3);
 
-    let extra = Option::<ExtraParams>::None(());
+        let mut sizes_2 = ArrayTrait::new();
+        sizes_2.append(1);
+        sizes_2.append(3);
 
-    let tensor_a = TensorTrait::<FixedType>::new(sizes_1.span(), arr_1.span(), extra);
-    let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span(), extra);
+        let mut arr_1 = ArrayTrait::<FixedType>::new();
+        arr_1.append(FixedTrait::new_unscaled(0, false));
+        arr_1.append(FixedTrait::new_unscaled(1, false));
+        arr_1.append(FixedTrait::new_unscaled(2, false));
+        arr_1.append(FixedTrait::new_unscaled(3, false));
+        arr_1.append(FixedTrait::new_unscaled(4, false));
+        arr_1.append(FixedTrait::new_unscaled(5, false));
+        arr_1.append(FixedTrait::new_unscaled(6, false));
+        arr_1.append(FixedTrait::new_unscaled(7, false));
+        arr_1.append(FixedTrait::new_unscaled(8, false));
+        arr_1.append(FixedTrait::new_unscaled(9, false));
+        arr_1.append(FixedTrait::new_unscaled(10, false));
+        arr_1.append(FixedTrait::new_unscaled(11, false));
 
-    let result_a = tensor_b.eq(@tensor_a);
-    assert(*result_a.data.at(0) == 1, 'result[0] = 1');
-    assert(*result_a.data.at(1) == 1, 'result[1] = 1');
-    assert(*result_a.data.at(2) == 1, 'result[2] = 1');
-    assert(*result_a.data.at(3) == 0, 'result[3] = 0');
-    assert(*result_a.data.at(4) == 0, 'result[4] = 0');
-    assert(*result_a.data.at(5) == 0, 'result[5] = 0');
-    assert(*result_a.data.at(6) == 0, 'result[6] = 0');
-    assert(*result_a.data.at(7) == 0, 'result[7] = 0');
-    assert(*result_a.data.at(8) == 0, 'result[8] = 0');
-    assert(*result_a.data.at(9) == 0, 'result[9] = 0');
-    assert(*result_a.data.at(10) == 0, 'result[10] = 0');
-    assert(*result_a.data.at(11) == 0, 'result[11] = 0');
-    assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
+        let mut arr_2 = ArrayTrait::<FixedType>::new();
+        arr_2.append(FixedTrait::new_unscaled(0, false));
+        arr_2.append(FixedTrait::new_unscaled(1, false));
+        arr_2.append(FixedTrait::new_unscaled(2, false));
 
-    let result_b = tensor_a.eq(@tensor_b);
-    assert(*result_b.data.at(0) == 1, 'result[0] = 1');
-    assert(*result_b.data.at(1) == 1, 'result[1] = 1');
-    assert(*result_b.data.at(2) == 1, 'result[2] = 1');
-    assert(*result_b.data.at(3) == 0, 'result[3] = 0');
-    assert(*result_b.data.at(4) == 0, 'result[4] = 0');
-    assert(*result_b.data.at(5) == 0, 'result[5] = 0');
-    assert(*result_b.data.at(6) == 0, 'result[6] = 0');
-    assert(*result_b.data.at(7) == 0, 'result[7] = 0');
-    assert(*result_b.data.at(8) == 0, 'result[8] = 0');
-    assert(*result_b.data.at(9) == 0, 'result[9] = 0');
-    assert(*result_b.data.at(10) == 0, 'result[10] = 0');
-    assert(*result_b.data.at(11) == 0, 'result[11] = 0');
-    assert(result_b.data.len() == tensor_a.data.len(), 'tensor length mismatch');
+        let extra = Option::<ExtraParams>::None(());
+
+        let tensor_a = TensorTrait::<FixedType>::new(sizes_1.span(), arr_1.span(), extra);
+        let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span(), extra);
+
+        let result_a = tensor_b.eq(@tensor_a);
+        assert(*result_a.data.at(0) == 1, 'result[0] = 1');
+        assert(*result_a.data.at(1) == 1, 'result[1] = 1');
+        assert(*result_a.data.at(2) == 1, 'result[2] = 1');
+        assert(*result_a.data.at(3) == 0, 'result[3] = 0');
+        assert(*result_a.data.at(4) == 0, 'result[4] = 0');
+        assert(*result_a.data.at(5) == 0, 'result[5] = 0');
+        assert(*result_a.data.at(6) == 0, 'result[6] = 0');
+        assert(*result_a.data.at(7) == 0, 'result[7] = 0');
+        assert(*result_a.data.at(8) == 0, 'result[8] = 0');
+        assert(*result_a.data.at(9) == 0, 'result[9] = 0');
+        assert(*result_a.data.at(10) == 0, 'result[10] = 0');
+        assert(*result_a.data.at(11) == 0, 'result[11] = 0');
+        assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
+
+        let result_b = tensor_a.eq(@tensor_b);
+        assert(*result_b.data.at(0) == 1, 'result[0] = 1');
+        assert(*result_b.data.at(1) == 1, 'result[1] = 1');
+        assert(*result_b.data.at(2) == 1, 'result[2] = 1');
+        assert(*result_b.data.at(3) == 0, 'result[3] = 0');
+        assert(*result_b.data.at(4) == 0, 'result[4] = 0');
+        assert(*result_b.data.at(5) == 0, 'result[5] = 0');
+        assert(*result_b.data.at(6) == 0, 'result[6] = 0');
+        assert(*result_b.data.at(7) == 0, 'result[7] = 0');
+        assert(*result_b.data.at(8) == 0, 'result[8] = 0');
+        assert(*result_b.data.at(9) == 0, 'result[9] = 0');
+        assert(*result_b.data.at(10) == 0, 'result[10] = 0');
+        assert(*result_b.data.at(11) == 0, 'result[11] = 0');
+        assert(result_b.data.len() == tensor_a.data.len(), 'tensor length mismatch');
+    }
 }
 
 // ===== 3D ===== //
 
-#[test]
-#[available_gas(2000000)]
-fn tensor_eq_3D() {
-    let mut sizes = ArrayTrait::new();
-    sizes.append(2);
-    sizes.append(2);
-    sizes.append(2);
+#[cfg(test)]
+mod tensor_3D {
+    use array::SpanTrait;
+    use array::{ArrayTrait};
 
-    let mut arr_1 = ArrayTrait::<FixedType>::new();
-    arr_1.append(FixedTrait::new_unscaled(0, false));
-    arr_1.append(FixedTrait::new_unscaled(1, false));
-    arr_1.append(FixedTrait::new_unscaled(2, false));
-    arr_1.append(FixedTrait::new_unscaled(3, false));
-    arr_1.append(FixedTrait::new_unscaled(4, false));
-    arr_1.append(FixedTrait::new_unscaled(5, false));
-    arr_1.append(FixedTrait::new_unscaled(6, false));
-    arr_1.append(FixedTrait::new_unscaled(7, false));
+    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+    use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+    use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+    use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
 
-    let mut arr_2 = ArrayTrait::<FixedType>::new();
-    arr_2.append(FixedTrait::new_unscaled(10, false));
-    arr_2.append(FixedTrait::new_unscaled(11, false));
-    arr_2.append(FixedTrait::new_unscaled(12, false));
-    arr_2.append(FixedTrait::new_unscaled(3, true));
-    arr_2.append(FixedTrait::new_unscaled(4, false));
-    arr_2.append(FixedTrait::new_unscaled(5, false));
-    arr_2.append(FixedTrait::new_unscaled(16, false));
-    arr_2.append(FixedTrait::new_unscaled(17, false));
+    #[test]
+    #[available_gas(2000000)]
+    fn tensor_eq_3D() {
+        let mut sizes = ArrayTrait::new();
+        sizes.append(2);
+        sizes.append(2);
+        sizes.append(2);
 
-    let extra = Option::<ExtraParams>::None(());
+        let mut arr_1 = ArrayTrait::<FixedType>::new();
+        arr_1.append(FixedTrait::new_unscaled(0, false));
+        arr_1.append(FixedTrait::new_unscaled(1, false));
+        arr_1.append(FixedTrait::new_unscaled(2, false));
+        arr_1.append(FixedTrait::new_unscaled(3, false));
+        arr_1.append(FixedTrait::new_unscaled(4, false));
+        arr_1.append(FixedTrait::new_unscaled(5, false));
+        arr_1.append(FixedTrait::new_unscaled(6, false));
+        arr_1.append(FixedTrait::new_unscaled(7, false));
 
-    let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span(), extra);
-    let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), extra);
+        let mut arr_2 = ArrayTrait::<FixedType>::new();
+        arr_2.append(FixedTrait::new_unscaled(10, false));
+        arr_2.append(FixedTrait::new_unscaled(11, false));
+        arr_2.append(FixedTrait::new_unscaled(12, false));
+        arr_2.append(FixedTrait::new_unscaled(3, true));
+        arr_2.append(FixedTrait::new_unscaled(4, false));
+        arr_2.append(FixedTrait::new_unscaled(5, false));
+        arr_2.append(FixedTrait::new_unscaled(16, false));
+        arr_2.append(FixedTrait::new_unscaled(17, false));
 
-    let result = tensor_a.eq(@tensor_b);
-    assert(*result.data.at(0) == 0, 'result[0] = 0');
-    assert(*result.data.at(1) == 0, 'result[1] = 0');
-    assert(*result.data.at(2) == 0, 'result[2] = 0');
-    assert(*result.data.at(3) == 0, 'result[3] = 0');
-    assert(*result.data.at(4) == 1, 'result[4] = 1');
-    assert(*result.data.at(5) == 1, 'result[5] = 1');
-    assert(*result.data.at(6) == 0, 'result[6] = 0');
-    assert(*result.data.at(7) == 0, 'result[7] = 0');
+        let extra = Option::<ExtraParams>::None(());
 
-    assert(result.data.len() == tensor_a.data.len(), 'tensor length mismatch');
-}
+        let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span(), extra);
+        let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), extra);
 
-#[test]
-#[available_gas(2000000)]
-fn tensor_eq_broadcast_3D() {
-    let mut sizes_1 = ArrayTrait::new();
-    sizes_1.append(2);
-    sizes_1.append(2);
-    sizes_1.append(2);
+        let result = tensor_a.eq(@tensor_b);
+        assert(*result.data.at(0) == 0, 'result[0] = 0');
+        assert(*result.data.at(1) == 0, 'result[1] = 0');
+        assert(*result.data.at(2) == 0, 'result[2] = 0');
+        assert(*result.data.at(3) == 0, 'result[3] = 0');
+        assert(*result.data.at(4) == 1, 'result[4] = 1');
+        assert(*result.data.at(5) == 1, 'result[5] = 1');
+        assert(*result.data.at(6) == 0, 'result[6] = 0');
+        assert(*result.data.at(7) == 0, 'result[7] = 0');
 
-    let mut sizes_2 = ArrayTrait::new();
-    sizes_2.append(1);
-    sizes_2.append(2);
-    sizes_2.append(1);
+        assert(result.data.len() == tensor_a.data.len(), 'tensor length mismatch');
+    }
 
-    let mut arr_1 = ArrayTrait::<FixedType>::new();
-    arr_1.append(FixedTrait::new_unscaled(0, false));
-    arr_1.append(FixedTrait::new_unscaled(1, false));
-    arr_1.append(FixedTrait::new_unscaled(2, false));
-    arr_1.append(FixedTrait::new_unscaled(3, false));
-    arr_1.append(FixedTrait::new_unscaled(4, false));
-    arr_1.append(FixedTrait::new_unscaled(5, false));
-    arr_1.append(FixedTrait::new_unscaled(6, false));
-    arr_1.append(FixedTrait::new_unscaled(7, false));
+    #[test]
+    #[available_gas(2000000)]
+    fn tensor_eq_broadcast_3D() {
+        let mut sizes_1 = ArrayTrait::new();
+        sizes_1.append(2);
+        sizes_1.append(2);
+        sizes_1.append(2);
 
-    let mut arr_2 = ArrayTrait::<FixedType>::new();
-    arr_2.append(FixedTrait::new_unscaled(0, false));
-    arr_2.append(FixedTrait::new_unscaled(1, false));
+        let mut sizes_2 = ArrayTrait::new();
+        sizes_2.append(1);
+        sizes_2.append(2);
+        sizes_2.append(1);
 
-    let extra = Option::<ExtraParams>::None(());
+        let mut arr_1 = ArrayTrait::<FixedType>::new();
+        arr_1.append(FixedTrait::new_unscaled(0, false));
+        arr_1.append(FixedTrait::new_unscaled(1, false));
+        arr_1.append(FixedTrait::new_unscaled(2, false));
+        arr_1.append(FixedTrait::new_unscaled(3, false));
+        arr_1.append(FixedTrait::new_unscaled(4, false));
+        arr_1.append(FixedTrait::new_unscaled(5, false));
+        arr_1.append(FixedTrait::new_unscaled(6, false));
+        arr_1.append(FixedTrait::new_unscaled(7, false));
 
-    let tensor_a = TensorTrait::<FixedType>::new(sizes_1.span(), arr_1.span(), extra);
-    let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span(), extra);
+        let mut arr_2 = ArrayTrait::<FixedType>::new();
+        arr_2.append(FixedTrait::new_unscaled(0, false));
+        arr_2.append(FixedTrait::new_unscaled(1, false));
 
-    let result_a = tensor_b.eq(@tensor_a);
-    assert(*result_a.data.at(0) == 1, 'result[0] = 1');
-    assert(*result_a.data.at(1) == 1, 'result[1] = 1');
-    assert(*result_a.data.at(2) == 0, 'result[2] = 1');
-    assert(*result_a.data.at(3) == 0, 'result[3] = 0');
-    assert(*result_a.data.at(4) == 0, 'result[4] = 0');
-    assert(*result_a.data.at(5) == 0, 'result[5] = 0');
-    assert(*result_a.data.at(6) == 0, 'result[6] = 0');
-    assert(*result_a.data.at(7) == 0, 'result[7] = 0');
-    assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
+        let extra = Option::<ExtraParams>::None(());
 
-    let result_b = tensor_a.eq(@tensor_b);
-    assert(*result_b.data.at(0) == 1, 'result[0] = 1');
-    assert(*result_b.data.at(1) == 1, 'result[1] = 1');
-    assert(*result_b.data.at(2) == 0, 'result[2] = 1');
-    assert(*result_b.data.at(3) == 0, 'result[3] = 0');
-    assert(*result_b.data.at(4) == 0, 'result[4] = 0');
-    assert(*result_b.data.at(5) == 0, 'result[5] = 0');
-    assert(*result_b.data.at(6) == 0, 'result[6] = 0');
-    assert(*result_b.data.at(7) == 0, 'result[7] = 0');
-    assert(result_b.data.len() == tensor_a.data.len(), 'tensor length mismatch');
+        let tensor_a = TensorTrait::<FixedType>::new(sizes_1.span(), arr_1.span(), extra);
+        let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span(), extra);
+
+        let result_a = tensor_b.eq(@tensor_a);
+        assert(*result_a.data.at(0) == 1, 'result[0] = 1');
+        assert(*result_a.data.at(1) == 1, 'result[1] = 1');
+        assert(*result_a.data.at(2) == 0, 'result[2] = 1');
+        assert(*result_a.data.at(3) == 0, 'result[3] = 0');
+        assert(*result_a.data.at(4) == 0, 'result[4] = 0');
+        assert(*result_a.data.at(5) == 0, 'result[5] = 0');
+        assert(*result_a.data.at(6) == 0, 'result[6] = 0');
+        assert(*result_a.data.at(7) == 0, 'result[7] = 0');
+        assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
+
+        let result_b = tensor_a.eq(@tensor_b);
+        assert(*result_b.data.at(0) == 1, 'result[0] = 1');
+        assert(*result_b.data.at(1) == 1, 'result[1] = 1');
+        assert(*result_b.data.at(2) == 0, 'result[2] = 1');
+        assert(*result_b.data.at(3) == 0, 'result[3] = 0');
+        assert(*result_b.data.at(4) == 0, 'result[4] = 0');
+        assert(*result_b.data.at(5) == 0, 'result[5] = 0');
+        assert(*result_b.data.at(6) == 0, 'result[6] = 0');
+        assert(*result_b.data.at(7) == 0, 'result[7] = 0');
+        assert(result_b.data.len() == tensor_a.data.len(), 'tensor length mismatch');
+    }
 }
