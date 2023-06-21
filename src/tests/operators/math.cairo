@@ -2,7 +2,7 @@ mod argmax;
 mod argmin;
 mod max;
 mod min;
-mod reduce_sum_test;
+mod reduce_sum;
 mod exp;
 mod equal;
 mod greater;
