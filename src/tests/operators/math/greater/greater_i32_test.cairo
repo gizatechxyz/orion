@@ -11,7 +11,7 @@ mod tensor_1D {
 
     #[test]
     #[available_gas(2000000000000)]
-    fn tensor_greater_1D() {
+    fn tensor_greater() {
         let mut sizes = ArrayTrait::new();
         sizes.append(3);
 
@@ -54,7 +54,7 @@ mod tensor_2D {
 
     #[test]
     #[available_gas(200000000000)]
-    fn tensor_greater_2D() {
+    fn tensor_greater() {
         let mut sizes = ArrayTrait::new();
         sizes.append(3);
         sizes.append(3);
@@ -115,7 +115,7 @@ mod tensor_2D {
 
     #[test]
     #[available_gas(200000000000)]
-    fn tensor_greater_broadcast_2D() {
+    fn tensor_greater_broadcast() {
         let mut sizes_1 = ArrayTrait::new();
         sizes_1.append(4);
         sizes_1.append(3);
@@ -196,7 +196,7 @@ mod tensor_3D {
 
     #[test]
     #[available_gas(2000000000000)]
-    fn tensor_greater_3D() {
+    fn tensor_greater() {
         let mut sizes = ArrayTrait::new();
         sizes.append(2);
         sizes.append(2);
@@ -254,7 +254,7 @@ mod tensor_3D {
 
     #[test]
     #[available_gas(2000000000000)]
-    fn tensor_greater_broadcast_3D() {
+    fn tensor_greater_broadcast() {
         let mut sizes_1 = ArrayTrait::new();
         sizes_1.append(2);
         sizes_1.append(2);
@@ -299,7 +299,7 @@ mod tensor_3D {
         let result_b = tensor_a.greater(@tensor_b);
         assert(*result_b.data.at(0) == 0, 'result[0] = 0');
         assert(*result_b.data.at(1) == 0, 'result[1] = 0');
-        assert(*result_b.data.at(2) == 1, 'result[2] = 0');
+        assert(*result_b.data.at(2) == 1, 'result[2] = 1');
         assert(*result_b.data.at(3) == 1, 'result[3] = 1');
         assert(*result_b.data.at(4) == 1, 'result[4] = 1');
         assert(*result_b.data.at(5) == 1, 'result[5] = 1');
