@@ -299,12 +299,12 @@ mod tensor_3D {
         let result_b = tensor_a.less(@tensor_b);
         assert(*result_b.data.at(0) == 0, 'result[0] = 0');
         assert(*result_b.data.at(1) == 0, 'result[1] = 0');
-        assert(*result_b.data.at(2) == 0, 'result[2] = 1');
-        assert(*result_b.data.at(3) == 0, 'result[3] = 1');
-        assert(*result_b.data.at(4) == 0, 'result[4] = 1');
-        assert(*result_b.data.at(5) == 0, 'result[5] = 1');
-        assert(*result_b.data.at(6) == 0, 'result[6] = 1');
-        assert(*result_b.data.at(7) == 0, 'result[7] = 1');
+        assert(*result_b.data.at(2) == 0, 'result[2] = 0');
+        assert(*result_b.data.at(3) == 0, 'result[3] = 0');
+        assert(*result_b.data.at(4) == 0, 'result[4] = 0');
+        assert(*result_b.data.at(5) == 0, 'result[5] = 0');
+        assert(*result_b.data.at(6) == 0, 'result[6] = 0');
+        assert(*result_b.data.at(7) == 0, 'result[7] = 0');
 
         assert(result_b.data.len() == tensor_a.data.len(), 'tensor length mismatch');
     }
