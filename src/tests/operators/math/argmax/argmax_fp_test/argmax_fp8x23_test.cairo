@@ -2,7 +2,7 @@
 #[cfg(test)]
 mod tensor_1D {
     use array::{ArrayTrait,SpanTrait};
-    use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+    use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
     use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
@@ -23,9 +23,9 @@ mod tensor_1D {
         data.append(FixedTrait::new(0, false));
         data.append(FixedTrait::new(1, false));
         data.append(FixedTrait::new(2, false));
-        let extra = Option::<ExtraParams>::None(());
+        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
         
         let result = tensor.argmax(0,Option::None(()),Option::None(()));
         assert(*result.data.at(0) == 2, 'result[0] = 2');
@@ -37,9 +37,9 @@ mod tensor_1D {
         data.append(FixedTrait::new(0, false));
         data.append(FixedTrait::new(1, false));
         data.append(FixedTrait::new(2, true));
-        let extra = Option::<ExtraParams>::None(());
+        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
         
         let result = tensor.argmax(0,Option::None(()),Option::None(()));
         assert(*result.data.at(0) == 1, 'result[0] = 1');
@@ -65,9 +65,9 @@ mod tensor_1D {
         data.append(FixedTrait::new(0, false));
         data.append(FixedTrait::new(1, false));
         data.append(FixedTrait::new(2, true));
-        let extra = Option::<ExtraParams>::None(());
+        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
         
         let result = tensor.argmax(0,Option::Some(false),Option::None(()));
         assert(*result.data.at(0) == 1, 'result[0] = 1');
@@ -90,9 +90,9 @@ mod tensor_1D {
         data.append(FixedTrait::new(1, true));
         data.append(FixedTrait::new(1, true));
         data.append(FixedTrait::new(1, true));
-        let extra = Option::<ExtraParams>::None(());
+        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
         
         let result = tensor.argmax(0,Option::None(()),Option::Some(false));
         assert(*result.data.at(0) == 0, 'result[0] = 0');
@@ -113,7 +113,7 @@ mod tensor_1D {
 #[cfg(test)]
 mod tensor_2D {
     use array::{ArrayTrait,SpanTrait};
-    use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+    use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
     use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
@@ -179,8 +179,8 @@ mod tensor_2D {
         data.append(FixedTrait::new(1, false));
         data.append(FixedTrait::new(1, false));
         data.append(FixedTrait::new(1, false));
-        let extra = Option::<ExtraParams>::None(());
-        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
+        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
 
         let result = tensor.argmax(1,Option::None(()),Option::Some(false));
         assert(*result.data.at(0) == 0, 'result[0] = 0');
@@ -203,7 +203,7 @@ mod tensor_2D {
 #[cfg(test)]
 mod tensor_3D {
     use array::{ArrayTrait,SpanTrait};
-    use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+    use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
     use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
@@ -291,8 +291,8 @@ mod tensor_3D {
         data.append(FixedTrait::new(1, false));
         data.append(FixedTrait::new(1, false));
 
-        let extra = Option::<ExtraParams>::None(());
-        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
+        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
         let result = tensor.argmax(0,Option::None(()),Option::Some(false));
         assert(*result.data.at(0) == 0, 'result[0] = 0');
         assert(*result.data.at(1) == 0, 'result[1] = 0');

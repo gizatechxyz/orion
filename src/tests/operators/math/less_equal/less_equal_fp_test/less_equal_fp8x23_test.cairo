@@ -7,7 +7,7 @@ mod tensor_1D {
 
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, ExtraParams};
-    use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+    use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
     use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
 
     #[test]
@@ -26,10 +26,14 @@ mod tensor_1D {
         arr_2.append(FixedTrait::new_unscaled(11, false));
         arr_2.append(FixedTrait::new_unscaled(2, true));
 
-        let extra = Option::<ExtraParams>::None(());
+        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-        let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span(), extra);
-        let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), extra);
+        let tensor_a = TensorTrait::<FixedType>::new(
+            sizes.span(), arr_1.span(), Option::Some(extra)
+        );
+        let tensor_b = TensorTrait::<FixedType>::new(
+            sizes.span(), arr_2.span(), Option::Some(extra)
+        );
 
         let result_a = tensor_a.less_equal(@tensor_b);
         assert(*result_a.data.at(0) == 1, 'result[0] = 1');
@@ -50,7 +54,7 @@ mod tensor_2D {
 
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, ExtraParams};
-    use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+    use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
     use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
 
 
@@ -83,10 +87,14 @@ mod tensor_2D {
         arr_2.append(FixedTrait::new_unscaled(17, false));
         arr_2.append(FixedTrait::new_unscaled(18, false));
 
-        let extra = Option::<ExtraParams>::None(());
+        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-        let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span(), extra);
-        let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), extra);
+        let tensor_a = TensorTrait::<FixedType>::new(
+            sizes.span(), arr_1.span(), Option::Some(extra)
+        );
+        let tensor_b = TensorTrait::<FixedType>::new(
+            sizes.span(), arr_2.span(), Option::Some(extra)
+        );
 
         let result_a = tensor_a.less_equal(@tensor_b);
         assert(*result_a.data.at(0) == 1, 'result[0] = 1');
@@ -145,10 +153,14 @@ mod tensor_2D {
         arr_2.append(FixedTrait::new_unscaled(1, false));
         arr_2.append(FixedTrait::new_unscaled(2, false));
 
-        let extra = Option::<ExtraParams>::None(());
+        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-        let tensor_a = TensorTrait::<FixedType>::new(sizes_1.span(), arr_1.span(), extra);
-        let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span(), extra);
+        let tensor_a = TensorTrait::<FixedType>::new(
+            sizes_1.span(), arr_1.span(), Option::Some(extra)
+        );
+        let tensor_b = TensorTrait::<FixedType>::new(
+            sizes_2.span(), arr_2.span(), Option::Some(extra)
+        );
 
         let result_a = tensor_b.less_equal(@tensor_a);
         assert(*result_a.data.at(0) == 1, 'result[0] = 1');
@@ -194,7 +206,7 @@ mod tensor_3D {
 
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, ExtraParams};
-    use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+    use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
     use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
 
     #[test]
@@ -225,10 +237,14 @@ mod tensor_3D {
         arr_2.append(FixedTrait::new_unscaled(16, false));
         arr_2.append(FixedTrait::new_unscaled(17, false));
 
-        let extra = Option::<ExtraParams>::None(());
+        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-        let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span(), extra);
-        let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), extra);
+        let tensor_a = TensorTrait::<FixedType>::new(
+            sizes.span(), arr_1.span(), Option::Some(extra)
+        );
+        let tensor_b = TensorTrait::<FixedType>::new(
+            sizes.span(), arr_2.span(), Option::Some(extra)
+        );
 
         let result_a = tensor_a.less_equal(@tensor_b);
         assert(*result_a.data.at(0) == 1, 'result[0] = 1');
@@ -282,10 +298,14 @@ mod tensor_3D {
         arr_2.append(FixedTrait::new_unscaled(0, false));
         arr_2.append(FixedTrait::new_unscaled(1, false));
 
-        let extra = Option::<ExtraParams>::None(());
+        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-        let tensor_a = TensorTrait::<FixedType>::new(sizes_1.span(), arr_1.span(), extra);
-        let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span(), extra);
+        let tensor_a = TensorTrait::<FixedType>::new(
+            sizes_1.span(), arr_1.span(), Option::Some(extra)
+        );
+        let tensor_b = TensorTrait::<FixedType>::new(
+            sizes_2.span(), arr_2.span(), Option::Some(extra)
+        );
 
         let result_a = tensor_b.less_equal(@tensor_a);
         assert(*result_a.data.at(0) == 1, 'result[0] = 1');
