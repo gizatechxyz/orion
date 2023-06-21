@@ -10,6 +10,7 @@ use orion::utils::check_gas;
 
 /// Cf: TensorTrait::transpose docstring
 fn transpose(self: @Tensor<u32>, axes: Span<usize>) -> Tensor<u32> {
+    assert((*self.shape).len() > 1, 'cannot transpose a 1D tensor');
     assert(axes.len() == (*self.shape).len(), 'shape and axes length unequal');
 
     let output_shape = permutation_output_shape(*self.shape, axes);

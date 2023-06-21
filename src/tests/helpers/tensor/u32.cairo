@@ -160,8 +160,8 @@ fn u32_tensor_3x2x2_helper() -> Tensor<u32> {
     data.append(7);
     data.append(8);
     data.append(9);
-    data.append(1);
-    data.append(1);
+    data.append(10);
+    data.append(11);
 
     let extra = Option::<ExtraParams>::None(());
 
