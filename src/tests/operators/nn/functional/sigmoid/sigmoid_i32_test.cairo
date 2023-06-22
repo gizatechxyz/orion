@@ -1,7 +1,7 @@
 // ===== 1D ===== //
 
 #[cfg(test)]
-mod tensor_1D {
+mod input_1D {
     #[cfg(test)]
     mod fp8x23 {
         use array::ArrayTrait;
@@ -107,7 +107,7 @@ mod tensor_1D {
 // ===== 2D ===== //
 
 #[cfg(test)]
-mod tensor_2D {
+mod input_2D {
     #[cfg(test)]
     mod fp8x23 {
         use array::ArrayTrait;
@@ -215,7 +215,7 @@ mod tensor_2D {
 // ===== 3D ===== //
 
 #[cfg(test)]
-mod tensor_3D {
+mod input_3D {
     #[cfg(test)]
     mod fp8x23 {
         use array::ArrayTrait;

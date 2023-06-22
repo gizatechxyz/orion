@@ -1,7 +1,7 @@
 // ===== 1D ===== //
 
 #[cfg(test)]
-mod tensor_1D {
+mod input_1D {
     use array::ArrayTrait;
     use array::SpanTrait;
 
@@ -51,7 +51,7 @@ mod tensor_1D {
 // ===== 2D ===== //
 
 #[cfg(test)]
-mod tensor_2D {
+mod input_2D {
     use array::ArrayTrait;
     use array::SpanTrait;
 
@@ -102,7 +102,7 @@ mod tensor_2D {
 // ===== 3D ===== //
 
 #[cfg(test)]
-mod tensor_3D {
+mod input_3D {
     use array::ArrayTrait;
     use array::SpanTrait;
 
