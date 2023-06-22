@@ -7,6 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased] - 2023-06-21
 
 ### Changed
+- Refactor nn tests to cover n-dimensions
+
+## [Unreleased] - 2023-06-21
+
+### Changed
 - Refactor tensor tests to cover n-dimensions
 
 ## [Unreleased] - 2023-06-20
