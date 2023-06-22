@@ -188,7 +188,7 @@ mod tensor_2D {
     }
 }
 
-// ===== 2D ===== //
+// ===== 3D ===== //
 
 #[cfg(test)]
 mod tensor_3D {
