@@ -23,10 +23,10 @@ mod tensor_1D {
         let tensor = TensorTrait::<FixedType>::new(sizes.span(), arr.span(), Option::Some(extra));
 
         let result = tensor.ceil();
-        assert(*result.data.at(0) == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
-        assert(*result.data.at(1) == FixedTrait::new_unscaled(1, false), 'result[1] = 1'); // 1
-        assert(*result.data.at(2) == FixedTrait::new_unscaled(12, false), 'result[2] = 12'); // 12 
-        assert(*result.data.at(3) == FixedTrait::new_unscaled(11, true), 'result[3] = -11'); // -11 
+        assert(*result.data[0] == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
+        assert(*result.data[1] == FixedTrait::new_unscaled(1, false), 'result[1] = 1'); // 1
+        assert(*result.data[2] == FixedTrait::new_unscaled(12, false), 'result[2] = 12'); // 12 
+        assert(*result.data[3] == FixedTrait::new_unscaled(11, true), 'result[3] = -11'); // -11 
         assert(result.data.len() == tensor.data.len(), 'tensor length mismatch');
     }
 }
@@ -57,10 +57,10 @@ mod tensor_2D {
         let tensor = TensorTrait::<FixedType>::new(sizes.span(), arr.span(), Option::Some(extra));
 
         let result = tensor.ceil();
-        assert(*result.data.at(0) == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
-        assert(*result.data.at(1) == FixedTrait::new_unscaled(1, false), 'result[1] = 1'); // 1
-        assert(*result.data.at(2) == FixedTrait::new_unscaled(12, false), 'result[2] = 12'); // 12 
-        assert(*result.data.at(3) == FixedTrait::new_unscaled(11, true), 'result[3] = -11'); // -11 
+        assert(*result.data[0] == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
+        assert(*result.data[1] == FixedTrait::new_unscaled(1, false), 'result[1] = 1'); // 1
+        assert(*result.data[2] == FixedTrait::new_unscaled(12, false), 'result[2] = 12'); // 12 
+        assert(*result.data[3] == FixedTrait::new_unscaled(11, true), 'result[3] = -11'); // -11 
         assert(result.data.len() == tensor.data.len(), 'tensor length mismatch');
     }
 }
@@ -99,14 +99,14 @@ mod tensor_3D {
         let tensor = TensorTrait::<FixedType>::new(sizes.span(), arr.span(), Option::Some(extra));
 
         let result = tensor.ceil();
-        assert(*result.data.at(0) == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
-        assert(*result.data.at(1) == FixedTrait::new_unscaled(1, false), 'result[1] = 1');
-        assert(*result.data.at(2) == FixedTrait::new_unscaled(12, false), 'result[2] = 12');
-        assert(*result.data.at(3) == FixedTrait::new_unscaled(11, true), 'result[3] = -11');
-        assert(*result.data.at(4) == FixedTrait::new_unscaled(1, false), 'result[4] = 1');
-        assert(*result.data.at(5) == FixedTrait::new_unscaled(0, false), 'result[5] = 0');
-        assert(*result.data.at(6) == FixedTrait::new_unscaled(2, false), 'result[6] = 2');
-        assert(*result.data.at(7) == FixedTrait::new_unscaled(1, true), 'result[7] = -1');
+        assert(*result.data[0] == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
+        assert(*result.data[1] == FixedTrait::new_unscaled(1, false), 'result[1] = 1');
+        assert(*result.data[2] == FixedTrait::new_unscaled(12, false), 'result[2] = 12');
+        assert(*result.data[3] == FixedTrait::new_unscaled(11, true), 'result[3] = -11');
+        assert(*result.data[4] == FixedTrait::new_unscaled(1, false), 'result[4] = 1');
+        assert(*result.data[5] == FixedTrait::new_unscaled(0, false), 'result[5] = 0');
+        assert(*result.data[6] == FixedTrait::new_unscaled(2, false), 'result[6] = 2');
+        assert(*result.data[7] == FixedTrait::new_unscaled(1, true), 'result[7] = -1');
         assert(result.data.len() == tensor.data.len(), 'tensor length mismatch');
     }
 }

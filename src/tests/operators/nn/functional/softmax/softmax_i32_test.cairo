@@ -27,9 +27,9 @@ mod input_1D {
 
             let mut result = NNTrait::softmax(@tensor, 0).data;
 
-            assert((*result.at(0)).into() == 755231, 'result[0] = 0.09003057');
-            assert((*result.at(1)).into() == 2052931, 'result[1] = 0.24472847');
-            assert((*result.at(2)).into() == 5580445, 'result[2] = 0.66524096');
+            assert((*result[0]).into() == 755231, 'result[0] = 0.09003057');
+            assert((*result[1]).into() == 2052931, 'result[1] = 0.24472847');
+            assert((*result[2]).into() == 5580445, 'result[2] = 0.66524096');
         }
     }
 
@@ -58,9 +58,9 @@ mod input_1D {
 
             let mut result = NNTrait::softmax(@tensor, 0).data;
 
-            assert((*result.at(0)).into() == 5900, 'result[0] = 0.09003057');
-            assert((*result.at(1)).into() == 16038, 'result[1] = 0.24472847');
-            assert((*result.at(2)).into() == 43596, 'result[2] = 0.66524096');
+            assert((*result[0]).into() == 5900, 'result[0] = 0.09003057');
+            assert((*result[1]).into() == 16038, 'result[1] = 0.24472847');
+            assert((*result[2]).into() == 43596, 'result[2] = 0.66524096');
         }
     }
 }
@@ -91,17 +91,17 @@ mod input_2D {
 
             let mut result = NNTrait::softmax(@tensor, 0).data;
 
-            assert((*result.at(0)).into() == 999946, 'result[0] = 0.1192');
-            assert((*result.at(1)).into() == 999946, 'result[1] = 0.1192');
-            assert((*result.at(2)).into() == 7388661, 'result[2] = 0.8808');
-            assert((*result.at(3)).into() == 7388661, 'result[3] = 0.8808');
+            assert((*result[0]).into() == 999946, 'result[0] = 0.1192');
+            assert((*result[1]).into() == 999946, 'result[1] = 0.1192');
+            assert((*result[2]).into() == 7388661, 'result[2] = 0.8808');
+            assert((*result[3]).into() == 7388661, 'result[3] = 0.8808');
 
             let mut result = NNTrait::softmax(@tensor, 1).data;
 
-            assert((*result.at(0)).into() == 2256044, 'result[0] = 0.2689');
-            assert((*result.at(1)).into() == 6132563, 'result[1] = 0.7311');
-            assert((*result.at(2)).into() == 2256043, 'result[2] = 0.2689');
-            assert((*result.at(3)).into() == 6132564, 'result[4] = 0.7311');
+            assert((*result[0]).into() == 2256044, 'result[0] = 0.2689');
+            assert((*result[1]).into() == 6132563, 'result[1] = 0.7311');
+            assert((*result[2]).into() == 2256043, 'result[2] = 0.2689');
+            assert((*result[3]).into() == 6132564, 'result[4] = 0.7311');
         }
     }
 
@@ -130,17 +130,17 @@ mod input_2D {
 
             let mut result = NNTrait::softmax(@tensor, 0).data;
 
-            assert((*result.at(0)).into() == 7812, 'result[0] = 0.1192');
-            assert((*result.at(1)).into() == 7812, 'result[1] = 0.1192');
-            assert((*result.at(2)).into() == 57723, 'result[2] = 0.8808');
-            assert((*result.at(3)).into() == 57723, 'result[3] = 0.8808');
+            assert((*result[0]).into() == 7812, 'result[0] = 0.1192');
+            assert((*result[1]).into() == 7812, 'result[1] = 0.1192');
+            assert((*result[2]).into() == 57723, 'result[2] = 0.8808');
+            assert((*result[3]).into() == 57723, 'result[3] = 0.8808');
 
             let mut result = NNTrait::softmax(@tensor, 1).data;
 
-            assert((*result.at(0)).into() == 17625, 'result[0] = 0.2689');
-            assert((*result.at(1)).into() == 47910, 'result[1] = 0.7311');
-            assert((*result.at(2)).into() == 17625, 'result[2] = 0.2689');
-            assert((*result.at(3)).into() == 47910, 'result[4] = 0.7311');
+            assert((*result[0]).into() == 17625, 'result[0] = 0.2689');
+            assert((*result[1]).into() == 47910, 'result[1] = 0.7311');
+            assert((*result[2]).into() == 17625, 'result[2] = 0.2689');
+            assert((*result[3]).into() == 47910, 'result[4] = 0.7311');
         }
     }
 }
@@ -174,36 +174,36 @@ mod input_3D {
 
             let mut result = NNTrait::softmax(@tensor, 0).data;
 
-            assert((*result.at(0)).into() == 150879, 'result[0] = 0.01798621');
-            assert((*result.at(1)).into() == 150879, 'result[1] = 0.01798621');
-            assert((*result.at(2)).into() == 150879, 'result[2] = 0.01798621');
-            assert((*result.at(3)).into() == 150879, 'result[3] = 0.01798621');
-            assert((*result.at(4)).into() == 8237728, 'result[4] = 0.01798621');
-            assert((*result.at(5)).into() == 8237728, 'result[5] = 0.01798621');
-            assert((*result.at(6)).into() == 8237728, 'result[6] = 0.01798621');
-            assert((*result.at(7)).into() == 8237728, 'result[7] = 0.01798621');
+            assert((*result[0]).into() == 150879, 'result[0] = 0.01798621');
+            assert((*result[1]).into() == 150879, 'result[1] = 0.01798621');
+            assert((*result[2]).into() == 150879, 'result[2] = 0.01798621');
+            assert((*result[3]).into() == 150879, 'result[3] = 0.01798621');
+            assert((*result[4]).into() == 8237728, 'result[4] = 0.01798621');
+            assert((*result[5]).into() == 8237728, 'result[5] = 0.01798621');
+            assert((*result[6]).into() == 8237728, 'result[6] = 0.01798621');
+            assert((*result[7]).into() == 8237728, 'result[7] = 0.01798621');
 
             let mut result = NNTrait::softmax(@tensor, 1).data;
 
-            assert((*result.at(0)).into() == 999946, 'result[0] = 0.11920292');
-            assert((*result.at(1)).into() == 999946, 'result[1] = 0.11920292');
-            assert((*result.at(2)).into() == 7388661, 'result[2] = 0.88079708');
-            assert((*result.at(3)).into() == 7388661, 'result[3] = 0.88079708');
-            assert((*result.at(4)).into() == 999946, 'result[4] = 0.11920292');
-            assert((*result.at(5)).into() == 999946, 'result[5] = 0.11920292');
-            assert((*result.at(6)).into() == 7388661, 'result[6] = 0.88079708');
-            assert((*result.at(7)).into() == 7388661, 'result[7] = 0.88079708');
+            assert((*result[0]).into() == 999946, 'result[0] = 0.11920292');
+            assert((*result[1]).into() == 999946, 'result[1] = 0.11920292');
+            assert((*result[2]).into() == 7388661, 'result[2] = 0.88079708');
+            assert((*result[3]).into() == 7388661, 'result[3] = 0.88079708');
+            assert((*result[4]).into() == 999946, 'result[4] = 0.11920292');
+            assert((*result[5]).into() == 999946, 'result[5] = 0.11920292');
+            assert((*result[6]).into() == 7388661, 'result[6] = 0.88079708');
+            assert((*result[7]).into() == 7388661, 'result[7] = 0.88079708');
 
             let mut result = NNTrait::softmax(@tensor, 2).data;
 
-            assert((*result.at(0)).into() == 2256044, 'result[0] = 0.26894142');
-            assert((*result.at(1)).into() == 6132563, 'result[1] = 0.73105858');
-            assert((*result.at(2)).into() == 2256043, 'result[2] = 0.26894142');
-            assert((*result.at(3)).into() == 6132564, 'result[3] = 0.73105858');
-            assert((*result.at(4)).into() == 2256044, 'result[4] = 0.26894142');
-            assert((*result.at(5)).into() == 6132563, 'result[5] = 0.73105858');
-            assert((*result.at(6)).into() == 2256044, 'result[6] = 0.26894142');
-            assert((*result.at(7)).into() == 6132563, 'result[7] = 0.73105858');
+            assert((*result[0]).into() == 2256044, 'result[0] = 0.26894142');
+            assert((*result[1]).into() == 6132563, 'result[1] = 0.73105858');
+            assert((*result[2]).into() == 2256043, 'result[2] = 0.26894142');
+            assert((*result[3]).into() == 6132564, 'result[3] = 0.73105858');
+            assert((*result[4]).into() == 2256044, 'result[4] = 0.26894142');
+            assert((*result[5]).into() == 6132563, 'result[5] = 0.73105858');
+            assert((*result[6]).into() == 2256044, 'result[6] = 0.26894142');
+            assert((*result[7]).into() == 6132563, 'result[7] = 0.73105858');
         }
     }
 
@@ -232,36 +232,36 @@ mod input_3D {
 
             let mut result = NNTrait::softmax(@tensor, 0).data;
 
-            assert((*result.at(0)).into() == 1178, 'result[0] = 0.01798621');
-            assert((*result.at(1)).into() == 1178, 'result[1] = 0.01798621');
-            assert((*result.at(2)).into() == 1178, 'result[2] = 0.01798621');
-            assert((*result.at(3)).into() == 1178, 'result[3] = 0.01798621');
-            assert((*result.at(4)).into() == 64357, 'result[4] = 0.01798621');
-            assert((*result.at(5)).into() == 64357, 'result[5] = 0.01798621');
-            assert((*result.at(6)).into() == 64357, 'result[6] = 0.01798621');
-            assert((*result.at(7)).into() == 64357, 'result[7] = 0.01798621');
+            assert((*result[0]).into() == 1178, 'result[0] = 0.01798621');
+            assert((*result[1]).into() == 1178, 'result[1] = 0.01798621');
+            assert((*result[2]).into() == 1178, 'result[2] = 0.01798621');
+            assert((*result[3]).into() == 1178, 'result[3] = 0.01798621');
+            assert((*result[4]).into() == 64357, 'result[4] = 0.01798621');
+            assert((*result[5]).into() == 64357, 'result[5] = 0.01798621');
+            assert((*result[6]).into() == 64357, 'result[6] = 0.01798621');
+            assert((*result[7]).into() == 64357, 'result[7] = 0.01798621');
 
             let mut result = NNTrait::softmax(@tensor, 1).data;
 
-            assert((*result.at(0)).into() == 7812, 'result[0] = 0.11920292');
-            assert((*result.at(1)).into() == 7812, 'result[1] = 0.11920292');
-            assert((*result.at(2)).into() == 57723, 'result[2] = 0.88079708');
-            assert((*result.at(3)).into() == 57723, 'result[3] = 0.88079708');
-            assert((*result.at(4)).into() == 7812, 'result[4] = 0.11920292');
-            assert((*result.at(5)).into() == 7812, 'result[5] = 0.11920292');
-            assert((*result.at(6)).into() == 57723, 'result[6] = 0.88079708');
-            assert((*result.at(7)).into() == 57723, 'result[7] = 0.88079708');
+            assert((*result[0]).into() == 7812, 'result[0] = 0.11920292');
+            assert((*result[1]).into() == 7812, 'result[1] = 0.11920292');
+            assert((*result[2]).into() == 57723, 'result[2] = 0.88079708');
+            assert((*result[3]).into() == 57723, 'result[3] = 0.88079708');
+            assert((*result[4]).into() == 7812, 'result[4] = 0.11920292');
+            assert((*result[5]).into() == 7812, 'result[5] = 0.11920292');
+            assert((*result[6]).into() == 57723, 'result[6] = 0.88079708');
+            assert((*result[7]).into() == 57723, 'result[7] = 0.88079708');
 
             let mut result = NNTrait::softmax(@tensor, 2).data;
 
-            assert((*result.at(0)).into() == 17625, 'result[0] = 0.26894142');
-            assert((*result.at(1)).into() == 47910, 'result[1] = 0.73105858');
-            assert((*result.at(2)).into() == 17625, 'result[2] = 0.26894142');
-            assert((*result.at(3)).into() == 47910, 'result[3] = 0.73105858');
-            assert((*result.at(4)).into() == 17625, 'result[4] = 0.26894142');
-            assert((*result.at(5)).into() == 47910, 'result[5] = 0.73105858');
-            assert((*result.at(6)).into() == 17625, 'result[6] = 0.26894142');
-            assert((*result.at(7)).into() == 47910, 'result[7] = 0.73105858');
+            assert((*result[0]).into() == 17625, 'result[0] = 0.26894142');
+            assert((*result[1]).into() == 47910, 'result[1] = 0.73105858');
+            assert((*result[2]).into() == 17625, 'result[2] = 0.26894142');
+            assert((*result[3]).into() == 47910, 'result[3] = 0.73105858');
+            assert((*result[4]).into() == 17625, 'result[4] = 0.26894142');
+            assert((*result[5]).into() == 47910, 'result[5] = 0.73105858');
+            assert((*result[6]).into() == 17625, 'result[6] = 0.26894142');
+            assert((*result[7]).into() == 47910, 'result[7] = 0.73105858');
         }
     }
 }

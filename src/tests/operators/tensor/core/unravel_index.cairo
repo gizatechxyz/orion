@@ -13,7 +13,7 @@ mod tensor_1D {
         let mut shape = ArrayTrait::new();
         shape.append(5);
         let result = unravel_index(2, shape.span());
-        assert(*result.at(0) == 2, 'result[0] = 2');
+        assert(*result[0] == 2, 'result[0] = 2');
     }
 }
 
@@ -33,8 +33,8 @@ mod tensor_2D {
         shape.append(2);
         shape.append(4);
         let result = unravel_index(6, shape.span());
-        assert(*result.at(0) == 1, 'result[0] = 1');
-        assert(*result.at(1) == 2, 'result[1] = 2');
+        assert(*result[0] == 1, 'result[0] = 1');
+        assert(*result[1] == 2, 'result[1] = 2');
     }
 }
 
@@ -56,8 +56,8 @@ mod tensor_3D {
         shape.append(4);
         shape.append(6);
         let result = unravel_index(42, shape.span());
-        assert(*result.at(0) == 1, 'result[0] = 1');
-        assert(*result.at(1) == 3, 'result[1] = 3');
-        assert(*result.at(2) == 0, 'result[2] = 0');
+        assert(*result[0] == 1, 'result[0] = 1');
+        assert(*result[1] == 3, 'result[1] = 3');
+        assert(*result[2] == 0, 'result[2] = 0');
     }
 }

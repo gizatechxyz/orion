@@ -19,9 +19,9 @@ mod tensor_1D {
 
             let result = (tensor_1 + tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(2, false), 'result[1] = 2');
-            assert(*result.at(2) == IntegerTrait::new(4, false), 'result[2] = 4');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(2, false), 'result[1] = 2');
+            assert(*result[2] == IntegerTrait::new(4, false), 'result[2] = 4');
         }
     }
 
@@ -42,9 +42,9 @@ mod tensor_1D {
 
             let result = (tensor_1 - tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(0, false), 'result[1] = 0');
-            assert(*result.at(2) == IntegerTrait::new(0, false), 'result[2] = 0');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(0, false), 'result[1] = 0');
+            assert(*result[2] == IntegerTrait::new(0, false), 'result[2] = 0');
         }
     }
 
@@ -65,9 +65,9 @@ mod tensor_1D {
 
             let result = (tensor_1 * tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(1, false), 'result[1] = 1');
-            assert(*result.at(2) == IntegerTrait::new(4, false), 'result[2] = 4');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(1, false), 'result[1] = 1');
+            assert(*result[2] == IntegerTrait::new(4, false), 'result[2] = 4');
         }
     }
 
@@ -95,8 +95,8 @@ mod tensor_1D {
 
             let result = (tensor_1 / tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(1, false), 'result[0] = 1');
-            assert(*result.at(1) == IntegerTrait::new(1, false), 'result[1] = 1');
+            assert(*result[0] == IntegerTrait::new(1, false), 'result[0] = 1');
+            assert(*result[1] == IntegerTrait::new(1, false), 'result[1] = 1');
         }
     }
 }
@@ -123,10 +123,10 @@ mod tensor_2D {
 
             let result = (tensor_1 + tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(2, false), 'result[1] = 2');
-            assert(*result.at(2) == IntegerTrait::new(4, false), 'result[2] = 4');
-            assert(*result.at(3) == IntegerTrait::new(6, false), 'result[3] = 6');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(2, false), 'result[1] = 2');
+            assert(*result[2] == IntegerTrait::new(4, false), 'result[2] = 4');
+            assert(*result[3] == IntegerTrait::new(6, false), 'result[3] = 6');
         }
 
         #[test]
@@ -144,10 +144,10 @@ mod tensor_2D {
 
             let result = (tensor_1 + tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(10, false), 'result[0] = 10');
-            assert(*result.at(1) == IntegerTrait::new(101, false), 'result[1] = 101');
-            assert(*result.at(2) == IntegerTrait::new(12, false), 'result[2] = 12');
-            assert(*result.at(3) == IntegerTrait::new(103, false), 'result[3] = 103');
+            assert(*result[0] == IntegerTrait::new(10, false), 'result[0] = 10');
+            assert(*result[1] == IntegerTrait::new(101, false), 'result[1] = 101');
+            assert(*result[2] == IntegerTrait::new(12, false), 'result[2] = 12');
+            assert(*result[3] == IntegerTrait::new(103, false), 'result[3] = 103');
 
             let mut sizes = ArrayTrait::new();
             sizes.append(2);
@@ -160,10 +160,10 @@ mod tensor_2D {
 
             let result = (tensor_1 + tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(10, false), 'result[0] = 10');
-            assert(*result.at(1) == IntegerTrait::new(11, false), 'result[1] = 11');
-            assert(*result.at(2) == IntegerTrait::new(102, false), 'result[2] = 102');
-            assert(*result.at(3) == IntegerTrait::new(103, false), 'result[3] = 103');
+            assert(*result[0] == IntegerTrait::new(10, false), 'result[0] = 10');
+            assert(*result[1] == IntegerTrait::new(11, false), 'result[1] = 11');
+            assert(*result[2] == IntegerTrait::new(102, false), 'result[2] = 102');
+            assert(*result[3] == IntegerTrait::new(103, false), 'result[3] = 103');
         }
     }
 
@@ -185,10 +185,10 @@ mod tensor_2D {
 
             let result = (tensor_1 - tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(0, false), 'result[1] = 0');
-            assert(*result.at(2) == IntegerTrait::new(0, false), 'result[2] = 0');
-            assert(*result.at(3) == IntegerTrait::new(0, false), 'result[3] = 0');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(0, false), 'result[1] = 0');
+            assert(*result[2] == IntegerTrait::new(0, false), 'result[2] = 0');
+            assert(*result[3] == IntegerTrait::new(0, false), 'result[3] = 0');
         }
 
         #[test]
@@ -206,10 +206,10 @@ mod tensor_2D {
 
             let result = (tensor_1 - tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(0, false), 'result[1] = 0');
-            assert(*result.at(2) == IntegerTrait::new(2, false), 'result[2] = 2');
-            assert(*result.at(3) == IntegerTrait::new(2, false), 'result[3] = 2');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(0, false), 'result[1] = 0');
+            assert(*result[2] == IntegerTrait::new(2, false), 'result[2] = 2');
+            assert(*result[3] == IntegerTrait::new(2, false), 'result[3] = 2');
 
             let mut sizes = ArrayTrait::new();
             sizes.append(2);
@@ -222,10 +222,10 @@ mod tensor_2D {
 
             let result = (tensor_1 - tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(1, false), 'result[1] = 1');
-            assert(*result.at(2) == IntegerTrait::new(1, false), 'result[2] = 1');
-            assert(*result.at(3) == IntegerTrait::new(2, false), 'result[3] = 2');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(1, false), 'result[1] = 1');
+            assert(*result[2] == IntegerTrait::new(1, false), 'result[2] = 1');
+            assert(*result[3] == IntegerTrait::new(2, false), 'result[3] = 2');
         }
     }
 
@@ -247,10 +247,10 @@ mod tensor_2D {
 
             let result = (tensor_1 * tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(1, false), 'result[1] = 1');
-            assert(*result.at(2) == IntegerTrait::new(4, false), 'result[2] = 4');
-            assert(*result.at(3) == IntegerTrait::new(9, false), 'result[3] = 9');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(1, false), 'result[1] = 1');
+            assert(*result[2] == IntegerTrait::new(4, false), 'result[2] = 4');
+            assert(*result[3] == IntegerTrait::new(9, false), 'result[3] = 9');
         }
 
         #[test]
@@ -268,10 +268,10 @@ mod tensor_2D {
 
             let result = (tensor_1 * tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(100, false), 'result[1] = 100');
-            assert(*result.at(2) == IntegerTrait::new(20, false), 'result[2] = 20');
-            assert(*result.at(3) == IntegerTrait::new(300, false), 'result[3] = 300');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(100, false), 'result[1] = 100');
+            assert(*result[2] == IntegerTrait::new(20, false), 'result[2] = 20');
+            assert(*result[3] == IntegerTrait::new(300, false), 'result[3] = 300');
 
             let mut sizes = ArrayTrait::new();
             sizes.append(2);
@@ -284,10 +284,10 @@ mod tensor_2D {
 
             let result = (tensor_1 * tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(10, false), 'result[1] = 10');
-            assert(*result.at(2) == IntegerTrait::new(200, false), 'result[2] = 200');
-            assert(*result.at(3) == IntegerTrait::new(300, false), 'result[3] = 300');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(10, false), 'result[1] = 10');
+            assert(*result[2] == IntegerTrait::new(200, false), 'result[2] = 200');
+            assert(*result[3] == IntegerTrait::new(300, false), 'result[3] = 300');
         }
     }
 
@@ -318,10 +318,10 @@ mod tensor_2D {
 
             let result = (tensor_1 / tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(1, false), 'result[0] = 1');
-            assert(*result.at(1) == IntegerTrait::new(1, false), 'result[1] = 1');
-            assert(*result.at(2) == IntegerTrait::new(1, false), 'result[2] = 1');
-            assert(*result.at(3) == IntegerTrait::new(1, false), 'result[3] = 1');
+            assert(*result[0] == IntegerTrait::new(1, false), 'result[0] = 1');
+            assert(*result[1] == IntegerTrait::new(1, false), 'result[1] = 1');
+            assert(*result[2] == IntegerTrait::new(1, false), 'result[2] = 1');
+            assert(*result[3] == IntegerTrait::new(1, false), 'result[3] = 1');
         }
 
         #[test]
@@ -349,10 +349,10 @@ mod tensor_2D {
 
             let result = (tensor_1 / tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(10, false), 'result[0] = 10');
-            assert(*result.at(1) == IntegerTrait::new(2, false), 'result[1] = 2');
-            assert(*result.at(2) == IntegerTrait::new(30, false), 'result[2] = 30');
-            assert(*result.at(3) == IntegerTrait::new(4, false), 'result[3] = 4');
+            assert(*result[0] == IntegerTrait::new(10, false), 'result[0] = 10');
+            assert(*result[1] == IntegerTrait::new(2, false), 'result[1] = 2');
+            assert(*result[2] == IntegerTrait::new(30, false), 'result[2] = 30');
+            assert(*result[3] == IntegerTrait::new(4, false), 'result[3] = 4');
 
             let mut sizes = ArrayTrait::new();
             sizes.append(2);
@@ -365,10 +365,10 @@ mod tensor_2D {
 
             let result = (tensor_1 / tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(10, false), 'result[0] = 10');
-            assert(*result.at(1) == IntegerTrait::new(20, false), 'result[1] = 20');
-            assert(*result.at(2) == IntegerTrait::new(3, false), 'result[2] = 3');
-            assert(*result.at(3) == IntegerTrait::new(4, false), 'result[3] = 4');
+            assert(*result[0] == IntegerTrait::new(10, false), 'result[0] = 10');
+            assert(*result[1] == IntegerTrait::new(20, false), 'result[1] = 20');
+            assert(*result[2] == IntegerTrait::new(3, false), 'result[2] = 3');
+            assert(*result[3] == IntegerTrait::new(4, false), 'result[3] = 4');
         }
     }
 }
@@ -395,14 +395,14 @@ mod tensor_3D {
 
             let result = (tensor_1 + tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(2, false), 'result[1] = 2');
-            assert(*result.at(2) == IntegerTrait::new(4, false), 'result[2] = 4');
-            assert(*result.at(3) == IntegerTrait::new(6, false), 'result[3] = 6');
-            assert(*result.at(4) == IntegerTrait::new(8, false), 'result[4] = 8');
-            assert(*result.at(5) == IntegerTrait::new(10, false), 'result[5] = 10');
-            assert(*result.at(6) == IntegerTrait::new(12, false), 'result[6] = 12');
-            assert(*result.at(7) == IntegerTrait::new(14, false), 'result[7] = 14');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(2, false), 'result[1] = 2');
+            assert(*result[2] == IntegerTrait::new(4, false), 'result[2] = 4');
+            assert(*result[3] == IntegerTrait::new(6, false), 'result[3] = 6');
+            assert(*result[4] == IntegerTrait::new(8, false), 'result[4] = 8');
+            assert(*result[5] == IntegerTrait::new(10, false), 'result[5] = 10');
+            assert(*result[6] == IntegerTrait::new(12, false), 'result[6] = 12');
+            assert(*result[7] == IntegerTrait::new(14, false), 'result[7] = 14');
         }
 
         #[test]
@@ -422,14 +422,14 @@ mod tensor_3D {
 
             let result = (tensor_1 + tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(10, false), 'result[0] = 10');
-            assert(*result.at(1) == IntegerTrait::new(11, false), 'result[1] = 11');
-            assert(*result.at(2) == IntegerTrait::new(102, false), 'result[2] = 102');
-            assert(*result.at(3) == IntegerTrait::new(103, false), 'result[3] = 103');
-            assert(*result.at(4) == IntegerTrait::new(14, false), 'result[4] = 14');
-            assert(*result.at(5) == IntegerTrait::new(15, false), 'result[5] = 15');
-            assert(*result.at(6) == IntegerTrait::new(106, false), 'result[6] = 106');
-            assert(*result.at(7) == IntegerTrait::new(107, false), 'result[7] = 107');
+            assert(*result[0] == IntegerTrait::new(10, false), 'result[0] = 10');
+            assert(*result[1] == IntegerTrait::new(11, false), 'result[1] = 11');
+            assert(*result[2] == IntegerTrait::new(102, false), 'result[2] = 102');
+            assert(*result[3] == IntegerTrait::new(103, false), 'result[3] = 103');
+            assert(*result[4] == IntegerTrait::new(14, false), 'result[4] = 14');
+            assert(*result[5] == IntegerTrait::new(15, false), 'result[5] = 15');
+            assert(*result[6] == IntegerTrait::new(106, false), 'result[6] = 106');
+            assert(*result[7] == IntegerTrait::new(107, false), 'result[7] = 107');
 
             let mut sizes = ArrayTrait::new();
             sizes.append(2);
@@ -443,14 +443,14 @@ mod tensor_3D {
 
             let result = (tensor_1 + tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(10, false), 'result[0] = 10');
-            assert(*result.at(1) == IntegerTrait::new(11, false), 'result[1] = 11');
-            assert(*result.at(2) == IntegerTrait::new(12, false), 'result[2] = 12');
-            assert(*result.at(3) == IntegerTrait::new(13, false), 'result[3] = 13');
-            assert(*result.at(4) == IntegerTrait::new(104, false), 'result[4] = 104');
-            assert(*result.at(5) == IntegerTrait::new(105, false), 'result[5] = 105');
-            assert(*result.at(6) == IntegerTrait::new(106, false), 'result[6] = 106');
-            assert(*result.at(7) == IntegerTrait::new(107, false), 'result[7] = 107');
+            assert(*result[0] == IntegerTrait::new(10, false), 'result[0] = 10');
+            assert(*result[1] == IntegerTrait::new(11, false), 'result[1] = 11');
+            assert(*result[2] == IntegerTrait::new(12, false), 'result[2] = 12');
+            assert(*result[3] == IntegerTrait::new(13, false), 'result[3] = 13');
+            assert(*result[4] == IntegerTrait::new(104, false), 'result[4] = 104');
+            assert(*result[5] == IntegerTrait::new(105, false), 'result[5] = 105');
+            assert(*result[6] == IntegerTrait::new(106, false), 'result[6] = 106');
+            assert(*result[7] == IntegerTrait::new(107, false), 'result[7] = 107');
 
             let mut sizes = ArrayTrait::new();
             sizes.append(1);
@@ -464,14 +464,14 @@ mod tensor_3D {
 
             let result = (tensor_1 + tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(10, false), 'result[0] = 10');
-            assert(*result.at(1) == IntegerTrait::new(101, false), 'result[1] = 101');
-            assert(*result.at(2) == IntegerTrait::new(12, false), 'result[2] = 12');
-            assert(*result.at(3) == IntegerTrait::new(103, false), 'result[3] = 103');
-            assert(*result.at(4) == IntegerTrait::new(14, false), 'result[4] = 14');
-            assert(*result.at(5) == IntegerTrait::new(105, false), 'result[5] = 105');
-            assert(*result.at(6) == IntegerTrait::new(16, false), 'result[6] = 16');
-            assert(*result.at(7) == IntegerTrait::new(107, false), 'result[7] = 107');
+            assert(*result[0] == IntegerTrait::new(10, false), 'result[0] = 10');
+            assert(*result[1] == IntegerTrait::new(101, false), 'result[1] = 101');
+            assert(*result[2] == IntegerTrait::new(12, false), 'result[2] = 12');
+            assert(*result[3] == IntegerTrait::new(103, false), 'result[3] = 103');
+            assert(*result[4] == IntegerTrait::new(14, false), 'result[4] = 14');
+            assert(*result[5] == IntegerTrait::new(105, false), 'result[5] = 105');
+            assert(*result[6] == IntegerTrait::new(16, false), 'result[6] = 16');
+            assert(*result[7] == IntegerTrait::new(107, false), 'result[7] = 107');
         }
     }
 
@@ -493,14 +493,14 @@ mod tensor_3D {
 
             let result = (tensor_1 - tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(0, false), 'result[1] = 0');
-            assert(*result.at(2) == IntegerTrait::new(0, false), 'result[2] = 0');
-            assert(*result.at(3) == IntegerTrait::new(0, false), 'result[3] = 0');
-            assert(*result.at(4) == IntegerTrait::new(0, false), 'result[4] = 0');
-            assert(*result.at(5) == IntegerTrait::new(0, false), 'result[5] = 0');
-            assert(*result.at(6) == IntegerTrait::new(0, false), 'result[6] = 0');
-            assert(*result.at(7) == IntegerTrait::new(0, false), 'result[7] = 0');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(0, false), 'result[1] = 0');
+            assert(*result[2] == IntegerTrait::new(0, false), 'result[2] = 0');
+            assert(*result[3] == IntegerTrait::new(0, false), 'result[3] = 0');
+            assert(*result[4] == IntegerTrait::new(0, false), 'result[4] = 0');
+            assert(*result[5] == IntegerTrait::new(0, false), 'result[5] = 0');
+            assert(*result[6] == IntegerTrait::new(0, false), 'result[6] = 0');
+            assert(*result[7] == IntegerTrait::new(0, false), 'result[7] = 0');
         }
 
         #[test]
@@ -520,14 +520,14 @@ mod tensor_3D {
 
             let result = (tensor_1 - tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(1, false), 'result[1] = 1');
-            assert(*result.at(2) == IntegerTrait::new(1, false), 'result[2] = 1');
-            assert(*result.at(3) == IntegerTrait::new(2, false), 'result[3] = 2');
-            assert(*result.at(4) == IntegerTrait::new(4, false), 'result[4] = 4');
-            assert(*result.at(5) == IntegerTrait::new(5, false), 'result[5] = 5');
-            assert(*result.at(6) == IntegerTrait::new(5, false), 'result[6] = 5');
-            assert(*result.at(7) == IntegerTrait::new(6, false), 'result[7] = 6');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(1, false), 'result[1] = 1');
+            assert(*result[2] == IntegerTrait::new(1, false), 'result[2] = 1');
+            assert(*result[3] == IntegerTrait::new(2, false), 'result[3] = 2');
+            assert(*result[4] == IntegerTrait::new(4, false), 'result[4] = 4');
+            assert(*result[5] == IntegerTrait::new(5, false), 'result[5] = 5');
+            assert(*result[6] == IntegerTrait::new(5, false), 'result[6] = 5');
+            assert(*result[7] == IntegerTrait::new(6, false), 'result[7] = 6');
         }
     }
 
@@ -549,14 +549,14 @@ mod tensor_3D {
 
             let result = (tensor_1 * tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(1, false), 'result[1] = 1');
-            assert(*result.at(2) == IntegerTrait::new(4, false), 'result[2] = 4');
-            assert(*result.at(3) == IntegerTrait::new(9, false), 'result[3] = 9');
-            assert(*result.at(4) == IntegerTrait::new(16, false), 'result[4] = 16');
-            assert(*result.at(5) == IntegerTrait::new(25, false), 'result[5] = 25');
-            assert(*result.at(6) == IntegerTrait::new(36, false), 'result[6] = 36');
-            assert(*result.at(7) == IntegerTrait::new(49, false), 'result[7] = 49');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(1, false), 'result[1] = 1');
+            assert(*result[2] == IntegerTrait::new(4, false), 'result[2] = 4');
+            assert(*result[3] == IntegerTrait::new(9, false), 'result[3] = 9');
+            assert(*result[4] == IntegerTrait::new(16, false), 'result[4] = 16');
+            assert(*result[5] == IntegerTrait::new(25, false), 'result[5] = 25');
+            assert(*result[6] == IntegerTrait::new(36, false), 'result[6] = 36');
+            assert(*result[7] == IntegerTrait::new(49, false), 'result[7] = 49');
         }
 
         #[test]
@@ -576,14 +576,14 @@ mod tensor_3D {
 
             let result = (tensor_1 * tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(0, false), 'result[0] = 0');
-            assert(*result.at(1) == IntegerTrait::new(10, false), 'result[1] = 10');
-            assert(*result.at(2) == IntegerTrait::new(200, false), 'result[2] = 200');
-            assert(*result.at(3) == IntegerTrait::new(300, false), 'result[3] = 300');
-            assert(*result.at(4) == IntegerTrait::new(40, false), 'result[4] = 40');
-            assert(*result.at(5) == IntegerTrait::new(50, false), 'result[5] = 50');
-            assert(*result.at(6) == IntegerTrait::new(600, false), 'result[6] = 600');
-            assert(*result.at(7) == IntegerTrait::new(700, false), 'result[7] = 700');
+            assert(*result[0] == IntegerTrait::new(0, false), 'result[0] = 0');
+            assert(*result[1] == IntegerTrait::new(10, false), 'result[1] = 10');
+            assert(*result[2] == IntegerTrait::new(200, false), 'result[2] = 200');
+            assert(*result[3] == IntegerTrait::new(300, false), 'result[3] = 300');
+            assert(*result[4] == IntegerTrait::new(40, false), 'result[4] = 40');
+            assert(*result[5] == IntegerTrait::new(50, false), 'result[5] = 50');
+            assert(*result[6] == IntegerTrait::new(600, false), 'result[6] = 600');
+            assert(*result[7] == IntegerTrait::new(700, false), 'result[7] = 700');
         }
     }
 
@@ -618,14 +618,14 @@ mod tensor_3D {
 
             let result = (tensor_1 / tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(1, false), 'result[0] = 1');
-            assert(*result.at(1) == IntegerTrait::new(1, false), 'result[1] = 1');
-            assert(*result.at(2) == IntegerTrait::new(1, false), 'result[2] = 1');
-            assert(*result.at(3) == IntegerTrait::new(1, false), 'result[3] = 1');
-            assert(*result.at(4) == IntegerTrait::new(1, false), 'result[4] = 1');
-            assert(*result.at(5) == IntegerTrait::new(1, false), 'result[5] = 1');
-            assert(*result.at(6) == IntegerTrait::new(1, false), 'result[6] = 1');
-            assert(*result.at(7) == IntegerTrait::new(1, false), 'result[7] = 1');
+            assert(*result[0] == IntegerTrait::new(1, false), 'result[0] = 1');
+            assert(*result[1] == IntegerTrait::new(1, false), 'result[1] = 1');
+            assert(*result[2] == IntegerTrait::new(1, false), 'result[2] = 1');
+            assert(*result[3] == IntegerTrait::new(1, false), 'result[3] = 1');
+            assert(*result[4] == IntegerTrait::new(1, false), 'result[4] = 1');
+            assert(*result[5] == IntegerTrait::new(1, false), 'result[5] = 1');
+            assert(*result[6] == IntegerTrait::new(1, false), 'result[6] = 1');
+            assert(*result[7] == IntegerTrait::new(1, false), 'result[7] = 1');
         }
 
         #[test]
@@ -659,14 +659,14 @@ mod tensor_3D {
 
             let result = (tensor_1 / tensor_2).data;
 
-            assert(*result.at(0) == IntegerTrait::new(10, false), 'result[0] = 10');
-            assert(*result.at(1) == IntegerTrait::new(20, false), 'result[1] = 20');
-            assert(*result.at(2) == IntegerTrait::new(3, false), 'result[2] = 3');
-            assert(*result.at(3) == IntegerTrait::new(4, false), 'result[3] = 4');
-            assert(*result.at(4) == IntegerTrait::new(50, false), 'result[4] = 50');
-            assert(*result.at(5) == IntegerTrait::new(60, false), 'result[5] = 60');
-            assert(*result.at(6) == IntegerTrait::new(7, false), 'result[6] = 7');
-            assert(*result.at(7) == IntegerTrait::new(8, false), 'result[7] = 8');
+            assert(*result[0] == IntegerTrait::new(10, false), 'result[0] = 10');
+            assert(*result[1] == IntegerTrait::new(20, false), 'result[1] = 20');
+            assert(*result[2] == IntegerTrait::new(3, false), 'result[2] = 3');
+            assert(*result[3] == IntegerTrait::new(4, false), 'result[3] = 4');
+            assert(*result[4] == IntegerTrait::new(50, false), 'result[4] = 50');
+            assert(*result[5] == IntegerTrait::new(60, false), 'result[5] = 60');
+            assert(*result[6] == IntegerTrait::new(7, false), 'result[6] = 7');
+            assert(*result[7] == IntegerTrait::new(8, false), 'result[7] = 8');
         }
     }
 }
