@@ -174,7 +174,7 @@ fn permutation_output_shape(input_shape: Span<usize>, mut axes: Span<usize>) -> 
             break ();
         }
 
-        output_shape.append(*input_shape.at(*axes.pop_front().unwrap()));
+        output_shape.append(*input_shape[*axes.pop_front().unwrap()]);
         axis += 1;
     };
 
@@ -211,9 +211,9 @@ fn combine_indices(output_indices: Span<usize>, axis_index: usize, axis: usize) 
         if n == axis {
             result.append(axis_index);
         } else if n > axis {
-            result.append(*output_indices.at(n - 1_usize));
+            result.append(*output_indices[n - 1_usize]);
         } else {
-            result.append(*output_indices.at(n));
+            result.append(*output_indices[n]);
         }
 
         n += 1;

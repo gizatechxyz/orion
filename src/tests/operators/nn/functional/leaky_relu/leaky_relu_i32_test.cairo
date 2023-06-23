@@ -45,11 +45,11 @@ mod input_1D {
 
             let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
-            assert((*result.data.at(0)).into() == 8388608, 'result[0] == 8388608'); // 1
+            assert((*result.data[0]).into() == 8388608, 'result[0] == 8388608'); // 1
             assert(
-                (*result.data.at(3)).into() == -1677722, 'result[3] == - 1677722'
+                (*result.data[3]).into() == -1677722, 'result[3] == - 1677722'
             ); // 2 * 0.1 = - 0.2
-            assert((*result.data.at(5)).into() == 0, 'result[5] == 0');
+            assert((*result.data[5]).into() == 0, 'result[5] == 0');
         }
     }
 
@@ -98,11 +98,11 @@ mod input_1D {
 
             let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
-            assert((*result.data.at(0)).into() == 65536, 'result[0] == 65536'); // 1
+            assert((*result.data[0]).into() == 65536, 'result[0] == 65536'); // 1
             assert(
-                (*result.data.at(3)).into() == -13108, 'result[3] == - 13108'
+                (*result.data[3]).into() == -13108, 'result[3] == - 13108'
             ); // 2 * 0.1 = - 0.2
-            assert((*result.data.at(5)).into() == 0, 'result[5] == 0');
+            assert((*result.data[5]).into() == 0, 'result[5] == 0');
         }
     }
 }
@@ -156,11 +156,11 @@ mod input_2D {
 
             let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
-            assert((*result.data.at(0)).into() == 8388608, 'result[0] == 8388608'); // 1
+            assert((*result.data[0]).into() == 8388608, 'result[0] == 8388608'); // 1
             assert(
-                (*result.data.at(3)).into() == -1677722, 'result[3] == - 1677722'
+                (*result.data[3]).into() == -1677722, 'result[3] == - 1677722'
             ); // 2 * 0.1 = - 0.2
-            assert((*result.data.at(5)).into() == 0, 'result[5] == 0');
+            assert((*result.data[5]).into() == 0, 'result[5] == 0');
         }
     }
 
@@ -210,11 +210,11 @@ mod input_2D {
 
             let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
-            assert((*result.data.at(0)).into() == 65536, 'result[0] == 65536'); // 1
+            assert((*result.data[0]).into() == 65536, 'result[0] == 65536'); // 1
             assert(
-                (*result.data.at(3)).into() == -13108, 'result[3] == - 13108'
+                (*result.data[3]).into() == -13108, 'result[3] == - 13108'
             ); // 2 * 0.1 = - 0.2
-            assert((*result.data.at(5)).into() == 0, 'result[5] == 0');
+            assert((*result.data[5]).into() == 0, 'result[5] == 0');
         }
     }
 }
@@ -272,11 +272,11 @@ mod input_3D {
 
             let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
-            assert((*result.data.at(0)).into() == 8388608, 'result[0] == 8388608'); // 1
+            assert((*result.data[0]).into() == 8388608, 'result[0] == 8388608'); // 1
             assert(
-                (*result.data.at(3)).into() == -1677722, 'result[3] == - 1677722'
+                (*result.data[3]).into() == -1677722, 'result[3] == - 1677722'
             ); // 2 * 0.1 = - 0.2
-            assert((*result.data.at(5)).into() == 0, 'result[5] == 0');
+            assert((*result.data[5]).into() == 0, 'result[5] == 0');
         }
     }
 
@@ -331,11 +331,11 @@ mod input_3D {
 
             let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
-            assert((*result.data.at(0)).into() == 65536, 'result[0] == 65536'); // 1
+            assert((*result.data[0]).into() == 65536, 'result[0] == 65536'); // 1
             assert(
-                (*result.data.at(3)).into() == -13108, 'result[3] == - 13108'
+                (*result.data[3]).into() == -13108, 'result[3] == - 13108'
             ); // 2 * 0.1 = - 0.2
-            assert((*result.data.at(5)).into() == 0, 'result[5] == 0');
+            assert((*result.data[5]).into() == 0, 'result[5] == 0');
         }
     }
 }

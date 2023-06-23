@@ -31,7 +31,7 @@ fn equal(y: @Tensor<i32>, z: @Tensor<i32>) -> Tensor<usize> {
         };
 
         let bigger_current_index = *bigger_data.pop_front().unwrap();
-        let smaller_current_index = *smaller_data.at(smaller_index);
+        let smaller_current_index = *smaller_data[smaller_index];
         
         if bigger_current_index == smaller_current_index {
             data_result.append(1);

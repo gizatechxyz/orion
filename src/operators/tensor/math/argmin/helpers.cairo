@@ -99,13 +99,13 @@ fn find_argmin< T,
 ) -> usize {
     check_gas();
 
-    if axis_index == *(*input.shape).at(axis) {
+    if axis_index == *(*input.shape)[axis] {
         return argmin;
     }
 
     let input_indices = combine_indices(output_indices, axis_index, axis);
     let input_index = ravel_index(*input.shape, input_indices);
-    let ele = *(*input.data).at(input_index);
+    let ele = *(*input.data)[input_index];
 
     let (new_min_value, new_argmin) = if ele < min_value {
         (ele, axis_index)

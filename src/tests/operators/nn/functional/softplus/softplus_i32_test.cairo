@@ -38,10 +38,10 @@ mod input_1D {
             let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
             let mut result = NNTrait::softplus(@tensor);
 
-            assert((*result.data.at(0)).into() == 5814556, 'result[0] == 5814556'); // 0.6931452
-            assert((*result.data.at(1)).into() == 11016447, 'result[1] == 11016447'); // 1.31326096
-            assert((*result.data.at(2)).into() == 1064751, 'result[2] == 1064751'); // 0.12692797
-            assert((*result.data.at(3)).into() == 407580, 'result[3] == 407580'); // 0.04858729
+            assert((*result.data[0]).into() == 5814556, 'result[0] == 5814556'); // 0.6931452
+            assert((*result.data[1]).into() == 11016447, 'result[1] == 11016447'); // 1.31326096
+            assert((*result.data[2]).into() == 1064751, 'result[2] == 1064751'); // 0.12692797
+            assert((*result.data[3]).into() == 407580, 'result[3] == 407580'); // 0.04858729
         }
     }
 
@@ -84,10 +84,10 @@ mod input_1D {
             let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
             let mut result = NNTrait::softplus(@tensor);
 
-            assert((*result.data.at(0)).into() == 45355, 'result[0] == 45355'); // 0.6931452
-            assert((*result.data.at(1)).into() == 86022, 'result[1] == 86022'); // 1.31326096
-            assert((*result.data.at(2)).into() == 8315, 'result[2] == 8315'); // 0.12692797
-            assert((*result.data.at(3)).into() == 3182, 'result[3] == 3182'); // 0.04858729
+            assert((*result.data[0]).into() == 45355, 'result[0] == 45355'); // 0.6931452
+            assert((*result.data[1]).into() == 86022, 'result[1] == 86022'); // 1.31326096
+            assert((*result.data[2]).into() == 8315, 'result[2] == 8315'); // 0.12692797
+            assert((*result.data[3]).into() == 3182, 'result[3] == 3182'); // 0.04858729
         }
     }
 }
@@ -133,10 +133,10 @@ mod input_2D {
             let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
             let mut result = NNTrait::softplus(@tensor);
 
-            assert((*result.data.at(0)).into() == 5814556, 'result[0] == 5814556'); // 0.6931452
-            assert((*result.data.at(1)).into() == 11016447, 'result[1] == 11016447'); // 1.31326096
-            assert((*result.data.at(2)).into() == 1064751, 'result[2] == 1064751'); // 0.12692797
-            assert((*result.data.at(3)).into() == 407580, 'result[3] == 407580'); // 0.04858729
+            assert((*result.data[0]).into() == 5814556, 'result[0] == 5814556'); // 0.6931452
+            assert((*result.data[1]).into() == 11016447, 'result[1] == 11016447'); // 1.31326096
+            assert((*result.data[2]).into() == 1064751, 'result[2] == 1064751'); // 0.12692797
+            assert((*result.data[3]).into() == 407580, 'result[3] == 407580'); // 0.04858729
         }
     }
 
@@ -180,10 +180,10 @@ mod input_2D {
             let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
             let mut result = NNTrait::softplus(@tensor);
 
-            assert((*result.data.at(0)).into() == 45355, 'result[0] == 45355'); // 0.6931452
-            assert((*result.data.at(1)).into() == 86022, 'result[1] == 86022'); // 1.31326096
-            assert((*result.data.at(2)).into() == 8315, 'result[2] == 8315'); // 0.12692797
-            assert((*result.data.at(3)).into() == 3182, 'result[3] == 3182'); // 0.04858729
+            assert((*result.data[0]).into() == 45355, 'result[0] == 45355'); // 0.6931452
+            assert((*result.data[1]).into() == 86022, 'result[1] == 86022'); // 1.31326096
+            assert((*result.data[2]).into() == 8315, 'result[2] == 8315'); // 0.12692797
+            assert((*result.data[3]).into() == 3182, 'result[3] == 3182'); // 0.04858729
         }
     }
 }
@@ -238,14 +238,14 @@ mod input_3D {
             let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
             let mut result = NNTrait::softplus(@tensor);
 
-            assert((*result.data.at(0)).into() == 5814556, 'result[0] == 5814556'); // 0.6931452
-            assert((*result.data.at(1)).into() == 11016447, 'result[1] == 11016447'); // 1.31326096
-            assert((*result.data.at(2)).into() == 1064751, 'result[2] == 1064751'); // 0.12692797
-            assert((*result.data.at(3)).into() == 407580, 'result[3] == 407580'); // 0.04858729
-            assert((*result.data.at(4)).into() == 5814556, 'result[4] == 5814556'); // 0.6931452
-            assert((*result.data.at(5)).into() == 11016447, 'result[5] == 11016447'); // 1.31326096
-            assert((*result.data.at(6)).into() == 1064751, 'result[6] == 1064751'); // 0.12692797
-            assert((*result.data.at(7)).into() == 407580, 'result[7] == 407580'); // 0.04858729
+            assert((*result.data[0]).into() == 5814556, 'result[0] == 5814556'); // 0.6931452
+            assert((*result.data[1]).into() == 11016447, 'result[1] == 11016447'); // 1.31326096
+            assert((*result.data[2]).into() == 1064751, 'result[2] == 1064751'); // 0.12692797
+            assert((*result.data[3]).into() == 407580, 'result[3] == 407580'); // 0.04858729
+            assert((*result.data[4]).into() == 5814556, 'result[4] == 5814556'); // 0.6931452
+            assert((*result.data[5]).into() == 11016447, 'result[5] == 11016447'); // 1.31326096
+            assert((*result.data[6]).into() == 1064751, 'result[6] == 1064751'); // 0.12692797
+            assert((*result.data[7]).into() == 407580, 'result[7] == 407580'); // 0.04858729
         }
     }
 
@@ -298,14 +298,14 @@ mod input_3D {
             let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
             let mut result = NNTrait::softplus(@tensor);
 
-            assert((*result.data.at(0)).into() == 45355, 'result[0] == 45355'); // 0.6931452
-            assert((*result.data.at(1)).into() == 86022, 'result[1] == 86022'); // 1.31326096
-            assert((*result.data.at(2)).into() == 8315, 'result[2] == 8315'); // 0.12692797
-            assert((*result.data.at(3)).into() == 3182, 'result[3] == 3182'); // 0.04858729
-            assert((*result.data.at(4)).into() == 45355, 'result[4] == 45355'); // 0.6931452
-            assert((*result.data.at(5)).into() == 86022, 'result[5] == 86022'); // 1.31326096
-            assert((*result.data.at(6)).into() == 8315, 'result[6] == 8315'); // 0.12692797
-            assert((*result.data.at(7)).into() == 3182, 'result[7] == 3182'); // 0.04858729
+            assert((*result.data[0]).into() == 45355, 'result[0] == 45355'); // 0.6931452
+            assert((*result.data[1]).into() == 86022, 'result[1] == 86022'); // 1.31326096
+            assert((*result.data[2]).into() == 8315, 'result[2] == 8315'); // 0.12692797
+            assert((*result.data[3]).into() == 3182, 'result[3] == 3182'); // 0.04858729
+            assert((*result.data[4]).into() == 45355, 'result[4] == 45355'); // 0.6931452
+            assert((*result.data[5]).into() == 86022, 'result[5] == 86022'); // 1.31326096
+            assert((*result.data[6]).into() == 8315, 'result[6] == 8315'); // 0.12692797
+            assert((*result.data[7]).into() == 3182, 'result[7] == 3182'); // 0.04858729
         }
     }
 }
