@@ -32,6 +32,7 @@ You can see below the list of current supported ONNX Operators:
 |  Softsign  | :white_check_mark: |
 |  Softplus  | :white_check_mark: |
 |   Linear   | :white_check_mark: |
+|   Cumsum   | :white_check_mark: |
 
 Performance optimizations:
 
@@ -39,4 +40,4 @@ Performance optimizations:
 | :----------------: | :----------------: |
 | 8-bit quantization | :white_check_mark: |
 
-Current Operators support: **24/156 (15%)**
+Current Operators support: **27/156 (17%)**
