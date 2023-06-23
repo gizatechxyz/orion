@@ -309,3 +309,40 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
 
     return result.span();
 }
+
+
+
+/// Substitute a value in a shape at a given index
+/// 
+/// # Arguments
+///
+/// * `shape` - The shape to modify
+/// * `index` - The index to modify
+/// * `value` - The value to insert
+///
+/// # Panics
+/// * Panics if the index is out of bounds
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * `Span<usize>` - The modified shape
+fn replace_index(
+    mut shape: Span<usize>, 
+    index: usize,
+    value: usize
+    ) -> Span<usize> { 
+    let mut output = ArrayTrait::new();
+    let mut i = 0;
+    loop {
+        if i == shape.len() {
+            break ();
+        };
+        if i == index {
+            output.append(value);
+        } else {
+            output.append(*shape[i]);
+        };
+        i += 1;
+    };
+    return output.span();
+}
