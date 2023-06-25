@@ -5,3 +5,4 @@ Scarb
 target
 
 neural_network/.venv
+.DS_Store
