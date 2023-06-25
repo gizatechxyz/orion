@@ -4,15 +4,15 @@ To see the full list of available ONNX Operators refer to [this table](https://g
 
 You can see below the list of current supported ONNX Operators:
 
-|                           Operator                          |      Implemented     |
+|                          Operator                           |     Implemented      |
 | :---------------------------------------------------------: | :------------------: |
 |         [MatMul](operators/tensor/tensor.matmul.md)         | :white\_check\_mark: |
-|      [MatMulInteger](operators/tensor/tensor.matmul.md)     | :white\_check\_mark: |
-|        [Add](operators/tensor/#arithmetic-operations)       | :white\_check\_mark: |
-|        [Sub](operators/tensor/#arithmetic-operations)       | :white\_check\_mark: |
-|        [Mul](operators/tensor/#arithmetic-operations)       | :white\_check\_mark: |
-|        [Div](operators/tensor/#arithmetic-operations)       | :white\_check\_mark: |
-|            [Equal](operators/tensor/tensor.eq.md)           | :white\_check\_mark: |
+|     [MatMulInteger](operators/tensor/tensor.matmul.md)      | :white\_check\_mark: |
+|       [Add](operators/tensor/#arithmetic-operations)        | :white\_check\_mark: |
+|       [Sub](operators/tensor/#arithmetic-operations)        | :white\_check\_mark: |
+|       [Mul](operators/tensor/#arithmetic-operations)        | :white\_check\_mark: |
+|       [Div](operators/tensor/#arithmetic-operations)        | :white\_check\_mark: |
+|           [Equal](operators/tensor/tensor.eq.md)            | :white\_check\_mark: |
 |        [Greater](operators/tensor/tensor.greater.md)        | :white\_check\_mark: |
 | [GreaterOrEqual](operators/tensor/tensor.greater\_equal.md) | :white\_check\_mark: |
 |           [Less](operators/tensor/tensor.less.md)           | :white\_check\_mark: |
@@ -26,6 +26,7 @@ You can see below the list of current supported ONNX Operators:
 |         [ArgMax](operators/tensor/tensor.argmax.md)         | :white\_check\_mark: |
 |         [ArgMin](operators/tensor/tensor.argmin.md)         | :white\_check\_mark: |
 |     [ReduceSum](operators/tensor/tensor.reduce\_sum.md)     | :white\_check\_mark: |
+|         [CumSum](operators/tensor/tensor.cumsum.md)         | :white\_check\_mark: |
 |         [Relu](operators/neural-network/nn.relu.md)         | :white\_check\_mark: |
 |   [LeakyRelu](operators/neural-network/nn.leaky\_relu.md)   | :white\_check\_mark: |
 |      [Sigmoid](operators/neural-network/nn.sigmoid.md)      | :white\_check\_mark: |
@@ -37,8 +38,8 @@ You can see below the list of current supported ONNX Operators:
 
 Performance optimizations:
 
-|    Optimization    |      Implemented     |
+|    Optimization    |     Implemented      |
 | :----------------: | :------------------: |
 | 8-bit quantization | :white\_check\_mark: |
 
-Current Operators support: **28/156 (18%)**
+Current Operators support: **27/156 (17%)**

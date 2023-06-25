@@ -73,6 +73,7 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.less_equal`](tensor.less\_equal.md) | Check if each element of the first tensor is less than or equal to the corresponding element of the second tensor. |
 | [`tensor.abs`](tensor.abs.md) | Computes the absolute value of all elements in the input tensor. |
 | [`tensor.ceil`](tensor.ceil.md) | Rounds up the value of each element in the input tensor. |
+| [`tensor.cumsum`](tensor.cumsum.md) | Returns the cumulative sum of the elements along a given axis. |
 
 ### Arithmetic Operations
 

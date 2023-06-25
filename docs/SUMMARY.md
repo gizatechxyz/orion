@@ -33,6 +33,7 @@
     * [tensor.less\_equal](apis/operators/tensor/tensor.less\_equal.md)
     * [tensor.abs](apis/operators/tensor/tensor.abs.md)
     * [tensor.ceil](apis/operators/tensor/tensor.ceil.md)
+    * [tensor.cumsum](apis/operators/tensor/tensor.cumsum.md)
   * [Neural Network](apis/operators/neural-network/README.md)
     * [nn.relu](apis/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](apis/operators/neural-network/nn.leaky\_relu.md)
