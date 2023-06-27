@@ -29,6 +29,9 @@ use orion::operators::tensor::math::ln::ln_u32::core::ln_u32;
 use orion::operators::tensor::math::arithmetic::arithmetic_u32::{add, sub, mul, div};
 use orion::utils::check_gas;
 
+use orion::operators::tensor::math::sin::sin_u32::core::sin_u32;
+
+
 impl Tensor_u32 of TensorTrait<u32> {
     fn new(shape: Span<usize>, data: Span<u32>, extra: Option<ExtraParams>) -> Tensor<u32> {
         new_tensor(shape, data, extra)
@@ -66,11 +69,15 @@ impl Tensor_u32 of TensorTrait<u32> {
         reduce_sum(self, axis, keepdims)
     }
 
-    fn argmax(self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+    fn argmax(
+        self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize> {
         argmax(self, axis, keepdims, select_last_index)
     }
 
-    fn argmin(self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+    fn argmin(
+        self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize> {
         argmin(self, axis, keepdims, select_last_index)
     }
 
@@ -117,6 +124,10 @@ impl Tensor_u32 of TensorTrait<u32> {
 
     fn ceil(self: @Tensor<u32>) -> Tensor<u32> {
         ceil(self)
+    }
+
+    fn sin(self: @Tensor<u32>) -> Tensor<FixedType> {
+        sin_u32(self).unwrap()
     }
 }
 

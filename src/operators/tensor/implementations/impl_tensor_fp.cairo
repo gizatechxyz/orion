@@ -29,6 +29,8 @@ use orion::operators::tensor::math::greater::greater_fp::core::greater;
 use orion::operators::tensor::math::greater_equal::greater_equal_fp::core::greater_equal;
 use orion::utils::check_gas;
 
+use orion::operators::tensor::math::sin::sin_fp::core::sin;
+
 impl Tensor_fp of TensorTrait<FixedType> {
     fn new(
         shape: Span<usize>, data: Span<FixedType>, extra: Option<ExtraParams>
@@ -68,11 +70,21 @@ impl Tensor_fp of TensorTrait<FixedType> {
         reduce_sum(self, axis, keepdims).unwrap()
     }
 
-    fn argmax(self: @Tensor<FixedType>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+    fn argmax(
+        self: @Tensor<FixedType>,
+        axis: usize,
+        keepdims: Option<bool>,
+        select_last_index: Option<bool>
+    ) -> Tensor<usize> {
         argmax(self, axis, keepdims, select_last_index).unwrap()
     }
 
-    fn argmin(self: @Tensor<FixedType>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+    fn argmin(
+        self: @Tensor<FixedType>,
+        axis: usize,
+        keepdims: Option<bool>,
+        select_last_index: Option<bool>
+    ) -> Tensor<usize> {
         argmin(self, axis, keepdims, select_last_index).unwrap()
     }
 
@@ -118,6 +130,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn ceil(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         ceil(self).unwrap()
+    }
+
+    fn sin(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        sin(self).unwrap()
     }
 }
 

@@ -535,7 +535,9 @@ trait TensorTrait<T> {
     /// >>> [[[1,1],[1,1]]]
     /// ```
     ///
-    fn argmax(self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize>;
+    fn argmax(
+        self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize>;
     /// # tensor.argmin
     ///
     /// ```rust 
@@ -603,7 +605,9 @@ trait TensorTrait<T> {
     /// >>> [[[0,0],[1,1]]]
     /// ```
     ///
-    fn argmin(self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize>;
+    fn argmin(
+        self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize>;
     /// # tensor.matmul
     ///
     /// ```rust 
@@ -1116,6 +1120,8 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn ceil(self: @Tensor<T>) -> Tensor<T>;
+
+    fn sin(self: @Tensor<T>) -> Tensor<FixedType>;
 }
 
 /// Cf: TensorTrait::new docstring
@@ -1219,3 +1225,4 @@ fn at_tensor<T>(self: @Tensor<T>, indices: Span<usize>) -> @T {
 
     return data.at(ravel_index(*self.shape, indices));
 }
+

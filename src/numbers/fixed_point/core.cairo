@@ -481,4 +481,6 @@ trait FixedTrait {
     /// ```
     ///
     fn sqrt(self: FixedType) -> FixedType;
+
+    fn sin(self: FixedType) -> FixedType;
 }

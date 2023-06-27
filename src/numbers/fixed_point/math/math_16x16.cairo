@@ -1,6 +1,9 @@
+use core::debug::PrintTrait;
 use traits::Into;
 
-use orion::numbers::fixed_point::implementations::impl_16x16::{ONE, ONE_u64, MAX, HALF};
+use orion::numbers::fixed_point::implementations::impl_16x16::{
+    ONE, ONE_u64, MAX, HALF, PI, HALF_PI
+};
 use orion::numbers::fixed_point::implementations::impl_16x16::{
     FP16x16Impl, FP16x16Add, FP16x16AddEq, FP16x16Into, FP16x16Print, FP16x16PartialEq, FP16x16Sub,
     FP16x16SubEq, FP16x16Mul, FP16x16MulEq, FP16x16Div, FP16x16DivEq, FP16x16PartialOrd, FP16x16Neg
@@ -337,6 +340,35 @@ fn sqrt(a: FixedType) -> FixedType {
     let scale_root = integer::u128_sqrt(ONE);
     let res_u64 = root * ONE_u64 / scale_root;
     return FixedTrait::new(res_u64.into(), false);
+}
+
+fn sin(a: FixedType) -> FixedType {
+    let a1_u128 = a.mag % (2_u128 * PI);
+    let whole_rem = a1_u128 / PI;
+    let a2 = FixedType { mag: a1_u128 % PI, sign: false };
+    let mut partial_sign = false;
+
+    if (whole_rem == 1_u128) {
+        partial_sign = true;
+    }
+
+    let acc = FixedType { mag: ONE, sign: false };
+    let loop_res = a2 * _sin_loop(a2, 7_u128, acc);
+    let res_sign = a.sign ^ partial_sign;
+    return FixedType { mag: loop_res.mag, sign: res_sign };
+}
+
+// Helper function to calculate Taylor series for sin
+fn _sin_loop(a: FixedType, i: u128, acc: FixedType) -> FixedType {
+    let div_u128 = (2_u128 * i + 2_u128) * (2_u128 * i + 3_u128);
+    let term = a * a * acc / FixedTrait::new_unscaled(div_u128, false);
+    let new_acc = FixedTrait::new(ONE, false) - term;
+
+    if (i == 0_u128) {
+        return new_acc;
+    }
+
+    return _sin_loop(a, i - 1_u128, new_acc);
 }
 
 /// Subtracts one fixed point number from another.
