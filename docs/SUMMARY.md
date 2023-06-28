@@ -34,6 +34,7 @@
     * [tensor.abs](apis/operators/tensor/tensor.abs.md)
     * [tensor.ceil](apis/operators/tensor/tensor.ceil.md)
     * [tensor.cumsum](apis/operators/tensor/tensor.cumsum.md)
+    * [tensor.sinh](apis/operators/tensor/tensor.sinh.md)
   * [Neural Network](apis/operators/neural-network/README.md)
     * [nn.relu](apis/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](apis/operators/neural-network/nn.leaky\_relu.md)
