@@ -35,6 +35,8 @@ You can see below the list of current supported ONNX Operators:
 |     [Softsign](operators/neural-network/nn.softsign.md)     | :white\_check\_mark: |
 |     [Softplus](operators/neural-network/nn.softplus.md)     | :white\_check\_mark: |
 |       [Linear](operators/neural-network/nn.linear.md)       | :white\_check\_mark: |
+|           [Sinh](operators/tensor/tensor.sinh.md)           | :white\_check\_mark: |
+
 
 Performance optimizations:
 
@@ -42,4 +44,4 @@ Performance optimizations:
 | :----------------: | :------------------: |
 | 8-bit quantization | :white\_check\_mark: |
 
-Current Operators support: **27/156 (17%)**
+Current Operators support: **28/156 (18%)**
