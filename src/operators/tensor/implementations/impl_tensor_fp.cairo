@@ -28,6 +28,7 @@ use orion::operators::tensor::math::arithmetic::arithmetic_fp::core::{add, sub, 
 use orion::operators::tensor::math::greater::greater_fp::core::greater;
 use orion::operators::tensor::math::greater_equal::greater_equal_fp::core::greater_equal;
 use orion::operators::tensor::math::cumsum::cumsum_fp::core::cumsum;
+use orion::operators::tensor::math::sinh::sinh_fp::core::sinh;
 
 use orion::utils::check_gas;
 
@@ -124,6 +125,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn cumsum(self: @Tensor<FixedType>, axis: usize, exclusive:Option<bool>, reverse:Option<bool>) -> Tensor<FixedType> {
         cumsum(self, axis, exclusive, reverse).unwrap()
+    }
+
+    fn sinh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        sinh(self).unwrap()
     }
 }
 
