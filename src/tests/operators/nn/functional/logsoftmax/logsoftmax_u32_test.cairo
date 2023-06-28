@@ -108,10 +108,10 @@ mod input_2D {
 
             let mut result = NNTrait::logsoftmax(@tensor, 1).data;
 
-            assert((*result.at(0)).into() == -11016451, 'result[0] = -1.3134');
-            assert((*result.at(1)).into() == -2627827, 'result[1] = -0.3132');
-            assert((*result.at(2)).into() == -11016460, 'result[2] = -1.3134');
-            assert((*result.at(3)).into() == -2627829, 'result[3] = -0.3132');
+            assert((*result[0]).into() == -11016451, 'result[0] = -1.3134');
+            assert((*result[1]).into() == -2627827, 'result[1] = -0.3132');
+            assert((*result[2]).into() == -11016460, 'result[2] = -1.3134');
+            assert((*result[3]).into() == -2627829, 'result[3] = -0.3132');
         }
 
         #[test]
@@ -152,10 +152,10 @@ mod input_2D {
 
             let mut result = NNTrait::logsoftmax(@tensor, 1).data;
 
-            assert((*result.at(0)).into() == -86024, 'result[0] = -1.3134');
-            assert((*result.at(1)).into() == -20523, 'result[1] = -0.3132');
-            assert((*result.at(2)).into() == -86024, 'result[2] = -1.3134');
-            assert((*result.at(3)).into() == -20523, 'result[3] = -0.3132');
+            assert((*result[0]).into() == -86024, 'result[0] = -1.3134');
+            assert((*result[1]).into() == -20523, 'result[1] = -0.3132');
+            assert((*result[2]).into() == -86024, 'result[2] = -1.3134');
+            assert((*result[3]).into() == -20523, 'result[3] = -0.3132');
         }
 
         #[test]

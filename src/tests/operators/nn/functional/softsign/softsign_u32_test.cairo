@@ -41,16 +41,16 @@ mod input_1D {
             let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
             let mut result = NNTrait::softsign(@tensor);
 
-            let data = *result.data.at(0);
+            let data = *result.data[0];
             assert(data == FixedTrait::new(0, false), 'result[0] == 0'); // 0 
 
-            let data = *result.data.at(1);
+            let data = *result.data[1];
             assert(data == FixedTrait::new(4194304, false), 'result[1] == 4194304'); // 0.5
 
-            let data = *result.data.at(2);
+            let data = *result.data[2];
             assert(data == FixedTrait::new(5592405, false), 'result[2] == 5592405'); // 0.67
 
-            let data = *result.data.at(3);
+            let data = *result.data[3];
             assert(data == FixedTrait::new(6291456, false), 'result[3] == 6291456'); // 0.75
         }
     }
@@ -96,16 +96,16 @@ mod input_1D {
             let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
             let mut result = NNTrait::softsign(@tensor);
 
-            let data = *result.data.at(0);
+            let data = *result.data[0];
             assert(data == FixedTrait::new(0, false), 'result[0] == 0'); // 0 
 
-            let data = *result.data.at(1);
+            let data = *result.data[1];
             assert(data == FixedTrait::new(32768, false), 'result[1] == 32768'); // 0.5
 
-            let data = *result.data.at(2);
+            let data = *result.data[2];
             assert(data == FixedTrait::new(43690, false), 'result[2] == 43690'); // 0.67
 
-            let data = *result.data.at(3);
+            let data = *result.data[3];
             assert(data == FixedTrait::new(49152, false), 'result[3] == 49152'); // 0.75
         }
     }
@@ -155,16 +155,16 @@ mod input_2D {
             let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
             let mut result = NNTrait::softsign(@tensor);
 
-            let data = *result.data.at(0);
+            let data = *result.data[0];
             assert(data == FixedTrait::new(0, false), 'result[0] == 0'); // 0 
 
-            let data = *result.data.at(1);
+            let data = *result.data[1];
             assert(data == FixedTrait::new(4194304, false), 'result[1] == 4194304'); // 0.5
 
-            let data = *result.data.at(2);
+            let data = *result.data[2];
             assert(data == FixedTrait::new(5592405, false), 'result[2] == 5592405'); // 0.67
 
-            let data = *result.data.at(3);
+            let data = *result.data[3];
             assert(data == FixedTrait::new(6291456, false), 'result[3] == 6291456'); // 0.75
         }
     }
@@ -210,16 +210,16 @@ mod input_2D {
             let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
             let mut result = NNTrait::softsign(@tensor);
 
-            let data = *result.data.at(0);
+            let data = *result.data[0];
             assert(data == FixedTrait::new(0, false), 'result[0] == 0'); // 0 
 
-            let data = *result.data.at(1);
+            let data = *result.data[1];
             assert(data == FixedTrait::new(32768, false), 'result[1] == 32768'); // 0.5
 
-            let data = *result.data.at(2);
+            let data = *result.data[2];
             assert(data == FixedTrait::new(43690, false), 'result[2] == 43690'); // 0.67
 
-            let data = *result.data.at(3);
+            let data = *result.data[3];
             assert(data == FixedTrait::new(49152, false), 'result[3] == 49152'); // 0.75
         }
     }
@@ -278,28 +278,28 @@ mod input_3D {
             let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
             let mut result = NNTrait::softsign(@tensor);
 
-            let data = *result.data.at(0);
+            let data = *result.data[0];
             assert(data == FixedTrait::new(0, false), 'result[0] == 0'); // 0 
 
-            let data = *result.data.at(1);
+            let data = *result.data[1];
             assert(data == FixedTrait::new(4194304, false), 'result[1] == 4194304'); // 0.5
 
-            let data = *result.data.at(2);
+            let data = *result.data[2];
             assert(data == FixedTrait::new(5592405, false), 'result[2] == 5592405'); // 0.67
 
-            let data = *result.data.at(3);
+            let data = *result.data[3];
             assert(data == FixedTrait::new(6291456, false), 'result[3] == 6291456'); // 0.75
 
-            let data = *result.data.at(4);
+            let data = *result.data[4];
             assert(data == FixedTrait::new(0, false), 'result[4] == 0'); // 0 
 
-            let data = *result.data.at(5);
+            let data = *result.data[5];
             assert(data == FixedTrait::new(4194304, false), 'result[5] == 4194304'); // 0.5
 
-            let data = *result.data.at(6);
+            let data = *result.data[6];
             assert(data == FixedTrait::new(5592405, false), 'result[6] == 5592405'); // 0.67
 
-            let data = *result.data.at(7);
+            let data = *result.data[7];
             assert(data == FixedTrait::new(6291456, false), 'result[7] == 6291456'); // 0.75
         }
     }
@@ -354,28 +354,28 @@ mod input_3D {
             let mut tensor = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
             let mut result = NNTrait::softsign(@tensor);
 
-            let data = *result.data.at(0);
+            let data = *result.data[0];
             assert(data == FixedTrait::new(0, false), 'result[0] == 0'); // 0 
 
-            let data = *result.data.at(1);
+            let data = *result.data[1];
             assert(data == FixedTrait::new(32768, false), 'result[1] == 32768'); // 0.5
 
-            let data = *result.data.at(2);
+            let data = *result.data[2];
             assert(data == FixedTrait::new(43690, false), 'result[2] == 43690'); // 0.67
 
-            let data = *result.data.at(3);
+            let data = *result.data[3];
             assert(data == FixedTrait::new(49152, false), 'result[3] == 49152'); // 0.75
 
-            let data = *result.data.at(4);
+            let data = *result.data[4];
             assert(data == FixedTrait::new(0, false), 'result[4] == 0'); // 0 
 
-            let data = *result.data.at(5);
+            let data = *result.data[5];
             assert(data == FixedTrait::new(32768, false), 'result[5] == 32768'); // 0.5
 
-            let data = *result.data.at(6);
+            let data = *result.data[6];
             assert(data == FixedTrait::new(43690, false), 'result[6] == 43690'); // 0.67
 
-            let data = *result.data.at(7);
+            let data = *result.data[7];
             assert(data == FixedTrait::new(49152, false), 'result[7] == 49152'); // 0.75
         }
     }

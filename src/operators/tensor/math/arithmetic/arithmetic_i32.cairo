@@ -36,7 +36,7 @@ fn add(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
         let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
 
-        result.append(*(*self.data).at(indices_self) + *(*other.data).at(indices_other));
+        result.append(*(*self.data)[indices_self] + *(*other.data)[indices_other]);
 
         n += 1;
         if n == num_elements {
@@ -74,7 +74,7 @@ fn sub(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
         let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
 
-        result.append(*(*self.data).at(indices_self) - *(*other.data).at(indices_other));
+        result.append(*(*self.data)[indices_self] - *(*other.data)[indices_other]);
 
         n += 1;
         if n == num_elements {
@@ -112,7 +112,7 @@ fn mul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
         let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
 
-        result.append(*(*self.data).at(indices_self) * *(*other.data).at(indices_other));
+        result.append(*(*self.data)[indices_self] * *(*other.data)[indices_other]);
 
         n += 1;
         if n == num_elements {
@@ -150,7 +150,7 @@ fn div(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
         let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
 
-        result.append(*(*self.data).at(indices_self) / *(*other.data).at(indices_other));
+        result.append(*(*self.data)[indices_self] / *(*other.data)[indices_other]);
 
         n += 1;
         if n == num_elements {

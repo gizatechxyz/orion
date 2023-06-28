@@ -32,9 +32,9 @@ mod tensor_1D {
         let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), Option::Some(extra));
 
         let result_a = tensor_a.greater(@tensor_b);
-        assert(*result_a.data.at(0) == 0, 'result[0] = 0');
-        assert(*result_a.data.at(1) == 0, 'result[1] = 0');
-        assert(*result_a.data.at(2) == 1, 'result[2] = 1');
+        assert(*result_a.data[0] == 0, 'result[0] = 0');
+        assert(*result_a.data[1] == 0, 'result[1] = 0');
+        assert(*result_a.data[2] == 1, 'result[2] = 1');
 
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
     }
@@ -88,28 +88,28 @@ mod tensor_2D {
         let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), Option::Some(extra));
 
         let result_a = tensor_a.greater(@tensor_b);
-        assert(*result_a.data.at(0) == 0, 'result[0] = 0');
-        assert(*result_a.data.at(1) == 0, 'result[1] = 0');
-        assert(*result_a.data.at(2) == 1, 'result[2] = 1');
-        assert(*result_a.data.at(3) == 1, 'result[3] = 1');
-        assert(*result_a.data.at(4) == 0, 'result[4] = 0');
-        assert(*result_a.data.at(5) == 0, 'result[5] = 0');
-        assert(*result_a.data.at(6) == 0, 'result[6] = 0');
-        assert(*result_a.data.at(7) == 0, 'result[7] = 0');
-        assert(*result_a.data.at(8) == 0, 'result[8] = 0');
+        assert(*result_a.data[0] == 0, 'result[0] = 0');
+        assert(*result_a.data[1] == 0, 'result[1] = 0');
+        assert(*result_a.data[2] == 1, 'result[2] = 1');
+        assert(*result_a.data[3] == 1, 'result[3] = 1');
+        assert(*result_a.data[4] == 0, 'result[4] = 0');
+        assert(*result_a.data[5] == 0, 'result[5] = 0');
+        assert(*result_a.data[6] == 0, 'result[6] = 0');
+        assert(*result_a.data[7] == 0, 'result[7] = 0');
+        assert(*result_a.data[8] == 0, 'result[8] = 0');
 
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
         let result_b = tensor_b.greater(@tensor_a);
-        assert(*result_b.data.at(0) == 1, 'result[0] = 1');
-        assert(*result_b.data.at(1) == 1, 'result[1] = 1');
-        assert(*result_b.data.at(2) == 0, 'result[2] = 0');
-        assert(*result_b.data.at(3) == 0, 'result[3] = 0');
-        assert(*result_b.data.at(4) == 0, 'result[4] = 0');
-        assert(*result_b.data.at(5) == 0, 'result[5] = 0');
-        assert(*result_b.data.at(6) == 1, 'result[6] = 1');
-        assert(*result_b.data.at(7) == 1, 'result[7] = 1');
-        assert(*result_b.data.at(8) == 1, 'result[8] = 1');
+        assert(*result_b.data[0] == 1, 'result[0] = 1');
+        assert(*result_b.data[1] == 1, 'result[1] = 1');
+        assert(*result_b.data[2] == 0, 'result[2] = 0');
+        assert(*result_b.data[3] == 0, 'result[3] = 0');
+        assert(*result_b.data[4] == 0, 'result[4] = 0');
+        assert(*result_b.data[5] == 0, 'result[5] = 0');
+        assert(*result_b.data[6] == 1, 'result[6] = 1');
+        assert(*result_b.data[7] == 1, 'result[7] = 1');
+        assert(*result_b.data[8] == 1, 'result[8] = 1');
 
         assert(result_b.data.len() == tensor_a.data.len(), 'tensor length mismatch');
     }
@@ -150,34 +150,34 @@ mod tensor_2D {
         let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span(), Option::Some(extra));
 
         let result_a = tensor_b.greater(@tensor_a);
-        assert(*result_a.data.at(0) == 0, 'result[0] = 0');
-        assert(*result_a.data.at(1) == 0, 'result[1] = 0');
-        assert(*result_a.data.at(2) == 0, 'result[2] = 0');
-        assert(*result_a.data.at(3) == 0, 'result[3] = 0');
-        assert(*result_a.data.at(4) == 0, 'result[4] = 0');
-        assert(*result_a.data.at(5) == 0, 'result[5] = 0');
-        assert(*result_a.data.at(6) == 0, 'result[6] = 0');
-        assert(*result_a.data.at(7) == 0, 'result[7] = 0');
-        assert(*result_a.data.at(8) == 0, 'result[8] = 0');
-        assert(*result_a.data.at(9) == 0, 'result[9] = 0');
-        assert(*result_a.data.at(10) == 0, 'result[10] = 0');
-        assert(*result_a.data.at(11) == 0, 'result[11] = 0');
+        assert(*result_a.data[0] == 0, 'result[0] = 0');
+        assert(*result_a.data[1] == 0, 'result[1] = 0');
+        assert(*result_a.data[2] == 0, 'result[2] = 0');
+        assert(*result_a.data[3] == 0, 'result[3] = 0');
+        assert(*result_a.data[4] == 0, 'result[4] = 0');
+        assert(*result_a.data[5] == 0, 'result[5] = 0');
+        assert(*result_a.data[6] == 0, 'result[6] = 0');
+        assert(*result_a.data[7] == 0, 'result[7] = 0');
+        assert(*result_a.data[8] == 0, 'result[8] = 0');
+        assert(*result_a.data[9] == 0, 'result[9] = 0');
+        assert(*result_a.data[10] == 0, 'result[10] = 0');
+        assert(*result_a.data[11] == 0, 'result[11] = 0');
 
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
         let result_b = tensor_a.greater(@tensor_b);
-        assert(*result_b.data.at(0) == 0, 'result[0] = 0');
-        assert(*result_b.data.at(1) == 0, 'result[1] = 0');
-        assert(*result_b.data.at(2) == 0, 'result[2] = 0');
-        assert(*result_b.data.at(3) == 1, 'result[3] = 1');
-        assert(*result_b.data.at(4) == 1, 'result[4] = 1');
-        assert(*result_b.data.at(5) == 1, 'result[5] = 1');
-        assert(*result_b.data.at(6) == 1, 'result[6] = 1');
-        assert(*result_b.data.at(7) == 1, 'result[7] = 1');
-        assert(*result_b.data.at(8) == 1, 'result[8] = 1');
-        assert(*result_b.data.at(9) == 1, 'result[9] = 1');
-        assert(*result_b.data.at(10) == 1, 'result[10] = 1');
-        assert(*result_b.data.at(11) == 1, 'result[11] = 1');
+        assert(*result_b.data[0] == 0, 'result[0] = 0');
+        assert(*result_b.data[1] == 0, 'result[1] = 0');
+        assert(*result_b.data[2] == 0, 'result[2] = 0');
+        assert(*result_b.data[3] == 1, 'result[3] = 1');
+        assert(*result_b.data[4] == 1, 'result[4] = 1');
+        assert(*result_b.data[5] == 1, 'result[5] = 1');
+        assert(*result_b.data[6] == 1, 'result[6] = 1');
+        assert(*result_b.data[7] == 1, 'result[7] = 1');
+        assert(*result_b.data[8] == 1, 'result[8] = 1');
+        assert(*result_b.data[9] == 1, 'result[9] = 1');
+        assert(*result_b.data[10] == 1, 'result[10] = 1');
+        assert(*result_b.data[11] == 1, 'result[11] = 1');
 
         assert(result_b.data.len() == tensor_a.data.len(), 'tensor length mismatch');
     }
@@ -230,26 +230,26 @@ mod tensor_3D {
         let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), Option::Some(extra));
 
         let result_a = tensor_a.greater(@tensor_b);
-        assert(*result_a.data.at(0) == 0, 'result[0] = 0');
-        assert(*result_a.data.at(1) == 0, 'result[1] = 0');
-        assert(*result_a.data.at(2) == 1, 'result[2] = 1');
-        assert(*result_a.data.at(3) == 1, 'result[3] = 1');
-        assert(*result_a.data.at(4) == 0, 'result[4] = 0');
-        assert(*result_a.data.at(5) == 0, 'result[5] = 0');
-        assert(*result_a.data.at(6) == 0, 'result[6] = 0');
-        assert(*result_a.data.at(7) == 0, 'result[7] = 0');
+        assert(*result_a.data[0] == 0, 'result[0] = 0');
+        assert(*result_a.data[1] == 0, 'result[1] = 0');
+        assert(*result_a.data[2] == 1, 'result[2] = 1');
+        assert(*result_a.data[3] == 1, 'result[3] = 1');
+        assert(*result_a.data[4] == 0, 'result[4] = 0');
+        assert(*result_a.data[5] == 0, 'result[5] = 0');
+        assert(*result_a.data[6] == 0, 'result[6] = 0');
+        assert(*result_a.data[7] == 0, 'result[7] = 0');
 
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
         let result_b = tensor_b.greater(@tensor_a);
-        assert(*result_b.data.at(0) == 1, 'result[0] = 1');
-        assert(*result_b.data.at(1) == 1, 'result[1] = 1');
-        assert(*result_b.data.at(2) == 0, 'result[2] = 0');
-        assert(*result_b.data.at(3) == 0, 'result[3] = 0');
-        assert(*result_b.data.at(4) == 0, 'result[4] = 0');
-        assert(*result_b.data.at(5) == 0, 'result[5] = 0');
-        assert(*result_b.data.at(6) == 1, 'result[6] = 1');
-        assert(*result_b.data.at(7) == 1, 'result[7] = 1');
+        assert(*result_b.data[0] == 1, 'result[0] = 1');
+        assert(*result_b.data[1] == 1, 'result[1] = 1');
+        assert(*result_b.data[2] == 0, 'result[2] = 0');
+        assert(*result_b.data[3] == 0, 'result[3] = 0');
+        assert(*result_b.data[4] == 0, 'result[4] = 0');
+        assert(*result_b.data[5] == 0, 'result[5] = 0');
+        assert(*result_b.data[6] == 1, 'result[6] = 1');
+        assert(*result_b.data[7] == 1, 'result[7] = 1');
 
         assert(result_b.data.len() == tensor_a.data.len(), 'tensor length mismatch');
     }
@@ -287,26 +287,26 @@ mod tensor_3D {
         let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span(), Option::Some(extra));
 
         let result_a = tensor_b.greater(@tensor_a);
-        assert(*result_a.data.at(0) == 0, 'result[0] = 0');
-        assert(*result_a.data.at(1) == 0, 'result[1] = 0');
-        assert(*result_a.data.at(2) == 0, 'result[2] = 0');
-        assert(*result_a.data.at(3) == 0, 'result[3] = 0');
-        assert(*result_a.data.at(4) == 0, 'result[4] = 0');
-        assert(*result_a.data.at(5) == 0, 'result[5] = 0');
-        assert(*result_a.data.at(6) == 0, 'result[6] = 0');
-        assert(*result_a.data.at(7) == 0, 'result[7] = 0');
+        assert(*result_a.data[0] == 0, 'result[0] = 0');
+        assert(*result_a.data[1] == 0, 'result[1] = 0');
+        assert(*result_a.data[2] == 0, 'result[2] = 0');
+        assert(*result_a.data[3] == 0, 'result[3] = 0');
+        assert(*result_a.data[4] == 0, 'result[4] = 0');
+        assert(*result_a.data[5] == 0, 'result[5] = 0');
+        assert(*result_a.data[6] == 0, 'result[6] = 0');
+        assert(*result_a.data[7] == 0, 'result[7] = 0');
 
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
         let result_b = tensor_a.greater(@tensor_b);
-        assert(*result_b.data.at(0) == 0, 'result[0] = 0');
-        assert(*result_b.data.at(1) == 0, 'result[1] = 0');
-        assert(*result_b.data.at(2) == 1, 'result[2] = 0');
-        assert(*result_b.data.at(3) == 1, 'result[3] = 1');
-        assert(*result_b.data.at(4) == 1, 'result[4] = 1');
-        assert(*result_b.data.at(5) == 1, 'result[5] = 1');
-        assert(*result_b.data.at(6) == 1, 'result[6] = 1');
-        assert(*result_b.data.at(7) == 1, 'result[7] = 1');
+        assert(*result_b.data[0] == 0, 'result[0] = 0');
+        assert(*result_b.data[1] == 0, 'result[1] = 0');
+        assert(*result_b.data[2] == 1, 'result[2] = 0');
+        assert(*result_b.data[3] == 1, 'result[3] = 1');
+        assert(*result_b.data[4] == 1, 'result[4] = 1');
+        assert(*result_b.data[5] == 1, 'result[5] = 1');
+        assert(*result_b.data[6] == 1, 'result[6] = 1');
+        assert(*result_b.data[7] == 1, 'result[7] = 1');
 
         assert(result_b.data.len() == tensor_a.data.len(), 'tensor length mismatch');
     }

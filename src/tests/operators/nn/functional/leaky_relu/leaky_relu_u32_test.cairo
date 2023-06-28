@@ -43,16 +43,16 @@ mod input_1D {
             let threshold = 3;
             let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
-            let data = *result.data.at(0);
+            let data = *result.data[0];
             assert(data == FixedTrait::new(33554432, false), 'result[0] == 33554432'); // 4 
 
-            let data = *result.data.at(1);
+            let data = *result.data[1];
             assert(data == FixedTrait::new(25165824, false), 'result[1] == 25165824'); // 3
 
-            let data = *result.data.at(3);
+            let data = *result.data[3];
             assert(data == FixedTrait::new(838861, false), 'result[3] == 838861'); // 0.1
 
-            let data = *result.data.at(5);
+            let data = *result.data[5];
             assert(data == FixedTrait::new(0, false), 'result[5] == 0');
         }
     }
@@ -100,16 +100,16 @@ mod input_1D {
             let threshold = 3;
             let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
-            let data = *result.data.at(0);
+            let data = *result.data[0];
             assert(data == FixedTrait::new(262144, false), 'result[0] == 262144'); // 4 
 
-            let data = *result.data.at(1);
+            let data = *result.data[1];
             assert(data == FixedTrait::new(196608, false), 'result[1] == 196608'); // 3
 
-            let data = *result.data.at(3);
+            let data = *result.data[3];
             assert(data == FixedTrait::new(6554, false), 'result[3] == 6554'); // 0.1
 
-            let data = *result.data.at(5);
+            let data = *result.data[5];
             assert(data == FixedTrait::new(0, false), 'result[5] == 0');
         }
     }
@@ -161,16 +161,16 @@ mod input_2D {
             let threshold = 3;
             let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
-            let data = *result.data.at(0);
+            let data = *result.data[0];
             assert(data == FixedTrait::new(33554432, false), 'result[0] == 33554432'); // 4 
 
-            let data = *result.data.at(1);
+            let data = *result.data[1];
             assert(data == FixedTrait::new(25165824, false), 'result[1] == 25165824'); // 3
 
-            let data = *result.data.at(3);
+            let data = *result.data[3];
             assert(data == FixedTrait::new(838861, false), 'result[3] == 838861'); // 0.1
 
-            let data = *result.data.at(5);
+            let data = *result.data[5];
             assert(data == FixedTrait::new(0, false), 'result[5] == 0');
         }
     }
@@ -219,16 +219,16 @@ mod input_2D {
             let threshold = 3;
             let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
-            let data = *result.data.at(0);
+            let data = *result.data[0];
             assert(data == FixedTrait::new(262144, false), 'result[0] == 262144'); // 4 
 
-            let data = *result.data.at(1);
+            let data = *result.data[1];
             assert(data == FixedTrait::new(196608, false), 'result[1] == 196608'); // 3
 
-            let data = *result.data.at(3);
+            let data = *result.data[3];
             assert(data == FixedTrait::new(6554, false), 'result[3] == 6554'); // 0.1
 
-            let data = *result.data.at(5);
+            let data = *result.data[5];
             assert(data == FixedTrait::new(0, false), 'result[5] == 0');
         }
     }
@@ -285,16 +285,16 @@ mod input_3D {
             let threshold = 3;
             let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
-            let data = *result.data.at(0);
+            let data = *result.data[0];
             assert(data == FixedTrait::new(33554432, false), 'result[0] == 33554432'); // 4 
 
-            let data = *result.data.at(1);
+            let data = *result.data[1];
             assert(data == FixedTrait::new(25165824, false), 'result[1] == 25165824'); // 3
 
-            let data = *result.data.at(3);
+            let data = *result.data[3];
             assert(data == FixedTrait::new(838861, false), 'result[3] == 838861'); // 0.1
 
-            let data = *result.data.at(5);
+            let data = *result.data[5];
             assert(data == FixedTrait::new(0, false), 'result[5] == 0');
         }
     }
@@ -348,16 +348,16 @@ mod input_3D {
             let threshold = 3;
             let mut result = NNTrait::leaky_relu(@tensor, @alpha, threshold);
 
-            let data = *result.data.at(0);
+            let data = *result.data[0];
             assert(data == FixedTrait::new(262144, false), 'result[0] == 262144'); // 4 
 
-            let data = *result.data.at(1);
+            let data = *result.data[1];
             assert(data == FixedTrait::new(196608, false), 'result[1] == 196608'); // 3
 
-            let data = *result.data.at(3);
+            let data = *result.data[3];
             assert(data == FixedTrait::new(6554, false), 'result[3] == 6554'); // 0.1
 
-            let data = *result.data.at(5);
+            let data = *result.data[5];
             assert(data == FixedTrait::new(0, false), 'result[5] == 0');
         }
     }

@@ -36,9 +36,9 @@ mod input_1D {
 
         let mut result = NNTrait::relu(@tensor, threshold);
 
-        let data_0 = *result.data.at(0);
-        assert((*result.data.at(0)).into() == 1, 'result[0] == 1');
-        assert((*result.data.at(3)).into() == 0, 'result[3] == 0');
+        let data_0 = *result.data[0];
+        assert((*result.data[0]).into() == 1, 'result[0] == 1');
+        assert((*result.data[3]).into() == 0, 'result[3] == 0');
     }
 }
 
@@ -81,9 +81,9 @@ mod input_2D {
 
         let mut result = NNTrait::relu(@tensor, threshold);
 
-        let data_0 = *result.data.at(0);
-        assert((*result.data.at(0)).into() == 1, 'result[0] == 1');
-        assert((*result.data.at(3)).into() == 0, 'result[3] == 0');
+        let data_0 = *result.data[0];
+        assert((*result.data[0]).into() == 1, 'result[0] == 1');
+        assert((*result.data[3]).into() == 0, 'result[3] == 0');
     }
 }
 
@@ -135,9 +135,9 @@ mod input_3D {
 
         let mut result = NNTrait::relu(@tensor, threshold);
 
-        let data_0 = *result.data.at(0);
-        assert((*result.data.at(0)).into() == 1, 'result[0] == 1');
-        assert((*result.data.at(3)).into() == 0, 'result[3] == 0');
-        assert((*result.data.at(5)).into() == 2, 'result[6] == 2');
+        let data_0 = *result.data[0];
+        assert((*result.data[0]).into() == 1, 'result[0] == 1');
+        assert((*result.data[3]).into() == 0, 'result[3] == 0');
+        assert((*result.data[5]).into() == 2, 'result[6] == 2');
     }
 }

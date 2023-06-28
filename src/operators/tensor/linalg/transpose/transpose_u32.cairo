@@ -37,12 +37,12 @@ fn transpose(self: @Tensor<u32>, axes: Span<usize>) -> Tensor<u32> {
             }
 
             let input_axis = find_axis(axes, output_axis);
-            input_indices.append(*output_indices.at(input_axis));
+            input_indices.append(*output_indices[input_axis]);
             output_axis += 1;
         };
 
         let input_index = ravel_index(*self.shape, input_indices.span());
-        output_data.append(*(*self.data).at(input_index));
+        output_data.append(*(*self.data)[input_index]);
 
         output_index += 1;
     };

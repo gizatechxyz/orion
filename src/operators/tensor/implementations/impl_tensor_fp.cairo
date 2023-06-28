@@ -27,6 +27,8 @@ use orion::operators::tensor::math::ln::ln_fp::core::ln;
 use orion::operators::tensor::math::arithmetic::arithmetic_fp::core::{add, sub, mul, div};
 use orion::operators::tensor::math::greater::greater_fp::core::greater;
 use orion::operators::tensor::math::greater_equal::greater_equal_fp::core::greater_equal;
+use orion::operators::tensor::math::cumsum::cumsum_fp::core::cumsum;
+
 use orion::utils::check_gas;
 
 use orion::operators::tensor::math::sin::sin_fp::core::sin;
@@ -134,6 +136,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn sin(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         sin(self).unwrap()
+    }
+    
+    fn cumsum(self: @Tensor<FixedType>, axis: usize, exclusive:Option<bool>, reverse:Option<bool>) -> Tensor<FixedType> {
+        cumsum(self, axis, exclusive, reverse).unwrap()
     }
 }
 
