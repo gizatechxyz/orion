@@ -24,7 +24,7 @@ fn sinh(self: @Tensor<i32>) -> Tensor<FixedType> {
             let ele = FixedTrait::new_unscaled(ele.mag.into(), ele.sign);
             result.append(FixedTrait::sinh(ele))
         } else {
-            let ele = FixedTrait::from_unscaled_felt((ele.mag).into());
+            let ele = FixedTrait::new_unscaled(ele.mag.into(), ele.sign);
             result.append(FixedTrait::sinh(ele))
         }
 
