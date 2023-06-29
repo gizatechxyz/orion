@@ -81,3 +81,4 @@
 
 * [Tutorials](resources/tutorials/README.md)
   * [MNIST Classification with Orion](resources/tutorials/mnist-classification-with-orion.md)
+  * [Implement new operators in Orion](resources/tutorials/implement-new-operators-in-orion.md)
