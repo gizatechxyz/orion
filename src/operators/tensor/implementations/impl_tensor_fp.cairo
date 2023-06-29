@@ -28,6 +28,7 @@ use orion::operators::tensor::math::arithmetic::arithmetic_fp::core::{add, sub, 
 use orion::operators::tensor::math::greater::greater_fp::core::greater;
 use orion::operators::tensor::math::greater_equal::greater_equal_fp::core::greater_equal;
 use orion::operators::tensor::math::cumsum::cumsum_fp::core::cumsum;
+use orion::operators::tensor::math::flatten::flatten_fp::core::flatten;
 use orion::operators::tensor::math::sinh::sinh_fp::core::sinh;
 use orion::operators::tensor::math::tanh::tanh_fp::core::tanh;
 use orion::operators::tensor::math::cosh::cosh_fp::core::cosh;
@@ -139,6 +140,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
         self: @Tensor<FixedType>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
     ) -> Tensor<FixedType> {
         cumsum(self, axis, exclusive, reverse).unwrap()
+    }
+ 
+    fn flatten(self: @Tensor<FixedType>, axis: usize) -> Tensor<FixedType> {
+        flatten(self, axis).unwrap()
     }
 
     fn sinh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
