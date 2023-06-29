@@ -86,6 +86,10 @@ impl FP8x23Impl of FixedTrait {
         return math_8x23::sinh(self);
     }
 
+    fn tanh(self: FixedType) -> FixedType {
+        return math_8x23::tanh(self);
+    }
+    
     fn cosh(self: FixedType) -> FixedType {
         return math_8x23::cosh(self);
     }

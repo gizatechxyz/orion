@@ -15,4 +15,5 @@ mod abs;
 mod ceil;
 mod cumsum;
 mod sinh;
+mod tanh;
 mod cosh;

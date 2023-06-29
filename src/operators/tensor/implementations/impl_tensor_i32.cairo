@@ -30,6 +30,7 @@ use orion::operators::tensor::math::ln::ln_i32::core::ln_i32;
 use orion::operators::tensor::math::arithmetic::arithmetic_i32::{add, sub, mul, div};
 use orion::operators::tensor::math::cumsum::cumsum_i32::cumsum;
 use orion::operators::tensor::math::sinh::sinh_i32::core::sinh_i32;
+use orion::operators::tensor::math::tanh::tanh_i32::core::tanh_i32;
 use orion::operators::tensor::math::cosh::cosh_i32::core::cosh_i32;
 use orion::utils::check_gas;
 
@@ -70,11 +71,15 @@ impl Tensor_i32 of TensorTrait<i32> {
         reduce_sum(self, axis, keepdims)
     }
 
-    fn argmax(self: @Tensor<i32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+    fn argmax(
+        self: @Tensor<i32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize> {
         argmax(self, axis, keepdims, select_last_index)
     }
 
-    fn argmin(self: @Tensor<i32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+    fn argmin(
+        self: @Tensor<i32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize> {
         argmin(self, axis, keepdims, select_last_index)
     }
 
@@ -122,12 +127,18 @@ impl Tensor_i32 of TensorTrait<i32> {
         ceil(self)
     }
 
-    fn cumsum(self: @Tensor<i32>, axis: usize, exclusive:Option<bool>, reverse:Option<bool>) -> Tensor<i32> {
+    fn cumsum(
+        self: @Tensor<i32>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
+    ) -> Tensor<i32> {
         cumsum(self, axis, exclusive, reverse)
     }
 
     fn sinh(self: @Tensor<i32>) -> Tensor<FixedType> {
         sinh_i32(self).unwrap()
+    }
+
+    fn tanh(self: @Tensor<i32>) -> Tensor<FixedType> {
+        tanh_i32(self).unwrap()
     }
 
     fn cosh(self: @Tensor<i32>) -> Tensor<FixedType> {
