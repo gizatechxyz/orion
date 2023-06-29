@@ -27,6 +27,7 @@ You can see below the list of current supported ONNX Operators:
 |         [ArgMin](operators/tensor/tensor.argmin.md)         | :white\_check\_mark: |
 |     [ReduceSum](operators/tensor/tensor.reduce\_sum.md)     | :white\_check\_mark: |
 |         [CumSum](operators/tensor/tensor.cumsum.md)         | :white\_check\_mark: |
+|         [Flatten](operators/tensor/tensor.flatten.md)       | :white\_check\_mark: |
 |         [Relu](operators/neural-network/nn.relu.md)         | :white\_check\_mark: |
 |   [LeakyRelu](operators/neural-network/nn.leaky\_relu.md)   | :white\_check\_mark: |
 |      [Sigmoid](operators/neural-network/nn.sigmoid.md)      | :white\_check\_mark: |
@@ -45,4 +46,4 @@ Performance optimizations:
 | :----------------: | :------------------: |
 | 8-bit quantization | :white\_check\_mark: |
 
-Current Operators support: **30/156 (19%)**
+Current Operators support: **33/156 (21%)**
