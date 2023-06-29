@@ -36,6 +36,7 @@ You can see below the list of current supported ONNX Operators:
 |     [Softplus](operators/neural-network/nn.softplus.md)     | :white\_check\_mark: |
 |       [Linear](operators/neural-network/nn.linear.md)       | :white\_check\_mark: |
 |           [Sinh](operators/tensor/tensor.sinh.md)           | :white\_check\_mark: |
+|           [Cosh](operators/tensor/tensor.cosh.md)           | :white\_check\_mark: |
 
 
 Performance optimizations:
