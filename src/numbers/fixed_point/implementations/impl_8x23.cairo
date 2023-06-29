@@ -93,6 +93,10 @@ impl FP8x23Impl of FixedTrait {
     fn cosh(self: FixedType) -> FixedType {
         return math_8x23::cosh(self);
     }
+
+    fn asinh(self: FixedType) -> FixedType {
+        return math_8x23::asinh(self);
+    }
 }
 
 impl FP8x23Print of PrintTrait<FixedType> {

@@ -31,6 +31,7 @@ use orion::operators::tensor::math::cumsum::cumsum_u32::cumsum;
 use orion::operators::tensor::math::sinh::sinh_u32::core::sinh_u32;
 use orion::operators::tensor::math::tanh::tanh_u32::core::tanh_u32;
 use orion::operators::tensor::math::cosh::cosh_u32::core::cosh_u32;
+use orion::operators::tensor::math::asinh::asinh_u32::core::asinh_u32;
 use orion::utils::check_gas;
 
 impl Tensor_u32 of TensorTrait<u32> {
@@ -143,6 +144,10 @@ impl Tensor_u32 of TensorTrait<u32> {
 
     fn cosh(self: @Tensor<u32>) -> Tensor<FixedType> {
         cosh_u32(self).unwrap()
+    }
+
+    fn asinh(self: @Tensor<u32>) -> Tensor<FixedType> {
+        asinh_u32(self).unwrap()
     }
 }
 

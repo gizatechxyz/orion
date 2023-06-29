@@ -477,3 +477,10 @@ fn cosh(a: FixedType) -> FixedType {
     let denom = FixedTrait::new_unscaled(2_u128, false);
     num / denom 
 }
+
+/// Cf: FixedTrait::asinh docstring 
+fn asinh(a: FixedType) -> FixedType {
+    let root = (a*a +FixedTrait::new(ONE, false)).sqrt();
+    let result = (a + root).ln();
+    result
+}

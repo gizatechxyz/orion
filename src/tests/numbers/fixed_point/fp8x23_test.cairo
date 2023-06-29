@@ -344,3 +344,10 @@ fn test_coshh() {
     let a = FixedTrait::from_unscaled_felt(1);
     assert(a.cosh().into() == 12944297, 'invalid cosh of 1');
 }
+
+#[test]
+#[available_gas(10000000)]
+fn test_asinh() {
+    let a = FixedTrait::from_unscaled_felt(1);
+    assert(a.sinh().into() == 9858301, 'invalid sinh of 1');
+}

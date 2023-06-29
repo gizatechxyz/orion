@@ -17,3 +17,4 @@ mod cumsum;
 mod sinh;
 mod tanh;
 mod cosh;
+mod asinh;
