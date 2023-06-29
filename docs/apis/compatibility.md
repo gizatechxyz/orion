@@ -38,7 +38,6 @@ You can see below the list of current supported ONNX Operators:
 |          [Sinh](operators/tensor/tensor.sinh.md)           | :white_check_mark: |
 |          [Cosh](operators/tensor/tensor.cosh.md)           | :white_check_mark: |
 |          [Tanh](operators/tensor/tensor.tanh.md)           | :white_check_mark: |
-|         [Asinh](operators/tensor/tensor.asinh.md)          | :white_check_mark: |
 
 Performance optimizations:
 
@@ -46,4 +45,4 @@ Performance optimizations:
 | :----------------: | :----------------: |
 | 8-bit quantization | :white_check_mark: |
 
-Current Operators support: **31/156 (20%)**
+Current Operators support: **33/156 (21%)**
