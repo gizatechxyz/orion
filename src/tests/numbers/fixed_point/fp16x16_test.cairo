@@ -330,3 +330,10 @@ fn test_sinh() {
     let a = FixedTrait::from_unscaled_felt(1);
     assert(a.sinh().into() == 77016, 'invalid sinh of 1');
 }
+
+#[test]
+#[available_gas(10000000)]
+fn test_tanh() {
+    let a = FixedTrait::from_unscaled_felt(1);
+    assert(a.tanh().into() == 49911, 'invalid tanh of 1');
+}

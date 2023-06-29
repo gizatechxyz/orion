@@ -1,12 +1,12 @@
-# tensor.sinh
+# tensor.tanh
 
 ```rust
-fn sinh(self: @Tensor<T>) -> Tensor<FixedType>;
+fn tanh(self: @Tensor<T>) -> Tensor<FixedType>;
 ```
 
 Computes the exponential of all elements of the input tensor.
 $$
-y_i=sinh({x_i})
+y_i=tanh({x_i})
 $$
 
 ## Args
@@ -20,15 +20,15 @@ Returns a new tensor in `FixedType` with the exponential of the elements of the 
 ## Examples
 
 ```rust
-fn exp_example() -> Tensor<FixedType> {
+fn tanh_example() -> Tensor<FixedType> {
 // We instantiate a 2D Tensor here.
 // [[0,1],[2,3]]
 let tensor = u32_tensor_2x2_helper();
 
-// We can call `sinh` function as follows.
-return tensor.sinh();
+// We can call `tanh` function as follows.
+return tensor.tanh();
 }
->>> [[0,9858303],[30424311,84036026]]
+>>> [[0,6388715],[8086850,8347125]]
 // The fixed point representation of
-// [[0, 1.175201],[3.62686, 10.0178749]]
+// [[0, 0.761594],[0.96403, 0.9951]]
 ```

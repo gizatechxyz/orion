@@ -85,6 +85,10 @@ impl FP8x23Impl of FixedTrait {
     fn sinh(self: FixedType) -> FixedType {
         return math_8x23::sinh(self);
     }
+
+    fn tanh(self: FixedType) -> FixedType {
+        return math_8x23::tanh(self);
+    }
 }
 
 impl FP8x23Print of PrintTrait<FixedType> {

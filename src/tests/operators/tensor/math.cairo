@@ -15,3 +15,4 @@ mod ln;
 mod arithmetic;
 mod cumsum;
 mod sinh;
+mod tanh;

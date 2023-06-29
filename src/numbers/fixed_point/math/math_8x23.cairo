@@ -463,3 +463,11 @@ fn sinh(a: FixedType) -> FixedType {
     let denom = FixedTrait::new_unscaled(2_u128, false);
     num / denom 
 }
+
+/// Cf: FixedTrait::tanh docstring 
+fn tanh(a: FixedType) -> FixedType {
+    let ea = a.exp();
+    let num = ea - (FixedTrait::new(ONE, false) / ea);
+    let denom = ea + (FixedTrait::new(ONE, false) / ea);
+    num / denom 
+}

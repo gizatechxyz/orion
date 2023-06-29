@@ -29,6 +29,7 @@ use orion::operators::tensor::math::greater::greater_fp::core::greater;
 use orion::operators::tensor::math::greater_equal::greater_equal_fp::core::greater_equal;
 use orion::operators::tensor::math::cumsum::cumsum_fp::core::cumsum;
 use orion::operators::tensor::math::sinh::sinh_fp::core::sinh;
+use orion::operators::tensor::math::tanh::tanh_fp::core::tanh;
 
 use orion::utils::check_gas;
 
@@ -129,6 +130,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn sinh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         sinh(self).unwrap()
+    }
+
+    fn tanh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        tanh(self).unwrap()
     }
 }
 
