@@ -34,6 +34,7 @@
     * [tensor.abs](apis/operators/tensor/tensor.abs.md)
     * [tensor.ceil](apis/operators/tensor/tensor.ceil.md)
     * [tensor.cumsum](apis/operators/tensor/tensor.cumsum.md)
+    * [tensor.flatten](apis/operators/tensor/tensor.flatten.md)
     * [tensor.sinh](apis/operators/tensor/tensor.sinh.md)
     * [tensor.cosh](apis/operators/tensor/tensor.cosh.md)
     * [tensor.tanh](apis/operators/tensor/tensor.tanh.md)
