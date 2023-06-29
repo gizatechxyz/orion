@@ -30,6 +30,7 @@ use orion::operators::tensor::math::greater_equal::greater_equal_fp::core::great
 use orion::operators::tensor::math::cumsum::cumsum_fp::core::cumsum;
 use orion::operators::tensor::math::sinh::sinh_fp::core::sinh;
 use orion::operators::tensor::math::tanh::tanh_fp::core::tanh;
+use orion::operators::tensor::math::cosh::cosh_fp::core::cosh;
 
 use orion::utils::check_gas;
 
@@ -72,11 +73,21 @@ impl Tensor_fp of TensorTrait<FixedType> {
         reduce_sum(self, axis, keepdims).unwrap()
     }
 
-    fn argmax(self: @Tensor<FixedType>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+    fn argmax(
+        self: @Tensor<FixedType>,
+        axis: usize,
+        keepdims: Option<bool>,
+        select_last_index: Option<bool>
+    ) -> Tensor<usize> {
         argmax(self, axis, keepdims, select_last_index).unwrap()
     }
 
-    fn argmin(self: @Tensor<FixedType>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+    fn argmin(
+        self: @Tensor<FixedType>,
+        axis: usize,
+        keepdims: Option<bool>,
+        select_last_index: Option<bool>
+    ) -> Tensor<usize> {
         argmin(self, axis, keepdims, select_last_index).unwrap()
     }
 
@@ -124,7 +135,9 @@ impl Tensor_fp of TensorTrait<FixedType> {
         ceil(self).unwrap()
     }
 
-    fn cumsum(self: @Tensor<FixedType>, axis: usize, exclusive:Option<bool>, reverse:Option<bool>) -> Tensor<FixedType> {
+    fn cumsum(
+        self: @Tensor<FixedType>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
+    ) -> Tensor<FixedType> {
         cumsum(self, axis, exclusive, reverse).unwrap()
     }
 
@@ -134,6 +147,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn tanh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         tanh(self).unwrap()
+    }
+
+    fn cosh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        cosh(self).unwrap()
     }
 }
 

@@ -536,7 +536,9 @@ trait TensorTrait<T> {
     /// >>> [[[1,1],[1,1]]]
     /// ```
     ///
-    fn argmax(self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize>;
+    fn argmax(
+        self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize>;
     /// # tensor.argmin
     ///
     /// ```rust 
@@ -604,7 +606,9 @@ trait TensorTrait<T> {
     /// >>> [[[0,0],[1,1]]]
     /// ```
     ///
-    fn argmin(self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize>;
+    fn argmin(
+        self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize>;
     /// # tensor.matmul
     ///
     /// ```rust 
@@ -1184,14 +1188,16 @@ trait TensorTrait<T> {
     /// >>> [[[1,0],[3,0]],[[5,0],[7,0]]]
     /// ```
     ///
-    fn cumsum(self: @Tensor<T>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>) -> Tensor<T>;
+    fn cumsum(
+        self: @Tensor<T>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
+    ) -> Tensor<T>;
     /// # tensor.sinh
     ///
     /// ```rust 
     ///     fn sinh(self: @Tensor<T>) -> Tensor<FixedType>;
     /// ```
     ///
-    /// Computes the exponential of all elements of the input tensor.
+    /// Computes the hyperbolic sine of all elements of the input tensor.
     /// $$
     /// y_i=sinh({x_i})
     /// $$
@@ -1202,7 +1208,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `FixedType` with the exponential of the elements of the input tensor.
+    /// Returns a new tensor in `FixedType` with the hyperbolic sine of the elements of the input tensor.
     ///
     /// ## Examples
     ///
@@ -1257,6 +1263,42 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn tanh(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// # tensor.cosh
+    ///
+    /// ```rust 
+    ///     fn cosh(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// ```
+    ///
+    /// Computes the hyperbolic cosine of all elements of the input tensor.
+    /// $$
+    /// y_i=cosh({x_i})
+    /// $$
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// Returns a new tensor in `FixedType` with the hyperblic cosine of the elements of the input tensor.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// fn exp_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 2D Tensor here.
+    ///     // [[0,1],[2,3]]
+    ///     let tensor = u32_tensor_2x2_helper();
+    /// 		
+    ///     // We can call `cosh` function as follows.
+    ///     return tensor.cosh();
+    /// }
+    /// >>> [[9858303,12944299],[31559585,84453670]]
+    /// // The fixed point representation of
+    /// // [[0, 1.54308],[3.762196, 10.067662]]
+    /// ```
+    ///
+    fn cosh(self: @Tensor<T>) -> Tensor<FixedType>;
 }
 
 /// Cf: TensorTrait::new docstring
