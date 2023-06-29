@@ -8,7 +8,7 @@ Returns the value of the hyperbolic sine of the fixed point number.
 
 ## Args
 
-- `self`(`FixedType`) - The input fixed point
+* `self`(`FixedType`) - The input fixed point
 
 ## Returns
 
@@ -24,5 +24,5 @@ let fp = FixedTrait::from_unscaled_felt(2);
 // We can call `sinh` function as follows.
 fp.sinh()
 }
->>> {mag: 30424303, sign: false} // = 3.6268604
+>>> {mag: 30424311, sign: false} // = 3.6268604
 ```
