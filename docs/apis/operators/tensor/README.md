@@ -74,6 +74,7 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.abs`](tensor.abs.md) | Computes the absolute value of all elements in the input tensor. |
 | [`tensor.ceil`](tensor.ceil.md) | Rounds up the value of each element in the input tensor. |
 | [`tensor.cumsum`](tensor.cumsum.md) | Returns the cumulative sum of the elements along a given axis. |
+| [`tensor.sin`](tensor.sin.md) | Computes the sine value of each element in the input tensor. |
 
 ### Arithmetic Operations
 

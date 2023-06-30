@@ -29,6 +29,7 @@ enum FixedImpl {
 /// pow - Returns the result of raising the fixed point number to the power of another fixed point number
 /// round - Rounds the fixed point number to the nearest whole number.
 /// sqrt - Returns the square root of the fixed point number.
+/// sin - Returns the sine of the fixed point number.
 trait FixedTrait {
     /// # FixedTrait::new
     /// 
@@ -481,6 +482,34 @@ trait FixedTrait {
     /// ```
     ///
     fn sqrt(self: FixedType) -> FixedType;
-
+    /// # fp.sin
+    /// 
+    /// ```rust
+    /// fn sin(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the sine of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// A fixed point number representing the sin  of the input value.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn sin_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(2);
+    ///     
+    ///     // We can call `sin` function as follows.
+    ///     fp.sin()
+    /// }
+    /// >>> {mag: 59592, sign: false} // = 0.909..
+    /// ``` 
+    ///
     fn sin(self: FixedType) -> FixedType;
 }
