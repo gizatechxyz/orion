@@ -13,6 +13,7 @@ mod abs;
 mod ceil;
 mod ln;
 mod arithmetic;
+mod sin;
 mod cumsum;
 mod flatten;
 mod sinh;

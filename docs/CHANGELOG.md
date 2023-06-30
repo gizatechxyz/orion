@@ -39,6 +39,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Replace array.at with IndexView
+## [Unreleased] - 2023-06-30
+
+### Added
+- Added sine implementation and tests
 
 ## [Unreleased] - 2023-06-21
 

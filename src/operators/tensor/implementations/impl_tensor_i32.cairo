@@ -35,6 +35,8 @@ use orion::operators::tensor::math::tanh::tanh_i32::core::tanh_i32;
 use orion::operators::tensor::math::cosh::cosh_i32::core::cosh_i32;
 use orion::utils::check_gas;
 
+use orion::operators::tensor::math::sin::sin_i32::core::sin_i32;
+
 impl Tensor_i32 of TensorTrait<i32> {
     fn new(shape: Span<usize>, data: Span<i32>, extra: Option<ExtraParams>) -> Tensor<i32> {
         new_tensor(shape, data, extra)
@@ -128,6 +130,10 @@ impl Tensor_i32 of TensorTrait<i32> {
         ceil(self)
     }
 
+    fn sin(self: @Tensor<i32>) -> Tensor<FixedType> {
+        sin_i32(self).unwrap()
+    }
+    
     fn cumsum(
         self: @Tensor<i32>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
     ) -> Tensor<i32> {

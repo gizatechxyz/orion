@@ -1,14 +1,15 @@
 use option::OptionTrait;
 use traits::Into;
+use debug::PrintTrait;
+
 
 use orion::numbers::fixed_point::implementations::impl_16x16::{
     ONE, _felt_abs, _felt_sign, FP16x16Impl, FP16x16Into, FP16x16Add, FP16x16AddEq, FP16x16Sub,
     FP16x16SubEq, FP16x16Mul, FP16x16MulEq, FP16x16Div, FP16x16DivEq, FP16x16PartialOrd,
-    FP16x16PartialEq
+    FP16x16PartialEq, PI, HALF_PI
 };
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::numbers::fixed_point::core;
-
 #[test]
 fn test_into() {
     let a = FixedTrait::from_unscaled_felt(5);
@@ -326,6 +327,23 @@ fn test_gt() {
 
 #[test]
 #[available_gas(10000000)]
+fn test_sin() {
+    let a = FixedTrait::new(HALF_PI, false);
+    assert(a.sin().into() == 65536, 'invalid half pi');
+
+    let a = FixedTrait::new(HALF_PI / 2_u128, false);
+    assert(a.sin().into() == 46340, 'invalid quarter pi'); // 0.7071067811865475
+
+    let a = FixedTrait::new(PI, false);
+    assert(a.sin().into() == 0, 'invalid pi');
+
+    let a = FixedTrait::new(HALF_PI, true);
+    assert(a.sin().into() == -65536, 'invalid neg half pi'); // 0.9999999999939766
+
+    let a = FixedTrait::new_unscaled(17_u128, false);
+    assert(a.sin().into() == -63007, 'invalid 17');
+}
+
 fn test_sinh() {
     let a = FixedTrait::from_unscaled_felt(1);
     assert(a.sinh().into() == 77016, 'invalid sinh of 1');

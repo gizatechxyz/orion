@@ -13,6 +13,7 @@ mod less;
 mod less_equal;
 mod abs;
 mod ceil;
+mod sin;
 mod cumsum;
 mod flatten;
 mod sinh;

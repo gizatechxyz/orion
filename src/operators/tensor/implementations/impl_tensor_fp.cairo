@@ -35,6 +35,8 @@ use orion::operators::tensor::math::cosh::cosh_fp::core::cosh;
 
 use orion::utils::check_gas;
 
+use orion::operators::tensor::math::sin::sin_fp::core::sin;
+
 impl Tensor_fp of TensorTrait<FixedType> {
     fn new(
         shape: Span<usize>, data: Span<FixedType>, extra: Option<ExtraParams>
@@ -136,12 +138,16 @@ impl Tensor_fp of TensorTrait<FixedType> {
         ceil(self).unwrap()
     }
 
+    fn sin(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        sin(self).unwrap()
+    }
+
     fn cumsum(
         self: @Tensor<FixedType>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
     ) -> Tensor<FixedType> {
         cumsum(self, axis, exclusive, reverse).unwrap()
     }
- 
+
     fn flatten(self: @Tensor<FixedType>, axis: usize) -> Tensor<FixedType> {
         flatten(self, axis).unwrap()
     }

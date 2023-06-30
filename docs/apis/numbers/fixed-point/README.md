@@ -53,6 +53,7 @@ use orion::numbers::fixed_point::Fixed;
 | [`fp.pow`](fp.pow.md) | Returns the result of raising the fixed point number to the power of another fixed point number |
 | [`fp.round`](fp.round.md) | Rounds the fixed point number to the nearest whole number. |
 | [`fp.sqrt`](fp.sqrt.md) | Returns the square root of the fixed point number. |
+| [`fp.sin`](fp.sin.md) | Returns the sine of the fixed point number. |
 
 ### Arithmetic & Comparison operators
 
