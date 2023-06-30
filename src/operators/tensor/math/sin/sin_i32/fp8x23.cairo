@@ -21,10 +21,10 @@ fn sin(self: @Tensor<i32>) -> Tensor<FixedType> {
         let ele = *data.pop_front().unwrap();
 
         if ele.sign == true {
-            let ele = FixedTrait::from_unscaled_felt((ele.mag).into() * -1);
+            let ele = FixedTrait::new_unscaled(ele.mag.into(), ele.sign);
             result.append(FixedTrait::sin(ele))
         } else {
-            let ele = FixedTrait::from_unscaled_felt((ele.mag).into());
+            let ele = FixedTrait::new_unscaled(ele.mag.into(), ele.sign);
             result.append(FixedTrait::sin(ele))
         }
 

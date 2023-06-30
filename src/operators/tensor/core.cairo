@@ -42,6 +42,8 @@ struct ExtraParams {
 /// less_equal - Check if each element of the first tensor is less than or equal to the corresponding element of the second tensor.
 /// abs - Computes the absolute value of all elements in the input tensor.
 /// ceil - Rounds up the value of each element in the input tensor.
+/// sin - Computes the sine value of each element in the input tensor.
+
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -1120,7 +1122,37 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn ceil(self: @Tensor<T>) -> Tensor<T>;
-
+    /// #tensor.sin
+    ///
+    /// ```rust
+    ///     fn sin(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the sine of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the sine value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn sin_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // tensor = [[0, 1, 2,]]
+    ///     let tensor = fp8x23_tensor_1x3_helper();
+    ///     let result = tensor.sin();
+    ///     return result;
+    /// }
+    /// >>> [0,0.8414...,0.9092...]
+    /// ```
+    ///
     fn sin(self: @Tensor<T>) -> Tensor<FixedType>;
 }
 
