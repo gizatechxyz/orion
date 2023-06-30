@@ -340,7 +340,30 @@ fn test_tanh() {
 
 #[test]
 #[available_gas(10000000)]
-fn test_coshh() {
+fn test_cosh() {
     let a = FixedTrait::from_unscaled_felt(1);
     assert(a.cosh().into() == 101125, 'invalid cosh of 1');
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_acosh() {
+    let a = FixedTrait::from_unscaled_felt(1);
+    assert(a.acosh().into() == 0, 'invalid cosh of 1');
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_acosh_2() {
+    let a = FixedTrait::from_unscaled_felt(2);
+    assert(a.acosh().into() == 86255, 'invalid cosh of 2');
+}
+
+#[test]
+#[available_gas(10000000)]
+#[should_panic]
+fn test_acosh_zero() {
+    //should panic with a value less than 1
+    let a = FixedTrait::from_unscaled_felt(0);
+    a.acosh();
 }

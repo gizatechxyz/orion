@@ -8,7 +8,7 @@ Returns the value of the hyperbolic cosine of the fixed point number.
 
 ## Args
 
-- `self`(`FixedType`) - The input fixed point
+* `self`(`FixedType`) - The input fixed point
 
 ## Returns
 
@@ -24,5 +24,5 @@ let fp = FixedTrait::from_unscaled_felt(2);
 // We can call `cosh` function as follows.
 fp.cosh()
 }
->>> {mag: 31559577, sign: false} // = 3.62686...
+>>> {mag: 31559585, sign: false} // = 3.762195...
 ```

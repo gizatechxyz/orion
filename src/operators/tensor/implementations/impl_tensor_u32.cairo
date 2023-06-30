@@ -32,6 +32,7 @@ use orion::operators::tensor::math::flatten::flatten_u32::flatten;
 use orion::operators::tensor::math::sinh::sinh_u32::core::sinh_u32;
 use orion::operators::tensor::math::tanh::tanh_u32::core::tanh_u32;
 use orion::operators::tensor::math::cosh::cosh_u32::core::cosh_u32;
+use orion::operators::tensor::math::acosh::acosh_u32::core::acosh_u32;
 use orion::utils::check_gas;
 
 impl Tensor_u32 of TensorTrait<u32> {
@@ -148,6 +149,10 @@ impl Tensor_u32 of TensorTrait<u32> {
 
     fn cosh(self: @Tensor<u32>) -> Tensor<FixedType> {
         cosh_u32(self).unwrap()
+    }
+
+    fn acosh(self: @Tensor<u32>) -> Tensor<FixedType> {
+        acosh_u32(self).unwrap()
     }
 }
 

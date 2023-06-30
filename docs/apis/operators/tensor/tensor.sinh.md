@@ -20,7 +20,7 @@ Returns a new tensor in `FixedType` with the hyperbolic sine of the elements of 
 ## Examples
 
 ```rust
-fn exp_example() -> Tensor<FixedType> {
+fn sinh_example() -> Tensor<FixedType> {
 // We instantiate a 2D Tensor here.
 // [[0,1],[2,3]]
 let tensor = u32_tensor_2x2_helper();
