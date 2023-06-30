@@ -1,74 +1,56 @@
 # Contribute
 
-Orion is fully open-source and new contributors are welcome to implement new ONNX Operators in Cairo 1.0! To see the full list of operators available click [here](https://github.com/onnx/onnx/blob/main/docs/Operators.md).
+First of all, we sincerely appreciate your interest. It is precisely through contributions like yours that we can expand Orion and build a robust and transparent AI ecosystem
 
-## 🤝 How to contribute?
+## 🚀 Getting Started
 
-<details>
+### Check the Issues
 
-<summary>Contribution Process</summary>
+Before you start contributing, please check the [Issue Tracker](https://github.com/gizatechxyz/orion/issues) to see if there are any existing issues that match what you're intending to do. If the issue doesn't exist, please create it.
 
-Please search the [issue tracker](https://github.com/franalgaba/onnx-cairo/issues) for a similar idea first: there may already be an issue you can contribute to.
+If you're creating a new issue, please provide a descriptive title and detailed description. If possible, include a code sample or an executable test case demonstrating the expected behavior that is not occurring.
 
-1. **Create Issue** - Start by filing a new issue in the [issue tracker](https://github.com/franalgaba/onnx-cairo/issues). Include as much detail as you have. It's fine if it's not a complete design: just a summary and rational is a good starting point.
-2. **Discussion** - We'll keep the issue open for community discussion until it has been resolved or is deemed no longer relevant. Note that if an issue isn't a high priority or has many open questions then it might stay open for a long time.
-3. **Owner Review** - The Orion team will review the proposal and either approve or close the issue based on whether it broadly aligns with the contribution guidelines.
-4. **Implementation**
-   * A feature can be implemented by you, the Orion team, or other community members. Code contributions are greatly appreciated: feel free to work on any reviewed feature you proposed, or choose one in the backlog and send us a PR. If you are new to the project and want to work on an existing issue, we recommend starting with issues that are tagged with <mark style="background-color:green;">good first issue</mark>. Please let us know in the issue comments if you are actively working on implementing a feature so we can ensure it's assigned to you.
-   * Unit tests: New code **must** be accompanied by unit tests.
-   * Documentation and sample updates: If the PR affects any of the documentation or samples then include those updates in the same PR. Run `scarb run docgen` to generate documentation from docstrings.
-   * Once a feature is complete and tested according to the contribution guidelines follow these steps:
-     1. Follow the [standard GitHub process to open a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests)
-     2. Add reviewers who have context from the earlier discussion. If you can't find a reviewer, add [**franalgaba**](https://github.com/franalgaba) or [**raphaelDkhn**](https://github.com/raphaelDkhn).
+### Fork and Clone the Repository
 
-</details>
+Once you've found an issue to work on, the next step is to fork the Orion repo and clone it to your local machine. This is necessary because you probably won't have push access to the main repo.
 
-<details>
+## ✍️ Making Changes
 
-<summary>Add a new feature</summary>
+When you're ready to start coding, create a new branch on your cloned repo. It's important to use a separate branch for each issue you're working on. This keeps your changes separate in case you want to submit more than one contribution.
 
-New contributors are welcome to implement new ONNX Operators or new features in Cairo 1.0! To see the full list of operators available in ONNX standard click [here](https://github.com/onnx/onnx/blob/main/docs/Operators.md). You can check the compatibility list [here](../apis/compatibility.md).
+Please use meaningful names for your branches. For example, if you're working on a bug with the softmax function, you might name your branch `fix-softmax-bug`.
 
-#### Orion repository
+As you're making changes, make sure you follow the coding conventions used throughout the Orion project. Consistent code style makes it easier for others to read and understand your code.
 
-Orion is composed of three APIs: **Operators**, **Numbers** and **Performance**. Directories in Orion repository are organized in a similar way:
+### Implement new operators
 
-```
-src
-├── numbers
-│   ├── fixed_point
-│   └── signed_integer
-├── operators
-│   ├── nn
-│   │   └── functional
-│   └── tensor
-│       ├── implementations
-│       ├── linalg
-│       └── math
-├── performance
-│   └── functional
-│       └── quantization
-└── tests
-    ├── operators
-    │   ├── linalg
-    │   ├── math
-    │   ├── nn
-    │   └── tensor
-    └── performance
-```
+Orion operators serve as the foundational components of machine learning models compliant with ONNX ops. You can follow this [step-by-step tutorial](../resources/tutorials/implement-new-operators-in-orion.md) to understand the process of implementing new operators within Orion.
 
-#### Create new methods
+## 🔥 Submitting a Pull Request
 
-To create a new method or function in the library, follow these steps:
+Once your changes are ready, commit them and push the branch to your forked repo on GitHub. Then you can open a pull request from your branch to the `develop` branch of the Orion repo.
 
-1. **Identify the right location for your code.** First, determine in which API you want to implement your functionality, then in which module (e.g; `linalg`, `math`, `nn`, `tensors`,... ).
-2. **Implement the method.** If this method should be part of Tensor trait, define the method to [TensorTrait](https://github.com/gizatechxyz/onnx-cairo/blob/d596d8d0f31f0170178a7898f95589cbc50954b1/src/operators/tensor/core.cairo#L38).
-3. **Document your method following Rust Docstring style.** Also, update the [README](https://github.com/gizatechxyz/onnx-cairo/blob/main/README.md) and [CHANGELOG](https://github.com/gizatechxyz/onnx-cairo/blob/main/docs/CHANGELOG.md) file as necessary.
-4. **Contribute your changes**: Follow the [contribution process](contribute.md#contribution-process) to submit your new method to the main project repository.
+When you submit the pull request, please provide a clear, detailed description of the changes you've made. If you're addressing a specific issue, make sure you reference it in the description.
 
-</details>
+Your pull request will be reviewed by the maintainers of the Orion project. They may ask for changes or clarification on certain points. Please address their comments and commit any required changes to the same branch on your repo.
+
+## 🐎 Running Tests
+
+Before you submit your pull request, you should run the test suite locally to make sure your changes haven't broken anything.
+
+Additionally, when you push your changes, the built-in Continuous Integration (CI) will also run all the tests on the pushed code. You can see the result of these tests in the GitHub interface of your pull request. If the tests fail, you'll need to revise your code and push it again.
+
+## 📜 Documentation
+
+We strive to provide comprehensive, up-to-date documentation for Orion. If your changes require updates to the documentation, please include those in your pull request.&#x20;
+
+If you implemented a new operator, please, run `scarb run docgen` to generate the documentation from docstring. [Read more](../resources/tutorials/implement-new-operators-in-orion.md#step-4-write-the-docstring) about docstrings in Orion Operators.
 
 ## 🎁 Getting Rewarded
 
 Orion contributions are rewarded through [OnlyDust](https://app.onlydust.xyz/projects/32e92e68-13a5-4859-a122-69c0e738a8d1).\
-It means that you as a developer are free to pick any open issue and submit a PR. Once the PR is merged you will be paid according to the time/difficulty of the PR.
+It means that once the PR is merged you will be paid according to the time/difficulty of the PR.
+
+## 🫶 Final Notes
+
+Again, thank you for considering to contribute to Orion. Your contribution is invaluable to us. We hope this guide makes the contribution process clear and answers any questions you might have. If not, feel free to ask on the [Discord](https://discord.gg/yqWB57XNYg) or on [GitHub](https://github.com/gizatechxyz/orion/issues).

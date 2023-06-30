@@ -512,4 +512,94 @@ trait FixedTrait {
     /// ``` 
     ///
     fn sin(self: FixedType) -> FixedType;
+    /// # fp.sinh
+    /// 
+    /// ```rust
+    /// fn sinh(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the value of the hyperbolic sine of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// The hyperbolic sine of the input fixed point number.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn sinh_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(2);
+    ///     
+    ///     // We can call `sinh` function as follows.
+    ///     fp.sinh()
+    /// }
+    /// >>> {mag: 30424311, sign: false} // = 3.6268604
+    /// ``` 
+    ///
+    fn sinh(self: FixedType) -> FixedType;
+    /// # fp.tanh
+    /// 
+    /// ```rust
+    /// fn tanh(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the value of the hyperbolic tangent of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// The hyperbolic tangent of the input fixed point number.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn tanh_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(2);
+    ///     
+    ///     // We can call `tanh` function as follows.
+    ///     fp.tanh()
+    /// }
+    /// >>> {mag: 8086850, sign: false} // = 0.964027...
+    /// ``` 
+    ///
+    fn tanh(self: FixedType) -> FixedType;
+    /// # fp.cosh
+    /// 
+    /// ```rust
+    /// fn cosh(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the value of the hyperbolic cosine of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// The hyperbolic cosine of the input fixed point number.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn cosh_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(2);
+    ///     
+    ///     // We can call `cosh` function as follows.
+    ///     fp.cosh()
+    /// }
+    /// >>> {mag: 31559585, sign: false} // = 3.762195...
+    /// ``` 
+    ///
+    fn cosh(self: FixedType) -> FixedType;
 }

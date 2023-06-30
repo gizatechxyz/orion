@@ -28,6 +28,7 @@ You can see below the list of current supported ONNX Operators:
 |     [ReduceSum](operators/tensor/tensor.reduce\_sum.md)     | :white\_check\_mark: |
 |         [CumSum](operators/tensor/tensor.cumsum.md)         | :white\_check\_mark: |
 |            [Sin](operators/tensor/tensor.sin.md)            | :white\_check\_mark: |
+|         [Flatten](operators/tensor/tensor.flatten.md)       | :white\_check\_mark: |
 |         [Relu](operators/neural-network/nn.relu.md)         | :white\_check\_mark: |
 |   [LeakyRelu](operators/neural-network/nn.leaky\_relu.md)   | :white\_check\_mark: |
 |      [Sigmoid](operators/neural-network/nn.sigmoid.md)      | :white\_check\_mark: |
@@ -36,6 +37,9 @@ You can see below the list of current supported ONNX Operators:
 |     [Softsign](operators/neural-network/nn.softsign.md)     | :white\_check\_mark: |
 |     [Softplus](operators/neural-network/nn.softplus.md)     | :white\_check\_mark: |
 |       [Linear](operators/neural-network/nn.linear.md)       | :white\_check\_mark: |
+|           [Sinh](operators/tensor/tensor.sinh.md)           | :white\_check\_mark: |
+|           [Cosh](operators/tensor/tensor.cosh.md)           | :white\_check\_mark: |
+|           [Tanh](operators/tensor/tensor.tanh.md)           | :white\_check\_mark: |
 
 Performance optimizations:
 
@@ -43,4 +47,4 @@ Performance optimizations:
 | :----------------: | :------------------: |
 | 8-bit quantization | :white\_check\_mark: |
 
-Current Operators support: **27/156 (17%)**
+Current Operators support: **33/156 (21%)**
