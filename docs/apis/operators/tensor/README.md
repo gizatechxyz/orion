@@ -74,6 +74,7 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.abs`](tensor.abs.md) | Computes the absolute value of all elements in the input tensor. |
 | [`tensor.ceil`](tensor.ceil.md) | Rounds up the value of each element in the input tensor. |
 | [`tensor.sin`](tensor.sin.md) | Computes the sine value of each element in the input tensor. |
+| [`tensor.cos`](tensor.cos.md) | Computes the cosine value of each element in the input tensor. |
 
 ### Arithmetic Operations
 

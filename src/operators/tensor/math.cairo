@@ -14,3 +14,4 @@ mod less_equal;
 mod abs;
 mod ceil;
 mod sin;
+mod cos;

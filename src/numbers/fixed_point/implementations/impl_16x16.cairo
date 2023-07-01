@@ -87,6 +87,10 @@ impl FP16x16Impl of FixedTrait {
     fn sin(self: FixedType) -> FixedType {
         return math_16x16::sin(self);
     }
+
+    fn cos(self: FixedType) -> FixedType {
+        return math_16x16::cos(self);
+    }
 }
 
 impl FP16x16Print of PrintTrait<FixedType> {

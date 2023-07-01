@@ -14,3 +14,5 @@ mod ceil;
 mod ln;
 mod arithmetic;
 mod sin;
+mod cos;
+

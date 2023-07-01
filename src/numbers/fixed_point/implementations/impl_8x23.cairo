@@ -87,6 +87,10 @@ impl FP8x23Impl of FixedTrait {
     fn sin(self: FixedType) -> FixedType {
         return math_8x23::sin(self);
     }
+
+    fn cos(self: FixedType) -> FixedType {
+        return math_8x23::cos(self);
+    }
 }
 
 impl FP8x23Print of PrintTrait<FixedType> {

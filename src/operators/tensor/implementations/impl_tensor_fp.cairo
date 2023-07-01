@@ -30,6 +30,8 @@ use orion::operators::tensor::math::greater_equal::greater_equal_fp::core::great
 use orion::utils::check_gas;
 
 use orion::operators::tensor::math::sin::sin_fp::core::sin;
+use orion::operators::tensor::math::cos::cos_fp::core::cos;
+
 
 impl Tensor_fp of TensorTrait<FixedType> {
     fn new(
@@ -134,6 +136,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn sin(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         sin(self).unwrap()
+    }
+
+    fn cos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        cos(self).unwrap()
     }
 }
 

@@ -344,3 +344,25 @@ fn test_sin() {
     let a = FixedTrait::new_unscaled(17_u128, false);
     assert(a.sin().into() == -8064787, 'invalid 17'); // -0.9613974918795568
 }
+
+#[test]
+#[available_gas(10000000)]
+fn test_cos() {
+    let a = FixedTrait::new(HALF_PI, false);
+    assert(a.cos().into() == 0, 'invalid half pi');
+
+    let a = FixedTrait::new(HALF_PI / 2_u128, false);
+    assert(a.cos().into() == 5931641, 'invalid quarter pi'); // 0.707106...
+
+    let a = FixedTrait::new(PI, false);
+    assert(a.cos().into() == -8388608, 'invalid pi'); // -1
+
+    let a = FixedTrait::new(HALF_PI, true);
+    assert(a.cos().into() == -0, 'invalid neg half pi'); // -0.000...
+
+    let a = FixedTrait::new_unscaled(17_u128, false);
+    assert(a.cos().into() == -2308236, 'invalid 17'); // -0.27516...
+
+    let a = FixedTrait::new_unscaled(17_u128, true);
+    assert(a.cos().into() == -2308239, 'invalid -17'); // -0.27516...
+}

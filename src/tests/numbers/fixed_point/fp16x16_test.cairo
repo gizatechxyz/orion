@@ -2,7 +2,6 @@ use option::OptionTrait;
 use traits::Into;
 use debug::PrintTrait;
 
-
 use orion::numbers::fixed_point::implementations::impl_16x16::{
     ONE, _felt_abs, _felt_sign, FP16x16Impl, FP16x16Into, FP16x16Add, FP16x16AddEq, FP16x16Sub,
     FP16x16SubEq, FP16x16Mul, FP16x16MulEq, FP16x16Div, FP16x16DivEq, FP16x16PartialOrd,
@@ -342,4 +341,26 @@ fn test_sin() {
 
     let a = FixedTrait::new_unscaled(17_u128, false);
     assert(a.sin().into() == -63007, 'invalid 17');
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_cos() {
+    let a = FixedTrait::new(HALF_PI, false);
+    assert(a.cos().into() == 0, 'invalid half pi');
+
+    let a = FixedTrait::new(HALF_PI / 2_u128, false);
+    assert(a.cos().into() == 46341, 'invalid quarter pi'); // 0.7071...
+
+    let a = FixedTrait::new(PI, false);
+    assert(a.cos().into() == -65536, 'invalid pi'); // -1
+
+    let a = FixedTrait::new(HALF_PI, true);
+    assert(a.cos().into() == -0, 'invalid neg half pi'); // -0.000...
+
+    let a = FixedTrait::new_unscaled(17_u128, false);
+    assert(a.cos().into() == -18030, 'invalid 17'); // -0.2751...
+
+    let a = FixedTrait::new_unscaled(17_u128, true);
+    assert(a.cos().into() == -18030, 'invalid -17'); // -0.2751...
 }

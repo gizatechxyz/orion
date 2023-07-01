@@ -1,10 +1,10 @@
-#tensor.sin
+#tensor.cos
 
 ```rust
-fn sin(self: @Tensor<T>) -> Tensor<T>;
+fn cos(self: @Tensor<T>) -> Tensor<T>;
 ```
 
-Computes the sine of all elements of the input tensor.
+Computes the cosine of all elements of the input tensor.
 
 ## Args
 
@@ -14,19 +14,19 @@ Computes the sine of all elements of the input tensor.
 ## Returns
 
 A new `Tensor<T>` of the same shape as the input tensor with
-the sine value of all elements in the input tensor.
+the cosine value of all elements in the input tensor.
 
 ## Example
 
 ```rust
-fn sin_example() -> Tensor<FixedType> {
+fn cos_example() -> Tensor<FixedType> {
 // We instantiate a 1D Tensor here.
 // tensor = [[0, 1, 2,]]
 let tensor = fp8x23_tensor_1x3_helper();
-let result = tensor.sin();
+let result = tensor.cos();
 return result;
 }
->>> [0,7058770,7627740]
+>>> [8388608,4532384,-3490893]
 // The fixed point representation of
-// [0,0.8414...,0.9092...]
+// [1, 0.5403...,-0.4161]
 ```
