@@ -42,6 +42,7 @@ You can see below the list of current supported ONNX Operators:
 |           [Cosh](operators/tensor/tensor.cosh.md)           | :white\_check\_mark: |
 |           [ACosh](operators/tensor/tensor.acosh.md)           | :white\_check\_mark: |
 |           [Tanh](operators/tensor/tensor.tanh.md)           | :white\_check\_mark: |
+|           [Tanh](operators/tensor/tensor.tanh.md)           | :white\_check\_mark: |
 
 Performance optimizations:
 

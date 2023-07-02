@@ -43,6 +43,7 @@ struct ExtraParams {
 /// abs - Computes the absolute value of all elements in the input tensor.
 /// ceil - Rounds up the value of each element in the input tensor.
 /// cumsum - Returns the cumulative sum of the elements along a given axis.
+/// sin - Computes the sine value of each element in the input tensor.
 /// flatten - Flattens the input tensor into a 2D tensor.
 trait TensorTrait<T> {
     /// # tensor.new
@@ -1122,6 +1123,39 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn ceil(self: @Tensor<T>) -> Tensor<T>;
+    /// #tensor.sin
+    ///
+    /// ```rust
+    ///     fn sin(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the sine of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the sine value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn sin_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // tensor = [[0, 1, 2,]]
+    ///     let tensor = fp8x23_tensor_1x3_helper();
+    ///     let result = tensor.sin();
+    ///     return result;
+    /// }
+    /// >>> [0,0.8414...,0.9092...]
+    /// ```
+    ///
+    fn sin(self: @Tensor<T>) -> Tensor<FixedType>;
+    
     /// # tensor.cumsum
     ///
     /// ```rust 
@@ -1368,6 +1402,42 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn cosh(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// # tensor.asinh
+    ///
+    /// ```rust 
+    ///     fn asinh(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// ```
+    ///
+    /// Computes the inverse hyperbolic sine of all elements of the input tensor.
+    /// $$
+    /// y_i=asinh({x_i})
+    /// $$
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// Returns a new tensor in `FixedType` with the hyperblic cosine of the elements of the input tensor.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// fn asinh_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 2D Tensor here.
+    ///     // [[0,1],[2,3]]
+    ///     let tensor = u32_tensor_2x2_helper();
+    /// 		
+    ///     // We can call `asinh` function as follows.
+    ///     return tensor.asinh();
+    /// }
+    /// >>> [[0,7393498],[12110093,15254235]]
+    /// // The fixed point representation of
+    /// // [[0, 0.8814],[1.44364, 1.8185]]
+    /// ```
+    ///
+    fn asinh(self: @Tensor<T>) -> Tensor<FixedType>;
     /// # tensor.acosh
     ///
     /// ```rust 
@@ -1507,3 +1577,4 @@ fn at_tensor<T>(self: @Tensor<T>, indices: Span<usize>) -> @T {
 
     return data.at(ravel_index(*self.shape, indices));
 }
+

@@ -13,6 +13,8 @@ const ONE_u64: u64 = 8388608; // 2 ** 23
 const HALF: u128 = 4194304; // 2 ** 22
 const MAX: u128 = 2147483647; // 2 ** 31 - 1
 const MIN_MAG: u128 = 2147483648; // 2 ** 31 
+const PI: u128 = 26353589_u128;
+const HALF_PI: u128 = 13176794_u128;
 
 /// IMPLS
 
@@ -82,6 +84,10 @@ impl FP8x23Impl of FixedTrait {
         return math_8x23::sqrt(self);
     }
 
+    fn sin(self: FixedType) -> FixedType {
+        return math_8x23::sin(self);
+    }
+
     fn sinh(self: FixedType) -> FixedType {
         return math_8x23::sinh(self);
     }
@@ -89,13 +95,17 @@ impl FP8x23Impl of FixedTrait {
     fn tanh(self: FixedType) -> FixedType {
         return math_8x23::tanh(self);
     }
-    
+
     fn cosh(self: FixedType) -> FixedType {
         return math_8x23::cosh(self);
     }
 
     fn acosh(self: FixedType) -> FixedType {
         return math_8x23::acosh(self);
+    }
+    
+    fn asinh(self: FixedType) -> FixedType {
+        return math_8x23::asinh(self);
     }
 }
 

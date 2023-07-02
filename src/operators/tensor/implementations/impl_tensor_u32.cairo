@@ -33,7 +33,11 @@ use orion::operators::tensor::math::sinh::sinh_u32::core::sinh_u32;
 use orion::operators::tensor::math::tanh::tanh_u32::core::tanh_u32;
 use orion::operators::tensor::math::cosh::cosh_u32::core::cosh_u32;
 use orion::operators::tensor::math::acosh::acosh_u32::core::acosh_u32;
+use orion::operators::tensor::math::asinh::asinh_u32::core::asinh_u32;
 use orion::utils::check_gas;
+
+use orion::operators::tensor::math::sin::sin_u32::core::sin_u32;
+
 
 impl Tensor_u32 of TensorTrait<u32> {
     fn new(shape: Span<usize>, data: Span<u32>, extra: Option<ExtraParams>) -> Tensor<u32> {
@@ -129,6 +133,10 @@ impl Tensor_u32 of TensorTrait<u32> {
         ceil(self)
     }
 
+    fn sin(self: @Tensor<u32>) -> Tensor<FixedType> {
+        sin_u32(self).unwrap()
+    }
+
     fn cumsum(
         self: @Tensor<u32>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
     ) -> Tensor<u32> {
@@ -153,6 +161,10 @@ impl Tensor_u32 of TensorTrait<u32> {
 
     fn acosh(self: @Tensor<u32>) -> Tensor<FixedType> {
         acosh_u32(self).unwrap()
+    }
+    
+    fn asinh(self: @Tensor<u32>) -> Tensor<FixedType> {
+        asinh_u32(self).unwrap()
     }
 }
 

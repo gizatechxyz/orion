@@ -13,6 +13,9 @@ const ONE_u64: u64 = 65536; // 2 ** 16
 const HALF: u128 = 32768; // 2 ** 15
 const MAX: u128 = 4294967295; // 2 ** 32 - 1
 const MIN_MAG: u128 = 4294967296; // 2 ** 32
+const PI: u128 = 205887_u128;
+const HALF_PI: u128 = 102943_u128;
+
 
 /// IMPLS
 
@@ -77,9 +80,12 @@ impl FP16x16Impl of FixedTrait {
         return math_16x16::round(self);
     }
 
-
     fn sqrt(self: FixedType) -> FixedType {
         return math_16x16::sqrt(self);
+    }
+
+    fn sin(self: FixedType) -> FixedType {
+        return math_16x16::sin(self);
     }
 
     fn sinh(self: FixedType) -> FixedType {
@@ -96,6 +102,10 @@ impl FP16x16Impl of FixedTrait {
 
     fn acosh(self: FixedType) -> FixedType {
         return math_16x16::acosh(self);
+    }
+    
+    fn asinh(self: FixedType) -> FixedType {
+        return math_16x16::asinh(self);
     }
 }
 
