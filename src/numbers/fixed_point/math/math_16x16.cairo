@@ -510,6 +510,14 @@ fn cosh(a: FixedType) -> FixedType {
     num / denom 
 }
 
+/// Cf: FixedTrait::acosh docstring 
+fn acosh(a: FixedType) -> FixedType {
+    assert(a >= FixedTrait::new_unscaled(1, false), 'a must be >= 1');
+    let root = (a * a - FixedTrait::new(ONE, false)).sqrt();
+    let answer = (a + root).ln();
+    answer
+}
+
 /// Cf: FixedTrait::asinh docstring 
 fn asinh(a: FixedType) -> FixedType {
     let root = (a*a +FixedTrait::new(ONE, false)).sqrt();

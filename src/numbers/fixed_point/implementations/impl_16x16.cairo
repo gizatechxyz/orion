@@ -100,6 +100,10 @@ impl FP16x16Impl of FixedTrait {
         return math_16x16::cosh(self);
     }
 
+    fn acosh(self: FixedType) -> FixedType {
+        return math_16x16::acosh(self);
+    }
+    
     fn asinh(self: FixedType) -> FixedType {
         return math_16x16::asinh(self);
     }

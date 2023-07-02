@@ -39,6 +39,7 @@
     * [tensor.sinh](apis/operators/tensor/tensor.sinh.md)
     * [tensor.asinh](apis/operators/tensor/tensor.asinh.md)
     * [tensor.cosh](apis/operators/tensor/tensor.cosh.md)
+    * [tensor.acosh](apis/operators/tensor/tensor.acosh.md)
     * [tensor.tanh](apis/operators/tensor/tensor.tanh.md)
   * [Neural Network](apis/operators/neural-network/README.md)
     * [nn.relu](apis/operators/neural-network/nn.relu.md)

@@ -32,11 +32,11 @@ use orion::operators::tensor::math::flatten::flatten_fp::core::flatten;
 use orion::operators::tensor::math::sinh::sinh_fp::core::sinh;
 use orion::operators::tensor::math::tanh::tanh_fp::core::tanh;
 use orion::operators::tensor::math::cosh::cosh_fp::core::cosh;
+use orion::operators::tensor::math::acosh::acosh_fp::core::acosh;
 use orion::operators::tensor::math::asinh::asinh_fp::core::asinh;
+use orion::operators::tensor::math::sin::sin_fp::core::sin;
 
 use orion::utils::check_gas;
-
-use orion::operators::tensor::math::sin::sin_fp::core::sin;
 
 impl Tensor_fp of TensorTrait<FixedType> {
     fn new(
@@ -163,6 +163,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn cosh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         cosh(self).unwrap()
+    }
+
+    fn acosh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        acosh(self).unwrap()
     }
 
     fn asinh(self: @Tensor<FixedType>) -> Tensor<FixedType> {

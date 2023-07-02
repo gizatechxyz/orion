@@ -87,7 +87,7 @@ impl FP8x23Impl of FixedTrait {
     fn sin(self: FixedType) -> FixedType {
         return math_8x23::sin(self);
     }
-    
+
     fn sinh(self: FixedType) -> FixedType {
         return math_8x23::sinh(self);
     }
@@ -100,6 +100,10 @@ impl FP8x23Impl of FixedTrait {
         return math_8x23::cosh(self);
     }
 
+    fn acosh(self: FixedType) -> FixedType {
+        return math_8x23::acosh(self);
+    }
+    
     fn asinh(self: FixedType) -> FixedType {
         return math_8x23::asinh(self);
     }
