@@ -19,3 +19,4 @@ mod flatten;
 mod sinh;
 mod tanh;
 mod cosh;
+mod asinh;

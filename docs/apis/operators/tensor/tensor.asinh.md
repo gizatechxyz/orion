@@ -1,12 +1,12 @@
-# tensor.cosh
+# tensor.asinh
 
 ```rust
-fn cosh(self: @Tensor<T>) -> Tensor<FixedType>;
+fn asinh(self: @Tensor<T>) -> Tensor<FixedType>;
 ```
 
-Computes the hyperbolic cosine of all elements of the input tensor.
+Computes the inverse hyperbolic sine of all elements of the input tensor.
 $$
-y_i=cosh({x_i})
+y_i=asinh({x_i})
 $$
 
 ## Args
@@ -20,15 +20,15 @@ Returns a new tensor in `FixedType` with the hyperblic cosine of the elements of
 ## Examples
 
 ```rust
-fn cosh_example() -> Tensor<FixedType> {
+fn asinh_example() -> Tensor<FixedType> {
 // We instantiate a 2D Tensor here.
 // [[0,1],[2,3]]
 let tensor = u32_tensor_2x2_helper();
 
-// We can call `cosh` function as follows.
-return tensor.cosh();
+// We can call `asinh` function as follows.
+return tensor.asinh();
 }
->>> [[9858303,12944299],[31559585,84453670]]
+>>> [[0,7393498],[12110093,15254235]]
 // The fixed point representation of
-// [[0, 1.54308],[3.762196, 10.067662]]
+// [[0, 0.8814],[1.44364, 1.8185]]
 ```

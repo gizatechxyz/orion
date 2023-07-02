@@ -33,6 +33,7 @@ use orion::operators::tensor::math::flatten::flatten_i32::flatten;
 use orion::operators::tensor::math::sinh::sinh_i32::core::sinh_i32;
 use orion::operators::tensor::math::tanh::tanh_i32::core::tanh_i32;
 use orion::operators::tensor::math::cosh::cosh_i32::core::cosh_i32;
+use orion::operators::tensor::math::asinh::asinh_i32::core::asinh_i32;
 use orion::utils::check_gas;
 
 use orion::operators::tensor::math::sin::sin_i32::core::sin_i32;
@@ -154,6 +155,10 @@ impl Tensor_i32 of TensorTrait<i32> {
 
     fn cosh(self: @Tensor<i32>) -> Tensor<FixedType> {
         cosh_i32(self).unwrap()
+    }
+    
+    fn asinh(self: @Tensor<i32>) -> Tensor<FixedType> {
+        asinh_i32(self).unwrap()
     }
 }
 
