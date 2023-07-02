@@ -65,7 +65,7 @@ fn reduce_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
 fn accumulate_sum(
     mut input_data: Span<u32>, input_shape: Span<usize>, output_indices: Span<usize>, axis: usize
 ) -> u32 {
-    let axis_len = *(input_shape).at(axis);
+    let axis_len = *(input_shape)[axis];
     let mut acc = 0;
 
     let mut axis_index: usize = 0;
@@ -80,7 +80,7 @@ fn accumulate_sum(
 
             let input_indices = combine_indices(output_indices, axis_index, axis);
             let input_index = ravel_index(input_shape, input_indices);
-            let ele = *(input_data).at(input_index);
+            let ele = *(input_data)[input_index];
             acc += ele;
             axis_index += 1;
         };

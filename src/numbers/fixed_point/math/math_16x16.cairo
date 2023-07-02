@@ -489,3 +489,42 @@ fn _pow_int(a: FixedType, b: u128, sign: bool) -> FixedType {
 fn _split_unsigned(a: FixedType) -> (u128, u128) {
     return integer::u128_safe_divmod(a.mag, integer::u128_as_non_zero(ONE));
 }
+
+/// Cf: FixedTrait::sinh docstring 
+fn sinh(a: FixedType) -> FixedType {
+    let ea = a.exp();
+    let num = ea - (FixedTrait::new(ONE, false) / ea);
+    let denom = FixedTrait::new_unscaled(2_u128, false);
+    num / denom 
+}
+
+/// Cf: FixedTrait::tanh docstring 
+fn tanh(a: FixedType) -> FixedType {
+    let ea = a.exp();
+    let num = ea - (FixedTrait::new(ONE, false) / ea);
+    let denom = ea + (FixedTrait::new(ONE, false) / ea);
+    num / denom 
+}
+
+/// Cf: FixedTrait::cosh docstring 
+fn cosh(a: FixedType) -> FixedType {
+    let ea = a.exp();
+    let num = ea + (FixedTrait::new(ONE, false) / ea);
+    let denom = FixedTrait::new_unscaled(2_u128, false);
+    num / denom 
+}
+
+/// Cf: FixedTrait::acosh docstring 
+fn acosh(a: FixedType) -> FixedType {
+    assert(a >= FixedTrait::new_unscaled(1, false), 'a must be >= 1');
+    let root = (a * a - FixedTrait::new(ONE, false)).sqrt();
+    let answer = (a + root).ln();
+    answer
+}
+
+/// Cf: FixedTrait::asinh docstring 
+fn asinh(a: FixedType) -> FixedType {
+    let root = (a*a +FixedTrait::new(ONE, false)).sqrt();
+    let result = (a + root).ln();
+    result
+}

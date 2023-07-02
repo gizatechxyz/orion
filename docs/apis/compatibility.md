@@ -4,41 +4,51 @@ To see the full list of available ONNX Operators refer to [this table](https://g
 
 You can see below the list of current supported ONNX Operators:
 
-|  Operator  |    Implemented     |
-| :--------: | :----------------: |
-|    Dot     | :white_check_mark: |
-|    Add     | :white_check_mark: |
-|    Sub     | :white_check_mark: |
-|    Mul     | :white_check_mark: |
-|    Div     | :white_check_mark: |
-|   Equal    | :white_check_mark: |
-|  Greater   | :white_check_mark: |
-|    Less    | :white_check_mark: |
-|    Abs     | :white_check_mark: |
-|    Ceil    | :white_check_mark: |
-|    Exp     | :white_check_mark: |
-|     Ln     | :white_check_mark: |
-|    Sin     | :white_check_mark: |
-|    Cos     | :white_check_mark: |
-|   MatMul   | :white_check_mark: |
-|  Reshape   | :white_check_mark: |
-| Transpose  | :white_check_mark: |
-|   Argmax   | :white_check_mark: |
-|   Argmin   | :white_check_mark: |
-| ReduceSum  | :white_check_mark: |
-|    ReLU    | :white_check_mark: |
-| Leaky ReLU | :white_check_mark: |
-|  Sigmoid   | :white_check_mark: |
-|  Softmax   | :white_check_mark: |
-| Logsoftmax | :white_check_mark: |
-|  Softsign  | :white_check_mark: |
-|  Softplus  | :white_check_mark: |
-|   Linear   | :white_check_mark: |
+|                          Operator                           |     Implemented      |
+| :---------------------------------------------------------: | :------------------: |
+|         [MatMul](operators/tensor/tensor.matmul.md)         | :white\_check\_mark: |
+|     [MatMulInteger](operators/tensor/tensor.matmul.md)      | :white\_check\_mark: |
+|       [Add](operators/tensor/#arithmetic-operations)        | :white\_check\_mark: |
+|       [Sub](operators/tensor/#arithmetic-operations)        | :white\_check\_mark: |
+|       [Mul](operators/tensor/#arithmetic-operations)        | :white\_check\_mark: |
+|       [Div](operators/tensor/#arithmetic-operations)        | :white\_check\_mark: |
+|           [Equal](operators/tensor/tensor.eq.md)            | :white\_check\_mark: |
+|        [Greater](operators/tensor/tensor.greater.md)        | :white\_check\_mark: |
+| [GreaterOrEqual](operators/tensor/tensor.greater\_equal.md) | :white\_check\_mark: |
+|           [Less](operators/tensor/tensor.less.md)           | :white\_check\_mark: |
+|    [LessOrEqual](operators/tensor/tensor.less\_equal.md)    | :white\_check\_mark: |
+|            [Abs](operators/tensor/tensor.abs.md)            | :white\_check\_mark: |
+|           [Ceil](operators/tensor/tensor.ceil.md)           | :white\_check\_mark: |
+|            [Exp](operators/tensor/tensor.exp.md)            | :white\_check\_mark: |
+|             [Ln](operators/tensor/tensor.ln.md)             | :white\_check\_mark: |
+|        [Reshape](operators/tensor/tensor.reshape.md)        | :white\_check\_mark: |
+|      [Transpose](operators/tensor/tensor.transpose.md)      | :white\_check\_mark: |
+|         [ArgMax](operators/tensor/tensor.argmax.md)         | :white\_check\_mark: |
+|         [ArgMin](operators/tensor/tensor.argmin.md)         | :white\_check\_mark: |
+|     [ReduceSum](operators/tensor/tensor.reduce\_sum.md)     | :white\_check\_mark: |
+|         [CumSum](operators/tensor/tensor.cumsum.md)         | :white\_check\_mark: |
+|            [Cos](operators/tensor/tensor.cos.md)            | :white\_check\_mark: |
+|            [Sin](operators/tensor/tensor.sin.md)            | :white\_check\_mark: |
+|         [Flatten](operators/tensor/tensor.flatten.md)       | :white\_check\_mark: |
+|         [Relu](operators/neural-network/nn.relu.md)         | :white\_check\_mark: |
+|   [LeakyRelu](operators/neural-network/nn.leaky\_relu.md)   | :white\_check\_mark: |
+|      [Sigmoid](operators/neural-network/nn.sigmoid.md)      | :white\_check\_mark: |
+|      [Softmax](operators/neural-network/nn.softmax.md)      | :white\_check\_mark: |
+|   [LogSoftmax](operators/neural-network/nn.logsoftmax.md)   | :white\_check\_mark: |
+|     [Softsign](operators/neural-network/nn.softsign.md)     | :white\_check\_mark: |
+|     [Softplus](operators/neural-network/nn.softplus.md)     | :white\_check\_mark: |
+|       [Linear](operators/neural-network/nn.linear.md)       | :white\_check\_mark: |
+|           [Sinh](operators/tensor/tensor.sinh.md)           | :white\_check\_mark: |
+|           [Asinh](operators/tensor/tensor.asinh.md)           | :white\_check\_mark: |
+|           [Cosh](operators/tensor/tensor.cosh.md)           | :white\_check\_mark: |
+|           [ACosh](operators/tensor/tensor.acosh.md)           | :white\_check\_mark: |
+|           [Tanh](operators/tensor/tensor.tanh.md)           | :white\_check\_mark: |
+|           [Tanh](operators/tensor/tensor.tanh.md)           | :white\_check\_mark: |
 
 Performance optimizations:
 
-|    Optimization    |    Implemented     |
-| :----------------: | :----------------: |
-| 8-bit quantization | :white_check_mark: |
+|    Optimization    |     Implemented      |
+| :----------------: | :------------------: |
+| 8-bit quantization | :white\_check\_mark: |
 
-Current Operators support: **24/156 (15%)**
+Current Operators support: **33/156 (21%)**

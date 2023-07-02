@@ -27,11 +27,18 @@ use orion::operators::tensor::math::ln::ln_fp::core::ln;
 use orion::operators::tensor::math::arithmetic::arithmetic_fp::core::{add, sub, mul, div};
 use orion::operators::tensor::math::greater::greater_fp::core::greater;
 use orion::operators::tensor::math::greater_equal::greater_equal_fp::core::greater_equal;
-use orion::utils::check_gas;
-
+use orion::operators::tensor::math::cumsum::cumsum_fp::core::cumsum;
+use orion::operators::tensor::math::flatten::flatten_fp::core::flatten;
+use orion::operators::tensor::math::sinh::sinh_fp::core::sinh;
+use orion::operators::tensor::math::tanh::tanh_fp::core::tanh;
+use orion::operators::tensor::math::cosh::cosh_fp::core::cosh;
+use orion::operators::tensor::math::acosh::acosh_fp::core::acosh;
+use orion::operators::tensor::math::asinh::asinh_fp::core::asinh;
 use orion::operators::tensor::math::sin::sin_fp::core::sin;
 use orion::operators::tensor::math::cos::cos_fp::core::cos;
 
+
+use orion::utils::check_gas;
 
 impl Tensor_fp of TensorTrait<FixedType> {
     fn new(
@@ -140,6 +147,36 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn cos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         cos(self).unwrap()
+    }
+    
+    fn cumsum(
+        self: @Tensor<FixedType>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
+    ) -> Tensor<FixedType> {
+        cumsum(self, axis, exclusive, reverse).unwrap()
+    }
+
+    fn flatten(self: @Tensor<FixedType>, axis: usize) -> Tensor<FixedType> {
+        flatten(self, axis).unwrap()
+    }
+
+    fn sinh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        sinh(self).unwrap()
+    }
+
+    fn tanh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        tanh(self).unwrap()
+    }
+
+    fn cosh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        cosh(self).unwrap()
+    }
+
+    fn acosh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        acosh(self).unwrap()
+    }
+
+    fn asinh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        asinh(self).unwrap()
     }
 }
 

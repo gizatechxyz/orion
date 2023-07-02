@@ -49,38 +49,38 @@ mod tensor_2D {
 
         let result = tensor.transpose(axes.span());
 
-        assert(*result.data.at(0) == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
-        assert(*result.data.at(1) == FixedTrait::new_unscaled(2, false), 'result[1] = 2');
-        assert(*result.data.at(2) == FixedTrait::new_unscaled(1, false), 'result[2] = 1');
-        assert(*result.data.at(3) == FixedTrait::new_unscaled(3, false), 'result[3] = 3');
-        assert(*result.shape.at(0) == 2, 'shape[0] = 2');
-        assert(*result.shape.at(1) == 2, 'shape[1] = 2');
+        assert(*result.data[0] == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
+        assert(*result.data[1] == FixedTrait::new_unscaled(2, false), 'result[1] = 2');
+        assert(*result.data[2] == FixedTrait::new_unscaled(1, false), 'result[2] = 1');
+        assert(*result.data[3] == FixedTrait::new_unscaled(3, false), 'result[3] = 3');
+        assert(*result.shape[0] == 2, 'shape[0] = 2');
+        assert(*result.shape[1] == 2, 'shape[1] = 2');
 
         let tensor = fp_tensor_3x2_helper();
 
         let result = tensor.transpose(axes.span());
 
-        assert(*result.data.at(0) == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
-        assert(*result.data.at(1) == FixedTrait::new_unscaled(2, false), 'result[1] = 2');
-        assert(*result.data.at(2) == FixedTrait::new_unscaled(4, false), 'result[2] = 4');
-        assert(*result.data.at(3) == FixedTrait::new_unscaled(1, false), 'result[3] = 1');
-        assert(*result.data.at(4) == FixedTrait::new_unscaled(3, false), 'result[4] = 3');
-        assert(*result.data.at(5) == FixedTrait::new_unscaled(5, false), 'result[5] = 5');
-        assert(*result.shape.at(0) == 2, 'shape[0] = 2');
-        assert(*result.shape.at(1) == 3, 'shape[1] = 3');
+        assert(*result.data[0] == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
+        assert(*result.data[1] == FixedTrait::new_unscaled(2, false), 'result[1] = 2');
+        assert(*result.data[2] == FixedTrait::new_unscaled(4, false), 'result[2] = 4');
+        assert(*result.data[3] == FixedTrait::new_unscaled(1, false), 'result[3] = 1');
+        assert(*result.data[4] == FixedTrait::new_unscaled(3, false), 'result[4] = 3');
+        assert(*result.data[5] == FixedTrait::new_unscaled(5, false), 'result[5] = 5');
+        assert(*result.shape[0] == 2, 'shape[0] = 2');
+        assert(*result.shape[1] == 3, 'shape[1] = 3');
 
         let tensor = fp_tensor_2x3_helper();
 
         let result = tensor.transpose(axes.span());
 
-        assert(*result.data.at(0) == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
-        assert(*result.data.at(1) == FixedTrait::new_unscaled(3, false), 'result[1] = 3');
-        assert(*result.data.at(2) == FixedTrait::new_unscaled(1, false), 'result[2] = 1');
-        assert(*result.data.at(3) == FixedTrait::new_unscaled(4, false), 'result[3] = 4');
-        assert(*result.data.at(4) == FixedTrait::new_unscaled(2, false), 'result[4] = 2');
-        assert(*result.data.at(5) == FixedTrait::new_unscaled(5, false), 'result[5] = 5');
-        assert(*result.shape.at(0) == 3, 'shape[0] = 3');
-        assert(*result.shape.at(1) == 2, 'shape[1] = 2');
+        assert(*result.data[0] == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
+        assert(*result.data[1] == FixedTrait::new_unscaled(3, false), 'result[1] = 3');
+        assert(*result.data[2] == FixedTrait::new_unscaled(1, false), 'result[2] = 1');
+        assert(*result.data[3] == FixedTrait::new_unscaled(4, false), 'result[3] = 4');
+        assert(*result.data[4] == FixedTrait::new_unscaled(2, false), 'result[4] = 2');
+        assert(*result.data[5] == FixedTrait::new_unscaled(5, false), 'result[5] = 5');
+        assert(*result.shape[0] == 3, 'shape[0] = 3');
+        assert(*result.shape[1] == 2, 'shape[1] = 2');
     }
 }
 
@@ -112,14 +112,14 @@ mod tensor_3D {
 
         let result = tensor.transpose(axes.span()).data;
 
-        assert(*result.at(0) == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
-        assert(*result.at(1) == FixedTrait::new_unscaled(4, false), 'result[1] = 4');
-        assert(*result.at(2) == FixedTrait::new_unscaled(1, false), 'result[2] = 1');
-        assert(*result.at(3) == FixedTrait::new_unscaled(5, false), 'result[3] = 5');
-        assert(*result.at(4) == FixedTrait::new_unscaled(2, false), 'result[4] = 2');
-        assert(*result.at(5) == FixedTrait::new_unscaled(6, false), 'result[5] = 6');
-        assert(*result.at(6) == FixedTrait::new_unscaled(3, false), 'result[6] = 3');
-        assert(*result.at(7) == FixedTrait::new_unscaled(7, false), 'result[7] = 7');
+        assert(*result[0] == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
+        assert(*result[1] == FixedTrait::new_unscaled(4, false), 'result[1] = 4');
+        assert(*result[2] == FixedTrait::new_unscaled(1, false), 'result[2] = 1');
+        assert(*result[3] == FixedTrait::new_unscaled(5, false), 'result[3] = 5');
+        assert(*result[4] == FixedTrait::new_unscaled(2, false), 'result[4] = 2');
+        assert(*result[5] == FixedTrait::new_unscaled(6, false), 'result[5] = 6');
+        assert(*result[6] == FixedTrait::new_unscaled(3, false), 'result[6] = 3');
+        assert(*result[7] == FixedTrait::new_unscaled(7, false), 'result[7] = 7');
 
         let mut axes: Array<usize> = ArrayTrait::new();
         axes.append(2);
@@ -128,14 +128,14 @@ mod tensor_3D {
 
         let result = tensor.transpose(axes.span()).data;
 
-        assert(*result.at(0) == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
-        assert(*result.at(1) == FixedTrait::new_unscaled(4, false), 'result[1] = 4');
-        assert(*result.at(2) == FixedTrait::new_unscaled(2, false), 'result[2] = 2');
-        assert(*result.at(3) == FixedTrait::new_unscaled(6, false), 'result[3] = 6');
-        assert(*result.at(4) == FixedTrait::new_unscaled(1, false), 'result[4] = 1');
-        assert(*result.at(5) == FixedTrait::new_unscaled(5, false), 'result[5] = 5');
-        assert(*result.at(6) == FixedTrait::new_unscaled(3, false), 'result[6] = 3');
-        assert(*result.at(7) == FixedTrait::new_unscaled(7, false), 'result[7] = 7');
+        assert(*result[0] == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
+        assert(*result[1] == FixedTrait::new_unscaled(4, false), 'result[1] = 4');
+        assert(*result[2] == FixedTrait::new_unscaled(2, false), 'result[2] = 2');
+        assert(*result[3] == FixedTrait::new_unscaled(6, false), 'result[3] = 6');
+        assert(*result[4] == FixedTrait::new_unscaled(1, false), 'result[4] = 1');
+        assert(*result[5] == FixedTrait::new_unscaled(5, false), 'result[5] = 5');
+        assert(*result[6] == FixedTrait::new_unscaled(3, false), 'result[6] = 3');
+        assert(*result[7] == FixedTrait::new_unscaled(7, false), 'result[7] = 7');
 
         let mut axes: Array<usize> = ArrayTrait::new();
         axes.append(0);
@@ -144,14 +144,14 @@ mod tensor_3D {
 
         let result = tensor.transpose(axes.span()).data;
 
-        assert(*result.at(0) == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
-        assert(*result.at(1) == FixedTrait::new_unscaled(2, false), 'result[1] = 2');
-        assert(*result.at(2) == FixedTrait::new_unscaled(1, false), 'result[2] = 1');
-        assert(*result.at(3) == FixedTrait::new_unscaled(3, false), 'result[3] = 3');
-        assert(*result.at(4) == FixedTrait::new_unscaled(4, false), 'result[4] = 4');
-        assert(*result.at(5) == FixedTrait::new_unscaled(6, false), 'result[5] = 6');
-        assert(*result.at(6) == FixedTrait::new_unscaled(5, false), 'result[6] = 5');
-        assert(*result.at(7) == FixedTrait::new_unscaled(7, false), 'result[7] = 7');
+        assert(*result[0] == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
+        assert(*result[1] == FixedTrait::new_unscaled(2, false), 'result[1] = 2');
+        assert(*result[2] == FixedTrait::new_unscaled(1, false), 'result[2] = 1');
+        assert(*result[3] == FixedTrait::new_unscaled(3, false), 'result[3] = 3');
+        assert(*result[4] == FixedTrait::new_unscaled(4, false), 'result[4] = 4');
+        assert(*result[5] == FixedTrait::new_unscaled(6, false), 'result[5] = 6');
+        assert(*result[6] == FixedTrait::new_unscaled(5, false), 'result[6] = 5');
+        assert(*result[7] == FixedTrait::new_unscaled(7, false), 'result[7] = 7');
 
         let tensor = fp_tensor_3x2x2_helper();
 
@@ -162,21 +162,21 @@ mod tensor_3D {
 
         let result = tensor.transpose(axes.span());
 
-        assert(*result.data.at(0) == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
-        assert(*result.data.at(1) == FixedTrait::new_unscaled(4, false), 'result[1] = 4');
-        assert(*result.data.at(2) == FixedTrait::new_unscaled(8, false), 'result[2] = 8');
-        assert(*result.data.at(3) == FixedTrait::new_unscaled(1, false), 'result[3] = 1');
-        assert(*result.data.at(4) == FixedTrait::new_unscaled(5, false), 'result[4] = 5');
-        assert(*result.data.at(5) == FixedTrait::new_unscaled(9, false), 'result[5] = 9');
-        assert(*result.data.at(6) == FixedTrait::new_unscaled(2, false), 'result[6] = 2');
-        assert(*result.data.at(7) == FixedTrait::new_unscaled(6, false), 'result[7] = 6');
-        assert(*result.data.at(8) == FixedTrait::new_unscaled(10, false), 'result[8] = 10');
-        assert(*result.data.at(9) == FixedTrait::new_unscaled(3, false), 'result[9] = 3');
-        assert(*result.data.at(10) == FixedTrait::new_unscaled(7, false), 'result[10] = 7');
-        assert(*result.data.at(11) == FixedTrait::new_unscaled(11, false), 'result[11] = 11');
-        assert(*result.shape.at(0) == 2, 'shape[0] = 2');
-        assert(*result.shape.at(1) == 2, 'shape[1] = 2');
-        assert(*result.shape.at(2) == 3, 'shape[2] = 3');
+        assert(*result.data[0] == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
+        assert(*result.data[1] == FixedTrait::new_unscaled(4, false), 'result[1] = 4');
+        assert(*result.data[2] == FixedTrait::new_unscaled(8, false), 'result[2] = 8');
+        assert(*result.data[3] == FixedTrait::new_unscaled(1, false), 'result[3] = 1');
+        assert(*result.data[4] == FixedTrait::new_unscaled(5, false), 'result[4] = 5');
+        assert(*result.data[5] == FixedTrait::new_unscaled(9, false), 'result[5] = 9');
+        assert(*result.data[6] == FixedTrait::new_unscaled(2, false), 'result[6] = 2');
+        assert(*result.data[7] == FixedTrait::new_unscaled(6, false), 'result[7] = 6');
+        assert(*result.data[8] == FixedTrait::new_unscaled(10, false), 'result[8] = 10');
+        assert(*result.data[9] == FixedTrait::new_unscaled(3, false), 'result[9] = 3');
+        assert(*result.data[10] == FixedTrait::new_unscaled(7, false), 'result[10] = 7');
+        assert(*result.data[11] == FixedTrait::new_unscaled(11, false), 'result[11] = 11');
+        assert(*result.shape[0] == 2, 'shape[0] = 2');
+        assert(*result.shape[1] == 2, 'shape[1] = 2');
+        assert(*result.shape[2] == 3, 'shape[2] = 3');
 
         let mut axes: Array<usize> = ArrayTrait::new();
         axes.append(2);
@@ -185,21 +185,21 @@ mod tensor_3D {
 
         let result = tensor.transpose(axes.span());
 
-        assert(*result.data.at(0) == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
-        assert(*result.data.at(1) == FixedTrait::new_unscaled(4, false), 'result[1] = 4');
-        assert(*result.data.at(2) == FixedTrait::new_unscaled(8, false), 'result[2] = 8');
-        assert(*result.data.at(3) == FixedTrait::new_unscaled(2, false), 'result[3] = 2');
-        assert(*result.data.at(4) == FixedTrait::new_unscaled(6, false), 'result[4] = 6');
-        assert(*result.data.at(5) == FixedTrait::new_unscaled(10, false), 'result[5] = 10');
-        assert(*result.data.at(6) == FixedTrait::new_unscaled(1, false), 'result[6] = 1');
-        assert(*result.data.at(7) == FixedTrait::new_unscaled(5, false), 'result[7] = 5');
-        assert(*result.data.at(8) == FixedTrait::new_unscaled(9, false), 'result[8] = 9');
-        assert(*result.data.at(9) == FixedTrait::new_unscaled(3, false), 'result[9] = 3');
-        assert(*result.data.at(10) == FixedTrait::new_unscaled(7, false), 'result[10] = 7');
-        assert(*result.data.at(11) == FixedTrait::new_unscaled(11, false), 'result[11] = 11');
-        assert(*result.shape.at(0) == 2, 'shape[0] = 2');
-        assert(*result.shape.at(1) == 2, 'shape[1] = 2');
-        assert(*result.shape.at(2) == 3, 'shape[2] = 3');
+        assert(*result.data[0] == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
+        assert(*result.data[1] == FixedTrait::new_unscaled(4, false), 'result[1] = 4');
+        assert(*result.data[2] == FixedTrait::new_unscaled(8, false), 'result[2] = 8');
+        assert(*result.data[3] == FixedTrait::new_unscaled(2, false), 'result[3] = 2');
+        assert(*result.data[4] == FixedTrait::new_unscaled(6, false), 'result[4] = 6');
+        assert(*result.data[5] == FixedTrait::new_unscaled(10, false), 'result[5] = 10');
+        assert(*result.data[6] == FixedTrait::new_unscaled(1, false), 'result[6] = 1');
+        assert(*result.data[7] == FixedTrait::new_unscaled(5, false), 'result[7] = 5');
+        assert(*result.data[8] == FixedTrait::new_unscaled(9, false), 'result[8] = 9');
+        assert(*result.data[9] == FixedTrait::new_unscaled(3, false), 'result[9] = 3');
+        assert(*result.data[10] == FixedTrait::new_unscaled(7, false), 'result[10] = 7');
+        assert(*result.data[11] == FixedTrait::new_unscaled(11, false), 'result[11] = 11');
+        assert(*result.shape[0] == 2, 'shape[0] = 2');
+        assert(*result.shape[1] == 2, 'shape[1] = 2');
+        assert(*result.shape[2] == 3, 'shape[2] = 3');
 
         let mut axes: Array<usize> = ArrayTrait::new();
         axes.append(0);
@@ -208,20 +208,20 @@ mod tensor_3D {
 
         let result = tensor.transpose(axes.span());
 
-        assert(*result.data.at(0) == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
-        assert(*result.data.at(1) == FixedTrait::new_unscaled(2, false), 'result[1] = 2');
-        assert(*result.data.at(2) == FixedTrait::new_unscaled(1, false), 'result[2] = 1');
-        assert(*result.data.at(3) == FixedTrait::new_unscaled(3, false), 'result[3] = 3');
-        assert(*result.data.at(4) == FixedTrait::new_unscaled(4, false), 'result[4] = 4');
-        assert(*result.data.at(5) == FixedTrait::new_unscaled(6, false), 'result[5] = 6');
-        assert(*result.data.at(6) == FixedTrait::new_unscaled(5, false), 'result[6] = 5');
-        assert(*result.data.at(7) == FixedTrait::new_unscaled(7, false), 'result[7] = 7');
-        assert(*result.data.at(8) == FixedTrait::new_unscaled(8, false), 'result[8] = 8');
-        assert(*result.data.at(9) == FixedTrait::new_unscaled(10, false), 'result[9] = 10');
-        assert(*result.data.at(10) == FixedTrait::new_unscaled(9, false), 'result[10] = 9');
-        assert(*result.data.at(11) == FixedTrait::new_unscaled(11, false), 'result[11] = 11');
-        assert(*result.shape.at(0) == 3, 'shape[0] = 3');
-        assert(*result.shape.at(1) == 2, 'shape[1] = 2');
-        assert(*result.shape.at(2) == 2, 'shape[2] = 2');
+        assert(*result.data[0] == FixedTrait::new_unscaled(0, false), 'result[0] = 0');
+        assert(*result.data[1] == FixedTrait::new_unscaled(2, false), 'result[1] = 2');
+        assert(*result.data[2] == FixedTrait::new_unscaled(1, false), 'result[2] = 1');
+        assert(*result.data[3] == FixedTrait::new_unscaled(3, false), 'result[3] = 3');
+        assert(*result.data[4] == FixedTrait::new_unscaled(4, false), 'result[4] = 4');
+        assert(*result.data[5] == FixedTrait::new_unscaled(6, false), 'result[5] = 6');
+        assert(*result.data[6] == FixedTrait::new_unscaled(5, false), 'result[6] = 5');
+        assert(*result.data[7] == FixedTrait::new_unscaled(7, false), 'result[7] = 7');
+        assert(*result.data[8] == FixedTrait::new_unscaled(8, false), 'result[8] = 8');
+        assert(*result.data[9] == FixedTrait::new_unscaled(10, false), 'result[9] = 10');
+        assert(*result.data[10] == FixedTrait::new_unscaled(9, false), 'result[10] = 9');
+        assert(*result.data[11] == FixedTrait::new_unscaled(11, false), 'result[11] = 11');
+        assert(*result.shape[0] == 3, 'shape[0] = 3');
+        assert(*result.shape[1] == 2, 'shape[1] = 2');
+        assert(*result.shape[2] == 2, 'shape[2] = 2');
     }
 }

@@ -174,7 +174,7 @@ fn permutation_output_shape(input_shape: Span<usize>, mut axes: Span<usize>) -> 
             break ();
         }
 
-        output_shape.append(*input_shape.at(*axes.pop_front().unwrap()));
+        output_shape.append(*input_shape[*axes.pop_front().unwrap()]);
         axis += 1;
     };
 
@@ -211,9 +211,9 @@ fn combine_indices(output_indices: Span<usize>, axis_index: usize, axis: usize) 
         if n == axis {
             result.append(axis_index);
         } else if n > axis {
-            result.append(*output_indices.at(n - 1_usize));
+            result.append(*output_indices[n - 1_usize]);
         } else {
-            result.append(*output_indices.at(n));
+            result.append(*output_indices[n]);
         }
 
         n += 1;
@@ -308,4 +308,41 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
     };
 
     return result.span();
+}
+
+
+
+/// Substitute a value in a shape at a given index
+/// 
+/// # Arguments
+///
+/// * `shape` - The shape to modify
+/// * `index` - The index to modify
+/// * `value` - The value to insert
+///
+/// # Panics
+/// * Panics if the index is out of bounds
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * `Span<usize>` - The modified shape
+fn replace_index(
+    mut shape: Span<usize>, 
+    index: usize,
+    value: usize
+    ) -> Span<usize> { 
+    let mut output = ArrayTrait::new();
+    let mut i = 0;
+    loop {
+        if i == shape.len() {
+            break ();
+        };
+        if i == index {
+            output.append(value);
+        } else {
+            output.append(*shape[i]);
+        };
+        i += 1;
+    };
+    return output.span();
 }

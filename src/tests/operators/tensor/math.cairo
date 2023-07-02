@@ -15,4 +15,10 @@ mod ln;
 mod arithmetic;
 mod sin;
 mod cos;
-
+mod cumsum;
+mod flatten;
+mod sinh;
+mod tanh;
+mod cosh;
+mod acosh;
+mod asinh;

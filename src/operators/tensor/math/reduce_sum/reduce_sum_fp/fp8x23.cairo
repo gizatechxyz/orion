@@ -71,7 +71,7 @@ fn accumulate_sum(
     output_indices: Span<usize>,
     axis: usize
 ) -> FixedType {
-    let axis_len = *(input_shape).at(axis);
+    let axis_len = *(input_shape)[axis];
     let mut acc = FixedTrait::new(0, false);
 
     let mut axis_index: usize = 0;
@@ -86,7 +86,7 @@ fn accumulate_sum(
 
             let input_indices = combine_indices(output_indices, axis_index, axis);
             let input_index = ravel_index(input_shape, input_indices);
-            let ele = *(input_data).at(input_index);
+            let ele = *(input_data)[input_index];
             acc += ele;
             axis_index += 1;
         };

@@ -34,16 +34,16 @@ mod input_1D {
         let threshold = 3;
         let mut result = NNTrait::relu(@tensor, threshold);
 
-        let data_0 = *result.data.at(0);
+        let data_0 = *result.data[0];
         assert(data_0 == 0, 'result[0] == 0');
 
-        let data_1 = *result.data.at(1);
+        let data_1 = *result.data[1];
         assert(data_1 == 0, 'result[1] == 0');
 
-        let data_2 = *result.data.at(2);
+        let data_2 = *result.data[2];
         assert(data_2 == 3, 'result[2] == 3');
 
-        let data_3 = *result.data.at(3);
+        let data_3 = *result.data[3];
         assert(data_3 == 4, 'result[3] == 4');
     }
 }
@@ -85,16 +85,16 @@ mod input_2D {
         let threshold = 3;
         let mut result = NNTrait::relu(@tensor, threshold);
 
-        let data_0 = *result.data.at(0);
+        let data_0 = *result.data[0];
         assert(data_0 == 0, 'result[0] == 0');
 
-        let data_1 = *result.data.at(1);
+        let data_1 = *result.data[1];
         assert(data_1 == 0, 'result[1] == 0');
 
-        let data_2 = *result.data.at(2);
+        let data_2 = *result.data[2];
         assert(data_2 == 3, 'result[2] == 3');
 
-        let data_3 = *result.data.at(3);
+        let data_3 = *result.data[3];
         assert(data_3 == 4, 'result[3] == 4');
     }
 }
@@ -144,28 +144,28 @@ mod input_3D {
         let threshold = 3;
         let mut result = NNTrait::relu(@tensor, threshold);
 
-        let data_0 = *result.data.at(0);
+        let data_0 = *result.data[0];
         assert(data_0 == 0, 'result[0] == 0');
 
-        let data_1 = *result.data.at(1);
+        let data_1 = *result.data[1];
         assert(data_1 == 0, 'result[1] == 0');
 
-        let data_2 = *result.data.at(2);
+        let data_2 = *result.data[2];
         assert(data_2 == 3, 'result[2] == 3');
 
-        let data_3 = *result.data.at(3);
+        let data_3 = *result.data[3];
         assert(data_3 == 4, 'result[3] == 4');
 
-        let data_4 = *result.data.at(4);
+        let data_4 = *result.data[4];
         assert(data_4 == 5, 'result[4] == 5');
 
-        let data_5 = *result.data.at(5);
+        let data_5 = *result.data[5];
         assert(data_5 == 6, 'result[5] == 6');
 
-        let data_6 = *result.data.at(6);
+        let data_6 = *result.data[6];
         assert(data_6 == 7, 'result[6] == 7');
 
-        let data_7 = *result.data.at(7);
+        let data_7 = *result.data[7];
         assert(data_7 == 8, 'result[7] == 8');
     }
 }

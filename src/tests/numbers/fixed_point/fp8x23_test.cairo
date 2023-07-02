@@ -366,3 +366,53 @@ fn test_cos() {
     let a = FixedTrait::new_unscaled(17_u128, true);
     assert(a.cos().into() == -2308239, 'invalid -17'); // -0.27516...
 }
+
+#[test]
+#[available_gas(10000000)]
+fn test_sinh() {
+    let a = FixedTrait::from_unscaled_felt(1);
+    assert(a.sinh().into() == 9858301, 'invalid sinh of 1');
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_tanh() {
+    let a = FixedTrait::from_unscaled_felt(1);
+    assert(a.tanh().into() == 6388714, 'invalid tanh of 1');
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_cosh() {
+    let a = FixedTrait::from_unscaled_felt(1);
+    assert(a.cosh().into() == 12944297, 'invalid cosh of 1');
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_acosh_1() {
+    let a = FixedTrait::from_unscaled_felt(1);
+    assert(a.acosh().into() == 0, 'invalid cosh of 1');
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_acosh_2() {
+    let a = FixedTrait::from_unscaled_felt(2);
+    assert(a.acosh().into() == 11047444, 'invalid cosh of 2');
+}
+
+#[test]
+#[available_gas(10000000)]
+#[should_panic]
+fn test_acosh_zero() {
+    let a = FixedTrait::from_unscaled_felt(0);
+    a.acosh();
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_asinh() {
+    let a = FixedTrait::from_unscaled_felt(1);
+    assert(a.asinh().into() == 7394022, 'invalid sinh of 1');
+}
