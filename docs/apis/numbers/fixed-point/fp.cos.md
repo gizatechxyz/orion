@@ -12,7 +12,7 @@ Returns the cosine of the fixed point number.
 
 ## Returns
 
-A fixed point number representing the sin  of the input value.
+A fixed point number representing the cosine of the input value.
 
 ## Examples
 

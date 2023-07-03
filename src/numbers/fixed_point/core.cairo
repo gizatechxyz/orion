@@ -31,6 +31,12 @@ enum FixedImpl {
 /// sqrt - Returns the square root of the fixed point number.
 /// sin - Returns the sine of the fixed point number.
 /// cos - Returns the cosine of the fixed point number.
+/// sinh - Returns the value of the hyperbolic sine of the fixed point number.
+/// tanh - Returns the value of the hyperbolic tangent of the fixed point number.
+/// cosh - Returns the value of the hyperbolic cosine of the fixed point number.
+/// acosh - Returns the value of the inverse hyperbolic cosine of the fixed point number.
+/// asinh - Returns the inverse hyperbolic sine of the input fixed point number.
+/// 
 trait FixedTrait {
     /// # FixedTrait::new
     /// 
@@ -497,7 +503,7 @@ trait FixedTrait {
     ///
     /// ## Returns
     ///
-    /// A fixed point number representing the sin  of the input value.
+    /// A fixed point number representing the cosine of the input value.
     ///
     /// ## Examples
     /// 
@@ -639,7 +645,7 @@ trait FixedTrait {
     /// fn asinh(self: FixedType) -> FixedType;
     /// ```
     /// 
-    /// Returns the value of the hyperbolic cosine of the fixed point number.
+    /// Returns the inverse hyperbolic sine of the input fixed point number.
     ///
     /// ## Args
     ///

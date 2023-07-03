@@ -77,6 +77,11 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.sin`](tensor.sin.md) | Computes the sine value of each element in the input tensor. |
 | [`tensor.cos`](tensor.cos.md) | Computes the cosine value of each element in the input tensor. |
 | [`tensor.flatten`](tensor.flatten.md) | Flattens the input tensor into a 2D tensor. |
+| [`tensor.acosh`](tensor.acosh.md) | Computes the inverse hyperbolic cosine of all elements of the input tensor. |
+| [`tensor.asinh`](tensor.asinh.md) | Computes the inverse hyperbolic sine of all elements of the input tensor. |
+| [`tensor.cosh`](tensor.cosh.md) | Computes the hyperbolic cosine of all elements of the input tensor. |
+| [`tensor.tanh`](tensor.tanh.md) | Computes the hyperbolic tangent of all elements of the input tensor. |
+| [`tensor.sinh`](tensor.sinh.md) | Computes the hyperbolic sine of all elements of the input tensor. |
 
 ### Arithmetic Operations
 

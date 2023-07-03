@@ -4,7 +4,7 @@
 fn tanh(self: @Tensor<T>) -> Tensor<FixedType>;
 ```
 
-Computes the exponential of all elements of the input tensor.
+Computes the hyperbolic tangent of all elements of the input tensor.
 $$
 y_i=tanh({x_i})
 $$
@@ -15,7 +15,7 @@ $$
 
 ## Returns
 
-Returns a new tensor in `FixedType` with the exponential of the elements of the input tensor.
+Returns a new tensor in `FixedType` with the hyperbolic tangent of the elements of the input tensor.
 
 ## Examples
 

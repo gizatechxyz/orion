@@ -15,7 +15,7 @@ $$
 
 ## Returns
 
-Returns a new tensor in `FixedType` with the hyperblic cosine of the elements of the input tensor.
+Returns a new tensor in `FixedType` with the hyperblic sine of the elements of the input tensor.
 
 ## Examples
 

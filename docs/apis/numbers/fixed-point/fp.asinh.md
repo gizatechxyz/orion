@@ -4,7 +4,7 @@
 fn asinh(self: FixedType) -> FixedType;
 ```
 
-Returns the value of the hyperbolic cosine of the fixed point number.
+Returns the inverse hyperbolic sine of the input fixed point number.
 
 ## Args
 

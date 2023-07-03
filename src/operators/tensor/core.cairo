@@ -46,6 +46,12 @@ struct ExtraParams {
 /// sin - Computes the sine value of each element in the input tensor.
 /// cos - Computes the cosine value of each element in the input tensor.
 /// flatten - Flattens the input tensor into a 2D tensor.
+/// acosh - Computes the inverse hyperbolic cosine of all elements of the input tensor.
+/// asinh - Computes the inverse hyperbolic sine of all elements of the input tensor.
+/// cosh - Computes the hyperbolic cosine of all elements of the input tensor.
+/// tanh - Computes the hyperbolic tangent of all elements of the input tensor.
+/// sinh - Computes the hyperbolic sine of all elements of the input tensor.
+/// 
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -1372,7 +1378,7 @@ trait TensorTrait<T> {
     ///     fn tanh(self: @Tensor<T>) -> Tensor<FixedType>;
     /// ```
     ///
-    /// Computes the exponential of all elements of the input tensor.
+    /// Computes the hyperbolic tangent of all elements of the input tensor.
     /// $$
     /// y_i=tanh({x_i})
     /// $$
@@ -1383,7 +1389,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `FixedType` with the exponential of the elements of the input tensor.
+    /// Returns a new tensor in `FixedType` with the hyperbolic tangent of the elements of the input tensor.
     ///
     /// ## Examples
     ///
@@ -1455,7 +1461,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `FixedType` with the hyperblic cosine of the elements of the input tensor.
+    /// Returns a new tensor in `FixedType` with the hyperblic sine of the elements of the input tensor.
     ///
     /// ## Examples
     ///
