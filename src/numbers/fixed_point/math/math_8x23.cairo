@@ -1,3 +1,4 @@
+use core::debug::PrintTrait;
 use traits::Into;
 
 use orion::numbers::fixed_point::implementations::impl_8x23::{ONE, ONE_u64, MAX, HALF, PI, HALF_PI};
@@ -369,6 +370,10 @@ fn _sin_loop(a: FixedType, i: u128, acc: FixedType) -> FixedType {
     }
 
     return _sin_loop(a, i - 1_u128, new_acc);
+}
+
+fn cos(a: FixedType) -> FixedType {
+    return sin(FixedTrait::new(HALF_PI, false) - a);
 }
 /// Subtracts one fixed point number from another.
 ///

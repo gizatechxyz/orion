@@ -37,6 +37,7 @@ use orion::operators::tensor::math::asinh::asinh_u32::core::asinh_u32;
 use orion::utils::check_gas;
 
 use orion::operators::tensor::math::sin::sin_u32::core::sin_u32;
+use orion::operators::tensor::math::cos::cos_u32::core::cos_u32;
 
 
 impl Tensor_u32 of TensorTrait<u32> {
@@ -137,6 +138,10 @@ impl Tensor_u32 of TensorTrait<u32> {
         sin_u32(self).unwrap()
     }
 
+    fn cos(self: @Tensor<u32>) -> Tensor<FixedType> {
+        cos_u32(self).unwrap()
+    }
+    
     fn cumsum(
         self: @Tensor<u32>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
     ) -> Tensor<u32> {
@@ -162,7 +167,7 @@ impl Tensor_u32 of TensorTrait<u32> {
     fn acosh(self: @Tensor<u32>) -> Tensor<FixedType> {
         acosh_u32(self).unwrap()
     }
-    
+
     fn asinh(self: @Tensor<u32>) -> Tensor<FixedType> {
         asinh_u32(self).unwrap()
     }

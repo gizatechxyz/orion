@@ -30,6 +30,13 @@ enum FixedImpl {
 /// round - Rounds the fixed point number to the nearest whole number.
 /// sqrt - Returns the square root of the fixed point number.
 /// sin - Returns the sine of the fixed point number.
+/// cos - Returns the cosine of the fixed point number.
+/// sinh - Returns the value of the hyperbolic sine of the fixed point number.
+/// tanh - Returns the value of the hyperbolic tangent of the fixed point number.
+/// cosh - Returns the value of the hyperbolic cosine of the fixed point number.
+/// acosh - Returns the value of the inverse hyperbolic cosine of the fixed point number.
+/// asinh - Returns the inverse hyperbolic sine of the input fixed point number.
+/// 
 trait FixedTrait {
     /// # FixedTrait::new
     /// 
@@ -482,6 +489,36 @@ trait FixedTrait {
     /// ```
     ///
     fn sqrt(self: FixedType) -> FixedType;
+    /// # fp.cos
+    /// 
+    /// ```rust
+    /// fn cos(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the cosine of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// A fixed point number representing the cosine of the input value.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn cos_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(2);
+    ///     
+    ///     // We can call `cos` function as follows.
+    ///     fp.cos()
+    /// }
+    /// >>> {mag: 27273, sign: true} // = -0.4161..
+    /// ``` 
+    ///
+    fn cos(self: FixedType) -> FixedType;
     /// # fp.sin
     /// 
     /// ```rust
@@ -608,7 +645,7 @@ trait FixedTrait {
     /// fn asinh(self: FixedType) -> FixedType;
     /// ```
     /// 
-    /// Returns the value of the hyperbolic cosine of the fixed point number.
+    /// Returns the inverse hyperbolic sine of the input fixed point number.
     ///
     /// ## Args
     ///

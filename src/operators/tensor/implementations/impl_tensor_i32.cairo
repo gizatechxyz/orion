@@ -38,6 +38,8 @@ use orion::operators::tensor::math::asinh::asinh_i32::core::asinh_i32;
 use orion::utils::check_gas;
 
 use orion::operators::tensor::math::sin::sin_i32::core::sin_i32;
+use orion::operators::tensor::math::cos::cos_i32::core::cos_i32;
+
 
 impl Tensor_i32 of TensorTrait<i32> {
     fn new(shape: Span<usize>, data: Span<i32>, extra: Option<ExtraParams>) -> Tensor<i32> {
@@ -136,6 +138,10 @@ impl Tensor_i32 of TensorTrait<i32> {
         sin_i32(self).unwrap()
     }
 
+    fn cos(self: @Tensor<i32>) -> Tensor<FixedType> {
+        cos_i32(self).unwrap()
+    }
+    
     fn cumsum(
         self: @Tensor<i32>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
     ) -> Tensor<i32> {
@@ -161,7 +167,7 @@ impl Tensor_i32 of TensorTrait<i32> {
     fn acosh(self: @Tensor<i32>) -> Tensor<FixedType> {
         acosh_i32(self).unwrap()
     }
-    
+
     fn asinh(self: @Tensor<i32>) -> Tensor<FixedType> {
         asinh_i32(self).unwrap()
     }

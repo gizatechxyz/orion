@@ -54,6 +54,12 @@ use orion::numbers::fixed_point::Fixed;
 | [`fp.round`](fp.round.md) | Rounds the fixed point number to the nearest whole number. |
 | [`fp.sqrt`](fp.sqrt.md) | Returns the square root of the fixed point number. |
 | [`fp.sin`](fp.sin.md) | Returns the sine of the fixed point number. |
+| [`fp.cos`](fp.cos.md) | Returns the cosine of the fixed point number. |
+| [`fp.sinh`](fp.sinh.md) | Returns the value of the hyperbolic sine of the fixed point number. |
+| [`fp.tanh`](fp.tanh.md) | Returns the value of the hyperbolic tangent of the fixed point number. |
+| [`fp.cosh`](fp.cosh.md) | Returns the value of the hyperbolic cosine of the fixed point number. |
+| [`fp.acosh`](fp.acosh.md) | Returns the value of the inverse hyperbolic cosine of the fixed point number. |
+| [`fp.asinh`](fp.asinh.md) | Returns the inverse hyperbolic sine of the input fixed point number. |
 
 ### Arithmetic & Comparison operators
 

@@ -35,6 +35,8 @@ use orion::operators::tensor::math::cosh::cosh_fp::core::cosh;
 use orion::operators::tensor::math::acosh::acosh_fp::core::acosh;
 use orion::operators::tensor::math::asinh::asinh_fp::core::asinh;
 use orion::operators::tensor::math::sin::sin_fp::core::sin;
+use orion::operators::tensor::math::cos::cos_fp::core::cos;
+
 
 use orion::utils::check_gas;
 
@@ -143,6 +145,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
         sin(self).unwrap()
     }
 
+    fn cos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        cos(self).unwrap()
+    }
+    
     fn cumsum(
         self: @Tensor<FixedType>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
     ) -> Tensor<FixedType> {

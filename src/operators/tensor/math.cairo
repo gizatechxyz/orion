@@ -14,6 +14,7 @@ mod less_equal;
 mod abs;
 mod ceil;
 mod sin;
+mod cos;
 mod cumsum;
 mod flatten;
 mod sinh;

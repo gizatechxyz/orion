@@ -27,6 +27,7 @@ You can see below the list of current supported ONNX Operators:
 |         [ArgMin](operators/tensor/tensor.argmin.md)         | :white\_check\_mark: |
 |     [ReduceSum](operators/tensor/tensor.reduce\_sum.md)     | :white\_check\_mark: |
 |         [CumSum](operators/tensor/tensor.cumsum.md)         | :white\_check\_mark: |
+|            [Cos](operators/tensor/tensor.cos.md)            | :white\_check\_mark: |
 |            [Sin](operators/tensor/tensor.sin.md)            | :white\_check\_mark: |
 |         [Flatten](operators/tensor/tensor.flatten.md)       | :white\_check\_mark: |
 |         [Relu](operators/neural-network/nn.relu.md)         | :white\_check\_mark: |
