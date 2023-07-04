@@ -55,6 +55,8 @@ use orion::numbers::fixed_point::Fixed;
 | [`fp.sqrt`](fp.sqrt.md) | Returns the square root of the fixed point number. |
 | [`fp.sin`](fp.sin.md) | Returns the sine of the fixed point number. |
 | [`fp.cos`](fp.cos.md) | Returns the cosine of the fixed point number. |
+| [`fp.atan`](fp.atan.md) | Returns the arctangent (inverse of tangent) of the fixed point number. |
+| [`fp.asin`](fp.asin.md) | Returns the arcsine (inverse of sine) of the fixed point number. |
 
 ### Arithmetic & Comparison operators
 

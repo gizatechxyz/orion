@@ -31,6 +31,8 @@ enum FixedImpl {
 /// sqrt - Returns the square root of the fixed point number.
 /// sin - Returns the sine of the fixed point number.
 /// cos - Returns the cosine of the fixed point number.
+/// atan - Returns the arctangent (inverse of tangent) of the fixed point number.
+/// asin - Returns the arcsine (inverse of sine) of the fixed point number.
 trait FixedTrait {
     /// # FixedTrait::new
     /// 
@@ -543,4 +545,64 @@ trait FixedTrait {
     /// ``` 
     ///
     fn cos(self: FixedType) -> FixedType;
+    /// # fp.atan
+    /// 
+    /// ```rust
+    /// fn atan(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the arctangent (inverse of tangent) of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// A fixed point number representing the atan  of the input value.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn atan_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(1);
+    ///     
+    ///     // We can call `atan` function as follows.
+    ///     fp.atan()
+    /// }
+    /// >>> {mag: 51471, sign: true} // = 0.7853..
+    /// ``` 
+    ///
+    fn atan(self: FixedType) -> FixedType;
+    /// # fp.asin
+    /// 
+    /// ```rust
+    /// fn asin(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the  arcsine (inverse of sine) of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// A fixed point number representing the asin  of the input value.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn asin_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(1);
+    ///     
+    ///     // We can call `asin` function as follows.
+    ///     fp.asin()
+    /// }
+    /// >>> {mag: 102943, sign: true} // = 1.5707...
+    /// ``` 
+    ///
+    fn asin(self: FixedType) -> FixedType;
 }

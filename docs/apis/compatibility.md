@@ -19,6 +19,7 @@ You can see below the list of current supported ONNX Operators:
 |    Exp     | :white_check_mark: |
 |     Ln     | :white_check_mark: |
 |    Sin     | :white_check_mark: |
+|   ArcSin   | :white_check_mark: |
 |    Cos     | :white_check_mark: |
 |   MatMul   | :white_check_mark: |
 |  Reshape   | :white_check_mark: |

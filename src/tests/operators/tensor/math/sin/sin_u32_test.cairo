@@ -63,18 +63,22 @@ mod tensor_3D {
 
     #[test]
     #[available_gas(20000000)]
-    fn tensor_exp_test() {
+    fn tensor_sin_test() {
         let tensor = u32_tensor_2x2x2_helper();
-        let result = tensor.exp().data;
+        let result = tensor.sin().data;
 
-        assert((*result.at(0).mag).into() == 65536, 'result[0] = 1');
-        assert((*result.at(1).mag).into() == 178142, 'result[1] = 2.7182...');
-        assert((*result.at(2).mag).into() == 484232, 'result[2] = 7.389...');
-        assert((*result.at(3).mag).into() == 1316288, 'result[3] = 20.085...');
-        assert((*result.at(4).mag).into() == 3577984, 'result[3] = 54.5981...');
-        assert((*result.at(5).mag).into() == 9726080, 'result[3] = 148.4131...');
-        assert((*result.at(6).mag).into() == 26437888, 'result[3] = 403.4287...');
-        assert((*result.at(7).mag).into() == 71866368, 'result[3] = 1096.6331...');
+        assert((*result.at(0).mag).into() == 0, 'result[0] = 0');
+        assert((*result.at(1).mag).into() == 55147, 'result[1] = 0.8414...');
+        assert((*result.at(2).mag).into() == 59592, 'result[2] = 0.909...');
+        assert((*result.at(3).mag).into() == 9246, 'result[3] = 0.1411...');
+        assert((*result.at(4).mag).into() == 49598, 'result[3] = -0.7568...');
+        assert((*result.at(4).sign).into() == true, 'result[3].sign = true');
+        assert((*result.at(5).mag).into() == 62844, 'result[3] = -0.9589...');
+        assert((*result.at(5).sign).into() == true, 'result[3].sign = true');
+        assert((*result.at(6).mag).into() == 18310, 'result[3] = -0.2794...');
+        assert((*result.at(6).sign).into() == true, 'result[3].sign = true...');
+        assert((*result.at(7).mag).into() == 43056, 'result[3] = 0.6569...');
+        assert((*result.at(7).sign).into() == false, 'result[3].sign = false');
     }
 }
 

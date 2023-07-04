@@ -15,3 +15,5 @@ mod abs;
 mod ceil;
 mod sin;
 mod cos;
+mod asin;
+

@@ -15,4 +15,5 @@ mod ln;
 mod arithmetic;
 mod sin;
 mod cos;
+mod asin;
 

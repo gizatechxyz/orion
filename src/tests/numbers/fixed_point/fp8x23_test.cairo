@@ -366,3 +366,23 @@ fn test_cos() {
     let a = FixedTrait::new_unscaled(17_u128, true);
     assert(a.cos().into() == -2308239, 'invalid -17'); // -0.27516...
 }
+
+
+#[test]
+#[available_gas(100000000)]
+fn test_asin() {
+    let a = FixedTrait::new(ONE, false);
+    assert(a.asin().into() == 13176794, 'invalid one'); // PI / 2
+
+    let a = FixedTrait::new(ONE / 2_u128, false);
+    assert(a.asin().into() == 4392278, 'invalid half'); // 0.523...
+
+    let a = FixedTrait::new(0_u128, false);
+    assert(a.asin().into() == 0, 'invalid zero');
+
+    let a = FixedTrait::new(ONE / 2_u128, true);
+    assert(a.asin().into() == -4392278, 'invalid neg half');
+
+    let a = FixedTrait::new(ONE, true);
+    assert(a.asin().into() == -13176794, 'invalid neg one'); // -PI / 2
+}

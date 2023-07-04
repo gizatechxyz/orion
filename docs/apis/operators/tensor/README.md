@@ -75,6 +75,7 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.ceil`](tensor.ceil.md) | Rounds up the value of each element in the input tensor. |
 | [`tensor.sin`](tensor.sin.md) | Computes the sine value of each element in the input tensor. |
 | [`tensor.cos`](tensor.cos.md) | Computes the cosine value of each element in the input tensor. |
+| [`tensor.asin`](tensor.asin.md) | Returns the arcsine (inverse of sine) value of each element in the input tensor. |
 
 ### Arithmetic Operations
 

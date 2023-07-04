@@ -31,6 +31,7 @@ use orion::utils::check_gas;
 
 use orion::operators::tensor::math::sin::sin_u32::core::sin_u32;
 use orion::operators::tensor::math::cos::cos_u32::core::cos_u32;
+use orion::operators::tensor::math::asin::asin_u32::core::asin_u32;
 
 
 impl Tensor_u32 of TensorTrait<u32> {
@@ -133,6 +134,10 @@ impl Tensor_u32 of TensorTrait<u32> {
 
     fn cos(self: @Tensor<u32>) -> Tensor<FixedType> {
         cos_u32(self).unwrap()
+    }
+
+    fn asin(self: @Tensor<u32>) -> Tensor<FixedType> {
+        asin_u32(self).unwrap()
     }
 }
 
