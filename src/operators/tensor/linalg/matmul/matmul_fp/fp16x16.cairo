@@ -2,7 +2,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use orion::utils::check_gas;
+
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::numbers::fixed_point::implementations::impl_16x16::{
     FP16x16Impl, FP16x16Mul, FP16x16AddEq
@@ -60,7 +60,7 @@ fn dot_product(mut vec1: Span<FixedType>, mut vec2: Span<FixedType>) -> FixedTyp
     let mut result: FixedType = FixedTrait::new_unscaled(0, false);
 
     loop {
-        check_gas();
+
         if vec1.len() == 0 {
             break ();
         }
@@ -101,14 +101,14 @@ fn matrix_multiply(
 
     let mut i = 0_usize;
     loop {
-        check_gas();
+
         if i == m {
             break ();
         }
 
         let mut j = 0_usize;
         loop {
-            check_gas();
+    
             if j == p {
                 break ();
             }
@@ -116,7 +116,7 @@ fn matrix_multiply(
             let mut sum: FixedType = FixedTrait::new_unscaled(0, false);
             let mut k = 0_usize;
             loop {
-                check_gas();
+        
                 if k == n {
                     break ();
                 }

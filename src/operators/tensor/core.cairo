@@ -2,7 +2,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use orion::utils::check_gas;
+
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
 use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
 
@@ -1532,7 +1532,7 @@ fn ravel_index(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
     let mut stride: usize = 1;
 
     loop {
-        check_gas();
+
 
         if shape.len() == 0 {
             break ();
@@ -1556,7 +1556,7 @@ fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
     let mut stride = len_from_shape(shape);
 
     loop {
-        check_gas();
+
 
         if shape.len() == 0 {
             break ();
@@ -1582,7 +1582,7 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
     let mut accumulated: usize = 1;
     let mut temp_result = ArrayTrait::new();
     loop {
-        check_gas();
+
 
         temp_result.append(accumulated);
 
@@ -1594,7 +1594,7 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
 
     let mut i: usize = shape_len - 1;
     loop {
-        check_gas();
+
 
         result.append(*temp_result.at(i));
 

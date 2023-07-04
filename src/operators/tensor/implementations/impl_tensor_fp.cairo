@@ -38,7 +38,7 @@ use orion::operators::tensor::math::sin::sin_fp::core::sin;
 use orion::operators::tensor::math::cos::cos_fp::core::cos;
 
 
-use orion::utils::check_gas;
+
 
 impl Tensor_fp of TensorTrait<FixedType> {
     fn new(

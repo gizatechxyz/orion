@@ -9,7 +9,7 @@ use orion::operators::tensor::helpers::broadcast_shape;
 use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index};
 use orion::operators::tensor::helpers::{broadcast_index_mapping, len_from_shape, };
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-use orion::utils::check_gas;
+
 
 /// Adds two `Tensor<FixedType>` instances element-wise with broadcasting.
 ///
@@ -31,7 +31,7 @@ fn add(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
 
     let mut n: usize = 0;
     loop {
-        check_gas();
+
 
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
@@ -69,7 +69,7 @@ fn sub(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
 
     let mut n: usize = 0;
     loop {
-        check_gas();
+
 
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
@@ -107,7 +107,7 @@ fn mul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
 
     let mut n: usize = 0;
     loop {
-        check_gas();
+
 
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
@@ -145,7 +145,7 @@ fn div(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
 
     let mut n: usize = 0;
     loop {
-        check_gas();
+
 
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 

@@ -7,7 +7,7 @@ use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
 use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23Impl, ONE, FP8x23Mul};
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::utils::check_gas;
+
 
 /// Cf: NNTrait::leaky_relu docstring
 fn leaky_relu(z: @Tensor<u32>, alpha: @FixedType, threshold: u32) -> Tensor<FixedType> {
@@ -16,7 +16,7 @@ fn leaky_relu(z: @Tensor<u32>, alpha: @FixedType, threshold: u32) -> Tensor<Fixe
     let mut data_result = ArrayTrait::<FixedType>::new();
     let mut data = *z.data;
     loop {
-        check_gas();
+
 
         if data.len() == 0 {
             break ();

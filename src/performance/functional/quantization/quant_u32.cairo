@@ -9,7 +9,7 @@ use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::performance::functional::quantization::quant_fp::core::symetric_quant as symetric_quant_fp;
 use orion::utils::u32_max;
-use orion::utils::check_gas;
+
 use orion::utils::fp8x23_to_u32;
 
 /// Symmetrically quantizes the input `data` value using the specified range.
@@ -57,7 +57,7 @@ fn quantize_tensor(tensor: @Tensor::<u32>) -> Tensor::<u32> {
     let mut data = *tensor.data;
 
     loop {
-        check_gas();
+
 
         let quantized = symetric_quant(min_val, max_val, *data.pop_front().unwrap());
         result_data.append(quantized);
@@ -80,7 +80,7 @@ fn quantize_fp_tensor(tensor: @Tensor::<FixedType>) -> Tensor::<u32> {
     let mut data = *tensor.data;
 
     loop {
-        check_gas();
+
 
         let quantized = symetric_quant_fp(
             min_val, max_val, *data.pop_front().unwrap(), *tensor.extra

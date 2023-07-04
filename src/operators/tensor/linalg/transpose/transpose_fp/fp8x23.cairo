@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
 use orion::operators::tensor::helpers::{len_from_shape, find_axis, permutation_output_shape};
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
-use orion::utils::check_gas;
+
 
 /// Cf: TensorTrait::transpose docstring
 fn transpose(self: @Tensor<FixedType>, axes: Span<usize>) -> Tensor<FixedType> {
@@ -22,7 +22,7 @@ fn transpose(self: @Tensor<FixedType>, axes: Span<usize>) -> Tensor<FixedType> {
 
     let mut output_index: usize = 0;
     loop {
-        check_gas();
+
 
         if output_index == output_data_len {
             break ();
@@ -33,7 +33,7 @@ fn transpose(self: @Tensor<FixedType>, axes: Span<usize>) -> Tensor<FixedType> {
 
         let mut output_axis: usize = 0;
         loop {
-            check_gas();
+    
             if output_axis == axes.len() {
                 break ();
             }

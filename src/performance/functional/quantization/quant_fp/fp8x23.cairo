@@ -11,7 +11,7 @@ use orion::numbers::fixed_point::implementations::impl_8x23::{
     FP8x23Impl, FP8x23Mul, FP8x23Div, FP8x23Sub
 };
 
-use orion::utils::check_gas;
+
 
 /// Symmetrically quantizes the input `data` value using the specified range.
 ///
@@ -55,7 +55,7 @@ fn quantize_tensor(tensor: @Tensor::<FixedType>) -> Tensor::<FixedType> {
     let mut data = *tensor.data;
 
     loop {
-        check_gas();
+
 
         let quantized = symetric_quant(min_val, max_val, *data.pop_front().unwrap());
         result_data.append(quantized);

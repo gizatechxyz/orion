@@ -1,7 +1,7 @@
 use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
-use orion::utils::check_gas;
+
 
 // ====================== INT 8 ======================
 
@@ -322,7 +322,7 @@ fn i8_rem(a: i8, b: i8) -> i8 {
 
 /// Cf: IntegerTrait::div_rem docstring
 fn i8_div_rem(a: i8, b: i8) -> (i8, i8) {
-    check_gas();
+    
     let quotient = i8_div(a, b);
     let remainder = i8_rem(a, b);
 

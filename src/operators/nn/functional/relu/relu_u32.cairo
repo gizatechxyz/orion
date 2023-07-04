@@ -4,7 +4,7 @@ use option::OptionTrait;
 
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
-use orion::utils::check_gas;
+
 
 /// Cf: NNTrait::relu docstring
 fn relu_u32(z: @Tensor<u32>, threshold:u32 ) -> Tensor<u32> {
@@ -13,7 +13,7 @@ fn relu_u32(z: @Tensor<u32>, threshold:u32 ) -> Tensor<u32> {
 
     let zero = 0;
     loop {
-        check_gas();
+
 
         if data.len() == 0 {
             break ();
