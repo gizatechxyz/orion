@@ -37,3 +37,15 @@ fn fp8x23_to_u32(x: FixedType) -> u32 {
     let unscaled_mag = x.mag / ONE;
     return unscaled_mag.try_into().unwrap();
 }
+
+fn saturate<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>, impl PartialOrdT: PartialOrd<T>>(
+    min: T, max: T, x: T
+) -> T {
+    if x < min {
+        min
+    } else if x > max {
+        max
+    } else {
+        x
+    }
+}
