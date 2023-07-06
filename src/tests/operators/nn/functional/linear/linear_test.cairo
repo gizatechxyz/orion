@@ -45,13 +45,7 @@ fn linear_test() {
     let extra = Option::<ExtraParams>::None(());
     let bias = TensorTrait::new(shape.span(), data.span(), extra);
 
-    // TEST UNQUANTIZED
-    let result = NNTrait::linear(inputs, weights, bias, false).data;
+    let result = NNTrait::linear(inputs, weights, bias).data;
     assert((*result[0]).into() == 5541, 'result[0] = 5541');
     assert((*result[1]).into() == -260, 'result[1] = -260');
-
-    // TEST QUANTIZED
-    let result = NNTrait::linear(inputs, weights, bias, true).data;
-    assert((*result[0]).into() == 127, 'result[0] = 127');
-    assert((*result[1]).into() == -6, 'result[1] = -6');
 }

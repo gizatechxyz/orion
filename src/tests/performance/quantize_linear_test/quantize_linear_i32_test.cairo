@@ -6,7 +6,7 @@ use traits::Into;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
-use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+use orion::operators::tensor::core::{TensorTrait, ExtraParams, Tensor};
 use orion::performance::core::PerfomanceTrait;
 use orion::performance::implementations::impl_performance_i32::Performance_i32;
 
@@ -42,7 +42,7 @@ fn quantize_linear() {
     let extra = Option::<ExtraParams>::None(());
     let y_zero_point = TensorTrait::new(shape.span(), data.span(), extra);
 
-    let y = x.quantize_linear_new(@y_scale, @y_zero_point);
+    let y: Tensor<i32> = x.quantize_linear(@y_scale, @y_zero_point);
 
     assert((*y.data[0]).into() == 1, '*result[0] == 1');
     assert((*y.data[1]).into() == 2, '*result[1] == 2');
@@ -109,7 +109,7 @@ fn per_axis() {
     let extra = Option::<ExtraParams>::None(());
     let y_zero_point = TensorTrait::new(shape.span(), data.span(), extra);
 
-    let y = x.quantize_linear_new(@y_scale, @y_zero_point);
+    let y: Tensor<i32> = x.quantize_linear(@y_scale, @y_zero_point);
 
     assert((*y.data[0]).into() == 3, '*result[0] == 3');
     assert((*y.data[1]).into() == 89, '*result[1] == 89');
