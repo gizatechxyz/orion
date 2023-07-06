@@ -16,7 +16,7 @@ use orion::operators::tensor::math::arithmetic::arithmetic_fp::fp8x23::{
 use orion::operators::tensor::helpers::check_compatibility;
 use orion::utils::{saturate, fp8x23_to_i32};
 
-
+/// Cf: PerfomanceTrait::quantize_linear docstring
 fn quantize_linear(
     x: @Tensor<FixedType>, y_scale: @Tensor<FixedType>, y_zero_point: @Tensor<FixedType>
 ) -> Tensor::<i32> {

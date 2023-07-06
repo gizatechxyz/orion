@@ -10,6 +10,7 @@ use orion::operators::tensor::math::arithmetic::arithmetic_i32::{saturated_add, 
 use orion::operators::tensor::helpers::check_compatibility;
 use orion::utils::saturate;
 
+/// Cf: PerfomanceTrait::quantize_linear docstring
 fn quantize_linear(
     x: @Tensor<i32>, y_scale: @Tensor<i32>, y_zero_point: @Tensor<i32>
 ) -> Tensor::<i32> {
