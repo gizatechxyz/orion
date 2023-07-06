@@ -1,3 +1,2 @@
-mod core;
-mod fp8x23;
-mod fp16x16;
+mod fp_i32;
+mod fp_u32;
