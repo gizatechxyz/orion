@@ -1,6 +1,7 @@
 use core::traits::TryInto;
 use option::OptionTrait;
 use array::ArrayTrait;
+use array::SpanTrait;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
@@ -49,3 +50,4 @@ fn saturate<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>, impl PartialOrdT: Parti
         x
     }
 }
+

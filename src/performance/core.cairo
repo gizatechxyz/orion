@@ -98,4 +98,8 @@ trait PerfomanceTrait<T> {
     /// ```
     ///
     fn quantize_linear_from_fp(self: @Tensor<FixedType>) -> Tensor<T>;
+
+    fn quantize_linear_new(
+        self: @Tensor<T>, y_scale: @Tensor<T>, y_zero_point: @Tensor<T>
+    ) -> Tensor::<T>;
 }

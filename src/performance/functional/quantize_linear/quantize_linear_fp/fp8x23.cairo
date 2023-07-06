@@ -4,35 +4,28 @@ use option::OptionTrait;
 
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp, FixedTypeTensorDiv};
 use orion::numbers::fixed_point::implementations::impl_8x23::{
     FP8x23Impl, FP8x23PartialOrd, FP8x23Div, FP8x23Add
 };
 use orion::operators::tensor::math::arithmetic::arithmetic_fp::fp8x23::{
     saturated_add, saturated_div
 };
-use orion::performance::functional::quantize_linear::quantize_linear_fp::core::{Yscale, ZeroPoint};
+use orion::operators::tensor::helpers::check_compatibility;
 use orion::utils::saturate;
 
 
 fn quantize_linear(
-    x: @Tensor<FixedType>, y_scale: Yscale, y_zero_point: ZeroPoint
+    x: @Tensor<FixedType>, y_scale: @Tensor<FixedType>, y_zero_point: @Tensor<FixedType>
 ) -> Tensor::<FixedType> {
-    let y = match y_scale {
-        Yscale::ElementWise(scale) => match y_zero_point {
-            ZeroPoint::ElementWise(zero) => Option::Some(quantize_element_wise(x, scale, zero)),
-            ZeroPoint::PerAxis(zero) => Option::None(())
-        },
-        Yscale::PerAxis(scale_tensor) => match y_zero_point {
-            ZeroPoint::ElementWise(zero) => Option::None(()),
-            ZeroPoint::PerAxis(zero_tensor) => Option::Some(
-                quantize_per_axis(x, @scale_tensor, @zero_tensor)
-            )
-        },
-    };
-
-    assert(y.is_some(), 'Mismatch w/ Yscale & ZeroPoint');
-    return y.unwrap();
+    if (*y_scale.data).len() == 1 && (*y_zero_point.data).len() == 1 {
+        quantize_element_wise(x, *y_scale.data[0], *y_zero_point.data[0])
+    } else {
+        check_compatibility(*x.shape, *y_scale.shape);
+        check_compatibility(*x.shape, *y_zero_point.shape);
+        check_compatibility(*y_scale.shape, *y_zero_point.shape);
+        quantize_per_axis(x, y_scale, y_zero_point)
+    }
 }
 
 fn quantize_per_axis(
@@ -43,7 +36,7 @@ fn quantize_per_axis(
     let min = FixedTrait::new_unscaled(128, true);
     let max = FixedTrait::new_unscaled(127, false);
 
-    saturated_add(@saturated_div(x, y_scale, min, max), y_zero_point, min, max)
+    saturated_add(@(*x / *y_scale), y_zero_point, min, max)
 }
 
 fn quantize_element_wise(
@@ -53,7 +46,7 @@ fn quantize_element_wise(
     let mut data = *x.data;
 
     loop {
-        let quantized = quantize(y_scale, y_zero_point, *data.pop_front().unwrap());
+        let quantized = quantize(*data.pop_front().unwrap(), y_scale, y_zero_point);
         result_data.append(quantized);
 
         if data.len() == 0 {

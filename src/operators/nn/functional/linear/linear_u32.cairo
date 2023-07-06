@@ -3,7 +3,7 @@ use array::SpanTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32, u32TensorAdd};
 use orion::performance::core::PerfomanceTrait;
-use orion::performance::implementations::impl_performance_u32::Performance_i32;
+use orion::performance::implementations::impl_performance_u32::Performance_u32;
 
 /// Cf: NNTrait::linear docstring
 fn linear_u32(
