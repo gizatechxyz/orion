@@ -1,13 +1,14 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
+use debug::PrintTrait;
 
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp, FixedTypeTensorDiv};
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::numbers::fixed_point::implementations::impl_8x23::{
-    FP8x23Impl, FP8x23PartialOrd, FP8x23Div, FP8x23Add
+    FP8x23Impl, FP8x23PartialOrd, FP8x23Div, FP8x23Add, FP8x23Print
 };
 use orion::operators::tensor::math::arithmetic::arithmetic_fp::fp8x23::{
     saturated_add_to_u32, saturated_div
@@ -34,8 +35,8 @@ fn quantize_per_axis(
 ) -> Tensor::<u32> {
     let mut result_data = ArrayTrait::<FixedType>::new();
 
-    let min = FixedTrait::new_unscaled(128, true);
-    let max = FixedTrait::new_unscaled(127, false);
+    let min = FixedTrait::new_unscaled(0, false);
+    let max = FixedTrait::new_unscaled(255, false);
 
     saturated_add_to_u32(@(*x / *y_scale), y_zero_point, min, max)
 }
@@ -60,8 +61,8 @@ fn quantize_element_wise(
 
 fn quantize(x: FixedType, y_scale: FixedType, y_zero_point: FixedType) -> FixedType {
     saturate(
-        FixedTrait::new_unscaled(128, true),
-        FixedTrait::new_unscaled(127, false),
+        FixedTrait::new_unscaled(0, false),
+        FixedTrait::new_unscaled(255, false),
         ((x / y_scale) + y_zero_point)
     )
 }

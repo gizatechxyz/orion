@@ -34,8 +34,8 @@ fn quantize_per_axis(
 ) -> Tensor::<u32> {
     let mut result_data = ArrayTrait::<FixedType>::new();
 
-    let min = FixedTrait::new_unscaled(128, true);
-    let max = FixedTrait::new_unscaled(127, false);
+    let min = FixedTrait::new_unscaled(0, false);
+    let max = FixedTrait::new_unscaled(255, false);
 
     saturated_add_to_u32(@(*x / *y_scale), y_zero_point, min, max)
 }
@@ -60,8 +60,8 @@ fn quantize_element_wise(
 
 fn quantize(x: FixedType, y_scale: FixedType, y_zero_point: FixedType) -> FixedType {
     saturate(
-        FixedTrait::new_unscaled(128, true),
-        FixedTrait::new_unscaled(127, false),
+        FixedTrait::new_unscaled(0, false),
+        FixedTrait::new_unscaled(255, false),
         ((x / y_scale) + y_zero_point)
     )
 }

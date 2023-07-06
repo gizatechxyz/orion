@@ -1,5 +1,5 @@
-// mod numbers;
+mod numbers;
 mod performance;
-// mod operators;
-// mod helpers;
+mod operators;
+mod helpers;
 
