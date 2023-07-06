@@ -10,14 +10,17 @@ use orion::performance::performance_u32::performance
 
 ### Data types
 
-Orion supports currently two `performance` types.
+Orion supports currently these `performance` types.
 
-| Data type                 | dtype             |
-| ------------------------- | ----------------- |
-| 32-bit integer (signed)   | `performance_i32` |
-| 32-bit integer (unsigned) | `performance_u32` |
+| Data type                 | dtype                              |
+| ------------------------- | ---------------------------------- |
+| 32-bit integer (signed)   | `PerformanceTrait<i32, i32>`       |
+| 32-bit integer (unsigned) | `PerformanceTrait<u32, u32>`       |
+| Fixed point  (signed)     | `PerformanceTrait<FixedType, i32>` |
+| Fixed point  (signed)     | `PerformanceTrait<FixedType, u32>` |
 
-| function | description |
-| --- | --- |
+
+| function                                                         | description                                   |
+| ---------------------------------------------------------------- | --------------------------------------------- |
 | [`performance.quantize_linear`](performance.quantize\_linear.md) | Quantizes a Tensor using linear quantization. |
 
