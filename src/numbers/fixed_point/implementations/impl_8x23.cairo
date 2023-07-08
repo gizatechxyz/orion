@@ -111,6 +111,10 @@ impl FP8x23Impl of FixedTrait {
     fn asinh(self: FixedType) -> FixedType {
         return math_8x23::asinh(self);
     }
+
+    fn atan(self: FixedType) -> FixedType {
+        return math_8x23::atan(self);
+    }    
 }
 
 impl FP8x23Print of PrintTrait<FixedType> {

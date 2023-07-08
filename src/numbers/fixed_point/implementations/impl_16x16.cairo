@@ -111,6 +111,10 @@ impl FP16x16Impl of FixedTrait {
     fn asinh(self: FixedType) -> FixedType {
         return math_16x16::asinh(self);
     }
+
+    fn atan(self: FixedType) -> FixedType {
+        return math_16x16::atan(self);
+    }    
 }
 
 impl FP16x16Print of PrintTrait<FixedType> {

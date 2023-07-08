@@ -60,6 +60,7 @@ use orion::numbers::fixed_point::Fixed;
 | [`fp.cosh`](fp.cosh.md) | Returns the value of the hyperbolic cosine of the fixed point number. |
 | [`fp.acosh`](fp.acosh.md) | Returns the value of the inverse hyperbolic cosine of the fixed point number. |
 | [`fp.asinh`](fp.asinh.md) | Returns the inverse hyperbolic sine of the input fixed point number. |
+| [`fp.atan`](fp.atan.md) | Returns the arctangent (inverse of tangent) of the input fixed point number. |
 
 ### Arithmetic & Comparison operators
 
