@@ -8,7 +8,7 @@ use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 // i32 represents a 32-bit integer.
 // The mag field holds the absolute value of the integer.
 // The sign field is true for negative integers, and false for non-negative integers.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct i32 {
     mag: u32,
     sign: bool,

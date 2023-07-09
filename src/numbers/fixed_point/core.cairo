@@ -1,12 +1,12 @@
 /// A struct representing a fixed point number.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct FixedType {
     mag: u128,
     sign: bool
 }
 
 /// A struct listing fixed point implementations.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 enum FixedImpl {
     FP8x23: (),
     FP16x16: ()
