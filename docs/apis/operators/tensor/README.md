@@ -82,6 +82,7 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.cosh`](tensor.cosh.md) | Computes the hyperbolic cosine of all elements of the input tensor. |
 | [`tensor.tanh`](tensor.tanh.md) | Computes the hyperbolic tangent of all elements of the input tensor. |
 | [`tensor.sinh`](tensor.sinh.md) | Computes the hyperbolic sine of all elements of the input tensor. |
+| [`tensor.atan`](tensor.atan.md) | Computes the arctangent (inverse of tangent) of the input tensor. |
 
 ### Arithmetic Operations
 

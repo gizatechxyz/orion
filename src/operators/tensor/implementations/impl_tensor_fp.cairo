@@ -36,6 +36,7 @@ use orion::operators::tensor::math::acosh::acosh_fp::core::acosh;
 use orion::operators::tensor::math::asinh::asinh_fp::core::asinh;
 use orion::operators::tensor::math::sin::sin_fp::core::sin;
 use orion::operators::tensor::math::cos::cos_fp::core::cos;
+use orion::operators::tensor::math::atan::atan_fp::core::atan;
 
 
 use orion::utils::check_gas;
@@ -178,6 +179,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
     fn asinh(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         asinh(self).unwrap()
     }
+
+    fn atan(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        atan(self).unwrap()
+    }    
 }
 
 /// Implements addition for `Tensor<FixedType>` using the `Add` trait.

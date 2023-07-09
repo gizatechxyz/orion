@@ -36,6 +36,7 @@ enum FixedImpl {
 /// cosh - Returns the value of the hyperbolic cosine of the fixed point number.
 /// acosh - Returns the value of the inverse hyperbolic cosine of the fixed point number.
 /// asinh - Returns the inverse hyperbolic sine of the input fixed point number.
+/// atan - Returns the arctangent (inverse of tangent) of the input fixed point number.
 /// 
 trait FixedTrait {
     /// # FixedTrait::new
@@ -699,4 +700,34 @@ trait FixedTrait {
     /// ``` 
     ///
     fn acosh(self: FixedType) -> FixedType;
+    /// # fp.atan
+    /// 
+    /// ```rust
+    /// fn atan(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the arctangent (inverse of tangent) of the input fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// A fixed point number representing the arctangent (inverse of tangent) of the input value.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn atan_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(2);
+    ///     
+    ///     // We can call `atan` function as follows.
+    ///     fp.atan()
+    /// }
+    /// >>> {mag: 72558, sign: false} // = 1.1071...
+    /// ``` 
+    ///    
+    fn atan(self: FixedType) -> FixedType;    
 }
