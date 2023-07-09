@@ -23,7 +23,7 @@
 
 # Orion: Cairo library for Validity ML ✨
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 
@@ -88,6 +88,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Roee-87"><img src="https://avatars.githubusercontent.com/u/112157037?v=4?s=100" width="100px;" alt="Roy Rotstein"/><br /><sub><b>Roy Rotstein</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=Roee-87" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/omahs"><img src="https://avatars.githubusercontent.com/u/73983677?v=4?s=100" width="100px;" alt="omahs"/><br /><sub><b>omahs</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=omahs" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/hakymulla"><img src="https://avatars.githubusercontent.com/u/25408889?v=4?s=100" width="100px;" alt="Kazeem Hakeem"/><br /><sub><b>Kazeem Hakeem</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=hakymulla" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/0xd3bs"><img src="https://avatars.githubusercontent.com/u/6605280?v=4?s=100" width="100px;" alt="dblanco"/><br /><sub><b>dblanco</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=0xd3bs" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
