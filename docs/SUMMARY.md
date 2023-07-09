@@ -79,7 +79,6 @@
     * [fp.atan](apis/numbers/fixed-point/fp.atan.md)
 * [Performance](apis/performance/README.md)
   * [performance.quantize\_linear](apis/performance/performance.quantize\_linear.md)
-  * [performance.quantize\_linear\_from\_fp](apis/performance/performance.quantize\_linear\_from\_fp.md)
 
 ## 💖 Community
 

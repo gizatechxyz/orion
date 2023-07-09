@@ -65,24 +65,7 @@ mod tensor_3D {
     fn tensor_tanh_test() {
         let tensor = fp_tensor_2x2x2_helper();
         let result = tensor.tanh().data;
-        
-        // let a0 = *result.at(0).mag.into();
-        // a0.print();
-        // let a1 = *result.at(1).mag.into();
-        // a1.print();
-        // let a2 = *result.at(2).mag.into();
-        // a2.print();
-        // let a3 = *result.at(3).mag.into();
-        // a3.print();
-        // let a4 = *result.at(4).mag.into();
-        // a4.print();
-        // let a5 = *result.at(5).mag.into();
-        // a5.print();
-        // let a6 = *result.at(6).mag.into();
-        // a6.print();
-        // let a7 = *result.at(7).mag.into();
-        // a7.print();
-        
+                
         assert((*result.at(0).mag).into() == 0, 'result[0] = 0');
         assert((*result.at(1).mag).into() == 49911, 'result[1] = 0.761594...');
         assert((*result.at(2).mag).into() == 63178, 'result[2] = 0.964028...');
