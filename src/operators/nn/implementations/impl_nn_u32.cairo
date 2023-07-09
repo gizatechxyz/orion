@@ -37,10 +37,8 @@ impl NN_u32 of NNTrait<u32> {
         softplus_u32(tensor).unwrap()
     }
 
-    fn linear(
-        inputs: Tensor<u32>, weights: Tensor<u32>, bias: Tensor<u32>, quantized: bool
-    ) -> Tensor<u32> {
-        linear_u32(inputs, weights, bias, quantized)
+    fn linear(inputs: Tensor<u32>, weights: Tensor<u32>, bias: Tensor<u32>) -> Tensor<u32> {
+        linear_u32(inputs, weights, bias)
     }
 
     fn leaky_relu(inputs: @Tensor<u32>, alpha: @FixedType, threshold: u32) -> Tensor<FixedType> {
