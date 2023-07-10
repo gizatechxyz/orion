@@ -65,4 +65,8 @@ trait PerfomanceTrait<T, O> {
     fn quantize_linear(
         self: @Tensor<T>, y_scale: @Tensor<T>, y_zero_point: @Tensor<T>
     ) -> Tensor::<O>;
+
+    fn dequantize_linear(
+        self: @Tensor<T>, x_scale: @Tensor<T>, x_zero_point: @Tensor<T>
+    ) -> Tensor::<T>;
 }
