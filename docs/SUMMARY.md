@@ -81,6 +81,8 @@
     * [nn.linear](framework/operators/neural-network/nn.linear.md)
 * [Performance](framework/performance/README.md)
   * [performance.quantize\_linear](framework/performance/performance.quantize\_linear.md)
+  * [performance.dequantize\_linear](framework/performance/performance.dequantize\_linear.md)
+
 
 ## 🏛 Hub
 

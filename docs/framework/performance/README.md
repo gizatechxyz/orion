@@ -20,7 +20,8 @@ Orion supports currently these `performance` types.
 | Fixed point  (signed)     | `PerformanceTrait<FixedType, u32>` |
 
 
-| function                                                         | description                                   |
-| ---------------------------------------------------------------- | --------------------------------------------- |
+| function | description |
+| --- | --- |
 | [`performance.quantize_linear`](performance.quantize\_linear.md) | Quantizes a Tensor using linear quantization. |
+| [`performance.dequantize_linear`](performance.dequantize\_linear.md) | Dequantizes a Tensor using linear dequantization. |
 

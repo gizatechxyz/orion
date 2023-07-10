@@ -5,7 +5,7 @@ use regex::Regex;
 fn main() {
     // TENSOR DOC
     let trait_path = "src/operators/tensor/core.cairo";
-    let doc_path = "docs/apis/operators/tensor";
+    let doc_path = "docs/framework/operators/tensor";
     let label = "tensor";
     let trait_name = "TensorTrait";
     doc_trait(trait_path, doc_path, label);
@@ -13,7 +13,7 @@ fn main() {
 
     // NN DOC
     let trait_path = "src/operators/nn/core.cairo";
-    let doc_path = "docs/apis/operators/neural-network";
+    let doc_path = "docs/framework/operators/neural-network";
     let label = "nn";
     let trait_name = "NNTrait";
     doc_trait(trait_path, doc_path, label);
@@ -21,7 +21,7 @@ fn main() {
 
     // FIXED POINT DOC
     let trait_path = "src/numbers/fixed_point/core.cairo";
-    let doc_path = "docs/apis/numbers/fixed-point";
+    let doc_path = "docs/framework/numbers/fixed-point";
     let label = "fp";
     let trait_name = "FixedTrait";
     doc_trait(trait_path, doc_path, label);
@@ -29,7 +29,7 @@ fn main() {
 
     // SIGNED INTEGER DOC
     let trait_path = "src/numbers/signed_integer/integer_trait.cairo";
-    let doc_path = "docs/apis/numbers/signed-integer";
+    let doc_path = "docs/framework/numbers/signed-integer";
     let label = "int";
     let trait_name: &str = "IntegerTrait";
     doc_trait(trait_path, doc_path, label);
@@ -37,7 +37,7 @@ fn main() {
 
     // PERFORMANCE DOC
     let trait_path = "src/performance/core.cairo";
-    let doc_path = "docs/apis/performance";
+    let doc_path = "docs/framework/performance";
     let label = "performance";
     let trait_name = "PerfomanceTrait";
     doc_trait(trait_path, doc_path, label);
