@@ -1,25 +1,22 @@
 ---
-description: ONNX Runtime in Cairo 1.0
+description: An Open-source ecosystem for Validity and ZK ML.
 ---
 
 # Orion
 
-Orion is a Cairo library that provides two high-level features:
+Orion is an open-source, community-driven framework dedicated to Provable Machine Learning. It provides essential components and a new ONNX runtime for building verifiable Machine Learning models using [STARKs](https://starkware.co/stark/).
 
-* Tensor computation (like Numpy) in Cairo 1.0.
-* Verifiable Machine Learning models using STARKS.
+<figure><img src=".gitbook/assets/Orion.png" alt=""><figcaption></figcaption></figure>
 
-### 🤔 What is ONNX Runtime inference?
+### 🤔 What is ONNX Runtime?
 
-ONNX Runtime is an open-source, high-performance inference engine for machine learning models in the Open Neural Network Exchange (ONNX) format. ONNX is an interoperable format that allows deep learning models to be represented, shared, and executed across different AI frameworks and platforms.
+ONNX (Open Neural Network Exchange), is an open-source standard created to represent deep learning models. The aim of its development was to enable interoperability among diverse deep learning frameworks, like TensorFlow or PyTorch. By offering a universal file format, ONNX allows models trained in one framework to be readily applied in another for inference, eliminating the need for model conversion.
 
-ONNX Runtime inference can enable faster user experiences and lower costs, supporting models from deep learning frameworks such as PyTorch and TensorFlow/Keras as well as classical machine learning libraries such as scikit-learn, LightGBM, XGBoost, etc. ONNX Runtime is compatible with various hardware, drivers, and operating systems, and provides optimal performance by leveraging hardware accelerators where applicable alongside graph optimizations and transforms. [Learn more →](https://www.onnxruntime.ai/docs/#onnx-runtime-for-inferencing)
-
-This library proposes a new ONNX runtime built with [Cairo](https://www.cairo-lang.org/). The purpose is to provide a runtime implementation for verifiable ML model inferences using [STARKs](https://starkware.co/stark/).
+Ensuring compatibility with ONNX operators facilitates integration into the ONNX ecosystem. This enables researchers and developers to pre-train models using their preferred framework, before executing verifiable inferences with Orion.
 
 ### 🌱 Where to start?
 
-<table data-view="cards"><thead><tr><th align="center"></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td align="center"></td><td>🧱 <strong>APIs</strong></td><td>Three APIs that will help you to build your Validity ML models.</td><td><a href="apis/get-started.md">get-started.md</a></td></tr><tr><td align="center"></td><td>🧩 <strong>Algorithms</strong></td><td>Discover all algorithms built by the community, or build your own.</td><td><a href="community/algorithms.md">algorithms.md</a></td></tr><tr><td align="center"></td><td>📖 <strong>Tutorials</strong></td><td>Try out the awesome guides and tutorials created by the community.</td><td><a href="resources/tutorials/">tutorials</a></td></tr></tbody></table>
+<table data-view="cards"><thead><tr><th align="center"></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td align="center"></td><td>🧱 <strong>Framework</strong></td><td>The building blocks for Verifiable Machine Learning models.</td><td><a href="broken-reference">Broken link</a></td></tr><tr><td align="center"></td><td>🏛 <strong>Hub</strong></td><td>A curated collection of ML models and spaces built by the community using Orion framework.</td><td><a href="broken-reference">Broken link</a></td></tr><tr><td align="center"></td><td>🎓 <strong>Academy</strong></td><td>Resources and tutorials for learning how to build ValidityML models using Orion.</td><td><a href="broken-reference">Broken link</a></td></tr></tbody></table>
 
 ### ✨ What's new?
 
