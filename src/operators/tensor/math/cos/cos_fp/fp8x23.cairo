@@ -8,7 +8,7 @@ use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
 use orion::utils::check_gas;
 
-/// Cf: TensorTrait::exp docstring
+/// Cf: TensorTrait::cos docstring
 fn cos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
     let mut result = ArrayTrait::new();
     let mut data = *self.data;

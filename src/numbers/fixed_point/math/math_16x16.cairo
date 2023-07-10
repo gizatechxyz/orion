@@ -342,6 +342,7 @@ fn sqrt(a: FixedType) -> FixedType {
     return FixedTrait::new(res_u64.into(), false);
 }
 
+/// Cf: FixedTrait::sin docstring
 fn sin(a: FixedType) -> FixedType {
     let a1_u128 = a.mag % (2_u128 * PI);
     let whole_rem = a1_u128 / PI;
@@ -371,8 +372,23 @@ fn _sin_loop(a: FixedType, i: u128, acc: FixedType) -> FixedType {
     return _sin_loop(a, i - 1_u128, new_acc);
 }
 
+/// Cf: FixedTrait::cos docstring
 fn cos(a: FixedType) -> FixedType {
     return sin(FixedTrait::new(HALF_PI, false) - a);
+}
+
+/// Cf: FixedTrait::asin docstring
+// Calculates arcsin(a) for -1 <= a <= 1 (fixed point)
+// arcsin(a) = arctan(a / sqrt(1 - a^2))
+fn asin(a: FixedType) -> FixedType {
+    assert(a.mag <= ONE, 'out of range');
+
+    if (a.mag == ONE) {
+        return FixedTrait::new(HALF_PI, a.sign);
+    }
+
+    let div = (FixedTrait::new(ONE, false) - a * a).sqrt();
+    return atan(a / div);
 }
 
 /// Subtracts one fixed point number from another.

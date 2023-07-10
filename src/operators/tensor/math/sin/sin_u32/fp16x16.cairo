@@ -10,7 +10,7 @@ use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
 use orion::utils::check_gas;
 
-/// Cf: TensorTrait::exp docstring
+/// Cf: TensorTrait::sin docstring
 fn sin(self: @Tensor<u32>) -> Tensor<FixedType> {
     let mut result = ArrayTrait::new();
     let mut data = *self.data;

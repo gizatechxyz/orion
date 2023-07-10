@@ -31,6 +31,7 @@ enum FixedImpl {
 /// sqrt - Returns the square root of the fixed point number.
 /// sin - Returns the sine of the fixed point number.
 /// cos - Returns the cosine of the fixed point number.
+/// asin - Returns the arcsine (inverse of sine) of the fixed point number.
 /// sinh - Returns the value of the hyperbolic sine of the fixed point number.
 /// tanh - Returns the value of the hyperbolic tangent of the fixed point number.
 /// cosh - Returns the value of the hyperbolic cosine of the fixed point number.
@@ -729,5 +730,35 @@ trait FixedTrait {
     /// >>> {mag: 72558, sign: false} // = 1.1071...
     /// ``` 
     ///    
-    fn atan(self: FixedType) -> FixedType;    
+    fn atan(self: FixedType) -> FixedType;
+    /// # fp.asin
+    /// 
+    /// ```rust
+    /// fn asin(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the  arcsine (inverse of sine) of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// A fixed point number representing the asin  of the input value.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn asin_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(1);
+    ///     
+    ///     // We can call `asin` function as follows.
+    ///     fp.asin()
+    /// }
+    /// >>> {mag: 102943, sign: true} // = 1.5707...
+    /// ``` 
+    ///
+    fn asin(self: FixedType) -> FixedType;   
 }

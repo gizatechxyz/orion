@@ -36,6 +36,7 @@
     * [tensor.cumsum](apis/operators/tensor/tensor.cumsum.md)
     * [tensor.sin](apis/operators/tensor/tensor.sin.md)
     * [tensor.cos](apis/operators/tensor/tensor.cos.md)
+    * [tensor.asin](apis/operators/tensor/tensor.asin.md)
     * [tensor.flatten](apis/operators/tensor/tensor.flatten.md)
     * [tensor.sinh](apis/operators/tensor/tensor.sinh.md)
     * [tensor.asinh](apis/operators/tensor/tensor.asinh.md)

@@ -55,6 +55,7 @@ use orion::numbers::fixed_point::Fixed;
 | [`fp.sqrt`](fp.sqrt.md) | Returns the square root of the fixed point number. |
 | [`fp.sin`](fp.sin.md) | Returns the sine of the fixed point number. |
 | [`fp.cos`](fp.cos.md) | Returns the cosine of the fixed point number. |
+| [`fp.asin`](fp.asin.md) | Returns the arcsine (inverse of sine) of the fixed point number. |
 | [`fp.sinh`](fp.sinh.md) | Returns the value of the hyperbolic sine of the fixed point number. |
 | [`fp.tanh`](fp.tanh.md) | Returns the value of the hyperbolic tangent of the fixed point number. |
 | [`fp.cosh`](fp.cosh.md) | Returns the value of the hyperbolic cosine of the fixed point number. |
