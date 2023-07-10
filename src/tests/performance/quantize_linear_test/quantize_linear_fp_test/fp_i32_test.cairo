@@ -5,14 +5,14 @@ mod fp8x23 {
     use traits::Into;
     use debug::PrintTrait;
 
-    use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
+    use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::i8};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
     use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
     use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, ExtraParams, Tensor};
     use orion::performance::core::PerfomanceTrait;
-    use orion::performance::implementations::impl_performance_fp::Performance_fp_i32;
+    use orion::performance::implementations::impl_performance_fp::Performance_fp;
 
     #[test]
     #[available_gas(2000000)]
@@ -46,7 +46,7 @@ mod fp8x23 {
         let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
         let y_zero_point = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
 
-        let y: Tensor<i32> = x.quantize_linear(@y_scale, @y_zero_point);
+        let y: Tensor<i8> = x.quantize_linear(@y_scale, @y_zero_point);
 
         assert((*y.data[0]).into() == 1, '*result[0] == 1');
         assert((*y.data[1]).into() == 2, '*result[1] == 2');
@@ -113,7 +113,7 @@ mod fp8x23 {
         let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
         let y_zero_point = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
 
-        let y: Tensor<i32> = x.quantize_linear(@y_scale, @y_zero_point);
+        let y: Tensor<i8> = x.quantize_linear(@y_scale, @y_zero_point);
 
         assert((*y.data[0]).into() == 3, '*result[0] == 3');
         assert((*y.data[1]).into() == 89, '*result[1] == 89');
@@ -144,14 +144,14 @@ mod fp16x16 {
     use traits::Into;
     use debug::PrintTrait;
 
-    use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
+    use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::i8};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
     use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
     use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, ExtraParams, Tensor};
     use orion::performance::core::PerfomanceTrait;
-    use orion::performance::implementations::impl_performance_fp::Performance_fp_i32;
+    use orion::performance::implementations::impl_performance_fp::Performance_fp;
 
     #[test]
     #[available_gas(2000000)]
@@ -185,7 +185,7 @@ mod fp16x16 {
         let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) };
         let y_zero_point = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
 
-        let y: Tensor<i32> = x.quantize_linear(@y_scale, @y_zero_point);
+        let y: Tensor<i8> = x.quantize_linear(@y_scale, @y_zero_point);
 
         assert((*y.data[0]).into() == 1, '*result[0] == 1');
         assert((*y.data[1]).into() == 2, '*result[1] == 2');
@@ -252,7 +252,7 @@ mod fp16x16 {
         let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) };
         let y_zero_point = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
 
-        let y: Tensor<i32> = x.quantize_linear(@y_scale, @y_zero_point);
+        let y: Tensor<i8> = x.quantize_linear(@y_scale, @y_zero_point);
 
         assert((*y.data[0]).into() == 3, '*result[0] == 3');
         assert((*y.data[1]).into() == 89, '*result[1] == 89');
