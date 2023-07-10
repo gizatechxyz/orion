@@ -3,10 +3,13 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
+use traits::Into;
 
-use orion::numbers::signed_integer::i8::i8;
-use orion::numbers::fixed_point::core::FixedType;
-
+use orion::numbers::signed_integer::{i8::i8, i32::i32};
+use orion::numbers::signed_integer::i8::{i8_to_fp8x23, i8_to_fp16x16};
+use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
+use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor
@@ -35,8 +38,6 @@ use orion::operators::tensor::math::tanh::tanh_i8::core::tanh_i8;
 use orion::operators::tensor::math::cosh::cosh_i8::core::cosh_i8;
 use orion::operators::tensor::math::acosh::acosh_i8::core::acosh_i8;
 use orion::operators::tensor::math::asinh::asinh_i8::core::asinh_i8;
-use orion::utils::check_gas;
-
 use orion::operators::tensor::math::sin::sin_i8::core::sin_i8;
 use orion::operators::tensor::math::cos::cos_i8::core::cos_i8;
 use orion::operators::tensor::math::asin::asin_i8::core::asin_i8;
@@ -147,7 +148,7 @@ impl Tensor_i8 of TensorTrait<i8> {
     fn asin(self: @Tensor<i8>) -> Tensor<FixedType> {
         asin_i8(self).unwrap()
     }
-    
+
     fn cumsum(
         self: @Tensor<i8>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
     ) -> Tensor<i8> {
@@ -180,7 +181,7 @@ impl Tensor_i8 of TensorTrait<i8> {
 
     fn atan(self: @Tensor<i8>) -> Tensor<FixedType> {
         atan_i8(self).unwrap()
-    }    
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
@@ -241,4 +242,76 @@ impl i8TensorDiv of Div<Tensor<i8>> {
     fn div(lhs: Tensor<i8>, rhs: Tensor<i8>) -> Tensor<i8> {
         div(@lhs, @rhs)
     }
+}
+
+// Implements the Into trait for i8 tensor to i32 tensor.
+impl TensorI8IntoTensorI32 of Into<Tensor<i8>, Tensor<i32>> {
+    fn into(self: Tensor<i8>) -> Tensor<i32> {
+        tensor_i8_to_tensor_i32(@self)
+    }
+}
+
+// Implements the Into trait for i8 tensor to fp tensor.
+impl TensorI8IntoTensorFP of Into<Tensor<i8>, Tensor<FixedType>> {
+    fn into(self: Tensor<i8>) -> Tensor<FixedType> {
+        tensor_i8_to_tensor_fp(@self).unwrap()
+    }
+}
+
+fn tensor_i8_to_tensor_i32(x: @Tensor<i8>) -> Tensor<i32> {
+    let mut result_data = ArrayTrait::<i32>::new();
+    let mut data = *x.data;
+
+    loop {
+        result_data.append((*data.pop_front().unwrap()).into());
+
+        if data.len() == 0 {
+            break ();
+        };
+    };
+
+    return TensorTrait::new(*x.shape, result_data.span(), *x.extra);
+}
+
+fn tensor_i8_to_tensor_fp(x: @Tensor<i8>) -> Option<Tensor<FixedType>> {
+    match *x.extra {
+        Option::Some(extra_params) => match extra_params.fixed_point {
+            Option::Some(fixed_point) => match fixed_point {
+                FixedImpl::FP8x23(()) => Option::Some(tensor_i8_to_fp8x23(x)),
+                FixedImpl::FP16x16(()) => Option::Some(tensor_i8_to_fp16x16(x)),
+            },
+            Option::None(_) => Option::Some(tensor_i8_to_fp16x16(x)),
+        },
+        Option::None(_) => Option::Some(tensor_i8_to_fp16x16(x)),
+    }
+}
+
+fn tensor_i8_to_fp8x23(x: @Tensor<i8>) -> Tensor<FixedType> {
+    let mut result_data = ArrayTrait::<FixedType>::new();
+    let mut data = *x.data;
+
+    loop {
+        result_data.append(i8_to_fp8x23(*data.pop_front().unwrap()));
+
+        if data.len() == 0 {
+            break ();
+        };
+    };
+
+    return TensorTrait::new(*x.shape, result_data.span(), *x.extra);
+}
+
+fn tensor_i8_to_fp16x16(x: @Tensor<i8>) -> Tensor<FixedType> {
+    let mut result_data = ArrayTrait::<FixedType>::new();
+    let mut data = *x.data;
+
+    loop {
+        result_data.append(i8_to_fp16x16(*data.pop_front().unwrap()));
+
+        if data.len() == 0 {
+            break ();
+        };
+    };
+
+    return TensorTrait::new(*x.shape, result_data.span(), *x.extra);
 }

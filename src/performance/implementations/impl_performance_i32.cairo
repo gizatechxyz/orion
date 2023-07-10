@@ -7,7 +7,7 @@ use orion::performance::functional::quantize_linear::quantize_linear_i32::quanti
 use orion::performance::functional::dequantize_linear::dequantize_linear_i32::dequantize_linear;
 
 
-impl Performance_i32_i8 of PerfomanceTrait<i32, i8> {
+impl Performance_i32 of PerfomanceTrait<i32> {
     fn quantize_linear(
         self: @Tensor<i32>, y_scale: @Tensor<i32>, y_zero_point: @Tensor<i32>
     ) -> Tensor<i8> {
@@ -15,7 +15,7 @@ impl Performance_i32_i8 of PerfomanceTrait<i32, i8> {
     }
 
     fn dequantize_linear(
-        self: @Tensor<i32>, x_scale: @Tensor<i32>, x_zero_point: @Tensor<i32>
+        self: @Tensor<i8>, x_scale: @Tensor<i32>, x_zero_point: @Tensor<i32>
     ) -> Tensor<i32> {
         dequantize_linear(self, x_scale, x_zero_point)
     }
