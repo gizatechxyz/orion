@@ -92,7 +92,7 @@ mod tensor_2D {
         assert((*result.at(1).sign).into() == false, 'result[1].sign = false');
         assert((*result.at(2).mag).into() == 102943, 'result[2] = -1.5707...');
         assert((*result.at(2).sign).into() == true, 'result[2].sign = true');
-        assert((*result.at(3).mag).into() == 34403, 'result[2] = 0.524...');
+        assert((*result.at(3).mag).into() == 34404, 'result[2] = 0.524...');
     }
 
     #[test]
@@ -151,12 +151,12 @@ mod tensor_3D {
         assert((*result.at(0).mag).into() == 0, 'result[0] = 0');
         assert((*result.at(1).mag).into() == 102943, 'result[1] = 1.5707...');
         assert((*result.at(2).mag).into() == 102943, 'result[2] = -1.5707...');
-        assert((*result.at(3).mag).into() == 34403, 'result[3] = 0.524.');
+        assert((*result.at(3).mag).into() == 34404, 'result[3] = 0.524.');
         assert((*result.at(4).mag).into() == 16614, 'result[4] = 0.252...');
         assert((*result.at(5).mag).into() == 6581, 'result[5] = 0.1001...');
         assert((*result.at(6).mag).into() == 6581, 'result[6] =  -0.1001...');
         assert((*result.at(6).sign).into() == true, 'result[6].sign =  true');
-        assert((*result.at(7).mag).into() == 34403, 'result[7] =  -0.523...');
+        assert((*result.at(7).mag).into() == 34404, 'result[7] =  -0.523...');
     }
 
 
