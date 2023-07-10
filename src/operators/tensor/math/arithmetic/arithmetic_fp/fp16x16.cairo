@@ -1,10 +1,13 @@
+use core::traits::{Into, TryInto};
+use core::option::OptionTrait;
 use array::ArrayTrait;
 use array::SpanTrait;
 
 use orion::numbers::signed_integer::i32::i32;
 use orion::numbers::fixed_point::core::FixedType;
 use orion::numbers::fixed_point::implementations::impl_16x16::{
-    FP16x16Add, FP16x16Sub, FP16x16Mul, FP16x16Div, FP16x16PartialOrd
+    FP16x16Add, FP16x16Sub, FP16x16Mul, FP16x16Div, FP16x16PartialOrd, FP16x16TryIntoI32,
+    FP16x16TryIntoU32
 };
 use orion::operators::tensor::helpers::broadcast_shape;
 use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index};
@@ -13,7 +16,7 @@ use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::utils::check_gas;
-use orion::utils::{saturate, fp16x16_to_i32, fp16x16_to_u32};
+use orion::utils::{saturate};
 
 /// Adds two `Tensor<FixedType>` instances element-wise with broadcasting.
 ///
@@ -131,9 +134,9 @@ fn saturated_add_to_i32(
 
         result
             .append(
-                fp16x16_to_i32(
-                    saturate(min, max, *(*self.data)[indices_self] + *(*other.data)[indices_other])
-                )
+                saturate(min, max, *(*self.data)[indices_self] + *(*other.data)[indices_other])
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -178,9 +181,9 @@ fn saturated_add_to_u32(
 
         result
             .append(
-                fp16x16_to_u32(
-                    saturate(min, max, *(*self.data)[indices_self] + *(*other.data)[indices_other])
-                )
+                (saturate(min, max, *(*self.data)[indices_self] + *(*other.data)[indices_other]))
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -308,9 +311,9 @@ fn saturated_sub_to_i32(
 
         result
             .append(
-                fp16x16_to_i32(
-                    saturate(min, max, *(*self.data)[indices_self] - *(*other.data)[indices_other])
-                )
+                (saturate(min, max, *(*self.data)[indices_self] - *(*other.data)[indices_other]))
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -355,9 +358,9 @@ fn saturated_sub_to_u32(
 
         result
             .append(
-                fp16x16_to_u32(
-                    saturate(min, max, *(*self.data)[indices_self] - *(*other.data)[indices_other])
-                )
+                (saturate(min, max, *(*self.data)[indices_self] - *(*other.data)[indices_other]))
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -485,9 +488,9 @@ fn saturated_mul_to_i32(
 
         result
             .append(
-                fp16x16_to_i32(
-                    saturate(min, max, *(*self.data)[indices_self] * *(*other.data)[indices_other])
-                )
+                (saturate(min, max, *(*self.data)[indices_self] * *(*other.data)[indices_other]))
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -532,9 +535,9 @@ fn saturated_mul_to_u32(
 
         result
             .append(
-                fp16x16_to_u32(
-                    saturate(min, max, *(*self.data)[indices_self] * *(*other.data)[indices_other])
-                )
+                (saturate(min, max, *(*self.data)[indices_self] * *(*other.data)[indices_other]))
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -662,9 +665,9 @@ fn saturated_div_to_i32(
 
         result
             .append(
-                fp16x16_to_i32(
-                    saturate(min, max, *(*self.data)[indices_self] / *(*other.data)[indices_other])
-                )
+                (saturate(min, max, *(*self.data)[indices_self] / *(*other.data)[indices_other]))
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -709,9 +712,9 @@ fn saturated_div_to_u32(
 
         result
             .append(
-                fp16x16_to_u32(
-                    saturate(min, max, *(*self.data)[indices_self] / *(*other.data)[indices_other])
-                )
+                (saturate(min, max, *(*self.data)[indices_self] / *(*other.data)[indices_other]))
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;

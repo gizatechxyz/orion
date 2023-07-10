@@ -1,10 +1,13 @@
+use core::traits::Into;
+use core::option::OptionTrait;
 use array::ArrayTrait;
 use array::SpanTrait;
+use traits::{TryInto};
 
 use orion::numbers::signed_integer::i32::i32;
 use orion::numbers::fixed_point::core::FixedType;
 use orion::numbers::fixed_point::implementations::impl_8x23::{
-    FP8x23Add, FP8x23Sub, FP8x23Mul, FP8x23Div, FP8x23PartialOrd
+    FP8x23Add, FP8x23Sub, FP8x23Mul, FP8x23Div, FP8x23PartialOrd, FP8x23TryIntoI32, FP8x23TryIntoU32
 };
 use orion::operators::tensor::helpers::broadcast_shape;
 use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index};
@@ -13,7 +16,7 @@ use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::utils::check_gas;
-use orion::utils::{saturate, fp8x23_to_i32, fp8x23_to_u32};
+use orion::utils::{saturate};
 
 /// Adds two `Tensor<FixedType>` instances element-wise with broadcasting.
 ///
@@ -131,9 +134,9 @@ fn saturated_add_to_i32(
 
         result
             .append(
-                fp8x23_to_i32(
-                    saturate(min, max, *(*self.data)[indices_self] + *(*other.data)[indices_other])
-                )
+                (saturate(min, max, *(*self.data)[indices_self] + *(*other.data)[indices_other]))
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -178,9 +181,9 @@ fn saturated_add_to_u32(
 
         result
             .append(
-                fp8x23_to_u32(
+                (
                     saturate(min, max, *(*self.data)[indices_self] + *(*other.data)[indices_other])
-                )
+                ).try_into().unwrap()
             );
 
         n += 1;
@@ -308,9 +311,9 @@ fn saturated_sub_to_i32(
 
         result
             .append(
-                fp8x23_to_i32(
-                    saturate(min, max, *(*self.data)[indices_self] - *(*other.data)[indices_other])
-                )
+                (saturate(min, max, *(*self.data)[indices_self] - *(*other.data)[indices_other]))
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -355,9 +358,9 @@ fn saturated_sub_to_u32(
 
         result
             .append(
-                fp8x23_to_u32(
+                (
                     saturate(min, max, *(*self.data)[indices_self] - *(*other.data)[indices_other])
-                )
+                ).try_into().unwrap()
             );
 
         n += 1;
@@ -485,9 +488,9 @@ fn saturated_mul_to_i32(
 
         result
             .append(
-                fp8x23_to_i32(
-                    saturate(min, max, *(*self.data)[indices_self] * *(*other.data)[indices_other])
-                )
+                (saturate(min, max, *(*self.data)[indices_self] * *(*other.data)[indices_other]))
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -532,9 +535,9 @@ fn saturated_mul_to_u32(
 
         result
             .append(
-                fp8x23_to_u32(
+                (
                     saturate(min, max, *(*self.data)[indices_self] * *(*other.data)[indices_other])
-                )
+                ).try_into().unwrap()
             );
 
         n += 1;
@@ -662,9 +665,9 @@ fn saturated_div_to_i32(
 
         result
             .append(
-                fp8x23_to_i32(
-                    saturate(min, max, *(*self.data)[indices_self] / *(*other.data)[indices_other])
-                )
+                (saturate(min, max, *(*self.data)[indices_self] / *(*other.data)[indices_other]))
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -709,9 +712,9 @@ fn saturated_div_to_u32(
 
         result
             .append(
-                fp8x23_to_u32(
+                (
                     saturate(min, max, *(*self.data)[indices_self] / *(*other.data)[indices_other])
-                )
+                ).try_into().unwrap()
             );
 
         n += 1;

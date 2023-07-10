@@ -1,6 +1,7 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
+use core::traits::{Into, TryInto};
 
 use orion::numbers::signed_integer::i32::i32;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
@@ -11,10 +12,10 @@ use orion::numbers::fixed_point::implementations::impl_16x16::{
     FP16x16Impl, FP16x16PartialOrd, FP16x16Div, FP16x16Add
 };
 use orion::operators::tensor::math::arithmetic::arithmetic_fp::fp16x16::{
-    saturated_add_to_i32, saturated_div
+    saturated_add_to_i32, saturated_div, FP16x16TryIntoI32
 };
 use orion::operators::tensor::helpers::check_compatibility;
-use orion::utils::{saturate, fp16x16_to_i32};
+use orion::utils::{saturate};
 
 /// Cf: PerfomanceTrait::quantize_linear docstring
 fn quantize_linear(
@@ -49,7 +50,7 @@ fn quantize_element_wise(
 
     loop {
         let quantized = quantize(*data.pop_front().unwrap(), y_scale, y_zero_point);
-        result_data.append(fp16x16_to_i32(quantized));
+        result_data.append(quantized.try_into().unwrap());
 
         if data.len() == 0 {
             break ();
