@@ -1,7 +1,5 @@
 use option::OptionTrait;
 use traits::Into;
-use debug::PrintTrait;
-
 
 use orion::numbers::fixed_point::implementations::impl_8x23::{
     ONE, _felt_abs, _felt_sign, FP8x23Impl, FP8x23Into, FP8x23Add, FP8x23AddEq, FP8x23Sub,
@@ -367,6 +365,26 @@ fn test_cos() {
     assert(a.cos().into() == -2308239, 'invalid -17'); // -0.27516...
 }
 
+
+#[test]
+#[available_gas(100000000)]
+fn test_asin() {
+    let a = FixedTrait::new(ONE, false);
+    assert(a.asin().into() == 13176794, 'invalid one'); // PI / 2
+
+    let a: FixedType = FixedTrait::new(ONE / 2_u128, false);
+    assert(a.asin().into() == 4392279, 'invalid half'); // 0.523...
+
+    let a = FixedTrait::new(0_u128, false);
+    assert(a.asin().into() == 0, 'invalid zero');
+
+    let a = FixedTrait::new(ONE / 2_u128, true);
+    assert(a.asin().into() == -4392279, 'invalid neg half');
+
+    let a = FixedTrait::new(ONE, true);
+    assert(a.asin().into() == -13176794, 'invalid neg one'); // -PI / 2
+}
+
 #[test]
 #[available_gas(10000000)]
 fn test_sinh() {
@@ -415,4 +433,29 @@ fn test_acosh_zero() {
 fn test_asinh() {
     let a = FixedTrait::from_unscaled_felt(1);
     assert(a.asinh().into() == 7394022, 'invalid sinh of 1');
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_atan() {
+    let a = FixedTrait::new(2_u128 * ONE, false);
+    assert(a.atan().into() == 9287436, 'invalid two'); // 1.1071...
+
+    let a = FixedTrait::new(ONE, false);
+    assert(a.atan().into() == 6588397, 'invalid one'); // 0.7853...
+
+    let a = FixedTrait::new(ONE / 2_u128, false);
+    assert(a.atan().into() == 3889358, 'invalid half'); // 0.4636...
+
+    let a = FixedTrait::new(0_u128, false);
+    assert(a.atan().into() == 0, 'invalid zero'); // 0
+
+    let a = FixedTrait::new(ONE / 2_u128, true);
+    assert(a.atan().into() == -3889358, 'invalid neg half'); // -0.4636...
+
+    let a = FixedTrait::new(ONE, true);
+    assert(a.atan().into() == -6588397, 'invalid neg one'); // -0.7853...
+
+    let a = FixedTrait::new(2_u128 * ONE, true);
+    assert(a.atan().into() == -9287436, 'invalid neg two'); // -1.1071...
 }

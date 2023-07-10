@@ -38,6 +38,8 @@ use orion::operators::tensor::math::asinh::asinh_u32::core::asinh_u32;
 
 use orion::operators::tensor::math::sin::sin_u32::core::sin_u32;
 use orion::operators::tensor::math::cos::cos_u32::core::cos_u32;
+use orion::operators::tensor::math::asin::asin_u32::core::asin_u32;
+use orion::operators::tensor::math::atan::atan_u32::core::atan_u32;
 
 
 impl Tensor_u32 of TensorTrait<u32> {
@@ -141,6 +143,10 @@ impl Tensor_u32 of TensorTrait<u32> {
     fn cos(self: @Tensor<u32>) -> Tensor<FixedType> {
         cos_u32(self).unwrap()
     }
+
+    fn asin(self: @Tensor<u32>) -> Tensor<FixedType> {
+        asin_u32(self).unwrap()
+    }
     
     fn cumsum(
         self: @Tensor<u32>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
@@ -171,6 +177,10 @@ impl Tensor_u32 of TensorTrait<u32> {
     fn asinh(self: @Tensor<u32>) -> Tensor<FixedType> {
         asinh_u32(self).unwrap()
     }
+
+    fn atan(self: @Tensor<u32>) -> Tensor<FixedType> {
+        atan_u32(self).unwrap()
+    }    
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

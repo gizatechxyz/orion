@@ -342,6 +342,7 @@ fn sqrt(a: FixedType) -> FixedType {
     return FixedTrait::new(res_u64.into(), false);
 }
 
+/// Cf: FixedTrait::sin docstring
 fn sin(a: FixedType) -> FixedType {
     let a1_u128 = a.mag % (2_u128 * PI);
     let whole_rem = a1_u128 / PI;
@@ -371,8 +372,23 @@ fn _sin_loop(a: FixedType, i: u128, acc: FixedType) -> FixedType {
     return _sin_loop(a, i - 1_u128, new_acc);
 }
 
+/// Cf: FixedTrait::cos docstring
 fn cos(a: FixedType) -> FixedType {
     return sin(FixedTrait::new(HALF_PI, false) - a);
+}
+
+/// Cf: FixedTrait::asin docstring
+// Calculates arcsin(a) for -1 <= a <= 1 (fixed point)
+// arcsin(a) = arctan(a / sqrt(1 - a^2))
+fn asin(a: FixedType) -> FixedType {
+    assert(a.mag <= ONE, 'out of range');
+
+    if (a.mag == ONE) {
+        return FixedTrait::new(HALF_PI, a.sign);
+    }
+
+    let div = (FixedTrait::new(ONE, false) - a * a).sqrt();
+    return atan(a / div);
 }
 
 /// Subtracts one fixed point number from another.
@@ -527,4 +543,57 @@ fn asinh(a: FixedType) -> FixedType {
     let root = (a*a +FixedTrait::new(ONE, false)).sqrt();
     let result = (a + root).ln();
     result
+}
+
+/// Cf: FixedTrait::atan docstring 
+fn atan(a: FixedType) -> FixedType {
+    let mut at = a.abs();
+    let mut shift = false;
+    let mut invert = false;
+
+    // Invert value when a > 1
+    if (at.mag > ONE) {
+        at = FixedTrait::new(ONE, false) / at;
+        invert = true;
+    }
+
+    // Account for lack of precision in polynomaial when a > 0.7
+    if (at.mag > 45875_u128) {
+        let sqrt3_3 = FixedTrait::new(37837_u128, false); // sqrt(3) / 3
+        at = (at - sqrt3_3) / (FixedTrait::new(ONE, false) + at * sqrt3_3);
+        shift = true;
+    }
+
+    let t10 = FixedTrait::new(120_u128, true);
+    let t9 = FixedTrait::new(3066_u128, true);
+    let t8 = FixedTrait::new(12727_u128, false);
+    let t7 = FixedTrait::new(17170_u128, true);
+    let t6 = FixedTrait::new(2864_u128, false);
+    let t5 = FixedTrait::new(12455_u128, false);
+    let t4 = FixedTrait::new(89_u128, false);
+    let t3 = FixedTrait::new(21852_u128, true);
+    let t2 = FixedTrait::new(0_u128, false);
+    let t1 = FixedTrait::new(65536_u128, false);
+
+    let r10 = t10 * at;
+    let r9 = (r10 + t9) * at;
+    let r8 = (r9 + t8) * at;
+    let r7 = (r8 + t7) * at;
+    let r6 = (r7 + t6) * at;
+    let r5 = (r6 + t5) * at;
+    let r4 = (r5 + t4) * at;
+    let r3 = (r4 + t3) * at;
+    let r2 = (r3 + t2) * at;
+    let mut res = (r2 + t1) * at;
+
+    // Adjust for sign change, inversion, and shift
+    if (shift) {
+        res = res + FixedTrait::new(34314_u128, false); // pi / 6
+    }
+
+    if (invert) {
+        res = res - FixedTrait::new(HALF_PI, false);
+    }
+
+    return FixedTrait::new(res.mag, a.sign);
 }

@@ -36,12 +36,14 @@
     * [tensor.cumsum](apis/operators/tensor/tensor.cumsum.md)
     * [tensor.sin](apis/operators/tensor/tensor.sin.md)
     * [tensor.cos](apis/operators/tensor/tensor.cos.md)
+    * [tensor.asin](apis/operators/tensor/tensor.asin.md)
     * [tensor.flatten](apis/operators/tensor/tensor.flatten.md)
     * [tensor.sinh](apis/operators/tensor/tensor.sinh.md)
     * [tensor.asinh](apis/operators/tensor/tensor.asinh.md)
     * [tensor.cosh](apis/operators/tensor/tensor.cosh.md)
     * [tensor.acosh](apis/operators/tensor/tensor.acosh.md)
     * [tensor.tanh](apis/operators/tensor/tensor.tanh.md)
+    * [tensor.atan](apis/operators/tensor/tensor.atan.md)    
   * [Neural Network](apis/operators/neural-network/README.md)
     * [nn.relu](apis/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](apis/operators/neural-network/nn.leaky\_relu.md)
@@ -75,9 +77,9 @@
     * [fp.round](apis/numbers/fixed-point/fp.round.md)
     * [fp.sqrt](apis/numbers/fixed-point/fp.sqrt.md)
     * [fp.sin](apis/numbers/fixed-point/fp.sin.md)
+    * [fp.atan](apis/numbers/fixed-point/fp.atan.md)
 * [Performance](apis/performance/README.md)
   * [performance.quantize\_linear](apis/performance/performance.quantize\_linear.md)
-  * [performance.quantize\_linear\_from\_fp](apis/performance/performance.quantize\_linear\_from\_fp.md)
 
 ## 💖 Community
 

@@ -121,8 +121,6 @@ mod tensor_3D {
         let a6 = *result.at(6).mag.into();
         let a7 = *result.at(7).mag.into();
 
-
-
         assert((*result.at(0).mag).into() == 0, 'result[0] = 1');
         assert((*result.at(1).mag).into() == 11047444, 'result[1] = 1.31696...');
         assert((*result.at(2).mag).into() == 14787433, 'result[2] = 1.76275...');

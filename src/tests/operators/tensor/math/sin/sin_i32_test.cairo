@@ -39,7 +39,7 @@ mod tensor_2D {
 
     #[test]
     #[available_gas(20000000)]
-    fn tensor_exp_test() {
+    fn tensor_sin_test() {
         let tensor = i32_tensor_2x2_helper();
         let result = tensor.sin().data;
 
@@ -63,7 +63,7 @@ mod tensor_3D {
 
     #[test]
     #[available_gas(20000000)]
-    fn tensor_exp_test() {
+    fn tensor_sin_test() {
         let tensor = i32_tensor_2x2x2_helper();
         let result = tensor.sin().data;
 
