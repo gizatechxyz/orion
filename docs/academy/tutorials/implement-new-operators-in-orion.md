@@ -10,7 +10,7 @@ Throughout this tutorial, any concept that is directly explained in the official
 
 ## Code Structure
 
-Orion repo uses Scarb, a Cairo package manager. You can find all information about Scarb and Cairo installation [here](../../apis/get-started.md#installations).
+Orion repo uses Scarb, a Cairo package manager. You can find all information about Scarb and Cairo installation [here](../../framework/get-started.md#installations).
 
 The repository is structured as follows:&#x20;
 
@@ -39,9 +39,9 @@ The repository is structured as follows:&#x20;
 
 In the `src` directory, you'll find four distinct folders:&#x20;
 
-* [`numbers`](../../apis/numbers/): This folder contains a complete implementation of Signed Integer and Fixed Point.&#x20;
-* [`operators`](../../apis/operators/): This directory includes a set of functions and operations used in calculating neural network models.&#x20;
-* [`performance`](../../apis/performance/): Here, you'll find a set of functions designed to enhance the performance of models.
+* [`numbers`](../../framework/numbers/): This folder contains a complete implementation of Signed Integer and Fixed Point.&#x20;
+* [`operators`](../../framework/operators/): This directory includes a set of functions and operations used in calculating neural network models.&#x20;
+* [`performance`](../../framework/performance/): Here, you'll find a set of functions designed to enhance the performance of models.
 * `tests`: This is the location where we'll test our code.
 
 In this tutorial we will focus on `operators` directory, as we will implement a new operator from scratch.
@@ -56,8 +56,8 @@ Ensuring compatibility with ONNX operators facilitates integration into the ONNX
 
 We implemented two different types of operators, each having their own trait:&#x20;
 
-* [`tensor (TensorTrait)`](../../apis/operators/tensor/): This represents a full implementation of multi-dimensional arrays.&#x20;
-* [`nn (NNTrait)`](../../apis/operators/neural-network/) - These are operators designed for building neural networks.
+* [`tensor (TensorTrait)`](../../framework/operators/tensor/): This represents a full implementation of multi-dimensional arrays.&#x20;
+* [`nn (NNTrait)`](../../framework/operators/neural-network/) - These are operators designed for building neural networks.
 
 {% hint style="info" %}
 **Use Resources:**
@@ -68,7 +68,7 @@ We implemented two different types of operators, each having their own trait:&#x
 
 ## How to contribute?
 
-This tutorial will focus specifically on implementing a new Operator in the Orion repository, and will not cover the entirety of the contribution guidelines. If you intend to contribute to Orion, we kindly ask that you read carefully the [Contribution Guidelines](../../community/contribute.md).
+This tutorial will focus specifically on implementing a new Operator in the Orion repository, and will not cover the entirety of the contribution guidelines. If you intend to contribute to Orion, we kindly ask that you read carefully the [Contribution Guidelines](../../framework/contribute.md).
 
 ## How to implement new Orion Operators?
 
@@ -151,7 +151,7 @@ A softmax function can be implemented as follows:
 
 `Softmax(input, axis) = Exp(input) / ReduceSum(Exp(input), axis=axis)`
 
-So we can leverage the [`exp`](../../apis/operators/tensor/tensor.exp.md) and [`reduce_sum`](../../apis/operators/tensor/tensor.reduce\_sum.md) operators from `TensorTrait` to implement softmax.
+So we can leverage the [`exp`](../../framework/operators/tensor/tensor.exp.md) and [`reduce_sum`](../../framework/operators/tensor/tensor.reduce\_sum.md) operators from `TensorTrait` to implement softmax.
 
 Here's the implementation in `softmax_i32.cairo`:
 
@@ -299,7 +299,7 @@ Now, let's proceed to testing the softmax operator we've just implemented. When 
 1. Ensure it's tested across all types of implementation.
 2. Perform tests on multiple dimensions, at least with 1D, 2D, and 3D tensors.
 
-Since softmax employs fixed points for intermediate calculations and returns a tensor of `FixedType`, it is essential to test it across all fixed point implementations. As of now, Orion supports two fixed point implementations: [`FP16x16`](../../apis/numbers/fixed-point/#data-types) and [`FP8x23`](../../apis/numbers/fixed-point/#data-types).
+Since softmax employs fixed points for intermediate calculations and returns a tensor of `FixedType`, it is essential to test it across all fixed point implementations. As of now, Orion supports two fixed point implementations: [`FP16x16`](../../framework/numbers/fixed-point/#data-types) and [`FP8x23`](../../framework/numbers/fixed-point/#data-types).
 
 A comprehensive test for the softmax function, taking into account the two key considerations, should have the following structure:
 
@@ -344,9 +344,9 @@ mod input_3D {
 }
 ```
 
-You can find the full testing file [here](https://github.com/gizatechxyz/orion/blob/develop/src/tests/operators/nn/functional/softmax/softmax\_i32\_test.cairo).
+You can find the full testing file [here](../../../src/tests/operators/nn/functional/softmax/softmax\_i32\_test.cairo).
 
-You're now ready to prepare your Pull Request. Please ensure you thoroughly read the [Contribution Guidelines](../../community/contribute.md) before making your first PR. Your contribution is greatly appreciated, and we sincerely value your interest 🫶.
+You're now ready to prepare your Pull Request. Please ensure you thoroughly read the [Contribution Guidelines](../../framework/contribute.md) before making your first PR. Your contribution is greatly appreciated, and we sincerely value your interest 🫶.
 
 Orion leverages Cairo to guarantee the reliability of inference, providing developers with a user-friendly framework to build complex and verifiable machine learning models. We invite the community to join us in shaping a future where trustworthy AI becomes a reliable resource for all.
 

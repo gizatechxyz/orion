@@ -24,7 +24,7 @@ As you're making changes, make sure you follow the coding conventions used throu
 
 ### Implement new operators
 
-Orion operators serve as the foundational components of machine learning models compliant with ONNX ops. You can follow this [step-by-step tutorial](../resources/tutorials/implement-new-operators-in-orion.md) to understand the process of implementing new operators within Orion.
+Orion operators serve as the foundational components of machine learning models compliant with ONNX ops. You can follow this [step-by-step tutorial](../academy/tutorials/implement-new-operators-in-orion.md) to understand the process of implementing new operators within Orion.
 
 ## 🔥 Submitting a Pull Request
 
@@ -44,7 +44,7 @@ Additionally, when you push your changes, the built-in Continuous Integration (C
 
 We strive to provide comprehensive, up-to-date documentation for Orion. If your changes require updates to the documentation, please include those in your pull request.&#x20;
 
-If you implemented a new operator, please, run `scarb run docgen` to generate the documentation from docstring. [Read more](../resources/tutorials/implement-new-operators-in-orion.md#step-4-write-the-docstring) about docstrings in Orion Operators.
+If you implemented a new operator, please, run `scarb run docgen` to generate the documentation from docstring. [Read more](../academy/tutorials/implement-new-operators-in-orion.md#step-4-write-the-docstring) about docstrings in Orion Operators.
 
 ## 🎁 Getting Rewarded
 

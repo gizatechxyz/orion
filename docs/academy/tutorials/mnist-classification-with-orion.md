@@ -335,7 +335,7 @@ In this section, you will generate Cairo files for each bias and weight of the m
 
 ### Create a new Scarb project
 
-Scarb is a Cairo package manager. We will use Scarb to run inference with Orion. You can find all information about Scarb and Cairo installation [here](../../apis/get-started.md#installations).
+Scarb is a Cairo package manager. We will use Scarb to run inference with Orion. You can find all information about Scarb and Cairo installation [here](../../framework/get-started.md#installations).
 
 Let's create a new Scarb project. In your terminal run:
 
@@ -462,7 +462,7 @@ let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) };
 
 #### Signed Integer in Orion
 
-In Cairo, there are no built-in signed integers. However, in the field of machine learning, they are very useful. So Orion introduced a full implementation of [Signed Integer](../../apis/numbers/signed-integer/). It is represented by a struct containing both the magnitude and its sign as a boolean.
+In Cairo, there are no built-in signed integers. However, in the field of machine learning, they are very useful. So Orion introduced a full implementation of [Signed Integer](../../framework/numbers/signed-integer/). It is represented by a struct containing both the magnitude and its sign as a boolean.
 
 The magnitude represents the absolute value of the number, and the sign indicates whether the number is positive or negative.
 
@@ -476,7 +476,7 @@ struct i32 {
 
 #### Tensor in Orion
 
-The second concept Orion introduced is the [Tensor](../../apis/operators/tensor/). We've used it extensively in previous sections, the tensor is a central object in machine learning. It is represented in Orion as a struct containing the tensor's shape, a flattened array of its data, and extra parameters. The generic Tensor is defined as follows:
+The second concept Orion introduced is the [Tensor](../../framework/operators/tensor/). We've used it extensively in previous sections, the tensor is a central object in machine learning. It is represented in Orion as a struct containing the tensor's shape, a flattened array of its data, and extra parameters. The generic Tensor is defined as follows:
 
 ```rust
 struct Tensor<T> {
@@ -534,7 +534,7 @@ fn fc1(i: Tensor<i32>, w: Tensor<i32>, b: Tensor<i32>) -> Tensor<i32> {
 }
 ```
 
-To build the first layer, we need a [Linear](../../apis/operators/neural-network/nn.linear.md) function and a [ReLU](../../apis/operators/neural-network/nn.relu.md) from [NNTrait](../../apis/operators/neural-network/).
+To build the first layer, we need a [Linear](../../framework/operators/neural-network/nn.linear.md) function and a [ReLU](../../framework/operators/neural-network/nn.relu.md) from [NNTrait](../../framework/operators/neural-network/).
 
 ```rust
 use orion::operators::tensor::core::Tensor;
@@ -551,7 +551,7 @@ fn fc1(i: Tensor<i32>, w: Tensor<i32>, b: Tensor<i32>) -> Tensor<i32> {
 
 #### Dense Layer 2
 
-In a similar way, we can build the second layer `fc2`, which contains a [Linear](../../apis/operators/neural-network/nn.linear.md) function and a [Softmax](../../apis/operators/neural-network/nn.softmax.md) from [NNTrait](../../apis/operators/neural-network/). Because after a softmax the output tensor lies in the interval \[0,1], floating points are represented by [fixed points](../../apis/numbers/fixed-point/). This is why `fc2` returns `Tensor<FixedType>`.
+In a similar way, we can build the second layer `fc2`, which contains a [Linear](../../framework/operators/neural-network/nn.linear.md) function and a [Softmax](../../framework/operators/neural-network/nn.softmax.md) from [NNTrait](../../framework/operators/neural-network/). Because after a softmax the output tensor lies in the interval \[0,1], floating points are represented by [fixed points](../../framework/numbers/fixed-point/). This is why `fc2` returns `Tensor<FixedType>`.
 
 ```rust
 use orion::operators::tensor::core::Tensor;
