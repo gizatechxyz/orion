@@ -45,6 +45,7 @@ You can see below the list of current supported ONNX Operators:
 |           [ACosh](operators/tensor/tensor.acosh.md)           | :white\_check\_mark: |
 |            [Tanh](operators/tensor/tensor.tanh.md)            | :white\_check\_mark: |
 | [QuantizeLinear](performance/performance.quantize\_linear.md) | :white\_check\_mark: |
+| [DequantizeLinear](performance/performance.quantize\_linear.md) | :white\_check\_mark: |
 
 
 Performance optimizations:
@@ -53,4 +54,4 @@ Performance optimizations:
 | :----------------: | :------------------: |
 | 8-bit quantization | :white\_check\_mark: |
 
-Current Operators support: **34/156 (21%)**
+Current Operators support: **35/156 (22%)**
