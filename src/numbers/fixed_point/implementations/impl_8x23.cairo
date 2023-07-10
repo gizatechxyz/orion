@@ -92,12 +92,32 @@ impl FP8x23Impl of FixedTrait {
         return math_8x23::cos(self);
     }
 
-    fn atan(self: FixedType) -> FixedType {
-        return math_8x23::atan(self);
-    }
-
     fn asin(self: FixedType) -> FixedType {
         return math_8x23::asin(self);
+    }
+
+    fn sinh(self: FixedType) -> FixedType {
+        return math_8x23::sinh(self);
+    }
+
+    fn tanh(self: FixedType) -> FixedType {
+        return math_8x23::tanh(self);
+    }
+
+    fn cosh(self: FixedType) -> FixedType {
+        return math_8x23::cosh(self);
+    }
+
+    fn acosh(self: FixedType) -> FixedType {
+        return math_8x23::acosh(self);
+    }
+
+    fn asinh(self: FixedType) -> FixedType {
+        return math_8x23::asinh(self);
+    }
+
+    fn atan(self: FixedType) -> FixedType {
+        return math_8x23::atan(self);
     }
 }
 

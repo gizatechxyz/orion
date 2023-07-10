@@ -31,7 +31,7 @@ fn less_equal(y: @Tensor<i32>, z: @Tensor<i32>) -> Tensor<usize> {
         };
 
         let bigger_current_index = *bigger_data.pop_front().unwrap();
-        let smaller_current_index = *smaller_data.at(smaller_index);
+        let smaller_current_index = *smaller_data[smaller_index];
 
         let (y_value, z_value) = if retains_input_order {
             (smaller_current_index, bigger_current_index)

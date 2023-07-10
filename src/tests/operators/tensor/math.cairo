@@ -16,4 +16,11 @@ mod arithmetic;
 mod sin;
 mod cos;
 mod asin;
-
+mod cumsum;
+mod flatten;
+mod sinh;
+mod tanh;
+mod cosh;
+mod acosh;
+mod asinh;
+mod atan;

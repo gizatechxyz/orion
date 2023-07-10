@@ -15,7 +15,7 @@ mod tensor_1D {
     fn tensor_stride() {
         let tensor = fp_tensor_1x3_helper();
         let result = tensor.stride();
-        assert(*result.at(0) == 1, 'stride x = 1');
+        assert(*result[0] == 1, 'stride x = 1');
         assert(result.len() == 1, 'len = 1');
     }
 }
@@ -37,8 +37,8 @@ mod tensor_2D {
     fn tensor_stride() {
         let tensor = fp_tensor_2x2_helper();
         let result = tensor.stride();
-        assert(*result.at(0) == 2, 'stride x = 2');
-        assert(*result.at(1) == 1, 'stride y = 1');
+        assert(*result[0] == 2, 'stride x = 2');
+        assert(*result[1] == 1, 'stride y = 1');
         assert(result.len() == 2, 'len = 2');
     }
 }
@@ -60,9 +60,9 @@ mod tensor_3D {
     fn tensor_stride() {
         let tensor = fp_tensor_2x2x2_helper();
         let result = tensor.stride();
-        assert(*result.at(0) == 4, 'stride x = 4');
-        assert(*result.at(1) == 2, 'stride y = 2');
-        assert(*result.at(2) == 1, 'stride z = 1');
+        assert(*result[0] == 4, 'stride x = 4');
+        assert(*result[1] == 2, 'stride y = 2');
+        assert(*result[2] == 1, 'stride z = 1');
         assert(result.len() == 3, 'len = 3');
     }
 }

@@ -86,9 +86,9 @@ fn dot_product(mut vec1: Span<u32>, mut vec2: Span<u32>) -> u32 {
 fn matrix_multiply(
     mat1: Span<u32>, mat1_shape: Span<usize>, mat2: Span<u32>, mat2_shape: Span<usize>
 ) -> Tensor<u32> {
-    let m = *mat1_shape.at(0);
-    let n = *mat1_shape.at(1);
-    let p = *mat2_shape.at(1);
+    let m = *mat1_shape[0];
+    let n = *mat1_shape[1];
+    let p = *mat2_shape[1];
 
     let mut result_data = ArrayTrait::new();
     let mut result_shape = ArrayTrait::new();
@@ -119,7 +119,7 @@ fn matrix_multiply(
 
                 let mat1_index = i * n + k;
                 let mat2_index = k * p + j;
-                sum += *mat1.at(mat1_index) * *mat2.at(mat2_index);
+                sum += *mat1[mat1_index] * *mat2[mat2_index];
 
                 k += 1;
             };

@@ -28,11 +28,19 @@ use orion::operators::tensor::linalg::transpose::transpose_i32::transpose;
 use orion::operators::tensor::math::exp::exp_i32::core::exp_i32;
 use orion::operators::tensor::math::ln::ln_i32::core::ln_i32;
 use orion::operators::tensor::math::arithmetic::arithmetic_i32::{add, sub, mul, div};
+use orion::operators::tensor::math::cumsum::cumsum_i32::cumsum;
+use orion::operators::tensor::math::flatten::flatten_i32::flatten;
+use orion::operators::tensor::math::sinh::sinh_i32::core::sinh_i32;
+use orion::operators::tensor::math::tanh::tanh_i32::core::tanh_i32;
+use orion::operators::tensor::math::cosh::cosh_i32::core::cosh_i32;
+use orion::operators::tensor::math::acosh::acosh_i32::core::acosh_i32;
+use orion::operators::tensor::math::asinh::asinh_i32::core::asinh_i32;
 use orion::utils::check_gas;
 
 use orion::operators::tensor::math::sin::sin_i32::core::sin_i32;
 use orion::operators::tensor::math::cos::cos_i32::core::cos_i32;
 use orion::operators::tensor::math::asin::asin_i32::core::asin_i32;
+use orion::operators::tensor::math::atan::atan_i32::core::atan_i32;
 
 
 impl Tensor_i32 of TensorTrait<i32> {
@@ -139,6 +147,40 @@ impl Tensor_i32 of TensorTrait<i32> {
     fn asin(self: @Tensor<i32>) -> Tensor<FixedType> {
         asin_i32(self).unwrap()
     }
+    
+    fn cumsum(
+        self: @Tensor<i32>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
+    ) -> Tensor<i32> {
+        cumsum(self, axis, exclusive, reverse)
+    }
+
+    fn flatten(self: @Tensor<i32>, axis: usize) -> Tensor<i32> {
+        flatten(self, axis)
+    }
+
+    fn sinh(self: @Tensor<i32>) -> Tensor<FixedType> {
+        sinh_i32(self).unwrap()
+    }
+
+    fn tanh(self: @Tensor<i32>) -> Tensor<FixedType> {
+        tanh_i32(self).unwrap()
+    }
+
+    fn cosh(self: @Tensor<i32>) -> Tensor<FixedType> {
+        cosh_i32(self).unwrap()
+    }
+
+    fn acosh(self: @Tensor<i32>) -> Tensor<FixedType> {
+        acosh_i32(self).unwrap()
+    }
+
+    fn asinh(self: @Tensor<i32>) -> Tensor<FixedType> {
+        asinh_i32(self).unwrap()
+    }
+
+    fn atan(self: @Tensor<i32>) -> Tensor<FixedType> {
+        atan_i32(self).unwrap()
+    }    
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

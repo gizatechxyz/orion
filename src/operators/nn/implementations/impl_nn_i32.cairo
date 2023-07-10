@@ -39,9 +39,9 @@ impl NN_i32 of NNTrait<i32> {
     }
 
     fn linear(
-        inputs: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>, quantized: bool
+        inputs: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>
     ) -> Tensor<i32> {
-        linear_i32(inputs, weights, bias, quantized)
+        linear_i32(inputs, weights, bias)
     }
 
     fn leaky_relu(inputs: @Tensor<i32>, alpha: @FixedType, threshold: i32) -> Tensor<FixedType> {

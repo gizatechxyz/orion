@@ -8,13 +8,71 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Added arcsin implementation and tests
-- Added arctan fixed-point implementation
+  
+## [Unreleased] - 2023-07-08
+
+### Added
+
+- Added arctangent operator
+## [Unreleased] - 2023-07-06
+
+### Added
+
+- Add QuantizeLinear
 
 ## [Unreleased] - 2023-07-01
 
 ### Added
 - Added cosine implementation and tests
 
+## [Unreleased] - 2023-06-29
+
+### Added
+
+- Added acosh operator
+
+## [Unreleased] - 2023-06-29
+
+### Added
+
+- Added flatten operator
+
+## [Unreleased] - 2023-06-28
+
+### Added
+
+- Added asinh operator
+
+## [Unreleased] - 2023-06-28
+
+### Added
+
+- Added cosh operator
+
+## [Unreleased] - 2023-06-27
+
+### Added
+
+- Added tanh operator
+
+## [Unreleased] - 2023-06-27
+
+### Added
+
+- Added sinh operator
+
+## [Unreleased] - 2023-06-24
+
+### Added
+
+- Added cumsum operator
+
+## [Unreleased] - 2023-06-23
+
+### Changed
+
+- Replace array.at with IndexView
+  
 ## [Unreleased] - 2023-06-30
 
 ### Added
@@ -23,27 +81,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased] - 2023-06-21
 
 ### Changed
+
 - Refactor nn tests to cover n-dimensions
 
 ## [Unreleased] - 2023-06-21
 
 ### Changed
+
 - Refactor tensor tests to cover n-dimensions
 
 ## [Unreleased] - 2023-06-20
 
 ### Changed
+
 - Upgrade Cairo version to v2.0.0-rc
 
 ## [Unreleased] - 2023-06-17
 
 ### Added
+
 - Into trait to signed integers
 
 ## [Unreleased] - 2023-06-16
 
 ### Changed
-- Updated argmax function parameters 
+
+- Updated argmax function parameters
 - Restructured tests for argmax and argmin
 
 ## [Unreleased] - 2023-06-11
@@ -52,10 +115,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added ln functionality to tensor trait. Added Logsoftmax implementation for nn trait.
 - Added tests for both.
-  
+
 ## [Unreleased] - 2023-06-08
 
 ### Added
+
 - Added argmin tensor operator
 
 ## [Unreleased] - 2023-06-07

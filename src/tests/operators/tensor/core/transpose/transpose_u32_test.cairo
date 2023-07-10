@@ -48,38 +48,38 @@ mod tensor_2D {
 
         let result = tensor.transpose(axes.span());
 
-        assert(*result.data.at(0) == 0, 'result[0] = 0');
-        assert(*result.data.at(1) == 2, 'result[1] = 2');
-        assert(*result.data.at(2) == 1, 'result[2] = 1');
-        assert(*result.data.at(3) == 3, 'result[3] = 3');
-        assert(*result.shape.at(0) == 2, 'shape[0] = 2');
-        assert(*result.shape.at(1) == 2, 'shape[1] = 2');
+        assert(*result.data[0] == 0, 'result[0] = 0');
+        assert(*result.data[1] == 2, 'result[1] = 2');
+        assert(*result.data[2] == 1, 'result[2] = 1');
+        assert(*result.data[3] == 3, 'result[3] = 3');
+        assert(*result.shape[0] == 2, 'shape[0] = 2');
+        assert(*result.shape[1] == 2, 'shape[1] = 2');
 
         let tensor = u32_tensor_3x2_helper();
 
         let result = tensor.transpose(axes.span());
 
-        assert(*result.data.at(0) == 0, 'result[0] = 0');
-        assert(*result.data.at(1) == 2, 'result[1] = 2');
-        assert(*result.data.at(2) == 4, 'result[2] = 4');
-        assert(*result.data.at(3) == 1, 'result[3] = 1');
-        assert(*result.data.at(4) == 3, 'result[4] = 3');
-        assert(*result.data.at(5) == 5, 'result[5] = 5');
-        assert(*result.shape.at(0) == 2, 'shape[0] = 2');
-        assert(*result.shape.at(1) == 3, 'shape[1] = 3');
+        assert(*result.data[0] == 0, 'result[0] = 0');
+        assert(*result.data[1] == 2, 'result[1] = 2');
+        assert(*result.data[2] == 4, 'result[2] = 4');
+        assert(*result.data[3] == 1, 'result[3] = 1');
+        assert(*result.data[4] == 3, 'result[4] = 3');
+        assert(*result.data[5] == 5, 'result[5] = 5');
+        assert(*result.shape[0] == 2, 'shape[0] = 2');
+        assert(*result.shape[1] == 3, 'shape[1] = 3');
 
         let tensor = u32_tensor_2x3_helper();
 
         let result = tensor.transpose(axes.span());
 
-        assert(*result.data.at(0) == 0, 'result[0] = 0');
-        assert(*result.data.at(1) == 3, 'result[1] = 3');
-        assert(*result.data.at(2) == 1, 'result[2] = 1');
-        assert(*result.data.at(3) == 4, 'result[3] = 4');
-        assert(*result.data.at(4) == 2, 'result[4] = 2');
-        assert(*result.data.at(5) == 5, 'result[5] = 5');
-        assert(*result.shape.at(0) == 3, 'shape[0] = 3');
-        assert(*result.shape.at(1) == 2, 'shape[1] = 2');
+        assert(*result.data[0] == 0, 'result[0] = 0');
+        assert(*result.data[1] == 3, 'result[1] = 3');
+        assert(*result.data[2] == 1, 'result[2] = 1');
+        assert(*result.data[3] == 4, 'result[3] = 4');
+        assert(*result.data[4] == 2, 'result[4] = 2');
+        assert(*result.data[5] == 5, 'result[5] = 5');
+        assert(*result.shape[0] == 3, 'shape[0] = 3');
+        assert(*result.shape[1] == 2, 'shape[1] = 2');
     }
 }
 
@@ -108,14 +108,14 @@ mod tensor_3D {
 
         let result = tensor.transpose(axes.span()).data;
 
-        assert(*result.at(0) == 0, 'result[0] = 0');
-        assert(*result.at(1) == 4, 'result[1] = 4');
-        assert(*result.at(2) == 1, 'result[2] = 1');
-        assert(*result.at(3) == 5, 'result[3] = 5');
-        assert(*result.at(4) == 2, 'result[4] = 2');
-        assert(*result.at(5) == 6, 'result[5] = 6');
-        assert(*result.at(6) == 3, 'result[6] = 3');
-        assert(*result.at(7) == 7, 'result[7] = 7');
+        assert(*result[0] == 0, 'result[0] = 0');
+        assert(*result[1] == 4, 'result[1] = 4');
+        assert(*result[2] == 1, 'result[2] = 1');
+        assert(*result[3] == 5, 'result[3] = 5');
+        assert(*result[4] == 2, 'result[4] = 2');
+        assert(*result[5] == 6, 'result[5] = 6');
+        assert(*result[6] == 3, 'result[6] = 3');
+        assert(*result[7] == 7, 'result[7] = 7');
 
         let mut axes: Array<usize> = ArrayTrait::new();
         axes.append(2);
@@ -124,14 +124,14 @@ mod tensor_3D {
 
         let result = tensor.transpose(axes.span()).data;
 
-        assert(*result.at(0) == 0, 'result[0] = 0');
-        assert(*result.at(1) == 4, 'result[1] = 4');
-        assert(*result.at(2) == 2, 'result[2] = 2');
-        assert(*result.at(3) == 6, 'result[3] = 6');
-        assert(*result.at(4) == 1, 'result[4] = 1');
-        assert(*result.at(5) == 5, 'result[5] = 5');
-        assert(*result.at(6) == 3, 'result[6] = 3');
-        assert(*result.at(7) == 7, 'result[7] = 7');
+        assert(*result[0] == 0, 'result[0] = 0');
+        assert(*result[1] == 4, 'result[1] = 4');
+        assert(*result[2] == 2, 'result[2] = 2');
+        assert(*result[3] == 6, 'result[3] = 6');
+        assert(*result[4] == 1, 'result[4] = 1');
+        assert(*result[5] == 5, 'result[5] = 5');
+        assert(*result[6] == 3, 'result[6] = 3');
+        assert(*result[7] == 7, 'result[7] = 7');
 
         let mut axes: Array<usize> = ArrayTrait::new();
         axes.append(0);
@@ -140,14 +140,14 @@ mod tensor_3D {
 
         let result = tensor.transpose(axes.span()).data;
 
-        assert(*result.at(0) == 0, 'result[0] = 0');
-        assert(*result.at(1) == 2, 'result[1] = 2');
-        assert(*result.at(2) == 1, 'result[2] = 1');
-        assert(*result.at(3) == 3, 'result[3] = 3');
-        assert(*result.at(4) == 4, 'result[4] = 4');
-        assert(*result.at(5) == 6, 'result[5] = 6');
-        assert(*result.at(6) == 5, 'result[6] = 5');
-        assert(*result.at(7) == 7, 'result[7] = 7');
+        assert(*result[0] == 0, 'result[0] = 0');
+        assert(*result[1] == 2, 'result[1] = 2');
+        assert(*result[2] == 1, 'result[2] = 1');
+        assert(*result[3] == 3, 'result[3] = 3');
+        assert(*result[4] == 4, 'result[4] = 4');
+        assert(*result[5] == 6, 'result[5] = 6');
+        assert(*result[6] == 5, 'result[6] = 5');
+        assert(*result[7] == 7, 'result[7] = 7');
 
         let tensor = u32_tensor_3x2x2_helper();
 
@@ -158,21 +158,21 @@ mod tensor_3D {
 
         let result = tensor.transpose(axes.span());
 
-        assert(*result.data.at(0) == 0, 'result[0] = 0');
-        assert(*result.data.at(1) == 4, 'result[1] = 4');
-        assert(*result.data.at(2) == 8, 'result[2] = 8');
-        assert(*result.data.at(3) == 1, 'result[3] = 1');
-        assert(*result.data.at(4) == 5, 'result[4] = 5');
-        assert(*result.data.at(5) == 9, 'result[5] = 9');
-        assert(*result.data.at(6) == 2, 'result[6] = 2');
-        assert(*result.data.at(7) == 6, 'result[7] = 6');
-        assert(*result.data.at(8) == 10, 'result[8] = 10');
-        assert(*result.data.at(9) == 3, 'result[9] = 3');
-        assert(*result.data.at(10) == 7, 'result[10] = 7');
-        assert(*result.data.at(11) == 11, 'result[11] = 11');
-        assert(*result.shape.at(0) == 2, 'shape[0] = 2');
-        assert(*result.shape.at(1) == 2, 'shape[1] = 2');
-        assert(*result.shape.at(2) == 3, 'shape[2] = 3');
+        assert(*result.data[0] == 0, 'result[0] = 0');
+        assert(*result.data[1] == 4, 'result[1] = 4');
+        assert(*result.data[2] == 8, 'result[2] = 8');
+        assert(*result.data[3] == 1, 'result[3] = 1');
+        assert(*result.data[4] == 5, 'result[4] = 5');
+        assert(*result.data[5] == 9, 'result[5] = 9');
+        assert(*result.data[6] == 2, 'result[6] = 2');
+        assert(*result.data[7] == 6, 'result[7] = 6');
+        assert(*result.data[8] == 10, 'result[8] = 10');
+        assert(*result.data[9] == 3, 'result[9] = 3');
+        assert(*result.data[10] == 7, 'result[10] = 7');
+        assert(*result.data[11] == 11, 'result[11] = 11');
+        assert(*result.shape[0] == 2, 'shape[0] = 2');
+        assert(*result.shape[1] == 2, 'shape[1] = 2');
+        assert(*result.shape[2] == 3, 'shape[2] = 3');
 
         let mut axes: Array<usize> = ArrayTrait::new();
         axes.append(2);
@@ -181,21 +181,21 @@ mod tensor_3D {
 
         let result = tensor.transpose(axes.span());
 
-        assert(*result.data.at(0) == 0, 'result[0] = 0');
-        assert(*result.data.at(1) == 4, 'result[1] = 4');
-        assert(*result.data.at(2) == 8, 'result[2] = 8');
-        assert(*result.data.at(3) == 2, 'result[3] = 2');
-        assert(*result.data.at(4) == 6, 'result[4] = 6');
-        assert(*result.data.at(5) == 10, 'result[5] = 10');
-        assert(*result.data.at(6) == 1, 'result[6] = 1');
-        assert(*result.data.at(7) == 5, 'result[7] = 5');
-        assert(*result.data.at(8) == 9, 'result[8] = 9');
-        assert(*result.data.at(9) == 3, 'result[9] = 3');
-        assert(*result.data.at(10) == 7, 'result[10] = 7');
-        assert(*result.data.at(11) == 11, 'result[11] = 11');
-        assert(*result.shape.at(0) == 2, 'shape[0] = 2');
-        assert(*result.shape.at(1) == 2, 'shape[1] = 2');
-        assert(*result.shape.at(2) == 3, 'shape[2] = 3');
+        assert(*result.data[0] == 0, 'result[0] = 0');
+        assert(*result.data[1] == 4, 'result[1] = 4');
+        assert(*result.data[2] == 8, 'result[2] = 8');
+        assert(*result.data[3] == 2, 'result[3] = 2');
+        assert(*result.data[4] == 6, 'result[4] = 6');
+        assert(*result.data[5] == 10, 'result[5] = 10');
+        assert(*result.data[6] == 1, 'result[6] = 1');
+        assert(*result.data[7] == 5, 'result[7] = 5');
+        assert(*result.data[8] == 9, 'result[8] = 9');
+        assert(*result.data[9] == 3, 'result[9] = 3');
+        assert(*result.data[10] == 7, 'result[10] = 7');
+        assert(*result.data[11] == 11, 'result[11] = 11');
+        assert(*result.shape[0] == 2, 'shape[0] = 2');
+        assert(*result.shape[1] == 2, 'shape[1] = 2');
+        assert(*result.shape[2] == 3, 'shape[2] = 3');
 
         let mut axes: Array<usize> = ArrayTrait::new();
         axes.append(0);
@@ -204,20 +204,20 @@ mod tensor_3D {
 
         let result = tensor.transpose(axes.span());
 
-        assert(*result.data.at(0) == 0, 'result[0] = 0');
-        assert(*result.data.at(1) == 2, 'result[1] = 2');
-        assert(*result.data.at(2) == 1, 'result[2] = 1');
-        assert(*result.data.at(3) == 3, 'result[3] = 3');
-        assert(*result.data.at(4) == 4, 'result[4] = 4');
-        assert(*result.data.at(5) == 6, 'result[5] = 6');
-        assert(*result.data.at(6) == 5, 'result[6] = 5');
-        assert(*result.data.at(7) == 7, 'result[7] = 7');
-        assert(*result.data.at(8) == 8, 'result[8] = 8');
-        assert(*result.data.at(9) == 10, 'result[9] = 10');
-        assert(*result.data.at(10) == 9, 'result[10] = 9');
-        assert(*result.data.at(11) == 11, 'result[11] = 11');
-        assert(*result.shape.at(0) == 3, 'shape[0] = 3');
-        assert(*result.shape.at(1) == 2, 'shape[1] = 2');
-        assert(*result.shape.at(2) == 2, 'shape[2] = 2');
+        assert(*result.data[0] == 0, 'result[0] = 0');
+        assert(*result.data[1] == 2, 'result[1] = 2');
+        assert(*result.data[2] == 1, 'result[2] = 1');
+        assert(*result.data[3] == 3, 'result[3] = 3');
+        assert(*result.data[4] == 4, 'result[4] = 4');
+        assert(*result.data[5] == 6, 'result[5] = 6');
+        assert(*result.data[6] == 5, 'result[6] = 5');
+        assert(*result.data[7] == 7, 'result[7] = 7');
+        assert(*result.data[8] == 8, 'result[8] = 8');
+        assert(*result.data[9] == 10, 'result[9] = 10');
+        assert(*result.data[10] == 9, 'result[10] = 9');
+        assert(*result.data[11] == 11, 'result[11] = 11');
+        assert(*result.shape[0] == 3, 'shape[0] = 3');
+        assert(*result.shape[1] == 2, 'shape[1] = 2');
+        assert(*result.shape[2] == 2, 'shape[2] = 2');
     }
 }

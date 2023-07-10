@@ -92,12 +92,32 @@ impl FP16x16Impl of FixedTrait {
         return math_16x16::cos(self);
     }
 
-    fn atan(self: FixedType) -> FixedType {
-        return math_16x16::atan(self);
-    }
-
     fn asin(self: FixedType) -> FixedType {
         return math_16x16::asin(self);
+    }
+
+    fn sinh(self: FixedType) -> FixedType {
+        return math_16x16::sinh(self);
+    }
+
+    fn tanh(self: FixedType) -> FixedType {
+        return math_16x16::tanh(self);
+    }
+
+    fn cosh(self: FixedType) -> FixedType {
+        return math_16x16::cosh(self);
+    }
+
+    fn acosh(self: FixedType) -> FixedType {
+        return math_16x16::acosh(self);
+    }
+
+    fn asinh(self: FixedType) -> FixedType {
+        return math_16x16::asinh(self);
+    }
+
+    fn atan(self: FixedType) -> FixedType {
+        return math_16x16::atan(self);
     }
 }
 

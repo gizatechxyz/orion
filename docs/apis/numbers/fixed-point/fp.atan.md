@@ -4,7 +4,7 @@
 fn atan(self: FixedType) -> FixedType;
 ```
 
-Returns the arctangent (inverse of tangent) of the fixed point number.
+Returns the arctangent (inverse of tangent) of the input fixed point number.
 
 ## Args
 
@@ -12,17 +12,17 @@ Returns the arctangent (inverse of tangent) of the fixed point number.
 
 ## Returns
 
-A fixed point number representing the atan  of the input value.
+A fixed point number representing the arctangent (inverse of tangent) of the input value.
 
 ## Examples
 
 ```rust
 fn atan_fp_example() -> FixedType {
 // We instantiate fixed point here.
-let fp = FixedTrait::from_unscaled_felt(1);
+let fp = FixedTrait::from_unscaled_felt(2);
 
 // We can call `atan` function as follows.
 fp.atan()
 }
->>> {mag: 51471, sign: true} // = 0.7853..
+>>> {mag: 72558, sign: false} // = 1.1071...
 ```
