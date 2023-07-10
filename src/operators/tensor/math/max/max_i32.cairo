@@ -9,8 +9,6 @@ fn max_in_tensor(mut vec: Span::<i32>) -> i32 {
     let mut max_value: i32 = IntegerTrait::new(2147483647, true);
 
     loop {
-
-
         let current_value = *vec.pop_front().unwrap();
 
         let check_max = max_value.max(current_value);

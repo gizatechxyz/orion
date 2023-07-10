@@ -37,8 +37,6 @@ fn find_argmax_1D<
     let mut max_index = 0_usize;
     let mut count = 0_usize;
     loop {
-
-
         if data.len() == 0 {
             break ();
         };
@@ -95,8 +93,6 @@ fn find_argmax<
     argmax: usize,
     select_last_index: bool
 ) -> usize {
-    
-
     if axis_index == *(*input.shape)[axis] {
         return argmax;
     }

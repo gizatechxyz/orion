@@ -9,8 +9,6 @@ fn min_in_tensor(mut vec: Span::<i32>) -> i32 {
     let mut min_value: i32 = IntegerTrait::new(2147483647, false);
 
     loop {
-
-
         let current_value = *vec.pop_front().unwrap();
 
         let check_min = min_value.min(current_value);

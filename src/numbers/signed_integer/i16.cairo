@@ -322,7 +322,6 @@ fn i16_rem(a: i16, b: i16) -> i16 {
 
 /// Cf: IntegerTrait::div_rem docstring
 fn i16_div_rem(a: i16, b: i16) -> (i16, i16) {
-    
     let quotient = i16_div(a, b);
     let remainder = i16_rem(a, b);
 

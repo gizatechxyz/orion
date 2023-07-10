@@ -16,7 +16,6 @@ fn softplus(z: @Tensor<i32>) -> Tensor<FixedType> {
     let mut data = *z.data;
     let fp_one = FixedTrait::new_unscaled(1, false);
     loop {
-
         if data.len() == 0 {
             break ();
         };

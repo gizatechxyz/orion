@@ -14,8 +14,6 @@ fn relu_i32(z: @Tensor<i32>, threshold: i32) -> Tensor<i32> {
 
     let zero = IntegerTrait::new(0, false);
     loop {
-
-
         if data.len() == 0 {
             break ();
         };

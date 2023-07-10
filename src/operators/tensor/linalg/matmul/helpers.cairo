@@ -3,7 +3,6 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 
-
 /// Prepares the shape of a tensor for matrix multiplication.
 ///
 /// # Arguments
@@ -29,7 +28,6 @@ fn prepare_shape_for_matmul(mut shape: Span<usize>, is_first_tensor: bool) -> Sp
         let mut shape_adjusted = ArrayTrait::new();
         shape_adjusted.append(1);
         loop {
-    
             if shape.len() == 0 {
                 break ();
             }
@@ -41,7 +39,6 @@ fn prepare_shape_for_matmul(mut shape: Span<usize>, is_first_tensor: bool) -> Sp
         // Append 1 to shape if it's 1-dimensional
         let mut shape_adjusted = ArrayTrait::new();
         loop {
-    
             if shape.len() == 0 {
                 break ();
             }

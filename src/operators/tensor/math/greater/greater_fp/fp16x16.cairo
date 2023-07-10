@@ -26,8 +26,6 @@ fn greater(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> {
     let mut smaller_index = 0;
 
     loop {
-
-
         if bigger_data.len() == 0 {
             break ();
         };

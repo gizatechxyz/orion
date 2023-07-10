@@ -1602,7 +1602,7 @@ trait TensorTrait<T> {
     /// // [0, 1.5707...]
     /// ```
     ///
-    fn asin(self: @Tensor<T>) -> Tensor<FixedType>; 
+    fn asin(self: @Tensor<T>) -> Tensor<FixedType>;
 }
 
 /// Cf: TensorTrait::new docstring

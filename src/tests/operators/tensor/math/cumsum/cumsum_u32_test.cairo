@@ -22,7 +22,6 @@ mod tensor_1D {
     #[test]
     #[available_gas(20000000)]
     fn changed_parameters() {
-
         // exclusive = false and reverse = false
         let tensor = u32_tensor_1x3_helper();
         let result = tensor.cumsum(0, Option::Some(false), Option::Some(false));
@@ -50,9 +49,7 @@ mod tensor_1D {
         assert((*result.data[0]).into() == 3, 'result[0] = 3');
         assert((*result.data[1]).into() == 2, 'result[1] = 2');
         assert((*result.data[2]).into() == 0, 'result[2] = 0');
-
     }
-
 }
 
 
@@ -86,11 +83,10 @@ mod tensor_2D {
         assert((*result.data[3]).into() == 5, 'result[3] = 5');
     }
 
-   
+
     #[test]
     #[available_gas(20000000)]
     fn changed_parameters() {
-
         //  axis = 0 exclusive = false and reverse = false
         let tensor = u32_tensor_2x2_helper();
         let result = tensor.cumsum(0, Option::Some(false), Option::Some(false));
@@ -123,10 +119,6 @@ mod tensor_2D {
         assert((*result.data[2]).into() == 0, 'result[2] = 0');
         assert((*result.data[3]).into() == 0, 'result[3] = 0');
 
-
-
-
-
         //  axis = 1 exclusive = false and reverse = false
         let tensor = u32_tensor_2x2_helper();
         let result = tensor.cumsum(1, Option::Some(false), Option::Some(false));
@@ -158,11 +150,7 @@ mod tensor_2D {
         assert((*result.data[1]).into() == 0, 'result[1] = 0');
         assert((*result.data[2]).into() == 3, 'result[2] = 3');
         assert((*result.data[3]).into() == 0, 'result[3] = 0');
-
     }
-
-
-
 }
 
 
@@ -192,8 +180,7 @@ mod tensor_3D {
         assert((*result.data[4]).into() == 4, 'result[4] = 4');
         assert((*result.data[5]).into() == 6, 'result[5] = 6');
         assert((*result.data[6]).into() == 8, 'result[6] = 8');
-        assert((*result.data[7]).into() == 10,'result[7] = 10');
-
+        assert((*result.data[7]).into() == 10, 'result[7] = 10');
 
         // axis = 1
         let result = tensor.cumsum(1, Option::None(()), Option::None(()));
@@ -205,7 +192,6 @@ mod tensor_3D {
         assert((*result.data[5]).into() == 5, 'result[5] = 5');
         assert((*result.data[6]).into() == 10, 'result[6] = 10');
         assert((*result.data[7]).into() == 12, 'result[7] = 12');
-
 
         // axis = 2
         let result = tensor.cumsum(2, Option::None(()), Option::None(()));
@@ -220,11 +206,9 @@ mod tensor_3D {
     }
 
 
-
     #[test]
     #[available_gas(40000000)]
     fn changed_parameters() {
-
         //  axis = 0 exclusive = false and reverse = false
         let tensor = u32_tensor_2x2x2_helper();
         let result = tensor.cumsum(0, Option::Some(false), Option::Some(false));
@@ -273,11 +257,6 @@ mod tensor_3D {
         assert((*result.data[6]).into() == 0, 'result[6] = 0');
         assert((*result.data[7]).into() == 0, 'result[7] = 0');
 
-
-
-
-
-
         //  axis = 1 exclusive = false and reverse = false
         let tensor = u32_tensor_2x2x2_helper();
         let result = tensor.cumsum(1, Option::Some(false), Option::Some(false));
@@ -290,7 +269,6 @@ mod tensor_3D {
         assert((*result.data[6]).into() == 10, 'result[6] = 10');
         assert((*result.data[7]).into() == 12, 'result[7] = 12');
 
-
         //  axis = 1 exclusive = false and reverse = true
         let tensor = u32_tensor_2x2x2_helper();
         let result = tensor.cumsum(1, Option::Some(false), Option::Some(true));
@@ -302,7 +280,6 @@ mod tensor_3D {
         assert((*result.data[5]).into() == 12, 'result[5] = 12');
         assert((*result.data[6]).into() == 6, 'result[6] = 6');
         assert((*result.data[7]).into() == 7, 'result[7] = 7');
-
 
         //  axis = 1 exclusive = true and reverse = false
         let tensor = u32_tensor_2x2x2_helper();
@@ -328,13 +305,6 @@ mod tensor_3D {
         assert((*result.data[6]).into() == 0, 'result[6] = 0');
         assert((*result.data[7]).into() == 0, 'result[7] = 0');
 
-
-
-
-
-
-
-
         //  axis = 2 exclusive = false and reverse = false
         let tensor = u32_tensor_2x2x2_helper();
         let result = tensor.cumsum(2, Option::Some(false), Option::Some(false));
@@ -346,7 +316,6 @@ mod tensor_3D {
         assert((*result.data[5]).into() == 9, 'result[5] = 9');
         assert((*result.data[6]).into() == 6, 'result[6] = 6');
         assert((*result.data[7]).into() == 13, 'result[7] = 13');
-
 
         //  axis = 2 exclusive = false and reverse = true
         let tensor = u32_tensor_2x2x2_helper();
@@ -383,7 +352,5 @@ mod tensor_3D {
         assert((*result.data[5]).into() == 0, 'result[5] = 0');
         assert((*result.data[6]).into() == 7, 'result[6] = 7');
         assert((*result.data[7]).into() == 0, 'result[7] = 0');
-
     }
-
 }

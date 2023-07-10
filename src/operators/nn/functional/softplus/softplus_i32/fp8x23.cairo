@@ -10,15 +10,12 @@ use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
 use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23Impl, FP8x23Add, FP8x23Div};
 
 
-
-
 /// Cf: NNTrait::softplus docstring
 fn softplus(z: @Tensor<i32>) -> Tensor<FixedType> {
     let mut data_result = ArrayTrait::<FixedType>::new();
     let mut data = *z.data;
     let fp_one = FixedTrait::new_unscaled(1, false);
     loop {
-
         if data.len() == 0 {
             break ();
         };

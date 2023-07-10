@@ -12,7 +12,7 @@ use orion::operators::tensor::helpers::{broadcast_index_mapping, len_from_shape,
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
-use orion::utils::check_gas;
+
 use orion::utils::{saturate, fp8x23_to_i32, fp8x23_to_u32};
 
 /// Adds two `Tensor<FixedType>` instances element-wise with broadcasting.
@@ -35,8 +35,6 @@ fn add(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
 
     let mut n: usize = 0;
     loop {
-
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -77,8 +75,6 @@ fn saturated_add(
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -122,8 +118,6 @@ fn saturated_add_to_i32(
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -169,8 +163,6 @@ fn saturated_add_to_u32(
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -212,8 +204,6 @@ fn sub(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
 
     let mut n: usize = 0;
     loop {
-
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -254,8 +244,6 @@ fn saturated_sub(
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -299,8 +287,6 @@ fn saturated_sub_to_i32(
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -346,8 +332,6 @@ fn saturated_sub_to_u32(
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -389,8 +373,6 @@ fn mul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
 
     let mut n: usize = 0;
     loop {
-
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -431,8 +413,6 @@ fn saturated_mul(
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -476,8 +456,6 @@ fn saturated_mul_to_i32(
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -523,8 +501,6 @@ fn saturated_mul_to_u32(
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -566,8 +542,6 @@ fn div(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
 
     let mut n: usize = 0;
     loop {
-
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -608,8 +582,6 @@ fn saturated_div(
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -653,8 +625,6 @@ fn saturated_div_to_i32(
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -700,8 +670,6 @@ fn saturated_div_to_u32(
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);

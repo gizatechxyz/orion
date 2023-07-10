@@ -760,5 +760,5 @@ trait FixedTrait {
     /// >>> {mag: 102943, sign: true} // = 1.5707...
     /// ``` 
     ///
-    fn asin(self: FixedType) -> FixedType;   
+    fn asin(self: FixedType) -> FixedType;
 }

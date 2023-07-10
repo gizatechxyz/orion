@@ -72,6 +72,6 @@ mod tensor_3D {
         assert((*result.at(4).mag).into() == 86888, 'result[4] = 1.3258');
         assert((*result.at(5).mag).into() == 90007, 'result[5] = 1.3733');
         assert((*result.at(6).mag).into() == 92121, 'result[6] = 1.4056');
-        assert((*result.at(7).mag).into() == 93644, 'result[7] = 1.4288');        
+        assert((*result.at(7).mag).into() == 93644, 'result[7] = 1.4288');
     }
 }

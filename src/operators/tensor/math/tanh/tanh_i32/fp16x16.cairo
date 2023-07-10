@@ -16,8 +16,6 @@ fn tanh(self: @Tensor<i32>) -> Tensor<FixedType> {
     let mut data = *self.data;
 
     loop {
-
-
         let ele = *data.pop_front().unwrap();
 
         if ele.sign == true {

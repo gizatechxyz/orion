@@ -17,8 +17,6 @@ fn leaky_relu(z: @Tensor<i32>, alpha: @FixedType, threshold: i32) -> Tensor<Fixe
     let mut data_result = ArrayTrait::<FixedType>::new();
     let mut data = *z.data;
     loop {
-
-
         if data.len() == 0 {
             break ();
         };

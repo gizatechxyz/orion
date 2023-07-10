@@ -8,8 +8,6 @@ use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 fn min_in_tensor(mut vec: Span::<u32>) -> u32 {
     let mut min_value = 4294967295;
     loop {
-
-
         let current_value = *vec.pop_front().unwrap();
 
         if (min_value > current_value) {
