@@ -481,6 +481,8 @@ fn i8_to_i32(x: i8) -> i32 {
     i32 { mag: x.mag.into(), sign: x.sign }
 }
 
+use debug::PrintTrait;
+
 fn i8_to_fp8x23(x: i8) -> FixedType {
     FixedType { mag: x.mag.into() * ONE_fp8x23, sign: x.sign }
 }
