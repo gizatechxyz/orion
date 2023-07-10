@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Implement Tensor int8
+- Added DequantizeLinear operator
+
+### Fixed
+- Fixed docgen
 
 ## [Unreleased] - 2023-07-04
 
