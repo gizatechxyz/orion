@@ -1,15 +1,16 @@
 use orion::operators::tensor::core::Tensor;
 use orion::numbers::fixed_point::core::FixedType;
+use orion::numbers::signed_integer::i8::i8;
 
 /// Trait
 ///
 /// quantize_linear - Quantizes a Tensor using linear quantization.
 /// dequantize_linear - Dequantizes a Tensor using linear dequantization.
-trait PerfomanceTrait<T, O> {
+trait PerfomanceTrait<T> {
     /// # performance.quantize_linear
     /// 
     /// ```rust
-    /// fn quantize_linear(self: @Tensor<T>, y_scale: @Tensor<T>, y_zero_point: @Tensor<T>) -> Tensor::<O>;
+    /// fn quantize_linear(self: @Tensor<T>, y_scale: @Tensor<T>, y_zero_point: @Tensor<T>) -> Tensor::<Q>;
     /// ```
     /// 
     /// Quantizes a Tensor using linear quantization.
@@ -65,7 +66,7 @@ trait PerfomanceTrait<T, O> {
     ///
     fn quantize_linear(
         self: @Tensor<T>, y_scale: @Tensor<T>, y_zero_point: @Tensor<T>
-    ) -> Tensor::<O>;
+    ) -> Tensor::<i8>;
     /// # performance.dequantize_linear
     /// 
     /// ```rust
@@ -123,6 +124,6 @@ trait PerfomanceTrait<T, O> {
     /// ```
     ///
     fn dequantize_linear(
-        self: @Tensor<T>, x_scale: @Tensor<T>, x_zero_point: @Tensor<T>
+        self: @Tensor<i8>, x_scale: @Tensor<T>, x_zero_point: @Tensor<T>
     ) -> Tensor::<T>;
 }

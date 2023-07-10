@@ -1,18 +1,18 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
-use core::traits::{Into, TryInto};
+use traits::TryInto;
 
-use orion::numbers::signed_integer::i32::i32;
+use orion::numbers::signed_integer::i8::i8;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp, FixedTypeTensorDiv};
-use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
-use orion::numbers::fixed_point::implementations::impl_16x16::{
-    FP16x16Impl, FP16x16PartialOrd, FP16x16Div, FP16x16Add
+use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
+use orion::numbers::fixed_point::implementations::impl_8x23::{
+    FP8x23Impl, FP8x23PartialOrd, FP8x23Div, FP8x23Add, FP8x23TryIntoI8
 };
-use orion::operators::tensor::math::arithmetic::arithmetic_fp::fp16x16::{
-    saturated_add_to_i32, saturated_div, FP16x16TryIntoI32
+use orion::operators::tensor::math::arithmetic::arithmetic_fp::fp8x23::{
+    saturated_add_i8, saturated_div
 };
 use orion::operators::tensor::helpers::check_compatibility;
 use orion::utils::{saturate};
@@ -20,7 +20,7 @@ use orion::utils::{saturate};
 /// Cf: PerfomanceTrait::quantize_linear docstring
 fn quantize_linear(
     x: @Tensor<FixedType>, y_scale: @Tensor<FixedType>, y_zero_point: @Tensor<FixedType>
-) -> Tensor::<i32> {
+) -> Tensor::<i8> {
     if (*y_scale.data).len() == 1 && (*y_zero_point.data).len() == 1 {
         quantize_element_wise(x, *y_scale.data[0], *y_zero_point.data[0])
     } else {
@@ -33,19 +33,14 @@ fn quantize_linear(
 
 fn quantize_per_axis(
     x: @Tensor<FixedType>, y_scale: @Tensor<FixedType>, y_zero_point: @Tensor<FixedType>
-) -> Tensor::<i32> {
-    let mut result_data = ArrayTrait::<FixedType>::new();
-
-    let min = FixedTrait::new_unscaled(128, true);
-    let max = FixedTrait::new_unscaled(127, false);
-
-    saturated_add_to_i32(@(*x / *y_scale), y_zero_point, min, max)
+) -> Tensor::<i8> {
+    saturated_add_i8(@(*x / *y_scale), y_zero_point)
 }
 
 fn quantize_element_wise(
     x: @Tensor::<FixedType>, y_scale: FixedType, y_zero_point: FixedType
-) -> Tensor::<i32> {
-    let mut result_data = ArrayTrait::<i32>::new();
+) -> Tensor::<i8> {
+    let mut result_data = ArrayTrait::<i8>::new();
     let mut data = *x.data;
 
     loop {

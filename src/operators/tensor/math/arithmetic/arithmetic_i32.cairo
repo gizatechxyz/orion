@@ -1,12 +1,15 @@
+use core::option::OptionTrait;
+use core::traits::TryInto;
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use orion::numbers::signed_integer::i32::i32;
+use orion::numbers::signed_integer::{i32::i32, i8::i8};
 use orion::operators::tensor::helpers::broadcast_shape;
 
 use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index, };
 use orion::operators::tensor::helpers::{broadcast_index_mapping, len_from_shape, };
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
+use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
 use orion::utils::check_gas;
 use orion::utils::saturate;
 
@@ -48,21 +51,19 @@ fn add(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
     return TensorTrait::<i32>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
-/// Performs element-wise addition of two `Tensor<i32>` instances with broadcasting and saturation.
+/// Performs element-wise addition of two `Tensor<i32>` instances with broadcasting and saturation [-128;127].
 ///
 /// # Arguments
 /// * `self` - The first tensor.
 /// * `other` - The second tensor.
-/// * `min` - The minimum value for saturation.
-/// * `max` - The maximum value for saturation.
 ///
 /// # Panics
 /// * Panics if the shapes of the tensors are not compatible.
 /// * Panics if the gas limit is exceeded during execution.
 ///
 /// # Returns
-/// * A `Tensor<i32>` instance representing the result of the element-wise addition with broadcasting and saturation.
-fn saturated_add(self: @Tensor<i32>, other: @Tensor<i32>, min: i32, max: i32) -> Tensor<i32> {
+/// * A `Tensor<i8>` instance representing the result of the element-wise addition with broadcasting and saturation.
+fn saturated_add_i8(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i8> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
@@ -79,7 +80,13 @@ fn saturated_add(self: @Tensor<i32>, other: @Tensor<i32>, min: i32, max: i32) ->
 
         result
             .append(
-                saturate(min, max, *(*self.data)[indices_self] + *(*other.data)[indices_other])
+                saturate(
+                    i32 { mag: 128, sign: true },
+                    i32 { mag: 127, sign: false },
+                    *(*self.data)[indices_self] + *(*other.data)[indices_other]
+                )
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -88,7 +95,7 @@ fn saturated_add(self: @Tensor<i32>, other: @Tensor<i32>, min: i32, max: i32) ->
         };
     };
 
-    return TensorTrait::<i32>::new(broadcasted_shape, result.span(), *self.extra);
+    return TensorTrait::<i8>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
 /// Subtracts two `Tensor<i32>` instances element-wise with broadcasting.
@@ -129,21 +136,19 @@ fn sub(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
     return TensorTrait::<i32>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
-/// Performs element-wise substraction of two `Tensor<i32>` instances with broadcasting and saturation.
+/// Performs element-wise subtraction of two `Tensor<i32>` instances with broadcasting and saturation [-128;127].
 ///
 /// # Arguments
 /// * `self` - The first tensor.
 /// * `other` - The second tensor.
-/// * `min` - The minimum value for saturation.
-/// * `max` - The maximum value for saturation.
 ///
 /// # Panics
 /// * Panics if the shapes of the tensors are not compatible.
 /// * Panics if the gas limit is exceeded during execution.
 ///
 /// # Returns
-/// * A `Tensor<i32>` instance representing the result of the element-wise substraction with broadcasting and saturation.
-fn saturated_sub(self: @Tensor<i32>, other: @Tensor<i32>, min: i32, max: i32) -> Tensor<i32> {
+/// * A `Tensor<i8>` instance representing the result of the element-wise subtraction with broadcasting and saturation.
+fn saturated_sub_i8(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i8> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
@@ -160,7 +165,13 @@ fn saturated_sub(self: @Tensor<i32>, other: @Tensor<i32>, min: i32, max: i32) ->
 
         result
             .append(
-                saturate(min, max, *(*self.data)[indices_self] - *(*other.data)[indices_other])
+                saturate(
+                    i32 { mag: 128, sign: true },
+                    i32 { mag: 127, sign: false },
+                    *(*self.data)[indices_self] - *(*other.data)[indices_other]
+                )
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -169,7 +180,7 @@ fn saturated_sub(self: @Tensor<i32>, other: @Tensor<i32>, min: i32, max: i32) ->
         };
     };
 
-    return TensorTrait::<i32>::new(broadcasted_shape, result.span(), *self.extra);
+    return TensorTrait::<i8>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
 /// Multiplies two `Tensor<i32>` instances element-wise with broadcasting.
@@ -210,21 +221,19 @@ fn mul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
     return TensorTrait::<i32>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
-/// Performs element-wise multiplication of two `Tensor<i32>` instances with broadcasting and saturation.
+/// Performs element-wise multriplication of two `Tensor<i32>` instances with broadcasting and saturation [-128;127].
 ///
 /// # Arguments
 /// * `self` - The first tensor.
 /// * `other` - The second tensor.
-/// * `min` - The minimum value for saturation.
-/// * `max` - The maximum value for saturation.
 ///
 /// # Panics
 /// * Panics if the shapes of the tensors are not compatible.
 /// * Panics if the gas limit is exceeded during execution.
 ///
 /// # Returns
-/// * A `Tensor<i32>` instance representing the result of the element-wise multiplication with broadcasting and saturation.
-fn saturated_mul(self: @Tensor<i32>, other: @Tensor<i32>, min: i32, max: i32) -> Tensor<i32> {
+/// * A `Tensor<i8>` instance representing the result of the element-wise multiplication with broadcasting and saturation.
+fn saturated_mul_i8(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i8> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
@@ -241,7 +250,13 @@ fn saturated_mul(self: @Tensor<i32>, other: @Tensor<i32>, min: i32, max: i32) ->
 
         result
             .append(
-                saturate(min, max, *(*self.data)[indices_self] * *(*other.data)[indices_other])
+                saturate(
+                    i32 { mag: 128, sign: true },
+                    i32 { mag: 127, sign: false },
+                    *(*self.data)[indices_self] * *(*other.data)[indices_other]
+                )
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -250,7 +265,7 @@ fn saturated_mul(self: @Tensor<i32>, other: @Tensor<i32>, min: i32, max: i32) ->
         };
     };
 
-    return TensorTrait::<i32>::new(broadcasted_shape, result.span(), *self.extra);
+    return TensorTrait::<i8>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
 /// Divides two `Tensor<i32>` instances element-wise with broadcasting.
@@ -291,21 +306,19 @@ fn div(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
     return TensorTrait::<i32>::new(broadcasted_shape, result.span(), *self.extra);
 }
 
-/// Performs element-wise division of two `Tensor<i32>` instances with broadcasting and saturation.
+/// Performs element-wise division of two `Tensor<i32>` instances with broadcasting and saturation [-128;127].
 ///
 /// # Arguments
 /// * `self` - The first tensor.
 /// * `other` - The second tensor.
-/// * `min` - The minimum value for saturation.
-/// * `max` - The maximum value for saturation.
 ///
 /// # Panics
 /// * Panics if the shapes of the tensors are not compatible.
 /// * Panics if the gas limit is exceeded during execution.
 ///
 /// # Returns
-/// * A `Tensor<i32>` instance representing the result of the element-wise division with broadcasting and saturation.
-fn saturated_div(self: @Tensor<i32>, other: @Tensor<i32>, min: i32, max: i32) -> Tensor<i32> {
+/// * A `Tensor<i8>` instance representing the result of the element-wise division with broadcasting and saturation.
+fn saturated_div_i8(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i8> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
     let mut result = ArrayTrait::new();
 
@@ -322,7 +335,13 @@ fn saturated_div(self: @Tensor<i32>, other: @Tensor<i32>, min: i32, max: i32) ->
 
         result
             .append(
-                saturate(min, max, *(*self.data)[indices_self] / *(*other.data)[indices_other])
+                saturate(
+                    i32 { mag: 128, sign: true },
+                    i32 { mag: 127, sign: false },
+                    *(*self.data)[indices_self] / *(*other.data)[indices_other]
+                )
+                    .try_into()
+                    .unwrap()
             );
 
         n += 1;
@@ -331,5 +350,5 @@ fn saturated_div(self: @Tensor<i32>, other: @Tensor<i32>, min: i32, max: i32) ->
         };
     };
 
-    return TensorTrait::<i32>::new(broadcasted_shape, result.span(), *self.extra);
+    return TensorTrait::<i8>::new(broadcasted_shape, result.span(), *self.extra);
 }
