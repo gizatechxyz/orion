@@ -9,7 +9,7 @@ use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::operators::tensor::core::{TensorTrait, ExtraParams, Tensor};
 use orion::performance::core::PerfomanceTrait;
-use orion::performance::implementations::impl_performance_i32::Performance_i32;
+use orion::performance::implementations::impl_performance_i32::Performance_i32_i8;
 
 #[test]
 #[available_gas(2000000)]

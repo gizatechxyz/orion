@@ -9,7 +9,7 @@ use orion::performance::functional::quantize_linear::quantize_linear_fp::fp_i8::
 use orion::performance::functional::dequantize_linear::dequantize_linear_fp::core::dequantize_linear;
 
 
-impl Performance_fp of PerfomanceTrait<FixedType> {
+impl Performance_fp_i8 of PerfomanceTrait<FixedType, i8> {
     fn quantize_linear(
         self: @Tensor<FixedType>, y_scale: @Tensor<FixedType>, y_zero_point: @Tensor<FixedType>
     ) -> Tensor<i8> {

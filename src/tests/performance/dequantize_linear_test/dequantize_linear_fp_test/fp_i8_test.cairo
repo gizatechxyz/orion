@@ -14,7 +14,7 @@ mod fp8x23 {
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, ExtraParams, Tensor};
     use orion::performance::core::PerfomanceTrait;
-    use orion::performance::implementations::impl_performance_fp::Performance_fp;
+    use orion::performance::implementations::impl_performance_fp::Performance_fp_i8;
 
     #[test]
     #[available_gas(2000000)]
@@ -150,7 +150,7 @@ mod fp16x16 {
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, ExtraParams, Tensor};
     use orion::performance::core::PerfomanceTrait;
-    use orion::performance::implementations::impl_performance_fp::Performance_fp;
+    use orion::performance::implementations::impl_performance_fp::Performance_fp_i8;
 
     #[test]
     #[available_gas(2000000)]

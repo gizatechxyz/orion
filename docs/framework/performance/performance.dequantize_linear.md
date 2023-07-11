@@ -25,7 +25,7 @@ A new `Tensor<T>` with the same shape as the input tensor, containing the dequan
 
 ```rust
 use orion::performance::core::PerfomanceTrait;
-use orion::performance::implementations::impl_performance_i32::Performance_i32;
+use orion::performance::implementations::impl_performance_i32::Performance_i32_i8;
 
 fn quantize_linear_example() -> Tensor<i32> {
 // We instantiate a 1D quantizes Tensor here.

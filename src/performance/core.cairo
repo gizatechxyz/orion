@@ -1,12 +1,11 @@
 use orion::operators::tensor::core::Tensor;
 use orion::numbers::fixed_point::core::FixedType;
-use orion::numbers::signed_integer::i8::i8;
 
 /// Trait
 ///
 /// quantize_linear - Quantizes a Tensor using linear quantization.
 /// dequantize_linear - Dequantizes a Tensor using linear dequantization.
-trait PerfomanceTrait<T> {
+trait PerfomanceTrait<T, Q> {
     /// # performance.quantize_linear
     /// 
     /// ```rust
@@ -35,7 +34,7 @@ trait PerfomanceTrait<T> {
     /// 
     /// ```rust
     /// use orion::performance::core::PerfomanceTrait;
-    /// use orion::performance::implementations::impl_performance_i32::Performance_i32;
+    /// use orion::performance::implementations::impl_performance_i32::Performance_i32_i8;
     /// 
     /// fn quantize_linear_example() -> Tensor<i32> {
     ///     // We instantiate a 1D Tensor here.
@@ -66,7 +65,7 @@ trait PerfomanceTrait<T> {
     ///
     fn quantize_linear(
         self: @Tensor<T>, y_scale: @Tensor<T>, y_zero_point: @Tensor<T>
-    ) -> Tensor::<i8>;
+    ) -> Tensor::<Q>;
     /// # performance.dequantize_linear
     /// 
     /// ```rust
@@ -94,7 +93,7 @@ trait PerfomanceTrait<T> {
     /// 
     /// ```rust
     /// use orion::performance::core::PerfomanceTrait;
-    /// use orion::performance::implementations::impl_performance_i32::Performance_i32;
+    /// use orion::performance::implementations::impl_performance_i32::Performance_i32_i8;
     /// 
     /// fn quantize_linear_example() -> Tensor<i32> {
     ///     // We instantiate a 1D quantizes Tensor here.
@@ -124,6 +123,6 @@ trait PerfomanceTrait<T> {
     /// ```
     ///
     fn dequantize_linear(
-        self: @Tensor<i8>, x_scale: @Tensor<T>, x_zero_point: @Tensor<T>
+        self: @Tensor<Q>, x_scale: @Tensor<T>, x_zero_point: @Tensor<T>
     ) -> Tensor::<T>;
 }
