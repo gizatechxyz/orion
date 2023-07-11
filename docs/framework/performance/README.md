@@ -1,23 +1,22 @@
 # Performance
 
-This trait contains a set of functions to increase the performance of your model.
+This trait contains a set of functions to increase the performance of your model. 
+Performance trait takes two generic parameters: 
+- `T`, the type of the unquantized tensor.
+- `Q`, the type of the quantized tensor.
 
 ```rust
-use orion::performance::performance_i32::performance
-// OR
-use orion::performance::performance_u32::performance
+use orion::performance::core::PerfomanceTrait;
 ```
 
 ### Data types
 
 Orion supports currently these `performance` types.
 
-| Data type                 | dtype                              |
-| ------------------------- | ---------------------------------- |
-| 32-bit integer (signed)   | `PerformanceTrait<i32, i32>`       |
-| 32-bit integer (unsigned) | `PerformanceTrait<u32, u32>`       |
-| Fixed point  (signed)     | `PerformanceTrait<FixedType, i32>` |
-| Fixed point  (signed)     | `PerformanceTrait<FixedType, u32>` |
+| `T` Data type            | `Q` Data type          | dtype                             |
+| ------------------------ | ---------------------- | --------------------------------- |
+| 32-bit integer (signed), | 8-bit integer (signed) | `PerformanceTrait<i32, i8>`       |
+| Fixed point  (signed)    | 8-bit integer (signed) | `PerformanceTrait<FixedType, i8>` |
 
 
 | function | description |

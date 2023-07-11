@@ -3,19 +3,21 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::i8};
+use orion::numbers::signed_integer::i8::{i8, i8_to_fp8x23};
+use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23Sub, FP8x23Mul};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::operators::tensor::implementations::impl_tensor_i32::{
-    Tensor_i32, i32TensorSub, i32TensorMul
+use orion::operators::tensor::core::FixedType;
+use orion::operators::tensor::implementations::impl_tensor_fp::{
+    Tensor_fp, FixedTypeTensorSub, FixedTypeTensorMul
 };
-use orion::operators::tensor::implementations::impl_tensor_i8::TensorI8IntoTensorI32;
+use orion::operators::tensor::implementations::impl_tensor_i8::TensorI8IntoTensorFP;
 use orion::operators::tensor::helpers::check_compatibility;
 use orion::utils::saturate;
 
 /// Cf: PerfomanceTrait::dequantize_linear docstring
 fn dequantize_linear(
-    x: @Tensor<i8>, x_scale: @Tensor<i32>, x_zero_point: @Tensor<i32>
-) -> Tensor::<i32> {
+    x: @Tensor<i8>, x_scale: @Tensor<FixedType>, x_zero_point: @Tensor<FixedType>
+) -> Tensor::<FixedType> {
     if (*x_scale.data).len() == 1 && (*x_zero_point.data).len() == 1 {
         dequantize_element_wise(x, *x_scale.data[0], *x_zero_point.data[0])
     } else {
@@ -27,15 +29,17 @@ fn dequantize_linear(
 }
 
 fn dequantize_per_axis(
-    x: @Tensor<i32>, x_scale: @Tensor<i32>, x_zero_point: @Tensor<i32>
-) -> Tensor::<i32> {
-    let mut result_data = ArrayTrait::<i32>::new();
+    x: @Tensor<FixedType>, x_scale: @Tensor<FixedType>, x_zero_point: @Tensor<FixedType>
+) -> Tensor::<FixedType> {
+    let mut result_data = ArrayTrait::<FixedType>::new();
 
     (*x - *x_zero_point) * *x_scale
 }
 
-fn dequantize_element_wise(x: @Tensor::<i8>, x_scale: i32, x_zero_point: i32) -> Tensor::<i32> {
-    let mut result_data = ArrayTrait::<i32>::new();
+fn dequantize_element_wise(
+    x: @Tensor::<i8>, x_scale: FixedType, x_zero_point: FixedType
+) -> Tensor::<FixedType> {
+    let mut result_data = ArrayTrait::<FixedType>::new();
     let mut data = *x.data;
 
     loop {
@@ -50,6 +54,6 @@ fn dequantize_element_wise(x: @Tensor::<i8>, x_scale: i32, x_zero_point: i32) ->
     return TensorTrait::new(*x.shape, result_data.span(), *x.extra);
 }
 
-fn dequantize(x: i8, x_scale: i32, x_zero_point: i32) -> i32 {
-    (x.into() - x_zero_point) * x_scale
+fn dequantize(x: i8, x_scale: FixedType, x_zero_point: FixedType) -> FixedType {
+    (i8_to_fp8x23(x) - x_zero_point) * x_scale
 }
