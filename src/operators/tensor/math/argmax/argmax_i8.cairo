@@ -6,7 +6,7 @@ use orion::operators::tensor::implementations::{impl_tensor_i8, impl_tensor_u32:
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
 use orion::operators::tensor::math::argmax::helpers::{find_argmax_1D, find_argmax};
-use orion::utils::check_gas;
+
 
 /// Cf: TensorTrait::argmax docstring
 fn argmax(
@@ -37,7 +37,7 @@ fn argmax(
 
     let mut index: usize = 0;
     loop {
-        check_gas();
+       
 
         let output_indices = unravel_index(index, output_shape);
         let current_argmax = find_argmax(self, output_indices, axis, 0, MIN, 0, select_last_index);

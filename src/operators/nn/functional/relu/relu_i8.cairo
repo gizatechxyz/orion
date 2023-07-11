@@ -5,7 +5,7 @@ use option::OptionTrait;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i8::i8};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
-use orion::utils::check_gas;
+
 
 /// Cf: NNTrait::relu docstring
 fn relu_i8(z: @Tensor<i8>, threshold: i8) -> Tensor<i8> {
@@ -14,7 +14,7 @@ fn relu_i8(z: @Tensor<i8>, threshold: i8) -> Tensor<i8> {
 
     let zero = IntegerTrait::new(0, false);
     loop {
-        check_gas();
+       
 
         if data.len() == 0 {
             break ();
