@@ -38,6 +38,7 @@ use orion::operators::tensor::math::sin::sin_fp::core::sin;
 use orion::operators::tensor::math::cos::cos_fp::core::cos;
 use orion::operators::tensor::math::asin::asin_fp::core::asin;
 use orion::operators::tensor::math::atan::atan_fp::core::atan;
+use orion::operators::tensor::math::acos::acos_fp::core::acos;
 
 use orion::utils::check_gas;
 
@@ -153,7 +154,11 @@ impl Tensor_fp of TensorTrait<FixedType> {
     fn asin(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         asin(self).unwrap()
     }
-    
+
+    fn acos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        acos(self).unwrap()
+    }
+
     fn cumsum(
         self: @Tensor<FixedType>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
     ) -> Tensor<FixedType> {
@@ -186,7 +191,7 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn atan(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         atan(self).unwrap()
-    }    
+    }
 }
 
 /// Implements addition for `Tensor<FixedType>` using the `Add` trait.

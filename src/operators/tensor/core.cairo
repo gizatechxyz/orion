@@ -45,7 +45,8 @@ struct ExtraParams {
 /// cumsum - Returns the cumulative sum of the elements along a given axis.
 /// sin - Computes the sine value of each element in the input tensor.
 /// cos - Computes the cosine value of each element in the input tensor.
-/// asin - Returns the arcsine (inverse of sine) value of each element in the input tensor.
+/// asin - Computes the arcsine (inverse of sine) value of each element in the input tensor.
+/// acos - Computes the arccosine (inverse of cosine) value of each element in the input tensor.
 /// flatten - Flattens the input tensor into a 2D tensor.
 /// acosh - Computes the inverse hyperbolic cosine of all elements of the input tensor.
 /// asinh - Computes the inverse hyperbolic sine of all elements of the input tensor.
@@ -1337,7 +1338,7 @@ trait TensorTrait<T> {
     /// >>> [[0,1],[2,3],[4,5],[6,7]]
     /// ```
     ///
-    fn flatten(self: @Tensor<T>, axis:usize) -> Tensor<T>;
+    fn flatten(self: @Tensor<T>, axis: usize) -> Tensor<T>;
     /// # tensor.sinh
     ///
     /// ```rust 
@@ -1585,7 +1586,41 @@ trait TensorTrait<T> {
     /// // [0, 1.5707...]
     /// ```
     ///
-    fn asin(self: @Tensor<T>) -> Tensor<FixedType>; 
+    fn asin(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// #tensor.acos
+    ///
+    /// ```rust
+    ///     fn acos(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the arccosine (inverse of cosine) of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the arccosine value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn acos_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // tensor = [[0, 1]]
+    ///     let tensor = fp8x23_tensor_1x2_helper();
+    ///     let result = tensor.acos();
+    ///     return result;
+    /// }
+    /// >>> [13176794, 0]
+    /// // The fixed point representation of
+    /// // [1.5707..., 0]
+    /// ```
+    ///
+    fn acos(self: @Tensor<T>) -> Tensor<FixedType>;
 }
 
 /// Cf: TensorTrait::new docstring

@@ -30,6 +30,7 @@ You can see below the list of current supported ONNX Operators:
 |             [Cos](operators/tensor/tensor.cos.md)             | :white\_check\_mark: |
 |             [Sin](operators/tensor/tensor.sin.md)             | :white\_check\_mark: |
 |            [Asin](operators/tensor/tensor.asin.md)            | :white\_check\_mark: |
+|            [Acos](operators/tensor/tensor.acos.md)            | :white\_check\_mark: |
 |         [Flatten](operators/tensor/tensor.flatten.md)         | :white\_check\_mark: |
 |          [Relu](operators/neural-network/nn.relu.md)          | :white\_check\_mark: |
 |    [LeakyRelu](operators/neural-network/nn.leaky\_relu.md)    | :white\_check\_mark: |

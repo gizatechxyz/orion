@@ -16,6 +16,7 @@ mod ceil;
 mod sin;
 mod cos;
 mod asin;
+mod acos;
 mod cumsum;
 mod flatten;
 mod sinh;

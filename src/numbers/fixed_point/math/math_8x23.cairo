@@ -396,6 +396,21 @@ fn asin(a: FixedType) -> FixedType {
     return atan(a / div);
 }
 
+/// Cf: FixedTrait::acos docstring
+// Calculates arccos(a) for -1 <= a <= 1 (fixed point)
+// arccos(a) = arcsin(sqrt(1 - a^2)) - arctan identity has discontinuity at zero
+fn acos(a: FixedType) -> FixedType {
+    assert(a.mag <= ONE, 'out of range');
+    let asin_arg = (FixedTrait::new(ONE, false) - a * a).sqrt();
+    let asin_res = asin(asin_arg);
+
+    if (a.sign) {
+        return FixedTrait::new(PI, false) - asin_res;
+    } else {
+        return asin_res;
+    }
+}
+
 /// Subtracts one fixed point number from another.
 ///
 /// # Arguments
@@ -546,7 +561,7 @@ fn acosh(a: FixedType) -> FixedType {
 
 /// Cf: FixedTrait::asinh docstring 
 fn asinh(a: FixedType) -> FixedType {
-    let root = (a*a +FixedTrait::new(ONE, false)).sqrt();
+    let root = (a * a + FixedTrait::new(ONE, false)).sqrt();
     let result = (a + root).ln();
     result
 }

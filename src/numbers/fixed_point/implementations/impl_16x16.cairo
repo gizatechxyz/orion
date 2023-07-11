@@ -96,6 +96,10 @@ impl FP16x16Impl of FixedTrait {
         return math_16x16::asin(self);
     }
 
+    fn acos(self: FixedType) -> FixedType {
+        return math_16x16::acos(self);
+    }
+
     fn sinh(self: FixedType) -> FixedType {
         return math_16x16::sinh(self);
     }

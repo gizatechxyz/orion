@@ -391,6 +391,21 @@ fn asin(a: FixedType) -> FixedType {
     return atan(a / div);
 }
 
+/// Cf: FixedTrait::acos docstring
+// Calculates arccos(a) for -1 <= a <= 1 (fixed point)
+// arccos(a) = arcsin(sqrt(1 - a^2)) - arctan identity has discontinuity at zero
+fn acos(a: FixedType) -> FixedType {
+    assert(a.mag <= ONE, 'out of range');
+    let asin_arg = (FixedTrait::new(ONE, false) - a * a).sqrt();
+    let asin_res = asin(asin_arg);
+
+    if (a.sign) {
+        return FixedTrait::new(PI, false) - asin_res;
+    } else {
+        return asin_res;
+    }
+}
+
 /// Subtracts one fixed point number from another.
 ///
 /// # Arguments
@@ -511,7 +526,7 @@ fn sinh(a: FixedType) -> FixedType {
     let ea = a.exp();
     let num = ea - (FixedTrait::new(ONE, false) / ea);
     let denom = FixedTrait::new_unscaled(2_u128, false);
-    num / denom 
+    num / denom
 }
 
 /// Cf: FixedTrait::tanh docstring 
@@ -519,7 +534,7 @@ fn tanh(a: FixedType) -> FixedType {
     let ea = a.exp();
     let num = ea - (FixedTrait::new(ONE, false) / ea);
     let denom = ea + (FixedTrait::new(ONE, false) / ea);
-    num / denom 
+    num / denom
 }
 
 /// Cf: FixedTrait::cosh docstring 
@@ -527,7 +542,7 @@ fn cosh(a: FixedType) -> FixedType {
     let ea = a.exp();
     let num = ea + (FixedTrait::new(ONE, false) / ea);
     let denom = FixedTrait::new_unscaled(2_u128, false);
-    num / denom 
+    num / denom
 }
 
 /// Cf: FixedTrait::acosh docstring 
@@ -540,7 +555,7 @@ fn acosh(a: FixedType) -> FixedType {
 
 /// Cf: FixedTrait::asinh docstring 
 fn asinh(a: FixedType) -> FixedType {
-    let root = (a*a +FixedTrait::new(ONE, false)).sqrt();
+    let root = (a * a + FixedTrait::new(ONE, false)).sqrt();
     let result = (a + root).ln();
     result
 }

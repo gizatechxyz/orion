@@ -7,6 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased] - 2023-07-04
 
 ### Added
+- Added arccos implementation and tests
+
+## [Unreleased] - 2023-07-04
+
+### Added
 - Added arcsin implementation and tests
   
 ## [Unreleased] - 2023-07-08

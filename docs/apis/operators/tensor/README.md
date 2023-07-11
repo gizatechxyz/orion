@@ -76,7 +76,8 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.cumsum`](tensor.cumsum.md) | Returns the cumulative sum of the elements along a given axis. |
 | [`tensor.sin`](tensor.sin.md) | Computes the sine value of each element in the input tensor. |
 | [`tensor.cos`](tensor.cos.md) | Computes the cosine value of each element in the input tensor. |
-| [`tensor.asin`](tensor.asin.md) | Returns the arcsine (inverse of sine) value of each element in the input tensor. |
+| [`tensor.asin`](tensor.asin.md) | Computes the arcsine (inverse of sine) value of each element in the input tensor. |
+| [`tensor.acos`](tensor.acos.md) | Computes the arccosine (inverse of cosine) value of each element in the input tensor. |
 | [`tensor.flatten`](tensor.flatten.md) | Flattens the input tensor into a 2D tensor. |
 | [`tensor.acosh`](tensor.acosh.md) | Computes the inverse hyperbolic cosine of all elements of the input tensor. |
 | [`tensor.asinh`](tensor.asinh.md) | Computes the inverse hyperbolic sine of all elements of the input tensor. |
