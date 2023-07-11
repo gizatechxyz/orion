@@ -17,7 +17,6 @@ Orion supports currently these `performance` types.
 | ------------------------ | ---------------------- | --------------------------------- |
 | 32-bit integer (signed), | 8-bit integer (signed) | `PerformanceTrait<i32, i8>`       |
 | Fixed point  (signed)    | 8-bit integer (signed) | `PerformanceTrait<FixedType, i8>` |
-| Fixed point  (signed)    | 8-bit integer (signed) | `PerformanceTrait<FixedType, i8>` |
 
 
 | function | description |
