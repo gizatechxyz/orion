@@ -1,7 +1,9 @@
+use core::option::OptionTrait;
+use core::traits::TryInto;
 use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
-
+use orion::numbers::signed_integer::i8::i8;
 
 // ====================== INT 32 ======================
 
@@ -159,6 +161,11 @@ impl i32Neg of Neg<i32> {
     }
 }
 
+impl I32TryIntoI8 of TryInto<i32, i8> {
+    fn try_into(self: i32) -> Option<i8> {
+        i8_try_from_i32(self)
+    }
+}
 
 // Checks if the given i32 integer is zero and has the correct sign.
 // # Arguments
@@ -449,5 +456,12 @@ fn i32_min(a: i32, b: i32) -> i32 {
         return a;
     } else {
         return b;
+    }
+}
+
+fn i8_try_from_i32(x: i32) -> Option<i8> {
+    match x.mag.try_into() {
+        Option::Some(val) => Option::Some(i8 { mag: val, sign: x.sign }),
+        Option::None(_) => Option::None(())
     }
 }

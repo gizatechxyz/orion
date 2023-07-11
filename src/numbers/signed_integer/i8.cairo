@@ -1,7 +1,10 @@
 use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
-
+use orion::numbers::signed_integer::i32::i32;
+use orion::numbers::fixed_point::implementations::impl_8x23::ONE as ONE_fp8x23;
+use orion::numbers::fixed_point::implementations::impl_16x16::ONE as ONE_fp16x16;
+use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
 
 // ====================== INT 8 ======================
 
@@ -159,6 +162,26 @@ impl i8Neg of Neg<i8> {
     }
 }
 
+// Implements the Into trait for i8 to i32.
+impl I8IntoI32 of Into<i8, i32> {
+    fn into(self: i8) -> i32 {
+        i8_to_i32(self)
+    }
+}
+
+// Implements the Into trait for i8 to fp_8x23.
+impl I8IntoFP8x23 of Into<i8, FixedType> {
+    fn into(self: i8) -> FixedType {
+        i8_to_fp8x23(self)
+    }
+}
+
+// Implements the Into trait for i8 to fp_16x16.
+impl I8IntoFP16x16 of Into<i8, FixedType> {
+    fn into(self: i8) -> FixedType {
+        i8_to_fp16x16(self)
+    }
+}
 
 // Checks if the given i8 integer is zero and has the correct sign.
 // # Arguments
@@ -450,4 +473,18 @@ fn i8_min(a: i8, b: i8) -> i8 {
     } else {
         return b;
     }
+}
+
+fn i8_to_i32(x: i8) -> i32 {
+    i32 { mag: x.mag.into(), sign: x.sign }
+}
+
+use debug::PrintTrait;
+
+fn i8_to_fp8x23(x: i8) -> FixedType {
+    FixedType { mag: x.mag.into() * ONE_fp8x23, sign: x.sign }
+}
+
+fn i8_to_fp16x16(x: i8) -> FixedType {
+    FixedType { mag: x.mag.into() * ONE_fp16x16, sign: x.sign }
 }

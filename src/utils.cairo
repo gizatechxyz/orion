@@ -16,25 +16,6 @@ fn u32_max(a: u32, b: u32) -> u32 {
     }
 }
 
-fn fp8x23_to_i32(x: FixedType) -> i32 {
-    let unscaled_mag = x.mag / ONE_8x23;
-    return IntegerTrait::new(unscaled_mag.try_into().unwrap(), x.sign);
-}
-
-fn fp8x23_to_u32(x: FixedType) -> u32 {
-    let unscaled_mag = x.mag / ONE_8x23;
-    return unscaled_mag.try_into().unwrap();
-}
-
-fn fp16x16_to_i32(x: FixedType) -> i32 {
-    let unscaled_mag = x.mag / ONE_16x16;
-    return IntegerTrait::new(unscaled_mag.try_into().unwrap(), x.sign);
-}
-
-fn fp16x16_to_u32(x: FixedType) -> u32 {
-    let unscaled_mag = x.mag / ONE_16x16;
-    return unscaled_mag.try_into().unwrap();
-}
 
 fn saturate<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>, impl PartialOrdT: PartialOrd<T>>(
     min: T, max: T, x: T
