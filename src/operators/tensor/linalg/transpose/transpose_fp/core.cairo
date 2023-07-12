@@ -3,7 +3,7 @@ use orion::operators::tensor::core::Tensor;
 use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
 use orion::operators::tensor::linalg::transpose::transpose_fp::fp8x23;
 use orion::operators::tensor::linalg::transpose::transpose_fp::fp16x16;
-use orion::utils::check_gas;
+
 
 /// Cf: TensorTrait::transpose docstring
 fn transpose(self: @Tensor<FixedType>, axes: Span<usize>) -> Option<Tensor<FixedType>> {

@@ -9,7 +9,7 @@ use orion::numbers::fixed_point::implementations::impl_16x16::{
     FP16x16SubEq, FP16x16Mul, FP16x16MulEq, FP16x16Div, FP16x16DivEq, FP16x16PartialOrd, FP16x16Neg
 };
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-use orion::utils::check_gas;
+
 
 /// Cf: FixedTrait::abs docstring
 fn abs(a: FixedType) -> FixedType {
@@ -27,7 +27,7 @@ fn abs(a: FixedType) -> FixedType {
 ///
 /// * The sum of the input fixed point numbers.
 fn add(a: FixedType, b: FixedType) -> FixedType {
-    check_gas();
+    
     return FixedTrait::from_felt(a.into() + b.into());
 }
 
@@ -54,7 +54,7 @@ fn ceil(a: FixedType) -> FixedType {
 ///
 /// * The result of the division of the input fixed point numbers.
 fn div(a: FixedType, b: FixedType) -> FixedType {
-    check_gas();
+    
     let res_sign = a.sign ^ b.sign;
 
     // Invert b to preserve precision as much as possible
@@ -194,7 +194,7 @@ fn ln(a: FixedType) -> FixedType {
 
 /// Cf: FixedTrait::log2 docstring
 fn log2(a: FixedType) -> FixedType {
-    check_gas();
+    
 
     assert(a.sign == false, 'must be positive');
 
@@ -265,7 +265,7 @@ fn lt(a: FixedType, b: FixedType) -> bool {
 ///
 /// * A FixedType value representing the product of the two input numbers.
 fn mul(a: FixedType, b: FixedType) -> FixedType {
-    check_gas();
+    
 
     let res_sign = a.sign ^ b.sign;
 
@@ -402,7 +402,7 @@ fn asin(a: FixedType) -> FixedType {
 ///
 /// * A fixed point number representing the result of the subtraction.
 fn sub(a: FixedType, b: FixedType) -> FixedType {
-    check_gas();
+    
     return FixedTrait::from_felt(a.into() - b.into());
 }
 
@@ -454,7 +454,7 @@ fn min(a: FixedType, b: FixedType) -> FixedType {
 ///
 /// * A u128 value representing the most significant bit.
 fn _msb(a: u128) -> u128 {
-    check_gas();
+    
 
     if (a <= ONE) {
         return 0_u128;
@@ -476,7 +476,7 @@ fn _msb(a: u128) -> u128 {
 ///
 /// * A fixed point number representing the result of x^y.
 fn _pow_int(a: FixedType, b: u128, sign: bool) -> FixedType {
-    check_gas();
+    
 
     if (sign == true) {
         return FixedTrait::new(ONE, false) / _pow_int(a, b, false);

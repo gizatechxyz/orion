@@ -7,7 +7,7 @@ use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::tensor::implementations::{impl_tensor_i32, impl_tensor_u32};
 use orion::operators::tensor::helpers::replace_index;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
-use orion::utils::check_gas;
+
 
 /// Cf: TensorTrait::cumsum docstring
 fn cumsum_forward<T,
@@ -36,7 +36,7 @@ fn cumsum_forward<T,
     let mut index: usize = 0;
     
     loop {
-        check_gas();
+        
    
         if index == data.len() {
             break ();
@@ -103,7 +103,7 @@ fn cumsum_reverse<T,
     let mut output_data = ArrayTrait::new();
     let mut index: usize = 0;
     loop {
-        check_gas();
+        
    
         if index == data.len() {
             break ();

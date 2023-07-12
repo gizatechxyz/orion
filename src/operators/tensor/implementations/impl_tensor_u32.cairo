@@ -34,7 +34,7 @@ use orion::operators::tensor::math::tanh::tanh_u32::core::tanh_u32;
 use orion::operators::tensor::math::cosh::cosh_u32::core::cosh_u32;
 use orion::operators::tensor::math::acosh::acosh_u32::core::acosh_u32;
 use orion::operators::tensor::math::asinh::asinh_u32::core::asinh_u32;
-use orion::utils::check_gas;
+
 
 use orion::operators::tensor::math::sin::sin_u32::core::sin_u32;
 use orion::operators::tensor::math::cos::cos_u32::core::cos_u32;

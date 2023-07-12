@@ -1,7 +1,7 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::utils::check_gas;
+
 
 /// Cf: TensorTrait::flatten docstring
 fn _flatten<T, impl TTensorTrait: TensorTrait<T>>(
@@ -14,7 +14,7 @@ fn _flatten<T, impl TTensorTrait: TensorTrait<T>>(
     let mut new_shape_first_axis = 1;
     let mut index = 0;
     loop {
-        check_gas();
+        
 
         if index == axis {
             break;
