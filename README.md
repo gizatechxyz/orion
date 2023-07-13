@@ -38,8 +38,9 @@ Ensuring compatibility with ONNX operators facilitates integration into the ONNX
 ## 🌱 Where to start?
 
 You can check our official docs [here](https://orion.gizatech.xyz/welcome/readme).
-
-<table data-view="cards"><thead><tr><th align="center"></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td align="center"></td><td>🧱 <strong>Framework</strong></td><td>The building blocks for Verifiable Machine Learning models.</td><td><a href="https://orion.gizatech.xyz/v/develop/framework/get-started">Framework link</a></td></tr><tr><td align="center"></td><td>🏛 <strong>Hub</strong></td><td>A curated collection of ML models and spaces built by the community using Orion framework.</td><td><a href="https://orion.gizatech.xyz/v/develop/hub/algorithms">Hub</a></td></tr><tr><td align="center"></td><td>🎓 <strong>Academy</strong></td><td>Resources and tutorials for learning how to build ValidityML models using Orion.</td><td><a href="https://orion.gizatech.xyz/v/develop/academy/tutorials">Academy</a></td></tr></tbody></table>
+- 🧱 [Framework](https://orion.gizatech.xyz/v/develop/framework/get-started): The building blocks for Verifiable Machine Learning models.
+- 🏛 [Hub](https://orion.gizatech.xyz/v/develop/hub/algorithms): A curated collection of ML models and spaces built by the community using Orion framework.
+- 🎓 [Academy](https://orion.gizatech.xyz/v/develop/academy/tutorials): Resources and tutorials for learning how to build ValidityML models using Orion.
 
 ## ✨ What's new?
 
