@@ -147,7 +147,7 @@ impl Tensor_u32 of TensorTrait<u32> {
     fn asin(self: @Tensor<u32>) -> Tensor<FixedType> {
         asin_u32(self).unwrap()
     }
-    
+
     fn cumsum(
         self: @Tensor<u32>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
     ) -> Tensor<u32> {
@@ -180,7 +180,7 @@ impl Tensor_u32 of TensorTrait<u32> {
 
     fn atan(self: @Tensor<u32>) -> Tensor<FixedType> {
         atan_u32(self).unwrap()
-    }    
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

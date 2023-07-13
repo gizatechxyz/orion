@@ -28,6 +28,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - Fixed docgen
 
+## [Unreleased] - 2023-07-09
+
+### Added
+- implement TensorSerde
+
 ## [Unreleased] - 2023-07-04
 
 ### Added

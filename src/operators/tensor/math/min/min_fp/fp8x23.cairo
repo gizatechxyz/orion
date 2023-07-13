@@ -11,8 +11,6 @@ fn min_in_tensor(mut vec: Span::<FixedType>) -> FixedType {
     let mut min_value: FixedType = FixedTrait::new(MAX - 1, false);
 
     loop {
-        
-
         let current_value = *vec.pop_front().unwrap();
 
         let check_min = min(min_value, current_value);

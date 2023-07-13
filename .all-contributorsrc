@@ -61,6 +61,24 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "hakymulla",
+      "name": "Kazeem Hakeem",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25408889?v=4",
+      "profile": "https://github.com/hakymulla",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "0xd3bs",
+      "name": "dblanco",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6605280?v=4",
+      "profile": "https://github.com/0xd3bs",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

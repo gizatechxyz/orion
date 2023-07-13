@@ -81,9 +81,7 @@ mod input_1D {
 
             assert((*result.data[0]).into() == 45355, 'result[0] == 45355'); // 0.6931452
             assert((*result.data[1]).into() == 86022, 'result[1] == 86022'); // 1.31326096
-            assert(
-                (*result.data[2]).into() == 139388, 'result[2] == 139388'
-            ); // 2.12689208984375
+            assert((*result.data[2]).into() == 139388, 'result[2] == 139388'); // 2.12689208984375
             assert((*result.data[3]).into() == 199788, 'result[3] == 199788'); // 3.04852294
         }
     }
@@ -176,9 +174,7 @@ mod input_2D {
 
             assert((*result.data[0]).into() == 45355, 'result[0] == 45355'); // 0.6931452
             assert((*result.data[1]).into() == 86022, 'result[1] == 86022'); // 1.31326096
-            assert(
-                (*result.data[2]).into() == 139388, 'result[2] == 139388'
-            ); // 2.12689208984375
+            assert((*result.data[2]).into() == 139388, 'result[2] == 139388'); // 2.12689208984375
             assert((*result.data[3]).into() == 199788, 'result[3] == 199788'); // 3.04852294
         }
     }
@@ -293,15 +289,11 @@ mod input_3D {
 
             assert((*result.data[0]).into() == 45355, 'result[0] == 45355'); // 0.6931452
             assert((*result.data[1]).into() == 86022, 'result[1] == 86022'); // 1.31326096
-            assert(
-                (*result.data[2]).into() == 139388, 'result[2] == 139388'
-            ); // 2.12689208984375
+            assert((*result.data[2]).into() == 139388, 'result[2] == 139388'); // 2.12689208984375
             assert((*result.data[3]).into() == 199788, 'result[3] == 199788'); // 3.04852294
             assert((*result.data[4]).into() == 45355, 'result[4] == 45355'); // 0.6931452
             assert((*result.data[5]).into() == 86022, 'result[5] == 86022'); // 1.31326096
-            assert(
-                (*result.data[6]).into() == 139388, 'result[6] == 139388'
-            ); // 2.12689208984375
+            assert((*result.data[6]).into() == 139388, 'result[6] == 139388'); // 2.12689208984375
             assert((*result.data[7]).into() == 199788, 'result[7] == 199788'); // 3.04852294
         }
     }

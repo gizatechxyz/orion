@@ -4,12 +4,8 @@ use orion::operators::tensor::math::cumsum::helpers::{cumsum_forward, cumsum_rev
 
 /// Cf: TensorTrait::cumsum docstring
 fn cumsum(
-    self: @Tensor<u32>, 
-    axis: usize,
-    exclusive: Option<bool>, 
-    reverse: Option<bool>, 
- ) -> Tensor<u32> {
-
+    self: @Tensor<u32>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>, 
+) -> Tensor<u32> {
     let reverse = match reverse {
         Option::Some(val) => val,
         Option::None(_) => false

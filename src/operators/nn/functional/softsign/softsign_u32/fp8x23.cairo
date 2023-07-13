@@ -15,7 +15,6 @@ fn softsign(z: @Tensor<u32>) -> Tensor<FixedType> {
     let mut data = *z.data;
     let fp_one = FixedTrait::new(1, false);
     loop {
-        
         if data.len() == 0 {
             break ();
         };

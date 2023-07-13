@@ -14,8 +14,6 @@ fn cos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
     let mut data = *self.data;
 
     loop {
-        
-
         let ele = *data.pop_front().unwrap();
         result.append(FixedTrait::cos(ele));
 

@@ -22,8 +22,6 @@ fn equal(y: @Tensor<u32>, z: @Tensor<u32>) -> Tensor<usize> {
     let mut smaller_index = 0;
 
     loop {
-        
-
         if bigger_data.len() == 0 {
             break ();
         };

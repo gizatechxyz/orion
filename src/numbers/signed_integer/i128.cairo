@@ -8,7 +8,7 @@ use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 // i128 represents a 128-bit integer.
 // The mag field holds the absolute value of the integer.
 // The sign field is true for negative integers, and false for non-negative integers.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct i128 {
     mag: u128,
     sign: bool,
@@ -322,7 +322,6 @@ fn i128_rem(a: i128, b: i128) -> i128 {
 
 /// Cf: IntegerTrait::div_rem docstring
 fn i128_div_rem(a: i128, b: i128) -> (i128, i128) {
-    
     let quotient = i128_div(a, b);
     let remainder = i128_rem(a, b);
 

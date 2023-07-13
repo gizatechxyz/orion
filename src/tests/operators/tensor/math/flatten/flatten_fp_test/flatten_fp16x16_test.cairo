@@ -2,7 +2,6 @@
 
 #[cfg(test)]
 mod tensor_1D {
-
     use core::traits::Into;
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_1x3_helper;
@@ -16,7 +15,6 @@ mod tensor_1D {
         assert((*result.shape[0]).into() == 1, 'result[0] = 1');
         assert((*result.shape[1]).into() == 3, 'result[1] = 3');
     }
-
 }
 
 
@@ -24,7 +22,6 @@ mod tensor_1D {
 
 #[cfg(test)]
 mod tensor_2D {
-    
     use core::traits::Into;
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_2x2_helper;
@@ -47,8 +44,6 @@ mod tensor_2D {
         assert((*result.shape[0]).into() == 2, 'result[0] = 2');
         assert((*result.shape[1]).into() == 2, 'result[1] = 2');
     }
-
-
 }
 
 
@@ -56,7 +51,6 @@ mod tensor_2D {
 
 #[cfg(test)]
 mod tensor_3D {
-        
     use core::traits::Into;
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_2x2x2_helper;
@@ -88,5 +82,4 @@ mod tensor_3D {
         assert((*result.shape[0]).into() == 4, 'result[0] = 4');
         assert((*result.shape[1]).into() == 2, 'result[1] = 2');
     }
-
 }

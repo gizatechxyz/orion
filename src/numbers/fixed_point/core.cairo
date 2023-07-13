@@ -1,12 +1,12 @@
 /// A struct representing a fixed point number.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct FixedType {
     mag: u128,
     sign: bool
 }
 
 /// A struct listing fixed point implementations.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 enum FixedImpl {
     FP8x23: (),
     FP16x16: ()
@@ -760,5 +760,5 @@ trait FixedTrait {
     /// >>> {mag: 102943, sign: true} // = 1.5707...
     /// ``` 
     ///
-    fn asin(self: FixedType) -> FixedType;   
+    fn asin(self: FixedType) -> FixedType;
 }

@@ -28,7 +28,6 @@ mod tensor_1D {
         assert((*result.at(0).mag).into() == 0, 'result[0] = 1');
         assert((*result.at(1).mag).into() == 86255, 'result[1] = 1.31696...');
         assert((*result.at(2).mag).into() == 115516, 'result[2] = 1.76275...');
-
     }
 }
 

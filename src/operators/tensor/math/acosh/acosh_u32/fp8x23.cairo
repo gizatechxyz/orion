@@ -16,8 +16,6 @@ fn acosh(self: @Tensor<u32>) -> Tensor<FixedType> {
     let mut data = *self.data;
 
     loop {
-        
-
         let ele = FixedTrait::from_unscaled_felt((*data.pop_front().unwrap()).into());
 
         result.append(FixedTrait::acosh(ele));

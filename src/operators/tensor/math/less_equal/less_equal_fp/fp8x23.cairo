@@ -14,9 +14,9 @@ fn less_equal(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> {
     check_compatibility(*y.shape, *z.shape);
 
     let mut data_result = ArrayTrait::<usize>::new();
-    let (mut smaller, mut bigger, retains_input_order) = if (*y.data).len() < (*z.data).len() { 
-        (y, z, true) 
-    } else { 
+    let (mut smaller, mut bigger, retains_input_order) = if (*y.data).len() < (*z.data).len() {
+        (y, z, true)
+    } else {
         (z, y, false)
     };
 
@@ -25,8 +25,6 @@ fn less_equal(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> {
     let mut smaller_index = 0;
 
     loop {
-        
-
         if bigger_data.len() == 0 {
             break ();
         };
