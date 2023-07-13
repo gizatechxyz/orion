@@ -19,11 +19,11 @@ A fixed point number representing the rounded value.
 
 ```rust
 fn round_fp_example() -> FixedType {
-// We instantiate FixedTrait points here.
-let a = FixedTrait::from_felt(194615506); // 2.9
-
-// We can call `round` function as follows.
-a.round(b)
+    // We instantiate FixedTrait points here.
+    let a = FixedTrait::from_felt(194615506); // 2.9
+    
+    // We can call `round` function as follows.
+    a.round(b)
 }
 >>> {mag: 201326592, sign: false} // = 3
 ```

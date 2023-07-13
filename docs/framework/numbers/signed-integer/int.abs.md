@@ -1,4 +1,4 @@
-# int.abs
+# int.abs 
 
 ```rust
 fn abs(self: T) -> T;
@@ -18,11 +18,11 @@ A signed integer `<T>`, representing the absolute value of `self` .
 
 ```rust
 fn abs_example() -> i32 {
-// We instantiate signed integers here.
-let int = IntegerTrait::<i32>::new(42, true);
-
-// We can call `abs` function as follows.
-a.abs()
+    // We instantiate signed integers here.
+    let int = IntegerTrait::<i32>::new(42, true);
+    
+    // We can call `abs` function as follows.
+    a.abs()
 }
 >>> {mag: 42, sign: false} // = 42
 ```

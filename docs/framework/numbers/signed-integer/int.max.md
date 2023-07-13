@@ -19,12 +19,12 @@ A signed integer `<T>`, The maximum between `self` and `other`.
 
 ```rust
 fn max_example() -> i32 {
-// We instantiate signed integer here.
-let a = IntegerTrait::<i32>::new(42, true);
-let b = IntegerTrait::<i32>::new(13, false);
-
-// We can call `max` function as follows.
-a.max(b)
+    // We instantiate signed integer here.
+    let a = IntegerTrait::<i32>::new(42, true);
+    let b = IntegerTrait::<i32>::new(13, false);
+    
+    // We can call `max` function as follows.
+    a.max(b)
 }
 >>> {mag: 13, sign: false} // as 13 > -42
 ```

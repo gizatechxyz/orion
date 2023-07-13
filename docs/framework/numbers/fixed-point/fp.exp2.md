@@ -18,11 +18,11 @@ The binary exponent of the input fixed point number.
 
 ```rust
 fn exp2_fp_example() -> FixedType {
-// We instantiate fixed point here.
-let fp = FixedTrait::from_unscaled_felt(2);
-
-// We can call `exp2` function as follows.
-fp.exp2()
+    // We instantiate fixed point here.
+    let fp = FixedTrait::from_unscaled_felt(2);
+    
+    // We can call `exp2` function as follows.
+    fp.exp2()
 }
 >>> {mag: 268435456, sign: false} // = 3.99999957248
-```
+``` 

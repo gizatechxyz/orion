@@ -16,8 +16,8 @@ Creates a new fixed point instance from an unscaled felt252 value.
 
 ```rust
 fn from_unscaled_felt_example() -> FixedType {
-// We can call `from_unscaled_felt` function as follows .
-FixedTrait::from_unscaled_felt(1);
+   // We can call `from_unscaled_felt` function as follows . 
+   FixedTrait::from_unscaled_felt(1);
 }
 >>> {mag: 67108864, sign: false}
 ```
