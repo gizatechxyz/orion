@@ -27,6 +27,8 @@ fn reduce_sum(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
         let output_data_len = len_from_shape(output_shape);
         let mut index: usize = 0;
         loop {
+           
+
             let output_indices = unravel_index(index, output_shape);
             let current_sum = accumulate_sum(*self.data, *self.shape, output_indices, axis);
 
@@ -71,6 +73,8 @@ fn accumulate_sum(
 
     if (input_shape).len() > 1 {
         loop {
+           
+
             if axis_index == axis_len {
                 break ();
             }
@@ -83,6 +87,8 @@ fn accumulate_sum(
         };
     } else {
         loop {
+           
+
             if input_data.len() == 0 {
                 break ();
             }

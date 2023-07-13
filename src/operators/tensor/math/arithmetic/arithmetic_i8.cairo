@@ -30,6 +30,8 @@ fn add(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
 
     let mut n: usize = 0;
     loop {
+       
+
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -68,6 +70,8 @@ fn saturated_add(self: @Tensor<i8>, other: @Tensor<i8>, min: i8, max: i8) -> Ten
 
     let mut n: usize = 0;
     loop {
+       
+
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -107,6 +111,8 @@ fn sub(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
 
     let mut n: usize = 0;
     loop {
+       
+
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -145,6 +151,8 @@ fn saturated_sub(self: @Tensor<i8>, other: @Tensor<i8>, min: i8, max: i8) -> Ten
 
     let mut n: usize = 0;
     loop {
+       
+
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -184,6 +192,8 @@ fn mul(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
 
     let mut n: usize = 0;
     loop {
+       
+
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -222,6 +232,8 @@ fn saturated_mul(self: @Tensor<i8>, other: @Tensor<i8>, min: i8, max: i8) -> Ten
 
     let mut n: usize = 0;
     loop {
+       
+
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -261,6 +273,8 @@ fn div(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
 
     let mut n: usize = 0;
     loop {
+       
+
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -299,6 +313,8 @@ fn saturated_div(self: @Tensor<i8>, other: @Tensor<i8>, min: i8, max: i8) -> Ten
 
     let mut n: usize = 0;
     loop {
+       
+
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);

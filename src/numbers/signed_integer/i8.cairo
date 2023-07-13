@@ -12,7 +12,7 @@ use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
 // i8 represents a 8-bit integer.
 // The mag field holds the absolute value of the integer.
 // The sign field is true for negative integers, and false for non-negative integers.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct i8 {
     mag: u8,
     sign: bool,

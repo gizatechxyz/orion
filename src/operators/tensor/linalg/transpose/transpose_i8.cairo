@@ -21,6 +21,8 @@ fn transpose(self: @Tensor<i8>, axes: Span<usize>) -> Tensor<i8> {
 
     let mut output_index: usize = 0;
     loop {
+       
+
         if output_index == output_data_len {
             break ();
         }
@@ -30,6 +32,7 @@ fn transpose(self: @Tensor<i8>, axes: Span<usize>) -> Tensor<i8> {
 
         let mut output_axis: usize = 0;
         loop {
+           
             if output_axis == axes.len() {
                 break ();
             }

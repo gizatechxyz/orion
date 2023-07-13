@@ -37,6 +37,8 @@ fn argmax(
 
     let mut index: usize = 0;
     loop {
+       
+
         let output_indices = unravel_index(index, output_shape);
         let current_argmax = find_argmax(self, output_indices, axis, 0, MIN, 0, select_last_index);
 

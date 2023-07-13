@@ -8,7 +8,7 @@ use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 // i16 represents a 16-bit integer.
 // The mag field holds the absolute value of the integer.
 // The sign field is true for negative integers, and false for non-negative integers.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct i16 {
     mag: u16,
     sign: bool,

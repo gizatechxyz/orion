@@ -1,5 +1,5 @@
-use array::ArrayTrait;
-use array::SpanTrait;
+use array::{ArrayTrait, SpanTrait};
+use serde::Serde;
 use option::OptionTrait;
 
 
@@ -13,9 +13,26 @@ struct Tensor<T> {
     extra: Option<ExtraParams>
 }
 
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct ExtraParams {
     fixed_point: Option<FixedImpl>
+}
+
+//Implement TensorSerde
+impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<T>> {
+    fn serialize(self: @Tensor<T>, ref output: Array<felt252>) {
+        self.shape.serialize(ref output);
+        self.data.serialize(ref output);
+        self.extra.serialize(ref output);
+    }
+
+    fn deserialize(ref serialized: Span<felt252>) -> Option<Tensor<T>> {
+        let shape: Span<usize> = Serde::<Span<usize>>::deserialize(ref serialized)?;
+        let data: Span<T> = Serde::<Span<T>>::deserialize(ref serialized)?;
+        let extra: Option<ExtraParams> = Serde::<Option<ExtraParams>>::deserialize(ref serialized)?;
+
+        Option::Some(Tensor { shape, data, extra })
+    }
 }
 
 /// Trait
