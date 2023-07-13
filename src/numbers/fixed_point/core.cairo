@@ -1,12 +1,12 @@
 /// A struct representing a fixed point number.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct FixedType {
     mag: u128,
     sign: bool
 }
 
 /// A struct listing fixed point implementations.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 enum FixedImpl {
     FP8x23: (),
     FP16x16: ()
@@ -29,6 +29,16 @@ enum FixedImpl {
 /// pow - Returns the result of raising the fixed point number to the power of another fixed point number
 /// round - Rounds the fixed point number to the nearest whole number.
 /// sqrt - Returns the square root of the fixed point number.
+/// sin - Returns the sine of the fixed point number.
+/// cos - Returns the cosine of the fixed point number.
+/// asin - Returns the arcsine (inverse of sine) of the fixed point number.
+/// sinh - Returns the value of the hyperbolic sine of the fixed point number.
+/// tanh - Returns the value of the hyperbolic tangent of the fixed point number.
+/// cosh - Returns the value of the hyperbolic cosine of the fixed point number.
+/// acosh - Returns the value of the inverse hyperbolic cosine of the fixed point number.
+/// asinh - Returns the inverse hyperbolic sine of the input fixed point number.
+/// atan - Returns the arctangent (inverse of tangent) of the input fixed point number.
+/// 
 trait FixedTrait {
     /// # FixedTrait::new
     /// 
@@ -481,4 +491,274 @@ trait FixedTrait {
     /// ```
     ///
     fn sqrt(self: FixedType) -> FixedType;
+    /// # fp.cos
+    /// 
+    /// ```rust
+    /// fn cos(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the cosine of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// A fixed point number representing the cosine of the input value.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn cos_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(2);
+    ///     
+    ///     // We can call `cos` function as follows.
+    ///     fp.cos()
+    /// }
+    /// >>> {mag: 27273, sign: true} // = -0.4161..
+    /// ``` 
+    ///
+    fn cos(self: FixedType) -> FixedType;
+    /// # fp.sin
+    /// 
+    /// ```rust
+    /// fn sin(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the sine of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// A fixed point number representing the sin  of the input value.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn sin_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(2);
+    ///     
+    ///     // We can call `sin` function as follows.
+    ///     fp.sin()
+    /// }
+    /// >>> {mag: 59592, sign: false} // = 0.909..
+    /// ``` 
+    ///
+    fn sin(self: FixedType) -> FixedType;
+    /// # fp.sinh
+    /// 
+    /// ```rust
+    /// fn sinh(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the value of the hyperbolic sine of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// The hyperbolic sine of the input fixed point number.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn sinh_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(2);
+    ///     
+    ///     // We can call `sinh` function as follows.
+    ///     fp.sinh()
+    /// }
+    /// >>> {mag: 30424311, sign: false} // = 3.6268604
+    /// ``` 
+    ///
+    fn sinh(self: FixedType) -> FixedType;
+    /// # fp.tanh
+    /// 
+    /// ```rust
+    /// fn tanh(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the value of the hyperbolic tangent of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// The hyperbolic tangent of the input fixed point number.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn tanh_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(2);
+    ///     
+    ///     // We can call `tanh` function as follows.
+    ///     fp.tanh()
+    /// }
+    /// >>> {mag: 8086850, sign: false} // = 0.964027...
+    /// ``` 
+    ///
+    fn tanh(self: FixedType) -> FixedType;
+    /// # fp.cosh
+    /// 
+    /// ```rust
+    /// fn cosh(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the value of the hyperbolic cosine of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// The hyperbolic cosine of the input fixed point number.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn cosh_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(2);
+    ///     
+    ///     // We can call `cosh` function as follows.
+    ///     fp.cosh()
+    /// }
+    /// >>> {mag: 31559585, sign: false} // = 3.762195...
+    /// ``` 
+    ///
+    fn cosh(self: FixedType) -> FixedType;
+    /// # fp.asinh
+    /// 
+    /// ```rust
+    /// fn asinh(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the inverse hyperbolic sine of the input fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// The inverse hyperbolic sine of the input fixed point number.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn asinh_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(2);
+    ///     
+    ///     // We can call `asinh` function as follows.
+    ///     fp.asinh()
+    /// }
+    /// >>> {mag: 12110093, sign: false} // = 1.443635...
+    /// ``` 
+    ///
+    fn asinh(self: FixedType) -> FixedType;
+    /// # fp.acosh
+    /// 
+    /// ```rust
+    /// fn acosh(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the value of the inverse hyperbolic cosine of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// The inverse hyperbolic cosine of the input fixed point number.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn acosh_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(2);
+    ///     
+    ///     // We can call `acosh` function as follows.
+    ///     fp.acosh()
+    /// }
+    /// >>> {mag: 11047444, sign: false} // = 1.31696...
+    /// ``` 
+    ///
+    fn acosh(self: FixedType) -> FixedType;
+    /// # fp.atan
+    /// 
+    /// ```rust
+    /// fn atan(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the arctangent (inverse of tangent) of the input fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// A fixed point number representing the arctangent (inverse of tangent) of the input value.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn atan_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(2);
+    ///     
+    ///     // We can call `atan` function as follows.
+    ///     fp.atan()
+    /// }
+    /// >>> {mag: 72558, sign: false} // = 1.1071...
+    /// ``` 
+    ///    
+    fn atan(self: FixedType) -> FixedType;
+    /// # fp.asin
+    /// 
+    /// ```rust
+    /// fn asin(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the  arcsine (inverse of sine) of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// A fixed point number representing the asin  of the input value.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn asin_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(1);
+    ///     
+    ///     // We can call `asin` function as follows.
+    ///     fp.asin()
+    /// }
+    /// >>> {mag: 102943, sign: true} // = 1.5707...
+    /// ``` 
+    ///
+    fn asin(self: FixedType) -> FixedType;
 }

@@ -1,12 +1,17 @@
+use core::option::OptionTrait;
 use array::ArrayTrait;
 use array::SpanTrait;
+use core::traits::TryInto;
 
 use orion::operators::tensor::helpers::broadcast_shape;
-
+use orion::numbers::signed_integer::{i32::i32, i8::i8};
 use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index, };
 use orion::operators::tensor::helpers::{broadcast_index_mapping, len_from_shape, };
-use orion::operators::tensor::implementations::impl_tensor_u32;
-use orion::utils::check_gas;
+use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
+use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
+
+use orion::utils::saturate;
+
 
 /// Adds two `Tensor<u32>` instances element-wise with broadcasting.
 ///
@@ -28,14 +33,12 @@ fn add(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
         let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
 
-        result.append(*(*self.data).at(indices_self) + *(*other.data).at(indices_other));
+        result.append(*(*self.data)[indices_self] + *(*other.data)[indices_other]);
 
         n += 1;
         if n == num_elements {
@@ -66,14 +69,12 @@ fn sub(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
         let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
 
-        result.append(*(*self.data).at(indices_self) - *(*other.data).at(indices_other));
+        result.append(*(*self.data)[indices_self] - *(*other.data)[indices_other]);
 
         n += 1;
         if n == num_elements {
@@ -104,14 +105,12 @@ fn mul(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
         let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
 
-        result.append(*(*self.data).at(indices_self) * *(*other.data).at(indices_other));
+        result.append(*(*self.data)[indices_self] * *(*other.data)[indices_other]);
 
         n += 1;
         if n == num_elements {
@@ -142,14 +141,12 @@ fn div(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
         let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
 
-        result.append(*(*self.data).at(indices_self) / *(*other.data).at(indices_other));
+        result.append(*(*self.data)[indices_self] / *(*other.data)[indices_other]);
 
         n += 1;
         if n == num_elements {

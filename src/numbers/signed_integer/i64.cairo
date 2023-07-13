@@ -1,14 +1,14 @@
 use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
-use orion::utils::check_gas;
+
 
 // ====================== INT 64 ======================
 
 // i64 represents a 64-bit integer.
 // The mag field holds the absolute value of the integer.
 // The sign field is true for negative integers, and false for non-negative integers.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct i64 {
     mag: u64,
     sign: bool,
@@ -126,12 +126,12 @@ impl i64RemEq of RemEq<i64> {
 
 // Implements the PartialEq trait for i64.
 impl i64PartialEq of PartialEq<i64> {
-    fn eq(lhs: i64, rhs: i64) -> bool {
-        i64_eq(lhs, rhs)
+    fn eq(lhs: @i64, rhs: @i64) -> bool {
+        i64_eq(*lhs, *rhs)
     }
 
-    fn ne(lhs: i64, rhs: i64) -> bool {
-        i64_ne(lhs, rhs)
+    fn ne(lhs: @i64, rhs: @i64) -> bool {
+        i64_ne(*lhs, *rhs)
     }
 }
 
@@ -322,7 +322,6 @@ fn i64_rem(a: i64, b: i64) -> i64 {
 
 /// Cf: IntegerTrait::div_rem docstring
 fn i64_div_rem(a: i64, b: i64) -> (i64, i64) {
-    check_gas();
     let quotient = i64_div(a, b);
     let remainder = i64_rem(a, b);
 
@@ -337,7 +336,7 @@ fn i64_div_rem(a: i64, b: i64) -> (i64, i64) {
 // * `bool` - `true` if the two integers are equal, `false` otherwise.
 fn i64_eq(a: i64, b: i64) -> bool {
     // Check if the two integers have the same sign and the same absolute value.
-    if a.sign == b.sign & a.mag == b.mag {
+    if a.sign == b.sign && a.mag == b.mag {
         return true;
     }
 
@@ -388,7 +387,7 @@ fn i64_lt(a: i64, b: i64) -> bool {
     if (a.sign != b.sign) {
         return a.sign;
     } else {
-        return (a.mag != b.mag) & ((a.mag < b.mag) ^ a.sign);
+        return a.mag != b.mag && (a.mag < b.mag) ^ a.sign;
     }
 }
 
@@ -399,7 +398,7 @@ fn i64_lt(a: i64, b: i64) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is less than or equal to `b`, `false` otherwise.
 fn i64_le(a: i64, b: i64) -> bool {
-    if (a == b | i64_lt(a, b) == true) {
+    if (a == b || i64_lt(a, b) == true) {
         return true;
     } else {
         return false;
@@ -413,7 +412,7 @@ fn i64_le(a: i64, b: i64) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is greater than or equal to `b`, `false` otherwise.
 fn i64_ge(a: i64, b: i64) -> bool {
-    if (a == b | i64_gt(a, b) == true) {
+    if (a == b || i64_gt(a, b) == true) {
         return true;
     } else {
         return false;

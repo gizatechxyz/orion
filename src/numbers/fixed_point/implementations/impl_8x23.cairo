@@ -1,9 +1,10 @@
 use option::OptionTrait;
 use debug::PrintTrait;
-use traits::Into;
+use traits::{Into, TryInto};
 
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::numbers::fixed_point::math::math_8x23;
+use orion::numbers::signed_integer::{i32::i32, i8::i8};
 
 const PRIME: felt252 = 3618502788666131213697322783095070105623107215331596699973092056135872020480;
 const HALF_PRIME: felt252 =
@@ -13,6 +14,8 @@ const ONE_u64: u64 = 8388608; // 2 ** 23
 const HALF: u128 = 4194304; // 2 ** 22
 const MAX: u128 = 2147483647; // 2 ** 31 - 1
 const MIN_MAG: u128 = 2147483648; // 2 ** 31 
+const PI: u128 = 26353589_u128;
+const HALF_PI: u128 = 13176794_u128;
 
 /// IMPLS
 
@@ -81,6 +84,42 @@ impl FP8x23Impl of FixedTrait {
     fn sqrt(self: FixedType) -> FixedType {
         return math_8x23::sqrt(self);
     }
+
+    fn sin(self: FixedType) -> FixedType {
+        return math_8x23::sin(self);
+    }
+
+    fn cos(self: FixedType) -> FixedType {
+        return math_8x23::cos(self);
+    }
+
+    fn asin(self: FixedType) -> FixedType {
+        return math_8x23::asin(self);
+    }
+
+    fn sinh(self: FixedType) -> FixedType {
+        return math_8x23::sinh(self);
+    }
+
+    fn tanh(self: FixedType) -> FixedType {
+        return math_8x23::tanh(self);
+    }
+
+    fn cosh(self: FixedType) -> FixedType {
+        return math_8x23::cosh(self);
+    }
+
+    fn acosh(self: FixedType) -> FixedType {
+        return math_8x23::acosh(self);
+    }
+
+    fn asinh(self: FixedType) -> FixedType {
+        return math_8x23::asinh(self);
+    }
+
+    fn atan(self: FixedType) -> FixedType {
+        return math_8x23::atan(self);
+    }
 }
 
 impl FP8x23Print of PrintTrait<FixedType> {
@@ -104,13 +143,13 @@ impl FP8x23Into of Into<FixedType, felt252> {
 
 impl FP8x23PartialEq of PartialEq<FixedType> {
     #[inline(always)]
-    fn eq(lhs: FixedType, rhs: FixedType) -> bool {
-        return math_8x23::eq(lhs, rhs);
+    fn eq(lhs: @FixedType, rhs: @FixedType) -> bool {
+        return math_8x23::eq(*lhs, *rhs);
     }
 
     #[inline(always)]
-    fn ne(lhs: FixedType, rhs: FixedType) -> bool {
-        return math_8x23::ne(lhs, rhs);
+    fn ne(lhs: @FixedType, rhs: @FixedType) -> bool {
+        return math_8x23::ne(*lhs, *rhs);
     }
 }
 
@@ -195,6 +234,24 @@ impl FP8x23Neg of Neg<FixedType> {
     }
 }
 
+impl FP8x23TryIntoI32 of TryInto<FixedType, i32> {
+    fn try_into(self: FixedType) -> Option<i32> {
+        _i32_try_from_fp(self)
+    }
+}
+
+impl FP8x23TryIntoI8 of TryInto<FixedType, i8> {
+    fn try_into(self: FixedType) -> Option<i8> {
+        _i8_try_from_fp(self)
+    }
+}
+
+impl FP8x23TryIntoU32 of TryInto<FixedType, u32> {
+    fn try_into(self: FixedType) -> Option<u32> {
+        _u32_try_from_fp(self)
+    }
+}
+
 /// INTERNAL
 
 fn _felt_sign(a: felt252) -> bool {
@@ -210,3 +267,31 @@ fn _felt_abs(a: felt252) -> felt252 {
         return a;
     }
 }
+
+fn _i32_try_from_fp(x: FixedType) -> Option<i32> {
+    let unscaled_mag: Option<u32> = (x.mag / ONE).try_into();
+
+    match unscaled_mag {
+        Option::Some(val) => Option::Some(i32 { mag: unscaled_mag.unwrap(), sign: x.sign }),
+        Option::None(_) => Option::None(())
+    }
+}
+
+fn _u32_try_from_fp(x: FixedType) -> Option<u32> {
+    let unscaled: Option<u32> = (x.mag / ONE).try_into();
+
+    match unscaled {
+        Option::Some(val) => Option::Some(unscaled.unwrap()),
+        Option::None(_) => Option::None(())
+    }
+}
+
+fn _i8_try_from_fp(x: FixedType) -> Option<i8> {
+    let unscaled_mag: Option<u8> = (x.mag / ONE).try_into();
+
+    match unscaled_mag {
+        Option::Some(val) => Option::Some(i8 { mag: unscaled_mag.unwrap(), sign: x.sign }),
+        Option::None(_) => Option::None(())
+    }
+}
+

@@ -6,10 +6,10 @@ use traits::Into;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::signed_integer::i32::i32;
-use orion::operators::tensor::implementations::impl_tensor_fp;
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 
-use orion::numbers::fixed_point::implementations::impl_16x16;
-use orion::utils::check_gas;
+use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
+
 
 /// Cf: TensorTrait::ln docstring
 fn ln(self: @Tensor<u32>) -> Tensor<FixedType> {
@@ -17,8 +17,6 @@ fn ln(self: @Tensor<u32>) -> Tensor<FixedType> {
     let mut data = *self.data;
 
     loop {
-        check_gas();
-
         let ele = FixedTrait::from_unscaled_felt((*data.pop_front().unwrap()).into());
 
         result.append(FixedTrait::ln(ele));

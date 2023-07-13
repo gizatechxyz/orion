@@ -1,8 +1,8 @@
-use array::ArrayTrait;
-use array::SpanTrait;
+use array::{ArrayTrait, SpanTrait};
+use serde::Serde;
 use option::OptionTrait;
 
-use orion::utils::check_gas;
+
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
 use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
 
@@ -13,9 +13,26 @@ struct Tensor<T> {
     extra: Option<ExtraParams>
 }
 
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct ExtraParams {
     fixed_point: Option<FixedImpl>
+}
+
+//Implement TensorSerde
+impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<T>> {
+    fn serialize(self: @Tensor<T>, ref output: Array<felt252>) {
+        self.shape.serialize(ref output);
+        self.data.serialize(ref output);
+        self.extra.serialize(ref output);
+    }
+
+    fn deserialize(ref serialized: Span<felt252>) -> Option<Tensor<T>> {
+        let shape: Span<usize> = Serde::<Span<usize>>::deserialize(ref serialized)?;
+        let data: Span<T> = Serde::<Span<T>>::deserialize(ref serialized)?;
+        let extra: Option<ExtraParams> = Serde::<Option<ExtraParams>>::deserialize(ref serialized)?;
+
+        Option::Some(Tensor { shape, data, extra })
+    }
 }
 
 /// Trait
@@ -42,6 +59,18 @@ struct ExtraParams {
 /// less_equal - Check if each element of the first tensor is less than or equal to the corresponding element of the second tensor.
 /// abs - Computes the absolute value of all elements in the input tensor.
 /// ceil - Rounds up the value of each element in the input tensor.
+/// cumsum - Returns the cumulative sum of the elements along a given axis.
+/// sin - Computes the sine value of each element in the input tensor.
+/// cos - Computes the cosine value of each element in the input tensor.
+/// asin - Returns the arcsine (inverse of sine) value of each element in the input tensor.
+/// flatten - Flattens the input tensor into a 2D tensor.
+/// acosh - Computes the inverse hyperbolic cosine of all elements of the input tensor.
+/// asinh - Computes the inverse hyperbolic sine of all elements of the input tensor.
+/// cosh - Computes the hyperbolic cosine of all elements of the input tensor.
+/// tanh - Computes the hyperbolic tangent of all elements of the input tensor.
+/// sinh - Computes the hyperbolic sine of all elements of the input tensor.
+/// atan - Computes the arctangent (inverse of tangent) of the input tensor.
+/// 
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -76,9 +105,9 @@ trait TensorTrait<T> {
     ///     shape.append(3);
     /// 		
     ///     let mut data = ArrayTrait::new();
-    ///     data.append(0_u32);
-    ///     data.append(1_u32);
-    ///     data.append(2_u32);
+    ///     data.append(0);
+    ///     data.append(1);
+    ///     data.append(2);
     ///
     ///     let extra = Option::<ExtraParams>::None(());
     /// 		
@@ -94,10 +123,10 @@ trait TensorTrait<T> {
     ///     shape.append(2);
     /// 
     ///     let mut data = ArrayTrait::new();
-    ///     data.append(0_u32);
-    ///     data.append(1_u32);
-    ///     data.append(2_u32);
-    ///     data.append(3_u32);
+    ///     data.append(0);
+    ///     data.append(1);
+    ///     data.append(2);
+    ///     data.append(3);
     /// 
     ///     let extra = Option::<ExtraParams>::None(());
     ///
@@ -114,14 +143,14 @@ trait TensorTrait<T> {
     ///     shape.append(2);
     /// 
     ///     let mut data = ArrayTrait::new();
-    ///     data.append(0_u32);
-    ///     data.append(1_u32);
-    ///     data.append(2_u32);
-    ///     data.append(3_u32);
-    ///     data.append(4_u32);
-    ///     data.append(5_u32);
-    ///     data.append(6_u32);
-    ///     data.append(7_u32);
+    ///     data.append(0);
+    ///     data.append(1);
+    ///     data.append(2);
+    ///     data.append(3);
+    ///     data.append(4);
+    ///     data.append(5);
+    ///     data.append(6);
+    ///     data.append(7);
     ///
     ///     let extra = Option::<ExtraParams>::None(());
     ///
@@ -535,7 +564,9 @@ trait TensorTrait<T> {
     /// >>> [[[1,1],[1,1]]]
     /// ```
     ///
-    fn argmax(self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize>;
+    fn argmax(
+        self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize>;
     /// # tensor.argmin
     ///
     /// ```rust 
@@ -603,7 +634,9 @@ trait TensorTrait<T> {
     /// >>> [[[0,0],[1,1]]]
     /// ```
     ///
-    fn argmin(self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize>;
+    fn argmin(
+        self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize>;
     /// # tensor.matmul
     ///
     /// ```rust 
@@ -746,10 +779,10 @@ trait TensorTrait<T> {
     ///     sizes.append(4);
     /// 
     ///     let mut data = ArrayTrait::new();
-    ///     data.append(IntegerTrait::new(1_u32, false));
-    ///     data.append(IntegerTrait::new(2_u32, false));
-    ///     data.append(IntegerTrait::new(3_u32, false));
-    ///     data.append(IntegerTrait::new(100_u32, false));
+    ///     data.append(IntegerTrait::new(1, false));
+    ///     data.append(IntegerTrait::new(2, false));
+    ///     data.append(IntegerTrait::new(3, false));
+    ///     data.append(IntegerTrait::new(100, false));
     ///     let extra = Option::<ExtraParams>::None(());
     ///     let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra)
     /// 		
@@ -1116,6 +1149,460 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn ceil(self: @Tensor<T>) -> Tensor<T>;
+    /// #tensor.sin
+    ///
+    /// ```rust
+    ///     fn sin(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the sine of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the sine value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn sin_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // tensor = [[0, 1, 2,]]
+    ///     let tensor = fp8x23_tensor_1x3_helper();
+    ///     let result = tensor.sin();
+    ///     return result;
+    /// }
+    /// >>> [0,7058770,7627740]
+    /// // The fixed point representation of
+    /// // [0,0.8414...,0.9092...]
+    /// ```
+    ///
+    fn sin(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// #tensor.cos
+    ///
+    /// ```rust
+    ///     fn cos(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the cosine of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the cosine value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn cos_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // tensor = [[0, 1, 2,]]
+    ///     let tensor = fp8x23_tensor_1x3_helper();
+    ///     let result = tensor.cos();
+    ///     return result;
+    /// }
+    /// >>> [8388608,4532384,-3490893]
+    /// // The fixed point representation of
+    /// // [1, 0.5403...,-0.4161]
+    /// ```
+    ///
+    fn cos(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// # tensor.cumsum
+    ///
+    /// ```rust 
+    ///    fn cumsum(self: @Tensor<T>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Performs cumulative sum of the input elements along the given axis.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The axis along which to compute the cumulative sum.
+    /// * `exclusive`(`Option<bool>`) - By default, it will do the sum inclusively meaning the first element is copied as is.
+    /// * `reverse`(`Option<bool>`) - If true, the cumulative sum is performed in the opposite direction. Defaults to false.   
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` instance containing the cumulative sum of the input tensor's elements along the given axis.
+    ///
+    /// ## Examples
+    /// 
+    /// Case 1: cumsum with default parameters
+    ///
+    /// ```rust
+    /// fn cumsum_example() -> Tensor<usize> {
+    ///     // We instantiate a 3D Tensor here.
+    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
+    ///     let tensor = u32_tensor_2x2x2_helper();
+    /// 		
+    ///     // We can call `cumsum` function as follows.
+    ///     return tensor.cumsum(2,Option::None(()),Option::None(()));
+    /// }
+    /// >>> [[[0,1],[2,5]],[[4,9],[6,13]]]
+    /// ```
+    ///
+    /// Case 2: cumsum with exclusive = true
+    ///
+    /// ```rust
+    /// fn cumsum_example() -> Tensor<usize> {
+    ///     // We instantiate a 3D Tensor here.
+    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
+    ///     let tensor = u32_tensor_2x2x2_helper();
+    /// 		
+    ///     // We can call `cumsum` function as follows.
+    ///     return tensor.cumsum(2,Option::Some(true),Option::None(()));
+    /// }
+    /// >>> [[[0,0],[0,2]],[[0,4],[0,6]]]
+    /// ```
+    ///
+    /// Case 3: cumsum with exclusive = true and reverse = true
+    ///
+    /// ```rust
+    /// fn cumsum_example() -> Tensor<usize> {
+    ///     // We instantiate a 3D Tensor here.
+    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
+    ///     let tensor = u32_tensor_2x2x2_helper();
+    /// 		
+    ///     // We can call `cumsum` function as follows.
+    ///     return tensor.cumsum(2,Option::Some(true),Option::Some(true));
+    /// }
+    /// >>> [[[1,0],[3,0]],[[5,0],[7,0]]]
+    /// ```
+    ///
+    fn cumsum(
+        self: @Tensor<T>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
+    ) -> Tensor<T>;
+    /// # tensor.flatten
+    ///
+    /// ```rust 
+    ///    fn flatten(self: @Tensor<T>, axis: usize) -> Tensor<T>;
+    /// ```
+    ///
+    /// Flattens the input tensor into a 2D tensor. 
+    /// If input tensor has shape (1, 2, 3,...n) then the output will have shape
+    /// (1 * 2 * 3 * ... (axis-1), axis * (axis+1) * ... n).
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - Indicate up to which input dimensions (exclusive) should be flattened. 
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` instance containing the flattened version of the input tensor.
+    ///
+    /// ## Examples
+    /// 
+    /// Case 1: flatten with axis 0
+    ///
+    /// ```rust
+    /// fn flatten_example() -> Tensor<usize> {
+    ///     // We instantiate a 3D Tensor here.
+    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
+    ///     let tensor = u32_tensor_2x2x2_helper();
+    /// 		
+    ///     // We can call `flatten` function as follows.
+    ///     return tensor.flatten(0); // equivalent to tensor.reshape(1,8)
+    /// }
+    /// >>> [[0,1,2,5,4,9,6,13]]
+    /// ```
+    /// 
+    /// Case 2: flatten with axis 1
+    ///
+    /// ```rust
+    /// fn flatten_example() -> Tensor<usize> {
+    ///     // We instantiate a 3D Tensor here.
+    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
+    ///     let tensor = u32_tensor_2x2x2_helper();
+    ///
+    ///     // We can call `flatten` function as follows.
+    ///     return tensor.flatten(1); // equivalent to tensor.reshape(2,4)
+    /// }
+    /// >>> [[0,1,2,3],[4,5,6,7]]
+    /// ```
+    ///
+    /// Case 3: flatten with axis 2
+    ///
+    /// ```rust
+    /// fn flatten_example() -> Tensor<usize> {
+    ///     // We instantiate a 3D Tensor here.
+    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
+    ///     let tensor = u32_tensor_2x2x2_helper();
+    ///
+    ///     // We can call `flatten` function as follows.
+    ///     return tensor.flatten(2); // equivalent to tensor.reshape(4,2)
+    /// }
+    /// >>> [[0,1],[2,3],[4,5],[6,7]]
+    /// ```
+    ///
+    fn flatten(self: @Tensor<T>, axis: usize) -> Tensor<T>;
+    /// # tensor.sinh
+    ///
+    /// ```rust 
+    ///     fn sinh(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// ```
+    ///
+    /// Computes the hyperbolic sine of all elements of the input tensor.
+    /// $$
+    /// y_i=sinh({x_i})
+    /// $$
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// Returns a new tensor in `FixedType` with the hyperbolic sine of the elements of the input tensor.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// fn sinh_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 2D Tensor here.
+    ///     // [[0,1],[2,3]]
+    ///     let tensor = u32_tensor_2x2_helper();
+    /// 		
+    ///     // We can call `sinh` function as follows.
+    ///     return tensor.sinh();
+    /// }
+    /// >>> [[0,9858303],[30424311,84036026]]
+    /// // The fixed point representation of
+    /// // [[0, 1.175201],[3.62686, 10.0178749]]
+    /// ```
+    ///
+    fn sinh(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// # tensor.tanh
+    ///
+    /// ```rust 
+    ///     fn tanh(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// ```
+    ///
+    /// Computes the hyperbolic tangent of all elements of the input tensor.
+    /// $$
+    /// y_i=tanh({x_i})
+    /// $$
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// Returns a new tensor in `FixedType` with the hyperbolic tangent of the elements of the input tensor.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// fn tanh_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 2D Tensor here.
+    ///     // [[0,1],[2,3]]
+    ///     let tensor = u32_tensor_2x2_helper();
+    /// 		
+    ///     // We can call `tanh` function as follows.
+    ///     return tensor.tanh();
+    /// }
+    /// >>> [[0,6388715],[8086850,8347125]]
+    /// // The fixed point representation of
+    /// // [[0, 0.761594],[0.96403, 0.9951]]
+    /// ```
+    ///
+    fn tanh(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// # tensor.cosh
+    ///
+    /// ```rust 
+    ///     fn cosh(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// ```
+    ///
+    /// Computes the hyperbolic cosine of all elements of the input tensor.
+    /// $$
+    /// y_i=cosh({x_i})
+    /// $$
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// Returns a new tensor in `FixedType` with the hyperblic cosine of the elements of the input tensor.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// fn cosh_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 2D Tensor here.
+    ///     // [[0,1],[2,3]]
+    ///     let tensor = u32_tensor_2x2_helper();
+    /// 		
+    ///     // We can call `cosh` function as follows.
+    ///     return tensor.cosh();
+    /// }
+    /// >>> [[9858303,12944299],[31559585,84453670]]
+    /// // The fixed point representation of
+    /// // [[0, 1.54308],[3.762196, 10.067662]]
+    /// ```
+    ///
+    fn cosh(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// # tensor.asinh
+    ///
+    /// ```rust 
+    ///     fn asinh(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// ```
+    ///
+    /// Computes the inverse hyperbolic sine of all elements of the input tensor.
+    /// $$
+    /// y_i=asinh({x_i})
+    /// $$
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// Returns a new tensor in `FixedType` with the hyperblic sine of the elements of the input tensor.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// fn asinh_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 2D Tensor here.
+    ///     // [[0,1],[2,3]]
+    ///     let tensor = u32_tensor_2x2_helper();
+    /// 		
+    ///     // We can call `asinh` function as follows.
+    ///     return tensor.asinh();
+    /// }
+    /// >>> [[0,7393498],[12110093,15254235]]
+    /// // The fixed point representation of
+    /// // [[0, 0.8814],[1.44364, 1.8185]]
+    /// ```
+    ///
+    fn asinh(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// # tensor.acosh
+    ///
+    /// ```rust 
+    ///     fn acosh(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// ```
+    ///
+    /// Computes the inverse hyperbolic cosine of all elements of the input tensor.
+    /// $$
+    /// y_i=acosh({x_i})
+    /// $$
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// Returns a new tensor in `FixedType` with the hyperblic cosine of the elements of the input tensor.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// fn acosh_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 2D Tensor here.
+    ///     // [[1,2],[3,4]]
+    ///     let tensor = u32_tensor_2x2_helper();
+    /// 		
+    ///     // We can call `acosh` function as follows.
+    ///     return tensor.acosh();
+    /// }
+    /// >>> [[0,11047444],[14786996,17309365]]
+    /// // The fixed point representation of
+    /// // [[0, 1.31696],[1.76275, 2.06344]]
+    /// ```
+    ///
+    fn acosh(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// #tensor.atan
+    ///
+    /// ```rust
+    ///     fn atan(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the arctangent (inverse of tangent) of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the arctangent (inverse of tangent) value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn atan_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // tensor = [0, 1, 2,]
+    ///     let tensor = fp_tensor_1x3_helper();
+    ///     let result = tensor.atan().data;
+    ///     return result;
+    /// }
+    /// >>> [0,51471,72558]
+    /// // The fixed point representation of
+    /// // [0,0.7853...,1.1071...]
+    /// ```
+    ///    
+    fn atan(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// #tensor.asin
+    ///
+    /// ```rust
+    ///     fn asin(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the arcsine (inverse of sine) of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the arcsine value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn asin_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // tensor = [[0, 1]]
+    ///     let tensor = fp8x23_tensor_1x2_helper();
+    ///     let result = tensor.asin();
+    ///     return result;
+    /// }
+    /// >>> [0, 13176794]
+    /// // The fixed point representation of
+    /// // [0, 1.5707...]
+    /// ```
+    ///
+    fn asin(self: @Tensor<T>) -> Tensor<FixedType>;
 }
 
 /// Cf: TensorTrait::new docstring
@@ -1132,8 +1619,6 @@ fn ravel_index(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
     let mut stride: usize = 1;
 
     loop {
-        check_gas();
-
         if shape.len() == 0 {
             break ();
         }
@@ -1156,8 +1641,6 @@ fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
     let mut stride = len_from_shape(shape);
 
     loop {
-        check_gas();
-
         if shape.len() == 0 {
             break ();
         }
@@ -1182,8 +1665,6 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
     let mut accumulated: usize = 1;
     let mut temp_result = ArrayTrait::new();
     loop {
-        check_gas();
-
         temp_result.append(accumulated);
 
         if shape.len() == 0 {
@@ -1194,8 +1675,6 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
 
     let mut i: usize = shape_len - 1;
     loop {
-        check_gas();
-
         result.append(*temp_result.at(i));
 
         if i == 0 {
@@ -1219,3 +1698,4 @@ fn at_tensor<T>(self: @Tensor<T>, indices: Span<usize>) -> @T {
 
     return data.at(ravel_index(*self.shape, indices));
 }
+

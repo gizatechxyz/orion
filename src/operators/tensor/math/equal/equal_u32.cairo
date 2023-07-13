@@ -1,9 +1,9 @@
 use array::ArrayTrait;
 use option::OptionTrait;
 use array::SpanTrait;
-use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::utils::check_gas;
+
 use orion::operators::tensor::helpers::check_compatibility;
 
 /// Cf: TensorTrait::eq docstring
@@ -22,14 +22,12 @@ fn equal(y: @Tensor<u32>, z: @Tensor<u32>) -> Tensor<usize> {
     let mut smaller_index = 0;
 
     loop {
-        check_gas();
-
         if bigger_data.len() == 0 {
             break ();
         };
 
         let bigger_current_index = *bigger_data.pop_front().unwrap();
-        let smaller_current_index = *smaller_data.at(smaller_index);
+        let smaller_current_index = *smaller_data[smaller_index];
 
         if bigger_current_index == smaller_current_index {
             data_result.append(1);

@@ -3,10 +3,10 @@ use option::OptionTrait;
 use array::SpanTrait;
 use orion::numbers::fixed_point::core::FixedType;
 
-use orion::numbers::fixed_point::implementations::impl_16x16;
-use orion::operators::tensor::implementations::impl_tensor_u32;
+use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16PartialOrd;
+use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::utils::check_gas;
+
 use orion::operators::tensor::helpers::check_compatibility;
 
 /// Cf: TensorTrait::greater_equal docstring
@@ -25,14 +25,12 @@ fn greater_equal(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> 
     let mut smaller_index = 0;
 
     loop {
-        check_gas();
-
         if bigger_data.len() == 0 {
             break ();
         };
 
         let bigger_current_index = *bigger_data.pop_front().unwrap();
-        let smaller_current_index = *smaller_data.at(smaller_index);
+        let smaller_current_index = *smaller_data[smaller_index];
 
         let (y_value, z_value) = if retains_input_order {
             (smaller_current_index, bigger_current_index)

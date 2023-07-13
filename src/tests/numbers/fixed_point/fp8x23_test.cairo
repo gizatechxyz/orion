@@ -1,10 +1,11 @@
 use option::OptionTrait;
 use traits::Into;
 
-
-use orion::numbers::fixed_point::implementations::impl_8x23::{ONE, _felt_abs, _felt_sign};
-
-use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23::{
+    ONE, _felt_abs, _felt_sign, FP8x23Impl, FP8x23Into, FP8x23Add, FP8x23AddEq, FP8x23Sub,
+    FP8x23SubEq, FP8x23Mul, FP8x23MulEq, FP8x23Div, FP8x23DivEq, FP8x23PartialOrd, FP8x23PartialEq,
+    PI, HALF_PI
+};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::numbers::fixed_point::core;
 
@@ -321,4 +322,140 @@ fn test_gt() {
     assert(c > a == false, 'c > a');
     assert(c > b == false, 'c > b');
     assert(c > c == false, 'c > c');
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_sin() {
+    let a = FixedTrait::new(HALF_PI, false);
+    assert(a.sin().into() == 8388608, 'invalid half pi');
+
+    let a = FixedTrait::new(HALF_PI / 2_u128, false);
+    assert(a.sin().into() == 5931641, 'invalid quarter pi'); // 0.7071067811865475
+
+    let a = FixedTrait::new(PI, false);
+    assert(a.sin().into() == 0, 'invalid pi');
+
+    let a = FixedTrait::new(HALF_PI, true);
+    assert(a.sin().into() == -8388608, 'invalid neg half pi'); // 0.9999999999939766
+
+    let a = FixedTrait::new_unscaled(17_u128, false);
+    assert(a.sin().into() == -8064787, 'invalid 17'); // -0.9613974918795568
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_cos() {
+    let a = FixedTrait::new(HALF_PI, false);
+    assert(a.cos().into() == 0, 'invalid half pi');
+
+    let a = FixedTrait::new(HALF_PI / 2_u128, false);
+    assert(a.cos().into() == 5931641, 'invalid quarter pi'); // 0.707106...
+
+    let a = FixedTrait::new(PI, false);
+    assert(a.cos().into() == -8388608, 'invalid pi'); // -1
+
+    let a = FixedTrait::new(HALF_PI, true);
+    assert(a.cos().into() == -0, 'invalid neg half pi'); // -0.000...
+
+    let a = FixedTrait::new_unscaled(17_u128, false);
+    assert(a.cos().into() == -2308236, 'invalid 17'); // -0.27516...
+
+    let a = FixedTrait::new_unscaled(17_u128, true);
+    assert(a.cos().into() == -2308239, 'invalid -17'); // -0.27516...
+}
+
+
+#[test]
+#[available_gas(100000000)]
+fn test_asin() {
+    let a = FixedTrait::new(ONE, false);
+    assert(a.asin().into() == 13176794, 'invalid one'); // PI / 2
+
+    let a: FixedType = FixedTrait::new(ONE / 2_u128, false);
+    assert(a.asin().into() == 4392279, 'invalid half'); // 0.523...
+
+    let a = FixedTrait::new(0_u128, false);
+    assert(a.asin().into() == 0, 'invalid zero');
+
+    let a = FixedTrait::new(ONE / 2_u128, true);
+    assert(a.asin().into() == -4392279, 'invalid neg half');
+
+    let a = FixedTrait::new(ONE, true);
+    assert(a.asin().into() == -13176794, 'invalid neg one'); // -PI / 2
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_sinh() {
+    let a = FixedTrait::from_unscaled_felt(1);
+    assert(a.sinh().into() == 9858301, 'invalid sinh of 1');
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_tanh() {
+    let a = FixedTrait::from_unscaled_felt(1);
+    assert(a.tanh().into() == 6388714, 'invalid tanh of 1');
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_cosh() {
+    let a = FixedTrait::from_unscaled_felt(1);
+    assert(a.cosh().into() == 12944297, 'invalid cosh of 1');
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_acosh_1() {
+    let a = FixedTrait::from_unscaled_felt(1);
+    assert(a.acosh().into() == 0, 'invalid cosh of 1');
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_acosh_2() {
+    let a = FixedTrait::from_unscaled_felt(2);
+    assert(a.acosh().into() == 11047444, 'invalid cosh of 2');
+}
+
+#[test]
+#[available_gas(10000000)]
+#[should_panic]
+fn test_acosh_zero() {
+    let a = FixedTrait::from_unscaled_felt(0);
+    a.acosh();
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_asinh() {
+    let a = FixedTrait::from_unscaled_felt(1);
+    assert(a.asinh().into() == 7394022, 'invalid sinh of 1');
+}
+
+#[test]
+#[available_gas(10000000)]
+fn test_atan() {
+    let a = FixedTrait::new(2_u128 * ONE, false);
+    assert(a.atan().into() == 9287436, 'invalid two'); // 1.1071...
+
+    let a = FixedTrait::new(ONE, false);
+    assert(a.atan().into() == 6588397, 'invalid one'); // 0.7853...
+
+    let a = FixedTrait::new(ONE / 2_u128, false);
+    assert(a.atan().into() == 3889358, 'invalid half'); // 0.4636...
+
+    let a = FixedTrait::new(0_u128, false);
+    assert(a.atan().into() == 0, 'invalid zero'); // 0
+
+    let a = FixedTrait::new(ONE / 2_u128, true);
+    assert(a.atan().into() == -3889358, 'invalid neg half'); // -0.4636...
+
+    let a = FixedTrait::new(ONE, true);
+    assert(a.atan().into() == -6588397, 'invalid neg one'); // -0.7853...
+
+    let a = FixedTrait::new(2_u128 * ONE, true);
+    assert(a.atan().into() == -9287436, 'invalid neg two'); // -1.1071...
 }

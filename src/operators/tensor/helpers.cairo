@@ -2,7 +2,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use orion::utils::{check_gas, u32_max};
+use orion::utils::u32_max;
 use orion::operators::tensor::core::stride;
 
 /// Calculates the number of elements in a tensor given its shape.
@@ -19,8 +19,6 @@ fn len_from_shape(mut shape: Span<usize>) -> usize {
     let mut result: usize = 1;
 
     loop {
-        check_gas();
-
         if shape.len() == 0 {
             break ();
         }
@@ -55,8 +53,6 @@ fn check_compatibility(mut shape_1: Span<usize>, mut shape_2: Span<usize>) {
     assert(shape_1.len() == shape_2.len(), 'tensors shape must match');
 
     loop {
-        check_gas();
-
         if shape_1.len() == 0 {
             break ();
         }
@@ -65,7 +61,7 @@ fn check_compatibility(mut shape_1: Span<usize>, mut shape_2: Span<usize>) {
         let shape_2_val = *shape_2.pop_front().unwrap();
 
         assert(
-            shape_1_val == shape_2_val | shape_1_val == 1 | shape_2_val == 1,
+            shape_1_val == shape_2_val || shape_1_val == 1 || shape_2_val == 1,
             'tensors shape must match'
         );
     };
@@ -89,8 +85,6 @@ fn broadcast_index_mapping(mut shape: Span<usize>, mut indices: Span<usize>) -> 
     let mut stride = stride(shape);
 
     loop {
-        check_gas();
-
         let indices_val = *indices.pop_front().unwrap();
         let shape_val = *shape.pop_front().unwrap();
         let stride_val = *stride.pop_front().unwrap();
@@ -126,8 +120,6 @@ fn reduce_output_shape(mut input_shape: Span<usize>, axis: usize, keepdims: bool
     let mut n: usize = 0;
 
     loop {
-        check_gas();
-
         if input_shape.len() == 0 {
             break ();
         }
@@ -169,12 +161,11 @@ fn permutation_output_shape(input_shape: Span<usize>, mut axes: Span<usize>) -> 
     let mut output_shape = ArrayTrait::new();
     let mut axis: usize = 0;
     loop {
-        check_gas();
         if axis == axes_len {
             break ();
         }
 
-        output_shape.append(*input_shape.at(*axes.pop_front().unwrap()));
+        output_shape.append(*input_shape[*axes.pop_front().unwrap()]);
         axis += 1;
     };
 
@@ -202,8 +193,6 @@ fn combine_indices(output_indices: Span<usize>, axis_index: usize, axis: usize) 
     let mut n: usize = 0;
 
     loop {
-        check_gas();
-
         if n > output_indices_len {
             break ();
         }
@@ -211,9 +200,9 @@ fn combine_indices(output_indices: Span<usize>, axis_index: usize, axis: usize) 
         if n == axis {
             result.append(axis_index);
         } else if n > axis {
-            result.append(*output_indices.at(n - 1_usize));
+            result.append(*output_indices[n - 1_usize]);
         } else {
-            result.append(*output_indices.at(n));
+            result.append(*output_indices[n]);
         }
 
         n += 1;
@@ -240,8 +229,6 @@ fn find_axis(mut axes: Span<usize>, target_axis: usize) -> usize {
 
     let mut axis: usize = 0;
     loop {
-        check_gas();
-
         if axes.len() == 0 {
             break ();
         }
@@ -273,8 +260,6 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
     let mut temp_result = ArrayTrait::new();
 
     loop {
-        check_gas();
-
         // Get dimensions from shape1 and shape2, or use 1 if there are no more dimensions
         let dim1 = if shape1.len() > 0 {
             *shape1.pop_back().unwrap()
@@ -291,7 +276,7 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
         let broadcasted_dim = u32_max(dim1, dim2);
         temp_result.append(broadcasted_dim);
 
-        if shape1.len() == 0 & shape2.len() == 0 {
+        if shape1.len() == 0 && shape2.len() == 0 {
             break ();
         };
     };
@@ -299,8 +284,6 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
     // Copy the broadcasted dimensions to the result array in the correct order
     let mut temp_result: Span<usize> = temp_result.span();
     loop {
-        check_gas();
-
         if temp_result.len() == 0 {
             break ();
         }
@@ -308,4 +291,36 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
     };
 
     return result.span();
+}
+
+
+/// Substitute a value in a shape at a given index
+/// 
+/// # Arguments
+///
+/// * `shape` - The shape to modify
+/// * `index` - The index to modify
+/// * `value` - The value to insert
+///
+/// # Panics
+/// * Panics if the index is out of bounds
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * `Span<usize>` - The modified shape
+fn replace_index(mut shape: Span<usize>, index: usize, value: usize) -> Span<usize> {
+    let mut output = ArrayTrait::new();
+    let mut i = 0;
+    loop {
+        if i == shape.len() {
+            break ();
+        };
+        if i == index {
+            output.append(value);
+        } else {
+            output.append(*shape[i]);
+        };
+        i += 1;
+    };
+    return output.span();
 }

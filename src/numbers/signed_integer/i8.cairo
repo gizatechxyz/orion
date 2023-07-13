@@ -1,14 +1,18 @@
 use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
-use orion::utils::check_gas;
+use orion::numbers::signed_integer::i32::i32;
+use orion::numbers::fixed_point::implementations::impl_8x23::ONE as ONE_fp8x23;
+use orion::numbers::fixed_point::implementations::impl_16x16::ONE as ONE_fp16x16;
+use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+
 
 // ====================== INT 8 ======================
 
 // i8 represents a 8-bit integer.
 // The mag field holds the absolute value of the integer.
 // The sign field is true for negative integers, and false for non-negative integers.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct i8 {
     mag: u8,
     sign: bool,
@@ -126,12 +130,12 @@ impl i8RemEq of RemEq<i8> {
 
 // Implements the PartialEq trait for i8.
 impl i8PartialEq of PartialEq<i8> {
-    fn eq(lhs: i8, rhs: i8) -> bool {
-        i8_eq(lhs, rhs)
+    fn eq(lhs: @i8, rhs: @i8) -> bool {
+        i8_eq(*lhs, *rhs)
     }
 
-    fn ne(lhs: i8, rhs: i8) -> bool {
-        i8_ne(lhs, rhs)
+    fn ne(lhs: @i8, rhs: @i8) -> bool {
+        i8_ne(*lhs, *rhs)
     }
 }
 
@@ -159,6 +163,26 @@ impl i8Neg of Neg<i8> {
     }
 }
 
+// Implements the Into trait for i8 to i32.
+impl I8IntoI32 of Into<i8, i32> {
+    fn into(self: i8) -> i32 {
+        i8_to_i32(self)
+    }
+}
+
+// Implements the Into trait for i8 to fp_8x23.
+impl I8IntoFP8x23 of Into<i8, FixedType> {
+    fn into(self: i8) -> FixedType {
+        i8_to_fp8x23(self)
+    }
+}
+
+// Implements the Into trait for i8 to fp_16x16.
+impl I8IntoFP16x16 of Into<i8, FixedType> {
+    fn into(self: i8) -> FixedType {
+        i8_to_fp16x16(self)
+    }
+}
 
 // Checks if the given i8 integer is zero and has the correct sign.
 // # Arguments
@@ -322,7 +346,6 @@ fn i8_rem(a: i8, b: i8) -> i8 {
 
 /// Cf: IntegerTrait::div_rem docstring
 fn i8_div_rem(a: i8, b: i8) -> (i8, i8) {
-    check_gas();
     let quotient = i8_div(a, b);
     let remainder = i8_rem(a, b);
 
@@ -337,7 +360,7 @@ fn i8_div_rem(a: i8, b: i8) -> (i8, i8) {
 // * `bool` - `true` if the two integers are equal, `false` otherwise.
 fn i8_eq(a: i8, b: i8) -> bool {
     // Check if the two integers have the same sign and the same absolute value.
-    if a.sign == b.sign & a.mag == b.mag {
+    if a.sign == b.sign && a.mag == b.mag {
         return true;
     }
 
@@ -388,7 +411,7 @@ fn i8_lt(a: i8, b: i8) -> bool {
     if (a.sign != b.sign) {
         return a.sign;
     } else {
-        return (a.mag != b.mag) & ((a.mag < b.mag) ^ a.sign);
+        return a.mag != b.mag && (a.mag < b.mag) ^ a.sign;
     }
 }
 
@@ -399,7 +422,7 @@ fn i8_lt(a: i8, b: i8) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is less than or equal to `b`, `false` otherwise.
 fn i8_le(a: i8, b: i8) -> bool {
-    if (a == b | i8_lt(a, b) == true) {
+    if (a == b || i8_lt(a, b) == true) {
         return true;
     } else {
         return false;
@@ -413,7 +436,7 @@ fn i8_le(a: i8, b: i8) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is greater than or equal to `b`, `false` otherwise.
 fn i8_ge(a: i8, b: i8) -> bool {
-    if (a == b | i8_gt(a, b) == true) {
+    if (a == b || i8_gt(a, b) == true) {
         return true;
     } else {
         return false;
@@ -451,4 +474,18 @@ fn i8_min(a: i8, b: i8) -> i8 {
     } else {
         return b;
     }
+}
+
+fn i8_to_i32(x: i8) -> i32 {
+    i32 { mag: x.mag.into(), sign: x.sign }
+}
+
+use debug::PrintTrait;
+
+fn i8_to_fp8x23(x: i8) -> FixedType {
+    FixedType { mag: x.mag.into() * ONE_fp8x23, sign: x.sign }
+}
+
+fn i8_to_fp16x16(x: i8) -> FixedType {
+    FixedType { mag: x.mag.into() * ONE_fp16x16, sign: x.sign }
 }

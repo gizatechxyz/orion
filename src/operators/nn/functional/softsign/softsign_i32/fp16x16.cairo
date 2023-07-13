@@ -5,11 +5,9 @@ use option::OptionTrait;
 
 use orion::numbers::signed_integer::i32::i32;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::operators::tensor::implementations::{impl_tensor_fp};
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::impl_16x16;
-
-use orion::utils::check_gas;
+use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16Add, FP16x16Div};
 
 
 /// Cf: NNTrait::softsign docstring
@@ -18,7 +16,6 @@ fn softsign(z: @Tensor<i32>) -> Tensor<FixedType> {
     let mut data = *z.data;
     let fp_one = FixedTrait::new(1, false);
     loop {
-        check_gas();
         if data.len() == 0 {
             break ();
         };

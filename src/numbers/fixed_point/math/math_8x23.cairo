@@ -1,9 +1,13 @@
+use core::debug::PrintTrait;
 use traits::Into;
 
-use orion::numbers::fixed_point::implementations::impl_8x23::{ONE, ONE_u64, MAX, HALF};
-use orion::numbers::fixed_point::implementations::impl_8x23;
+use orion::numbers::fixed_point::implementations::impl_8x23::{ONE, ONE_u64, MAX, HALF, PI, HALF_PI};
+use orion::numbers::fixed_point::implementations::impl_8x23::{
+    FP8x23Impl, FP8x23Add, FP8x23AddEq, FP8x23Into, FP8x23Print, FP8x23PartialEq, FP8x23Sub,
+    FP8x23SubEq, FP8x23Mul, FP8x23MulEq, FP8x23Div, FP8x23DivEq, FP8x23PartialOrd, FP8x23Neg
+};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-use orion::utils::check_gas;
+
 
 /// Cf: FixedTrait::abs docstring
 fn abs(a: FixedType) -> FixedType {
@@ -21,7 +25,6 @@ fn abs(a: FixedType) -> FixedType {
 ///
 /// * The sum of the input fixed point numbers.
 fn add(a: FixedType, b: FixedType) -> FixedType {
-    check_gas();
     return FixedTrait::from_felt(a.into() + b.into());
 }
 
@@ -48,7 +51,6 @@ fn ceil(a: FixedType) -> FixedType {
 ///
 /// * The result of the division of the input fixed point numbers.
 fn div(a: FixedType, b: FixedType) -> FixedType {
-    check_gas();
     let res_sign = a.sign ^ b.sign;
 
     // Invert b to preserve precision as much as possible
@@ -71,7 +73,7 @@ fn div(a: FixedType, b: FixedType) -> FixedType {
 ///
 /// * A boolean value that indicates whether the input fixed point numbers are equal.
 fn eq(a: FixedType, b: FixedType) -> bool {
-    return a.mag == b.mag & a.sign == b.sign;
+    return a.mag == b.mag && a.sign == b.sign;
 }
 
 /// Cf: FixedTrait::exp docstring 
@@ -143,7 +145,7 @@ fn ge(a: FixedType, b: FixedType) -> bool {
     if (a.sign != b.sign) {
         return !a.sign;
     } else {
-        return (a.mag == b.mag) | ((a.mag > b.mag) ^ a.sign);
+        return a.mag == b.mag || (a.mag > b.mag) ^ a.sign;
     }
 }
 
@@ -161,7 +163,7 @@ fn gt(a: FixedType, b: FixedType) -> bool {
     if (a.sign != b.sign) {
         return !a.sign;
     } else {
-        return (a.mag != b.mag) & ((a.mag > b.mag) ^ a.sign);
+        return a.mag != b.mag && (a.mag > b.mag) ^ a.sign;
     }
 }
 
@@ -179,7 +181,7 @@ fn le(a: FixedType, b: FixedType) -> bool {
     if (a.sign != b.sign) {
         return a.sign;
     } else {
-        return (a.mag == b.mag) | ((a.mag < b.mag) ^ a.sign);
+        return a.mag == b.mag || (a.mag < b.mag) ^ a.sign;
     }
 }
 
@@ -190,8 +192,6 @@ fn ln(a: FixedType) -> FixedType {
 
 /// Cf: FixedTrait::log2 docstring
 fn log2(a: FixedType) -> FixedType {
-    check_gas();
-
     assert(a.sign == false, 'must be positive');
 
     if (a.mag == ONE) {
@@ -246,7 +246,7 @@ fn lt(a: FixedType, b: FixedType) -> bool {
     if (a.sign != b.sign) {
         return a.sign;
     } else {
-        return (a.mag != b.mag) & ((a.mag < b.mag) ^ a.sign);
+        return a.mag != b.mag && (a.mag < b.mag) ^ a.sign;
     }
 }
 
@@ -261,8 +261,6 @@ fn lt(a: FixedType, b: FixedType) -> bool {
 ///
 /// * A FixedType value representing the product of the two input numbers.
 fn mul(a: FixedType, b: FixedType) -> FixedType {
-    check_gas();
-
     let res_sign = a.sign ^ b.sign;
 
     // Use u128 to multiply and shift back down
@@ -285,7 +283,7 @@ fn mul(a: FixedType, b: FixedType) -> FixedType {
 ///
 /// * A boolean value that indicates whether the first fixed point number is not equal to the second fixed point number.
 fn ne(a: FixedType, b: FixedType) -> bool {
-    return a.mag != b.mag | a.sign != b.sign;
+    return a.mag != b.mag || a.sign != b.sign;
 }
 
 /// Negates a fixed point number.
@@ -338,6 +336,60 @@ fn sqrt(a: FixedType) -> FixedType {
     return FixedTrait::new(res_u64.into(), false);
 }
 
+/// Cf: FixedTrait::sin docstring
+fn sin(a: FixedType) -> FixedType {
+    let a1_u128 = a.mag % (2_u128 * PI);
+    let whole_rem = a1_u128 / PI;
+    let a2 = FixedType { mag: a1_u128 % PI, sign: false };
+    let mut partial_sign = false;
+
+    if (whole_rem == 1_u128) {
+        partial_sign = true;
+    }
+
+    let acc = FixedType { mag: ONE, sign: false };
+    let loop_res = a2 * _sin_loop(a2, 7_u128, acc);
+    let res_sign = a.sign ^ partial_sign;
+    return FixedType { mag: loop_res.mag, sign: res_sign };
+}
+
+// Helper function to calculate Taylor series for sin
+fn _sin_loop(a: FixedType, i: u128, acc: FixedType) -> FixedType {
+    let div_u128 = (2_u128 * i + 2_u128) * (2_u128 * i + 3_u128);
+    let term = a * a * acc / FixedTrait::new_unscaled(div_u128, false);
+    let new_acc = FixedTrait::new(ONE, false) - term;
+
+    if (i == 0_u128) {
+        return new_acc;
+    }
+
+    return _sin_loop(a, i - 1_u128, new_acc);
+}
+
+/// Cf: FixedTrait::cos docstring
+fn cos(a: FixedType) -> FixedType {
+    return sin(FixedTrait::new(HALF_PI, false) - a);
+}
+
+/// Cf: FixedTrait::asin docstring
+// Calculates arcsin(a) for -1 <= a <= 1 (fixed point)
+// arcsin(a) = arctan(a / sqrt(1 - a^2))
+fn asin(a: FixedType) -> FixedType {
+    assert(a.mag <= ONE, 'out of range');
+    // when NAN value implementation in tensor 
+    // comment assert and uncooment the if statement below
+    // if (a < FixedTrait::new_unscaled(1, true)) || (a > FixedTrait::new_unscaled(1, false)) {
+    //     return FixedTrait::from_unscaled_felt('nan');
+    // }
+
+    if (a.mag == ONE) {
+        return FixedTrait::new(HALF_PI, a.sign);
+    }
+
+    let div = (FixedTrait::new(ONE, false) - a * a).sqrt();
+    return atan(a / div);
+}
+
 /// Subtracts one fixed point number from another.
 ///
 /// # Arguments
@@ -349,7 +401,6 @@ fn sqrt(a: FixedType) -> FixedType {
 ///
 /// * A fixed point number representing the result of the subtraction.
 fn sub(a: FixedType, b: FixedType) -> FixedType {
-    check_gas();
     return FixedTrait::from_felt(a.into() - b.into());
 }
 
@@ -401,8 +452,6 @@ fn min(a: FixedType, b: FixedType) -> FixedType {
 ///
 /// * A u128 value representing the most significant bit.
 fn _msb(a: u128) -> u128 {
-    check_gas();
-
     if (a <= ONE) {
         return 0_u128;
     }
@@ -423,8 +472,6 @@ fn _msb(a: u128) -> u128 {
 ///
 /// * A fixed point number representing the result of x^y.
 fn _pow_int(a: FixedType, b: u128, sign: bool) -> FixedType {
-    check_gas();
-
     if (sign == true) {
         return FixedTrait::new(ONE, false) / _pow_int(a, b, false);
     }
@@ -452,3 +499,97 @@ fn _pow_int(a: FixedType, b: u128, sign: bool) -> FixedType {
 fn _split_unsigned(a: FixedType) -> (u128, u128) {
     return integer::u128_safe_divmod(a.mag, integer::u128_as_non_zero(ONE));
 }
+
+/// Cf: FixedTrait::sinh docstring 
+fn sinh(a: FixedType) -> FixedType {
+    let ea = a.exp();
+    let num = ea - (FixedTrait::new(ONE, false) / ea);
+    let denom = FixedTrait::new_unscaled(2_u128, false);
+    num / denom
+}
+
+/// Cf: FixedTrait::tanh docstring 
+fn tanh(a: FixedType) -> FixedType {
+    let ea = a.exp();
+    let num = ea - (FixedTrait::new(ONE, false) / ea);
+    let denom = ea + (FixedTrait::new(ONE, false) / ea);
+    num / denom
+}
+
+/// Cf: FixedTrait::cosh docstring 
+fn cosh(a: FixedType) -> FixedType {
+    let ea = a.exp();
+    let num = ea + (FixedTrait::new(ONE, false) / ea);
+    let denom = FixedTrait::new_unscaled(2_u128, false);
+    num / denom
+}
+
+/// Cf: FixedTrait::acosh docstring 
+fn acosh(a: FixedType) -> FixedType {
+    //we first check to see if a < 1.
+    assert(a >= FixedTrait::new_unscaled(1, false), 'a must be >= 1');
+    let root = (a * a - FixedTrait::new(ONE, false)).sqrt();
+    let answer = (a + root).ln();
+    answer
+}
+
+/// Cf: FixedTrait::asinh docstring 
+fn asinh(a: FixedType) -> FixedType {
+    let root = (a * a + FixedTrait::new(ONE, false)).sqrt();
+    let result = (a + root).ln();
+    result
+}
+
+/// Cf: FixedTrait::atan docstring 
+fn atan(a: FixedType) -> FixedType {
+    let mut at = a.abs();
+    let mut shift = false;
+    let mut invert = false;
+
+    // Invert value when a > 1
+    if (at.mag > ONE) {
+        at = FixedTrait::new(ONE, false) / at;
+        invert = true;
+    }
+
+    // Account for lack of precision in polynomaial when a > 0.7
+    if (at.mag > 5872026_u128) {
+        let sqrt3_3 = FixedTrait::new(4843165_u128, false); // sqrt(3) / 3
+        at = (at - sqrt3_3) / (FixedTrait::new(ONE, false) + at * sqrt3_3);
+        shift = true;
+    }
+
+    let t10 = FixedTrait::new(15363_u128, true);
+    let t9 = FixedTrait::new(392482_u128, true);
+    let t8 = FixedTrait::new(1629065_u128, false);
+    let t7 = FixedTrait::new(2197820_u128, true);
+    let t6 = FixedTrait::new(366692_u128, false);
+    let t5 = FixedTrait::new(1594324_u128, false);
+    let t4 = FixedTrait::new(11518_u128, false);
+    let t3 = FixedTrait::new(2797104_u128, true);
+    let t2 = FixedTrait::new(34_u128, false);
+    let t1 = FixedTrait::new(8388608_u128, false);
+
+    let r10 = t10 * at;
+    let r9 = (r10 + t9) * at;
+    let r8 = (r9 + t8) * at;
+    let r7 = (r8 + t7) * at;
+    let r6 = (r7 + t6) * at;
+    let r5 = (r6 + t5) * at;
+    let r4 = (r5 + t4) * at;
+    let r3 = (r4 + t3) * at;
+    let r2 = (r3 + t2) * at;
+    let mut res = (r2 + t1) * at;
+
+    // Adjust for sign change, inversion, and shift
+    if (shift) {
+        res = res + FixedTrait::new(4392265_u128, false); // pi / 6
+    }
+
+    if (invert) {
+        res = res - FixedTrait::new(HALF_PI, false);
+    }
+
+    return FixedTrait::new(res.mag, a.sign);
+}
+

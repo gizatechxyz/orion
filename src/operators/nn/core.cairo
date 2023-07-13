@@ -37,7 +37,7 @@ trait NNTrait<T> {
     /// 
     /// ```rust
     /// use orion::operators::nn::core::NNTrait;
-    /// use orion::operators::nn::implementations::impl_nn_i32;
+    /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
     /// 
     /// fn relu_example() -> Tensor<u32> {
     ///     // We instantiate a 2D Tensor here and set threshold to 0.
@@ -77,7 +77,7 @@ trait NNTrait<T> {
     /// 
     /// ```rust
     /// use orion::operators::nn::core::NNTrait;
-    /// use orion::operators::nn::implementations::impl_nn_u32;
+    /// use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
     /// 
     /// fn softmax_example() -> Tensor<FixedType> {
     ///     // We instantiate a 2D Tensor here.
@@ -118,7 +118,7 @@ trait NNTrait<T> {
     /// 
     /// ```rust
     /// use orion::operators::nn::core::NNTrait;
-    /// use orion::operators::nn::implementations::impl_nn_u32;
+    /// use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
     /// 
     /// fn logsoftmax_example() -> Tensor<FixedType> {
     ///     // We instantiate a 2D Tensor here.
@@ -164,7 +164,7 @@ trait NNTrait<T> {
     /// 
     /// ```rust
     /// use orion::operators::nn::core::NNTrait;
-    /// use orion::operators::nn::implementations::impl_nn_u32;
+    /// use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
     /// 
     /// fn sigmoid_example() -> Tensor<FixedType> {
     ///     // We instantiate a 2D Tensor here.
@@ -204,7 +204,7 @@ trait NNTrait<T> {
     /// 
     /// ```rust
     /// use orion::operators::nn::core::NNTrait;
-    /// use orion::operators::nn::implementations::impl_nn_u32;
+    /// use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
     /// 
     /// fn softsign_example() -> Tensor<FixedType> {
     ///     // We instantiate a 2D Tensor here.
@@ -244,7 +244,7 @@ trait NNTrait<T> {
     /// 
     /// ```rust
     /// use orion::operators::nn::core::NNTrait;
-    /// use orion::operators::nn::implementations::impl_nn_u32;
+    /// use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
     /// 
     /// fn softplus_example() -> Tensor<FixedType> {
     ///     // We instantiate a 2D Tensor here.
@@ -263,7 +263,7 @@ trait NNTrait<T> {
     /// # NNTrait::linear
     /// 
     /// ```rust
-    /// fn linear(inputs: Tensor<T>, weights: Tensor<T>, bias: Tensor<T>, quantized: bool) -> Tensor<T>
+    /// fn linear(inputs: Tensor<T>, weights: Tensor<T>, bias: Tensor<T>) -> Tensor<T>
     /// ```
     /// 
     /// Performs a linear transformation of the input tensor using the provided weights and bias.
@@ -273,7 +273,6 @@ trait NNTrait<T> {
     /// * `tensor`(`@Tensor<T>`) - A 1D tensor representing the input tensor.
     /// * `weights`(`@Tensor<T>`) - A 2D tensor representing the weights.
     /// * `bias`(`@Tensor<T>`) - A 1D tensor representing the bias.
-    /// * `quantized`(`bool`) - A boolean flag indicating whether or not to quantize the result.
     ///
     /// ## Panics
     /// 
@@ -281,13 +280,13 @@ trait NNTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A `Tensor<T>` representing the result of the linear transformation, possibly quantized.
+    /// A `Tensor<T>` representing the result of the linear transformation.
     ///
     /// ## Examples
     ///
     /// ```rust
     /// use orion::operators::nn::core::NNTrait;
-    /// use orion::operators::nn::implementations::impl_nn_i32;
+    /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
     /// 
     /// fn linear_layer_example() -> Tensor<u32> {
     ///     // We instantiate inputs here.
@@ -303,12 +302,12 @@ trait NNTrait<T> {
     ///     let weights = u32_bias_helper();
     /// 
     ///     // We can call `linear` function as follows.
-    ///     return NNTrait::linear(inputs, weights, bias, true);
+    ///     return NNTrait::linear(inputs, weights, bias);
     /// }
-    /// >>> [127, -6]
+    /// >>> [5541, -260]
     /// ````
     ///
-    fn linear(inputs: Tensor<T>, weights: Tensor<T>, bias: Tensor<T>, quantized: bool) -> Tensor<T>;
+    fn linear(inputs: Tensor<T>, weights: Tensor<T>, bias: Tensor<T>) -> Tensor<T>;
     /// # NNTrait::leaky_relu
     /// 
     /// ```rust
@@ -335,7 +334,7 @@ trait NNTrait<T> {
     ///
     /// ```rust
     /// use orion::operators::nn::core::NNTrait;
-    /// use orion::operators::nn::implementations::impl_nn_i32;
+    /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
     /// 
     /// fn leaky_relu_example() -> Tensor<u32> {
     ///     // We instantiate a 2D Tensor here, the alpha and set threshold to 0.

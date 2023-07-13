@@ -1,14 +1,14 @@
 use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
-use orion::utils::check_gas;
+
 
 // ====================== INT 128 ======================
 
 // i128 represents a 128-bit integer.
 // The mag field holds the absolute value of the integer.
 // The sign field is true for negative integers, and false for non-negative integers.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct i128 {
     mag: u128,
     sign: bool,
@@ -126,12 +126,12 @@ impl i128RemEq of RemEq<i128> {
 
 // Implements the PartialEq trait for i128.
 impl i128PartialEq of PartialEq<i128> {
-    fn eq(lhs: i128, rhs: i128) -> bool {
-        i128_eq(lhs, rhs)
+    fn eq(lhs: @i128, rhs: @i128) -> bool {
+        i128_eq(*lhs, *rhs)
     }
 
-    fn ne(lhs: i128, rhs: i128) -> bool {
-        i128_ne(lhs, rhs)
+    fn ne(lhs: @i128, rhs: @i128) -> bool {
+        i128_ne(*lhs, *rhs)
     }
 }
 
@@ -322,7 +322,6 @@ fn i128_rem(a: i128, b: i128) -> i128 {
 
 /// Cf: IntegerTrait::div_rem docstring
 fn i128_div_rem(a: i128, b: i128) -> (i128, i128) {
-    check_gas();
     let quotient = i128_div(a, b);
     let remainder = i128_rem(a, b);
 
@@ -337,7 +336,7 @@ fn i128_div_rem(a: i128, b: i128) -> (i128, i128) {
 // * `bool` - `true` if the two integers are equal, `false` otherwise.
 fn i128_eq(a: i128, b: i128) -> bool {
     // Check if the two integers have the same sign and the same absolute value.
-    if a.sign == b.sign & a.mag == b.mag {
+    if a.sign == b.sign && a.mag == b.mag {
         return true;
     }
 
@@ -388,7 +387,7 @@ fn i128_lt(a: i128, b: i128) -> bool {
     if (a.sign != b.sign) {
         return a.sign;
     } else {
-        return (a.mag != b.mag) & ((a.mag < b.mag) ^ a.sign);
+        return a.mag != b.mag && (a.mag < b.mag) ^ a.sign;
     }
 }
 
@@ -399,7 +398,7 @@ fn i128_lt(a: i128, b: i128) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is less than or equal to `b`, `false` otherwise.
 fn i128_le(a: i128, b: i128) -> bool {
-    if (a == b | i128_lt(a, b) == true) {
+    if (a == b || i128_lt(a, b) == true) {
         return true;
     } else {
         return false;
@@ -413,7 +412,7 @@ fn i128_le(a: i128, b: i128) -> bool {
 // # Returns
 // * `bool` - `true` if `a` is greater than or equal to `b`, `false` otherwise.
 fn i128_ge(a: i128, b: i128) -> bool {
-    if (a == b | i128_gt(a, b) == true) {
+    if (a == b || i128_gt(a, b) == true) {
         return true;
     } else {
         return false;

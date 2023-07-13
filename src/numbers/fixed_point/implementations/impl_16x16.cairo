@@ -1,9 +1,10 @@
 use option::OptionTrait;
 use debug::PrintTrait;
-use traits::Into;
+use traits::{Into, TryInto};
 
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::numbers::fixed_point::math::math_16x16;
+use orion::numbers::signed_integer::{i32::i32, i8::i8};
 
 const PRIME: felt252 = 3618502788666131213697322783095070105623107215331596699973092056135872020480;
 const HALF_PRIME: felt252 =
@@ -13,6 +14,9 @@ const ONE_u64: u64 = 65536; // 2 ** 16
 const HALF: u128 = 32768; // 2 ** 15
 const MAX: u128 = 4294967295; // 2 ** 32 - 1
 const MIN_MAG: u128 = 4294967296; // 2 ** 32
+const PI: u128 = 205887_u128;
+const HALF_PI: u128 = 102943_u128;
+
 
 /// IMPLS
 
@@ -77,20 +81,55 @@ impl FP16x16Impl of FixedTrait {
         return math_16x16::round(self);
     }
 
-
     fn sqrt(self: FixedType) -> FixedType {
         return math_16x16::sqrt(self);
     }
+
+    fn sin(self: FixedType) -> FixedType {
+        return math_16x16::sin(self);
+    }
+
+    fn cos(self: FixedType) -> FixedType {
+        return math_16x16::cos(self);
+    }
+
+    fn asin(self: FixedType) -> FixedType {
+        return math_16x16::asin(self);
+    }
+
+    fn sinh(self: FixedType) -> FixedType {
+        return math_16x16::sinh(self);
+    }
+
+    fn tanh(self: FixedType) -> FixedType {
+        return math_16x16::tanh(self);
+    }
+
+    fn cosh(self: FixedType) -> FixedType {
+        return math_16x16::cosh(self);
+    }
+
+    fn acosh(self: FixedType) -> FixedType {
+        return math_16x16::acosh(self);
+    }
+
+    fn asinh(self: FixedType) -> FixedType {
+        return math_16x16::asinh(self);
+    }
+
+    fn atan(self: FixedType) -> FixedType {
+        return math_16x16::atan(self);
+    }
 }
 
-impl fp16x16Print of PrintTrait<FixedType> {
+impl FP16x16Print of PrintTrait<FixedType> {
     fn print(self: FixedType) {
         self.sign.print();
         self.mag.print();
     }
 }
 
-impl fp16x16Into of Into<FixedType, felt252> {
+impl FP16x16Into of Into<FixedType, felt252> {
     fn into(self: FixedType) -> felt252 {
         let mag_felt = self.mag.into();
 
@@ -102,71 +141,71 @@ impl fp16x16Into of Into<FixedType, felt252> {
     }
 }
 
-impl fp16x16PartialEq of PartialEq<FixedType> {
+impl FP16x16PartialEq of PartialEq<FixedType> {
     #[inline(always)]
-    fn eq(lhs: FixedType, rhs: FixedType) -> bool {
-        return math_16x16::eq(lhs, rhs);
+    fn eq(lhs: @FixedType, rhs: @FixedType) -> bool {
+        return math_16x16::eq(*lhs, *rhs);
     }
 
     #[inline(always)]
-    fn ne(lhs: FixedType, rhs: FixedType) -> bool {
-        return math_16x16::ne(lhs, rhs);
+    fn ne(lhs: @FixedType, rhs: @FixedType) -> bool {
+        return math_16x16::ne(*lhs, *rhs);
     }
 }
 
-impl fp16x16Add of Add<FixedType> {
+impl FP16x16Add of Add<FixedType> {
     fn add(lhs: FixedType, rhs: FixedType) -> FixedType {
         return math_16x16::add(lhs, rhs);
     }
 }
 
-impl fp16x16AddEq of AddEq<FixedType> {
+impl FP16x16AddEq of AddEq<FixedType> {
     #[inline(always)]
     fn add_eq(ref self: FixedType, other: FixedType) {
         self = Add::add(self, other);
     }
 }
 
-impl fp16x16Sub of Sub<FixedType> {
+impl FP16x16Sub of Sub<FixedType> {
     fn sub(lhs: FixedType, rhs: FixedType) -> FixedType {
         return math_16x16::sub(lhs, rhs);
     }
 }
 
-impl fp16x16SubEq of SubEq<FixedType> {
+impl FP16x16SubEq of SubEq<FixedType> {
     #[inline(always)]
     fn sub_eq(ref self: FixedType, other: FixedType) {
         self = Sub::sub(self, other);
     }
 }
 
-impl fp16x16Mul of Mul<FixedType> {
+impl FP16x16Mul of Mul<FixedType> {
     fn mul(lhs: FixedType, rhs: FixedType) -> FixedType {
         return math_16x16::mul(lhs, rhs);
     }
 }
 
-impl fp16x16MulEq of MulEq<FixedType> {
+impl FP16x16MulEq of MulEq<FixedType> {
     #[inline(always)]
     fn mul_eq(ref self: FixedType, other: FixedType) {
         self = Mul::mul(self, other);
     }
 }
 
-impl fp16x16Div of Div<FixedType> {
+impl FP16x16Div of Div<FixedType> {
     fn div(lhs: FixedType, rhs: FixedType) -> FixedType {
         return math_16x16::div(lhs, rhs);
     }
 }
 
-impl fp16x16DivEq of DivEq<FixedType> {
+impl FP16x16DivEq of DivEq<FixedType> {
     #[inline(always)]
     fn div_eq(ref self: FixedType, other: FixedType) {
         self = Div::div(self, other);
     }
 }
 
-impl fp16x16PartialOrd of PartialOrd<FixedType> {
+impl FP16x16PartialOrd of PartialOrd<FixedType> {
     #[inline(always)]
     fn ge(lhs: FixedType, rhs: FixedType) -> bool {
         return math_16x16::ge(lhs, rhs);
@@ -188,10 +227,28 @@ impl fp16x16PartialOrd of PartialOrd<FixedType> {
     }
 }
 
-impl fp16x16Neg of Neg<FixedType> {
+impl FP16x16Neg of Neg<FixedType> {
     #[inline(always)]
     fn neg(a: FixedType) -> FixedType {
         return math_16x16::neg(a);
+    }
+}
+
+impl FP16x16TryIntoI32 of TryInto<FixedType, i32> {
+    fn try_into(self: FixedType) -> Option<i32> {
+        _i32_try_from_fp(self)
+    }
+}
+
+impl FP16x16TryIntoI8 of TryInto<FixedType, i8> {
+    fn try_into(self: FixedType) -> Option<i8> {
+        _i8_try_from_fp(self)
+    }
+}
+
+impl FP16x16TryIntoU32 of TryInto<FixedType, u32> {
+    fn try_into(self: FixedType) -> Option<u32> {
+        _u32_try_from_fp(self)
     }
 }
 
@@ -211,3 +268,29 @@ fn _felt_abs(a: felt252) -> felt252 {
     }
 }
 
+fn _i32_try_from_fp(x: FixedType) -> Option<i32> {
+    let unscaled_mag: Option<u32> = (x.mag / ONE).try_into();
+
+    match unscaled_mag {
+        Option::Some(val) => Option::Some(i32 { mag: unscaled_mag.unwrap(), sign: x.sign }),
+        Option::None(_) => Option::None(())
+    }
+}
+
+fn _i8_try_from_fp(x: FixedType) -> Option<i8> {
+    let unscaled_mag: Option<u8> = (x.mag / ONE).try_into();
+
+    match unscaled_mag {
+        Option::Some(val) => Option::Some(i8 { mag: unscaled_mag.unwrap(), sign: x.sign }),
+        Option::None(_) => Option::None(())
+    }
+}
+
+fn _u32_try_from_fp(x: FixedType) -> Option<u32> {
+    let unscaled: Option<u32> = (x.mag / ONE).try_into();
+
+    match unscaled {
+        Option::Some(val) => Option::Some(unscaled.unwrap()),
+        Option::None(_) => Option::None(())
+    }
+}

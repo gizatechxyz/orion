@@ -3,32 +3,28 @@ use orion::numbers::fixed_point::core::FixedType;
 
 /// Trait
 ///
-/// quantize_linear - Quantizes a Tensor using symmetric quantization.
-/// quantize_linear_from_fp - Quantizes a FixedType Tensor using symmetric quantization.
-trait PerfomanceTrait<T> {
+/// quantize_linear - Quantizes a Tensor using linear quantization.
+/// dequantize_linear - Dequantizes a Tensor using linear dequantization.
+trait PerfomanceTrait<T, Q> {
     /// # performance.quantize_linear
     /// 
     /// ```rust
-    /// fn quantize_linear(self: @Tensor<T>) -> Tensor<T>;
+    /// fn quantize_linear(self: @Tensor<T>, y_scale: @Tensor<T>, y_zero_point: @Tensor<T>) -> Tensor::<Q>;
     /// ```
     /// 
-    /// Quantizes a Tensor using symmetric quantization.
+    /// Quantizes a Tensor using linear quantization.
     ///
-    /// This is an 8-bit linear quantization of a tensor. This method allows tensors to be stored at lower bitwidths than those of fixed-point precision.
-    /// 
-    /// During quantization, the unquantized values are mapped to an 8 bit quantization space of the form:
-    /// 
-    /// `quantized_value = value / scale`
-    /// 
-    /// `scale` is a positive number used to map the unquantized numbers to a quantization space. It is calculated as follows in symmetric quantization:
-    /// 
-    /// ```
-    ///  scale = max(abs(data_range_max), abs(data_range_min)) * 2 / (quantization_range_max - quantization_range_min)
-    /// ```
-    /// 
+    /// The linear quantization operator. It consumes a high precision tensor, a scale, and a zero point 
+    /// to compute the low precision / quantized tensor. The scale factor and zero point must have same shape, 
+    /// and can be either a scalar for per-tensor / per layer quantization, or a 1-D tensor for per-axis quantization.
+    /// The quantization formula is `y = saturate ((x / y_scale) + y_zero_point)`. For saturation, it saturates to `[-128, 127]`. 
+    /// For (x / y_scale), it's rounding to the nearest even.
+    ///
     /// ## Args
     ///
-    /// * `tensor`(`@Tensor<T>`) - The input tensor.
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `y_scale`(`@Tensor<T>`) - Scale for doing quantization to get `y`.
+    /// * `y_zero_point`(`@Tensor<T>`) - Zero point for doing quantization to get `y`.
     ///
     /// ## Returns
     ///
@@ -38,64 +34,95 @@ trait PerfomanceTrait<T> {
     /// 
     /// ```rust
     /// use orion::performance::core::PerfomanceTrait;
-    /// use orion::performance::implementations::impl_performance_i32;
+    /// use orion::performance::implementations::impl_performance_i32::Performance_i32_i8;
     /// 
-    /// fn quantize_linear_example() -> Tensor<i32> {
-    ///     // We instantiate a 2D Tensor here.
-    ///     // [[-30523, 24327, -12288],[29837, -19345, 15416]]
-    ///     let tensor = i32_tensor_3x2_helper();
-    /// 		
+    /// fn quantize_linear_example() -> Tensor<i8> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // [0, 2, 3, 1000, -254, -1000]
+    ///     let x = i32_tensor_1D_helper();
+    ///
+    ///     // We instantiate the y_scale here.
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(1);
+    ///     let mut data = ArrayTrait::<i32>::new();
+    ///     data.append(IntegerTrait::new(2, false));
+    ///     let extra = Option::<ExtraParams>::None(());
+    ///     let y_scale = TensorTrait::new(shape.span(), data.span(), extra);
+    /// 
+    ///     // We instantiate the y_zero_point here.
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(1);
+    ///     let mut data = ArrayTrait::<i32>::new();
+    ///     data.append(IntegerTrait::new(1, false));
+    ///     let extra = Option::<ExtraParams>::None(());
+    ///     let y_zero_point = TensorTrait::new(shape.span(), data.span(), extra);
+    /// 
     ///     // We can call `quantize_linear` function as follows.
-    ///     return PerfomanceTrait::quantize_linear(@tensor);
+    ///     return x.quantize_linear(@y_scale, @y_zero_point);
     /// }
-    /// >>> [[-127, 101, -51],[124, -80, 64]]
+    /// >>> [1, 2, 2, 127, -126, -128]
     /// ```
     ///
-    fn quantize_linear(self: @Tensor<T>) -> Tensor<T>;
-    /// # performance.quantize_linear_from_fp
+    fn quantize_linear(
+        self: @Tensor<T>, y_scale: @Tensor<T>, y_zero_point: @Tensor<T>
+    ) -> Tensor::<Q>;
+    /// # performance.dequantize_linear
     /// 
     /// ```rust
-    /// fn quantize_linear_from_fp(self: @Tensor<FixedType>) -> Tensor<T>;
+    /// fn dequantize_linear(self: @Tensor<Q>, x_scale: @Tensor<T>, x_zero_point: @Tensor<T>) -> Tensor::<T>;
     /// ```
     /// 
-    /// Quantizes a FixedType Tensor using symmetric quantization.
+    /// Dequantizes a Tensor using linear dequantization.
     ///
-    /// This is an 8-bit linear quantization of a tensor. This method allows tensors to be stored at lower bitwidths than those of fixed-point precision.
-    /// 
-    /// During quantization, the unquantized values are mapped to an 8 bit quantization space of the form:
-    /// 
-    /// `quantized_value = value / scale`
-    /// 
-    /// `scale` is a positive number used to map the unquantized numbers to a quantization space. It is calculated as follows in symmetric quantization:
-    /// 
-    /// ```
-    ///  scale = max(abs(data_range_max), abs(data_range_min)) * 2 / (quantization_range_max - quantization_range_min)
-    /// ```
-    /// 
+    /// The linear dequantization operator. It consumes a quantized tensor, a scale, and a zero point to compute 
+    /// the full precision tensor. The dequantization formula is y = (x - x_zero_point) * x_scale. x_scale and 
+    /// x_zero_point must have same shape, and can be either a scalar for per-tensor / per layer quantization, 
+    /// or a 1-D tensor for per-axis quantization.
+    ///
     /// ## Args
     ///
-    /// * `tensor`(`@Tensor<FixedType>`) - The input FixedType tensor.
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `x_scale`(`@Tensor<T>`) - Scale for input `x`.
+    /// * `x_zero_point`(`@Tensor<T>`) - Zero point for input `x`.
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<T>` with the same shape as the input tensor, containing the quantized values.
+    /// A new `Tensor<T>` with the same shape as the input tensor, containing the dequantized values.
     ///
     /// ## Examples
     /// 
     /// ```rust
     /// use orion::performance::core::PerfomanceTrait;
-    /// use orion::performance::implementations::impl_performance_i32;
+    /// use orion::performance::implementations::impl_performance_i32::Performance_i32_i8;
     /// 
     /// fn quantize_linear_example() -> Tensor<i32> {
-    ///     // We instantiate a FixedType 2D Tensor here.
-    ///     // [[838860800, 1258291200, 1677721600],[-838860800, -1258291200, -1677721600]]
-    ///     let tensor = fp_tensor_3x2_helper();
-    /// 		
-    ///     // We can call `quantize_linear_from_fp` function as follows.
-    ///     return PerfomanceTrait::quantize_linear_from_fp(@tensor);
+    ///     // We instantiate a 1D quantized Tensor here.
+    ///     // [0, 3, 125, 127]
+    ///     let x: Tensor<i8> = i32_tensor_1D_helper();
+    ///
+    ///     // We instantiate the x_scale here.
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(1);
+    ///     let mut data = ArrayTrait::<i32>::new();
+    ///     data.append(IntegerTrait::new(2, false));
+    ///     let extra = Option::<ExtraParams>::None(());
+    ///     let x_scale = TensorTrait::new(shape.span(), data.span(), extra);
+    /// 
+    ///     // We instantiate the x_zero_point here.
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(1);
+    ///     let mut data = ArrayTrait::<i32>::new();
+    ///     data.append(IntegerTrait::new(0, false));
+    ///     let extra = Option::<ExtraParams>::None(());
+    ///     let x_zero_point = TensorTrait::new(shape.span(), data.span(), extra);
+    /// 
+    ///     // We can call `dequantize_linear` function as follows.
+    ///     return x.dequantize_linear(@x_scale, @x_zero_point);
     /// }
-    /// >>> [[63, 95, 127],[-63, -95, -127]]
+    /// >>> [0, 6, 250, 254]
     /// ```
     ///
-    fn quantize_linear_from_fp(self: @Tensor<FixedType>) -> Tensor<T>;
+    fn dequantize_linear(
+        self: @Tensor<Q>, x_scale: @Tensor<T>, x_zero_point: @Tensor<T>
+    ) -> Tensor::<T>;
 }

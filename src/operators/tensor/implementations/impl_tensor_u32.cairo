@@ -27,7 +27,20 @@ use orion::operators::tensor::linalg::transpose::transpose_u32::transpose;
 use orion::operators::tensor::math::exp::exp_u32::core::exp_u32;
 use orion::operators::tensor::math::ln::ln_u32::core::ln_u32;
 use orion::operators::tensor::math::arithmetic::arithmetic_u32::{add, sub, mul, div};
-use orion::utils::check_gas;
+use orion::operators::tensor::math::cumsum::cumsum_u32::cumsum;
+use orion::operators::tensor::math::flatten::flatten_u32::flatten;
+use orion::operators::tensor::math::sinh::sinh_u32::core::sinh_u32;
+use orion::operators::tensor::math::tanh::tanh_u32::core::tanh_u32;
+use orion::operators::tensor::math::cosh::cosh_u32::core::cosh_u32;
+use orion::operators::tensor::math::acosh::acosh_u32::core::acosh_u32;
+use orion::operators::tensor::math::asinh::asinh_u32::core::asinh_u32;
+
+
+use orion::operators::tensor::math::sin::sin_u32::core::sin_u32;
+use orion::operators::tensor::math::cos::cos_u32::core::cos_u32;
+use orion::operators::tensor::math::asin::asin_u32::core::asin_u32;
+use orion::operators::tensor::math::atan::atan_u32::core::atan_u32;
+
 
 impl Tensor_u32 of TensorTrait<u32> {
     fn new(shape: Span<usize>, data: Span<u32>, extra: Option<ExtraParams>) -> Tensor<u32> {
@@ -66,11 +79,15 @@ impl Tensor_u32 of TensorTrait<u32> {
         reduce_sum(self, axis, keepdims)
     }
 
-    fn argmax(self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+    fn argmax(
+        self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize> {
         argmax(self, axis, keepdims, select_last_index)
     }
 
-    fn argmin(self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize> {
+    fn argmin(
+        self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize> {
         argmin(self, axis, keepdims, select_last_index)
     }
 
@@ -118,10 +135,56 @@ impl Tensor_u32 of TensorTrait<u32> {
     fn ceil(self: @Tensor<u32>) -> Tensor<u32> {
         ceil(self)
     }
+
+    fn sin(self: @Tensor<u32>) -> Tensor<FixedType> {
+        sin_u32(self).unwrap()
+    }
+
+    fn cos(self: @Tensor<u32>) -> Tensor<FixedType> {
+        cos_u32(self).unwrap()
+    }
+
+    fn asin(self: @Tensor<u32>) -> Tensor<FixedType> {
+        asin_u32(self).unwrap()
+    }
+
+    fn cumsum(
+        self: @Tensor<u32>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
+    ) -> Tensor<u32> {
+        cumsum(self, axis, exclusive, reverse)
+    }
+
+    fn flatten(self: @Tensor<u32>, axis: usize) -> Tensor<u32> {
+        flatten(self, axis)
+    }
+
+    fn sinh(self: @Tensor<u32>) -> Tensor<FixedType> {
+        sinh_u32(self).unwrap()
+    }
+
+    fn tanh(self: @Tensor<u32>) -> Tensor<FixedType> {
+        tanh_u32(self).unwrap()
+    }
+
+    fn cosh(self: @Tensor<u32>) -> Tensor<FixedType> {
+        cosh_u32(self).unwrap()
+    }
+
+    fn acosh(self: @Tensor<u32>) -> Tensor<FixedType> {
+        acosh_u32(self).unwrap()
+    }
+
+    fn asinh(self: @Tensor<u32>) -> Tensor<FixedType> {
+        asinh_u32(self).unwrap()
+    }
+
+    fn atan(self: @Tensor<u32>) -> Tensor<FixedType> {
+        atan_u32(self).unwrap()
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.
-impl U32TensorAdd of Add<Tensor<u32>> {
+impl u32TensorAdd of Add<Tensor<u32>> {
     /// Adds two `Tensor<u32>` instances element-wise.
     ///
     /// # Arguments
@@ -136,7 +199,7 @@ impl U32TensorAdd of Add<Tensor<u32>> {
 }
 
 /// Implements subtraction for `Tensor<u32>` using the `Sub` trait.
-impl U32TensorSub of Sub<Tensor<u32>> {
+impl u32TensorSub of Sub<Tensor<u32>> {
     /// Subtracts two `Tensor<u32>` instances element-wise.
     ///
     /// # Arguments
@@ -151,7 +214,7 @@ impl U32TensorSub of Sub<Tensor<u32>> {
 }
 
 /// Implements multiplication for `Tensor<u32>` using the `Mul` trait.
-impl U32TensorMul of Mul<Tensor<u32>> {
+impl u32TensorMul of Mul<Tensor<u32>> {
     /// Multiplies two `Tensor<u32>` instances element-wise.
     ///
     /// # Arguments
@@ -166,7 +229,7 @@ impl U32TensorMul of Mul<Tensor<u32>> {
 }
 
 /// Implements division for `Tensor<u32>` using the `Div` trait.
-impl U32TensorDiv of Div<Tensor<u32>> {
+impl u32TensorDiv of Div<Tensor<u32>> {
     /// Divides two `Tensor<u32>` instances element-wise.
     ///
     /// # Arguments

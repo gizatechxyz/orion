@@ -1,9 +1,9 @@
 use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
-use orion::numbers::fixed_point::implementations::impl_16x16;
+use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::math::ceil::ceil_fp::fp8x23;
 use orion::operators::tensor::math::ceil::ceil_fp::fp16x16;
-use orion::utils::check_gas;
+
 
 /// Cf: TensorTrait::ceil docstring
 fn ceil(z: @Tensor<FixedType>) -> Option<Tensor<FixedType>> {

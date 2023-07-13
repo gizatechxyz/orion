@@ -2,10 +2,11 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use orion::utils::check_gas;
-use orion::operators::tensor::implementations::impl_tensor_fp;
-use orion::numbers::fixed_point::implementations::impl_16x16;
 
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+use orion::numbers::fixed_point::implementations::impl_16x16::{
+    FP16x16Impl, FP16x16Mul, FP16x16AddEq
+};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::core::{Tensor, ExtraParams, TensorTrait};
 use orion::operators::tensor::linalg::matmul::helpers::{
@@ -19,10 +20,10 @@ fn matmul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedTy
     let self_ndim = (self_shape).len();
     let other_ndim = (other_shape).len();
 
-    assert(self_ndim <= 2 | other_ndim <= 2, 'supports only 1D and 2D matmul');
+    assert(self_ndim <= 2 || other_ndim <= 2, 'supports only 1D and 2D matmul');
 
     //! Case: Both tensors are 1-dimensional
-    if self_ndim == 1 & other_ndim == 1 {
+    if self_ndim == 1 && other_ndim == 1 {
         let dot = dot_product((*self).data, (*other).data);
         let mut result_shape = ArrayTrait::new();
         let mut result_data = ArrayTrait::new();
@@ -59,7 +60,6 @@ fn dot_product(mut vec1: Span<FixedType>, mut vec2: Span<FixedType>) -> FixedTyp
     let mut result: FixedType = FixedTrait::new_unscaled(0, false);
 
     loop {
-        check_gas();
         if vec1.len() == 0 {
             break ();
         }
@@ -89,9 +89,9 @@ fn dot_product(mut vec1: Span<FixedType>, mut vec2: Span<FixedType>) -> FixedTyp
 fn matrix_multiply(
     mat1: Span<FixedType>, mat1_shape: Span<usize>, mat2: Span<FixedType>, mat2_shape: Span<usize>
 ) -> Tensor<FixedType> {
-    let m = *mat1_shape.at(0);
-    let n = *mat1_shape.at(1);
-    let p = *mat2_shape.at(1);
+    let m = *mat1_shape[0];
+    let n = *mat1_shape[1];
+    let p = *mat2_shape[1];
 
     let mut result_data = ArrayTrait::new();
     let mut result_shape = ArrayTrait::new();
@@ -100,14 +100,12 @@ fn matrix_multiply(
 
     let mut i = 0_usize;
     loop {
-        check_gas();
         if i == m {
             break ();
         }
 
         let mut j = 0_usize;
         loop {
-            check_gas();
             if j == p {
                 break ();
             }
@@ -115,14 +113,13 @@ fn matrix_multiply(
             let mut sum: FixedType = FixedTrait::new_unscaled(0, false);
             let mut k = 0_usize;
             loop {
-                check_gas();
                 if k == n {
                     break ();
                 }
 
                 let mat1_index = i * n + k;
                 let mat2_index = k * p + j;
-                sum += *mat1.at(mat1_index) * *mat2.at(mat2_index);
+                sum += *mat1[mat1_index] * *mat2[mat2_index];
 
                 k += 1;
             };

@@ -20,44 +20,31 @@
 [![Join the community](https://dcbadge.vercel.app/api/server/FR3Cd88x6r?style=flat-square)](https://discord.gg/FR3Cd88x6r)
 </div>
 
-
-# Orion: Cairo library for Validity ML ✨
+# Orion: An Open-source Framework for Validity and ZK ML ✨
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
+Orion is an open-source, community-driven framework dedicated to Provable Machine Learning. It provides essential components and a new ONNX runtime for building verifiable Machine Learning models using [STARKs](https://starkware.co/stark/).
 
+## 🤔 What is ONNX Runtime?
 
-Orion is a Cairo library that provides two high-level features:
+ONNX (Open Neural Network Exchange), is an open-source standard created to represent deep learning models. The aim of its development was to enable interoperability among diverse deep learning frameworks, like TensorFlow or PyTorch. By offering a universal file format, ONNX allows models trained in one framework to be readily applied in another for inference, eliminating the need for model conversion.
 
-* Tensor computation (like Numpy) in Cairo 1.0.
-* Verifiable Machine Learning models using STARKS.
+Ensuring compatibility with ONNX operators facilitates integration into the ONNX ecosystem. This enables researchers and developers to pre-train models using their preferred framework, before executing verifiable inferences with Orion.
 
-### 🤔 What is ONNX Runtime inference?
+## 🌱 Where to start?
 
-ONNX Runtime is an open-source, high-performance inference engine for machine learning models in the Open Neural Network Exchange (ONNX) format. ONNX is an interoperable format that allows deep learning models to be represented, shared, and executed across different AI frameworks and platforms.
+You can check our official docs [here](https://orion.gizatech.xyz/welcome/readme).
+- 🧱 [Framework](https://orion.gizatech.xyz/v/develop/framework/get-started): The building blocks for Verifiable Machine Learning models.
+- 🏛 [Hub](https://orion.gizatech.xyz/v/develop/hub/algorithms): A curated collection of ML models and spaces built by the community using Orion framework.
+- 🎓 [Academy](https://orion.gizatech.xyz/v/develop/academy/tutorials): Resources and tutorials for learning how to build ValidityML models using Orion.
 
-ONNX Runtime inference can enable faster user experiences and lower costs, supporting models from deep learning frameworks such as PyTorch and TensorFlow/Keras as well as classical machine learning libraries such as scikit-learn, LightGBM, XGBoost, etc. ONNX Runtime is compatible with various hardware, drivers, and operating systems, and provides optimal performance by leveraging hardware accelerators where applicable alongside graph optimizations and transforms. [Learn more →](https://www.onnxruntime.ai/docs/#onnx-runtime-for-inferencing)
+## ✨ What's new?
 
-This library proposes a new ONNX runtime built with [Cairo](https://www.cairo-lang.org/). The purpose is to provide a runtime implementation for verifiable ML model inferences using [STARKs](https://starkware.co/stark/).
+For a detailed list of changes, please refer to the [CHANGELOG](https://github.com/franalgaba/onnx-cairo/blob/main/docs/CHANGELOG.md) file.
 
-✨🚀 **New contributors are welcome to implement new ONNX Operators in Cairo 1.0!** 🌟💡
-
-## 📚 How to use our docs
-
-You can check our official docs [here](https://orion.gizatech.xyz/).
- 
-- ⚙️ **APIs** includes our Getting Started guide, API Reference, and more advanced features of the core like Tensor, Operators and Optimizations.
-
-- 🧩 **Algorithms** is an open collection of algorithms implemented using Orion to be used by the community.
-
-- 🧠 **Knowledge base** is a self-serve library of tips, step-by-step tutorials, and articles that answer your questions about creating verifiable ML models in Cairo.
-
-## 🌟 What's new
-
-For a detailed list of changes, please refer to the [CHANGELOG](./docs/CHANGELOG.md) file.
-
-## 🤝 Join the community!
+## 💖 Join the community!
 
 Join the community and help build a safer and transparent AI in our [Discord](https://discord.gg/Kt24CsMb5k)!
 
@@ -69,7 +56,7 @@ For a full list of all authors and contributors, see [the contributors page](htt
 
 This project is licensed under the **MIT license**.
 
-See [LICENSE](LICENSE) for more information.
+See [LICENSE](https://github.com/franalgaba/onnx-cairo/blob/main/LICENSE/README.md) for more information.
 
 ## Contributors ✨
 
