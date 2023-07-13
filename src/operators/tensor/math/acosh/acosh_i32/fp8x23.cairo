@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::signed_integer::i32::i32;
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
-use orion::utils::check_gas;
+
 
 /// Cf: TensorTrait::acosh docstring
 fn acosh(self: @Tensor<i32>) -> Tensor<FixedType> {
@@ -16,7 +16,7 @@ fn acosh(self: @Tensor<i32>) -> Tensor<FixedType> {
     let mut data = *self.data;
 
     loop {
-        check_gas();
+        
 
         let ele = *data.pop_front().unwrap();
         let val = FixedTrait::new_unscaled(ele.mag.into(), ele.sign);

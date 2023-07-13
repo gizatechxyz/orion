@@ -2,7 +2,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use orion::utils::check_gas;
+
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, ExtraParams, TensorTrait, };
 use orion::operators::tensor::linalg::matmul::helpers::{
@@ -56,7 +56,7 @@ fn dot_product(mut vec1: Span<u32>, mut vec2: Span<u32>) -> u32 {
     let mut result: u32 = 0;
 
     loop {
-        check_gas();
+        
         if vec1.len() == 0 {
             break ();
         }
@@ -97,14 +97,14 @@ fn matrix_multiply(
 
     let mut i = 0_usize;
     loop {
-        check_gas();
+        
         if i == m {
             break ();
         }
 
         let mut j = 0_usize;
         loop {
-            check_gas();
+            
             if j == p {
                 break ();
             }
@@ -112,7 +112,7 @@ fn matrix_multiply(
             let mut sum: u32 = 0;
             let mut k = 0_usize;
             loop {
-                check_gas();
+                
                 if k == n {
                     break ();
                 }

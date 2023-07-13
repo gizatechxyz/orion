@@ -7,7 +7,7 @@ use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::utils::check_gas;
+
 
 /// Cf: NNTrait::sigmoid docstring
 fn sigmoid_u32(z: @Tensor<u32>) -> Tensor<FixedType> {
@@ -15,7 +15,7 @@ fn sigmoid_u32(z: @Tensor<u32>) -> Tensor<FixedType> {
     let mut data = *z.data;
     let fp_one = FixedTrait::new_unscaled(1, false);
     loop {
-        check_gas();
+        
         if data.len() == 0 {
             break ();
         };

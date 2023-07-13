@@ -17,7 +17,7 @@ mod input_1D {
         use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
 
         #[test]
-        #[available_gas(5000000)]
+        #[available_gas(50000000)]
         fn sigmoid() {
             let mut shape = ArrayTrait::<usize>::new();
             shape.append(4);
@@ -68,7 +68,7 @@ mod input_1D {
 
 
         #[test]
-        #[available_gas(5000000)]
+        #[available_gas(50000000)]
         fn sigmoid() {
             let mut shape = ArrayTrait::<usize>::new();
             shape.append(4);
@@ -123,7 +123,7 @@ mod input_2D {
         use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
 
         #[test]
-        #[available_gas(5000000)]
+        #[available_gas(50000000)]
         fn sigmoid() {
             let mut shape = ArrayTrait::<usize>::new();
             shape.append(2);
@@ -175,7 +175,7 @@ mod input_2D {
 
 
         #[test]
-        #[available_gas(5000000)]
+        #[available_gas(50000000)]
         fn sigmoid() {
             let mut shape = ArrayTrait::<usize>::new();
             shape.append(2);
@@ -231,7 +231,7 @@ mod input_3D {
         use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
 
         #[test]
-        #[available_gas(5000000)]
+        #[available_gas(50000000)]
         fn sigmoid() {
             let mut shape = ArrayTrait::<usize>::new();
             shape.append(2);
@@ -304,7 +304,7 @@ mod input_3D {
 
 
         #[test]
-        #[available_gas(5000000)]
+        #[available_gas(50000000)]
         fn sigmoid() {
             let mut shape = ArrayTrait::<usize>::new();
             shape.append(2);

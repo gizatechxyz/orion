@@ -7,7 +7,7 @@ use orion::operators::tensor::helpers::broadcast_shape;
 use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index, };
 use orion::operators::tensor::helpers::{broadcast_index_mapping, len_from_shape, };
 use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
-use orion::utils::check_gas;
+
 use orion::utils::saturate;
 
 /// Adds two `Tensor<i8>` instances element-wise with broadcasting.
@@ -30,7 +30,7 @@ fn add(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
 
     let mut n: usize = 0;
     loop {
-        check_gas();
+        
 
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
@@ -70,7 +70,7 @@ fn saturated_add(self: @Tensor<i8>, other: @Tensor<i8>, min: i8, max: i8) -> Ten
 
     let mut n: usize = 0;
     loop {
-        check_gas();
+        
 
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
@@ -111,7 +111,7 @@ fn sub(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
 
     let mut n: usize = 0;
     loop {
-        check_gas();
+        
 
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
@@ -151,7 +151,7 @@ fn saturated_sub(self: @Tensor<i8>, other: @Tensor<i8>, min: i8, max: i8) -> Ten
 
     let mut n: usize = 0;
     loop {
-        check_gas();
+        
 
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
@@ -192,7 +192,7 @@ fn mul(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
 
     let mut n: usize = 0;
     loop {
-        check_gas();
+        
 
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
@@ -232,7 +232,7 @@ fn saturated_mul(self: @Tensor<i8>, other: @Tensor<i8>, min: i8, max: i8) -> Ten
 
     let mut n: usize = 0;
     loop {
-        check_gas();
+        
 
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
@@ -273,7 +273,7 @@ fn div(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
 
     let mut n: usize = 0;
     loop {
-        check_gas();
+        
 
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
@@ -313,7 +313,7 @@ fn saturated_div(self: @Tensor<i8>, other: @Tensor<i8>, min: i8, max: i8) -> Ten
 
     let mut n: usize = 0;
     loop {
-        check_gas();
+        
 
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
