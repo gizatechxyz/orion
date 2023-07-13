@@ -6,14 +6,11 @@ use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 
-
 /// Cf: TensorTrait::abs docstring
 fn abs(z: @Tensor<i8>) -> Tensor<i8> {
     let mut data_result = ArrayTrait::<i8>::new();
     let mut data = *z.data;
     loop {
-       
-
         if data.len() == 0 {
             break ();
         };

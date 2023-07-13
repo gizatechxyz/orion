@@ -14,8 +14,6 @@ fn relu_i8(z: @Tensor<i8>, threshold: i8) -> Tensor<i8> {
 
     let zero = IntegerTrait::new(0, false);
     loop {
-       
-
         if data.len() == 0 {
             break ();
         };

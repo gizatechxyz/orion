@@ -10,15 +10,12 @@ use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
 
 
-
 /// Cf: NNTrait::sigmoid docstring
 fn sigmoid_i8(z: @Tensor<i8>) -> Tensor<FixedType> {
     let mut data_result = ArrayTrait::<FixedType>::new();
     let mut data = *z.data;
     let fp_one = FixedTrait::new_unscaled(1, false);
     loop {
-       
-
         if data.len() == 0 {
             break ();
         };
