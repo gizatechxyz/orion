@@ -18,11 +18,11 @@ The hyperbolic sine of the input fixed point number.
 
 ```rust
 fn sinh_fp_example() -> FixedType {
-// We instantiate fixed point here.
-let fp = FixedTrait::from_unscaled_felt(2);
-
-// We can call `sinh` function as follows.
-fp.sinh()
+    // We instantiate fixed point here.
+    let fp = FixedTrait::from_unscaled_felt(2);
+    
+    // We can call `sinh` function as follows.
+    fp.sinh()
 }
 >>> {mag: 30424311, sign: false} // = 3.6268604
-```
+``` 

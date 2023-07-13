@@ -19,8 +19,8 @@ A new fixed point instance.
 
 ```rust
 fn new_unscaled_example() -> FixedType {
-// We can call `new_unscaled` function as follows.
-FixedTrait::new_unscaled(1);
+    // We can call `new_unscaled` function as follows. 
+    FixedTrait::new_unscaled(1);
 }
 >>> {mag: 67108864, sign: false}
 ```

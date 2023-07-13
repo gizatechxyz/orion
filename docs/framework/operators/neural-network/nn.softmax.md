@@ -1,7 +1,7 @@
 # NNTrait::softmax
 
-```rust
-fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>;
+```rust 
+   fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>;
 ```
 
 Applies the Softmax function to an n-dimensional input Tensor rescaling them so that the elements of the n-dimensional output Tensor lie in the range \[0,1] and sum to 1.
@@ -26,14 +26,14 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
 
 fn softmax_example() -> Tensor<FixedType> {
-// We instantiate a 2D Tensor here.
-// [[0,1],[2,3]]
-let tensor = u32_tensor_2x2_helper();
-
-// We can call `softmax` function as follows.
-return NNTrait::softmax(@tensor, 1);
+    // We instantiate a 2D Tensor here.
+    // [[0,1],[2,3]]
+    let tensor = u32_tensor_2x2_helper();
+		
+    // We can call `softmax` function as follows.
+    return NNTrait::softmax(@tensor, 1);
 }
 >>> [[2255697,6132911],[2255697,6132911]]
-// The fixed point representation of
-// [[0.2689, 0.7311],[0.2689, 0.7311]]
+    // The fixed point representation of
+    // [[0.2689, 0.7311],[0.2689, 0.7311]]
 ```

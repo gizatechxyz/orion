@@ -1,7 +1,7 @@
 # tensor.cosh
 
-```rust
-fn cosh(self: @Tensor<T>) -> Tensor<FixedType>;
+```rust 
+    fn cosh(self: @Tensor<T>) -> Tensor<FixedType>;
 ```
 
 Computes the hyperbolic cosine of all elements of the input tensor.
@@ -21,12 +21,12 @@ Returns a new tensor in `FixedType` with the hyperblic cosine of the elements of
 
 ```rust
 fn cosh_example() -> Tensor<FixedType> {
-// We instantiate a 2D Tensor here.
-// [[0,1],[2,3]]
-let tensor = u32_tensor_2x2_helper();
-
-// We can call `cosh` function as follows.
-return tensor.cosh();
+    // We instantiate a 2D Tensor here.
+    // [[0,1],[2,3]]
+    let tensor = u32_tensor_2x2_helper();
+		
+    // We can call `cosh` function as follows.
+    return tensor.cosh();
 }
 >>> [[9858303,12944299],[31559585,84453670]]
 // The fixed point representation of

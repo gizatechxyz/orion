@@ -19,8 +19,8 @@ A new fixed point instance.
 
 ```rust
 fn new_fp_example() -> FixedType {
-// We can call `new` function as follows.
-FixedTrait::new(67108864, false)
+    // We can call `new` function as follows. 
+    FixedTrait::new(67108864, false)
 }
 >>> {mag: 67108864, sign: false} // = 1
 ```

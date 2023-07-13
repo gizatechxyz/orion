@@ -18,11 +18,11 @@ The natural exponent of the input fixed point number.
 
 ```rust
 fn exp_fp_example() -> FixedType {
-// We instantiate fixed point here.
-let fp = FixedTrait::from_unscaled_felt(2);
-
-// We can call `exp` function as follows.
-fp.exp()
+    // We instantiate fixed point here.
+    let fp = FixedTrait::from_unscaled_felt(2);
+    
+    // We can call `exp` function as follows.
+    fp.exp()
 }
 >>> {mag: 495871144, sign: false} // = 7.389056317241236
-```
+``` 

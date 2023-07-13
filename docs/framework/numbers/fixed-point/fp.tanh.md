@@ -18,11 +18,11 @@ The hyperbolic tangent of the input fixed point number.
 
 ```rust
 fn tanh_fp_example() -> FixedType {
-// We instantiate fixed point here.
-let fp = FixedTrait::from_unscaled_felt(2);
-
-// We can call `tanh` function as follows.
-fp.tanh()
+    // We instantiate fixed point here.
+    let fp = FixedTrait::from_unscaled_felt(2);
+    
+    // We can call `tanh` function as follows.
+    fp.tanh()
 }
 >>> {mag: 8086850, sign: false} // = 0.964027...
-```
+``` 

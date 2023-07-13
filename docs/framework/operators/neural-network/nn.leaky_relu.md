@@ -1,7 +1,7 @@
 # NNTrait::leaky_relu
 
 ```rust
-fn leaky_relu(inputs: @Tensor<T>, alpha: @FixedType, threshold: T) -> Tensor<FixedType>
+ fn leaky_relu(inputs: @Tensor<T>, alpha: @FixedType, threshold: T) -> Tensor<FixedType>
 ```
 
 Applies the leaky rectified linear unit (Leaky ReLU) activation function element-wise to a given tensor.
@@ -27,13 +27,13 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
 
 fn leaky_relu_example() -> Tensor<u32> {
-// We instantiate a 2D Tensor here, the alpha and set threshold to 0.
-// [[1,2,-1],[-2,0,0]]
-let tensor = i32_tensor_2x3_helper();
-let alpha = Fixed::new(6710886_u128, false); // 0.1
-let threshold = IntegerTrait::new(0, false);
-
-// We can call `leaky_relu` function as follows.
-return NNTrait::leaky_relu(@tensor, @alpha, threshold);
+    // We instantiate a 2D Tensor here, the alpha and set threshold to 0.
+    // [[1,2,-1],[-2,0,0]]
+    let tensor = i32_tensor_2x3_helper();
+    let alpha = Fixed::new(6710886_u128, false); // 0.1
+    let threshold = IntegerTrait::new(0, false);
+		
+    // We can call `leaky_relu` function as follows.
+    return NNTrait::leaky_relu(@tensor, @alpha, threshold);
 }
 ```

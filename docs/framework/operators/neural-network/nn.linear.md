@@ -27,20 +27,20 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
 
 fn linear_layer_example() -> Tensor<u32> {
-// We instantiate inputs here.
-// inputs = [-71, 38, 62]
-let inputs = i32_inputs_helper();
+    // We instantiate inputs here.
+    // inputs = [-71, 38, 62]
+    let inputs = i32_inputs_helper();
 
-// We instantiate weights here.
-// weights = [[-8, 64, 40], [-33, -34, -20]]
-let weights = i32_weights_helper();
+    // We instantiate weights here.
+    // weights = [[-8, 64, 40], [-33, -34, -20]]
+    let weights = i32_weights_helper();
 
-// We instantiate bias here.
-// weights = [61, -71]
-let weights = u32_bias_helper();
+    // We instantiate bias here.
+    // weights = [61, -71]
+    let weights = u32_bias_helper();
 
-// We can call `linear` function as follows.
-return NNTrait::linear(inputs, weights, bias);
+    // We can call `linear` function as follows.
+    return NNTrait::linear(inputs, weights, bias);
 }
 >>> [5541, -260]
 ````
