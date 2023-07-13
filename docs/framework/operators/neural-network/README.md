@@ -13,7 +13,7 @@ Orion supports currently these `NN` types.
 | Data type                 | dtype    |
 | ------------------------- | -------- |
 | 32-bit integer (signed)   | `nn_i32` |
-| 32-bit integer (signed)   | `nn_i8` |
+| 8-bit integer (signed)   | `nn_i8` |
 | 32-bit integer (unsigned) | `nn_u32` |
 
 ### NN**Trait**
