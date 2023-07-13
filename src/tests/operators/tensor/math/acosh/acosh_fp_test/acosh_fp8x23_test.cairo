@@ -15,7 +15,6 @@ mod tensor_1D {
     #[test]
     #[available_gas(20000000)]
     fn tensor_acosh_test() {
-        
         let mut sizes = ArrayTrait::new();
         sizes.append(3);
 
@@ -51,7 +50,6 @@ mod tensor_2D {
     #[test]
     #[available_gas(20000000)]
     fn tensor_acosh_test() {
-        
         let mut sizes = ArrayTrait::new();
         sizes.append(2);
         sizes.append(2);
@@ -84,7 +82,7 @@ mod tensor_3D {
 
 
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-    use orion::operators::tensor::core::{TensorTrait, ExtraParams };
+    use orion::operators::tensor::core::{TensorTrait, ExtraParams};
     use orion::tests::helpers::tensor::fixed_point::fp8x23::fp_tensor_2x2x2_helper;
     use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};

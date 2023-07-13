@@ -6,9 +6,7 @@ use orion::operators::tensor::implementations::impl_tensor_i8::{Tensor_i8, i8Ten
 use orion::performance::core::PerfomanceTrait;
 
 /// Cf: NNTrait::linear docstring
-fn linear_i8(
-    z: Tensor<i8>, weights: Tensor<i8>, bias: Tensor<i8>
-) -> Tensor<i8> {
+fn linear_i8(z: Tensor<i8>, weights: Tensor<i8>, bias: Tensor<i8>) -> Tensor<i8> {
     assert(z.shape.len() == 1, 'input tensor must be 1D');
     assert(weights.shape.len() == 2, 'weights tensor must be 2D');
     assert(bias.shape.len() == 1, 'bias tensor must be 1D');

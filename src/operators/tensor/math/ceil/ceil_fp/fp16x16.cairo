@@ -7,14 +7,11 @@ use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 
-
 /// Cf: TensorTrait::ceil docstring
 fn ceil(z: @Tensor<FixedType>) -> Tensor<FixedType> {
     let mut data_result = ArrayTrait::<FixedType>::new();
     let mut data = *z.data;
     loop {
-        
-
         if data.len() == 0 {
             break ();
         };

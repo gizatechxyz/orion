@@ -346,7 +346,6 @@ fn i8_rem(a: i8, b: i8) -> i8 {
 
 /// Cf: IntegerTrait::div_rem docstring
 fn i8_div_rem(a: i8, b: i8) -> (i8, i8) {
-    
     let quotient = i8_div(a, b);
     let remainder = i8_rem(a, b);
 

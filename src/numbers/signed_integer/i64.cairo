@@ -322,7 +322,6 @@ fn i64_rem(a: i64, b: i64) -> i64 {
 
 /// Cf: IntegerTrait::div_rem docstring
 fn i64_div_rem(a: i64, b: i64) -> (i64, i64) {
-    
     let quotient = i64_div(a, b);
     let remainder = i64_rem(a, b);
 

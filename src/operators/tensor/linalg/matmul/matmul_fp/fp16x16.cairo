@@ -60,7 +60,6 @@ fn dot_product(mut vec1: Span<FixedType>, mut vec2: Span<FixedType>) -> FixedTyp
     let mut result: FixedType = FixedTrait::new_unscaled(0, false);
 
     loop {
-        
         if vec1.len() == 0 {
             break ();
         }
@@ -101,14 +100,12 @@ fn matrix_multiply(
 
     let mut i = 0_usize;
     loop {
-        
         if i == m {
             break ();
         }
 
         let mut j = 0_usize;
         loop {
-            
             if j == p {
                 break ();
             }
@@ -116,7 +113,6 @@ fn matrix_multiply(
             let mut sum: FixedType = FixedTrait::new_unscaled(0, false);
             let mut k = 0_usize;
             loop {
-                
                 if k == n {
                     break ();
                 }

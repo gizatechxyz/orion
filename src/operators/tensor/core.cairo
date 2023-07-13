@@ -1337,7 +1337,7 @@ trait TensorTrait<T> {
     /// >>> [[0,1],[2,3],[4,5],[6,7]]
     /// ```
     ///
-    fn flatten(self: @Tensor<T>, axis:usize) -> Tensor<T>;
+    fn flatten(self: @Tensor<T>, axis: usize) -> Tensor<T>;
     /// # tensor.sinh
     ///
     /// ```rust 
@@ -1585,7 +1585,7 @@ trait TensorTrait<T> {
     /// // [0, 1.5707...]
     /// ```
     ///
-    fn asin(self: @Tensor<T>) -> Tensor<FixedType>; 
+    fn asin(self: @Tensor<T>) -> Tensor<FixedType>;
 }
 
 /// Cf: TensorTrait::new docstring
@@ -1602,8 +1602,6 @@ fn ravel_index(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
     let mut stride: usize = 1;
 
     loop {
-        
-
         if shape.len() == 0 {
             break ();
         }
@@ -1626,8 +1624,6 @@ fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
     let mut stride = len_from_shape(shape);
 
     loop {
-        
-
         if shape.len() == 0 {
             break ();
         }
@@ -1652,8 +1648,6 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
     let mut accumulated: usize = 1;
     let mut temp_result = ArrayTrait::new();
     loop {
-        
-
         temp_result.append(accumulated);
 
         if shape.len() == 0 {
@@ -1664,8 +1658,6 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
 
     let mut i: usize = shape_len - 1;
     loop {
-        
-
         result.append(*temp_result.at(i));
 
         if i == 0 {

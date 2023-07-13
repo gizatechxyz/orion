@@ -97,8 +97,12 @@ mod tensor_1D {
             data.append(FixedTrait::new_unscaled(200, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_1 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_1 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 / tensor_2).data;
 
@@ -151,7 +155,9 @@ mod tensor_2D {
             data.append(FixedTrait::new_unscaled(100, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 + tensor_2).data;
 
@@ -168,7 +174,9 @@ mod tensor_2D {
             data.append(FixedTrait::new_unscaled(100, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 + tensor_2).data;
 
@@ -218,7 +226,9 @@ mod tensor_2D {
             data.append(FixedTrait::new_unscaled(1, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 - tensor_2).data;
 
@@ -235,7 +245,9 @@ mod tensor_2D {
             data.append(FixedTrait::new_unscaled(1, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 - tensor_2).data;
 
@@ -285,7 +297,9 @@ mod tensor_2D {
             data.append(FixedTrait::new_unscaled(100, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 * tensor_2).data;
 
@@ -302,7 +316,9 @@ mod tensor_2D {
             data.append(FixedTrait::new_unscaled(100, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 * tensor_2).data;
 
@@ -339,8 +355,12 @@ mod tensor_2D {
             data.append(FixedTrait::new_unscaled(400, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_1 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_1 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 / tensor_2).data;
 
@@ -363,7 +383,9 @@ mod tensor_2D {
             data.append(FixedTrait::new_unscaled(400, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_1 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_1 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let mut sizes = ArrayTrait::new();
             sizes.append(1);
@@ -373,7 +395,9 @@ mod tensor_2D {
             data.append(FixedTrait::new_unscaled(100, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 / tensor_2).data;
 
@@ -390,7 +414,9 @@ mod tensor_2D {
             data.append(FixedTrait::new_unscaled(100, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 / tensor_2).data;
 
@@ -451,7 +477,9 @@ mod tensor_3D {
             data.append(FixedTrait::new_unscaled(100, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 + tensor_2).data;
 
@@ -473,7 +501,9 @@ mod tensor_3D {
             data.append(FixedTrait::new_unscaled(100, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 + tensor_2).data;
 
@@ -495,7 +525,9 @@ mod tensor_3D {
             data.append(FixedTrait::new_unscaled(100, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 + tensor_2).data;
 
@@ -555,7 +587,9 @@ mod tensor_3D {
             data.append(FixedTrait::new_unscaled(1, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 - tensor_2).data;
 
@@ -615,7 +649,9 @@ mod tensor_3D {
             data.append(FixedTrait::new_unscaled(100, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 * tensor_2).data;
 
@@ -660,8 +696,12 @@ mod tensor_3D {
             data.append(FixedTrait::new_unscaled(800, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_1 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_1 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 / tensor_2).data;
 
@@ -693,7 +733,9 @@ mod tensor_3D {
             data.append(FixedTrait::new_unscaled(800, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_1 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_1 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let mut sizes = ArrayTrait::new();
             sizes.append(1);
@@ -704,7 +746,9 @@ mod tensor_3D {
             data.append(FixedTrait::new_unscaled(100, false));
             let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
 
-            let tensor_2 = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+            let tensor_2 = TensorTrait::<FixedType>::new(
+                sizes.span(), data.span(), Option::Some(extra)
+            );
 
             let result = (tensor_1 / tensor_2).data;
 

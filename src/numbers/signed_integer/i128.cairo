@@ -322,7 +322,6 @@ fn i128_rem(a: i128, b: i128) -> i128 {
 
 /// Cf: IntegerTrait::div_rem docstring
 fn i128_div_rem(a: i128, b: i128) -> (i128, i128) {
-    
     let quotient = i128_div(a, b);
     let remainder = i128_rem(a, b);
 
