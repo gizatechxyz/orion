@@ -27,8 +27,6 @@
 
 Orion is an open-source, community-driven framework dedicated to Provable Machine Learning. It provides essential components and a new ONNX runtime for building verifiable Machine Learning models using [STARKs](https://starkware.co/stark/).
 
-<figure><img src=".gitbook/assets/Orion.png" alt=""><figcaption></figcaption></figure>
-
 ## 🤔 What is ONNX Runtime?
 
 ONNX (Open Neural Network Exchange), is an open-source standard created to represent deep learning models. The aim of its development was to enable interoperability among diverse deep learning frameworks, like TensorFlow or PyTorch. By offering a universal file format, ONNX allows models trained in one framework to be readily applied in another for inference, eliminating the need for model conversion.
