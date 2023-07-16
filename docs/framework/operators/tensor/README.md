@@ -36,7 +36,7 @@ Orion supports currently these tensor types.
 | Data type                 | dtype               |
 | ------------------------- | ------------------- |
 | 32-bit integer (signed)   | `Tensor<i32>`       |
-| 32-bit integer (signed)   | `Tensor<i8>`        |
+| 8-bit integer (signed)   | `Tensor<i8>`        |
 | 32-bit integer (unsigned) | `Tensor<u32>`       |
 | Fixed point  (signed)     | `Tensor<FixedType>` |
 
