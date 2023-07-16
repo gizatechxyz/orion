@@ -6,3 +6,4 @@ mod logsoftmax;
 mod softsign;
 mod softplus;
 mod linear;
+mod convint;

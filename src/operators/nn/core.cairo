@@ -349,4 +349,7 @@ trait NNTrait<T> {
     /// ```
     /// 
     fn leaky_relu(inputs: @Tensor<T>, alpha: @FixedType, threshold: T) -> Tensor<FixedType>;
+
+    fn convint(inputs: Tensor<T>, weights: Tensor<T>, bias: Tensor<T>, kernel_size: usize, strides: usize) -> Tensor<T>;
+
 }

@@ -10,6 +10,7 @@ use orion::operators::nn::functional::softsign::softsign_i32::core::softsign_i32
 use orion::operators::nn::functional::softplus::softplus_i32::core::softplus_i32;
 use orion::operators::nn::functional::linear::linear_i32::linear_i32;
 use orion::operators::nn::functional::leaky_relu::leaky_relu_i32::core::leaky_relu_i32;
+use orion::operators::nn::functional::convint::convint_i32::convint_i32;
 use orion::numbers::fixed_point::core::{FixedType};
 
 
@@ -45,4 +46,8 @@ impl NN_i32 of NNTrait<i32> {
     fn leaky_relu(inputs: @Tensor<i32>, alpha: @FixedType, threshold: i32) -> Tensor<FixedType> {
         leaky_relu_i32(inputs, alpha, threshold).unwrap()
     }
+
+    fn convint(inputs: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>, kernel_size: usize, strides: usize) -> Tensor<i32> {
+        convint_i32(inputs, weights, bias, kernel_size, strides)
+    } 
 }
