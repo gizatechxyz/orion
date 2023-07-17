@@ -1,7 +1,7 @@
+use core::traits::Into;
 use core::option::OptionTrait;
 use array::SpanTrait;
 use array::ArrayTrait;
-use debug::PrintTrait;
 
 use orion::numbers::signed_integer::i32::i32;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ExtraParams};
@@ -12,14 +12,14 @@ use orion::performance::core::PerfomanceTrait;
 /// Cf: NNTrait::convint docstring
 fn convint_i32(z: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>, kernel_size: usize, strides: usize) -> Tensor<i32> {
     assert(z.shape.len() >= 3, 'input tensor be at least 3D');
-   
+
     let n_rows = *z.shape.at(0);
     let n_columns = *z.shape.at(1);
     let n_channels = *z.shape.at(2);
     let n_filters = *weights.shape.at(3);
 
-    let i_max = (n_rows - kernel_size)/strides + 1;
-    let j_max = (n_columns - kernel_size)/strides + 1;
+    let i_max = (n_rows - kernel_size) / strides + 1;
+    let j_max = (n_columns - kernel_size) / strides + 1;
 
     let mut i = 0_usize;
 
@@ -62,12 +62,12 @@ fn convint_i32(z: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>, kernel_s
                     loop {
                         if x == kernel_size {
                             break ();
-                        }    
+                        }
 
                         let mut y = 0_usize;
                         loop {
                             if y == kernel_size {
-                                break();
+                                break ();
                             }
 
                             let mut input_indices = ArrayTrait::new();
@@ -108,7 +108,7 @@ fn convint_i32(z: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>, kernel_s
                     if (k == n_channels) {
                         break ();
                     }
-                
+
                     let mut sum_indices = ArrayTrait::new();
                     sum_indices.append(k);
                     sum_indices.append(m);
@@ -121,7 +121,7 @@ fn convint_i32(z: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>, kernel_s
                 out_data.append(sum);
 
                 m += 1;
-            };      
+            };
 
             j += 1;
         };

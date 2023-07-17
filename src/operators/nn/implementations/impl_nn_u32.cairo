@@ -1,3 +1,4 @@
+use core::array::ArrayTrait;
 use core::option::OptionTrait;
 use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::{NNTrait};
@@ -9,8 +10,8 @@ use orion::operators::nn::functional::softsign::softsign_u32::core::softsign_u32
 use orion::operators::nn::functional::softplus::softplus_u32::core::softplus_u32;
 use orion::operators::nn::functional::linear::linear_u32::linear_u32;
 use orion::operators::nn::functional::leaky_relu::leaky_relu_u32::core::leaky_relu_u32;
-use orion::operators::nn::functional::convint::convint_u32::convint_u32;
 use orion::numbers::fixed_point::core::{FixedType};
+
 
 
 impl NN_u32 of NNTrait<u32> {
@@ -47,6 +48,8 @@ impl NN_u32 of NNTrait<u32> {
     }
 
     fn convint(inputs: Tensor<u32>, weights: Tensor<u32>, bias: Tensor<u32>, kernel_size: usize, strides: usize) -> Tensor<u32> {
-        convint_u32(inputs, weights, bias, kernel_size, strides)
+        let mut data = ArrayTrait::new();
+        data.append('Not Implemented');
+        return panic(data);
     } 
 }

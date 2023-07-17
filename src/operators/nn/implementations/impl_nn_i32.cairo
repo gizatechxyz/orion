@@ -49,5 +49,5 @@ impl NN_i32 of NNTrait<i32> {
 
     fn convint(inputs: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>, kernel_size: usize, strides: usize) -> Tensor<i32> {
         convint_i32(inputs, weights, bias, kernel_size, strides)
-    } 
+    }
 }

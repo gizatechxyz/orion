@@ -20,7 +20,7 @@ fn convint_test() {
     let weight = 5;
     let n_filters = 2;
     let kernel_size = 3;
-    
+
     shape.append(height);
     shape.append(weight);
     shape.append(n_channels);
@@ -104,10 +104,9 @@ fn convint_test() {
     let extra = Option::<ExtraParams>::None(());
     let inputs = TensorTrait::new(shape.span(), data.span(), extra);
 
-   
     // SET WEIGHTS
     let mut shape = ArrayTrait::<usize>::new();
-    shape.append(kernel_size); 
+    shape.append(kernel_size);
     shape.append(kernel_size);
     shape.append(n_channels);
     shape.append(n_filters);
@@ -179,6 +178,7 @@ fn convint_test() {
     let bias = TensorTrait::new(shape.span(), data.span(), extra);
 
     let result = NNTrait::convint(inputs, weights, bias, kernel_size, 1).data;
+
     assert((*result[0]).into() == -470578, 'result[0] = -470578');
     assert((*result[1]).into() == 879410, 'result[1] = 879410');
     assert((*result[2]).into() == -228839, 'result[2] = -228839');
