@@ -1,5 +1,7 @@
+use core::traits::TryInto;
 use core::traits::Into;
 use core::option::OptionTrait;
+use core::debug::PrintTrait;
 use array::SpanTrait;
 use array::ArrayTrait;
 
@@ -20,6 +22,7 @@ fn convint_i32(z: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>, kernel_s
 
     let i_max = (n_rows - kernel_size) / strides + 1;
     let j_max = (n_columns - kernel_size) / strides + 1;
+    
 
     let mut i = 0_usize;
 
@@ -118,6 +121,9 @@ fn convint_i32(z: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>, kernel_s
                     k += 1;
                 };
 
+                let mut bias_indices = ArrayTrait::new();
+                bias_indices.append(m);
+                sum += bias.at(bias_indices.span());
                 out_data.append(sum);
 
                 m += 1;
