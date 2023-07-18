@@ -12,12 +12,22 @@ use orion::numbers::signed_integer::{integer_trait::IntegerTrait};
 use orion::performance::core::PerfomanceTrait;
 
 /// Cf: NNTrait::convint docstring
-fn convint_i32(z: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>, kernel_size: usize, strides: usize) -> Tensor<i32> {
-    assert(z.shape.len() >= 3, 'input tensor be at least 3D');
+fn convint_i32(inputs: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>, kernel_size: Option<usize>, strides: Option<usize>) -> Tensor<i32> {
+    assert(inputs.shape.len() >= 3, 'input tensor be at least 3D');
 
-    let n_rows = *z.shape.at(0);
-    let n_columns = *z.shape.at(1);
-    let n_channels = *z.shape.at(2);
+    let kernel_size = match kernel_size {
+        Option::Some(val) => val,
+        Option::None(_) => *weights.shape.at(0)
+    };
+
+    let strides = match strides {
+        Option::Some(val) => val,
+        Option::None(_) => 1
+    };
+
+    let n_rows = *inputs.shape.at(0);
+    let n_columns = *inputs.shape.at(1);
+    let n_channels = *inputs.shape.at(2);
     let n_filters = *weights.shape.at(3);
 
     let i_max = (n_rows - kernel_size) / strides + 1;
@@ -83,7 +93,7 @@ fn convint_i32(z: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>, kernel_s
                             weight_indices.append(k);
                             weight_indices.append(m);
 
-                            sum += z.at(input_indices.span()) * weights.at(weight_indices.span());
+                            sum += inputs.at(input_indices.span()) * weights.at(weight_indices.span());
                             y += 1;
                         };
                         x += 1;

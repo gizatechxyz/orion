@@ -9,7 +9,6 @@ use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
 
-
 #[test]
 #[available_gas(200000000)]
 fn convint_test() {
@@ -177,7 +176,7 @@ fn convint_test() {
     let extra = Option::<ExtraParams>::None(());
     let bias = TensorTrait::new(shape.span(), data.span(), extra);
 
-    let result = NNTrait::convint(inputs, weights, bias, kernel_size, 1).data;
+    let result = NNTrait::convint(inputs, weights, bias, Option::Some(kernel_size), Option::Some(1)).data;
 
     assert((*result[0]).into() == -470578, 'result[0] = -470578');
     assert((*result[1]).into() == 879410, 'result[1] = 879410');

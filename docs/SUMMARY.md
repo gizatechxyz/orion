@@ -79,6 +79,7 @@
     * [nn.softsign](framework/operators/neural-network/nn.softsign.md)
     * [nn.softplus](framework/operators/neural-network/nn.softplus.md)
     * [nn.linear](framework/operators/neural-network/nn.linear.md)
+    * [nn.convint](framework/operators/neural-network/nn.convint.md)
 * [Performance](framework/performance/README.md)
   * [performance.quantize\_linear](framework/performance/performance.quantize\_linear.md)
   * [performance.dequantize\_linear](framework/performance/performance.dequantize\_linear.md)

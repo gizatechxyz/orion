@@ -47,7 +47,7 @@ impl NN_i8 of NNTrait<i8> {
         leaky_relu_i8(inputs, alpha, threshold).unwrap()
     }
 
-    fn convint(inputs: Tensor<i8>, weights: Tensor<i8>, bias: Tensor<i8>, kernel_size: usize, strides: usize) -> Tensor<i8> {
+    fn convint(inputs: Tensor<i8>, weights: Tensor<i8>, bias: Tensor<i8>, kernel_size: Option<usize>, strides: Option<usize>) -> Tensor<i8> {
         let mut data = ArrayTrait::new();
         data.append('Not Implemented');
         return panic(data);
