@@ -1,7 +1,7 @@
 # NNTrait::logsoftmax
 
-```rust
-fn logsoftmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>
+```rust 
+   fn logsoftmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>
 ```
 
 Applies the natural log to Softmax function to an n-dimensional input Tensor consisting of values in the range \[0,1].
@@ -26,20 +26,20 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
 
 fn logsoftmax_example() -> Tensor<FixedType> {
-// We instantiate a 2D Tensor here.
-// [[0,1],[2,3]]
-let tensor = u32_tensor_2x2_helper();
-
-// We can call `logsoftmax` function as follows.
-return NNTrait::logsoftmax(@tensor, 1);
+    // We instantiate a 2D Tensor here.
+    // [[0,1],[2,3]]
+    let tensor = u32_tensor_2x2_helper();
+		
+    // We can call `logsoftmax` function as follows.
+    return NNTrait::logsoftmax(@tensor, 1);
 }
-This will first generate the softmax output tensor
+    This will first generate the softmax output tensor
 >>> [[2255697,6132911],[2255697,6132911]]
-// The fixed point representation of
-// [[0.2689, 0.7311],[0.2689, 0.7311]]
-
-Applying the natural log to this tensor yields
->>>
-// The fixed point representation of:
-// [[-1.3134, -0.3132],[-1.3134, -0.3132]]
+    // The fixed point representation of
+    // [[0.2689, 0.7311],[0.2689, 0.7311]]
+    
+    Applying the natural log to this tensor yields
+>>> 
+    // The fixed point representation of:
+    // [[-1.3134, -0.3132],[-1.3134, -0.3132]]
 ```

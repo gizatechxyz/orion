@@ -5,14 +5,14 @@ use orion::numbers::signed_integer::i32::i32;
 use orion::numbers::fixed_point::implementations::impl_8x23::ONE as ONE_fp8x23;
 use orion::numbers::fixed_point::implementations::impl_16x16::ONE as ONE_fp16x16;
 use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::utils::check_gas;
+
 
 // ====================== INT 8 ======================
 
 // i8 represents a 8-bit integer.
 // The mag field holds the absolute value of the integer.
 // The sign field is true for negative integers, and false for non-negative integers.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct i8 {
     mag: u8,
     sign: bool,
@@ -346,7 +346,6 @@ fn i8_rem(a: i8, b: i8) -> i8 {
 
 /// Cf: IntegerTrait::div_rem docstring
 fn i8_div_rem(a: i8, b: i8) -> (i8, i8) {
-    check_gas();
     let quotient = i8_div(a, b);
     let remainder = i8_rem(a, b);
 

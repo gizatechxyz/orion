@@ -17,7 +17,6 @@ mod tensor_1D {
         assert((*result.shape[0]).into() == 1, 'result[0] = 1');
         assert((*result.shape[1]).into() == 3, 'result[1] = 3');
     }
-
 }
 
 
@@ -49,9 +48,6 @@ mod tensor_2D {
         assert((*result.shape[0]).into() == 2, 'result[0] = 2');
         assert((*result.shape[1]).into() == 2, 'result[1] = 2');
     }
-
-
-
 }
 
 
@@ -65,8 +61,8 @@ mod tensor_3D {
     use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
     use orion::operators::tensor::core::{TensorTrait, ExtraParams};
     use orion::tests::helpers::tensor::u32::u32_tensor_2x2x2_helper;
-    
-    
+
+
     #[test]
     #[available_gas(200000)]
     fn axis_0() {
@@ -93,6 +89,4 @@ mod tensor_3D {
         assert((*result.shape[0]).into() == 4, 'result[0] = 4');
         assert((*result.shape[1]).into() == 2, 'result[1] = 2');
     }
-
-
 }

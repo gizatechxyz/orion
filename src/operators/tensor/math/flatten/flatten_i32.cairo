@@ -4,9 +4,6 @@ use orion::operators::tensor::core::Tensor;
 use orion::operators::tensor::math::flatten::helpers::_flatten;
 
 /// Cf: TensorTrait::flatten docstring
-fn flatten(
-    self: @Tensor<i32>,
-    axis: usize
- ) -> Tensor<i32> {
+fn flatten(self: @Tensor<i32>, axis: usize) -> Tensor<i32> {
     _flatten(self, axis)
 }

@@ -25,14 +25,14 @@ A new signed integer.
 
 ```rust
 fn new_i8_example() -> i8 {
-IntegerTrait::<i8>::new(42_u8, true)
+    IntegerTrait::<i8>::new(42_u8, true)
 }
 >>> {mag: 42, sign: true} // = -42
 ```
 
 ```rust
 fn panic_i8_example() -> i8 {
-IntegerTrait::<i8>::new(129_u8, true)
+    IntegerTrait::<i8>::new(129_u8, true)
 }
 >>> panics with "int: out of range"
 ```

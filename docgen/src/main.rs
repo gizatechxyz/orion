@@ -1,6 +1,6 @@
+use regex::Regex;
 use std::fs;
 use std::path::Path;
-use regex::Regex;
 
 fn main() {
     // TENSOR DOC
@@ -94,9 +94,11 @@ fn doc_functions(trait_path: &str, doc_path: &str, trait_name: &str, label: &str
     let contents = fs::read_to_string(filepath).expect("Something went wrong reading the file");
 
     // Find the trait block
-    let trait_re = Regex::new(
-        &format!(r"(?s)trait\s+{}\s*(<[\w\s,]*>)?\s*\{{.*?\n\s*\}}", trait_name)
-    ).unwrap();
+    let trait_re = Regex::new(&format!(
+        r"(?s)trait\s+{}\s*(<[\w\s,]*>)?\s*\{{.*?\n\s*\}}",
+        trait_name
+    ))
+    .unwrap();
 
     let trait_match = trait_re.captures(&contents).unwrap();
     let trait_block = trait_match.get(0).unwrap().as_str();
@@ -112,7 +114,13 @@ fn doc_functions(trait_path: &str, doc_path: &str, trait_name: &str, label: &str
 
         let transformed_comment = doc_comment
             .lines()
-            .map(|line| line.trim_start().trim_start_matches("///").trim())
+            .map(|line| {
+                line.trim_start().strip_prefix("/// ").unwrap_or(
+                    line.trim_start()
+                        .strip_prefix("///")
+                        .unwrap_or(line.trim_start()),
+                )
+            })
             .collect::<Vec<_>>()
             .join("\n");
 

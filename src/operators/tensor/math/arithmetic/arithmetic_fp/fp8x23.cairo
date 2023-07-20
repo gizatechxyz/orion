@@ -14,7 +14,7 @@ use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index};
 use orion::operators::tensor::helpers::{broadcast_index_mapping, len_from_shape, };
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
-use orion::utils::check_gas;
+
 use orion::utils::saturate;
 
 /// Adds two `Tensor<FixedType>` instances element-wise with broadcasting.
@@ -37,8 +37,6 @@ fn add(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -75,8 +73,6 @@ fn saturated_add_i8(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tens
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -122,8 +118,6 @@ fn sub(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -160,8 +154,6 @@ fn saturated_sub_i8(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tens
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -208,8 +200,6 @@ fn mul(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -246,8 +236,6 @@ fn saturated_mul_i8(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tens
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -293,8 +281,6 @@ fn div(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<FixedType>
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -335,8 +321,6 @@ fn saturated_div(
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -376,8 +360,6 @@ fn saturated_div_i8(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tens
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);

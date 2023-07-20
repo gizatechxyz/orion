@@ -1,7 +1,7 @@
 # tensor.ln
 
-```rust
-fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
+```rust 
+    fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
 ```
 
 Computes the natural log of all elements of the input tensor.
@@ -21,21 +21,21 @@ Returns a new tensor in `FixedType` with the natural log of the elements of the 
 
 ```rust
 fn ln_example() -> Tensor<FixedType> {
-// We instantiate a 1D Tensor here.
-// [[1,2,3,100]]
-let mut sizes = ArrayTrait::new();
-sizes.append(4);
+    // We instantiate a 1D Tensor here.
+    // [[1,2,3,100]]
+    let mut sizes = ArrayTrait::new();
+    sizes.append(4);
 
-let mut data = ArrayTrait::new();
-data.append(IntegerTrait::new(1, false));
-data.append(IntegerTrait::new(2, false));
-data.append(IntegerTrait::new(3, false));
-data.append(IntegerTrait::new(100, false));
-let extra = Option::<ExtraParams>::None(());
-let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra)
-
-// We can call `ln` function as follows.
-return tensor.ln();
+    let mut data = ArrayTrait::new();
+    data.append(IntegerTrait::new(1, false));
+    data.append(IntegerTrait::new(2, false));
+    data.append(IntegerTrait::new(3, false));
+    data.append(IntegerTrait::new(100, false));
+    let extra = Option::<ExtraParams>::None(());
+    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra)
+		
+    // We can call `ln` function as follows.
+    return tensor.ln();
 }
 >>> [[0, 5814538, 9215825, 38630966]]
 // The fixed point representation of

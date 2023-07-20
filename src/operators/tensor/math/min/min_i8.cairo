@@ -2,15 +2,13 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i8::i8};
-use orion::utils::check_gas;
+
 
 /// Cf: TensorTrait::min docstring
 fn min_in_tensor(mut vec: Span::<i8>) -> i8 {
     let mut min_value: i8 = IntegerTrait::new(127, false);
 
     loop {
-        check_gas();
-
         let current_value = *vec.pop_front().unwrap();
 
         let check_min = min_value.min(current_value);

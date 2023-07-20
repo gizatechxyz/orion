@@ -9,7 +9,7 @@ use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index, };
 use orion::operators::tensor::helpers::{broadcast_index_mapping, len_from_shape, };
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
-use orion::utils::check_gas;
+
 use orion::utils::saturate;
 
 
@@ -33,8 +33,6 @@ fn add(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -71,8 +69,6 @@ fn sub(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -109,8 +105,6 @@ fn mul(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -147,8 +141,6 @@ fn div(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
 
     let mut n: usize = 0;
     loop {
-        check_gas();
-
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);

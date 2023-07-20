@@ -10,7 +10,9 @@ mod tensor_1D {
         use orion::operators::tensor::implementations::impl_tensor_fp::FixedTypeTensorAdd;
         use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_1x3_helper;
         use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-        use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16PartialEq};
+        use orion::numbers::fixed_point::implementations::impl_16x16::{
+            FP16x16Impl, FP16x16PartialEq
+        };
 
         #[test]
         #[available_gas(20000000)]
@@ -34,7 +36,9 @@ mod tensor_1D {
         use orion::operators::tensor::implementations::impl_tensor_fp::FixedTypeTensorSub;
         use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_1x3_helper;
         use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-        use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16PartialEq};
+        use orion::numbers::fixed_point::implementations::impl_16x16::{
+            FP16x16Impl, FP16x16PartialEq
+        };
 
         #[test]
         #[available_gas(20000000)]
@@ -58,7 +62,9 @@ mod tensor_1D {
         use orion::operators::tensor::implementations::impl_tensor_fp::FixedTypeTensorMul;
         use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_1x3_helper;
         use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-        use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16PartialEq};
+        use orion::numbers::fixed_point::implementations::impl_16x16::{
+            FP16x16Impl, FP16x16PartialEq
+        };
 
         #[test]
         #[available_gas(20000000)]
@@ -85,7 +91,9 @@ mod tensor_1D {
         use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_1x3_helper;
         use orion::operators::tensor::core::{TensorTrait, ExtraParams, ravel_index, unravel_index};
         use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-        use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16PartialEq};
+        use orion::numbers::fixed_point::implementations::impl_16x16::{
+            FP16x16Impl, FP16x16PartialEq
+        };
 
         #[test]
         #[available_gas(20000000)]
@@ -122,7 +130,9 @@ mod tensor_2D {
         use orion::operators::tensor::core::{TensorTrait, ExtraParams};
         use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_2x2_helper;
         use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-        use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16PartialEq};
+        use orion::numbers::fixed_point::implementations::impl_16x16::{
+            FP16x16Impl, FP16x16PartialEq
+        };
 
         #[test]
         #[available_gas(20000000)]
@@ -187,7 +197,9 @@ mod tensor_2D {
         use orion::operators::tensor::core::{TensorTrait, ExtraParams};
         use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_2x2_helper;
         use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-        use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16PartialEq};
+        use orion::numbers::fixed_point::implementations::impl_16x16::{
+            FP16x16Impl, FP16x16PartialEq
+        };
 
         #[test]
         #[available_gas(20000000)]
@@ -252,7 +264,9 @@ mod tensor_2D {
         use orion::operators::tensor::core::{TensorTrait, ExtraParams};
         use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_2x2_helper;
         use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-        use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16PartialEq};
+        use orion::numbers::fixed_point::implementations::impl_16x16::{
+            FP16x16Impl, FP16x16PartialEq
+        };
 
         #[test]
         #[available_gas(20000000)]
@@ -317,7 +331,9 @@ mod tensor_2D {
         use orion::operators::tensor::core::{TensorTrait, ExtraParams};
         use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_2x2_helper;
         use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-        use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16PartialEq};
+        use orion::numbers::fixed_point::implementations::impl_16x16::{
+            FP16x16Impl, FP16x16PartialEq
+        };
 
         #[test]
         #[available_gas(20000000)]
@@ -406,7 +422,9 @@ mod tensor_3D {
         use orion::operators::tensor::core::{TensorTrait, ExtraParams};
         use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_2x2x2_helper;
         use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-        use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16PartialEq};
+        use orion::numbers::fixed_point::implementations::impl_16x16::{
+            FP16x16Impl, FP16x16PartialEq
+        };
 
         #[test]
         #[available_gas(20000000)]
@@ -507,7 +525,9 @@ mod tensor_3D {
         use orion::operators::tensor::core::{TensorTrait, ExtraParams};
         use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_2x2x2_helper;
         use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-        use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16PartialEq};
+        use orion::numbers::fixed_point::implementations::impl_16x16::{
+            FP16x16Impl, FP16x16PartialEq
+        };
 
         #[test]
         #[available_gas(20000000)]
@@ -566,7 +586,9 @@ mod tensor_3D {
         use orion::operators::tensor::core::{TensorTrait, ExtraParams};
         use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_2x2x2_helper;
         use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-        use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16PartialEq};
+        use orion::numbers::fixed_point::implementations::impl_16x16::{
+            FP16x16Impl, FP16x16PartialEq
+        };
 
         #[test]
         #[available_gas(20000000)]
@@ -624,7 +646,9 @@ mod tensor_3D {
         };
         use orion::operators::tensor::core::{TensorTrait, ExtraParams};
         use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-        use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16PartialEq};
+        use orion::numbers::fixed_point::implementations::impl_16x16::{
+            FP16x16Impl, FP16x16PartialEq
+        };
 
         #[test]
         #[available_gas(20000000)]

@@ -5,7 +5,7 @@ use orion::numbers::fixed_point::core::FixedType;
 use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23PartialOrd;
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::utils::check_gas;
+
 use orion::operators::tensor::helpers::check_compatibility;
 
 
@@ -14,9 +14,9 @@ fn less_equal(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> {
     check_compatibility(*y.shape, *z.shape);
 
     let mut data_result = ArrayTrait::<usize>::new();
-    let (mut smaller, mut bigger, retains_input_order) = if (*y.data).len() < (*z.data).len() { 
-        (y, z, true) 
-    } else { 
+    let (mut smaller, mut bigger, retains_input_order) = if (*y.data).len() < (*z.data).len() {
+        (y, z, true)
+    } else {
         (z, y, false)
     };
 
@@ -25,8 +25,6 @@ fn less_equal(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> {
     let mut smaller_index = 0;
 
     loop {
-        check_gas();
-
         if bigger_data.len() == 0 {
             break ();
         };

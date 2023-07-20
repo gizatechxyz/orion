@@ -6,7 +6,7 @@ use option::OptionTrait;
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape, combine_indices};
-use orion::utils::check_gas;
+
 
 /// Helper function that finds the index of the maximum value in a flat tensor.
 ///
@@ -37,8 +37,6 @@ fn find_argmax_1D<
     let mut max_index = 0_usize;
     let mut count = 0_usize;
     loop {
-        check_gas();
-
         if data.len() == 0 {
             break ();
         };
@@ -95,8 +93,6 @@ fn find_argmax<
     argmax: usize,
     select_last_index: bool
 ) -> usize {
-    check_gas();
-
     if axis_index == *(*input.shape)[axis] {
         return argmax;
     }

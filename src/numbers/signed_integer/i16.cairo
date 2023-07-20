@@ -1,14 +1,14 @@
 use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
-use orion::utils::check_gas;
+
 
 // ====================== INT 16 ======================
 
 // i16 represents a 16-bit integer.
 // The mag field holds the absolute value of the integer.
 // The sign field is true for negative integers, and false for non-negative integers.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct i16 {
     mag: u16,
     sign: bool,
@@ -322,7 +322,6 @@ fn i16_rem(a: i16, b: i16) -> i16 {
 
 /// Cf: IntegerTrait::div_rem docstring
 fn i16_div_rem(a: i16, b: i16) -> (i16, i16) {
-    check_gas();
     let quotient = i16_div(a, b);
     let remainder = i16_rem(a, b);
 

@@ -7,7 +7,7 @@ use orion::operators::tensor::core::{
 };
 use orion::operators::tensor::helpers::{len_from_shape, find_axis, permutation_output_shape};
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
-use orion::utils::check_gas;
+
 
 /// Cf: TensorTrait::transpose docstring
 fn transpose(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
@@ -21,8 +21,6 @@ fn transpose(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
 
     let mut output_index: usize = 0;
     loop {
-        check_gas();
-
         if output_index == output_data_len {
             break ();
         }
@@ -32,7 +30,6 @@ fn transpose(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
 
         let mut output_axis: usize = 0;
         loop {
-            check_gas();
             if output_axis == axes.len() {
                 break ();
             }

@@ -38,9 +38,7 @@ impl NN_i32 of NNTrait<i32> {
         softplus_i32(tensor).unwrap()
     }
 
-    fn linear(
-        inputs: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>
-    ) -> Tensor<i32> {
+    fn linear(inputs: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>) -> Tensor<i32> {
         linear_i32(inputs, weights, bias)
     }
 

@@ -1,8 +1,8 @@
-use array::ArrayTrait;
-use array::SpanTrait;
+use array::{ArrayTrait, SpanTrait};
+use serde::Serde;
 use option::OptionTrait;
 
-use orion::utils::check_gas;
+
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
 use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
 
@@ -13,9 +13,26 @@ struct Tensor<T> {
     extra: Option<ExtraParams>
 }
 
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct ExtraParams {
     fixed_point: Option<FixedImpl>
+}
+
+//Implement TensorSerde
+impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<T>> {
+    fn serialize(self: @Tensor<T>, ref output: Array<felt252>) {
+        self.shape.serialize(ref output);
+        self.data.serialize(ref output);
+        self.extra.serialize(ref output);
+    }
+
+    fn deserialize(ref serialized: Span<felt252>) -> Option<Tensor<T>> {
+        let shape: Span<usize> = Serde::<Span<usize>>::deserialize(ref serialized)?;
+        let data: Span<T> = Serde::<Span<T>>::deserialize(ref serialized)?;
+        let extra: Option<ExtraParams> = Serde::<Option<ExtraParams>>::deserialize(ref serialized)?;
+
+        Option::Some(Tensor { shape, data, extra })
+    }
 }
 
 /// Trait
@@ -1637,8 +1654,6 @@ fn ravel_index(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
     let mut stride: usize = 1;
 
     loop {
-        check_gas();
-
         if shape.len() == 0 {
             break ();
         }
@@ -1661,8 +1676,6 @@ fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
     let mut stride = len_from_shape(shape);
 
     loop {
-        check_gas();
-
         if shape.len() == 0 {
             break ();
         }
@@ -1687,8 +1700,6 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
     let mut accumulated: usize = 1;
     let mut temp_result = ArrayTrait::new();
     loop {
-        check_gas();
-
         temp_result.append(accumulated);
 
         if shape.len() == 0 {
@@ -1699,8 +1710,6 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
 
     let mut i: usize = shape_len - 1;
     loop {
-        check_gas();
-
         result.append(*temp_result.at(i));
 
         if i == 0 {

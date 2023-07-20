@@ -1,14 +1,14 @@
 use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
-use orion::utils::check_gas;
+
 
 // ====================== INT 64 ======================
 
 // i64 represents a 64-bit integer.
 // The mag field holds the absolute value of the integer.
 // The sign field is true for negative integers, and false for non-negative integers.
-#[derive(Copy, Drop)]
+#[derive(Serde, Copy, Drop)]
 struct i64 {
     mag: u64,
     sign: bool,
@@ -322,7 +322,6 @@ fn i64_rem(a: i64, b: i64) -> i64 {
 
 /// Cf: IntegerTrait::div_rem docstring
 fn i64_div_rem(a: i64, b: i64) -> (i64, i64) {
-    check_gas();
     let quotient = i64_div(a, b);
     let remainder = i64_rem(a, b);
 

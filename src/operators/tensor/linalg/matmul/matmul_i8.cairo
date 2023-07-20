@@ -2,7 +2,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use orion::utils::check_gas;
+
 use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i8::i8};
 use orion::operators::tensor::core::{Tensor, ExtraParams, TensorTrait};
@@ -57,7 +57,6 @@ fn dot_product(mut vec1: Span<i8>, mut vec2: Span<i8>) -> i8 {
     let mut result: i8 = IntegerTrait::new(0, false);
 
     loop {
-        check_gas();
         if vec1.len() == 0 {
             break ();
         }
@@ -98,14 +97,12 @@ fn matrix_multiply(
 
     let mut i = 0_usize;
     loop {
-        check_gas();
         if i == m {
             break ();
         }
 
         let mut j = 0_usize;
         loop {
-            check_gas();
             if j == p {
                 break ();
             }
@@ -113,7 +110,6 @@ fn matrix_multiply(
             let mut sum: i8 = IntegerTrait::new(0, false);
             let mut k = 0_usize;
             loop {
-                check_gas();
                 if k == n {
                     break ();
                 }

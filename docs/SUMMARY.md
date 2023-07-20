@@ -84,13 +84,12 @@
   * [performance.quantize\_linear](framework/performance/performance.quantize\_linear.md)
   * [performance.dequantize\_linear](framework/performance/performance.dequantize\_linear.md)
 
-
 ## 🏛 Hub
 
 * [Models](hub/algorithms.md)
 * [Spaces](hub/spaces.md)
 
-## 🧑🎓 Academy
+## 👩🎓 Academy
 
 * [Tutorials](academy/tutorials/README.md)
   * [MNIST Classification with Orion](academy/tutorials/mnist-classification-with-orion.md)

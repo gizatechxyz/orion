@@ -6,9 +6,9 @@ fn dequantize_linear(self: @Tensor<Q>, x_scale: @Tensor<T>, x_zero_point: @Tenso
 
 Dequantizes a Tensor using linear dequantization.
 
-The linear dequantization operator. It consumes a quantized tensor, a scale, and a zero point to compute
-the full precision tensor. The dequantization formula is y = (x - x_zero_point) * x_scale. x_scale and
-x_zero_point must have same shape, and can be either a scalar for per-tensor / per layer quantization,
+The linear dequantization operator. It consumes a quantized tensor, a scale, and a zero point to compute 
+the full precision tensor. The dequantization formula is y = (x - x_zero_point) * x_scale. x_scale and 
+x_zero_point must have same shape, and can be either a scalar for per-tensor / per layer quantization, 
 or a 1-D tensor for per-axis quantization.
 
 ## Args
@@ -28,28 +28,28 @@ use orion::performance::core::PerfomanceTrait;
 use orion::performance::implementations::impl_performance_i32::Performance_i32_i8;
 
 fn quantize_linear_example() -> Tensor<i32> {
-// We instantiate a 1D quantized Tensor here.
-// [0, 3, 125, 127]
-let x: Tensor<i8> = i32_tensor_1D_helper();
+    // We instantiate a 1D quantized Tensor here.
+    // [0, 3, 125, 127]
+    let x: Tensor<i8> = i32_tensor_1D_helper();
 
-// We instantiate the x_scale here.
-let mut shape = ArrayTrait::<usize>::new();
-shape.append(1);
-let mut data = ArrayTrait::<i32>::new();
-data.append(IntegerTrait::new(2, false));
-let extra = Option::<ExtraParams>::None(());
-let x_scale = TensorTrait::new(shape.span(), data.span(), extra);
+    // We instantiate the x_scale here.
+    let mut shape = ArrayTrait::<usize>::new();
+    shape.append(1);
+    let mut data = ArrayTrait::<i32>::new();
+    data.append(IntegerTrait::new(2, false));
+    let extra = Option::<ExtraParams>::None(());
+    let x_scale = TensorTrait::new(shape.span(), data.span(), extra);
 
-// We instantiate the x_zero_point here.
-let mut shape = ArrayTrait::<usize>::new();
-shape.append(1);
-let mut data = ArrayTrait::<i32>::new();
-data.append(IntegerTrait::new(0, false));
-let extra = Option::<ExtraParams>::None(());
-let x_zero_point = TensorTrait::new(shape.span(), data.span(), extra);
+    // We instantiate the x_zero_point here.
+    let mut shape = ArrayTrait::<usize>::new();
+    shape.append(1);
+    let mut data = ArrayTrait::<i32>::new();
+    data.append(IntegerTrait::new(0, false));
+    let extra = Option::<ExtraParams>::None(());
+    let x_zero_point = TensorTrait::new(shape.span(), data.span(), extra);
 
-// We can call `dequantize_linear` function as follows.
-return x.dequantize_linear(@x_scale, @x_zero_point);
+    // We can call `dequantize_linear` function as follows.
+    return x.dequantize_linear(@x_scale, @x_zero_point);
 }
 >>> [0, 6, 250, 254]
 ```

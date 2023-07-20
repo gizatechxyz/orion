@@ -18,11 +18,11 @@ A fixed point number representing the cosine of the input value.
 
 ```rust
 fn cos_fp_example() -> FixedType {
-// We instantiate fixed point here.
-let fp = FixedTrait::from_unscaled_felt(2);
-
-// We can call `cos` function as follows.
-fp.cos()
+    // We instantiate fixed point here.
+    let fp = FixedTrait::from_unscaled_felt(2);
+    
+    // We can call `cos` function as follows.
+    fp.cos()
 }
 >>> {mag: 27273, sign: true} // = -0.4161..
-```
+``` 

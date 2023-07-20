@@ -8,7 +8,7 @@ use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23Impl, FP8x23
 
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
-use orion::utils::check_gas;
+
 
 /// Cf: TensorTrait::reduce_sum docstring
 fn reduce_sum(self: @Tensor<FixedType>, axis: usize, keepdims: bool) -> Tensor<FixedType> {
@@ -29,8 +29,6 @@ fn reduce_sum(self: @Tensor<FixedType>, axis: usize, keepdims: bool) -> Tensor<F
         let output_data_len = len_from_shape(output_shape);
         let mut index: usize = 0;
         loop {
-            check_gas();
-
             let output_indices = unravel_index(index, output_shape);
             let current_sum = accumulate_sum(*self.data, *self.shape, output_indices, axis);
 
@@ -78,8 +76,6 @@ fn accumulate_sum(
 
     if (input_shape).len() > 1 {
         loop {
-            check_gas();
-
             if axis_index == axis_len {
                 break ();
             }
@@ -92,8 +88,6 @@ fn accumulate_sum(
         };
     } else {
         loop {
-            check_gas();
-
             if input_data.len() == 0 {
                 break ();
             }

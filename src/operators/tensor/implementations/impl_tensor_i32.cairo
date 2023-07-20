@@ -35,7 +35,7 @@ use orion::operators::tensor::math::tanh::tanh_i32::core::tanh_i32;
 use orion::operators::tensor::math::cosh::cosh_i32::core::cosh_i32;
 use orion::operators::tensor::math::acosh::acosh_i32::core::acosh_i32;
 use orion::operators::tensor::math::asinh::asinh_i32::core::asinh_i32;
-use orion::utils::check_gas;
+
 
 use orion::operators::tensor::math::sin::sin_i32::core::sin_i32;
 use orion::operators::tensor::math::cos::cos_i32::core::cos_i32;
@@ -182,7 +182,7 @@ impl Tensor_i32 of TensorTrait<i32> {
     fn atan(self: @Tensor<i32>) -> Tensor<FixedType> {
         atan_i32(self).unwrap()
     }
-
+    
     fn acos(self: @Tensor<i32>) -> Tensor<FixedType> {
         acos_i32(self).unwrap()
     }

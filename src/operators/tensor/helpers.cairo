@@ -2,7 +2,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-use orion::utils::{check_gas, u32_max};
+use orion::utils::u32_max;
 use orion::operators::tensor::core::stride;
 
 /// Calculates the number of elements in a tensor given its shape.
@@ -19,8 +19,6 @@ fn len_from_shape(mut shape: Span<usize>) -> usize {
     let mut result: usize = 1;
 
     loop {
-        check_gas();
-
         if shape.len() == 0 {
             break ();
         }
@@ -55,8 +53,6 @@ fn check_compatibility(mut shape_1: Span<usize>, mut shape_2: Span<usize>) {
     assert(shape_1.len() == shape_2.len(), 'tensors shape must match');
 
     loop {
-        check_gas();
-
         if shape_1.len() == 0 {
             break ();
         }
@@ -89,8 +85,6 @@ fn broadcast_index_mapping(mut shape: Span<usize>, mut indices: Span<usize>) -> 
     let mut stride = stride(shape);
 
     loop {
-        check_gas();
-
         let indices_val = *indices.pop_front().unwrap();
         let shape_val = *shape.pop_front().unwrap();
         let stride_val = *stride.pop_front().unwrap();
@@ -126,8 +120,6 @@ fn reduce_output_shape(mut input_shape: Span<usize>, axis: usize, keepdims: bool
     let mut n: usize = 0;
 
     loop {
-        check_gas();
-
         if input_shape.len() == 0 {
             break ();
         }
@@ -169,7 +161,6 @@ fn permutation_output_shape(input_shape: Span<usize>, mut axes: Span<usize>) -> 
     let mut output_shape = ArrayTrait::new();
     let mut axis: usize = 0;
     loop {
-        check_gas();
         if axis == axes_len {
             break ();
         }
@@ -202,8 +193,6 @@ fn combine_indices(output_indices: Span<usize>, axis_index: usize, axis: usize) 
     let mut n: usize = 0;
 
     loop {
-        check_gas();
-
         if n > output_indices_len {
             break ();
         }
@@ -240,8 +229,6 @@ fn find_axis(mut axes: Span<usize>, target_axis: usize) -> usize {
 
     let mut axis: usize = 0;
     loop {
-        check_gas();
-
         if axes.len() == 0 {
             break ();
         }
@@ -273,8 +260,6 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
     let mut temp_result = ArrayTrait::new();
 
     loop {
-        check_gas();
-
         // Get dimensions from shape1 and shape2, or use 1 if there are no more dimensions
         let dim1 = if shape1.len() > 0 {
             *shape1.pop_back().unwrap()
@@ -299,8 +284,6 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
     // Copy the broadcasted dimensions to the result array in the correct order
     let mut temp_result: Span<usize> = temp_result.span();
     loop {
-        check_gas();
-
         if temp_result.len() == 0 {
             break ();
         }

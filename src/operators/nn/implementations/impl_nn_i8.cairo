@@ -38,9 +38,7 @@ impl NN_i8 of NNTrait<i8> {
         softplus_i8(tensor).unwrap()
     }
 
-    fn linear(
-        inputs: Tensor<i8>, weights: Tensor<i8>, bias: Tensor<i8>
-    ) -> Tensor<i8> {
+    fn linear(inputs: Tensor<i8>, weights: Tensor<i8>, bias: Tensor<i8>) -> Tensor<i8> {
         linear_i8(inputs, weights, bias)
     }
 

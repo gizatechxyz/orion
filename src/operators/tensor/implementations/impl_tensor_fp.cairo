@@ -40,7 +40,6 @@ use orion::operators::tensor::math::asin::asin_fp::core::asin;
 use orion::operators::tensor::math::atan::atan_fp::core::atan;
 use orion::operators::tensor::math::acos::acos_fp::core::acos;
 
-use orion::utils::check_gas;
 
 impl Tensor_fp of TensorTrait<FixedType> {
     fn new(

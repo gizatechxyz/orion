@@ -1,7 +1,7 @@
 # tensor.asinh
 
-```rust
-fn asinh(self: @Tensor<T>) -> Tensor<FixedType>;
+```rust 
+    fn asinh(self: @Tensor<T>) -> Tensor<FixedType>;
 ```
 
 Computes the inverse hyperbolic sine of all elements of the input tensor.
@@ -21,12 +21,12 @@ Returns a new tensor in `FixedType` with the hyperblic sine of the elements of t
 
 ```rust
 fn asinh_example() -> Tensor<FixedType> {
-// We instantiate a 2D Tensor here.
-// [[0,1],[2,3]]
-let tensor = u32_tensor_2x2_helper();
-
-// We can call `asinh` function as follows.
-return tensor.asinh();
+    // We instantiate a 2D Tensor here.
+    // [[0,1],[2,3]]
+    let tensor = u32_tensor_2x2_helper();
+		
+    // We can call `asinh` function as follows.
+    return tensor.asinh();
 }
 >>> [[0,7393498],[12110093,15254235]]
 // The fixed point representation of

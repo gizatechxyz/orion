@@ -18,11 +18,11 @@ The inverse hyperbolic cosine of the input fixed point number.
 
 ```rust
 fn acosh_fp_example() -> FixedType {
-// We instantiate fixed point here.
-let fp = FixedTrait::from_unscaled_felt(2);
-
-// We can call `acosh` function as follows.
-fp.acosh()
+    // We instantiate fixed point here.
+    let fp = FixedTrait::from_unscaled_felt(2);
+    
+    // We can call `acosh` function as follows.
+    fp.acosh()
 }
 >>> {mag: 11047444, sign: false} // = 1.31696...
-```
+``` 

@@ -22,11 +22,11 @@ A fixed point number representing the square root of the input value.
 
 ```rust
 fn sqrt_fp_example() -> FixedType {
-// We instantiate FixedTrait points here.
-let a = FixedTrait::from_unscaled_felt(25);
-
-// We can call `round` function as follows.
-a.sqrt()
+    // We instantiate FixedTrait points here.
+    let a = FixedTrait::from_unscaled_felt(25);
+    
+    // We can call `round` function as follows.
+    a.sqrt()
 }
 >>> {mag: 1677721600, sign: false} // = 5
 ```
