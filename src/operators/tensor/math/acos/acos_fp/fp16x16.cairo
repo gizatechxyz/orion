@@ -6,7 +6,6 @@ use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
-use orion::utils::check_gas;
 
 /// Cf: TensorTrait::acos docstring
 fn acos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
@@ -14,7 +13,6 @@ fn acos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
     let mut data = *self.data;
 
     loop {
-        check_gas();
 
         let ele = *data.pop_front().unwrap();
         result.append(FixedTrait::acos(ele));
