@@ -79,6 +79,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/0xd3bs"><img src="https://avatars.githubusercontent.com/u/6605280?v=4?s=100" width="100px;" alt="dblanco"/><br /><sub><b>dblanco</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=0xd3bs" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/dbejarano820"><img src="https://avatars.githubusercontent.com/u/58019353?v=4?s=100" width="100px;" alt="Daniel Bejarano"/><br /><sub><b>Daniel Bejarano</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=dbejarano820" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/vikkydataseo"><img src="https://avatars.githubusercontent.com/u/65757691?v=4?s=100" width="100px;" alt="vikkydataseo"/><br /><sub><b>vikkydataseo</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=vikkydataseo" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>

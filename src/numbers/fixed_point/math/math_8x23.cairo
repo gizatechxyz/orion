@@ -25,7 +25,19 @@ fn abs(a: FixedType) -> FixedType {
 ///
 /// * The sum of the input fixed point numbers.
 fn add(a: FixedType, b: FixedType) -> FixedType {
-    return FixedTrait::from_felt(a.into() + b.into());
+    if a.sign == b.sign {
+        return FixedTrait::new(a.mag + b.mag, a.sign);
+    }
+
+    if a.mag == b.mag {
+        return FixedType { mag: 0, sign: false };
+    }
+
+    if (a.mag > b.mag) {
+        return FixedTrait::new(a.mag - b.mag, a.sign);
+    } else {
+        return FixedTrait::new(b.mag - a.mag, b.sign);
+    }
 }
 
 /// Cf: FixedTrait::ceil docstring
@@ -401,7 +413,7 @@ fn asin(a: FixedType) -> FixedType {
 ///
 /// * A fixed point number representing the result of the subtraction.
 fn sub(a: FixedType, b: FixedType) -> FixedType {
-    return FixedTrait::from_felt(a.into() - b.into());
+    return add(a, -b);
 }
 
 /// Returns maximum value between two FixedTrait Points.
