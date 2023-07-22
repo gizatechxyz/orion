@@ -89,7 +89,7 @@
 * [Models](hub/algorithms.md)
 * [Spaces](hub/spaces.md)
 
-## 👩🎓 Academy
+## 👩🎓 👩🎓 Academy
 
 * [Tutorials](academy/tutorials/README.md)
   * [MNIST Classification with Orion](academy/tutorials/mnist-classification-with-orion.md)
