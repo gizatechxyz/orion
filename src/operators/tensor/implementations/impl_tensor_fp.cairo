@@ -38,6 +38,7 @@ use orion::operators::tensor::math::sin::sin_fp::core::sin;
 use orion::operators::tensor::math::cos::cos_fp::core::cos;
 use orion::operators::tensor::math::asin::asin_fp::core::asin;
 use orion::operators::tensor::math::atan::atan_fp::core::atan;
+use orion::operators::tensor::math::acos::acos_fp::core::acos;
 
 
 impl Tensor_fp of TensorTrait<FixedType> {
@@ -185,6 +186,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn atan(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         atan(self).unwrap()
+    }
+
+    fn acos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        acos(self).unwrap()
     }
 }
 
