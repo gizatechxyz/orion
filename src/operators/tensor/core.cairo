@@ -1603,6 +1603,10 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn asin(self: @Tensor<T>) -> Tensor<FixedType>;
+
+    fn or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+
+    fn xor(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
 }
 
 /// Cf: TensorTrait::new docstring
