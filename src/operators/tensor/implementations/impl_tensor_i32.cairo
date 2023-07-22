@@ -41,6 +41,7 @@ use orion::operators::tensor::math::sin::sin_i32::core::sin_i32;
 use orion::operators::tensor::math::cos::cos_i32::core::cos_i32;
 use orion::operators::tensor::math::asin::asin_i32::core::asin_i32;
 use orion::operators::tensor::math::atan::atan_i32::core::atan_i32;
+use orion::operators::tensor::math::acos::acos_i32::core::acos_i32;
 
 
 impl Tensor_i32 of TensorTrait<i32> {
@@ -180,6 +181,10 @@ impl Tensor_i32 of TensorTrait<i32> {
 
     fn atan(self: @Tensor<i32>) -> Tensor<FixedType> {
         atan_i32(self).unwrap()
+    }
+    
+    fn acos(self: @Tensor<i32>) -> Tensor<FixedType> {
+        acos_i32(self).unwrap()
     }
 }
 
