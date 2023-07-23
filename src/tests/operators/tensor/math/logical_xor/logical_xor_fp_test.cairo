@@ -1,0 +1,2 @@
+mod logical_xor_fp8x23_test;
+mod logical_xor_fp16x16_test;

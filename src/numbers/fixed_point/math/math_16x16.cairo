@@ -586,3 +586,12 @@ fn atan(a: FixedType) -> FixedType {
 
     return FixedTrait::new(res.mag, a.sign);
 }
+
+/// Cf: FixedTrait::logical_xor docstring 
+fn logical_xor(a: FixedType, b: FixedType) -> bool {
+    if (a == FixedTrait::new(0, true) || b == FixedTrait::new(0, true)) && a != b {
+        return true;
+    } else {
+        return false;
+    }
+}

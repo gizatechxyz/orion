@@ -38,7 +38,7 @@ use orion::operators::tensor::math::sin::sin_fp::core::sin;
 use orion::operators::tensor::math::cos::cos_fp::core::cos;
 use orion::operators::tensor::math::asin::asin_fp::core::asin;
 use orion::operators::tensor::math::atan::atan_fp::core::atan;
-
+use orion::operators::tensor::math::logical_xor::logical_xor_fp::core::logical_xor;
 
 impl Tensor_fp of TensorTrait<FixedType> {
     fn new(
@@ -185,6 +185,10 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn atan(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         atan(self).unwrap()
+    }
+
+    fn logical_xor(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
+        logical_xor(self, other).unwrap()
     }
 }
 
