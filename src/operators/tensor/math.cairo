@@ -24,3 +24,4 @@ mod cosh;
 mod acosh;
 mod asinh;
 mod atan;
+mod logical_or;

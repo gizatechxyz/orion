@@ -42,6 +42,7 @@ use orion::operators::tensor::math::sin::sin_i8::core::sin_i8;
 use orion::operators::tensor::math::cos::cos_i8::core::cos_i8;
 use orion::operators::tensor::math::asin::asin_i8::core::asin_i8;
 use orion::operators::tensor::math::atan::atan_i8::core::atan_i8;
+use orion::operators::tensor::math::logical_or::logical_or_i8::logical_or;
 
 
 impl Tensor_i8 of TensorTrait<i8> {
@@ -181,6 +182,10 @@ impl Tensor_i8 of TensorTrait<i8> {
 
     fn atan(self: @Tensor<i8>) -> Tensor<FixedType> {
         atan_i8(self).unwrap()
+    }
+
+    fn logical_or(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
+        logical_or(self, other)
     }
 }
 

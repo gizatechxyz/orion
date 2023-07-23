@@ -489,3 +489,11 @@ fn i8_to_fp8x23(x: i8) -> FixedType {
 fn i8_to_fp16x16(x: i8) -> FixedType {
     FixedType { mag: x.mag.into() * ONE_fp16x16, sign: x.sign }
 }
+
+fn i8_logical_or(a: i8, b: i8) -> bool {
+    if (a.mag == 0_u8 && b.mag == 0_u8) {
+        return false;
+    } else {
+        return true;
+    }
+}
