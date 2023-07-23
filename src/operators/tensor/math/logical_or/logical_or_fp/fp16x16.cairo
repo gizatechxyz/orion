@@ -11,7 +11,7 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::helpers::check_compatibility;
 
 
-/// Cf: TensorTrait::greater docstring
+/// Cf: TensorTrait::logical_or docstring
 fn logical_or(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> {
     check_compatibility(*y.shape, *z.shape);
 
