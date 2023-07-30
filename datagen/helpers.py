@@ -1,6 +1,10 @@
 from enum import Enum
 import os
 
+######################
+#   DATA STRUCTURES
+######################
+
 
 class Dtype(Enum):
     FP8x23 = 'FP8x23'
@@ -16,14 +20,33 @@ class FixedImpl(Enum):
 
 
 class Tensor:
-    def __init__(self, dtype: Dtype, shape: [], data: [], extra_fp: FixedImpl):
+    def __init__(self, dtype: Dtype, shape: [], data: [], extra_fp=FixedImpl.FP16x16):
         self.dtype = dtype
         self.shape = shape
         self.data = data
         self.extra_fp = extra_fp
 
+################
+#   EXTERNALS
+################
 
-def _build_tensor_code(tensor: Tensor, name: str, type_string: str, is_fixed: bool = False, is_signed_int: bool = False) -> []:
+
+def make_node(inputs: [Tensor], outputs: [Tensor], dir_name, path="src/tests/data/node/"):
+
+    path = path + dir_name
+
+    for i, input in enumerate(inputs):
+        __generate_data(input, path, f"input_{i}")
+
+    for i, output in enumerate(outputs):
+        __generate_data(output, path, f"output_{i}")
+
+
+################
+#   INTERNALS
+################
+
+def __build_tensor_code(tensor: Tensor, name: str, type_string: str, is_fixed: bool = False, is_signed_int: bool = False) -> []:
     result = [
         f"use array::ArrayTrait;\n",
         f"use orion::operators::tensor::core::{{TensorTrait, Tensor, ExtraParams}};\n",
@@ -63,7 +86,7 @@ def _build_tensor_code(tensor: Tensor, name: str, type_string: str, is_fixed: bo
     return result
 
 
-def convert_tensor_to_cairo(tensor: Tensor, name: str) -> []:
+def __convert_tensor_to_cairo(tensor: Tensor, name: str) -> []:
     dtype_mapping = {
         Dtype.FP8x23: ('FixedType',  True, False),
         Dtype.FP16x16: ('FixedType', True, False),
@@ -76,10 +99,10 @@ def convert_tensor_to_cairo(tensor: Tensor, name: str) -> []:
     if dtype_info is None:
         raise ValueError(f"Invalid dtype: {tensor.dtype}")
 
-    return _build_tensor_code(tensor, name, *dtype_info)
+    return __build_tensor_code(tensor, name, *dtype_info)
 
 
-def generate_data(tensor: Tensor, path: str, name: str):
+def __generate_data(tensor: Tensor, path: str, name: str):
 
     # If path not exist:
     # Create directory
@@ -96,36 +119,9 @@ def generate_data(tensor: Tensor, path: str, name: str):
         f.write(f"mod {name}; \n")
 
     # Convert tensor to cairo
-    content = convert_tensor_to_cairo(tensor, name)
+    content = __convert_tensor_to_cairo(tensor, name)
     # Create tensor cairo file
     with open(os.path.join(path, f"{name}.cairo"), "w") as f:
         f.write(
             ''.join(content)
         )
-
-
-def make_node(inputs: [Tensor], outputs: [Tensor], dir_name):
-
-    path = "src/tests/data/node/" + dir_name
-
-    for i, input in enumerate(inputs):
-        generate_data(input, path, f"input_{i}")
-
-    for i, output in enumerate(outputs):
-        generate_data(output, path, f"output_{i}")
-
-
-# def test():
-#     # Create tensor with Dtype FP8x23
-#     input = Tensor(
-#         Dtype.FP8x23, [2, 2], [1.23, -4.56, 7.89, 0.12], FixedImpl.FP16x16
-#     )
-
-#     output = Tensor(
-#         Dtype.FP8x23, [2, 2], [10, 20, 30, 40], FixedImpl.FP16x16
-#     )
-
-#     make_node([input], [output], "relu_2D")
-
-
-# test()
