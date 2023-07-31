@@ -73,16 +73,16 @@ class Transpose(RunAll):
             x = to_fp(np.random.randint(-127, 127, (2, 2)).astype(np.int64), FixedImpl.FP8x23)
             y = np.transpose(x, [1, 0])
 
-            x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
-            y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
+            x = Tensor(Dtype.FP8x23, x.shape, x.flatten(), FixedImpl.FP8x23)
+            y = Tensor(Dtype.FP8x23, y.shape, y.flatten(), FixedImpl.FP8x23)
             make_node([x], [y], "transpose_fp8x23_2d")
 
         def transpose_3D():
             x = to_fp(np.random.randint(-127, 127, (2, 2, 2)).astype(np.int64), FixedImpl.FP8x23)
             y = np.transpose(x, [1, 2, 0])
 
-            x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
-            y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
+            x = Tensor(Dtype.FP8x23, x.shape, x.flatten(), FixedImpl.FP8x23)
+            y = Tensor(Dtype.FP8x23, y.shape, y.flatten(), FixedImpl.FP8x23)
             make_node([x], [y], "transpose_fp8x23_3d")
 
         transpose_2D()
