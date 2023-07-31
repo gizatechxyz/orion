@@ -28,3 +28,7 @@ mod matmul_u32_1d;
 mod matmul_u32_2x2; 
 mod matmul_u32_2x1; 
 mod matmul_u32_1x2; 
+mod abs_fp16x16; 
+mod abs_fp8x23; 
+mod abs_i32; 
+mod abs_i8; 
