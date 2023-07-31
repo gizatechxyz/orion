@@ -1735,9 +1735,7 @@ fn at_tensor<T>(self: @Tensor<T>, indices: Span<usize>) -> @T {
 }
 
 // Return true if two tensor are equal
-fn tensor_eq<T, impl TPartialEq: PartialEq<T>>(
-    mut lhs: Tensor<T>, mut rhs: Tensor<T>, 
-) -> bool {
+fn tensor_eq<T, impl TPartialEq: PartialEq<T>>(mut lhs: Tensor<T>, mut rhs: Tensor<T>, ) -> bool {
     let mut is_eq = true;
 
     loop {
