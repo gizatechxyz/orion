@@ -12,7 +12,7 @@ use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
-    at_tensor
+    at_tensor, tensor_eq
 };
 use orion::operators::tensor::math::min::min_i8::min_in_tensor;
 use orion::operators::tensor::math::max::max_i8::max_in_tensor;
@@ -319,4 +319,15 @@ fn tensor_i8_to_fp16x16(x: @Tensor<i8>) -> Tensor<FixedType> {
     };
 
     return TensorTrait::new(*x.shape, result_data.span(), *x.extra);
+}
+
+/// Implements partial equal for two `Tensor<i8>` using the `PartialEq` trait.
+impl i8TensorPartialEq of PartialEq<Tensor<i8>> {
+    fn eq(lhs: @Tensor<i8>, rhs: @Tensor<i8>) -> bool {
+        tensor_eq(*lhs, *rhs)
+    }
+
+    fn ne(lhs: @Tensor<i8>, rhs: @Tensor<i8>) -> bool {
+        !tensor_eq(*lhs, *rhs)
+    }
 }

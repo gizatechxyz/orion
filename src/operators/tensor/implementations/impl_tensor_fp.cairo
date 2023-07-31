@@ -8,7 +8,7 @@ use orion::numbers::fixed_point::core::FixedType;
 
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
-    at_tensor
+    at_tensor, tensor_eq
 };
 use orion::operators::tensor::math::min::min_fp::core::min_in_tensor;
 use orion::operators::tensor::math::max::max_fp::core::max_in_tensor;
@@ -39,7 +39,6 @@ use orion::operators::tensor::math::cos::cos_fp::core::cos;
 use orion::operators::tensor::math::asin::asin_fp::core::asin;
 use orion::operators::tensor::math::atan::atan_fp::core::atan;
 use orion::operators::tensor::math::acos::acos_fp::core::acos;
-
 
 impl Tensor_fp of TensorTrait<FixedType> {
     fn new(
@@ -250,5 +249,38 @@ impl FixedTypeTensorDiv of Div<Tensor<FixedType>> {
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise division.
     fn div(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
         div(@lhs, @rhs).unwrap()
+    }
+}
+
+
+mod FP8x23Tensor {
+    use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23PartialEq;
+    use super::{Tensor, FixedType, tensor_eq};
+
+    /// Implements partial equal for two `Tensor<FixedType>` using the `PartialEq` trait.
+    impl FPTensorPartialEq of PartialEq<Tensor<FixedType>> {
+        fn eq(lhs: @Tensor<FixedType>, rhs: @Tensor<FixedType>) -> bool {
+            tensor_eq(*lhs, *rhs)
+        }
+
+        fn ne(lhs: @Tensor<FixedType>, rhs: @Tensor<FixedType>) -> bool {
+            !tensor_eq(*lhs, *rhs)
+        }
+    }
+}
+
+mod FP16x16Tensor {
+    use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16PartialEq;
+    use super::{Tensor, FixedType, tensor_eq};
+
+    /// Implements partial equal for two `Tensor<FixedType>` using the `PartialEq` trait.
+    impl FPTensorPartialEq of PartialEq<Tensor<FixedType>> {
+        fn eq(lhs: @Tensor<FixedType>, rhs: @Tensor<FixedType>) -> bool {
+            tensor_eq(*lhs, *rhs)
+        }
+
+        fn ne(lhs: @Tensor<FixedType>, rhs: @Tensor<FixedType>) -> bool {
+            !tensor_eq(*lhs, *rhs)
+        }
     }
 }

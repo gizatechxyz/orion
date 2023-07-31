@@ -1734,3 +1734,32 @@ fn at_tensor<T>(self: @Tensor<T>, indices: Span<usize>) -> @T {
     return data.at(ravel_index(*self.shape, indices));
 }
 
+// Return true if two tensor are equal
+fn tensor_eq<T, impl TPartialEq: PartialEq<T>>(
+    mut lhs: Tensor<T>, mut rhs: Tensor<T>, 
+) -> bool {
+    let mut is_eq = true;
+
+    loop {
+        if lhs.shape.len() == 0 || !is_eq {
+            break;
+        }
+
+        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+    };
+
+    if !is_eq {
+        return false;
+    }
+
+    loop {
+        if lhs.data.len() == 0 || !is_eq {
+            break;
+        }
+
+        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+    };
+
+    return is_eq;
+}
+

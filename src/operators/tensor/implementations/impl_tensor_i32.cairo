@@ -9,7 +9,7 @@ use orion::numbers::fixed_point::core::FixedType;
 
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
-    at_tensor
+    at_tensor, tensor_eq
 };
 use orion::operators::tensor::math::min::min_i32::min_in_tensor;
 use orion::operators::tensor::math::max::max_i32::max_in_tensor;
@@ -182,7 +182,7 @@ impl Tensor_i32 of TensorTrait<i32> {
     fn atan(self: @Tensor<i32>) -> Tensor<FixedType> {
         atan_i32(self).unwrap()
     }
-    
+
     fn acos(self: @Tensor<i32>) -> Tensor<FixedType> {
         acos_i32(self).unwrap()
     }
@@ -245,5 +245,16 @@ impl i32TensorDiv of Div<Tensor<i32>> {
     /// * A `Tensor<i32>` instance representing the result of the element-wise division.
     fn div(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
         div(@lhs, @rhs)
+    }
+}
+
+/// Implements partial equal for two `Tensor<i32>` using the `PartialEq` trait.
+impl i32TensorPartialEq of PartialEq<Tensor<i32>> {
+    fn eq(lhs: @Tensor<i32>, rhs: @Tensor<i32>) -> bool {
+        tensor_eq(*lhs, *rhs)
+    }
+
+    fn ne(lhs: @Tensor<i32>, rhs: @Tensor<i32>) -> bool {
+        !tensor_eq(*lhs, *rhs)
     }
 }
