@@ -42,9 +42,18 @@ def make_node(inputs: [Tensor], outputs: [Tensor], dir_name, path="src/tests/dat
         __generate_data(output, path, f"output_{i}")
 
 
+def to_fp(x, fp_impl: FixedImpl):
+
+    match fp_impl:
+        case FixedImpl.FP8x23:
+            return x * 2**23
+        case FixedImpl.FP16x16:
+            return x * 2**16
+
 ################
 #   INTERNALS
 ################
+
 
 def __build_tensor_code(tensor: Tensor, name: str, type_string: str, is_fixed: bool = False, is_signed_int: bool = False) -> []:
     result = [
