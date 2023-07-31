@@ -31,7 +31,7 @@ class Tensor:
 ################
 
 
-def make_node(inputs: [Tensor], outputs: [Tensor], dir_name, path="src/tests/data/node/"):
+def make_node(inputs: [Tensor], outputs: [Tensor], dir_name, path="src/tests/nodes/"):
 
     path = path + dir_name
 
@@ -118,13 +118,13 @@ def __generate_data(tensor: Tensor, path: str, name: str):
     # Add mod parent to node.cairo
     if not os.path.exists(path):
         os.makedirs(path)
-        parent = path.replace("src/tests/data/node/", "")
-        with open("src/tests/data/node.cairo", "a") as f:
+        parent = path.replace("src/tests/nodes/", "")
+        with open("src/tests/node.cairo", "a") as f:
             f.write(f"mod {parent}; \n")
 
     # Add tensor mod in parent file
-    parent = path.replace("src/tests/data/node/", "")
-    with open(os.path.join("src/tests/data/node/", f"{parent}.cairo"), "a") as f:
+    parent = path.replace("src/tests/nodes/", "")
+    with open(os.path.join("src/tests/nodes/", f"{parent}.cairo"), "a") as f:
         f.write(f"mod {name}; \n")
 
     # Convert tensor to cairo

@@ -1,0 +1,10 @@
+mod transpose_u32_2d; 
+mod transpose_u32_3d; 
+mod transpose_fp16x16_2d; 
+mod transpose_fp16x16_3d; 
+mod transpose_fp8x23_2d; 
+mod transpose_fp8x23_3d; 
+mod transpose_i32_2d; 
+mod transpose_i32_3d; 
+mod transpose_i8_2d; 
+mod transpose_i8_3d; 
