@@ -115,17 +115,18 @@ def __generate_data(tensor: Tensor, path: str, name: str):
 
     # If path not exist:
     # Create directory
-    # Add mod parent to node.cairo
+    # Add mod parent to nodes.cairo
     if not os.path.exists(path):
         os.makedirs(path)
         parent = path.replace("src/tests/nodes/", "")
-        with open("src/tests/node.cairo", "a") as f:
+        with open("src/tests/nodes.cairo", "a") as f:
             f.write(f"mod {parent}; \n")
 
-    # Add tensor mod in parent file
+     # Add tensor mod in parent file
     parent = path.replace("src/tests/nodes/", "")
-    with open(os.path.join("src/tests/nodes/", f"{parent}.cairo"), "a") as f:
-        f.write(f"mod {name}; \n")
+    if not __module_exists(os.path.join("src/tests/nodes/", f"{parent}.cairo"), name):
+        with open(os.path.join("src/tests/nodes/", f"{parent}.cairo"), "a") as f:
+            f.write(f"mod {name}; \n")
 
     # Convert tensor to cairo
     content = __convert_tensor_to_cairo(tensor, name)
@@ -134,3 +135,24 @@ def __generate_data(tensor: Tensor, path: str, name: str):
         f.write(
             ''.join(content)
         )
+
+def __module_exists(filepath: str, mod_name: str) -> bool:
+    """
+    Checks if a module already exists in a file.
+
+    Parameters:
+    - filepath: The path to the file to check.
+    - mod_name: The module to look for.
+
+    Returns:
+    - True if the module exists, False otherwise.
+    """
+    if not os.path.exists(filepath):
+        return False
+
+    with open(filepath, 'r') as f:
+        for line in f:
+            if f"mod {mod_name};" in line:
+                return True
+
+    return False
