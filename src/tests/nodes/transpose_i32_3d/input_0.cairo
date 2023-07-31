@@ -11,14 +11,14 @@ fn input_0() -> Tensor<i32> {
     shape.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(i32 { mag: 28, sign: false });
-    data.append(i32 { mag: 24, sign: false });
-    data.append(i32 { mag: 24, sign: true });
-    data.append(i32 { mag: 51, sign: false });
-    data.append(i32 { mag: 68, sign: false });
-    data.append(i32 { mag: 52, sign: true });
-    data.append(i32 { mag: 101, sign: false });
-    data.append(i32 { mag: 3, sign: false });
+    data.append(i32 { mag: 95, sign: false });
+    data.append(i32 { mag: 102, sign: false });
+    data.append(i32 { mag: 67, sign: false });
+    data.append(i32 { mag: 34, sign: false });
+    data.append(i32 { mag: 107, sign: true });
+    data.append(i32 { mag: 17, sign: false });
+    data.append(i32 { mag: 112, sign: true });
+    data.append(i32 { mag: 58, sign: true });
 
     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16) };
     TensorTrait::new(shape.span(), data.span(), Option::Some(extra))
