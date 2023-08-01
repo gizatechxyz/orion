@@ -1,4 +1,3 @@
-mod argmax;
 mod argmin;
 mod max;
 mod min;
