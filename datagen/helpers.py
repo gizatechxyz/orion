@@ -1,6 +1,8 @@
 from enum import Enum
 import os
 
+import numpy as np
+
 ######################
 #   DATA STRUCTURES
 ######################
@@ -42,13 +44,13 @@ def make_node(inputs: [Tensor], outputs: [Tensor], dir_name, path="src/tests/nod
         __generate_data(output, path, f"output_{i}")
 
 
-def to_fp(x, fp_impl: FixedImpl):
+def to_fp(x: np.array, fp_impl: FixedImpl):
 
     match fp_impl:
         case FixedImpl.FP8x23:
-            return x * 2**23
+            return (x * 2**23).astype(np.int64)
         case FixedImpl.FP16x16:
-            return x * 2**16
+            return (x * 2**16).astype(np.int64)
 
 ################
 #   INTERNALS

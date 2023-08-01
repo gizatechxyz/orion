@@ -254,8 +254,48 @@ impl FixedTypeTensorDiv of Div<Tensor<FixedType>> {
 
 
 mod FP8x23Tensor {
-    use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23PartialEq;
-    use super::{Tensor, FixedType, tensor_eq};
+    use array::{ArrayTrait, SpanTrait};
+    use option::OptionTrait;
+    use orion::numbers::fixed_point::implementations::impl_8x23::{
+        FP8x23PartialEq, FP8x23Impl, FP8x23Sub, FP8x23Div
+    };
+    use super::{Tensor, FixedType};
+
+    const PRECISION: u128 = 7550; // 0.0009
+
+    fn relative_eq(lhs: @FixedType, rhs: @FixedType) -> bool {
+        let diff = *lhs - *rhs;
+        let rel_diff = (diff / *lhs).mag;
+
+        rel_diff <= PRECISION
+    }
+
+
+    fn tensor_eq(mut lhs: Tensor<FixedType>, mut rhs: Tensor<FixedType>, ) -> bool {
+        let mut is_eq = true;
+
+        loop {
+            if lhs.shape.len() == 0 || !is_eq {
+                break;
+            }
+
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
+
+        if !is_eq {
+            return false;
+        }
+
+        loop {
+            if lhs.data.len() == 0 || !is_eq {
+                break;
+            }
+
+            is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+        };
+
+        return is_eq;
+    }
 
     /// Implements partial equal for two `Tensor<FixedType>` using the `PartialEq` trait.
     impl FPTensorPartialEq of PartialEq<Tensor<FixedType>> {
@@ -270,8 +310,48 @@ mod FP8x23Tensor {
 }
 
 mod FP16x16Tensor {
-    use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16PartialEq;
-    use super::{Tensor, FixedType, tensor_eq};
+    use array::{ArrayTrait, SpanTrait};
+    use option::OptionTrait;
+    use orion::numbers::fixed_point::implementations::impl_16x16::{
+        FP16x16PartialEq, FP16x16Impl, FP16x16Sub, FP16x16Div
+    };
+    use super::{Tensor, FixedType};
+
+    const PRECISION: u128 = 589; // 0.009
+
+    fn relative_eq(lhs: @FixedType, rhs: @FixedType) -> bool {
+        let diff = *lhs - *rhs;
+        let rel_diff = (diff / *lhs).mag;
+
+        rel_diff <= PRECISION
+    }
+
+
+    fn tensor_eq(mut lhs: Tensor<FixedType>, mut rhs: Tensor<FixedType>, ) -> bool {
+        let mut is_eq = true;
+
+        loop {
+            if lhs.shape.len() == 0 || !is_eq {
+                break;
+            }
+
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
+
+        if !is_eq {
+            return false;
+        }
+
+        loop {
+            if lhs.data.len() == 0 || !is_eq {
+                break;
+            }
+
+            is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+        };
+
+        return is_eq;
+    }
 
     /// Implements partial equal for two `Tensor<FixedType>` using the `PartialEq` trait.
     impl FPTensorPartialEq of PartialEq<Tensor<FixedType>> {
