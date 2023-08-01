@@ -1,5 +1,6 @@
 from enum import Enum
 import os
+import re
 
 import numpy as np
 
@@ -28,6 +29,11 @@ class Tensor:
         self.data = data
         self.extra_fp = extra_fp
 
+
+class Trait(Enum):
+    TENSOR = 'TENSOR'
+    NN = 'NN'
+
 ################
 #   EXTERNALS
 ################
@@ -42,6 +48,68 @@ def make_node(inputs: [Tensor], outputs: [Tensor], dir_name, path="src/tests/nod
 
     for i, output in enumerate(outputs):
         __generate_data(output, path, f"output_{i}")
+
+
+def make_test(inputs: [Tensor], output: Tensor, func_sig: str, file_name: str, trait_type: Trait = Trait.TENSOR):
+
+
+    code = []
+    type_of_first_input = inputs[0].dtype
+    type_of_output = output.dtype
+    func_sig = re.sub("^[^.]*", "input_0", func_sig)
+
+    match  trait_type:
+        case Trait.TENSOR:
+            code.append("\n\nuse array::ArrayTrait;\n")
+            code.append("use orion::operators::tensor::core::TensorTrait;\n")
+            match type_of_first_input:
+                case Dtype.U32:
+                    code.append(
+                        "use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;\n")
+                case Dtype.I32:
+                    code.append(
+                        "use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;\n")
+                case Dtype.I8:
+                    code.append(
+                        "use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;\n")
+                case Dtype.FP16x16 | Dtype.FP8x23:
+                    code.append(
+                        "use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;\n")
+            match type_of_output:
+                case Dtype.U32:
+                    code.append(
+                        "use orion::operators::tensor::implementations::impl_tensor_u32::u32TensorPartialEq;\n")
+                case Dtype.I32:
+                    code.append(
+                        "use orion::operators::tensor::implementations::impl_tensor_i32::i32TensorPartialEq;\n")
+                case Dtype.I8:
+                    code.append(
+                        "use orion::operators::tensor::implementations::impl_tensor_i8::i8TensorPartialEq;\n")
+                case Dtype.FP16x16:
+                    code.append(
+                        "use orion::operators::tensor::implementations::impl_tensor_fp::FP16x16Tensor::FPTensorPartialEq;\n")
+                case Dtype.FP8x23:
+                    code.append(
+                        "use orion::operators::tensor::implementations::impl_tensor_fp::FP8x23Tensor::FPTensorPartialEq;\n")
+
+    code.append("use orion::utils::assert_eq;\n\n")
+    code.append("#[test]\n")
+    code.append("#[available_gas(2000000000)]\n")
+    code.append(f"fn test_{file_name}() {{\n")
+
+    for i, input in enumerate(inputs):
+        code.append(f"    let input_{i} = input_{i}::input_{i}();\n")
+
+    code.append("    let z = output_0::output_0();\n\n")
+
+    code.append(f"    let y = {func_sig};\n\n")
+    code.append("    assert_eq(y, z);\n")
+    code.append("}")
+
+    with open(os.path.join("src/tests/nodes", f"{file_name}.cairo"), "a") as f:
+        f.write(
+            ''.join(code)
+        )
 
 
 def to_fp(x: np.array, fp_impl: FixedImpl):
@@ -124,7 +192,7 @@ def __generate_data(tensor: Tensor, path: str, name: str):
         with open("src/tests/nodes.cairo", "a") as f:
             f.write(f"mod {parent}; \n")
 
-     # Add tensor mod in parent file
+    # Add tensor mod in parent file
     parent = path.replace("src/tests/nodes/", "")
     if not __module_exists(os.path.join("src/tests/nodes/", f"{parent}.cairo"), name):
         with open(os.path.join("src/tests/nodes/", f"{parent}.cairo"), "a") as f:
@@ -137,6 +205,7 @@ def __generate_data(tensor: Tensor, path: str, name: str):
         f.write(
             ''.join(content)
         )
+
 
 def __module_exists(filepath: str, mod_name: str) -> bool:
     """

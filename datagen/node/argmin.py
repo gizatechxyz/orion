@@ -1,6 +1,6 @@
 import numpy as np
 from datagen.node import RunAll
-from ..helpers import make_node, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
 
 
 def argmin_use_numpy(data: np.ndarray, axis: int = 0, keepdims: int = 1, dtype=np.int64) -> np.ndarray:
@@ -32,7 +32,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.U32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_u32_1D_default")
+
+                name = "argmin_u32_1D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(0, 255, (3)).astype(np.uint32)
@@ -41,7 +45,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.U32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_u32_1D_keepdims_false")
+
+                name = "argmin_u32_1D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(0, 255, (3)).astype(np.uint32)
@@ -50,7 +58,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.U32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_u32_1D_last_index")
+
+                name = "argmin_u32_1D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -64,7 +76,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.U32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_u32_2D_default")
+
+                name = "argmin_u32_2D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(0, 255, (2, 2)).astype(np.uint32)
@@ -73,7 +89,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.U32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_u32_2D_keepdims_false")
+
+                name = "argmin_u32_2D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(0, 255, (2, 2)).astype(np.uint32)
@@ -82,7 +102,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.U32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_u32_2D_last_index")
+
+                name = "argmin_u32_2D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -96,7 +120,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.U32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_u32_3D_default")
+
+                name = "argmin_u32_3D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(0, 255, (2, 2, 2)).astype(np.uint32)
@@ -105,7 +133,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.U32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_u32_3D_keepdims_false")
+
+                name = "argmin_u32_3D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(0, 255, (2, 2, 2)).astype(np.uint32)
@@ -114,7 +146,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.U32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_u32_3D_last_index")
+
+                name = "argmin_u32_3D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -130,7 +166,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i32_1D_default")
+
+                name = "argmin_i32_1D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(-127, 127, (3)).astype(np.int32)
@@ -139,7 +179,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i32_1D_keepdims_false")
+
+                name = "argmin_i32_1D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(0, 255, (3)).astype(np.int32)
@@ -148,7 +192,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i32_1D_last_index")
+
+                name = "argmin_i32_1D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -162,7 +210,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i32_2D_default")
+
+                name = "argmin_i32_2D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(-127, 127, (2, 2)).astype(np.int32)
@@ -171,7 +223,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i32_2D_keepdims_false")
+
+                name = "argmin_i32_2D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(-127, 127, (2, 2)).astype(np.int32)
@@ -180,7 +236,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i32_2D_last_index")
+
+                name = "argmin_i32_2D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -194,7 +254,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i32_3D_default")
+
+                name = "argmin_i32_3D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(-127, 127, (2, 2, 2)).astype(np.int32)
@@ -203,7 +267,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i32_3D_keepdims_false")
+
+                name = "argmin_i32_3D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(-127, 127, (2, 2, 2)).astype(np.int32)
@@ -212,7 +280,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i32_3D_last_index")
+
+                name = "argmin_i32_3D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -228,7 +300,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I8, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i8_1D_default")
+
+                name = "argmin_i8_1D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(-127, 127, (3)).astype(np.int8)
@@ -237,7 +313,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I8, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i8_1D_keepdims_false")
+
+                name = "argmin_i8_1D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(0, 255, (3)).astype(np.int8)
@@ -246,7 +326,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I8, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i8_1D_last_index")
+
+                name = "argmin_i8_1D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -260,7 +344,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I8, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i8_2D_default")
+
+                name = "argmin_i8_2D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(-127, 127, (2, 2)).astype(np.int8)
@@ -269,7 +357,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I8, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i8_2D_keepdims_false")
+
+                name = "argmin_i8_2D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(-127, 127, (2, 2)).astype(np.int8)
@@ -278,7 +370,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I8, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i8_2D_last_index")
+
+                name = "argmin_i8_2D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -292,7 +388,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I8, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i8_3D_default")
+
+                name = "argmin_i8_3D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(-127, 127, (2, 2, 2)).astype(np.int8)
@@ -301,7 +401,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I8, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i8_3D_keepdims_false")
+
+                name = "argmin_i8_3D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(-127, 127, (2, 2, 2)).astype(np.int8)
@@ -310,7 +414,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.I8, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_i8_3D_last_index")
+
+                name = "argmin_i8_3D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -327,7 +435,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp16x16_1D_default")
+
+                name = "argmin_fp16x16_1D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = to_fp(np.random.randint(-127, 127, (3)
@@ -337,7 +449,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp16x16_1D_keepdims_false")
+
+                name = "argmin_fp16x16_1D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = to_fp(np.random.randint(0, 255, (3)).astype(
@@ -347,7 +463,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp16x16_1D_last_index")
+
+                name = "argmin_fp16x16_1D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -362,7 +482,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp16x16_2D_default")
+
+                name = "argmin_fp16x16_2D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = to_fp(np.random.randint(-127, 127, (2, 2)
@@ -372,7 +496,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp16x16_2D_keepdims_false")
+
+                name = "argmin_fp16x16_2D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = to_fp(np.random.randint(-127, 127, (2, 2)
@@ -382,7 +510,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp16x16_2D_last_index")
+
+                name = "argmin_fp16x16_2D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -397,7 +529,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp16x16_3D_default")
+
+                name = "argmin_fp16x16_3D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = to_fp(np.random.randint(-127, 127, (2, 2, 2)
@@ -407,7 +543,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp16x16_3D_keepdims_false")
+
+                name = "argmin_fp16x16_3D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = to_fp(np.random.randint(-127, 127, (2, 2, 2)
@@ -417,7 +557,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp16x16_3D_last_index")
+
+                name = "argmin_fp16x16_3D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -432,9 +576,14 @@ class Argmin(RunAll):
                                             ).astype(np.int8), FixedImpl.FP8x23)
                 y = argmin_use_numpy(x, dtype=np.uint32).reshape((1))
 
-                x = Tensor(Dtype.FP8x23, x.shape, x.flatten(), FixedImpl.FP8x23)
+                x = Tensor(Dtype.FP8x23, x.shape,
+                           x.flatten(), FixedImpl.FP8x23)
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp8x23_1D_default")
+
+                name = "argmin_fp8x23_1D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = to_fp(np.random.randint(-127, 127, (3)
@@ -442,9 +591,14 @@ class Argmin(RunAll):
                 y = argmin_use_numpy(
                     x, keepdims=0, dtype=np.uint32).reshape((1))
 
-                x = Tensor(Dtype.FP8x23, x.shape, x.flatten(), FixedImpl.FP8x23)
+                x = Tensor(Dtype.FP8x23, x.shape,
+                           x.flatten(), FixedImpl.FP8x23)
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp8x23_1D_keepdims_false")
+
+                name = "argmin_fp8x23_1D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = to_fp(np.random.randint(0, 255, (3)).astype(
@@ -452,9 +606,14 @@ class Argmin(RunAll):
                 y = argmin_use_numpy_select_last_index(
                     x, dtype=np.uint32).reshape((1))
 
-                x = Tensor(Dtype.FP8x23, x.shape, x.flatten(), FixedImpl.FP8x23)
+                x = Tensor(Dtype.FP8x23, x.shape,
+                           x.flatten(), FixedImpl.FP8x23)
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp8x23_1D_last_index")
+
+                name = "argmin_fp8x23_1D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -469,7 +628,11 @@ class Argmin(RunAll):
 
                 x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp8x23_2D_default")
+
+                name = "argmin_fp8x23_2D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = to_fp(np.random.randint(-127, 127, (2, 2)
@@ -477,9 +640,14 @@ class Argmin(RunAll):
                 y = argmin_use_numpy(
                     x, keepdims=0, dtype=np.uint32)
 
-                x = Tensor(Dtype.FP8x23, x.shape, x.flatten(), FixedImpl.FP8x23)
+                x = Tensor(Dtype.FP8x23, x.shape,
+                           x.flatten(), FixedImpl.FP8x23)
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp8x23_2D_keepdims_false")
+
+                name = "argmin_fp8x23_2D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = to_fp(np.random.randint(-127, 127, (2, 2)
@@ -487,9 +655,14 @@ class Argmin(RunAll):
                 y = argmin_use_numpy_select_last_index(
                     x, dtype=np.int8)
 
-                x = Tensor(Dtype.FP8x23, x.shape, x.flatten(), FixedImpl.FP8x23)
+                x = Tensor(Dtype.FP8x23, x.shape,
+                           x.flatten(), FixedImpl.FP8x23)
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp8x23_2D_last_index")
+
+                name = "argmin_fp8x23_2D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -502,9 +675,14 @@ class Argmin(RunAll):
                                             ).astype(np.int8), FixedImpl.FP8x23)
                 y = argmin_use_numpy(x, dtype=np.uint32)
 
-                x = Tensor(Dtype.FP8x23, x.shape, x.flatten(), FixedImpl.FP8x23)
+                x = Tensor(Dtype.FP8x23, x.shape,
+                           x.flatten(), FixedImpl.FP8x23)
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp8x23_3D_default")
+
+                name = "argmin_fp8x23_3D_default"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = to_fp(np.random.randint(-127, 127, (2, 2, 2)
@@ -512,9 +690,14 @@ class Argmin(RunAll):
                 y = argmin_use_numpy(
                     x, keepdims=0, dtype=np.uint32)
 
-                x = Tensor(Dtype.FP8x23, x.shape, x.flatten(), FixedImpl.FP8x23)
+                x = Tensor(Dtype.FP8x23, x.shape,
+                           x.flatten(), FixedImpl.FP8x23)
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp8x23_3D_keepdims_false")
+
+                name = "argmin_fp8x23_3D_keepdims_false"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = to_fp(np.random.randint(-127, 127, (2, 2, 2)
@@ -522,9 +705,14 @@ class Argmin(RunAll):
                 y = argmin_use_numpy_select_last_index(
                     x, dtype=np.uint32)
 
-                x = Tensor(Dtype.FP8x23, x.shape, x.flatten(), FixedImpl.FP8x23)
+                x = Tensor(Dtype.FP8x23, x.shape,
+                           x.flatten(), FixedImpl.FP8x23)
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
-                make_node([x], [y], "argmin_fp8x23_3D_last_index")
+
+                name = "argmin_fp8x23_3D_last_index"
+                make_node([x], [y], name)
+                make_test(
+                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()

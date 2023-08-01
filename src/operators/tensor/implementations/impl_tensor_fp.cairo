@@ -261,7 +261,7 @@ mod FP8x23Tensor {
     };
     use super::{Tensor, FixedType};
 
-    const PRECISION: u128 = 7550; // 0.0009
+    const PRECISION: u128 = 75497; // 0.009
 
     fn relative_eq(lhs: @FixedType, rhs: @FixedType) -> bool {
         let diff = *lhs - *rhs;

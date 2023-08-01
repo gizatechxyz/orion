@@ -10,8 +10,8 @@ fn output_0() -> Tensor<i8> {
     shape.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(i8 { mag: 16, sign: true });
     data.append(i8 { mag: 4, sign: true });
+    data.append(i8 { mag: 1, sign: true });
     data.append(i8 { mag: 8, sign: true });
     data.append(i8 { mag: 2, sign: true });
 

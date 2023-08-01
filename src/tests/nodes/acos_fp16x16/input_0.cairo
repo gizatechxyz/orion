@@ -9,10 +9,10 @@ fn input_0() -> Tensor<FixedType> {
     shape.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(FixedType { mag: 5371, sign: true });
-    data.append(FixedType { mag: 30596, sign: true });
-    data.append(FixedType { mag: 28659, sign: true });
-    data.append(FixedType { mag: 27614, sign: false });
+    data.append(FixedType { mag: 57673, sign: false });
+    data.append(FixedType { mag: 46735, sign: false });
+    data.append(FixedType { mag: 47892, sign: false });
+    data.append(FixedType { mag: 52526, sign: false });
 
     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16) };
     TensorTrait::new(shape.span(), data.span(), Option::Some(extra))

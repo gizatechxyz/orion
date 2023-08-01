@@ -1,6 +1,6 @@
 import numpy as np
 from datagen.node import RunAll
-from ..helpers import make_node, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
 
 class Acos(RunAll):
    
@@ -11,8 +11,10 @@ class Acos(RunAll):
 
         x = Tensor(Dtype.FP8x23, x.shape, to_fp(x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
         y = Tensor(Dtype.FP8x23, y.shape, to_fp(y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
-        make_node([x], [y], "acos_fp8x23")
-
+        
+        name = "acos_fp8x23"
+        make_node([x], [y], name)
+        make_test([x], y, "x.acos()", name)
      
     @staticmethod
     def acos_fp16x16():
@@ -21,8 +23,10 @@ class Acos(RunAll):
 
         x = Tensor(Dtype.FP16x16, x.shape, to_fp(x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
         y = Tensor(Dtype.FP16x16, y.shape, to_fp(y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
-        make_node([x], [y], "acos_fp16x16")
 
+        name = "acos_fp16x16"
+        make_node([x], [y], name)
+        make_test([x], y, "x.acos()", name)
      
 
 

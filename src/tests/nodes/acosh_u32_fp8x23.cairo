@@ -1,6 +1,7 @@
 mod input_0; 
 mod output_0; 
 
+
 use array::ArrayTrait;
 use orion::operators::tensor::core::TensorTrait;
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
@@ -8,12 +9,12 @@ use orion::operators::tensor::implementations::impl_tensor_fp::FP8x23Tensor::FPT
 use orion::utils::assert_eq;
 
 #[test]
-#[available_gas(200000000)]
+#[available_gas(2000000000)]
 fn test_acosh_u32_fp8x23() {
-    let x = input_0::input_0();
+    let input_0 = input_0::input_0();
     let z = output_0::output_0();
 
-    let y = x.acosh();
+    let y = input_0.acosh();
 
-    assert_eq(y, z)
+    assert_eq(y, z);
 }
