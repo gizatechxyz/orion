@@ -1,4 +1,3 @@
-mod argmin;
 mod max;
 mod min;
 mod reduce_sum;
