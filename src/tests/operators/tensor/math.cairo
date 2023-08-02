@@ -4,5 +4,3 @@ mod reduce_sum;
 mod arithmetic;
 mod cumsum;
 mod flatten;
-mod sinh;
-mod tanh;
