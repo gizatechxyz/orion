@@ -2,7 +2,6 @@ mod max;
 mod min;
 mod reduce_sum;
 mod arithmetic;
-mod sin;
 mod cumsum;
 mod flatten;
 mod sinh;
