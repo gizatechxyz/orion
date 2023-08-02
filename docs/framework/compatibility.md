@@ -12,7 +12,7 @@ You can see below the list of current supported ONNX Operators:
 |        [Sub](operators/tensor/#arithmetic-operations)         | :white\_check\_mark: |
 |        [Mul](operators/tensor/#arithmetic-operations)         | :white\_check\_mark: |
 |        [Div](operators/tensor/#arithmetic-operations)         | :white\_check\_mark: |
-|            [Equal](operators/tensor/tensor.eq.md)             | :white\_check\_mark: |
+|            [Equal](operators/tensor/tensor.equal.md)             | :white\_check\_mark: |
 |         [Greater](operators/tensor/tensor.greater.md)         | :white\_check\_mark: |
 |  [GreaterOrEqual](operators/tensor/tensor.greater\_equal.md)  | :white\_check\_mark: |
 |            [Less](operators/tensor/tensor.less.md)            | :white\_check\_mark: |

@@ -113,7 +113,7 @@ impl Tensor_fp of TensorTrait<FixedType> {
         ln(self).unwrap()
     }
 
-    fn eq(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
+    fn equal(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         equal(self, other).unwrap()
     }
 

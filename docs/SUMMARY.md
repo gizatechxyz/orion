@@ -52,7 +52,7 @@
     * [tensor.matmul](framework/operators/tensor/tensor.matmul.md)
     * [tensor.exp](framework/operators/tensor/tensor.exp.md)
     * [tensor.ln](framework/operators/tensor/tensor.ln.md)
-    * [tensor.eq](framework/operators/tensor/tensor.eq.md)
+    * [tensor.equal](framework/operators/tensor/tensor.equal.md)
     * [tensor.greater](framework/operators/tensor/tensor.greater.md)
     * [tensor.greater\_equal](framework/operators/tensor/tensor.greater\_equal.md)
     * [tensor.less](framework/operators/tensor/tensor.less.md)

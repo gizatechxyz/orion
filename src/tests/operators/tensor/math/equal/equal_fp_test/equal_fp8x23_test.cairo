@@ -35,7 +35,7 @@ mod tensor_1D {
             sizes.span(), arr_2.span(), Option::Some(extra)
         );
 
-        let result = tensor_a.eq(@tensor_b);
+        let result = tensor_a.equal(@tensor_b);
         assert(*result.data[0] == 0, 'result[0] = 0');
         assert(*result.data[1] == 0, 'result[1] = 0');
         assert(*result.data[2] == 1, 'result[2] = 1');
@@ -96,7 +96,7 @@ mod tensor_2D {
             sizes.span(), arr_2.span(), Option::Some(extra)
         );
 
-        let result = tensor_a.eq(@tensor_b);
+        let result = tensor_a.equal(@tensor_b);
         assert(*result.data[0] == 0, 'result[0] = 0');
         assert(*result.data[1] == 0, 'result[1] = 0');
         assert(*result.data[2] == 0, 'result[2] = 0');
@@ -149,7 +149,7 @@ mod tensor_2D {
             sizes_2.span(), arr_2.span(), Option::Some(extra)
         );
 
-        let result_a = tensor_b.eq(@tensor_a);
+        let result_a = tensor_b.equal(@tensor_a);
         assert(*result_a.data[0] == 1, 'result[0] = 1');
         assert(*result_a.data[1] == 1, 'result[1] = 1');
         assert(*result_a.data[2] == 1, 'result[2] = 1');
@@ -164,7 +164,7 @@ mod tensor_2D {
         assert(*result_a.data[11] == 0, 'result[11] = 0');
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
-        let result_b = tensor_a.eq(@tensor_b);
+        let result_b = tensor_a.equal(@tensor_b);
         assert(*result_b.data[0] == 1, 'result[0] = 1');
         assert(*result_b.data[1] == 1, 'result[1] = 1');
         assert(*result_b.data[2] == 1, 'result[2] = 1');
@@ -230,7 +230,7 @@ mod tensor_3D {
             sizes.span(), arr_2.span(), Option::Some(extra)
         );
 
-        let result = tensor_a.eq(@tensor_b);
+        let result = tensor_a.equal(@tensor_b);
         assert(*result.data[0] == 0, 'result[0] = 0');
         assert(*result.data[1] == 0, 'result[1] = 0');
         assert(*result.data[2] == 0, 'result[2] = 0');
@@ -279,7 +279,7 @@ mod tensor_3D {
             sizes_2.span(), arr_2.span(), Option::Some(extra)
         );
 
-        let result_a = tensor_b.eq(@tensor_a);
+        let result_a = tensor_b.equal(@tensor_a);
         assert(*result_a.data[0] == 1, 'result[0] = 1');
         assert(*result_a.data[1] == 1, 'result[1] = 1');
         assert(*result_a.data[2] == 0, 'result[2] = 1');
@@ -290,7 +290,7 @@ mod tensor_3D {
         assert(*result_a.data[7] == 0, 'result[7] = 0');
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
-        let result_b = tensor_a.eq(@tensor_b);
+        let result_b = tensor_a.equal(@tensor_b);
         assert(*result_b.data[0] == 1, 'result[0] = 1');
         assert(*result_b.data[1] == 1, 'result[1] = 1');
         assert(*result_b.data[2] == 0, 'result[2] = 1');

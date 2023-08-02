@@ -6,7 +6,7 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 use orion::operators::tensor::helpers::check_compatibility;
 
-/// Cf: TensorTrait::eq docstring
+/// Cf: TensorTrait::equal docstring
 fn equal(y: @Tensor<u32>, z: @Tensor<u32>) -> Tensor<usize> {
     check_compatibility(*y.shape, *z.shape);
 

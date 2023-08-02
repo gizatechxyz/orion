@@ -84,7 +84,7 @@ fn div(a: FixedType, b: FixedType) -> FixedType {
 /// # Returns
 ///
 /// * A boolean value that indicates whether the input fixed point numbers are equal.
-fn eq(a: FixedType, b: FixedType) -> bool {
+fn equal(a: FixedType, b: FixedType) -> bool {
     return a.mag == b.mag && a.sign == b.sign;
 }
 

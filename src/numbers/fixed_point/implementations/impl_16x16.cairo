@@ -148,7 +148,7 @@ impl FP16x16Into of Into<FixedType, felt252> {
 impl FP16x16PartialEq of PartialEq<FixedType> {
     #[inline(always)]
     fn eq(lhs: @FixedType, rhs: @FixedType) -> bool {
-        return math_16x16::eq(*lhs, *rhs);
+        return math_16x16::equal(*lhs, *rhs);
     }
 
     #[inline(always)]

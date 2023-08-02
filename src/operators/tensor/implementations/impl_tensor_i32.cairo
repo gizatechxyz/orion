@@ -106,7 +106,7 @@ impl Tensor_i32 of TensorTrait<i32> {
         ln_i32(self).unwrap()
     }
 
-    fn eq(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+    fn equal(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
         equal(self, other)
     }
 

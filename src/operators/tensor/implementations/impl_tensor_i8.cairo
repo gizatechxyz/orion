@@ -107,7 +107,7 @@ impl Tensor_i8 of TensorTrait<i8> {
         ln_i8(self).unwrap()
     }
 
-    fn eq(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
+    fn equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         equal(self, other)
     }
 

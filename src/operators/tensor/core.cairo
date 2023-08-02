@@ -52,7 +52,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// matmul - Performs matrix multiplication. 
 /// exp - Calculates the exponential function (e^x) for each element in a tensor.
 /// ln - Computes the natural log of all elements of the input tensor.
-/// eq - Check if two tensors are equal element-wise.
+/// equal - Check if two tensors are equal element-wise.
 /// greater - Check if each element of the first tensor is greater than the corresponding element of the second tensor.
 /// greater_equal - Check if each element of the first tensor is greater than or equal to the corresponding element of the second tensor.
 /// less - Check if each element of the first tensor is less than the corresponding element of the second tensor.
@@ -796,10 +796,10 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
-    /// #tensor.eq
+    /// #tensor.equal
     ///
     /// ```rust
-    ///     fn eq(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// ```
     ///
     /// Check if two tensors are equal element-wise.
@@ -831,7 +831,7 @@ trait TensorTrait<T> {
     ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
     ///     let tensor_y = u32_tensor_2x2x2_helper();
     ///     let tensor_z = u32_tensor_2x2x2_helper();
-    ///     let result = tensor_y.eq(@tensor_z);
+    ///     let result = tensor_y.equal(@tensor_z);
     ///     return result;
     /// }
     /// >>> [1,1,1,1,1,0,0,0]
@@ -845,15 +845,15 @@ trait TensorTrait<T> {
     ///     // tensor_z = [[0,1,2]]       
     ///     let tensor_y = u32_tensor_3x3_helper();
     ///     let tensor_z = u32_tensor_3x1_helper();
-    ///     let result = tensor_y.eq(@tensor_z);
+    ///     let result = tensor_y.equal(@tensor_z);
     ///     // We could equally do something like:
-    ///     // let result = tensor_z.eq(@tensor_y);
+    ///     // let result = tensor_z.equal(@tensor_y);
     ///     return result;
     /// }
     /// >>> [1,1,1,0,0,0,0,0,0]
     /// ```
     ///
-    fn eq(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// #tensor.greater
     ///
     /// ```rust
