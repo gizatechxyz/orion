@@ -4,7 +4,6 @@ mod reduce_sum;
 mod exp;
 mod greater;
 mod greater_equal;
-mod less;
 mod less_equal;
 mod ln;
 mod arithmetic;
