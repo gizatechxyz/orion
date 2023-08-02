@@ -1,7 +1,6 @@
 mod max;
 mod min;
 mod reduce_sum;
-mod log;
 mod arithmetic;
 mod sin;
 mod cumsum;
