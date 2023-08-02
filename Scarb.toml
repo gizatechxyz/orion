@@ -8,4 +8,4 @@ homepage = "https://github.com/gizatechxyz/orion"
 [scripts]
 sierra = "cairo-compile . -r"
 docgen = "cd docgen && cargo run"
-datagen = "python3 datagen/node/__init__.py"
+nodegen = "python3 nodegen/node/__init__.py"

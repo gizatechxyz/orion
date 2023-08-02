@@ -27,13 +27,13 @@ def main():
     class_name = args.node_class.capitalize()
 
     # Verify that the specified Python file exists
-    filename = os.path.join('datagen/node', args.node_class + '.py')
+    filename = os.path.join('nodegen/node', args.node_class + '.py')
     if not os.path.exists(filename):
         print(f"Error: {filename} does not exist.")
         return
 
     # Import the module dynamically
-    module = importlib.import_module('datagen.node.' + args.node_class)
+    module = importlib.import_module('nodegen.node.' + args.node_class)
 
     # Get the class from the module
     node_class = getattr(module, class_name)

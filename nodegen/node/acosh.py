@@ -1,5 +1,5 @@
 import numpy as np
-from datagen.node import RunAll
+from nodegen.node import RunAll
 from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
 
 
