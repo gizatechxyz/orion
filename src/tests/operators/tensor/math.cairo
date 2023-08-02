@@ -2,8 +2,6 @@ mod max;
 mod min;
 mod reduce_sum;
 mod exp;
-mod greater;
-mod greater_equal;
 mod ln;
 mod arithmetic;
 mod sin;
