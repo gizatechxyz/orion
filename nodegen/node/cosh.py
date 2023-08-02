@@ -69,7 +69,7 @@ class Cosh(RunAll):
     def cosh_u32():
 
         def fp8x23():
-            x = np.random.randint(-10, 127, (2, 2)).astype(np.uint32)
+            x = np.random.randint(0, 127, (2, 2)).astype(np.uint32)
             y = np.cosh(x)
 
             x = Tensor(Dtype.U32, x.shape, x.flatten(), FixedImpl.FP8x23)
@@ -81,7 +81,7 @@ class Cosh(RunAll):
             make_test([x], y, "x.cosh()", name)
 
         def fp16x16():
-            x = np.random.randint(-10, 127, (2, 2)).astype(np.uint32)
+            x = np.random.randint(0, 127, (2, 2)).astype(np.uint32)
             y = np.cosh(x)
 
             x = Tensor(Dtype.U32, x.shape, x.flatten(), FixedImpl.FP16x16)
