@@ -132,3 +132,5 @@ mod transpose_i8_2d;
 mod transpose_i8_3d; 
 mod transpose_u32_2d; 
 mod transpose_u32_3d; 
+mod asin_fp16x16; 
+mod asin_fp8x23; 

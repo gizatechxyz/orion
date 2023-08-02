@@ -12,7 +12,6 @@ mod ln;
 mod arithmetic;
 mod sin;
 mod cos;
-mod asin;
 mod cumsum;
 mod flatten;
 mod sinh;
