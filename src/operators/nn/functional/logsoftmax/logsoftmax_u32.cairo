@@ -9,7 +9,7 @@ fn logsoftmax_u32(z: @Tensor<u32>, axis: usize) -> Tensor<FixedType> {
     let exp_tensor = z.exp();
     let sum = exp_tensor.reduce_sum(axis, true);
     let softmax = exp_tensor / sum;
-    let logsoftmax = softmax.ln();
+    let logsoftmax = softmax.log();
 
     return logsoftmax;
 }

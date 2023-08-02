@@ -147,7 +147,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Added ln functionality to tensor trait. Added Logsoftmax implementation for nn trait.
+- Added log functionality to tensor trait. Added Logsoftmax implementation for nn trait.
 - Added tests for both.
 
 ## [Unreleased] - 2023-06-08

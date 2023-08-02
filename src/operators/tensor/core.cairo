@@ -51,7 +51,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// argmin - Returns the index of the minimum value along the specified axis.
 /// matmul - Performs matrix multiplication. 
 /// exp - Calculates the exponential function (e^x) for each element in a tensor.
-/// ln - Computes the natural log of all elements of the input tensor.
+/// log - Computes the natural log of all elements of the input tensor.
 /// equal - Check if two tensors are equal element-wise.
 /// greater - Check if each element of the first tensor is greater than the corresponding element of the second tensor.
 /// greater_equal - Check if each element of the first tensor is greater than or equal to the corresponding element of the second tensor.
@@ -751,15 +751,15 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
-    /// # tensor.ln
+    /// # tensor.log
     ///
     /// ```rust 
-    ///     fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
+    ///     fn log(self: @Tensor<T>) -> Tensor<FixedType>;
     /// ```
     ///
     /// Computes the natural log of all elements of the input tensor.
     /// $$
-    /// y_i=ln({x_i})
+    /// y_i=log({x_i})
     /// $$
     ///
     /// ## Args
@@ -773,7 +773,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// fn ln_example() -> Tensor<FixedType> {
+    /// fn log_example() -> Tensor<FixedType> {
     ///     // We instantiate a 1D Tensor here.
     ///     // [[1,2,3,100]]
     ///     let mut sizes = ArrayTrait::new();
@@ -787,15 +787,15 @@ trait TensorTrait<T> {
     ///     let extra = Option::<ExtraParams>::None(());
     ///     let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra)
     /// 		
-    ///     // We can call `ln` function as follows.
-    ///     return tensor.ln();
+    ///     // We can call `log` function as follows.
+    ///     return tensor.log();
     /// }
     /// >>> [[0, 5814538, 9215825, 38630966]]
     /// // The fixed point representation of
     /// /// [[0, 0.693147, 1.098612, 4.605170]]
     /// ```
     ///
-    fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn log(self: @Tensor<T>) -> Tensor<FixedType>;
     /// #tensor.equal
     ///
     /// ```rust

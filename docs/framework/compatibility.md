@@ -20,7 +20,7 @@ You can see below the list of current supported ONNX Operators:
 |             [Abs](operators/tensor/tensor.abs.md)             | :white\_check\_mark: |
 |            [Ceil](operators/tensor/tensor.ceil.md)            | :white\_check\_mark: |
 |             [Exp](operators/tensor/tensor.exp.md)             | :white\_check\_mark: |
-|              [Ln](operators/tensor/tensor.ln.md)              | :white\_check\_mark: |
+|              [Ln](operators/tensor/tensor.log.md)              | :white\_check\_mark: |
 |         [Reshape](operators/tensor/tensor.reshape.md)         | :white\_check\_mark: |
 |       [Transpose](operators/tensor/tensor.transpose.md)       | :white\_check\_mark: |
 |          [ArgMax](operators/tensor/tensor.argmax.md)          | :white\_check\_mark: |

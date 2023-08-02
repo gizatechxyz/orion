@@ -1,12 +1,12 @@
-# tensor.ln
+# tensor.log
 
 ```rust 
-    fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn log(self: @Tensor<T>) -> Tensor<FixedType>;
 ```
 
 Computes the natural log of all elements of the input tensor.
 $$
-y_i=ln({x_i})
+y_i=log({x_i})
 $$
 
 ## Args
@@ -20,7 +20,7 @@ Returns a new tensor in `FixedType` with the natural log of the elements of the 
 ## Examples
 
 ```rust
-fn ln_example() -> Tensor<FixedType> {
+fn log_example() -> Tensor<FixedType> {
     // We instantiate a 1D Tensor here.
     // [[1,2,3,100]]
     let mut sizes = ArrayTrait::new();
@@ -34,8 +34,8 @@ fn ln_example() -> Tensor<FixedType> {
     let extra = Option::<ExtraParams>::None(());
     let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra)
 		
-    // We can call `ln` function as follows.
-    return tensor.ln();
+    // We can call `log` function as follows.
+    return tensor.log();
 }
 >>> [[0, 5814538, 9215825, 38630966]]
 // The fixed point representation of

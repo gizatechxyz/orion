@@ -25,7 +25,7 @@ use orion::operators::tensor::math::abs::abs_i32::abs;
 use orion::operators::tensor::linalg::matmul::matmul_i32::matmul;
 use orion::operators::tensor::linalg::transpose::transpose_i32::transpose;
 use orion::operators::tensor::math::exp::exp_i32::core::exp_i32;
-use orion::operators::tensor::math::ln::ln_i32::core::ln_i32;
+use orion::operators::tensor::math::log::log_i32::core::log_i32;
 use orion::operators::tensor::math::arithmetic::arithmetic_i32::{add, sub, mul, div};
 use orion::operators::tensor::math::cumsum::cumsum_i32::cumsum;
 use orion::operators::tensor::math::flatten::flatten_i32::flatten;
@@ -102,8 +102,8 @@ impl Tensor_i32 of TensorTrait<i32> {
         exp_i32(self).unwrap()
     }
 
-    fn ln(self: @Tensor<i32>) -> Tensor<FixedType> {
-        ln_i32(self).unwrap()
+    fn log(self: @Tensor<i32>) -> Tensor<FixedType> {
+        log_i32(self).unwrap()
     }
 
     fn equal(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {

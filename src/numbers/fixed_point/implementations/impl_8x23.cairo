@@ -60,8 +60,8 @@ impl FP8x23Impl of FixedTrait {
         return math_8x23::exp2(self);
     }
 
-    fn ln(self: FixedType) -> FixedType {
-        return math_8x23::ln(self);
+    fn log(self: FixedType) -> FixedType {
+        return math_8x23::log(self);
     }
 
     fn log2(self: FixedType) -> FixedType {

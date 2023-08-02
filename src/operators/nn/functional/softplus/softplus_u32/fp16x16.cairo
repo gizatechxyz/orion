@@ -22,7 +22,7 @@ fn softplus(z: @Tensor<u32>) -> Tensor<FixedType> {
 
         let current_index = *data.pop_front().unwrap();
         let fp_current_index = FixedTrait::new_unscaled(current_index.into(), false);
-        let result = (fp_one + fp_current_index.exp()).ln();
+        let result = (fp_one + fp_current_index.exp()).log();
         data_result.append(result);
     };
     return TensorTrait::new(*z.shape, data_result.span(), *z.extra);

@@ -28,7 +28,7 @@ use orion::operators::tensor::math::abs::abs_i8::abs;
 use orion::operators::tensor::linalg::matmul::matmul_i8::matmul;
 use orion::operators::tensor::linalg::transpose::transpose_i8::transpose;
 use orion::operators::tensor::math::exp::exp_i8::core::exp_i8;
-use orion::operators::tensor::math::ln::ln_i8::core::ln_i8;
+use orion::operators::tensor::math::log::log_i8::core::log_i8;
 use orion::operators::tensor::math::arithmetic::arithmetic_i8::{add, sub, mul, div};
 use orion::operators::tensor::math::cumsum::cumsum_i8::cumsum;
 use orion::operators::tensor::math::flatten::flatten_i8::flatten;
@@ -103,8 +103,8 @@ impl Tensor_i8 of TensorTrait<i8> {
         exp_i8(self).unwrap()
     }
 
-    fn ln(self: @Tensor<i8>) -> Tensor<FixedType> {
-        ln_i8(self).unwrap()
+    fn log(self: @Tensor<i8>) -> Tensor<FixedType> {
+        log_i8(self).unwrap()
     }
 
     fn equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {

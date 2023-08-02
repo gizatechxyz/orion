@@ -23,7 +23,7 @@ use orion::operators::tensor::math::argmin::argmin_fp::core::argmin;
 use orion::operators::tensor::linalg::matmul::matmul_fp::core::matmul;
 use orion::operators::tensor::linalg::transpose::transpose_fp::core::transpose;
 use orion::operators::tensor::math::exp::exp_fp::core::exp;
-use orion::operators::tensor::math::ln::ln_fp::core::ln;
+use orion::operators::tensor::math::log::log_fp::core::log;
 use orion::operators::tensor::math::arithmetic::arithmetic_fp::core::{add, sub, mul, div};
 use orion::operators::tensor::math::greater::greater_fp::core::greater;
 use orion::operators::tensor::math::greater_equal::greater_equal_fp::core::greater_equal;
@@ -109,8 +109,8 @@ impl Tensor_fp of TensorTrait<FixedType> {
         exp(self).unwrap()
     }
 
-    fn ln(self: @Tensor<FixedType>) -> Tensor<FixedType> {
-        ln(self).unwrap()
+    fn log(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        log(self).unwrap()
     }
 
     fn equal(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {

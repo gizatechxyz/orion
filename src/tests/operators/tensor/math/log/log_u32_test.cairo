@@ -11,7 +11,7 @@ mod tensor_1D {
 
     #[test]
     #[available_gas(20000000)]
-    fn tensor_ln_test() {
+    fn tensor_log_test() {
         let mut sizes = ArrayTrait::new();
         sizes.append(4);
 
@@ -23,7 +23,7 @@ mod tensor_1D {
         let extra = Option::<ExtraParams>::None(());
         let tensor = TensorTrait::<u32>::new(sizes.span(), data.span(), extra);
 
-        let result = tensor.ln().data;
+        let result = tensor.log().data;
 
         assert((*result.at(0).mag).into() == 0, 'result[0] = 0');
         assert((*result.at(1).mag).into() == 45355, 'result[1] = 0.69315');
@@ -44,7 +44,7 @@ mod tensor_2D {
 
     #[test]
     #[available_gas(20000000)]
-    fn tensor_ln_test() {
+    fn tensor_log_test() {
         let mut sizes = ArrayTrait::new();
         sizes.append(2);
         sizes.append(2);
@@ -57,7 +57,7 @@ mod tensor_2D {
         let extra = Option::<ExtraParams>::None(());
         let tensor = TensorTrait::<u32>::new(sizes.span(), data.span(), extra);
 
-        let result = tensor.ln().data;
+        let result = tensor.log().data;
 
         assert((*result.at(0).mag).into() == 0, 'result[0] = 0');
         assert((*result.at(1).mag).into() == 45355, 'result[1] = 0.69315');
@@ -77,7 +77,7 @@ mod tensor_3D {
 
     #[test]
     #[available_gas(20000000)]
-    fn tensor_ln_test() {
+    fn tensor_log_test() {
         let mut sizes = ArrayTrait::new();
         sizes.append(2);
         sizes.append(2);
@@ -95,7 +95,7 @@ mod tensor_3D {
         let extra = Option::<ExtraParams>::None(());
         let tensor = TensorTrait::<u32>::new(sizes.span(), data.span(), extra);
 
-        let result = tensor.ln().data;
+        let result = tensor.log().data;
 
         assert((*result.at(0).mag).into() == 0, 'result[0] = 0');
         assert((*result.at(1).mag).into() == 45355, 'result[1] = 0.69315');

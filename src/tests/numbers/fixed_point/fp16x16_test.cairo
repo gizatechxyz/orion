@@ -102,9 +102,9 @@ fn test_exp2() {
 
 #[test]
 #[available_gas(10000000)]
-fn test_ln() {
+fn test_log() {
     let a = FixedTrait::from_unscaled_felt(1);
-    assert(a.ln().into() == 0, 'invalid ln of 1');
+    assert(a.log().into() == 0, 'invalid log of 1');
 }
 
 #[test]

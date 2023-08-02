@@ -4,7 +4,7 @@ mod reduce_sum;
 mod argmax;
 mod argmin;
 mod exp;
-mod ln;
+mod log;
 mod arithmetic;
 mod equal;
 mod greater;
