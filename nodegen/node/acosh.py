@@ -121,4 +121,4 @@ class Acosh(RunAll):
 
         name = "acosh_fp16x16"
         make_node([x], [y], name)
-        make_node([x], [y], "acosh_fp16x16")
+        make_test([x], y, "x.acosh()", name)

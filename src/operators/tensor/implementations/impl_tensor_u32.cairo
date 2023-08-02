@@ -22,7 +22,6 @@ use orion::operators::tensor::math::greater_equal::greater_equal_u32::greater_eq
 use orion::operators::tensor::math::less::less_u32::less;
 use orion::operators::tensor::math::less_equal::less_equal_u32::less_equal;
 use orion::operators::tensor::math::abs::abs_u32::abs;
-use orion::operators::tensor::math::ceil::ceil_u32::ceil;
 use orion::operators::tensor::linalg::transpose::transpose_u32::transpose;
 use orion::operators::tensor::math::exp::exp_u32::core::exp_u32;
 use orion::operators::tensor::math::ln::ln_u32::core::ln_u32;
@@ -132,7 +131,7 @@ impl Tensor_u32 of TensorTrait<u32> {
     }
 
     fn ceil(self: @Tensor<u32>) -> Tensor<u32> {
-        ceil(self)
+        panic(array!['not supported with u32'])
     }
 
     fn sin(self: @Tensor<u32>) -> Tensor<FixedType> {

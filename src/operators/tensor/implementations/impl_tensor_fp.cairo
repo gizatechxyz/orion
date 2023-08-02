@@ -265,7 +265,12 @@ mod FP8x23Tensor {
 
     fn relative_eq(lhs: @FixedType, rhs: @FixedType) -> bool {
         let diff = *lhs - *rhs;
-        let rel_diff = (diff / *lhs).mag;
+
+        let rel_diff = if *lhs.mag != 0 {
+            (diff / *lhs).mag
+        } else {
+            diff.mag
+        };
 
         rel_diff <= PRECISION
     }
@@ -321,7 +326,12 @@ mod FP16x16Tensor {
 
     fn relative_eq(lhs: @FixedType, rhs: @FixedType) -> bool {
         let diff = *lhs - *rhs;
-        let rel_diff = (diff / *lhs).mag;
+
+        let rel_diff = if *lhs.mag != 0 {
+            (diff / *lhs).mag
+        } else {
+            diff.mag
+        };
 
         rel_diff <= PRECISION
     }

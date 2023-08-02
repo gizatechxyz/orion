@@ -25,7 +25,6 @@ use orion::operators::tensor::math::greater_equal::greater_equal_i8::greater_equ
 use orion::operators::tensor::math::less::less_i8::less;
 use orion::operators::tensor::math::less_equal::less_equal_i8::less_equal;
 use orion::operators::tensor::math::abs::abs_i8::abs;
-use orion::operators::tensor::math::ceil::ceil_i8::ceil;
 use orion::operators::tensor::linalg::matmul::matmul_i8::matmul;
 use orion::operators::tensor::linalg::transpose::transpose_i8::transpose;
 use orion::operators::tensor::math::exp::exp_i8::core::exp_i8;
@@ -133,7 +132,7 @@ impl Tensor_i8 of TensorTrait<i8> {
     }
 
     fn ceil(self: @Tensor<i8>) -> Tensor<i8> {
-        ceil(self)
+        panic(array!['not supported with i8'])
     }
 
     fn sin(self: @Tensor<i8>) -> Tensor<FixedType> {
