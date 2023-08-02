@@ -15,7 +15,6 @@ class Equal(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
-
             name = "equal_u32"
             make_node([x, y], [z], name)
             make_test([x, y], z, "input_0.equal(@input_1)", name)
@@ -35,7 +34,7 @@ class Equal(RunAll):
 
         default()
         broadcast()
-    
+
     @staticmethod
     def equal_i32():
         def default():
@@ -67,7 +66,6 @@ class Equal(RunAll):
         default()
         broadcast()
 
-    
     @staticmethod
     def equal_i8():
         def default():
@@ -98,16 +96,18 @@ class Equal(RunAll):
 
         default()
         broadcast()
-    
+
     @staticmethod
     def equal_fp8x23():
         def default():
-            x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.int64)
-            y = np.random.randint(-3, 3, (3, 3, 3)).astype(np.int64)
+            x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.float64)
+            y = np.random.randint(-3, 3, (3, 3, 3)).astype(np.float64)
             z = np.equal(x, y)
 
-            x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
-            y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
+            x = Tensor(Dtype.FP8x23, x.shape, to_fp(
+                x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+            y = Tensor(Dtype.FP8x23, y.shape,  to_fp(
+                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "equal_fp8x23"
@@ -115,12 +115,14 @@ class Equal(RunAll):
             make_test([x, y], z, "input_0.equal(@input_1)", name)
 
         def broadcast():
-            x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.int64)
-            y = np.random.randint(-3, 3, (1, 3, 1)).astype(np.int64)
+            x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.float64)
+            y = np.random.randint(-3, 3, (1, 3, 1)).astype(np.float64)
             z = np.equal(x, y)
 
-            x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
-            y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
+            x = Tensor(Dtype.FP8x23, x.shape, to_fp(
+                x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+            y = Tensor(Dtype.FP8x23, y.shape,  to_fp(
+                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "equal_fp8x23_broadcast"
@@ -133,12 +135,14 @@ class Equal(RunAll):
     @staticmethod
     def equal_fp16x16():
         def default():
-            x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.int64)
-            y = np.random.randint(-3, 3, (3, 3, 3)).astype(np.int64)
+            x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.float64)
+            y = np.random.randint(-3, 3, (3, 3, 3)).astype(np.float64)
             z = np.equal(x, y)
 
-            x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
-            y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
+            x = Tensor(Dtype.FP16x16, x.shape, to_fp(
+                x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+            y = Tensor(Dtype.FP16x16, y.shape,  to_fp(
+                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "equal_fp16x16"
@@ -146,12 +150,14 @@ class Equal(RunAll):
             make_test([x, y], z, "input_0.equal(@input_1)", name)
 
         def broadcast():
-            x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.int64)
-            y = np.random.randint(-3, 3, (1, 3, 1)).astype(np.int64)
+            x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.float64)
+            y = np.random.randint(-3, 3, (1, 3, 1)).astype(np.float64)
             z = np.equal(x, y)
 
-            x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
-            y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
+            x = Tensor(Dtype.FP16x16, x.shape, to_fp(
+                x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+            y = Tensor(Dtype.FP16x16, y.shape,  to_fp(
+                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "equal_fp16x16_broadcast"
