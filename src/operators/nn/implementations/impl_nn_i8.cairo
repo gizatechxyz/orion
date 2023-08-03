@@ -42,7 +42,7 @@ impl NN_i8 of NNTrait<i8> {
         linear_i8(inputs, weights, bias)
     }
 
-    fn leaky_relu(inputs: @Tensor<i8>, alpha: @FixedType, threshold: i8) -> Tensor<FixedType> {
-        leaky_relu_i8(inputs, alpha, threshold).unwrap()
+    fn leaky_relu(inputs: @Tensor<i8>, alpha: @FixedType) -> Tensor<FixedType> {
+        leaky_relu_i8(inputs, alpha).unwrap()
     }
 }

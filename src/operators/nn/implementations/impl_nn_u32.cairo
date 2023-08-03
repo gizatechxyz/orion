@@ -8,7 +8,6 @@ use orion::operators::nn::functional::logsoftmax::logsoftmax_u32::logsoftmax_u32
 use orion::operators::nn::functional::softsign::softsign_u32::core::softsign_u32;
 use orion::operators::nn::functional::softplus::softplus_u32::core::softplus_u32;
 use orion::operators::nn::functional::linear::linear_u32::linear_u32;
-use orion::operators::nn::functional::leaky_relu::leaky_relu_u32::core::leaky_relu_u32;
 use orion::numbers::fixed_point::core::{FixedType};
 
 
@@ -41,7 +40,7 @@ impl NN_u32 of NNTrait<u32> {
         linear_u32(inputs, weights, bias)
     }
 
-    fn leaky_relu(inputs: @Tensor<u32>, alpha: @FixedType, threshold: u32) -> Tensor<FixedType> {
-        leaky_relu_u32(inputs, alpha, threshold).unwrap()
+    fn leaky_relu(inputs: @Tensor<u32>, alpha: @FixedType) -> Tensor<FixedType> {
+        panic(array!['not supported with this dtype'])
     }
 }
