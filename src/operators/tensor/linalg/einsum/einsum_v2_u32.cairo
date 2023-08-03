@@ -325,15 +325,14 @@ fn einsum_matmul() {
     );
 
     let final_tensor = TensorTrait::<u32>::new(array![2, 3].span(), tensor_array.span(), extra);
-    
+
     let test_array = final_tensor.data;
 
-    assert(*test_array[0]==69247, 'Tensor array test 1');
-    assert(*test_array[1]==109278, 'Tensor array test 2');
-    assert(*test_array[2]==38655, 'Tensor array test 3');
-
-    // Print entire array
-    // print_array(tensor_array);
+    assert(*test_array[0] == 69247, 'Tensor array test 1');
+    assert(*test_array[1] == 109278, 'Tensor array test 2');
+    assert(*test_array[2] == 38655, 'Tensor array test 3');
+// Print entire array
+// print_array(tensor_array);
 }
 
 fn print_array(array: Array<u32>) {
