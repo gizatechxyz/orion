@@ -21,7 +21,7 @@ class Reduce_sum(RunAll):
         def reduce_sum_2D():
             def default():
                 x = np.array([0, 1, 2, 3]).astype(np.uint32).reshape(2, 2)
-                y = np.array([2, 4, 2]).astype(np.uint32)
+                y = np.array([2, 4]).astype(np.uint32)
 
                 x = Tensor(Dtype.U32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
@@ -33,7 +33,7 @@ class Reduce_sum(RunAll):
 
             def keepdims():
                 x = np.array([0, 1, 2, 3]).astype(np.uint32).reshape(2, 2)
-                y = np.array([2, 4, 1, 2]).astype(np.uint32).reshape(2, 2)
+                y = np.array([2, 4]).astype(np.uint32).reshape(1, 2)
 
                 x = Tensor(Dtype.U32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
@@ -45,7 +45,7 @@ class Reduce_sum(RunAll):
 
             def axis_1():
                 x = np.array([0, 1, 2, 3]).astype(np.uint32).reshape(2, 2)
-                y = np.array([1, 5, 2]).astype(np.uint32)
+                y = np.array([1, 5]).astype(np.uint32)
 
                 x = Tensor(Dtype.U32, x.shape, x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
@@ -78,7 +78,7 @@ class Reduce_sum(RunAll):
         def reduce_sum_2D():
             def default():
                 x = np.array([0, 1, 2, 3]).astype(np.int32).reshape(2, 2)
-                y = np.array([2, 4, 2]).astype(np.int32)
+                y = np.array([2, 4]).astype(np.int32)
 
                 x = Tensor(Dtype.I32, x.shape, x.flatten())
                 y = Tensor(Dtype.I32, y.shape, y.flatten())
@@ -90,7 +90,7 @@ class Reduce_sum(RunAll):
 
             def keepdims():
                 x = np.array([0, 1, 2, 3]).astype(np.int32).reshape(2, 2)
-                y = np.array([2, 4, 1, 2]).astype(np.int32).reshape(2, 2)
+                y = np.array([2, 4]).astype(np.int32).reshape(1, 2)
 
                 x = Tensor(Dtype.I32, x.shape, x.flatten())
                 y = Tensor(Dtype.I32, y.shape, y.flatten())
@@ -102,7 +102,7 @@ class Reduce_sum(RunAll):
 
             def axis_1():
                 x = np.array([0, 1, 2, 3]).astype(np.int32).reshape(2, 2)
-                y = np.array([1, 5, 2]).astype(np.int32)
+                y = np.array([1, 5]).astype(np.int32)
 
                 x = Tensor(Dtype.I32, x.shape, x.flatten())
                 y = Tensor(Dtype.I32, y.shape, y.flatten())
@@ -135,7 +135,7 @@ class Reduce_sum(RunAll):
         def reduce_sum_2D():
             def default():
                 x = np.array([0, 1, 2, 3]).astype(np.int8).reshape(2, 2)
-                y = np.array([2, 4, 2]).astype(np.int8)
+                y = np.array([2, 4]).astype(np.int8)
 
                 x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
                 y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
@@ -147,7 +147,7 @@ class Reduce_sum(RunAll):
 
             def keepdims():
                 x = np.array([0, 1, 2, 3]).astype(np.int8).reshape(2, 2)
-                y = np.array([2, 4, 1, 2]).astype(np.int8).reshape(2, 2)
+                y = np.array([2, 4]).astype(np.int8).reshape(1, 2)
 
                 x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
                 y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
@@ -159,7 +159,7 @@ class Reduce_sum(RunAll):
 
             def axis_1():
                 x = np.array([0, 1, 2, 3]).astype(np.int8).reshape(2, 2)
-                y = np.array([1, 5, 2]).astype(np.int8)
+                y = np.array([1, 5]).astype(np.int8)
 
                 x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
                 y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
@@ -194,7 +194,7 @@ class Reduce_sum(RunAll):
         def reduce_sum_2D():
             def default():
                 x = np.array([0, 1, 2, 3]).astype(np.int64).reshape(2, 2)
-                y = np.array([2, 4, 2]).astype(np.int64)
+                y = np.array([2, 4]).astype(np.int64)
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
                     x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
@@ -208,7 +208,7 @@ class Reduce_sum(RunAll):
 
             def keepdims():
                 x = np.array([0, 1, 2, 3]).astype(np.int64).reshape(2, 2)
-                y = np.array([2, 4, 1, 2]).astype(np.int64).reshape(2, 2)
+                y = np.array([2, 4]).astype(np.int64).reshape(1, 2)
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
                     x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
@@ -222,7 +222,7 @@ class Reduce_sum(RunAll):
 
             def axis_1():
                 x = np.array([0, 1, 2, 3]).astype(np.int64).reshape(2, 2)
-                y = np.array([1, 5, 2]).astype(np.int64)
+                y = np.array([1, 5]).astype(np.int64)
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
                     x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
@@ -260,7 +260,7 @@ class Reduce_sum(RunAll):
         def reduce_sum_2D():
             def default():
                 x = np.array([0, 1, 2, 3]).astype(np.int64).reshape(2, 2)
-                y = np.array([2, 4, 2]).astype(np.int64)
+                y = np.array([2, 4]).astype(np.int64)
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
                     x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
@@ -274,7 +274,7 @@ class Reduce_sum(RunAll):
 
             def keepdims():
                 x = np.array([0, 1, 2, 3]).astype(np.int64).reshape(2, 2)
-                y = np.array([2, 4, 1, 2]).astype(np.int64).reshape(2, 2)
+                y = np.array([2, 4]).astype(np.int64).reshape(1, 2)
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
                     x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
@@ -288,7 +288,7 @@ class Reduce_sum(RunAll):
 
             def axis_1():
                 x = np.array([0, 1, 2, 3]).astype(np.int64).reshape(2, 2)
-                y = np.array([1, 5, 2]).astype(np.int64)
+                y = np.array([1, 5]).astype(np.int64)
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
                     x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)

@@ -5,14 +5,12 @@ use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 
 fn output_0() -> Tensor<FixedType> {
     let mut shape = ArrayTrait::<usize>::new();
-    shape.append(2);
+    shape.append(1);
     shape.append(2);
 
     let mut data = ArrayTrait::new();
     data.append(FixedType { mag: 131072, sign: false });
     data.append(FixedType { mag: 262144, sign: false });
-    data.append(FixedType { mag: 65536, sign: false });
-    data.append(FixedType { mag: 131072, sign: false });
 
     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16) };
     TensorTrait::new(shape.span(), data.span(), Option::Some(extra))
