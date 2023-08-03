@@ -16,7 +16,6 @@ fn acos(self: @Tensor<i8>) -> Tensor<FixedType> {
     let mut data = *self.data;
 
     loop {
-
         let ele = *data.pop_front().unwrap();
         let val = FixedTrait::new_unscaled(ele.mag.into(), ele.sign);
         result.append(FixedTrait::acos(val));

@@ -182,7 +182,7 @@ impl Tensor_i32 of TensorTrait<i32> {
     fn atan(self: @Tensor<i32>) -> Tensor<FixedType> {
         atan_i32(self).unwrap()
     }
-    
+
     fn acos(self: @Tensor<i32>) -> Tensor<FixedType> {
         acos_i32(self).unwrap()
     }

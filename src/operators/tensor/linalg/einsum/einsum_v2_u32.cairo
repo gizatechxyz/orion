@@ -154,7 +154,9 @@ fn nested_loop(
         let result_len = result_tensor_indices.len();
         let dict_key = encode_array_to_felt252_math(result_tensor_indices);
         //2. Store value(result_value) on dict(dict_key)
-        result_tensor_data.insert(dict_key, result_value);
+
+        let new_value = result_tensor_data.get(dict_key) + result_value;
+        result_tensor_data.insert(dict_key, new_value);
     };
 }
 
@@ -196,20 +198,20 @@ fn encode_array_to_felt252_math(array: Array<u32>) -> felt252 {
 
 // Transform a Dict stored indices into a felt252 key
 fn dict_to_felt252_key(ref indices: Felt252Dict<u32>, max: u32) -> felt252 {
-    let mut j = 0;
+    let mut j = max;
     let mut key_value: u128 = 0;
     let mut power = 1;
+
     loop {
-        if j > max - 1 {
+        if j == 0 {
             break ();
         }
-        let indice = indices.get(j.into()) + 1;
-        let diff = max - j - 1;
+        let indice = indices.get(j.into() - 1) + 1;
 
         key_value += indice.into() * power;
         power = 65536 * power;
 
-        j += 1;
+        j -= 1;
     };
 
     return key_value.into();
@@ -226,13 +228,13 @@ fn dict_to_tensor_array_converter(
     if depth == indices_array.len() {
         let key_value = dict_to_felt252_key(ref indices_counter, depth);
         let value = original_dict.get(key_value);
+
         output_array.append(value);
     } else {
-
         let mut i = 0;
         loop {
             let indice_max = *indices_array[depth];
-            if i > indice_max {
+            if i > indice_max - 1 {
                 break;
             }
             // Recurse to the next depth
@@ -247,6 +249,7 @@ fn dict_to_tensor_array_converter(
             // Increment the current index
             let current_indice_i = indices_counter.get(depth.into());
             indices_counter.insert(depth.into(), current_indice_i + 1);
+
             i += 1;
         };
 
@@ -267,7 +270,7 @@ fn dict_to_tensor_test() {
     let mut indices: Felt252Dict<u32> = Default::default();
     let mut original_dict: Felt252Dict<u32> = Default::default();
     original_dict.insert(4295032833, 100);
-    original_dict.insert(8590000129, 200);
+    original_dict.insert(4295032834, 200);
 
     let mut output_array = ArrayTrait::new();
 
@@ -277,7 +280,6 @@ fn dict_to_tensor_test() {
 
     assert(*output_array[0] == 100, 'Output should be 100');
     assert(*output_array[1] == 200, 'Output should be 200');
-
 }
 
 
@@ -315,21 +317,34 @@ fn einsum_matmul() {
     );
 
     let mut tensor_array: Array<usize> = ArrayTrait::new();
-    let mut output_index_array = array![3, 4];
+    let mut output_index_array = array![3, 2];
     let mut indices: Felt252Dict<u32> = Default::default();
 
     dict_to_tensor_array_converter(
-        output_index_array, ref indices, ref c_data, ref tensor_array, 0
+        output_index_array.clone(), ref indices, ref c_data, ref tensor_array, 0
     );
 
+    let final_tensor = TensorTrait::<u32>::new(array![2, 3].span(), tensor_array.span(), extra);
+    
+    let test_array = final_tensor.data;
+
+    assert(*test_array[0]==69247, 'Tensor array test 1');
+    assert(*test_array[1]==109278, 'Tensor array test 2');
+    assert(*test_array[2]==38655, 'Tensor array test 3');
+
+    // Print entire array
+    // print_array(tensor_array);
+}
+
+fn print_array(array: Array<u32>) {
     let mut x = 0;
     'Printing Tensor Array'.print();
     loop {
-        if x == tensor_array.len() {
+        if x == array.len() {
             break;
         }
 
-        (*tensor_array.at(x)).print();
+        (*array.at(x)).print();
 
         x += 1;
     }
