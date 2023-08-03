@@ -186,8 +186,8 @@ def __generate_data(tensor: Tensor, path: str, name: str):
     # If path not exist:
     # Create directory
     # Add mod parent to nodes.cairo
-    if not os.path.exists(path):
-        os.makedirs(path)
+    if not os.path.exists(path) or not os.listdir(path):
+        os.makedirs(path, exist_ok=True)
         parent = path.replace("src/tests/nodes/", "")
         with open("src/tests/nodes.cairo", "a") as f:
             f.write(f"mod {parent}; \n")
