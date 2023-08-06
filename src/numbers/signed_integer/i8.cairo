@@ -142,7 +142,7 @@ impl i8PartialEq of PartialEq<i8> {
 // Implements the PartialOrd trait for i8.
 impl i8PartialOrd of PartialOrd<i8> {
     fn le(lhs: i8, rhs: i8) -> bool {
-        i8_le(rhs, lhs)
+        i8_le(lhs, rhs)
     }
     fn ge(lhs: i8, rhs: i8) -> bool {
         i8_ge(lhs, rhs)
