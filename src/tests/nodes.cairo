@@ -292,3 +292,6 @@ mod leaky_relu_i32_fp8x23;
 mod leaky_relu_i32_fp16x16; 
 mod leaky_relu_i8_fp8x23; 
 mod leaky_relu_i8_fp16x16; 
+mod linear_i32; 
+mod linear_i8; 
+mod linear_u32; 
