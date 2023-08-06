@@ -288,3 +288,7 @@ mod less_equal_i8;
 mod less_equal_i8_broadcast; 
 mod less_equal_u32; 
 mod less_equal_u32_broadcast; 
+mod leaky_relu_i32_fp8x23; 
+mod leaky_relu_i32_fp16x16; 
+mod leaky_relu_i8_fp8x23; 
+mod leaky_relu_i8_fp16x16; 
