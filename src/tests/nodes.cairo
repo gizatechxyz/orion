@@ -307,3 +307,5 @@ mod logsoftmax_u32_fp8x23_axis_0;
 mod logsoftmax_u32_fp8x23_axis_1; 
 mod logsoftmax_u32_fp16x16_axis_0; 
 mod logsoftmax_u32_fp16x16_axis_1; 
+mod relu_i32; 
+mod relu_i8; 
