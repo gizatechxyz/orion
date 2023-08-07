@@ -7,10 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased] - 2023-08-07
 
 ### Changed 
-- Refactored all operators tests. 
-Now a testing an operator can be writting in python in `nodegen` directory. 
-Then, the test can be generated with `scarb run nodegen name_of_the_node`.
-Generated tests can be found in `src/tests/nodes`.
+Refactored all operators tests. Now an operator test can be writing in python in `nodegen/node` directory. Then, the test and its data can be generated with `scarb run nodegen name_of_the_node`. Generated tests are located in `src/tests/nodes`.
 
 ## [Unreleased] - 2023-07-20
 
