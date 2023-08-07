@@ -14,8 +14,8 @@ use orion::numbers::fixed_point::core::{FixedType};
 
 
 impl NN_i32 of NNTrait<i32> {
-    fn relu(tensor: @Tensor<i32>, threshold: i32) -> Tensor<i32> {
-        relu_i32(tensor, threshold)
+    fn relu(tensor: @Tensor<i32>) -> Tensor<i32> {
+        relu_i32(tensor)
     }
 
     fn sigmoid(tensor: @Tensor<i32>) -> Tensor<FixedType> {

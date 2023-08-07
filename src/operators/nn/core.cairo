@@ -27,7 +27,6 @@ trait NNTrait<T> {
     /// ## Args
     ///
     /// * `tensor`(`@Tensor<T>`) - The input tensor.
-    /// * `threshold`(`T`) - A scalar that defines the threshold below which the Relu function returns 0.
     ///
     /// ## Returns
     /// 
@@ -40,18 +39,17 @@ trait NNTrait<T> {
     /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
     /// 
     /// fn relu_example() -> Tensor<u32> {
-    ///     // We instantiate a 2D Tensor here and set threshold to 0.
+    ///     // We instantiate a 2D Tensor here.
     ///     // [[1,2],[-1,-2]]
     ///     let tensor = i32_tensor_2x2_helper();
-    ///     let threshold = IntegerTrait::new(0, false);
     /// 		
     ///     // We can call `relu` function as follows.
-    ///     return NNTrait::relu(@tensor, threshold);
+    ///     return NNTrait::relu(@tensor);
     /// }
     /// >>> [[1,2],[0,0]]
     /// ```
     /// 
-    fn relu(tensor: @Tensor<T>, threshold: T) -> Tensor<T>;
+    fn relu(tensor: @Tensor<T>) -> Tensor<T>;
     /// # NNTrait::softmax
     ///
     /// ```rust 
