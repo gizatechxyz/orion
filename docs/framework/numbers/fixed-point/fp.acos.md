@@ -18,11 +18,11 @@ A fixed point number representing the asin  of the input value.
 
 ```rust
 fn acos_fp_example() -> FixedType {
-// We instantiate fixed point here.
-let fp = FixedTrait::from_unscaled_felt(1);
-
-// We can call `asin` function as follows.
-fp.acos()
+    // We instantiate fixed point here.
+    let fp = FixedTrait::from_unscaled_felt(1);
+    
+    // We can call `asin` function as follows.
+    fp.acos()
 }
 >>> {mag: 0, sign: true} // = 0...
-```
+``` 

@@ -40,6 +40,7 @@ use orion::operators::tensor::math::sin::sin_u32::core::sin_u32;
 use orion::operators::tensor::math::cos::cos_u32::core::cos_u32;
 use orion::operators::tensor::math::asin::asin_u32::core::asin_u32;
 use orion::operators::tensor::math::atan::atan_u32::core::atan_u32;
+use orion::operators::tensor::math::or::or_u32::or;
 use orion::operators::tensor::math::acos::acos_u32::core::acos_u32;
 use orion::operators::tensor::math::sqrt::sqrt_u32::core::sqrt_u32;
 
@@ -182,6 +183,10 @@ impl Tensor_u32 of TensorTrait<u32> {
 
     fn atan(self: @Tensor<u32>) -> Tensor<FixedType> {
         atan_u32(self).unwrap()
+    }
+
+    fn or(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        or(self, other)
     }
     
     fn acos(self: @Tensor<u32>) -> Tensor<FixedType> {
