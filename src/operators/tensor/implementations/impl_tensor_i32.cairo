@@ -35,12 +35,14 @@ use orion::operators::tensor::math::tanh::tanh_i32::core::tanh_i32;
 use orion::operators::tensor::math::cosh::cosh_i32::core::cosh_i32;
 use orion::operators::tensor::math::acosh::acosh_i32::core::acosh_i32;
 use orion::operators::tensor::math::asinh::asinh_i32::core::asinh_i32;
-
-
 use orion::operators::tensor::math::sin::sin_i32::core::sin_i32;
 use orion::operators::tensor::math::cos::cos_i32::core::cos_i32;
 use orion::operators::tensor::math::asin::asin_i32::core::asin_i32;
 use orion::operators::tensor::math::atan::atan_i32::core::atan_i32;
+use orion::operators::tensor::math::xor::xor_i32::xor;
+use orion::operators::tensor::math::or::or_i32::or;
+use orion::operators::tensor::math::acos::acos_i32::core::acos_i32;
+use orion::operators::tensor::math::sqrt::sqrt_i32::core::sqrt_i32;
 
 
 impl Tensor_i32 of TensorTrait<i32> {
@@ -181,6 +183,22 @@ impl Tensor_i32 of TensorTrait<i32> {
     fn atan(self: @Tensor<i32>) -> Tensor<FixedType> {
         atan_i32(self).unwrap()
     }
+
+    fn xor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+        xor(self, other)
+    }
+    
+    fn or(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+        or(self, other)
+    }
+    
+    fn acos(self: @Tensor<i32>) -> Tensor<FixedType> {
+        acos_i32(self).unwrap()
+    }
+
+    fn sqrt(self: @Tensor<i32>) -> Tensor<FixedType> {
+        sqrt_i32(self).unwrap()
+    }    
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.
