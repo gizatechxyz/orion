@@ -476,6 +476,14 @@ fn i8_min(a: i8, b: i8) -> i8 {
     }
 }
 
+fn i8_xor(a: i8, b: i8) -> bool {
+    if (a.mag == 0_u8 || b.mag == 0_u8) && a.mag != b.mag {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 fn i8_or(a: i8, b: i8) -> bool {
     if (a.mag == 0_u8 && b.mag == 0_u8) {
         return false;

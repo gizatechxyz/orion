@@ -36,6 +36,7 @@ use orion::operators::tensor::math::asinh::asinh_u32::core::asinh_u32;
 use orion::operators::tensor::math::sin::sin_u32::core::sin_u32;
 use orion::operators::tensor::math::cos::cos_u32::core::cos_u32;
 use orion::operators::tensor::math::atan::atan_u32::core::atan_u32;
+use orion::operators::tensor::math::xor::xor_u32::xor;
 use orion::operators::tensor::math::or::or_u32::or;
 use orion::operators::tensor::math::sqrt::sqrt_u32::core::sqrt_u32;
 
@@ -182,6 +183,10 @@ impl Tensor_u32 of TensorTrait<u32> {
 
     fn acos(self: @Tensor<u32>) -> Tensor<FixedType> {
         panic(array!['not supported with u32'])
+    }
+
+    fn xor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        xor(self, other)
     }
 
     fn or(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {

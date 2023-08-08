@@ -72,6 +72,8 @@
     * [tensor.atan](framework/operators/tensor/tensor.atan.md)
     * [tensor.acos](framework/operators/tensor/tensor.acos.md)
     * [tensor.sqrt](framework/operators/tensor/tensor.sqrt.md)
+    * [tensor.or](framework/operators/tensor/tensor.or.md)
+    * [tensor.xor](framework/operators/tensor/tensor.xor.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)
