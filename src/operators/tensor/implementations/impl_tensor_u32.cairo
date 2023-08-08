@@ -41,6 +41,8 @@ use orion::operators::tensor::math::cos::cos_u32::core::cos_u32;
 use orion::operators::tensor::math::asin::asin_u32::core::asin_u32;
 use orion::operators::tensor::math::atan::atan_u32::core::atan_u32;
 use orion::operators::tensor::math::logical_or::logical_or_u32::logical_or;
+use orion::operators::tensor::math::acos::acos_u32::core::acos_u32;
+use orion::operators::tensor::math::sqrt::sqrt_u32::core::sqrt_u32;
 
 
 impl Tensor_u32 of TensorTrait<u32> {
@@ -186,6 +188,14 @@ impl Tensor_u32 of TensorTrait<u32> {
     fn logical_or(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         logical_or(self, other)
     }
+    
+    fn acos(self: @Tensor<u32>) -> Tensor<FixedType> {
+        acos_u32(self).unwrap()
+    }
+
+    fn sqrt(self: @Tensor<u32>) -> Tensor<FixedType> {
+        sqrt_u32(self).unwrap()
+    }    
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

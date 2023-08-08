@@ -70,7 +70,9 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// tanh - Computes the hyperbolic tangent of all elements of the input tensor.
 /// sinh - Computes the hyperbolic sine of all elements of the input tensor.
 /// atan - Computes the arctangent (inverse of tangent) of the input tensor.
+/// sqrt - Computes the square root of all elements of the input tensor.
 /// logical_or - Computes the logical OR of two tensors element-wise.
+/// acos - Computes the arccosine (inverse of cosine) value of each element in the input tensor.
 /// 
 trait TensorTrait<T> {
     /// # tensor.new
@@ -1662,6 +1664,74 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn logical_or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.acos
+    ///
+    /// ```rust
+    ///     fn acos(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the arccosine (inverse of cosine) of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the arccosine value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn acos_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // tensor = [[0, 1]]
+    ///     let tensor = fp8x23_tensor_1x2_helper();
+    ///     let result = tensor.acos();
+    ///     return result;
+    /// }
+    /// >>> [13176794, 0]
+    /// // The fixed point representation of
+    /// // [1.5707..., 0]
+    /// ```
+    ///
+    fn acos(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// #tensor.sqrt
+    ///
+    /// ```rust
+    ///     fn sqrt(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the square root of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the arctangent (inverse of tangent) value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn sqrt_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // tensor = [0, 1, 2]
+    ///     let tensor = fp_tensor_1x3_helper();
+    ///     let result = tensor.sqrt().data;
+    ///     return result;
+    /// }
+    /// >>> [0,65536,92672]
+    /// // The fixed point representation of
+    /// // [0,1,1.4142...]
+    /// ```
+    ///    
+    fn sqrt(self: @Tensor<T>) -> Tensor<FixedType>;    
 }
 
 /// Cf: TensorTrait::new docstring
