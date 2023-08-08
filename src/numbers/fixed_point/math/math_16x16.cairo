@@ -27,7 +27,19 @@ fn abs(a: FixedType) -> FixedType {
 ///
 /// * The sum of the input fixed point numbers.
 fn add(a: FixedType, b: FixedType) -> FixedType {
-    return FixedTrait::from_felt(a.into() + b.into());
+    if a.sign == b.sign {
+        return FixedTrait::new(a.mag + b.mag, a.sign);
+    }
+
+    if a.mag == b.mag {
+        return FixedType { mag: 0, sign: false };
+    }
+
+    if (a.mag > b.mag) {
+        return FixedTrait::new(a.mag - b.mag, a.sign);
+    } else {
+        return FixedTrait::new(b.mag - a.mag, b.sign);
+    }
 }
 
 /// Cf: FixedTrait::ceil docstring
@@ -385,6 +397,21 @@ fn asin(a: FixedType) -> FixedType {
     return atan(a / div);
 }
 
+/// Cf: FixedTrait::acos docstring
+// Calculates arccos(a) for -1 <= a <= 1 (fixed point)
+// arccos(a) = arcsin(sqrt(1 - a^2)) - arctan identity has discontinuity at zero
+fn acos(a: FixedType) -> FixedType {
+    assert(a.mag <= ONE, 'out of range');
+    let asin_arg = (FixedTrait::new(ONE, false) - a * a).sqrt();
+    let asin_res = asin(asin_arg);
+
+    if (a.sign) {
+        return FixedTrait::new(PI, false) - asin_res;
+    } else {
+        return asin_res;
+    }
+}
+
 /// Subtracts one fixed point number from another.
 ///
 /// # Arguments
@@ -396,7 +423,7 @@ fn asin(a: FixedType) -> FixedType {
 ///
 /// * A fixed point number representing the result of the subtraction.
 fn sub(a: FixedType, b: FixedType) -> FixedType {
-    return FixedTrait::from_felt(a.into() - b.into());
+    return add(a, -b);
 }
 
 /// Returns maximum value between two FixedTrait Points.
@@ -585,4 +612,14 @@ fn atan(a: FixedType) -> FixedType {
     }
 
     return FixedTrait::new(res.mag, a.sign);
+}
+
+/// Cf: FixedTrait::or docstring
+fn or(a: FixedType, b: FixedType) -> bool {
+    let zero = FixedTrait::new(0, false);
+    if a == zero && b == zero {
+        return false;
+    } else {
+        return true;
+    }
 }

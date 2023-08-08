@@ -70,6 +70,7 @@
     * [tensor.acosh](framework/operators/tensor/tensor.acosh.md)
     * [tensor.tanh](framework/operators/tensor/tensor.tanh.md)
     * [tensor.atan](framework/operators/tensor/tensor.atan.md)
+    * [tensor.acos](framework/operators/tensor/tensor.acos.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)
@@ -88,7 +89,7 @@
 * [Models](hub/algorithms.md)
 * [Spaces](hub/spaces.md)
 
-## 👩🎓 Academy
+## 👩🎓 👩🎓 Academy
 
 * [Tutorials](academy/tutorials/README.md)
   * [MNIST Classification with Orion](academy/tutorials/mnist-classification-with-orion.md)

@@ -459,3 +459,22 @@ fn test_atan() {
     let a = FixedTrait::new(2_u128 * ONE, true);
     assert(a.atan().into() == -72558, 'invalid neg two'); // -1.1071...
 }
+
+#[test]
+#[available_gas(100000000)]
+fn test_acos() {
+    let a = FixedTrait::new(ONE, false);
+    assert(a.acos().into() == 0, 'invalid one');
+
+    let a = FixedTrait::new(ONE / 2_u128, false);
+    assert(a.acos().into() == 68317, 'invalid half'); // 1.047...
+
+    let a = FixedTrait::new(0_u128, false);
+    assert(a.acos().into() == 102943, 'invalid zero'); // PI / 2
+
+    let a = FixedTrait::new(ONE / 2_u128, true);
+    assert(a.acos().into() == 137570, 'invalid neg half'); // 2.09...
+
+    let a = FixedTrait::new(ONE, true);
+    assert(a.acos().into() == 205887, 'invalid neg one'); // PI
+}

@@ -24,3 +24,6 @@ mod cosh;
 mod acosh;
 mod asinh;
 mod atan;
+mod or;
+mod acos;
+mod sqrt;
