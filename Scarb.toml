@@ -7,5 +7,4 @@ homepage = "https://github.com/gizatechxyz/orion"
 
 [scripts]
 sierra = "cairo-compile . -r"
-test = "cairo-test ."
 docgen = "cd docgen && cargo run"
