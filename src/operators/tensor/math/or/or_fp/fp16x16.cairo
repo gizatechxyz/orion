@@ -9,6 +9,7 @@ use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::helpers::check_compatibility;
 
+
 /// Cf: TensorTrait::or docstring
 fn or(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> {
     check_compatibility(*y.shape, *z.shape);

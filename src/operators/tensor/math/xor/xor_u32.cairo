@@ -40,7 +40,6 @@ fn xor(y: @Tensor<u32>, z: @Tensor<u32>) -> Tensor<usize> {
         } else {
             data_result.append(0);
         }
-
         smaller_index = (1 + smaller_index) % smaller_data.len();
     };
 

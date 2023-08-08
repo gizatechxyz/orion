@@ -190,15 +190,14 @@ impl Tensor_fp of TensorTrait<FixedType> {
         atan(self).unwrap()
     }
 
-
     fn xor(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         xor(self, other).unwrap()
     }
-
+    
     fn or(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         or(self, other).unwrap()
     }
-
+    
     fn acos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         acos(self).unwrap()
     }

@@ -638,3 +638,4 @@ fn or(a: FixedType, b: FixedType) -> bool {
         return true;
     }
 }
+
