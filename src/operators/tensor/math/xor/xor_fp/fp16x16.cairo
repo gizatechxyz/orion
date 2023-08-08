@@ -1,15 +1,18 @@
 use array::ArrayTrait;
 use option::OptionTrait;
 use array::SpanTrait;
-use orion::numbers::signed_integer::i32::i32_logical_xor;
-use orion::numbers::signed_integer::i32::i32;
+use orion::numbers::fixed_point::core::FixedType;
+use orion::numbers::fixed_point::math::math_8x23::xor as xor_fp16x16;
+
+use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16PartialOrd;
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 use orion::operators::tensor::helpers::check_compatibility;
 
+
 /// Cf: TensorTrait::xor docstring
-fn logical_xor(y: @Tensor<i32>, z: @Tensor<i32>) -> Tensor<usize> {
+fn xor(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> {
     check_compatibility(*y.shape, *z.shape);
 
     let mut data_result = ArrayTrait::<usize>::new();
@@ -37,12 +40,12 @@ fn logical_xor(y: @Tensor<i32>, z: @Tensor<i32>) -> Tensor<usize> {
             (bigger_current_index, smaller_current_index)
         };
 
-        if i32_logical_xor(y_value, z_value) {
-            data_result.append(1);
-        } else {
+        if xor_fp16x16(y_value, z_value) {
             data_result.append(0);
+        } else {
+            data_result.append(1);
         }
-       
+
         smaller_index = (1 + smaller_index) % smaller_data.len();
     };
 

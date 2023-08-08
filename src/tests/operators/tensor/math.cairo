@@ -24,7 +24,7 @@ mod cosh;
 mod acosh;
 mod asinh;
 mod atan;
-mod logical_xor;
+mod xor;
 mod or;
 mod acos;
 mod sqrt;

@@ -1,13 +1,15 @@
 use array::ArrayTrait;
 use option::OptionTrait;
 use array::SpanTrait;
+use orion::numbers::signed_integer::i32::i32_xor;
+use orion::numbers::signed_integer::i32::i32;
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 use orion::operators::tensor::helpers::check_compatibility;
 
-/// Cf: TensorTrait::logical_xor docstring
-fn logical_xor(y: @Tensor<u32>, z: @Tensor<u32>) -> Tensor<usize> {
+/// Cf: TensorTrait::xor docstring
+fn xor(y: @Tensor<i32>, z: @Tensor<i32>) -> Tensor<usize> {
     check_compatibility(*y.shape, *z.shape);
 
     let mut data_result = ArrayTrait::<usize>::new();
@@ -35,7 +37,7 @@ fn logical_xor(y: @Tensor<u32>, z: @Tensor<u32>) -> Tensor<usize> {
             (bigger_current_index, smaller_current_index)
         };
 
-        if (y_value == 0 || z_value == 0) && y_value != z_value {
+        if i32_xor(y_value, z_value) {
             data_result.append(1);
         } else {
             data_result.append(0);

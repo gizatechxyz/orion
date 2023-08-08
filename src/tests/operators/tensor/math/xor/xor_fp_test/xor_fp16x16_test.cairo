@@ -12,7 +12,7 @@ mod tensor_1D {
 
     #[test]
     #[available_gas(2000000000000)]
-    fn tensor_logical_xor() {
+    fn tensor_xor() {
         let mut sizes = ArrayTrait::new();
         sizes.append(3);
 
@@ -35,7 +35,7 @@ mod tensor_1D {
             sizes.span(), arr_2.span(), Option::Some(extra)
         );
 
-        let result_a = tensor_a.logical_xor(@tensor_b);
+        let result_a = tensor_a.xor(@tensor_b);
         assert(*result_a.data[0] == 0, 'result[0] = 0'); // 0 ^ 0: false
         assert(*result_a.data[1] == 1, 'result[1] = 0'); // 0 ^ 1: true
         assert(*result_a.data[2] == 0, 'result[2] = 1'); // 1 ^ 2: false
@@ -59,7 +59,7 @@ mod tensor_2D {
 
     #[test]
     #[available_gas(200000000000)]
-    fn tensor_logical_xor() {
+    fn tensor_xor() {
         let mut sizes = ArrayTrait::new();
         sizes.append(3);
         sizes.append(3);
@@ -95,7 +95,7 @@ mod tensor_2D {
             sizes.span(), arr_2.span(), Option::Some(extra)
         );
 
-        let result_a = tensor_a.logical_xor(@tensor_b);
+        let result_a = tensor_a.xor(@tensor_b);
         assert(*result_a.data[0] == 0, 'result[0] = 0'); // 0 ^ 0: false
         assert(*result_a.data[1] == 1, 'result[1] = 1'); // 1 ^ 0: true
         assert(*result_a.data[2] == 0, 'result[2] = 0'); // 2 ^ 2: false
@@ -108,7 +108,7 @@ mod tensor_2D {
 
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
-        let result_b = tensor_b.logical_xor(@tensor_a);
+        let result_b = tensor_b.xor(@tensor_a);
         assert(*result_b.data[0] == 0, 'result[0] = 0');
         assert(*result_b.data[1] == 1, 'result[1] = 1');
         assert(*result_b.data[2] == 0, 'result[2] = 0');
@@ -124,7 +124,7 @@ mod tensor_2D {
 
     #[test]
     #[available_gas(200000000000)]
-    fn tensor_logical_xor_broadcast() {
+    fn tensor_xor_broadcast() {
         let mut sizes_1 = ArrayTrait::new();
         sizes_1.append(4);
         sizes_1.append(3);
@@ -161,7 +161,7 @@ mod tensor_2D {
             sizes_2.span(), arr_2.span(), Option::Some(extra)
         );
 
-        let result_a = tensor_b.logical_xor(@tensor_a);
+        let result_a = tensor_b.xor(@tensor_a);
         assert(*result_a.data[0] == 0, 'result[0] = 0'); // 0 ^ 0: false
         assert(*result_a.data[1] == 1, 'result[1] = 1'); // 0 ^ 1: true
         assert(*result_a.data[2] == 0, 'result[2] = 0'); // 2 ^ 2: false
@@ -177,7 +177,7 @@ mod tensor_2D {
 
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
-        let result_b = tensor_a.logical_xor(@tensor_b);
+        let result_b = tensor_a.xor(@tensor_b);
         assert(*result_b.data[0] == 0, 'result[0] = 0'); // 0 ^ 0: false
         assert(*result_b.data[1] == 1, 'result[1] = 1'); // 1 ^ 0: true
         assert(*result_b.data[2] == 0, 'result[2] = 0'); // 2 ^ 2: false
@@ -210,7 +210,7 @@ mod tensor_3D {
 
     #[test]
     #[available_gas(2000000000000)]
-    fn tensor_logical_xor() {
+    fn tensor_xor() {
         let mut sizes = ArrayTrait::new();
         sizes.append(2);
         sizes.append(2);
@@ -245,7 +245,7 @@ mod tensor_3D {
             sizes.span(), arr_2.span(), Option::Some(extra)
         );
 
-        let result_a = tensor_a.logical_xor(@tensor_b);
+        let result_a = tensor_a.xor(@tensor_b);
         assert(*result_a.data[0] == 0, 'result[0] = 0'); // 0 ^ 0: false
         assert(*result_a.data[1] == 1, 'result[1] = 1'); // 1 ^ 0: true
         assert(*result_a.data[2] == 0, 'result[2] = 0'); // 2 ^ 1: false
@@ -257,7 +257,7 @@ mod tensor_3D {
 
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
-        let result_b = tensor_b.logical_xor(@tensor_a);
+        let result_b = tensor_b.xor(@tensor_a);
         assert(*result_b.data[0] == 0, 'result[0] = 0'); // 0 ^ 0: false
         assert(*result_b.data[1] == 1, 'result[1] = 1'); // 0 ^ 1: true
         assert(*result_b.data[2] == 0, 'result[2] = 0'); // 1 ^ 2: false
@@ -272,7 +272,7 @@ mod tensor_3D {
 
     #[test]
     #[available_gas(2000000000000)]
-    fn tensor_logical_xor_broadcast() {
+    fn tensor_xor_broadcast() {
         let mut sizes_1 = ArrayTrait::new();
         sizes_1.append(2);
         sizes_1.append(2);
@@ -306,7 +306,7 @@ mod tensor_3D {
             sizes_2.span(), arr_2.span(), Option::Some(extra)
         );
 
-        let result_a = tensor_b.logical_xor(@tensor_a);
+        let result_a = tensor_b.xor(@tensor_a);
         assert(*result_a.data[0] == 0, 'result[0] = 0'); // 0 ^ 0: false
         assert(*result_a.data[1] == 1, 'result[1] = 1'); // 0 ^ 1: true
         assert(*result_a.data[2] == 1, 'result[2] = 1'); // 2 ^ 0: true
@@ -318,7 +318,7 @@ mod tensor_3D {
 
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
-        let result_b = tensor_a.logical_xor(@tensor_b);
+        let result_b = tensor_a.xor(@tensor_b);
         assert(*result_b.data[0] == 0, 'result[0] = 0'); // 0 ^ 0: false
         assert(*result_b.data[1] == 1, 'result[1] = 1'); // 1 ^ 0: true
         assert(*result_b.data[2] == 1, 'result[2] = 1'); // 0 ^ 2: true

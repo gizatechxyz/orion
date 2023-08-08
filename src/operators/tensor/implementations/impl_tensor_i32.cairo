@@ -39,7 +39,7 @@ use orion::operators::tensor::math::sin::sin_i32::core::sin_i32;
 use orion::operators::tensor::math::cos::cos_i32::core::cos_i32;
 use orion::operators::tensor::math::asin::asin_i32::core::asin_i32;
 use orion::operators::tensor::math::atan::atan_i32::core::atan_i32;
-use orion::operators::tensor::math::logical_xor::logical_xor_i32::logical_xor;
+use orion::operators::tensor::math::xor::xor_i32::xor;
 use orion::operators::tensor::math::or::or_i32::or;
 use orion::operators::tensor::math::acos::acos_i32::core::acos_i32;
 use orion::operators::tensor::math::sqrt::sqrt_i32::core::sqrt_i32;
@@ -184,8 +184,8 @@ impl Tensor_i32 of TensorTrait<i32> {
         atan_i32(self).unwrap()
     }
 
-    fn logical_xor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
-        logical_xor(self, other)
+    fn xor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+        xor(self, other)
     }
     
     fn or(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
