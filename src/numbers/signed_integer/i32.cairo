@@ -467,6 +467,14 @@ fn i8_try_from_i32(x: i32) -> Option<i8> {
     }
 }
 
+fn i32_xor(a: i32, b: i32) -> bool {
+    if (a.mag == 0_u32 || b.mag == 0_u32) && a.mag != b.mag {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 fn i32_or(a: i32, b: i32) -> bool {
     if (a.mag == 0_u32 && b.mag == 0_u32) {
         return false;
