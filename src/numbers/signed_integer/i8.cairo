@@ -476,6 +476,14 @@ fn i8_min(a: i8, b: i8) -> i8 {
     }
 }
 
+fn i8_or(a: i8, b: i8) -> bool {
+    if (a.mag == 0_u8 && b.mag == 0_u8) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 fn i8_to_i32(x: i8) -> i32 {
     i32 { mag: x.mag.into(), sign: x.sign }
 }

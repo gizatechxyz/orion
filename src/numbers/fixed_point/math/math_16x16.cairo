@@ -613,3 +613,13 @@ fn atan(a: FixedType) -> FixedType {
 
     return FixedTrait::new(res.mag, a.sign);
 }
+
+/// Cf: FixedTrait::or docstring
+fn or(a: FixedType, b: FixedType) -> bool {
+    let zero = FixedTrait::new(0, false);
+    if a == zero && b == zero {
+        return false;
+    } else {
+        return true;
+    }
+}
