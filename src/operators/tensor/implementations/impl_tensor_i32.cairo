@@ -34,11 +34,10 @@ use orion::operators::tensor::math::tanh::tanh_i32::core::tanh_i32;
 use orion::operators::tensor::math::cosh::cosh_i32::core::cosh_i32;
 use orion::operators::tensor::math::acosh::acosh_i32::core::acosh_i32;
 use orion::operators::tensor::math::asinh::asinh_i32::core::asinh_i32;
-
-
 use orion::operators::tensor::math::sin::sin_i32::core::sin_i32;
 use orion::operators::tensor::math::cos::cos_i32::core::cos_i32;
 use orion::operators::tensor::math::atan::atan_i32::core::atan_i32;
+use orion::operators::tensor::math::sqrt::sqrt_i32::core::sqrt_i32;
 
 
 impl Tensor_i32 of TensorTrait<i32> {
@@ -183,6 +182,10 @@ impl Tensor_i32 of TensorTrait<i32> {
     fn acos(self: @Tensor<i32>) -> Tensor<FixedType> {
         panic(array!['not supported with i32'])
     }
+
+    fn sqrt(self: @Tensor<i32>) -> Tensor<FixedType> {
+        sqrt_i32(self).unwrap()
+    }  
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.
