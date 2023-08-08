@@ -120,6 +120,10 @@ impl FP16x16Impl of FixedTrait {
     fn atan(self: FixedType) -> FixedType {
         return math_16x16::atan(self);
     }
+
+    fn acos(self: FixedType) -> FixedType {
+        return math_16x16::acos(self);
+    }
 }
 
 impl FP16x16Print of PrintTrait<FixedType> {
@@ -264,7 +268,7 @@ fn _felt_abs(a: felt252) -> felt252 {
     if (a_sign == true) {
         return a * -1;
     } else {
-        return a;
+        return a * 1;
     }
 }
 

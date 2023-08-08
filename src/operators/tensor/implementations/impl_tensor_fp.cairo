@@ -39,6 +39,10 @@ use orion::operators::tensor::math::cos::cos_fp::core::cos;
 use orion::operators::tensor::math::asin::asin_fp::core::asin;
 use orion::operators::tensor::math::atan::atan_fp::core::atan;
 use orion::operators::tensor::math::logical_xor::logical_xor_fp::core::logical_xor;
+use orion::operators::tensor::math::or::or_fp::core::or;
+use orion::operators::tensor::math::acos::acos_fp::core::acos;
+use orion::operators::tensor::math::sqrt::sqrt_fp::core::sqrt;
+
 
 impl Tensor_fp of TensorTrait<FixedType> {
     fn new(
@@ -190,6 +194,18 @@ impl Tensor_fp of TensorTrait<FixedType> {
     fn logical_xor(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         logical_xor(self, other).unwrap()
     }
+    
+    fn or(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
+        or(self, other).unwrap()
+    }
+    
+    fn acos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        acos(self).unwrap()
+    }
+
+    fn sqrt(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        sqrt(self).unwrap()
+    }    
 }
 
 /// Implements addition for `Tensor<FixedType>` using the `Add` trait.

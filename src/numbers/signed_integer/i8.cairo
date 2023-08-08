@@ -497,3 +497,11 @@ fn i8_logical_xor(a: i8, b: i8) -> bool {
         return false;
     }
 }
+
+fn i8_or(a: i8, b: i8) -> bool {
+    if (a.mag == 0_u8 && b.mag == 0_u8) {
+        return false;
+    } else {
+        return true;
+    }
+}

@@ -71,6 +71,10 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// sinh - Computes the hyperbolic sine of all elements of the input tensor.
 /// atan - Computes the arctangent (inverse of tangent) of the input tensor.
 /// logical_xor - Computes the logical XOR of two tensors element wise.
+/// sqrt - Computes the square root of all elements of the input tensor.
+/// or - Computes the logical OR of two tensors element-wise.
+/// acos - Computes the arccosine (inverse of cosine) value of each element in the input tensor.
+/// 
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -1603,6 +1607,64 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn asin(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// #tensor.or
+    ///
+    /// ```rust
+    ///     fn or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Computes the logical OR of two tensors element-wise.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// fn or_example() -> Tensor<usize> {
+    ///     // We instantiate two 3D Tensors here
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
+    ///     let tensor_y = u32_tensor_2x2x2_helper();
+    ///     let tensor_z = u32_tensor_2x2x2_helper();
+    ///     let result = tensor_y.or(@tensor_z);
+    ///     return result;
+    /// }
+    /// >>> [0,1,1,1,1,1,1,1,1]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// fn or_example() -> Tensor<usize> {
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2]]
+    ///     let tensor_y = u32_tensor_3x3_helper();
+    ///     let tensor_z = u32_tensor_3x1_helper();
+    ///     let result = tensor_y.or(@tensor_z);
+    ///     // We could equally do something like:
+    ///     // let result = tensor_z.or(@tensor_y);
+    ///     return result;
+    /// }
+    /// >>> [0,1,1,1,1,1,1,1,1]
+    /// ```
+    ///
+    fn or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// #tensor.logical_xor
     ///
     /// ```rust
@@ -1661,6 +1723,74 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn logical_xor(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.acos
+    ///
+    /// ```rust
+    ///     fn acos(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the arccosine (inverse of cosine) of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the arccosine value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn acos_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // tensor = [[0, 1]]
+    ///     let tensor = fp8x23_tensor_1x2_helper();
+    ///     let result = tensor.acos();
+    ///     return result;
+    /// }
+    /// >>> [13176794, 0]
+    /// // The fixed point representation of
+    /// // [1.5707..., 0]
+    /// ```
+    ///
+    fn acos(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// #tensor.sqrt
+    ///
+    /// ```rust
+    ///     fn sqrt(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the square root of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the arctangent (inverse of tangent) value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn sqrt_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // tensor = [0, 1, 2]
+    ///     let tensor = fp_tensor_1x3_helper();
+    ///     let result = tensor.sqrt().data;
+    ///     return result;
+    /// }
+    /// >>> [0,65536,92672]
+    /// // The fixed point representation of
+    /// // [0,1,1.4142...]
+    /// ```
+    ///    
+    fn sqrt(self: @Tensor<T>) -> Tensor<FixedType>;    
 }
 
 /// Cf: TensorTrait::new docstring
