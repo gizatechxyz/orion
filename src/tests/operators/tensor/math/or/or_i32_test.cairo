@@ -4,39 +4,38 @@
 mod tensor_1D {
     use array::SpanTrait;
     use array::{ArrayTrait};
-    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+    use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
+    use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
     use orion::operators::tensor::core::{TensorTrait, ExtraParams};
-    use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-    use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
 
     #[test]
     #[available_gas(2000000000000)]
-    fn tensor_logical_or_1D() {
+    fn tensor_or() {
         let mut sizes = ArrayTrait::new();
         sizes.append(6);
 
-        let mut arr_1 = ArrayTrait::<FixedType>::new();
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(5, false));
-        arr_1.append(FixedTrait::new_unscaled(50, true));
+        let mut arr_1 = ArrayTrait::<i32>::new();
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(5, false));
+        arr_1.append(IntegerTrait::new(50, true));
 
-        let mut arr_2 = ArrayTrait::<FixedType>::new();
-        arr_2.append(FixedTrait::new_unscaled(0, false));
-        arr_2.append(FixedTrait::new_unscaled(1, false));
-        arr_2.append(FixedTrait::new_unscaled(1, false));
-        arr_2.append(FixedTrait::new_unscaled(1, true));
-        arr_2.append(FixedTrait::new_unscaled(100, false));
-        arr_2.append(FixedTrait::new_unscaled(0, false));
+        let mut arr_2 = ArrayTrait::<i32>::new();
+        arr_2.append(IntegerTrait::new(0, false));
+        arr_2.append(IntegerTrait::new(1, false));
+        arr_2.append(IntegerTrait::new(1, false));
+        arr_2.append(IntegerTrait::new(1, true));
+        arr_2.append(IntegerTrait::new(100, false));
+        arr_2.append(IntegerTrait::new(0, false));
 
         let extra = Option::<ExtraParams>::None(());
 
-        let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span(), extra);
-        let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), extra);
+        let tensor_a = TensorTrait::<i32>::new(sizes.span(), arr_1.span(), extra);
+        let tensor_b = TensorTrait::<i32>::new(sizes.span(), arr_2.span(), extra);
 
-        let result_a = tensor_a.logical_or(@tensor_b);
+        let result_a = tensor_a.or(@tensor_b);
         assert(*result_a.data[0] == 0, 'result[0] = 0'); // 0 || 0 = false
         assert(*result_a.data[1] == 1, 'result[1] = 1'); // 1 || 1 = true
         assert(*result_a.data[2] == 1, 'result[2] = 1'); // 0 || 1 = true
@@ -46,7 +45,7 @@ mod tensor_1D {
 
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
-        let result_b = tensor_b.logical_or(@tensor_a);
+        let result_b = tensor_b.or(@tensor_a);
         assert(*result_b.data[0] == 0, 'result[0] = 0');
         assert(*result_b.data[1] == 1, 'result[1] = 1');
         assert(*result_b.data[2] == 1, 'result[2] = 1');
@@ -57,54 +56,51 @@ mod tensor_1D {
         assert(result_b.data.len() == tensor_b.data.len(), 'tensor length mismatch');
     }
 }
-
 // ===== 2D ===== //
 
 #[cfg(test)]
 mod tensor_2D {
     use array::SpanTrait;
     use array::{ArrayTrait};
-
-    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+    use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
+    use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
     use orion::operators::tensor::core::{TensorTrait, ExtraParams};
-    use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-    use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
 
     #[test]
     #[available_gas(200000000000)]
-    fn tensor_logical_or() {
+    fn tensor_or() {
         let mut sizes = ArrayTrait::new();
         sizes.append(3);
         sizes.append(3);
 
-        let mut arr_1 = ArrayTrait::<FixedType>::new();
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(100, false));
+        let mut arr_1 = ArrayTrait::<i32>::new();
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, true));
+        arr_1.append(IntegerTrait::new(100, false));
 
-        let mut arr_2 = ArrayTrait::<FixedType>::new();
-        arr_2.append(FixedTrait::new_unscaled(0, false));
-        arr_2.append(FixedTrait::new_unscaled(0, false));
-        arr_2.append(FixedTrait::new_unscaled(0, false));
-        arr_2.append(FixedTrait::new_unscaled(1, true));
-        arr_2.append(FixedTrait::new_unscaled(1, false));
-        arr_2.append(FixedTrait::new_unscaled(5, false));
-        arr_2.append(FixedTrait::new_unscaled(0, false));
-        arr_2.append(FixedTrait::new_unscaled(0, false));
-        arr_2.append(FixedTrait::new_unscaled(0, false));
+        let mut arr_2 = ArrayTrait::<i32>::new();
+        arr_2.append(IntegerTrait::new(0, false));
+        arr_2.append(IntegerTrait::new(0, false));
+        arr_2.append(IntegerTrait::new(0, false));
+        arr_2.append(IntegerTrait::new(1, false));
+        arr_2.append(IntegerTrait::new(1, true));
+        arr_2.append(IntegerTrait::new(5, false));
+        arr_2.append(IntegerTrait::new(0, false));
+        arr_2.append(IntegerTrait::new(0, false));
+        arr_2.append(IntegerTrait::new(0, false));
 
         let extra = Option::<ExtraParams>::None(());
 
-        let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span(), extra);
-        let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), extra);
+        let tensor_a = TensorTrait::<i32>::new(sizes.span(), arr_1.span(), extra);
+        let tensor_b = TensorTrait::<i32>::new(sizes.span(), arr_2.span(), extra);
 
-        let result_a = tensor_a.logical_or(@tensor_b);
+        let result_a = tensor_a.or(@tensor_b);
         assert(*result_a.data[0] == 0, 'result[0] = 0'); // 0 || 0 = false
         assert(*result_a.data[1] == 0, 'result[1] = 0'); // 0 || 0 = false
         assert(*result_a.data[2] == 0, 'result[2] = 0'); // 0 || 0 = false
@@ -117,7 +113,7 @@ mod tensor_2D {
 
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
-        let result_b = tensor_b.logical_or(@tensor_a);
+        let result_b = tensor_b.or(@tensor_a);
         assert(*result_b.data[0] == 0, 'result[0] = 0');
         assert(*result_b.data[1] == 0, 'result[1] = 0');
         assert(*result_b.data[2] == 0, 'result[2] = 0');
@@ -130,10 +126,9 @@ mod tensor_2D {
 
         assert(result_b.data.len() == tensor_a.data.len(), 'tensor length mismatch');
     }
-
     #[test]
     #[available_gas(200000000000)]
-    fn tensor_logical_or_broadcast() {
+    fn tensor_or_broadcast() {
         let mut sizes_1 = ArrayTrait::new();
         sizes_1.append(4);
         sizes_1.append(3);
@@ -142,31 +137,31 @@ mod tensor_2D {
         sizes_2.append(1);
         sizes_2.append(3);
 
-        let mut arr_1 = ArrayTrait::<FixedType>::new();
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
+        let mut arr_1 = ArrayTrait::<i32>::new();
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, false));
 
-        let mut arr_2 = ArrayTrait::<FixedType>::new();
-        arr_2.append(FixedTrait::new_unscaled(0, false));
-        arr_2.append(FixedTrait::new_unscaled(1, false));
-        arr_2.append(FixedTrait::new_unscaled(1, false));
+        let mut arr_2 = ArrayTrait::<i32>::new();
+        arr_2.append(IntegerTrait::new(0, false));
+        arr_2.append(IntegerTrait::new(1, false));
+        arr_2.append(IntegerTrait::new(1, false));
 
         let extra = Option::<ExtraParams>::None(());
 
-        let tensor_a = TensorTrait::<FixedType>::new(sizes_1.span(), arr_1.span(), extra);
-        let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span(), extra);
+        let tensor_a = TensorTrait::<i32>::new(sizes_1.span(), arr_1.span(), extra);
+        let tensor_b = TensorTrait::<i32>::new(sizes_2.span(), arr_2.span(), extra);
 
-        let result_a = tensor_b.logical_or(@tensor_a);
+        let result_a = tensor_b.or(@tensor_a);
         assert(*result_a.data[0] == 0, 'result[0] = 0');
         assert(*result_a.data[1] == 1, 'result[1] = 1');
         assert(*result_a.data[2] == 1, 'result[2] = 1');
@@ -182,7 +177,7 @@ mod tensor_2D {
 
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
-        let result_b = tensor_a.logical_or(@tensor_b);
+        let result_b = tensor_a.or(@tensor_b);
         assert(*result_b.data[0] == 0, 'result[0] = 0');
         assert(*result_b.data[1] == 1, 'result[1] = 1');
         assert(*result_b.data[2] == 1, 'result[2] = 1');
@@ -199,53 +194,51 @@ mod tensor_2D {
         assert(result_b.data.len() == tensor_a.data.len(), 'tensor length mismatch');
     }
 }
-
-// ===== 3D ===== //
+// // ===== 3D ===== //
 
 #[cfg(test)]
 mod tensor_3D {
     use array::SpanTrait;
     use array::{ArrayTrait};
 
-    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+    use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
+    use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
     use orion::operators::tensor::core::{TensorTrait, ExtraParams};
-    use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-    use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
 
     #[test]
     #[available_gas(2000000000000)]
-    fn tensor_logical_or() {
+    fn tensor_or() {
         let mut sizes = ArrayTrait::new();
         sizes.append(2);
         sizes.append(2);
         sizes.append(2);
 
-        let mut arr_1 = ArrayTrait::<FixedType>::new();
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
+        let mut arr_1 = ArrayTrait::<i32>::new();
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, false));
 
-        let mut arr_2 = ArrayTrait::<FixedType>::new();
-        arr_2.append(FixedTrait::new_unscaled(0, false));
-        arr_2.append(FixedTrait::new_unscaled(1, false));
-        arr_2.append(FixedTrait::new_unscaled(0, false));
-        arr_2.append(FixedTrait::new_unscaled(1, true));
-        arr_2.append(FixedTrait::new_unscaled(0, false));
-        arr_2.append(FixedTrait::new_unscaled(1, false));
-        arr_2.append(FixedTrait::new_unscaled(0, false));
-        arr_2.append(FixedTrait::new_unscaled(1, false));
+        let mut arr_2 = ArrayTrait::<i32>::new();
+        arr_2.append(IntegerTrait::new(0, false));
+        arr_2.append(IntegerTrait::new(1, false));
+        arr_2.append(IntegerTrait::new(0, true));
+        arr_2.append(IntegerTrait::new(1, true));
+        arr_2.append(IntegerTrait::new(0, false));
+        arr_2.append(IntegerTrait::new(1, false));
+        arr_2.append(IntegerTrait::new(0, false));
+        arr_2.append(IntegerTrait::new(1, false));
 
         let extra = Option::<ExtraParams>::None(());
 
-        let tensor_a = TensorTrait::<FixedType>::new(sizes.span(), arr_1.span(), extra);
-        let tensor_b = TensorTrait::<FixedType>::new(sizes.span(), arr_2.span(), extra);
+        let tensor_a = TensorTrait::<i32>::new(sizes.span(), arr_1.span(), extra);
+        let tensor_b = TensorTrait::<i32>::new(sizes.span(), arr_2.span(), extra);
 
-        let result_a = tensor_a.logical_or(@tensor_b);
+        let result_a = tensor_a.or(@tensor_b);
         assert(*result_a.data[0] == 0, 'result[0] = 0');
         assert(*result_a.data[1] == 1, 'result[1] = 1');
         assert(*result_a.data[2] == 0, 'result[2] = 0');
@@ -257,7 +250,7 @@ mod tensor_3D {
 
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
-        let result_b = tensor_b.logical_or(@tensor_a);
+        let result_b = tensor_b.or(@tensor_a);
         assert(*result_b.data[0] == 0, 'result[0] = 0');
         assert(*result_b.data[1] == 1, 'result[1] = 1');
         assert(*result_b.data[2] == 0, 'result[2] = 0');
@@ -272,7 +265,7 @@ mod tensor_3D {
 
     #[test]
     #[available_gas(2000000000000)]
-    fn tensor_logical_or_broadcast() {
+    fn tensor_or_broadcast() {
         let mut sizes_1 = ArrayTrait::new();
         sizes_1.append(2);
         sizes_1.append(2);
@@ -283,26 +276,26 @@ mod tensor_3D {
         sizes_2.append(2);
         sizes_2.append(1);
 
-        let mut arr_1 = ArrayTrait::<FixedType>::new();
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(0, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
-        arr_1.append(FixedTrait::new_unscaled(1, false));
+        let mut arr_1 = ArrayTrait::<i32>::new();
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(0, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, false));
+        arr_1.append(IntegerTrait::new(1, false));
 
-        let mut arr_2 = ArrayTrait::<FixedType>::new();
-        arr_2.append(FixedTrait::new_unscaled(0, false));
-        arr_2.append(FixedTrait::new_unscaled(1, false));
+        let mut arr_2 = ArrayTrait::<i32>::new();
+        arr_2.append(IntegerTrait::new(0, false));
+        arr_2.append(IntegerTrait::new(1, false));
 
         let extra = Option::<ExtraParams>::None(());
 
-        let tensor_a = TensorTrait::<FixedType>::new(sizes_1.span(), arr_1.span(), extra);
-        let tensor_b = TensorTrait::<FixedType>::new(sizes_2.span(), arr_2.span(), extra);
+        let tensor_a = TensorTrait::<i32>::new(sizes_1.span(), arr_1.span(), extra);
+        let tensor_b = TensorTrait::<i32>::new(sizes_2.span(), arr_2.span(), extra);
 
-        let result_a = tensor_b.logical_or(@tensor_a);
+        let result_a = tensor_b.or(@tensor_a);
         assert(*result_a.data[0] == 0, 'result[0] = 0');
         assert(*result_a.data[1] == 1, 'result[1] = 1');
         assert(*result_a.data[2] == 0, 'result[2] = 0');
@@ -314,7 +307,7 @@ mod tensor_3D {
 
         assert(result_a.data.len() == tensor_a.data.len(), 'tensor length mismatch');
 
-        let result_b = tensor_a.logical_or(@tensor_b);
+        let result_b = tensor_a.or(@tensor_b);
         assert(*result_b.data[0] == 0, 'result[0] = 0');
         assert(*result_b.data[1] == 1, 'result[1] = 1');
         assert(*result_b.data[2] == 0, 'result[2] = 0');

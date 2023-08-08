@@ -1,18 +1,18 @@
 use array::ArrayTrait;
 use option::OptionTrait;
 use array::SpanTrait;
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+use orion::numbers::fixed_point::core::FixedType;
 
-use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23PartialOrd, FP8x23Impl};
-use orion::numbers::fixed_point::math::math_8x23::logical_or as logical_or_8x23;
+use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16PartialOrd;
+use orion::numbers::fixed_point::math::math_8x23::or as or_16x16;
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 use orion::operators::tensor::helpers::check_compatibility;
 
 
-/// Cf: TensorTrait::logical_or docstring
-fn logical_or(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> {
+/// Cf: TensorTrait::or docstring
+fn or(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> {
     check_compatibility(*y.shape, *z.shape);
 
     let mut data_result = ArrayTrait::<usize>::new();
@@ -40,7 +40,7 @@ fn logical_or(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> {
             (bigger_current_index, smaller_current_index)
         };
 
-        if logical_or_8x23(y_value, z_value) {
+        if or_16x16(y_value, z_value) {
             data_result.append(1);
         } else {
             data_result.append(0);

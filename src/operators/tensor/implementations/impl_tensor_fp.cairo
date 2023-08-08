@@ -38,7 +38,7 @@ use orion::operators::tensor::math::sin::sin_fp::core::sin;
 use orion::operators::tensor::math::cos::cos_fp::core::cos;
 use orion::operators::tensor::math::asin::asin_fp::core::asin;
 use orion::operators::tensor::math::atan::atan_fp::core::atan;
-use orion::operators::tensor::math::logical_or::logical_or_fp::core::logical_or;
+use orion::operators::tensor::math::or::or_fp::core::or;
 use orion::operators::tensor::math::acos::acos_fp::core::acos;
 use orion::operators::tensor::math::sqrt::sqrt_fp::core::sqrt;
 
@@ -190,8 +190,8 @@ impl Tensor_fp of TensorTrait<FixedType> {
         atan(self).unwrap()
     }
 
-    fn logical_or(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
-        logical_or(self, other).unwrap()
+    fn or(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
+        or(self, other).unwrap()
     }
     
     fn acos(self: @Tensor<FixedType>) -> Tensor<FixedType> {

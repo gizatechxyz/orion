@@ -86,7 +86,7 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.sinh`](tensor.sinh.md) | Computes the hyperbolic sine of all elements of the input tensor. |
 | [`tensor.atan`](tensor.atan.md) | Computes the arctangent (inverse of tangent) of the input tensor. |
 | [`tensor.sqrt`](tensor.sqrt.md) | Computes the square root of all elements of the input tensor. |
-| [`tensor.logical_or`](tensor.logical\_or.md) | Computes the logical OR of two tensors element-wise. |
+| [`tensor.or`](tensor.logical\_or.md) | Computes the logical OR of two tensors element-wise. |
 | [`tensor.acos`](tensor.acos.md) | Computes the arccosine (inverse of cosine) value of each element in the input tensor. |
 
 ### Arithmetic Operations

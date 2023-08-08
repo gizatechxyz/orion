@@ -1,13 +1,14 @@
 use array::ArrayTrait;
 use option::OptionTrait;
 use array::SpanTrait;
+use orion::numbers::signed_integer::i8::{i8, i8_or};
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 use orion::operators::tensor::helpers::check_compatibility;
 
 /// Cf: TensorTrait::or docstring
-fn logical_or(y: @Tensor<u32>, z: @Tensor<u32>) -> Tensor<usize> {
+fn or(y: @Tensor<i8>, z: @Tensor<i8>) -> Tensor<usize> {
     check_compatibility(*y.shape, *z.shape);
 
     let mut data_result = ArrayTrait::<usize>::new();
@@ -35,10 +36,10 @@ fn logical_or(y: @Tensor<u32>, z: @Tensor<u32>) -> Tensor<usize> {
             (bigger_current_index, smaller_current_index)
         };
 
-        if y_value == 0 && z_value == 0 {
-            data_result.append(0);
-        } else {
+        if i8_or(y_value, z_value) {
             data_result.append(1);
+        } else {
+            data_result.append(0);
         }
 
         smaller_index = (1 + smaller_index) % smaller_data.len();

@@ -71,7 +71,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// sinh - Computes the hyperbolic sine of all elements of the input tensor.
 /// atan - Computes the arctangent (inverse of tangent) of the input tensor.
 /// sqrt - Computes the square root of all elements of the input tensor.
-/// logical_or - Computes the logical OR of two tensors element-wise.
+/// or - Computes the logical OR of two tensors element-wise.
 /// acos - Computes the arccosine (inverse of cosine) value of each element in the input tensor.
 /// 
 trait TensorTrait<T> {
@@ -1606,10 +1606,10 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn asin(self: @Tensor<T>) -> Tensor<FixedType>;
-    /// #tensor.logical_or
+    /// #tensor.or
     ///
     /// ```rust
-    ///     fn logical_or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// ```
     ///
     /// Computes the logical OR of two tensors element-wise.
@@ -1635,13 +1635,13 @@ trait TensorTrait<T> {
     /// Case 1: Compare tensors with same shape
     ///
     /// ```rust
-    /// fn logical_or_example() -> Tensor<usize> {
+    /// fn or_example() -> Tensor<usize> {
     ///     // We instantiate two 3D Tensors here
     ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
     ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
     ///     let tensor_y = u32_tensor_2x2x2_helper();
     ///     let tensor_z = u32_tensor_2x2x2_helper();
-    ///     let result = tensor_y.logical_or(@tensor_z);
+    ///     let result = tensor_y.or(@tensor_z);
     ///     return result;
     /// }
     /// >>> [0,1,1,1,1,1,1,1,1]
@@ -1650,20 +1650,20 @@ trait TensorTrait<T> {
     /// Case 2: Compare tensors with different shapes
     ///
     /// ```rust
-    /// fn logical_or_example() -> Tensor<usize> {
+    /// fn or_example() -> Tensor<usize> {
     ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
     ///     // tensor_z = [[0,1,2]]
     ///     let tensor_y = u32_tensor_3x3_helper();
     ///     let tensor_z = u32_tensor_3x1_helper();
-    ///     let result = tensor_y.logical_or(@tensor_z);
+    ///     let result = tensor_y.or(@tensor_z);
     ///     // We could equally do something like:
-    ///     // let result = tensor_z.logical_or(@tensor_y);
+    ///     // let result = tensor_z.or(@tensor_y);
     ///     return result;
     /// }
     /// >>> [0,1,1,1,1,1,1,1,1]
     /// ```
     ///
-    fn logical_or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// #tensor.acos
     ///
     /// ```rust
