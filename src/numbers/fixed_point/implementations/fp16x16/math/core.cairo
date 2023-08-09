@@ -4,18 +4,20 @@ use result::{ResultTrait, ResultTraitImpl};
 use traits::{Into, TryInto};
 use integer::{u32_safe_divmod, u32_as_non_zero, u32_wide_mul};
 
-use orion::numbers::fixed_point::implementations::f16x16::core::{
-    HALF, ONE, Fixed, FixedIntoFelt252, FixedTrait
+use orion::numbers::fixed_point::implementations::fp16x16::core::{
+    HALF, ONE, FixedType, FP16x16Impl, FP16x16Add, FP16x16AddEq, FP16x16Sub, FP16x16Mul,
+    FP16x16MulEq, FP16x16TryIntoU128, FP16x16PartialEq, FP16x16PartialOrd, FP16x16SubEq, FP16x16Neg,
+    FP16x16Div, FP16x16IntoFelt252, FixedTrait
 };
-use orion::numbers::fixed_point::implementations::f16x16::math::lut;
+use orion::numbers::fixed_point::implementations::fp16x16::math::lut;
 
 // PUBLIC
 
-fn abs(a: Fixed) -> Fixed {
+fn abs(a: FixedType) -> FixedType {
     return FixedTrait::new(a.mag, false);
 }
 
-fn add(a: Fixed, b: Fixed) -> Fixed {
+fn add(a: FixedType, b: FixedType) -> FixedType {
     if a.sign == b.sign {
         return FixedTrait::new(a.mag + b.mag, a.sign);
     }
@@ -31,7 +33,7 @@ fn add(a: Fixed, b: Fixed) -> Fixed {
     }
 }
 
-fn ceil(a: Fixed) -> Fixed {
+fn ceil(a: FixedType) -> FixedType {
     let (div, rem) = u32_safe_divmod(a.mag, u32_as_non_zero(ONE));
 
     if rem == 0 {
@@ -45,7 +47,7 @@ fn ceil(a: Fixed) -> Fixed {
     }
 }
 
-fn div(a: Fixed, b: Fixed) -> Fixed {
+fn div(a: FixedType, b: FixedType) -> FixedType {
     let a_u64 = integer::u32_wide_mul(a.mag, ONE);
     let res_u64 = a_u64 / b.mag.into();
 
@@ -53,17 +55,17 @@ fn div(a: Fixed, b: Fixed) -> Fixed {
     return FixedTrait::new(res_u64.try_into().unwrap(), a.sign ^ b.sign);
 }
 
-fn eq(a: @Fixed, b: @Fixed) -> bool {
+fn eq(a: @FixedType, b: @FixedType) -> bool {
     return (*a.mag == *b.mag) && (*a.sign == *b.sign);
 }
 
 // Calculates the natural exponent of x: e^x
-fn exp(a: Fixed) -> Fixed {
+fn exp(a: FixedType) -> FixedType {
     return exp2(FixedTrait::new(94548, false) * a); // log2(e) * 2^23 ≈ 12102203
 }
 
 // Calculates the binary exponent of x: 2^x
-fn exp2(a: Fixed) -> Fixed {
+fn exp2(a: FixedType) -> FixedType {
     if (a.mag == 0) {
         return FixedTrait::ONE();
     }
@@ -91,11 +93,11 @@ fn exp2(a: Fixed) -> Fixed {
     }
 }
 
-fn exp2_int(exp: u32) -> Fixed {
+fn exp2_int(exp: u32) -> FixedType {
     return FixedTrait::new_unscaled(lut::exp2(exp), false);
 }
 
-fn floor(a: Fixed) -> Fixed {
+fn floor(a: FixedType) -> FixedType {
     let (div, rem) = integer::u32_safe_divmod(a.mag, u32_as_non_zero(ONE));
 
     if rem == 0 {
@@ -107,7 +109,7 @@ fn floor(a: Fixed) -> Fixed {
     }
 }
 
-fn ge(a: Fixed, b: Fixed) -> bool {
+fn ge(a: FixedType, b: FixedType) -> bool {
     if a.sign != b.sign {
         return !a.sign;
     } else {
@@ -115,7 +117,7 @@ fn ge(a: Fixed, b: Fixed) -> bool {
     }
 }
 
-fn gt(a: Fixed, b: Fixed) -> bool {
+fn gt(a: FixedType, b: FixedType) -> bool {
     if a.sign != b.sign {
         return !a.sign;
     } else {
@@ -123,7 +125,7 @@ fn gt(a: Fixed, b: Fixed) -> bool {
     }
 }
 
-fn le(a: Fixed, b: Fixed) -> bool {
+fn le(a: FixedType, b: FixedType) -> bool {
     if a.sign != b.sign {
         return a.sign;
     } else {
@@ -133,13 +135,13 @@ fn le(a: Fixed, b: Fixed) -> bool {
 
 // Calculates the natural logarithm of x: ln(x)
 // self must be greater than zero
-fn ln(a: Fixed) -> Fixed {
+fn ln(a: FixedType) -> FixedType {
     return FixedTrait::new(45426, false) * log2(a); // ln(2) = 0.693...
 }
 
 // Calculates the binary logarithm of x: log2(x)
 // self must be greather than zero
-fn log2(a: Fixed) -> Fixed {
+fn log2(a: FixedType) -> FixedType {
     assert(a.sign == false, 'must be positive');
 
     if (a.mag == ONE) {
@@ -171,11 +173,11 @@ fn log2(a: Fixed) -> Fixed {
 
 // Calculates the base 10 log of x: log10(x)
 // self must be greater than zero
-fn log10(a: Fixed) -> Fixed {
+fn log10(a: FixedType) -> FixedType {
     return FixedTrait::new(19728, false) * log2(a); // log10(2) = 0.301...
 }
 
-fn lt(a: Fixed, b: Fixed) -> bool {
+fn lt(a: FixedType, b: FixedType) -> bool {
     if a.sign != b.sign {
         return a.sign;
     } else {
@@ -183,18 +185,18 @@ fn lt(a: Fixed, b: Fixed) -> bool {
     }
 }
 
-fn mul(a: Fixed, b: Fixed) -> Fixed {
+fn mul(a: FixedType, b: FixedType) -> FixedType {
     let prod_u128 = integer::u32_wide_mul(a.mag, b.mag);
 
     // Re-apply sign
     return FixedTrait::new((prod_u128 / ONE.into()).try_into().unwrap(), a.sign ^ b.sign);
 }
 
-fn ne(a: @Fixed, b: @Fixed) -> bool {
+fn ne(a: @FixedType, b: @FixedType) -> bool {
     return (*a.mag != *b.mag) || (*a.sign != *b.sign);
 }
 
-fn neg(a: Fixed) -> Fixed {
+fn neg(a: FixedType) -> FixedType {
     if a.mag == 0 {
         return a;
     } else if !a.sign {
@@ -205,9 +207,9 @@ fn neg(a: Fixed) -> Fixed {
 }
 
 // Calclates the value of x^y and checks for overflow before returning
-// self is a Fixed point value
-// b is a Fixed point value
-fn pow(a: Fixed, b: Fixed) -> Fixed {
+// self is a FixedType point value
+// b is a FixedType point value
+fn pow(a: FixedType, b: FixedType) -> FixedType {
     let (div, rem) = integer::u32_safe_divmod(b.mag, u32_as_non_zero(ONE));
 
     // use the more performant integer pow when y is an int
@@ -220,7 +222,7 @@ fn pow(a: Fixed, b: Fixed) -> Fixed {
 }
 
 // Calclates the value of a^b and checks for overflow before returning
-fn pow_int(a: Fixed, b: u32, sign: bool) -> Fixed {
+fn pow_int(a: FixedType, b: u32, sign: bool) -> FixedType {
     let mut x = a;
     let mut n = b;
 
@@ -253,11 +255,11 @@ fn pow_int(a: Fixed, b: u32, sign: bool) -> Fixed {
     return x * y;
 }
 
-fn rem(a: Fixed, b: Fixed) -> Fixed {
+fn rem(a: FixedType, b: FixedType) -> FixedType {
     return a - floor(a / b) * b;
 }
 
-fn round(a: Fixed) -> Fixed {
+fn round(a: FixedType) -> FixedType {
     let (div, rem) = integer::u32_safe_divmod(a.mag, u32_as_non_zero(ONE));
 
     if (HALF <= rem) {
@@ -267,25 +269,25 @@ fn round(a: Fixed) -> Fixed {
     }
 }
 
-// Calculates the square root of a Fixed point value
+// Calculates the square root of a FixedType point value
 // x must be positive
-fn sqrt(a: Fixed) -> Fixed {
+fn sqrt(a: FixedType) -> FixedType {
     assert(a.sign == false, 'must be positive');
 
     let root = integer::u64_sqrt(a.mag.into() * ONE.into());
     return FixedTrait::new(root.into(), false);
 }
 
-fn sub(a: Fixed, b: Fixed) -> Fixed {
+fn sub(a: FixedType, b: FixedType) -> FixedType {
     return add(a, -b);
 }
 
 // Tests --------------------------------------------------------------------------------------------------------------
 
-use orion::numbers::fixed_point::implementations::f16x16::helpers::{
+use orion::numbers::fixed_point::implementations::fp16x16::helpers::{
     assert_precise, assert_relative
 };
-use orion::numbers::fixed_point::implementations::f16x16::math::trig::{PI, HALF_PI};
+use orion::numbers::fixed_point::implementations::fp16x16::math::trig::{PI, HALF_PI};
 
 #[test]
 fn test_into() {
@@ -494,8 +496,8 @@ fn test_sub_eq() {
 #[test]
 #[available_gas(100000)]
 fn test_mul_pos() {
-    let a = Fixed { mag: 190054, sign: false };
-    let b = Fixed { mag: 190054, sign: false };
+    let a = FixedType { mag: 190054, sign: false };
+    let b = FixedType { mag: 190054, sign: false };
     let c = a * b;
     assert(c.mag == 551155, 'invalid result');
 }

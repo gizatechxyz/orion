@@ -2,9 +2,10 @@ use debug::PrintTrait;
 use integer::{u32_safe_divmod, u32_as_non_zero};
 use option::OptionTrait;
 
-use orion::numbers::fixed_point::implementations::f8x23::math::lut;
-use orion::numbers::fixed_point::implementations::f8x23::core::{
-    Fixed, FixedTrait, FixedAdd, FixedSub, FixedMul, FixedDiv, ONE
+use orion::numbers::fixed_point::implementations::fp8x23::math::lut;
+use orion::numbers::fixed_point::implementations::fp8x23::core::{
+    HALF, ONE, TWO, FixedType, FP8x23Impl, FP8x23Add, FP8x23Sub, FP8x23Mul, FP8x23Div, FP8x23IntoFelt252,
+    FixedTrait
 };
 
 // CONSTANTS
@@ -17,7 +18,7 @@ const HALF_PI: u32 = 13176795;
 
 // Calculates arccos(a) for -1 <= a <= 1 (fixed point)
 // arccos(a) = arcsin(sqrt(1 - a^2)) - arctan identity has discontinuity at zero
-fn acos(a: Fixed) -> Fixed {
+fn acos(a: FixedType) -> FixedType {
     let asin_arg = (FixedTrait::ONE() - a * a).sqrt(); // will fail if a > 1
     let asin_res = asin(asin_arg);
 
@@ -28,7 +29,7 @@ fn acos(a: Fixed) -> Fixed {
     }
 }
 
-fn acos_fast(a: Fixed) -> Fixed {
+fn acos_fast(a: FixedType) -> FixedType {
     let asin_arg = (FixedTrait::ONE() - a * a).sqrt(); // will fail if a > 1
     let asin_res = asin_fast(asin_arg);
 
@@ -41,7 +42,7 @@ fn acos_fast(a: Fixed) -> Fixed {
 
 // Calculates arcsin(a) for -1 <= a <= 1 (fixed point)
 // arcsin(a) = arctan(a / sqrt(1 - a^2))
-fn asin(a: Fixed) -> Fixed {
+fn asin(a: FixedType) -> FixedType {
     if (a.mag == ONE) {
         return FixedTrait::new(HALF_PI, a.sign);
     }
@@ -50,7 +51,7 @@ fn asin(a: Fixed) -> Fixed {
     return atan(a / div);
 }
 
-fn asin_fast(a: Fixed) -> Fixed {
+fn asin_fast(a: FixedType) -> FixedType {
     if (a.mag == ONE) {
         return FixedTrait::new(HALF_PI, a.sign);
     }
@@ -61,7 +62,7 @@ fn asin_fast(a: Fixed) -> Fixed {
 
 // Calculates arctan(a) (fixed point)
 // See https://stackoverflow.com/a/50894477 for range adjustments
-fn atan(a: Fixed) -> Fixed {
+fn atan(a: FixedType) -> FixedType {
     let mut at = a.abs();
     let mut shift = false;
     let mut invert = false;
@@ -102,7 +103,7 @@ fn atan(a: Fixed) -> Fixed {
     return FixedTrait::new(res.mag, a.sign);
 }
 
-fn atan_fast(a: Fixed) -> Fixed {
+fn atan_fast(a: FixedType) -> FixedType {
     let mut at = a.abs();
     let mut shift = false;
     let mut invert = false;
@@ -137,15 +138,15 @@ fn atan_fast(a: Fixed) -> Fixed {
 }
 
 // Calculates cos(a) with a in radians (fixed point)
-fn cos(a: Fixed) -> Fixed {
+fn cos(a: FixedType) -> FixedType {
     return sin(FixedTrait::new(HALF_PI, false) - a);
 }
 
-fn cos_fast(a: Fixed) -> Fixed {
+fn cos_fast(a: FixedType) -> FixedType {
     return sin_fast(FixedTrait::new(HALF_PI, false) - a);
 }
 
-fn sin(a: Fixed) -> Fixed {
+fn sin(a: FixedType) -> FixedType {
     let a1 = a.mag % TWO_PI;
     let (whole_rem, partial_rem) = u32_safe_divmod(a1, u32_as_non_zero(PI));
     let a2 = FixedTrait::new(partial_rem, false);
@@ -155,7 +156,7 @@ fn sin(a: Fixed) -> Fixed {
     return FixedTrait::new(loop_res.mag, a.sign ^ partial_sign && loop_res.mag != 0);
 }
 
-fn sin_fast(a: Fixed) -> Fixed {
+fn sin_fast(a: FixedType) -> FixedType {
     let a1 = a.mag % TWO_PI;
     let (whole_rem, mut partial_rem) = u32_safe_divmod(a1, u32_as_non_zero(PI));
     let partial_sign = whole_rem == 1;
@@ -173,14 +174,14 @@ fn sin_fast(a: Fixed) -> Fixed {
 }
 
 // Calculates tan(a) with a in radians (fixed point)
-fn tan(a: Fixed) -> Fixed {
+fn tan(a: FixedType) -> FixedType {
     let sinx = sin(a);
     let cosx = cos(a);
     assert(cosx.mag != 0, 'tan undefined');
     return sinx / cosx;
 }
 
-fn tan_fast(a: Fixed) -> Fixed {
+fn tan_fast(a: FixedType) -> FixedType {
     let sinx = sin_fast(a);
     let cosx = cos_fast(a);
     assert(cosx.mag != 0, 'tan undefined');
@@ -188,7 +189,7 @@ fn tan_fast(a: Fixed) -> Fixed {
 }
 
 // Helper function to calculate Taylor series for sin
-fn _sin_loop(a: Fixed, i: u32, acc: Fixed) -> Fixed {
+fn _sin_loop(a: FixedType, i: u32, acc: FixedType) -> FixedType {
     let div = (2 * i + 2) * (2 * i + 3);
     let term = a * a * acc / FixedTrait::new_unscaled(div, false);
     let new_acc = FixedTrait::ONE() - term;
@@ -204,8 +205,7 @@ fn _sin_loop(a: Fixed, i: u32, acc: Fixed) -> Fixed {
 
 use traits::Into;
 
-use orion::numbers::fixed_point::implementations::f8x23::helpers::{assert_precise, assert_relative};
-use orion::numbers::fixed_point::implementations::f8x23::core::{FixedPartialEq, FixedPrint};
+use orion::numbers::fixed_point::implementations::fp8x23::helpers::{assert_precise, assert_relative};
 
 #[test]
 #[available_gas(3000000)]

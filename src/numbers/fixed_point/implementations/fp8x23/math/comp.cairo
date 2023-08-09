@@ -1,8 +1,8 @@
-use orion::numbers::fixed_point::implementations::f16x16::core::{
-    Fixed, FixedTrait, FixedPartialOrd, FixedPartialEq
+use orion::numbers::fixed_point::implementations::fp8x23::core::{
+    FixedType, FixedTrait, FP8x23Impl, FP8x23PartialOrd, FP8x23PartialEq
 };
 
-fn max(a: Fixed, b: Fixed) -> Fixed {
+fn max(a: FixedType, b: FixedType) -> FixedType {
     if (a >= b) {
         return a;
     } else {
@@ -10,7 +10,7 @@ fn max(a: Fixed, b: Fixed) -> Fixed {
     }
 }
 
-fn min(a: Fixed, b: Fixed) -> Fixed {
+fn min(a: FixedType, b: FixedType) -> FixedType {
     if (a <= b) {
         return a;
     } else {

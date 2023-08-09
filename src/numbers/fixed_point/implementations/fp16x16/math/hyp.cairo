@@ -1,39 +1,43 @@
 use core::debug::PrintTrait;
-use orion::numbers::fixed_point::implementations::f16x16::core::{Fixed, FixedTrait, HALF, ONE, TWO};
+use orion::numbers::fixed_point::implementations::fp16x16::core::{
+    HALF, ONE, TWO, FixedType, FP16x16Impl, FP16x16Add, FP16x16AddEq, FP16x16Sub, FP16x16Mul,
+    FP16x16MulEq, FP16x16TryIntoU128, FP16x16PartialEq, FP16x16PartialOrd, FP16x16SubEq, FP16x16Neg,
+    FP16x16Div, FP16x16IntoFelt252, FixedTrait
+};
 
 // Calculates hyperbolic cosine of a (fixed point)
-fn cosh(a: Fixed) -> Fixed {
+fn cosh(a: FixedType) -> FixedType {
     let ea = a.exp();
     return (ea + (FixedTrait::ONE() / ea)) / FixedTrait::new(TWO, false);
 }
 
 // Calculates hyperbolic sine of a (fixed point)
-fn sinh(a: Fixed) -> Fixed {
+fn sinh(a: FixedType) -> FixedType {
     let ea = a.exp();
     return (ea - (FixedTrait::ONE() / ea)) / FixedTrait::new(TWO, false);
 }
 
 // Calculates hyperbolic tangent of a (fixed point)
-fn tanh(a: Fixed) -> Fixed {
+fn tanh(a: FixedType) -> FixedType {
     let ea = a.exp();
     let ea_i = FixedTrait::ONE() / ea;
     return (ea - ea_i) / (ea + ea_i);
 }
 
 // Calculates inverse hyperbolic cosine of a (fixed point)
-fn acosh(a: Fixed) -> Fixed {
+fn acosh(a: FixedType) -> FixedType {
     let root = (a * a - FixedTrait::ONE()).sqrt();
     return (a + root).ln();
 }
 
 // Calculates inverse hyperbolic sine of a (fixed point)
-fn asinh(a: Fixed) -> Fixed {
+fn asinh(a: FixedType) -> FixedType {
     let root = (a * a + FixedTrait::ONE()).sqrt();
     return (a + root).ln();
 }
 
 // Calculates inverse hyperbolic tangent of a (fixed point)
-fn atanh(a: Fixed) -> Fixed {
+fn atanh(a: FixedType) -> FixedType {
     let one = FixedTrait::ONE();
     let ln_arg = (one + a) / (one - a);
     return ln_arg.ln() / FixedTrait::new(TWO, false);
@@ -44,7 +48,7 @@ fn atanh(a: Fixed) -> Fixed {
 use option::OptionTrait;
 use traits::Into;
 
-use orion::numbers::fixed_point::implementations::f16x16::helpers::assert_precise;
+use orion::numbers::fixed_point::implementations::fp16x16::helpers::assert_precise;
 
 #[test]
 #[available_gas(10000000)]
@@ -148,9 +152,7 @@ fn test_atanh() {
     assert(atanh(a).into() == 0, 'invalid zero');
 
     let a = FixedTrait::new(HALF, true); // 0.5
-    assert_precise(
-        atanh(a), -35999, 'invalid neg half', Option::None(())
-    ); // 0.42914542526098
+    assert_precise(atanh(a), -35999, 'invalid neg half', Option::None(())); // 0.42914542526098
 
     let a = FixedTrait::new(58982, true); // 0.9
     assert_precise(atanh(a), -96483, 'invalid -0.9', Option::None(())); // 1.36892147623689

@@ -1,5 +1,2 @@
-mod impl_8x23;
-mod impl_16x16;
-
-mod f8x23;
-mod f16x16;
+mod fp8x23;
+mod fp16x16;
