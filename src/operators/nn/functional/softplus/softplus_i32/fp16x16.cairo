@@ -7,7 +7,7 @@ use orion::numbers::signed_integer::i32::i32;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16Add, FP16x16Div};
+use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16Add, FP16x16Div};
 
 
 /// Cf: NNTrait::softplus docstring
@@ -24,7 +24,7 @@ fn softplus(z: @Tensor<i32>) -> Tensor<FixedType> {
         let fp_current_index: FixedType = FixedTrait::new_unscaled(
             current_index.mag.into(), current_index.sign
         );
-        let result = (fp_one + fp_current_index.exp()).log();
+        let result = (fp_one + fp_current_index.exp()).ln();
         data_result.append(result);
     };
     return TensorTrait::new(*z.shape, data_result.span(), *z.extra);

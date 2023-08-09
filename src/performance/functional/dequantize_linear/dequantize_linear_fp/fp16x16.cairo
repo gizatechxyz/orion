@@ -4,7 +4,7 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use orion::numbers::signed_integer::i8::{i8, i8_to_fp16x16};
-use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Sub, FP16x16Mul};
+use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Sub, FP16x16Mul};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::core::FixedType;
 use orion::operators::tensor::implementations::impl_tensor_fp::{

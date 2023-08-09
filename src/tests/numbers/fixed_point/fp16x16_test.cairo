@@ -2,7 +2,7 @@ use option::OptionTrait;
 use traits::Into;
 use debug::PrintTrait;
 
-use orion::numbers::fixed_point::implementations::impl_16x16::{
+use orion::numbers::fixed_point::implementations::fp16x16::core::{
     ONE, _felt_abs, _felt_sign, FP16x16Impl, FP16x16Into, FP16x16Add, FP16x16AddEq, FP16x16Sub,
     FP16x16SubEq, FP16x16Mul, FP16x16MulEq, FP16x16Div, FP16x16DivEq, FP16x16PartialOrd,
     FP16x16PartialEq, PI, HALF_PI

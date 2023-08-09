@@ -7,7 +7,7 @@ mod tensor_1D {
     use orion::operators::tensor::core::{TensorTrait, ExtraParams};
     use orion::tests::helpers::tensor::fixed_point::fp8x23::fp_tensor_1x3_helper;
     use orion::numbers::fixed_point::core::FixedTrait;
-    use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23Impl, FP8x23PartialEq};
+    use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23PartialEq};
 
     #[test]
     #[available_gas(2000000)]
@@ -31,7 +31,7 @@ mod tensor_2D {
     use orion::operators::tensor::core::{TensorTrait, ExtraParams};
     use orion::tests::helpers::tensor::fixed_point::fp8x23::fp_tensor_2x2_helper;
     use orion::numbers::fixed_point::core::FixedTrait;
-    use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23Impl, FP8x23PartialEq};
+    use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23PartialEq};
 
 
     #[test]
@@ -58,7 +58,7 @@ mod tensor_3D {
     use orion::operators::tensor::core::{TensorTrait, ExtraParams};
     use orion::tests::helpers::tensor::fixed_point::fp8x23::fp_tensor_2x2x2_helper;
     use orion::numbers::fixed_point::core::FixedTrait;
-    use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23Impl, FP8x23PartialEq};
+    use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23PartialEq};
 
     #[test]
     #[available_gas(2000000)]

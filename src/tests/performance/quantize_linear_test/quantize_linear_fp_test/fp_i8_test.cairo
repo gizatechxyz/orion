@@ -7,7 +7,7 @@ mod fp8x23 {
 
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::i8};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
-    use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
+    use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, ExtraParams, Tensor};
@@ -146,7 +146,7 @@ mod fp16x16 {
 
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::i8};
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
-    use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
+    use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
     use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{TensorTrait, ExtraParams, Tensor};

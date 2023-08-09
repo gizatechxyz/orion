@@ -2,7 +2,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-use orion::numbers::fixed_point::implementations::impl_8x23::{
+use orion::numbers::fixed_point::implementations::fp8x23::core::{
     FP8x23Impl, FP8x23PartialOrd, FP8x23PartialEq, MIN_MAG
 };
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;

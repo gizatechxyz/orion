@@ -8,7 +8,7 @@ use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp, FixedTypeTensorDiv};
 use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
-use orion::numbers::fixed_point::implementations::impl_8x23::{
+use orion::numbers::fixed_point::implementations::fp8x23::core::{
     FP8x23Impl, FP8x23PartialOrd, FP8x23Div, FP8x23Add, FP8x23TryIntoI8
 };
 use orion::operators::tensor::math::arithmetic::arithmetic_fp::fp8x23::{

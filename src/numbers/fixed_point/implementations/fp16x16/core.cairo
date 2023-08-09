@@ -14,6 +14,8 @@ use orion::numbers::fixed_point::utils;
 const TWO: u32 = 131072; // 2 ** 17
 const ONE: u32 = 65536; // 2 ** 16
 const HALF: u32 = 32768; // 2 ** 15
+const MAX: u32 = 4294967295; // 2 ** 32 - 1
+const MIN_MAG: u32 = 4294967296; // 2 ** 32
 
 
 impl FP16x16Impl of FixedTrait {

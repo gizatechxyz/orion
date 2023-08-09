@@ -107,10 +107,10 @@ def make_test(inputs: [Tensor], output: Tensor, func_sig: str, file_name: str, t
             match inputs[0].extra_fp:
                 case FixedImpl.FP8x23:
                     code.append(
-                        "use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;\n")
+                        "use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;\n")
                 case FixedImpl.FP16x16:
                     code.append(
-                        "use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;\n")
+                        "use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;\n")
             match type_of_output:
                 case Dtype.U32:
                     code.append(

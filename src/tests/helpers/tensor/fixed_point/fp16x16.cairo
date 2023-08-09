@@ -1,7 +1,7 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
+use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 

@@ -2,8 +2,8 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-use orion::numbers::fixed_point::implementations::impl_8x23::{FP8x23Impl, MAX, FP8x23PartialOrd};
-use orion::numbers::fixed_point::math::math_8x23::min;
+use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, MAX, FP8x23PartialOrd};
+use orion::numbers::fixed_point::implementations::fp8x23::math::comp::min;
 
 
 /// Cf: TensorTrait::min docstring

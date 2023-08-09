@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::signed_integer::i32::i32;
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 
-use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
+use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
 
 
 /// Cf: TensorTrait::log docstring
@@ -17,9 +17,9 @@ fn log(self: @Tensor<u32>) -> Tensor<FixedType> {
     let mut data = *self.data;
 
     loop {
-        let ele = FixedTrait::from_unscaled_felt((*data.pop_front().unwrap()).into());
-
-        result.append(FixedTrait::log(ele));
+        let ele = *data.pop_front().unwrap();
+        let ele = FixedTrait::new_unscaled(ele, false);
+        result.append(FixedTrait::ln(ele));
 
         if (data.len() == 0) {
             break ();

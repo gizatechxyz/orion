@@ -18,6 +18,23 @@ fn min(a: FixedType, b: FixedType) -> FixedType {
     }
 }
 
+fn xor(a: FixedType, b: FixedType) -> bool {
+    if (a == FixedTrait::new(0, false) || b == FixedTrait::new(0, false)) && (a != b) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+fn or(a: FixedType, b: FixedType) -> bool {
+    let zero = FixedTrait::new(0, false);
+    if a == zero && b == zero {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 // Tests --------------------------------------------------------------------------------------------------------------
 
 #[test]

@@ -1,6 +1,6 @@
-// mod performance;
-// mod operators;
+mod performance;
+mod operators;
 mod numbers;
 // mod tests;
-// mod utils;
+mod utils;
 

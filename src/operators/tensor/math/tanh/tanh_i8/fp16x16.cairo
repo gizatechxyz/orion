@@ -7,7 +7,7 @@ use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::signed_integer::i8::i8;
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
+use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
 
 
 /// Cf: TensorTrait::tanh docstring

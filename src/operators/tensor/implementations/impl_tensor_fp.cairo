@@ -271,12 +271,12 @@ impl FixedTypeTensorDiv of Div<Tensor<FixedType>> {
 mod FP8x23Tensor {
     use array::{ArrayTrait, SpanTrait};
     use option::OptionTrait;
-    use orion::numbers::fixed_point::implementations::impl_8x23::{
+    use orion::numbers::fixed_point::implementations::fp8x23::core::{
         FP8x23PartialEq, FP8x23Impl, FP8x23Sub, FP8x23Div
     };
     use super::{Tensor, FixedType};
 
-    const PRECISION: u128 = 75497; // 0.009
+    const PRECISION: u32 = 75497; // 0.009
 
     fn relative_eq(lhs: @FixedType, rhs: @FixedType) -> bool {
         let diff = *lhs - *rhs;
@@ -332,12 +332,12 @@ mod FP8x23Tensor {
 mod FP16x16Tensor {
     use array::{ArrayTrait, SpanTrait};
     use option::OptionTrait;
-    use orion::numbers::fixed_point::implementations::impl_16x16::{
+    use orion::numbers::fixed_point::implementations::fp16x16::core::{
         FP16x16PartialEq, FP16x16Impl, FP16x16Sub, FP16x16Div
     };
     use super::{Tensor, FixedType};
 
-    const PRECISION: u128 = 589; // 0.009
+    const PRECISION: u32 = 589; // 0.009
 
     fn relative_eq(lhs: @FixedType, rhs: @FixedType) -> bool {
         let diff = *lhs - *rhs;
