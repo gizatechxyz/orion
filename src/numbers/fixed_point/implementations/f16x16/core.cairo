@@ -4,14 +4,14 @@ use option::OptionTrait;
 use result::{ResultTrait, ResultTraitImpl};
 use traits::{TryInto, Into};
 
-use orion::numbers::fixed_point::implementations::f8x23::math::{core, trig, hyp};
+use orion::numbers::fixed_point::implementations::f16x16::math::{core, trig, hyp};
 use orion::numbers::fixed_point::utils;
 
 // CONSTANTS
 
-const TWO: u32 = 16777216; // 2 ** 24
-const ONE: u32 = 8388608; // 2 ** 23
-const HALF: u32 = 4194304; // 2 ** 22
+const TWO: u32 = 131072; // 2 ** 17
+const ONE: u32 = 65536; // 2 ** 16
+const HALF: u32 = 32768; // 2 ** 15
 
 // STRUCTS
 

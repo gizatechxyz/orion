@@ -1,4 +1,4 @@
-use orion::numbers::fixed_point::implementations::f8x23::core::{
+use orion::numbers::fixed_point::implementations::f16x16::core::{
     Fixed, FixedTrait, FixedPartialOrd, FixedPartialEq
 };
 
