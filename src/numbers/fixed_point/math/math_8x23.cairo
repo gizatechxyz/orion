@@ -620,3 +620,21 @@ fn atan(a: FixedType) -> FixedType {
     return FixedTrait::new(res.mag, a.sign);
 }
 
+/// Cf: FixedTrait::xor docstring 
+fn xor(a: FixedType, b: FixedType) -> bool {
+    if (a == FixedTrait::new(0, false) || b == FixedTrait::new(0, false)) && (a != b) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/// Cf: FixedTrait::or docstring
+fn or(a: FixedType, b: FixedType) -> bool {
+    let zero = FixedTrait::new(0, false);
+    if a == zero && b == zero {
+        return false;
+    } else {
+        return true;
+    }
+}
