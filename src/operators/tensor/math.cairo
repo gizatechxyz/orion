@@ -25,3 +25,5 @@ mod acosh;
 mod asinh;
 mod atan;
 mod acos;
+mod onehot;
+

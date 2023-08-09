@@ -41,6 +41,7 @@ use orion::operators::tensor::math::cos::cos_u32::core::cos_u32;
 use orion::operators::tensor::math::asin::asin_u32::core::asin_u32;
 use orion::operators::tensor::math::atan::atan_u32::core::atan_u32;
 use orion::operators::tensor::math::acos::acos_u32::core::acos_u32;
+use orion::operators::tensor::math::onehot::onehot_u32::onehot;
 
 
 impl Tensor_u32 of TensorTrait<u32> {
@@ -185,6 +186,12 @@ impl Tensor_u32 of TensorTrait<u32> {
     
     fn acos(self: @Tensor<u32>) -> Tensor<FixedType> {
         acos_u32(self).unwrap()
+    }
+
+    fn onehot(
+        self: @Tensor<u32>, depth: usize, axis: Option<usize>, values: Span<usize>
+    ) -> Tensor<u32> {
+        onehot(self, depth, axis, values)
     }
 }
 
