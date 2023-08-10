@@ -124,6 +124,8 @@ impl FP16x16Impl of FixedTrait {
     fn acos(self: FixedType) -> FixedType {
         return math_16x16::acos(self);
     }
+
+
 }
 
 impl FP16x16Print of PrintTrait<FixedType> {

@@ -56,7 +56,6 @@ fn onehot_encode(
 
         let mut inner_index: usize = 0;
         let mut fixed_number = *tensor_data.at(outer_index);
-
         loop {
             if inner_index == depth {
                 break ();

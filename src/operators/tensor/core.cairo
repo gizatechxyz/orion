@@ -1820,10 +1820,6 @@ trait TensorTrait<T> {
     ///
     /// A new `Tensor<T>` of the same shape as the input tensor with 
     /// the arctangent (inverse of tangent) value of all elements in the input tensor.
-    ///
-    /// ## Example
-    ///
-    /// ```rust
     /// fn sqrt_example() -> Tensor<FixedType> {
     ///     // We instantiate a 1D Tensor here.
     ///     // tensor = [0, 1, 2]
@@ -1838,6 +1834,7 @@ trait TensorTrait<T> {
     ///    
     fn sqrt(self: @Tensor<T>) -> Tensor<FixedType>;
 }
+
 
 /// Cf: TensorTrait::new docstring
 fn new_tensor<T>(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T> {

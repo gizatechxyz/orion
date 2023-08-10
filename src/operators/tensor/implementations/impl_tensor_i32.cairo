@@ -199,6 +199,7 @@ impl Tensor_i32 of TensorTrait<i32> {
         onehot(self, depth, axis, values)
     }
 
+    
     fn sqrt(self: @Tensor<i32>) -> Tensor<FixedType> {
         sqrt_i32(self).unwrap()
     }

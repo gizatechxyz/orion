@@ -1,7 +1,9 @@
+
 use core::serde::Serde;
 use core::option::OptionTrait;
 use core::clone::Clone;
 // ===== 1D ===== //
+
 
 #[cfg(test)]
 mod tensor_1D {
@@ -19,10 +21,7 @@ mod tensor_1D {
     use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 
-    use orion::tests::helpers::tensor::i32::{
-        i32_tensor_1x3_helper, i32_tensor_1x3_neg_helper, i32_tensor_2x2_helper,
-        i32_tensor_3x2x2_helper
-    };
+    use orion::tests::helpers::tensor::i32::{i32_tensor_1x3_helper, i32_tensor_1x3_neg_helper, i32_tensor_2x2_helper, i32_tensor_3x2x2_helper};
 
 
     fn i32_tensor_3x2x2_new() -> Tensor<i32> {
@@ -32,25 +31,25 @@ mod tensor_1D {
         sizes.append(2);
 
         let mut data = ArrayTrait::new();
-        data.append(i32 { mag: 0, sign: false });
-        data.append(i32 { mag: 1, sign: false });
-        data.append(i32 { mag: 2, sign: false });
-        data.append(i32 { mag: 3, sign: false });
-        data.append(i32 { mag: 0, sign: false });
-        data.append(i32 { mag: 1, sign: false });
-        data.append(i32 { mag: 2, sign: false });
-        data.append(i32 { mag: 3, sign: false });
-        data.append(i32 { mag: 0, sign: false });
-        data.append(i32 { mag: 1, sign: false });
-        data.append(i32 { mag: 2, sign: false });
-        data.append(i32 { mag: 3, sign: false });
+        data.append(i32 {mag: 0, sign: false});
+        data.append(i32 {mag: 1, sign: false});
+        data.append(i32 {mag: 2, sign: false});
+        data.append(i32 {mag: 3, sign: false});
+        data.append(i32 {mag: 0, sign: false});
+        data.append(i32 {mag: 1, sign: false});
+        data.append(i32 {mag: 2, sign: false});
+        data.append(i32 {mag: 3, sign: false});
+        data.append(i32 {mag: 0, sign: false});
+        data.append(i32 {mag: 1, sign: false});
+        data.append(i32 {mag: 2, sign: false});
+        data.append(i32 {mag: 3, sign: false});
 
         let extra = Option::<ExtraParams>::None(());
 
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
         return tensor;
-    }
+}
 
     fn i32_tensor_2x2_pos_neg_new() -> Tensor<i32> {
         let mut sizes = ArrayTrait::new();
@@ -58,17 +57,18 @@ mod tensor_1D {
         sizes.append(2);
 
         let mut data = ArrayTrait::new();
-        data.append(i32 { mag: 0, sign: false });
-        data.append(i32 { mag: 1, sign: false });
-        data.append(i32 { mag: 2, sign: true });
-        data.append(i32 { mag: 1, sign: true });
+        data.append(i32 {mag: 0, sign: false});
+        data.append(i32 {mag: 1, sign: false});
+        data.append(i32 {mag: 2, sign: true});
+        data.append(i32 {mag: 1, sign: true});
 
         let extra = Option::<ExtraParams>::None(());
 
         let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
 
         return tensor;
-    }
+}
+
 
 
     #[test]
@@ -82,7 +82,7 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::None(());
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
 
         assert((*result.data.at(0)).into() == 1, 'result[0] = 1');
         assert((*result.data.at(1)).into() == 0, 'result[1] = 0');
@@ -93,7 +93,7 @@ mod tensor_1D {
         assert((*result.data.at(6)).into() == 0, 'result[6] = 0');
         assert((*result.data.at(7)).into() == 0, 'result[7] = 0');
         assert((*result.data.at(8)).into() == 1, 'result[8] = 1');
-    }
+        }
 
     #[test]
     #[available_gas(20000000)]
@@ -106,9 +106,9 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::None(());
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
 
-        assert((*result.data.at(0)).into() == 1, 'result[0] = 1');
+         assert((*result.data.at(0)).into() == 1, 'result[0] = 1');
         assert((*result.data.at(1)).into() == 0, 'result[1] = 0');
         assert((*result.data.at(2)).into() == 0, 'result[2] = 0');
         assert((*result.data.at(3)).into() == 0, 'result[3] = 0');
@@ -117,9 +117,9 @@ mod tensor_1D {
         assert((*result.data.at(6)).into() == 0, 'result[6] = 0');
         assert((*result.data.at(7)).into() == 1, 'result[7] = 1');
         assert((*result.data.at(8)).into() == 0, 'result[8] = 0');
-    }
+        }
 
-    #[test]
+        #[test]
     #[should_panic]
     #[available_gas(20000000)]
     fn tensor_onehot_tensor_1x3_fail() {
@@ -131,9 +131,9 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::Some(3);
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
     }
-
+    
     #[test]
     #[available_gas(20000000)]
     fn tensor_onehot_1x3_Zero_axis() {
@@ -145,7 +145,7 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::Some(0);
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
 
         assert((*result.data.at(0)).into() == 1, 'result[0] = 1');
         assert((*result.data.at(1)).into() == 0, 'result[1] = 0');
@@ -156,9 +156,9 @@ mod tensor_1D {
         assert((*result.data.at(6)).into() == 0, 'result[6] = 0');
         assert((*result.data.at(7)).into() == 0, 'result[7] = 0');
         assert((*result.data.at(8)).into() == 1, 'result[8] = 1');
-    }
+        }
 
-    #[test]
+       #[test]
     #[available_gas(20000000)]
     fn tensor_onehot_2x2_post_neg_last_axis() {
         let tensor = i32_tensor_2x2_pos_neg_new();
@@ -169,7 +169,7 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::None(());
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
 
         assert((*result.data.at(0)).into() == 1, 'result[0] = 1');
         assert((*result.data.at(1)).into() == 0, 'result[1] = 0');
@@ -183,9 +183,10 @@ mod tensor_1D {
         assert((*result.data.at(9)).into() == 0, 'result[9] = 0');
         assert((*result.data.at(10)).into() == 0, 'result[10] = 0');
         assert((*result.data.at(11)).into() == 1, 'result[11] = 1');
-    }
 
-    #[test]
+        }
+
+     #[test]
     #[available_gas(20000000)]
     fn fp_tensor_onehot_2x2_helper_last_axis() {
         let tensor = i32_tensor_2x2_helper();
@@ -196,18 +197,18 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::None(());
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
 
-        assert((*result.data.at(0)).into() == 1, 'result[0] = 1');
-        assert((*result.data.at(1)).into() == 0, 'result[1] = 0');
-        assert((*result.data.at(2)).into() == 0, 'result[2] = 0');
-        assert((*result.data.at(3)).into() == 0, 'result[3] = 0');
-        assert((*result.data.at(4)).into() == 0, 'result[4] = 0');
-        assert((*result.data.at(5)).into() == 1, 'result[5] = 1');
-        assert((*result.data.at(6)).into() == 0, 'result[6] = 0');
-        assert((*result.data.at(7)).into() == 0, 'result[7] = 0');
-        assert((*result.data.at(8)).into() == 0, 'result[8] = 0');
-        assert((*result.data.at(9)).into() == 0, 'result[9] = 0');
+        assert((*result.data.at(0)).into() == 1,'result[0] = 1');
+        assert((*result.data.at(1)).into() == 0,'result[1] = 0');
+        assert((*result.data.at(2)).into() == 0,'result[2] = 0');
+        assert((*result.data.at(3)).into() == 0,'result[3] = 0');
+        assert((*result.data.at(4)).into() == 0,'result[4] = 0');
+        assert((*result.data.at(5)).into() == 1,'result[5] = 1');
+        assert((*result.data.at(6)).into() == 0,'result[6] = 0');
+        assert((*result.data.at(7)).into() == 0,'result[7] = 0');
+        assert((*result.data.at(8)).into() == 0,'result[8] = 0');
+        assert((*result.data.at(9)).into() == 0,'result[9] = 0');
         assert((*result.data.at(10)).into() == 1, 'result[10] = 1');
         assert((*result.data.at(11)).into() == 0, 'result[11] = 0');
         assert((*result.data.at(12)).into() == 0, 'result[12] = 0');
@@ -218,9 +219,10 @@ mod tensor_1D {
         assert((*result.shape.at(0)) == 2, 'shape[0] = 2');
         assert((*result.shape.at(1)) == 2, 'shape[0] = 2');
         assert((*result.shape.at(2)) == 4, 'shape[0] = 4');
-    }
 
-    #[test]
+        }
+
+     #[test]
     #[should_panic]
     #[available_gas(20000000)]
     fn tensor_onehot_tensor_2x2_fail() {
@@ -232,7 +234,7 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(3);
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
     }
 
     #[test]
@@ -246,18 +248,18 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(0);
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
 
-        assert((*result.data.at(0)).into() == 1, 'result[0] = 1');
-        assert((*result.data.at(1)).into() == 0, 'result[1] = 0');
-        assert((*result.data.at(2)).into() == 0, 'result[2] = 0');
-        assert((*result.data.at(3)).into() == 0, 'result[3] = 0');
-        assert((*result.data.at(4)).into() == 0, 'result[4] = 0');
-        assert((*result.data.at(5)).into() == 1, 'result[5] = 1');
-        assert((*result.data.at(6)).into() == 0, 'result[6] = 0');
-        assert((*result.data.at(7)).into() == 0, 'result[7] = 0');
-        assert((*result.data.at(8)).into() == 0, 'result[8] = 0');
-        assert((*result.data.at(9)).into() == 0, 'result[9] = 0');
+        assert((*result.data.at(0)).into() == 1,'result[0] = 1');
+        assert((*result.data.at(1)).into() == 0,'result[1] = 0');
+        assert((*result.data.at(2)).into() == 0,'result[2] = 0');
+        assert((*result.data.at(3)).into() == 0,'result[3] = 0');
+        assert((*result.data.at(4)).into() == 0,'result[4] = 0');
+        assert((*result.data.at(5)).into() == 1,'result[5] = 1');
+        assert((*result.data.at(6)).into() == 0,'result[6] = 0');
+        assert((*result.data.at(7)).into() == 0,'result[7] = 0');
+        assert((*result.data.at(8)).into() == 0,'result[8] = 0');
+        assert((*result.data.at(9)).into() == 0,'result[9] = 0');
         assert((*result.data.at(10)).into() == 1, 'result[10] = 1');
         assert((*result.data.at(11)).into() == 0, 'result[11] = 0');
         assert((*result.data.at(12)).into() == 0, 'result[12] = 0');
@@ -268,7 +270,8 @@ mod tensor_1D {
         assert((*result.shape.at(0)) == 4, 'shape[0] = 4');
         assert((*result.shape.at(1)) == 2, 'shape[0] = 2');
         assert((*result.shape.at(2)) == 2, 'shape[0] = 2');
-    }
+
+        }
 
     #[test]
     #[available_gas(20000000)]
@@ -281,18 +284,18 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(1);
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
 
-        assert((*result.data.at(0)).into() == 1, 'result[0] = 1');
-        assert((*result.data.at(1)).into() == 0, 'result[1] = 0');
-        assert((*result.data.at(2)).into() == 0, 'result[2] = 0');
-        assert((*result.data.at(3)).into() == 1, 'result[3] = 1');
-        assert((*result.data.at(4)).into() == 0, 'result[4] = 0');
-        assert((*result.data.at(5)).into() == 0, 'result[5] = 0');
-        assert((*result.data.at(6)).into() == 0, 'result[6] = 0');
-        assert((*result.data.at(7)).into() == 0, 'result[7] = 0');
-        assert((*result.data.at(8)).into() == 0, 'result[8] = 0');
-        assert((*result.data.at(9)).into() == 0, 'result[9] = 0');
+         assert((*result.data.at(0)).into() == 1,'result[0] = 1');
+        assert((*result.data.at(1)).into() == 0,'result[1] = 0');
+        assert((*result.data.at(2)).into() == 0,'result[2] = 0');
+        assert((*result.data.at(3)).into() == 1,'result[3] = 1');
+        assert((*result.data.at(4)).into() == 0,'result[4] = 0');
+        assert((*result.data.at(5)).into() == 0,'result[5] = 0');
+        assert((*result.data.at(6)).into() == 0,'result[6] = 0');
+        assert((*result.data.at(7)).into() == 0,'result[7] = 0');
+        assert((*result.data.at(8)).into() == 0,'result[8] = 0');
+        assert((*result.data.at(9)).into() == 0,'result[9] = 0');
         assert((*result.data.at(10)).into() == 0, 'result[10] = 0');
         assert((*result.data.at(11)).into() == 0, 'result[11] = 0');
         assert((*result.data.at(12)).into() == 1, 'result[12] = 0');
@@ -303,10 +306,15 @@ mod tensor_1D {
         assert((*result.shape.at(0)) == 2, 'shape[0] = 2');
         assert((*result.shape.at(1)) == 4, 'shape[0] = 4');
         assert((*result.shape.at(2)) == 2, 'shape[0] = 2');
-    }
+
+        }
 
 
-    #[test]
+
+
+
+
+         #[test]
     #[available_gas(20000000)]
     fn fp_tensor_onehot_3x2x2_new_last_axis() {
         let tensor = i32_tensor_3x2x2_new();
@@ -317,7 +325,7 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::None(());
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
 
         assert((*result.data.at(0)).into() == 1, 'result[0] = 1');
         assert((*result.data.at(1)).into() == 0, 'result[1] = 0');
@@ -349,7 +357,7 @@ mod tensor_1D {
         assert((*result.shape.at(1)) == 2, 'shape[1] = 2');
         assert((*result.shape.at(2)) == 2, 'shape[2] = 2');
         assert((*result.shape.at(3)) == 4, 'shape[0] = 4');
-    }
+        }
 
     #[test]
     #[should_panic]
@@ -363,10 +371,10 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(4);
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
     }
 
-    #[test]
+     #[test]
     #[available_gas(20000000)]
     fn fp_tensor_onehot_3x2x2_new_first_axis() {
         let tensor = i32_tensor_3x2x2_new();
@@ -377,7 +385,7 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(0);
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
 
         assert((*result.data.at(0)).into() == 5, 'result[0] = 5');
         assert((*result.data.at(1)).into() == 2, 'result[1] = 2');
@@ -408,9 +416,9 @@ mod tensor_1D {
         assert((*result.shape.at(1)) == 3, 'shape[1] = 3');
         assert((*result.shape.at(2)) == 2, 'shape[2] = 3');
         assert((*result.shape.at(3)) == 2, 'shape[0] = 2');
-    }
+        }
 
-    #[test]
+     #[test]
     #[available_gas(20000000)]
     fn fp_tensor_onehot_3x2x2_new_second_axis() {
         let tensor = i32_tensor_3x2x2_new();
@@ -421,7 +429,7 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(1);
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
 
         assert((*result.data.at(0)).into() == 1, 'result[0] = 1');
         assert((*result.data.at(1)).into() == 0, 'result[1] = 0');
@@ -453,7 +461,7 @@ mod tensor_1D {
         assert((*result.shape.at(1)) == 4, 'shape[1] = 4');
         assert((*result.shape.at(2)) == 2, 'shape[2] = 3');
         assert((*result.shape.at(3)) == 2, 'shape[0] = 2');
-    }
+        }
 
     #[test]
     #[available_gas(20000000)]
@@ -466,7 +474,7 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(2);
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
 
         assert((*result.data.at(0)).into() == 1, 'result[0] = 1');
         assert((*result.data.at(1)).into() == 0, 'result[1] = 0');
@@ -496,5 +504,9 @@ mod tensor_1D {
         assert((*result.shape.at(1)) == 2, 'shape[1] = 2');
         assert((*result.shape.at(2)) == 4, 'shape[2] = 4');
         assert((*result.shape.at(3)) == 2, 'shape[0] = 2');
-    }
+        }
+
+
+
+
 }
