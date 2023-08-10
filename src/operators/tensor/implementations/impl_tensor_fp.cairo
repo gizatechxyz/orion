@@ -41,6 +41,7 @@ use orion::operators::tensor::math::atan::atan_fp::core::atan;
 use orion::operators::tensor::math::xor::xor_fp::core::xor;
 use orion::operators::tensor::math::or::or_fp::core::or;
 use orion::operators::tensor::math::acos::acos_fp::core::acos;
+use orion::operators::tensor::math::onehot::onehot_fp::core::onehot;
 use orion::operators::tensor::math::sqrt::sqrt_fp::core::sqrt;
 
 impl Tensor_fp of TensorTrait<FixedType> {
@@ -193,13 +194,19 @@ impl Tensor_fp of TensorTrait<FixedType> {
     fn xor(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         xor(self, other).unwrap()
     }
-    
+
     fn or(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         or(self, other).unwrap()
     }
-    
+
     fn acos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         acos(self).unwrap()
+    }
+
+    fn onehot(
+        self: @Tensor<FixedType>, depth: usize, axis: Option<usize>, values: Span<usize>
+    ) -> Tensor<FixedType> {
+        onehot(self, depth, axis, values).unwrap()
     }
 
     fn sqrt(self: @Tensor<FixedType>) -> Tensor<FixedType> {

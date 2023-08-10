@@ -42,6 +42,7 @@ use orion::operators::tensor::math::cos::cos_i8::core::cos_i8;
 use orion::operators::tensor::math::atan::atan_i8::core::atan_i8;
 use orion::operators::tensor::math::xor::xor_i8::xor;
 use orion::operators::tensor::math::or::or_i8::or;
+use orion::operators::tensor::math::onehot::onehot_i8::onehot;
 use orion::operators::tensor::math::sqrt::sqrt_i8::core::sqrt_i8;
 
 impl Tensor_i8 of TensorTrait<i8> {
@@ -186,12 +187,18 @@ impl Tensor_i8 of TensorTrait<i8> {
     fn xor(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         xor(self, other)
     }
-    
+
     fn or(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         or(self, other)
     }
     fn acos(self: @Tensor<i8>) -> Tensor<FixedType> {
         panic(array!['not supported with i8'])
+    }
+
+    fn onehot(
+        self: @Tensor<i8>, depth: usize, axis: Option<usize>, values: Span<usize>
+    ) -> Tensor<i8> {
+        onehot(self, depth, axis, values)
     }
 
     fn sqrt(self: @Tensor<i8>) -> Tensor<FixedType> {

@@ -39,6 +39,7 @@ use orion::operators::tensor::math::cos::cos_i32::core::cos_i32;
 use orion::operators::tensor::math::atan::atan_i32::core::atan_i32;
 use orion::operators::tensor::math::xor::xor_i32::xor;
 use orion::operators::tensor::math::or::or_i32::or;
+use orion::operators::tensor::math::onehot::onehot_i32::onehot;
 use orion::operators::tensor::math::sqrt::sqrt_i32::core::sqrt_i32;
 
 impl Tensor_i32 of TensorTrait<i32> {
@@ -183,13 +184,19 @@ impl Tensor_i32 of TensorTrait<i32> {
     fn xor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
         xor(self, other)
     }
-    
+
     fn or(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
         or(self, other)
     }
-    
+
     fn acos(self: @Tensor<i32>) -> Tensor<FixedType> {
         panic(array!['not supported with i32'])
+    }
+
+    fn onehot(
+        self: @Tensor<i32>, depth: usize, axis: Option<usize>, values: Span<usize>
+    ) -> Tensor<i32> {
+        onehot(self, depth, axis, values)
     }
 
     fn sqrt(self: @Tensor<i32>) -> Tensor<FixedType> {
