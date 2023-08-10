@@ -2,7 +2,7 @@ use array::ArrayTrait;
 use option::OptionTrait;
 use array::SpanTrait;
 use orion::numbers::fixed_point::core::FixedType;
-use orion::numbers::fixed_point::math::math_8x23::xor as xor_fp16x16;
+use orion::numbers::fixed_point::math::math_16x16::xor as xor_fp16x16;
 
 use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16PartialOrd;
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
@@ -41,9 +41,9 @@ fn xor(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Tensor<usize> {
         };
 
         if xor_fp16x16(y_value, z_value) {
-            data_result.append(0);
-        } else {
             data_result.append(1);
+        } else {
+            data_result.append(0);
         }
 
         smaller_index = (1 + smaller_index) % smaller_data.len();

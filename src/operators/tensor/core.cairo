@@ -51,8 +51,8 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// argmin - Returns the index of the minimum value along the specified axis.
 /// matmul - Performs matrix multiplication. 
 /// exp - Calculates the exponential function (e^x) for each element in a tensor.
-/// ln - Computes the natural log of all elements of the input tensor.
-/// eq - Check if two tensors are equal element-wise.
+/// log - Computes the natural log of all elements of the input tensor.
+/// equal - Check if two tensors are equal element-wise.
 /// greater - Check if each element of the first tensor is greater than the corresponding element of the second tensor.
 /// greater_equal - Check if each element of the first tensor is greater than or equal to the corresponding element of the second tensor.
 /// less - Check if each element of the first tensor is less than the corresponding element of the second tensor.
@@ -754,15 +754,15 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
-    /// # tensor.ln
+    /// # tensor.log
     ///
     /// ```rust 
-    ///     fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
+    ///     fn log(self: @Tensor<T>) -> Tensor<FixedType>;
     /// ```
     ///
     /// Computes the natural log of all elements of the input tensor.
     /// $$
-    /// y_i=ln({x_i})
+    /// y_i=log({x_i})
     /// $$
     ///
     /// ## Args
@@ -776,7 +776,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// fn ln_example() -> Tensor<FixedType> {
+    /// fn log_example() -> Tensor<FixedType> {
     ///     // We instantiate a 1D Tensor here.
     ///     // [[1,2,3,100]]
     ///     let mut sizes = ArrayTrait::new();
@@ -790,19 +790,19 @@ trait TensorTrait<T> {
     ///     let extra = Option::<ExtraParams>::None(());
     ///     let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra)
     /// 		
-    ///     // We can call `ln` function as follows.
-    ///     return tensor.ln();
+    ///     // We can call `log` function as follows.
+    ///     return tensor.log();
     /// }
     /// >>> [[0, 5814538, 9215825, 38630966]]
     /// // The fixed point representation of
     /// /// [[0, 0.693147, 1.098612, 4.605170]]
     /// ```
     ///
-    fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
-    /// #tensor.eq
+    fn log(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// #tensor.equal
     ///
     /// ```rust
-    ///     fn eq(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// ```
     ///
     /// Check if two tensors are equal element-wise.
@@ -834,7 +834,7 @@ trait TensorTrait<T> {
     ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
     ///     let tensor_y = u32_tensor_2x2x2_helper();
     ///     let tensor_z = u32_tensor_2x2x2_helper();
-    ///     let result = tensor_y.eq(@tensor_z);
+    ///     let result = tensor_y.equal(@tensor_z);
     ///     return result;
     /// }
     /// >>> [1,1,1,1,1,0,0,0]
@@ -848,15 +848,15 @@ trait TensorTrait<T> {
     ///     // tensor_z = [[0,1,2]]       
     ///     let tensor_y = u32_tensor_3x3_helper();
     ///     let tensor_z = u32_tensor_3x1_helper();
-    ///     let result = tensor_y.eq(@tensor_z);
+    ///     let result = tensor_y.equal(@tensor_z);
     ///     // We could equally do something like:
-    ///     // let result = tensor_z.eq(@tensor_y);
+    ///     // let result = tensor_z.equal(@tensor_y);
     ///     return result;
     /// }
     /// >>> [1,1,1,0,0,0,0,0,0]
     /// ```
     ///
-    fn eq(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// #tensor.greater
     ///
     /// ```rust
@@ -1832,7 +1832,7 @@ trait TensorTrait<T> {
     /// // [0,1,1.4142...]
     /// ```
     ///    
-    fn sqrt(self: @Tensor<T>) -> Tensor<FixedType>;   
+    fn sqrt(self: @Tensor<T>) -> Tensor<FixedType>;
 }
 
 
@@ -1928,5 +1928,32 @@ fn at_tensor<T>(self: @Tensor<T>, indices: Span<usize>) -> @T {
     let data = *self.data;
 
     return data.at(ravel_index(*self.shape, indices));
+}
+
+// Return true if two tensor are equal
+fn tensor_eq<T, impl TPartialEq: PartialEq<T>>(mut lhs: Tensor<T>, mut rhs: Tensor<T>, ) -> bool {
+    let mut is_eq = true;
+
+    loop {
+        if lhs.shape.len() == 0 || !is_eq {
+            break;
+        }
+
+        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+    };
+
+    if !is_eq {
+        return false;
+    }
+
+    loop {
+        if lhs.data.len() == 0 || !is_eq {
+            break;
+        }
+
+        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+    };
+
+    return is_eq;
 }
 

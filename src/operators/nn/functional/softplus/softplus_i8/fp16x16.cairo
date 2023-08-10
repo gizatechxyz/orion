@@ -24,7 +24,7 @@ fn softplus(z: @Tensor<i8>) -> Tensor<FixedType> {
         let fp_current_index: FixedType = FixedTrait::new_unscaled(
             current_index.mag.into(), current_index.sign
         );
-        let result = (fp_one + fp_current_index.exp()).ln();
+        let result = (fp_one + fp_current_index.exp()).log();
         data_result.append(result);
     };
     return TensorTrait::new(*z.shape, data_result.span(), *z.extra);

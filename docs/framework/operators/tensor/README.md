@@ -66,8 +66,8 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.argmin`](tensor.argmin.md) | Returns the index of the minimum value along the specified axis. |
 | [`tensor.matmul`](tensor.matmul.md) | Performs matrix multiplication.  |
 | [`tensor.exp`](tensor.exp.md) | Calculates the exponential function (e^x) for each element in a tensor. |
-| [`tensor.ln`](tensor.ln.md) | Computes the natural log of all elements of the input tensor. |
-| [`tensor.eq`](tensor.eq.md) | Check if two tensors are equal element-wise. |
+| [`tensor.log`](tensor.log.md) | Computes the natural log of all elements of the input tensor. |
+| [`tensor.equal`](tensor.equal.md) | Check if two tensors are equal element-wise. |
 | [`tensor.greater`](tensor.greater.md) | Check if each element of the first tensor is greater than the corresponding element of the second tensor. |
 | [`tensor.greater_equal`](tensor.greater\_equal.md) | Check if each element of the first tensor is greater than or equal to the corresponding element of the second tensor. |
 | [`tensor.less`](tensor.less.md) | Check if each element of the first tensor is less than the corresponding element of the second tensor. |

@@ -11,30 +11,29 @@ use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 use array::{ArrayTrait, SpanTrait};
 use orion::numbers::signed_integer::i8::{
-   i8Add, i8AddEq, i8PartialEq, i8PartialOrd, i8_new, i8Into, 
+    i8Add, i8AddEq, i8PartialEq, i8PartialOrd, i8_new, i8Into,
 };
 
 
-
 /// Cf: TensorTrait::onehot docstring
-fn onehot_encode( self: @Tensor<i8>, depth: usize, axis: Option<usize>, values: Tensor<i8> ) -> Tensor<i8> {
+fn onehot_encode(
+    self: @Tensor<i8>, depth: usize, axis: Option<usize>, values: Tensor<i8>
+) -> Tensor<i8> {
     let data = *self.data;
     let shape = *self.shape;
     let rank = shape.len();
 
     // using 255 to denote -1, innermost dimension
     let axis = match axis {
-        Option::Some(val) =>  val,
+        Option::Some(val) => val,
         Option::None(_) => 255
-
     };
 
-
-    assert(((axis == 255) | (axis.into() <= rank) ), 'axis out of dimensions');
+    assert(((axis == 255) | (axis.into() <= rank)), 'axis out of dimensions');
 
     let mut tensor_data = self.data.clone();
     let tensor_len: usize = data.len();
-    
+
     let mut output_data = ArrayTrait::new();
     let mut output_size = ArrayTrait::<u32>::new();
     let extra = Option::<ExtraParams>::None(());
@@ -51,7 +50,6 @@ fn onehot_encode( self: @Tensor<i8>, depth: usize, axis: Option<usize>, values: 
     };
     output_size.append(depth.into());
 
-
     // OneHot enocde loop
     let mut outer_index: usize = 0;
     loop {
@@ -65,9 +63,8 @@ fn onehot_encode( self: @Tensor<i8>, depth: usize, axis: Option<usize>, values: 
 
         if fixed_number.sign == true {
             fixed_number = i8Add::add(i8_new(depth, false), fixed_number)
-
         }
-        
+
         loop {
             if inner_index == depth {
                 break ();
@@ -76,8 +73,7 @@ fn onehot_encode( self: @Tensor<i8>, depth: usize, axis: Option<usize>, values: 
 
             if fixed_number == ind {
                 output_data.append(*values.data.at(1));
-            } 
-            else {
+            } else {
                 output_data.append(*values.data.at(0));
             };
 
@@ -93,42 +89,37 @@ fn onehot_encode( self: @Tensor<i8>, depth: usize, axis: Option<usize>, values: 
     if (axis != 255) & (axis.into() != rank) {
         let mut index: usize = 0;
         loop {
-                let max_dim = output_size.len() - 1;
-                if index.into() ==  max_dim{
-                    break ();
-                };
-
-                if axis == index {
-                    tranpose_axes.append(max_dim.into())
-                }
-                tranpose_axes.append(index.into());
-                index += 1;
+            let max_dim = output_size.len() - 1;
+            if index.into() == max_dim {
+                break ();
             };
 
-        let mut index: usize = 0;
+            if axis == index {
+                tranpose_axes.append(max_dim.into())
+            }
+            tranpose_axes.append(index.into());
+            index += 1;
+        };
 
+        let mut index: usize = 0;
 
         output_tensor = output_tensor.transpose(tranpose_axes.span());
     }
 
     return output_tensor;
-
 }
 
 
 fn onehot(
-    self: @Tensor<i8>, depth: usize, axis: Option<usize>, mut values: Span<usize>,
+    self: @Tensor<i8>, depth: usize, axis: Option<usize>, mut values: Span<usize>, 
 ) -> Tensor<i8> {
-
     assert(values.len() == 2, 'Wrong values dimensions');
-
 
     let mut sizes = ArrayTrait::new();
     sizes.append(2);
 
     let mut first = *values.pop_front().unwrap();
     let mut second = *values.pop_front().unwrap();
-
 
     let first = integer::u32_to_felt252(first);
     let second = integer::u32_to_felt252(second);
@@ -142,7 +133,4 @@ fn onehot(
 
     let values = TensorTrait::<i8>::new(sizes.span(), data.span(), extra);
     onehot_encode(self, depth, axis, values)
-    
 }
-
-

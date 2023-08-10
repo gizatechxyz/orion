@@ -19,23 +19,24 @@ use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 
 
 /// Cf: TensorTrait::onehot docstring
-fn onehot_encode( self: @Tensor<FixedType>, depth: usize, axis: Option<usize>, values: Tensor<FixedType> ) -> Tensor<FixedType> {
+fn onehot_encode(
+    self: @Tensor<FixedType>, depth: usize, axis: Option<usize>, values: Tensor<FixedType>
+) -> Tensor<FixedType> {
     let data = *self.data;
     let shape = *self.shape;
     let rank = shape.len();
 
     // using 999 to denote -1, innermost dimension
     let axis = match axis {
-        Option::Some(val) =>  val,
+        Option::Some(val) => val,
         Option::None(_) => 999
-
     };
 
-    assert(((axis == 999) | (axis <= rank) ), 'axis out of dimensions');
+    assert(((axis == 999) | (axis <= rank)), 'axis out of dimensions');
 
     let mut tensor_data = self.data.clone();
     let tensor_len: usize = data.len();
-    
+
     let mut output_data = ArrayTrait::new();
     let mut output_size = ArrayTrait::<u32>::new();
     let extra = Option::<ExtraParams>::None(());
@@ -60,12 +61,13 @@ fn onehot_encode( self: @Tensor<FixedType>, depth: usize, axis: Option<usize>, v
         };
 
         let mut inner_index: usize = 0;
-    
+
         let mut fixed_number = *tensor_data.at(outer_index);
         if fixed_number.sign == true {
-            fixed_number = FP16x16Add::add(FixedTrait::new_unscaled(depth.into(), false), fixed_number)
+            fixed_number =
+                FP16x16Add::add(FixedTrait::new_unscaled(depth.into(), false), fixed_number)
         }
-        
+
         loop {
             if inner_index == depth {
                 break ();
@@ -74,8 +76,7 @@ fn onehot_encode( self: @Tensor<FixedType>, depth: usize, axis: Option<usize>, v
 
             if fixed_number == ind {
                 output_data.append(*values.data.at(1));
-            } 
-            else {
+            } else {
                 output_data.append(*values.data.at(0));
             };
 
@@ -85,39 +86,38 @@ fn onehot_encode( self: @Tensor<FixedType>, depth: usize, axis: Option<usize>, v
         outer_index += 1;
     };
 
-    let mut output_tensor = TensorTrait::<FixedType>::new(output_size.span(), output_data.span(), extra);
+    let mut output_tensor = TensorTrait::<FixedType>::new(
+        output_size.span(), output_data.span(), extra
+    );
     let mut tranpose_axes = ArrayTrait::<u32>::new();
     // Get New shape is axis is not last dimension
     if (axis != 999) & (axis != rank) {
-        let mut index:usize = 0;
+        let mut index: usize = 0;
         loop {
-                let max_dim = output_size.len() - 1;
-                if index ==  max_dim{
-                    break ();
-                };
-
-                if axis == index{
-                    tranpose_axes.append(max_dim)
-                }
-                tranpose_axes.append(index);
-                index += 1;
+            let max_dim = output_size.len() - 1;
+            if index == max_dim {
+                break ();
             };
 
-        let mut index: usize = 0;
+            if axis == index {
+                tranpose_axes.append(max_dim)
+            }
+            tranpose_axes.append(index);
+            index += 1;
+        };
 
+        let mut index: usize = 0;
 
         output_tensor = output_tensor.transpose(tranpose_axes.span());
     }
 
     return output_tensor;
-
 }
 
 /// Cf: TensorTrait::onehot docstring
 fn onehot(
-    self: @Tensor<FixedType>, depth: usize, axis: Option<usize>, mut values: Span<usize>,
+    self: @Tensor<FixedType>, depth: usize, axis: Option<usize>, mut values: Span<usize>, 
 ) -> Tensor<FixedType> {
-
     assert(values.len() == 2, 'Wrong values dimensions');
 
     let mut sizes = ArrayTrait::new();

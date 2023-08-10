@@ -23,7 +23,7 @@ enum FixedImpl {
 /// floor - Returns the largest integer less than or equal to the fixed point number.
 /// exp - Returns the value of e raised to the power of the fixed point number. 
 /// exp2 - Returns the value of 2 raised to the power of the fixed point number.
-/// ln - Returns the natural logarithm of the fixed point number.
+/// log - Returns the natural logarithm of the fixed point number.
 /// log2 - Returns the base-2 logarithm of the fixed point number.
 /// log10 - Returns the base-10 logarithm of the fixed point number.
 /// pow - Returns the result of raising the fixed point number to the power of another fixed point number
@@ -300,11 +300,11 @@ trait FixedTrait {
     /// ```
     /// 
     fn floor(self: FixedType) -> FixedType;
-    /// # fp.ln
+    /// # fp.log
     ///
     /// 
     /// ```rust
-    /// fn ln(self: FixedType) -> FixedType;
+    /// fn log(self: FixedType) -> FixedType;
     /// ```
     /// 
     /// Returns the natural logarithm of the fixed point number.
@@ -320,17 +320,17 @@ trait FixedTrait {
     /// ## Examples
     /// 
     /// ```rust
-    /// fn ln_fp_example() -> FixedType {
+    /// fn log_fp_example() -> FixedType {
     ///     // We instantiate fixed point here.
     ///     let fp = FixedTrait::from_unscaled_felt(1);
     ///     
-    ///     // We can call `ln` function as follows.
-    ///     fp.ln()
+    ///     // We can call `log` function as follows.
+    ///     fp.log()
     /// }
     /// >>> {mag: 0, sign: false}
     /// ```
     ///
-    fn ln(self: FixedType) -> FixedType;
+    fn log(self: FixedType) -> FixedType;
     /// # fp.log2
     /// 
     /// ```rust

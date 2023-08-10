@@ -61,8 +61,8 @@ impl FP16x16Impl of FixedTrait {
         return math_16x16::exp2(self);
     }
 
-    fn ln(self: FixedType) -> FixedType {
-        return math_16x16::ln(self);
+    fn log(self: FixedType) -> FixedType {
+        return math_16x16::log(self);
     }
 
     fn log2(self: FixedType) -> FixedType {
@@ -150,7 +150,7 @@ impl FP16x16Into of Into<FixedType, felt252> {
 impl FP16x16PartialEq of PartialEq<FixedType> {
     #[inline(always)]
     fn eq(lhs: @FixedType, rhs: @FixedType) -> bool {
-        return math_16x16::eq(*lhs, *rhs);
+        return math_16x16::equal(*lhs, *rhs);
     }
 
     #[inline(always)]

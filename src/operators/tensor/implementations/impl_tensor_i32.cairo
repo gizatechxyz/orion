@@ -9,7 +9,7 @@ use orion::numbers::fixed_point::core::FixedType;
 
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
-    at_tensor
+    at_tensor, tensor_eq
 };
 use orion::operators::tensor::math::min::min_i32::min_in_tensor;
 use orion::operators::tensor::math::max::max_i32::max_in_tensor;
@@ -22,11 +22,10 @@ use orion::operators::tensor::math::greater_equal::greater_equal_i32::greater_eq
 use orion::operators::tensor::math::less::less_i32::less;
 use orion::operators::tensor::math::less_equal::less_equal_i32::less_equal;
 use orion::operators::tensor::math::abs::abs_i32::abs;
-use orion::operators::tensor::math::ceil::ceil_i32::ceil;
 use orion::operators::tensor::linalg::matmul::matmul_i32::matmul;
 use orion::operators::tensor::linalg::transpose::transpose_i32::transpose;
 use orion::operators::tensor::math::exp::exp_i32::core::exp_i32;
-use orion::operators::tensor::math::ln::ln_i32::core::ln_i32;
+use orion::operators::tensor::math::log::log_i32::core::log_i32;
 use orion::operators::tensor::math::arithmetic::arithmetic_i32::{add, sub, mul, div};
 use orion::operators::tensor::math::cumsum::cumsum_i32::cumsum;
 use orion::operators::tensor::math::flatten::flatten_i32::flatten;
@@ -37,14 +36,11 @@ use orion::operators::tensor::math::acosh::acosh_i32::core::acosh_i32;
 use orion::operators::tensor::math::asinh::asinh_i32::core::asinh_i32;
 use orion::operators::tensor::math::sin::sin_i32::core::sin_i32;
 use orion::operators::tensor::math::cos::cos_i32::core::cos_i32;
-use orion::operators::tensor::math::asin::asin_i32::core::asin_i32;
 use orion::operators::tensor::math::atan::atan_i32::core::atan_i32;
 use orion::operators::tensor::math::xor::xor_i32::xor;
 use orion::operators::tensor::math::or::or_i32::or;
-use orion::operators::tensor::math::acos::acos_i32::core::acos_i32;
 use orion::operators::tensor::math::onehot::onehot_i32::onehot;
 use orion::operators::tensor::math::sqrt::sqrt_i32::core::sqrt_i32;
-
 
 impl Tensor_i32 of TensorTrait<i32> {
     fn new(shape: Span<usize>, data: Span<i32>, extra: Option<ExtraParams>) -> Tensor<i32> {
@@ -107,11 +103,11 @@ impl Tensor_i32 of TensorTrait<i32> {
         exp_i32(self).unwrap()
     }
 
-    fn ln(self: @Tensor<i32>) -> Tensor<FixedType> {
-        ln_i32(self).unwrap()
+    fn log(self: @Tensor<i32>) -> Tensor<FixedType> {
+        log_i32(self).unwrap()
     }
 
-    fn eq(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+    fn equal(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
         equal(self, other)
     }
 
@@ -136,7 +132,7 @@ impl Tensor_i32 of TensorTrait<i32> {
     }
 
     fn ceil(self: @Tensor<i32>) -> Tensor<i32> {
-        ceil(self)
+        panic(array!['not supported with i32'])
     }
 
     fn sin(self: @Tensor<i32>) -> Tensor<FixedType> {
@@ -148,7 +144,7 @@ impl Tensor_i32 of TensorTrait<i32> {
     }
 
     fn asin(self: @Tensor<i32>) -> Tensor<FixedType> {
-        asin_i32(self).unwrap()
+        panic(array!['not supported with i32'])
     }
 
     fn cumsum(
@@ -188,13 +184,13 @@ impl Tensor_i32 of TensorTrait<i32> {
     fn xor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
         xor(self, other)
     }
-    
+
     fn or(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
         or(self, other)
     }
-    
+
     fn acos(self: @Tensor<i32>) -> Tensor<FixedType> {
-        acos_i32(self).unwrap()
+        panic(array!['not supported with i32'])
     }
 
     fn onehot(
@@ -202,10 +198,11 @@ impl Tensor_i32 of TensorTrait<i32> {
     ) -> Tensor<i32> {
         onehot(self, depth, axis, values)
     }
+
     
     fn sqrt(self: @Tensor<i32>) -> Tensor<FixedType> {
         sqrt_i32(self).unwrap()
-    }    
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.
@@ -265,5 +262,16 @@ impl i32TensorDiv of Div<Tensor<i32>> {
     /// * A `Tensor<i32>` instance representing the result of the element-wise division.
     fn div(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
         div(@lhs, @rhs)
+    }
+}
+
+/// Implements partial equal for two `Tensor<i32>` using the `PartialEq` trait.
+impl i32TensorPartialEq of PartialEq<Tensor<i32>> {
+    fn eq(lhs: @Tensor<i32>, rhs: @Tensor<i32>) -> bool {
+        tensor_eq(*lhs, *rhs)
+    }
+
+    fn ne(lhs: @Tensor<i32>, rhs: @Tensor<i32>) -> bool {
+        !tensor_eq(*lhs, *rhs)
     }
 }

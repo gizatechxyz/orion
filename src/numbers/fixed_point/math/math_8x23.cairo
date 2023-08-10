@@ -84,7 +84,7 @@ fn div(a: FixedType, b: FixedType) -> FixedType {
 /// # Returns
 ///
 /// * A boolean value that indicates whether the input fixed point numbers are equal.
-fn eq(a: FixedType, b: FixedType) -> bool {
+fn equal(a: FixedType, b: FixedType) -> bool {
     return a.mag == b.mag && a.sign == b.sign;
 }
 
@@ -197,9 +197,9 @@ fn le(a: FixedType, b: FixedType) -> bool {
     }
 }
 
-/// Cf: FixedTrait::ln docstring
-fn ln(a: FixedType) -> FixedType {
-    return FixedTrait::new(5814540_u128, false) * log2(a); // ln(2) = 0.693...
+/// Cf: FixedTrait::log docstring
+fn log(a: FixedType) -> FixedType {
+    return FixedTrait::new(5814540_u128, false) * log2(a); // log(2) = 0.693...
 }
 
 /// Cf: FixedTrait::log2 docstring
@@ -324,8 +324,8 @@ fn pow(a: FixedType, b: FixedType) -> FixedType {
         return _pow_int(a, b.mag / ONE, b.sign);
     }
 
-    // x^y = exp(y*ln(x)) for x > 0 will error for x < 0
-    return exp(b * ln(a));
+    // x^y = exp(y*log(x)) for x > 0 will error for x < 0
+    return exp(b * log(a));
 }
 
 /// Cf: FixedTrait::round docstring
@@ -556,14 +556,14 @@ fn acosh(a: FixedType) -> FixedType {
     //we first check to see if a < 1.
     assert(a >= FixedTrait::new_unscaled(1, false), 'a must be >= 1');
     let root = (a * a - FixedTrait::new(ONE, false)).sqrt();
-    let answer = (a + root).ln();
+    let answer = (a + root).log();
     answer
 }
 
 /// Cf: FixedTrait::asinh docstring 
 fn asinh(a: FixedType) -> FixedType {
     let root = (a * a + FixedTrait::new(ONE, false)).sqrt();
-    let result = (a + root).ln();
+    let result = (a + root).log();
     result
 }
 
@@ -638,3 +638,4 @@ fn or(a: FixedType, b: FixedType) -> bool {
         return true;
     }
 }
+
