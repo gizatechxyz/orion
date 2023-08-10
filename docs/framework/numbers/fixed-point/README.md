@@ -14,7 +14,7 @@ The magnitude represents the absolute value of the number, and the sign indicate
 
 ```rust
 struct FixedType {
-    mag: u128,
+    mag: u32,
     sign: bool
 }
 ```
