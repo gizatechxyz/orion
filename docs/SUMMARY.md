@@ -71,6 +71,7 @@
     * [tensor.tanh](framework/operators/tensor/tensor.tanh.md)
     * [tensor.atan](framework/operators/tensor/tensor.atan.md)
     * [tensor.acos](framework/operators/tensor/tensor.acos.md)
+    * [tensor.onehot](framework/operators/tensor/tensor.onehot.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)

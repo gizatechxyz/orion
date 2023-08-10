@@ -41,6 +41,7 @@ use orion::operators::tensor::math::atan::atan_u32::core::atan_u32;
 use orion::operators::tensor::math::xor::xor_u32::xor;
 use orion::operators::tensor::math::or::or_u32::or;
 use orion::operators::tensor::math::acos::acos_u32::core::acos_u32;
+use orion::operators::tensor::math::onehot::onehot_u32::onehot;
 use orion::operators::tensor::math::sqrt::sqrt_u32::core::sqrt_u32;
 
 
@@ -195,7 +196,11 @@ impl Tensor_u32 of TensorTrait<u32> {
     fn acos(self: @Tensor<u32>) -> Tensor<FixedType> {
         acos_u32(self).unwrap()
     }
-
+    fn onehot(
+        self: @Tensor<u32>, depth: usize, axis: Option<usize>, values: Span<usize>
+    ) -> Tensor<u32> {
+        onehot(self, depth, axis, values)
+    }
     fn sqrt(self: @Tensor<u32>) -> Tensor<FixedType> {
         sqrt_u32(self).unwrap()
     }    

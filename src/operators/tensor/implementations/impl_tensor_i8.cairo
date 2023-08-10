@@ -45,6 +45,7 @@ use orion::operators::tensor::math::atan::atan_i8::core::atan_i8;
 use orion::operators::tensor::math::xor::xor_i8::xor;
 use orion::operators::tensor::math::or::or_i8::or;
 use orion::operators::tensor::math::acos::acos_i8::core::acos_i8;
+use orion::operators::tensor::math::onehot::onehot_i8::onehot;
 use orion::operators::tensor::math::sqrt::sqrt_i8::core::sqrt_i8;
 
 
@@ -197,7 +198,11 @@ impl Tensor_i8 of TensorTrait<i8> {
     fn acos(self: @Tensor<i8>) -> Tensor<FixedType> {
         acos_i8(self).unwrap()
     }
-
+    fn onehot(
+        self: @Tensor<i8>, depth: usize, axis: Option<usize>, values: Span<usize>
+    ) -> Tensor<i8> {
+        onehot(self, depth, axis, values)
+    }
     fn sqrt(self: @Tensor<i8>) -> Tensor<FixedType> {
         sqrt_i8(self).unwrap()
     }    
