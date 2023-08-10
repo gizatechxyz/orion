@@ -20,8 +20,6 @@ fn exp(self: @Tensor<u32>) -> Tensor<FixedType> {
         let ele = FixedTrait::new_unscaled(ele, false);
         result.append(FixedTrait::exp(ele));
 
-        result.append(FixedTrait::exp(ele));
-
         if (data.len() == 0) {
             break ();
         };

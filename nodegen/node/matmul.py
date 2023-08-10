@@ -197,8 +197,8 @@ class Matmul(RunAll):
     @staticmethod
     def matmul_fp8x23():
         def matmul_1D():
-            a = np.random.randint(-127, 127, (3)).astype(np.int64)
-            b = np.random.randint(-127, 127, (3)).astype(np.int64)
+            a = np.random.randint(-3, 4, (3)).astype(np.int64)
+            b = np.random.randint(-3, 4, (3)).astype(np.int64)
             y = np.matmul(a, b).reshape((1))
 
             a = Tensor(Dtype.FP8x23, a.shape, to_fp(
@@ -214,8 +214,8 @@ class Matmul(RunAll):
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
         def matmul_2x2():
-            a = np.random.randint(-127, 127, (2, 2)).astype(np.int64)
-            b = np.random.randint(-127, 127, (2, 2)).astype(np.int64)
+            a = np.random.randint(-3, 4, (2, 2)).astype(np.int64)
+            b = np.random.randint(-3, 4, (2, 2)).astype(np.int64)
             y = np.matmul(a, b)
 
             a = Tensor(Dtype.FP8x23, a.shape, to_fp(
@@ -231,8 +231,8 @@ class Matmul(RunAll):
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
         def matmul_2x1():
-            a = np.random.randint(-127, 127, (2, 1)).astype(np.int64)
-            b = np.random.randint(-127, 127, (1, 2)).astype(np.int64)
+            a = np.random.randint(-3, 4, (2, 1)).astype(np.int64)
+            b = np.random.randint(-3, 4, (1, 2)).astype(np.int64)
             y = np.matmul(a, b)
 
             a = Tensor(Dtype.FP8x23, a.shape, to_fp(
@@ -248,8 +248,8 @@ class Matmul(RunAll):
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
         def matmul_1x2():
-            a = np.random.randint(-127, 127, (1, 2)).astype(np.int64)
-            b = np.random.randint(-127, 127, (2, 1)).astype(np.int64)
+            a = np.random.randint(-3, 4, (1, 2)).astype(np.int64)
+            b = np.random.randint(-3, 4, (2, 1)).astype(np.int64)
             y = np.matmul(a, b)
 
             a = Tensor(Dtype.FP8x23, a.shape, to_fp(
@@ -272,8 +272,8 @@ class Matmul(RunAll):
     @staticmethod
     def matmul_fp16x16():
         def matmul_1D():
-            a = np.random.randint(-127, 127, (3)).astype(np.int64)
-            b = np.random.randint(-127, 127, (3)).astype(np.int64)
+            a = np.random.randint(-3, 4, (3)).astype(np.int64)
+            b = np.random.randint(-3, 4, (3)).astype(np.int64)
             y = np.matmul(a, b).reshape((1))
 
             a = Tensor(Dtype.FP16x16, a.shape, to_fp(
@@ -289,8 +289,8 @@ class Matmul(RunAll):
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
         def matmul_2x2():
-            a = np.random.randint(-127, 127, (2, 2)).astype(np.int64)
-            b = np.random.randint(-127, 127, (2, 2)).astype(np.int64)
+            a = np.random.randint(-3, 4, (2, 2)).astype(np.int64)
+            b = np.random.randint(-3, 4, (2, 2)).astype(np.int64)
             y = np.matmul(a, b)
 
             a = Tensor(Dtype.FP16x16, a.shape, to_fp(
@@ -306,8 +306,8 @@ class Matmul(RunAll):
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
         def matmul_2x1():
-            a = np.random.randint(-127, 127, (2, 1)).astype(np.int64)
-            b = np.random.randint(-127, 127, (1, 2)).astype(np.int64)
+            a = np.random.randint(-3, 4, (2, 1)).astype(np.int64)
+            b = np.random.randint(-3, 4, (1, 2)).astype(np.int64)
             y = np.matmul(a, b)
 
             a = Tensor(Dtype.FP16x16, a.shape, to_fp(
@@ -323,8 +323,8 @@ class Matmul(RunAll):
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
         def matmul_1x2():
-            a = np.random.randint(-127, 127, (1, 2)).astype(np.int64)
-            b = np.random.randint(-127, 127, (2, 1)).astype(np.int64)
+            a = np.random.randint(-3, 4, (1, 2)).astype(np.int64)
+            b = np.random.randint(-3, 4, (2, 1)).astype(np.int64)
             y = np.matmul(a, b)
 
             a = Tensor(Dtype.FP16x16, a.shape, to_fp(

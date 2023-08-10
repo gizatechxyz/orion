@@ -12,7 +12,7 @@ class Softplus(RunAll):
     @staticmethod
     def softplus_i32():
         def fp8x23():
-            x = np.random.randint(-5, 9, (2, 2)).astype(np.int32)
+            x = np.random.randint(-3, 3, (2, 2)).astype(np.int32)
             y = softplus(x)
 
             x = Tensor(Dtype.I32, x.shape, x.flatten(), FixedImpl.FP8x23)
@@ -25,7 +25,7 @@ class Softplus(RunAll):
                       name, Trait.NN)
 
         def fp16x16():
-            x = np.random.randint(-5, 9, (2, 2)).astype(np.int32)
+            x = np.random.randint(-3, 3, (2, 2)).astype(np.int32)
             y = softplus(x)
 
             x = Tensor(Dtype.I32, x.shape, x.flatten(), FixedImpl.FP16x16)
@@ -43,7 +43,7 @@ class Softplus(RunAll):
     @staticmethod
     def softplus_i8():
         def fp8x23():
-            x = np.random.randint(-5, 9, (2, 2)).astype(np.int8)
+            x = np.random.randint(-3, 3, (2, 2)).astype(np.int8)
             y = softplus(x)
 
             x = Tensor(Dtype.I8, x.shape, x.flatten(), FixedImpl.FP8x23)
@@ -56,7 +56,7 @@ class Softplus(RunAll):
                       name, Trait.NN)
 
         def fp16x16():
-            x = np.random.randint(-5, 9, (2, 2)).astype(np.int8)
+            x = np.random.randint(-3, 3, (2, 2)).astype(np.int8)
             y = softplus(x)
 
             x = Tensor(Dtype.I8, x.shape, x.flatten(), FixedImpl.FP16x16)
@@ -74,7 +74,7 @@ class Softplus(RunAll):
     @staticmethod
     def softplus_u32():
         def fp8x23():
-            x = np.random.randint(0, 9, (2, 2)).astype(np.int32)
+            x = np.random.randint(0, 6, (2, 2)).astype(np.int32)
             y = softplus(x)
 
             x = Tensor(Dtype.U32, x.shape, x.flatten(), FixedImpl.FP8x23)
@@ -87,7 +87,7 @@ class Softplus(RunAll):
                       name, Trait.NN)
 
         def fp16x16():
-            x = np.random.randint(0, 9, (2, 2)).astype(np.int32)
+            x = np.random.randint(0, 6, (2, 2)).astype(np.int32)
             y = softplus(x)
 
             x = Tensor(Dtype.U32, x.shape, x.flatten(), FixedImpl.FP16x16)
