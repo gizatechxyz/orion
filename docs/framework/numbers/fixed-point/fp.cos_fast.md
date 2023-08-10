@@ -1,10 +1,10 @@
-# fp.sin
+# fp.cos_fast
 
 ```rust
-fn sin(self: FixedType) -> FixedType;
+fn cos_fast(self: FixedType) -> FixedType;
 ```
 
-Returns the sine of the fixed point number.
+Returns the cosine of the fixed point number fast with LUT.
 
 ## Args
 
@@ -12,7 +12,7 @@ Returns the sine of the fixed point number.
 
 ## Returns
 
-A fixed point number representing the sin of the input value.
+A fixed point number representing the cosine of the input value.
 
 ## Examples
 
@@ -20,12 +20,12 @@ A fixed point number representing the sin of the input value.
 use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
 use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
 
-fn sin_fp_example() -> FixedType {
+fn cos_fast_fp_example() -> FixedType {
     // We instantiate fixed point here.
     let fp = FixedTrait::new_unscaled(2, false);
 
-    // We can call `sin` function as follows.
-    fp.sin()
+    // We can call `cos_fast` function as follows.
+    fp.cos_fast()
 }
->>> {mag: 59592, sign: false} // = 0.90929743
+>>> {mag: 27273, sign: true} // = -0.41614684
 ``` 

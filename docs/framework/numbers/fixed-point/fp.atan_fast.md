@@ -1,10 +1,10 @@
-# fp.atan
+# fp.atan_fast
 
 ```rust
-fn atan(self: FixedType) -> FixedType;
+fn atan_fast(self: FixedType) -> FixedType;
 ```
 
-Returns the arctangent (inverse of tangent) of the input fixed point number.
+Returns the arctangent (inverse of tangent) of the input fixed point number faster with LUT.
 
 ## Args
 
@@ -20,13 +20,12 @@ A fixed point number representing the arctangent (inverse of tangent) of the inp
 use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
 use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
 
-fn atan_fp_example() -> FixedType {
+fn atan_fast_fp_example() -> FixedType {
     // We instantiate fixed point here.
     let fp = FixedTrait::new_unscaled(2, false);
 
-    // We can call `atan` function as follows.
-    fp.atan()
+    // We can call `atan_fast` function as follows.
+    fp.atan_fast()
 }
 >>> {mag: 72558, sign: false} // = 1.10714872
 ``` 
- 

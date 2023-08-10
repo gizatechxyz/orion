@@ -15,10 +15,6 @@ Computes the square root of all elements of the input tensor.
 
 A new `Tensor<T>` of the same shape as the input tensor with 
 the arctangent (inverse of tangent) value of all elements in the input tensor.
-
-## Example
-
-```rust
 fn sqrt_example() -> Tensor<FixedType> {
     // We instantiate a 1D Tensor here.
     // tensor = [0, 1, 2]

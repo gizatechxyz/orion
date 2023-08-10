@@ -18,12 +18,15 @@ A fixed point number representing the rounded value.
 
 
 ```rust
+use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
+
 fn round_fp_example() -> FixedType {
     // We instantiate FixedTrait points here.
-    let a = FixedTrait::from_felt(194615506); // 2.9
-    
+    let a = FixedTrait::from_felt(190054); // 2.9
+
     // We can call `round` function as follows.
-    a.round(b)
+    a.round()
 }
->>> {mag: 201326592, sign: false} // = 3
+>>> {mag: 196608, sign: false} // = 3
 ```
