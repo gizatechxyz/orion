@@ -26,27 +26,48 @@ A new `Tensor<T>` instance containing the indices of the maximum values along th
 Case 1: argmax with default parameters
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+
 fn argmax_example() -> Tensor<usize> {
-    // We instantiate a 3D Tensor here.
-    // [[[0,1],[2,3]],[[4,4],[5,5]]]
-    let tensor = u32_tensor_2x2x2_helper();
-		
+    let tensor = TensorTrait::<u32>::new(
+        shape: array![2, 2, 2].span(),
+        data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
+        extra: Option::None(())
+    );
+
     // We can call `argmax` function as follows.
-    return tensor.argmax(2,Option::None(()),Option::None(()));
+    return tensor.argmax(
+        axis: 2,
+        keepdims: Option::None(()),
+        select_last_index: Option::None(())
+    );
 }
 >>> [[[1,1],[0,0]]]
-
 ```
 Case 2: argmax with keepdims set to false
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+
 fn argmax_example() -> Tensor<usize> {
-    // We instantiate a 3D Tensor here.
-    // [[[0,1],[2,3]],[[4,4],[5,5]]]
-    let tensor = u32_tensor_2x2x2_helper();
+    let tensor = TensorTrait::<u32>::new(
+        shape: array![2, 2, 2].span(),
+        data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
+        extra: Option::None(())
+    );
 
     // We can call `argmax` function as follows.
-    return tensor.argmax(2,Option::Some(false),Option::None(()));
+    return tensor.argmax(
+        axis: 2,
+        keepdims: Option::Some(false),
+        select_last_index: Option::None(())
+    );
 }
 >>> [[1,1],[0,0]]
 ```
@@ -54,13 +75,24 @@ fn argmax_example() -> Tensor<usize> {
 Case 3: argmax with select_last_index set to true
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+
 fn argmax_example() -> Tensor<usize> {
-    // We instantiate a 3D Tensor here.
-    // [[[0,1],[2,3]],[[4,4],[5,5]]]
-    let tensor = u32_tensor_2x2x2_helper();
+    let tensor = TensorTrait::<u32>::new(
+        shape: array![2, 2, 2].span(),
+        data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
+        extra: Option::None(())
+    );
 
     // We can call `argmax` function as follows.
-    return tensor.argmax(2,Option::None(()),Option::Some(true));
+    return tensor.argmax(
+        axis: 2,
+        keepdims: Option::None(()),
+        select_last_index: Option::Some(true)
+    );
 }
 >>> [[[1,1],[1,1]]]
 ```

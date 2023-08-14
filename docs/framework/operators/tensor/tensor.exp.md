@@ -20,11 +20,20 @@ Returns a new tensor in `FixedType` with the exponential of the elements of the 
 ## Examples
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+
 fn exp_example() -> Tensor<FixedType> {
-    // We instantiate a 2D Tensor here.
-    // [[0,1],[2,3]]
-    let tensor = u32_tensor_2x2_helper();
-		
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    let tensor = TensorTrait::<u32>::new(
+        shape: array![2, 2].span(),
+        data: array![0, 1, 2, 3].span(),
+        extra: Option::Some(extra)
+    );
+
     // We can call `exp` function as follows.
     return tensor.exp();
 }

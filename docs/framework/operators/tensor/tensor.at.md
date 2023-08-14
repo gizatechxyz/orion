@@ -22,19 +22,23 @@ The `T` value at the specified indices.
 # Examples
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+
+
 fn at_example() -> u32 {
-    // We instantiate a 3D Tensor here.
-    // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    let tensor = u32_tensor_2x2x2_helper();
-    
-    // We set indices to access element of the Tensor.
-    let mut indices = ArrayTrait::new();
-    indices.append(0);
-    indices.append(1);
-    indices.append(1);
-		
+    let tensor = TensorTrait::new(
+        shape: array![2, 2, 2].span(),
+        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+        extra: Option::None(())
+    );
+
     // We can call `at` function as follows.
-    return tensor.at(indices.span());
+    return tensor.at(
+        indices: array![0, 1, 1].span()
+    );
 }
 >>> 3
 ```

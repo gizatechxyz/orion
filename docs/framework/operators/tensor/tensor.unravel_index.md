@@ -22,11 +22,19 @@ The unraveled indices corresponding to the given index.
 ## Examples
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+
+
 fn unravel_index_example() -> Span<usize> {
-    // We instantiate a 3D Tensor here.
-    // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    let tensor = u32_tensor_2x2x2_helper();
-		
+    let tensor = TensorTrait::<u32>::new(
+        shape: array![2, 2, 2].span(),
+        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+        extra: Option::None(())
+    );
+
     // We can call `unravel_index` function as follows.
     return tensor.unravel_index(3);
 }

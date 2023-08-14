@@ -22,19 +22,23 @@ The index corresponding to the given indices.
 ## Examples
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+
+
 fn ravel_index_example() -> usize {
-    // We instantiate a 3D Tensor here.
-    // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    let tensor = u32_tensor_2x2x2_helper();
-    
-    // We set the indices of the Tensor to ravel.
-    let mut indices = ArrayTrait::new();
-    indices.append(1);
-    indices.append(3);
-    indices.append(0);
-		
+    let tensor = TensorTrait::<u32>::new(
+        shape: array![2, 2, 2].span(),
+        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+        extra: Option::None(())
+    );
+
     // We can call `ravel_index` function as follows.
-    return tensor.ravel_index(indices.span());
+    return tensor.ravel_index(
+        indices: array![1, 3, 0].span()
+    );
 }
 >>> 10 
 // This means that the value of indices [1,3,0] 
