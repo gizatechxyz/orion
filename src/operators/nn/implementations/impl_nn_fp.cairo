@@ -7,7 +7,7 @@ use orion::operators::nn::functional::sigmoid::sigmoid_fp::core::sigmoid_fp;
 use orion::operators::nn::functional::softmax::softmax_fp::softmax_fp;
 use orion::operators::nn::functional::logsoftmax::logsoftmax_fp::logsoftmax_fp;
 use orion::operators::nn::functional::softsign::softsign_i32::core::softsign_i32;
-use orion::operators::nn::functional::softplus::softplus_i32::core::softplus_i32;
+use orion::operators::nn::functional::softplus::softplus_fp::core::softplus_fp;
 use orion::operators::nn::functional::linear::linear_fp::linear_fp;
 use orion::operators::nn::functional::leaky_relu::leaky_relu_fp::core::leaky_relu_fp;
 use orion::numbers::fixed_point::core::{FixedType};
@@ -35,7 +35,7 @@ impl NN_fp of NNTrait<FixedType> {
     }
 
     fn softplus(tensor: @Tensor<FixedType>) -> Tensor<FixedType> {
-        panic(array![''])
+        softplus_fp(tensor).unwrap()
     }
 
     fn linear(
