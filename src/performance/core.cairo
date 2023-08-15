@@ -33,31 +33,45 @@ trait PerfomanceTrait<T, Q> {
     /// ## Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
+    /// use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
+    /// use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
+    /// use orion::numbers::signed_integer::i8::i8;
     /// use orion::performance::core::PerfomanceTrait;
     /// use orion::performance::implementations::impl_performance_i32::Performance_i32_i8;
     /// 
     /// fn quantize_linear_example() -> Tensor<i8> {
     ///     // We instantiate a 1D Tensor here.
-    ///     // [0, 2, 3, 1000, -254, -1000]
-    ///     let x = i32_tensor_1D_helper();
-    ///
+    ///     let x = TensorTrait::<i32>::new(
+    ///         shape: array![6].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(0, false),
+    ///             IntegerTrait::new(2, false),
+    ///             IntegerTrait::new(3, false),
+    ///             IntegerTrait::new(1000, false),
+    ///             IntegerTrait::new(254, true),
+    ///             IntegerTrait::new(1000, true),
+    ///         ]
+    ///             .span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We instantiate the y_scale here.
-    ///     let mut shape = ArrayTrait::<usize>::new();
-    ///     shape.append(1);
-    ///     let mut data = ArrayTrait::<i32>::new();
-    ///     data.append(IntegerTrait::new(2, false));
-    ///     let extra = Option::<ExtraParams>::None(());
-    ///     let y_scale = TensorTrait::new(shape.span(), data.span(), extra);
+    ///     let y_scale = TensorTrait::<i32>::new(
+    ///         shape: array![1].span(),
+    ///         data: array![IntegerTrait::new(2, false)].span(),
+    ///         extra: Option::None(())
+    ///     );
     /// 
     ///     // We instantiate the y_zero_point here.
-    ///     let mut shape = ArrayTrait::<usize>::new();
-    ///     shape.append(1);
-    ///     let mut data = ArrayTrait::<i32>::new();
-    ///     data.append(IntegerTrait::new(1, false));
-    ///     let extra = Option::<ExtraParams>::None(());
-    ///     let y_zero_point = TensorTrait::new(shape.span(), data.span(), extra);
+    ///     let y_zero_point = TensorTrait::<i32>::new(
+    ///         shape: array![1].span(),
+    ///         data: array![IntegerTrait::new(1, false)].span(),
+    ///         extra: Option::None(())
+    ///     );
     /// 
-    ///     // We can call `quantize_linear` function as follows.
     ///     return x.quantize_linear(@y_scale, @y_zero_point);
     /// }
     /// >>> [1, 2, 2, 127, -126, -128]
@@ -92,31 +106,43 @@ trait PerfomanceTrait<T, Q> {
     /// ## Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
+    /// use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
+    /// use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
+    /// use orion::numbers::signed_integer::i32::i32;
+    /// use orion::numbers::signed_integer::i8::{i8, IntegerTrait};
     /// use orion::performance::core::PerfomanceTrait;
     /// use orion::performance::implementations::impl_performance_i32::Performance_i32_i8;
     /// 
-    /// fn quantize_linear_example() -> Tensor<i32> {
-    ///     // We instantiate a 1D quantized Tensor here.
-    ///     // [0, 3, 125, 127]
-    ///     let x: Tensor<i8> = i32_tensor_1D_helper();
-    ///
+    /// fn dequantize_linear_example() -> Tensor<i32> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     let x = TensorTrait::<i8>::new(
+    ///         shape: array![4].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(0, false),
+    ///             IntegerTrait::new(3, false),
+    ///             IntegerTrait::new(125, false),
+    ///             IntegerTrait::new(127, false),
+    ///         ].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We instantiate the x_scale here.
-    ///     let mut shape = ArrayTrait::<usize>::new();
-    ///     shape.append(1);
-    ///     let mut data = ArrayTrait::<i32>::new();
-    ///     data.append(IntegerTrait::new(2, false));
-    ///     let extra = Option::<ExtraParams>::None(());
-    ///     let x_scale = TensorTrait::new(shape.span(), data.span(), extra);
+    ///     let x_scale = TensorTrait::<i32>::new(
+    ///         shape: array![1].span(),
+    ///         data: array![IntegerTrait::new(2, false)].span(),
+    ///         extra: Option::None(())
+    ///     );
     /// 
     ///     // We instantiate the x_zero_point here.
-    ///     let mut shape = ArrayTrait::<usize>::new();
-    ///     shape.append(1);
-    ///     let mut data = ArrayTrait::<i32>::new();
-    ///     data.append(IntegerTrait::new(0, false));
-    ///     let extra = Option::<ExtraParams>::None(());
-    ///     let x_zero_point = TensorTrait::new(shape.span(), data.span(), extra);
+    ///     let x_zero_point = TensorTrait::<i32>::new(
+    ///         shape: array![1].span(),
+    ///         data: array![IntegerTrait::new(0, false)].span(),
+    ///         extra: Option::None(())
+    ///     );
     /// 
-    ///     // We can call `dequantize_linear` function as follows.
     ///     return x.dequantize_linear(@x_scale, @x_zero_point);
     /// }
     /// >>> [0, 6, 250, 254]
