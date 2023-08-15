@@ -23,6 +23,7 @@ The repository is structured as follows:&#x20;
 ├── cairo_project.toml
 ├── docgen
 ├── docs
+├── nodegen
 ├── src
 │   ├── lib.cairo
 │   ├── numbers
@@ -294,60 +295,185 @@ Voilà! We have successfully implemented the softmax function in `NNTrait`!
 
 ### How to test the Orion Operator?&#x20;
 
-Now, let's proceed to testing the softmax operator we've just implemented. When testing an operator in Orion, there are two key considerations:
-
-1. Ensure it's tested across all types of implementation.
-2. Perform tests on multiple dimensions, at least with 1D, 2D, and 3D tensors.
+Now, let's proceed to testing the softmax operator we've just implemented. When testing an operator in Orion, you should ensure to test across all types of implementation.&#x20;
 
 Since softmax employs fixed points for intermediate calculations and returns a tensor of `FixedType`, it is essential to test it across all fixed point implementations. As of now, Orion supports two fixed point implementations: [`FP16x16`](../../framework/numbers/fixed-point/#data-types) and [`FP8x23`](../../framework/numbers/fixed-point/#data-types).
 
-A comprehensive test for the softmax function, taking into account the two key considerations, should have the following structure:
+To simplify the task of writing tests, and get closer to ONNX tests, we've designed **Nodegen**! It lets you write your test in Python/Numpy, then generate the following Cairo code:
+
+* Input data
+* Expected output data
+* Your tests
+
+First, we'll create a `softmax.py` file in the `nodegen/node` directory. Next, we'll define a softmax function in python. You can find the python function in [ONNX implementation directory.](https://github.com/onnx/onnx/blob/efd95c364da37fefa4e131bc5566f77731045d69/onnx/backend/test/case/node/softmax.py#L12-L16)
+
+```python
+import numpy as np
+
+def softmax(x: np.ndarray, axis: int = -1) -> np.ndarray:
+    x_max = np.max(x, axis=axis, keepdims=True)
+    tmp = np.exp(x - x_max)
+    s = np.sum(tmp, axis=axis, keepdims=True)
+    return tmp / s
+```
+
+Finally, we create a Softmax class, containing tests for each dtypes.&#x20;
+
+```python
+import numpy as np
+from nodegen.node import RunAll
+from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+
+def softmax(x: np.ndarray, axis: int = -1) -> np.ndarray:
+    x_max = np.max(x, axis=axis, keepdims=True)
+    tmp = np.exp(x - x_max)
+    s = np.sum(tmp, axis=axis, keepdims=True)
+    return tmp / s
+
+class Softmax(RunAll):
+
+    # Define tests for i32 dtype 
+    @staticmethod
+    def softmax_i32():
+        # Softmax returns a FixedType.
+        # So we test here with fp8x23 implementation.
+        def fp8x23():
+            # Create a random numpy array:
+            x = np.random.randint(-3, 3, (2, 2)).astype(np.int32)
+            # Ddefine the expected result:
+            y = softmax(x, 0)
+            
+            # Convert the input and output to Tensor class, similar to Orion's Tensor struct:
+            x = Tensor(Dtype.I32, x.shape, x.flatten(), FixedImpl.FP8x23)
+            # Convert the floats values in `y` to fixed points with `to_fp` method:
+            y = Tensor(Dtype.FP8x23, y.shape, to_fp(
+                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+            
+            # Define the name of the generated folder. 
+            name = "softmax_i32_fp8x23"
+            # Invoke `make_node` method to generate Cairo representation of `x` and `y`:
+            make_node([x], [y], name)
+            # Invoke `make_test` method to generate corresponding Cairo tests:
+            make_test(
+                [x], # List of input tensors.
+                y, # The expected output result.
+                "NNTrait::softmax(@input_0, 0)", # The code signature.
+                name, # The name of the generated folder.
+                Trait.NN # The trait, if the function is present in either the TensorTrait or NNTrait.
+            )
+        
+        # Test here with fp16x16 implementation.
+        def fp16x16():
+            x = np.random.randint(-3, 3, (2, 2)).astype(np.int32)
+            y = softmax(x, 1)
+
+            x = Tensor(Dtype.I32, x.shape, x.flatten(), FixedImpl.FP16x16)
+            y = Tensor(Dtype.FP16x16, y.shape, to_fp(
+                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+
+            name = "softmax_i32_fp16x16"
+            make_node([x], [y], name)
+            make_test([x], y, "NNTrait::softmax(@input_0, 1)",
+                      name, Trait.NN)
+
+        fp8x23()
+        fp16x16()
+    
+    @staticmethod
+    def softmax_i8():
+        def fp8x23():
+            x = np.random.randint(-3, 3, (2, 2)).astype(np.int8)
+            y = softmax(x, 1)
+
+            x = Tensor(Dtype.I8, x.shape, x.flatten(), FixedImpl.FP8x23)
+            y = Tensor(Dtype.FP8x23, y.shape, to_fp(
+                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+
+            name = "softmax_i8_fp8x23"
+            make_node([x], [y], name)
+            make_test([x], y, "NNTrait::softmax(@input_0, 1)",
+                      name, Trait.NN)
+
+        def fp16x16():
+            x = np.random.randint(-3, 3, (2, 2)).astype(np.int8)
+            y = softmax(x, 0)
+
+            x = Tensor(Dtype.I8, x.shape, x.flatten(), FixedImpl.FP16x16)
+            y = Tensor(Dtype.FP16x16, y.shape, to_fp(
+                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+
+            name = "softmax_i8_fp16x16"
+            make_node([x], [y], name)
+            make_test([x], y, "NNTrait::softmax(@input_0, 0)",
+                      name, Trait.NN)
+
+        fp8x23()
+        fp16x16()
+
+    @staticmethod
+    def softmax_u32():
+        def fp8x23():
+            x = np.random.randint(0, 3, (2, 2)).astype(np.int32)
+            y = softmax(x, 1)
+
+            x = Tensor(Dtype.U32, x.shape, x.flatten(), FixedImpl.FP8x23)
+            y = Tensor(Dtype.FP8x23, y.shape, to_fp(
+                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+
+            name = "softmax_u32_fp8x23"
+            make_node([x], [y], name)
+            make_test([x], y, "NNTrait::softmax(@input_0, 1)",
+                      name, Trait.NN)
+
+        def fp16x16():
+            x = np.random.randint(0, 3, (2, 2)).astype(np.int32)
+            y = softmax(x, 0)
+
+            x = Tensor(Dtype.U32, x.shape, x.flatten(), FixedImpl.FP16x16)
+            y = Tensor(Dtype.FP16x16, y.shape, to_fp(
+                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+
+            name = "softmax_u32_fp16x16"
+            make_node([x], [y], name)
+            make_test([x], y, "NNTrait::softmax(@input_0, 0)",
+                      name, Trait.NN)
+
+        fp8x23()
+        fp16x16()
+```
+
+Once set up, you can generate tests and data by executing `scarb run nodegen softmax`.
+
+The above code will generate 6 test files located in `src/tests/nodes`. As an example, here's the content of the `softmax_i32_fp8x23.cairo` generated file:
 
 ```rust
-// ===== 1D ===== //
+// softmax_i32_fp8x23.cairo
+mod input_0; 
+mod output_0; 
 
-#[cfg(test)]
-mod input_1D {
-    #[cfg(test)]
-    mod fp8x23 {
-    }
+use orion::operators::nn::core::NNTrait;
+use orion::numbers::fixed_point::core::FixedTrait;
+use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+use orion::operators::tensor::implementations::impl_tensor_fp::FP8x23Tensor::FPTensorPartialEq;
+use orion::utils::assert_eq;
 
-    #[cfg(test)]
-    mod fp16x16 {
-    }
-}
+#[test]
+#[available_gas(2000000000)]
+fn test_softmax_i32_fp8x23() {
+    let input_0 = input_0::input_0();
+    let z = output_0::output_0();
 
-// ===== 2D ===== //
+    let y = NNTrait::softmax(@input_0, 0);
 
-#[cfg(test)]
-mod input_2D {
-    #[cfg(test)]
-    mod fp8x23 {
-    }
-
-    #[cfg(test)]
-    mod fp16x16 {
-    }
-}
-
-// ===== 3D ===== //
-
-#[cfg(test)]
-mod input_3D {
-    #[cfg(test)]
-    mod fp8x23 {
-    }
-
-    #[cfg(test)]
-    mod fp16x16 {
-    }
+    assert_eq(y, z);
 }
 ```
 
-You can find the full testing file [here](../../../src/tests/operators/nn/functional/softmax/softmax\_i32\_test.cairo).
+If you'd like to expand the tests with additional cases, feel free to edit the generated Cairo file.
+
+
 
 You're now ready to prepare your Pull Request. Please ensure you thoroughly read the [Contribution Guidelines](../../framework/contribute.md) before making your first PR. Your contribution is greatly appreciated, and we sincerely value your interest 🫶.
 
 Orion leverages Cairo to guarantee the reliability of inference, providing developers with a user-friendly framework to build complex and verifiable machine learning models. We invite the community to join us in shaping a future where trustworthy AI becomes a reliable resource for all.
-
-\

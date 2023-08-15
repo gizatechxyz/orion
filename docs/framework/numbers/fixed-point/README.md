@@ -1,12 +1,8 @@
 # Fixed Point
 
 {% hint style="info" %}
-This library has been modified from [cubit](https://github.com/influenceth/cubit) library by [influenceth](https://github.com/influenceth) and adjusted to match with Q8.23 and Q16.16 fixed point.
+This library has been modified from [cubit](https://github.com/influenceth/cubit) library by [influenceth](https://github.com/influenceth) and adjusted to match with Q8.23 and Q16.16 fixed points.
 {% endhint %}
-
-```rust
-use orion::numbers::fixed_point;
-```
 
 This API provides basic some operations for signed fixed point Q8.23 and Q16.16 numbers. Fixed point numbers are represented as a struct `FixedType` with a magnitude and a sign.
 
@@ -31,7 +27,7 @@ Orion supports currently one fixed point type.
 ### **`Fixed` Trait**
 
 ```rust
-use orion::numbers::fixed_point::Fixed;
+use orion::numbers::fixed_point::core::FixedTrait;
 ```
 
 `Fixed` trait defines the operations that can be performed on a fixed point.

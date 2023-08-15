@@ -2,11 +2,7 @@
 
 A Tensor represents a multi-dimensional array of elements.
 
-```rust
-use orion::operators::tensor;
-```
-
-A `Tensor` represents a multi-dimensional array of elements and is depicted as a struct containing both the tensor's shape,a flattened array of its data and extra parameters. The generic Tensor is defined as follows:
+A `Tensor` represents a multi-dimensional array of elements and is depicted as a struct containing both the tensor's shape, a flattened array of its data and extra parameters. The generic Tensor is defined as follows:
 
 ```rust
 struct Tensor<T> {
@@ -16,7 +12,9 @@ struct Tensor<T> {
 }
 ```
 
-`ExtraParams` is a struct containing additional parameters for the tensor.
+`ExtraParams` is a struct containing additional parameters for the tensor.&#x20;
+
+`fixed_point` extra param indicates the implementation of the fixed point to be used with the tensor, if fixed points are required in certain operations (e.g. `tensor.exp()`).
 
 ```rust
 struct ExtraParams {
@@ -25,9 +23,8 @@ struct ExtraParams {
 ```
 
 **ExtraParams**
-| Params      | dtype               | default     | desciption                                               |
-| ----------- | ------------------- | ----------- | -------------------------------------------------------- |
-| fixed_point | `Option<FixedImpl>` | `FP16x16()` | Specifies the type of Fixed Point a Tensor can supports. |
+
+<table><thead><tr><th width="132">Params</th><th width="211">dtype</th><th width="139">default</th><th>desciption</th></tr></thead><tbody><tr><td>fixed_point</td><td><code>Option&#x3C;FixedImpl></code></td><td><code>FP16x16()</code></td><td>Specifies the type of Fixed Point a Tensor can supports.</td></tr></tbody></table>
 
 ### Data types
 
@@ -36,11 +33,11 @@ Orion supports currently these tensor types.
 | Data type                 | dtype               |
 | ------------------------- | ------------------- |
 | 32-bit integer (signed)   | `Tensor<i32>`       |
-| 8-bit integer (signed)   | `Tensor<i8>`        |
+| 8-bit integer (signed)    | `Tensor<i8>`        |
 | 32-bit integer (unsigned) | `Tensor<u32>`       |
-| Fixed point  (signed)     | `Tensor<FixedType>` |
+| Fixed point (signed)      | `Tensor<FixedType>` |
 
----
+***
 
 ### Tensor**Trait**
 
@@ -93,24 +90,36 @@ use orion::operators::tensor::core::TensorTrait;
 
 ### Arithmetic Operations
 
-`Tensor` implements arithmetic traits. This allows you to perform basic arithmetic operations using the associated operators. (`+`, `-`, `*`, `/` ) Tensors arithmetic operations supports broadcasting.
+`Tensor` implements arithmetic traits. This allows you to perform basic arithmetic operations using the associated operators. (`+`, `-`, `*`, `/` ). Tensors arithmetic operations supports broadcasting.
 
 Two tensors are “broadcastable” if the following rules hold:
 
-- Each tensor has at least one dimension.
-- When iterating over the dimension sizes, starting at the trailing dimension, the dimension sizes must either be equal, one of them is 1, or one of them does not exist.
+* Each tensor has at least one dimension.
+* When iterating over the dimension sizes, starting at the trailing dimension, the dimension sizes must either be equal, one of them is 1, or one of them does not exist.
 
 #### Examples
 
 Element-wise add.
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32, u32TensorAdd};
+
+
 fn element_wise_add_example() -> Tensor<u32> {
     // We instantiate two 3D Tensors here.
-    // tensor_1 = [[[0,1],[2,3]],[[4,5],[6,7]]]
-    // tensor_2 = [[[0,1],[2,3]],[[4,5],[6,7]]]
-    let tensor_1 = u32_tensor_2x2x2_helper();
-    let tensor_2 = u32_tensor_2x2x2_helper();
+    let tensor_1 = TensorTrait::new(
+        shape: array![2, 2, 2].span(),
+        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+        extra: Option::None(())
+    );
+    let tensor_2 = TensorTrait::new(
+        shape: array![2, 2, 2].span(),
+        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+        extra: Option::None(())
+    );
 
     // We can add two tensors as follows.
     return tensor_1 + tensor_2;
@@ -121,12 +130,24 @@ fn element_wise_add_example() -> Tensor<u32> {
 Add two tensors of different shapes but compatible in broadcasting.
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32, u32TensorAdd};
+
+
 fn broadcasting_add_example() -> Tensor<u32> {
-    // We instantiate two Tensors here.
-    // tensor_1 = [[[0,1],[2,3]],[[4,5],[6,7]]]
-    // tensor_2 = [[[ 10],[100]]]
-    let tensor_1 = u32_tensor_2x2x2_helper();
-    let tensor_2 = u32_tensor_1x2x1_helper();
+    // We instantiate two 3D Tensors here.
+    let tensor_1 = TensorTrait::new(
+        shape: array![2, 2, 2].span(),
+        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+        extra: Option::None(())
+    );
+    let tensor_2 = TensorTrait::new(
+        shape: array![1, 2, 1].span(),
+        data: array![10, 100].span(),
+        extra: Option::None(())
+    );
 
     // We can add two tensors as follows.
     return tensor_1 + tensor_2;
