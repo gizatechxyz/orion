@@ -4,7 +4,7 @@ use orion::numbers::signed_integer::i32::i32;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional::relu::relu_fp::core::relu_fp;
 use orion::operators::nn::functional::sigmoid::sigmoid_fp::core::sigmoid_fp;
-use orion::operators::nn::functional::softmax::softmax_i32::softmax_i32;
+use orion::operators::nn::functional::softmax::softmax_fp::softmax_fp;
 use orion::operators::nn::functional::logsoftmax::logsoftmax_fp::logsoftmax_fp;
 use orion::operators::nn::functional::softsign::softsign_i32::core::softsign_i32;
 use orion::operators::nn::functional::softplus::softplus_i32::core::softplus_i32;
@@ -23,7 +23,7 @@ impl NN_fp of NNTrait<FixedType> {
     }
 
     fn softmax(tensor: @Tensor<FixedType>, axis: usize) -> Tensor<FixedType> {
-        panic(array![''])
+        softmax_fp(tensor, axis)
     }
 
     fn logsoftmax(tensor: @Tensor<FixedType>, axis: usize) -> Tensor<FixedType> {
