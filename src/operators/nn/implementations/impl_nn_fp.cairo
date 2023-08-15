@@ -5,7 +5,7 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional::relu::relu_i32::relu_i32;
 use orion::operators::nn::functional::sigmoid::sigmoid_i32::core::sigmoid_i32;
 use orion::operators::nn::functional::softmax::softmax_i32::softmax_i32;
-use orion::operators::nn::functional::logsoftmax::logsoftmax_i32::logsoftmax_i32;
+use orion::operators::nn::functional::logsoftmax::logsoftmax_fp::logsoftmax_fp;
 use orion::operators::nn::functional::softsign::softsign_i32::core::softsign_i32;
 use orion::operators::nn::functional::softplus::softplus_i32::core::softplus_i32;
 use orion::operators::nn::functional::linear::linear_fp::linear_fp;
@@ -27,7 +27,7 @@ impl NN_fp of NNTrait<FixedType> {
     }
 
     fn logsoftmax(tensor: @Tensor<FixedType>, axis: usize) -> Tensor<FixedType> {
-        panic(array![''])
+        logsoftmax_fp(tensor, axis)
     }
 
     fn softsign(tensor: @Tensor<FixedType>) -> Tensor<FixedType> {
