@@ -35,15 +35,26 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
     /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+    /// use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
     /// 
-    /// fn relu_example() -> Tensor<u32> {
-    ///     // We instantiate a 2D Tensor here.
-    ///     // [[1,2],[-1,-2]]
-    ///     let tensor = i32_tensor_2x2_helper();
-    /// 		
-    ///     // We can call `relu` function as follows.
+    /// fn relu_example() -> Tensor<i32> {
+    ///     let tensor = TensorTrait::<i32>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(1, false),
+    ///             IntegerTrait::new(2, false),
+    ///             IntegerTrait::new(1, true),
+    ///             IntegerTrait::new(2, true),
+    ///         ].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     return NNTrait::relu(@tensor);
     /// }
     /// >>> [[1,2],[0,0]]
@@ -74,15 +85,28 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
-    /// use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
+    /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+    /// use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
+    /// use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
     /// 
     /// fn softmax_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 2D Tensor here.
-    ///     // [[0,1],[2,3]]
-    ///     let tensor = u32_tensor_2x2_helper();
-    /// 		
-    ///     // We can call `softmax` function as follows.
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<i32>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(0, false),
+    ///             IntegerTrait::new(1, false),
+    ///             IntegerTrait::new(2, false),
+    ///             IntegerTrait::new(3, false),
+    ///         ].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
     ///     return NNTrait::softmax(@tensor, 1);
     /// }
     /// >>> [[2255697,6132911],[2255697,6132911]]
@@ -115,15 +139,28 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
-    /// use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
+    /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+    /// use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
+    /// use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
     /// 
     /// fn logsoftmax_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 2D Tensor here.
-    ///     // [[0,1],[2,3]]
-    ///     let tensor = u32_tensor_2x2_helper();
-    /// 		
-    ///     // We can call `logsoftmax` function as follows.
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<i32>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(0, false),
+    ///             IntegerTrait::new(1, false),
+    ///             IntegerTrait::new(2, false),
+    ///             IntegerTrait::new(3, false),
+    ///         ].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
     ///     return NNTrait::logsoftmax(@tensor, 1);
     /// }
     ///     This will first generate the softmax output tensor
@@ -161,15 +198,29 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
-    /// use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
+    /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+    /// use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
+    /// use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
     /// 
     /// fn sigmoid_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 2D Tensor here.
-    ///     // [[0,1],[2,3]]
-    ///     let tensor = u32_tensor_2x2_helper();
-    /// 		
-    ///     // We can call `sigmoid` function as follows.
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<i32>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(0, false),
+    ///             IntegerTrait::new(1, false),
+    ///             IntegerTrait::new(2, false),
+    ///             IntegerTrait::new(3, false),
+    ///         ]
+    ///             .span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
     ///     return NNTrait::sigmoid(@tensor);
     /// }
     /// >>> [[4194304,6132564],[7388661,7990771]]
@@ -201,18 +252,32 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
-    /// use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
+    /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+    /// use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
+    /// use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
     /// 
     /// fn softsign_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 2D Tensor here.
-    ///     // [[0,1],[2,3]]
-    ///     let tensor = u32_tensor_2x2_helper();
-    /// 		
-    ///     // We can call `softsign` function as follows.
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<i32>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(0, false),
+    ///             IntegerTrait::new(1, false),
+    ///             IntegerTrait::new(2, false),
+    ///             IntegerTrait::new(3, false),
+    ///         ]
+    ///             .span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
     ///     return NNTrait::softsign(@tensor);
     /// }
-    /// >>> [[0,33554432],[44739242,50331648]]
+    /// >>> [[0,4194304],[5592405,6291456]]
     ///     // The fixed point representation of
     ///     // [[0, 0.5],[0.67, 0.75]]
     /// ```
@@ -241,18 +306,32 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
-    /// use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
+    /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+    /// use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
+    /// use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
     /// 
     /// fn softplus_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 2D Tensor here.
-    ///     // [[0,1],[2,3]]
-    ///     let tensor = u32_tensor_2x2_helper();
-    /// 		
-    ///     // We can call `softplus` function as follows.
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<i32>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(0, false),
+    ///             IntegerTrait::new(1, false),
+    ///             IntegerTrait::new(2, false),
+    ///             IntegerTrait::new(3, false),
+    ///         ]
+    ///             .span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
     ///     return NNTrait::softplus(@tensor);
     /// }
-    /// >>> [[46516187,88131451],[142735719,204587229]]
+    /// >>> [[5814540,11016447],[17841964,25573406]]
     ///     // The fixed point representation of
     ///     // [[0.6931452, 1.31326096],[2.12692796, 3.04858728]]
     /// ```
@@ -283,26 +362,55 @@ trait NNTrait<T> {
     /// ## Examples
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
     /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+    /// use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
+    /// use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
     /// 
-    /// fn linear_layer_example() -> Tensor<u32> {
+    /// fn linear_example() -> Tensor<i32> {
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    /// 
     ///     // We instantiate inputs here.
-    ///     // inputs = [-71, 38, 62]
-    ///     let inputs = i32_inputs_helper();
+    ///     let inputs = TensorTrait::<i32>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(71, true), IntegerTrait::new(38, false), IntegerTrait::new(62, false), 
+    ///         ]
+    ///             .span(),
+    ///         extra: Option::Some(extra)
+    ///     );
     /// 
     ///     // We instantiate weights here.
-    ///     // weights = [[-8, 64, 40], [-33, -34, -20]]
-    ///     let weights = i32_weights_helper();
+    ///     let weights = TensorTrait::<i32>::new(
+    ///         shape: array![2, 3].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(8, true),
+    ///             IntegerTrait::new(64, false),
+    ///             IntegerTrait::new(40, false),
+    ///             IntegerTrait::new(33, true),
+    ///             IntegerTrait::new(34, true),
+    ///             IntegerTrait::new(20, true),
+    ///         ].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
     /// 
     ///     // We instantiate bias here.
-    ///     // weights = [61, -71]
-    ///     let weights = u32_bias_helper();
+    ///     let bias = TensorTrait::<i32>::new(
+    ///         shape: array![2].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(61, false),
+    ///             IntegerTrait::new(61, true),
+    ///         ].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
     /// 
-    ///     // We can call `linear` function as follows.
     ///     return NNTrait::linear(inputs, weights, bias);
     /// }
-    /// >>> [5541, -260]
+    /// >>> [5541, -250]
     /// ````
     ///
     fn linear(inputs: Tensor<T>, weights: Tensor<T>, bias: Tensor<T>) -> Tensor<T>;
@@ -320,28 +428,44 @@ trait NNTrait<T> {
     /// * `inputs`(`@Tensor<T>`) - A snapshot of a tensor to which the Leaky ReLU function will be applied.
     /// * `alpha`(`@FixedType`) - A snapshot of a FixedType scalar that defines the alpha value of the Leaky ReLU function.
     ///
-    /// ## Panics
-    ///
-    /// * Panics if gas limit is exceeded during execution.
-    ///
     /// ## Returns
     /// A new FixedType tensor with the same shape as the input tensor and the Leaky ReLU function applied element-wise.
     ///
     /// ## Examples
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
     /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+    /// use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
+    /// use orion::numbers::fixed_point::core::{FixedImpl, FixedType, FixedTrait};
+    /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     /// 
-    /// fn leaky_relu_example() -> Tensor<u32> {
-    ///     // We instantiate a 2D Tensor here.
-    ///     // [[1,2,-1],[-2,0,0]]
-    ///     let tensor = i32_tensor_2x3_helper();
-    ///     let alpha = Fixed::new(6710886_u128, false); // 0.1
-    /// 		
-    ///     // We can call `leaky_relu` function as follows.
+    /// fn leaky_relu_example() -> Tensor<FixedType> {
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<i32>::new(
+    ///         shape: array![2, 3].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(1, false),
+    ///             IntegerTrait::new(2, false),
+    ///             IntegerTrait::new(1, true),
+    ///             IntegerTrait::new(2, true),
+    ///             IntegerTrait::new(0, false),
+    ///             IntegerTrait::new(0, false),
+    ///         ]
+    ///             .span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    ///     let alpha = FixedTrait::from_felt(838861); // 0.1
+    /// 
     ///     return NNTrait::leaky_relu(@tensor, @alpha);
     /// }
+    /// >>> [[8388608, 16777216, 838861], [1677722, 0, 0]]
+    ///      // The fixed point representation of
+    ///     [[1, 2, 0.1], [0.2, 0, 0]]
     /// ```
     /// 
     fn leaky_relu(inputs: @Tensor<T>, alpha: @FixedType) -> Tensor<FixedType>;

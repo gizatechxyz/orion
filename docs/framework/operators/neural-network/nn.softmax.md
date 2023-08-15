@@ -22,15 +22,28 @@ A Tensor of fixed point numbers with the same shape than the input Tensor.
 ## Examples
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
 use orion::operators::nn::core::NNTrait;
-use orion::operators::nn::implementations::impl_nn_u32::NN_u32;
+use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
+use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
 
 fn softmax_example() -> Tensor<FixedType> {
-    // We instantiate a 2D Tensor here.
-    // [[0,1],[2,3]]
-    let tensor = u32_tensor_2x2_helper();
-		
-    // We can call `softmax` function as follows.
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    let tensor = TensorTrait::<i32>::new(
+        shape: array![2, 2].span(),
+        data: array![
+            IntegerTrait::new(0, false),
+            IntegerTrait::new(1, false),
+            IntegerTrait::new(2, false),
+            IntegerTrait::new(3, false),
+        ].span(),
+        extra: Option::Some(extra)
+    );
+
     return NNTrait::softmax(@tensor, 1);
 }
 >>> [[2255697,6132911],[2255697,6132911]]
