@@ -37,39 +37,44 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 
 /// Trait
 ///
-/// new - Constructs a new Tensor with the given shape and data array.
-/// at - Accesses the element at the given multi-dimensional index.
-/// min - Returns the minimum value in the tensor.    
-/// max - Returns the maximum value in the tensor.
-/// stride - Computes the stride of each dimension in the tensor.
+/// new - Returns a new tensor with the given shape and data.
+/// reshape - Returns a new tensor with the specified target shape and the same data as the input tensor.
+/// flatten - Flattens the input tensor into a 2D tensor.
+/// transpose - Returns a new tensor with the axes rearranged according to the given permutation.
+/// at - Retrieves the value at the specified indices of a Tensor.
 /// ravel_index - Converts a multi-dimensional index to a one-dimensional index.
 /// unravel_index - Converts a one-dimensional index to a multi-dimensional index.
-/// reshape - Returns a new tensor with the specified target shape and the same data. 
-/// transpose - Returns a new tensor with the axes rearranged according to the given array.
-/// reduce_sum - Reduces the tensor by summing along the specified axis.
-/// argmax - Returns the index of the maximum value along the specified axis.  
-/// argmin - Returns the index of the minimum value along the specified axis.
-/// matmul - Performs matrix multiplication. 
-/// exp - Calculates the exponential function (e^x) for each element in a tensor.
-/// ln - Computes the natural log of all elements of the input tensor.
-/// eq - Check if two tensors are equal element-wise.
+/// equal - Check if two tensors are equal element-wise.
 /// greater - Check if each element of the first tensor is greater than the corresponding element of the second tensor.
 /// greater_equal - Check if each element of the first tensor is greater than or equal to the corresponding element of the second tensor.
 /// less - Check if each element of the first tensor is less than the corresponding element of the second tensor.
 /// less_equal - Check if each element of the first tensor is less than or equal to the corresponding element of the second tensor.
+/// or - Computes the logical OR of two tensors element-wise.
+/// xor - Computes the logical XOR of two tensors element-wise.
+/// stride - Computes the stride of each dimension in the tensor.
+/// onehot - Produces one-hot tensor based on input.
+/// min - Returns the minimum value in the tensor.
+/// max - Returns the maximum value in the tensor.
+/// reduce_sum - Reduces a tensor by summing its elements along a specified axis.
+/// argmax - Returns the index of the maximum value along the specified axis.
+/// argmin - Returns the index of the minimum value along the specified axis.
+/// cumsum - Performs cumulative sum of the input elements along the given axis.
+/// matmul - Performs matrix product of two tensors.
+/// exp - Computes the exponential of all elements of the input tensor.
+/// log - Computes the natural log of all elements of the input tensor.
 /// abs - Computes the absolute value of all elements in the input tensor.
 /// ceil - Rounds up the value of each element in the input tensor.
-/// cumsum - Returns the cumulative sum of the elements along a given axis.
-/// sin - Computes the sine value of each element in the input tensor.
-/// cos - Computes the cosine value of each element in the input tensor.
-/// asin - Returns the arcsine (inverse of sine) value of each element in the input tensor.
-/// flatten - Flattens the input tensor into a 2D tensor.
-/// acosh - Computes the inverse hyperbolic cosine of all elements of the input tensor.
-/// asinh - Computes the inverse hyperbolic sine of all elements of the input tensor.
-/// cosh - Computes the hyperbolic cosine of all elements of the input tensor.
-/// tanh - Computes the hyperbolic tangent of all elements of the input tensor.
+/// sqrt - Computes the square root of all elements of the input tensor.
+/// sin - Computes the sine of all elements of the input tensor.
+/// cos - Computes the cosine of all elements of the input tensor.
+/// atan - Computes the arctangent (inverse of tangent) of all elements of the input tensor.
+/// asin - Computes the arcsine (inverse of sine) of all elements of the input tensor.
+/// acos - Computes the arccosine (inverse of cosine) of all elements of the input tensor.
 /// sinh - Computes the hyperbolic sine of all elements of the input tensor.
-/// atan - Computes the arctangent (inverse of tangent) of the input tensor.
+/// tanh - Computes the hyperbolic tangent of all elements of the input tensor.
+/// cosh - Computes the hyperbolic cosine of all elements of the input tensor.
+/// asinh - Computes the inverse hyperbolic sine of all elements of the input tensor.
+/// acosh - Computes the inverse hyperbolic cosine of all elements of the input tensor.
 /// 
 trait TensorTrait<T> {
     /// # tensor.new
@@ -99,62 +104,40 @@ trait TensorTrait<T> {
     /// Let's create new u32 Tensors.
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// // 1D TENSOR
     /// fn tensor_1D() -> Tensor<u32> {
-    ///     let mut shape = ArrayTrait::new();
-    ///     shape.append(3);
-    /// 		
-    ///     let mut data = ArrayTrait::new();
-    ///     data.append(0);
-    ///     data.append(1);
-    ///     data.append(2);
-    ///
-    ///     let extra = Option::<ExtraParams>::None(());
-    /// 		
-    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
-    /// 		
+    ///     let tensor = TensorTrait::new(
+    ///         shape: array![3].span(),
+    ///         data: array![0, 1, 2].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     return tensor;
     /// }
     /// 
     /// // 2D TENSOR
     /// fn tensor_2D() -> Tensor<u32> {
-    ///     let mut shape = ArrayTrait::new();
-    ///     shape.append(2);
-    ///     shape.append(2);
-    /// 
-    ///     let mut data = ArrayTrait::new();
-    ///     data.append(0);
-    ///     data.append(1);
-    ///     data.append(2);
-    ///     data.append(3);
-    /// 
-    ///     let extra = Option::<ExtraParams>::None(());
-    ///
-    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
+    ///     let tensor = TensorTrait::new(
+    ///         shape: array![2, 2].span(), 
+    ///         data: array![0, 1, 2, 3].span(), 
+    ///         extra: Option::None(())
+    ///     );
     /// 
     ///     return tensor;
     /// }
     /// 
     /// // 3D TENSOR
     /// fn tensor_3D() -> Tensor<u32> {
-    ///     let mut shape = ArrayTrait::new();
-    ///     shape.append(2);
-    ///     shape.append(2);
-    ///     shape.append(2);
-    /// 
-    ///     let mut data = ArrayTrait::new();
-    ///     data.append(0);
-    ///     data.append(1);
-    ///     data.append(2);
-    ///     data.append(3);
-    ///     data.append(4);
-    ///     data.append(5);
-    ///     data.append(6);
-    ///     data.append(7);
-    ///
-    ///     let extra = Option::<ExtraParams>::None(());
-    ///
-    ///     let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
+    ///     let tensor = TensorTrait::new(
+    ///         shape: array![2, 2, 2].span(), 
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(), 
+    ///         extra: Option::None(())
+    ///     );
     /// 
     ///     return tensor;
     /// }
@@ -185,19 +168,23 @@ trait TensorTrait<T> {
     /// # Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
+    /// 
     /// fn at_example() -> u32 {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    ///     
-    ///     // We set indices to access element of the Tensor.
-    ///     let mut indices = ArrayTrait::new();
-    ///     indices.append(0);
-    ///     indices.append(1);
-    ///     indices.append(1);
-    /// 		
+    ///     let tensor = TensorTrait::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `at` function as follows.
-    ///     return tensor.at(indices.span());
+    ///     return tensor.at(
+    ///         indices: array![0, 1, 1].span()
+    ///     );
     /// }
     /// >>> 3
     /// ```
@@ -222,11 +209,19 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
+    /// 
     /// fn min_example() -> u32 {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    /// 		
+    ///     let tensor = TensorTrait::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `min` function as follows.
     ///     return tensor.min();
     /// }
@@ -253,11 +248,19 @@ trait TensorTrait<T> {
     /// Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
+    /// 
     /// fn max_example() -> u32 {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    /// 		
+    ///     let tensor = TensorTrait::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `max` function as follows.
     ///     return tensor.max();
     /// }
@@ -283,11 +286,19 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
+    /// 
     /// fn stride_example() -> Span<usize> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    /// 		
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `stride` function as follows.
     ///     return tensor.stride();
     /// }
@@ -319,19 +330,23 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
+    /// 
     /// fn ravel_index_example() -> usize {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    ///     
-    ///     // We set the indices of the Tensor to ravel.
-    ///     let mut indices = ArrayTrait::new();
-    ///     indices.append(1);
-    ///     indices.append(3);
-    ///     indices.append(0);
-    /// 		
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `ravel_index` function as follows.
-    ///     return tensor.ravel_index(indices.span());
+    ///     return tensor.ravel_index(
+    ///         indices: array![1, 3, 0].span()
+    ///     );
     /// }
     /// >>> 10 
     /// // This means that the value of indices [1,3,0] 
@@ -363,11 +378,19 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
+    /// 
     /// fn unravel_index_example() -> Span<usize> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    /// 		
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `unravel_index` function as follows.
     ///     return tensor.unravel_index(3);
     /// }
@@ -401,18 +424,23 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
+    /// 
     /// fn reshape_tensor_example() -> Tensor<u32> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    ///     
-    ///     // We set the target shape.
-    ///     let mut new_shape = ArrayTrait::new();
-    ///     new_shape.append(2);
-    ///     new_shape.append(4);
-    /// 		
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `reshape` function as follows.
-    ///     return tensor.reshape(new_shape.span());
+    ///     return tensor.reshape(
+    ///         target_shape: array![2,4].span()
+    ///     );
     /// }
     /// >>> [[0,1,2,3], [4,5,6,7]]
     /// ```
@@ -442,19 +470,23 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// fn transpose_tensor_example() -> Tensor<u32> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
+    /// use array::{ArrayTrait, SpanTrait};
     /// 
-    ///     // We set the axes to be transposed.
-    ///     let mut axes = ArrayTrait::new();
-    ///     axes.append(1);
-    ///     axes.append(2);
-    ///     axes.append(0);
-    /// 		
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
+    /// 
+    /// fn transpose_tensor_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `transpose` function as follows.
-    ///     return tensor.transpose(axes.span());
+    ///     return tensor.transpose(
+    ///         axes: array![1, 2, 0].span()
+    ///     );
     /// }
     /// >>> [[[0,4],[1,5]],[[2,6],[3,7]]]
     /// ```
@@ -485,13 +517,24 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
+    /// 
     /// fn reduce_sum_example() -> Tensor<u32> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    /// 		
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `reduce_sum` function as follows.
-    ///     return tensor.reduce_sum(0, false);
+    ///     return tensor.reduce_sum(
+    ///         axis: 0,
+    ///         keepdims: false
+    ///     );
     /// }
     /// >>> [[4,6],[8,10]]
     /// ```
@@ -525,27 +568,48 @@ trait TensorTrait<T> {
     /// Case 1: argmax with default parameters
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn argmax_example() -> Tensor<usize> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,4],[5,5]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    /// 		
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `argmax` function as follows.
-    ///     return tensor.argmax(2,Option::None(()),Option::None(()));
+    ///     return tensor.argmax(
+    ///         axis: 2,
+    ///         keepdims: Option::None(()),
+    ///         select_last_index: Option::None(())
+    ///     );
     /// }
     /// >>> [[[1,1],[0,0]]]
-    ///
     /// ```
     /// Case 2: argmax with keepdims set to false
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn argmax_example() -> Tensor<usize> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,4],[5,5]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    ///
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `argmax` function as follows.
-    ///     return tensor.argmax(2,Option::Some(false),Option::None(()));
+    ///     return tensor.argmax(
+    ///         axis: 2,
+    ///         keepdims: Option::Some(false),
+    ///         select_last_index: Option::None(())
+    ///     );
     /// }
     /// >>> [[1,1],[0,0]]
     /// ```
@@ -553,13 +617,24 @@ trait TensorTrait<T> {
     /// Case 3: argmax with select_last_index set to true
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn argmax_example() -> Tensor<usize> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,4],[5,5]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    ///
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `argmax` function as follows.
-    ///     return tensor.argmax(2,Option::None(()),Option::Some(true));
+    ///     return tensor.argmax(
+    ///         axis: 2,
+    ///         keepdims: Option::None(()),
+    ///         select_last_index: Option::Some(true)
+    ///     );
     /// }
     /// >>> [[[1,1],[1,1]]]
     /// ```
@@ -595,13 +670,24 @@ trait TensorTrait<T> {
     /// Case 1: argmin with default parameters
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn argmin_example() -> Tensor<usize> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,4],[5,5]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    /// 		
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `argmin` function as follows.
-    ///     return tensor.argmin(2,Option::None(()),Option::None(()));
+    ///     return tensor.argmin(
+    ///         axis: 2,
+    ///         keepdims: Option::None(()),
+    ///         select_last_index: Option::None(())
+    ///     );
     /// }
     /// >>> [[[0,0],[0,0]]]
     ///
@@ -609,13 +695,24 @@ trait TensorTrait<T> {
     /// Case 2: argmin with keepdims set to false
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn argmin_example() -> Tensor<usize> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,4],[5,5]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    ///
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `argmin` function as follows.
-    ///     return tensor.argmin(2,Option::Some(false),Option::None(()));
+    ///     return tensor.argmin(
+    ///         axis: 2,
+    ///         keepdims: Option::Some(false),
+    ///         select_last_index: Option::None(())
+    ///     );
     /// }
     /// >>> [[0,0],[0,0]]
     /// ```
@@ -623,13 +720,24 @@ trait TensorTrait<T> {
     /// Case 3: argmin with select_last_index set to true
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn argmin_example() -> Tensor<usize> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,4],[5,5]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    ///
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `argmin` function as follows.
-    ///     return tensor.argmin(2,Option::None(()),Option::Some(true));
+    ///     return tensor.argmin(
+    ///         axis: 2,
+    ///         keepdims: Option::None(()),
+    ///         select_last_index: Option::None(true)
+    ///     );
     /// }
     /// >>> [[[0,0],[1,1]]]
     /// ```
@@ -668,15 +776,26 @@ trait TensorTrait<T> {
     /// Case 1: Dot product of two vectors (1D \* 1D)
     /// 
     /// ```rust
-    /// fn dot_product_example() -> Tensor<u32> {
-    ///   // We instantiate two 1D Tensor here.
-    ///   // tensor_1 = [0,1,2]
-    ///   // tensor_2 = [0,1,2]
-    ///   let tensor_1 = u32_tensor_1x3_helper();
-    ///   let tensor_2 = u32_tensor_1x3_helper();		
-    /// 		
-    ///   // We can call `matmul` function as follows.
-    ///   return tensor_1.matmul(@tensor_2);
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
+    /// fn dot_product_example() -> Tensor<usize> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![0, 1, 2].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![0, 1, 2].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     // We can call `matmul` function as follows.
+    ///     return tensor_1.matmul(@tensor_2);
     /// }
     /// >>> [5]
     /// ```
@@ -684,29 +803,51 @@ trait TensorTrait<T> {
     /// Case 2: Matrix multiplication (2D \* 2D)
     /// 
     /// ```rust
-    /// fn matrix_mul_example() -> Tensor<u32> {
-    ///     // We instantiate two 2D Tensor here.
-    ///     // tensor_1 = [0,1,2]
-    ///     // tensor_2 = [0,1,2]
-    ///     let tensor_1 = u32_tensor_2x2_helper();		
-    ///     let tensor_2 = u32_tensor_2x2_helper();
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
+    /// fn matrix_mul_example() -> Tensor<usize> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![244, 99, 109, 162].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![151, 68, 121, 170].span(),
+    ///         extra: Option::None(())
+    ///     );
     /// 
     ///     // We can call `matmul` function as follows.
     ///     return tensor_1.matmul(@tensor_2);
     /// }
-    /// >>> [[2,3],[6,11]]
+    /// >>> [[48823, 33422],[36061, 34952]]
     /// ```
     /// 
     /// Case 3: Matrix-Vector multiplication (2D x 1D)
     /// 
     /// ```rust
-    /// fn matrix_vec_mul_example() -> Tensor<u32> {
-    ///     // We instantiate two 2D Tensor here.
-    ///     // tensor_1 = [[0,1,2],[3,4,5],[6,7,8]]
-    ///     // tensor_2 = [0,1,2]
-    ///     let tensor_1 = u32_tensor_3x3_helper();
-    ///     let tensor_2 = u32_tensor_1x3_helper();
-    /// 		
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
+    /// fn matrix_vec_mul_example() -> Tensor<usize> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![0, 1, 2].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     // We can call `matmul` function as follows.
     ///     return tensor_1.matmul(@tensor_2);
     /// }
@@ -736,11 +877,20 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn exp_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 2D Tensor here.
-    ///     // [[0,1],[2,3]]
-    ///     let tensor = u32_tensor_2x2_helper();
-    /// 		
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![0, 1, 2, 3].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
     ///     // We can call `exp` function as follows.
     ///     return tensor.exp();
     /// }
@@ -750,15 +900,15 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
-    /// # tensor.ln
+    /// # tensor.log
     ///
     /// ```rust 
-    ///     fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
+    ///     fn log(self: @Tensor<T>) -> Tensor<FixedType>;
     /// ```
     ///
     /// Computes the natural log of all elements of the input tensor.
     /// $$
-    /// y_i=ln({x_i})
+    /// y_i=log({x_i})
     /// $$
     ///
     /// ## Args
@@ -772,33 +922,33 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// fn ln_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 1D Tensor here.
-    ///     // [[1,2,3,100]]
-    ///     let mut sizes = ArrayTrait::new();
-    ///     sizes.append(4);
+    /// use array::{ArrayTrait, SpanTrait};
     /// 
-    ///     let mut data = ArrayTrait::new();
-    ///     data.append(IntegerTrait::new(1, false));
-    ///     data.append(IntegerTrait::new(2, false));
-    ///     data.append(IntegerTrait::new(3, false));
-    ///     data.append(IntegerTrait::new(100, false));
-    ///     let extra = Option::<ExtraParams>::None(());
-    ///     let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra)
-    /// 		
-    ///     // We can call `ln` function as follows.
-    ///     return tensor.ln();
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
+    /// fn log_example() -> Tensor<FixedType> {
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![1, 2, 3, 100].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
+    ///     // We can call `log` function as follows.
+    ///     return tensor.log();
     /// }
     /// >>> [[0, 5814538, 9215825, 38630966]]
     /// // The fixed point representation of
     /// /// [[0, 0.693147, 1.098612, 4.605170]]
     /// ```
     ///
-    fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
-    /// #tensor.eq
+    fn log(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// #tensor.equal
     ///
     /// ```rust
-    ///     fn eq(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// ```
     ///
     /// Check if two tensors are equal element-wise.
@@ -824,14 +974,26 @@ trait TensorTrait<T> {
     /// Case 1: Compare tensors with same shape
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn eq_example() -> Tensor<usize> {
-    ///     // We instantiate two 3D Tensor here.
-    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
-    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
-    ///     let tensor_y = u32_tensor_2x2x2_helper();
-    ///     let tensor_z = u32_tensor_2x2x2_helper();
-    ///     let result = tensor_y.eq(@tensor_z);
-    ///     return result;
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0,1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 9, 1, 5].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     // We can call `equal` function as follows.
+    ///     return tensor_1.equal(@tensor_2);
     /// }
     /// >>> [1,1,1,1,1,0,0,0]
     /// ```
@@ -839,20 +1001,31 @@ trait TensorTrait<T> {
     /// Case 2: Compare tensors with different shapes
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn eq_example() -> Tensor<usize> {
-    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
-    ///     // tensor_z = [[0,1,2]]       
-    ///     let tensor_y = u32_tensor_3x3_helper();
-    ///     let tensor_z = u32_tensor_3x1_helper();
-    ///     let result = tensor_y.eq(@tensor_z);
-    ///     // We could equally do something like:
-    ///     // let result = tensor_z.eq(@tensor_y);
-    ///     return result;
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0,1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![0, 1, 2].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     // We can call `equal` function as follows.
+    ///     return tensor_1.equal(@tensor_2);
     /// }
     /// >>> [1,1,1,0,0,0,0,0,0]
     /// ```
     ///
-    fn eq(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// #tensor.greater
     ///
     /// ```rust
@@ -882,14 +1055,26 @@ trait TensorTrait<T> {
     /// Case 1: Compare tensors with same shape
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn greater_example() -> Tensor<usize> {
-    ///     // We instantiate two 3D Tensor here.
-    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
-    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
-    ///     let tensor_y = u32_tensor_2x2x2_helper();
-    ///     let tensor_z = u32_tensor_2x2x2_helper();
-    ///     let result = tensor_y.greater(@tensor_z);
-    ///     return result;
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0,1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 9, 1, 5].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     // We can call `greater` function as follows.
+    ///     return tensor_1.greater(@tensor_2);
     /// }
     /// >>> [0,0,0,0,0,0,0,1,1]
     /// ```
@@ -897,15 +1082,26 @@ trait TensorTrait<T> {
     /// Case 2: Compare tensors with different shapes
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn greater_example() -> Tensor<usize> {
-    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
-    ///     // tensor_z = [[0,1,2]]
-    ///     let tensor_y = u32_tensor_3x3_helper();
-    ///     let tensor_z = u32_tensor_3x1_helper();
-    ///     let result = tensor_y.greater(@tensor_z);
-    ///     // We could equally do something like:
-    ///     // let result = tensor_z.greater(@tensor_y);
-    ///     return result;
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0,1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![0, 1, 2].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     // We can call `greater` function as follows.
+    ///     return tensor_1.greater(@tensor_2);
     /// }
     /// >>> [0,0,0,1,1,1,1,1,1]
     /// ```
@@ -940,14 +1136,26 @@ trait TensorTrait<T> {
     /// Case 1: Compare tensors with same shape
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn greater_equal_example() -> Tensor<usize> {
-    ///     // We instantiate two 3D Tensor here.
-    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
-    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
-    ///     let tensor_y = u32_tensor_2x2x2_helper();
-    ///     let tensor_z = u32_tensor_2x2x2_helper();
-    ///     let result = tensor_y.greater_equal(@tensor_z);
-    ///     return result;
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0,1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 9, 1, 5].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     // We can call `greater_equal` function as follows.
+    ///     return tensor_1.greater_equal(@tensor_2);
     /// }
     /// >>> [1,1,1,1,1,1,0,1,1]
     /// ```
@@ -955,15 +1163,26 @@ trait TensorTrait<T> {
     /// Case 2: Compare tensors with different shapes
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn greater_equal_example() -> Tensor<usize> {
-    ///     // tensor_y = [[0,1,2],[3,4,5],[0,0,0]]
-    ///     // tensor_z = [[0,1,2]]
-    ///     let tensor_y = u32_tensor_3x3_helper();
-    ///     let tensor_z = u32_tensor_3x1_helper();
-    ///     let result = tensor_y.greater_equal(@tensor_z);
-    ///     // We could equally do something like:
-    ///     // let result = tensor_z.greater_equal(@tensor_y);
-    ///     return result;
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0,1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![0, 1, 2].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     // We can call `greater_equal` function as follows.
+    ///     return tensor_1.greater_equal(@tensor_2);
     /// }
     /// >>> [1,1,1,1,1,1,0,0,0]
     /// ```
@@ -998,14 +1217,26 @@ trait TensorTrait<T> {
     /// Case 1: Compare tensors with same shape
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn less_example() -> Tensor<usize> {
-    ///     // We instantiate two 3D Tensor here.
-    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
-    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
-    ///     let tensor_y = u32_tensor_2x2x2_helper();
-    ///     let tensor_z = u32_tensor_2x2x2_helper();
-    ///     let result = tensor_y.less(@tensor_z);
-    ///     return result;
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0,1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 9, 1, 5].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     // We can call `less` function as follows.
+    ///     return tensor_1.less(@tensor_2);
     /// }
     /// >>> [0,0,0,0,0,0,1,0,0]
     /// ```
@@ -1013,15 +1244,26 @@ trait TensorTrait<T> {
     /// Case 2: Compare tensors with different shapes
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn less_example() -> Tensor<usize> {
-    ///     // tensor_y = [[0,1,2],[3,4,5],[0,0,0]]
-    ///     // tensor_z = [[0,1,2]]       
-    ///     let tensor_y = u32_tensor_3x3_helper();
-    ///     let tensor_z = u32_tensor_3x1_helper();
-    ///     let result = tensor_y.less(@tensor_z);
-    ///     // We could equally do something like:
-    ///     // let result = tensor_z.less(@tensor_y);
-    ///     return result;
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0,1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![0, 1, 2].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     // We can call `less` function as follows.
+    ///     return tensor_1.less(@tensor_2);
     /// }
     /// >>> [0,0,0,0,0,0,0,1,1]
     /// ```
@@ -1056,14 +1298,26 @@ trait TensorTrait<T> {
     /// Case 1: Compare tensors with same shape
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn less_equal_example() -> Tensor<usize> {
-    ///     // We instantiate two 3D Tensor here.
-    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
-    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
-    ///     let tensor_y = u32_tensor_2x2x2_helper();
-    ///     let tensor_z = u32_tensor_2x2x2_helper();
-    ///     let result = tensor_y.less_equal(@tensor_z);
-    ///     return result;
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0,1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 9, 1, 5].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     // We can call `less_equal` function as follows.
+    ///     return tensor_1.less_equal(@tensor_2);
     /// }
     /// >>> [1,1,1,1,1,1,1,0,0]
     /// ```
@@ -1071,15 +1325,26 @@ trait TensorTrait<T> {
     /// Case 2: Compare tensors with different shapes
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// 
     /// fn less_equal_example() -> Tensor<usize> {
-    ///     // tensor_y = [[0,1,2],[3,4,5],[0,0,0]]
-    ///     // tensor_z = [[0,1,2]]       
-    ///     let tensor_y = u32_tensor_3x3_helper();
-    ///     let tensor_z = u32_tensor_3x1_helper();
-    ///     let result = tensor_y.less_equal(@tensor_z);
-    ///     // We could equally do something like:
-    ///     // let result = tensor_z.less_equal(@tensor_y);
-    ///     return result;
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3, 3].span(),
+    ///         data: array![0,1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![0, 1, 2].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     // We can call `less_equal` function as follows.
+    ///     return tensor_1.less_equal(@tensor_2);
     /// }
     /// >>> [1,1,1,0,0,0,1,1,1]
     /// ```
@@ -1106,14 +1371,26 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
+    /// use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
+    /// 
     /// fn abs_example() -> Tensor<i32> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // tensor = [[0,-1,2],[-3,4,5],[-6,7,-8]]
-    ///     let tensor = i32_tensor_3x3x3_helper();
-    ///     let result = tensor.abs();
-    ///     return result;
+    ///     let tensor = TensorTrait::<i32>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(1, true), 
+    ///             IntegerTrait::new(2, true), 
+    ///             IntegerTrait::new(3, false)
+    ///         ].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     return tensor.abs();
     /// }
-    /// >>> [0,1,2,3,4,5,6,7,8]
+    /// >>> [1, 2, 3]
     /// ```
     ///
     fn abs(self: @Tensor<T>) -> Tensor<T>;
@@ -1138,14 +1415,28 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+    /// 
     /// fn ceil_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // tensor = [[0,0.003576,11.9999947548,-11.9999947548]]
-    ///     let tensor = fp8x23_tensor_1x4_helper();
-    ///     let result = tensor.ceil();
-    ///     return result;
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<FixedType>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![
+    ///             FixedTrait::new(29998, false), // 0.003576
+    ///             FixedTrait::new(100663252, false), // 11.9999947548
+    ///             FixedTrait::new(100663252, true) // -11.9999947548
+    ///         ].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
+    ///     return tensor.ceil();
     /// }
-    /// >>> [0,1,12,-11]
+    /// >>> [1,12,-11]
     /// ```
     ///
     fn ceil(self: @Tensor<T>) -> Tensor<T>;
@@ -1170,12 +1461,27 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+    /// 
     /// fn sin_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 1D Tensor here.
-    ///     // tensor = [[0, 1, 2,]]
-    ///     let tensor = fp8x23_tensor_1x3_helper();
-    ///     let result = tensor.sin();
-    ///     return result;
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<FixedType>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![
+    ///             FixedTrait::new_unscaled(0, false),
+    ///             FixedTrait::new_unscaled(1, false),
+    ///             FixedTrait::new_unscaled(2, false)
+    ///         ]
+    ///             .span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
+    ///     return tensor.sin();
     /// }
     /// >>> [0,7058770,7627740]
     /// // The fixed point representation of
@@ -1204,12 +1510,27 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+    /// 
     /// fn cos_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 1D Tensor here.
-    ///     // tensor = [[0, 1, 2,]]
-    ///     let tensor = fp8x23_tensor_1x3_helper();
-    ///     let result = tensor.cos();
-    ///     return result;
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<FixedType>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![
+    ///             FixedTrait::new_unscaled(0, false),
+    ///             FixedTrait::new_unscaled(1, false),
+    ///             FixedTrait::new_unscaled(2, false)
+    ///         ]
+    ///             .span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
+    ///     return tensor.cos();
     /// }
     /// >>> [8388608,4532384,-3490893]
     /// // The fixed point representation of
@@ -1245,13 +1566,24 @@ trait TensorTrait<T> {
     /// Case 1: cumsum with default parameters
     ///
     /// ```rust
-    /// fn cumsum_example() -> Tensor<usize> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    /// 		
-    ///     // We can call `cumsum` function as follows.
-    ///     return tensor.cumsum(2,Option::None(()),Option::None(()));
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// 
+    /// fn cumsum_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     return tensor.cumsum(
+    ///         axis: 2,
+    ///         exclusive: Option::None(()),
+    ///         reverse: Option::None(())
+    ///     );
     /// }
     /// >>> [[[0,1],[2,5]],[[4,9],[6,13]]]
     /// ```
@@ -1259,13 +1591,24 @@ trait TensorTrait<T> {
     /// Case 2: cumsum with exclusive = true
     ///
     /// ```rust
-    /// fn cumsum_example() -> Tensor<usize> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    /// 		
-    ///     // We can call `cumsum` function as follows.
-    ///     return tensor.cumsum(2,Option::Some(true),Option::None(()));
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// 
+    /// fn cumsum_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     return tensor.cumsum(
+    ///         axis: 2,
+    ///         exclusive: Option::Some(true),
+    ///         reverse: Option::None(())
+    ///     );
     /// }
     /// >>> [[[0,0],[0,2]],[[0,4],[0,6]]]
     /// ```
@@ -1273,13 +1616,24 @@ trait TensorTrait<T> {
     /// Case 3: cumsum with exclusive = true and reverse = true
     ///
     /// ```rust
-    /// fn cumsum_example() -> Tensor<usize> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    /// 		
-    ///     // We can call `cumsum` function as follows.
-    ///     return tensor.cumsum(2,Option::Some(true),Option::Some(true));
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// 
+    /// fn cumsum_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     return tensor.cumsum(
+    ///         axis: 2,
+    ///         exclusive: Option::Some(true),
+    ///         reverse: Option::Some(true)
+    ///     );
     /// }
     /// >>> [[[1,0],[3,0]],[[5,0],[7,0]]]
     /// ```
@@ -1315,12 +1669,19 @@ trait TensorTrait<T> {
     /// Case 1: flatten with axis 0
     ///
     /// ```rust
-    /// fn flatten_example() -> Tensor<usize> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    /// 		
-    ///     // We can call `flatten` function as follows.
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// 
+    /// fn flatten_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     return tensor.flatten(0); // equivalent to tensor.reshape(1,8)
     /// }
     /// >>> [[0,1,2,5,4,9,6,13]]
@@ -1329,12 +1690,19 @@ trait TensorTrait<T> {
     /// Case 2: flatten with axis 1
     ///
     /// ```rust
-    /// fn flatten_example() -> Tensor<usize> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    ///
-    ///     // We can call `flatten` function as follows.
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// 
+    /// fn flatten_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     return tensor.flatten(1); // equivalent to tensor.reshape(2,4)
     /// }
     /// >>> [[0,1,2,3],[4,5,6,7]]
@@ -1343,12 +1711,19 @@ trait TensorTrait<T> {
     /// Case 3: flatten with axis 2
     ///
     /// ```rust
-    /// fn flatten_example() -> Tensor<usize> {
-    ///     // We instantiate a 3D Tensor here.
-    ///     // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    ///     let tensor = u32_tensor_2x2x2_helper();
-    ///
-    ///     // We can call `flatten` function as follows.
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// 
+    /// fn flatten_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
     ///     return tensor.flatten(2); // equivalent to tensor.reshape(4,2)
     /// }
     /// >>> [[0,1],[2,3],[4,5],[6,7]]
@@ -1377,13 +1752,27 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+    /// 
     /// fn sinh_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 2D Tensor here.
-    ///     // [[0,1],[2,3]]
-    ///     let tensor = u32_tensor_2x2_helper();
-    /// 		
-    ///     // We can call `sinh` function as follows.
-    ///     return tensor.sinh();
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<FixedType>::new(
+    ///         shape: array![2,2].span(),
+    ///         data: array![
+    ///             FixedTrait::new_unscaled(0, false),
+    ///             FixedTrait::new_unscaled(1, false),
+    ///             FixedTrait::new_unscaled(2, false),
+    ///             FixedTrait::new_unscaled(3, false)
+    ///         ].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
+    ///    return tensor.sinh();
     /// }
     /// >>> [[0,9858303],[30424311,84036026]]
     /// // The fixed point representation of
@@ -1413,13 +1802,27 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+    /// 
     /// fn tanh_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 2D Tensor here.
-    ///     // [[0,1],[2,3]]
-    ///     let tensor = u32_tensor_2x2_helper();
-    /// 		
-    ///     // We can call `tanh` function as follows.
-    ///     return tensor.tanh();
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<FixedType>::new(
+    ///         shape: array![2,2].span(),
+    ///         data: array![
+    ///             FixedTrait::new_unscaled(0, false),
+    ///             FixedTrait::new_unscaled(1, false),
+    ///             FixedTrait::new_unscaled(2, false),
+    ///             FixedTrait::new_unscaled(3, false)
+    ///         ].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
+    ///    return tensor.tanh();
     /// }
     /// >>> [[0,6388715],[8086850,8347125]]
     /// // The fixed point representation of
@@ -1449,17 +1852,31 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+    /// 
     /// fn cosh_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 2D Tensor here.
-    ///     // [[0,1],[2,3]]
-    ///     let tensor = u32_tensor_2x2_helper();
-    /// 		
-    ///     // We can call `cosh` function as follows.
-    ///     return tensor.cosh();
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<FixedType>::new(
+    ///         shape: array![2,2].span(),
+    ///         data: array![
+    ///             FixedTrait::new_unscaled(0, false),
+    ///             FixedTrait::new_unscaled(1, false),
+    ///             FixedTrait::new_unscaled(2, false),
+    ///             FixedTrait::new_unscaled(3, false)
+    ///         ].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
+    ///    return tensor.cosh();
     /// }
-    /// >>> [[9858303,12944299],[31559585,84453670]]
+    /// >>> [[8388608,12944299],[31559585,84453670]]
     /// // The fixed point representation of
-    /// // [[0, 1.54308],[3.762196, 10.067662]]
+    /// // [[, 1.54308],[3.762196, 10.067662]]
     /// ```
     ///
     fn cosh(self: @Tensor<T>) -> Tensor<FixedType>;
@@ -1485,13 +1902,27 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+    /// 
     /// fn asinh_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 2D Tensor here.
-    ///     // [[0,1],[2,3]]
-    ///     let tensor = u32_tensor_2x2_helper();
-    /// 		
-    ///     // We can call `asinh` function as follows.
-    ///     return tensor.asinh();
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<FixedType>::new(
+    ///         shape: array![2,2].span(),
+    ///         data: array![
+    ///             FixedTrait::new_unscaled(0, false),
+    ///             FixedTrait::new_unscaled(1, false),
+    ///             FixedTrait::new_unscaled(2, false),
+    ///             FixedTrait::new_unscaled(3, false)
+    ///         ].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
+    ///    return tensor.asinh();
     /// }
     /// >>> [[0,7393498],[12110093,15254235]]
     /// // The fixed point representation of
@@ -1521,13 +1952,27 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+    /// 
     /// fn acosh_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 2D Tensor here.
-    ///     // [[1,2],[3,4]]
-    ///     let tensor = u32_tensor_2x2_helper();
-    /// 		
-    ///     // We can call `acosh` function as follows.
-    ///     return tensor.acosh();
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<FixedType>::new(
+    ///         shape: array![2,2].span(),
+    ///         data: array![
+    ///             FixedTrait::new_unscaled(1, false),
+    ///             FixedTrait::new_unscaled(2, false),
+    ///             FixedTrait::new_unscaled(3, false),
+    ///             FixedTrait::new_unscaled(4, false)
+    ///         ].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
+    ///    return tensor.acosh();
     /// }
     /// >>> [[0,11047444],[14786996,17309365]]
     /// // The fixed point representation of
@@ -1556,14 +2001,28 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+    /// 
     /// fn atan_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 1D Tensor here.
-    ///     // tensor = [0, 1, 2,]
-    ///     let tensor = fp_tensor_1x3_helper();
-    ///     let result = tensor.atan().data;
-    ///     return result;
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<FixedType>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![
+    ///             FixedTrait::new_unscaled(0, false),
+    ///             FixedTrait::new_unscaled(1, false),
+    ///             FixedTrait::new_unscaled(2, false),
+    ///         ].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
+    ///    return tensor.atan();
     /// }
-    /// >>> [0,51471,72558]
+    /// >>> [0,6588397,9287028]
     /// // The fixed point representation of
     /// // [0,0.7853...,1.1071...]
     /// ```
@@ -1590,12 +2049,25 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+    /// 
     /// fn asin_example() -> Tensor<FixedType> {
-    ///     // We instantiate a 1D Tensor here.
-    ///     // tensor = [[0, 1]]
-    ///     let tensor = fp8x23_tensor_1x2_helper();
-    ///     let result = tensor.asin();
-    ///     return result;
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<FixedType>::new(
+    ///         shape: array![2].span(),
+    ///         data: array![
+    ///             FixedTrait::new_unscaled(0, false),
+    ///             FixedTrait::new_unscaled(1, false),
+    ///         ].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
+    ///    return tensor.asin();
     /// }
     /// >>> [0, 13176794]
     /// // The fixed point representation of
@@ -1603,7 +2075,319 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn asin(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// #tensor.or
+    ///
+    /// ```rust
+    ///     fn or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Computes the logical OR of two tensors element-wise.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// 
+    /// fn or_example() -> Tensor<usize> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 9, 1, 5].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     return tensor_1.or(@tensor_2);
+    /// }
+    /// >>> [0,1,1,1,1,1,1,1,1]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// 
+    /// fn or_example() -> Tensor<usize> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![1, 3].span(), 
+    ///         data: array![0, 1, 2].span(), 
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     return tensor_1.or(@tensor_2);
+    /// }
+    /// >>> [0,1,1,1,1,1,1,1,1]
+    /// ```
+    ///
+    fn or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.xor
+    ///
+    /// ```rust
+    ///     fn xor(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Computes the logical XOR of two tensors element-wise.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// 
+    /// fn xor_example() -> Tensor<usize> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 9, 1, 5].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     return tensor_1.xor(@tensor_2);
+    /// }
+    /// >>> [0,0,0,0,0,0,0,0,0]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// 
+    /// fn xor_example() -> Tensor<usize> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(),
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![1, 3].span(), 
+    ///         data: array![0, 1, 2].span(), 
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     return tensor_1.xor(@tensor_2);
+    /// }
+    /// >>> [0,0,0,1,0,0,1,0,0]
+    /// ```
+    ///
+    fn xor(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.acos
+    ///
+    /// ```rust
+    ///     fn acos(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the arccosine (inverse of cosine) of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the arccosine value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+    /// 
+    /// fn acos_example() -> Tensor<FixedType> {
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<FixedType>::new(
+    ///         shape: array![2].span(),
+    ///         data: array![
+    ///             FixedTrait::new_unscaled(0, false),
+    ///             FixedTrait::new_unscaled(1, false),
+    ///         ].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
+    ///    return tensor.acos();
+    /// }
+    /// >>> [13176794, 0]
+    /// // The fixed point representation of
+    /// // [1.5707..., 0]
+    /// ```
+    ///
+    fn acos(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// # tensor.onehot
+    ///
+    /// ```rust 
+    ///    fn onehot(self: @Tensor<T>, depth: usize, axis: Option<usize>, values: Span<usize>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Produces one-hot tensor based on input.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `depth`(`usize`) - Scalar or Rank 1 tensor containing exactly one element, specifying the number of classes in one-hot tensor.
+    /// * `axis`(`Option<bool>`) - Axis along which one-hot representation in added. Default: axis=-1.
+    /// * `values`(`Span<usize>`) - Rank 1 tensor containing exactly two elements, in the format [off_value, on_value]   
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if values is not equal to 2.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` one-hot encode of the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn onehot_example() -> Tensor<FixedType> {
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// 
+    /// fn onehot_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2].span(), 
+    ///         data: array![0, 1, 2, 3].span(), 
+    ///         extra: Option::None(())
+    ///     );
+    /// 
+    ///     return tensor.onehot(
+    ///         depth: 3, 
+    ///         axis: Option::None(()), 
+    ///         values: array![0, 1].span()
+    ///     );
+    /// }
+    /// >>> [[1. 0. 0.]
+    ///      [0. 1. 0.]
+    ///      [0. 0. 1.]]
+    /// ```
+    ///
+    fn onehot(
+        self: @Tensor<T>, depth: usize, axis: Option<usize>, values: Span<usize>
+    ) -> Tensor<T>;
+    /// #tensor.sqrt
+    ///
+    /// ```rust
+    ///     fn sqrt(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the square root of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the arctangent (inverse of tangent) value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+    /// 
+    /// fn sqrt_example() -> Tensor<FixedType> {
+    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     let tensor = TensorTrait::<FixedType>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![
+    ///             FixedTrait::new_unscaled(0, false),
+    ///             FixedTrait::new_unscaled(1, false),
+    ///             FixedTrait::new_unscaled(2, false),
+    ///         ].span(),
+    ///         extra: Option::Some(extra)
+    ///     );
+    /// 
+    ///     return tensor.sqrt();
+    /// }
+    /// >>> [0,8388608,11863169]
+    /// // The fixed point representation of
+    /// // [0,1,1.4142...]
+    /// ```
+    ///    
+    fn sqrt(self: @Tensor<T>) -> Tensor<FixedType>;
 }
+
 
 /// Cf: TensorTrait::new docstring
 fn new_tensor<T>(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T> {
@@ -1697,5 +2481,32 @@ fn at_tensor<T>(self: @Tensor<T>, indices: Span<usize>) -> @T {
     let data = *self.data;
 
     return data.at(ravel_index(*self.shape, indices));
+}
+
+// Return true if two tensor are equal
+fn tensor_eq<T, impl TPartialEq: PartialEq<T>>(mut lhs: Tensor<T>, mut rhs: Tensor<T>, ) -> bool {
+    let mut is_eq = true;
+
+    loop {
+        if lhs.shape.len() == 0 || !is_eq {
+            break;
+        }
+
+        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+    };
+
+    if !is_eq {
+        return false;
+    }
+
+    loop {
+        if lhs.data.len() == 0 || !is_eq {
+            break;
+        }
+
+        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+    };
+
+    return is_eq;
 }
 

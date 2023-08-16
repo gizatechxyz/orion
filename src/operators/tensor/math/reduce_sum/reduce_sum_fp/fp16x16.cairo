@@ -4,7 +4,7 @@ use array::SpanTrait;
 
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16AddEq};
+use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16AddEq};
 
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};

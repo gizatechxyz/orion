@@ -2,9 +2,10 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, MAX, FP16x16PartialOrd};
-use orion::numbers::fixed_point::math::math_16x16::min;
-
+use orion::numbers::fixed_point::implementations::fp16x16::core::{
+    FP16x16Impl, MAX, FP16x16PartialOrd
+};
+use orion::numbers::fixed_point::implementations::fp16x16::math::comp::min;
 
 /// Cf: TensorTrait::min docstring
 fn min_in_tensor(mut vec: Span::<FixedType>) -> FixedType {

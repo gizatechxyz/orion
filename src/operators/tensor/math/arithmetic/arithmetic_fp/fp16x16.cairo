@@ -6,7 +6,7 @@ use traits::{TryInto};
 
 use orion::numbers::signed_integer::i8::i8;
 use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::impl_16x16::{
+use orion::numbers::fixed_point::implementations::fp16x16::core::{
     FP16x16Impl, FP16x16Add, FP16x16Sub, FP16x16Mul, FP16x16Div, FP16x16PartialOrd, FP16x16TryIntoI8
 };
 use orion::operators::tensor::helpers::broadcast_shape;

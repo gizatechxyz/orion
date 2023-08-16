@@ -4,7 +4,7 @@ use option::OptionTrait;
 
 
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-use orion::numbers::fixed_point::implementations::impl_16x16::{
+use orion::numbers::fixed_point::implementations::fp16x16::core::{
     FP16x16Impl, FP16x16Mul, FP16x16AddEq
 };
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};

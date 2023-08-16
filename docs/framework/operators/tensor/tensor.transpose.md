@@ -22,19 +22,23 @@ A `Tensor<T>` instance with the axes reordered according to the given permutatio
 ## Examples
 
 ```rust
-fn transpose_tensor_example() -> Tensor<u32> {
-    // We instantiate a 3D Tensor here.
-    // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    let tensor = u32_tensor_2x2x2_helper();
+use array::{ArrayTrait, SpanTrait};
 
-    // We set the axes to be transposed.
-    let mut axes = ArrayTrait::new();
-    axes.append(1);
-    axes.append(2);
-    axes.append(0);
-		
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+
+
+fn transpose_tensor_example() -> Tensor<u32> {
+    let tensor = TensorTrait::<u32>::new(
+        shape: array![2, 2, 2].span(),
+        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+        extra: Option::None(())
+    );
+
     // We can call `transpose` function as follows.
-    return tensor.transpose(axes.span());
+    return tensor.transpose(
+        axes: array![1, 2, 0].span()
+    );
 }
 >>> [[[0,4],[1,5]],[[2,6],[3,7]]]
 ```

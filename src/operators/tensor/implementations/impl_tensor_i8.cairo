@@ -12,7 +12,7 @@ use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
-    at_tensor
+    at_tensor, tensor_eq
 };
 use orion::operators::tensor::math::min::min_i8::min_in_tensor;
 use orion::operators::tensor::math::max::max_i8::max_in_tensor;
@@ -25,11 +25,10 @@ use orion::operators::tensor::math::greater_equal::greater_equal_i8::greater_equ
 use orion::operators::tensor::math::less::less_i8::less;
 use orion::operators::tensor::math::less_equal::less_equal_i8::less_equal;
 use orion::operators::tensor::math::abs::abs_i8::abs;
-use orion::operators::tensor::math::ceil::ceil_i8::ceil;
 use orion::operators::tensor::linalg::matmul::matmul_i8::matmul;
 use orion::operators::tensor::linalg::transpose::transpose_i8::transpose;
 use orion::operators::tensor::math::exp::exp_i8::core::exp_i8;
-use orion::operators::tensor::math::ln::ln_i8::core::ln_i8;
+use orion::operators::tensor::math::log::log_i8::core::log_i8;
 use orion::operators::tensor::math::arithmetic::arithmetic_i8::{add, sub, mul, div};
 use orion::operators::tensor::math::cumsum::cumsum_i8::cumsum;
 use orion::operators::tensor::math::flatten::flatten_i8::flatten;
@@ -40,9 +39,11 @@ use orion::operators::tensor::math::acosh::acosh_i8::core::acosh_i8;
 use orion::operators::tensor::math::asinh::asinh_i8::core::asinh_i8;
 use orion::operators::tensor::math::sin::sin_i8::core::sin_i8;
 use orion::operators::tensor::math::cos::cos_i8::core::cos_i8;
-use orion::operators::tensor::math::asin::asin_i8::core::asin_i8;
 use orion::operators::tensor::math::atan::atan_i8::core::atan_i8;
-
+use orion::operators::tensor::math::xor::xor_i8::xor;
+use orion::operators::tensor::math::or::or_i8::or;
+use orion::operators::tensor::math::onehot::onehot_i8::onehot;
+use orion::operators::tensor::math::sqrt::sqrt_i8::core::sqrt_i8;
 
 impl Tensor_i8 of TensorTrait<i8> {
     fn new(shape: Span<usize>, data: Span<i8>, extra: Option<ExtraParams>) -> Tensor<i8> {
@@ -105,11 +106,11 @@ impl Tensor_i8 of TensorTrait<i8> {
         exp_i8(self).unwrap()
     }
 
-    fn ln(self: @Tensor<i8>) -> Tensor<FixedType> {
-        ln_i8(self).unwrap()
+    fn log(self: @Tensor<i8>) -> Tensor<FixedType> {
+        log_i8(self).unwrap()
     }
 
-    fn eq(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
+    fn equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         equal(self, other)
     }
 
@@ -134,7 +135,7 @@ impl Tensor_i8 of TensorTrait<i8> {
     }
 
     fn ceil(self: @Tensor<i8>) -> Tensor<i8> {
-        ceil(self)
+        panic(array!['not supported with i8'])
     }
 
     fn sin(self: @Tensor<i8>) -> Tensor<FixedType> {
@@ -146,7 +147,7 @@ impl Tensor_i8 of TensorTrait<i8> {
     }
 
     fn asin(self: @Tensor<i8>) -> Tensor<FixedType> {
-        asin_i8(self).unwrap()
+        panic(array!['not supported with i8'])
     }
 
     fn cumsum(
@@ -181,6 +182,27 @@ impl Tensor_i8 of TensorTrait<i8> {
 
     fn atan(self: @Tensor<i8>) -> Tensor<FixedType> {
         atan_i8(self).unwrap()
+    }
+
+    fn xor(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
+        xor(self, other)
+    }
+
+    fn or(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
+        or(self, other)
+    }
+    fn acos(self: @Tensor<i8>) -> Tensor<FixedType> {
+        panic(array!['not supported with i8'])
+    }
+
+    fn onehot(
+        self: @Tensor<i8>, depth: usize, axis: Option<usize>, values: Span<usize>
+    ) -> Tensor<i8> {
+        onehot(self, depth, axis, values)
+    }
+
+    fn sqrt(self: @Tensor<i8>) -> Tensor<FixedType> {
+        sqrt_i8(self).unwrap()
     }
 }
 
@@ -314,4 +336,15 @@ fn tensor_i8_to_fp16x16(x: @Tensor<i8>) -> Tensor<FixedType> {
     };
 
     return TensorTrait::new(*x.shape, result_data.span(), *x.extra);
+}
+
+/// Implements partial equal for two `Tensor<i8>` using the `PartialEq` trait.
+impl i8TensorPartialEq of PartialEq<Tensor<i8>> {
+    fn eq(lhs: @Tensor<i8>, rhs: @Tensor<i8>) -> bool {
+        tensor_eq(*lhs, *rhs)
+    }
+
+    fn ne(lhs: @Tensor<i8>, rhs: @Tensor<i8>) -> bool {
+        !tensor_eq(*lhs, *rhs)
+    }
 }

@@ -3,7 +3,7 @@ use orion::operators::tensor::core::{Tensor};
 use orion::operators::tensor::math::equal::equal_fp::fp8x23;
 use orion::operators::tensor::math::equal::equal_fp::fp16x16;
 
-/// Cf: TensorTrait::eq docstring
+/// Cf: TensorTrait::equal docstring
 fn equal(y: @Tensor<FixedType>, z: @Tensor<FixedType>) -> Option<Tensor<usize>> {
     match *y.extra {
         Option::Some(extra_params) => match extra_params.fixed_point {

@@ -26,13 +26,24 @@ A new `Tensor<T>` instance containing the cumulative sum of the input tensor's e
 Case 1: cumsum with default parameters
 
 ```rust
-fn cumsum_example() -> Tensor<usize> {
-    // We instantiate a 3D Tensor here.
-    // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    let tensor = u32_tensor_2x2x2_helper();
-		
-    // We can call `cumsum` function as follows.
-    return tensor.cumsum(2,Option::None(()),Option::None(()));
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+
+fn cumsum_example() -> Tensor<u32> {
+    let tensor = TensorTrait::<u32>::new(
+        shape: array![2, 2, 2].span(),
+        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+        extra: Option::None(())
+    );
+
+    return tensor.cumsum(
+        axis: 2,
+        exclusive: Option::None(()),
+        reverse: Option::None(())
+    );
 }
 >>> [[[0,1],[2,5]],[[4,9],[6,13]]]
 ```
@@ -40,13 +51,24 @@ fn cumsum_example() -> Tensor<usize> {
 Case 2: cumsum with exclusive = true
 
 ```rust
-fn cumsum_example() -> Tensor<usize> {
-    // We instantiate a 3D Tensor here.
-    // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    let tensor = u32_tensor_2x2x2_helper();
-		
-    // We can call `cumsum` function as follows.
-    return tensor.cumsum(2,Option::Some(true),Option::None(()));
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+
+fn cumsum_example() -> Tensor<u32> {
+    let tensor = TensorTrait::<u32>::new(
+        shape: array![2, 2, 2].span(),
+        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+        extra: Option::None(())
+    );
+
+    return tensor.cumsum(
+        axis: 2,
+        exclusive: Option::Some(true),
+        reverse: Option::None(())
+    );
 }
 >>> [[[0,0],[0,2]],[[0,4],[0,6]]]
 ```
@@ -54,13 +76,24 @@ fn cumsum_example() -> Tensor<usize> {
 Case 3: cumsum with exclusive = true and reverse = true
 
 ```rust
-fn cumsum_example() -> Tensor<usize> {
-    // We instantiate a 3D Tensor here.
-    // [[[0,1],[2,3]],[[4,5],[6,7]]]
-    let tensor = u32_tensor_2x2x2_helper();
-		
-    // We can call `cumsum` function as follows.
-    return tensor.cumsum(2,Option::Some(true),Option::Some(true));
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+
+fn cumsum_example() -> Tensor<u32> {
+    let tensor = TensorTrait::<u32>::new(
+        shape: array![2, 2, 2].span(),
+        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+        extra: Option::None(())
+    );
+
+    return tensor.cumsum(
+        axis: 2,
+        exclusive: Option::Some(true),
+        reverse: Option::Some(true)
+    );
 }
 >>> [[[1,0],[3,0]],[[5,0],[7,0]]]
 ```

@@ -3,7 +3,7 @@
 In this section, we will guide you to start using Orion successfully. We will help you install Cairo 1.0 and add Orion dependency in your project.
 
 {% hint style="info" %}
-Orion supports <mark style="color:orange;">**Cairo v2.0.0**</mark> and <mark style="color:orange;">**Scarb 0.5.0**</mark>
+Orion supports <mark style="color:orange;">**Cairo v2.1.1**</mark> and <mark style="color:orange;">**Scarb 0.6.2**</mark>
 {% endhint %}
 
 ## 📦 Installations
@@ -56,11 +56,27 @@ scarb build
 You can now use the `orion` in your files:
 
 ```rust
-use orion::operators::nn::nn_i32::NN;
+use array::{ArrayTrait, SpanTrait};
 
-fn relu_example() -> Tensor<u32> {
-    let tensor = u32_tensor_2x2_helper();
-    return NN::relu(@tensor);
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
+use orion::operators::nn::core::NNTrait;
+use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
+
+fn relu_example() -> Tensor<i32> {
+    let tensor = TensorTrait::<i32>::new(
+        shape: array![2, 2].span(),
+        data: array![
+            IntegerTrait::new(1, false),
+            IntegerTrait::new(2, false),
+            IntegerTrait::new(1, true),
+            IntegerTrait::new(2, true),
+        ].span(),
+        extra: Option::None(())
+    );
+
+    return NNTrait::relu(@tensor);
 }
 ```
 

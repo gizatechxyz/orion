@@ -27,7 +27,7 @@
     * [fp.floor](framework/numbers/fixed-point/fp.floor.md)
     * [fp.exp](framework/numbers/fixed-point/fp.exp.md)
     * [fp.exp2](framework/numbers/fixed-point/fp.exp2.md)
-    * [fp.ln](framework/numbers/fixed-point/fp.ln.md)
+    * [fp.log](framework/numbers/fixed-point/fp.log.md)
     * [fp.log2](framework/numbers/fixed-point/fp.log2.md)
     * [fp.log10](framework/numbers/fixed-point/fp.log10.md)
     * [fp.pow](framework/numbers/fixed-point/fp.pow.md)
@@ -51,8 +51,8 @@
     * [tensor.argmin](framework/operators/tensor/tensor.argmin.md)
     * [tensor.matmul](framework/operators/tensor/tensor.matmul.md)
     * [tensor.exp](framework/operators/tensor/tensor.exp.md)
-    * [tensor.ln](framework/operators/tensor/tensor.ln.md)
-    * [tensor.eq](framework/operators/tensor/tensor.eq.md)
+    * [tensor.log](framework/operators/tensor/tensor.log.md)
+    * [tensor.equal](framework/operators/tensor/tensor.equal.md)
     * [tensor.greater](framework/operators/tensor/tensor.greater.md)
     * [tensor.greater\_equal](framework/operators/tensor/tensor.greater\_equal.md)
     * [tensor.less](framework/operators/tensor/tensor.less.md)
@@ -70,6 +70,11 @@
     * [tensor.acosh](framework/operators/tensor/tensor.acosh.md)
     * [tensor.tanh](framework/operators/tensor/tensor.tanh.md)
     * [tensor.atan](framework/operators/tensor/tensor.atan.md)
+    * [tensor.acos](framework/operators/tensor/tensor.acos.md)
+    * [tensor.sqrt](framework/operators/tensor/tensor.sqrt.md)
+    * [tensor.or](framework/operators/tensor/tensor.or.md)
+    * [tensor.xor](framework/operators/tensor/tensor.xor.md)
+    * [tensor.onehot](framework/operators/tensor/tensor.onehot.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)
@@ -88,8 +93,9 @@
 * [Models](hub/algorithms.md)
 * [Spaces](hub/spaces.md)
 
-## 👩🎓 Academy
+## 🧑🎓 Academy
 
 * [Tutorials](academy/tutorials/README.md)
   * [MNIST Classification with Orion](academy/tutorials/mnist-classification-with-orion.md)
   * [Implement new operators in Orion](academy/tutorials/implement-new-operators-in-orion.md)
+  * [Verifiable Linear Regression Model](academy/tutorials/verifiable-linear-regression-model-in-orion.md)

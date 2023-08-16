@@ -1,5 +1,5 @@
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-use orion::numbers::fixed_point::implementations::impl_8x23::{
+use orion::numbers::fixed_point::implementations::fp8x23::core::{
     FP8x23Impl, FP8x23Add, FP8x23Sub, FP8x23AddEq
 };
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
