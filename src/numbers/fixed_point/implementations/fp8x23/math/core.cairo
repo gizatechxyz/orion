@@ -334,7 +334,7 @@ fn test_asin() {
 #[available_gas(2000000)]
 fn test_atan() {
     let a = FixedTrait::new(2 * ONE, false);
-    assert_relative(a.atan(), 9287437, 'invalid two', Option::None(()));
+    assert_relative(a.atan(), 9287469, 'invalid two', Option::None(()));
 }
 
 #[test]
@@ -619,5 +619,5 @@ fn test_sin() {
 #[available_gas(2000000)]
 fn test_tan() {
     let a = FixedTrait::new(HALF_PI / 2, false);
-    assert(a.tan().mag == 8388606, 'invalid quarter pi');
+    assert(a.tan().mag == 8388608, 'invalid quarter pi');
 }
