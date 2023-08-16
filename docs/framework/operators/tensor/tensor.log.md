@@ -20,20 +20,20 @@ Returns a new tensor in `FixedType` with the natural log of the elements of the 
 ## Examples
 
 ```rust
-fn log_example() -> Tensor<FixedType> {
-    // We instantiate a 1D Tensor here.
-    // [[1,2,3,100]]
-    let mut sizes = ArrayTrait::new();
-    sizes.append(4);
+use array::{ArrayTrait, SpanTrait};
 
-    let mut data = ArrayTrait::new();
-    data.append(IntegerTrait::new(1, false));
-    data.append(IntegerTrait::new(2, false));
-    data.append(IntegerTrait::new(3, false));
-    data.append(IntegerTrait::new(100, false));
-    let extra = Option::<ExtraParams>::None(());
-    let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra)
-		
+use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+
+fn log_example() -> Tensor<FixedType> {
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    let tensor = TensorTrait::<u32>::new(
+        shape: array![2, 2].span(),
+        data: array![1, 2, 3, 100].span(),
+        extra: Option::Some(extra)
+    );
+
     // We can call `log` function as follows.
     return tensor.log();
 }

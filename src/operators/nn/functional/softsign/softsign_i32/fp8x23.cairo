@@ -14,14 +14,16 @@ use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8
 fn softsign(z: @Tensor<i32>) -> Tensor<FixedType> {
     let mut data_result = ArrayTrait::new();
     let mut data = *z.data;
-    let fp_one = FixedTrait::new(1, false);
+    let fp_one = FixedTrait::new_unscaled(1, false);
     loop {
         if data.len() == 0 {
             break ();
         };
 
         let current_index = *data.pop_front().unwrap();
-        let fp_current_index = FixedTrait::new(current_index.mag.into(), current_index.sign);
+        let fp_current_index = FixedTrait::new_unscaled(
+            current_index.mag.into(), current_index.sign
+        );
         let result = fp_current_index / (fp_one + fp_current_index.abs());
         data_result.append(result);
     };

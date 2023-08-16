@@ -20,7 +20,7 @@ A new fixed point instance.
 ```rust
 fn from_felt_example() -> FixedType {
     // We can call `from_felt` function as follows . 
-    FixedTrait::from_felt(194615706);
+    FixedTrait::from_felt(190054);
 }
->>> {mag: 194615706, sign: false} // = 2.9
+>>> {mag: 190054, sign: false} // = 2.9
 ```

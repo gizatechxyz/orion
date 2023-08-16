@@ -23,24 +23,53 @@ A `Tensor<T>` representing the result of the linear transformation.
 ## Examples
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
+use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
 
-fn linear_layer_example() -> Tensor<u32> {
+fn linear_example() -> Tensor<i32> {
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+
     // We instantiate inputs here.
-    // inputs = [-71, 38, 62]
-    let inputs = i32_inputs_helper();
+    let inputs = TensorTrait::<i32>::new(
+        shape: array![3].span(),
+        data: array![
+            IntegerTrait::new(71, true), IntegerTrait::new(38, false), IntegerTrait::new(62, false), 
+        ]
+            .span(),
+        extra: Option::Some(extra)
+    );
 
     // We instantiate weights here.
-    // weights = [[-8, 64, 40], [-33, -34, -20]]
-    let weights = i32_weights_helper();
+    let weights = TensorTrait::<i32>::new(
+        shape: array![2, 3].span(),
+        data: array![
+            IntegerTrait::new(8, true),
+            IntegerTrait::new(64, false),
+            IntegerTrait::new(40, false),
+            IntegerTrait::new(33, true),
+            IntegerTrait::new(34, true),
+            IntegerTrait::new(20, true),
+        ].span(),
+        extra: Option::Some(extra)
+    );
 
     // We instantiate bias here.
-    // weights = [61, -71]
-    let weights = u32_bias_helper();
+    let bias = TensorTrait::<i32>::new(
+        shape: array![2].span(),
+        data: array![
+            IntegerTrait::new(61, false),
+            IntegerTrait::new(61, true),
+        ].span(),
+        extra: Option::Some(extra)
+    );
 
-    // We can call `linear` function as follows.
     return NNTrait::linear(inputs, weights, bias);
 }
->>> [5541, -260]
+>>> [5541, -250]
 ````

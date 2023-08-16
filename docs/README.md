@@ -24,7 +24,7 @@ For a detailed list of changes, please refer to the [CHANGELOG](https://github.c
 
 ### 💖 Join the community!
 
-Join the community and help build a safer and transparent AI in our [Discord](https://discord.gg/Kt24CsMb5k)!
+Join the community and help build a safer and transparent AI in our [Discord](https://discord.gg/kvqVYbCpU3)!
 
 ### ✍️ Authors & contributors
 

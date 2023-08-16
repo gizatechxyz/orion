@@ -20,13 +20,27 @@ Returns a new tensor in `FixedType` with the hyperblic cosine of the elements of
 ## Examples
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+
 fn acosh_example() -> Tensor<FixedType> {
-    // We instantiate a 2D Tensor here.
-    // [[1,2],[3,4]]
-    let tensor = u32_tensor_2x2_helper();
-		
-    // We can call `acosh` function as follows.
-    return tensor.acosh();
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    let tensor = TensorTrait::<FixedType>::new(
+        shape: array![2,2].span(),
+        data: array![
+            FixedTrait::new_unscaled(1, false),
+            FixedTrait::new_unscaled(2, false),
+            FixedTrait::new_unscaled(3, false),
+            FixedTrait::new_unscaled(4, false)
+        ].span(),
+        extra: Option::Some(extra)
+    );
+
+   return tensor.acosh();
 }
 >>> [[0,11047444],[14786996,17309365]]
 // The fixed point representation of

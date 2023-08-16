@@ -18,13 +18,16 @@ A fixed point number representing the result of x^y.
 ## Examples
 
 ```rust
+use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
+
 fn pow_fp_example() -> FixedType {
     // We instantiate FixedTrait points here.
-    let a = FixedTrait::from_unscaled_felt(3); 
-    let b = FixedTrait::from_unscaled_felt(4);
-    
+    let a = FixedTrait::new_unscaled(3, false);
+    let b = FixedTrait::new_unscaled(4, false);
+
     // We can call `pow` function as follows.
     a.pow(b)
 }
->>> {mag: 5435817984, sign: false} // = 81
+>>> {mag: 5308416, sign: false} // = 81
 ```

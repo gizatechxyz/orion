@@ -25,62 +25,40 @@ A new `Tensor<T>` instance.
 Let's create new u32 Tensors.
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+
 // 1D TENSOR
 fn tensor_1D() -> Tensor<u32> {
-    let mut shape = ArrayTrait::new();
-    shape.append(3);
-		
-    let mut data = ArrayTrait::new();
-    data.append(0);
-    data.append(1);
-    data.append(2);
+    let tensor = TensorTrait::new(
+        shape: array![3].span(),
+        data: array![0, 1, 2].span(),
+        extra: Option::None(())
+    );
 
-    let extra = Option::<ExtraParams>::None(());
-		
-    let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
-		
     return tensor;
 }
 
 // 2D TENSOR
 fn tensor_2D() -> Tensor<u32> {
-    let mut shape = ArrayTrait::new();
-    shape.append(2);
-    shape.append(2);
-
-    let mut data = ArrayTrait::new();
-    data.append(0);
-    data.append(1);
-    data.append(2);
-    data.append(3);
-
-    let extra = Option::<ExtraParams>::None(());
-
-    let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
+    let tensor = TensorTrait::new(
+        shape: array![2, 2].span(), 
+        data: array![0, 1, 2, 3].span(), 
+        extra: Option::None(())
+    );
 
     return tensor;
 }
 
 // 3D TENSOR
 fn tensor_3D() -> Tensor<u32> {
-    let mut shape = ArrayTrait::new();
-    shape.append(2);
-    shape.append(2);
-    shape.append(2);
-
-    let mut data = ArrayTrait::new();
-    data.append(0);
-    data.append(1);
-    data.append(2);
-    data.append(3);
-    data.append(4);
-    data.append(5);
-    data.append(6);
-    data.append(7);
-
-    let extra = Option::<ExtraParams>::None(());
-
-    let tensor = TensorTrait::<u32>::new(shape.span(), data.span(), extra);
+    let tensor = TensorTrait::new(
+        shape: array![2, 2, 2].span(), 
+        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(), 
+        extra: Option::None(())
+    );
 
     return tensor;
 }
