@@ -1,35 +1,28 @@
-# Verifiable Simple Linear Regression Model
+# Verifiable Linear Regression Model
 
 Orion is an open-source framework explicitly designed for the development of Provable Machine Learning models. It achieves this by providing a new ONNX runtime in Cairo to run STARK-provable ML programs.
 
 The following tutorial will be a short guide on how we can utilise the Orion framework to implement our very first fully Verifiable Linear Regression Model in Cairo.
 
-This will enable us to add an extra layer of transparency to our model, ensuring each inference can be verified as weel as all the steps executed during the model’s construction phase.
+This will enable us to add an extra layer of transparency to our model, ensuring each inference can be verified as well as all the steps executed during the model’s construction phase.
 
-Content overview: 
-1. [Simple Linear Regression with Python:](verifiable-linear-regression-model-tutorial.md#simple-linear-regression-with-python)Our starting point is a basic implementation of Simple Linear Regression model using the Ordinary Least Squares (OLS) method in Python.
-2. [Transitioning to Cairo:](verifiable-linear-regression-model-tutorial.md#transitioning-to-cairo) In the subsequent stage, we will create a new scarb project and replicate our model to Cairo which is a language for creating STARK-provable programs.
-3. [Implementing OLS functions using Orion:](verifiable-linear-regression-model-tutorial.md#implementing-ols-functions-using-orion) To catalyse our development process we will utilise the Orion Framework to construct the OLS functions to build our Verifiable Linear Regression model. 
+Content overview:
+
+1. [Simple Linear Regression with Python:](verifiable-linear-regression-model-in-orion.md#simple-linear-regression-with-python)Our starting point is a basic implementation of Simple Linear Regression model using the Ordinary Least Squares (OLS) method in Python.
+2. [Transitioning to Cairo:](verifiable-linear-regression-model-in-orion.md#transitioning-to-cairo) In the subsequent stage, we will create a new scarb project and replicate our model to Cairo which is a language for creating STARK-provable programs.
+3. [Implementing OLS functions using Orion:](verifiable-linear-regression-model-in-orion.md#implementing-ols-functions-using-orion) To catalyse our development process we will utilise the Orion Framework to construct the OLS functions to build our Verifiable Linear Regression model.
 
 ## Simple Linear Regression with Python
 
-A Regression model is a foundational technique used to determine the relationship between independent variables (predictors) and dependent variables (outcome). This relationship is typically represented by a straight line and is often termed the “line of best fit”. By mapping how variations in one variable **X** may influence changes in another variable **y**, we can make  highly accurate predictions on new unseen data points. The mathematical representation of this linear relationship is given by the equation:
-
+A Regression model is a foundational technique used to determine the relationship between independent variables (predictors) and dependent variables (outcome). This relationship is typically represented by a straight line and is often termed the “line of best fit”. By mapping how variations in one variable **X** may influence changes in another variable **y**, we can make highly accurate predictions on new unseen data points. The mathematical representation of this linear relationship is given by the equation:
 
 $$
-y = a + bX \quad  \quad 
-\begin{align*}
-b & \text{= gradient (slope of the line)} \\
-a & \text{= intercept (value of } y \text{ when } X \text{ is zero)} \\
-y & \text{= y values} \\
-X & \text{= x values} \\
-\end{align*}
+y = a + bX \quad \quad \begin{align*} b & \text{= gradient (slope of the line)} \\ a & \text{= intercept (value of } y \text{ when } X \text{ is zero)} \\ y & \text{= y values} \\ X & \text{= x values} \\ \end{align*}
 $$
-
 
 ### Generating the dataset
 
-In the following notebook, we will create a synthetic dataset that will serve as the backbone throughout our tutorial. 
+In the following [notebook](https://github.com/BemTG/Verifiable-Linear-Regression-), we will create a synthetic dataset that will serve as the backbone throughout our tutorial.
 
 ```python
 import numpy as np
@@ -52,38 +45,23 @@ plt.ylabel('y values')
 
 ```
 
-
-
 <figure><img src="../../.gitbook/assets/x-y-values.png" alt=""><figcaption></figcaption></figure>
 
-
-
-
-Upon inspecting the plot, it is readily apparent that there exists a positive correlation between the X and y values, consistent with our underlying equation. Our goal in this tutorial is to quantify this relationship using a regression model, using only the data points provided. By utilizing the Ordinary Least Square (OLS)  method, we aim to derive a linear equation that closely approximates the original equation from which the dataset was generated from: `y = 2 * X + 5 + noise`
-
+Upon inspecting the plot, it is readily apparent that there exists a positive correlation between the X and y values, consistent with our underlying equation. Our goal in this tutorial is to quantify this relationship using a regression model, using only the data points provided. By utilizing the Ordinary Least Square (OLS) method, we aim to derive a linear equation that closely approximates the original equation from which the dataset was generated from: `y = 2 * X + 5 + noise`
 
 ### Computing the gradient of the line
-OLS method can help us decipher the linear relationship between the X and y variables by calculating the **gradient (beta)** and corresponding **y intercept (a)** to find the optimal "line of best fit".  
+
+OLS method can help us decipher the linear relationship between the X and y variables by calculating the **gradient (beta)** and corresponding **y intercept (a)** to find the optimal "line of best fit".
 
 $$
-\text{b} = \frac{\sum (X - \bar{X}) (y - \bar{y})}{\sum (X - \bar{X})^2} \quad \quad 
-\begin{align*}
-b & \text{= gradient (slope of the line)} \\
-\bar{X} & \text{= average of all x values} \\
-\bar{y} & \text{= average of all y values} \\
-X & \text{= specific x value} \\
-y & \text{= specific y value} \\
-\sum (X - \bar{X}) (y - \bar{y}) & \text{= covariance between X and y} \\
-\sum (X - \bar{X})^2 & \text{= variance of X}
-\end{align*}
+\text{b} = \frac{\sum (X - \bar{X}) (y - \bar{y})}{\sum (X - \bar{X})^2} \quad \quad \begin{align*} b & \text{= gradient (slope of the line)} \\ \bar{X} & \text{= average of all x values} \\ \bar{y} & \text{= average of all y values} \\ X & \text{= specific x value} \\ y & \text{= specific y value} \\ \sum (X - \bar{X}) (y - \bar{y}) & \text{= covariance between X and y} \\ \sum (X - \bar{X})^2 & \text{= variance of X} \end{align*}
 $$
- 
 
 The formula’s numerator quantifies the covariance of X and y, revealing their joint variability. Think of it as an expression to measure how both variables move together. Conversely, the denominator calculates the variance of X, which gauges the distribution of X values around its mean.
 
 By dividing the covariance by the variance of X, we essentially measure the average change in y for a unit change in X. This allows us to capture the strength and direction of the linear relationship between X and y variables. A positive beta value suggests that as X increases, y also tends to increase, and vice versa for negative values. The magnitude of the beta value indicates the sensitivity of y to changes, with respect to changes in X values.
 
-Implementing the formula in Python we get a gradient value of 2.03 which is very close to our original equation of y = 2 * X + 5 + noise used when generating our synthetic dataset which is a good sign.
+Implementing the formula in Python we get a gradient value of 2.03 which is very close to our original equation of y = 2 \* X + 5 + noise used when generating our synthetic dataset which is a good sign.
 
 ```python
 numerator = sum((X - X.mean()) * (y - y.mean()))
@@ -95,19 +73,12 @@ print('The slope of regression line:', beta)
 
 ```
 
-### Computing the y-intercept 
+### Computing the y-intercept
 
-Having determined the **beta** value, our next step is to calculate the **y-intercept**. This can be achieved by substituting the known **beta**, **y mean**, and **X mean** values into our line equation. The rationale behind using the **y mean** and **X mean** is grounded on the principle that the "line of best fit" must intersect these central points. 
-
+Having determined the **beta** value, our next step is to calculate the **y-intercept**. This can be achieved by substituting the known **beta**, **y mean**, and **X mean** values into our line equation. The rationale behind using the **y mean** and **X mean** is grounded on the principle that the "line of best fit" must intersect these central points.
 
 $$
-a = \bar{y} - b\bar{X} \quad  \quad 
-\begin{align*}
-b & \text{= gradient (slope of the line)} \\
-a & \text{= intercept (value of } y \text{ when } X \text{ is zero)} \\
-y & \text{= mean y value} \\
-X & \text{= mean x values} \\
-\end{align*}
+a = \bar{y} - b\bar{X} \quad \quad \begin{align*} b & \text{= gradient (slope of the line)} \\ a & \text{= intercept (value of } y \text{ when } X \text{ is zero)} \\ y & \text{= mean y value} \\ X & \text{= mean x values} \\ \end{align*}
 $$
 
 ```python
@@ -133,12 +104,11 @@ print(f"Calculated intercept: {intercept}")
 
 <figure><img src="../../.gitbook/assets/linear-regression-plot.png" alt=""><figcaption></figcaption></figure>
 
-
 Looking at the above plot we can see we have successfully implemented our Linear regression model and captured the “line of best fit” using the OLS method.
 
 ### Model accuracy
 
-To assess the efficacy of our regression model, we compute the **mse** and **r_squared_score** values, which yield an R-squared score of 0.83, indicating a robust predictive performance for the model.
+To assess the efficacy of our regression model, we compute the **mse** and **r\_squared\_score** values, which yield an R-squared score of 0.83, indicating a robust predictive performance for the model.
 
 ```python
 y_pred = beta * X + intercept
@@ -159,13 +129,11 @@ print("R-squared (R^2):", r_squared)
 
 Now that we have a good understanding of the OLS functions used, we will replicate the full linear regression model in Cairo to turn it to a fully verifiable model. Since we will be rebuilding the model from scratch, this will serve as a good opportunity to get familiar with Orion’s built-in functions and operators making the transition to Cairo seamless.
 
-
 ### Creating a new scarb project
-Scarb is the Cairo package manager specifically created to streamline our Cairo and Starknet development process. Scarb will typically manage project dependencies, the compilation process (both pure Cairo and Starknet contracts), downloading and building external libraries to accelerate our development with Orion.You can find all information about Scarb and Cairo installation [here](../../framework/get-started.md#installations). 
+
+Scarb is the Cairo package manager specifically created to streamline our Cairo and Starknet development process. Scarb will typically manage project dependencies, the compilation process (both pure Cairo and Starknet contracts), downloading and building external libraries to accelerate our development with Orion.You can find all information about Scarb and Cairo installation [here](../../framework/get-started.md#installations).
 
 To create a new Scarb project, open your terminal and run:
-
-
 
 ```sh
 scarb new verifiable_linear_regression
@@ -180,13 +148,15 @@ name = "verifiable_linear_regression"
 version = "0.1.0"
 
 [dependencies]
-orion = { git = "https://github.com/gizatechxyz/orion.git", branch = "einsum-impl"   }
+orion = { git = "https://github.com/gizatechxyz/orion.git", branch = "develop"   }
 
 [scripts]
 test = "scarb cairo-test -f linear_regression_test"
 
 ```
+
 ### Gerating the dataset in Cairo
+
 Now let’s generate the files required to begin our transition to Cairo. In our Jupyter Notebook, we will execute the code required to turn our synthetic dataset to fixed point values and represent our X and y values as Fixedpoint Tensors in Orion.
 
 ```python
@@ -203,7 +173,7 @@ def generate_cairo_files(data, name):
                 "use orion::numbers::signed_integer::i32::i32;\n\n" +
                 "use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};\n"
                 "use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;\n"
-                "use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16Into, FP16x16PartialEq }; \n"+
+                "use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16PartialEq };\n"+
                 "fn {0}() -> Tensor<FixedType>  ".format(name) + "{\n" +
                 "    let mut shape = ArrayTrait::new();\n"
             )
@@ -229,7 +199,8 @@ generate_cairo_files(X, 'X_values')
 generate_cairo_files(y, 'Y_values')
 
 ```
-The X_values and y_values tensor values will now be generated under `src/generated` directory.
+
+The X\_values and y\_values tensor values will now be generated under `src/generated` directory.
 
 In `src/lib.cairo` replace the content with the following code:
 
@@ -238,17 +209,18 @@ mod generated;
 mod test;
 mod lin_reg_func;
 ```
+
 This will tell our compiler to include the separate modules listed above during the compilation of our code. We will be covering each module in detail in the following section, but let’s first review the generated folder files.
 
 ```rust
 use array::ArrayTrait;
+
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::numbers::signed_integer::i32::i32;
-
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-use orion::numbers::fixed_point::implementations::impl_16x16::{FP16x16Impl, FP16x16Into, FP16x16PartialEq }; 
+use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16PartialEq }; 
 
 fn X_values() -> Tensor<FixedType>  {
     let mut shape = ArrayTrait::new();
@@ -267,21 +239,20 @@ let tensor = TensorTrait::<FixedType>::new(shape.span(), data.span(), Option::So
 return tensor;
 
 }
-
 ```
-Since Cairo does not come with built-in signed integers we have to explicitly define it for our X and y values. Luckily, this is already implemented in Orion for us as a struct as shown below:
 
+Since Cairo does not come with built-in signed integers we have to explicitly define it for our X and y values. Luckily, this is already implemented in Orion for us as a struct as shown below:
 
 ```rust
 // Example of a FixedType.
 struct FixedType {
-    mag: u128,
+    mag: u32,
     sign: bool
 }
 
 ```
 
-For this tutorial, we will use FixedType numbers  where the magnitude represents the absolute value and the boolean indicates whether the number is negative or positive. To replicate the OLS functions, we will conduct our operations using  FixedType Tensors which are also represented as a structs in Orion.
+For this tutorial, we will use FixedType numbers where the magnitude represents the absolute value and the boolean indicates whether the number is negative or positive. To replicate the OLS functions, we will conduct our operations using FixedType Tensors which are also represented as a structs in Orion.
 
 ```rust
 struct Tensor<T> {
@@ -295,22 +266,24 @@ struct ExtraParams {
 }
 
 ```
- A `Tensor` in Orion takes a shape, a span array of the data and an extra parameter. For our tutorial, the ExtraParams specifies that the Tensor is associated with using fp16x16 format.  In a 16x16 fixed-point format, there are 16 bits dedicated to the integer part of the number and 16 bits for the fractional part of the number. This format allows us to work with a wide range of values and a high degree of precision for conducting the OLS Tensor operations.
- 
+
+A `Tensor` in Orion takes a shape, a span array of the data and an extra parameter. For our tutorial, the ExtraParams specifies that the Tensor is associated with using fp16x16 format. In a 16x16 fixed-point format, there are 16 bits dedicated to the integer part of the number and 16 bits for the fractional part of the number. This format allows us to work with a wide range of values and a high degree of precision for conducting the OLS Tensor operations.
+
 ```rust=
 let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) };
 
 ```
+
 ## Implementing OLS functions using Orion
 
 At this stage, we will be reproducing the OLS functions now that we have generated our X and Y Fixedpoint Tensors. We will begin by creating a separate file for our linear regression functions file named `lin_reg_func.cairo` to host all of our linear regression functions.
 
-### Computing the mean 
+### Computing the mean
 
 ```rust
 fn calculate_mean(tensor_data: Tensor<FixedType>) -> FixedType {
 
-    let tensor_size = FP16x16Impl::from_unscaled_felt(tensor_data.data.len().into());
+    let tensor_size = FP16x16Impl::new_unscaled(tensor_data.data.len(), false);
 
     let cumulated_sum = tensor_data.cumsum(0, Option::None(()), Option::None(()));
     let sum_result = cumulated_sum.data[tensor_data.data.len()  - 1];
@@ -318,8 +291,8 @@ fn calculate_mean(tensor_data: Tensor<FixedType>) -> FixedType {
 
     return mean;
 }
-
 ```
+
 The above function takes in a FixedType Tensor and computes its corresponding mean value. We break the steps down by first calculating the cumulative sum of the tensor values using the `cumsum` built-in orion operator. We then divide the result by the length of the tensor size and return the output as a Fixedtype number.
 
 ### Computing the deviation from the mean
@@ -350,18 +323,16 @@ fn deviation_from_mean(tensor_data: Tensor<FixedType> ) -> Tensor<FixedType> {
 }
 
 ```
-The following deviation_from_mean function calculates the deviation from the mean for each element of a given tensor. 
-We initially calculate the tensor's mean value and store it under the variable mean_value. We then create a for loop to iterate over each element in the tensor values and calculate the deviation from the mean which we will append the result to `deviation_values` array. Finally, we create a new tensor named distance_from_mean_tensor by passing the deviation_values array and the tensor shape.
 
-### Computing the gradient value 
+The following deviation\_from\_mean function calculates the deviation from the mean for each element of a given tensor. We initially calculate the tensor's mean value and store it under the variable mean\_value. We then create a for loop to iterate over each element in the tensor values and calculate the deviation from the mean which we will append the result to `deviation_values` array. Finally, we create a new tensor named distance\_from\_mean\_tensor by passing the deviation\_values array and the tensor shape.
+
+### Computing the gradient value
 
 The OLS gradient (beta) formula:
 
 $$
 \text{b} = \frac{\sum (X - \bar{X}) (y - \bar{y})}{\sum (X - \bar{X})^2}
 $$
-
-
 
 ```rust
 
@@ -379,8 +350,8 @@ fn compute_beta(x_values: Tensor<FixedType>, y_values: Tensor<FixedType> ) -> Fi
 }
 
 ```
-We can now compute the beta value for our linear regression utilising the previous  deviation_from_mean function. We first calculate both the deviation of x values and y values from the mean and store them in separate variables as tensors. To calculate the covariance, we use the built-in Orion `matmul` operator to multiply x_deviation by y_deviation tensors. Similarly, we compute the X variance by multiplying x_deviation tensor by itself. Finally, we divide the `x_y_covariance` by the `x_variance` to get an approximate gradient value for our regression model.
 
+We can now compute the beta value for our linear regression utilising the previous deviation\_from\_mean function. We first calculate both the deviation of x values and y values from the mean and store them in separate variables as tensors. To calculate the covariance, we use the built-in Orion `matmul` operator to multiply x\_deviation by y\_deviation tensors. Similarly, we compute the X variance by multiplying x\_deviation tensor by itself. Finally, we divide the `x_y_covariance` by the `x_variance` to get an approximate gradient value for our regression model.
 
 ### Computing the y-intercept
 
@@ -399,7 +370,7 @@ fn compute_intercept(beta_value:FixedType, x_values: Tensor<FixedType>, y_values
 
 ```
 
-Calculating the y-intercept is fairly simple, we just need to substitute the calculated beta, y_mean and x_mean values and rearrange for the intercept value as previously shown in the Python implementation section.
+Calculating the y-intercept is fairly simple, we just need to substitute the calculated beta, y\_mean and x\_mean values and rearrange for the intercept value as previously shown in the Python implementation section.
 
 ### Testing the model
 
@@ -419,8 +390,8 @@ use orion::operators::tensor::implementations::{impl_tensor_u32::Tensor_u32, imp
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 use orion::operators::tensor::math::arithmetic::arithmetic_fp::core::{add, sub, mul, div};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
-use orion::numbers::fixed_point::implementations::impl_16x16::{
-    FP16x16Impl, FP16x16Add, FP16x16AddEq, FP16x16Into, FP16x16Print, FP16x16PartialEq, FP16x16Sub,
+use orion::numbers::fixed_point::implementations::fp16x16::core::{
+    FP16x16Impl, FP16x16Add, FP16x16AddEq, FP16x16Print, FP16x16PartialEq, FP16x16Sub,
     FP16x16SubEq, FP16x16Mul, FP16x16MulEq, FP16x16Div, FP16x16DivEq, FP16x16PartialOrd, FP16x16Neg
 };
 
@@ -458,14 +429,13 @@ fn linear_regression_test() {
 
 ```
 
- Our model will get tested under the `linear_regression_test()` function which will follow the following steps:
-
+Our model will get tested under the `linear_regression_test()` function which will follow the following steps:
 
 1. Data Retrieval: The function initiates by fetching the dependent X and y values sourced from the generated folder.
-2. Beta Calculation: With the data on board, it proceeds to determine the gradient (beta_value) of the linear regression line using the compute_beta function.
-3. Intercept Calculation: The y-intercept (intercept_value) of the regression line is calculated using utilising the previously calculated beta value.
+2. Beta Calculation: With the data on board, it proceeds to determine the gradient (beta\_value) of the linear regression line using the compute\_beta function.
+3. Intercept Calculation: The y-intercept (intercept\_value) of the regression line is calculated using utilising the previously calculated beta value.
 4. Prediction Phase: At this stage, we have all the components needed for our linear regression model. We make new predictions using our X values to see how well it generalises.
-5. Evaluation: The main part of the function is dedicated to model evaluation. It calculates the Mean Squared Error (mse), a measure of the average squared difference between the observed actual outcomes and the outcomes predicted by the model (between y_pred and y_values). It also calculates the R-squared value (r_score) which measures the accuracy of the model between the values of 0-1.
+5. Evaluation: The main part of the function is dedicated to model evaluation. It calculates the Mean Squared Error (mse), a measure of the average squared difference between the observed actual outcomes and the outcomes predicted by the model (between y\_pred and y\_values). It also calculates the R-squared value (r\_score) which measures the accuracy of the model between the values of 0-1.
 6. The test function will also perform basic checks making sure our beta value is positive, the R-squared value is between 0-1 and our model accuracy is above 50%.
 
 Finally, we can execute the test file by running `scarb cairo-test -f linear_regression_test`
@@ -478,9 +448,9 @@ running 1 tests
 test verifiable_linear_regression::test::linear_regression_test ... ok
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 filtered out;
 ```
-And as we can our test cases have passed! :confetti_ball: 
 
-If you've made it this far, well done! :clap: You are now capable of building verifiable ML models, making them ever more reliable and transparent than ever before. 
+And as we can our test cases have passed! :confetti\_ball:
+
+If you've made it this far, well done! :clap: You are now capable of building verifiable ML models, making them ever more reliable and transparent than ever before.
 
 We invite the community to join us in forging a future in making AI transparent and reliable resource for all.
-
