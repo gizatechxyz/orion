@@ -22,7 +22,7 @@
 
 # Orion: An Open-source Framework for Validity and ZK ML ✨
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Orion is an open-source, community-driven framework dedicated to Provable Machine Learning. It provides essential components and a new ONNX runtime for building verifiable Machine Learning models using [STARKs](https://starkware.co/stark/).
@@ -78,6 +78,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/0xd3bs"><img src="https://avatars.githubusercontent.com/u/6605280?v=4?s=100" width="100px;" alt="dblanco"/><br /><sub><b>dblanco</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=0xd3bs" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/BemTG"><img src="https://avatars.githubusercontent.com/u/62312643?v=4?s=100" width="100px;" alt="BemTG"/><br /><sub><b>BemTG</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=BemTG" title="Code">💻</a> <a href="https://github.com/gizatechxyz/orion/commits?author=BemTG" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/danilowhk"><img src="https://avatars.githubusercontent.com/u/12735159?v=4?s=100" width="100px;" alt="danilowhk"/><br /><sub><b>danilowhk</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=danilowhk" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Falco90"><img src="https://avatars.githubusercontent.com/u/43743459?v=4?s=100" width="100px;" alt="Falco R"/><br /><sub><b>Falco R</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=Falco90" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/richwarner"><img src="https://avatars.githubusercontent.com/u/1719742?v=4?s=100" width="100px;" alt="Rich Warner"/><br /><sub><b>Rich Warner</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=richwarner" title="Code">💻</a></td>
