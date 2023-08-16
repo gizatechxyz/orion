@@ -1,5 +1,7 @@
 # Verifiable Linear Regression Model
 
+<figure><img src="../../.gitbook/assets/ORION_tutorial.png" alt=""><figcaption></figcaption></figure>
+
 Orion is an open-source framework explicitly designed for the development of Provable Machine Learning models. It achieves this by providing a new ONNX runtime in Cairo to run STARK-provable ML programs.
 
 The following tutorial will be a short guide on how we can utilise the Orion framework to implement our very first fully Verifiable Linear Regression Model in Cairo.
