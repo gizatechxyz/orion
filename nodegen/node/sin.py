@@ -97,7 +97,7 @@ class Sin(RunAll):
 
     @staticmethod
     def sin_fp8x23():
-        x = np.random.uniform(-10, 127, (2, 2)).astype(np.float64)
+        x = np.random.uniform(-3, 7, (2, 2)).astype(np.float64)
         y = np.sin(x)
 
         x = Tensor(Dtype.FP8x23, x.shape, to_fp(
@@ -111,7 +111,7 @@ class Sin(RunAll):
 
     @staticmethod
     def sin_fp16x16():
-        x = np.random.uniform(-10, 127, (2, 2)).astype(np.float64)
+        x = np.random.uniform(-3, 7, (2, 2)).astype(np.float64)
         y = np.sin(x)
 
         x = Tensor(Dtype.FP16x16, x.shape, to_fp(

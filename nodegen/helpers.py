@@ -104,6 +104,9 @@ def make_test(inputs: [Tensor], output: Tensor, func_sig: str, file_name: str, t
                 case Dtype.U32:
                     code.append(
                         "use orion::operators::nn::implementations::impl_nn_u32::NN_u32;\n")
+                case Dtype.FP8x23 | Dtype.FP16x16:
+                    code.append(
+                        "use orion::operators::nn::implementations::impl_nn_fp::NN_fp;\n")
             match inputs[0].extra_fp:
                 case FixedImpl.FP8x23:
                     code.append(

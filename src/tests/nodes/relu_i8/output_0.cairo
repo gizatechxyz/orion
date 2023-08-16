@@ -11,9 +11,9 @@ fn output_0() -> Tensor<i8> {
 
     let mut data = ArrayTrait::new();
     data.append(i8 { mag: 4, sign: false });
-    data.append(i8 { mag: 2, sign: false });
-    data.append(i8 { mag: 8, sign: false });
-    data.append(i8 { mag: 2, sign: false });
+    data.append(i8 { mag: 3, sign: false });
+    data.append(i8 { mag: 6, sign: false });
+    data.append(i8 { mag: 0, sign: false });
 
     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16) };
     TensorTrait::new(shape.span(), data.span(), Option::Some(extra))

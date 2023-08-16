@@ -44,7 +44,7 @@ impl FP8x23Impl of FixedTrait {
     }
 
     fn acos(self: FixedType) -> FixedType {
-        return trig::acos(self);
+        return trig::acos_fast(self);
     }
 
     fn acos_fast(self: FixedType) -> FixedType {
@@ -56,7 +56,7 @@ impl FP8x23Impl of FixedTrait {
     }
 
     fn asin(self: FixedType) -> FixedType {
-        return trig::asin(self);
+        return trig::asin_fast(self);
     }
 
     fn asin_fast(self: FixedType) -> FixedType {
@@ -68,7 +68,7 @@ impl FP8x23Impl of FixedTrait {
     }
 
     fn atan(self: FixedType) -> FixedType {
-        return trig::atan(self);
+        return trig::atan_fast(self);
     }
 
     fn atan_fast(self: FixedType) -> FixedType {
@@ -84,7 +84,7 @@ impl FP8x23Impl of FixedTrait {
     }
 
     fn cos(self: FixedType) -> FixedType {
-        return trig::cos(self);
+        return trig::cos_fast(self);
     }
 
     fn cos_fast(self: FixedType) -> FixedType {
@@ -139,7 +139,7 @@ impl FP8x23Impl of FixedTrait {
     }
 
     fn sin(self: FixedType) -> FixedType {
-        return trig::sin(self);
+        return trig::sin_fast(self);
     }
 
     fn sin_fast(self: FixedType) -> FixedType {
@@ -157,7 +157,7 @@ impl FP8x23Impl of FixedTrait {
     }
 
     fn tan(self: FixedType) -> FixedType {
-        return trig::tan(self);
+        return trig::tan_fast(self);
     }
 
     fn tan_fast(self: FixedType) -> FixedType {
