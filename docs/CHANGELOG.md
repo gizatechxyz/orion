@@ -4,11 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - 2023-08-07
+
+### Changed 
+Refactored all operators tests. Now an operator test can be writing in python in `nodegen/node` directory. Then, the test and its data can be generated with `scarb run nodegen name_of_the_node`. Generated tests are located in `src/tests/nodes`.
+
+## [Unreleased] - 2023-07-20
+
+### Added
+- Added arccosine (acos) implementation and tests
+
 ## [Unreleased] - 2023-07-12
 
 ### Removed
 - Removed check_gas()
-
 
 ## [Unreleased] - 2023-07-11
 
@@ -142,7 +151,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Added ln functionality to tensor trait. Added Logsoftmax implementation for nn trait.
+- Added log functionality to tensor trait. Added Logsoftmax implementation for nn trait.
 - Added tests for both.
 
 ## [Unreleased] - 2023-06-08

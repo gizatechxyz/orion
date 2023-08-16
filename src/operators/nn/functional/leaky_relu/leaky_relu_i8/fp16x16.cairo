@@ -12,7 +12,7 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 
 /// Cf: NNTrait::leaky_relu docstring
-fn leaky_relu(z: @Tensor<i8>, alpha: @FixedType, threshold: i8) -> Tensor<FixedType> {
+fn leaky_relu(z: @Tensor<i8>, alpha: @FixedType) -> Tensor<FixedType> {
     assert(*alpha.mag < ONE, 'alpha must be less than 1_fp');
 
     let mut data_result = ArrayTrait::<FixedType>::new();
@@ -26,7 +26,7 @@ fn leaky_relu(z: @Tensor<i8>, alpha: @FixedType, threshold: i8) -> Tensor<FixedT
         let fp_current_index = FixedTrait::new_unscaled(
             current_index.mag.into(), current_index.sign
         );
-        if current_index >= threshold {
+        if (current_index >= i8 { mag: 0, sign: false }) {
             data_result.append(fp_current_index);
         } else {
             data_result.append(fp_current_index * *alpha);

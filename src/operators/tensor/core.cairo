@@ -51,8 +51,8 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// argmin - Returns the index of the minimum value along the specified axis.
 /// matmul - Performs matrix multiplication. 
 /// exp - Calculates the exponential function (e^x) for each element in a tensor.
-/// ln - Computes the natural log of all elements of the input tensor.
-/// eq - Check if two tensors are equal element-wise.
+/// log - Computes the natural log of all elements of the input tensor.
+/// equal - Check if two tensors are equal element-wise.
 /// greater - Check if each element of the first tensor is greater than the corresponding element of the second tensor.
 /// greater_equal - Check if each element of the first tensor is greater than or equal to the corresponding element of the second tensor.
 /// less - Check if each element of the first tensor is less than the corresponding element of the second tensor.
@@ -70,6 +70,10 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// tanh - Computes the hyperbolic tangent of all elements of the input tensor.
 /// sinh - Computes the hyperbolic sine of all elements of the input tensor.
 /// atan - Computes the arctangent (inverse of tangent) of the input tensor.
+/// xor - Computes the logical XOR of two tensors element wise.
+/// sqrt - Computes the square root of all elements of the input tensor.
+/// or - Computes the logical OR of two tensors element-wise.
+/// acos - Computes the arccosine (inverse of cosine) value of each element in the input tensor.
 /// 
 trait TensorTrait<T> {
     /// # tensor.new
@@ -750,15 +754,15 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
-    /// # tensor.ln
+    /// # tensor.log
     ///
     /// ```rust 
-    ///     fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
+    ///     fn log(self: @Tensor<T>) -> Tensor<FixedType>;
     /// ```
     ///
     /// Computes the natural log of all elements of the input tensor.
     /// $$
-    /// y_i=ln({x_i})
+    /// y_i=log({x_i})
     /// $$
     ///
     /// ## Args
@@ -772,7 +776,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// fn ln_example() -> Tensor<FixedType> {
+    /// fn log_example() -> Tensor<FixedType> {
     ///     // We instantiate a 1D Tensor here.
     ///     // [[1,2,3,100]]
     ///     let mut sizes = ArrayTrait::new();
@@ -786,19 +790,19 @@ trait TensorTrait<T> {
     ///     let extra = Option::<ExtraParams>::None(());
     ///     let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra)
     /// 		
-    ///     // We can call `ln` function as follows.
-    ///     return tensor.ln();
+    ///     // We can call `log` function as follows.
+    ///     return tensor.log();
     /// }
     /// >>> [[0, 5814538, 9215825, 38630966]]
     /// // The fixed point representation of
     /// /// [[0, 0.693147, 1.098612, 4.605170]]
     /// ```
     ///
-    fn ln(self: @Tensor<T>) -> Tensor<FixedType>;
-    /// #tensor.eq
+    fn log(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// #tensor.equal
     ///
     /// ```rust
-    ///     fn eq(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// ```
     ///
     /// Check if two tensors are equal element-wise.
@@ -830,7 +834,7 @@ trait TensorTrait<T> {
     ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
     ///     let tensor_y = u32_tensor_2x2x2_helper();
     ///     let tensor_z = u32_tensor_2x2x2_helper();
-    ///     let result = tensor_y.eq(@tensor_z);
+    ///     let result = tensor_y.equal(@tensor_z);
     ///     return result;
     /// }
     /// >>> [1,1,1,1,1,0,0,0]
@@ -844,15 +848,15 @@ trait TensorTrait<T> {
     ///     // tensor_z = [[0,1,2]]       
     ///     let tensor_y = u32_tensor_3x3_helper();
     ///     let tensor_z = u32_tensor_3x1_helper();
-    ///     let result = tensor_y.eq(@tensor_z);
+    ///     let result = tensor_y.equal(@tensor_z);
     ///     // We could equally do something like:
-    ///     // let result = tensor_z.eq(@tensor_y);
+    ///     // let result = tensor_z.equal(@tensor_y);
     ///     return result;
     /// }
     /// >>> [1,1,1,0,0,0,0,0,0]
     /// ```
     ///
-    fn eq(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// #tensor.greater
     ///
     /// ```rust
@@ -1603,7 +1607,234 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn asin(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// #tensor.or
+    ///
+    /// ```rust
+    ///     fn or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Computes the logical OR of two tensors element-wise.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// fn or_example() -> Tensor<usize> {
+    ///     // We instantiate two 3D Tensors here
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
+    ///     let tensor_y = u32_tensor_2x2x2_helper();
+    ///     let tensor_z = u32_tensor_2x2x2_helper();
+    ///     let result = tensor_y.or(@tensor_z);
+    ///     return result;
+    /// }
+    /// >>> [0,1,1,1,1,1,1,1,1]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// fn or_example() -> Tensor<usize> {
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2]]
+    ///     let tensor_y = u32_tensor_3x3_helper();
+    ///     let tensor_z = u32_tensor_3x1_helper();
+    ///     let result = tensor_y.or(@tensor_z);
+    ///     // We could equally do something like:
+    ///     // let result = tensor_z.or(@tensor_y);
+    ///     return result;
+    /// }
+    /// >>> [0,1,1,1,1,1,1,1,1]
+    /// ```
+    ///
+    fn or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.xor
+    ///
+    /// ```rust
+    ///     fn xor(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Computes the logical XOR of two tensors element-wise.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// fn xor_example() -> Tensor<usize> {
+    ///     // We instantiate two 3D Tensors here
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
+    ///     let tensor_y = u32_tensor_2x2x2_helper();
+    ///     let tensor_z = u32_tensor_2x2x2_helper();
+    ///     let result = tensor_y.xor(@tensor_z);
+    ///     return result;
+    /// }
+    /// >>> [0,0,0,0,0,0,0,0,0]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// fn xor_example() -> Tensor<usize> {
+    ///     // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
+    ///     // tensor_z = [[0,1,2]]
+    ///     let tensor_y = u32_tensor_3x3_helper();
+    ///     let tensor_z = u32_tensor_3x1_helper();
+    ///     let result = tensor_y.xor(@tensor_z);
+    ///     // We could equally do something like:
+    ///     // let result = tensor_z.xor(@tensor_y);
+    ///     return result;
+    /// }
+    /// >>> [0,0,0,1,0,0,1,0,0]
+    /// ```
+    ///
+    fn xor(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.acos
+    ///
+    /// ```rust
+    ///     fn acos(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the arccosine (inverse of cosine) of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the arccosine value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn acos_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // tensor = [[0, 1]]
+    ///     let tensor = fp8x23_tensor_1x2_helper();
+    ///     let result = tensor.acos();
+    ///     return result;
+    /// }
+    /// >>> [13176794, 0]
+    /// // The fixed point representation of
+    /// // [1.5707..., 0]
+    /// ```
+    ///
+    fn acos(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// # tensor.onehot
+    ///
+    /// ```rust 
+    ///    fn onehot(self: @Tensor<T>, depth: usize, axis: Option<usize>, values: Span<usize>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Produces one-hot tensor based on input.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `depth`(`usize`) - Scalar or Rank 1 tensor containing exactly one element, specifying the number of classes in one-hot tensor.
+    /// * `axis`(`Option<bool>`) - Axis along which one-hot representation in added. Default: axis=-1.
+    /// * `values`(`Span<usize>`) - Rank 1 tensor containing exactly two elements, in the format [off_value, on_value]   
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if values is not equal to 2.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` one-hot encode of the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// fn onehot_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // [[0,1],[2,3]]
+    ///     let tensor = u32_tensor_1x3_helper();
+    ///     let mut values = ArrayTrait::new();
+    ///     values.append(0);
+    ///     values.append(1);
+    ///     let depth = 3;
+    ///     let axis: Option<usize> = Option::None(());
+    ///     result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+    ///     return result;
+    /// }
+    /// >>> [[1. 0. 0.]
+    ///      [0. 1. 0.]
+    ///      [0. 0. 1.]]
+    /// ```
+    ///
+    fn onehot(
+        self: @Tensor<T>, depth: usize, axis: Option<usize>, values: Span<usize>
+    ) -> Tensor<T>;
+    /// #tensor.sqrt
+    ///
+    /// ```rust
+    ///     fn sqrt(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the square root of all elements of the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the arctangent (inverse of tangent) value of all elements in the input tensor.
+    /// fn sqrt_example() -> Tensor<FixedType> {
+    ///     // We instantiate a 1D Tensor here.
+    ///     // tensor = [0, 1, 2]
+    ///     let tensor = fp_tensor_1x3_helper();
+    ///     let result = tensor.sqrt().data;
+    ///     return result;
+    /// }
+    /// >>> [0,65536,92672]
+    /// // The fixed point representation of
+    /// // [0,1,1.4142...]
+    /// ```
+    ///    
+    fn sqrt(self: @Tensor<T>) -> Tensor<FixedType>;
 }
+
 
 /// Cf: TensorTrait::new docstring
 fn new_tensor<T>(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T> {
@@ -1697,5 +1928,32 @@ fn at_tensor<T>(self: @Tensor<T>, indices: Span<usize>) -> @T {
     let data = *self.data;
 
     return data.at(ravel_index(*self.shape, indices));
+}
+
+// Return true if two tensor are equal
+fn tensor_eq<T, impl TPartialEq: PartialEq<T>>(mut lhs: Tensor<T>, mut rhs: Tensor<T>, ) -> bool {
+    let mut is_eq = true;
+
+    loop {
+        if lhs.shape.len() == 0 || !is_eq {
+            break;
+        }
+
+        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+    };
+
+    if !is_eq {
+        return false;
+    }
+
+    loop {
+        if lhs.data.len() == 0 || !is_eq {
+            break;
+        }
+
+        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+    };
+
+    return is_eq;
 }
 

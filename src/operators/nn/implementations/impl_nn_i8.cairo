@@ -14,8 +14,8 @@ use orion::numbers::fixed_point::core::{FixedType};
 
 
 impl NN_i8 of NNTrait<i8> {
-    fn relu(tensor: @Tensor<i8>, threshold: i8) -> Tensor<i8> {
-        relu_i8(tensor, threshold)
+    fn relu(tensor: @Tensor<i8>) -> Tensor<i8> {
+        relu_i8(tensor)
     }
 
     fn sigmoid(tensor: @Tensor<i8>) -> Tensor<FixedType> {
@@ -42,7 +42,7 @@ impl NN_i8 of NNTrait<i8> {
         linear_i8(inputs, weights, bias)
     }
 
-    fn leaky_relu(inputs: @Tensor<i8>, alpha: @FixedType, threshold: i8) -> Tensor<FixedType> {
-        leaky_relu_i8(inputs, alpha, threshold).unwrap()
+    fn leaky_relu(inputs: @Tensor<i8>, alpha: @FixedType) -> Tensor<FixedType> {
+        leaky_relu_i8(inputs, alpha).unwrap()
     }
 }

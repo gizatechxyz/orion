@@ -142,7 +142,7 @@ impl i8PartialEq of PartialEq<i8> {
 // Implements the PartialOrd trait for i8.
 impl i8PartialOrd of PartialOrd<i8> {
     fn le(lhs: i8, rhs: i8) -> bool {
-        i8_le(rhs, lhs)
+        i8_le(lhs, rhs)
     }
     fn ge(lhs: i8, rhs: i8) -> bool {
         i8_ge(lhs, rhs)
@@ -476,6 +476,22 @@ fn i8_min(a: i8, b: i8) -> i8 {
     }
 }
 
+fn i8_xor(a: i8, b: i8) -> bool {
+    if (a.mag == 0_u8 || b.mag == 0_u8) && a.mag != b.mag {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+fn i8_or(a: i8, b: i8) -> bool {
+    if (a.mag == 0_u8 && b.mag == 0_u8) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 fn i8_to_i32(x: i8) -> i32 {
     i32 { mag: x.mag.into(), sign: x.sign }
 }
@@ -489,3 +505,4 @@ fn i8_to_fp8x23(x: i8) -> FixedType {
 fn i8_to_fp16x16(x: i8) -> FixedType {
     FixedType { mag: x.mag.into() * ONE_fp16x16, sign: x.sign }
 }
+

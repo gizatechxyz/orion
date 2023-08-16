@@ -7,7 +7,7 @@
 Applies the natural log to Softmax function to an n-dimensional input Tensor consisting of values in the range \[0,1].
 
 $$
-\text{log softmax}(x_i) = \ln(frac{e^{x_i}}{\sum_{j=1}^n e^{x_j}})
+\text{log softmax}(x_i) = \log(frac{e^{x_i}}{\sum_{j=1}^n e^{x_j}})
 $$
 
 ## Args

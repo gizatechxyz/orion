@@ -23,7 +23,7 @@ enum FixedImpl {
 /// floor - Returns the largest integer less than or equal to the fixed point number.
 /// exp - Returns the value of e raised to the power of the fixed point number. 
 /// exp2 - Returns the value of 2 raised to the power of the fixed point number.
-/// ln - Returns the natural logarithm of the fixed point number.
+/// log - Returns the natural logarithm of the fixed point number.
 /// log2 - Returns the base-2 logarithm of the fixed point number.
 /// log10 - Returns the base-10 logarithm of the fixed point number.
 /// pow - Returns the result of raising the fixed point number to the power of another fixed point number
@@ -38,6 +38,7 @@ enum FixedImpl {
 /// acosh - Returns the value of the inverse hyperbolic cosine of the fixed point number.
 /// asinh - Returns the inverse hyperbolic sine of the input fixed point number.
 /// atan - Returns the arctangent (inverse of tangent) of the input fixed point number.
+/// acos - Returns the arccosine (inverse of cosine) of the fixed point number.
 /// 
 trait FixedTrait {
     /// # FixedTrait::new
@@ -299,11 +300,11 @@ trait FixedTrait {
     /// ```
     /// 
     fn floor(self: FixedType) -> FixedType;
-    /// # fp.ln
+    /// # fp.log
     ///
     /// 
     /// ```rust
-    /// fn ln(self: FixedType) -> FixedType;
+    /// fn log(self: FixedType) -> FixedType;
     /// ```
     /// 
     /// Returns the natural logarithm of the fixed point number.
@@ -319,17 +320,17 @@ trait FixedTrait {
     /// ## Examples
     /// 
     /// ```rust
-    /// fn ln_fp_example() -> FixedType {
+    /// fn log_fp_example() -> FixedType {
     ///     // We instantiate fixed point here.
     ///     let fp = FixedTrait::from_unscaled_felt(1);
     ///     
-    ///     // We can call `ln` function as follows.
-    ///     fp.ln()
+    ///     // We can call `log` function as follows.
+    ///     fp.log()
     /// }
     /// >>> {mag: 0, sign: false}
     /// ```
     ///
-    fn ln(self: FixedType) -> FixedType;
+    fn log(self: FixedType) -> FixedType;
     /// # fp.log2
     /// 
     /// ```rust
@@ -761,4 +762,34 @@ trait FixedTrait {
     /// ``` 
     ///
     fn asin(self: FixedType) -> FixedType;
+    /// # fp.acos
+    /// 
+    /// ```rust
+    /// fn acos(self: FixedType) -> FixedType;
+    /// ```
+    /// 
+    /// Returns the  arccosine (inverse of cosine) of the fixed point number.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`FixedType`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// A fixed point number representing the asin  of the input value.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// fn acos_fp_example() -> FixedType {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::from_unscaled_felt(1);
+    ///     
+    ///     // We can call `asin` function as follows.
+    ///     fp.acos()
+    /// }
+    /// >>> {mag: 0, sign: true} // = 0...
+    /// ``` 
+    ///
+    fn acos(self: FixedType) -> FixedType;
 }

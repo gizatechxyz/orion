@@ -25,7 +25,19 @@ fn abs(a: FixedType) -> FixedType {
 ///
 /// * The sum of the input fixed point numbers.
 fn add(a: FixedType, b: FixedType) -> FixedType {
-    return FixedTrait::from_felt(a.into() + b.into());
+    if a.sign == b.sign {
+        return FixedTrait::new(a.mag + b.mag, a.sign);
+    }
+
+    if a.mag == b.mag {
+        return FixedType { mag: 0, sign: false };
+    }
+
+    if (a.mag > b.mag) {
+        return FixedTrait::new(a.mag - b.mag, a.sign);
+    } else {
+        return FixedTrait::new(b.mag - a.mag, b.sign);
+    }
 }
 
 /// Cf: FixedTrait::ceil docstring
@@ -72,7 +84,7 @@ fn div(a: FixedType, b: FixedType) -> FixedType {
 /// # Returns
 ///
 /// * A boolean value that indicates whether the input fixed point numbers are equal.
-fn eq(a: FixedType, b: FixedType) -> bool {
+fn equal(a: FixedType, b: FixedType) -> bool {
     return a.mag == b.mag && a.sign == b.sign;
 }
 
@@ -185,9 +197,9 @@ fn le(a: FixedType, b: FixedType) -> bool {
     }
 }
 
-/// Cf: FixedTrait::ln docstring
-fn ln(a: FixedType) -> FixedType {
-    return FixedTrait::new(5814540_u128, false) * log2(a); // ln(2) = 0.693...
+/// Cf: FixedTrait::log docstring
+fn log(a: FixedType) -> FixedType {
+    return FixedTrait::new(5814540_u128, false) * log2(a); // log(2) = 0.693...
 }
 
 /// Cf: FixedTrait::log2 docstring
@@ -312,8 +324,8 @@ fn pow(a: FixedType, b: FixedType) -> FixedType {
         return _pow_int(a, b.mag / ONE, b.sign);
     }
 
-    // x^y = exp(y*ln(x)) for x > 0 will error for x < 0
-    return exp(b * ln(a));
+    // x^y = exp(y*log(x)) for x > 0 will error for x < 0
+    return exp(b * log(a));
 }
 
 /// Cf: FixedTrait::round docstring
@@ -390,6 +402,21 @@ fn asin(a: FixedType) -> FixedType {
     return atan(a / div);
 }
 
+/// Cf: FixedTrait::acos docstring
+// Calculates arccos(a) for -1 <= a <= 1 (fixed point)
+// arccos(a) = arcsin(sqrt(1 - a^2)) - arctan identity has discontinuity at zero
+fn acos(a: FixedType) -> FixedType {
+    assert(a.mag <= ONE, 'out of range');
+    let asin_arg = (FixedTrait::new(ONE, false) - a * a).sqrt();
+    let asin_res = asin(asin_arg);
+
+    if (a.sign) {
+        return FixedTrait::new(PI, false) - asin_res;
+    } else {
+        return asin_res;
+    }
+}
+
 /// Subtracts one fixed point number from another.
 ///
 /// # Arguments
@@ -401,7 +428,7 @@ fn asin(a: FixedType) -> FixedType {
 ///
 /// * A fixed point number representing the result of the subtraction.
 fn sub(a: FixedType, b: FixedType) -> FixedType {
-    return FixedTrait::from_felt(a.into() - b.into());
+    return add(a, -b);
 }
 
 /// Returns maximum value between two FixedTrait Points.
@@ -529,14 +556,14 @@ fn acosh(a: FixedType) -> FixedType {
     //we first check to see if a < 1.
     assert(a >= FixedTrait::new_unscaled(1, false), 'a must be >= 1');
     let root = (a * a - FixedTrait::new(ONE, false)).sqrt();
-    let answer = (a + root).ln();
+    let answer = (a + root).log();
     answer
 }
 
 /// Cf: FixedTrait::asinh docstring 
 fn asinh(a: FixedType) -> FixedType {
     let root = (a * a + FixedTrait::new(ONE, false)).sqrt();
-    let result = (a + root).ln();
+    let result = (a + root).log();
     result
 }
 
@@ -591,5 +618,24 @@ fn atan(a: FixedType) -> FixedType {
     }
 
     return FixedTrait::new(res.mag, a.sign);
+}
+
+/// Cf: FixedTrait::xor docstring 
+fn xor(a: FixedType, b: FixedType) -> bool {
+    if (a == FixedTrait::new(0, false) || b == FixedTrait::new(0, false)) && (a != b) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/// Cf: FixedTrait::or docstring
+fn or(a: FixedType, b: FixedType) -> bool {
+    let zero = FixedTrait::new(0, false);
+    if a == zero && b == zero {
+        return false;
+    } else {
+        return true;
+    }
 }
 

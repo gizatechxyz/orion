@@ -60,8 +60,8 @@ impl FP8x23Impl of FixedTrait {
         return math_8x23::exp2(self);
     }
 
-    fn ln(self: FixedType) -> FixedType {
-        return math_8x23::ln(self);
+    fn log(self: FixedType) -> FixedType {
+        return math_8x23::log(self);
     }
 
     fn log2(self: FixedType) -> FixedType {
@@ -120,6 +120,10 @@ impl FP8x23Impl of FixedTrait {
     fn atan(self: FixedType) -> FixedType {
         return math_8x23::atan(self);
     }
+
+    fn acos(self: FixedType) -> FixedType {
+        return math_8x23::acos(self);
+    }
 }
 
 impl FP8x23Print of PrintTrait<FixedType> {
@@ -144,7 +148,7 @@ impl FP8x23Into of Into<FixedType, felt252> {
 impl FP8x23PartialEq of PartialEq<FixedType> {
     #[inline(always)]
     fn eq(lhs: @FixedType, rhs: @FixedType) -> bool {
-        return math_8x23::eq(*lhs, *rhs);
+        return math_8x23::equal(*lhs, *rhs);
     }
 
     #[inline(always)]
@@ -264,7 +268,7 @@ fn _felt_abs(a: felt252) -> felt252 {
     if (a_sign == true) {
         return a * -1;
     } else {
-        return a;
+        return a * 1;
     }
 }
 

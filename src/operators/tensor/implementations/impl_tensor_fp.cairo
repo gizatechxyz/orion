@@ -8,7 +8,7 @@ use orion::numbers::fixed_point::core::FixedType;
 
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
-    at_tensor
+    at_tensor, tensor_eq
 };
 use orion::operators::tensor::math::min::min_fp::core::min_in_tensor;
 use orion::operators::tensor::math::max::max_fp::core::max_in_tensor;
@@ -23,7 +23,7 @@ use orion::operators::tensor::math::argmin::argmin_fp::core::argmin;
 use orion::operators::tensor::linalg::matmul::matmul_fp::core::matmul;
 use orion::operators::tensor::linalg::transpose::transpose_fp::core::transpose;
 use orion::operators::tensor::math::exp::exp_fp::core::exp;
-use orion::operators::tensor::math::ln::ln_fp::core::ln;
+use orion::operators::tensor::math::log::log_fp::core::log;
 use orion::operators::tensor::math::arithmetic::arithmetic_fp::core::{add, sub, mul, div};
 use orion::operators::tensor::math::greater::greater_fp::core::greater;
 use orion::operators::tensor::math::greater_equal::greater_equal_fp::core::greater_equal;
@@ -38,7 +38,11 @@ use orion::operators::tensor::math::sin::sin_fp::core::sin;
 use orion::operators::tensor::math::cos::cos_fp::core::cos;
 use orion::operators::tensor::math::asin::asin_fp::core::asin;
 use orion::operators::tensor::math::atan::atan_fp::core::atan;
-
+use orion::operators::tensor::math::xor::xor_fp::core::xor;
+use orion::operators::tensor::math::or::or_fp::core::or;
+use orion::operators::tensor::math::acos::acos_fp::core::acos;
+use orion::operators::tensor::math::onehot::onehot_fp::core::onehot;
+use orion::operators::tensor::math::sqrt::sqrt_fp::core::sqrt;
 
 impl Tensor_fp of TensorTrait<FixedType> {
     fn new(
@@ -109,11 +113,11 @@ impl Tensor_fp of TensorTrait<FixedType> {
         exp(self).unwrap()
     }
 
-    fn ln(self: @Tensor<FixedType>) -> Tensor<FixedType> {
-        ln(self).unwrap()
+    fn log(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        log(self).unwrap()
     }
 
-    fn eq(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
+    fn equal(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
         equal(self, other).unwrap()
     }
 
@@ -186,6 +190,28 @@ impl Tensor_fp of TensorTrait<FixedType> {
     fn atan(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         atan(self).unwrap()
     }
+
+    fn xor(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
+        xor(self, other).unwrap()
+    }
+
+    fn or(self: @Tensor<FixedType>, other: @Tensor<FixedType>) -> Tensor<usize> {
+        or(self, other).unwrap()
+    }
+
+    fn acos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        acos(self).unwrap()
+    }
+    
+    fn onehot(
+        self: @Tensor<FixedType>, depth: usize, axis: Option<usize>, values: Span<usize>
+    ) -> Tensor<FixedType> {
+        onehot(self, depth, axis, values).unwrap()
+    }
+
+    fn sqrt(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+        sqrt(self).unwrap()
+    }
 }
 
 /// Implements addition for `Tensor<FixedType>` using the `Add` trait.
@@ -245,5 +271,128 @@ impl FixedTypeTensorDiv of Div<Tensor<FixedType>> {
     /// * A `Tensor<FixedType>` instance representing the result of the element-wise division.
     fn div(lhs: Tensor<FixedType>, rhs: Tensor<FixedType>) -> Tensor<FixedType> {
         div(@lhs, @rhs).unwrap()
+    }
+}
+
+
+mod FP8x23Tensor {
+    use array::{ArrayTrait, SpanTrait};
+    use option::OptionTrait;
+    use orion::numbers::fixed_point::implementations::impl_8x23::{
+        FP8x23PartialEq, FP8x23Impl, FP8x23Sub, FP8x23Div
+    };
+    use super::{Tensor, FixedType};
+
+    const PRECISION: u128 = 75497; // 0.009
+
+    fn relative_eq(lhs: @FixedType, rhs: @FixedType) -> bool {
+        let diff = *lhs - *rhs;
+
+        let rel_diff = if *lhs.mag != 0 {
+            (diff / *lhs).mag
+        } else {
+            diff.mag
+        };
+
+        rel_diff <= PRECISION
+    }
+
+
+    fn tensor_eq(mut lhs: Tensor<FixedType>, mut rhs: Tensor<FixedType>, ) -> bool {
+        let mut is_eq = true;
+
+        loop {
+            if lhs.shape.len() == 0 || !is_eq {
+                break;
+            }
+
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
+
+        if !is_eq {
+            return false;
+        }
+
+        loop {
+            if lhs.data.len() == 0 || !is_eq {
+                break;
+            }
+
+            is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+        };
+
+        return is_eq;
+    }
+
+    /// Implements partial equal for two `Tensor<FixedType>` using the `PartialEq` trait.
+    impl FPTensorPartialEq of PartialEq<Tensor<FixedType>> {
+        fn eq(lhs: @Tensor<FixedType>, rhs: @Tensor<FixedType>) -> bool {
+            tensor_eq(*lhs, *rhs)
+        }
+
+        fn ne(lhs: @Tensor<FixedType>, rhs: @Tensor<FixedType>) -> bool {
+            !tensor_eq(*lhs, *rhs)
+        }
+    }
+}
+
+mod FP16x16Tensor {
+    use array::{ArrayTrait, SpanTrait};
+    use option::OptionTrait;
+    use orion::numbers::fixed_point::implementations::impl_16x16::{
+        FP16x16PartialEq, FP16x16Impl, FP16x16Sub, FP16x16Div
+    };
+    use super::{Tensor, FixedType};
+
+    const PRECISION: u128 = 589; // 0.009
+
+    fn relative_eq(lhs: @FixedType, rhs: @FixedType) -> bool {
+        let diff = *lhs - *rhs;
+
+        let rel_diff = if *lhs.mag != 0 {
+            (diff / *lhs).mag
+        } else {
+            diff.mag
+        };
+
+        rel_diff <= PRECISION
+    }
+
+
+    fn tensor_eq(mut lhs: Tensor<FixedType>, mut rhs: Tensor<FixedType>, ) -> bool {
+        let mut is_eq = true;
+
+        loop {
+            if lhs.shape.len() == 0 || !is_eq {
+                break;
+            }
+
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
+
+        if !is_eq {
+            return false;
+        }
+
+        loop {
+            if lhs.data.len() == 0 || !is_eq {
+                break;
+            }
+
+            is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+        };
+
+        return is_eq;
+    }
+
+    /// Implements partial equal for two `Tensor<FixedType>` using the `PartialEq` trait.
+    impl FPTensorPartialEq of PartialEq<Tensor<FixedType>> {
+        fn eq(lhs: @Tensor<FixedType>, rhs: @Tensor<FixedType>) -> bool {
+            tensor_eq(*lhs, *rhs)
+        }
+
+        fn ne(lhs: @Tensor<FixedType>, rhs: @Tensor<FixedType>) -> bool {
+            !tensor_eq(*lhs, *rhs)
+        }
     }
 }
