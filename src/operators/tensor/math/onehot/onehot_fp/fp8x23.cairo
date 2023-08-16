@@ -6,7 +6,7 @@ use core::traits::Destruct;
 use core::clone::Clone;
 use option::OptionTrait;
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-use orion::numbers::fixed_point::implementations::impl_8x23::{
+use orion::numbers::fixed_point::implementations::fp8x23::core::{
     FP8x23Impl, FP8x23Add, FP8x23Sub, FP8x23AddEq, FP8x23PartialEq
 };
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;

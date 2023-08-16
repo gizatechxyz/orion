@@ -27,14 +27,26 @@ A new `Tensor<usize>` of booleans (1 if equal, 0 otherwise) with the same shape 
 Case 1: Compare tensors with same shape
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+
 fn eq_example() -> Tensor<usize> {
-    // We instantiate two 3D Tensor here.
-    // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
-    // tensor_z = [[0,1,2],[3,4,5],[9,1,5]]
-    let tensor_y = u32_tensor_2x2x2_helper();
-    let tensor_z = u32_tensor_2x2x2_helper();
-    let result = tensor_y.equal(@tensor_z);
-    return result;
+    let tensor_1 = TensorTrait::<u32>::new(
+        shape: array![3, 3, 3].span(),
+        data: array![0,1, 2, 3, 4, 5, 6, 7, 8].span(),
+        extra: Option::None(())
+    );
+
+    let tensor_2 = TensorTrait::<u32>::new(
+        shape: array![3, 3, 3].span(),
+        data: array![0, 1, 2, 3, 4, 5, 9, 1, 5].span(),
+        extra: Option::None(())
+    );
+
+    // We can call `equal` function as follows.
+    return tensor_1.equal(@tensor_2);
 }
 >>> [1,1,1,1,1,0,0,0]
 ```
@@ -42,15 +54,26 @@ fn eq_example() -> Tensor<usize> {
 Case 2: Compare tensors with different shapes
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+
 fn eq_example() -> Tensor<usize> {
-    // tensor_y = [[0,1,2],[3,4,5],[6,7,8]]
-    // tensor_z = [[0,1,2]]       
-    let tensor_y = u32_tensor_3x3_helper();
-    let tensor_z = u32_tensor_3x1_helper();
-    let result = tensor_y.equal(@tensor_z);
-    // We could equally do something like:
-    // let result = tensor_z.equal(@tensor_y);
-    return result;
+    let tensor_1 = TensorTrait::<u32>::new(
+        shape: array![3, 3, 3].span(),
+        data: array![0,1, 2, 3, 4, 5, 6, 7, 8].span(),
+        extra: Option::None(())
+    );
+
+    let tensor_2 = TensorTrait::<u32>::new(
+        shape: array![3].span(),
+        data: array![0, 1, 2].span(),
+        extra: Option::None(())
+    );
+
+    // We can call `equal` function as follows.
+    return tensor_1.equal(@tensor_2);
 }
 >>> [1,1,1,0,0,0,0,0,0]
 ```

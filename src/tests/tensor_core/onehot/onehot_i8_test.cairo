@@ -1,4 +1,3 @@
-
 use core::serde::Serde;
 use core::option::OptionTrait;
 use core::clone::Clone;
@@ -10,12 +9,13 @@ mod tensor_1D {
     use array::{ArrayTrait, SpanTrait};
     use core::traits::Into;
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
-    use orion::numbers::fixed_point::implementations::impl_16x16::{
-        FP16x16Impl, FP16x16Into, FP16x16PartialEq
+    use orion::numbers::fixed_point::implementations::fp16x16::core::{
+        FP16x16Impl, FP16x16PartialEq
     };
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::tests::helpers::tensor::fixed_point::fp16x16::{
-        fp_tensor_1x3_helper, fp_tensor_2x2_helper, fp_tensor_3x2x2_neg_helper, fp_tensor_1x3_neg_helper, fp_tensor_2x2x2_helper
+        fp_tensor_1x3_helper, fp_tensor_2x2_helper, fp_tensor_3x2x2_neg_helper,
+        fp_tensor_1x3_neg_helper, fp_tensor_2x2x2_helper
     };
     use orion::operators::tensor::core::TensorTrait;
     use debug::PrintTrait;
@@ -26,7 +26,7 @@ mod tensor_1D {
 
     use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
 
-    // use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16Impl;
+    // use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
     // use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::{Tensor, ExtraParams};
 
@@ -70,7 +70,7 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::None(());
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
         assert((*result.data.at(0)) == IntegerTrait::new(1, false), 'result[0] = 1');
         assert((*result.data.at(1)) == IntegerTrait::new(0, false), 'result[1] = 0');
@@ -81,7 +81,7 @@ mod tensor_1D {
         assert((*result.data.at(6)) == IntegerTrait::new(0, false), 'result[6] = 0');
         assert((*result.data.at(7)) == IntegerTrait::new(0, false), 'result[7] = 0');
         assert((*result.data.at(8)) == IntegerTrait::new(1, false), 'result[8] = 1');
-        }
+    }
 
     #[test]
     #[available_gas(20000000)]
@@ -94,9 +94,9 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::None(());
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
-         assert((*result.data.at(0)) == IntegerTrait::new(1, false), 'result[0] = 1');
+        assert((*result.data.at(0)) == IntegerTrait::new(1, false), 'result[0] = 1');
         assert((*result.data.at(1)) == IntegerTrait::new(0, false), 'result[1] = 0');
         assert((*result.data.at(2)) == IntegerTrait::new(0, false), 'result[2] = 0');
         assert((*result.data.at(3)) == IntegerTrait::new(0, false), 'result[3] = 0');
@@ -105,9 +105,9 @@ mod tensor_1D {
         assert((*result.data.at(6)) == IntegerTrait::new(0, false), 'result[6] = 0');
         assert((*result.data.at(7)) == IntegerTrait::new(1, false), 'result[7] = 1');
         assert((*result.data.at(8)) == IntegerTrait::new(0, false), 'result[8] = 0');
-        }
+    }
 
-        #[test]
+    #[test]
     #[should_panic]
     #[available_gas(20000000)]
     fn tensor_onehot_tensor_1x3_fail() {
@@ -119,9 +119,9 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::Some(3);
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
     }
-    
+
     #[test]
     #[available_gas(20000000)]
     fn tensor_onehot_1x3_Zero_axis() {
@@ -133,7 +133,7 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::Some(0);
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
         assert((*result.data.at(0)) == IntegerTrait::new(1, false), 'result[0] = 1');
         assert((*result.data.at(1)) == IntegerTrait::new(0, false), 'result[1] = 0');
@@ -144,6 +144,5 @@ mod tensor_1D {
         assert((*result.data.at(6)) == IntegerTrait::new(0, false), 'result[6] = 0');
         assert((*result.data.at(7)) == IntegerTrait::new(0, false), 'result[7] = 0');
         assert((*result.data.at(8)) == IntegerTrait::new(1, false), 'result[8] = 1');
-        }
-
+    }
 }

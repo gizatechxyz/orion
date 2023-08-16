@@ -17,12 +17,15 @@ The inverse hyperbolic cosine of the input fixed point number.
 ## Examples
 
 ```rust
+use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
+
 fn acosh_fp_example() -> FixedType {
     // We instantiate fixed point here.
-    let fp = FixedTrait::from_unscaled_felt(2);
-    
+    let fp = FixedTrait::new_unscaled(2, false);
+
     // We can call `acosh` function as follows.
     fp.acosh()
 }
->>> {mag: 11047444, sign: false} // = 1.31696...
+>>> {mag: 86308, sign: false} // = 1.3169579
 ``` 

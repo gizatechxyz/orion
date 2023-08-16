@@ -25,16 +25,24 @@ A new `Tensor<T>` one-hot encode of the input tensor.
 
 ```rust
 fn onehot_example() -> Tensor<FixedType> {
-    // We instantiate a 1D Tensor here.
-    // [[0,1],[2,3]]
-    let tensor = u32_tensor_1x3_helper();
-    let mut values = ArrayTrait::new();
-    values.append(0);
-    values.append(1);
-    let depth = 3;
-    let axis: Option<usize> = Option::None(());
-    result = tensor.onehot(depth:depth, axis:axis, values:values.span());
-    return result;
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+
+fn onehot_example() -> Tensor<u32> {
+    let tensor = TensorTrait::<u32>::new(
+        shape: array![2, 2].span(), 
+        data: array![0, 1, 2, 3].span(), 
+        extra: Option::None(())
+    );
+
+    return tensor.onehot(
+        depth: 3, 
+        axis: Option::None(()), 
+        values: array![0, 1].span()
+    );
 }
 >>> [[1. 0. 0.]
      [0. 1. 0.]

@@ -19,12 +19,27 @@ the sine value of all elements in the input tensor.
 ## Example
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
+use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+
 fn sin_example() -> Tensor<FixedType> {
-    // We instantiate a 1D Tensor here.
-    // tensor = [[0, 1, 2,]]
-    let tensor = fp8x23_tensor_1x3_helper();
-    let result = tensor.sin();
-    return result;
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    let tensor = TensorTrait::<FixedType>::new(
+        shape: array![3].span(),
+        data: array![
+            FixedTrait::new_unscaled(0, false),
+            FixedTrait::new_unscaled(1, false),
+            FixedTrait::new_unscaled(2, false)
+        ]
+            .span(),
+        extra: Option::Some(extra)
+    );
+
+    return tensor.sin();
 }
 >>> [0,7058770,7627740]
 // The fixed point representation of

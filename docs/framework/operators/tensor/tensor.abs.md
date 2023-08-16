@@ -19,12 +19,24 @@ the absolute value of all elements in the input tensor.
 ## Example
 
 ```rust
+use array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
+use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
+
 fn abs_example() -> Tensor<i32> {
-    // We instantiate a 3D Tensor here.
-    // tensor = [[0,-1,2],[-3,4,5],[-6,7,-8]]
-    let tensor = i32_tensor_3x3x3_helper();
-    let result = tensor.abs();
-    return result;
+    let tensor = TensorTrait::<i32>::new(
+        shape: array![3].span(),
+        data: array![
+            IntegerTrait::new(1, true), 
+            IntegerTrait::new(2, true), 
+            IntegerTrait::new(3, false)
+        ].span(),
+        extra: Option::None(())
+    );
+
+    return tensor.abs();
 }
->>> [0,1,2,3,4,5,6,7,8]
+>>> [1, 2, 3]
 ```

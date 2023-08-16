@@ -9,13 +9,12 @@ mod tensor_1D {
     use array::{ArrayTrait, SpanTrait};
     use core::traits::Into;
     use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
-    use orion::numbers::fixed_point::implementations::impl_8x23::{
-        FP8x23Impl, FP8x23Into, FP8x23PartialEq
-    };
+    use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23PartialEq};
     use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
     use orion::operators::tensor::core::TensorTrait;
     use orion::tests::helpers::tensor::fixed_point::fp8x23::{
-        fp_tensor_1x3_helper, fp_tensor_2x2_helper, fp_tensor_3x2x2_neg_helper, fp_tensor_1x3_neg_helper, fp_tensor_2x2x2_helper
+        fp_tensor_1x3_helper, fp_tensor_2x2_helper, fp_tensor_3x2x2_neg_helper,
+        fp_tensor_1x3_neg_helper, fp_tensor_2x2x2_helper
     };
     use debug::PrintTrait;
     use core::clone::Clone;
@@ -25,48 +24,47 @@ mod tensor_1D {
     use orion::operators::tensor::core::{Tensor, ExtraParams};
 
     fn fp_tensor_3x2x2_new() -> Tensor<FixedType> {
-    let mut sizes = ArrayTrait::new();
-    sizes.append(3);
-    sizes.append(2);
-    sizes.append(2);
+        let mut sizes = ArrayTrait::new();
+        sizes.append(3);
+        sizes.append(2);
+        sizes.append(2);
 
-    let mut data = ArrayTrait::new();
-    data.append(FixedTrait::new_unscaled(0, false));
-    data.append(FixedTrait::new_unscaled(1, false));
-    data.append(FixedTrait::new_unscaled(2, false));
-    data.append(FixedTrait::new_unscaled(3, false));
-    data.append(FixedTrait::new_unscaled(0, false));
-    data.append(FixedTrait::new_unscaled(1, false));
-    data.append(FixedTrait::new_unscaled(2, false));
-    data.append(FixedTrait::new_unscaled(3, false));
-    data.append(FixedTrait::new_unscaled(0, false));
-    data.append(FixedTrait::new_unscaled(1, false));
-    data.append(FixedTrait::new_unscaled(2, false));
-    data.append(FixedTrait::new_unscaled(3, false));
+        let mut data = ArrayTrait::new();
+        data.append(FixedTrait::new_unscaled(0, false));
+        data.append(FixedTrait::new_unscaled(1, false));
+        data.append(FixedTrait::new_unscaled(2, false));
+        data.append(FixedTrait::new_unscaled(3, false));
+        data.append(FixedTrait::new_unscaled(0, false));
+        data.append(FixedTrait::new_unscaled(1, false));
+        data.append(FixedTrait::new_unscaled(2, false));
+        data.append(FixedTrait::new_unscaled(3, false));
+        data.append(FixedTrait::new_unscaled(0, false));
+        data.append(FixedTrait::new_unscaled(1, false));
+        data.append(FixedTrait::new_unscaled(2, false));
+        data.append(FixedTrait::new_unscaled(3, false));
 
-    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
-    let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
-    
-    return tensor;
-}
+        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+
+        return tensor;
+    }
 
     fn fp_tensor_2x2_pos_neg_new() -> Tensor<FixedType> {
-    let mut sizes = ArrayTrait::new();
-    sizes.append(2);
-    sizes.append(2);
+        let mut sizes = ArrayTrait::new();
+        sizes.append(2);
+        sizes.append(2);
 
-    let mut data = ArrayTrait::new();
-    data.append(FixedTrait::new_unscaled(0, false));
-    data.append(FixedTrait::new_unscaled(1, false));
-    data.append(FixedTrait::new_unscaled(2, true));
-    data.append(FixedTrait::new_unscaled(1, true));
+        let mut data = ArrayTrait::new();
+        data.append(FixedTrait::new_unscaled(0, false));
+        data.append(FixedTrait::new_unscaled(1, false));
+        data.append(FixedTrait::new_unscaled(2, true));
+        data.append(FixedTrait::new_unscaled(1, true));
 
-    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
-    let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
+        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
+        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), Option::Some(extra));
 
-    return tensor;
-}
-
+        return tensor;
+    }
 
 
     #[test]
@@ -80,7 +78,7 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::None(());
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
         assert((*result.data[0]) == FixedTrait::new_unscaled(1, false), 'result[0] = 1');
         assert((*result.data[1]) == FixedTrait::new_unscaled(0, false), 'result[1] = 0');
@@ -91,9 +89,9 @@ mod tensor_1D {
         assert((*result.data[6]) == FixedTrait::new_unscaled(0, false), 'result[6] = 0');
         assert((*result.data[7]) == FixedTrait::new_unscaled(0, false), 'result[7] = 0');
         assert((*result.data[8]) == FixedTrait::new_unscaled(1, false), 'result[8] = 1');
-        }
+    }
 
-     #[test]
+    #[test]
     #[available_gas(20000000)]
     fn tensor_onehot_1x3_neg_last_axis() {
         let tensor = fp_tensor_1x3_neg_helper();
@@ -104,7 +102,7 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::None(());
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
         assert((*result.data[0]) == FixedTrait::new_unscaled(1, false), 'result[0] = 1');
         assert((*result.data[1]) == FixedTrait::new_unscaled(0, false), 'result[1] = 0');
@@ -115,7 +113,7 @@ mod tensor_1D {
         assert((*result.data[6]) == FixedTrait::new_unscaled(0, false), 'result[6] = 0');
         assert((*result.data[7]) == FixedTrait::new_unscaled(1, false), 'result[7] = 0');
         assert((*result.data[8]) == FixedTrait::new_unscaled(0, false), 'result[8] = 1');
-        }
+    }
 
     #[test]
     #[available_gas(20000000)]
@@ -128,7 +126,7 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::None(());
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
         assert((*result.data[0]) == FixedTrait::new_unscaled(1, false), 'result[0] = 1');
         assert((*result.data[1]) == FixedTrait::new_unscaled(0, false), 'result[1] = 0');
@@ -142,8 +140,7 @@ mod tensor_1D {
         assert((*result.data[9]) == FixedTrait::new_unscaled(0, false), 'result[9] = 0');
         assert((*result.data[10]) == FixedTrait::new_unscaled(0, false), 'result[10] = 0');
         assert((*result.data[11]) == FixedTrait::new_unscaled(1, false), 'result[11] = 0');
-
-        }
+    }
 
 
     #[test]
@@ -158,9 +155,9 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::Some(3);
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
     }
-    
+
     #[test]
     #[available_gas(20000000)]
     fn tensor_onehot_1x3_Zero_axis() {
@@ -172,9 +169,9 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::Some(0);
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
-         assert((*result.data[0]) == FixedTrait::new_unscaled(1, false), 'result[0] = 1');
+        assert((*result.data[0]) == FixedTrait::new_unscaled(1, false), 'result[0] = 1');
         assert((*result.data[1]) == FixedTrait::new_unscaled(0, false), 'result[1] = 0');
         assert((*result.data[2]) == FixedTrait::new_unscaled(0, false), 'result[2] = 0');
         assert((*result.data[3]) == FixedTrait::new_unscaled(0, false), 'result[3] = 0');
@@ -183,7 +180,7 @@ mod tensor_1D {
         assert((*result.data[6]) == FixedTrait::new_unscaled(0, false), 'result[6] = 0');
         assert((*result.data[7]) == FixedTrait::new_unscaled(0, false), 'result[7] = 0');
         assert((*result.data[8]) == FixedTrait::new_unscaled(1, false), 'result[8] = 1');
-        }
+    }
 
     #[test]
     #[available_gas(20000000)]
@@ -196,7 +193,7 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::Some(1);
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
         assert((*result.data[0]) == FixedTrait::new_unscaled(1, false), 'result[0] = 1');
         assert((*result.data[1]) == FixedTrait::new_unscaled(0, false), 'result[1] = 0');
@@ -207,7 +204,7 @@ mod tensor_1D {
         assert((*result.data[6]) == FixedTrait::new_unscaled(0, false), 'result[6] = 0');
         assert((*result.data[7]) == FixedTrait::new_unscaled(0, false), 'result[7] = 0');
         assert((*result.data[8]) == FixedTrait::new_unscaled(1, false), 'result[8] = 1');
-        }
+    }
 
     #[test]
     #[available_gas(20000000)]
@@ -220,7 +217,7 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::None(());
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
         assert((*result.data[0]) == FixedTrait::new_unscaled(1, false), 'result[0] = 1');
         assert((*result.data[1]) == FixedTrait::new_unscaled(0, false), 'result[1] = 0');
@@ -242,10 +239,9 @@ mod tensor_1D {
         assert((*result.shape.at(0)) == 2, 'shape[0] = 2');
         assert((*result.shape.at(1)) == 2, 'shape[0] = 2');
         assert((*result.shape.at(2)) == 4, 'shape[0] = 4');
+    }
 
-        }
-
-     #[test]
+    #[test]
     #[should_panic]
     #[available_gas(20000000)]
     fn tensor_onehot_tensor_2x2_fail() {
@@ -257,7 +253,7 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(3);
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
     }
 
     #[test]
@@ -271,7 +267,7 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(0);
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
         assert((*result.data[0]) == FixedTrait::new_unscaled(1, false), 'result[0] = 1');
         assert((*result.data[1]) == FixedTrait::new_unscaled(0, false), 'result[1] = 0');
@@ -293,8 +289,7 @@ mod tensor_1D {
         assert((*result.shape.at(0)) == 4, 'shape[0] = 4');
         assert((*result.shape.at(1)) == 2, 'shape[0] = 2');
         assert((*result.shape.at(2)) == 2, 'shape[0] = 2');
-
-        }
+    }
 
     #[test]
     #[available_gas(20000000)]
@@ -307,7 +302,7 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(1);
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
         assert((*result.data[0]) == FixedTrait::new_unscaled(1, false), 'result[0] = 1');
         assert((*result.data[1]) == FixedTrait::new_unscaled(0, false), 'result[1] = 0');
@@ -329,10 +324,9 @@ mod tensor_1D {
         assert((*result.shape.at(0)) == 2, 'shape[0] = 2');
         assert((*result.shape.at(1)) == 4, 'shape[0] = 4');
         assert((*result.shape.at(2)) == 2, 'shape[0] = 2');
+    }
 
-        }
-
-     #[test]
+    #[test]
     #[available_gas(20000000)]
     fn fp_tensor_onehot_3x2x2_new_last_axis() {
         let tensor = fp_tensor_3x2x2_new();
@@ -344,7 +338,7 @@ mod tensor_1D {
         let axis: Option<usize> = Option::None(());
         // let axis: Option<usize> = Option::Some(3);
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
         assert((*result.data[0]) == FixedTrait::new_unscaled(1, false), 'result[0] = 1');
         assert((*result.data[1]) == FixedTrait::new_unscaled(0, false), 'result[1] = 0');
@@ -376,7 +370,7 @@ mod tensor_1D {
         assert((*result.shape.at(1)) == 2, 'shape[1] = 2');
         assert((*result.shape.at(2)) == 2, 'shape[2] = 2');
         assert((*result.shape.at(3)) == 4, 'shape[0] = 4');
-        }
+    }
 
     #[test]
     #[should_panic]
@@ -390,10 +384,10 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(4);
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
     }
 
-     #[test]
+    #[test]
     #[available_gas(20000000)]
     fn fp_tensor_onehot_3x2x2_new_first_axis() {
         let tensor = fp_tensor_3x2x2_new();
@@ -404,7 +398,7 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(0);
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
         assert((*result.data[0]) == FixedTrait::new_unscaled(5, false), 'result[0] = 5');
         assert((*result.data[1]) == FixedTrait::new_unscaled(2, false), 'result[1] = 2');
@@ -435,9 +429,9 @@ mod tensor_1D {
         assert((*result.shape.at(1)) == 3, 'shape[1] = 3');
         assert((*result.shape.at(2)) == 2, 'shape[2] = 3');
         assert((*result.shape.at(3)) == 2, 'shape[0] = 2');
-        }
+    }
 
-     #[test]
+    #[test]
     #[available_gas(20000000)]
     fn fp_tensor_onehot_3x2x2_new_second_axis() {
         let tensor = fp_tensor_3x2x2_new();
@@ -448,7 +442,7 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(1);
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
         assert((*result.data[0]) == FixedTrait::new_unscaled(1, false), 'result[0] = 1');
         assert((*result.data[1]) == FixedTrait::new_unscaled(0, false), 'result[1] = 0');
@@ -480,7 +474,7 @@ mod tensor_1D {
         assert((*result.shape.at(1)) == 4, 'shape[1] = 4');
         assert((*result.shape.at(2)) == 2, 'shape[2] = 3');
         assert((*result.shape.at(3)) == 2, 'shape[0] = 2');
-        }
+    }
 
     #[test]
     #[available_gas(20000000)]
@@ -493,7 +487,7 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(2);
 
-        let result = tensor.onehot(depth:depth, axis:axis, values:values.span());
+        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
 
         assert((*result.data[0]) == FixedTrait::new_unscaled(1, false), 'result[0] = 1');
         assert((*result.data[1]) == FixedTrait::new_unscaled(0, false), 'result[1] = 0');
@@ -523,8 +517,6 @@ mod tensor_1D {
         assert((*result.shape.at(1)) == 2, 'shape[1] = 2');
         assert((*result.shape.at(2)) == 4, 'shape[2] = 4');
         assert((*result.shape.at(3)) == 2, 'shape[0] = 2');
-        }
-
-    
+    }
 }
 

@@ -7,7 +7,7 @@ use orion::operators::tensor::core::{
 };
 use orion::operators::tensor::helpers::{len_from_shape, find_axis, permutation_output_shape};
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-use orion::numbers::fixed_point::implementations::impl_8x23::FP8x23Impl;
+use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
 
 
 /// Cf: TensorTrait::transpose docstring

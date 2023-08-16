@@ -9,9 +9,9 @@ fn input_0() -> Tensor<i32> {
     shape.append(3);
 
     let mut data = ArrayTrait::new();
-    data.append(i32 { mag: 53, sign: true });
-    data.append(i32 { mag: 107, sign: true });
-    data.append(i32 { mag: 86, sign: false });
+    data.append(i32 { mag: 124, sign: false });
+    data.append(i32 { mag: 61, sign: true });
+    data.append(i32 { mag: 113, sign: true });
 
     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16) };
     TensorTrait::new(shape.span(), data.span(), Option::Some(extra))

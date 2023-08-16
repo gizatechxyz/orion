@@ -3,8 +3,8 @@ use option::OptionTrait;
 use array::SpanTrait;
 
 use orion::numbers::fixed_point::core::FixedType;
-use orion::numbers::fixed_point::implementations::impl_16x16::FP16x16PartialOrd;
-use orion::numbers::fixed_point::math::math_8x23::or as or_16x16;
+use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16PartialOrd;
+use orion::numbers::fixed_point::implementations::fp16x16::math::comp::or as or_16x16;
 use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::helpers::check_compatibility;

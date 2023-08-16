@@ -2,8 +2,8 @@ use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::signed_integer::i32::i32;
-use orion::numbers::fixed_point::implementations::impl_8x23::ONE as ONE_fp8x23;
-use orion::numbers::fixed_point::implementations::impl_16x16::ONE as ONE_fp16x16;
+use orion::numbers::fixed_point::implementations::fp8x23::core::ONE as ONE_fp8x23;
+use orion::numbers::fixed_point::implementations::fp16x16::core::ONE as ONE_fp16x16;
 use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
 
 
