@@ -40,6 +40,7 @@ use orion::operators::tensor::math::xor::xor_u32::xor;
 use orion::operators::tensor::math::or::or_u32::or;
 use orion::operators::tensor::math::onehot::onehot_u32::onehot;
 use orion::operators::tensor::math::sqrt::sqrt_u32::core::sqrt_u32;
+use orion::operators::tensor::math::concat::concat_u32::concat_u32;
 
 
 impl Tensor_u32 of TensorTrait<u32> {
@@ -202,7 +203,11 @@ impl Tensor_u32 of TensorTrait<u32> {
 
     fn sqrt(self: @Tensor<u32>) -> Tensor<FixedType> {
         sqrt_u32(self).unwrap()
-    }
+    }  
+
+    fn concat( tensors: Span<Tensor<u32>>, axis: usize,  ) -> Tensor<u32> {
+         concat_u32(tensors, axis)
+    }    
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

@@ -76,6 +76,7 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.log`](tensor.log.md) | Computes the natural log of all elements of the input tensor. |
 | [`tensor.abs`](tensor.abs.md) | Computes the absolute value of all elements in the input tensor. |
 | [`tensor.ceil`](tensor.ceil.md) | Rounds up the value of each element in the input tensor. |
+| [`tensor.concat`](tensor.concat.md) | Concatenate a list of tensors into a single tensor. |
 | [`tensor.sqrt`](tensor.sqrt.md) | Computes the square root of all elements of the input tensor. |
 | [`tensor.sin`](tensor.sin.md) | Computes the sine of all elements of the input tensor. |
 | [`tensor.cos`](tensor.cos.md) | Computes the cosine of all elements of the input tensor. |

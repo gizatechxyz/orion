@@ -43,6 +43,8 @@ use orion::operators::tensor::math::or::or_fp::core::or;
 use orion::operators::tensor::math::acos::acos_fp::core::acos;
 use orion::operators::tensor::math::onehot::onehot_fp::core::onehot;
 use orion::operators::tensor::math::sqrt::sqrt_fp::core::sqrt;
+use orion::operators::tensor::math::concat::concat_fp::core::concat;
+
 
 impl Tensor_fp of TensorTrait<FixedType> {
     fn new(
@@ -211,7 +213,12 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn sqrt(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         sqrt(self).unwrap()
+    }   
+
+    fn concat( tensors: Span<Tensor<FixedType>>, axis: usize,  ) -> Tensor<FixedType> {
+        concat(tensors, axis).unwrap()
     }
+
 }
 
 /// Implements addition for `Tensor<FixedType>` using the `Add` trait.
