@@ -69,8 +69,7 @@ denominator = sum((X - X.mean())**2)
 
 beta = numerator / denominator
 print('The slope of regression line:', beta)
->> The slope of regression line: 2.0315325245038856
-
+>> The slope of regression line: 2.0133337976122685
 ```
 
 #### Computing the y-intercept
@@ -97,8 +96,8 @@ plt.grid(True)
 plt.show()
 print(f"Calculated beta: {beta}")
 print(f"Calculated intercept: {intercept}")
->> Calculated beta: 2.0315325245038856
->> Calculated intercept: 3.916899671448352
+>> Calculated beta: 2.0133337976122685
+>> Calculated intercept: 4.991767313284746
 
 ```
 
@@ -118,8 +117,8 @@ r_squared = 1 - np.sum((y - y_pred)**2) / np.sum((y - y_mean)**2)
 
 print("Mean Squared Error (MSE):", mse)
 print("R-squared (R^2):", r_squared)
->>Mean Squared Error (MSE): 81.78873049706822
->>R-squared (R^2): 0.8303237877258618
+>> Mean Squared Error (MSE): 0.008805873341370826
+>> R-squared (R^2): 0.974921526753728
 
 ```
 
