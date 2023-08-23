@@ -28,28 +28,37 @@ fn find_argmax_1D<
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
 >(
-    input: @Tensor<T>, axis: usize, keepdims: bool, select_last_index: bool
+    mut input: Tensor<T>, axis: usize, keepdims: bool, select_last_index: bool
 ) -> Tensor<usize> {
     let mut output_data = ArrayTrait::<usize>::new();
-    let mut data = *input.data;
 
-    let mut max = *data.pop_front().unwrap();
-    let mut max_index = 0_usize;
-    let mut count = 0_usize;
+    let mut max = match input.data.pop_front() {
+        Option::Some(item) => *item,
+        Option::None(_) => {
+            return TensorTrait::<usize>::new(
+                reduce_output_shape(input.shape, axis, keepdims), output_data.span(), input.extra
+            );
+        }
+    };
+    let mut max_index = 0;
+    let mut count = 0;
+
     loop {
-        if data.len() == 0 {
-            break ();
-        };
+        match input.data.pop_front() {
+            Option::Some(item) => {
+                count += 1;
 
-        count += 1;
-
-        let current_value = *data.pop_front().unwrap();
-        if current_value > max {
-            max = current_value;
-            max_index = count;
-        } else {
-            if select_last_index && current_value == max {
-                max_index = count;
+                if *item > max {
+                    max = *item;
+                    max_index = count;
+                } else {
+                    if select_last_index && item == @max {
+                        max_index = count;
+                    }
+                };
+            },
+            Option::None(_) => {
+                break;
             }
         };
     };
@@ -57,7 +66,7 @@ fn find_argmax_1D<
     output_data.append(max_index);
 
     return TensorTrait::<usize>::new(
-        reduce_output_shape(*input.shape, axis, keepdims), output_data.span(), *input.extra
+        reduce_output_shape(input.shape, axis, keepdims), output_data.span(), input.extra
     );
 }
 
