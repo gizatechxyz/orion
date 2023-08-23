@@ -17,7 +17,7 @@ fn asinh(mut self: Tensor<i8>) -> Tensor<FixedType> {
     loop {
         match self.data.pop_front() {
             Option::Some(item) => {
-                result.append(FixedTrait::new_unscaled((*item.mag).into(), false).asinh());
+                result.append(FixedTrait::new_unscaled((*item.mag).into(), *item.sign).asinh());
             },
             Option::None(_) => {
                 break;
