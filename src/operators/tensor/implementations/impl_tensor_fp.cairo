@@ -138,7 +138,7 @@ impl Tensor_fp of TensorTrait<FixedType> {
     }
 
     fn abs(self: @Tensor<FixedType>) -> Tensor<FixedType> {
-        abs(self).unwrap()
+        abs(*self).unwrap()
     }
 
     fn ceil(self: @Tensor<FixedType>) -> Tensor<FixedType> {
@@ -200,9 +200,9 @@ impl Tensor_fp of TensorTrait<FixedType> {
     }
 
     fn acos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
-        acos(self).unwrap()
+        acos(*self).unwrap()
     }
-    
+
     fn onehot(
         self: @Tensor<FixedType>, depth: usize, axis: Option<usize>, values: Span<usize>
     ) -> Tensor<FixedType> {

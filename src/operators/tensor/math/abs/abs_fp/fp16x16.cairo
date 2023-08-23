@@ -9,17 +9,19 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 
 /// Cf: TensorTrait::abs docstring
-fn abs(z: @Tensor<FixedType>) -> Tensor<FixedType> {
+fn abs(mut z: Tensor<FixedType>) -> Tensor<FixedType> {
     let mut data_result = ArrayTrait::<FixedType>::new();
-    let mut data = *z.data;
     loop {
-        if data.len() == 0 {
-            break ();
+        match z.data.pop_front() {
+            Option::Some(item) => {
+                data_result.append((*item).abs());
+            },
+            Option::None(_) => {
+                break;
+            }
         };
-
-        let current_index = *data.pop_front().unwrap();
-        data_result.append(current_index.abs());
     };
 
-    return TensorTrait::new(*z.shape, data_result.span(), *z.extra);
+    return TensorTrait::new(z.shape, data_result.span(), z.extra);
 }
+
