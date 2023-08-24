@@ -11,15 +11,16 @@ fn max_in_tensor(mut vec: Span::<FixedType>) -> FixedType {
     let mut max_value: FixedType = FixedTrait::new(MAX, true);
 
     loop {
-        let current_value = *vec.pop_front().unwrap();
-
-        let check_max = max(max_value, current_value);
-        if (max_value < check_max) {
-            max_value = check_max;
-        }
-
-        if vec.len() == 0 {
-            break ();
+        match vec.pop_front() {
+            Option::Some(item) => {
+                let check_max = max(max_value, *item);
+                if (max_value < check_max) {
+                    max_value = check_max;
+                }
+            },
+            Option::None(_) => {
+                break;
+            }
         };
     };
 
