@@ -198,7 +198,7 @@ fn i16_add(a: i16, b: i16) -> i16 {
         if (sum == 0_u16) {
             return IntegerTrait::new(sum, false);
         }
-        return IntegerTrait::new(sum, a.sign);
+        return ensure_non_negative_zero(sum, a.sign);
     } else {
         // If the integers have different signs, 
         // the larger absolute value is subtracted from the smaller one.
@@ -212,7 +212,7 @@ fn i16_add(a: i16, b: i16) -> i16 {
         if (difference == 0_u16) {
             return IntegerTrait::new(difference, false);
         }
-        return IntegerTrait::new(difference, larger.sign);
+        return ensure_non_negative_zero(difference, larger.sign);
     }
 }
 
@@ -231,7 +231,7 @@ fn i16_sub(a: i16, b: i16) -> i16 {
     }
 
     // The subtraction of `a` to `b` is achieved by negating `b` sign and adding it to `a`.
-    let neg_b = IntegerTrait::new(b.mag, !b.sign);
+    let neg_b = ensure_non_negative_zero(b.mag, !b.sign);
     return a + neg_b;
 }
 
@@ -258,7 +258,7 @@ fn i16_mul(a: i16, b: i16) -> i16 {
         return IntegerTrait::new(mag, false);
     }
 
-    return IntegerTrait::new(mag, sign);
+    return ensure_non_negative_zero(mag, sign);
 }
 
 // Divides the first i16 by the second i16.
@@ -277,7 +277,7 @@ fn i16_div(a: i16, b: i16) -> i16 {
 
     if (sign == false) {
         // If the operands are positive, the quotient is simply their absolute value quotient.
-        return IntegerTrait::new(a.mag / b.mag, sign);
+        return ensure_non_negative_zero(a.mag / b.mag, sign);
     }
 
     // If the operands have different signs, rounding is necessary.
@@ -287,7 +287,7 @@ fn i16_div(a: i16, b: i16) -> i16 {
         if (quotient == 0_u16) {
             return IntegerTrait::new(quotient, false);
         }
-        return IntegerTrait::new(quotient, sign);
+        return ensure_non_negative_zero(quotient, sign);
     }
 
     // If the quotient is not an integer, multiply the dividend by 10 to move the decimal point over.
@@ -300,9 +300,9 @@ fn i16_div(a: i16, b: i16) -> i16 {
 
     // Check the last digit to determine rounding direction.
     if (last_digit <= 5_u16) {
-        return IntegerTrait::new(quotient / 10_u16, sign);
+        return ensure_non_negative_zero(quotient / 10_u16, sign);
     } else {
-        return IntegerTrait::new((quotient / 10_u16) + 1_u16, sign);
+        return ensure_non_negative_zero((quotient / 10_u16) + 1_u16, sign);
     }
 }
 
@@ -426,7 +426,7 @@ fn i16_ge(a: i16, b: i16) -> bool {
 // * `i16` - The negation of `x`.
 fn i16_neg(x: i16) -> i16 {
     // The negation of an integer is obtained by flipping its sign.
-    return IntegerTrait::new(x.mag, !x.sign);
+    return ensure_non_negative_zero(x.mag, !x.sign);
 }
 
 /// Cf: IntegerTrait::abs docstring
@@ -449,5 +449,13 @@ fn i16_min(a: i16, b: i16) -> i16 {
         return a;
     } else {
         return b;
+    }
+}
+
+fn ensure_non_negative_zero(mag: u16, sign: bool) -> i16 {
+    if mag == 0 {
+        IntegerTrait::<i16>::new(mag, false)
+    } else {
+        IntegerTrait::<i16>::new(mag, sign)
     }
 }
