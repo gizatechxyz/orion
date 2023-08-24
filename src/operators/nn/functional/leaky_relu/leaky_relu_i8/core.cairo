@@ -9,12 +9,12 @@ fn leaky_relu_i8(z: @Tensor<i8>, alpha: @FixedType) -> Option::<Tensor<FixedType
     match *z.extra {
         Option::Some(extra_params) => match extra_params.fixed_point {
             Option::Some(fixed_point) => match fixed_point {
-                FixedImpl::FP8x23(()) => Option::Some(fp8x23::leaky_relu(z, alpha)),
-                FixedImpl::FP16x16(()) => Option::Some(fp16x16::leaky_relu(z, alpha)),
+                FixedImpl::FP8x23(()) => Option::Some(fp8x23::leaky_relu(*z, alpha)),
+                FixedImpl::FP16x16(()) => Option::Some(fp16x16::leaky_relu(*z, alpha)),
             },
-            Option::None(_) => Option::Some((fp16x16::leaky_relu(z, alpha))),
+            Option::None(_) => Option::Some((fp16x16::leaky_relu(*z, alpha))),
         },
-        Option::None(_) => Option::Some((fp16x16::leaky_relu(z, alpha))),
+        Option::None(_) => Option::Some((fp16x16::leaky_relu(*z, alpha))),
     }
 }
 
