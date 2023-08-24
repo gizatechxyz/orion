@@ -198,7 +198,7 @@ fn i128_add(a: i128, b: i128) -> i128 {
         if (sum == 0_u128) {
             return IntegerTrait::new(sum, false);
         }
-        return IntegerTrait::new(sum, a.sign);
+        return ensure_non_negative_zero(sum, a.sign);
     } else {
         // If the integers have different signs, 
         // the larger absolute value is subtracted from the smaller one.
@@ -212,7 +212,7 @@ fn i128_add(a: i128, b: i128) -> i128 {
         if (difference == 0_u128) {
             return IntegerTrait::new(difference, false);
         }
-        return IntegerTrait::new(difference, larger.sign);
+        return ensure_non_negative_zero(difference, larger.sign);
     }
 }
 
@@ -231,7 +231,7 @@ fn i128_sub(a: i128, b: i128) -> i128 {
     }
 
     // The subtraction of `a` to `b` is achieved by negating `b` sign and adding it to `a`.
-    let neg_b = IntegerTrait::new(b.mag, !b.sign);
+    let neg_b = ensure_non_negative_zero(b.mag, !b.sign);
     return a + neg_b;
 }
 
@@ -258,7 +258,7 @@ fn i128_mul(a: i128, b: i128) -> i128 {
         return IntegerTrait::new(mag, false);
     }
 
-    return IntegerTrait::new(mag, sign);
+    return ensure_non_negative_zero(mag, sign);
 }
 
 // Divides the first i128 by the second i128.
@@ -277,7 +277,7 @@ fn i128_div(a: i128, b: i128) -> i128 {
 
     if (sign == false) {
         // If the operands are positive, the quotient is simply their absolute value quotient.
-        return IntegerTrait::new(a.mag / b.mag, sign);
+        return ensure_non_negative_zero(a.mag / b.mag, sign);
     }
 
     // If the operands have different signs, rounding is necessary.
@@ -287,7 +287,7 @@ fn i128_div(a: i128, b: i128) -> i128 {
         if (quotient == 0_u128) {
             return IntegerTrait::new(quotient, false);
         }
-        return IntegerTrait::new(quotient, sign);
+        return ensure_non_negative_zero(quotient, sign);
     }
 
     // If the quotient is not an integer, multiply the dividend by 10 to move the decimal point over.
@@ -300,9 +300,9 @@ fn i128_div(a: i128, b: i128) -> i128 {
 
     // Check the last digit to determine rounding direction.
     if (last_digit <= 5_u128) {
-        return IntegerTrait::new(quotient / 10_u128, sign);
+        return ensure_non_negative_zero(quotient / 10_u128, sign);
     } else {
-        return IntegerTrait::new((quotient / 10_u128) + 1_u128, sign);
+        return ensure_non_negative_zero((quotient / 10_u128) + 1_u128, sign);
     }
 }
 
@@ -426,7 +426,7 @@ fn i128_ge(a: i128, b: i128) -> bool {
 // * `i128` - The negation of `x`.
 fn i128_neg(x: i128) -> i128 {
     // The negation of an integer is obtained by flipping its sign.
-    return IntegerTrait::new(x.mag, !x.sign);
+    return ensure_non_negative_zero(x.mag, !x.sign);
 }
 
 /// Cf: IntegerTrait::abs docstring
@@ -449,5 +449,13 @@ fn i128_min(a: i128, b: i128) -> i128 {
         return a;
     } else {
         return b;
+    }
+}
+
+fn ensure_non_negative_zero(mag: u128, sign: bool) -> i128 {
+    if mag == 0 {
+        IntegerTrait::<i128>::new(mag, false)
+    } else {
+        IntegerTrait::<i128>::new(mag, sign)
     }
 }

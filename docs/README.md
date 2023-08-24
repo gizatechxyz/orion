@@ -16,7 +16,7 @@ Ensuring compatibility with ONNX operators facilitates integration into the ONNX
 
 ### 🌱 Where to start?
 
-<table data-view="cards"><thead><tr><th align="center"></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td align="center"></td><td>🧱 <strong>Framework</strong></td><td>The building blocks for Verifiable Machine Learning models.</td><td><a href="framework/get-started.md">get-started.md</a></td></tr><tr><td align="center"></td><td>🏛 <strong>Hub</strong></td><td>A curated collection of ML models and spaces built by the community using Orion framework.</td><td><a href="broken-reference">Broken link</a></td></tr><tr><td align="center"></td><td>🎓 <strong>Academy</strong></td><td>Resources and tutorials for learning how to build ValidityML models using Orion.</td><td><a href="broken-reference">Broken link</a></td></tr></tbody></table>
+<table data-view="cards"><thead><tr><th align="center"></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td align="center"></td><td>🧱 <strong>Framework</strong></td><td>The building blocks for Verifiable Machine Learning models.</td><td><a href="broken-reference">Broken link</a></td></tr><tr><td align="center"></td><td>🏛 <strong>Hub</strong></td><td>A curated collection of ML models and spaces built by the community using Orion framework.</td><td><a href="broken-reference">Broken link</a></td></tr><tr><td align="center"></td><td>🎓 <strong>Academy</strong></td><td>Resources and tutorials for learning how to build ValidityML models using Orion.</td><td><a href="broken-reference">Broken link</a></td></tr></tbody></table>
 
 ### ✨ What's new?
 
