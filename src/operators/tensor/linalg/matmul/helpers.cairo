@@ -27,23 +27,34 @@ fn prepare_shape_for_matmul(mut shape: Span<usize>, is_first_tensor: bool) -> Sp
         // Prepend 1 to shape if it's 1-dimensional
         let mut shape_adjusted = ArrayTrait::new();
         shape_adjusted.append(1);
+
         loop {
-            if shape.len() == 0 {
-                break ();
-            }
-            shape_adjusted.append(*shape.pop_front().unwrap());
+            match shape.pop_front() {
+                Option::Some(item) => {
+                    shape_adjusted.append(*item);
+                },
+                Option::None(_) => {
+                    break;
+                }
+            };
         };
 
         return shape_adjusted.span();
     } else if ndim == 1 && !is_first_tensor {
         // Append 1 to shape if it's 1-dimensional
         let mut shape_adjusted = ArrayTrait::new();
+
         loop {
-            if shape.len() == 0 {
-                break ();
-            }
-            shape_adjusted.append(*shape.pop_front().unwrap());
+            match shape.pop_front() {
+                Option::Some(item) => {
+                    shape_adjusted.append(*item);
+                },
+                Option::None(_) => {
+                    break;
+                }
+            };
         };
+
         shape_adjusted.append(1);
 
         return shape_adjusted.span();

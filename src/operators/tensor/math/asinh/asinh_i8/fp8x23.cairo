@@ -11,25 +11,20 @@ use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
 
 
 /// Cf: TensorTrait::asinh docstring
-fn asinh(self: @Tensor<i8>) -> Tensor<FixedType> {
+fn asinh(mut self: Tensor<i8>) -> Tensor<FixedType> {
     let mut result = ArrayTrait::new();
-    let mut data = *self.data;
 
     loop {
-        let ele = *data.pop_front().unwrap();
-
-        if ele.sign == true {
-            let ele = FixedTrait::new_unscaled(ele.mag.into(), ele.sign);
-            result.append(FixedTrait::asinh(ele))
-        } else {
-            let ele = FixedTrait::new_unscaled(ele.mag.into(), ele.sign);
-            result.append(FixedTrait::asinh(ele))
-        }
-
-        if (data.len() == 0) {
-            break ();
+        match self.data.pop_front() {
+            Option::Some(item) => {
+                result.append(FixedTrait::new_unscaled((*item.mag).into(), *item.sign).asinh());
+            },
+            Option::None(_) => {
+                break;
+            }
         };
     };
 
-    return TensorTrait::<FixedType>::new(*self.shape, result.span(), *self.extra);
+    return TensorTrait::<FixedType>::new(self.shape, result.span(), self.extra);
 }
+

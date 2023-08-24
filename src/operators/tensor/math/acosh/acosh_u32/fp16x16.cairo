@@ -11,19 +11,19 @@ use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
 
 
 /// Cf: TensorTrait::acosh docstring
-fn acosh(self: @Tensor<u32>) -> Tensor<FixedType> {
+fn acosh(mut self: Tensor<u32>) -> Tensor<FixedType> {
     let mut result = ArrayTrait::new();
-    let mut data = *self.data;
 
     loop {
-        let ele = FixedTrait::new_unscaled((*data.pop_front().unwrap()), false);
-
-        result.append(FixedTrait::acosh(ele));
-
-        if (data.len() == 0) {
-            break ();
+        match self.data.pop_front() {
+            Option::Some(item) => {
+                result.append(FixedTrait::new_unscaled(*item, false).acosh());
+            },
+            Option::None(_) => {
+                break;
+            }
         };
     };
 
-    return TensorTrait::<FixedType>::new(*self.shape, result.span(), *self.extra);
+    return TensorTrait::<FixedType>::new(self.shape, result.span(), self.extra);
 }

@@ -11,19 +11,19 @@ use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
 
 
 /// Cf: TensorTrait::acosh docstring
-fn acosh(self: @Tensor<i8>) -> Tensor<FixedType> {
+fn acosh(mut self: Tensor<i8>) -> Tensor<FixedType> {
     let mut result = ArrayTrait::new();
-    let mut data = *self.data;
 
     loop {
-        let ele = *data.pop_front().unwrap();
-        let val = FixedTrait::new_unscaled(ele.mag.into(), ele.sign);
-        result.append(FixedTrait::acosh(val));
-
-        if (data.len() == 0) {
-            break ();
+        match self.data.pop_front() {
+            Option::Some(item) => {
+                result.append(FixedTrait::new_unscaled((*item.mag).into(), *item.sign).acosh());
+            },
+            Option::None(_) => {
+                break;
+            }
         };
     };
 
-    return TensorTrait::<FixedType>::new(*self.shape, result.span(), *self.extra);
+    return TensorTrait::<FixedType>::new(self.shape, result.span(), self.extra);
 }
