@@ -8,6 +8,7 @@ use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 
+
 /// Cf: TensorTrait::abs docstring
 fn abs(z: @Tensor<FixedType>) -> Tensor<FixedType> {
     let mut data_result = ArrayTrait::<FixedType>::new();
