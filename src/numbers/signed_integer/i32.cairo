@@ -285,7 +285,7 @@ fn i32_div(a: i32, b: i32) -> i32 {
 
     if (sign == false) {
         // If the operands are positive, the quotient is simply their absolute value quotient.
-        return IntegerTrait::new(a.mag / b.mag, sign);
+        return check_if_zero(a.mag / b.mag, sign);
     }
 
     // If the operands have different signs, rounding is necessary.
@@ -295,7 +295,7 @@ fn i32_div(a: i32, b: i32) -> i32 {
         if (quotient == 0) {
             return IntegerTrait::new(quotient, false);
         }
-        return IntegerTrait::new(quotient, sign);
+        return check_if_zero(quotient, sign);
     }
 
     // If the quotient is not an integer, multiply the dividend by 10 to move the decimal point over.
@@ -303,14 +303,14 @@ fn i32_div(a: i32, b: i32) -> i32 {
     let last_digit = quotient % 10;
 
     if (quotient == 0) {
-        return IntegerTrait::new(quotient, false);
+        return check_if_zero(quotient, false);
     }
 
     // Check the last digit to determine rounding direction.
     if (last_digit <= 5) {
-        return IntegerTrait::new(quotient / 10, sign);
+        return check_if_zero(quotient / 10, sign);
     } else {
-        return IntegerTrait::new((quotient / 10) + 1, sign);
+        return check_if_zero((quotient / 10) + 1, sign);
     }
 }
 
@@ -480,5 +480,13 @@ fn i8_try_from_i32(x: i32) -> Option<i8> {
     match x.mag.try_into() {
         Option::Some(val) => Option::Some(i8 { mag: val, sign: x.sign }),
         Option::None(_) => Option::None(())
+    }
+}
+
+fn check_if_zero(mag: u32, sign: bool) -> i32 {
+    if mag == 0 {
+        IntegerTrait::<i32>::new(mag, false)
+    } else {
+        IntegerTrait::<i32>::new(mag, sign)
     }
 }
