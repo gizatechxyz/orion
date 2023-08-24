@@ -21,6 +21,7 @@ fn u32_tensor_1x3_helper() -> Tensor<u32> {
 
 // 2D
 
+
 fn u32_tensor_2x2_helper() -> Tensor<u32> {
     let mut sizes = ArrayTrait::new();
     sizes.append(2);
