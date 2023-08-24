@@ -1,0 +1,76 @@
+use array::ArrayTrait;
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::numbers::fixed_point::core::FixedImpl;
+use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
+
+fn output_0() -> Tensor<u32> {
+    let mut shape = ArrayTrait::<usize>::new();
+    shape.append(3);
+    shape.append(4);
+    shape.append(5);
+
+    let mut data = ArrayTrait::new();
+    data.append(247);
+    data.append(185);
+    data.append(145);
+    data.append(11);
+    data.append(240);
+    data.append(16);
+    data.append(187);
+    data.append(18);
+    data.append(218);
+    data.append(210);
+    data.append(62);
+    data.append(139);
+    data.append(31);
+    data.append(92);
+    data.append(89);
+    data.append(132);
+    data.append(141);
+    data.append(59);
+    data.append(97);
+    data.append(91);
+    data.append(18);
+    data.append(176);
+    data.append(237);
+    data.append(50);
+    data.append(217);
+    data.append(221);
+    data.append(111);
+    data.append(82);
+    data.append(177);
+    data.append(219);
+    data.append(7);
+    data.append(17);
+    data.append(193);
+    data.append(197);
+    data.append(241);
+    data.append(11);
+    data.append(83);
+    data.append(71);
+    data.append(78);
+    data.append(247);
+    data.append(18);
+    data.append(138);
+    data.append(92);
+    data.append(240);
+    data.append(137);
+    data.append(7);
+    data.append(41);
+    data.append(32);
+    data.append(70);
+    data.append(113);
+    data.append(189);
+    data.append(91);
+    data.append(188);
+    data.append(153);
+    data.append(67);
+    data.append(110);
+    data.append(17);
+    data.append(44);
+    data.append(180);
+    data.append(1);
+
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16) };
+    TensorTrait::new(shape.span(), data.span(), Option::Some(extra))
+}

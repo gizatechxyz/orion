@@ -1,0 +1,76 @@
+use array::ArrayTrait;
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+
+fn output_0() -> Tensor<FixedType> {
+    let mut shape = ArrayTrait::<usize>::new();
+    shape.append(3);
+    shape.append(4);
+    shape.append(5);
+
+    let mut data = ArrayTrait::new();
+    data.append(FixedType { mag: 4980736, sign: true });
+    data.append(FixedType { mag: 7143424, sign: true });
+    data.append(FixedType { mag: 6291456, sign: true });
+    data.append(FixedType { mag: 4587520, sign: false });
+    data.append(FixedType { mag: 2293760, sign: true });
+    data.append(FixedType { mag: 6160384, sign: false });
+    data.append(FixedType { mag: 2293760, sign: true });
+    data.append(FixedType { mag: 5308416, sign: false });
+    data.append(FixedType { mag: 5963776, sign: true });
+    data.append(FixedType { mag: 4718592, sign: false });
+    data.append(FixedType { mag: 3932160, sign: false });
+    data.append(FixedType { mag: 1703936, sign: false });
+    data.append(FixedType { mag: 5832704, sign: false });
+    data.append(FixedType { mag: 5439488, sign: true });
+    data.append(FixedType { mag: 7471104, sign: true });
+    data.append(FixedType { mag: 5505024, sign: true });
+    data.append(FixedType { mag: 8060928, sign: false });
+    data.append(FixedType { mag: 4259840, sign: true });
+    data.append(FixedType { mag: 3604480, sign: false });
+    data.append(FixedType { mag: 4718592, sign: false });
+    data.append(FixedType { mag: 3604480, sign: false });
+    data.append(FixedType { mag: 1572864, sign: false });
+    data.append(FixedType { mag: 3014656, sign: false });
+    data.append(FixedType { mag: 983040, sign: true });
+    data.append(FixedType { mag: 6750208, sign: true });
+    data.append(FixedType { mag: 7143424, sign: true });
+    data.append(FixedType { mag: 7340032, sign: true });
+    data.append(FixedType { mag: 2097152, sign: false });
+    data.append(FixedType { mag: 7405568, sign: true });
+    data.append(FixedType { mag: 7536640, sign: true });
+    data.append(FixedType { mag: 2293760, sign: false });
+    data.append(FixedType { mag: 1310720, sign: false });
+    data.append(FixedType { mag: 131072, sign: true });
+    data.append(FixedType { mag: 1441792, sign: false });
+    data.append(FixedType { mag: 1507328, sign: true });
+    data.append(FixedType { mag: 7274496, sign: false });
+    data.append(FixedType { mag: 7077888, sign: false });
+    data.append(FixedType { mag: 4521984, sign: false });
+    data.append(FixedType { mag: 6094848, sign: true });
+    data.append(FixedType { mag: 2162688, sign: true });
+    data.append(FixedType { mag: 2228224, sign: false });
+    data.append(FixedType { mag: 262144, sign: false });
+    data.append(FixedType { mag: 5898240, sign: false });
+    data.append(FixedType { mag: 8126464, sign: true });
+    data.append(FixedType { mag: 3211264, sign: false });
+    data.append(FixedType { mag: 1376256, sign: false });
+    data.append(FixedType { mag: 4128768, sign: false });
+    data.append(FixedType { mag: 2686976, sign: false });
+    data.append(FixedType { mag: 7340032, sign: false });
+    data.append(FixedType { mag: 5046272, sign: true });
+    data.append(FixedType { mag: 589824, sign: true });
+    data.append(FixedType { mag: 5439488, sign: false });
+    data.append(FixedType { mag: 2949120, sign: false });
+    data.append(FixedType { mag: 1245184, sign: true });
+    data.append(FixedType { mag: 2162688, sign: false });
+    data.append(FixedType { mag: 4456448, sign: false });
+    data.append(FixedType { mag: 4456448, sign: true });
+    data.append(FixedType { mag: 262144, sign: false });
+    data.append(FixedType { mag: 3932160, sign: true });
+    data.append(FixedType { mag: 3538944, sign: true });
+
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16) };
+    TensorTrait::new(shape.span(), data.span(), Option::Some(extra))
+}

@@ -8,7 +8,7 @@ use orion::numbers::fixed_point::core::FixedType;
 
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
-    at_tensor, tensor_eq
+    at_tensor, tensor_eq, slice
 };
 use orion::operators::tensor::math::min::min_fp::core::min_in_tensor;
 use orion::operators::tensor::math::max::max_fp::core::max_in_tensor;
@@ -211,6 +211,16 @@ impl Tensor_fp of TensorTrait<FixedType> {
 
     fn sqrt(self: @Tensor<FixedType>) -> Tensor<FixedType> {
         sqrt(self).unwrap()
+    }
+
+    fn slice(
+        self: @Tensor<FixedType>,
+        starts: Span<usize>,
+        ends: Span<usize>,
+        axes: Option<Span<usize>>,
+        steps: Option<Span<usize>>
+    ) -> Tensor<FixedType> {
+        slice(self, starts, ends, axes, steps)
     }
 }
 

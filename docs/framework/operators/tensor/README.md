@@ -87,6 +87,7 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.cosh`](tensor.cosh.md) | Computes the hyperbolic cosine of all elements of the input tensor. |
 | [`tensor.asinh`](tensor.asinh.md) | Computes the inverse hyperbolic sine of all elements of the input tensor. |
 | [`tensor.acosh`](tensor.acosh.md) | Computes the inverse hyperbolic cosine of all elements of the input tensor. |
+| [`tensor.slice`](tensor.slice.md) | Produces a slice of the input tensor along multiple axes.  |
 
 ### Arithmetic Operations
 

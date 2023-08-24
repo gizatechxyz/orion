@@ -1,0 +1,77 @@
+use array::ArrayTrait;
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::numbers::fixed_point::core::FixedImpl;
+use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
+use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
+
+fn output_0() -> Tensor<i32> {
+    let mut shape = ArrayTrait::<usize>::new();
+    shape.append(3);
+    shape.append(4);
+    shape.append(5);
+
+    let mut data = ArrayTrait::new();
+    data.append(i32 { mag: 115, sign: false });
+    data.append(i32 { mag: 48, sign: true });
+    data.append(i32 { mag: 81, sign: false });
+    data.append(i32 { mag: 96, sign: true });
+    data.append(i32 { mag: 83, sign: true });
+    data.append(i32 { mag: 48, sign: false });
+    data.append(i32 { mag: 83, sign: true });
+    data.append(i32 { mag: 1, sign: false });
+    data.append(i32 { mag: 79, sign: false });
+    data.append(i32 { mag: 10, sign: true });
+    data.append(i32 { mag: 16, sign: true });
+    data.append(i32 { mag: 110, sign: true });
+    data.append(i32 { mag: 38, sign: true });
+    data.append(i32 { mag: 33, sign: false });
+    data.append(i32 { mag: 43, sign: true });
+    data.append(i32 { mag: 36, sign: true });
+    data.append(i32 { mag: 100, sign: true });
+    data.append(i32 { mag: 54, sign: true });
+    data.append(i32 { mag: 58, sign: true });
+    data.append(i32 { mag: 4, sign: true });
+    data.append(i32 { mag: 36, sign: true });
+    data.append(i32 { mag: 82, sign: true });
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 59, sign: true });
+    data.append(i32 { mag: 80, sign: true });
+    data.append(i32 { mag: 87, sign: false });
+    data.append(i32 { mag: 51, sign: false });
+    data.append(i32 { mag: 88, sign: true });
+    data.append(i32 { mag: 110, sign: true });
+    data.append(i32 { mag: 51, sign: true });
+    data.append(i32 { mag: 79, sign: false });
+    data.append(i32 { mag: 93, sign: true });
+    data.append(i32 { mag: 9, sign: true });
+    data.append(i32 { mag: 80, sign: true });
+    data.append(i32 { mag: 117, sign: true });
+    data.append(i32 { mag: 86, sign: true });
+    data.append(i32 { mag: 121, sign: true });
+    data.append(i32 { mag: 21, sign: false });
+    data.append(i32 { mag: 14, sign: true });
+    data.append(i32 { mag: 33, sign: true });
+    data.append(i32 { mag: 105, sign: true });
+    data.append(i32 { mag: 39, sign: false });
+    data.append(i32 { mag: 117, sign: false });
+    data.append(i32 { mag: 19, sign: false });
+    data.append(i32 { mag: 11, sign: true });
+    data.append(i32 { mag: 97, sign: false });
+    data.append(i32 { mag: 98, sign: false });
+    data.append(i32 { mag: 116, sign: true });
+    data.append(i32 { mag: 29, sign: false });
+    data.append(i32 { mag: 56, sign: true });
+    data.append(i32 { mag: 127, sign: true });
+    data.append(i32 { mag: 42, sign: false });
+    data.append(i32 { mag: 3, sign: true });
+    data.append(i32 { mag: 64, sign: false });
+    data.append(i32 { mag: 72, sign: false });
+    data.append(i32 { mag: 117, sign: true });
+    data.append(i32 { mag: 64, sign: true });
+    data.append(i32 { mag: 96, sign: true });
+    data.append(i32 { mag: 112, sign: true });
+    data.append(i32 { mag: 105, sign: true });
+
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16) };
+    TensorTrait::new(shape.span(), data.span(), Option::Some(extra))
+}

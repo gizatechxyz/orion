@@ -1,0 +1,76 @@
+use array::ArrayTrait;
+use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
+use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+
+fn output_0() -> Tensor<FixedType> {
+    let mut shape = ArrayTrait::<usize>::new();
+    shape.append(3);
+    shape.append(4);
+    shape.append(5);
+
+    let mut data = ArrayTrait::new();
+    data.append(FixedType { mag: 461373440, sign: false });
+    data.append(FixedType { mag: 352321536, sign: false });
+    data.append(FixedType { mag: 679477248, sign: true });
+    data.append(FixedType { mag: 931135488, sign: true });
+    data.append(FixedType { mag: 125829120, sign: false });
+    data.append(FixedType { mag: 176160768, sign: true });
+    data.append(FixedType { mag: 905969664, sign: false });
+    data.append(FixedType { mag: 931135488, sign: true });
+    data.append(FixedType { mag: 67108864, sign: false });
+    data.append(FixedType { mag: 880803840, sign: false });
+    data.append(FixedType { mag: 192937984, sign: false });
+    data.append(FixedType { mag: 125829120, sign: false });
+    data.append(FixedType { mag: 822083584, sign: true });
+    data.append(FixedType { mag: 142606336, sign: true });
+    data.append(FixedType { mag: 645922816, sign: true });
+    data.append(FixedType { mag: 1031798784, sign: true });
+    data.append(FixedType { mag: 847249408, sign: true });
+    data.append(FixedType { mag: 998244352, sign: true });
+    data.append(FixedType { mag: 293601280, sign: true });
+    data.append(FixedType { mag: 268435456, sign: false });
+    data.append(FixedType { mag: 209715200, sign: true });
+    data.append(FixedType { mag: 645922816, sign: true });
+    data.append(FixedType { mag: 318767104, sign: false });
+    data.append(FixedType { mag: 486539264, sign: true });
+    data.append(FixedType { mag: 184549376, sign: false });
+    data.append(FixedType { mag: 587202560, sign: true });
+    data.append(FixedType { mag: 595591168, sign: false });
+    data.append(FixedType { mag: 981467136, sign: false });
+    data.append(FixedType { mag: 134217728, sign: true });
+    data.append(FixedType { mag: 176160768, sign: false });
+    data.append(FixedType { mag: 452984832, sign: true });
+    data.append(FixedType { mag: 1006632960, sign: true });
+    data.append(FixedType { mag: 33554432, sign: false });
+    data.append(FixedType { mag: 8388608, sign: false });
+    data.append(FixedType { mag: 704643072, sign: false });
+    data.append(FixedType { mag: 956301312, sign: false });
+    data.append(FixedType { mag: 109051904, sign: false });
+    data.append(FixedType { mag: 629145600, sign: false });
+    data.append(FixedType { mag: 503316480, sign: true });
+    data.append(FixedType { mag: 922746880, sign: true });
+    data.append(FixedType { mag: 578813952, sign: true });
+    data.append(FixedType { mag: 218103808, sign: true });
+    data.append(FixedType { mag: 251658240, sign: false });
+    data.append(FixedType { mag: 268435456, sign: false });
+    data.append(FixedType { mag: 58720256, sign: true });
+    data.append(FixedType { mag: 234881024, sign: false });
+    data.append(FixedType { mag: 494927872, sign: true });
+    data.append(FixedType { mag: 301989888, sign: true });
+    data.append(FixedType { mag: 528482304, sign: true });
+    data.append(FixedType { mag: 218103808, sign: false });
+    data.append(FixedType { mag: 16777216, sign: false });
+    data.append(FixedType { mag: 100663296, sign: true });
+    data.append(FixedType { mag: 696254464, sign: true });
+    data.append(FixedType { mag: 117440512, sign: true });
+    data.append(FixedType { mag: 176160768, sign: true });
+    data.append(FixedType { mag: 352321536, sign: true });
+    data.append(FixedType { mag: 872415232, sign: true });
+    data.append(FixedType { mag: 1006632960, sign: true });
+    data.append(FixedType { mag: 427819008, sign: false });
+    data.append(FixedType { mag: 50331648, sign: true });
+
+    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    TensorTrait::new(shape.span(), data.span(), Option::Some(extra))
+}
