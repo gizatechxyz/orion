@@ -56,12 +56,15 @@ fn dot_product(mut vec1: Span<u32>, mut vec2: Span<u32>) -> u32 {
     let mut result: u32 = 0;
 
     loop {
-        if vec1.len() == 0 {
-            break ();
-        }
-
-        let element_product = *vec1.pop_front().unwrap() * *vec2.pop_front().unwrap();
-        result += element_product;
+        match vec1.pop_front() {
+            Option::Some(vec1_item) => {
+                let element_product = *vec1_item * *vec2.pop_front().unwrap();
+                result += element_product;
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
     };
 
     return result;
