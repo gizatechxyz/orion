@@ -12,19 +12,21 @@ use orion::numbers::fixed_point::implementations::fp16x16::core::{
 
 
 /// Cf: NNTrait::softsign docstring
-fn softsign(z: @Tensor<u32>) -> Tensor<FixedType> {
+fn softsign(mut z: Tensor<u32>) -> Tensor<FixedType> {
     let mut data_result = ArrayTrait::new();
-    let mut data = *z.data;
-    let fp_one = FixedTrait::new_unscaled(1, false);
-    loop {
-        if data.len() == 0 {
-            break ();
-        };
 
-        let current_index = *data.pop_front().unwrap();
-        let fp_current_index = FixedTrait::new_unscaled(current_index.into(), false);
-        let result = fp_current_index / (fp_one + fp_current_index.abs());
-        data_result.append(result);
+    loop {
+        match z.data.pop_front() {
+            Option::Some(item) => {
+                let fp_current_item = FixedTrait::new_unscaled(*item, false);
+                let result = fp_current_item / (FixedTrait::ONE() + fp_current_item.abs());
+                data_result.append(result);
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
     };
-    return TensorTrait::new(*z.shape, data_result.span(), *z.extra);
+
+    return TensorTrait::new(z.shape, data_result.span(), z.extra);
 }
