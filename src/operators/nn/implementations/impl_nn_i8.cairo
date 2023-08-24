@@ -15,7 +15,7 @@ use orion::numbers::fixed_point::core::{FixedType};
 
 impl NN_i8 of NNTrait<i8> {
     fn relu(tensor: @Tensor<i8>) -> Tensor<i8> {
-        relu_i8(tensor)
+        relu_i8(*tensor)
     }
 
     fn sigmoid(tensor: @Tensor<i8>) -> Tensor<FixedType> {

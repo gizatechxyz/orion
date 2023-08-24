@@ -8,18 +8,19 @@ use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
 
 
-fn atan(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+fn atan(mut self: Tensor<FixedType>) -> Tensor<FixedType> {
     let mut result = ArrayTrait::new();
-    let mut data = *self.data;
 
     loop {
-        let ele = *data.pop_front().unwrap();
-        result.append(FixedTrait::atan(ele));
-
-        if (data.len() == 0) {
-            break ();
+        match self.data.pop_front() {
+            Option::Some(item) => {
+                result.append((*item).atan());
+            },
+            Option::None(_) => {
+                break;
+            }
         };
     };
 
-    return TensorTrait::<FixedType>::new(*self.shape, result.span(), *self.extra);
+    return TensorTrait::<FixedType>::new(self.shape, result.span(), self.extra);
 }

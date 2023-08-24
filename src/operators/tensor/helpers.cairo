@@ -2,6 +2,8 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
+use alexandria_data_structures::array_ext::ArrayTraitExt;
+
 use orion::utils::u32_max;
 use orion::operators::tensor::core::stride;
 
@@ -19,11 +21,14 @@ fn len_from_shape(mut shape: Span<usize>) -> usize {
     let mut result: usize = 1;
 
     loop {
-        if shape.len() == 0 {
-            break ();
-        }
-
-        result *= *shape.pop_front().unwrap();
+        match shape.pop_front() {
+            Option::Some(item) => {
+                result *= *item;
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
     };
 
     return result;
@@ -53,17 +58,19 @@ fn check_compatibility(mut shape_1: Span<usize>, mut shape_2: Span<usize>) {
     assert(shape_1.len() == shape_2.len(), 'tensors shape must match');
 
     loop {
-        if shape_1.len() == 0 {
-            break ();
-        }
+        match shape_1.pop_front() {
+            Option::Some(shape_1_val) => {
+                let shape_2_val = *shape_2.pop_front().unwrap();
 
-        let shape_1_val = *shape_1.pop_front().unwrap();
-        let shape_2_val = *shape_2.pop_front().unwrap();
-
-        assert(
-            shape_1_val == shape_2_val || shape_1_val == 1 || shape_2_val == 1,
-            'tensors shape must match'
-        );
+                assert(
+                    *shape_1_val == shape_2_val || *shape_1_val == 1 || shape_2_val == 1,
+                    'tensors shape must match'
+                );
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
     };
 }
 
@@ -85,15 +92,17 @@ fn broadcast_index_mapping(mut shape: Span<usize>, mut indices: Span<usize>) -> 
     let mut stride = stride(shape);
 
     loop {
-        let indices_val = *indices.pop_front().unwrap();
-        let shape_val = *shape.pop_front().unwrap();
-        let stride_val = *stride.pop_front().unwrap();
+        match shape.pop_front() {
+            Option::Some(shape_val) => {
+                let indices_val = *indices.pop_front().unwrap();
+                let stride_val = *stride.pop_front().unwrap();
 
-        let index = (indices_val % shape_val) * stride_val;
-        result += index;
-
-        if shape.len() == 0 {
-            break ();
+                let index = (indices_val % *shape_val) * stride_val;
+                result += index;
+            },
+            Option::None(_) => {
+                break;
+            }
         };
     };
 
@@ -120,21 +129,22 @@ fn reduce_output_shape(mut input_shape: Span<usize>, axis: usize, keepdims: bool
     let mut n: usize = 0;
 
     loop {
-        if input_shape.len() == 0 {
-            break ();
-        }
+        match input_shape.pop_front() {
+            Option::Some(current_dim) => {
+                if n == axis {
+                    if keepdims {
+                        output_shape.append(1);
+                    }
+                } else {
+                    output_shape.append(*current_dim);
+                }
 
-        let current_dim = *input_shape.pop_front().unwrap();
-
-        if n == axis {
-            if keepdims {
-                output_shape.append(1);
+                n += 1;
+            },
+            Option::None(_) => {
+                break;
             }
-        } else {
-            output_shape.append(current_dim);
-        }
-
-        n += 1;
+        };
     };
 
     return output_shape.span();
@@ -159,14 +169,16 @@ fn permutation_output_shape(input_shape: Span<usize>, mut axes: Span<usize>) -> 
     assert(input_shape.len() == axes_len, 'input_shape/indices len unequal');
 
     let mut output_shape = ArrayTrait::new();
-    let mut axis: usize = 0;
-    loop {
-        if axis == axes_len {
-            break ();
-        }
 
-        output_shape.append(*input_shape[*axes.pop_front().unwrap()]);
-        axis += 1;
+    loop {
+        match axes.pop_front() {
+            Option::Some(item) => {
+                output_shape.append(*input_shape[*item]);
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
     };
 
     return output_shape.span();
@@ -185,15 +197,14 @@ fn permutation_output_shape(input_shape: Span<usize>, mut axes: Span<usize>) -> 
 ///
 /// # Returns
 /// * A Span of usize representing the combined indices.
-fn combine_indices(output_indices: Span<usize>, axis_index: usize, axis: usize) -> Span<usize> {
+fn combine_indices(mut output_indices: Span<usize>, axis_index: usize, axis: usize) -> Span<usize> {
     assert(axis <= output_indices.len(), 'axis value is out of range');
 
     let mut result = ArrayTrait::new();
-    let output_indices_len = output_indices.len();
     let mut n: usize = 0;
 
     loop {
-        if n > output_indices_len {
+        if n > output_indices.len() {
             break ();
         }
 
@@ -226,19 +237,22 @@ fn combine_indices(output_indices: Span<usize>, axis_index: usize, axis: usize) 
 /// * A usize representing the index of the target axis in the given axes array.
 fn find_axis(mut axes: Span<usize>, target_axis: usize) -> usize {
     assert(target_axis < axes.len(), 'target_axis is out of range');
-
     let mut axis: usize = 0;
-    loop {
-        if axes.len() == 0 {
-            break ();
-        }
 
-        let current_axis = *axes.pop_front().unwrap();
-        if current_axis == target_axis {
-            break ();
-        }
-        axis += 1;
+    loop {
+        match axes.pop_front() {
+            Option::Some(item) => {
+                if *item == target_axis {
+                    break ();
+                }
+                axis += 1;
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
     };
+
     return axis;
 }
 
@@ -257,40 +271,38 @@ fn find_axis(mut axes: Span<usize>, target_axis: usize) -> usize {
 fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usize> {
     check_compatibility(shape1, shape2);
     let mut result: Array<usize> = ArrayTrait::new();
-    let mut temp_result = ArrayTrait::new();
 
     loop {
-        // Get dimensions from shape1 and shape2, or use 1 if there are no more dimensions
-        let dim1 = if shape1.len() > 0 {
-            *shape1.pop_back().unwrap()
-        } else {
-            1
+        let mut dim1 = 1;
+        let mut dim2 = 1;
+
+        match shape1.pop_back() {
+            Option::Some(item) => {
+                dim1 = *item;
+            },
+            Option::None(_) => {
+                if shape1.len() == 0 && shape2.len() == 0 {
+                    break ();
+                };
+            }
         };
 
-        let dim2 = if shape2.len() > 0 {
-            *shape2.pop_back().unwrap()
-        } else {
-            1
+        match shape2.pop_back() {
+            Option::Some(item) => {
+                dim2 = *item;
+            },
+            Option::None(_) => {
+                if shape1.len() == 0 && shape2.len() == 0 {
+                    break ();
+                };
+            }
         };
 
         let broadcasted_dim = u32_max(dim1, dim2);
-        temp_result.append(broadcasted_dim);
-
-        if shape1.len() == 0 && shape2.len() == 0 {
-            break ();
-        };
+        result.append(broadcasted_dim);
     };
 
-    // Copy the broadcasted dimensions to the result array in the correct order
-    let mut temp_result: Span<usize> = temp_result.span();
-    loop {
-        if temp_result.len() == 0 {
-            break ();
-        }
-        result.append(*temp_result.pop_back().unwrap());
-    };
-
-    return result.span();
+    return result.reverse().span();
 }
 
 

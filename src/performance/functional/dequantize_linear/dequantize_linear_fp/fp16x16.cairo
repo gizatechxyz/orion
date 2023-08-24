@@ -19,7 +19,7 @@ fn dequantize_linear(
     x: @Tensor<i8>, x_scale: @Tensor<FixedType>, x_zero_point: @Tensor<FixedType>
 ) -> Tensor::<FixedType> {
     if (*x_scale.data).len() == 1 && (*x_zero_point.data).len() == 1 {
-        dequantize_element_wise(x, *x_scale.data[0], *x_zero_point.data[0])
+        dequantize_element_wise(*x, *x_scale.data[0], *x_zero_point.data[0])
     } else {
         check_compatibility(*x.shape, *x_scale.shape);
         check_compatibility(*x.shape, *x_zero_point.shape);
@@ -37,21 +37,23 @@ fn dequantize_per_axis(
 }
 
 fn dequantize_element_wise(
-    x: @Tensor::<i8>, x_scale: FixedType, x_zero_point: FixedType
+    mut x: Tensor::<i8>, x_scale: FixedType, x_zero_point: FixedType
 ) -> Tensor::<FixedType> {
     let mut result_data = ArrayTrait::<FixedType>::new();
-    let mut data = *x.data;
 
     loop {
-        let dequantized = dequantize(*data.pop_front().unwrap(), x_scale, x_zero_point);
-        result_data.append(dequantized);
-
-        if data.len() == 0 {
-            break ();
+        match x.data.pop_front() {
+            Option::Some(item) => {
+                let dequantized = dequantize(*item, x_scale, x_zero_point);
+                result_data.append(dequantized);
+            },
+            Option::None(_) => {
+                break;
+            }
         };
     };
 
-    return TensorTrait::new(*x.shape, result_data.span(), *x.extra);
+    return TensorTrait::new(x.shape, result_data.span(), x.extra);
 }
 
 fn dequantize(x: i8, x_scale: FixedType, x_zero_point: FixedType) -> FixedType {

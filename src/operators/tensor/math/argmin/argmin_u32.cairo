@@ -24,7 +24,7 @@ fn argmin(
     assert(axis <= (*self.shape).len(), 'axis out of dimensions');
 
     if (*self.shape).len() == 1 {
-        return find_argmin_1D(self, axis, true, select_last_index);
+        return find_argmin_1D(*self, axis, true, select_last_index);
     }
 
     let mut output_data = ArrayTrait::new();

@@ -11,20 +11,21 @@ use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8
 
 
 /// Cf: NNTrait::softplus docstring
-fn softplus(z: @Tensor<u32>) -> Tensor<FixedType> {
+fn softplus(mut z: Tensor<u32>) -> Tensor<FixedType> {
     let mut data_result = ArrayTrait::<FixedType>::new();
-    let mut data = *z.data;
-    let fp_one = FixedTrait::new_unscaled(1, false);
+
     loop {
-        if data.len() == 0 {
-            break ();
+        match z.data.pop_front() {
+            Option::Some(item) => {
+                let fp_current_item = FixedTrait::new_unscaled((*item).into(), false);
+                let result = (FixedTrait::ONE() + fp_current_item.exp()).ln();
+                data_result.append(result);
+            },
+            Option::None(_) => {
+                break;
+            }
         };
-
-        let current_index = *data.pop_front().unwrap();
-        let fp_current_index = FixedTrait::new_unscaled(current_index.into(), false);
-        let result = (fp_one + fp_current_index.exp()).ln();
-        data_result.append(result);
     };
-    return TensorTrait::new(*z.shape, data_result.span(), *z.extra);
-}
 
+    return TensorTrait::new(z.shape, data_result.span(), z.extra);
+}

@@ -10,19 +10,19 @@ use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
 use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
 
 
-fn sqrt(self: @Tensor<u32>) -> Tensor<FixedType> {
+fn sqrt(mut self: Tensor<u32>) -> Tensor<FixedType> {
     let mut result = ArrayTrait::new();
-    let mut data = *self.data;
 
     loop {
-        let ele = FixedTrait::new_unscaled((*data.pop_front().unwrap()), false);
-
-        result.append(FixedTrait::sqrt(ele));
-
-        if (data.len() == 0) {
-            break ();
+        match self.data.pop_front() {
+            Option::Some(item) => {
+                result.append(FixedTrait::new_unscaled(*item, false).sqrt());
+            },
+            Option::None(_) => {
+                break;
+            }
         };
     };
 
-    return TensorTrait::<FixedType>::new(*self.shape, result.span(), *self.extra);
+    return TensorTrait::<FixedType>::new(self.shape, result.span(), self.extra);
 }
