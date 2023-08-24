@@ -17,7 +17,7 @@
 [![GitHub Workflow Status](https://github.com/gizatechxyz/orion/actions/workflows/test.yaml/badge.svg)](https://github.com/gizatechxyz/orion/actions/workflows/test.yaml)
 [![Project license](https://img.shields.io/github/license/gizatechxyz/orion.svg?style=flat-square)](LICENSE)
 [![Pull Requests welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg?style=flat-square)](https://github.com/gizatechxyz/orion/issues?q=is%3Aissue+is%3Aopen)
-[![Join the community](https://dcbadge.vercel.app/api/server/FR3Cd88x6r?style=flat-square)](https://discord.gg/kvqVYbCpU3)
+[![Join the community](https://dcbadge.vercel.app/api/server/kvqVYbCpU3?style=flat&compact=true)](https://discord.gg/kvqVYbCpU3)
 </div>
 
 # Orion: An Open-source Framework for Validity and ZK ML ✨
