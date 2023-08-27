@@ -2311,7 +2311,6 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// fn onehot_example() -> Tensor<FixedType> {
     /// use array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
@@ -2393,7 +2392,7 @@ trait TensorTrait<T> {
     ///    fn concat(tensors: Span<Tensor<T>>, axis: usize,  ) -> Tensor<T>;
     /// ```
     ///
-    /// Concatenate a list of tensors into a single tensor..
+    /// Concatenate a list of tensors into a single tensor.
     ///
     /// ## Args
     ///
@@ -2402,8 +2401,8 @@ trait TensorTrait<T> {
     ///
     /// ## Panics
     ///
-    /// * Panics if lenght of tensors is not equal greater than 1.
-    /// * Panics if dimension is not greater than axis
+    /// * Panic if tensor length is not greater than 1.
+    /// * Panics if dimension is not greater than axis.
     ///
     /// ## Returns 
     ///
@@ -2412,15 +2411,24 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// fn concat_example() -> Tensor<FixedType> {
-    ///    let tensor1 = u32_tensor_2x2_helper();
-    ///    let tensor2 = u32_tensor_2x2_helper();
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
     ///
-    ///    let mut data = ArrayTrait::new();
-    ///    data.append(tensor1);
-    ///    data.append(tensor2);
-    ///    axis = 0 
-    ///    let result = TensorTrait::concat(tensors: data.span(), axis: axis);
+    /// fn concat_example() -> Tensor<FixedType> {
+    ///     let tensor1 = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2].span(), 
+    ///         data: array![0, 1, 2, 3].span(), 
+    ///         extra: Option::None(())
+    ///     );
+    ///
+    ///     let tensor2 = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2].span(), 
+    ///         data: array![0, 1, 2, 3].span(), 
+    ///         extra: Option::None(())
+    ///     );
+    ///
+    ///    let result = TensorTrait::concat(tensors: array![tensor1, tensor2].span(), axis: 0);
     ///    return result;
     /// }
     /// >>> [[0. 1.]
@@ -2431,8 +2439,7 @@ trait TensorTrait<T> {
     ///     result.shape
     /// >>> (4, 2)
     ///
-    ///    axis = 1
-    ///    let result = TensorTrait::concat(tensors: data.span(), axis: axis);
+    ///    let result = TensorTrait::concat(tensors: array![tensor1, tensor2].span(), axis: 1);
     ///    return result;
     /// }
     /// >>> [[0. 1., 0., 1.]
