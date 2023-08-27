@@ -9,18 +9,19 @@ use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
 
 
 /// Cf: TensorTrait::cos docstring
-fn cos(self: @Tensor<FixedType>) -> Tensor<FixedType> {
+fn cos(mut self: Tensor<FixedType>) -> Tensor<FixedType> {
     let mut result = ArrayTrait::new();
-    let mut data = *self.data;
 
     loop {
-        let ele = *data.pop_front().unwrap();
-        result.append(FixedTrait::cos(ele));
-
-        if (data.len() == 0) {
-            break ();
+        match self.data.pop_front() {
+            Option::Some(item) => {
+                result.append((*item).cos());
+            },
+            Option::None(_) => {
+                break;
+            }
         };
     };
 
-    return TensorTrait::<FixedType>::new(*self.shape, result.span(), *self.extra);
+    return TensorTrait::<FixedType>::new(self.shape, result.span(), self.extra);
 }

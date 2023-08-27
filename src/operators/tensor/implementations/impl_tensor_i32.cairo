@@ -130,7 +130,7 @@ impl Tensor_i32 of TensorTrait<i32> {
     }
 
     fn abs(self: @Tensor<i32>) -> Tensor<i32> {
-        abs(self)
+        abs(*self)
     }
 
     fn ceil(self: @Tensor<i32>) -> Tensor<i32> {

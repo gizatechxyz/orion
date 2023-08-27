@@ -57,12 +57,15 @@ fn dot_product(mut vec1: Span<i32>, mut vec2: Span<i32>) -> i32 {
     let mut result: i32 = IntegerTrait::new(0, false);
 
     loop {
-        if vec1.len() == 0 {
-            break ();
-        }
-
-        let element_product = *vec1.pop_front().unwrap() * *vec2.pop_front().unwrap();
-        result += element_product;
+        match vec1.pop_front() {
+            Option::Some(vec1_item) => {
+                let element_product = *vec1_item * *vec2.pop_front().unwrap();
+                result += element_product;
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
     };
 
     return result;

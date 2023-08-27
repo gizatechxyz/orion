@@ -88,11 +88,14 @@ fn accumulate_sum(
         };
     } else {
         loop {
-            if input_data.len() == 0 {
-                break ();
-            }
-
-            acc += *input_data.pop_front().unwrap();
+            match input_data.pop_front() {
+                Option::Some(item) => {
+                    acc += *item;
+                },
+                Option::None(_) => {
+                    break;
+                }
+            };
         };
     }
 

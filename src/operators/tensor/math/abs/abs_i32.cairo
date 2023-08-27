@@ -7,17 +7,18 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 
 /// Cf: TensorTrait::abs docstring
-fn abs(z: @Tensor<i32>) -> Tensor<i32> {
+fn abs(mut z: Tensor<i32>) -> Tensor<i32> {
     let mut data_result = ArrayTrait::<i32>::new();
-    let mut data = *z.data;
     loop {
-        if data.len() == 0 {
-            break ();
+        match z.data.pop_front() {
+            Option::Some(item) => {
+                data_result.append((*item).abs());
+            },
+            Option::None(_) => {
+                break;
+            }
         };
-
-        let current_index = *data.pop_front().unwrap();
-        data_result.append(current_index.abs());
     };
 
-    return TensorTrait::<i32>::new(*z.shape, data_result.span(), *z.extra);
+    return TensorTrait::<i32>::new(z.shape, data_result.span(), z.extra);
 }

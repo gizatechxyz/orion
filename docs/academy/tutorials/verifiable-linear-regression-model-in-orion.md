@@ -14,7 +14,7 @@ Content overview:
 2. [Transitioning to Cairo:](verifiable-linear-regression-model-in-orion.md#transitioning-to-cairo) In the subsequent stage, we will create a new scarb project and replicate our model to Cairo which is a language for creating STARK-provable programs.
 3. [Implementing OLS functions using Orion:](verifiable-linear-regression-model-in-orion.md#implementing-ols-functions-using-orion) To catalyse our development process we will utilise the Orion Framework to construct the OLS functions to build our Verifiable Linear Regression model.
 
-## Simple Linear Regression with Python
+### Simple Linear Regression with Python
 
 A Regression model is a foundational technique used to determine the relationship between independent variables (predictors) and dependent variables (outcome). This relationship is typically represented by a straight line and is often termed the “line of best fit”. By mapping how variations in one variable **X** may influence changes in another variable **y**, we can make highly accurate predictions on new unseen data points. The mathematical representation of this linear relationship is given by the equation:
 
@@ -22,9 +22,9 @@ $$
 y = a + bX \quad \quad \begin{align*} b & \text{= gradient (slope of the line)} \\ a & \text{= intercept (value of } y \text{ when } X \text{ is zero)} \\ y & \text{= y values} \\ X & \text{= x values} \\ \end{align*}
 $$
 
-### Generating the dataset
+#### Generating the dataset
 
-In the following [notebook](https://github.com/BemTG/Verifiable-Linear-Regression-), we will create a synthetic dataset that will serve as the backbone throughout our tutorial.
+In the following [notebook](https://github.com/gizatechxyz/orion\_tutorials/tree/main/verifiable\_linear\_regression\_model), we will create a synthetic dataset that will serve as the backbone throughout our tutorial.
 
 ```python
 import numpy as np
@@ -35,8 +35,8 @@ import matplotlib.pyplot as plt
 SEED = 42
 np.random.seed(SEED)
 # Generate 150 values for X and y
-X = np.linspace(-10, 25, 150).astype('int8')
-noise = np.random.normal(0, 10, len(X)).astype('int8')
+X = np.linspace(-0.5, 0.5, 150).astype('float64')
+noise = np.random.normal(0, 0.1, len(X)).astype('float64')
 
 ## main equation  for generating the dataset
 y = 2 * X + 5 + noise # y=2x+5 + noise
@@ -47,11 +47,9 @@ plt.ylabel('y values')
 
 ```
 
-<figure><img src="../../.gitbook/assets/x-y-values.png" alt=""><figcaption></figcaption></figure>
-
 Upon inspecting the plot, it is readily apparent that there exists a positive correlation between the X and y values, consistent with our underlying equation. Our goal in this tutorial is to quantify this relationship using a regression model, using only the data points provided. By utilizing the Ordinary Least Square (OLS) method, we aim to derive a linear equation that closely approximates the original equation from which the dataset was generated from: `y = 2 * X + 5 + noise`
 
-### Computing the gradient of the line
+#### Computing the gradient of the line
 
 OLS method can help us decipher the linear relationship between the X and y variables by calculating the **gradient (beta)** and corresponding **y intercept (a)** to find the optimal "line of best fit".
 
@@ -71,11 +69,10 @@ denominator = sum((X - X.mean())**2)
 
 beta = numerator / denominator
 print('The slope of regression line:', beta)
->> The slope of regression line: 2.0315325245038856
-
+>> The slope of regression line: 2.0133337976122685
 ```
 
-### Computing the y-intercept
+#### Computing the y-intercept
 
 Having determined the **beta** value, our next step is to calculate the **y-intercept**. This can be achieved by substituting the known **beta**, **y mean**, and **X mean** values into our line equation. The rationale behind using the **y mean** and **X mean** is grounded on the principle that the "line of best fit" must intersect these central points.
 
@@ -90,7 +87,7 @@ print('The y intercept of our regression line:', intercept)
 
 plt.scatter(X, y, label='Data Points')
 plt.plot(X, beta * X + intercept, color='red', label='Regression Line')
-plt.scatter(17,predicted_y_value, color='green', label='pred for x = 17 ')
+plt.scatter(0.17,predicted_y_value, color='green', label='pred for x = 0.17 ')
 plt.xlabel('X')
 plt.ylabel('y')
 plt.title('Linear Regression')
@@ -99,16 +96,14 @@ plt.grid(True)
 plt.show()
 print(f"Calculated beta: {beta}")
 print(f"Calculated intercept: {intercept}")
->> Calculated beta: 2.0315325245038856
->> Calculated intercept: 3.916899671448352
+>> Calculated beta: 2.0133337976122685
+>> Calculated intercept: 4.991767313284746
 
 ```
 
-<figure><img src="../../.gitbook/assets/linear-regression-plot.png" alt=""><figcaption></figcaption></figure>
-
 Looking at the above plot we can see we have successfully implemented our Linear regression model and captured the “line of best fit” using the OLS method.
 
-### Model accuracy
+#### Model accuracy
 
 To assess the efficacy of our regression model, we compute the **mse** and **r\_squared\_score** values, which yield an R-squared score of 0.83, indicating a robust predictive performance for the model.
 
@@ -122,18 +117,18 @@ r_squared = 1 - np.sum((y - y_pred)**2) / np.sum((y - y_mean)**2)
 
 print("Mean Squared Error (MSE):", mse)
 print("R-squared (R^2):", r_squared)
->>Mean Squared Error (MSE): 81.78873049706822
->>R-squared (R^2): 0.8303237877258618
+>> Mean Squared Error (MSE): 0.008805873341370826
+>> R-squared (R^2): 0.974921526753728
 
 ```
 
-## Transitioning to Cairo
+### Transitioning to Cairo
 
 Now that we have a good understanding of the OLS functions used, we will replicate the full linear regression model in Cairo to turn it to a fully verifiable model. Since we will be rebuilding the model from scratch, this will serve as a good opportunity to get familiar with Orion’s built-in functions and operators making the transition to Cairo seamless.
 
-### Creating a new scarb project
+#### Creating a new scarb project
 
-Scarb is the Cairo package manager specifically created to streamline our Cairo and Starknet development process. Scarb will typically manage project dependencies, the compilation process (both pure Cairo and Starknet contracts), downloading and building external libraries to accelerate our development with Orion.You can find all information about Scarb and Cairo installation [here](../../framework/get-started.md#installations).
+Scarb is the Cairo package manager specifically created to streamline our Cairo and Starknet development process. Scarb will typically manage project dependencies, the compilation process (both pure Cairo and Starknet contracts), downloading and building external libraries to accelerate our development with Orion.You can find all information about Scarb and Cairo installation here.
 
 To create a new Scarb project, open your terminal and run:
 
@@ -150,14 +145,14 @@ name = "verifiable_linear_regression"
 version = "0.1.0"
 
 [dependencies]
-orion = { git = "https://github.com/gizatechxyz/orion.git", branch = "develop"   }
+orion = { git = "https://github.com/gizatechxyz/orion.git", branch = "einsum-impl"   }
 
 [scripts]
 test = "scarb cairo-test -f linear_regression_test"
 
 ```
 
-### Gerating the dataset in Cairo
+#### Gerating the dataset in Cairo
 
 Now let’s generate the files required to begin our transition to Cairo. In our Jupyter Notebook, we will execute the code required to turn our synthetic dataset to fixed point values and represent our X and y values as Fixedpoint Tensors in Orion.
 
@@ -171,10 +166,8 @@ def generate_cairo_files(data, name):
             f.write(
                 "use array::ArrayTrait;\n" +
                 "use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};\n" +
-                "use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;\n" +
-                "use orion::numbers::signed_integer::i32::i32;\n\n" +
+                "use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;\n" +
                 "use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};\n"
-                "use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;\n"
                 "use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16PartialEq };\n"+
                 "fn {0}() -> Tensor<FixedType>  ".format(name) + "{\n" +
                 "    let mut shape = ArrayTrait::new();\n"
@@ -185,7 +178,7 @@ def generate_cairo_files(data, name):
                 "    let mut data = ArrayTrait::new();\n"
             )
             for val in np.nditer(data.flatten()):
-                f.write("    data.append(FixedTrait::new_unscaled({0}, {1} ));\n".format(abs(int(val)), str(val < 0).lower()))
+                f.write("    data.append(FixedTrait::new({0}, {1} ));\n".format(abs(int(val * 2**16)), str(val < 0).lower()))
             f.write(
                 "let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) }; \n" +
                 "let tensor = TensorTrait::<FixedType>::new(shape.span(), data.span(), Option::Some(extra)); \n \n" +
@@ -216,13 +209,13 @@ This will tell our compiler to include the separate modules listed above during 
 
 ```rust
 use array::ArrayTrait;
-
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::numbers::signed_integer::i32::i32;
+
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
 use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16PartialEq }; 
+use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16Into, FP16x16PartialEq }; 
 
 fn X_values() -> Tensor<FixedType>  {
     let mut shape = ArrayTrait::new();
@@ -241,6 +234,7 @@ let tensor = TensorTrait::<FixedType>::new(shape.span(), data.span(), Option::So
 return tensor;
 
 }
+
 ```
 
 Since Cairo does not come with built-in signed integers we have to explicitly define it for our X and y values. Luckily, this is already implemented in Orion for us as a struct as shown below:
@@ -248,7 +242,7 @@ Since Cairo does not come with built-in signed integers we have to explicitly de
 ```rust
 // Example of a FixedType.
 struct FixedType {
-    mag: u32,
+    mag: u128,
     sign: bool
 }
 
@@ -276,11 +270,11 @@ let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) };
 
 ```
 
-## Implementing OLS functions using Orion
+### Implementing OLS functions using Orion
 
 At this stage, we will be reproducing the OLS functions now that we have generated our X and Y Fixedpoint Tensors. We will begin by creating a separate file for our linear regression functions file named `lin_reg_func.cairo` to host all of our linear regression functions.
 
-### Computing the mean
+#### Computing the mean
 
 ```rust
 fn calculate_mean(tensor_data: Tensor<FixedType>) -> FixedType {
@@ -293,11 +287,12 @@ fn calculate_mean(tensor_data: Tensor<FixedType>) -> FixedType {
 
     return mean;
 }
+
 ```
 
 The above function takes in a FixedType Tensor and computes its corresponding mean value. We break the steps down by first calculating the cumulative sum of the tensor values using the `cumsum` built-in orion operator. We then divide the result by the length of the tensor size and return the output as a Fixedtype number.
 
-### Computing the deviation from the mean
+#### Computing the deviation from the mean
 
 ```rust
 fn deviation_from_mean(tensor_data: Tensor<FixedType> ) -> Tensor<FixedType> {
@@ -328,7 +323,7 @@ fn deviation_from_mean(tensor_data: Tensor<FixedType> ) -> Tensor<FixedType> {
 
 The following deviation\_from\_mean function calculates the deviation from the mean for each element of a given tensor. We initially calculate the tensor's mean value and store it under the variable mean\_value. We then create a for loop to iterate over each element in the tensor values and calculate the deviation from the mean which we will append the result to `deviation_values` array. Finally, we create a new tensor named distance\_from\_mean\_tensor by passing the deviation\_values array and the tensor shape.
 
-### Computing the gradient value
+#### Computing the gradient value
 
 The OLS gradient (beta) formula:
 
@@ -355,7 +350,7 @@ fn compute_beta(x_values: Tensor<FixedType>, y_values: Tensor<FixedType> ) -> Fi
 
 We can now compute the beta value for our linear regression utilising the previous deviation\_from\_mean function. We first calculate both the deviation of x values and y values from the mean and store them in separate variables as tensors. To calculate the covariance, we use the built-in Orion `matmul` operator to multiply x\_deviation by y\_deviation tensors. Similarly, we compute the X variance by multiplying x\_deviation tensor by itself. Finally, we divide the `x_y_covariance` by the `x_variance` to get an approximate gradient value for our regression model.
 
-### Computing the y-intercept
+#### Computing the y-intercept
 
 ```rust
 /// Calculates the intercept for linear regression.
@@ -374,7 +369,7 @@ fn compute_intercept(beta_value:FixedType, x_values: Tensor<FixedType>, y_values
 
 Calculating the y-intercept is fairly simple, we just need to substitute the calculated beta, y\_mean and x\_mean values and rearrange for the intercept value as previously shown in the Python implementation section.
 
-### Testing the model
+#### Testing the model
 
 Now that we have implemented all the necessary functions for the OLS method, we can finally test our linear regression model. We begin by creating a new separate test file named `test.cairo` and import all the necessary Orion libraries including our `X_values` and `y_values` found in the generated folder. We also import all the OLS functions from `lin_reg_func.cairo` file as we will be relying upon them to construct the regression model.
 
@@ -421,11 +416,11 @@ fn linear_regression_test() {
     let mse = compute_mse(y_values, y_pred);
     // mse.print();       // mean squared error ouput
     let r_score = calculate_r_score(y_values, y_pred);
-    // r_score.print();   // accuracy of model 0.8303375244140625 
+    // r_score.print();   // accuracy of model 0.97494506835
 
     assert(beta_value.mag > 0, 'x & y not positively correlated');
     assert(r_score.mag > 0, 'R-Squared needs to be above 0');
-    assert(r_score.mag < 62259, 'R-Squared has to be below 65536'); // 65536 represents ONE in fp16x16.
+    assert(r_score.mag < 65536, 'R-Squared has to be below 65536'); // 65536 represents ONE in fp16x16.
     assert(r_score.mag > 32768, 'Accuracy below 50% ');
 }
 

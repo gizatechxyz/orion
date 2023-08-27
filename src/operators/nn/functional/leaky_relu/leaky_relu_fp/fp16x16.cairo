@@ -12,25 +12,25 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 
 /// Cf: NNTrait::leaky_relu docstring
-fn leaky_relu(z: @Tensor<FixedType>, alpha: @FixedType) -> Tensor<FixedType> {
+fn leaky_relu(mut z: Tensor<FixedType>, alpha: @FixedType) -> Tensor<FixedType> {
     assert(*alpha.mag < ONE, 'alpha must be less than 1_fp');
 
     let mut data_result = ArrayTrait::<FixedType>::new();
-    let mut data = *z.data;
+
     loop {
-        if data.len() == 0 {
-            break ();
-        };
-
-        let current_index = *data.pop_front().unwrap();
-
-        if (current_index >= FixedType { mag: 0, sign: false }) {
-            data_result.append(current_index);
-        } else {
-            data_result.append(current_index * *alpha);
+        match z.data.pop_front() {
+            Option::Some(item) => {
+                if (*item >= FixedType { mag: 0, sign: false }) {
+                    data_result.append(*item);
+                } else {
+                    data_result.append(*item * *alpha);
+                };
+            },
+            Option::None(_) => {
+                break;
+            }
         };
     };
 
-    return TensorTrait::new(*z.shape, data_result.span(), *z.extra);
+    return TensorTrait::new(z.shape, data_result.span(), z.extra);
 }
-

@@ -28,36 +28,47 @@ fn find_argmin_1D<
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
 >(
-    input: @Tensor<T>, axis: usize, keepdims: bool, select_last_index: bool
+    mut input: Tensor<T>, axis: usize, keepdims: bool, select_last_index: bool
 ) -> Tensor<usize> {
     let mut output_data = ArrayTrait::<usize>::new();
-    let mut data = *input.data;
 
-    let mut min = *data.pop_front().unwrap();
-    let mut min_index = 0_usize;
-    let mut count = 0_usize;
+    let mut min = match input.data.pop_front() {
+        Option::Some(item) => *item,
+        Option::None(_) => {
+            return TensorTrait::<usize>::new(
+                reduce_output_shape(input.shape, axis, keepdims), output_data.span(), input.extra
+            );
+        }
+    };
+    let mut min_index = 0;
+    let mut count = 0;
+
     loop {
-        if data.len() == 0 {
-            break ();
-        };
+        match input.data.pop_front() {
+            Option::Some(item) => {
+                count += 1;
 
-        count += 1;
-
-        let current_value = *data.pop_front().unwrap();
-        if current_value < min {
-            min = current_value;
-            min_index = count;
-        } else {
-            if select_last_index && current_value == min {
-                min_index = count;
+                if *item < min {
+                    min = *item;
+                    min_index = count;
+                } else {
+                    if select_last_index && item == @min {
+                        min_index = count;
+                    }
+                };
+            },
+            Option::None(_) => {
+                break;
             }
         };
     };
 
+
+
     output_data.append(min_index);
 
     return TensorTrait::<usize>::new(
-        reduce_output_shape(*input.shape, axis, keepdims), output_data.span(), *input.extra
+        reduce_output_shape(input.shape, axis, keepdims), output_data.span(), input.extra
     );
 }
 
