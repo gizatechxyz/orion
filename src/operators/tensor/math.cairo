@@ -29,3 +29,4 @@ mod or;
 mod acos;
 mod onehot;
 mod sqrt;
+mod concat;

@@ -44,6 +44,8 @@ use orion::operators::tensor::math::xor::xor_i8::xor;
 use orion::operators::tensor::math::or::or_i8::or;
 use orion::operators::tensor::math::onehot::onehot_i8::onehot;
 use orion::operators::tensor::math::sqrt::sqrt_i8::core::sqrt_i8;
+use orion::operators::tensor::math::concat::concat_i8::concat_i8;
+
 
 impl Tensor_i8 of TensorTrait<i8> {
     fn new(shape: Span<usize>, data: Span<i8>, extra: Option<ExtraParams>) -> Tensor<i8> {
@@ -203,7 +205,11 @@ impl Tensor_i8 of TensorTrait<i8> {
 
     fn sqrt(self: @Tensor<i8>) -> Tensor<FixedType> {
         sqrt_i8(self).unwrap()
-    }
+    }  
+
+    fn concat( tensors: Span<Tensor<i8>>, axis: usize,  ) -> Tensor<i8> {
+         concat_i8(tensors, axis)
+    }  
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

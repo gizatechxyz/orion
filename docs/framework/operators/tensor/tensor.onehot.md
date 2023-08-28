@@ -24,7 +24,6 @@ A new `Tensor<T>` one-hot encode of the input tensor.
 ## Example
 
 ```rust
-fn onehot_example() -> Tensor<FixedType> {
 use array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};

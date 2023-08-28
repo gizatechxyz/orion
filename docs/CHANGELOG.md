@@ -16,6 +16,19 @@ Use only LUTs for trigonometric functions.
 
 ## [Unreleased] - 2023-08-15
 
+### Added
+
+- Concat for tensors with tests
+- Added i8 tensor helper for tests.
+
+## [Unreleased] - 2023-08-09
+
+### Added
+
+- Onehot encoding for tensors with tests
+
+## [Unreleased] - 2023-08-15
+
 ### Added 
 Add FixedType implementation of NNTrait.
 

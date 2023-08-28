@@ -47,6 +47,7 @@ You can see below the list of current supported ONNX Operators:
 |             [Acos](operators/tensor/tensor.acos.md)             | :white\_check\_mark: |
 |             [Sqrt](operators/tensor/tensor.sqrt.md)             | :white\_check\_mark: |
 |           [Onehot](operators/tensor/tensor.onehot.md)           | :white\_check\_mark: |
+|           [Concat](operators/tensor/tensor.concat.md)           | :white\_check\_mark: |
 |  [QuantizeLinear](performance/performance.quantize\_linear.md)  | :white\_check\_mark: |
 | [DequantizeLinear](performance/performance.quantize\_linear.md) | :white\_check\_mark: |
 
@@ -57,4 +58,4 @@ Performance optimizations:
 | :----------------: | :------------------: |
 | 8-bit quantization | :white\_check\_mark: |
 
-Current Operators support: **42/156 (27%)**
+Current Operators support: **43/156 (27%)**
