@@ -4,7 +4,7 @@ use option::OptionTrait;
 
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
+use orion::numbers::fixed_point::core::{FixedImpl};
 
 #[derive(Copy, Drop)]
 struct Tensor<T> {
@@ -77,7 +77,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// acosh - Computes the inverse hyperbolic cosine of all elements of the input tensor.
 /// concat - Concatenate a list of tensors into a single tensor.
 /// 
-trait TensorTrait<T> {
+trait TensorTrait<T, F> {
     /// # tensor.new
     ///
     /// ```rust 
@@ -900,7 +900,7 @@ trait TensorTrait<T> {
     /// // [[1, 2.718281],[7.38905, 20.085536]]
     /// ```
     ///
-    fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn exp(self: @Tensor<T>) -> Tensor<F>;
     /// # tensor.log
     ///
     /// ```rust 
@@ -945,7 +945,7 @@ trait TensorTrait<T> {
     /// /// [[0, 0.693147, 1.098612, 4.605170]]
     /// ```
     ///
-    fn log(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn log(self: @Tensor<T>) -> Tensor<F>;
     /// #tensor.equal
     ///
     /// ```rust
@@ -1489,7 +1489,7 @@ trait TensorTrait<T> {
     /// // [0,0.8414...,0.9092...]
     /// ```
     ///
-    fn sin(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn sin(self: @Tensor<T>) -> Tensor<F>;
     /// #tensor.cos
     ///
     /// ```rust
@@ -1538,7 +1538,7 @@ trait TensorTrait<T> {
     /// // [1, 0.5403...,-0.4161]
     /// ```
     ///
-    fn cos(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn cos(self: @Tensor<T>) -> Tensor<F>;
     /// # tensor.cumsum
     ///
     /// ```rust 
@@ -1780,7 +1780,7 @@ trait TensorTrait<T> {
     /// // [[0, 1.175201],[3.62686, 10.0178749]]
     /// ```
     ///
-    fn sinh(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn sinh(self: @Tensor<T>) -> Tensor<F>;
     /// # tensor.tanh
     ///
     /// ```rust 
@@ -1830,7 +1830,7 @@ trait TensorTrait<T> {
     /// // [[0, 0.761594],[0.96403, 0.9951]]
     /// ```
     ///
-    fn tanh(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn tanh(self: @Tensor<T>) -> Tensor<F>;
     /// # tensor.cosh
     ///
     /// ```rust 
@@ -1880,7 +1880,7 @@ trait TensorTrait<T> {
     /// // [[, 1.54308],[3.762196, 10.067662]]
     /// ```
     ///
-    fn cosh(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn cosh(self: @Tensor<T>) -> Tensor<F>;
     /// # tensor.asinh
     ///
     /// ```rust 
@@ -1930,7 +1930,7 @@ trait TensorTrait<T> {
     /// // [[0, 0.8814],[1.44364, 1.8185]]
     /// ```
     ///
-    fn asinh(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn asinh(self: @Tensor<T>) -> Tensor<F>;
     /// # tensor.acosh
     ///
     /// ```rust 
@@ -1980,7 +1980,7 @@ trait TensorTrait<T> {
     /// // [[0, 1.31696],[1.76275, 2.06344]]
     /// ```
     ///
-    fn acosh(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn acosh(self: @Tensor<T>) -> Tensor<F>;
     /// #tensor.atan
     ///
     /// ```rust
@@ -2028,7 +2028,7 @@ trait TensorTrait<T> {
     /// // [0,0.7853...,1.1071...]
     /// ```
     ///    
-    fn atan(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn atan(self: @Tensor<T>) -> Tensor<F>;
     /// #tensor.asin
     ///
     /// ```rust
@@ -2075,7 +2075,7 @@ trait TensorTrait<T> {
     /// // [0, 1.5707...]
     /// ```
     ///
-    fn asin(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn asin(self: @Tensor<T>) -> Tensor<F>;
     /// #tensor.or
     ///
     /// ```rust
@@ -2284,7 +2284,7 @@ trait TensorTrait<T> {
     /// // [1.5707..., 0]
     /// ```
     ///
-    fn acos(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn acos(self: @Tensor<T>) -> Tensor<F>;
     /// # tensor.onehot
     ///
     /// ```rust 
@@ -2385,7 +2385,7 @@ trait TensorTrait<T> {
     /// // [0,1,1.4142...]
     /// ```
     ///    
-    fn sqrt(self: @Tensor<T>) -> Tensor<FixedType>;   
+    fn sqrt(self: @Tensor<T>) -> Tensor<F>;
     /// # tensor.concat
     ///
     /// ```rust 
@@ -2449,7 +2449,7 @@ trait TensorTrait<T> {
     /// >>> (2, 4 ) 
     /// ```
     ///
-    fn concat(tensors: Span<Tensor<T>>, axis: usize,  ) -> Tensor<T>;
+    fn concat(tensors: Span<Tensor<T>>, axis: usize,) -> Tensor<T>;
 }
 
 
@@ -2548,7 +2548,7 @@ fn at_tensor<T>(self: @Tensor<T>, indices: Span<usize>) -> @T {
 }
 
 // Return true if two tensor are equal
-fn tensor_eq<T, impl TPartialEq: PartialEq<T>>(mut lhs: Tensor<T>, mut rhs: Tensor<T>, ) -> bool {
+fn tensor_eq<T, impl TPartialEq: PartialEq<T>>(mut lhs: Tensor<T>, mut rhs: Tensor<T>,) -> bool {
     let mut is_eq = true;
 
     loop {
