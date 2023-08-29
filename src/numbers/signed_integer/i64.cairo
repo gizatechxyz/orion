@@ -1,6 +1,8 @@
 use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
+use orion::numbers::zero::Zero;
+use orion::numbers::one::One;
 
 
 // ====================== INT 64 ======================
@@ -156,6 +158,30 @@ impl i64PartialOrd of PartialOrd<i64> {
 impl i64Neg of Neg<i64> {
     fn neg(a: i64) -> i64 {
         i64_neg(a)
+    }
+}
+
+impl I64Zero of Zero<i64> {
+    #[inline(always)]
+    fn zero() -> i64 {
+        return i64 { mag: 0, sign: false };
+    }
+
+    #[inline(always)]
+    fn is_zero(self: i64) -> bool {
+        return self == i64 { mag: 0, sign: false };
+    }
+}
+
+impl I64One of One<i64> {
+    #[inline(always)]
+    fn one() -> i64 {
+        return i64 { mag: 1, sign: false };
+    }
+
+    #[inline(always)]
+    fn is_one(self: i64) -> bool {
+        return self == i64 { mag: 1, sign: false };
     }
 }
 

@@ -8,6 +8,8 @@ use orion::numbers::signed_integer::{i32::i32, i8::i8};
 use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
 use orion::numbers::fixed_point::implementations::fp8x23::math::{core, trig, hyp};
 use orion::numbers::fixed_point::utils;
+use orion::numbers::zero::Zero;
+use orion::numbers::one::One;
 
 // CONSTANTS
 
@@ -354,6 +356,30 @@ impl FP8x23Rem of Rem<FixedType> {
     #[inline(always)]
     fn rem(lhs: FixedType, rhs: FixedType) -> FixedType {
         return core::rem(lhs, rhs);
+    }
+}
+
+impl FP8x23Zero of Zero<FixedType> {
+    #[inline(always)]
+    fn zero() -> FixedType {
+        return FixedTrait::ZERO();
+    }
+
+    #[inline(always)]
+    fn is_zero(self: FixedType) -> bool {
+        return self == FixedTrait::ZERO();
+    }
+}
+
+impl FP8x23One of One<FixedType> {
+    #[inline(always)]
+    fn one() -> FixedType {
+        return FixedTrait::ONE();
+    }
+
+    #[inline(always)]
+    fn is_one(self: FixedType) -> bool {
+        return self == FixedTrait::ONE();
     }
 }
 

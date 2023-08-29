@@ -1,6 +1,8 @@
 use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
+use orion::numbers::zero::Zero;
+use orion::numbers::one::One;
 
 
 // ====================== INT 16 ======================
@@ -159,6 +161,29 @@ impl i16Neg of Neg<i16> {
     }
 }
 
+impl I16Zero of Zero<i16> {
+    #[inline(always)]
+    fn zero() -> i16 {
+        return i16 { mag: 0, sign: false };
+    }
+
+    #[inline(always)]
+    fn is_zero(self: i16) -> bool {
+        return self == i16 { mag: 0, sign: false };
+    }
+}
+
+impl I16One of One<i16> {
+    #[inline(always)]
+    fn one() -> i16 {
+        return i16 { mag: 1, sign: false };
+    }
+
+    #[inline(always)]
+    fn is_one(self: i16) -> bool {
+        return self == i16 { mag: 1, sign: false };
+    }
+}
 
 // Checks if the given i16 integer is zero and has the correct sign.
 // # Arguments

@@ -5,6 +5,8 @@ use orion::numbers::signed_integer::i32::i32;
 use orion::numbers::fixed_point::implementations::fp8x23::core::ONE as ONE_fp8x23;
 use orion::numbers::fixed_point::implementations::fp16x16::core::ONE as ONE_fp16x16;
 use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
+use orion::numbers::zero::Zero;
+use orion::numbers::one::One;
 
 
 // ====================== INT 8 ======================
@@ -181,6 +183,30 @@ impl I8IntoFP8x23 of Into<i8, FixedType> {
 impl I8IntoFP16x16 of Into<i8, FixedType> {
     fn into(self: i8) -> FixedType {
         i8_to_fp16x16(self)
+    }
+}
+
+impl I8Zero of Zero<i8> {
+    #[inline(always)]
+    fn zero() -> i8 {
+        return i8 { mag: 0, sign: false };
+    }
+
+    #[inline(always)]
+    fn is_zero(self: i8) -> bool {
+        return self == i8 { mag: 0, sign: false };
+    }
+}
+
+impl I8One of One<i8> {
+    #[inline(always)]
+    fn one() -> i8 {
+        return i8 { mag: 1, sign: false };
+    }
+
+    #[inline(always)]
+    fn is_one(self: i8) -> bool {
+        return self == i8 { mag: 1, sign: false };
     }
 }
 
@@ -495,8 +521,6 @@ fn i8_or(a: i8, b: i8) -> bool {
 fn i8_to_i32(x: i8) -> i32 {
     i32 { mag: x.mag.into(), sign: x.sign }
 }
-
-use debug::PrintTrait;
 
 fn i8_to_fp8x23(x: i8) -> FixedType {
     FixedType { mag: x.mag.into() * ONE_fp8x23, sign: x.sign }
