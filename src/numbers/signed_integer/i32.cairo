@@ -4,9 +4,6 @@ use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::signed_integer::i8::i8;
-use orion::numbers::zero::Zero;
-use orion::numbers::one::One;
-
 
 // ====================== INT 32 ======================
 
@@ -167,30 +164,6 @@ impl i32Neg of Neg<i32> {
 impl I32TryIntoI8 of TryInto<i32, i8> {
     fn try_into(self: i32) -> Option<i8> {
         i8_try_from_i32(self)
-    }
-}
-
-impl I32Zero of Zero<i32> {
-    #[inline(always)]
-    fn zero() -> i32 {
-        return i32 { mag: 0, sign: false };
-    }
-
-    #[inline(always)]
-    fn is_zero(self: i32) -> bool {
-        return self == i32 { mag: 0, sign: false };
-    }
-}
-
-impl I32One of One<i32> {
-    #[inline(always)]
-    fn one() -> i32 {
-        return i32 { mag: 1, sign: false };
-    }
-
-    #[inline(always)]
-    fn is_one(self: i32) -> bool {
-        return self == i32 { mag: 1, sign: false };
     }
 }
 

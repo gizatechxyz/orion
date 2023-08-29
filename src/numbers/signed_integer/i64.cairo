@@ -1,9 +1,6 @@
 use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
-use orion::numbers::zero::Zero;
-use orion::numbers::one::One;
-
 
 // ====================== INT 64 ======================
 
@@ -160,31 +157,6 @@ impl i64Neg of Neg<i64> {
         i64_neg(a)
     }
 }
-
-impl I64Zero of Zero<i64> {
-    #[inline(always)]
-    fn zero() -> i64 {
-        return i64 { mag: 0, sign: false };
-    }
-
-    #[inline(always)]
-    fn is_zero(self: i64) -> bool {
-        return self == i64 { mag: 0, sign: false };
-    }
-}
-
-impl I64One of One<i64> {
-    #[inline(always)]
-    fn one() -> i64 {
-        return i64 { mag: 1, sign: false };
-    }
-
-    #[inline(always)]
-    fn is_one(self: i64) -> bool {
-        return self == i64 { mag: 1, sign: false };
-    }
-}
-
 
 // Checks if the given i64 integer is zero and has the correct sign.
 // # Arguments

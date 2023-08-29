@@ -1,9 +1,6 @@
 use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
-use orion::numbers::zero::Zero;
-use orion::numbers::one::One;
-
 
 // ====================== INT 128 ======================
 
@@ -160,31 +157,6 @@ impl i128Neg of Neg<i128> {
         i128_neg(a)
     }
 }
-
-impl I128Zero of Zero<i128> {
-    #[inline(always)]
-    fn zero() -> i128 {
-        return i128 { mag: 0, sign: false };
-    }
-
-    #[inline(always)]
-    fn is_zero(self: i128) -> bool {
-        return self == i128 { mag: 0, sign: false };
-    }
-}
-
-impl I128One of One<i128> {
-    #[inline(always)]
-    fn one() -> i128 {
-        return i128 { mag: 1, sign: false };
-    }
-
-    #[inline(always)]
-    fn is_one(self: i128) -> bool {
-        return self == i128 { mag: 1, sign: false };
-    }
-}
-
 
 // Checks if the given i128 integer is zero and has the correct sign.
 // # Arguments
