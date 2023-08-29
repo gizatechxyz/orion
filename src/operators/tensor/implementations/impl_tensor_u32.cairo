@@ -10,6 +10,8 @@ use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ExtraParams, ravel_index, unravel_index, reshape,
     at_tensor, tensor_eq
 };
+
+use orion::operators::tensor::math;
 use orion::operators::tensor::math::min::min_u32::min_in_tensor;
 use orion::operators::tensor::math::max::max_u32::max_in_tensor;
 use orion::operators::tensor::math::reduce_sum::reduce_sum_u32::reduce_sum;
@@ -21,7 +23,6 @@ use orion::operators::tensor::math::greater::greater_u32::greater;
 use orion::operators::tensor::math::greater_equal::greater_equal_u32::greater_equal;
 use orion::operators::tensor::math::less::less_u32::less;
 use orion::operators::tensor::math::less_equal::less_equal_u32::less_equal;
-use orion::operators::tensor::math::abs::abs_u32::abs;
 use orion::operators::tensor::linalg::transpose::transpose_u32::transpose;
 use orion::operators::tensor::math::exp::exp_u32::core::exp_u32;
 use orion::operators::tensor::math::log::log_u32::core::log_u32;
@@ -130,7 +131,7 @@ impl Tensor_u32 of TensorTrait<u32> {
 
 
     fn abs(self: @Tensor<u32>) -> Tensor<u32> {
-        abs(self)
+        math::abs::abs(*self)
     }
 
     fn ceil(self: @Tensor<u32>) -> Tensor<u32> {

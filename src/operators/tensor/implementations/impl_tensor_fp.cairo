@@ -10,12 +10,13 @@ use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor, tensor_eq
 };
+
+use orion::operators::tensor::math;
 use orion::operators::tensor::math::min::min_fp::core::min_in_tensor;
 use orion::operators::tensor::math::max::max_fp::core::max_in_tensor;
 use orion::operators::tensor::math::equal::equal_fp::core::equal;
 use orion::operators::tensor::math::less::less_fp::core::less;
 use orion::operators::tensor::math::less_equal::less_equal_fp::core::less_equal;
-use orion::operators::tensor::math::abs::abs_fp::core::abs;
 use orion::operators::tensor::math::ceil::ceil_fp::core::ceil;
 use orion::operators::tensor::math::reduce_sum::reduce_sum_fp::core::reduce_sum;
 use orion::operators::tensor::math::argmax::argmax_fp::core::argmax;
@@ -140,7 +141,7 @@ impl Tensor_fp of TensorTrait<FixedType> {
     }
 
     fn abs(self: @Tensor<FixedType>) -> Tensor<FixedType> {
-        abs(*self).unwrap()
+        math::abs::abs(*self)
     }
 
     fn ceil(self: @Tensor<FixedType>) -> Tensor<FixedType> {

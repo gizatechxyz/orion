@@ -5,10 +5,16 @@ use result::{ResultTrait, ResultTraitImpl};
 use traits::{TryInto, Into};
 
 use orion::numbers::signed_integer::{i32::i32, i8::i8};
-use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+use orion::numbers::fixed_point::core::FixedTrait;
 use orion::numbers::fixed_point::implementations::fp16x16::math::{core, trig, hyp};
 use orion::numbers::fixed_point::utils;
 
+/// A struct representing a fixed point number.
+#[derive(Serde, Copy, Drop)]
+struct FP16x16 {
+    mag: u32,
+    sign: bool
+}
 
 // CONSTANTS
 
@@ -18,169 +24,169 @@ const HALF: u32 = 32768; // 2 ** 15
 const MAX: u32 = 2147483648; // 2 ** 31
 
 
-impl FP16x16Impl of FixedTrait {
-    fn ZERO() -> FixedType {
-        return FixedType { mag: 0, sign: false };
+impl FP16x16Impl of FixedTrait<FP16x16> {
+    fn ZERO() -> FP16x16 {
+        return FP16x16 { mag: 0, sign: false };
     }
 
-    fn ONE() -> FixedType {
-        return FixedType { mag: ONE, sign: false };
+    fn ONE() -> FP16x16 {
+        return FP16x16 { mag: ONE, sign: false };
     }
 
-    fn new(mag: u32, sign: bool) -> FixedType {
-        return FixedType { mag: mag, sign: sign };
+    fn new(mag: u32, sign: bool) -> FP16x16 {
+        return FP16x16 { mag: mag, sign: sign };
     }
 
-    fn new_unscaled(mag: u32, sign: bool) -> FixedType {
-        return FixedType { mag: mag * ONE, sign: sign };
+    fn new_unscaled(mag: u32, sign: bool) -> FP16x16 {
+        return FP16x16 { mag: mag * ONE, sign: sign };
     }
 
-    fn from_felt(val: felt252) -> FixedType {
+    fn from_felt(val: felt252) -> FP16x16 {
         let mag = integer::u32_try_from_felt252(utils::felt_abs(val)).unwrap();
         return FixedTrait::new(mag, utils::felt_sign(val));
     }
 
-    fn abs(self: FixedType) -> FixedType {
+    fn abs(self: FP16x16) -> FP16x16 {
         return core::abs(self);
     }
 
-    fn acos(self: FixedType) -> FixedType {
+    fn acos(self: FP16x16) -> FP16x16 {
         return trig::acos_fast(self);
     }
 
-    fn acos_fast(self: FixedType) -> FixedType {
+    fn acos_fast(self: FP16x16) -> FP16x16 {
         return trig::acos_fast(self);
     }
 
-    fn acosh(self: FixedType) -> FixedType {
+    fn acosh(self: FP16x16) -> FP16x16 {
         return hyp::acosh(self);
     }
 
-    fn asin(self: FixedType) -> FixedType {
+    fn asin(self: FP16x16) -> FP16x16 {
         return trig::asin_fast(self);
     }
 
-    fn asin_fast(self: FixedType) -> FixedType {
+    fn asin_fast(self: FP16x16) -> FP16x16 {
         return trig::asin_fast(self);
     }
 
-    fn asinh(self: FixedType) -> FixedType {
+    fn asinh(self: FP16x16) -> FP16x16 {
         return hyp::asinh(self);
     }
 
-    fn atan(self: FixedType) -> FixedType {
+    fn atan(self: FP16x16) -> FP16x16 {
         return trig::atan_fast(self);
     }
 
-    fn atan_fast(self: FixedType) -> FixedType {
+    fn atan_fast(self: FP16x16) -> FP16x16 {
         return trig::atan_fast(self);
     }
 
-    fn atanh(self: FixedType) -> FixedType {
+    fn atanh(self: FP16x16) -> FP16x16 {
         return hyp::atanh(self);
     }
 
-    fn ceil(self: FixedType) -> FixedType {
+    fn ceil(self: FP16x16) -> FP16x16 {
         return core::ceil(self);
     }
 
-    fn cos(self: FixedType) -> FixedType {
+    fn cos(self: FP16x16) -> FP16x16 {
         return trig::cos_fast(self);
     }
 
-    fn cos_fast(self: FixedType) -> FixedType {
+    fn cos_fast(self: FP16x16) -> FP16x16 {
         return trig::cos_fast(self);
     }
 
-    fn cosh(self: FixedType) -> FixedType {
+    fn cosh(self: FP16x16) -> FP16x16 {
         return hyp::cosh(self);
     }
 
-    fn floor(self: FixedType) -> FixedType {
+    fn floor(self: FP16x16) -> FP16x16 {
         return core::floor(self);
     }
 
     // Calculates the natural exponent of x: e^x
-    fn exp(self: FixedType) -> FixedType {
+    fn exp(self: FP16x16) -> FP16x16 {
         return core::exp(self);
     }
 
     // Calculates the binary exponent of x: 2^x
-    fn exp2(self: FixedType) -> FixedType {
+    fn exp2(self: FP16x16) -> FP16x16 {
         return core::exp2(self);
     }
 
     // Calculates the natural logarithm of x: ln(x)
     // self must be greater than zero
-    fn ln(self: FixedType) -> FixedType {
+    fn ln(self: FP16x16) -> FP16x16 {
         return core::ln(self);
     }
 
     // Calculates the binary logarithm of x: log2(x)
     // self must be greather than zero
-    fn log2(self: FixedType) -> FixedType {
+    fn log2(self: FP16x16) -> FP16x16 {
         return core::log2(self);
     }
 
     // Calculates the base 10 log of x: log10(x)
     // self must be greater than zero
-    fn log10(self: FixedType) -> FixedType {
+    fn log10(self: FP16x16) -> FP16x16 {
         return core::log10(self);
     }
 
     // Calclates the value of x^y and checks for overflow before returning
     // self is a fixed point value
     // b is a fixed point value
-    fn pow(self: FixedType, b: FixedType) -> FixedType {
+    fn pow(self: FP16x16, b: FP16x16) -> FP16x16 {
         return core::pow(self, b);
     }
 
-    fn round(self: FixedType) -> FixedType {
+    fn round(self: FP16x16) -> FP16x16 {
         return core::round(self);
     }
 
-    fn sin(self: FixedType) -> FixedType {
+    fn sin(self: FP16x16) -> FP16x16 {
         return trig::sin_fast(self);
     }
 
-    fn sin_fast(self: FixedType) -> FixedType {
+    fn sin_fast(self: FP16x16) -> FP16x16 {
         return trig::sin_fast(self);
     }
 
-    fn sinh(self: FixedType) -> FixedType {
+    fn sinh(self: FP16x16) -> FP16x16 {
         return hyp::sinh(self);
     }
 
     // Calculates the square root of a fixed point value
     // x must be positive
-    fn sqrt(self: FixedType) -> FixedType {
+    fn sqrt(self: FP16x16) -> FP16x16 {
         return core::sqrt(self);
     }
 
-    fn tan(self: FixedType) -> FixedType {
+    fn tan(self: FP16x16) -> FP16x16 {
         return trig::tan_fast(self);
     }
 
-    fn tan_fast(self: FixedType) -> FixedType {
+    fn tan_fast(self: FP16x16) -> FP16x16 {
         return trig::tan_fast(self);
     }
 
-    fn tanh(self: FixedType) -> FixedType {
+    fn tanh(self: FP16x16) -> FP16x16 {
         return hyp::tanh(self);
     }
 }
 
 
-impl FP16x16Print of PrintTrait<FixedType> {
-    fn print(self: FixedType) {
+impl FP16x16Print of PrintTrait<FP16x16> {
+    fn print(self: FP16x16) {
         self.sign.print();
         self.mag.print();
     }
 }
 
 // Into a raw felt without unscaling
-impl FP16x16IntoFelt252 of Into<FixedType, felt252> {
-    fn into(self: FixedType) -> felt252 {
+impl FP16x16IntoFelt252 of Into<FP16x16, felt252> {
+    fn into(self: FP16x16) -> felt252 {
         let mag_felt = self.mag.into();
 
         if self.sign {
@@ -191,21 +197,21 @@ impl FP16x16IntoFelt252 of Into<FixedType, felt252> {
     }
 }
 
-impl FP16x16IntoI32 of Into<FixedType, i32> {
-    fn into(self: FixedType) -> i32 {
+impl FP16x16IntoI32 of Into<FP16x16, i32> {
+    fn into(self: FP16x16) -> i32 {
         _i32_into_fp(self)
     }
 }
 
-impl FP16x16TryIntoI8 of TryInto<FixedType, i8> {
-    fn try_into(self: FixedType) -> Option<i8> {
+impl FP16x16TryIntoI8 of TryInto<FP16x16, i8> {
+    fn try_into(self: FP16x16) -> Option<i8> {
         _i8_try_from_fp(self)
     }
 }
 
 
-impl FP16x16TryIntoU128 of TryInto<FixedType, u128> {
-    fn try_into(self: FixedType) -> Option<u128> {
+impl FP16x16TryIntoU128 of TryInto<FP16x16, u128> {
+    fn try_into(self: FP16x16) -> Option<u128> {
         if self.sign {
             return Option::None(());
         } else {
@@ -215,8 +221,8 @@ impl FP16x16TryIntoU128 of TryInto<FixedType, u128> {
     }
 }
 
-impl FP16x16TryIntoU64 of TryInto<FixedType, u64> {
-    fn try_into(self: FixedType) -> Option<u64> {
+impl FP16x16TryIntoU64 of TryInto<FP16x16, u64> {
+    fn try_into(self: FP16x16) -> Option<u64> {
         if self.sign {
             return Option::None(());
         } else {
@@ -226,8 +232,8 @@ impl FP16x16TryIntoU64 of TryInto<FixedType, u64> {
     }
 }
 
-impl FP16x16TryIntoU32 of TryInto<FixedType, u32> {
-    fn try_into(self: FixedType) -> Option<u32> {
+impl FP16x16TryIntoU32 of TryInto<FP16x16, u32> {
+    fn try_into(self: FP16x16) -> Option<u32> {
         if self.sign {
             return Option::None(());
         } else {
@@ -237,8 +243,8 @@ impl FP16x16TryIntoU32 of TryInto<FixedType, u32> {
     }
 }
 
-impl FP16x16TryIntoU16 of TryInto<FixedType, u16> {
-    fn try_into(self: FixedType) -> Option<u16> {
+impl FP16x16TryIntoU16 of TryInto<FP16x16, u16> {
+    fn try_into(self: FP16x16) -> Option<u16> {
         if self.sign {
             Option::None(())
         } else {
@@ -248,8 +254,8 @@ impl FP16x16TryIntoU16 of TryInto<FixedType, u16> {
     }
 }
 
-impl FP16x16TryIntoU8 of TryInto<FixedType, u8> {
-    fn try_into(self: FixedType) -> Option<u8> {
+impl FP16x16TryIntoU8 of TryInto<FP16x16, u8> {
+    fn try_into(self: FP16x16) -> Option<u8> {
         if self.sign {
             Option::None(())
         } else {
@@ -259,102 +265,102 @@ impl FP16x16TryIntoU8 of TryInto<FixedType, u8> {
     }
 }
 
-impl FP16x16PartialEq of PartialEq<FixedType> {
+impl FP16x16PartialEq of PartialEq<FP16x16> {
     #[inline(always)]
-    fn eq(lhs: @FixedType, rhs: @FixedType) -> bool {
+    fn eq(lhs: @FP16x16, rhs: @FP16x16) -> bool {
         return core::eq(lhs, rhs);
     }
 
     #[inline(always)]
-    fn ne(lhs: @FixedType, rhs: @FixedType) -> bool {
+    fn ne(lhs: @FP16x16, rhs: @FP16x16) -> bool {
         return core::ne(lhs, rhs);
     }
 }
 
-impl FP16x16Add of Add<FixedType> {
-    fn add(lhs: FixedType, rhs: FixedType) -> FixedType {
+impl FP16x16Add of Add<FP16x16> {
+    fn add(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
         return core::add(lhs, rhs);
     }
 }
 
-impl FP16x16AddEq of AddEq<FixedType> {
+impl FP16x16AddEq of AddEq<FP16x16> {
     #[inline(always)]
-    fn add_eq(ref self: FixedType, other: FixedType) {
+    fn add_eq(ref self: FP16x16, other: FP16x16) {
         self = Add::add(self, other);
     }
 }
 
-impl FP16x16Sub of Sub<FixedType> {
-    fn sub(lhs: FixedType, rhs: FixedType) -> FixedType {
+impl FP16x16Sub of Sub<FP16x16> {
+    fn sub(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
         return core::sub(lhs, rhs);
     }
 }
 
-impl FP16x16SubEq of SubEq<FixedType> {
+impl FP16x16SubEq of SubEq<FP16x16> {
     #[inline(always)]
-    fn sub_eq(ref self: FixedType, other: FixedType) {
+    fn sub_eq(ref self: FP16x16, other: FP16x16) {
         self = Sub::sub(self, other);
     }
 }
 
-impl FP16x16Mul of Mul<FixedType> {
-    fn mul(lhs: FixedType, rhs: FixedType) -> FixedType {
+impl FP16x16Mul of Mul<FP16x16> {
+    fn mul(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
         return core::mul(lhs, rhs);
     }
 }
 
-impl FP16x16MulEq of MulEq<FixedType> {
+impl FP16x16MulEq of MulEq<FP16x16> {
     #[inline(always)]
-    fn mul_eq(ref self: FixedType, other: FixedType) {
+    fn mul_eq(ref self: FP16x16, other: FP16x16) {
         self = Mul::mul(self, other);
     }
 }
 
-impl FP16x16Div of Div<FixedType> {
-    fn div(lhs: FixedType, rhs: FixedType) -> FixedType {
+impl FP16x16Div of Div<FP16x16> {
+    fn div(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
         return core::div(lhs, rhs);
     }
 }
 
-impl FP16x16DivEq of DivEq<FixedType> {
+impl FP16x16DivEq of DivEq<FP16x16> {
     #[inline(always)]
-    fn div_eq(ref self: FixedType, other: FixedType) {
+    fn div_eq(ref self: FP16x16, other: FP16x16) {
         self = Div::div(self, other);
     }
 }
 
-impl FP16x16PartialOrd of PartialOrd<FixedType> {
+impl FP16x16PartialOrd of PartialOrd<FP16x16> {
     #[inline(always)]
-    fn ge(lhs: FixedType, rhs: FixedType) -> bool {
+    fn ge(lhs: FP16x16, rhs: FP16x16) -> bool {
         return core::ge(lhs, rhs);
     }
 
     #[inline(always)]
-    fn gt(lhs: FixedType, rhs: FixedType) -> bool {
+    fn gt(lhs: FP16x16, rhs: FP16x16) -> bool {
         return core::gt(lhs, rhs);
     }
 
     #[inline(always)]
-    fn le(lhs: FixedType, rhs: FixedType) -> bool {
+    fn le(lhs: FP16x16, rhs: FP16x16) -> bool {
         return core::le(lhs, rhs);
     }
 
     #[inline(always)]
-    fn lt(lhs: FixedType, rhs: FixedType) -> bool {
+    fn lt(lhs: FP16x16, rhs: FP16x16) -> bool {
         return core::lt(lhs, rhs);
     }
 }
 
-impl FP16x16Neg of Neg<FixedType> {
+impl FP16x16Neg of Neg<FP16x16> {
     #[inline(always)]
-    fn neg(a: FixedType) -> FixedType {
+    fn neg(a: FP16x16) -> FP16x16 {
         return core::neg(a);
     }
 }
 
-impl FP16x16Rem of Rem<FixedType> {
+impl FP16x16Rem of Rem<FP16x16> {
     #[inline(always)]
-    fn rem(lhs: FixedType, rhs: FixedType) -> FixedType {
+    fn rem(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
         return core::rem(lhs, rhs);
     }
 }
@@ -362,11 +368,11 @@ impl FP16x16Rem of Rem<FixedType> {
 
 /// INTERNAL
 
-fn _i32_into_fp(x: FixedType) -> i32 {
+fn _i32_into_fp(x: FP16x16) -> i32 {
     i32 { mag: x.mag / ONE, sign: x.sign }
 }
 
-fn _i8_try_from_fp(x: FixedType) -> Option<i8> {
+fn _i8_try_from_fp(x: FP16x16) -> Option<i8> {
     let unscaled_mag: Option<u8> = (x.mag / ONE).try_into();
 
     match unscaled_mag {

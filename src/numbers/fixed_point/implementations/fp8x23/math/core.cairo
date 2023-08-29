@@ -5,7 +5,7 @@ use traits::{Into, TryInto};
 use integer::{u32_safe_divmod, u32_as_non_zero, u32_wide_mul};
 
 use orion::numbers::fixed_point::implementations::fp8x23::core::{
-    HALF, ONE, FixedType, FP8x23Impl, FP8x23Add, FP8x23AddEq, FP8x23Sub, FP8x23Mul, FP8x23MulEq,
+    HALF, ONE, FP8x23, FP8x23Add, FP8x23Impl, FP8x23AddEq, FP8x23Sub, FP8x23Mul, FP8x23MulEq,
     FP8x23TryIntoU128, FP8x23PartialEq, FP8x23PartialOrd, FP8x23SubEq, FP8x23Neg, FP8x23Div,
     FP8x23IntoFelt252, FixedTrait
 };
@@ -13,11 +13,11 @@ use orion::numbers::fixed_point::implementations::fp8x23::math::lut;
 
 // PUBLIC
 
-fn abs(a: FixedType) -> FixedType {
+fn abs(a: FP8x23) -> FP8x23 {
     return FixedTrait::new(a.mag, false);
 }
 
-fn add(a: FixedType, b: FixedType) -> FixedType {
+fn add(a: FP8x23, b: FP8x23) -> FP8x23 {
     if a.sign == b.sign {
         return FixedTrait::new(a.mag + b.mag, a.sign);
     }
@@ -33,7 +33,7 @@ fn add(a: FixedType, b: FixedType) -> FixedType {
     }
 }
 
-fn ceil(a: FixedType) -> FixedType {
+fn ceil(a: FP8x23) -> FP8x23 {
     let (div, rem) = u32_safe_divmod(a.mag, u32_as_non_zero(ONE));
 
     if rem == 0 {
@@ -47,7 +47,7 @@ fn ceil(a: FixedType) -> FixedType {
     }
 }
 
-fn div(a: FixedType, b: FixedType) -> FixedType {
+fn div(a: FP8x23, b: FP8x23) -> FP8x23 {
     let a_u64 = integer::u32_wide_mul(a.mag, ONE);
     let res_u64 = a_u64 / b.mag.into();
 
@@ -55,17 +55,17 @@ fn div(a: FixedType, b: FixedType) -> FixedType {
     return FixedTrait::new(res_u64.try_into().unwrap(), a.sign ^ b.sign);
 }
 
-fn eq(a: @FixedType, b: @FixedType) -> bool {
+fn eq(a: @FP8x23, b: @FP8x23) -> bool {
     return (*a.mag == *b.mag) && (*a.sign == *b.sign);
 }
 
 // Calculates the natural exponent of x: e^x
-fn exp(a: FixedType) -> FixedType {
+fn exp(a: FP8x23) -> FP8x23 {
     return exp2(FixedTrait::new(12102203, false) * a); // log2(e) * 2^23 ≈ 12102203
 }
 
 // Calculates the binary exponent of x: 2^x
-fn exp2(a: FixedType) -> FixedType {
+fn exp2(a: FP8x23) -> FP8x23 {
     if (a.mag == 0) {
         return FixedTrait::ONE();
     }
@@ -94,11 +94,11 @@ fn exp2(a: FixedType) -> FixedType {
     }
 }
 
-fn exp2_int(exp: u32) -> FixedType {
+fn exp2_int(exp: u32) -> FP8x23 {
     return FixedTrait::new_unscaled(lut::exp2(exp), false);
 }
 
-fn floor(a: FixedType) -> FixedType {
+fn floor(a: FP8x23) -> FP8x23 {
     let (div, rem) = integer::u32_safe_divmod(a.mag, u32_as_non_zero(ONE));
 
     if rem == 0 {
@@ -110,7 +110,7 @@ fn floor(a: FixedType) -> FixedType {
     }
 }
 
-fn ge(a: FixedType, b: FixedType) -> bool {
+fn ge(a: FP8x23, b: FP8x23) -> bool {
     if a.sign != b.sign {
         return !a.sign;
     } else {
@@ -118,7 +118,7 @@ fn ge(a: FixedType, b: FixedType) -> bool {
     }
 }
 
-fn gt(a: FixedType, b: FixedType) -> bool {
+fn gt(a: FP8x23, b: FP8x23) -> bool {
     if a.sign != b.sign {
         return !a.sign;
     } else {
@@ -126,7 +126,7 @@ fn gt(a: FixedType, b: FixedType) -> bool {
     }
 }
 
-fn le(a: FixedType, b: FixedType) -> bool {
+fn le(a: FP8x23, b: FP8x23) -> bool {
     if a.sign != b.sign {
         return a.sign;
     } else {
@@ -136,13 +136,13 @@ fn le(a: FixedType, b: FixedType) -> bool {
 
 // Calculates the natural logarithm of x: ln(x)
 // self must be greater than zero
-fn ln(a: FixedType) -> FixedType {
+fn ln(a: FP8x23) -> FP8x23 {
     return FixedTrait::new(5814540, false) * log2(a); // ln(2) = 0.693...
 }
 
 // Calculates the binary logarithm of x: log2(x)
 // self must be greather than zero
-fn log2(a: FixedType) -> FixedType {
+fn log2(a: FP8x23) -> FP8x23 {
     assert(a.sign == false, 'must be positive');
 
     if (a.mag == ONE) {
@@ -174,11 +174,11 @@ fn log2(a: FixedType) -> FixedType {
 
 // Calculates the base 10 log of x: log10(x)
 // self must be greater than zero
-fn log10(a: FixedType) -> FixedType {
+fn log10(a: FP8x23) -> FP8x23 {
     return FixedTrait::new(2525223, false) * log2(a); // log10(2) = 0.301...
 }
 
-fn lt(a: FixedType, b: FixedType) -> bool {
+fn lt(a: FP8x23, b: FP8x23) -> bool {
     if a.sign != b.sign {
         return a.sign;
     } else {
@@ -186,18 +186,18 @@ fn lt(a: FixedType, b: FixedType) -> bool {
     }
 }
 
-fn mul(a: FixedType, b: FixedType) -> FixedType {
+fn mul(a: FP8x23, b: FP8x23) -> FP8x23 {
     let prod_u128 = integer::u32_wide_mul(a.mag, b.mag);
 
     // Re-apply sign
     return FixedTrait::new((prod_u128 / ONE.into()).try_into().unwrap(), a.sign ^ b.sign);
 }
 
-fn ne(a: @FixedType, b: @FixedType) -> bool {
+fn ne(a: @FP8x23, b: @FP8x23) -> bool {
     return (*a.mag != *b.mag) || (*a.sign != *b.sign);
 }
 
-fn neg(a: FixedType) -> FixedType {
+fn neg(a: FP8x23) -> FP8x23 {
     if a.mag == 0 {
         return a;
     } else if !a.sign {
@@ -208,9 +208,9 @@ fn neg(a: FixedType) -> FixedType {
 }
 
 // Calclates the value of x^y and checks for overflow before returning
-// self is a FixedType point value
-// b is a FixedType point value
-fn pow(a: FixedType, b: FixedType) -> FixedType {
+// self is a FP8x23 point value
+// b is a FP8x23 point value
+fn pow(a: FP8x23, b: FP8x23) -> FP8x23 {
     let (div, rem) = integer::u32_safe_divmod(b.mag, u32_as_non_zero(ONE));
 
     // use the more performant integer pow when y is an int
@@ -223,7 +223,7 @@ fn pow(a: FixedType, b: FixedType) -> FixedType {
 }
 
 // Calclates the value of a^b and checks for overflow before returning
-fn pow_int(a: FixedType, b: u32, sign: bool) -> FixedType {
+fn pow_int(a: FP8x23, b: u32, sign: bool) -> FP8x23 {
     let mut x = a;
     let mut n = b;
 
@@ -256,11 +256,11 @@ fn pow_int(a: FixedType, b: u32, sign: bool) -> FixedType {
     return x * y;
 }
 
-fn rem(a: FixedType, b: FixedType) -> FixedType {
+fn rem(a: FP8x23, b: FP8x23) -> FP8x23 {
     return a - floor(a / b) * b;
 }
 
-fn round(a: FixedType) -> FixedType {
+fn round(a: FP8x23) -> FP8x23 {
     let (div, rem) = integer::u32_safe_divmod(a.mag, u32_as_non_zero(ONE));
 
     if (HALF <= rem) {
@@ -270,56 +270,58 @@ fn round(a: FixedType) -> FixedType {
     }
 }
 
-// Calculates the square root of a FixedType point value
+// Calculates the square root of a FP8x23 point value
 // x must be positive
-fn sqrt(a: FixedType) -> FixedType {
+fn sqrt(a: FP8x23) -> FP8x23 {
     assert(a.sign == false, 'must be positive');
 
     let root = integer::u64_sqrt(a.mag.into() * ONE.into());
     return FixedTrait::new(root.into(), false);
 }
 
-fn sub(a: FixedType, b: FixedType) -> FixedType {
+fn sub(a: FP8x23, b: FP8x23) -> FP8x23 {
     return add(a, -b);
 }
 
 // Tests --------------------------------------------------------------------------------------------------------------
 
-use orion::numbers::fixed_point::implementations::fp8x23::helpers::{assert_precise, assert_relative};
+use orion::numbers::fixed_point::implementations::fp8x23::helpers::{
+    assert_precise, assert_relative
+};
 use orion::numbers::fixed_point::implementations::fp8x23::math::trig::{PI, HALF_PI};
 
 #[test]
 fn test_into() {
-    let a = FixedTrait::new_unscaled(5, false);
+    let a = FixedTrait::<FP8x23>::new_unscaled(5, false);
     assert(a.mag == 5 * ONE, 'invalid result');
 }
 
 #[test]
 fn test_try_into_u128() {
     // Positive unscaled
-    let a = FixedTrait::new_unscaled(5, false);
+    let a = FixedTrait::<FP8x23>::new_unscaled(5, false);
     assert(a.try_into().unwrap() == 5_u128, 'invalid result');
 
     // Positive scaled
-    let b = FixedTrait::new(5 * ONE, false);
+    let b = FixedTrait::<FP8x23>::new(5 * ONE, false);
     assert(b.try_into().unwrap() == 5_u128, 'invalid result');
 
     // Zero
-    let d = FixedTrait::new_unscaled(0, false);
+    let d = FixedTrait::<FP8x23>::new_unscaled(0, false);
     assert(d.try_into().unwrap() == 0_u128, 'invalid result');
 }
 
 #[test]
 #[should_panic]
 fn test_negative_try_into_u128() {
-    let a = FixedTrait::new_unscaled(1, true);
+    let a = FixedTrait::<FP8x23>::new_unscaled(1, true);
     let a: u128 = a.try_into().unwrap();
 }
 
 #[test]
 #[available_gas(1000000)]
 fn test_acos() {
-    let a = FixedTrait::ONE();
+    let a = FixedTrait::<FP8x23>::ONE();
     assert(a.acos().into() == 0, 'invalid one');
 }
 
@@ -374,7 +376,7 @@ fn test_sqrt() {
 #[test]
 #[available_gas(100000)]
 fn test_msb() {
-    let a = FixedTrait::new_unscaled(100, false);
+    let a = FixedTrait::<FP8x23>::new_unscaled(100, false);
     let (msb, div) = lut::msb(a.mag / ONE);
     assert(msb == 6, 'invalid msb');
     assert(div == 64, 'invalid msb ceil');
@@ -473,7 +475,7 @@ fn test_add_eq() {
     let mut a = FixedTrait::new_unscaled(1, false);
     let b = FixedTrait::new_unscaled(2, false);
     a += b;
-    assert(a == FixedTrait::new_unscaled(3, false), 'invalid result');
+    assert(a == FixedTrait::<FP8x23>::new_unscaled(3, false), 'invalid result');
 }
 
 #[test]
@@ -481,7 +483,7 @@ fn test_sub() {
     let a = FixedTrait::new_unscaled(5, false);
     let b = FixedTrait::new_unscaled(2, false);
     let c = a - b;
-    assert(c == FixedTrait::new_unscaled(3, false), 'false result invalid');
+    assert(c == FixedTrait::<FP8x23>::new_unscaled(3, false), 'false result invalid');
 }
 
 #[test]
@@ -489,14 +491,14 @@ fn test_sub_eq() {
     let mut a = FixedTrait::new_unscaled(5, false);
     let b = FixedTrait::new_unscaled(2, false);
     a -= b;
-    assert(a == FixedTrait::new_unscaled(3, false), 'invalid result');
+    assert(a == FixedTrait::<FP8x23>::new_unscaled(3, false), 'invalid result');
 }
 
 #[test]
 #[available_gas(100000)]
 fn test_mul_pos() {
-    let a = FixedType { mag: 24326963, sign: false };
-    let b = FixedType { mag: 24326963, sign: false };
+    let a = FP8x23 { mag: 24326963, sign: false };
+    let b = FP8x23 { mag: 24326963, sign: false };
     let c = a * b;
     assert(c.mag == 70548192, 'invalid result');
 }
@@ -506,7 +508,7 @@ fn test_mul_neg() {
     let a = FixedTrait::new_unscaled(5, false);
     let b = FixedTrait::new_unscaled(2, true);
     let c = a * b;
-    assert(c == FixedTrait::new_unscaled(10, true), 'invalid result');
+    assert(c == FixedTrait::<FP8x23>::new_unscaled(10, true), 'invalid result');
 }
 
 #[test]
@@ -514,13 +516,13 @@ fn test_mul_eq() {
     let mut a = FixedTrait::new_unscaled(5, false);
     let b = FixedTrait::new_unscaled(2, true);
     a *= b;
-    assert(a == FixedTrait::new_unscaled(10, true), 'invalid result');
+    assert(a == FixedTrait::<FP8x23>::new_unscaled(10, true), 'invalid result');
 }
 
 #[test]
 fn test_div() {
     let a = FixedTrait::new_unscaled(10, false);
-    let b = FixedTrait::new(24326963, false); // 2.9
+    let b = FixedTrait::<FP8x23>::new(24326963, false); // 2.9
     let c = a / b;
     assert(c.mag == 28926234, 'invalid pos decimal'); // 3.4482758620689653
 }
@@ -529,7 +531,7 @@ fn test_div() {
 fn test_le() {
     let a = FixedTrait::new_unscaled(1, false);
     let b = FixedTrait::new_unscaled(0, false);
-    let c = FixedTrait::new_unscaled(1, true);
+    let c = FixedTrait::<FP8x23>::new_unscaled(1, true);
 
     assert(a <= a, 'a <= a');
     assert(a <= b == false, 'a <= b');
@@ -548,7 +550,7 @@ fn test_le() {
 fn test_lt() {
     let a = FixedTrait::new_unscaled(1, false);
     let b = FixedTrait::new_unscaled(0, false);
-    let c = FixedTrait::new_unscaled(1, true);
+    let c = FixedTrait::<FP8x23>::new_unscaled(1, true);
 
     assert(a < a == false, 'a < a');
     assert(a < b == false, 'a < b');
@@ -567,7 +569,7 @@ fn test_lt() {
 fn test_ge() {
     let a = FixedTrait::new_unscaled(1, false);
     let b = FixedTrait::new_unscaled(0, false);
-    let c = FixedTrait::new_unscaled(1, true);
+    let c = FixedTrait::<FP8x23>::new_unscaled(1, true);
 
     assert(a >= a, 'a >= a');
     assert(a >= b, 'a >= b');
@@ -586,7 +588,7 @@ fn test_ge() {
 fn test_gt() {
     let a = FixedTrait::new_unscaled(1, false);
     let b = FixedTrait::new_unscaled(0, false);
-    let c = FixedTrait::new_unscaled(1, true);
+    let c = FixedTrait::<FP8x23>::new_unscaled(1, true);
 
     assert(a > a == false, 'a > a');
     assert(a > b, 'a > b');
@@ -604,7 +606,7 @@ fn test_gt() {
 #[test]
 #[available_gas(1000000)]
 fn test_cos() {
-    let a = FixedTrait::new(HALF_PI, false);
+    let a = FixedTrait::<FP8x23>::new(HALF_PI, false);
     assert(a.cos().into() == 0, 'invalid half pi');
 }
 
@@ -618,6 +620,6 @@ fn test_sin() {
 #[test]
 #[available_gas(2000000)]
 fn test_tan() {
-    let a = FixedTrait::new(HALF_PI / 2, false);
+    let a = FixedTrait::<FP8x23>::new(HALF_PI / 2, false);
     assert(a.tan().mag == 8388608, 'invalid quarter pi');
 }

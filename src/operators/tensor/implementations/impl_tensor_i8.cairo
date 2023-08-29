@@ -14,6 +14,8 @@ use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor, tensor_eq
 };
+
+use orion::operators::tensor::math;
 use orion::operators::tensor::math::min::min_i8::min_in_tensor;
 use orion::operators::tensor::math::max::max_i8::max_in_tensor;
 use orion::operators::tensor::math::reduce_sum::reduce_sum_i8::reduce_sum;
@@ -24,7 +26,6 @@ use orion::operators::tensor::math::greater::greater_i8::greater;
 use orion::operators::tensor::math::greater_equal::greater_equal_i8::greater_equal;
 use orion::operators::tensor::math::less::less_i8::less;
 use orion::operators::tensor::math::less_equal::less_equal_i8::less_equal;
-use orion::operators::tensor::math::abs::abs_i8::abs;
 use orion::operators::tensor::linalg::matmul::matmul_i8::matmul;
 use orion::operators::tensor::linalg::transpose::transpose_i8::transpose;
 use orion::operators::tensor::math::exp::exp_i8::core::exp_i8;
@@ -133,7 +134,7 @@ impl Tensor_i8 of TensorTrait<i8> {
     }
 
     fn abs(self: @Tensor<i8>) -> Tensor<i8> {
-        abs(*self)
+        math::abs::abs(*self)
     }
 
     fn ceil(self: @Tensor<i8>) -> Tensor<i8> {

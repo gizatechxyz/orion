@@ -1,10 +1,3 @@
-/// A struct representing a fixed point number.
-#[derive(Serde, Copy, Drop)]
-struct FixedType {
-    mag: u32,
-    sign: bool
-}
-
 /// A struct listing fixed point implementations.
 #[derive(Serde, Copy, Drop)]
 enum FixedImpl {
@@ -47,7 +40,7 @@ enum FixedImpl {
 /// sinh - Returns the value of the hyperbolic sine of the fixed point number.
 /// tanh - Returns the value of the hyperbolic tangent of the fixed point number.
 /// 
-trait FixedTrait {
+trait FixedTrait<T> {
     /// # FixedTrait::new
     /// 
     /// ```rust
@@ -78,7 +71,7 @@ trait FixedTrait {
     /// >>> {mag: 65536, sign: false} // = 1 in FP16x16
     /// ```
     ///
-    fn new(mag: u32, sign: bool) -> FixedType;
+    fn new(mag: u32, sign: bool) -> T;
     /// # FixedTrait::new\_unscaled
     /// 
     /// ```rust
@@ -109,7 +102,7 @@ trait FixedTrait {
     /// >>> {mag: 65536, sign: false}
     /// ```
     ///
-    fn new_unscaled(mag: u32, sign: bool) -> FixedType;
+    fn new_unscaled(mag: u32, sign: bool) -> T;
     /// # FixedTrait::from\_felt
     ///
     /// 
@@ -137,7 +130,7 @@ trait FixedTrait {
     /// >>> {mag: 190054, sign: false} // = 2.9
     /// ```
     ///
-    fn from_felt(val: felt252) -> FixedType;
+    fn from_felt(val: felt252) -> T;
     /// # fp.abs
     /// 
     /// ```rust
@@ -170,7 +163,7 @@ trait FixedTrait {
     /// >>> {mag: 65536, sign: false} // = 1
     /// ```
     /// 
-    fn abs(self: FixedType) -> FixedType;
+    fn abs(self: T) -> T;
     /// # fp.ceil
     /// 
     /// ```rust
@@ -203,7 +196,7 @@ trait FixedTrait {
     /// >>> {mag: 196608, sign: false} // = 3
     /// ```
     ///
-    fn ceil(self: FixedType) -> FixedType;
+    fn ceil(self: T) -> T;
     /// # fp.exp
     /// 
     /// ```rust
@@ -236,7 +229,7 @@ trait FixedTrait {
     /// >>> {mag: 484249, sign: false} // = 7.389056317241236
     /// ``` 
     ///
-    fn exp(self: FixedType) -> FixedType;
+    fn exp(self: T) -> T;
     /// # fp.exp2
     /// 
     /// ```rust
@@ -269,7 +262,7 @@ trait FixedTrait {
     /// >>> {mag: 262143, sign: false} // = 3.99999957248
     /// ``` 
     ///
-    fn exp2(self: FixedType) -> FixedType;
+    fn exp2(self: T) -> T;
     /// # fp.floor
     /// 
     /// ```rust
@@ -302,7 +295,7 @@ trait FixedTrait {
     /// >>> {mag: 131072, sign: false} // = 2
     /// ```
     /// 
-    fn floor(self: FixedType) -> FixedType;
+    fn floor(self: T) -> T;
     /// # fp.ln
     ///
     /// 
@@ -336,7 +329,7 @@ trait FixedTrait {
     /// >>> {mag: 0, sign: false}
     /// ```
     ///
-    fn ln(self: FixedType) -> FixedType;
+    fn ln(self: T) -> T;
     /// # fp.log2
     /// 
     /// ```rust
@@ -373,7 +366,7 @@ trait FixedTrait {
     /// >>> {mag: 103872, sign: false} // = 1.58496250072
     /// ```
     /// 
-    fn log2(self: FixedType) -> FixedType;
+    fn log2(self: T) -> T;
     /// # fp.log10
     /// 
     /// ```rust
@@ -406,7 +399,7 @@ trait FixedTrait {
     /// >>> {mag: 31269, sign: false} // = 0.47712125472
     /// ```
     ///
-    fn log10(self: FixedType) -> FixedType;
+    fn log10(self: T) -> T;
     /// # fp.pow
     /// 
     /// ```rust
@@ -441,7 +434,7 @@ trait FixedTrait {
     /// >>> {mag: 5308416, sign: false} // = 81
     /// ```
     ///
-    fn pow(self: FixedType, b: FixedType) -> FixedType;
+    fn pow(self: T, b: T) -> T;
     /// # fp.round
     /// 
     /// ```rust
@@ -475,7 +468,7 @@ trait FixedTrait {
     /// >>> {mag: 196608, sign: false} // = 3
     /// ```
     /// 
-    fn round(self: FixedType) -> FixedType;
+    fn round(self: T) -> T;
     /// # fp.sqrt
     /// 
     /// ```rust
@@ -512,7 +505,7 @@ trait FixedTrait {
     /// >>> {mag: 196608, sign: false} // = 3
     /// ```
     ///
-    fn sqrt(self: FixedType) -> FixedType;
+    fn sqrt(self: T) -> T;
     /// # fp.acos
     /// 
     /// ```rust
@@ -545,7 +538,7 @@ trait FixedTrait {
     /// >>> {mag: 205887, sign: false} // = 3.14159265
     /// ``` 
     ///
-    fn acos(self: FixedType) -> FixedType;
+    fn acos(self: T) -> T;
     /// # fp.acos_fast
     /// 
     /// ```rust
@@ -578,7 +571,7 @@ trait FixedTrait {
     /// >>> {mag: 205887, sign: false} // = 3.14159265
     /// ``` 
     ///
-    fn acos_fast(self: FixedType) -> FixedType;
+    fn acos_fast(self: T) -> T;
     /// # fp.asin
     /// 
     /// ```rust
@@ -611,7 +604,7 @@ trait FixedTrait {
     /// >>> {mag: 102943, sign: true} // = 1.57079633
     /// ``` 
     ///
-    fn asin(self: FixedType) -> FixedType;
+    fn asin(self: T) -> T;
     /// # fp.asin_fast
     /// 
     /// ```rust
@@ -644,7 +637,7 @@ trait FixedTrait {
     /// >>> {mag: 102943, sign: true} // = 1.57079633
     /// ``` 
     ///
-    fn asin_fast(self: FixedType) -> FixedType;
+    fn asin_fast(self: T) -> T;
     /// # fp.atan
     /// 
     /// ```rust
@@ -677,7 +670,7 @@ trait FixedTrait {
     /// >>> {mag: 72558, sign: false} // = 1.10714872
     /// ``` 
     ///  
-    fn atan(self: FixedType) -> FixedType;
+    fn atan(self: T) -> T;
     /// # fp.atan_fast
     /// 
     /// ```rust
@@ -710,7 +703,7 @@ trait FixedTrait {
     /// >>> {mag: 72558, sign: false} // = 1.10714872
     /// ``` 
     ///
-    fn atan_fast(self: FixedType) -> FixedType;
+    fn atan_fast(self: T) -> T;
     /// # fp.cos
     /// 
     /// ```rust
@@ -743,7 +736,7 @@ trait FixedTrait {
     /// >>> {mag: 27273, sign: true} // = -0.41614684
     /// ``` 
     ///
-    fn cos(self: FixedType) -> FixedType;
+    fn cos(self: T) -> T;
     /// # fp.cos_fast
     /// 
     /// ```rust
@@ -776,7 +769,7 @@ trait FixedTrait {
     /// >>> {mag: 27273, sign: true} // = -0.41614684
     /// ``` 
     ///
-    fn cos_fast(self: FixedType) -> FixedType;
+    fn cos_fast(self: T) -> T;
     /// # fp.sin
     /// 
     /// ```rust
@@ -809,7 +802,7 @@ trait FixedTrait {
     /// >>> {mag: 59592, sign: false} // = 0.90929743
     /// ``` 
     ///
-    fn sin(self: FixedType) -> FixedType;
+    fn sin(self: T) -> T;
     /// # fp.sin_fast
     /// 
     /// ```rust
@@ -842,7 +835,7 @@ trait FixedTrait {
     /// >>> {mag: 59592, sign: false} // = 0.90929743
     /// ``` 
     ///
-    fn sin_fast(self: FixedType) -> FixedType;
+    fn sin_fast(self: T) -> T;
     /// # fp.tan
     /// 
     /// ```rust
@@ -875,7 +868,7 @@ trait FixedTrait {
     /// >>> {mag: 143199, sign: true} // = -2.18503986
     /// ``` 
     ///
-    fn tan(self: FixedType) -> FixedType;
+    fn tan(self: T) -> T;
     /// # fp.tan_fast
     /// 
     /// ```rust
@@ -908,7 +901,7 @@ trait FixedTrait {
     /// >>> {mag: 143199, sign: true} // = -2.18503986
     /// ``` 
     ///
-    fn tan_fast(self: FixedType) -> FixedType;
+    fn tan_fast(self: T) -> T;
     /// # fp.acosh
     /// 
     /// ```rust
@@ -941,7 +934,7 @@ trait FixedTrait {
     /// >>> {mag: 86308, sign: false} // = 1.3169579
     /// ``` 
     ///
-    fn acosh(self: FixedType) -> FixedType;
+    fn acosh(self: T) -> T;
     /// # fp.asinh
     /// 
     /// ```rust
@@ -974,7 +967,7 @@ trait FixedTrait {
     /// >>> {mag: 94610, sign: false} // = 1.44363548
     /// ``` 
     ///
-    fn asinh(self: FixedType) -> FixedType;
+    fn asinh(self: T) -> T;
     /// # fp.atanh
     /// 
     /// ```rust
@@ -1007,7 +1000,7 @@ trait FixedTrait {
     /// >>> {mag: 35999, sign: false} // = 0.54930614
     /// ``` 
     ///
-    fn atanh(self: FixedType) -> FixedType;
+    fn atanh(self: T) -> T;
     /// # fp.cosh
     /// 
     /// ```rust
@@ -1040,7 +1033,7 @@ trait FixedTrait {
     /// >>> {mag: 246559, sign: false} // = 3.76219569
     /// ``` 
     ///
-    fn cosh(self: FixedType) -> FixedType;
+    fn cosh(self: T) -> T;
     /// # fp.sinh
     /// 
     /// ```rust
@@ -1073,7 +1066,7 @@ trait FixedTrait {
     /// >>> {mag: 237690, sign: false} // = 3.62686041
     /// ``` 
     ///
-    fn sinh(self: FixedType) -> FixedType;
+    fn sinh(self: T) -> T;
     /// # fp.tanh
     /// 
     /// ```rust
@@ -1106,8 +1099,8 @@ trait FixedTrait {
     /// >>> {mag: 63179, sign: false} // = 0.96402758
     /// ``` 
     ///
-    fn tanh(self: FixedType) -> FixedType;
+    fn tanh(self: T) -> T;
 
-    fn ZERO() -> FixedType;
-    fn ONE() -> FixedType;
+    fn ZERO() -> T;
+    fn ONE() -> T;
 }
