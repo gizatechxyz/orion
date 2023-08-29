@@ -4,7 +4,8 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use core::option::OptionTrait;
 
-use orion::numbers::fixed_point::core::FixedType;
+use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
+use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16;
 
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ExtraParams, ravel_index, unravel_index, reshape,
@@ -44,7 +45,7 @@ use orion::operators::tensor::math::sqrt::sqrt_u32::core::sqrt_u32;
 use orion::operators::tensor::math::concat::concat_u32::concat_u32;
 
 
-impl Tensor_u32 of TensorTrait<u32> {
+impl Tensor_u32_fp8x23 of TensorTrait<u32, FP8x23> {
     fn new(shape: Span<usize>, data: Span<u32>, extra: Option<ExtraParams>) -> Tensor<u32> {
         new_tensor(shape, data, extra)
     }
@@ -101,11 +102,11 @@ impl Tensor_u32 of TensorTrait<u32> {
         matmul(self, other)
     }
 
-    fn exp(self: @Tensor<u32>) -> Tensor<FixedType> {
+    fn exp(self: @Tensor<u32>) -> Tensor<FP8x23> {
         exp_u32(self).unwrap()
     }
 
-    fn log(self: @Tensor<u32>) -> Tensor<FixedType> {
+    fn log(self: @Tensor<u32>) -> Tensor<FP8x23> {
         log_u32(self).unwrap()
     }
 
@@ -138,15 +139,15 @@ impl Tensor_u32 of TensorTrait<u32> {
         panic(array!['not supported with u32'])
     }
 
-    fn sin(self: @Tensor<u32>) -> Tensor<FixedType> {
+    fn sin(self: @Tensor<u32>) -> Tensor<FP8x23> {
         sin_u32(self).unwrap()
     }
 
-    fn cos(self: @Tensor<u32>) -> Tensor<FixedType> {
+    fn cos(self: @Tensor<u32>) -> Tensor<FP8x23> {
         cos_u32(self).unwrap()
     }
 
-    fn asin(self: @Tensor<u32>) -> Tensor<FixedType> {
+    fn asin(self: @Tensor<u32>) -> Tensor<FP8x23> {
         panic(array!['not supported with u32'])
     }
 
@@ -160,31 +161,31 @@ impl Tensor_u32 of TensorTrait<u32> {
         flatten(self, axis)
     }
 
-    fn sinh(self: @Tensor<u32>) -> Tensor<FixedType> {
+    fn sinh(self: @Tensor<u32>) -> Tensor<FP8x23> {
         sinh_u32(self).unwrap()
     }
 
-    fn tanh(self: @Tensor<u32>) -> Tensor<FixedType> {
+    fn tanh(self: @Tensor<u32>) -> Tensor<FP8x23> {
         tanh_u32(self).unwrap()
     }
 
-    fn cosh(self: @Tensor<u32>) -> Tensor<FixedType> {
+    fn cosh(self: @Tensor<u32>) -> Tensor<FP8x23> {
         cosh_u32(self).unwrap()
     }
 
-    fn acosh(self: @Tensor<u32>) -> Tensor<FixedType> {
+    fn acosh(self: @Tensor<u32>) -> Tensor<FP8x23> {
         acosh_u32(self).unwrap()
     }
 
-    fn asinh(self: @Tensor<u32>) -> Tensor<FixedType> {
+    fn asinh(self: @Tensor<u32>) -> Tensor<FP8x23> {
         asinh_u32(self).unwrap()
     }
 
-    fn atan(self: @Tensor<u32>) -> Tensor<FixedType> {
+    fn atan(self: @Tensor<u32>) -> Tensor<FP8x23> {
         atan_u32(self).unwrap()
     }
 
-    fn acos(self: @Tensor<u32>) -> Tensor<FixedType> {
+    fn acos(self: @Tensor<u32>) -> Tensor<FP8x23> {
         panic(array!['not supported with u32'])
     }
 
@@ -202,13 +203,180 @@ impl Tensor_u32 of TensorTrait<u32> {
         onehot(self, depth, axis, values)
     }
 
-    fn sqrt(self: @Tensor<u32>) -> Tensor<FixedType> {
+    fn sqrt(self: @Tensor<u32>) -> Tensor<FP8x23> {
         sqrt_u32(self).unwrap()
-    }  
+    }
 
-    fn concat( tensors: Span<Tensor<u32>>, axis: usize,  ) -> Tensor<u32> {
-         concat_u32(tensors, axis)
-    }    
+    fn concat(tensors: Span<Tensor<u32>>, axis: usize,) -> Tensor<u32> {
+        concat_u32(tensors, axis)
+    }
+}
+
+impl Tensor_u32_fp16x16 of TensorTrait<u32, FP16x16> {
+    fn new(shape: Span<usize>, data: Span<u32>, extra: Option<ExtraParams>) -> Tensor<u32> {
+        new_tensor(shape, data, extra)
+    }
+
+    fn at(self: @Tensor<u32>, indices: Span<usize>) -> u32 {
+        *at_tensor(self, indices)
+    }
+
+    fn min(self: @Tensor<u32>) -> u32 {
+        min_in_tensor(*self.data)
+    }
+
+    fn max(self: @Tensor<u32>) -> u32 {
+        max_in_tensor(*self.data)
+    }
+
+    fn stride(self: @Tensor<u32>) -> Span<usize> {
+        stride(*self.shape)
+    }
+
+    fn ravel_index(self: @Tensor<u32>, indices: Span<usize>) -> usize {
+        ravel_index(*self.shape, indices)
+    }
+
+    fn unravel_index(self: @Tensor<u32>, index: usize) -> Span<usize> {
+        unravel_index(index, *self.shape)
+    }
+
+    fn reshape(self: @Tensor<u32>, target_shape: Span<usize>) -> Tensor<u32> {
+        reshape(self, target_shape)
+    }
+
+    fn reduce_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        reduce_sum(self, axis, keepdims)
+    }
+
+    fn argmax(
+        self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize> {
+        argmax(self, axis, keepdims, select_last_index)
+    }
+
+    fn argmin(
+        self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<usize> {
+        argmin(self, axis, keepdims, select_last_index)
+    }
+
+    fn transpose(self: @Tensor<u32>, axes: Span<usize>) -> Tensor<u32> {
+        transpose(self, axes)
+    }
+
+    fn matmul(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
+        matmul(self, other)
+    }
+
+    fn exp(self: @Tensor<u32>) -> Tensor<FP16x16> {
+        exp_u32(self).unwrap()
+    }
+
+    fn log(self: @Tensor<u32>) -> Tensor<FP16x16> {
+        log_u32(self).unwrap()
+    }
+
+    fn equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        equal(self, other)
+    }
+
+    fn greater(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        greater(self, other)
+    }
+
+    fn greater_equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        greater_equal(self, other)
+    }
+
+    fn less(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        less(self, other)
+    }
+
+    fn less_equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        less_equal(self, other)
+    }
+
+
+    fn abs(self: @Tensor<u32>) -> Tensor<u32> {
+        math::abs::abs(*self)
+    }
+
+    fn ceil(self: @Tensor<u32>) -> Tensor<u32> {
+        panic(array!['not supported with u32'])
+    }
+
+    fn sin(self: @Tensor<u32>) -> Tensor<FP16x16> {
+        sin_u32(self).unwrap()
+    }
+
+    fn cos(self: @Tensor<u32>) -> Tensor<FP16x16> {
+        cos_u32(self).unwrap()
+    }
+
+    fn asin(self: @Tensor<u32>) -> Tensor<FP16x16> {
+        panic(array!['not supported with u32'])
+    }
+
+    fn cumsum(
+        self: @Tensor<u32>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
+    ) -> Tensor<u32> {
+        cumsum(self, axis, exclusive, reverse)
+    }
+
+    fn flatten(self: @Tensor<u32>, axis: usize) -> Tensor<u32> {
+        flatten(self, axis)
+    }
+
+    fn sinh(self: @Tensor<u32>) -> Tensor<FP16x16> {
+        sinh_u32(self).unwrap()
+    }
+
+    fn tanh(self: @Tensor<u32>) -> Tensor<FP16x16> {
+        tanh_u32(self).unwrap()
+    }
+
+    fn cosh(self: @Tensor<u32>) -> Tensor<FP16x16> {
+        cosh_u32(self).unwrap()
+    }
+
+    fn acosh(self: @Tensor<u32>) -> Tensor<FP16x16> {
+        acosh_u32(self).unwrap()
+    }
+
+    fn asinh(self: @Tensor<u32>) -> Tensor<FP16x16> {
+        asinh_u32(self).unwrap()
+    }
+
+    fn atan(self: @Tensor<u32>) -> Tensor<FP16x16> {
+        atan_u32(self).unwrap()
+    }
+
+    fn acos(self: @Tensor<u32>) -> Tensor<FP16x16> {
+        panic(array!['not supported with u32'])
+    }
+
+    fn xor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        xor(self, other)
+    }
+
+    fn or(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        or(self, other)
+    }
+
+    fn onehot(
+        self: @Tensor<u32>, depth: usize, axis: Option<usize>, values: Span<usize>
+    ) -> Tensor<u32> {
+        onehot(self, depth, axis, values)
+    }
+
+    fn sqrt(self: @Tensor<u32>) -> Tensor<FP16x16> {
+        sqrt_u32(self).unwrap()
+    }
+
+    fn concat(tensors: Span<Tensor<u32>>, axis: usize,) -> Tensor<u32> {
+        concat_u32(tensors, axis)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

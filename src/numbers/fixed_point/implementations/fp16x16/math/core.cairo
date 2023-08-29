@@ -5,7 +5,7 @@ use traits::{Into, TryInto};
 use integer::{u32_safe_divmod, u32_as_non_zero, u32_wide_mul};
 
 use orion::numbers::fixed_point::implementations::fp16x16::core::{
-    HALF, ONE, FP16x16, FP16x16Impl, FP16x16Add, FP16x16AddEq, FP16x16Sub, FP16x16Mul,
+    HALF, ONE, MAX, FP16x16, FP16x16Impl, FP16x16Add, FP16x16AddEq, FP16x16Sub, FP16x16Mul,
     FP16x16MulEq, FP16x16TryIntoU128, FP16x16PartialEq, FP16x16PartialOrd, FP16x16SubEq, FP16x16Neg,
     FP16x16Div, FP16x16IntoFelt252, FixedTrait
 };

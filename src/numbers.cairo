@@ -10,10 +10,17 @@ trait NumberTrait<T> {
     fn is_one(self: T) -> bool;
 
     fn abs(self: T) -> T;
+
+    fn min_value() -> T;
+    fn max_value() -> T;
+
+    fn min(self: T, other: T) -> T;
+    fn max(self: T, other: T) -> T;
 }
 
 use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23};
 use orion::numbers::fixed_point::implementations::fp8x23::math::core as core_fp8x23;
+use orion::numbers::fixed_point::implementations::fp8x23::math::comp as comp_fp8x23;
 
 impl FP8x23Number of NumberTrait<FP8x23> {
     fn zero() -> FP8x23 {
@@ -33,10 +40,27 @@ impl FP8x23Number of NumberTrait<FP8x23> {
     fn abs(self: FP8x23) -> FP8x23 {
         core_fp8x23::abs(self)
     }
+
+    fn min_value() -> FP8x23 {
+        FP8x23 { mag: core_fp8x23::MAX, sign: true }
+    }
+
+    fn max_value() -> FP8x23 {
+        FP8x23 { mag: core_fp8x23::MAX, sign: false }
+    }
+
+    fn min(self: FP8x23, other: FP8x23) -> FP8x23 {
+        comp_fp8x23::min(self, other)
+    }
+
+    fn max(self: FP8x23, other: FP8x23) -> FP8x23 {
+        comp_fp8x23::max(self, other)
+    }
 }
 
 use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16};
 use orion::numbers::fixed_point::implementations::fp16x16::math::core as core_fp16x16;
+use orion::numbers::fixed_point::implementations::fp16x16::math::comp as comp_fp16x16;
 
 impl FP16x16Number of NumberTrait<FP16x16> {
     fn zero() -> FP16x16 {
@@ -55,6 +79,22 @@ impl FP16x16Number of NumberTrait<FP16x16> {
 
     fn abs(self: FP16x16) -> FP16x16 {
         core_fp16x16::abs(self)
+    }
+
+    fn min_value() -> FP16x16 {
+        FP16x16 { mag: core_fp16x16::MAX, sign: true }
+    }
+
+    fn max_value() -> FP16x16 {
+        FP16x16 { mag: core_fp16x16::MAX, sign: false }
+    }
+
+    fn min(self: FP16x16, other: FP16x16) -> FP16x16 {
+        comp_fp16x16::min(self, other)
+    }
+
+    fn max(self: FP16x16, other: FP16x16) -> FP16x16 {
+        comp_fp16x16::max(self, other)
     }
 }
 
@@ -79,6 +119,22 @@ impl I8Number of NumberTrait<i8> {
     fn abs(self: i8) -> i8 {
         i8_core::i8_abs(self)
     }
+
+    fn min_value() -> i8 {
+        i8 { mag: 128, sign: true }
+    }
+
+    fn max_value() -> i8 {
+        i8 { mag: 127, sign: false }
+    }
+
+    fn min(self: i8, other: i8) -> i8 {
+        i8_core::i8_min(self, other)
+    }
+
+    fn max(self: i8, other: i8) -> i8 {
+        i8_core::i8_max(self, other)
+    }
 }
 
 use orion::numbers::signed_integer::i16 as i16_core;
@@ -101,6 +157,22 @@ impl i16Number of NumberTrait<i16> {
 
     fn abs(self: i16) -> i16 {
         i16_core::i16_abs(self)
+    }
+
+    fn min_value() -> i16 {
+        i16 { mag: 32768, sign: true }
+    }
+
+    fn max_value() -> i16 {
+        i16 { mag: 32767, sign: false }
+    }
+
+    fn min(self: i16, other: i16) -> i16 {
+        i16_core::i16_min(self, other)
+    }
+
+    fn max(self: i16, other: i16) -> i16 {
+        i16_core::i16_max(self, other)
     }
 }
 
@@ -125,6 +197,22 @@ impl i32Number of NumberTrait<i32> {
     fn abs(self: i32) -> i32 {
         i32_core::i32_abs(self)
     }
+
+    fn min_value() -> i32 {
+        i32 { mag: 2147483648, sign: true }
+    }
+
+    fn max_value() -> i32 {
+        i32 { mag: 2147483647, sign: false }
+    }
+
+    fn min(self: i32, other: i32) -> i32 {
+        i32_core::i32_min(self, other)
+    }
+
+    fn max(self: i32, other: i32) -> i32 {
+        i32_core::i32_max(self, other)
+    }
 }
 
 use orion::numbers::signed_integer::i64 as i64_core;
@@ -147,6 +235,22 @@ impl i64Number of NumberTrait<i64> {
 
     fn abs(self: i64) -> i64 {
         i64_core::i64_abs(self)
+    }
+
+    fn min_value() -> i64 {
+        i64 { mag: 9223372036854775808, sign: true }
+    }
+
+    fn max_value() -> i64 {
+        i64 { mag: 9223372036854775807, sign: false }
+    }
+
+    fn min(self: i64, other: i64) -> i64 {
+        i64_core::i64_min(self, other)
+    }
+
+    fn max(self: i64, other: i64) -> i64 {
+        i64_core::i64_max(self, other)
     }
 }
 
@@ -171,6 +275,22 @@ impl i128Number of NumberTrait<i128> {
     fn abs(self: i128) -> i128 {
         i128_core::i128_abs(self)
     }
+
+    fn min_value() -> i128 {
+        i128 { mag: 170141183460469231731687303715884105728, sign: true }
+    }
+
+    fn max_value() -> i128 {
+        i128 { mag: 170141183460469231731687303715884105727, sign: false }
+    }
+
+    fn min(self: i128, other: i128) -> i128 {
+        i128_core::i128_min(self, other)
+    }
+
+    fn max(self: i128, other: i128) -> i128 {
+        i128_core::i128_max(self, other)
+    }
 }
 
 impl u32Number of NumberTrait<u32> {
@@ -190,5 +310,29 @@ impl u32Number of NumberTrait<u32> {
 
     fn abs(self: u32) -> u32 {
         self
+    }
+
+    fn min_value() -> u32 {
+        0
+    }
+
+    fn max_value() -> u32 {
+        4294967295
+    }
+
+    fn min(self: u32, other: u32) -> u32 {
+        if self < other {
+            return self;
+        } else {
+            other
+        }
+    }
+
+    fn max(self: u32, other: u32) -> u32 {
+        if self > other {
+            return self;
+        } else {
+            other
+        }
     }
 }
