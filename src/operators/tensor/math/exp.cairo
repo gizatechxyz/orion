@@ -45,6 +45,7 @@ fn exp_from_int<
     return TensorTrait::<F, F>::new(self.shape, result.span(), self.extra);
 }
 
+/// Cf: TensorTrait::exp docstring
 fn exp_from_fp<
     F,
     MAG,

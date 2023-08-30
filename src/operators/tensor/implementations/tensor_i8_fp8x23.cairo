@@ -82,8 +82,7 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
     }
 
     fn log(self: @Tensor<i8>) -> Tensor<FP8x23> {
-        //log_i8(self).unwrap()
-        panic(array![])
+        math::log::log_from_int::<i8, FP8x23, u8>(*self)
     }
 
     fn equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
