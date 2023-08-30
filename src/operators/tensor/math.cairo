@@ -23,7 +23,7 @@ mod tanh;
 mod cosh;
 mod acosh;
 mod asinh;
-// mod atan;
+mod atan;
 // mod xor;
 // mod or;
 // mod acos;

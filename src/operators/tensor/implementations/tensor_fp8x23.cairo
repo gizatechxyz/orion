@@ -152,8 +152,7 @@ impl Tensor_fp8x23 of TensorTrait<FP8x23, FP8x23> {
     }
 
     fn atan(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
-        // atan_FP8x23(self).unwrap()
-        panic(array![])
+        math::atan::atan_from_fp(*self)
     }
 
     fn xor(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<usize> {
