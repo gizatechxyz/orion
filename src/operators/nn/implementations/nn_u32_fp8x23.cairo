@@ -21,8 +21,7 @@ impl NN_u32_fp8x23 of NNTrait<u32, FP8x23> {
     }
 
     fn logsoftmax(tensor: @Tensor<u32>, axis: usize) -> Tensor<FP8x23> {
-        //  logsoftmax_u32(tensor, axis)
-        panic(array![])
+        functional::logsoftmax::logsoftmax(tensor, axis)
     }
 
     fn softsign(tensor: @Tensor<u32>) -> Tensor<FP8x23> {
