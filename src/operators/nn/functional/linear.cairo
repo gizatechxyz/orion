@@ -1,4 +1,25 @@
-mod linear_i8;
-mod linear_i32;
-mod linear_u32;
-mod linear_fp;
+use array::SpanTrait;
+
+use orion::numbers::NumberTrait;
+use orion::operators::tensor::core::{Tensor, TensorTrait};
+
+/// Cf: NNTrait::linear docstring
+fn linear<
+    T,
+    F,
+    impl TTensor: TensorTrait<T, F>,
+    impl TAddTensor: Add<Tensor<T>>,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>
+>(
+    z: Tensor<T>, weights: Tensor<T>, bias: Tensor<T>
+) -> Tensor<T> {
+    assert(z.shape.len() == 1, 'input tensor must be 1D');
+    assert(weights.shape.len() == 2, 'weights tensor must be 2D');
+    assert(bias.shape.len() == 1, 'bias tensor must be 1D');
+
+    let dot = weights.matmul(@z);
+    let sum = dot + bias;
+
+    return sum;
+}

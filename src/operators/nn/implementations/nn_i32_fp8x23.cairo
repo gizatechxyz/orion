@@ -5,7 +5,7 @@ use orion::numbers::signed_integer::i32::i32;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
-use orion::operators::tensor::implementations::tensor_i32_fp8x23::Tensor_i32_fp8x23;
+use orion::operators::tensor::implementations::tensor_i32_fp8x23::{Tensor_i32_fp8x23, i32TensorAdd};
 use orion::operators::tensor::implementations::tensor_fp8x23::{Tensor_fp8x23, FP8x23TensorDiv};
 
 impl NN_i32_fp8x23 of NNTrait<i32, FP8x23> {
@@ -35,8 +35,7 @@ impl NN_i32_fp8x23 of NNTrait<i32, FP8x23> {
     }
 
     fn linear(inputs: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>) -> Tensor<i32> {
-        // linear_i32(inputs, weights, bias)
-        panic(array![])
+        functional::linear::linear(inputs, weights, bias)
     }
 
     fn leaky_relu(inputs: @Tensor<i32>, alpha: @FP8x23) -> Tensor<FP8x23> {
