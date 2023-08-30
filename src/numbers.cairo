@@ -3,6 +3,8 @@ mod signed_integer;
 
 // Common methods from Fixed Point and Signed Integers.
 trait NumberTrait<T, MAG> {
+    fn new(mag: MAG, sign: bool) -> T;
+
     fn zero() -> T;
     fn is_zero(self: T) -> bool;
 
@@ -30,6 +32,10 @@ use orion::numbers::fixed_point::implementations::fp8x23::math::core as core_fp8
 use orion::numbers::fixed_point::implementations::fp8x23::math::comp as comp_fp8x23;
 
 impl FP8x23Number of NumberTrait<FP8x23, u32> {
+    fn new(mag: u32, sign: bool) -> FP8x23 {
+        FP8x23Impl::new(mag, sign)
+    }
+
     fn zero() -> FP8x23 {
         FP8x23Impl::ZERO()
     }
@@ -86,6 +92,10 @@ use orion::numbers::fixed_point::implementations::fp16x16::math::core as core_fp
 use orion::numbers::fixed_point::implementations::fp16x16::math::comp as comp_fp16x16;
 
 impl FP16x16Number of NumberTrait<FP16x16, u32> {
+    fn new(mag: u32, sign: bool) -> FP16x16 {
+        FP16x16Impl::new(mag, sign)
+    }
+
     fn zero() -> FP16x16 {
         FP16x16Impl::ZERO()
     }
@@ -141,6 +151,10 @@ use orion::numbers::signed_integer::i8 as i8_core;
 use orion::numbers::signed_integer::i8::i8;
 
 impl I8Number of NumberTrait<i8, u8> {
+    fn new(mag: u8, sign: bool) -> i8 {
+        i8 { mag: mag, sign: false }
+    }
+
     fn zero() -> i8 {
         i8 { mag: 0, sign: false }
     }
@@ -204,6 +218,10 @@ use orion::numbers::signed_integer::i16 as i16_core;
 use orion::numbers::signed_integer::i16::i16;
 
 impl i16Number of NumberTrait<i16, u16> {
+    fn new(mag: u16, sign: bool) -> i16 {
+        i16 { mag: mag, sign: false }
+    }
+
     fn zero() -> i16 {
         i16 { mag: 0, sign: false }
     }
@@ -267,6 +285,11 @@ use orion::numbers::signed_integer::i32 as i32_core;
 use orion::numbers::signed_integer::i32::i32;
 
 impl i32Number of NumberTrait<i32, u32> {
+    fn new(mag: u32, sign: bool) -> i32 {
+        i32 { mag: mag, sign: false }
+    }
+
+
     fn zero() -> i32 {
         i32 { mag: 0, sign: false }
     }
@@ -330,6 +353,11 @@ use orion::numbers::signed_integer::i64 as i64_core;
 use orion::numbers::signed_integer::i64::i64;
 
 impl i64Number of NumberTrait<i64, u64> {
+    fn new(mag: u64, sign: bool) -> i64 {
+        i64 { mag: mag, sign: false }
+    }
+
+
     fn zero() -> i64 {
         i64 { mag: 0, sign: false }
     }
@@ -393,6 +421,11 @@ use orion::numbers::signed_integer::i128 as i128_core;
 use orion::numbers::signed_integer::i128::i128;
 
 impl i128Number of NumberTrait<i128, u128> {
+    fn new(mag: u128, sign: bool) -> i128 {
+        i128 { mag: mag, sign: false }
+    }
+
+
     fn zero() -> i128 {
         i128 { mag: 0, sign: false }
     }
@@ -453,6 +486,11 @@ impl i128Number of NumberTrait<i128, u128> {
 }
 
 impl u32Number of NumberTrait<u32, u32> {
+    fn new(mag: u32, sign: bool) -> u32 {
+        mag
+    }
+
+
     fn zero() -> u32 {
         0
     }

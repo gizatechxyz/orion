@@ -3,7 +3,7 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
-use traits::Into;
+use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::{FixedImpl};
 use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
@@ -169,8 +169,7 @@ impl Tensor_fp8x23 of TensorTrait<FP8x23, FP8x23> {
     fn onehot(
         self: @Tensor<FP8x23>, depth: usize, axis: Option<usize>, values: Span<usize>
     ) -> Tensor<FP8x23> {
-        // onehot(self, depth, axis, values)
-        panic(array![])
+        math::onehot::onehot(self, depth, axis, values)
     }
 
     fn sqrt(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
@@ -252,5 +251,11 @@ impl FP8x23TensorPartialEq of PartialEq<Tensor<FP8x23>> {
 
     fn ne(lhs: @Tensor<FP8x23>, rhs: @Tensor<FP8x23>) -> bool {
         !tensor_eq(*lhs, *rhs)
+    }
+}
+
+impl U32TryIntoU32 of TryInto<u32, u32> {
+    fn try_into(self: u32) -> Option<u32> {
+        Option::Some(self)
     }
 }

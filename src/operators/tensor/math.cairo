@@ -27,6 +27,6 @@ mod atan;
 mod xor;
 mod or;
 mod acos;
-// mod onehot;
+mod onehot;
 // mod sqrt;
 // mod concat;

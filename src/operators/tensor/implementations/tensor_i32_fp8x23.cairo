@@ -171,8 +171,7 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
     fn onehot(
         self: @Tensor<i32>, depth: usize, axis: Option<usize>, values: Span<usize>
     ) -> Tensor<i32> {
-        // onehot(self, depth, axis, values)
-        panic(array![])
+        math::onehot::onehot(self, depth, axis, values)
     }
 
     fn sqrt(self: @Tensor<i32>) -> Tensor<FP8x23> {
@@ -255,5 +254,11 @@ impl i32TensorPartialEq of PartialEq<Tensor<i32>> {
 
     fn ne(lhs: @Tensor<i32>, rhs: @Tensor<i32>) -> bool {
         !tensor_eq(*lhs, *rhs)
+    }
+}
+
+impl U32TryIntoU32 of TryInto<u32, u32> {
+    fn try_into(self: u32) -> Option<u32> {
+        Option::Some(self)
     }
 }
