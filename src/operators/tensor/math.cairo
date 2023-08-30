@@ -19,7 +19,7 @@ mod asin;
 mod cumsum;
 mod flatten;
 mod sinh;
-// mod tanh;
+mod tanh;
 // mod cosh;
 // mod acosh;
 // mod asinh;

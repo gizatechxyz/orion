@@ -140,8 +140,7 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
     }
 
     fn tanh(self: @Tensor<i8>) -> Tensor<FP8x23> {
-        //  tanh_i8(self).unwrap()
-        panic(array![])
+        math::tanh::tanh_from_int(*self)
     }
 
     fn cosh(self: @Tensor<i8>) -> Tensor<FP8x23> {
