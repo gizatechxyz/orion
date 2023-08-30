@@ -1,5 +1,4 @@
 use orion::operators::tensor::core::Tensor;
-use orion::numbers::fixed_point::core::{FixedType};
 
 /// Trait
 ///
@@ -11,7 +10,7 @@ use orion::numbers::fixed_point::core::{FixedType};
 /// softsign - Applies the Softsign function element-wise.
 /// softplus - Applies the Softplus function element-wise.
 /// linear - Performs a linear transformation of the input tensor using the provided weights and bias.
-trait NNTrait<T> {
+trait NNTrait<T, F> {
     /// # NNTrait::relu
     ///
     /// ```rust 
@@ -114,7 +113,7 @@ trait NNTrait<T> {
     ///     // [[0.2689, 0.7311],[0.2689, 0.7311]]
     /// ```
     ///
-    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>;
+    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<F>;
     /// # NNTrait::logsoftmax
     ///
     /// ```rust 
@@ -174,7 +173,7 @@ trait NNTrait<T> {
     ///     // [[-1.3134, -0.3132],[-1.3134, -0.3132]]
     /// ```
     ///
-    fn logsoftmax(tensor: @Tensor<T>, axis: usize) -> Tensor<FixedType>;
+    fn logsoftmax(tensor: @Tensor<T>, axis: usize) -> Tensor<F>;
     /// # NNTrait::sigmoid
     ///
     /// ```rust 
@@ -228,7 +227,7 @@ trait NNTrait<T> {
     ///     // [[0.5, 0.7310586],[0.88079703, 0.95257413]]
     /// ```
     ///
-    fn sigmoid(tensor: @Tensor<T>) -> Tensor<FixedType>;
+    fn sigmoid(tensor: @Tensor<T>) -> Tensor<F>;
     /// # NNTrait::softsign
     ///
     /// ```rust 
@@ -282,7 +281,7 @@ trait NNTrait<T> {
     ///     // [[0, 0.5],[0.67, 0.75]]
     /// ```
     ///
-    fn softsign(tensor: @Tensor<T>) -> Tensor<FixedType>;
+    fn softsign(tensor: @Tensor<T>) -> Tensor<F>;
     /// # NNTrait::softplus
     ///
     /// ```rust 
@@ -336,7 +335,7 @@ trait NNTrait<T> {
     ///     // [[0.6931452, 1.31326096],[2.12692796, 3.04858728]]
     /// ```
     ///
-    fn softplus(tensor: @Tensor<T>) -> Tensor<FixedType>;
+    fn softplus(tensor: @Tensor<T>) -> Tensor<F>;
     /// # NNTrait::linear
     /// 
     /// ```rust
@@ -468,5 +467,5 @@ trait NNTrait<T> {
     ///     [[1, 2, 0.1], [0.2, 0, 0]]
     /// ```
     /// 
-    fn leaky_relu(inputs: @Tensor<T>, alpha: @FixedType) -> Tensor<FixedType>;
+    fn leaky_relu(inputs: @Tensor<T>, alpha: @F) -> Tensor<F>;
 }

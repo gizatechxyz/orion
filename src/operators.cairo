@@ -1,3 +1,3 @@
 mod tensor;
-// mod nn;
+mod nn;
 
