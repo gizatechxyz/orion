@@ -2,7 +2,7 @@ mod fixed_point;
 mod signed_integer;
 
 // Common methods from Fixed Point and Signed Integers.
-trait NumberTrait<T> {
+trait NumberTrait<T, MAG> {
     fn zero() -> T;
     fn is_zero(self: T) -> bool;
 
@@ -16,13 +16,16 @@ trait NumberTrait<T> {
 
     fn min(self: T, other: T) -> T;
     fn max(self: T, other: T) -> T;
+
+    fn mag(self: T) -> MAG;
+    fn is_neg(self: T) -> bool;
 }
 
 use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23};
 use orion::numbers::fixed_point::implementations::fp8x23::math::core as core_fp8x23;
 use orion::numbers::fixed_point::implementations::fp8x23::math::comp as comp_fp8x23;
 
-impl FP8x23Number of NumberTrait<FP8x23> {
+impl FP8x23Number of NumberTrait<FP8x23, u32> {
     fn zero() -> FP8x23 {
         FP8x23Impl::ZERO()
     }
@@ -56,13 +59,21 @@ impl FP8x23Number of NumberTrait<FP8x23> {
     fn max(self: FP8x23, other: FP8x23) -> FP8x23 {
         comp_fp8x23::max(self, other)
     }
+
+    fn mag(self: FP8x23) -> u32 {
+        self.mag
+    }
+
+    fn is_neg(self: FP8x23) -> bool {
+        self.sign
+    }
 }
 
 use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16};
 use orion::numbers::fixed_point::implementations::fp16x16::math::core as core_fp16x16;
 use orion::numbers::fixed_point::implementations::fp16x16::math::comp as comp_fp16x16;
 
-impl FP16x16Number of NumberTrait<FP16x16> {
+impl FP16x16Number of NumberTrait<FP16x16, u32> {
     fn zero() -> FP16x16 {
         FP16x16Impl::ZERO()
     }
@@ -96,12 +107,20 @@ impl FP16x16Number of NumberTrait<FP16x16> {
     fn max(self: FP16x16, other: FP16x16) -> FP16x16 {
         comp_fp16x16::max(self, other)
     }
+
+    fn mag(self: FP16x16) -> u32 {
+        self.mag
+    }
+
+    fn is_neg(self: FP16x16) -> bool {
+        self.sign
+    }
 }
 
 use orion::numbers::signed_integer::i8 as i8_core;
 use orion::numbers::signed_integer::i8::i8;
 
-impl I8Number of NumberTrait<i8> {
+impl I8Number of NumberTrait<i8, u8> {
     fn zero() -> i8 {
         i8 { mag: 0, sign: false }
     }
@@ -135,12 +154,20 @@ impl I8Number of NumberTrait<i8> {
     fn max(self: i8, other: i8) -> i8 {
         i8_core::i8_max(self, other)
     }
+
+    fn mag(self: i8) -> u8 {
+        self.mag
+    }
+
+    fn is_neg(self: i8) -> bool {
+        self.sign
+    }
 }
 
 use orion::numbers::signed_integer::i16 as i16_core;
 use orion::numbers::signed_integer::i16::i16;
 
-impl i16Number of NumberTrait<i16> {
+impl i16Number of NumberTrait<i16, u16> {
     fn zero() -> i16 {
         i16 { mag: 0, sign: false }
     }
@@ -174,12 +201,20 @@ impl i16Number of NumberTrait<i16> {
     fn max(self: i16, other: i16) -> i16 {
         i16_core::i16_max(self, other)
     }
+
+    fn mag(self: i16) -> u16 {
+        self.mag
+    }
+
+    fn is_neg(self: i16) -> bool {
+        self.sign
+    }
 }
 
 use orion::numbers::signed_integer::i32 as i32_core;
 use orion::numbers::signed_integer::i32::i32;
 
-impl i32Number of NumberTrait<i32> {
+impl i32Number of NumberTrait<i32, u32> {
     fn zero() -> i32 {
         i32 { mag: 0, sign: false }
     }
@@ -213,12 +248,20 @@ impl i32Number of NumberTrait<i32> {
     fn max(self: i32, other: i32) -> i32 {
         i32_core::i32_max(self, other)
     }
+
+    fn mag(self: i32) -> u32 {
+        self.mag
+    }
+
+    fn is_neg(self: i32) -> bool {
+        self.sign
+    }
 }
 
 use orion::numbers::signed_integer::i64 as i64_core;
 use orion::numbers::signed_integer::i64::i64;
 
-impl i64Number of NumberTrait<i64> {
+impl i64Number of NumberTrait<i64, u64> {
     fn zero() -> i64 {
         i64 { mag: 0, sign: false }
     }
@@ -252,12 +295,20 @@ impl i64Number of NumberTrait<i64> {
     fn max(self: i64, other: i64) -> i64 {
         i64_core::i64_max(self, other)
     }
+
+    fn mag(self: i64) -> u64 {
+        self.mag
+    }
+
+    fn is_neg(self: i64) -> bool {
+        self.sign
+    }
 }
 
 use orion::numbers::signed_integer::i128 as i128_core;
 use orion::numbers::signed_integer::i128::i128;
 
-impl i128Number of NumberTrait<i128> {
+impl i128Number of NumberTrait<i128, u128> {
     fn zero() -> i128 {
         i128 { mag: 0, sign: false }
     }
@@ -291,9 +342,17 @@ impl i128Number of NumberTrait<i128> {
     fn max(self: i128, other: i128) -> i128 {
         i128_core::i128_max(self, other)
     }
+
+    fn mag(self: i128) -> u128 {
+        self.mag
+    }
+
+    fn is_neg(self: i128) -> bool {
+        self.sign
+    }
 }
 
-impl u32Number of NumberTrait<u32> {
+impl u32Number of NumberTrait<u32, u32> {
     fn zero() -> u32 {
         0
     }
@@ -334,5 +393,13 @@ impl u32Number of NumberTrait<u32> {
         } else {
             other
         }
+    }
+
+    fn mag(self: u32) -> u32 {
+        self
+    }
+
+    fn is_neg(self: u32) -> bool {
+        false
     }
 }

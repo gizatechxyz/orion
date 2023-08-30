@@ -11,8 +11,9 @@ use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, com
 fn reduce_sum<
     T,
     F,
+    MAG,
     impl TTensor: TensorTrait<T, F>,
-    impl TNumber: NumberTrait<T>,
+    impl TNumber: NumberTrait<T, MAG>,
     impl TAddEq: AddEq<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
@@ -71,7 +72,12 @@ fn reduce_sum<
 /// # Returns
 /// * An i32 value representing the accumulated sum along the specified axis.
 fn accumulate_sum<
-    T, impl TNumber: NumberTrait<T>, impl TAddEq: AddEq<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>
+    T,
+    MAG,
+    impl TNumber: NumberTrait<T, MAG>,
+    impl TAddEq: AddEq<T>,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>
 >(
     mut input_data: Span<T>, input_shape: Span<usize>, output_indices: Span<usize>, axis: usize
 ) -> T {

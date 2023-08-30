@@ -11,8 +11,9 @@ use orion::numbers::NumberTrait;
 fn argmin<
     T,
     F,
+    MAG,
     impl UsizeTensor: TensorTrait<usize, F>,
-    impl TNumber: NumberTrait<T>,
+    impl TNumber: NumberTrait<T, MAG>,
     impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
     impl TCopy: Copy<T>,

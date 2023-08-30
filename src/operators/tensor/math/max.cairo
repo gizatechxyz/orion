@@ -6,7 +6,8 @@ use orion::numbers::NumberTrait;
 /// Cf: TensorTrait::max docstring
 fn max_in_tensor<
     T,
-    impl TNumber: NumberTrait<T>,
+    MAG,
+    impl TNumber: NumberTrait<T, MAG>,
     impl TPartialOrd: PartialOrd<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>

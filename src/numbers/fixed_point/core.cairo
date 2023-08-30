@@ -40,7 +40,7 @@ enum FixedImpl {
 /// sinh - Returns the value of the hyperbolic sine of the fixed point number.
 /// tanh - Returns the value of the hyperbolic tangent of the fixed point number.
 /// 
-trait FixedTrait<T> {
+trait FixedTrait<T, MAG> {
     /// # FixedTrait::new
     /// 
     /// ```rust
@@ -71,7 +71,7 @@ trait FixedTrait<T> {
     /// >>> {mag: 65536, sign: false} // = 1 in FP16x16
     /// ```
     ///
-    fn new(mag: u32, sign: bool) -> T;
+    fn new(mag: MAG, sign: bool) -> T;
     /// # FixedTrait::new\_unscaled
     /// 
     /// ```rust
@@ -102,7 +102,7 @@ trait FixedTrait<T> {
     /// >>> {mag: 65536, sign: false}
     /// ```
     ///
-    fn new_unscaled(mag: u32, sign: bool) -> T;
+    fn new_unscaled(mag: MAG, sign: bool) -> T;
     /// # FixedTrait::from\_felt
     ///
     /// 

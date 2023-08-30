@@ -24,7 +24,7 @@ const HALF: u32 = 4194304; // 2 ** 22
 const MAX: u32 = 2147483648; // 2 ** 31
 
 
-impl FP8x23Impl of FixedTrait<FP8x23> {
+impl FP8x23Impl of FixedTrait<FP8x23, u32> {
     fn ZERO() -> FP8x23 {
         return FP8x23 { mag: 0, sign: false };
     }
