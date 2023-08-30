@@ -3,7 +3,7 @@
 #[cfg(test)]
 mod tensor_1D {
     use array::ArrayTrait;
-    use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
+    use orion::operators::tensor::implementations::tensor_u32_fp16x16::Tensor_u32_fp16x16;
     use orion::operators::tensor::core::{TensorTrait, ExtraParams};
     use orion::tests::helpers::tensor::u32::u32_tensor_1x3_helper;
 
@@ -26,7 +26,7 @@ mod tensor_1D {
 #[cfg(test)]
 mod tensor_2D {
     use array::ArrayTrait;
-    use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
+    use orion::operators::tensor::implementations::tensor_u32_fp16x16::Tensor_u32_fp16x16;
     use orion::operators::tensor::core::{TensorTrait, ExtraParams};
     use orion::tests::helpers::tensor::u32::u32_tensor_2x2_helper;
 
@@ -51,7 +51,7 @@ mod tensor_2D {
 #[cfg(test)]
 mod tensor_3D {
     use array::ArrayTrait;
-    use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
+    use orion::operators::tensor::implementations::tensor_u32_fp16x16::Tensor_u32_fp16x16;
     use orion::operators::tensor::core::{TensorTrait, ExtraParams};
     use orion::tests::helpers::tensor::u32::u32_tensor_2x2x2_helper;
 
