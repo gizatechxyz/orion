@@ -130,8 +130,7 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
     }
 
     fn flatten(self: @Tensor<i32>, axis: usize) -> Tensor<i32> {
-        //flatten(self, axis)
-        panic(array![])
+        math::flatten::flatten(self, axis)
     }
 
     fn sinh(self: @Tensor<i32>) -> Tensor<FP8x23> {
