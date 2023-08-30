@@ -4,7 +4,7 @@ use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
-use orion::operators::tensor::implementations::tensor_fp8x23::Tensor_fp8x23;
+use orion::operators::tensor::implementations::tensor_fp8x23::{Tensor_fp8x23, FP8x23TensorDiv};
 
 impl NN_fp8x23 of NNTrait<FP8x23, FP8x23> {
     fn relu(tensor: @Tensor<FP8x23>) -> Tensor<FP8x23> {
@@ -16,8 +16,7 @@ impl NN_fp8x23 of NNTrait<FP8x23, FP8x23> {
     }
 
     fn softmax(tensor: @Tensor<FP8x23>, axis: usize) -> Tensor<FP8x23> {
-        //softmax_fp(tensor, axis)
-        panic(array![])
+        functional::softmax::softmax(tensor, axis)
     }
 
     fn logsoftmax(tensor: @Tensor<FP8x23>, axis: usize) -> Tensor<FP8x23> {
