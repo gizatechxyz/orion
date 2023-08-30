@@ -102,8 +102,7 @@ impl Tensor_fp8x23 of TensorTrait<FP8x23, FP8x23> {
     }
 
     fn abs(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
-        //math::abs::abs(*self)
-        panic(array![])
+        math::abs::abs(*self)
     }
 
     fn ceil(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {

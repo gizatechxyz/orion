@@ -8,8 +8,10 @@ use orion::numbers::NumberTrait;
 /// Cf: TensorTrait::abs docstring
 fn abs<
     T,
-    impl TTensor: TensorTrait<T>,
-    impl TNumberTrait: NumberTrait<T>,
+    F,
+    MAG,
+    impl TTensor: TensorTrait<T, F>,
+    impl TNumberTrait: NumberTrait<T, MAG>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
 >(
