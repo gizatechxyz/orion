@@ -15,7 +15,7 @@ mod abs;
 mod ceil;
 mod sin;
 mod cos;
-// mod asin;
+mod asin;
 // mod cumsum;
 // mod flatten;
 // mod sinh;

@@ -119,8 +119,7 @@ impl Tensor_u32_fp8x23 of TensorTrait<u32, FP8x23> {
     }
 
     fn asin(self: @Tensor<u32>) -> Tensor<FP8x23> {
-        // panic(array!['not supported with u32'])
-        panic(array![])
+        panic(array!['not supported with u32'])
     }
 
     fn cumsum(
