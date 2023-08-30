@@ -27,8 +27,7 @@ impl NN_i32_fp8x23 of NNTrait<i32, FP8x23> {
     }
 
     fn softsign(tensor: @Tensor<i32>) -> Tensor<FP8x23> {
-        // softsign_i32(tensor).unwrap()
-        panic(array![])
+        functional::softsign::softsign_from_int(*tensor)
     }
 
     fn softplus(tensor: @Tensor<i32>) -> Tensor<FP8x23> {
