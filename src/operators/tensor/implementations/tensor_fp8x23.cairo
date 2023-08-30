@@ -110,8 +110,7 @@ impl Tensor_fp8x23 of TensorTrait<FP8x23, FP8x23> {
     }
 
     fn sin(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
-        // sin_FP8x23(self).unwrap()
-        panic(array![])
+        math::sin::sin_from_fp(*self)
     }
 
     fn cos(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
