@@ -218,8 +218,7 @@ impl i8TensorAdd of Add<Tensor<i8>> {
     /// # Returns
     /// * A `Tensor<i8>` instance representing the result of the element-wise addition.
     fn add(lhs: Tensor<i8>, rhs: Tensor<i8>) -> Tensor<i8> {
-        //add(@lhs, @rhs)
-        panic(array![])
+        math::arithmetic::add(@lhs, @rhs)
     }
 }
 
@@ -234,8 +233,7 @@ impl i8TensorSub of Sub<Tensor<i8>> {
     /// # Returns
     /// * A `Tensor<i8>` instance representing the result of the element-wise subtraction.
     fn sub(lhs: Tensor<i8>, rhs: Tensor<i8>) -> Tensor<i8> {
-        // sub(@lhs, @rhs)
-        panic(array![])
+        math::arithmetic::sub(@lhs, @rhs)
     }
 }
 
@@ -250,8 +248,7 @@ impl i8TensorMul of Mul<Tensor<i8>> {
     /// # Returns
     /// * A `Tensor<i8>` instance representing the result of the element-wise multiplication.
     fn mul(lhs: Tensor<i8>, rhs: Tensor<i8>) -> Tensor<i8> {
-        // mul(@lhs, @rhs)
-        panic(array![])
+        math::arithmetic::mul(@lhs, @rhs)
     }
 }
 
@@ -266,8 +263,7 @@ impl i8TensorDiv of Div<Tensor<i8>> {
     /// # Returns
     /// * A `Tensor<i8>` instance representing the result of the element-wise division.
     fn div(lhs: Tensor<i8>, rhs: Tensor<i8>) -> Tensor<i8> {
-        //  div(@lhs, @rhs)
-        panic(array![])
+        math::arithmetic::div(@lhs, @rhs)
     }
 }
 

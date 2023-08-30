@@ -214,8 +214,7 @@ impl FP8x23TensorAdd of Add<Tensor<FP8x23>> {
     /// # Returns
     /// * A `Tensor<FP8x23>` instance representing the result of the element-wise addition.
     fn add(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> Tensor<FP8x23> {
-        //add(@lhs, @rhs)
-        panic(array![])
+        math::arithmetic::add(@lhs, @rhs)
     }
 }
 
@@ -230,8 +229,7 @@ impl FP8x23TensorSub of Sub<Tensor<FP8x23>> {
     /// # Returns
     /// * A `Tensor<FP8x23>` instance representing the result of the element-wise subtraction.
     fn sub(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> Tensor<FP8x23> {
-        // sub(@lhs, @rhs)
-        panic(array![])
+        math::arithmetic::sub(@lhs, @rhs)
     }
 }
 
@@ -246,8 +244,7 @@ impl FP8x23TensorMul of Mul<Tensor<FP8x23>> {
     /// # Returns
     /// * A `Tensor<FP8x23>` instance representing the result of the element-wise multiplication.
     fn mul(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> Tensor<FP8x23> {
-        // mul(@lhs, @rhs)
-        panic(array![])
+        math::arithmetic::mul(@lhs, @rhs)
     }
 }
 
@@ -262,8 +259,7 @@ impl FP8x23TensorDiv of Div<Tensor<FP8x23>> {
     /// # Returns
     /// * A `Tensor<FP8x23>` instance representing the result of the element-wise division.
     fn div(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> Tensor<FP8x23> {
-        //  div(@lhs, @rhs)
-        panic(array![])
+        math::arithmetic::div(@lhs, @rhs)
     }
 }
 

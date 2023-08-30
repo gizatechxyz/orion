@@ -5,7 +5,7 @@ mod argmax;
 mod argmin;
 mod exp;
 mod log;
-// mod arithmetic;
+mod arithmetic;
 // mod equal;
 // mod greater;
 // mod greater_equal;

@@ -215,8 +215,7 @@ impl u32TensorAdd of Add<Tensor<u32>> {
     /// # Returns
     /// * A `Tensor<u32>` instance representing the result of the element-wise addition.
     fn add(lhs: Tensor<u32>, rhs: Tensor<u32>) -> Tensor<u32> {
-        //add(@lhs, @rhs)
-        panic(array![])
+        math::arithmetic::add(@lhs, @rhs)
     }
 }
 
@@ -231,8 +230,7 @@ impl u32TensorSub of Sub<Tensor<u32>> {
     /// # Returns
     /// * A `Tensor<u32>` instance representing the result of the element-wise subtraction.
     fn sub(lhs: Tensor<u32>, rhs: Tensor<u32>) -> Tensor<u32> {
-        // sub(@lhs, @rhs)
-        panic(array![])
+        math::arithmetic::sub(@lhs, @rhs)
     }
 }
 
@@ -247,8 +245,7 @@ impl u32TensorMul of Mul<Tensor<u32>> {
     /// # Returns
     /// * A `Tensor<u32>` instance representing the result of the element-wise multiplication.
     fn mul(lhs: Tensor<u32>, rhs: Tensor<u32>) -> Tensor<u32> {
-        // mul(@lhs, @rhs)
-        panic(array![])
+        math::arithmetic::mul(@lhs, @rhs)
     }
 }
 
@@ -263,8 +260,7 @@ impl u32TensorDiv of Div<Tensor<u32>> {
     /// # Returns
     /// * A `Tensor<u32>` instance representing the result of the element-wise division.
     fn div(lhs: Tensor<u32>, rhs: Tensor<u32>) -> Tensor<u32> {
-        //  div(@lhs, @rhs)
-        panic(array![])
+        math::arithmetic::div(@lhs, @rhs)
     }
 }
 
