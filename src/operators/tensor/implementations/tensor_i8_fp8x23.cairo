@@ -148,8 +148,7 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
     }
 
     fn acosh(self: @Tensor<i8>) -> Tensor<FP8x23> {
-        // acosh_i8(self).unwrap()
-        panic(array![])
+        math::acosh::acosh_from_int(*self)
     }
 
     fn asinh(self: @Tensor<i8>) -> Tensor<FP8x23> {

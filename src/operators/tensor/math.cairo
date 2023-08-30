@@ -21,7 +21,7 @@ mod flatten;
 mod sinh;
 mod tanh;
 mod cosh;
-// mod acosh;
+mod acosh;
 // mod asinh;
 // mod atan;
 // mod xor;
