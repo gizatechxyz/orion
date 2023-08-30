@@ -144,8 +144,7 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
     }
 
     fn cosh(self: @Tensor<i8>) -> Tensor<FP8x23> {
-        // cosh_i8(self).unwrap()
-        panic(array![])
+        math::cosh::cosh_from_int(*self)
     }
 
     fn acosh(self: @Tensor<i8>) -> Tensor<FP8x23> {
