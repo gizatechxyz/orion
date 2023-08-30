@@ -1,5 +1,5 @@
 mod core;
 mod helpers;
 mod math;
-// mod linalg;
+mod linalg;
 mod implementations;

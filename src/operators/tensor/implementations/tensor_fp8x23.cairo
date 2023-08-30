@@ -11,7 +11,7 @@ use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor, tensor_eq
 };
-use orion::operators::tensor::math;
+use orion::operators::tensor::{math, linalg};
 use orion::operators::tensor::implementations::tensor_u32_fp8x23::Tensor_u32_fp8x23;
 
 impl Tensor_fp8x23 of TensorTrait<FP8x23, FP8x23> {
@@ -69,8 +69,7 @@ impl Tensor_fp8x23 of TensorTrait<FP8x23, FP8x23> {
     }
 
     fn matmul(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<FP8x23> {
-        //matmul(self, other)
-        panic(array![])
+        linalg::matmul::matmul(self, other)
     }
 
     fn exp(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
