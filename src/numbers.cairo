@@ -11,6 +11,8 @@ trait NumberTrait<T, MAG> {
     fn one() -> T;
     fn is_one(self: T) -> bool;
 
+    fn neg_one() -> T;
+
     fn abs(self: T) -> T;
 
     fn min_value() -> T;
@@ -46,6 +48,11 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
     fn one() -> FP8x23 {
         FP8x23Impl::ONE()
     }
+
+    fn neg_one() -> FP8x23 {
+        FP8x23 { mag: core_fp8x23::ONE, sign: true }
+    }
+
     fn is_one(self: FP8x23) -> bool {
         core_fp8x23::eq(@self, @FP8x23Impl::ONE())
     }
@@ -106,6 +113,11 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
     fn one() -> FP16x16 {
         FP16x16Impl::ONE()
     }
+
+    fn neg_one() -> FP16x16 {
+        FP16x16 { mag: core_fp16x16::ONE, sign: true }
+    }
+
     fn is_one(self: FP16x16) -> bool {
         core_fp16x16::eq(@self, @FP16x16Impl::ONE())
     }
@@ -165,6 +177,11 @@ impl I8Number of NumberTrait<i8, u8> {
     fn one() -> i8 {
         i8 { mag: 1, sign: false }
     }
+
+    fn neg_one() -> i8 {
+        i8 { mag: 1, sign: true }
+    }
+
     fn is_one(self: i8) -> bool {
         i8_core::i8_eq(self, i8 { mag: 1, sign: false })
     }
@@ -232,6 +249,11 @@ impl i16Number of NumberTrait<i16, u16> {
     fn one() -> i16 {
         i16 { mag: 1, sign: false }
     }
+
+    fn neg_one() -> i16 {
+        i16 { mag: 1, sign: true }
+    }
+
     fn is_one(self: i16) -> bool {
         i16_core::i16_eq(self, i16 { mag: 1, sign: false })
     }
@@ -300,6 +322,11 @@ impl i32Number of NumberTrait<i32, u32> {
     fn one() -> i32 {
         i32 { mag: 1, sign: false }
     }
+
+    fn neg_one() -> i32 {
+        i32 { mag: 1, sign: true }
+    }
+
     fn is_one(self: i32) -> bool {
         i32_core::i32_eq(self, i32 { mag: 1, sign: false })
     }
@@ -368,6 +395,11 @@ impl i64Number of NumberTrait<i64, u64> {
     fn one() -> i64 {
         i64 { mag: 1, sign: false }
     }
+
+    fn neg_one() -> i64 {
+        i64 { mag: 1, sign: true }
+    }
+
     fn is_one(self: i64) -> bool {
         i64_core::i64_eq(self, i64 { mag: 1, sign: false })
     }
@@ -436,6 +468,11 @@ impl i128Number of NumberTrait<i128, u128> {
     fn one() -> i128 {
         i128 { mag: 1, sign: false }
     }
+
+    fn neg_one() -> i128 {
+        i128 { mag: 1, sign: true }
+    }
+
     fn is_one(self: i128) -> bool {
         i128_core::i128_eq(self, i128 { mag: 1, sign: false })
     }
@@ -501,6 +538,11 @@ impl u32Number of NumberTrait<u32, u32> {
     fn one() -> u32 {
         1
     }
+
+    fn neg_one() -> u32 {
+        panic(array!['not supported'])
+    }
+
     fn is_one(self: u32) -> bool {
         self == 1
     }

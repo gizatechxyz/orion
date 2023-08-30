@@ -14,8 +14,7 @@ impl NN_i32_fp8x23 of NNTrait<i32, FP8x23> {
     }
 
     fn sigmoid(tensor: @Tensor<i32>) -> Tensor<FP8x23> {
-        // sigmoid_i32(tensor).unwrap()
-        panic(array![])
+        functional::sigmoid::sigmoid_from_int(*tensor)
     }
 
     fn softmax(tensor: @Tensor<i32>, axis: usize) -> Tensor<FP8x23> {
