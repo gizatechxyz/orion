@@ -163,6 +163,7 @@ impl Tensor_u32_fp8x23 of TensorTrait<u32, FP8x23> {
     fn or(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         math::or::or(self, other)
     }
+
     fn acos(self: @Tensor<u32>) -> Tensor<FP8x23> {
         panic(array!['not supported with u32'])
     }
