@@ -66,8 +66,7 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
     }
 
     fn transpose(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
-        //transpose(self, axes)
-        panic(array![])
+        linalg::transpose::transpose(self, axes)
     }
 
     fn matmul(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
