@@ -152,8 +152,7 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
     }
 
     fn asinh(self: @Tensor<i8>) -> Tensor<FP8x23> {
-        // asinh_i8(self).unwrap()
-        panic(array![])
+        math::asinh::asinh_from_int(*self)
     }
 
     fn atan(self: @Tensor<i8>) -> Tensor<FP8x23> {
