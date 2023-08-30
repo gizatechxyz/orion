@@ -6,6 +6,7 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
 use orion::operators::tensor::implementations::tensor_i8_fp8x23::Tensor_i8_fp8x23;
+use orion::operators::tensor::implementations::tensor_fp8x23::Tensor_fp8x23;
 
 impl NN_i8_fp8x23 of NNTrait<i8, FP8x23> {
     fn relu(tensor: @Tensor<i8>) -> Tensor<i8> {
@@ -43,7 +44,6 @@ impl NN_i8_fp8x23 of NNTrait<i8, FP8x23> {
     }
 
     fn leaky_relu(inputs: @Tensor<i8>, alpha: @FP8x23) -> Tensor<FP8x23> {
-        // leaky_relu_i8(inputs, alpha).unwrap()
-        panic(array![])
+        functional::leaky_relu::leaky_relu_from_int(*inputs, alpha)
     }
 }

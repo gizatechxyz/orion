@@ -44,7 +44,6 @@ impl NN_fp8x23 of NNTrait<FP8x23, FP8x23> {
     }
 
     fn leaky_relu(inputs: @Tensor<FP8x23>, alpha: @FP8x23) -> Tensor<FP8x23> {
-        // leaky_relu_fp(inputs, alpha).unwrap()
-        panic(array![])
+        functional::leaky_relu::leaky_relu_from_fp(*inputs, alpha)
     }
 }
