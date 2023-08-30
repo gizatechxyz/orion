@@ -157,8 +157,7 @@ impl Tensor_u32_fp8x23 of TensorTrait<u32, FP8x23> {
     }
 
     fn xor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
-        // xor(self, other)
-        panic(array![])
+        math::xor::xor(self, other)
     }
 
     fn or(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {

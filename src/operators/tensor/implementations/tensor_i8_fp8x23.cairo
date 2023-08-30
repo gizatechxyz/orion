@@ -160,8 +160,7 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
     }
 
     fn xor(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
-        // xor(self, other)
-        panic(array![])
+        math::xor::xor(self, other)
     }
 
     fn or(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
