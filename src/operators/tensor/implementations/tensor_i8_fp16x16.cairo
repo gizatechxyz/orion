@@ -6,19 +6,19 @@ use option::OptionTrait;
 use traits::{Into, TryInto};
 
 use orion::numbers::signed_integer::{i8::i8, i32::i32};
-use orion::numbers::signed_integer::i8::{i8_to_fp8x23};
+use orion::numbers::signed_integer::i8::{i8_to_fp16x16};
 use orion::numbers::fixed_point::core::{FixedImpl};
-use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
+use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor, tensor_eq
 };
 use orion::operators::tensor::{math, linalg};
-use orion::operators::tensor::implementations::tensor_u32_fp8x23::Tensor_u32_fp8x23;
-use orion::operators::tensor::implementations::tensor_i32_fp8x23::Tensor_i32_fp8x23;
-use orion::operators::tensor::implementations::tensor_fp8x23::Tensor_fp8x23;
+use orion::operators::tensor::implementations::tensor_u32_fp16x16::Tensor_u32_fp16x16;
+use orion::operators::tensor::implementations::tensor_i32_fp16x16::Tensor_i32_fp16x16;
+use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
 
-impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
+impl Tensor_i8_fp16x16 of TensorTrait<i8, FP16x16> {
     fn new(shape: Span<usize>, data: Span<i8>, extra: Option<ExtraParams>) -> Tensor<i8> {
         new_tensor(shape, data, extra)
     }
@@ -58,13 +58,13 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
     fn argmax(
         self: @Tensor<i8>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {
-        math::argmax::argmax::<i8, FP8x23, u8>(self, axis, keepdims, select_last_index)
+        math::argmax::argmax::<i8, FP16x16, u8>(self, axis, keepdims, select_last_index)
     }
 
     fn argmin(
         self: @Tensor<i8>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {
-        math::argmin::argmin::<i8, FP8x23, u8>(self, axis, keepdims, select_last_index)
+        math::argmin::argmin::<i8, FP16x16, u8>(self, axis, keepdims, select_last_index)
     }
 
     fn transpose(self: @Tensor<i8>, axes: Span<usize>) -> Tensor<i8> {
@@ -75,12 +75,12 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
         linalg::matmul::matmul(self, other)
     }
 
-    fn exp(self: @Tensor<i8>) -> Tensor<FP8x23> {
-        math::exp::exp_from_int::<i8, FP8x23, u8>(*self)
+    fn exp(self: @Tensor<i8>) -> Tensor<FP16x16> {
+        math::exp::exp_from_int::<i8, FP16x16, u8>(*self)
     }
 
-    fn log(self: @Tensor<i8>) -> Tensor<FP8x23> {
-        math::log::log_from_int::<i8, FP8x23, u8>(*self)
+    fn log(self: @Tensor<i8>) -> Tensor<FP16x16> {
+        math::log::log_from_int::<i8, FP16x16, u8>(*self)
     }
 
     fn equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
@@ -111,15 +111,15 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
         panic(array!['not supported with i8'])
     }
 
-    fn sin(self: @Tensor<i8>) -> Tensor<FP8x23> {
+    fn sin(self: @Tensor<i8>) -> Tensor<FP16x16> {
         math::sin::sin_from_int(*self)
     }
 
-    fn cos(self: @Tensor<i8>) -> Tensor<FP8x23> {
+    fn cos(self: @Tensor<i8>) -> Tensor<FP16x16> {
         math::cos::cos_from_int(*self)
     }
 
-    fn asin(self: @Tensor<i8>) -> Tensor<FP8x23> {
+    fn asin(self: @Tensor<i8>) -> Tensor<FP16x16> {
         panic(array!['not supported with i8'])
     }
 
@@ -133,27 +133,27 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
         math::flatten::flatten(self, axis)
     }
 
-    fn sinh(self: @Tensor<i8>) -> Tensor<FP8x23> {
+    fn sinh(self: @Tensor<i8>) -> Tensor<FP16x16> {
         math::sin::sin_from_int(*self)
     }
 
-    fn tanh(self: @Tensor<i8>) -> Tensor<FP8x23> {
+    fn tanh(self: @Tensor<i8>) -> Tensor<FP16x16> {
         math::tanh::tanh_from_int(*self)
     }
 
-    fn cosh(self: @Tensor<i8>) -> Tensor<FP8x23> {
+    fn cosh(self: @Tensor<i8>) -> Tensor<FP16x16> {
         math::cosh::cosh_from_int(*self)
     }
 
-    fn acosh(self: @Tensor<i8>) -> Tensor<FP8x23> {
+    fn acosh(self: @Tensor<i8>) -> Tensor<FP16x16> {
         math::acosh::acosh_from_int(*self)
     }
 
-    fn asinh(self: @Tensor<i8>) -> Tensor<FP8x23> {
+    fn asinh(self: @Tensor<i8>) -> Tensor<FP16x16> {
         math::asinh::asinh_from_int(*self)
     }
 
-    fn atan(self: @Tensor<i8>) -> Tensor<FP8x23> {
+    fn atan(self: @Tensor<i8>) -> Tensor<FP16x16> {
         math::atan::atan_from_int(*self)
     }
 
@@ -164,7 +164,7 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
     fn or(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         math::or::or(self, other)
     }
-    fn acos(self: @Tensor<i8>) -> Tensor<FP8x23> {
+    fn acos(self: @Tensor<i8>) -> Tensor<FP16x16> {
         panic(array!['not supported with i8'])
     }
 
@@ -174,7 +174,7 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
         math::onehot::onehot(self, depth, axis, values)
     }
 
-    fn sqrt(self: @Tensor<i8>) -> Tensor<FP8x23> {
+    fn sqrt(self: @Tensor<i8>) -> Tensor<FP16x16> {
         math::sqrt::sqrt_from_int(*self)
     }
 
@@ -251,9 +251,9 @@ impl TensorI8IntoTensorI32 of Into<Tensor<i8>, Tensor<i32>> {
 }
 
 // Implements the Into trait for i8 tensor to fp tensor.
-impl TensorI8IntoTensorFP8x23 of Into<Tensor<i8>, Tensor<FP8x23>> {
-    fn into(self: Tensor<i8>) -> Tensor<FP8x23> {
-        tensor_i8_to_fp8x23(@self)
+impl TensorI8IntoTensorFP16x16 of Into<Tensor<i8>, Tensor<FP16x16>> {
+    fn into(self: Tensor<i8>) -> Tensor<FP16x16> {
+        tensor_i8_to_fp16x16(@self)
     }
 }
 
@@ -273,12 +273,12 @@ fn tensor_i8_to_tensor_i32(x: @Tensor<i8>) -> Tensor<i32> {
 }
 
 
-fn tensor_i8_to_fp8x23(x: @Tensor<i8>) -> Tensor<FP8x23> {
-    let mut result_data = ArrayTrait::<FP8x23>::new();
+fn tensor_i8_to_fp16x16(x: @Tensor<i8>) -> Tensor<FP16x16> {
+    let mut result_data = ArrayTrait::<FP16x16>::new();
     let mut data = *x.data;
 
     loop {
-        result_data.append(i8_to_fp8x23(*data.pop_front().unwrap()));
+        result_data.append(i8_to_fp16x16(*data.pop_front().unwrap()));
 
         if data.len() == 0 {
             break ();
