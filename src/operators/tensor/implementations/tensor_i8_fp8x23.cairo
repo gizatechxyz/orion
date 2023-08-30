@@ -128,8 +128,7 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
     fn cumsum(
         self: @Tensor<i8>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
     ) -> Tensor<i8> {
-        // cumsum(self, axis, exclusive, reverse)
-        panic(array![])
+        math::cumsum::cumsum(self, axis, exclusive, reverse)
     }
 
     fn flatten(self: @Tensor<i8>, axis: usize) -> Tensor<i8> {

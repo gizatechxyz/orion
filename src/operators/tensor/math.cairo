@@ -16,7 +16,7 @@ mod ceil;
 mod sin;
 mod cos;
 mod asin;
-// mod cumsum;
+mod cumsum;
 // mod flatten;
 // mod sinh;
 // mod tanh;
