@@ -134,8 +134,7 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
     }
 
     fn sinh(self: @Tensor<i32>) -> Tensor<FP8x23> {
-        // sinh_i32(self).unwrap()
-        panic(array![])
+        math::sin::sin_from_int(*self)
     }
 
     fn tanh(self: @Tensor<i32>) -> Tensor<FP8x23> {

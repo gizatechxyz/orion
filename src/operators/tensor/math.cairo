@@ -18,7 +18,7 @@ mod cos;
 mod asin;
 mod cumsum;
 mod flatten;
-// mod sinh;
+mod sinh;
 // mod tanh;
 // mod cosh;
 // mod acosh;
