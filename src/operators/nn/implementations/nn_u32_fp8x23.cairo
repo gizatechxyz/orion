@@ -30,8 +30,7 @@ impl NN_u32_fp8x23 of NNTrait<u32, FP8x23> {
     }
 
     fn softplus(tensor: @Tensor<u32>) -> Tensor<FP8x23> {
-        // softplus_u32(tensor).unwrap()
-        panic(array![])
+        functional::softplus::softplus_from_int(*tensor)
     }
 
     fn linear(inputs: Tensor<u32>, weights: Tensor<u32>, bias: Tensor<u32>) -> Tensor<u32> {

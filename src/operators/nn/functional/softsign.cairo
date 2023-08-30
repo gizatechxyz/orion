@@ -3,7 +3,6 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 
-
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::NumberTrait;
