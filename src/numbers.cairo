@@ -21,6 +21,8 @@ trait NumberTrait<T, MAG> {
     fn is_neg(self: T) -> bool;
 
     fn xor(lhs: T, rhs: T) -> bool;
+
+    fn or(lhs: T, rhs: T) -> bool;
 }
 
 use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23};
@@ -73,6 +75,10 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
     fn xor(lhs: FP8x23, rhs: FP8x23) -> bool {
         comp_fp8x23::xor(lhs, rhs)
     }
+
+    fn or(lhs: FP8x23, rhs: FP8x23) -> bool {
+        comp_fp8x23::or(lhs, rhs)
+    }
 }
 
 use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16};
@@ -124,6 +130,10 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
 
     fn xor(lhs: FP16x16, rhs: FP16x16) -> bool {
         comp_fp16x16::xor(lhs, rhs)
+    }
+
+    fn or(lhs: FP16x16, rhs: FP16x16) -> bool {
+        comp_fp16x16::or(lhs, rhs)
     }
 }
 
@@ -178,6 +188,14 @@ impl I8Number of NumberTrait<i8, u8> {
             return true;
         } else {
             return false;
+        }
+    }
+
+    fn or(lhs: i8, rhs: i8) -> bool {
+        if (lhs.mag == 0 && rhs.mag == 0) {
+            return false;
+        } else {
+            return true;
         }
     }
 }
@@ -235,6 +253,14 @@ impl i16Number of NumberTrait<i16, u16> {
             return false;
         }
     }
+
+    fn or(lhs: i16, rhs: i16) -> bool {
+        if (lhs.mag == 0 && rhs.mag == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
 
 use orion::numbers::signed_integer::i32 as i32_core;
@@ -288,6 +314,14 @@ impl i32Number of NumberTrait<i32, u32> {
             return true;
         } else {
             return false;
+        }
+    }
+
+    fn or(lhs: i32, rhs: i32) -> bool {
+        if (lhs.mag == 0 && rhs.mag == 0) {
+            return false;
+        } else {
+            return true;
         }
     }
 }
@@ -345,6 +379,14 @@ impl i64Number of NumberTrait<i64, u64> {
             return false;
         }
     }
+
+    fn or(lhs: i64, rhs: i64) -> bool {
+        if (lhs.mag == 0 && rhs.mag == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
 
 use orion::numbers::signed_integer::i128 as i128_core;
@@ -398,6 +440,14 @@ impl i128Number of NumberTrait<i128, u128> {
             return true;
         } else {
             return false;
+        }
+    }
+
+    fn or(lhs: i128, rhs: i128) -> bool {
+        if (lhs.mag == 0 && rhs.mag == 0) {
+            return false;
+        } else {
+            return true;
         }
     }
 }
@@ -458,6 +508,14 @@ impl u32Number of NumberTrait<u32, u32> {
             return true;
         } else {
             return false;
+        }
+    }
+
+    fn or(lhs: u32, rhs: u32) -> bool {
+        if (lhs == 0 && rhs == 0) {
+            return false;
+        } else {
+            return true;
         }
     }
 }

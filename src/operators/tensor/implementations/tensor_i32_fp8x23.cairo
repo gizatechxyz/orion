@@ -162,8 +162,7 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
     }
 
     fn or(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
-        // or(self, other)
-        panic(array![])
+        math::or::or(self, other)
     }
     fn acos(self: @Tensor<i32>) -> Tensor<FP8x23> {
         panic(array!['not supported with i32'])
