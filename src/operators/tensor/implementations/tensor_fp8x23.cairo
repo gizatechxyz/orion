@@ -173,8 +173,7 @@ impl Tensor_fp8x23 of TensorTrait<FP8x23, FP8x23> {
     }
 
     fn sqrt(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
-        // sqrt_FP8x23(self).unwrap()
-        panic(array![])
+        math::sqrt::sqrt_from_fp(*self)
     }
 
     fn concat(tensors: Span<Tensor<FP8x23>>, axis: usize,) -> Tensor<FP8x23> {
