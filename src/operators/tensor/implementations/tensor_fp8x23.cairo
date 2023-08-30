@@ -177,8 +177,7 @@ impl Tensor_fp8x23 of TensorTrait<FP8x23, FP8x23> {
     }
 
     fn concat(tensors: Span<Tensor<FP8x23>>, axis: usize,) -> Tensor<FP8x23> {
-        // concat_FP8x23(tensors, axis)
-        panic(array![])
+        math::concat::concat(tensors, axis)
     }
 }
 
