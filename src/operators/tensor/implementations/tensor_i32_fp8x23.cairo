@@ -92,8 +92,7 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
     }
 
     fn greater_equal(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
-        //greater_equal(self, other)
-        panic(array![])
+        math::greater_equal::greater_equal(self, other)
     }
 
     fn less(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
