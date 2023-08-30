@@ -1,4 +1,4 @@
-// mod relu;
+mod relu;
 // mod leaky_relu;
 // mod sigmoid;
 // mod softmax;

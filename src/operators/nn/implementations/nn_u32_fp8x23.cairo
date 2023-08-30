@@ -1,13 +1,14 @@
 use core::option::OptionTrait;
 
 use orion::operators::tensor::core::Tensor;
-use orion::operators::nn::core::{NNTrait};
+use orion::operators::nn::core::NNTrait;
+use orion::operators::nn::functional;
 use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
+use orion::operators::tensor::implementations::tensor_u32_fp8x23::Tensor_u32_fp8x23;
 
 impl NN_u32_fp8x23 of NNTrait<u32, FP8x23> {
     fn relu(tensor: @Tensor<u32>) -> Tensor<u32> {
-        //relu_u32(*tensor)
-        panic(array![])
+        functional::relu::relu(*tensor)
     }
 
     fn sigmoid(tensor: @Tensor<u32>) -> Tensor<FP8x23> {
