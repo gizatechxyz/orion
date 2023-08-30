@@ -1,5 +1,4 @@
 use orion::operators::tensor::core::Tensor;
-use orion::numbers::fixed_point::core::FixedType;
 
 /// Trait
 ///
