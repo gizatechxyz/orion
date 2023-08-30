@@ -98,8 +98,7 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
     }
 
     fn less(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
-        //less(self, other)
-        panic(array![])
+        math::less::less(self, other)
     }
 
     fn less_equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
