@@ -3,52 +3,22 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
-use traits::Into;
+use traits::{Into, TryInto};
 
 use orion::numbers::signed_integer::{i8::i8, i32::i32};
 use orion::numbers::signed_integer::i8::{i8_to_fp8x23, i8_to_fp16x16};
-use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
-use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
-use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+use orion::numbers::fixed_point::core::{FixedImpl};
+use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor, tensor_eq
 };
-
 use orion::operators::tensor::math;
-use orion::operators::tensor::math::min::min_i8::min_in_tensor;
-use orion::operators::tensor::math::max::max_i8::max_in_tensor;
-use orion::operators::tensor::math::reduce_sum::reduce_sum_i8::reduce_sum;
-use orion::operators::tensor::math::argmax::argmax_i8::argmax;
-use orion::operators::tensor::math::argmin::argmin_i8::argmin;
-use orion::operators::tensor::math::equal::equal_i8::equal;
-use orion::operators::tensor::math::greater::greater_i8::greater;
-use orion::operators::tensor::math::greater_equal::greater_equal_i8::greater_equal;
-use orion::operators::tensor::math::less::less_i8::less;
-use orion::operators::tensor::math::less_equal::less_equal_i8::less_equal;
-use orion::operators::tensor::linalg::matmul::matmul_i8::matmul;
-use orion::operators::tensor::linalg::transpose::transpose_i8::transpose;
-use orion::operators::tensor::math::exp::exp_i8::core::exp_i8;
-use orion::operators::tensor::math::log::log_i8::core::log_i8;
-use orion::operators::tensor::math::arithmetic::arithmetic_i8::{add, sub, mul, div};
-use orion::operators::tensor::math::cumsum::cumsum_i8::cumsum;
-use orion::operators::tensor::math::flatten::flatten_i8::flatten;
-use orion::operators::tensor::math::sinh::sinh_i8::core::sinh_i8;
-use orion::operators::tensor::math::tanh::tanh_i8::core::tanh_i8;
-use orion::operators::tensor::math::cosh::cosh_i8::core::cosh_i8;
-use orion::operators::tensor::math::acosh::acosh_i8::core::acosh_i8;
-use orion::operators::tensor::math::asinh::asinh_i8::core::asinh_i8;
-use orion::operators::tensor::math::sin::sin_i8::core::sin_i8;
-use orion::operators::tensor::math::cos::cos_i8::core::cos_i8;
-use orion::operators::tensor::math::atan::atan_i8::core::atan_i8;
-use orion::operators::tensor::math::xor::xor_i8::xor;
-use orion::operators::tensor::math::or::or_i8::or;
-use orion::operators::tensor::math::onehot::onehot_i8::onehot;
-use orion::operators::tensor::math::sqrt::sqrt_i8::core::sqrt_i8;
-use orion::operators::tensor::math::concat::concat_i8::concat_i8;
+use orion::operators::tensor::implementations::tensor_u32_fp8x23::Tensor_u32_fp8x23;
+use orion::operators::tensor::implementations::tensor_i32_fp8x23::Tensor_i32_fp8x23;
+use orion::operators::tensor::implementations::tensor_fp8x23::Tensor_fp8x23;
 
-
-impl Tensor_i8 of TensorTrait<i8> {
+impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
     fn new(shape: Span<usize>, data: Span<i8>, extra: Option<ExtraParams>) -> Tensor<i8> {
         new_tensor(shape, data, extra)
     }
@@ -58,11 +28,11 @@ impl Tensor_i8 of TensorTrait<i8> {
     }
 
     fn min(self: @Tensor<i8>) -> i8 {
-        min_in_tensor(*self.data)
+        math::min::min_in_tensor(*self.data)
     }
 
     fn max(self: @Tensor<i8>) -> i8 {
-        max_in_tensor(*self.data)
+        math::max::max_in_tensor(*self.data)
     }
 
     fn stride(self: @Tensor<i8>) -> Span<usize> {
@@ -82,135 +52,160 @@ impl Tensor_i8 of TensorTrait<i8> {
     }
 
     fn reduce_sum(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
-        reduce_sum(self, axis, keepdims)
+        math::reduce_sum::reduce_sum(self, axis, keepdims)
     }
 
     fn argmax(
         self: @Tensor<i8>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {
-        argmax(self, axis, keepdims, select_last_index)
+        math::argmax::argmax::<i8, FP8x23, u8>(self, axis, keepdims, select_last_index)
     }
 
     fn argmin(
         self: @Tensor<i8>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {
-        argmin(self, axis, keepdims, select_last_index)
+        math::argmin::argmin::<i8, FP8x23, u8>(self, axis, keepdims, select_last_index)
     }
 
     fn transpose(self: @Tensor<i8>, axes: Span<usize>) -> Tensor<i8> {
-        transpose(self, axes)
+        //transpose(self, axes)
+        panic(array![])
     }
 
     fn matmul(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
-        matmul(self, other)
+        //matmul(self, other)
+        panic(array![])
     }
 
-    fn exp(self: @Tensor<i8>) -> Tensor<FixedType> {
-        exp_i8(self).unwrap()
+    fn exp(self: @Tensor<i8>) -> Tensor<FP8x23> {
+        math::exp::exp_from_int::<i8, FP8x23, u8>(*self)
     }
 
-    fn log(self: @Tensor<i8>) -> Tensor<FixedType> {
-        log_i8(self).unwrap()
+    fn log(self: @Tensor<i8>) -> Tensor<FP8x23> {
+        //log_i8(self).unwrap()
+        panic(array![])
     }
 
     fn equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
-        equal(self, other)
+        //equal(self, other)
+        panic(array![])
     }
 
     fn greater(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
-        greater(self, other)
+        // greater(self, other)         
+        panic(array![])
     }
 
     fn greater_equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
-        greater_equal(self, other)
+        //greater_equal(self, other)
+        panic(array![])
     }
 
     fn less(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
-        less(self, other)
+        //less(self, other)
+        panic(array![])
     }
 
     fn less_equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
-        less_equal(self, other)
+        //less_equal(self, other)
+        panic(array![])
     }
 
     fn abs(self: @Tensor<i8>) -> Tensor<i8> {
-        math::abs::abs(*self)
+        //math::abs::abs(*self)
+        panic(array![])
     }
 
     fn ceil(self: @Tensor<i8>) -> Tensor<i8> {
         panic(array!['not supported with i8'])
     }
 
-    fn sin(self: @Tensor<i8>) -> Tensor<FixedType> {
-        sin_i8(self).unwrap()
+    fn sin(self: @Tensor<i8>) -> Tensor<FP8x23> {
+        // sin_i8(self).unwrap()
+        panic(array![])
     }
 
-    fn cos(self: @Tensor<i8>) -> Tensor<FixedType> {
-        cos_i8(self).unwrap()
+    fn cos(self: @Tensor<i8>) -> Tensor<FP8x23> {
+        // cos_i8(self).unwrap()
+        panic(array![])
     }
 
-    fn asin(self: @Tensor<i8>) -> Tensor<FixedType> {
-        panic(array!['not supported with i8'])
+    fn asin(self: @Tensor<i8>) -> Tensor<FP8x23> {
+        // panic(array!['not supported with i8'])
+        panic(array![])
     }
 
     fn cumsum(
         self: @Tensor<i8>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
     ) -> Tensor<i8> {
-        cumsum(self, axis, exclusive, reverse)
+        // cumsum(self, axis, exclusive, reverse)
+        panic(array![])
     }
 
     fn flatten(self: @Tensor<i8>, axis: usize) -> Tensor<i8> {
-        flatten(self, axis)
+        //flatten(self, axis)
+        panic(array![])
     }
 
-    fn sinh(self: @Tensor<i8>) -> Tensor<FixedType> {
-        sinh_i8(self).unwrap()
+    fn sinh(self: @Tensor<i8>) -> Tensor<FP8x23> {
+        // sinh_i8(self).unwrap()
+        panic(array![])
     }
 
-    fn tanh(self: @Tensor<i8>) -> Tensor<FixedType> {
-        tanh_i8(self).unwrap()
+    fn tanh(self: @Tensor<i8>) -> Tensor<FP8x23> {
+        //  tanh_i8(self).unwrap()
+        panic(array![])
     }
 
-    fn cosh(self: @Tensor<i8>) -> Tensor<FixedType> {
-        cosh_i8(self).unwrap()
+    fn cosh(self: @Tensor<i8>) -> Tensor<FP8x23> {
+        // cosh_i8(self).unwrap()
+        panic(array![])
     }
 
-    fn acosh(self: @Tensor<i8>) -> Tensor<FixedType> {
-        acosh_i8(self).unwrap()
+    fn acosh(self: @Tensor<i8>) -> Tensor<FP8x23> {
+        // acosh_i8(self).unwrap()
+        panic(array![])
     }
 
-    fn asinh(self: @Tensor<i8>) -> Tensor<FixedType> {
-        asinh_i8(self).unwrap()
+    fn asinh(self: @Tensor<i8>) -> Tensor<FP8x23> {
+        // asinh_i8(self).unwrap()
+        panic(array![])
     }
 
-    fn atan(self: @Tensor<i8>) -> Tensor<FixedType> {
-        atan_i8(self).unwrap()
+    fn atan(self: @Tensor<i8>) -> Tensor<FP8x23> {
+        // atan_i8(self).unwrap()
+        panic(array![])
     }
 
     fn xor(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
-        xor(self, other)
+        // xor(self, other)
+        panic(array![])
     }
 
     fn or(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
-        or(self, other)
+        // or(self, other)
+        panic(array![])
     }
-    fn acos(self: @Tensor<i8>) -> Tensor<FixedType> {
+    fn acos(self: @Tensor<i8>) -> Tensor<FP8x23> {
         panic(array!['not supported with i8'])
     }
 
     fn onehot(
         self: @Tensor<i8>, depth: usize, axis: Option<usize>, values: Span<usize>
     ) -> Tensor<i8> {
-        onehot(self, depth, axis, values)
+        // onehot(self, depth, axis, values)
+        panic(array![])
     }
 
-    fn sqrt(self: @Tensor<i8>) -> Tensor<FixedType> {
-        sqrt_i8(self).unwrap()
-    }  
+    fn sqrt(self: @Tensor<i8>) -> Tensor<FP8x23> {
+        // sqrt_i8(self).unwrap()
+        panic(array![])
+    }
 
-    fn concat( tensors: Span<Tensor<i8>>, axis: usize,  ) -> Tensor<i8> {
-         concat_i8(tensors, axis)
-    }  
+    fn concat(tensors: Span<Tensor<i8>>, axis: usize,) -> Tensor<i8> {
+        // concat_i8(tensors, axis)
+        panic(array![])
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
@@ -224,7 +219,8 @@ impl i8TensorAdd of Add<Tensor<i8>> {
     /// # Returns
     /// * A `Tensor<i8>` instance representing the result of the element-wise addition.
     fn add(lhs: Tensor<i8>, rhs: Tensor<i8>) -> Tensor<i8> {
-        add(@lhs, @rhs)
+        //add(@lhs, @rhs)
+        panic(array![])
     }
 }
 
@@ -239,7 +235,8 @@ impl i8TensorSub of Sub<Tensor<i8>> {
     /// # Returns
     /// * A `Tensor<i8>` instance representing the result of the element-wise subtraction.
     fn sub(lhs: Tensor<i8>, rhs: Tensor<i8>) -> Tensor<i8> {
-        sub(@lhs, @rhs)
+        // sub(@lhs, @rhs)
+        panic(array![])
     }
 }
 
@@ -254,7 +251,8 @@ impl i8TensorMul of Mul<Tensor<i8>> {
     /// # Returns
     /// * A `Tensor<i8>` instance representing the result of the element-wise multiplication.
     fn mul(lhs: Tensor<i8>, rhs: Tensor<i8>) -> Tensor<i8> {
-        mul(@lhs, @rhs)
+        // mul(@lhs, @rhs)
+        panic(array![])
     }
 }
 
@@ -269,7 +267,8 @@ impl i8TensorDiv of Div<Tensor<i8>> {
     /// # Returns
     /// * A `Tensor<i8>` instance representing the result of the element-wise division.
     fn div(lhs: Tensor<i8>, rhs: Tensor<i8>) -> Tensor<i8> {
-        div(@lhs, @rhs)
+        //  div(@lhs, @rhs)
+        panic(array![])
     }
 }
 
@@ -281,9 +280,9 @@ impl TensorI8IntoTensorI32 of Into<Tensor<i8>, Tensor<i32>> {
 }
 
 // Implements the Into trait for i8 tensor to fp tensor.
-impl TensorI8IntoTensorFP of Into<Tensor<i8>, Tensor<FixedType>> {
-    fn into(self: Tensor<i8>) -> Tensor<FixedType> {
-        tensor_i8_to_tensor_fp(@self).unwrap()
+impl TensorI8IntoTensorFP8x23 of Into<Tensor<i8>, Tensor<FP8x23>> {
+    fn into(self: Tensor<i8>) -> Tensor<FP8x23> {
+        tensor_i8_to_fp8x23(@self)
     }
 }
 
@@ -302,40 +301,13 @@ fn tensor_i8_to_tensor_i32(x: @Tensor<i8>) -> Tensor<i32> {
     return TensorTrait::new(*x.shape, result_data.span(), *x.extra);
 }
 
-fn tensor_i8_to_tensor_fp(x: @Tensor<i8>) -> Option<Tensor<FixedType>> {
-    match *x.extra {
-        Option::Some(extra_params) => match extra_params.fixed_point {
-            Option::Some(fixed_point) => match fixed_point {
-                FixedImpl::FP8x23(()) => Option::Some(tensor_i8_to_fp8x23(x)),
-                FixedImpl::FP16x16(()) => Option::Some(tensor_i8_to_fp16x16(x)),
-            },
-            Option::None(_) => Option::Some(tensor_i8_to_fp16x16(x)),
-        },
-        Option::None(_) => Option::Some(tensor_i8_to_fp16x16(x)),
-    }
-}
 
-fn tensor_i8_to_fp8x23(x: @Tensor<i8>) -> Tensor<FixedType> {
-    let mut result_data = ArrayTrait::<FixedType>::new();
+fn tensor_i8_to_fp8x23(x: @Tensor<i8>) -> Tensor<FP8x23> {
+    let mut result_data = ArrayTrait::<FP8x23>::new();
     let mut data = *x.data;
 
     loop {
         result_data.append(i8_to_fp8x23(*data.pop_front().unwrap()));
-
-        if data.len() == 0 {
-            break ();
-        };
-    };
-
-    return TensorTrait::new(*x.shape, result_data.span(), *x.extra);
-}
-
-fn tensor_i8_to_fp16x16(x: @Tensor<i8>) -> Tensor<FixedType> {
-    let mut result_data = ArrayTrait::<FixedType>::new();
-    let mut data = *x.data;
-
-    loop {
-        result_data.append(i8_to_fp16x16(*data.pop_front().unwrap()));
 
         if data.len() == 0 {
             break ();

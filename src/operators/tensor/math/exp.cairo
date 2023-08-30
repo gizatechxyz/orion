@@ -1,7 +1,7 @@
 use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
-use traits::Into;
+use traits::{Into, TryInto};
 
 use orion::numbers::NumberTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
@@ -11,15 +11,16 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 fn exp_from_int<
     T,
     F,
-    MAG,
-    impl TNumber: NumberTrait<T, MAG>,
-    impl FFixedTrait: FixedTrait<F, MAG>,
+    INTMAG,
+    FPMAG,
+    impl TNumber: NumberTrait<T, INTMAG>,
+    impl FFixedTrait: FixedTrait<F, FPMAG>,
     impl FTensor: TensorTrait<F, F>,
+    impl MAGInto: Into<INTMAG, FPMAG>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
-    impl FCopy: Copy<F>,
     impl FDrop: Drop<F>,
-    impl MDrop: Drop<MAG>
+    impl FPMAGDrop: Drop<FPMAG>
 >(
     mut self: Tensor<T>
 ) -> Tensor<F> {
@@ -30,7 +31,9 @@ fn exp_from_int<
             Option::Some(item) => {
                 result
                     .append(
-                        FixedTrait::<F, MAG>::new_unscaled((*item).mag(), (*item).is_neg()).exp()
+                        FixedTrait::<F,
+                        FPMAG>::new_unscaled(((*item).mag()).into(), (*item).is_neg())
+                            .exp()
                     );
             },
             Option::None(_) => {
@@ -39,7 +42,7 @@ fn exp_from_int<
         };
     };
 
-    return TensorTrait::new(self.shape, result.span(), self.extra);
+    return TensorTrait::<F, F>::new(self.shape, result.span(), self.extra);
 }
 
 fn exp_from_fp<
