@@ -90,8 +90,7 @@ impl Tensor_i8_fp8x23 of TensorTrait<i8, FP8x23> {
     }
 
     fn greater(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
-        // greater(self, other)         
-        panic(array![])
+        math::greater::greater(self, other)
     }
 
     fn greater_equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
