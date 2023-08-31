@@ -192,7 +192,7 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
             y_scale,
             y_zero_point,
             i32 { mag: 128, sign: true },
-            i32 { mag: 128, sign: false },
+            i32 { mag: 127, sign: false },
         )
     }
 

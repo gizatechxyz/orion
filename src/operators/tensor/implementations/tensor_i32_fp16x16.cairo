@@ -192,7 +192,7 @@ impl Tensor_i32_fp16x16 of TensorTrait<i32, FP16x16> {
             y_scale,
             y_zero_point,
             i32 { mag: 128, sign: true },
-            i32 { mag: 128, sign: false },
+            i32 { mag: 127, sign: false },
         )
     }
 
