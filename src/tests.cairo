@@ -1,5 +1,5 @@
-// mod numbers;
+mod numbers;
 // mod performance;
-// mod tensor_core;
+mod tensor_core;
 mod nodes;
-// mod helpers;
+mod helpers;
