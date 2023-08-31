@@ -1,5 +1,5 @@
 mod at;
-// mod flatten;
+mod flatten;
 // mod max;
 // mod min;
 // mod stride;
