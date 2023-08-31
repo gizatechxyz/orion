@@ -1,14 +1,14 @@
 # fp.exp
 
 ```rust
-fn exp(self: FixedType) -> FixedType;
+fn exp(self: T) -> T;
 ```
 
 Returns the value of e raised to the power of the fixed point number.
 
 ## Args
 
-* `self`(`FixedType`) - The input fixed point
+* `self`(`T`) - The input fixed point
 
 ## Returns
 
@@ -17,10 +17,9 @@ The natural exponent of the input fixed point number.
 ## Examples
 
 ```rust
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 
-fn exp_fp_example() -> FixedType {
+fn exp_fp_example() -> FP16x16 {
     // We instantiate fixed point here.
     let fp = FixedTrait::new_unscaled(2, false);
 

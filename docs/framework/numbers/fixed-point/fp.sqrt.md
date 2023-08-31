@@ -1,14 +1,14 @@
 # fp.sqrt
 
 ```rust
-fn sqrt(self: FixedType) -> FixedType;
+fn sqrt(self: T) -> T;
 ```
 
 Returns the square root of the fixed point number.
 
 ## Args
 
-`self`(`FixedType`) - The input fixed point
+`self`(`T`) - The input fixed point
 
 ## Panics
 
@@ -21,10 +21,9 @@ A fixed point number representing the square root of the input value.
 ## Examples
 
 ```rust
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 
-fn sqrt_fp_example() -> FixedType {
+fn sqrt_fp_example() -> FP16x16 {
     // We instantiate FixedTrait points here.
     let a = FixedTrait::new_unscaled(9, false);
 
