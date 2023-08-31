@@ -1,8 +1,8 @@
 use array::ArrayTrait;
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 use orion::numbers::fixed_point::core::FixedImpl;
-use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
-use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
+use orion::operators::tensor::implementations::tensor_i32_fp8x23::Tensor_i32_fp8x23;
+use orion::numbers::{i32, FP8x23};
 
 fn input_0() -> Tensor<i32> {
     let mut shape = ArrayTrait::<usize>::new();

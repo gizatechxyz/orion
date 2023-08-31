@@ -4,8 +4,9 @@ mod output_0;
 
 use array::ArrayTrait;
 use orion::operators::tensor::core::TensorTrait;
-use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
-use orion::operators::tensor::implementations::impl_tensor_i32::i32TensorPartialEq;
+use orion::operators::tensor::implementations::tensor_i32_fp8x23::{
+    Tensor_i32_fp8x23, i32TensorPartialEq
+};
 use orion::utils::assert_eq;
 
 #[test]

@@ -1,11 +1,12 @@
-mod input_0; 
-mod output_0; 
+mod input_0;
+mod output_0;
 
 
 use array::ArrayTrait;
 use orion::operators::tensor::core::TensorTrait;
-use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
-use orion::operators::tensor::implementations::impl_tensor_i8::i8TensorPartialEq;
+use orion::operators::tensor::implementations::tensor_i8_fp16x16::{
+    Tensor_i8_fp16x16, i8TensorPartialEq
+};
 use orion::utils::assert_eq;
 
 #[test]
