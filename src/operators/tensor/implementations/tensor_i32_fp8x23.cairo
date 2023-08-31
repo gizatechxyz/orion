@@ -15,7 +15,9 @@ use orion::operators::tensor::core::{
 use orion::operators::tensor::{math, linalg, quantization};
 use orion::operators::tensor::implementations::tensor_u32_fp8x23::Tensor_u32_fp8x23;
 use orion::operators::tensor::implementations::tensor_fp8x23::Tensor_fp8x23;
-use orion::operators::tensor::implementations::tensor_i8_fp8x23::Tensor_i8_fp8x23;
+use orion::operators::tensor::implementations::tensor_i8_fp8x23::{
+    Tensor_i8_fp8x23, TensorI8IntoTensorI32
+};
 use orion::numbers::i8;
 
 impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
@@ -192,6 +194,12 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
             i32 { mag: 128, sign: true },
             i32 { mag: 128, sign: false },
         )
+    }
+
+    fn dequantize_linear(
+        self: @Tensor<i8>, x_scale: @Tensor<i32>, x_zero_point: @Tensor<i32>
+    ) -> Tensor::<i32> {
+        quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
     }
 }
 

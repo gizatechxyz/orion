@@ -13,7 +13,9 @@ use orion::operators::tensor::core::{
 };
 use orion::operators::tensor::{math, linalg, quantization};
 use orion::operators::tensor::implementations::tensor_u32_fp16x16::Tensor_u32_fp16x16;
-use orion::operators::tensor::implementations::tensor_i8_fp16x16::Tensor_i8_fp16x16;
+use orion::operators::tensor::implementations::tensor_i8_fp16x16::{
+    Tensor_i8_fp16x16, TensorI8IntoTensorFP16x16
+};
 use orion::numbers::i8;
 
 impl Tensor_fp16x16 of TensorTrait<FP16x16, FP16x16> {
@@ -190,6 +192,12 @@ impl Tensor_fp16x16 of TensorTrait<FP16x16, FP16x16> {
             FixedTrait::new(8388608, true),
             FixedTrait::new(8323072, false)
         )
+    }
+
+    fn dequantize_linear(
+        self: @Tensor<i8>, x_scale: @Tensor<FP16x16>, x_zero_point: @Tensor<FP16x16>
+    ) -> Tensor::<FP16x16> {
+        quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
     }
 }
 

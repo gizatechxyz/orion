@@ -187,6 +187,12 @@ impl Tensor_i8_fp16x16 of TensorTrait<i8, FP16x16> {
     ) -> Tensor::<i8> {
         panic(array!['not supported with i8'])
     }
+
+    fn dequantize_linear(
+        self: @Tensor<i8>, x_scale: @Tensor<i8>, x_zero_point: @Tensor<i8>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported with i8'])
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

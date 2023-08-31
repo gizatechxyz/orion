@@ -184,7 +184,13 @@ impl Tensor_u32_fp8x23 of TensorTrait<u32, FP8x23> {
     fn quantize_linear(
         self: @Tensor<u32>, y_scale: @Tensor<u32>, y_zero_point: @Tensor<u32>
     ) -> Tensor::<i8> {
-        panic(array!['not supported with i8'])
+        panic(array!['not supported with u32'])
+    }
+
+    fn dequantize_linear(
+        self: @Tensor<i8>, x_scale: @Tensor<u32>, x_zero_point: @Tensor<u32>
+    ) -> Tensor::<u32> {
+        panic(array!['not supported with u32'])
     }
 }
 
