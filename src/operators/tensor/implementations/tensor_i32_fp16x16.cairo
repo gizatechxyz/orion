@@ -132,7 +132,7 @@ impl Tensor_i32_fp16x16 of TensorTrait<i32, FP16x16> {
     }
 
     fn sinh(self: @Tensor<i32>) -> Tensor<FP16x16> {
-        math::sin::sin_from_int(*self)
+        math::sinh::sinh_from_int(*self)
     }
 
     fn tanh(self: @Tensor<i32>) -> Tensor<FP16x16> {
