@@ -1,11 +1,11 @@
-mod input_0; 
-mod output_0; 
+mod input_0;
+mod output_0;
 
 
 use array::ArrayTrait;
 use orion::operators::tensor::core::TensorTrait;
-use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-use orion::operators::tensor::implementations::impl_tensor_u32::u32TensorPartialEq;
+use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
+use orion::operators::tensor::implementations::tensor_u32_fp16x16::{u32TensorPartialEq};
 use orion::utils::assert_eq;
 
 #[test]

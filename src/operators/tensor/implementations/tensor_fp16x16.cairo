@@ -9,7 +9,7 @@ use orion::numbers::fixed_point::core::{FixedImpl};
 use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
-    at_tensor, tensor_eq
+    at_tensor
 };
 use orion::operators::tensor::{math, linalg};
 use orion::operators::tensor::implementations::tensor_u32_fp16x16::Tensor_u32_fp16x16;
@@ -254,4 +254,47 @@ impl U32TryIntoU32 of TryInto<u32, u32> {
     fn try_into(self: u32) -> Option<u32> {
         Option::Some(self)
     }
+}
+
+// Internals
+
+const PRECISION: u32 = 589; // 0.009
+
+fn relative_eq(lhs: @FP16x16, rhs: @FP16x16) -> bool {
+    let diff = *lhs - *rhs;
+
+    let rel_diff = if *lhs.mag != 0 {
+        (diff / *lhs).mag
+    } else {
+        diff.mag
+    };
+
+    rel_diff <= PRECISION
+}
+
+
+fn tensor_eq(mut lhs: Tensor<FP16x16>, mut rhs: Tensor<FP16x16>,) -> bool {
+    let mut is_eq = true;
+
+    loop {
+        if lhs.shape.len() == 0 || !is_eq {
+            break;
+        }
+
+        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+    };
+
+    if !is_eq {
+        return false;
+    }
+
+    loop {
+        if lhs.data.len() == 0 || !is_eq {
+            break;
+        }
+
+        is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+    };
+
+    return is_eq;
 }
