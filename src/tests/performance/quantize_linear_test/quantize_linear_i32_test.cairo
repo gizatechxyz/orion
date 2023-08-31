@@ -7,7 +7,6 @@ use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::
 use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
 use orion::operators::tensor::implementations::tensor_i32_fp16x16::Tensor_i32_fp16x16;
 use orion::operators::tensor::core::{TensorTrait, ExtraParams, Tensor};
-use orion::performance::core::PerfomanceTrait;
 
 #[test]
 #[available_gas(2000000)]
