@@ -4,9 +4,9 @@ mod output_0;
 
 use orion::operators::nn::core::NNTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::operators::nn::implementations::impl_nn_fp::NN_fp;
+use orion::operators::nn::implementations::nn_fp16x16::NN_fp16x16;
 use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
-use orion::operators::tensor::implementations::impl_tensor_fp::FP16x16Tensor::FPTensorPartialEq;
+use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16TensorPartialEq;
 use orion::utils::assert_eq;
 
 #[test]
