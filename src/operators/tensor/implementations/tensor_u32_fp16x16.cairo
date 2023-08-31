@@ -14,6 +14,7 @@ use orion::operators::tensor::core::{
 use orion::operators::tensor::{math, linalg};
 use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
 use orion::operators::tensor::implementations::tensor_i32_fp16x16::Tensor_i32_fp16x16;
+use orion::numbers::i8;
 
 impl Tensor_u32_fp16x16 of TensorTrait<u32, FP16x16> {
     fn new(shape: Span<usize>, data: Span<u32>, extra: Option<ExtraParams>) -> Tensor<u32> {
@@ -178,6 +179,12 @@ impl Tensor_u32_fp16x16 of TensorTrait<u32, FP16x16> {
 
     fn concat(tensors: Span<Tensor<u32>>, axis: usize,) -> Tensor<u32> {
         math::concat::concat(tensors, axis)
+    }
+
+    fn quantize_linear(
+        self: @Tensor<u32>, y_scale: @Tensor<u32>, y_zero_point: @Tensor<u32>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported with i8'])
     }
 }
 

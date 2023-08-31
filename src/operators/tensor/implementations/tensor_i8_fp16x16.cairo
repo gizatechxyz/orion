@@ -181,6 +181,12 @@ impl Tensor_i8_fp16x16 of TensorTrait<i8, FP16x16> {
     fn concat(tensors: Span<Tensor<i8>>, axis: usize,) -> Tensor<i8> {
         math::concat::concat(tensors, axis)
     }
+
+    fn quantize_linear(
+        self: @Tensor<i8>, y_scale: @Tensor<i8>, y_zero_point: @Tensor<i8>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported with i8'])
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

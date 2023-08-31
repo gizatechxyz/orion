@@ -12,9 +12,11 @@ use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor, tensor_eq
 };
-use orion::operators::tensor::{math, linalg};
+use orion::operators::tensor::{math, linalg, quantization};
 use orion::operators::tensor::implementations::tensor_u32_fp16x16::Tensor_u32_fp16x16;
 use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
+use orion::operators::tensor::implementations::tensor_i8_fp16x16::Tensor_i8_fp16x16;
+use orion::numbers::i8;
 
 impl Tensor_i32_fp16x16 of TensorTrait<i32, FP16x16> {
     fn new(shape: Span<usize>, data: Span<i32>, extra: Option<ExtraParams>) -> Tensor<i32> {
@@ -178,6 +180,18 @@ impl Tensor_i32_fp16x16 of TensorTrait<i32, FP16x16> {
 
     fn concat(tensors: Span<Tensor<i32>>, axis: usize,) -> Tensor<i32> {
         math::concat::concat(tensors, axis)
+    }
+
+    fn quantize_linear(
+        self: @Tensor<i32>, y_scale: @Tensor<i32>, y_zero_point: @Tensor<i32>
+    ) -> Tensor::<i8> {
+        quantization::quantize_linear::quantize_linear(
+            self,
+            y_scale,
+            y_zero_point,
+            i32 { mag: 128, sign: true },
+            i32 { mag: 128, sign: false },
+        )
     }
 }
 

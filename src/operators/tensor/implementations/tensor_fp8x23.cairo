@@ -5,14 +5,16 @@ use array::SpanTrait;
 use option::OptionTrait;
 use traits::{TryInto, Into};
 
-use orion::numbers::fixed_point::core::{FixedImpl};
+use orion::numbers::fixed_point::core::{FixedImpl, FixedTrait};
 use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg};
+use orion::operators::tensor::{math, linalg, quantization};
 use orion::operators::tensor::implementations::tensor_u32_fp8x23::Tensor_u32_fp8x23;
+use orion::operators::tensor::implementations::tensor_i8_fp8x23::Tensor_i8_fp8x23;
+use orion::numbers::i8;
 
 impl Tensor_fp8x23 of TensorTrait<FP8x23, FP8x23> {
     fn new(shape: Span<usize>, data: Span<FP8x23>, extra: Option<ExtraParams>) -> Tensor<FP8x23> {
@@ -176,6 +178,18 @@ impl Tensor_fp8x23 of TensorTrait<FP8x23, FP8x23> {
 
     fn concat(tensors: Span<Tensor<FP8x23>>, axis: usize,) -> Tensor<FP8x23> {
         math::concat::concat(tensors, axis)
+    }
+
+    fn quantize_linear(
+        self: @Tensor<FP8x23>, y_scale: @Tensor<FP8x23>, y_zero_point: @Tensor<FP8x23>
+    ) -> Tensor::<i8> {
+        quantization::quantize_linear::quantize_linear(
+            self,
+            y_scale,
+            y_zero_point,
+            FixedTrait::new(1073741824, true),
+            FixedTrait::new(1065353216, false)
+        )
     }
 }
 

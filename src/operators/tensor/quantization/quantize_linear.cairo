@@ -9,7 +9,7 @@ use orion::operators::tensor::helpers::check_compatibility;
 use orion::operators::tensor::math::arithmetic::saturated_add;
 use orion::utils::saturate;
 
-/// Cf: PerfomanceTrait::quantize_linear docstring
+/// Cf: TensorTrait::quantize_linear docstring
 fn quantize_linear<
     T,
     F,
