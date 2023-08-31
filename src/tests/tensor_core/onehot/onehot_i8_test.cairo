@@ -2,17 +2,17 @@ use core::serde::Serde;
 use core::option::OptionTrait;
 use core::clone::Clone;
 // ===== 1D ===== //
-use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+use orion::numbers::fixed_point::core::FixedTrait;
 
 #[cfg(test)]
 mod tensor_1D {
     use array::{ArrayTrait, SpanTrait};
     use core::traits::Into;
-    use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
+    use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
     use orion::numbers::fixed_point::implementations::fp16x16::core::{
         FP16x16Impl, FP16x16PartialEq
     };
-    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+    use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
     use orion::tests::helpers::tensor::fixed_point::fp16x16::{
         fp_tensor_1x3_helper, fp_tensor_2x2_helper, fp_tensor_3x2x2_neg_helper,
         fp_tensor_1x3_neg_helper, fp_tensor_2x2x2_helper
@@ -24,7 +24,7 @@ mod tensor_1D {
     use serde::Serde;
 
 
-    use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
+    use orion::operators::tensor::implementations::tensor_i8_fp16x16::Tensor_i8_fp16x16;
 
     // use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
     // use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;

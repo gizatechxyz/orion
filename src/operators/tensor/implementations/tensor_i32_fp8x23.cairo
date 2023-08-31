@@ -169,7 +169,7 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
     fn onehot(
         self: @Tensor<i32>, depth: usize, axis: Option<usize>, values: Span<usize>
     ) -> Tensor<i32> {
-        math::onehot::onehot(self, depth, axis, values)
+        math::onehot::onehot_from_int(self, depth, axis, values)
     }
 
     fn sqrt(self: @Tensor<i32>) -> Tensor<FP8x23> {

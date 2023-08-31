@@ -7,16 +7,10 @@ use core::clone::Clone;
 mod tensor_1D {
     use array::{ArrayTrait, SpanTrait};
     use core::traits::Into;
-    use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
-    use orion::numbers::fixed_point::implementations::fp16x16::core::{
-        FP16x16Impl, FP16x16PartialEq
-    };
-    use debug::PrintTrait;
-    use core::clone::Clone;
     use core::option::OptionTrait;
     use serde::Serde;
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-    use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
+    use orion::operators::tensor::implementations::tensor_i32_fp16x16::Tensor_i32_fp16x16;
     use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 
     use orion::tests::helpers::tensor::i32::{
