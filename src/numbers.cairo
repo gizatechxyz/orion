@@ -1,6 +1,8 @@
 mod fixed_point;
 mod signed_integer;
 
+use orion::numbers::fixed_point::core::FixedTrait;
+
 // Common methods from Fixed Point and Signed Integers.
 trait NumberTrait<T, MAG> {
     fn new(mag: MAG, sign: bool) -> T;
