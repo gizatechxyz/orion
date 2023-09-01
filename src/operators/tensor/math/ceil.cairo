@@ -29,6 +29,6 @@ fn ceil<
         };
     };
 
-    return TensorTrait::new(z.shape, data_result.span(), z.extra);
+    return TensorTrait::new(z.shape, data_result.span());
 }
 

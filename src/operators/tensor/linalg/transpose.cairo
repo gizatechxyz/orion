@@ -8,13 +8,7 @@ use orion::operators::tensor::helpers::{len_from_shape, find_axis, permutation_o
 use orion::numbers::NumberTrait;
 
 /// Cf: TensorTrait::transpose docstring
-fn transpose<
-    T,
-    F,
-    impl TTensor: TensorTrait<T, F>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>
->(
+fn transpose<T, F, impl TTensor: TensorTrait<T, F>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     self: @Tensor<T>, axes: Span<usize>
 ) -> Tensor<T> {
     assert((*self.shape).len() > 1, 'cannot transpose a 1D tensor');
@@ -51,5 +45,5 @@ fn transpose<
         output_index += 1;
     };
 
-    return TensorTrait::new(output_shape, output_data.span(), *self.extra);
+    return TensorTrait::new(output_shape, output_data.span());
 }

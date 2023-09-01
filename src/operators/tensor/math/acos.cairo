@@ -28,6 +28,6 @@ fn acos<
         };
     };
 
-    return TensorTrait::<F>::new(self.shape, result.span(), self.extra);
+    return TensorTrait::<F>::new(self.shape, result.span());
 }
 

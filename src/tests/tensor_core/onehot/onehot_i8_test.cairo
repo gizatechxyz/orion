@@ -8,7 +8,7 @@ use orion::numbers::fixed_point::core::FixedTrait;
 mod tensor_1D {
     use array::{ArrayTrait, SpanTrait};
     use core::traits::Into;
-    use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
+    use orion::numbers::fixed_point::core::{FixedTrait};
     use orion::numbers::fixed_point::implementations::fp16x16::core::{
         FP16x16Impl, FP16x16PartialEq
     };
@@ -28,7 +28,7 @@ mod tensor_1D {
 
     // use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
     // use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-    use orion::operators::tensor::core::{Tensor, ExtraParams};
+    use orion::operators::tensor::core::{Tensor};
 
 
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i8::i8};
@@ -42,8 +42,8 @@ mod tensor_1D {
         data.append(i8 { mag: 0, sign: false });
         data.append(i8 { mag: 1, sign: false });
         data.append(i8 { mag: 2, sign: false });
-        let extra = Option::<ExtraParams>::None(());
-        let tensor = TensorTrait::<i8>::new(sizes.span(), data.span(), extra);
+        
+        let tensor = TensorTrait::<i8>::new(sizes.span(), data.span());
         return tensor;
     }
 
@@ -54,8 +54,8 @@ mod tensor_1D {
         data.append(i8 { mag: 0, sign: false });
         data.append(i8 { mag: 1, sign: true });
         data.append(i8 { mag: 2, sign: true });
-        let extra = Option::<ExtraParams>::None(());
-        let tensor = TensorTrait::<i8>::new(sizes.span(), data.span(), extra);
+        
+        let tensor = TensorTrait::<i8>::new(sizes.span(), data.span());
         return tensor;
     }
 

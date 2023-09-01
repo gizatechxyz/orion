@@ -42,7 +42,7 @@ fn sinh_from_int<
         };
     };
 
-    return TensorTrait::new(self.shape, result.span(), self.extra);
+    return TensorTrait::new(self.shape, result.span());
 }
 
 /// Cf: TensorTrait::sinh docstring
@@ -69,5 +69,5 @@ fn sinh_from_fp<
         };
     };
 
-    return TensorTrait::new(self.shape, result.span(), self.extra);
+    return TensorTrait::new(self.shape, result.span());
 }

@@ -1,9 +1,3 @@
-/// A struct listing fixed point implementations.
-#[derive(Serde, Copy, Drop)]
-enum FixedImpl {
-    FP8x23: (),
-    FP16x16: ()
-}
 
 /// Trait
 ///

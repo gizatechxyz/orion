@@ -41,7 +41,7 @@ fn softplus_from_int<
         };
     };
 
-    return TensorTrait::new(z.shape, data_result.span(), z.extra);
+    return TensorTrait::new(z.shape, data_result.span());
 }
 
 
@@ -73,5 +73,5 @@ fn softplus_from_fp<
         };
     };
 
-    return TensorTrait::new(z.shape, data_result.span(), z.extra);
+    return TensorTrait::new(z.shape, data_result.span());
 }

@@ -43,7 +43,7 @@ fn cosh_from_int<
         };
     };
 
-    return TensorTrait::new(self.shape, result.span(), self.extra);
+    return TensorTrait::new(self.shape, result.span());
 }
 
 /// Cf: TensorTrait::cosh docstring
@@ -70,5 +70,5 @@ fn cosh_from_fp<
         };
     };
 
-    return TensorTrait::new(self.shape, result.span(), self.extra);
+    return TensorTrait::new(self.shape, result.span());
 }

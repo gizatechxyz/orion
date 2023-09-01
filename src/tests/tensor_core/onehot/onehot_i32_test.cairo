@@ -11,7 +11,7 @@ mod tensor_1D {
     use serde::Serde;
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
     use orion::operators::tensor::implementations::tensor_i32_fp16x16::Tensor_i32_fp16x16;
-    use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    use orion::operators::tensor::core::{TensorTrait, Tensor};
 
     use orion::tests::helpers::tensor::i32::{
         i32_tensor_1x3_helper, i32_tensor_1x3_neg_helper, i32_tensor_2x2_helper,
@@ -39,9 +39,9 @@ mod tensor_1D {
         data.append(i32 { mag: 2, sign: false });
         data.append(i32 { mag: 3, sign: false });
 
-        let extra = Option::<ExtraParams>::None(());
+        
 
-        let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
 
         return tensor;
     }
@@ -57,9 +57,9 @@ mod tensor_1D {
         data.append(i32 { mag: 2, sign: true });
         data.append(i32 { mag: 1, sign: true });
 
-        let extra = Option::<ExtraParams>::None(());
+        
 
-        let tensor = TensorTrait::<i32>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<i32>::new(sizes.span(), data.span());
 
         return tensor;
     }

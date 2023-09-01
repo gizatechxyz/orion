@@ -58,7 +58,7 @@ fn argmax<
     };
 
     return TensorTrait::<usize>::new(
-        reduce_output_shape(*self.shape, axis, keepdims), output_data.span(), *self.extra
+        reduce_output_shape(*self.shape, axis, keepdims), output_data.span()
     );
 }
 
@@ -93,7 +93,7 @@ fn find_argmax_1D<
         Option::None(_) => {
             return TensorTrait::<usize,
             F>::new(
-                reduce_output_shape(input.shape, axis, keepdims), output_data.span(), input.extra
+                reduce_output_shape(input.shape, axis, keepdims), output_data.span()
             );
         }
     };
@@ -123,7 +123,7 @@ fn find_argmax_1D<
     output_data.append(max_index);
 
     return TensorTrait::<usize,
-    F>::new(reduce_output_shape(input.shape, axis, keepdims), output_data.span(), input.extra);
+    F>::new(reduce_output_shape(input.shape, axis, keepdims), output_data.span());
 }
 
 

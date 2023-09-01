@@ -8,7 +8,7 @@ use orion::numbers::fixed_point::core::FixedTrait;
 mod tensor_1D {
     use array::{ArrayTrait, SpanTrait};
     use core::traits::Into;
-    use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
+    use orion::numbers::fixed_point::core::{FixedTrait};
     use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23, FP8x23PartialEq};
     use orion::operators::tensor::implementations::tensor_fp8x23::Tensor_fp8x23;
     use orion::operators::tensor::core::TensorTrait;
@@ -21,7 +21,7 @@ mod tensor_1D {
     use core::option::OptionTrait;
     use serde::Serde;
 
-    use orion::operators::tensor::core::{Tensor, ExtraParams};
+    use orion::operators::tensor::core::{Tensor};
 
     fn fp_tensor_3x2x2_new() -> Tensor<FP8x23> {
         let mut sizes = ArrayTrait::new();
@@ -43,8 +43,8 @@ mod tensor_1D {
         data.append(FixedTrait::new_unscaled(2, false));
         data.append(FixedTrait::new_unscaled(3, false));
 
-        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
-        let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span(), Option::Some(extra));
+        
+        let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
         return tensor;
     }
@@ -60,8 +60,8 @@ mod tensor_1D {
         data.append(FixedTrait::new_unscaled(2, true));
         data.append(FixedTrait::new_unscaled(1, true));
 
-        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
-        let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span(), Option::Some(extra));
+        
+        let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
         return tensor;
     }

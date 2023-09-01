@@ -29,5 +29,5 @@ fn abs<
         };
     };
 
-    return TensorTrait::<T>::new(z.shape, data_result.span(), z.extra);
+    return TensorTrait::<T>::new(z.shape, data_result.span());
 }

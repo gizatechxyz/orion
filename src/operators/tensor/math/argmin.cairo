@@ -58,7 +58,7 @@ fn argmin<
     };
 
     return TensorTrait::<usize>::new(
-        reduce_output_shape(*self.shape, axis, keepdims), output_data.span(), *self.extra
+        reduce_output_shape(*self.shape, axis, keepdims), output_data.span()
     );
 }
 
@@ -93,9 +93,7 @@ fn find_argmin_1D<
         Option::Some(item) => *item,
         Option::None(_) => {
             return TensorTrait::<usize,
-            F>::new(
-                reduce_output_shape(input.shape, axis, keepdims), output_data.span(), input.extra
-            );
+            F>::new(reduce_output_shape(input.shape, axis, keepdims), output_data.span());
         }
     };
     let mut min_index = 0;
@@ -124,7 +122,7 @@ fn find_argmin_1D<
     output_data.append(min_index);
 
     return TensorTrait::<usize>::new(
-        reduce_output_shape(input.shape, axis, keepdims), output_data.span(), input.extra
+        reduce_output_shape(input.shape, axis, keepdims), output_data.span()
     );
 }
 

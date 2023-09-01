@@ -42,7 +42,7 @@ fn exp_from_int<
         };
     };
 
-    return TensorTrait::<F, F>::new(self.shape, result.span(), self.extra);
+    return TensorTrait::<F, F>::new(self.shape, result.span());
 }
 
 /// Cf: TensorTrait::exp docstring
@@ -69,5 +69,5 @@ fn exp_from_fp<
         };
     };
 
-    return TensorTrait::new(self.shape, result.span(), self.extra);
+    return TensorTrait::new(self.shape, result.span());
 }

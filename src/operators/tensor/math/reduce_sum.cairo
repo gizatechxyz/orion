@@ -30,7 +30,7 @@ fn reduce_sum<
         let mut output_shape = ArrayTrait::new();
         output_shape.append(1);
 
-        return TensorTrait::new(output_shape.span(), output_data.span(), *self.extra);
+        return TensorTrait::new(output_shape.span(), output_data.span());
     } else {
         assert(axis <= (*self.shape).len(), 'axis out of dimensions');
         let output_shape = reduce_output_shape(*self.shape, axis, false);
@@ -50,9 +50,9 @@ fn reduce_sum<
 
         if keepdims {
             let output_shape = reduce_output_shape(*self.shape, axis, true);
-            return TensorTrait::<T>::new(output_shape, output_data.span(), *self.extra);
+            return TensorTrait::<T>::new(output_shape, output_data.span());
         } else {
-            return TensorTrait::<T>::new(output_shape, output_data.span(), *self.extra);
+            return TensorTrait::<T>::new(output_shape, output_data.span());
         }
     }
 }

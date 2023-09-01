@@ -36,7 +36,7 @@ trait NNTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
     /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
@@ -86,7 +86,7 @@ trait NNTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
     /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
@@ -94,7 +94,7 @@ trait NNTrait<T, F> {
     /// use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
     /// 
     /// fn softmax_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<i32>::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
@@ -140,7 +140,7 @@ trait NNTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
     /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
@@ -148,7 +148,7 @@ trait NNTrait<T, F> {
     /// use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
     /// 
     /// fn logsoftmax_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<i32>::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
@@ -199,7 +199,7 @@ trait NNTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
     /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
@@ -207,7 +207,7 @@ trait NNTrait<T, F> {
     /// use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
     /// 
     /// fn sigmoid_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<i32>::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
@@ -253,7 +253,7 @@ trait NNTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
     /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
@@ -261,7 +261,7 @@ trait NNTrait<T, F> {
     /// use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
     /// 
     /// fn softsign_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<i32>::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
@@ -307,7 +307,7 @@ trait NNTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
     /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
@@ -315,7 +315,7 @@ trait NNTrait<T, F> {
     /// use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
     /// 
     /// fn softplus_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<i32>::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
@@ -363,7 +363,7 @@ trait NNTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
     /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
@@ -371,7 +371,7 @@ trait NNTrait<T, F> {
     /// use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
     /// 
     /// fn linear_example() -> Tensor<i32> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     /// 
     ///     // We instantiate inputs here.
     ///     let inputs = TensorTrait::<i32>::new(
@@ -435,7 +435,7 @@ trait NNTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::operators::nn::core::NNTrait;
     /// use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
@@ -444,7 +444,7 @@ trait NNTrait<T, F> {
     /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     /// 
     /// fn leaky_relu_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<i32>::new(
     ///         shape: array![2, 3].span(),
     ///         data: array![

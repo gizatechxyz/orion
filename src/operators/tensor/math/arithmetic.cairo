@@ -39,7 +39,7 @@ fn add<
         };
     };
 
-    return TensorTrait::<T>::new(broadcasted_shape, result.span(), *self.extra);
+    return TensorTrait::<T>::new(broadcasted_shape, result.span());
 }
 
 fn saturated_add<
@@ -86,7 +86,7 @@ fn saturated_add<
         };
     };
 
-    return TensorTrait::<Q, F>::new(broadcasted_shape, result.span(), *self.extra);
+    return TensorTrait::<Q, F>::new(broadcasted_shape, result.span());
 }
 
 fn sub<
@@ -119,7 +119,7 @@ fn sub<
         };
     };
 
-    return TensorTrait::<T>::new(broadcasted_shape, result.span(), *self.extra);
+    return TensorTrait::<T>::new(broadcasted_shape, result.span());
 }
 
 fn saturated_sub<
@@ -166,7 +166,7 @@ fn saturated_sub<
         };
     };
 
-    return TensorTrait::<Q, F>::new(broadcasted_shape, result.span(), *self.extra);
+    return TensorTrait::<Q, F>::new(broadcasted_shape, result.span());
 }
 
 fn mul<
@@ -199,7 +199,7 @@ fn mul<
         };
     };
 
-    return TensorTrait::<T>::new(broadcasted_shape, result.span(), *self.extra);
+    return TensorTrait::<T>::new(broadcasted_shape, result.span());
 }
 
 fn saturated_mul<
@@ -246,7 +246,7 @@ fn saturated_mul<
         };
     };
 
-    return TensorTrait::<Q, F>::new(broadcasted_shape, result.span(), *self.extra);
+    return TensorTrait::<Q, F>::new(broadcasted_shape, result.span());
 }
 
 fn div<
@@ -279,7 +279,7 @@ fn div<
         };
     };
 
-    return TensorTrait::<T>::new(broadcasted_shape, result.span(), *self.extra);
+    return TensorTrait::<T>::new(broadcasted_shape, result.span());
 }
 
 fn saturated_div<
@@ -326,5 +326,5 @@ fn saturated_div<
         };
     };
 
-    return TensorTrait::<Q, F>::new(broadcasted_shape, result.span(), *self.extra);
+    return TensorTrait::<Q, F>::new(broadcasted_shape, result.span());
 }

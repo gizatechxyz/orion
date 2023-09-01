@@ -5,11 +5,11 @@ use array::SpanTrait;
 use option::OptionTrait;
 use traits::Into;
 
-use orion::numbers::fixed_point::core::{FixedImpl, FixedTrait};
+use orion::numbers::fixed_point::core::FixedTrait;
 use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
-    at_tensor, tensor_eq
+    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    tensor_eq
 };
 use orion::operators::tensor::{math, linalg};
 use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
@@ -17,8 +17,8 @@ use orion::operators::tensor::implementations::tensor_i32_fp16x16::Tensor_i32_fp
 use orion::numbers::i8;
 
 impl Tensor_u32_fp16x16 of TensorTrait<u32, FP16x16> {
-    fn new(shape: Span<usize>, data: Span<u32>, extra: Option<ExtraParams>) -> Tensor<u32> {
-        new_tensor(shape, data, extra)
+    fn new(shape: Span<usize>, data: Span<u32>) -> Tensor<u32> {
+        new_tensor(shape, data)
     }
 
     fn at(self: @Tensor<u32>, indices: Span<usize>) -> u32 {
@@ -275,7 +275,7 @@ fn tensor_u32_to_fp16x16(x: @Tensor<u32>) -> Tensor<FP16x16> {
         };
     };
 
-    return TensorTrait::<FP16x16, FP16x16>::new(*x.shape, result_data.span(), *x.extra);
+    return TensorTrait::<FP16x16, FP16x16>::new(*x.shape, result_data.span());
 }
 
 /// Implements partial equal for two `Tensor<u32>` using the `PartialEq` trait.

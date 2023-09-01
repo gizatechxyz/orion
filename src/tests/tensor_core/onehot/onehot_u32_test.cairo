@@ -9,7 +9,7 @@ mod tensor_1D {
     use core::traits::Into;
 
     use orion::operators::tensor::implementations::tensor_u32_fp16x16::Tensor_u32_fp16x16;
-    use orion::operators::tensor::core::{TensorTrait, ExtraParams, Tensor};
+    use orion::operators::tensor::core::{TensorTrait, Tensor};
     use orion::tests::helpers::tensor::u32::{u32_tensor_1x3_helper, u32_tensor_2x2_helper};
 
 
@@ -33,9 +33,9 @@ mod tensor_1D {
         data.append(2);
         data.append(3);
 
-        let extra = Option::<ExtraParams>::None(());
+        
 
-        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
 
         return tensor;
     }

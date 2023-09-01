@@ -10,7 +10,7 @@ use option::OptionTrait;
 
 use orion::numbers::NumberTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::core::{TensorTrait, Tensor};
 
 /// Cf: TensorTrait::onehot docstring
 fn onehot_encode_from_int<
@@ -88,7 +88,7 @@ fn onehot_encode_from_int<
         outer_index += 1;
     };
 
-    let mut output_tensor = TensorTrait::new(output_size.span(), output_data.span(), *self.extra);
+    let mut output_tensor = TensorTrait::new(output_size.span(), output_data.span());
     let mut tranpose_axes = ArrayTrait::new();
     // Get New shape is axis is not last dimension
     if (axis != 999) & (axis.into() != rank) {
@@ -140,7 +140,7 @@ fn onehot_from_int<
     data.append(NumberTrait::new(first.try_into().unwrap(), false));
     data.append(NumberTrait::new(second.try_into().unwrap(), false));
 
-    let values = TensorTrait::new(sizes.span(), data.span(), *self.extra);
+    let values = TensorTrait::new(sizes.span(), data.span());
     onehot_encode_from_int(self, depth, axis, values)
 }
 
@@ -221,7 +221,7 @@ fn onehot_encode_from_fp<
         outer_index += 1;
     };
 
-    let mut output_tensor = TensorTrait::new(output_size.span(), output_data.span(), *self.extra);
+    let mut output_tensor = TensorTrait::new(output_size.span(), output_data.span());
     let mut tranpose_axes = ArrayTrait::new();
     // Get New shape is axis is not last dimension
     if (axis != 999) & (axis.into() != rank) {
@@ -273,6 +273,6 @@ fn onehot_from_fp<
     data.append(FixedTrait::<F, MAG>::new_unscaled(first.try_into().unwrap(), false));
     data.append(FixedTrait::<F, MAG>::new_unscaled(second.try_into().unwrap(), false));
 
-    let values = TensorTrait::new(sizes.span(), data.span(), *self.extra);
+    let values = TensorTrait::new(sizes.span(), data.span());
     onehot_encode_from_fp(self, depth, axis, values)
 }

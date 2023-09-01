@@ -6,11 +6,10 @@ use option::OptionTrait;
 use traits::{Into, TryInto};
 
 use orion::numbers::signed_integer::i32::i32;
-use orion::numbers::fixed_point::core::{FixedImpl};
 use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
-    at_tensor, tensor_eq
+    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    tensor_eq
 };
 use orion::operators::tensor::{math, linalg, quantization};
 use orion::operators::tensor::implementations::tensor_u32_fp16x16::Tensor_u32_fp16x16;
@@ -21,8 +20,8 @@ use orion::operators::tensor::implementations::tensor_i8_fp16x16::{
 use orion::numbers::i8;
 
 impl Tensor_i32_fp16x16 of TensorTrait<i32, FP16x16> {
-    fn new(shape: Span<usize>, data: Span<i32>, extra: Option<ExtraParams>) -> Tensor<i32> {
-        new_tensor(shape, data, extra)
+    fn new(shape: Span<usize>, data: Span<i32>,) -> Tensor<i32> {
+        new_tensor(shape, data)
     }
 
     fn at(self: @Tensor<i32>, indices: Span<usize>) -> i32 {

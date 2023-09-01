@@ -6,7 +6,7 @@ mod tensor_1D {
     use core::traits::Into;
 
     use orion::operators::tensor::implementations::tensor_i32_fp16x16::Tensor_i32_fp16x16;
-    use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+    use orion::operators::tensor::core::{TensorTrait};
     use orion::tests::helpers::tensor::i32::i32_tensor_1x3_helper;
 
     #[test]
@@ -28,7 +28,7 @@ mod tensor_2D {
     use core::traits::Into;
 
     use orion::operators::tensor::implementations::tensor_i32_fp16x16::Tensor_i32_fp16x16;
-    use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+    use orion::operators::tensor::core::{TensorTrait};
     use orion::tests::helpers::tensor::i32::i32_tensor_2x2_helper;
 
     #[test]
@@ -59,7 +59,7 @@ mod tensor_3D {
     use core::traits::Into;
 
     use orion::operators::tensor::implementations::tensor_i32_fp16x16::Tensor_i32_fp16x16;
-    use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+    use orion::operators::tensor::core::{TensorTrait};
     use orion::tests::helpers::tensor::i32::i32_tensor_2x2x2_helper;
 
 

@@ -4,9 +4,9 @@ use array::SpanTrait;
 use traits::Into;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::i8};
-use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
+use orion::numbers::fixed_point::core::{FixedTrait};
 use orion::operators::tensor::implementations::tensor_i32_fp16x16::Tensor_i32_fp16x16;
-use orion::operators::tensor::core::{TensorTrait, ExtraParams, Tensor};
+use orion::operators::tensor::core::{TensorTrait, Tensor};
 
 #[test]
 #[available_gas(2000000)]
@@ -21,24 +21,24 @@ fn quantize_linear() {
     data.append(IntegerTrait::new(1000, false));
     data.append(IntegerTrait::new(254, true));
     data.append(IntegerTrait::new(1000, true));
-    let extra = Option::<ExtraParams>::None(());
-    let x = TensorTrait::new(shape.span(), data.span(), extra);
+    
+    let x = TensorTrait::new(shape.span(), data.span());
 
     // YSCALE
     let mut shape = ArrayTrait::<usize>::new();
     shape.append(1);
     let mut data = ArrayTrait::<i32>::new();
     data.append(IntegerTrait::new(2, false));
-    let extra = Option::<ExtraParams>::None(());
-    let y_scale = TensorTrait::new(shape.span(), data.span(), extra);
+    
+    let y_scale = TensorTrait::new(shape.span(), data.span());
 
     // ZEROPOINT
     let mut shape = ArrayTrait::<usize>::new();
     shape.append(1);
     let mut data = ArrayTrait::<i32>::new();
     data.append(IntegerTrait::new(1, false));
-    let extra = Option::<ExtraParams>::None(());
-    let y_zero_point = TensorTrait::new(shape.span(), data.span(), extra);
+    
+    let y_zero_point = TensorTrait::new(shape.span(), data.span());
 
     let y: Tensor<i8> = x.quantize_linear(@y_scale, @y_zero_point);
 
@@ -81,8 +81,8 @@ fn per_axis() {
     data.append(IntegerTrait::new(270, true));
     data.append(IntegerTrait::new(375, true));
     data.append(IntegerTrait::new(470, true));
-    let extra = Option::<ExtraParams>::None(());
-    let x = TensorTrait::new(shape.span(), data.span(), extra);
+    
+    let x = TensorTrait::new(shape.span(), data.span());
 
     // YSCALE
     let mut shape = ArrayTrait::<usize>::new();
@@ -94,8 +94,8 @@ fn per_axis() {
     data.append(IntegerTrait::new(2, false));
     data.append(IntegerTrait::new(4, false));
     data.append(IntegerTrait::new(5, false));
-    let extra = Option::<ExtraParams>::None(());
-    let y_scale = TensorTrait::new(shape.span(), data.span(), extra);
+    
+    let y_scale = TensorTrait::new(shape.span(), data.span());
 
     // ZEROPOINT
     let mut shape = ArrayTrait::<usize>::new();
@@ -107,8 +107,8 @@ fn per_axis() {
     data.append(IntegerTrait::new(84, false));
     data.append(IntegerTrait::new(24, false));
     data.append(IntegerTrait::new(196, false));
-    let extra = Option::<ExtraParams>::None(());
-    let y_zero_point = TensorTrait::new(shape.span(), data.span(), extra);
+    
+    let y_zero_point = TensorTrait::new(shape.span(), data.span());
 
     let y: Tensor<i8> = x.quantize_linear(@y_scale, @y_zero_point);
 

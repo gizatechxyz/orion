@@ -5,7 +5,7 @@ use debug::PrintTrait;
 use core::traits::Into;
 
 use orion::operators::tensor::helpers::replace_index;
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::core::{TensorTrait, Tensor};
 
 
 fn concat<T, F, impl TTensorTrait: TensorTrait<T, F>, impl TCopy: Copy<T>, impl TDrop: Drop<T>,>(
@@ -26,7 +26,7 @@ fn concat<T, F, impl TTensorTrait: TensorTrait<T, F>, impl TCopy: Copy<T>, impl 
     // Concatenate tensor data
     let output_data: Array<T> = concatenate_data(tensors, axis, base_shape);
 
-    TensorTrait::<T>::new(output_size.span(), output_data.span(), base_tensor.extra)
+    TensorTrait::<T>::new(output_size.span(), output_data.span())
 }
 
 fn validate_shapes<T>(mut tensors: Span<Tensor<T>>, mut base_shape: Span<usize>, axis: usize) {

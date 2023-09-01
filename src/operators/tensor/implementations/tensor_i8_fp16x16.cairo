@@ -7,10 +7,9 @@ use traits::{Into, TryInto};
 
 use orion::numbers::signed_integer::{i8::i8, i32::i32};
 use orion::numbers::signed_integer::i8::{i8_to_fp16x16};
-use orion::numbers::fixed_point::core::{FixedImpl};
 use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
+    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor, tensor_eq
 };
 use orion::operators::tensor::{math, linalg};
@@ -19,8 +18,8 @@ use orion::operators::tensor::implementations::tensor_i32_fp16x16::Tensor_i32_fp
 use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
 
 impl Tensor_i8_fp16x16 of TensorTrait<i8, FP16x16> {
-    fn new(shape: Span<usize>, data: Span<i8>, extra: Option<ExtraParams>) -> Tensor<i8> {
-        new_tensor(shape, data, extra)
+    fn new(shape: Span<usize>, data: Span<i8>) -> Tensor<i8> {
+        new_tensor(shape, data)
     }
 
     fn at(self: @Tensor<i8>, indices: Span<usize>) -> i8 {
@@ -281,7 +280,7 @@ fn tensor_i8_to_tensor_i32(x: @Tensor<i8>) -> Tensor<i32> {
         };
     };
 
-    return TensorTrait::new(*x.shape, result_data.span(), *x.extra);
+    return TensorTrait::new(*x.shape, result_data.span());
 }
 
 
@@ -297,7 +296,7 @@ fn tensor_i8_to_fp16x16(x: @Tensor<i8>) -> Tensor<FP16x16> {
         };
     };
 
-    return TensorTrait::new(*x.shape, result_data.span(), *x.extra);
+    return TensorTrait::new(*x.shape, result_data.span());
 }
 
 /// Implements partial equal for two `Tensor<i8>` using the `PartialEq` trait.

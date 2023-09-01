@@ -4,7 +4,7 @@
 mod tensor_1D {
     use array::ArrayTrait;
     use orion::operators::tensor::implementations::tensor_fp8x23::Tensor_fp8x23;
-    use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+    use orion::operators::tensor::core::{TensorTrait};
     use orion::tests::helpers::tensor::fixed_point::fp8x23::fp_tensor_1x3_helper;
     use orion::numbers::fixed_point::core::FixedTrait;
     use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23PartialEq};
@@ -28,7 +28,7 @@ mod tensor_1D {
 mod tensor_2D {
     use array::ArrayTrait;
     use orion::operators::tensor::implementations::tensor_fp8x23::Tensor_fp8x23;
-    use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+    use orion::operators::tensor::core::{TensorTrait};
     use orion::tests::helpers::tensor::fixed_point::fp8x23::fp_tensor_2x2_helper;
     use orion::numbers::fixed_point::core::FixedTrait;
     use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23PartialEq};
@@ -55,7 +55,7 @@ mod tensor_2D {
 mod tensor_3D {
     use array::ArrayTrait;
     use orion::operators::tensor::implementations::tensor_fp8x23::Tensor_fp8x23;
-    use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+    use orion::operators::tensor::core::{TensorTrait};
     use orion::tests::helpers::tensor::fixed_point::fp8x23::fp_tensor_2x2x2_helper;
     use orion::numbers::fixed_point::core::FixedTrait;
     use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23PartialEq};

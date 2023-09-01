@@ -43,7 +43,7 @@ fn log_from_int<
         };
     };
 
-    return TensorTrait::<F, F>::new(self.shape, result.span(), self.extra);
+    return TensorTrait::<F, F>::new(self.shape, result.span());
 }
 
 /// Cf: TensorTrait::log docstring
@@ -70,5 +70,5 @@ fn log_from_fp<
         };
     };
 
-    return TensorTrait::<F>::new(self.shape, result.span(), self.extra);
+    return TensorTrait::<F>::new(self.shape, result.span());
 }

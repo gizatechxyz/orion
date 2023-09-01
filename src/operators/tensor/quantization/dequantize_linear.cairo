@@ -81,7 +81,7 @@ fn dequantize_element_wise<
         };
     };
 
-    return TensorTrait::new(x.shape, result_data.span(), x.extra);
+    return TensorTrait::new(x.shape, result_data.span());
 }
 
 fn dequantize<

@@ -5,7 +5,7 @@ mod linalg;
 mod quantization;
 mod implementations;
 
-use orion::operators::tensor::core::{Tensor, ExtraParams, TensorSerde, TensorTrait};
+use orion::operators::tensor::core::{Tensor, TensorSerde, TensorTrait};
 
 use orion::operators::tensor::implementations::tensor_fp8x23::{
     Tensor_fp8x23, FP8x23TensorAdd, FP8x23TensorSub, FP8x23TensorMul, FP8x23TensorDiv,

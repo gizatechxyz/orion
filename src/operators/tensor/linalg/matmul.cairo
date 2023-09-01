@@ -3,7 +3,7 @@ use array::SpanTrait;
 use option::OptionTrait;
 
 use orion::numbers::NumberTrait;
-use orion::operators::tensor::core::{Tensor, ExtraParams, TensorTrait};
+use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 /// Cf: TensorTrait::matmul docstring
 fn matmul<
@@ -33,7 +33,7 @@ fn matmul<
         let mut result_data = ArrayTrait::new();
         result_shape.append(1);
         result_data.append(dot);
-        return TensorTrait::new(result_shape.span(), result_data.span(), *self.extra);
+        return TensorTrait::new(result_shape.span(), result_data.span());
     }
 
     let self_shape = prepare_shape_for_matmul(self_shape, true);
@@ -43,7 +43,7 @@ fn matmul<
 
     let result_shape = adjust_output_shape_after_matmul(result.shape, self_ndim, other_ndim);
 
-    return TensorTrait::new(result_shape, result.data, *self.extra);
+    return TensorTrait::new(result_shape, result.data);
 }
 
 /// Computes the dot product of two 1-dimensional i32 tensors.
@@ -158,7 +158,7 @@ fn matrix_multiply<
         i += 1;
     };
 
-    return TensorTrait::new(result_shape.span(), result_data.span(), Option::None(()));
+    return TensorTrait::new(result_shape.span(), result_data.span());
 }
 
 /// Prepares the shape of a tensor for matrix multiplication.

@@ -2,7 +2,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::core::{TensorTrait, Tensor};
 use orion::operators::tensor::implementations::tensor_i8_fp16x16::Tensor_i8_fp16x16;
 use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i8::i8};
@@ -16,8 +16,8 @@ fn i8_tensor_1x3_helper() -> Tensor<i8> {
     data.append(i8 { mag: 0, sign: false });
     data.append(i8 { mag: 1, sign: false });
     data.append(i8 { mag: 2, sign: false });
-    let extra = Option::<ExtraParams>::None(());
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    
+    let tensor = TensorTrait::new(sizes.span(), data.span());
     return tensor;
 }
 
@@ -28,8 +28,8 @@ fn i8_tensor_1x3_neg_helper() -> Tensor<i8> {
     data.append(i8 { mag: 0, sign: false });
     data.append(i8 { mag: 1, sign: true });
     data.append(i8 { mag: 2, sign: true });
-    let extra = Option::<ExtraParams>::None(());
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    
+    let tensor = TensorTrait::new(sizes.span(), data.span());
     return tensor;
 }
 
@@ -45,9 +45,9 @@ fn i8_tensor_2x2_helper() -> Tensor<i8> {
     data.append(i8 { mag: 1, sign: false });
     data.append(i8 { mag: 2, sign: false });
     data.append(i8 { mag: 3, sign: false });
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -62,9 +62,9 @@ fn i8_tensor_2x2_neg_helper() -> Tensor<i8> {
     data.append(i8 { mag: 1, sign: true });
     data.append(i8 { mag: 2, sign: true });
     data.append(i8 { mag: 3, sign: true });
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -85,9 +85,9 @@ fn i8_tensor_3x3_helper() -> Tensor<i8> {
     data.append(i8 { mag: 7, sign: false });
     data.append(i8 { mag: 8, sign: false });
 
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -108,9 +108,9 @@ fn i8_tensor_3x3_neg_helper() -> Tensor<i8> {
     data.append(i8 { mag: 7, sign: true });
     data.append(i8 { mag: 8, sign: true });
 
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -128,9 +128,9 @@ fn i8_tensor_3x2_helper() -> Tensor<i8> {
     data.append(i8 { mag: 4, sign: false });
     data.append(i8 { mag: 5, sign: false });
 
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -148,9 +148,9 @@ fn i8_tensor_3x2_neg_helper() -> Tensor<i8> {
     data.append(i8 { mag: 4, sign: true });
     data.append(i8 { mag: 5, sign: true });
 
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -165,9 +165,9 @@ fn i8_tensor_3x1_helper() -> Tensor<i8> {
     data.append(i8 { mag: 1, sign: false });
     data.append(i8 { mag: 2, sign: false });
 
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -182,9 +182,9 @@ fn i8_tensor_3x1_neg_helper() -> Tensor<i8> {
     data.append(i8 { mag: 1, sign: true });
     data.append(i8 { mag: 2, sign: true });
 
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -202,9 +202,9 @@ fn i8_tensor_2x3_helper() -> Tensor<i8> {
     data.append(i8 { mag: 4, sign: false });
     data.append(i8 { mag: 5, sign: false });
 
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -222,9 +222,9 @@ fn i8_tensor_2x3_neg_helper() -> Tensor<i8> {
     data.append(i8 { mag: 4, sign: true });
     data.append(i8 { mag: 5, sign: true });
 
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -247,9 +247,9 @@ fn i8_tensor_2x2x2_helper() -> Tensor<i8> {
     data.append(i8 { mag: 6, sign: false });
     data.append(i8 { mag: 7, sign: false });
 
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -270,9 +270,9 @@ fn i8_tensor_2x2x2_neg_helper() -> Tensor<i8> {
     data.append(i8 { mag: 6, sign: true });
     data.append(i8 { mag: 7, sign: true });
 
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -297,9 +297,9 @@ fn i8_tensor_3x2x2_helper() -> Tensor<i8> {
     data.append(i8 { mag: 10, sign: false });
     data.append(i8 { mag: 11, sign: false });
 
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -324,9 +324,9 @@ fn i8_tensor_3x2x2_neg_helper() -> Tensor<i8> {
     data.append(i8 { mag: 10, sign: true });
     data.append(i8 { mag: 11, sign: true });
 
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -366,9 +366,9 @@ fn i8_tensor_3x3x3_helper() -> Tensor<i8> {
     data.append(i8 { mag: 25, sign: false });
     data.append(i8 { mag: 26, sign: false });
 
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }
@@ -408,9 +408,9 @@ fn i8_tensor_3x3x3_neg_helper() -> Tensor<i8> {
     data.append(i8 { mag: 25, sign: true });
     data.append(i8 { mag: 26, sign: true });
 
-    let extra = Option::<ExtraParams>::None(());
+    
 
-    let tensor = TensorTrait::new(sizes.span(), data.span(), extra);
+    let tensor = TensorTrait::new(sizes.span(), data.span());
 
     return tensor;
 }

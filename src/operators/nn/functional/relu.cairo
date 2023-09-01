@@ -35,5 +35,5 @@ fn relu<
         };
     };
 
-    return TensorTrait::new(z.shape, data_result.span(), z.extra);
+    return TensorTrait::new(z.shape, data_result.span());
 }

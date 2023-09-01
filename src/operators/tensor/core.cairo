@@ -1,22 +1,13 @@
 use array::{ArrayTrait, SpanTrait};
 use serde::Serde;
-use option::OptionTrait;
-
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::fixed_point::core::{FixedImpl};
 use orion::numbers::i8;
 
 #[derive(Copy, Drop)]
 struct Tensor<T> {
     shape: Span<usize>,
     data: Span<T>,
-    extra: Option<ExtraParams>
-}
-
-#[derive(Serde, Copy, Drop)]
-struct ExtraParams {
-    fixed_point: Option<FixedImpl>
 }
 
 //Implement TensorSerde
@@ -24,15 +15,13 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
     fn serialize(self: @Tensor<T>, ref output: Array<felt252>) {
         self.shape.serialize(ref output);
         self.data.serialize(ref output);
-        self.extra.serialize(ref output);
     }
 
     fn deserialize(ref serialized: Span<felt252>) -> Option<Tensor<T>> {
         let shape: Span<usize> = Serde::<Span<usize>>::deserialize(ref serialized)?;
         let data: Span<T> = Serde::<Span<T>>::deserialize(ref serialized)?;
-        let extra: Option<ExtraParams> = Serde::<Option<ExtraParams>>::deserialize(ref serialized)?;
 
-        Option::Some(Tensor { shape, data, extra })
+        Option::Some(Tensor { shape, data })
     }
 }
 
@@ -82,7 +71,7 @@ trait TensorTrait<T, F> {
     /// # tensor.new
     ///
     /// ```rust 
-    ///    fn new(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T>;
+    ///    fn new(shape: Span<usize>, data: Span<T>: Option<ExtraParams>) -> Tensor<T>;
     /// ```
     ///
     /// Returns a new tensor with the given shape and data.
@@ -108,7 +97,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// // 1D TENSOR
@@ -145,7 +134,7 @@ trait TensorTrait<T, F> {
     /// }
     /// ```
     ///
-    fn new(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T>;
+    fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
     /// # tensor.at
     ///
     /// ```rust 
@@ -172,7 +161,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// 
@@ -213,7 +202,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// 
@@ -252,7 +241,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// 
@@ -290,7 +279,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// 
@@ -334,7 +323,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// 
@@ -382,7 +371,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// 
@@ -428,7 +417,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// 
@@ -474,7 +463,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// 
@@ -521,7 +510,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// 
@@ -572,7 +561,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn argmax_example() -> Tensor<usize> {
@@ -596,7 +585,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn argmax_example() -> Tensor<usize> {
@@ -621,7 +610,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn argmax_example() -> Tensor<usize> {
@@ -674,7 +663,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn argmin_example() -> Tensor<usize> {
@@ -699,7 +688,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn argmin_example() -> Tensor<usize> {
@@ -724,7 +713,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn argmin_example() -> Tensor<usize> {
@@ -780,7 +769,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn dot_product_example() -> Tensor<usize> {
@@ -807,7 +796,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn matrix_mul_example() -> Tensor<usize> {
@@ -834,7 +823,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn matrix_vec_mul_example() -> Tensor<usize> {
@@ -881,12 +870,12 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::numbers::fixed_point::core::{FixedType};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn exp_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<u32>::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![0, 1, 2, 3].span(),
@@ -926,12 +915,12 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::numbers::fixed_point::core::{FixedType};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn log_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<u32>::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![1, 2, 3, 100].span(),
@@ -978,7 +967,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn eq_example() -> Tensor<usize> {
@@ -1005,7 +994,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn eq_example() -> Tensor<usize> {
@@ -1059,7 +1048,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn greater_example() -> Tensor<usize> {
@@ -1086,7 +1075,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn greater_example() -> Tensor<usize> {
@@ -1140,7 +1129,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn greater_equal_example() -> Tensor<usize> {
@@ -1167,7 +1156,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn greater_equal_example() -> Tensor<usize> {
@@ -1221,7 +1210,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn less_example() -> Tensor<usize> {
@@ -1248,7 +1237,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn less_example() -> Tensor<usize> {
@@ -1302,7 +1291,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn less_equal_example() -> Tensor<usize> {
@@ -1329,7 +1318,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
     /// 
     /// fn less_equal_example() -> Tensor<usize> {
@@ -1375,7 +1364,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
     /// use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
     /// 
@@ -1419,13 +1408,13 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     /// 
     /// fn ceil_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<FixedType>::new(
     ///         shape: array![3].span(),
     ///         data: array![
@@ -1465,13 +1454,13 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     /// 
     /// fn sin_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<FixedType>::new(
     ///         shape: array![3].span(),
     ///         data: array![
@@ -1514,13 +1503,13 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     /// 
     /// fn cos_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<FixedType>::new(
     ///         shape: array![3].span(),
     ///         data: array![
@@ -1570,9 +1559,9 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// 
     /// fn cumsum_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -1595,9 +1584,9 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// 
     /// fn cumsum_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -1620,9 +1609,9 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// 
     /// fn cumsum_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -1673,9 +1662,9 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// 
     /// fn flatten_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -1694,9 +1683,9 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// 
     /// fn flatten_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -1715,9 +1704,9 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// 
     /// fn flatten_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -1756,13 +1745,13 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     /// 
     /// fn sinh_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<FixedType>::new(
     ///         shape: array![2,2].span(),
     ///         data: array![
@@ -1806,13 +1795,13 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     /// 
     /// fn tanh_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<FixedType>::new(
     ///         shape: array![2,2].span(),
     ///         data: array![
@@ -1856,13 +1845,13 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     /// 
     /// fn cosh_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<FixedType>::new(
     ///         shape: array![2,2].span(),
     ///         data: array![
@@ -1906,13 +1895,13 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     /// 
     /// fn asinh_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<FixedType>::new(
     ///         shape: array![2,2].span(),
     ///         data: array![
@@ -1956,13 +1945,13 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     /// 
     /// fn acosh_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<FixedType>::new(
     ///         shape: array![2,2].span(),
     ///         data: array![
@@ -2005,13 +1994,13 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     /// 
     /// fn atan_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<FixedType>::new(
     ///         shape: array![3].span(),
     ///         data: array![
@@ -2053,13 +2042,13 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     /// 
     /// fn asin_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<FixedType>::new(
     ///         shape: array![2].span(),
     ///         data: array![
@@ -2108,9 +2097,9 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// 
     /// fn or_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -2135,9 +2124,9 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// 
     /// fn or_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -2189,9 +2178,9 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// 
     /// fn xor_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -2216,9 +2205,9 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// 
     /// fn xor_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -2262,13 +2251,13 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     /// 
     /// fn acos_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<FixedType>::new(
     ///         shape: array![2].span(),
     ///         data: array![
@@ -2314,9 +2303,9 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// 
     /// fn onehot_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -2362,13 +2351,13 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     /// use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
-    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+    /// use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
     /// use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     /// 
     /// fn sqrt_example() -> Tensor<FixedType> {
-    ///     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+    ///     
     ///     let tensor = TensorTrait::<FixedType>::new(
     ///         shape: array![3].span(),
     ///         data: array![
@@ -2414,7 +2403,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+    /// use orion::operators::tensor::core::{TensorTrait, Tensor};
     ///
     /// fn concat_example() -> Tensor<FixedType> {
     ///     let tensor1 = TensorTrait::<u32>::new(
@@ -2600,9 +2589,9 @@ trait TensorTrait<T, F> {
 
 
 /// Cf: TensorTrait::new docstring
-fn new_tensor<T>(shape: Span<usize>, data: Span<T>, extra: Option<ExtraParams>) -> Tensor<T> {
+fn new_tensor<T>(shape: Span<usize>, data: Span<T>) -> Tensor<T> {
     check_shape::<T>(shape, data);
-    Tensor::<T> { shape, data, extra }
+    Tensor::<T> { shape, data }
 }
 
 /// Cf: TensorTrait::ravel_index docstring
@@ -2682,7 +2671,7 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
 
 /// Cf: TensorTrait::reshape docstring
 fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
-    new_tensor(target_shape, *self.data, *self.extra)
+    new_tensor(target_shape, *self.data)
 }
 
 /// Cf: TensorTrait::at docstring

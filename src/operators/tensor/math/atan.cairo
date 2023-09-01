@@ -42,7 +42,7 @@ fn atan_from_int<
         };
     };
 
-    return TensorTrait::new(self.shape, result.span(), self.extra);
+    return TensorTrait::new(self.shape, result.span());
 }
 
 fn atan_from_fp<
@@ -68,5 +68,5 @@ fn atan_from_fp<
         };
     };
 
-    return TensorTrait::new(self.shape, result.span(), self.extra);
+    return TensorTrait::new(self.shape, result.span());
 }

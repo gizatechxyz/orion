@@ -44,7 +44,7 @@ fn sigmoid_from_int<
         };
     };
 
-    return TensorTrait::new(z.shape, data_result.span(), z.extra);
+    return TensorTrait::new(z.shape, data_result.span());
 }
 
 /// Cf: NNTrait::sigmoid docstring
@@ -78,6 +78,6 @@ fn sigmoid_from_fp<
         };
     };
 
-    return TensorTrait::new(z.shape, data_result.span(), z.extra);
+    return TensorTrait::new(z.shape, data_result.span());
 }
 

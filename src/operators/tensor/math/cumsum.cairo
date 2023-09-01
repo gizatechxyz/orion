@@ -93,7 +93,7 @@ fn cumsum_forward<
         index += 1;
     };
 
-    return TensorTrait::<T>::new(*self.shape, output_data.span(), *self.extra);
+    return TensorTrait::<T>::new(*self.shape, output_data.span());
 }
 
 
@@ -172,5 +172,5 @@ fn cumsum_reverse<
         index += 1;
     };
 
-    return TensorTrait::<T>::new(*self.shape, output_data.span(), *self.extra);
+    return TensorTrait::<T>::new(*self.shape, output_data.span());
 }

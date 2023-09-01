@@ -50,7 +50,7 @@ fn leaky_relu_from_int<
         };
     };
 
-    return TensorTrait::new(z.shape, data_result.span(), z.extra);
+    return TensorTrait::new(z.shape, data_result.span());
 }
 
 /// Cf: NNTrait::leaky_relu docstring
@@ -85,5 +85,5 @@ fn leaky_relu_from_fp<
         };
     };
 
-    return TensorTrait::new(z.shape, data_result.span(), z.extra);
+    return TensorTrait::new(z.shape, data_result.span());
 }

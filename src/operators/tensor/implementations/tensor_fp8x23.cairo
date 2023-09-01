@@ -5,20 +5,22 @@ use array::SpanTrait;
 use option::OptionTrait;
 use traits::{TryInto, Into};
 
-use orion::numbers::fixed_point::core::{FixedImpl, FixedTrait};
+use orion::numbers::fixed_point::core::FixedTrait;
 use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, ExtraParams, TensorTrait, ravel_index, unravel_index, reshape,
+    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization};
 use orion::operators::tensor::implementations::tensor_u32_fp8x23::Tensor_u32_fp8x23;
-use orion::operators::tensor::implementations::tensor_i8_fp8x23::{Tensor_i8_fp8x23, TensorI8IntoTensorFP8x23};
+use orion::operators::tensor::implementations::tensor_i8_fp8x23::{
+    Tensor_i8_fp8x23, TensorI8IntoTensorFP8x23
+};
 use orion::numbers::i8;
 
 impl Tensor_fp8x23 of TensorTrait<FP8x23, FP8x23> {
-    fn new(shape: Span<usize>, data: Span<FP8x23>, extra: Option<ExtraParams>) -> Tensor<FP8x23> {
-        new_tensor(shape, data, extra)
+    fn new(shape: Span<usize>, data: Span<FP8x23>) -> Tensor<FP8x23> {
+        new_tensor(shape, data)
     }
 
     fn at(self: @Tensor<FP8x23>, indices: Span<usize>) -> FP8x23 {

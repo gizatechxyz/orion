@@ -46,5 +46,5 @@ fn equal<
         smaller_index = (1 + smaller_index) % smaller_data.len();
     };
 
-    return TensorTrait::new(*bigger.shape, data_result.span(), *y.extra);
+    return TensorTrait::new(*bigger.shape, data_result.span());
 }

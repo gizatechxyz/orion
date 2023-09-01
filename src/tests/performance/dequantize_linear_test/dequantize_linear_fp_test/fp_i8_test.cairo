@@ -6,11 +6,11 @@ mod fp8x23 {
     use debug::PrintTrait;
 
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i8::i8};
-    use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
+    use orion::numbers::fixed_point::core::{FixedTrait};
     use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23PartialEq};
     use orion::operators::tensor::implementations::tensor_i8_fp8x23::Tensor_i8_fp8x23;
     use orion::operators::tensor::implementations::tensor_fp8x23::Tensor_fp8x23;
-    use orion::operators::tensor::core::{TensorTrait, ExtraParams, Tensor};
+    use orion::operators::tensor::core::{TensorTrait, Tensor};
     use orion::numbers::FP8x23;
 
     #[test]
@@ -24,24 +24,24 @@ mod fp8x23 {
         data.append(IntegerTrait::new(3, false));
         data.append(IntegerTrait::new(125, false));
         data.append(IntegerTrait::new(127, false));
-        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
-        let x = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
+        
+        let x = TensorTrait::new(shape.span(), data.span());
 
         // XSCALE
         let mut shape = ArrayTrait::<usize>::new();
         shape.append(1);
         let mut data = ArrayTrait::<FP8x23>::new();
         data.append(FixedTrait::new_unscaled(2, false));
-        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
-        let x_scale = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
+        
+        let x_scale = TensorTrait::new(shape.span(), data.span());
 
         // ZEROPOINT
         let mut shape = ArrayTrait::<usize>::new();
         shape.append(1);
         let mut data = ArrayTrait::<FP8x23>::new();
         data.append(FixedTrait::new_unscaled(0, false));
-        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
-        let x_zero_point = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
+        
+        let x_zero_point = TensorTrait::new(shape.span(), data.span());
 
         let y: Tensor<FP8x23> = x.dequantize_linear(@x_scale, @x_zero_point);
 
@@ -91,8 +91,8 @@ mod fp8x23 {
 //     data.append(IntegerTrait::new(127, false));
 //     data.append(IntegerTrait::new(121, false));
 //     data.append(IntegerTrait::new(102, false));
-//     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
-//     let x = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
+//     
+//     let x = TensorTrait::new(shape.span(), data.span());
 
 //     // XSCALE
 //     let mut shape = ArrayTrait::<usize>::new();
@@ -104,8 +104,8 @@ mod fp8x23 {
 //     data.append(FixedTrait::new_unscaled(2, false));
 //     data.append(FixedTrait::new_unscaled(4, false));
 //     data.append(FixedTrait::new_unscaled(5, false));
-//     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
-//     let x_scale = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
+//     
+//     let x_scale = TensorTrait::new(shape.span(), data.span());
 
 //     // ZEROPOINT
 //     let mut shape = ArrayTrait::<usize>::new();
@@ -117,8 +117,8 @@ mod fp8x23 {
 //     data.append(FixedTrait::new_unscaled(1, false));
 //     data.append(FixedTrait::new_unscaled(2, false));
 //     data.append(FixedTrait::new_unscaled(3, false));
-//     let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23(())) };
-//     let x_zero_point = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
+//     
+//     let x_zero_point = TensorTrait::new(shape.span(), data.span());
 
 //     let y: Tensor<FixedType> = x.dequantize_linear(@x_scale, @x_zero_point);
 
@@ -152,13 +152,13 @@ mod fp16x16 {
 
 
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i8::i8};
-    use orion::numbers::fixed_point::core::{FixedTrait, FixedImpl};
+    use orion::numbers::fixed_point::core::{FixedTrait};
     use orion::numbers::fixed_point::implementations::fp16x16::core::{
         FP16x16Impl, FP16x16PartialEq
     };
     use orion::operators::tensor::implementations::tensor_i8_fp16x16::Tensor_i8_fp16x16;
     use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
-    use orion::operators::tensor::core::{TensorTrait, ExtraParams, Tensor};
+    use orion::operators::tensor::core::{TensorTrait, Tensor};
     use orion::numbers::FP16x16;
 
     #[test]
@@ -172,24 +172,24 @@ mod fp16x16 {
         data.append(IntegerTrait::new(3, false));
         data.append(IntegerTrait::new(125, false));
         data.append(IntegerTrait::new(127, false));
-        let extra = Option::<ExtraParams>::None(());
-        let x = TensorTrait::new(shape.span(), data.span(), extra);
+        
+        let x = TensorTrait::new(shape.span(), data.span());
 
         // XSCALE
         let mut shape = ArrayTrait::<usize>::new();
         shape.append(1);
         let mut data = ArrayTrait::<FP16x16>::new();
         data.append(FixedTrait::new_unscaled(2, false));
-        let extra = Option::<ExtraParams>::None(());
-        let x_scale = TensorTrait::new(shape.span(), data.span(), extra);
+        
+        let x_scale = TensorTrait::new(shape.span(), data.span());
 
         // ZEROPOINT
         let mut shape = ArrayTrait::<usize>::new();
         shape.append(1);
         let mut data = ArrayTrait::<FP16x16>::new();
         data.append(FixedTrait::new_unscaled(0, false));
-        let extra = Option::<ExtraParams>::None(());
-        let x_zero_point = TensorTrait::new(shape.span(), data.span(), extra);
+        
+        let x_zero_point = TensorTrait::new(shape.span(), data.span());
 
         let y: Tensor<FP16x16> = x.dequantize_linear(@x_scale, @x_zero_point);
 
@@ -239,8 +239,8 @@ mod fp16x16 {
         data.append(IntegerTrait::new(127, false));
         data.append(IntegerTrait::new(121, false));
         data.append(IntegerTrait::new(102, false));
-        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) };
-        let x = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
+        
+        let x = TensorTrait::new(shape.span(), data.span());
 
         // XSCALE
         let mut shape = ArrayTrait::<usize>::new();
@@ -252,8 +252,8 @@ mod fp16x16 {
         data.append(FixedTrait::new_unscaled(2, false));
         data.append(FixedTrait::new_unscaled(4, false));
         data.append(FixedTrait::new_unscaled(5, false));
-        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) };
-        let x_scale = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
+        
+        let x_scale = TensorTrait::new(shape.span(), data.span());
 
         // ZEROPOINT
         let mut shape = ArrayTrait::<usize>::new();
@@ -265,8 +265,8 @@ mod fp16x16 {
         data.append(FixedTrait::new_unscaled(1, false));
         data.append(FixedTrait::new_unscaled(2, false));
         data.append(FixedTrait::new_unscaled(3, false));
-        let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) };
-        let x_zero_point = TensorTrait::new(shape.span(), data.span(), Option::Some(extra));
+        
+        let x_zero_point = TensorTrait::new(shape.span(), data.span());
 
         let y: Tensor<FP16x16> = x.dequantize_linear(@x_scale, @x_zero_point);
 

@@ -1,6 +1,6 @@
 use array::ArrayTrait;
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::numbers::fixed_point::core::FixedImpl;
+use orion::operators::tensor::core::{TensorTrait, Tensor};
+
 use orion::operators::tensor::implementations::tensor_i32_fp8x23::Tensor_i32_fp8x23;
 use orion::numbers::{i32, FP8x23};
 
@@ -15,6 +15,6 @@ fn input_0() -> Tensor<i32> {
     data.append(i32 { mag: 124, sign: false });
     data.append(i32 { mag: 95, sign: false });
 
-    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
-    TensorTrait::new(shape.span(), data.span(), Option::Some(extra))
+    
+    TensorTrait::new(shape.span(), data.span())
 }
