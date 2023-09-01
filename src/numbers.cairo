@@ -162,6 +162,72 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
     }
 }
 
+use orion::numbers::fixed_point::implementations::fp64x64::core::{FP64x64Impl, FP64x64};
+use orion::numbers::fixed_point::implementations::fp64x64::core as core_fp64x64;
+use orion::numbers::fixed_point::implementations::fp64x64::comp as comp_fp64x64;
+use cubit::f128 as fp64x64;
+
+impl FP64x64Number of NumberTrait<FP64x64, u128> {
+    fn new(mag: u128, sign: bool) -> FP64x64 {
+        FP64x64Impl::new(mag, sign)
+    }
+
+    fn zero() -> FP64x64 {
+        FP64x64Impl::ZERO()
+    }
+    fn is_zero(self: FP64x64) -> bool {
+        fp64x64::core::eq(@self, @FP64x64Impl::ZERO())
+    }
+
+    fn one() -> FP64x64 {
+        FP64x64Impl::ONE()
+    }
+
+    fn neg_one() -> FP64x64 {
+        FP64x64 { mag: core_fp64x64::ONE, sign: true }
+    }
+
+    fn is_one(self: FP64x64) -> bool {
+        core_fp64x64::eq(@self, @FP64x64Impl::ONE())
+    }
+
+    fn abs(self: FP64x64) -> FP64x64 {
+        fp64x64::core::abs(self)
+    }
+
+    fn min_value() -> FP64x64 {
+        FP64x64 { mag: core_fp64x64::MAX, sign: true }
+    }
+
+    fn max_value() -> FP64x64 {
+        FP64x64 { mag: core_fp64x64::MAX, sign: false }
+    }
+
+    fn min(self: FP64x64, other: FP64x64) -> FP64x64 {
+        fp64x64::comp::min(self, other)
+    }
+
+    fn max(self: FP64x64, other: FP64x64) -> FP64x64 {
+        fp64x64::comp::max(self, other)
+    }
+
+    fn mag(self: FP64x64) -> u128 {
+        self.mag
+    }
+
+    fn is_neg(self: FP64x64) -> bool {
+        self.sign
+    }
+
+    fn xor(lhs: FP64x64, rhs: FP64x64) -> bool {
+        comp_fp64x64::xor(lhs, rhs)
+    }
+
+    fn or(lhs: FP64x64, rhs: FP64x64) -> bool {
+        comp_fp64x64::or(lhs, rhs)
+    }
+}
+
 use orion::numbers::signed_integer::i8 as i8_core;
 use orion::numbers::signed_integer::i8::i8;
 
