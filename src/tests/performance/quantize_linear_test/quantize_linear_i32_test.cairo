@@ -42,8 +42,6 @@ fn quantize_linear() {
 
     let y: Tensor<i8> = x.quantize_linear(@y_scale, @y_zero_point);
 
-    (*y.data.at(3).mag).print();
-
     assert((*y.data[0]).into() == 1, '*result[0] == 1');
     assert((*y.data[1]).into() == 2, '*result[1] == 2');
     assert((*y.data[2]).into() == 2, '*result[2] == 2');
