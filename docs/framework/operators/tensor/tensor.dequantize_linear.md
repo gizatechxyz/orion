@@ -24,44 +24,35 @@ A new `Tensor<T>` with the same shape as the input tensor, containing the dequan
 ## Examples
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
-
-use orion::operators::tensor::core::{TensorTrait, Tensor};
-use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;
-use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
-use orion::numbers::signed_integer::i32::i32;
-use orion::numbers::signed_integer::i8::{i8, IntegerTrait};
-use orion::performance::core::PerfomanceTrait;
-use orion::performance::implementations::impl_performance_i32::Performance_i32_i8;
-
-fn dequantize_linear_example() -> Tensor<i32> {
-    // We instantiate a 1D Tensor here.
-    let x = TensorTrait::<i8>::new(
-        shape: array![4].span(),
-        data: array![
-            IntegerTrait::new(0, false),
-            IntegerTrait::new(3, false),
-            IntegerTrait::new(125, false),
-            IntegerTrait::new(127, false),
-        ].span(),
-        extra: Option::None(())
-    );
-
-    // We instantiate the x_scale here.
-    let x_scale = TensorTrait::<i32>::new(
-        shape: array![1].span(),
-        data: array![IntegerTrait::new(2, false)].span(),
-        extra: Option::None(())
-    );
-
-    // We instantiate the x_zero_point here.
-    let x_zero_point = TensorTrait::<i32>::new(
-        shape: array![1].span(),
-        data: array![IntegerTrait::new(0, false)].span(),
-        extra: Option::None(())
-    );
-
-    return x.dequantize_linear(@x_scale, @x_zero_point);
-}
+ use array::{ArrayTrait, SpanTrait};
+ 
+ use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i8_fp8x23, Tensor_i32_fp8x23};
+ use orion::numbers::{i8, i32, IntegerTrait};
+ 
+ fn dequantize_linear_example() -> Tensor<i32> {
+     // We instantiate a 1D Tensor here.
+     let x = TensorTrait::<i8>::new(
+         shape: array![4].span(),
+         data: array![
+             IntegerTrait::new(0, false),
+             IntegerTrait::new(3, false),
+             IntegerTrait::new(125, false),
+             IntegerTrait::new(127, false),
+         ]
+             .span(),
+     );
+ 
+     // We instantiate the x_scale here.
+     let x_scale = TensorTrait::<i32>::new(
+         shape: array![1].span(), data: array![IntegerTrait::new(2, false)].span(),
+     );
+ 
+     // We instantiate the x_zero_point here.
+     let x_zero_point = TensorTrait::<i32>::new(
+         shape: array![1].span(), data: array![IntegerTrait::new(0, false)].span(),
+     );
+ 
+     return x.dequantize_linear(@x_scale, @x_zero_point);
+ }
 >>> [0, 6, 250, 254]
 ```

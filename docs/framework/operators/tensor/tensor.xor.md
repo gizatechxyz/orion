@@ -29,21 +29,15 @@ Case 1: Compare tensors with same shape
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
 
 fn xor_example() -> Tensor<usize> {
     let tensor_1 = TensorTrait::<u32>::new(
-        shape: array![3, 3].span(),
-        data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
-        extra: Option::None(())
+        shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     );
 
     let tensor_2 = TensorTrait::<u32>::new(
-        shape: array![3, 3].span(),
-        data: array![0, 1, 2, 3, 4, 5, 9, 1, 5].span(),
-        extra: Option::None(())
+        shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 9, 1, 5].span(),
     );
 
     return tensor_1.xor(@tensor_2);
@@ -56,21 +50,15 @@ Case 2: Compare tensors with different shapes
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
 
 fn xor_example() -> Tensor<usize> {
     let tensor_1 = TensorTrait::<u32>::new(
-        shape: array![3, 3].span(),
-        data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
-        extra: Option::None(())
+        shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     );
 
     let tensor_2 = TensorTrait::<u32>::new(
-        shape: array![1, 3].span(), 
-        data: array![0, 1, 2].span(), 
-        extra: Option::None(())
+        shape: array![1, 3].span(), data: array![0, 1, 2].span(),
     );
 
     return tensor_1.xor(@tensor_2);

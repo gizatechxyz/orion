@@ -27,12 +27,8 @@ A new `Tensor<T>` with the same shape as the input tensor, containing the quanti
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor};
-use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
-use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
-use orion::numbers::signed_integer::i8::i8;
-use orion::performance::core::PerfomanceTrait;
-use orion::performance::implementations::impl_performance_i32::Performance_i32_i8;
+use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i8_fp8x23, Tensor_i32_fp8x23};
+use orion::numbers::{i8, i32, IntegerTrait};
 
 fn quantize_linear_example() -> Tensor<i8> {
     // We instantiate a 1D Tensor here.
@@ -47,21 +43,16 @@ fn quantize_linear_example() -> Tensor<i8> {
             IntegerTrait::new(1000, true),
         ]
             .span(),
-        extra: Option::None(())
     );
 
     // We instantiate the y_scale here.
     let y_scale = TensorTrait::<i32>::new(
-        shape: array![1].span(),
-        data: array![IntegerTrait::new(2, false)].span(),
-        extra: Option::None(())
+        shape: array![1].span(), data: array![IntegerTrait::new(2, false)].span(),
     );
 
     // We instantiate the y_zero_point here.
     let y_zero_point = TensorTrait::<i32>::new(
-        shape: array![1].span(),
-        data: array![IntegerTrait::new(1, false)].span(),
-        extra: Option::None(())
+        shape: array![1].span(), data: array![IntegerTrait::new(1, false)].span(),
     );
 
     return x.quantize_linear(@y_scale, @y_zero_point);

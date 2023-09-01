@@ -1,7 +1,7 @@
 # NNTrait::sigmoid
 
 ```rust 
-   fn sigmoid(tensor: @Tensor<T>) -> Tensor<FixedType>;
+   fn sigmoid(tensor: @Tensor<T>) -> Tensor<F>;
 ```
 
 Applies the Sigmoid function to an n-dimensional input tensor rescaling them so that the elements of the n-dimensional output Tensor lie in the range \[0,1].
@@ -23,15 +23,11 @@ A Tensor of fixed point numbers with the same shape than the input Tensor.
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
-use orion::operators::nn::core::NNTrait;
-use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
-use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
-use orion::numbers::fixed_point::core::{FixedImpl, FixedType};
+use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i32_fp8x23};
+use orion::operators::nn::{NNTrait, NN_i32_fp8x23};
+use orion::numbers::{i32, FP8x23, IntegerTrait};
 
-fn sigmoid_example() -> Tensor<FixedType> {
-    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+fn sigmoid_example() -> Tensor<FP8x23> {
     let tensor = TensorTrait::<i32>::new(
         shape: array![2, 2].span(),
         data: array![
@@ -41,7 +37,6 @@ fn sigmoid_example() -> Tensor<FixedType> {
             IntegerTrait::new(3, false),
         ]
             .span(),
-        extra: Option::Some(extra)
     );
 
     return NNTrait::sigmoid(@tensor);

@@ -19,15 +19,11 @@ Examples
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-
+use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
 
 fn max_example() -> u32 {
     let tensor = TensorTrait::new(
-        shape: array![2, 2, 2].span(),
-        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
-        extra: Option::None(())
+        shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
     );
 
     // We can call `max` function as follows.

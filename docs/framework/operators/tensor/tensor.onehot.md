@@ -26,22 +26,12 @@ A new `Tensor<T>` one-hot encode of the input tensor.
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
 
 fn onehot_example() -> Tensor<u32> {
-    let tensor = TensorTrait::<u32>::new(
-        shape: array![2, 2].span(), 
-        data: array![0, 1, 2, 3].span(), 
-        extra: Option::None(())
-    );
+    let tensor = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
 
-    return tensor.onehot(
-        depth: 3, 
-        axis: Option::None(()), 
-        values: array![0, 1].span()
-    );
+    return tensor.onehot(depth: 3, axis: Option::None(()), values: array![0, 1].span());
 }
 >>> [[1. 0. 0.]
      [0. 1. 0.]

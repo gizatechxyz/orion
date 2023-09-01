@@ -28,22 +28,14 @@ Case 1: cumsum with default parameters
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
 
 fn cumsum_example() -> Tensor<u32> {
     let tensor = TensorTrait::<u32>::new(
-        shape: array![2, 2, 2].span(),
-        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
-        extra: Option::None(())
+        shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
     );
 
-    return tensor.cumsum(
-        axis: 2,
-        exclusive: Option::None(()),
-        reverse: Option::None(())
-    );
+    return tensor.cumsum(axis: 2, exclusive: Option::None(()), reverse: Option::None(()));
 }
 >>> [[[0,1],[2,5]],[[4,9],[6,13]]]
 ```
@@ -53,22 +45,14 @@ Case 2: cumsum with exclusive = true
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
 
 fn cumsum_example() -> Tensor<u32> {
     let tensor = TensorTrait::<u32>::new(
-        shape: array![2, 2, 2].span(),
-        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
-        extra: Option::None(())
+        shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
     );
 
-    return tensor.cumsum(
-        axis: 2,
-        exclusive: Option::Some(true),
-        reverse: Option::None(())
-    );
+    return tensor.cumsum(axis: 2, exclusive: Option::Some(true), reverse: Option::None(()));
 }
 >>> [[[0,0],[0,2]],[[0,4],[0,6]]]
 ```
@@ -78,22 +62,14 @@ Case 3: cumsum with exclusive = true and reverse = true
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
 
 fn cumsum_example() -> Tensor<u32> {
     let tensor = TensorTrait::<u32>::new(
-        shape: array![2, 2, 2].span(),
-        data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
-        extra: Option::None(())
+        shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
     );
 
-    return tensor.cumsum(
-        axis: 2,
-        exclusive: Option::Some(true),
-        reverse: Option::Some(true)
-    );
+    return tensor.cumsum(axis: 2, exclusive: Option::Some(true), reverse: Option::Some(true));
 }
 >>> [[[1,0],[3,0]],[[5,0],[7,0]]]
 ```

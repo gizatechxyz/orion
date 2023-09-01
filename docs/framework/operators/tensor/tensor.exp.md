@@ -1,7 +1,7 @@
 # tensor.exp
 
 ```rust 
-    fn exp(self: @Tensor<T>) -> Tensor<FixedType>;
+    fn exp(self: @Tensor<T>) -> Tensor<F>;
 ```
 
 Computes the exponential of all elements of the input tensor.
@@ -15,23 +15,19 @@ $$
 
 ## Returns
 
-Returns a new tensor in `FixedType` with the exponential of the elements of the input tensor.
+Returns a new tensor in `F` with the exponential of the elements of the input tensor.
 
 ## Examples
 
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::numbers::fixed_point::core::{FixedType, FixedImpl};
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+use orion::numbers::FP8x23;
 
-fn exp_example() -> Tensor<FixedType> {
-    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
+fn exp_example() -> Tensor<FP8x23> {
     let tensor = TensorTrait::<u32>::new(
-        shape: array![2, 2].span(),
-        data: array![0, 1, 2, 3].span(),
-        extra: Option::Some(extra)
+        shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),
     );
 
     // We can call `exp` function as follows.
