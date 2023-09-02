@@ -69,7 +69,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// quantize_linear - Quantizes a Tensor to i8 using linear quantization.
 /// dequantize_linear - Dequantizes an i8 Tensor using linear dequantization.
 /// 
-trait TensorTrait<T, F> {
+trait TensorTrait<T> {
     /// # tensor.new
     ///
     /// ```rust 
@@ -740,7 +740,7 @@ trait TensorTrait<T, F> {
     /// # tensor.exp
     ///
     /// ```rust 
-    ///     fn exp(self: @Tensor<T>) -> Tensor<F>;
+    ///     fn exp(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the exponential of all elements of the input tensor.
@@ -754,7 +754,7 @@ trait TensorTrait<T, F> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `F` with the exponential of the elements of the input tensor.
+    /// Returns a new tensor in `T` with the exponential of the elements of the input tensor.
     ///
     /// ## Examples
     ///
@@ -777,11 +777,11 @@ trait TensorTrait<T, F> {
     /// // [[1, 2.718281],[7.38905, 20.085536]]
     /// ```
     ///
-    fn exp(self: @Tensor<T>) -> Tensor<F>;
+    fn exp(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.log
     ///
     /// ```rust 
-    ///     fn log(self: @Tensor<T>) -> Tensor<F>;
+    ///     fn log(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the natural log of all elements of the input tensor.
@@ -795,7 +795,7 @@ trait TensorTrait<T, F> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `F` with the natural log of the elements of the input tensor.
+    /// Returns a new tensor in `T` with the natural log of the elements of the input tensor.
     ///
     /// ## Examples
     ///
@@ -818,7 +818,7 @@ trait TensorTrait<T, F> {
     /// /// [[0, 0.693147, 1.098612, 4.605170]]
     /// ```
     ///
-    fn log(self: @Tensor<T>) -> Tensor<F>;
+    fn log(self: @Tensor<T>) -> Tensor<T>;
     /// #tensor.equal
     ///
     /// ```rust
@@ -1292,7 +1292,7 @@ trait TensorTrait<T, F> {
     /// // [0,0.8414...,0.9092...]
     /// ```
     ///
-    fn sin(self: @Tensor<T>) -> Tensor<F>;
+    fn sin(self: @Tensor<T>) -> Tensor<T>;
     /// #tensor.cos
     ///
     /// ```rust
@@ -1337,7 +1337,7 @@ trait TensorTrait<T, F> {
     /// // [1, 0.5403...,-0.4161]
     /// ```
     ///
-    fn cos(self: @Tensor<T>) -> Tensor<F>;
+    fn cos(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.cumsum
     ///
     /// ```rust 
@@ -1495,7 +1495,7 @@ trait TensorTrait<T, F> {
     /// # tensor.sinh
     ///
     /// ```rust 
-    ///     fn sinh(self: @Tensor<T>) -> Tensor<F>;
+    ///     fn sinh(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the hyperbolic sine of all elements of the input tensor.
@@ -1509,7 +1509,7 @@ trait TensorTrait<T, F> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `F` with the hyperbolic sine of the elements of the input tensor.
+    /// Returns a new tensor in `T` with the hyperbolic sine of the elements of the input tensor.
     ///
     /// ## Examples
     ///
@@ -1538,11 +1538,11 @@ trait TensorTrait<T, F> {
     /// // [[0, 1.175201],[3.62686, 10.0178749]]
     /// ```
     ///
-    fn sinh(self: @Tensor<T>) -> Tensor<F>;
+    fn sinh(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.tanh
     ///
     /// ```rust 
-    ///     fn tanh(self: @Tensor<T>) -> Tensor<F>;
+    ///     fn tanh(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the hyperbolic tangent of all elements of the input tensor.
@@ -1556,7 +1556,7 @@ trait TensorTrait<T, F> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `F` with the hyperbolic tangent of the elements of the input tensor.
+    /// Returns a new tensor in `T` with the hyperbolic tangent of the elements of the input tensor.
     ///
     /// ## Examples
     ///
@@ -1585,11 +1585,11 @@ trait TensorTrait<T, F> {
     /// // [[0, 0.761594],[0.96403, 0.9951]]
     /// ```
     ///
-    fn tanh(self: @Tensor<T>) -> Tensor<F>;
+    fn tanh(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.cosh
     ///
     /// ```rust 
-    ///     fn cosh(self: @Tensor<T>) -> Tensor<F>;
+    ///     fn cosh(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the hyperbolic cosine of all elements of the input tensor.
@@ -1603,7 +1603,7 @@ trait TensorTrait<T, F> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `F` with the hyperblic cosine of the elements of the input tensor.
+    /// Returns a new tensor in `T` with the hyperblic cosine of the elements of the input tensor.
     ///
     /// ## Examples
     ///
@@ -1632,11 +1632,11 @@ trait TensorTrait<T, F> {
     /// // [[, 1.54308],[3.762196, 10.067662]]
     /// ```
     ///
-    fn cosh(self: @Tensor<T>) -> Tensor<F>;
+    fn cosh(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.asinh
     ///
     /// ```rust 
-    ///     fn asinh(self: @Tensor<T>) -> Tensor<F>;
+    ///     fn asinh(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the inverse hyperbolic sine of all elements of the input tensor.
@@ -1650,7 +1650,7 @@ trait TensorTrait<T, F> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `F` with the hyperblic sine of the elements of the input tensor.
+    /// Returns a new tensor in `T` with the hyperblic sine of the elements of the input tensor.
     ///
     /// ## Examples
     ///
@@ -1679,11 +1679,11 @@ trait TensorTrait<T, F> {
     /// // [[0, 0.8814],[1.44364, 1.8185]]
     /// ```
     ///
-    fn asinh(self: @Tensor<T>) -> Tensor<F>;
+    fn asinh(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.acosh
     ///
     /// ```rust 
-    ///     fn acosh(self: @Tensor<T>) -> Tensor<F>;
+    ///     fn acosh(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the inverse hyperbolic cosine of all elements of the input tensor.
@@ -1697,7 +1697,7 @@ trait TensorTrait<T, F> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `F` with the hyperblic cosine of the elements of the input tensor.
+    /// Returns a new tensor in `T` with the hyperblic cosine of the elements of the input tensor.
     ///
     /// ## Examples
     ///
@@ -1726,7 +1726,7 @@ trait TensorTrait<T, F> {
     /// // [[0, 1.31696],[1.76275, 2.06344]]
     /// ```
     ///
-    fn acosh(self: @Tensor<T>) -> Tensor<F>;
+    fn acosh(self: @Tensor<T>) -> Tensor<T>;
     /// #tensor.atan
     ///
     /// ```rust
@@ -1771,7 +1771,7 @@ trait TensorTrait<T, F> {
     /// // [0,0.7853...,1.1071...]
     /// ```
     ///    
-    fn atan(self: @Tensor<T>) -> Tensor<F>;
+    fn atan(self: @Tensor<T>) -> Tensor<T>;
     /// #tensor.asin
     ///
     /// ```rust
@@ -1812,7 +1812,7 @@ trait TensorTrait<T, F> {
     /// // [0, 1.5707...]
     /// ```
     ///
-    fn asin(self: @Tensor<T>) -> Tensor<F>;
+    fn asin(self: @Tensor<T>) -> Tensor<T>;
     /// #tensor.or
     ///
     /// ```rust
@@ -1991,7 +1991,7 @@ trait TensorTrait<T, F> {
     /// // [1.5707..., 0]
     /// ```
     ///
-    fn acos(self: @Tensor<T>) -> Tensor<F>;
+    fn acos(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.onehot
     ///
     /// ```rust 
@@ -2079,7 +2079,7 @@ trait TensorTrait<T, F> {
     /// // [0,1,1.4142...]
     /// ```
     ///    
-    fn sqrt(self: @Tensor<T>) -> Tensor<F>;
+    fn sqrt(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.concat
     ///
     /// ```rust 
