@@ -326,3 +326,5 @@ mod sub_i8;
 mod sub_i8_broadcast; 
 mod sub_u32; 
 mod sub_u32_broadcast; 
+mod tanh_fp16x16; 
+mod tanh_fp8x23; 
