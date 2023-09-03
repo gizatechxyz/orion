@@ -280,13 +280,7 @@ impl FP8x23TensorDiv<
 }
 
 /// Implements partial equal for two `Tensor<FP8x23>` using the `PartialEq` trait.
-impl FP8x23TensorPartialEq<
-    FP8x23,
-    impl FP8x23Tensor: TensorTrait<FP8x23>,
-    impl TPartialEq: PartialEq<FP8x23>,
-    impl TCopy: Copy<FP8x23>,
-    impl TDrop: Drop<FP8x23>
-> of PartialEq<Tensor<FP8x23>> {
+impl FP8x23TensorPartialEq of PartialEq<Tensor<FP8x23>> {
     fn eq(lhs: @Tensor<FP8x23>, rhs: @Tensor<FP8x23>) -> bool {
         tensor_eq(*lhs, *rhs)
     }
@@ -311,11 +305,21 @@ impl TensorI8IntoTensorFP8x23 of Into<Tensor<i8>, Tensor<FP8x23>> {
 
 // Internals
 
-fn tensor_eq<
-    FP8x23, impl TPartialEq: PartialEq<FP8x23>, impl TCopy: Copy<FP8x23>, impl TDrop: Drop<FP8x23>
->(
-    mut lhs: Tensor<FP8x23>, mut rhs: Tensor<FP8x23>,
-) -> bool {
+const PRECISION: u32 = 75497; // 0.009
+
+fn relative_eq(lhs: @FP8x23, rhs: @FP8x23) -> bool {
+    let diff = *lhs - *rhs;
+
+    let rel_diff = if *lhs.mag != 0 {
+        (diff / *lhs).mag
+    } else {
+        diff.mag
+    };
+
+    rel_diff <= PRECISION
+}
+
+fn tensor_eq(mut lhs: Tensor<FP8x23>, mut rhs: Tensor<FP8x23>,) -> bool {
     let mut is_eq = true;
 
     loop {
@@ -335,7 +339,7 @@ fn tensor_eq<
             break;
         }
 
-        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+        is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
     };
 
     return is_eq;
