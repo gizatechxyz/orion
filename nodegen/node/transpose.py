@@ -100,7 +100,7 @@ class Transpose(RunAll):
             y = np.transpose(x, [1, 0])
 
             x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
-            y = Tensor(Dtype.FP8x23, y.shape, y.flatten(), FixedImpl.FP8x23)
+            y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
             
             name = "transpose_fp8x23_2d"
             make_node([x], [y], name)
@@ -113,7 +113,7 @@ class Transpose(RunAll):
             y = np.transpose(x, [1, 2, 0])
 
             x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
-            y = Tensor(Dtype.FP8x23, y.shape, y.flatten(), FixedImpl.FP8x23)
+            y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
             
             name = "transpose_fp8x23_3d"
             make_node([x], [y], name)
