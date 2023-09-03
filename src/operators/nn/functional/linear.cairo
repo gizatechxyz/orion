@@ -6,8 +6,7 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 /// Cf: NNTrait::linear docstring
 fn linear<
     T,
-    F,
-    impl TTensor: TensorTrait<T, F>,
+    impl TTensor: TensorTrait<T>,
     impl TAddTensor: Add<Tensor<T>>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>

@@ -5,15 +5,10 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 /// Cf: NNTrait::logsoftmax docstring
 fn logsoftmax<
-    T,
-    F,
-    impl TTensor: TensorTrait<T, F>,
-    impl FTensor: TensorTrait<F, F>,
-    impl FDivTensor: Div<Tensor<F>>,
-    impl FDrop: Drop<F>
+    T, impl TTensor: TensorTrait<T>, impl TDivTensor: Div<Tensor<T>>, impl TDrop: Drop<T>
 >(
     z: @Tensor<T>, axis: usize
-) -> Tensor<F> {
+) -> Tensor<T> {
     let exp_tensor = z.exp();
     let sum = exp_tensor.reduce_sum(axis, true);
     let softmax = exp_tensor / sum;
