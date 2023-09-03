@@ -22,12 +22,16 @@ For (x / y_scale), it's rounding to the nearest even.
 
 A new `Tensor<T>` with the same shape as the input tensor, containing the quantized values.
 
+## Type Constraints
+
+u32 tensor, not supported.
+
 ## Examples
 
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i8_fp8x23, Tensor_i32_fp8x23};
+use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
 use orion::numbers::{i8, i32, IntegerTrait};
 
 fn quantize_linear_example() -> Tensor<i8> {

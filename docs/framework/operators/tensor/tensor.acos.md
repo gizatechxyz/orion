@@ -16,12 +16,16 @@ Computes the arccosine (inverse of cosine) of all elements of the input tensor.
 A new `Tensor<T>` of the same shape as the input tensor with 
 the arccosine value of all elements in the input tensor.
 
+## Type Constraints
+
+Constrain input and output types to fixed point tensors.
+
 ## Example
 
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
 use orion::numbers::{FP8x23, FixedTrait};
 
 fn acos_example() -> Tensor<FP8x23> {

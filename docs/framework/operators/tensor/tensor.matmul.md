@@ -31,7 +31,7 @@ Case 1: Dot product of two vectors (1D \* 1D)
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn dot_product_example() -> Tensor<usize> {
     let tensor_1 = TensorTrait::<u32>::new(shape: array![3].span(), data: array![0, 1, 2].span(),);
@@ -49,7 +49,7 @@ Case 2: Matrix multiplication (2D \* 2D)
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn matrix_mul_example() -> Tensor<usize> {
     let tensor_1 = TensorTrait::<u32>::new(
@@ -71,7 +71,7 @@ Case 3: Matrix-Vector multiplication (2D x 1D)
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn matrix_vec_mul_example() -> Tensor<usize> {
     let tensor_1 = TensorTrait::<u32>::new(

@@ -25,8 +25,8 @@ A `Tensor<T>` representing the result of the linear transformation.
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i32_fp8x23};
-use orion::operators::nn::{NNTrait, NN_i32_fp8x23};
+use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
+use orion::operators::nn::{NNTrait, I32NN};
 use orion::numbers::{i32, IntegerTrait};
 
 fn linear_example() -> Tensor<i32> {

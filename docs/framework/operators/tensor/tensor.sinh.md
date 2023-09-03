@@ -1,7 +1,7 @@
 # tensor.sinh
 
 ```rust 
-    fn sinh(self: @Tensor<T>) -> Tensor<F>;
+    fn sinh(self: @Tensor<T>) -> Tensor<T>;
 ```
 
 Computes the hyperbolic sine of all elements of the input tensor.
@@ -15,14 +15,18 @@ $$
 
 ## Returns
 
-Returns a new tensor in `F` with the hyperbolic sine of the elements of the input tensor.
+Returns a new tensor in `T` with the hyperbolic sine of the elements of the input tensor.
+
+## Type Constraints
+
+Constrain input and output types to fixed point tensors.
 
 ## Examples
 
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
 use orion::numbers::{FixedTrait, FP8x23};
 
 fn sinh_example() -> Tensor<FP8x23> {

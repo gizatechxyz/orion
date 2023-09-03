@@ -1,7 +1,7 @@
 # NNTrait::logsoftmax
 
 ```rust 
-   fn logsoftmax(tensor: @Tensor<T>, axis: usize) -> Tensor<F>
+   fn logsoftmax(tensor: @Tensor<T>, axis: usize) -> Tensor<T>
 ```
 
 Applies the natural log to Softmax function to an n-dimensional input Tensor consisting of values in the range \[0,1].
@@ -19,23 +19,27 @@ $$
 
 A Tensor of fixed point numbers with the same shape than the input Tensor.
 
+## Type Constraints
+
+Constrain input and output types to fixed point tensors.
+
 ## Examples
 
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i32_fp8x23};
-use orion::operators::nn::{NNTrait, NN_i32_fp8x23};
-use orion::numbers::{i32, FP8x23, IntegerTrait};
+use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
+use orion::operators::nn::{NNTrait, FP8x23NN};
+use orion::numbers::{FP8x23, FixedTrait};
 
 fn logsoftmax_example() -> Tensor<FP8x23> {
-    let tensor = TensorTrait::<i32>::new(
+    let tensor = TensorTrait::<FP8x23>::new(
         shape: array![2, 2].span(),
         data: array![
-            IntegerTrait::new(0, false),
-            IntegerTrait::new(1, false),
-            IntegerTrait::new(2, false),
-            IntegerTrait::new(3, false),
+            FixedTrait::new(0, false),
+            FixedTrait::new(1, false),
+            FixedTrait::new(2, false),
+            FixedTrait::new(3, false),
         ]
             .span(),
     );

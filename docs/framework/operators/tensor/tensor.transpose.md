@@ -24,7 +24,7 @@ A `Tensor<T>` instance with the axes reordered according to the given permutatio
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn transpose_tensor_example() -> Tensor<u32> {
     let tensor = TensorTrait::<u32>::new(

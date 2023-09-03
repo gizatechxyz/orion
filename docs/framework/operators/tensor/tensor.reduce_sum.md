@@ -25,7 +25,7 @@ A new `Tensor<T>` instance with the specified axis reduced by summing its elemen
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn reduce_sum_example() -> Tensor<u32> {
     let tensor = TensorTrait::<u32>::new(

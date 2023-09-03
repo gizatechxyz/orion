@@ -25,7 +25,7 @@ A new `Tensor<T>` concatenated tensor of the input tensors.
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn concat_example() -> Tensor<u32> {
     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);

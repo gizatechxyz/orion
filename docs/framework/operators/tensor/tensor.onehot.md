@@ -21,15 +21,29 @@ Produces one-hot tensor based on input.
 
 A new `Tensor<T>` one-hot encode of the input tensor.
 
+## Type Constraints
+
+Constrain input and output types to fixed point tensors.
+
 ## Example
 
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
+use orion::numbers::{FP8x23, FixedTrait};
 
-fn onehot_example() -> Tensor<u32> {
-    let tensor = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
+fn onehot_example() -> Tensor<FP8x23> {
+    let tensor = TensorTrait::<FP8x23>::new(
+        shape: array![2,2].span(),
+        data: array![
+            FixedTrait::new_unscaled(0, false),
+            FixedTrait::new_unscaled(1, false),
+            FixedTrait::new_unscaled(2, false),
+            FixedTrait::new_unscaled(3, false),
+        ]
+            .span(),
+    );    
 
     return tensor.onehot(depth: 3, axis: Option::None(()), values: array![0, 1].span());
 }
