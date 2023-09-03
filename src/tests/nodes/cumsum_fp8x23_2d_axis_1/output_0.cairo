@@ -1,8 +1,8 @@
 use array::ArrayTrait;
 
-use orion::operators::tensor::core::{TensorTrait, Tensor};
+use orion::operators::tensor::{TensorTrait, Tensor};
 use orion::numbers::fixed_point::core::{FixedTrait};
-use orion::operators::tensor::implementations::tensor_fp8x23::Tensor_fp8x23;use orion::numbers::FP8x23;
+use orion::operators::tensor::implementations::tensor_fp8x23::FP8x23Tensor;use orion::numbers::FP8x23;
 
 
 fn output_0() -> Tensor<FP8x23> {

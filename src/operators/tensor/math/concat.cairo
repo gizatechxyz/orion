@@ -5,7 +5,7 @@ use debug::PrintTrait;
 use core::traits::Into;
 
 use orion::operators::tensor::helpers::replace_index;
-use orion::operators::tensor::core::{TensorTrait, Tensor};
+use orion::operators::tensor::{TensorTrait, Tensor};
 
 
 fn concat<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>,>(

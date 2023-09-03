@@ -2,8 +2,8 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use orion::numbers::fixed_point::core::{FixedTrait};
 use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16;
-use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
-use orion::operators::tensor::core::{TensorTrait, Tensor};
+use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16Tensor;
+use orion::operators::tensor::{TensorTrait, Tensor};
 
 // 1D
 fn fp_tensor_1x3_helper() -> Tensor<FP16x16> {

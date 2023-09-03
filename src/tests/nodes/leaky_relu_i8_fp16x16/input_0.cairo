@@ -1,7 +1,7 @@
 use array::ArrayTrait;
-use orion::operators::tensor::core::{TensorTrait, Tensor};
+use orion::operators::tensor::{TensorTrait, Tensor};
 
-use orion::operators::tensor::implementations::tensor_i8_fp16x16::Tensor_i8_fp16x16;
+use orion::operators::tensor::I8Tensor;
 use orion::numbers::{i8, FP16x16};
 
 fn input_0() -> Tensor<i8> {

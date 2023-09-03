@@ -374,11 +374,11 @@ use orion::numbers::signed_integer::i8::i8;
 
 impl I8Number of NumberTrait<i8, u8> {
     fn new(mag: u8, sign: bool) -> i8 {
-        i8 { mag: mag, sign: false }
+        i8 { mag, sign }
     }
 
     fn new_unscaled(mag: u8, sign: bool) -> i8 {
-        i8 { mag: mag, sign: false }
+        i8 { mag, sign }
     }
 
     fn from_felt(val: felt252) -> i8 {
@@ -542,11 +542,11 @@ use orion::numbers::signed_integer::i16::i16;
 
 impl i16Number of NumberTrait<i16, u16> {
     fn new(mag: u16, sign: bool) -> i16 {
-        i16 { mag: mag, sign: false }
+        i16 { mag, sign }
     }
 
     fn new_unscaled(mag: u16, sign: bool) -> i16 {
-        i16 { mag: mag, sign: false }
+        i16 { mag, sign }
     }
 
     fn from_felt(val: felt252) -> i16 {
@@ -710,11 +710,11 @@ use orion::numbers::signed_integer::i32::i32;
 
 impl i32Number of NumberTrait<i32, u32> {
     fn new(mag: u32, sign: bool) -> i32 {
-        i32 { mag: mag, sign: false }
+        i32 { mag, sign }
     }
 
     fn new_unscaled(mag: u32, sign: bool) -> i32 {
-        i32 { mag: mag, sign: false }
+        i32 { mag, sign }
     }
 
     fn from_felt(val: felt252) -> i32 {
@@ -878,11 +878,11 @@ use orion::numbers::signed_integer::i64::i64;
 
 impl i64Number of NumberTrait<i64, u64> {
     fn new(mag: u64, sign: bool) -> i64 {
-        i64 { mag: mag, sign: false }
+        i64 { mag, sign }
     }
 
     fn new_unscaled(mag: u64, sign: bool) -> i64 {
-        i64 { mag: mag, sign: false }
+        i64 { mag, sign }
     }
 
     fn from_felt(val: felt252) -> i64 {
@@ -1046,11 +1046,11 @@ use orion::numbers::signed_integer::i128::i128;
 
 impl i128Number of NumberTrait<i128, u128> {
     fn new(mag: u128, sign: bool) -> i128 {
-        i128 { mag: mag, sign: false }
+        i128 { mag, sign }
     }
 
     fn new_unscaled(mag: u128, sign: bool) -> i128 {
-        i128 { mag: mag, sign: false }
+        i128 { mag, sign }
     }
 
     fn from_felt(val: felt252) -> i128 {

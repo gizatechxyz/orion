@@ -1228,7 +1228,7 @@ trait TensorTrait<T> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn ceil_example() -> Tensor<FP8x23> {
@@ -1271,7 +1271,7 @@ trait TensorTrait<T> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn sin_example() -> Tensor<FP8x23> {
@@ -1316,7 +1316,7 @@ trait TensorTrait<T> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn cos_example() -> Tensor<FP8x23> {
@@ -1516,7 +1516,7 @@ trait TensorTrait<T> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn sinh_example() -> Tensor<FP8x23> {
@@ -1563,7 +1563,7 @@ trait TensorTrait<T> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn tanh_example() -> Tensor<FP8x23> {
@@ -1610,7 +1610,7 @@ trait TensorTrait<T> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn cosh_example() -> Tensor<FP8x23> {
@@ -1657,7 +1657,7 @@ trait TensorTrait<T> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn asinh_example() -> Tensor<FP8x23> {
@@ -1704,7 +1704,7 @@ trait TensorTrait<T> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn acosh_example() -> Tensor<FP8x23> {
@@ -1750,7 +1750,7 @@ trait TensorTrait<T> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn atan_example() -> Tensor<FP8x23> {
@@ -1795,7 +1795,7 @@ trait TensorTrait<T> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn asin_example() -> Tensor<FP8x23> {
@@ -1974,7 +1974,7 @@ trait TensorTrait<T> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn acos_example() -> Tensor<FP8x23> {
@@ -2058,7 +2058,7 @@ trait TensorTrait<T> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn sqrt_example() -> Tensor<FP8x23> {

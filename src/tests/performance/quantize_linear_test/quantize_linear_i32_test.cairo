@@ -5,8 +5,8 @@ use traits::Into;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::i8};
 use orion::numbers::fixed_point::core::{FixedTrait};
-use orion::operators::tensor::implementations::tensor_i32_fp16x16::Tensor_i32_fp16x16;
-use orion::operators::tensor::core::{TensorTrait, Tensor};
+use orion::operators::tensor::I32Tensor;
+use orion::operators::tensor::{TensorTrait, Tensor};
 
 #[test]
 #[available_gas(2000000)]
@@ -41,6 +41,8 @@ fn quantize_linear() {
     let y_zero_point = TensorTrait::new(shape.span(), data.span());
 
     let y: Tensor<i8> = x.quantize_linear(@y_scale, @y_zero_point);
+
+    (*y.data.at(0).mag).print();
 
     assert((*y.data[0]).into() == 1, '*result[0] == 1');
     assert((*y.data[1]).into() == 2, '*result[1] == 2');

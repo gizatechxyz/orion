@@ -10,7 +10,7 @@ use option::OptionTrait;
 
 use orion::numbers::NumberTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::operators::tensor::core::{TensorTrait, Tensor};
+use orion::operators::tensor::{TensorTrait, Tensor};
 
 
 /// Cf: TensorTrait::onehot docstring
