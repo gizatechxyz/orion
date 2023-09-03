@@ -9,9 +9,9 @@ use orion::operators::tensor::core::{
 };
 use orion::operators::tensor::{math, linalg, quantization};
 use orion::numbers::{i8, NumberTrait, FP16x16};
-use orion::operators::tensor::implementations::{tensor_i8::I8TensorImpl, tensor_u32::U32TensorImpl};
+use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
-impl FP16x16TensorImpl of TensorTrait<FP16x16> {
+impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn new(shape: Span<usize>, data: Span<FP16x16>) -> Tensor<FP16x16> {
         new_tensor(shape, data)
     }

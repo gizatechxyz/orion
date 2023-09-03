@@ -9,9 +9,9 @@ use orion::operators::tensor::core::{
 };
 use orion::operators::tensor::{math, linalg, quantization};
 use orion::numbers::{i8, NumberTrait};
-use orion::operators::tensor::implementations::tensor_u32::U32TensorImpl;
+use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
 
-impl I8TensorImpl of TensorTrait<i8> {
+impl I8Tensor of TensorTrait<i8> {
     fn new(shape: Span<usize>, data: Span<i8>) -> Tensor<i8> {
         new_tensor(shape, data)
     }
@@ -196,9 +196,9 @@ impl I8TensorImpl of TensorTrait<i8> {
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
-impl TTensorAdd<
+impl I8TensorAdd<
     i8,
-    impl TTensor: TensorTrait<i8>,
+    impl I8Tensor: TensorTrait<i8>,
     impl TAdd: Add<i8>,
     impl TCopy: Copy<i8>,
     impl TDrop: Drop<i8>
@@ -217,9 +217,9 @@ impl TTensorAdd<
 }
 
 /// Implements subtraction for `Tensor<i8>` using the `Sub` trait.
-impl TTensorSub<
+impl I8TensorSub<
     i8,
-    impl TTensor: TensorTrait<i8>,
+    impl I8Tensor: TensorTrait<i8>,
     impl TSub: Sub<i8>,
     impl TCopy: Copy<i8>,
     impl TDrop: Drop<i8>
@@ -238,9 +238,9 @@ impl TTensorSub<
 }
 
 /// Implements multiplication for `Tensor<i8>` using the `Mul` trait.
-impl TTensorMul<
+impl I8TensorMul<
     i8,
-    impl TTensor: TensorTrait<i8>,
+    impl I8Tensor: TensorTrait<i8>,
     impl TMul: Mul<i8>,
     impl TCopy: Copy<i8>,
     impl TDrop: Drop<i8>
@@ -259,9 +259,9 @@ impl TTensorMul<
 }
 
 /// Implements division for `Tensor<i8>` using the `Div` trait.
-impl TTensorDiv<
+impl I8TensorDiv<
     i8,
-    impl TTensor: TensorTrait<i8>,
+    impl I8Tensor: TensorTrait<i8>,
     impl TDiv: Div<i8>,
     impl TCopy: Copy<i8>,
     impl TDrop: Drop<i8>
@@ -280,9 +280,9 @@ impl TTensorDiv<
 }
 
 /// Implements partial equal for two `Tensor<i8>` using the `PartialEq` trait.
-impl TTensorPartialEq<
+impl I8TensorPartialEq<
     i8,
-    impl TTensor: TensorTrait<i8>,
+    impl I8Tensor: TensorTrait<i8>,
     impl TPartialEq: PartialEq<i8>,
     impl TCopy: Copy<i8>,
     impl TDrop: Drop<i8>

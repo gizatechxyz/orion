@@ -4,7 +4,6 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 /// Cf: NNTrait::softmax docstring
 fn softmax<
     T,
-    T,
     impl TTensor: TensorTrait<T>,
     impl TTensor: TensorTrait<T>,
     impl TTensorDiv: Div<Tensor<T>>,

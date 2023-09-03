@@ -9,9 +9,9 @@ use orion::operators::tensor::core::{
 };
 use orion::operators::tensor::{math, linalg, quantization};
 use orion::numbers::{i8, NumberTrait};
-use orion::operators::tensor::implementations::tensor_i8::I8TensorImpl;
+use orion::operators::tensor::implementations::tensor_i8::I8Tensor;
 
-impl U32TensorImpl of TensorTrait<u32> {
+impl U32Tensor of TensorTrait<u32> {
     fn new(shape: Span<usize>, data: Span<u32>) -> Tensor<u32> {
         new_tensor(shape, data)
     }
@@ -190,9 +190,9 @@ impl U32TensorImpl of TensorTrait<u32> {
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.
-impl TTensorAdd<
+impl U32TensorAdd<
     u32,
-    impl TTensor: TensorTrait<u32>,
+    impl U32Tensor: TensorTrait<u32>,
     impl TAdd: Add<u32>,
     impl TCopy: Copy<u32>,
     impl TDrop: Drop<u32>
@@ -211,9 +211,9 @@ impl TTensorAdd<
 }
 
 /// Implements subtraction for `Tensor<u32>` using the `Sub` trait.
-impl TTensorSub<
+impl U32TensorSub<
     u32,
-    impl TTensor: TensorTrait<u32>,
+    impl U32Tensor: TensorTrait<u32>,
     impl TSub: Sub<u32>,
     impl TCopy: Copy<u32>,
     impl TDrop: Drop<u32>
@@ -232,9 +232,9 @@ impl TTensorSub<
 }
 
 /// Implements multiplication for `Tensor<u32>` using the `Mul` trait.
-impl TTensorMul<
+impl U32TensorMul<
     u32,
-    impl TTensor: TensorTrait<u32>,
+    impl U32Tensor: TensorTrait<u32>,
     impl TMul: Mul<u32>,
     impl TCopy: Copy<u32>,
     impl TDrop: Drop<u32>
@@ -253,9 +253,9 @@ impl TTensorMul<
 }
 
 /// Implements division for `Tensor<u32>` using the `Div` trait.
-impl TTensorDiv<
+impl U32TensorDiv<
     u32,
-    impl TTensor: TensorTrait<u32>,
+    impl U32Tensor: TensorTrait<u32>,
     impl TDiv: Div<u32>,
     impl TCopy: Copy<u32>,
     impl TDrop: Drop<u32>
@@ -274,9 +274,9 @@ impl TTensorDiv<
 }
 
 /// Implements partial equal for two `Tensor<u32>` using the `PartialEq` trait.
-impl TTensorPartialEq<
+impl U32TensorPartialEq<
     u32,
-    impl TTensor: TensorTrait<u32>,
+    impl U32Tensor: TensorTrait<u32>,
     impl TPartialEq: PartialEq<u32>,
     impl TCopy: Copy<u32>,
     impl TDrop: Drop<u32>

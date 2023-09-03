@@ -9,10 +9,10 @@ use orion::operators::tensor::core::{
 };
 use orion::operators::tensor::{math, linalg, quantization};
 use orion::numbers::{i32, i8, NumberTrait};
-use orion::operators::tensor::implementations::{tensor_u32::U32TensorImpl, tensor_i8::I8TensorImpl};
+use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_i8::I8Tensor};
 
 
-impl I32TensorImpl of TensorTrait<i32> {
+impl I32Tensor of TensorTrait<i32> {
     fn new(shape: Span<usize>, data: Span<i32>) -> Tensor<i32> {
         new_tensor(shape, data)
     }
@@ -197,9 +197,9 @@ impl I32TensorImpl of TensorTrait<i32> {
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.
-impl TTensorAdd<
+impl I32TensorAdd<
     i32,
-    impl TTensor: TensorTrait<i32>,
+    impl I32Tensor: TensorTrait<i32>,
     impl TAdd: Add<i32>,
     impl TCopy: Copy<i32>,
     impl TDrop: Drop<i32>
@@ -218,9 +218,9 @@ impl TTensorAdd<
 }
 
 /// Implements subtraction for `Tensor<i32>` using the `Sub` trait.
-impl TTensorSub<
+impl I32TensorSub<
     i32,
-    impl TTensor: TensorTrait<i32>,
+    impl I32Tensor: TensorTrait<i32>,
     impl TSub: Sub<i32>,
     impl TCopy: Copy<i32>,
     impl TDrop: Drop<i32>
@@ -239,9 +239,9 @@ impl TTensorSub<
 }
 
 /// Implements multiplication for `Tensor<i32>` using the `Mul` trait.
-impl TTensorMul<
+impl I32TensorMul<
     i32,
-    impl TTensor: TensorTrait<i32>,
+    impl I32Tensor: TensorTrait<i32>,
     impl TMul: Mul<i32>,
     impl TCopy: Copy<i32>,
     impl TDrop: Drop<i32>
@@ -260,9 +260,9 @@ impl TTensorMul<
 }
 
 /// Implements division for `Tensor<i32>` using the `Div` trait.
-impl TTensorDiv<
+impl I32TensorDiv<
     i32,
-    impl TTensor: TensorTrait<i32>,
+    impl I32Tensor: TensorTrait<i32>,
     impl TDiv: Div<i32>,
     impl TCopy: Copy<i32>,
     impl TDrop: Drop<i32>
@@ -281,9 +281,9 @@ impl TTensorDiv<
 }
 
 /// Implements partial equal for two `Tensor<i32>` using the `PartialEq` trait.
-impl TTensorPartialEq<
+impl I32TensorPartialEq<
     i32,
-    impl TTensor: TensorTrait<i32>,
+    impl I32Tensor: TensorTrait<i32>,
     impl TPartialEq: PartialEq<i32>,
     impl TCopy: Copy<i32>,
     impl TDrop: Drop<i32>
