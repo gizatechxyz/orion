@@ -149,3 +149,5 @@ mod concat_u32_3d_axis_1;
 mod concat_u32_3d_axis_2; 
 mod concat_u32_3d_three_tensors_axis_1; 
 mod concat_u32_3d_three_tensors_axis_2; 
+mod cos_fp16x16; 
+mod cos_fp8x23; 
