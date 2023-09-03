@@ -11,9 +11,9 @@ class Sqrt(RunAll):
             x = np.random.randint(0, 6, (2, 2)).astype(np.int32)
             y = np.sqrt(x)
 
-            x = Tensor(Dtype.I32, x.shape, x.flatten(), FixedImpl.FP8x23)
+            x = Tensor(Dtype.I32, x.shape, x.flatten())
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
 
             name = "sqrt_i32_fp8x23"
             make_node([x], [y], name)
@@ -23,9 +23,9 @@ class Sqrt(RunAll):
             x = np.random.randint(0, 6, (2, 2)).astype(np.int32)
             y = np.sqrt(x)
 
-            x = Tensor(Dtype.I32, x.shape, x.flatten(), FixedImpl.FP16x16)
+            x = Tensor(Dtype.I32, x.shape, x.flatten())
             y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
 
             name = "sqrt_i32_fp16x16"
             make_node([x], [y], name)
@@ -41,9 +41,9 @@ class Sqrt(RunAll):
             x = np.random.randint(0, 6, (2, 2)).astype(np.int8)
             y = np.sqrt(x)
 
-            x = Tensor(Dtype.I8, x.shape, x.flatten(), FixedImpl.FP8x23)
+            x = Tensor(Dtype.I8, x.shape, x.flatten())
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
 
             name = "sqrt_i8_fp8x23"
             make_node([x], [y], name)
@@ -53,9 +53,9 @@ class Sqrt(RunAll):
             x = np.random.randint(0, 6, (2, 2)).astype(np.int32)
             y = np.sqrt(x)
 
-            x = Tensor(Dtype.I8, x.shape, x.flatten(), FixedImpl.FP16x16)
+            x = Tensor(Dtype.I8, x.shape, x.flatten())
             y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
 
             name = "sqrt_i8_fp16x16"
             make_node([x], [y], name)
@@ -71,9 +71,9 @@ class Sqrt(RunAll):
             x = np.random.randint(0, 6, (2, 2)).astype(np.uint32)
             y = np.sqrt(x)
 
-            x = Tensor(Dtype.U32, x.shape, x.flatten(), FixedImpl.FP8x23)
+            x = Tensor(Dtype.U32, x.shape, x.flatten())
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
 
             name = "sqrt_u32_fp8x23"
             make_node([x], [y], name)
@@ -83,9 +83,9 @@ class Sqrt(RunAll):
             x = np.random.randint(0, 6, (2, 2)).astype(np.uint32)
             y = np.sqrt(x)
 
-            x = Tensor(Dtype.U32, x.shape, x.flatten(), FixedImpl.FP16x16)
+            x = Tensor(Dtype.U32, x.shape, x.flatten())
             y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
 
             name = "sqrt_u32_fp16x16"
             make_node([x], [y], name)

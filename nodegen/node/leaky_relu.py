@@ -13,9 +13,9 @@ class Leaky_relu(RunAll):
             layer = tf.keras.layers.LeakyReLU(alpha=0.1)
             y = layer(x).numpy()
 
-            x = Tensor(Dtype.I32, x.shape, x.flatten(), FixedImpl.FP8x23)
+            x = Tensor(Dtype.I32, x.shape, x.flatten())
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
 
             name = "leaky_relu_i32_fp8x23"
             make_node([x], [y], name)
@@ -27,9 +27,9 @@ class Leaky_relu(RunAll):
             layer = tf.keras.layers.LeakyReLU(alpha=0.1)
             y = layer(x).numpy()
 
-            x = Tensor(Dtype.I32, x.shape, x.flatten(), FixedImpl.FP16x16)
+            x = Tensor(Dtype.I32, x.shape, x.flatten())
             y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
 
             name = "leaky_relu_i32_fp16x16"
             make_node([x], [y], name)
@@ -46,9 +46,9 @@ class Leaky_relu(RunAll):
             layer = tf.keras.layers.LeakyReLU(alpha=0.1)
             y = layer(x).numpy()
 
-            x = Tensor(Dtype.I8, x.shape, x.flatten(), FixedImpl.FP8x23)
+            x = Tensor(Dtype.I8, x.shape, x.flatten())
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
 
             name = "leaky_relu_i8_fp8x23"
             make_node([x], [y], name)
@@ -60,9 +60,9 @@ class Leaky_relu(RunAll):
             layer = tf.keras.layers.LeakyReLU(alpha=0.1)
             y = layer(x).numpy()
 
-            x = Tensor(Dtype.I32, x.shape, x.flatten(), FixedImpl.FP16x16)
+            x = Tensor(Dtype.I32, x.shape, x.flatten())
             y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
 
             name = "leaky_relu_i8_fp16x16"
             make_node([x], [y], name)

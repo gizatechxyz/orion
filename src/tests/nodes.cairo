@@ -110,3 +110,5 @@ mod asin_fp16x16;
 mod asin_fp8x23; 
 mod asinh_fp16x16; 
 mod asinh_fp8x23; 
+mod atan_fp16x16; 
+mod atan_fp8x23; 

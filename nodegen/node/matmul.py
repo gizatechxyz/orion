@@ -206,7 +206,7 @@ class Matmul(RunAll):
             b = Tensor(Dtype.FP8x23, b.shape, to_fp(
                 b.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
 
             name = "matmul_fp8x23_1d"
             make_node([a, b], [y], name)
@@ -223,7 +223,7 @@ class Matmul(RunAll):
             b = Tensor(Dtype.FP8x23, b.shape, to_fp(
                 b.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
 
             name = "matmul_fp8x23_2x2"
             make_node([a, b], [y], name)
@@ -240,7 +240,7 @@ class Matmul(RunAll):
             b = Tensor(Dtype.FP8x23, b.shape, to_fp(
                 b.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
 
             name = "matmul_fp8x23_2x1"
             make_node([a, b], [y], name)
@@ -257,7 +257,7 @@ class Matmul(RunAll):
             b = Tensor(Dtype.FP8x23, b.shape, to_fp(
                 b.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
 
             name = "matmul_fp8x23_1x2"
             make_node([a, b], [y], name)
