@@ -234,3 +234,7 @@ mod linear_i8;
 mod linear_u32; 
 mod log_fp16x16; 
 mod log_fp8x23; 
+mod logsoftmax_fp16x16_axis_0; 
+mod logsoftmax_fp16x16_axis_1; 
+mod logsoftmax_fp8x23_axis_0; 
+mod logsoftmax_fp8x23_axis_1; 
