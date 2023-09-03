@@ -197,13 +197,7 @@ impl I32Tensor of TensorTrait<i32> {
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.
-impl I32TensorAdd<
-    i32,
-    impl I32Tensor: TensorTrait<i32>,
-    impl TAdd: Add<i32>,
-    impl TCopy: Copy<i32>,
-    impl TDrop: Drop<i32>
-> of Add<Tensor<i32>> {
+impl I32TensorAdd of Add<Tensor<i32>> {
     /// Adds two `Tensor<i32>` instances element-wise.
     ///
     /// # Arguments
@@ -218,13 +212,7 @@ impl I32TensorAdd<
 }
 
 /// Implements subtraction for `Tensor<i32>` using the `Sub` trait.
-impl I32TensorSub<
-    i32,
-    impl I32Tensor: TensorTrait<i32>,
-    impl TSub: Sub<i32>,
-    impl TCopy: Copy<i32>,
-    impl TDrop: Drop<i32>
-> of Sub<Tensor<i32>> {
+impl I32TensorSub of Sub<Tensor<i32>> {
     /// Subtracts two `Tensor<i32>` instances element-wise.
     ///
     /// # Arguments
@@ -239,13 +227,7 @@ impl I32TensorSub<
 }
 
 /// Implements multiplication for `Tensor<i32>` using the `Mul` trait.
-impl I32TensorMul<
-    i32,
-    impl I32Tensor: TensorTrait<i32>,
-    impl TMul: Mul<i32>,
-    impl TCopy: Copy<i32>,
-    impl TDrop: Drop<i32>
-> of Mul<Tensor<i32>> {
+impl I32TensorMul of Mul<Tensor<i32>> {
     /// Multiplies two `Tensor<i32>` instances element-wise.
     ///
     /// # Arguments
@@ -260,13 +242,7 @@ impl I32TensorMul<
 }
 
 /// Implements division for `Tensor<i32>` using the `Div` trait.
-impl I32TensorDiv<
-    i32,
-    impl I32Tensor: TensorTrait<i32>,
-    impl TDiv: Div<i32>,
-    impl TCopy: Copy<i32>,
-    impl TDrop: Drop<i32>
-> of Div<Tensor<i32>> {
+impl I32TensorDiv of Div<Tensor<i32>> {
     /// Divides two `Tensor<i32>` instances element-wise.
     ///
     /// # Arguments
@@ -281,13 +257,7 @@ impl I32TensorDiv<
 }
 
 /// Implements partial equal for two `Tensor<i32>` using the `PartialEq` trait.
-impl I32TensorPartialEq<
-    i32,
-    impl I32Tensor: TensorTrait<i32>,
-    impl TPartialEq: PartialEq<i32>,
-    impl TCopy: Copy<i32>,
-    impl TDrop: Drop<i32>
-> of PartialEq<Tensor<i32>> {
+impl I32TensorPartialEq of PartialEq<Tensor<i32>> {
     fn eq(lhs: @Tensor<i32>, rhs: @Tensor<i32>) -> bool {
         tensor_eq(*lhs, *rhs)
     }
@@ -312,7 +282,7 @@ impl TensorI8IntoTensorI32 of Into<Tensor<i8>, Tensor<i32>> {
 
 // Internals
 
-fn tensor_eq<i32, impl TPartialEq: PartialEq<i32>, impl TCopy: Copy<i32>, impl TDrop: Drop<i32>>(
+fn tensor_eq(
     mut lhs: Tensor<i32>, mut rhs: Tensor<i32>,
 ) -> bool {
     let mut is_eq = true;

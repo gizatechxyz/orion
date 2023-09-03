@@ -196,13 +196,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.
-impl FP16x16TensorAdd<
-    FP16x16,
-    impl FP16x16Tensor: TensorTrait<FP16x16>,
-    impl TAdd: Add<FP16x16>,
-    impl TCopy: Copy<FP16x16>,
-    impl TDrop: Drop<FP16x16>
-> of Add<Tensor<FP16x16>> {
+impl FP16x16TensorAdd of Add<Tensor<FP16x16>> {
     /// Adds two `Tensor<FP16x16>` instances element-wise.
     ///
     /// # Arguments
@@ -217,13 +211,7 @@ impl FP16x16TensorAdd<
 }
 
 /// Implements subtraction for `Tensor<FP16x16>` using the `Sub` trait.
-impl FP16x16TensorSub<
-    FP16x16,
-    impl FP16x16Tensor: TensorTrait<FP16x16>,
-    impl TSub: Sub<FP16x16>,
-    impl TCopy: Copy<FP16x16>,
-    impl TDrop: Drop<FP16x16>
-> of Sub<Tensor<FP16x16>> {
+impl FP16x16TensorSub of Sub<Tensor<FP16x16>> {
     /// Subtracts two `Tensor<FP16x16>` instances element-wise.
     ///
     /// # Arguments
@@ -238,13 +226,7 @@ impl FP16x16TensorSub<
 }
 
 /// Implements multiplication for `Tensor<FP16x16>` using the `Mul` trait.
-impl FP16x16TensorMul<
-    FP16x16,
-    impl FP16x16Tensor: TensorTrait<FP16x16>,
-    impl TMul: Mul<FP16x16>,
-    impl TCopy: Copy<FP16x16>,
-    impl TDrop: Drop<FP16x16>
-> of Mul<Tensor<FP16x16>> {
+impl FP16x16TensorMul of Mul<Tensor<FP16x16>> {
     /// Multiplies two `Tensor<FP16x16>` instances element-wise.
     ///
     /// # Arguments
@@ -259,13 +241,7 @@ impl FP16x16TensorMul<
 }
 
 /// Implements division for `Tensor<FP16x16>` using the `Div` trait.
-impl FP16x16TensorDiv<
-    FP16x16,
-    impl FP16x16Tensor: TensorTrait<FP16x16>,
-    impl TDiv: Div<FP16x16>,
-    impl TCopy: Copy<FP16x16>,
-    impl TDrop: Drop<FP16x16>
-> of Div<Tensor<FP16x16>> {
+impl FP16x16TensorDiv of Div<Tensor<FP16x16>> {
     /// Divides two `Tensor<FP16x16>` instances element-wise.
     ///
     /// # Arguments

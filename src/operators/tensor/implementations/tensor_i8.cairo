@@ -196,13 +196,7 @@ impl I8Tensor of TensorTrait<i8> {
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
-impl I8TensorAdd<
-    i8,
-    impl I8Tensor: TensorTrait<i8>,
-    impl TAdd: Add<i8>,
-    impl TCopy: Copy<i8>,
-    impl TDrop: Drop<i8>
-> of Add<Tensor<i8>> {
+impl I8TensorAdd of Add<Tensor<i8>> {
     /// Adds two `Tensor<i8>` instances element-wise.
     ///
     /// # Arguments
@@ -217,13 +211,7 @@ impl I8TensorAdd<
 }
 
 /// Implements subtraction for `Tensor<i8>` using the `Sub` trait.
-impl I8TensorSub<
-    i8,
-    impl I8Tensor: TensorTrait<i8>,
-    impl TSub: Sub<i8>,
-    impl TCopy: Copy<i8>,
-    impl TDrop: Drop<i8>
-> of Sub<Tensor<i8>> {
+impl I8TensorSub of Sub<Tensor<i8>> {
     /// Subtracts two `Tensor<i8>` instances element-wise.
     ///
     /// # Arguments
@@ -238,13 +226,7 @@ impl I8TensorSub<
 }
 
 /// Implements multiplication for `Tensor<i8>` using the `Mul` trait.
-impl I8TensorMul<
-    i8,
-    impl I8Tensor: TensorTrait<i8>,
-    impl TMul: Mul<i8>,
-    impl TCopy: Copy<i8>,
-    impl TDrop: Drop<i8>
-> of Mul<Tensor<i8>> {
+impl I8TensorMul of Mul<Tensor<i8>> {
     /// Multiplies two `Tensor<i8>` instances element-wise.
     ///
     /// # Arguments
@@ -259,13 +241,7 @@ impl I8TensorMul<
 }
 
 /// Implements division for `Tensor<i8>` using the `Div` trait.
-impl I8TensorDiv<
-    i8,
-    impl I8Tensor: TensorTrait<i8>,
-    impl TDiv: Div<i8>,
-    impl TCopy: Copy<i8>,
-    impl TDrop: Drop<i8>
-> of Div<Tensor<i8>> {
+impl I8TensorDiv of Div<Tensor<i8>> {
     /// Divides two `Tensor<i8>` instances element-wise.
     ///
     /// # Arguments
@@ -280,13 +256,7 @@ impl I8TensorDiv<
 }
 
 /// Implements partial equal for two `Tensor<i8>` using the `PartialEq` trait.
-impl I8TensorPartialEq<
-    i8,
-    impl I8Tensor: TensorTrait<i8>,
-    impl TPartialEq: PartialEq<i8>,
-    impl TCopy: Copy<i8>,
-    impl TDrop: Drop<i8>
-> of PartialEq<Tensor<i8>> {
+impl I8TensorPartialEq of PartialEq<Tensor<i8>> {
     fn eq(lhs: @Tensor<i8>, rhs: @Tensor<i8>) -> bool {
         tensor_eq(*lhs, *rhs)
     }
@@ -304,7 +274,7 @@ impl I8TryIntoI8 of TryInto<i8, i8> {
 
 // Internals
 
-fn tensor_eq<i8, impl TPartialEq: PartialEq<i8>, impl TCopy: Copy<i8>, impl TDrop: Drop<i8>>(
+fn tensor_eq(
     mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,
 ) -> bool {
     let mut is_eq = true;
