@@ -298,3 +298,7 @@ mod reduce_sum_u32_1D;
 mod reduce_sum_u32_2D_default; 
 mod reduce_sum_u32_2D_keepdims; 
 mod reduce_sum_u32_2D_axis_1; 
+mod relu_fp16x16; 
+mod relu_fp8x23; 
+mod relu_i32; 
+mod relu_i8; 
