@@ -378,7 +378,7 @@ impl I8Number of NumberTrait<i8, u8> {
     }
 
     fn new_unscaled(mag: u8, sign: bool) -> i8 {
-        panic(array!['not supported!'])
+        i8 { mag: mag, sign: false }
     }
 
     fn from_felt(val: felt252) -> i8 {
@@ -546,7 +546,7 @@ impl i16Number of NumberTrait<i16, u16> {
     }
 
     fn new_unscaled(mag: u16, sign: bool) -> i16 {
-        panic(array!['not supported!'])
+        i16 { mag: mag, sign: false }
     }
 
     fn from_felt(val: felt252) -> i16 {
@@ -714,7 +714,7 @@ impl i32Number of NumberTrait<i32, u32> {
     }
 
     fn new_unscaled(mag: u32, sign: bool) -> i32 {
-        panic(array!['not supported!'])
+        i32 { mag: mag, sign: false }
     }
 
     fn from_felt(val: felt252) -> i32 {
@@ -882,7 +882,7 @@ impl i64Number of NumberTrait<i64, u64> {
     }
 
     fn new_unscaled(mag: u64, sign: bool) -> i64 {
-        panic(array!['not supported!'])
+        i64 { mag: mag, sign: false }
     }
 
     fn from_felt(val: felt252) -> i64 {
@@ -1050,7 +1050,7 @@ impl i128Number of NumberTrait<i128, u128> {
     }
 
     fn new_unscaled(mag: u128, sign: bool) -> i128 {
-        panic(array!['not supported!'])
+        i128 { mag: mag, sign: false }
     }
 
     fn from_felt(val: felt252) -> i128 {
@@ -1216,7 +1216,7 @@ impl u32Number of NumberTrait<u32, u32> {
     }
 
     fn new_unscaled(mag: u32, sign: bool) -> u32 {
-        panic(array!['not supported!'])
+        mag
     }
 
     fn from_felt(val: felt252) -> u32 {

@@ -1,25 +1,18 @@
-//! This module defines and implement a Tensor for i32 values.
-
 use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
-use traits::{Into, TryInto};
+use traits::{TryInto, Into};
 
-use orion::numbers::signed_integer::i32::i32;
-use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
+use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
-    tensor_eq
 };
 use orion::operators::tensor::{math, linalg, quantization};
-use orion::operators::tensor::implementations::tensor_u32_fp8x23::Tensor_u32_fp8x23;
-use orion::operators::tensor::implementations::tensor_fp8x23::Tensor_fp8x23;
-use orion::operators::tensor::implementations::tensor_i8_fp8x23::{
-    Tensor_i8_fp8x23, TensorI8IntoTensorI32
-};
-use orion::numbers::i8;
+use orion::numbers::{i32, i8, NumberTrait};
+use orion::operators::tensor::implementations::{tensor_u32::U32TensorImpl, tensor_i8::I8TensorImpl};
 
-impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
+
+impl I32TensorImpl of TensorTrait<i32> {
     fn new(shape: Span<usize>, data: Span<i32>) -> Tensor<i32> {
         new_tensor(shape, data)
     }
@@ -29,7 +22,7 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
     }
 
     fn min(self: @Tensor<i32>) -> i32 {
-        math::min::min_in_tensor(*self.data)
+        math::min::min_in_tensor::<i32, u32>(*self.data)
     }
 
     fn max(self: @Tensor<i32>) -> i32 {
@@ -59,13 +52,13 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
     fn argmax(
         self: @Tensor<i32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {
-        math::argmax::argmax::<i32, FP8x23, u32>(self, axis, keepdims, select_last_index)
+        math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 
     fn argmin(
         self: @Tensor<i32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {
-        math::argmin::argmin::<i32, FP8x23, u32>(self, axis, keepdims, select_last_index)
+        math::argmin::argmin(self, axis, keepdims, select_last_index)
     }
 
     fn transpose(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
@@ -76,12 +69,12 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
         linalg::matmul::matmul(self, other)
     }
 
-    fn exp(self: @Tensor<i32>) -> Tensor<FP8x23> {
-        math::exp::exp_from_int::<i32, FP8x23, u32>(*self)
+    fn exp(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 
-    fn log(self: @Tensor<i32>) -> Tensor<FP8x23> {
-        math::log::log_from_int::<i32, FP8x23, u32>(*self)
+    fn log(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 
     fn equal(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
@@ -109,19 +102,19 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
     }
 
     fn ceil(self: @Tensor<i32>) -> Tensor<i32> {
-        panic(array!['not supported with i32'])
+        panic(array!['not supported!'])
     }
 
-    fn sin(self: @Tensor<i32>) -> Tensor<FP8x23> {
-        math::sin::sin_from_int(*self)
+    fn sin(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 
-    fn cos(self: @Tensor<i32>) -> Tensor<FP8x23> {
-        math::cos::cos_from_int(*self)
+    fn cos(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 
-    fn asin(self: @Tensor<i32>) -> Tensor<FP8x23> {
-        panic(array!['not supported with i32'])
+    fn asin(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 
     fn cumsum(
@@ -134,28 +127,28 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
         math::flatten::flatten(self, axis)
     }
 
-    fn sinh(self: @Tensor<i32>) -> Tensor<FP8x23> {
-        math::sinh::sinh_from_int(*self)
+    fn sinh(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 
-    fn tanh(self: @Tensor<i32>) -> Tensor<FP8x23> {
-        math::tanh::tanh_from_int(*self)
+    fn tanh(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 
-    fn cosh(self: @Tensor<i32>) -> Tensor<FP8x23> {
-        math::cosh::cosh_from_int(*self)
+    fn cosh(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 
-    fn acosh(self: @Tensor<i32>) -> Tensor<FP8x23> {
-        math::acosh::acosh_from_int(*self)
+    fn acosh(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 
-    fn asinh(self: @Tensor<i32>) -> Tensor<FP8x23> {
-        math::asinh::asinh_from_int(*self)
+    fn asinh(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 
-    fn atan(self: @Tensor<i32>) -> Tensor<FP8x23> {
-        math::atan::atan_from_int(*self)
+    fn atan(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 
     fn xor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
@@ -165,18 +158,19 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
     fn or(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
         math::or::or(self, other)
     }
-    fn acos(self: @Tensor<i32>) -> Tensor<FP8x23> {
-        panic(array!['not supported with i32'])
+
+    fn acos(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 
     fn onehot(
         self: @Tensor<i32>, depth: usize, axis: Option<usize>, values: Span<usize>
     ) -> Tensor<i32> {
-        math::onehot::onehot_from_int(self, depth, axis, values)
+        panic(array!['not supported!'])
     }
 
-    fn sqrt(self: @Tensor<i32>) -> Tensor<FP8x23> {
-        math::sqrt::sqrt_from_int(*self)
+    fn sqrt(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 
     fn concat(tensors: Span<Tensor<i32>>, axis: usize,) -> Tensor<i32> {
@@ -190,8 +184,8 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
             self,
             y_scale,
             y_zero_point,
-            i32 { mag: 128, sign: true },
-            i32 { mag: 127, sign: false },
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
         )
     }
 
@@ -203,7 +197,13 @@ impl Tensor_i32_fp8x23 of TensorTrait<i32, FP8x23> {
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.
-impl i32TensorAdd of Add<Tensor<i32>> {
+impl TTensorAdd<
+    i32,
+    impl TTensor: TensorTrait<i32>,
+    impl TAdd: Add<i32>,
+    impl TCopy: Copy<i32>,
+    impl TDrop: Drop<i32>
+> of Add<Tensor<i32>> {
     /// Adds two `Tensor<i32>` instances element-wise.
     ///
     /// # Arguments
@@ -218,7 +218,13 @@ impl i32TensorAdd of Add<Tensor<i32>> {
 }
 
 /// Implements subtraction for `Tensor<i32>` using the `Sub` trait.
-impl i32TensorSub of Sub<Tensor<i32>> {
+impl TTensorSub<
+    i32,
+    impl TTensor: TensorTrait<i32>,
+    impl TSub: Sub<i32>,
+    impl TCopy: Copy<i32>,
+    impl TDrop: Drop<i32>
+> of Sub<Tensor<i32>> {
     /// Subtracts two `Tensor<i32>` instances element-wise.
     ///
     /// # Arguments
@@ -233,7 +239,13 @@ impl i32TensorSub of Sub<Tensor<i32>> {
 }
 
 /// Implements multiplication for `Tensor<i32>` using the `Mul` trait.
-impl i32TensorMul of Mul<Tensor<i32>> {
+impl TTensorMul<
+    i32,
+    impl TTensor: TensorTrait<i32>,
+    impl TMul: Mul<i32>,
+    impl TCopy: Copy<i32>,
+    impl TDrop: Drop<i32>
+> of Mul<Tensor<i32>> {
     /// Multiplies two `Tensor<i32>` instances element-wise.
     ///
     /// # Arguments
@@ -248,7 +260,13 @@ impl i32TensorMul of Mul<Tensor<i32>> {
 }
 
 /// Implements division for `Tensor<i32>` using the `Div` trait.
-impl i32TensorDiv of Div<Tensor<i32>> {
+impl TTensorDiv<
+    i32,
+    impl TTensor: TensorTrait<i32>,
+    impl TDiv: Div<i32>,
+    impl TCopy: Copy<i32>,
+    impl TDrop: Drop<i32>
+> of Div<Tensor<i32>> {
     /// Divides two `Tensor<i32>` instances element-wise.
     ///
     /// # Arguments
@@ -262,9 +280,14 @@ impl i32TensorDiv of Div<Tensor<i32>> {
     }
 }
 
-
 /// Implements partial equal for two `Tensor<i32>` using the `PartialEq` trait.
-impl i32TensorPartialEq of PartialEq<Tensor<i32>> {
+impl TTensorPartialEq<
+    i32,
+    impl TTensor: TensorTrait<i32>,
+    impl TPartialEq: PartialEq<i32>,
+    impl TCopy: Copy<i32>,
+    impl TDrop: Drop<i32>
+> of PartialEq<Tensor<i32>> {
     fn eq(lhs: @Tensor<i32>, rhs: @Tensor<i32>) -> bool {
         tensor_eq(*lhs, *rhs)
     }
@@ -274,8 +297,60 @@ impl i32TensorPartialEq of PartialEq<Tensor<i32>> {
     }
 }
 
-impl U32TryIntoU32 of TryInto<u32, u32> {
-    fn try_into(self: u32) -> Option<u32> {
+impl I8TryIntoI8 of TryInto<i32, i32> {
+    fn try_into(self: i32) -> Option<i32> {
         Option::Some(self)
     }
+}
+
+impl TensorI8IntoTensorI32 of Into<Tensor<i8>, Tensor<i32>> {
+    fn into(self: Tensor<i8>) -> Tensor<i32> {
+        tensor_i8_to_tensor_i32(@self)
+    }
+}
+
+
+// Internals
+
+fn tensor_eq<i32, impl TPartialEq: PartialEq<i32>, impl TCopy: Copy<i32>, impl TDrop: Drop<i32>>(
+    mut lhs: Tensor<i32>, mut rhs: Tensor<i32>,
+) -> bool {
+    let mut is_eq = true;
+
+    loop {
+        if lhs.shape.len() == 0 || !is_eq {
+            break;
+        }
+
+        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+    };
+
+    if !is_eq {
+        return false;
+    }
+
+    loop {
+        if lhs.data.len() == 0 || !is_eq {
+            break;
+        }
+
+        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+    };
+
+    return is_eq;
+}
+
+fn tensor_i8_to_tensor_i32(x: @Tensor<i8>) -> Tensor<i32> {
+    let mut result_data = ArrayTrait::<i32>::new();
+    let mut data = *x.data;
+
+    loop {
+        result_data.append((*data.pop_front().unwrap()).into());
+
+        if data.len() == 0 {
+            break ();
+        };
+    };
+
+    return TensorTrait::new(*x.shape, result_data.span());
 }

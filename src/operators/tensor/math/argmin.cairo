@@ -10,7 +10,6 @@ use orion::numbers::NumberTrait;
 /// Cf: TensorTrait::argmin docstring
 fn argmin<
     T,
-    F,
     MAG,
     impl UsizeTensor: TensorTrait<usize>,
     impl TNumber: NumberTrait<T, MAG>,

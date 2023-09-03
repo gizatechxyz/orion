@@ -9,7 +9,7 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 
 /// Cf: TensorTrait::cosh docstring
-fn cosh_from_fp<
+fn cosh<
     T,
     MAG,
     impl FFixedTrait: FixedTrait<T, MAG>,

@@ -8,7 +8,7 @@ use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 
-fn atan_from_fp<
+fn atan<
     T,
     MAG,
     impl FFixedTrait: FixedTrait<T, MAG>,

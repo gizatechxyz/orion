@@ -9,7 +9,7 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 
 /// Cf: TensorTrait::tanh docstring
-fn tanh_from_fp<
+fn tanh<
     T,
     MAG,
     impl FFixedTrait: FixedTrait<T, MAG>,

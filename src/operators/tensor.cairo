@@ -3,7 +3,7 @@ mod helpers;
 mod math;
 mod linalg;
 mod quantization;
-// mod implementations;
+mod implementations;
 
 // use orion::operators::tensor::core::{Tensor, TensorSerde, TensorTrait};
 
