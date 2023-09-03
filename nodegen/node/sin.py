@@ -18,7 +18,7 @@ class Sin(RunAll):
 
             name = "sin_i32_fp8x23"
             make_node([x], [y], name)
-            make_test([x], y, "x.sin()", name)
+            make_test([x], y, "input_0.sin()", name)
 
         def fp16x16():
             x = np.random.randint(-10, 127, (2, 2)).astype(np.int32)
@@ -30,7 +30,7 @@ class Sin(RunAll):
 
             name = "sin_i32_fp16x16"
             make_node([x], [y], name)
-            make_test([x], y, "x.sin()", name)
+            make_test([x], y, "input_0.sin()", name)
 
         fp8x23()
         fp16x16()
@@ -48,7 +48,7 @@ class Sin(RunAll):
 
             name = "sin_i8_fp8x23"
             make_node([x], [y], name)
-            make_test([x], y, "x.sin()", name)
+            make_test([x], y, "input_0.sin()", name)
 
         def fp16x16():
             x = np.random.randint(-10, 127, (2, 2)).astype(np.int32)
@@ -60,7 +60,7 @@ class Sin(RunAll):
 
             name = "sin_i8_fp16x16"
             make_node([x], [y], name)
-            make_test([x], y, "x.sin()", name)
+            make_test([x], y, "input_0.sin()", name)
 
         fp8x23()
         fp16x16()
@@ -78,7 +78,7 @@ class Sin(RunAll):
 
             name = "sin_u32_fp8x23"
             make_node([x], [y], name)
-            make_test([x], y, "x.sin()", name)
+            make_test([x], y, "input_0.sin()", name)
 
         def fp16x16():
             x = np.random.randint(0, 127, (2, 2)).astype(np.uint32)
@@ -90,7 +90,7 @@ class Sin(RunAll):
 
             name = "sin_u32_fp16x16"
             make_node([x], [y], name)
-            make_test([x], y, "x.sin()", name)
+            make_test([x], y, "input_0.sin()", name)
 
         fp8x23()
         fp16x16()
@@ -107,7 +107,7 @@ class Sin(RunAll):
 
         name = "sin_fp8x23"
         make_node([x], [y], name)
-        make_test([x], y, "x.sin()", name)
+        make_test([x], y, "input_0.sin()", name)
 
     @staticmethod
     def sin_fp16x16():
@@ -121,4 +121,4 @@ class Sin(RunAll):
 
         name = "sin_fp16x16"
         make_node([x], [y], name)
-        make_test([x], y, "x.sin()", name)
+        make_test([x], y, "input_0.sin()", name)

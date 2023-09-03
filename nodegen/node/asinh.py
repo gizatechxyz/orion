@@ -17,7 +17,7 @@ class Asinh(RunAll):
 
         name = "asinh_fp8x23"
         make_node([x], [y], name)
-        make_test([x], y, "x.asinh()", name)
+        make_test([x], y, "input_0.asinh()", name)
 
     @staticmethod
     def asinh_fp16x16():
@@ -31,4 +31,4 @@ class Asinh(RunAll):
 
         name = "asinh_fp16x16"
         make_node([x], [y], name)
-        make_test([x], y, "x.asinh()", name)
+        make_test([x], y, "input_0.asinh()", name)

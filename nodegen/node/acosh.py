@@ -16,7 +16,7 @@ class Acosh(RunAll):
 
         name = "acosh_fp8x23"
         make_node([x], [y], name)
-        make_test([x], y, "x.acosh()", name)
+        make_test([x], y, "input_0.acosh()", name)
 
     @staticmethod
     def acosh_fp16x16():
@@ -30,4 +30,4 @@ class Acosh(RunAll):
 
         name = "acosh_fp16x16"
         make_node([x], [y], name)
-        make_test([x], y, "x.acosh()", name)
+        make_test([x], y, "input_0.acosh()", name)

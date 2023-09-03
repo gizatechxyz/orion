@@ -16,7 +16,7 @@ class Atan(RunAll):
 
         name = "atan_fp8x23"
         make_node([x], [y], name)
-        make_test([x], y, "x.atan()", name)
+        make_test([x], y, "input_0.atan()", name)
 
     @staticmethod
     def atan_fp16x16():
@@ -30,4 +30,4 @@ class Atan(RunAll):
 
         name = "atan_fp16x16"
         make_node([x], [y], name)
-        make_test([x], y, "x.atan()", name)
+        make_test([x], y, "input_0.atan()", name)

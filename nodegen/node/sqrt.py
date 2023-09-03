@@ -17,7 +17,7 @@ class Sqrt(RunAll):
 
             name = "sqrt_i32_fp8x23"
             make_node([x], [y], name)
-            make_test([x], y, "x.sqrt()", name)
+            make_test([x], y, "input_0.sqrt()", name)
 
         def fp16x16():
             x = np.random.randint(0, 6, (2, 2)).astype(np.int32)
@@ -29,7 +29,7 @@ class Sqrt(RunAll):
 
             name = "sqrt_i32_fp16x16"
             make_node([x], [y], name)
-            make_test([x], y, "x.sqrt()", name)
+            make_test([x], y, "input_0.sqrt()", name)
 
         fp8x23()
         fp16x16()
@@ -47,7 +47,7 @@ class Sqrt(RunAll):
 
             name = "sqrt_i8_fp8x23"
             make_node([x], [y], name)
-            make_test([x], y, "x.sqrt()", name)
+            make_test([x], y, "input_0.sqrt()", name)
 
         def fp16x16():
             x = np.random.randint(0, 6, (2, 2)).astype(np.int32)
@@ -59,7 +59,7 @@ class Sqrt(RunAll):
 
             name = "sqrt_i8_fp16x16"
             make_node([x], [y], name)
-            make_test([x], y, "x.sqrt()", name)
+            make_test([x], y, "input_0.sqrt()", name)
 
         fp8x23()
         fp16x16()
@@ -77,7 +77,7 @@ class Sqrt(RunAll):
 
             name = "sqrt_u32_fp8x23"
             make_node([x], [y], name)
-            make_test([x], y, "x.sqrt()", name)
+            make_test([x], y, "input_0.sqrt()", name)
 
         def fp16x16():
             x = np.random.randint(0, 6, (2, 2)).astype(np.uint32)
@@ -89,7 +89,7 @@ class Sqrt(RunAll):
 
             name = "sqrt_u32_fp16x16"
             make_node([x], [y], name)
-            make_test([x], y, "x.sqrt()", name)
+            make_test([x], y, "input_0.sqrt()", name)
 
         fp8x23()
         fp16x16()
@@ -106,7 +106,7 @@ class Sqrt(RunAll):
 
         name = "sqrt_fp8x23"
         make_node([x], [y], name)
-        make_test([x], y, "x.sqrt()", name)
+        make_test([x], y, "input_0.sqrt()", name)
 
     @staticmethod
     def sqrt_fp16x16():
@@ -120,4 +120,4 @@ class Sqrt(RunAll):
 
         name = "sqrt_fp16x16"
         make_node([x], [y], name)
-        make_test([x], y, "x.sqrt()", name)
+        make_test([x], y, "input_0.sqrt()", name)

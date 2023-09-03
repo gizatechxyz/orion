@@ -18,7 +18,7 @@ class Tanh(RunAll):
 
             name = "tanh_i32_fp8x23"
             make_node([x], [y], name)
-            make_test([x], y, "x.tanh()", name)
+            make_test([x], y, "input_0.tanh()", name)
 
         def fp16x16():
             x = np.random.randint(-3, 3, (2, 2)).astype(np.int32)
@@ -30,7 +30,7 @@ class Tanh(RunAll):
 
             name = "tanh_i32_fp16x16"
             make_node([x], [y], name)
-            make_test([x], y, "x.tanh()", name)
+            make_test([x], y, "input_0.tanh()", name)
 
         fp8x23()
         fp16x16()
@@ -48,7 +48,7 @@ class Tanh(RunAll):
 
             name = "tanh_i8_fp8x23"
             make_node([x], [y], name)
-            make_test([x], y, "x.tanh()", name)
+            make_test([x], y, "input_0.tanh()", name)
 
         def fp16x16():
             x = np.random.randint(-3, 3, (2, 2)).astype(np.int32)
@@ -60,7 +60,7 @@ class Tanh(RunAll):
 
             name = "tanh_i8_fp16x16"
             make_node([x], [y], name)
-            make_test([x], y, "x.tanh()", name)
+            make_test([x], y, "input_0.tanh()", name)
 
         fp8x23()
         fp16x16()
@@ -78,7 +78,7 @@ class Tanh(RunAll):
 
             name = "tanh_u32_fp8x23"
             make_node([x], [y], name)
-            make_test([x], y, "x.tanh()", name)
+            make_test([x], y, "input_0.tanh()", name)
 
         def fp16x16():
             x = np.random.randint(0, 6, (2, 2)).astype(np.uint32)
@@ -90,7 +90,7 @@ class Tanh(RunAll):
 
             name = "tanh_u32_fp16x16"
             make_node([x], [y], name)
-            make_test([x], y, "x.tanh()", name)
+            make_test([x], y, "input_0.tanh()", name)
 
         fp8x23()
         fp16x16()
@@ -107,7 +107,7 @@ class Tanh(RunAll):
 
         name = "tanh_fp8x23"
         make_node([x], [y], name)
-        make_test([x], y, "x.tanh()", name)
+        make_test([x], y, "input_0.tanh()", name)
 
     @staticmethod
     def tanh_fp16x16():
@@ -121,4 +121,4 @@ class Tanh(RunAll):
 
         name = "tanh_fp16x16"
         make_node([x], [y], name)
-        make_test([x], y, "x.tanh()", name)
+        make_test([x], y, "input_0.tanh()", name)

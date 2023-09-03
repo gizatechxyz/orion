@@ -14,7 +14,7 @@ class Ceil(RunAll):
         
         name = "ceil_fp8x23"
         make_node([x], [y], name)
-        make_test([x], y, "x.ceil()", name)
+        make_test([x], y, "input_0.ceil()", name)
      
     @staticmethod
     def ceil_fp16x16():
@@ -26,7 +26,7 @@ class Ceil(RunAll):
 
         name = "ceil_fp16x16"
         make_node([x], [y], name)
-        make_test([x], y, "x.ceil()", name)
+        make_test([x], y, "input_0.ceil()", name)
      
 
 

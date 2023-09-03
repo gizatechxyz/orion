@@ -17,7 +17,7 @@ class Cumsum(RunAll):
                 name = "cumsum_u32_1d_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
             def exclusive():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.uint32)
@@ -29,7 +29,7 @@ class Cumsum(RunAll):
                 name = "cumsum_u32_1d_exclusive"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(true), Option::Some(false))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(false))", name)
 
             def reverse():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.uint32)
@@ -41,7 +41,7 @@ class Cumsum(RunAll):
                 name = "cumsum_u32_1d_reverse"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(false), Option::Some(true))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(false), Option::Some(true))", name)
 
             def reverse_exclusive():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.uint32)
@@ -53,7 +53,7 @@ class Cumsum(RunAll):
                 name = "cumsum_u32_1d_reverse_exclusive"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(true), Option::Some(true))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(true))", name)
 
             default()
             exclusive()
@@ -74,7 +74,7 @@ class Cumsum(RunAll):
                 name = "cumsum_u32_2d_axis_0"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
             def axis_1():
                 x = np.array([1, 2, 3, 4, 5, 6]).astype(
@@ -88,7 +88,7 @@ class Cumsum(RunAll):
                 name = "cumsum_u32_2d_axis_1"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(1, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(1, Option::None(()), Option::None(()))", name)
 
             axis_0()
             axis_1()
@@ -107,7 +107,7 @@ class Cumsum(RunAll):
                 name = "cumsum_i32_1d_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
             def exclusive():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.int32)
@@ -119,7 +119,7 @@ class Cumsum(RunAll):
                 name = "cumsum_i32_1d_exclusive"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(true), Option::Some(false))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(false))", name)
 
             def reverse():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.int32)
@@ -131,7 +131,7 @@ class Cumsum(RunAll):
                 name = "cumsum_i32_1d_reverse"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(false), Option::Some(true))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(false), Option::Some(true))", name)
 
             def reverse_exclusive():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.int32)
@@ -143,7 +143,7 @@ class Cumsum(RunAll):
                 name = "cumsum_i32_1d_reverse_exclusive"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(true), Option::Some(true))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(true))", name)
 
             default()
             exclusive()
@@ -164,7 +164,7 @@ class Cumsum(RunAll):
                 name = "cumsum_i32_2d_axis_0"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
             def axis_1():
                 x = np.array([1, 2, 3, 4, 5, 6]).astype(
@@ -178,7 +178,7 @@ class Cumsum(RunAll):
                 name = "cumsum_i32_2d_axis_1"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(1, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(1, Option::None(()), Option::None(()))", name)
 
             axis_0()
             axis_1()
@@ -197,7 +197,7 @@ class Cumsum(RunAll):
                 name = "cumsum_i8_1d_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
             def exclusive():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.int8)
@@ -209,7 +209,7 @@ class Cumsum(RunAll):
                 name = "cumsum_i8_1d_exclusive"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(true), Option::Some(false))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(false))", name)
 
             def reverse():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.int8)
@@ -221,7 +221,7 @@ class Cumsum(RunAll):
                 name = "cumsum_i8_1d_reverse"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(false), Option::Some(true))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(false), Option::Some(true))", name)
 
             def reverse_exclusive():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.int8)
@@ -233,7 +233,7 @@ class Cumsum(RunAll):
                 name = "cumsum_i8_1d_reverse_exclusive"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(true), Option::Some(true))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(true))", name)
 
             default()
             exclusive()
@@ -254,7 +254,7 @@ class Cumsum(RunAll):
                 name = "cumsum_i8_2d_axis_0"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
             def axis_1():
                 x = np.array([1, 2, 3, 4, 5, 6]).astype(
@@ -268,7 +268,7 @@ class Cumsum(RunAll):
                 name = "cumsum_i8_2d_axis_1"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(1, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(1, Option::None(()), Option::None(()))", name)
 
             axis_0()
             axis_1()
@@ -289,7 +289,7 @@ class Cumsum(RunAll):
                 name = "cumsum_fp8x23_1d_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
             def exclusive():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.int64)
@@ -303,7 +303,7 @@ class Cumsum(RunAll):
                 name = "cumsum_fp8x23_1d_exclusive"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(true), Option::Some(false))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(false))", name)
 
             def reverse():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.int64)
@@ -317,7 +317,7 @@ class Cumsum(RunAll):
                 name = "cumsum_fp8x23_1d_reverse"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(false), Option::Some(true))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(false), Option::Some(true))", name)
 
             def reverse_exclusive():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.int64)
@@ -331,7 +331,7 @@ class Cumsum(RunAll):
                 name = "cumsum_fp8x23_1d_reverse_exclusive"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(true), Option::Some(true))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(true))", name)
 
             default()
             exclusive()
@@ -354,7 +354,7 @@ class Cumsum(RunAll):
                 name = "cumsum_fp8x23_2d_axis_0"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
             def axis_1():
                 x = np.array([1, 2, 3, 4, 5, 6]).astype(
@@ -370,7 +370,7 @@ class Cumsum(RunAll):
                 name = "cumsum_fp8x23_2d_axis_1"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(1, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(1, Option::None(()), Option::None(()))", name)
 
             axis_0()
             axis_1()
@@ -391,7 +391,7 @@ class Cumsum(RunAll):
                 name = "cumsum_fp16x16_1d_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
             def exclusive():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.int64)
@@ -405,7 +405,7 @@ class Cumsum(RunAll):
                 name = "cumsum_fp16x16_1d_exclusive"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(true), Option::Some(false))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(false))", name)
 
             def reverse():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.int64)
@@ -419,7 +419,7 @@ class Cumsum(RunAll):
                 name = "cumsum_fp16x16_1d_reverse"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(false), Option::Some(true))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(false), Option::Some(true))", name)
 
             def reverse_exclusive():
                 x = np.array([1, 2, 3, 4, 5]).astype(np.int64)
@@ -433,7 +433,7 @@ class Cumsum(RunAll):
                 name = "cumsum_fp16x16_1d_reverse_exclusive"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::Some(true), Option::Some(true))", name)
+                    [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(true))", name)
 
             default()
             exclusive()
@@ -456,7 +456,7 @@ class Cumsum(RunAll):
                 name = "cumsum_fp16x16_2d_axis_0"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
             def axis_1():
                 x = np.array([1, 2, 3, 4, 5, 6]).astype(
@@ -472,7 +472,7 @@ class Cumsum(RunAll):
                 name = "cumsum_fp16x16_2d_axis_1"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.cumsum(1, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.cumsum(1, Option::None(()), Option::None(()))", name)
 
             axis_0()
             axis_1()

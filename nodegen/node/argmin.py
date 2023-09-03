@@ -36,7 +36,7 @@ class Argmin(RunAll):
                 name = "argmin_u32_1D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(0, 255, (3)).astype(np.uint32)
@@ -49,7 +49,7 @@ class Argmin(RunAll):
                 name = "argmin_u32_1D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(0, 255, (3)).astype(np.uint32)
@@ -62,7 +62,7 @@ class Argmin(RunAll):
                 name = "argmin_u32_1D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -80,7 +80,7 @@ class Argmin(RunAll):
                 name = "argmin_u32_2D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(0, 255, (2, 2)).astype(np.uint32)
@@ -93,7 +93,7 @@ class Argmin(RunAll):
                 name = "argmin_u32_2D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(0, 255, (2, 2)).astype(np.uint32)
@@ -106,7 +106,7 @@ class Argmin(RunAll):
                 name = "argmin_u32_2D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -124,7 +124,7 @@ class Argmin(RunAll):
                 name = "argmin_u32_3D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(0, 255, (2, 2, 2)).astype(np.uint32)
@@ -137,7 +137,7 @@ class Argmin(RunAll):
                 name = "argmin_u32_3D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(0, 255, (2, 2, 2)).astype(np.uint32)
@@ -150,7 +150,7 @@ class Argmin(RunAll):
                 name = "argmin_u32_3D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -170,7 +170,7 @@ class Argmin(RunAll):
                 name = "argmin_i32_1D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(-127, 127, (3)).astype(np.int32)
@@ -183,7 +183,7 @@ class Argmin(RunAll):
                 name = "argmin_i32_1D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(0, 255, (3)).astype(np.int32)
@@ -196,7 +196,7 @@ class Argmin(RunAll):
                 name = "argmin_i32_1D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -214,7 +214,7 @@ class Argmin(RunAll):
                 name = "argmin_i32_2D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(-127, 127, (2, 2)).astype(np.int32)
@@ -227,7 +227,7 @@ class Argmin(RunAll):
                 name = "argmin_i32_2D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(-127, 127, (2, 2)).astype(np.int32)
@@ -240,7 +240,7 @@ class Argmin(RunAll):
                 name = "argmin_i32_2D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -258,7 +258,7 @@ class Argmin(RunAll):
                 name = "argmin_i32_3D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(-127, 127, (2, 2, 2)).astype(np.int32)
@@ -271,7 +271,7 @@ class Argmin(RunAll):
                 name = "argmin_i32_3D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(-127, 127, (2, 2, 2)).astype(np.int32)
@@ -284,7 +284,7 @@ class Argmin(RunAll):
                 name = "argmin_i32_3D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -304,7 +304,7 @@ class Argmin(RunAll):
                 name = "argmin_i8_1D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(-127, 127, (3)).astype(np.int8)
@@ -317,7 +317,7 @@ class Argmin(RunAll):
                 name = "argmin_i8_1D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(0, 255, (3)).astype(np.int8)
@@ -330,7 +330,7 @@ class Argmin(RunAll):
                 name = "argmin_i8_1D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -348,7 +348,7 @@ class Argmin(RunAll):
                 name = "argmin_i8_2D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(-127, 127, (2, 2)).astype(np.int8)
@@ -361,7 +361,7 @@ class Argmin(RunAll):
                 name = "argmin_i8_2D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(-127, 127, (2, 2)).astype(np.int8)
@@ -374,7 +374,7 @@ class Argmin(RunAll):
                 name = "argmin_i8_2D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -392,7 +392,7 @@ class Argmin(RunAll):
                 name = "argmin_i8_3D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = np.random.randint(-127, 127, (2, 2, 2)).astype(np.int8)
@@ -405,7 +405,7 @@ class Argmin(RunAll):
                 name = "argmin_i8_3D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = np.random.randint(-127, 127, (2, 2, 2)).astype(np.int8)
@@ -418,7 +418,7 @@ class Argmin(RunAll):
                 name = "argmin_i8_3D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -439,7 +439,7 @@ class Argmin(RunAll):
                 name = "argmin_fp16x16_1D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = to_fp(np.random.randint(-127, 127, (3)
@@ -453,7 +453,7 @@ class Argmin(RunAll):
                 name = "argmin_fp16x16_1D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = to_fp(np.random.randint(0, 255, (3)).astype(
@@ -467,7 +467,7 @@ class Argmin(RunAll):
                 name = "argmin_fp16x16_1D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -486,7 +486,7 @@ class Argmin(RunAll):
                 name = "argmin_fp16x16_2D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = to_fp(np.random.randint(-127, 127, (2, 2)
@@ -500,7 +500,7 @@ class Argmin(RunAll):
                 name = "argmin_fp16x16_2D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = to_fp(np.random.randint(-127, 127, (2, 2)
@@ -514,7 +514,7 @@ class Argmin(RunAll):
                 name = "argmin_fp16x16_2D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -533,7 +533,7 @@ class Argmin(RunAll):
                 name = "argmin_fp16x16_3D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = to_fp(np.random.randint(-127, 127, (2, 2, 2)
@@ -547,7 +547,7 @@ class Argmin(RunAll):
                 name = "argmin_fp16x16_3D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = to_fp(np.random.randint(-127, 127, (2, 2, 2)
@@ -561,7 +561,7 @@ class Argmin(RunAll):
                 name = "argmin_fp16x16_3D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -583,7 +583,7 @@ class Argmin(RunAll):
                 name = "argmin_fp8x23_1D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = to_fp(np.random.randint(-127, 127, (3)
@@ -598,7 +598,7 @@ class Argmin(RunAll):
                 name = "argmin_fp8x23_1D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = to_fp(np.random.randint(0, 255, (3)).astype(
@@ -613,7 +613,7 @@ class Argmin(RunAll):
                 name = "argmin_fp8x23_1D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -632,7 +632,7 @@ class Argmin(RunAll):
                 name = "argmin_fp8x23_2D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = to_fp(np.random.randint(-127, 127, (2, 2)
@@ -647,7 +647,7 @@ class Argmin(RunAll):
                 name = "argmin_fp8x23_2D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = to_fp(np.random.randint(-127, 127, (2, 2)
@@ -662,7 +662,7 @@ class Argmin(RunAll):
                 name = "argmin_fp8x23_2D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()
@@ -682,7 +682,7 @@ class Argmin(RunAll):
                 name = "argmin_fp8x23_3D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
             def keepdims_false():
                 x = to_fp(np.random.randint(-127, 127, (2, 2, 2)
@@ -697,7 +697,7 @@ class Argmin(RunAll):
                 name = "argmin_fp8x23_3D_keepdims_false"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::Some(false), Option::None(()))", name)
+                    [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
             def last_index():
                 x = to_fp(np.random.randint(-127, 127, (2, 2, 2)
@@ -712,7 +712,7 @@ class Argmin(RunAll):
                 name = "argmin_fp8x23_3D_last_index"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.argmin(0, Option::None(()), Option::Some(true))", name)
+                    [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
             default_params()
             keepdims_false()

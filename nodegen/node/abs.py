@@ -14,7 +14,7 @@ class Abs(RunAll):
 
         name = "abs_i32"
         make_node([x], [y], name)
-        make_test([x], y, "x.abs()", name)
+        make_test([x], y, "input_0.abs()", name)
 
     @staticmethod
     def abs_i8():
@@ -26,7 +26,7 @@ class Abs(RunAll):
 
         name = "abs_i8"
         make_node([x], [y], name)
-        make_test([x], y, "x.abs()", name)
+        make_test([x], y, "input_0.abs()", name)
 
     @staticmethod
     def abs_fp8x23():
@@ -39,7 +39,7 @@ class Abs(RunAll):
 
         name = "abs_fp8x23"
         make_node([x], [y], name)
-        make_test([x], y, "x.abs()", name)
+        make_test([x], y, "input_0.abs()", name)
 
     @staticmethod
     def abs_fp16x16():
@@ -52,4 +52,4 @@ class Abs(RunAll):
 
         name = "abs_fp16x16"
         make_node([x], [y], name)
-        make_test([x], y, "x.abs()", name)
+        make_test([x], y, "input_0.abs()", name)

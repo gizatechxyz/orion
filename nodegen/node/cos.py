@@ -17,7 +17,7 @@ class Cos(RunAll):
 
         name = "cos_fp8x23"
         make_node([x], [y], name)
-        make_test([x], y, "x.cos()", name)
+        make_test([x], y, "input_0.cos()", name)
 
     @staticmethod
     def cos_fp16x16():
@@ -31,4 +31,4 @@ class Cos(RunAll):
 
         name = "cos_fp16x16"
         make_node([x], [y], name)
-        make_test([x], y, "x.cos()", name)
+        make_test([x], y, "input_0.cos()", name)

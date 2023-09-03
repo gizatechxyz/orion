@@ -14,7 +14,7 @@ class Asin(RunAll):
         
         name = "asin_fp8x23"
         make_node([x], [y], name)
-        make_test([x], y, "x.asin()", name)
+        make_test([x], y, "input_0.asin()", name)
      
     @staticmethod
     def asin_fp16x16():
@@ -26,7 +26,7 @@ class Asin(RunAll):
 
         name = "asin_fp16x16"
         make_node([x], [y], name)
-        make_test([x], y, "x.asin()", name)
+        make_test([x], y, "input_0.asin()", name)
      
 
 

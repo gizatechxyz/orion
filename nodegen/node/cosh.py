@@ -17,7 +17,7 @@ class Cosh(RunAll):
 
         name = "cosh_fp8x23"
         make_node([x], [y], name)
-        make_test([x], y, "x.cosh()", name)
+        make_test([x], y, "input_0.cosh()", name)
 
     @staticmethod
     def cosh_fp16x16():
@@ -31,4 +31,4 @@ class Cosh(RunAll):
 
         name = "cosh_fp16x16"
         make_node([x], [y], name)
-        make_test([x], y, "x.cosh()", name)
+        make_test([x], y, "input_0.cosh()", name)

@@ -14,7 +14,7 @@ class Acos(RunAll):
         
         name = "acos_fp8x23"
         make_node([x], [y], name)
-        make_test([x], y, "x.acos()", name)
+        make_test([x], y, "input_0.acos()", name)
      
     @staticmethod
     def acos_fp16x16():
@@ -26,7 +26,7 @@ class Acos(RunAll):
 
         name = "acos_fp16x16"
         make_node([x], [y], name)
-        make_test([x], y, "x.acos()", name)
+        make_test([x], y, "input_0.acos()", name)
      
 
 
