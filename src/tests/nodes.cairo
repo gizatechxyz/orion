@@ -304,3 +304,5 @@ mod relu_i32;
 mod relu_i8; 
 mod sigmoid_fp16x16; 
 mod sigmoid_fp8x23; 
+mod sin_fp16x16; 
+mod sin_fp8x23; 
