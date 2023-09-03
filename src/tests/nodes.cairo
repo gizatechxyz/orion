@@ -225,3 +225,5 @@ mod greater_i8;
 mod greater_i8_broadcast; 
 mod greater_u32; 
 mod greater_u32_broadcast; 
+mod leaky_relu_fp16x16; 
+mod leaky_relu_fp8x23; 
