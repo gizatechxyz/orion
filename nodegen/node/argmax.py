@@ -577,7 +577,7 @@ class Argmax(RunAll):
                 y = argmax_use_numpy(x, dtype=np.uint32).reshape((1))
 
                 x = Tensor(Dtype.FP8x23, x.shape,
-                           x.flatten(), FixedImpl.FP8x23)
+                           x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmax_fp8x23_1D_default"
@@ -592,7 +592,7 @@ class Argmax(RunAll):
                     x, keepdims=0, dtype=np.uint32).reshape((1))
 
                 x = Tensor(Dtype.FP8x23, x.shape,
-                           x.flatten(), FixedImpl.FP8x23)
+                           x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmax_fp8x23_1D_keepdims_false"
@@ -607,7 +607,7 @@ class Argmax(RunAll):
                     x, dtype=np.uint32).reshape((1))
 
                 x = Tensor(Dtype.FP8x23, x.shape,
-                           x.flatten(), FixedImpl.FP8x23)
+                           x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmax_fp8x23_1D_last_index"
@@ -641,7 +641,7 @@ class Argmax(RunAll):
                     x, keepdims=0, dtype=np.uint32)
 
                 x = Tensor(Dtype.FP8x23, x.shape,
-                           x.flatten(), FixedImpl.FP8x23)
+                           x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmax_fp8x23_2D_keepdims_false"
@@ -656,7 +656,7 @@ class Argmax(RunAll):
                     x, dtype=np.int8)
 
                 x = Tensor(Dtype.FP8x23, x.shape,
-                           x.flatten(), FixedImpl.FP8x23)
+                           x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmax_fp8x23_2D_last_index"
@@ -676,7 +676,7 @@ class Argmax(RunAll):
                 y = argmax_use_numpy(x, dtype=np.uint32)
 
                 x = Tensor(Dtype.FP8x23, x.shape,
-                           x.flatten(), FixedImpl.FP8x23)
+                           x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmax_fp8x23_3D_default"
@@ -691,7 +691,7 @@ class Argmax(RunAll):
                     x, keepdims=0, dtype=np.uint32)
 
                 x = Tensor(Dtype.FP8x23, x.shape,
-                           x.flatten(), FixedImpl.FP8x23)
+                           x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmax_fp8x23_3D_keepdims_false"
@@ -706,7 +706,7 @@ class Argmax(RunAll):
                     x, dtype=np.uint32)
 
                 x = Tensor(Dtype.FP8x23, x.shape,
-                           x.flatten(), FixedImpl.FP8x23)
+                           x.flatten())
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmax_fp8x23_3D_last_index"
