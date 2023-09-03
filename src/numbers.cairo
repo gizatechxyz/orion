@@ -379,6 +379,102 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
         FP64x64Impl::new(mag, sign)
     }
 
+    fn new_unscaled(mag: u128, sign: bool) -> FP64x64 {
+        FP64x64Impl::new_unscaled(mag, sign)
+    }
+
+    fn from_felt(val: felt252) -> FP64x64 {
+        FP64x64Impl::from_felt(val)
+    }
+
+    fn ceil(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::ceil(self)
+    }
+
+    fn exp(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::exp(self)
+    }
+
+    fn exp2(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::exp2(self)
+    }
+
+    fn floor(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::floor(self)
+    }
+
+    fn ln(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::ln(self)
+    }
+
+    fn log2(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::log2(self)
+    }
+
+    fn log10(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::log10(self)
+    }
+
+    fn pow(self: FP64x64, b: FP64x64) -> FP64x64 {
+        FP64x64Impl::pow(self, b)
+    }
+
+    fn round(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::round(self)
+    }
+
+    fn sqrt(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::sqrt(self)
+    }
+
+    fn acos(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::acos(self)
+    }
+
+    fn asin(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::asin(self)
+    }
+
+    fn atan(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::atan(self)
+    }
+
+    fn cos(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::cos(self)
+    }
+
+    fn sin(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::sin(self)
+    }
+
+    fn tan(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::tan(self)
+    }
+
+    fn acosh(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::acosh(self)
+    }
+
+    fn asinh(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::asinh(self)
+    }
+
+    fn atanh(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::atanh(self)
+    }
+
+    fn cosh(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::cosh(self)
+    }
+
+    fn sinh(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::sinh(self)
+    }
+
+    fn tanh(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::tanh(self)
+    }
+
     fn zero() -> FP64x64 {
         FP64x64Impl::ZERO()
     }

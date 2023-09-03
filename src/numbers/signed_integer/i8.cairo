@@ -4,6 +4,7 @@ use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::signed_integer::i32::i32;
 use orion::numbers::fixed_point::implementations::fp8x23::core::{ONE as ONE_fp8x23, FP8x23};
 use orion::numbers::fixed_point::implementations::fp16x16::core::{ONE as ONE_fp16x16, FP16x16};
+use orion::numbers::fixed_point::implementations::fp64x64::core::{ONE as ONE_fp64x64, FP64x64};
 use orion::numbers::fixed_point::core::FixedTrait;
 
 // ====================== INT 8 ======================
@@ -180,6 +181,13 @@ impl I8IntoFP8x23 of Into<i8, FP8x23> {
 impl I8IntoFP16x16 of Into<i8, FP16x16> {
     fn into(self: i8) -> FP16x16 {
         i8_to_fp16x16(self)
+    }
+}
+
+// Implements the Into trait for i8 to fp_64x64.
+impl I8IntoFP64x64 of Into<i8, FP64x64> {
+    fn into(self: i8) -> FP64x64 {
+        i8_to_fp64x64(self)
     }
 }
 
@@ -501,6 +509,10 @@ fn i8_to_fp8x23(x: i8) -> FP8x23 {
 
 fn i8_to_fp16x16(x: i8) -> FP16x16 {
     FP16x16 { mag: x.mag.into() * ONE_fp16x16, sign: x.sign }
+}
+
+fn i8_to_fp64x64(x: i8) -> FP64x64 {
+    FP64x64 { mag: x.mag.into() * ONE_fp64x64, sign: x.sign }
 }
 
 fn ensure_non_negative_zero(mag: u8, sign: bool) -> i8 {
