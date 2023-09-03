@@ -282,9 +282,9 @@ class Cumsum(RunAll):
                 y = np.array([1, 3, 6, 10, 15]).astype(np.int64)
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    x.flatten(), FixedImpl.FP8x23))
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    y.flatten(), FixedImpl.FP8x23))
 
                 name = "cumsum_fp8x23_1d_default"
                 make_node([x], [y], name)
@@ -296,9 +296,9 @@ class Cumsum(RunAll):
                 y = np.array([0, 1, 3, 6, 10]).astype(np.int64)
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    x.flatten(), FixedImpl.FP8x23))
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    y.flatten(), FixedImpl.FP8x23))
 
                 name = "cumsum_fp8x23_1d_exclusive"
                 make_node([x], [y], name)
@@ -310,9 +310,9 @@ class Cumsum(RunAll):
                 y = np.array([15, 14, 12, 9, 5]).astype(np.int64)
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    x.flatten(), FixedImpl.FP8x23))
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    y.flatten(), FixedImpl.FP8x23))
 
                 name = "cumsum_fp8x23_1d_reverse"
                 make_node([x], [y], name)
@@ -324,9 +324,9 @@ class Cumsum(RunAll):
                 y = np.array([14, 12, 9, 5, 0]).astype(np.int64)
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    x.flatten(), FixedImpl.FP8x23))
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    y.flatten(), FixedImpl.FP8x23))
 
                 name = "cumsum_fp8x23_1d_reverse_exclusive"
                 make_node([x], [y], name)
@@ -347,9 +347,9 @@ class Cumsum(RunAll):
                     np.int64).reshape((2, 3))
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    x.flatten(), FixedImpl.FP8x23))
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    y.flatten(), FixedImpl.FP8x23))
 
                 name = "cumsum_fp8x23_2d_axis_0"
                 make_node([x], [y], name)
@@ -363,9 +363,9 @@ class Cumsum(RunAll):
                     np.int64).reshape((2, 3))
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    x.flatten(), FixedImpl.FP8x23))
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    y.flatten(), FixedImpl.FP8x23))
 
                 name = "cumsum_fp8x23_2d_axis_1"
                 make_node([x], [y], name)
@@ -384,9 +384,9 @@ class Cumsum(RunAll):
                 y = np.array([1, 3, 6, 10, 15]).astype(np.int64)
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    x.flatten(), FixedImpl.FP16x16))
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    y.flatten(), FixedImpl.FP16x16))
 
                 name = "cumsum_fp16x16_1d_default"
                 make_node([x], [y], name)
@@ -398,9 +398,9 @@ class Cumsum(RunAll):
                 y = np.array([0, 1, 3, 6, 10]).astype(np.int64)
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    x.flatten(), FixedImpl.FP16x16))
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    y.flatten(), FixedImpl.FP16x16))
 
                 name = "cumsum_fp16x16_1d_exclusive"
                 make_node([x], [y], name)
@@ -412,9 +412,9 @@ class Cumsum(RunAll):
                 y = np.array([15, 14, 12, 9, 5]).astype(np.int64)
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    x.flatten(), FixedImpl.FP16x16))
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    y.flatten(), FixedImpl.FP16x16))
 
                 name = "cumsum_fp16x16_1d_reverse"
                 make_node([x], [y], name)
@@ -426,9 +426,9 @@ class Cumsum(RunAll):
                 y = np.array([14, 12, 9, 5, 0]).astype(np.int64)
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    x.flatten(), FixedImpl.FP16x16))
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    y.flatten(), FixedImpl.FP16x16))
 
                 name = "cumsum_fp16x16_1d_reverse_exclusive"
                 make_node([x], [y], name)
@@ -449,9 +449,9 @@ class Cumsum(RunAll):
                     np.int64).reshape((2, 3))
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    x.flatten(), FixedImpl.FP16x16))
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    y.flatten(), FixedImpl.FP16x16))
 
                 name = "cumsum_fp16x16_2d_axis_0"
                 make_node([x], [y], name)
@@ -465,9 +465,9 @@ class Cumsum(RunAll):
                     np.int64).reshape((2, 3))
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    x.flatten(), FixedImpl.FP16x16))
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    y.flatten(), FixedImpl.FP16x16))
 
                 name = "cumsum_fp16x16_2d_axis_1"
                 make_node([x], [y], name)

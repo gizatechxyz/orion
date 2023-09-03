@@ -197,9 +197,9 @@ class Reduce_sum(RunAll):
                 y = np.array([2, 4]).astype(np.int64)
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    x.flatten(), FixedImpl.FP8x23))
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    y.flatten(), FixedImpl.FP8x23))
 
                 name = "reduce_sum_fp8x23_2D_default"
                 make_node([x], [y], name)
@@ -211,9 +211,9 @@ class Reduce_sum(RunAll):
                 y = np.array([2, 4]).astype(np.int64).reshape(1, 2)
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    x.flatten(), FixedImpl.FP8x23))
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    y.flatten(), FixedImpl.FP8x23))
 
                 name = "reduce_sum_fp8x23_2D_keepdims"
                 make_node([x], [y], name)
@@ -225,9 +225,9 @@ class Reduce_sum(RunAll):
                 y = np.array([1, 5]).astype(np.int64)
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    x.flatten(), FixedImpl.FP8x23))
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    y.flatten(), FixedImpl.FP8x23))
 
                 name = "reduce_sum_fp8x23_2D_axis_1"
                 make_node([x], [y], name)
@@ -263,9 +263,9 @@ class Reduce_sum(RunAll):
                 y = np.array([2, 4]).astype(np.int64)
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    x.flatten(), FixedImpl.FP16x16))
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    y.flatten(), FixedImpl.FP16x16))
 
                 name = "reduce_sum_fp16x16_2D_default"
                 make_node([x], [y], name)
@@ -277,9 +277,9 @@ class Reduce_sum(RunAll):
                 y = np.array([2, 4]).astype(np.int64).reshape(1, 2)
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    x.flatten(), FixedImpl.FP16x16))
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    y.flatten(), FixedImpl.FP16x16))
 
                 name = "reduce_sum_fp16x16_2D_keepdims"
                 make_node([x], [y], name)
@@ -291,9 +291,9 @@ class Reduce_sum(RunAll):
                 y = np.array([1, 5]).astype(np.int64)
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    x.flatten(), FixedImpl.FP16x16))
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    y.flatten(), FixedImpl.FP16x16))
 
                 name = "reduce_sum_fp16x16_2D_axis_1"
                 make_node([x], [y], name)
