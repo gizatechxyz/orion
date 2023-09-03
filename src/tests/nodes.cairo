@@ -312,3 +312,5 @@ mod softmax_fp16x16;
 mod softmax_fp8x23; 
 mod softplus_fp8x23; 
 mod softplus_fp16x16; 
+mod softsign_fp8x23; 
+mod softsign_fp16x16; 
