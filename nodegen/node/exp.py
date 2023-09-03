@@ -101,9 +101,9 @@ class Exp(RunAll):
         y = np.exp(x)
 
         x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-            x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+            x.flatten(), FixedImpl.FP8x23))
         y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-            y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+            y.flatten(), FixedImpl.FP8x23))
 
         name = "exp_fp8x23"
         make_node([x], [y], name)
@@ -115,9 +115,9 @@ class Exp(RunAll):
         y = np.exp(x)
 
         x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-            x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+            x.flatten(), FixedImpl.FP16x16))
         y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-            y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+            y.flatten(), FixedImpl.FP16x16))
 
         name = "exp_fp16x16"
         make_node([x], [y], name)

@@ -80,7 +80,7 @@ class Linear(RunAll):
         b = Tensor(Dtype.FP8x23, b.shape, to_fp(
             b.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
         y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-            y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+            y.flatten(), FixedImpl.FP8x23))
 
         name = "linear_fp8x23"
         make_node([i, w, b], [y], name)
@@ -101,7 +101,7 @@ class Linear(RunAll):
         b = Tensor(Dtype.FP16x16, b.shape, to_fp(
             b.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
         y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-            y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+            y.flatten(), FixedImpl.FP16x16))
 
         name = "linear_fp16x16"
         make_node([i, w, b], [y], name)
