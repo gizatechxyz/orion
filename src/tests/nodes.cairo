@@ -203,3 +203,5 @@ mod equal_i8;
 mod equal_i8_broadcast; 
 mod equal_u32; 
 mod equal_u32_broadcast; 
+mod exp_fp16x16; 
+mod exp_fp8x23; 
