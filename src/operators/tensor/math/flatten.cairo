@@ -5,7 +5,7 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 
 /// Cf: TensorTrait::flatten docstring
-fn flatten<T, F, impl TTensorTrait: TensorTrait<T, F>>(self: @Tensor<T>, axis: usize) -> Tensor<T> {
+fn flatten<T, impl TTensorTrait: TensorTrait<T>>(self: @Tensor<T>, axis: usize) -> Tensor<T> {
     let current_shape = *self.shape;
     assert(axis < current_shape.len(), 'axis out of dimensions');
 

@@ -8,8 +8,7 @@ use orion::operators::tensor::helpers::check_compatibility;
 /// Cf: TensorTrait::greater_equal docstring
 fn greater_equal<
     T,
-    F,
-    impl UsizeFTensor: TensorTrait<usize, F>,
+    impl UsizeFTensor: TensorTrait<usize>,
     impl TPartialOrd: PartialOrd<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>

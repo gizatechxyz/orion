@@ -8,8 +8,7 @@ use orion::operators::tensor::helpers::check_compatibility;
 /// Cf: TensorTrait::equal docstring
 fn equal<
     T,
-    F,
-    impl UsizeFTensor: TensorTrait<usize, F>,
+    impl UsizeFTensor: TensorTrait<usize>,
     impl TPartialEq: PartialEq<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>

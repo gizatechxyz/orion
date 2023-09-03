@@ -1,8 +1,8 @@
 mod core;
 mod helpers;
-// mod math;
-// mod linalg;
-// mod quantization;
+mod math;
+mod linalg;
+mod quantization;
 // mod implementations;
 
 // use orion::operators::tensor::core::{Tensor, TensorSerde, TensorTrait};

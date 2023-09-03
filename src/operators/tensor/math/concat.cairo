@@ -8,7 +8,7 @@ use orion::operators::tensor::helpers::replace_index;
 use orion::operators::tensor::core::{TensorTrait, Tensor};
 
 
-fn concat<T, F, impl TTensorTrait: TensorTrait<T, F>, impl TCopy: Copy<T>, impl TDrop: Drop<T>,>(
+fn concat<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>,>(
     mut tensors: Span<Tensor<T>>, axis: usize
 ) -> Tensor<T> {
     assert(tensors.len() >= 2, 'Input tensors must be > 1');

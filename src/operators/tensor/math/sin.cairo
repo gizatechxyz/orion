@@ -7,55 +7,18 @@ use orion::numbers::NumberTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 
+
 /// Cf: TensorTrait::sin docstring
-fn sin_from_int<
+fn sin<
     T,
-    F,
-    INTMAG,
-    FPMAG,
-    impl TNumber: NumberTrait<T, INTMAG>,
-    impl FFixedTrait: FixedTrait<F, FPMAG>,
-    impl FTensor: TensorTrait<F, F>,
-    impl MAGInto: Into<INTMAG, FPMAG>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>,
-    impl FDrop: Drop<F>,
-    impl FPMAGDrop: Drop<FPMAG>
+    MAG,
+    impl FFixedTrait: FixedTrait<T, MAG>,
+    impl FTensor: TensorTrait<T>,
+    impl FCopy: Copy<T>,
+    impl FDrop: Drop<T>,
 >(
     mut self: Tensor<T>
-) -> Tensor<F> {
-    let mut result = ArrayTrait::new();
-
-    loop {
-        match self.data.pop_front() {
-            Option::Some(item) => {
-                result
-                    .append(
-                        FixedTrait::<F,
-                        FPMAG>::new_unscaled(((*item).mag()).into(), (*item).is_neg())
-                            .sin()
-                    );
-            },
-            Option::None(_) => {
-                break;
-            }
-        };
-    };
-
-    return TensorTrait::new(self.shape, result.span());
-}
-
-/// Cf: TensorTrait::sin docstring
-fn sin_from_fp<
-    F,
-    MAG,
-    impl FFixedTrait: FixedTrait<F, MAG>,
-    impl FTensor: TensorTrait<F, F>,
-    impl FCopy: Copy<F>,
-    impl FDrop: Drop<F>,
->(
-    mut self: Tensor<F>
-) -> Tensor<F> {
+) -> Tensor<T> {
     let mut result = ArrayTrait::new();
 
     loop {

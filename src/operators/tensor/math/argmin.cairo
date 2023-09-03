@@ -12,7 +12,7 @@ fn argmin<
     T,
     F,
     MAG,
-    impl UsizeTensor: TensorTrait<usize, F>,
+    impl UsizeTensor: TensorTrait<usize>,
     impl TNumber: NumberTrait<T, MAG>,
     impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
@@ -78,8 +78,7 @@ fn argmin<
 /// * A usize value representing the index of the minimum value along the specified axis.
 fn find_argmin_1D<
     T,
-    F,
-    impl UsizeTensor: TensorTrait<usize, F>,
+    impl UsizeTensor: TensorTrait<usize>,
     impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
     impl TCopy: Copy<T>,
@@ -92,8 +91,9 @@ fn find_argmin_1D<
     let mut min = match input.data.pop_front() {
         Option::Some(item) => *item,
         Option::None(_) => {
-            return TensorTrait::<usize,
-            F>::new(reduce_output_shape(input.shape, axis, keepdims), output_data.span());
+            return TensorTrait::<usize>::new(
+                reduce_output_shape(input.shape, axis, keepdims), output_data.span()
+            );
         }
     };
     let mut min_index = 0;

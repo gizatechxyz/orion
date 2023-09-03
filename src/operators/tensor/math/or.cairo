@@ -9,10 +9,9 @@ use orion::operators::tensor::helpers::check_compatibility;
 /// Cf: TensorTrait::or docstring
 fn or<
     T,
-    F,
     MAG,
     impl TNumber: NumberTrait<T, MAG>,
-    impl UsizeFTensor: TensorTrait<usize, F>,
+    impl UsizeFTensor: TensorTrait<usize>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
 >(

@@ -7,16 +7,16 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 /// Cf: TensorTrait::ceil docstring
 fn ceil<
-    F,
+    T,
     MAG,
-    impl FFixedTrait: FixedTrait<F, MAG>,
-    impl FTensor: TensorTrait<F, F>,
-    impl FCopy: Copy<F>,
-    impl FDrop: Drop<F>
+    impl FFixedTrait: FixedTrait<T, MAG>,
+    impl FTensor: TensorTrait<T>,
+    impl FCopy: Copy<T>,
+    impl FDrop: Drop<T>
 >(
-    mut z: Tensor<F>
-) -> Tensor<F> {
-    let mut data_result = ArrayTrait::<F>::new();
+    mut z: Tensor<T>
+) -> Tensor<T> {
+    let mut data_result = ArrayTrait::<T>::new();
 
     loop {
         match z.data.pop_front() {
