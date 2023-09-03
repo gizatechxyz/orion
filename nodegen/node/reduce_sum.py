@@ -16,7 +16,7 @@ class Reduce_sum(RunAll):
             name = "reduce_sum_u32_1D"
             make_node([x], [y], name)
             make_test(
-                [x], y, "x.reduce_sum(0, false)", name)
+                [x], y, "input_0.reduce_sum(0, false)", name)
 
         def reduce_sum_2D():
             def default():
@@ -29,7 +29,7 @@ class Reduce_sum(RunAll):
                 name = "reduce_sum_u32_2D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(0, false)", name)
+                    [x], y, "input_0.reduce_sum(0, false)", name)
 
             def keepdims():
                 x = np.array([0, 1, 2, 3]).astype(np.uint32).reshape(2, 2)
@@ -41,7 +41,7 @@ class Reduce_sum(RunAll):
                 name = "reduce_sum_u32_2D_keepdims"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(0, true)", name)
+                    [x], y, "input_0.reduce_sum(0, true)", name)
 
             def axis_1():
                 x = np.array([0, 1, 2, 3]).astype(np.uint32).reshape(2, 2)
@@ -53,7 +53,7 @@ class Reduce_sum(RunAll):
                 name = "reduce_sum_u32_2D_axis_1"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(1, false)", name)
+                    [x], y, "input_0.reduce_sum(1, false)", name)
 
             default()
             keepdims()
@@ -73,7 +73,7 @@ class Reduce_sum(RunAll):
             name = "reduce_sum_i32_1D"
             make_node([x], [y], name)
             make_test(
-                [x], y, "x.reduce_sum(0, false)", name)
+                [x], y, "input_0.reduce_sum(0, false)", name)
 
         def reduce_sum_2D():
             def default():
@@ -86,7 +86,7 @@ class Reduce_sum(RunAll):
                 name = "reduce_sum_i32_2D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(0, false)", name)
+                    [x], y, "input_0.reduce_sum(0, false)", name)
 
             def keepdims():
                 x = np.array([0, 1, 2, 3]).astype(np.int32).reshape(2, 2)
@@ -98,7 +98,7 @@ class Reduce_sum(RunAll):
                 name = "reduce_sum_i32_2D_keepdims"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(0, true)", name)
+                    [x], y, "input_0.reduce_sum(0, true)", name)
 
             def axis_1():
                 x = np.array([0, 1, 2, 3]).astype(np.int32).reshape(2, 2)
@@ -110,7 +110,7 @@ class Reduce_sum(RunAll):
                 name = "reduce_sum_i32_2D_axis_1"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(1, false)", name)
+                    [x], y, "input_0.reduce_sum(1, false)", name)
 
             default()
             keepdims()
@@ -130,7 +130,7 @@ class Reduce_sum(RunAll):
             name = "reduce_sum_i8_1D"
             make_node([x], [y], name)
             make_test(
-                [x], y, "x.reduce_sum(0, false)", name)
+                [x], y, "input_0.reduce_sum(0, false)", name)
 
         def reduce_sum_2D():
             def default():
@@ -143,7 +143,7 @@ class Reduce_sum(RunAll):
                 name = "reduce_sum_i8_2D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(0, false)", name)
+                    [x], y, "input_0.reduce_sum(0, false)", name)
 
             def keepdims():
                 x = np.array([0, 1, 2, 3]).astype(np.int8).reshape(2, 2)
@@ -155,7 +155,7 @@ class Reduce_sum(RunAll):
                 name = "reduce_sum_i8_2D_keepdims"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(0, true)", name)
+                    [x], y, "input_0.reduce_sum(0, true)", name)
 
             def axis_1():
                 x = np.array([0, 1, 2, 3]).astype(np.int8).reshape(2, 2)
@@ -167,7 +167,7 @@ class Reduce_sum(RunAll):
                 name = "reduce_sum_i8_2D_axis_1"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(1, false)", name)
+                    [x], y, "input_0.reduce_sum(1, false)", name)
 
             default()
             keepdims()
@@ -182,14 +182,14 @@ class Reduce_sum(RunAll):
             y = np.array([3]).astype(np.int64)
 
             x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                x.flatten(), FixedImpl.FP8x23))
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
 
             name = "reduce_sum_fp8x23_1D"
             make_node([x], [y], name)
             make_test(
-                [x], y, "x.reduce_sum(0, false)", name)
+                [x], y, "input_0.reduce_sum(0, false)", name)
 
         def reduce_sum_2D():
             def default():
@@ -197,42 +197,42 @@ class Reduce_sum(RunAll):
                 y = np.array([2, 4]).astype(np.int64)
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    x.flatten(), FixedImpl.FP8x23))
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    y.flatten(), FixedImpl.FP8x23))
 
                 name = "reduce_sum_fp8x23_2D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(0, false)", name)
+                    [x], y, "input_0.reduce_sum(0, false)", name)
 
             def keepdims():
                 x = np.array([0, 1, 2, 3]).astype(np.int64).reshape(2, 2)
                 y = np.array([2, 4]).astype(np.int64).reshape(1, 2)
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    x.flatten(), FixedImpl.FP8x23))
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    y.flatten(), FixedImpl.FP8x23))
 
                 name = "reduce_sum_fp8x23_2D_keepdims"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(0, true)", name)
+                    [x], y, "input_0.reduce_sum(0, true)", name)
 
             def axis_1():
                 x = np.array([0, 1, 2, 3]).astype(np.int64).reshape(2, 2)
                 y = np.array([1, 5]).astype(np.int64)
 
                 x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    x.flatten(), FixedImpl.FP8x23))
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                    y.flatten(), FixedImpl.FP8x23))
 
                 name = "reduce_sum_fp8x23_2D_axis_1"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(1, false)", name)
+                    [x], y, "input_0.reduce_sum(1, false)", name)
 
             default()
             keepdims()
@@ -248,14 +248,14 @@ class Reduce_sum(RunAll):
             y = np.array([3]).astype(np.int64)
 
             x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                x.flatten(), FixedImpl.FP16x16))
             y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
 
             name = "reduce_sum_fp16x16_1D"
             make_node([x], [y], name)
             make_test(
-                [x], y, "x.reduce_sum(0, false)", name)
+                [x], y, "input_0.reduce_sum(0, false)", name)
 
         def reduce_sum_2D():
             def default():
@@ -263,42 +263,42 @@ class Reduce_sum(RunAll):
                 y = np.array([2, 4]).astype(np.int64)
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    x.flatten(), FixedImpl.FP16x16))
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    y.flatten(), FixedImpl.FP16x16))
 
                 name = "reduce_sum_fp16x16_2D_default"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(0, false)", name)
+                    [x], y, "input_0.reduce_sum(0, false)", name)
 
             def keepdims():
                 x = np.array([0, 1, 2, 3]).astype(np.int64).reshape(2, 2)
                 y = np.array([2, 4]).astype(np.int64).reshape(1, 2)
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    x.flatten(), FixedImpl.FP16x16))
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    y.flatten(), FixedImpl.FP16x16))
 
                 name = "reduce_sum_fp16x16_2D_keepdims"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(0, true)", name)
+                    [x], y, "input_0.reduce_sum(0, true)", name)
 
             def axis_1():
                 x = np.array([0, 1, 2, 3]).astype(np.int64).reshape(2, 2)
                 y = np.array([1, 5]).astype(np.int64)
 
                 x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                    x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    x.flatten(), FixedImpl.FP16x16))
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                    y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                    y.flatten(), FixedImpl.FP16x16))
 
                 name = "reduce_sum_fp16x16_2D_axis_1"
                 make_node([x], [y], name)
                 make_test(
-                    [x], y, "x.reduce_sum(1, false)", name)
+                    [x], y, "input_0.reduce_sum(1, false)", name)
 
             default()
             keepdims()

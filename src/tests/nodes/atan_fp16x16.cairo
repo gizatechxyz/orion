@@ -1,11 +1,11 @@
 mod input_0; 
 mod output_0; 
 
-use array::ArrayTrait;
-use orion::operators::tensor::core::TensorTrait;
-use orion::operators::tensor::implementations::tensor_fp16x16::{
-    Tensor_fp16x16, FP16x16TensorPartialEq
-};
+
+use array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::TensorTrait;
+use orion::operators::tensor::FP16x16Tensor;
+use orion::operators::tensor::FP16x16TensorPartialEq;
 use orion::utils::assert_eq;
 
 #[test]

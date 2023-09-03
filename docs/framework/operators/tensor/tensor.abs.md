@@ -21,7 +21,7 @@ the absolute value of all elements in the input tensor.
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i32_fp8x23};
+use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
 use orion::numbers::{i32, IntegerTrait};
 
 fn abs_example() -> Tensor<i32> {

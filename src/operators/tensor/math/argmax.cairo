@@ -10,9 +10,8 @@ use orion::numbers::NumberTrait;
 /// Cf: TensorTrait::argmax docstring
 fn argmax<
     T,
-    F,
     MAG,
-    impl UsizeTensor: TensorTrait<usize, F>,
+    impl UsizeTensor: TensorTrait<usize>,
     impl TNumber: NumberTrait<T, MAG>,
     impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
@@ -34,7 +33,7 @@ fn argmax<
     assert(axis <= (*self.shape).len(), 'axis out of dimensions');
 
     if (*self.shape).len() == 1 {
-        return find_argmax_1D::<T, F>(*self, axis, true, select_last_index);
+        return find_argmax_1D::<T>(*self, axis, true, select_last_index);
     }
 
     let mut output_data = ArrayTrait::new();
@@ -77,8 +76,7 @@ fn argmax<
 /// * A usize value representing the index of the maximum value along the specified axis.
 fn find_argmax_1D<
     T,
-    F,
-    impl UsizeTensor: TensorTrait<usize, F>,
+    impl UsizeTensor: TensorTrait<usize>,
     impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
     impl TCopy: Copy<T>,
@@ -91,8 +89,7 @@ fn find_argmax_1D<
     let mut max = match input.data.pop_front() {
         Option::Some(item) => *item,
         Option::None(_) => {
-            return TensorTrait::<usize,
-            F>::new(
+            return TensorTrait::<usize>::new(
                 reduce_output_shape(input.shape, axis, keepdims), output_data.span()
             );
         }
@@ -122,8 +119,9 @@ fn find_argmax_1D<
 
     output_data.append(max_index);
 
-    return TensorTrait::<usize,
-    F>::new(reduce_output_shape(input.shape, axis, keepdims), output_data.span());
+    return TensorTrait::<usize>::new(
+        reduce_output_shape(input.shape, axis, keepdims), output_data.span()
+    );
 }
 
 

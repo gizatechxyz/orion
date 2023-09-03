@@ -69,7 +69,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// quantize_linear - Quantizes a Tensor to i8 using linear quantization.
 /// dequantize_linear - Dequantizes an i8 Tensor using linear dequantization.
 /// 
-trait TensorTrait<T, F> {
+trait TensorTrait<T> {
     /// # tensor.new
     ///
     /// ```rust 
@@ -101,8 +101,7 @@ trait TensorTrait<T, F> {
     /// use orion::operators::tensor::{
     ///     TensorTrait, // we import the trait
     ///     Tensor, // we import the type
-    ///     Tensor_u32_fp16x16 // we import the implementation. 
-    ///     //Here, it uses FP16x16 fixed-point for certain intermediate calculations (if needed).
+    ///     U32Tensor // we import the implementation. 
     /// };
     /// 
     /// // 1D TENSOR
@@ -156,7 +155,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// 
     /// fn at_example() -> u32 {
@@ -192,7 +191,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn min_example() -> u32 {
     ///     let tensor = TensorTrait::new(
@@ -228,7 +227,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn max_example() -> u32 {
     ///     let tensor = TensorTrait::new(
@@ -262,7 +261,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn stride_example() -> Span<usize> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -302,7 +301,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn ravel_index_example() -> usize {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -344,7 +343,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn unravel_index_example() -> Span<usize> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -386,7 +385,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn reshape_tensor_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -426,7 +425,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn transpose_tensor_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -467,7 +466,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn reduce_sum_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -511,7 +510,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn argmax_example() -> Tensor<usize> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -528,7 +527,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn argmax_example() -> Tensor<usize> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -547,7 +546,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn argmax_example() -> Tensor<usize> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -594,7 +593,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn argmin_example() -> Tensor<usize> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -612,7 +611,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn argmin_example() -> Tensor<usize> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -631,7 +630,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn argmin_example() -> Tensor<usize> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -681,7 +680,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn dot_product_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(shape: array![3].span(), data: array![0, 1, 2].span(),);
@@ -699,7 +698,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn matrix_mul_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -721,7 +720,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn matrix_vec_mul_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -740,7 +739,7 @@ trait TensorTrait<T, F> {
     /// # tensor.exp
     ///
     /// ```rust 
-    ///     fn exp(self: @Tensor<T>) -> Tensor<F>;
+    ///     fn exp(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the exponential of all elements of the input tensor.
@@ -754,19 +753,29 @@ trait TensorTrait<T, F> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `F` with the exponential of the elements of the input tensor.
+    /// Returns a new tensor in `T` with the exponential of the elements of the input tensor.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
     ///
     /// ## Examples
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
-    /// use orion::numbers::FP8x23;
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
+    /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn exp_example() -> Tensor<FP8x23> {
     ///     let tensor = TensorTrait::<u32>::new(
-    ///         shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),
+    ///         shape: array![2, 2].span(), 
+    ///         data: array![
+    ///                 FixedTrait::new_unscaled(0, false), 
+    ///                 FixedTrait::new_unscaled(1, false), 
+    ///                 FixedTrait::new_unscaled(2, false), 
+    ///                 FixedTrait::new_unscaled(3, false), 
+    ///             ]
     ///     );
     /// 
     ///     // We can call `exp` function as follows.
@@ -777,11 +786,11 @@ trait TensorTrait<T, F> {
     /// // [[1, 2.718281],[7.38905, 20.085536]]
     /// ```
     ///
-    fn exp(self: @Tensor<T>) -> Tensor<F>;
+    fn exp(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.log
     ///
     /// ```rust 
-    ///     fn log(self: @Tensor<T>) -> Tensor<F>;
+    ///     fn log(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the natural log of all elements of the input tensor.
@@ -795,19 +804,29 @@ trait TensorTrait<T, F> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `F` with the natural log of the elements of the input tensor.
+    /// Returns a new tensor in `T` with the natural log of the elements of the input tensor.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
     ///
     /// ## Examples
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
-    /// use orion::numbers::FP8x23;
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
+    /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn log_example() -> Tensor<FP8x23> {
     ///     let tensor = TensorTrait::<u32>::new(
-    ///         shape: array![2, 2].span(), data: array![1, 2, 3, 100].span(),
+    ///         shape: array![2, 2].span(), 
+    ///         data: array![
+    ///                 FixedTrait::new_unscaled(0, false), 
+    ///                 FixedTrait::new_unscaled(1, false), 
+    ///                 FixedTrait::new_unscaled(2, false), 
+    ///                 FixedTrait::new_unscaled(100, false), 
+    ///             ]
     ///     );
     /// 
     ///     // We can call `log` function as follows.
@@ -818,7 +837,7 @@ trait TensorTrait<T, F> {
     /// /// [[0, 0.693147, 1.098612, 4.605170]]
     /// ```
     ///
-    fn log(self: @Tensor<T>) -> Tensor<F>;
+    fn log(self: @Tensor<T>) -> Tensor<T>;
     /// #tensor.equal
     ///
     /// ```rust
@@ -850,7 +869,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn eq_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -872,7 +891,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn eq_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -919,7 +938,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn greater_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -941,7 +960,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn greater_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -988,7 +1007,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn greater_equal_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -1010,7 +1029,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn greater_equal_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -1057,7 +1076,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn less_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -1079,7 +1098,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn less_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -1126,7 +1145,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn less_equal_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -1148,7 +1167,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn less_equal_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -1187,7 +1206,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
     /// use orion::numbers::{i32, IntegerTrait};
     /// 
     /// fn abs_example() -> Tensor<i32> {
@@ -1223,12 +1242,16 @@ trait TensorTrait<T, F> {
     /// A new `Tensor<T>` of the same shape as the input tensor with 
     /// the rounded up value of all elements in the input tensor.
     ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
     /// ## Example
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn ceil_example() -> Tensor<FP8x23> {
@@ -1266,12 +1289,16 @@ trait TensorTrait<T, F> {
     /// A new `Tensor<T>` of the same shape as the input tensor with 
     /// the sine value of all elements in the input tensor.
     ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
     /// ## Example
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn sin_example() -> Tensor<FP8x23> {
@@ -1292,7 +1319,7 @@ trait TensorTrait<T, F> {
     /// // [0,0.8414...,0.9092...]
     /// ```
     ///
-    fn sin(self: @Tensor<T>) -> Tensor<F>;
+    fn sin(self: @Tensor<T>) -> Tensor<T>;
     /// #tensor.cos
     ///
     /// ```rust
@@ -1311,12 +1338,16 @@ trait TensorTrait<T, F> {
     /// A new `Tensor<T>` of the same shape as the input tensor with 
     /// the cosine value of all elements in the input tensor.
     ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
     /// ## Example
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn cos_example() -> Tensor<FP8x23> {
@@ -1337,7 +1368,7 @@ trait TensorTrait<T, F> {
     /// // [1, 0.5403...,-0.4161]
     /// ```
     ///
-    fn cos(self: @Tensor<T>) -> Tensor<F>;
+    fn cos(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.cumsum
     ///
     /// ```rust 
@@ -1368,7 +1399,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn cumsum_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -1385,7 +1416,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn cumsum_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -1402,7 +1433,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn cumsum_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -1462,7 +1493,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn flatten_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -1479,7 +1510,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn flatten_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
@@ -1495,7 +1526,7 @@ trait TensorTrait<T, F> {
     /// # tensor.sinh
     ///
     /// ```rust 
-    ///     fn sinh(self: @Tensor<T>) -> Tensor<F>;
+    ///     fn sinh(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the hyperbolic sine of all elements of the input tensor.
@@ -1509,14 +1540,18 @@ trait TensorTrait<T, F> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `F` with the hyperbolic sine of the elements of the input tensor.
+    /// Returns a new tensor in `T` with the hyperbolic sine of the elements of the input tensor.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
     ///
     /// ## Examples
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn sinh_example() -> Tensor<FP8x23> {
@@ -1538,11 +1573,11 @@ trait TensorTrait<T, F> {
     /// // [[0, 1.175201],[3.62686, 10.0178749]]
     /// ```
     ///
-    fn sinh(self: @Tensor<T>) -> Tensor<F>;
+    fn sinh(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.tanh
     ///
     /// ```rust 
-    ///     fn tanh(self: @Tensor<T>) -> Tensor<F>;
+    ///     fn tanh(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the hyperbolic tangent of all elements of the input tensor.
@@ -1556,14 +1591,18 @@ trait TensorTrait<T, F> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `F` with the hyperbolic tangent of the elements of the input tensor.
+    /// Returns a new tensor in `T` with the hyperbolic tangent of the elements of the input tensor.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
     ///
     /// ## Examples
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn tanh_example() -> Tensor<FP8x23> {
@@ -1585,11 +1624,11 @@ trait TensorTrait<T, F> {
     /// // [[0, 0.761594],[0.96403, 0.9951]]
     /// ```
     ///
-    fn tanh(self: @Tensor<T>) -> Tensor<F>;
+    fn tanh(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.cosh
     ///
     /// ```rust 
-    ///     fn cosh(self: @Tensor<T>) -> Tensor<F>;
+    ///     fn cosh(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the hyperbolic cosine of all elements of the input tensor.
@@ -1603,14 +1642,18 @@ trait TensorTrait<T, F> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `F` with the hyperblic cosine of the elements of the input tensor.
+    /// Returns a new tensor in `T` with the hyperblic cosine of the elements of the input tensor.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
     ///
     /// ## Examples
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn cosh_example() -> Tensor<FP8x23> {
@@ -1632,11 +1675,11 @@ trait TensorTrait<T, F> {
     /// // [[, 1.54308],[3.762196, 10.067662]]
     /// ```
     ///
-    fn cosh(self: @Tensor<T>) -> Tensor<F>;
+    fn cosh(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.asinh
     ///
     /// ```rust 
-    ///     fn asinh(self: @Tensor<T>) -> Tensor<F>;
+    ///     fn asinh(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the inverse hyperbolic sine of all elements of the input tensor.
@@ -1650,14 +1693,18 @@ trait TensorTrait<T, F> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `F` with the hyperblic sine of the elements of the input tensor.
+    /// Returns a new tensor in `T` with the hyperblic sine of the elements of the input tensor.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
     ///
     /// ## Examples
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn asinh_example() -> Tensor<FP8x23> {
@@ -1679,11 +1726,11 @@ trait TensorTrait<T, F> {
     /// // [[0, 0.8814],[1.44364, 1.8185]]
     /// ```
     ///
-    fn asinh(self: @Tensor<T>) -> Tensor<F>;
+    fn asinh(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.acosh
     ///
     /// ```rust 
-    ///     fn acosh(self: @Tensor<T>) -> Tensor<F>;
+    ///     fn acosh(self: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Computes the inverse hyperbolic cosine of all elements of the input tensor.
@@ -1697,14 +1744,18 @@ trait TensorTrait<T, F> {
     ///
     /// ## Returns
     ///
-    /// Returns a new tensor in `F` with the hyperblic cosine of the elements of the input tensor.
+    /// Returns a new tensor in `T` with the hyperblic cosine of the elements of the input tensor.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
     ///
     /// ## Examples
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn acosh_example() -> Tensor<FP8x23> {
@@ -1726,7 +1777,7 @@ trait TensorTrait<T, F> {
     /// // [[0, 1.31696],[1.76275, 2.06344]]
     /// ```
     ///
-    fn acosh(self: @Tensor<T>) -> Tensor<F>;
+    fn acosh(self: @Tensor<T>) -> Tensor<T>;
     /// #tensor.atan
     ///
     /// ```rust
@@ -1745,12 +1796,16 @@ trait TensorTrait<T, F> {
     /// A new `Tensor<T>` of the same shape as the input tensor with 
     /// the arctangent (inverse of tangent) value of all elements in the input tensor.
     ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
     /// ## Example
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn atan_example() -> Tensor<FP8x23> {
@@ -1771,7 +1826,7 @@ trait TensorTrait<T, F> {
     /// // [0,0.7853...,1.1071...]
     /// ```
     ///    
-    fn atan(self: @Tensor<T>) -> Tensor<F>;
+    fn atan(self: @Tensor<T>) -> Tensor<T>;
     /// #tensor.asin
     ///
     /// ```rust
@@ -1790,12 +1845,16 @@ trait TensorTrait<T, F> {
     /// A new `Tensor<T>` of the same shape as the input tensor with 
     /// the arcsine value of all elements in the input tensor.
     ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
     /// ## Example
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn asin_example() -> Tensor<FP8x23> {
@@ -1812,7 +1871,7 @@ trait TensorTrait<T, F> {
     /// // [0, 1.5707...]
     /// ```
     ///
-    fn asin(self: @Tensor<T>) -> Tensor<F>;
+    fn asin(self: @Tensor<T>) -> Tensor<T>;
     /// #tensor.or
     ///
     /// ```rust
@@ -1844,7 +1903,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn or_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -1865,7 +1924,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn or_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -1913,7 +1972,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn xor_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -1934,7 +1993,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn xor_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
@@ -1969,12 +2028,16 @@ trait TensorTrait<T, F> {
     /// A new `Tensor<T>` of the same shape as the input tensor with 
     /// the arccosine value of all elements in the input tensor.
     ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
     /// ## Example
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn acos_example() -> Tensor<FP8x23> {
@@ -1991,7 +2054,7 @@ trait TensorTrait<T, F> {
     /// // [1.5707..., 0]
     /// ```
     ///
-    fn acos(self: @Tensor<T>) -> Tensor<F>;
+    fn acos(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.onehot
     ///
     /// ```rust 
@@ -2015,15 +2078,29 @@ trait TensorTrait<T, F> {
     ///
     /// A new `Tensor<T>` one-hot encode of the input tensor.
     ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
     /// ## Example
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
+    /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
-    /// fn onehot_example() -> Tensor<u32> {
-    ///     let tensor = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
+    /// fn onehot_example() -> Tensor<FP8x23> {
+    ///     let tensor = TensorTrait::<FP8x23>::new(
+    ///         shape: array![2,2].span(),
+    ///         data: array![
+    ///             FixedTrait::new_unscaled(0, false),
+    ///             FixedTrait::new_unscaled(1, false),
+    ///             FixedTrait::new_unscaled(2, false),
+    ///             FixedTrait::new_unscaled(3, false),
+    ///         ]
+    ///             .span(),
+    ///     );    
     /// 
     ///     return tensor.onehot(depth: 3, axis: Option::None(()), values: array![0, 1].span());
     /// }
@@ -2053,12 +2130,16 @@ trait TensorTrait<T, F> {
     /// A new `Tensor<T>` of the same shape as the input tensor with 
     /// the arctangent (inverse of tangent) value of all elements in the input tensor.
     ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
     /// ## Example
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     /// 
     /// fn sqrt_example() -> Tensor<FP8x23> {
@@ -2079,7 +2160,7 @@ trait TensorTrait<T, F> {
     /// // [0,1,1.4142...]
     /// ```
     ///    
-    fn sqrt(self: @Tensor<T>) -> Tensor<F>;
+    fn sqrt(self: @Tensor<T>) -> Tensor<T>;
     /// # tensor.concat
     ///
     /// ```rust 
@@ -2107,7 +2188,7 @@ trait TensorTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn concat_example() -> Tensor<u32> {
     ///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
@@ -2158,12 +2239,16 @@ trait TensorTrait<T, F> {
     ///
     /// A new `Tensor<T>` with the same shape as the input tensor, containing the quantized values.
     ///
+    /// ## Type Constraints
+    ///
+    /// u32 tensor, not supported.
+    ///
     /// ## Examples
     /// 
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i8_fp8x23, Tensor_i32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
     /// use orion::numbers::{i8, i32, IntegerTrait};
     /// 
     /// fn quantize_linear_example() -> Tensor<i8> {
@@ -2222,12 +2307,16 @@ trait TensorTrait<T, F> {
     ///
     /// A new `Tensor<T>` with the same shape as the input tensor, containing the dequantized values.
     ///
+    /// ## Type Constraints
+    ///
+    /// u32 tensor, not supported.
+    ///
     /// ## Examples
     /// 
     /// ```rust
     ///  use array::{ArrayTrait, SpanTrait};
     ///  
-    ///  use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i8_fp8x23, Tensor_i32_fp8x23};
+    ///  use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
     ///  use orion::numbers::{i8, i32, IntegerTrait};
     ///  
     ///  fn dequantize_linear_example() -> Tensor<i32> {

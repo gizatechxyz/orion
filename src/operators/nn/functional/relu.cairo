@@ -8,9 +8,8 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 /// Cf: NNTrait::relu docstring
 fn relu<
     T,
-    F,
     MAG,
-    impl TTensor: TensorTrait<T, F>,
+    impl TTensor: TensorTrait<T>,
     impl TNumber: NumberTrait<T, MAG>,
     impl TPartialOrd: PartialOrd<T>,
     impl TCopy: Copy<T>,

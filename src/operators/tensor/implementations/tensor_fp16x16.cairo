@@ -1,24 +1,17 @@
-//! This module defines and implement a Tensor for FP16x16 values.
-
 use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
-    at_tensor
+    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization};
-use orion::operators::tensor::implementations::tensor_u32_fp16x16::Tensor_u32_fp16x16;
-use orion::operators::tensor::implementations::tensor_i8_fp16x16::{
-    Tensor_i8_fp16x16, TensorI8IntoTensorFP16x16
-};
-use orion::numbers::i8;
+use orion::numbers::{i8, NumberTrait, FP16x16};
+use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
-impl Tensor_fp16x16 of TensorTrait<FP16x16, FP16x16> {
+impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn new(shape: Span<usize>, data: Span<FP16x16>) -> Tensor<FP16x16> {
         new_tensor(shape, data)
     }
@@ -28,7 +21,7 @@ impl Tensor_fp16x16 of TensorTrait<FP16x16, FP16x16> {
     }
 
     fn min(self: @Tensor<FP16x16>) -> FP16x16 {
-        math::min::min_in_tensor(*self.data)
+        math::min::min_in_tensor::<FP16x16, u32>(*self.data)
     }
 
     fn max(self: @Tensor<FP16x16>) -> FP16x16 {
@@ -58,13 +51,13 @@ impl Tensor_fp16x16 of TensorTrait<FP16x16, FP16x16> {
     fn argmax(
         self: @Tensor<FP16x16>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {
-        math::argmax::argmax::<FP16x16, FP16x16, u32>(self, axis, keepdims, select_last_index)
+        math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 
     fn argmin(
         self: @Tensor<FP16x16>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {
-        math::argmin::argmin::<FP16x16, FP16x16, u32>(self, axis, keepdims, select_last_index)
+        math::argmin::argmin(self, axis, keepdims, select_last_index)
     }
 
     fn transpose(self: @Tensor<FP16x16>, axes: Span<usize>) -> Tensor<FP16x16> {
@@ -76,11 +69,11 @@ impl Tensor_fp16x16 of TensorTrait<FP16x16, FP16x16> {
     }
 
     fn exp(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        math::exp::exp_from_fp::<FP16x16, u32>(*self)
+        math::exp::exp(*self)
     }
 
     fn log(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        math::log::log_from_fp::<FP16x16, u32>(*self)
+        math::log::log(*self)
     }
 
     fn equal(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
@@ -112,11 +105,11 @@ impl Tensor_fp16x16 of TensorTrait<FP16x16, FP16x16> {
     }
 
     fn sin(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        math::sin::sin_from_fp(*self)
+        math::sin::sin(*self)
     }
 
     fn cos(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        math::cos::cos_from_fp(*self)
+        math::cos::cos(*self)
     }
 
     fn asin(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
@@ -134,27 +127,27 @@ impl Tensor_fp16x16 of TensorTrait<FP16x16, FP16x16> {
     }
 
     fn sinh(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        math::sinh::sinh_from_fp(*self)
+        math::sinh::sinh(*self)
     }
 
     fn tanh(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        math::tanh::tanh_from_fp(*self)
+        math::tanh::tanh(*self)
     }
 
     fn cosh(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        math::cosh::cosh_from_fp(*self)
+        math::cosh::cosh(*self)
     }
 
     fn acosh(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        math::acosh::acosh_from_fp(*self)
+        math::acosh::acosh(*self)
     }
 
     fn asinh(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        math::asinh::asinh_from_fp(*self)
+        math::asinh::asinh(*self)
     }
 
     fn atan(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        math::atan::atan_from_fp(*self)
+        math::atan::atan(*self)
     }
 
     fn xor(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
@@ -164,6 +157,7 @@ impl Tensor_fp16x16 of TensorTrait<FP16x16, FP16x16> {
     fn or(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
         math::or::or(self, other)
     }
+
     fn acos(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::acos::acos(*self)
     }
@@ -171,11 +165,11 @@ impl Tensor_fp16x16 of TensorTrait<FP16x16, FP16x16> {
     fn onehot(
         self: @Tensor<FP16x16>, depth: usize, axis: Option<usize>, values: Span<usize>
     ) -> Tensor<FP16x16> {
-        math::onehot::onehot_from_fp(self, depth, axis, values)
+        math::onehot::onehot(self, depth, axis, values)
     }
 
     fn sqrt(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        math::sqrt::sqrt_from_fp(*self)
+        math::sqrt::sqrt(*self)
     }
 
     fn concat(tensors: Span<Tensor<FP16x16>>, axis: usize,) -> Tensor<FP16x16> {
@@ -189,8 +183,8 @@ impl Tensor_fp16x16 of TensorTrait<FP16x16, FP16x16> {
             self,
             y_scale,
             y_zero_point,
-            FixedTrait::new(8388608, true),
-            FixedTrait::new(8323072, false)
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
         )
     }
 
@@ -278,8 +272,14 @@ impl U32TryIntoU32 of TryInto<u32, u32> {
     }
 }
 
-// Internals
+impl TensorI8IntoTensorFP16x16 of Into<Tensor<i8>, Tensor<FP16x16>> {
+    fn into(self: Tensor<i8>) -> Tensor<FP16x16> {
+        tensor_i8_to_tensor_fp16x16(@self)
+    }
+}
 
+
+// Internals
 const PRECISION: u32 = 589; // 0.009
 
 fn relative_eq(lhs: @FP16x16, rhs: @FP16x16) -> bool {
@@ -319,4 +319,19 @@ fn tensor_eq(mut lhs: Tensor<FP16x16>, mut rhs: Tensor<FP16x16>,) -> bool {
     };
 
     return is_eq;
+}
+
+fn tensor_i8_to_tensor_fp16x16(x: @Tensor<i8>) -> Tensor<FP16x16> {
+    let mut result_data = ArrayTrait::<FP16x16>::new();
+    let mut data = *x.data;
+
+    loop {
+        result_data.append((*data.pop_front().unwrap()).into());
+
+        if data.len() == 0 {
+            break ();
+        };
+    };
+
+    return TensorTrait::new(*x.shape, result_data.span());
 }

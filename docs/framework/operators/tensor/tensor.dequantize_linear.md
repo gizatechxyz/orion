@@ -21,12 +21,16 @@ or a 1-D tensor for per-axis quantization.
 
 A new `Tensor<T>` with the same shape as the input tensor, containing the dequantized values.
 
+## Type Constraints
+
+u32 tensor, not supported.
+
 ## Examples
 
 ```rust
  use array::{ArrayTrait, SpanTrait};
  
- use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i8_fp8x23, Tensor_i32_fp8x23};
+ use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
  use orion::numbers::{i8, i32, IntegerTrait};
  
  fn dequantize_linear_example() -> Tensor<i32> {

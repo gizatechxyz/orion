@@ -10,7 +10,7 @@ use orion::operators::tensor::core::Tensor;
 /// softsign - Applies the Softsign function element-wise.
 /// softplus - Applies the Softplus function element-wise.
 /// linear - Performs a linear transformation of the input tensor using the provided weights and bias.
-trait NNTrait<T, F> {
+trait NNTrait<T> {
     /// # NNTrait::relu
     ///
     /// ```rust 
@@ -36,8 +36,8 @@ trait NNTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i32_fp8x23};
-    /// use orion::operators::nn::{NNTrait, NN_i32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
+    /// use orion::operators::nn::{NNTrait, I32NN};
     /// use orion::numbers::{i32, IntegerTrait};
     /// 
     /// fn relu_example() -> Tensor<i32> {
@@ -61,7 +61,7 @@ trait NNTrait<T, F> {
     /// # NNTrait::softmax
     ///
     /// ```rust 
-    ///    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<F>;
+    ///    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<T>;
     /// ```
     ///
     /// Applies the Softmax function to an n-dimensional input Tensor rescaling them so that the elements of the n-dimensional output Tensor lie in the range \[0,1] and sum to 1.
@@ -79,23 +79,27 @@ trait NNTrait<T, F> {
     ///
     /// A Tensor of fixed point numbers with the same shape than the input Tensor.
     ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
     /// ## Examples
     /// 
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i32_fp8x23};
-    /// use orion::operators::nn::{NNTrait, NN_i32_fp8x23};
-    /// use orion::numbers::{i32, FP8x23, IntegerTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
+    /// use orion::operators::nn::{NNTrait, FP8x23NN};
+    /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn softmax_example() -> Tensor<FP8x23> {
-    ///     let tensor = TensorTrait::<i32>::new(
+    ///     let tensor = TensorTrait::<FP8x23>::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
-    ///             IntegerTrait::new(0, false),
-    ///             IntegerTrait::new(1, false),
-    ///             IntegerTrait::new(2, false),
-    ///             IntegerTrait::new(3, false),
+    ///             NNTrait::new(0, false),
+    ///             NNTrait::new(1, false),
+    ///             NNTrait::new(2, false),
+    ///             NNTrait::new(3, false),
     ///         ]
     ///             .span(),
     ///     );
@@ -107,11 +111,11 @@ trait NNTrait<T, F> {
     ///     // [[0.2689, 0.7311],[0.2689, 0.7311]]
     /// ```
     ///
-    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<F>;
+    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<T>;
     /// # NNTrait::logsoftmax
     ///
     /// ```rust 
-    ///    fn logsoftmax(tensor: @Tensor<T>, axis: usize) -> Tensor<F>
+    ///    fn logsoftmax(tensor: @Tensor<T>, axis: usize) -> Tensor<T>
     /// ```
     ///
     /// Applies the natural log to Softmax function to an n-dimensional input Tensor consisting of values in the range \[0,1].
@@ -129,23 +133,27 @@ trait NNTrait<T, F> {
     ///
     /// A Tensor of fixed point numbers with the same shape than the input Tensor.
     ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
     /// ## Examples
     /// 
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i32_fp8x23};
-    /// use orion::operators::nn::{NNTrait, NN_i32_fp8x23};
-    /// use orion::numbers::{i32, FP8x23, IntegerTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
+    /// use orion::operators::nn::{NNTrait, FP8x23NN};
+    /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn logsoftmax_example() -> Tensor<FP8x23> {
-    ///     let tensor = TensorTrait::<i32>::new(
+    ///     let tensor = TensorTrait::<FP8x23>::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
-    ///             IntegerTrait::new(0, false),
-    ///             IntegerTrait::new(1, false),
-    ///             IntegerTrait::new(2, false),
-    ///             IntegerTrait::new(3, false),
+    ///             FixedTrait::new(0, false),
+    ///             FixedTrait::new(1, false),
+    ///             FixedTrait::new(2, false),
+    ///             FixedTrait::new(3, false),
     ///         ]
     ///             .span(),
     ///     );
@@ -163,11 +171,11 @@ trait NNTrait<T, F> {
     ///     // [[-1.3134, -0.3132],[-1.3134, -0.3132]]
     /// ```
     ///
-    fn logsoftmax(tensor: @Tensor<T>, axis: usize) -> Tensor<F>;
+    fn logsoftmax(tensor: @Tensor<T>, axis: usize) -> Tensor<T>;
     /// # NNTrait::sigmoid
     ///
     /// ```rust 
-    ///    fn sigmoid(tensor: @Tensor<T>) -> Tensor<F>;
+    ///    fn sigmoid(tensor: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Applies the Sigmoid function to an n-dimensional input tensor rescaling them so that the elements of the n-dimensional output Tensor lie in the range \[0,1].
@@ -184,23 +192,27 @@ trait NNTrait<T, F> {
     ///
     /// A Tensor of fixed point numbers with the same shape than the input Tensor.
     ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
     /// ## Examples
     /// 
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i32_fp8x23};
-    /// use orion::operators::nn::{NNTrait, NN_i32_fp8x23};
-    /// use orion::numbers::{i32, FP8x23, IntegerTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
+    /// use orion::operators::nn::{NNTrait, FP8x23NN};
+    /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn sigmoid_example() -> Tensor<FP8x23> {
-    ///     let tensor = TensorTrait::<i32>::new(
+    ///     let tensor = TensorTrait::<FP8x23>::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
-    ///             IntegerTrait::new(0, false),
-    ///             IntegerTrait::new(1, false),
-    ///             IntegerTrait::new(2, false),
-    ///             IntegerTrait::new(3, false),
+    ///             FixedTrait::new(0, false),
+    ///             FixedTrait::new(1, false),
+    ///             FixedTrait::new(2, false),
+    ///             FixedTrait::new(3, false),
     ///         ]
     ///             .span(),
     ///     );
@@ -212,11 +224,11 @@ trait NNTrait<T, F> {
     ///     // [[0.5, 0.7310586],[0.88079703, 0.95257413]]
     /// ```
     ///
-    fn sigmoid(tensor: @Tensor<T>) -> Tensor<F>;
+    fn sigmoid(tensor: @Tensor<T>) -> Tensor<T>;
     /// # NNTrait::softsign
     ///
     /// ```rust 
-    ///    fn softsign(tensor: @Tensor<T>) -> Tensor<F>;
+    ///    fn softsign(tensor: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Applies the Softsign function to an n-dimensional input Tensor such that the elements of the n-dimensional output Tensor lie in the range \[-1,1]. 
@@ -233,23 +245,27 @@ trait NNTrait<T, F> {
     ///
     /// A Tensor of fixed point numbers with the same shape than the input Tensor.
     ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
     /// ## Examples
     /// 
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i32_fp8x23};
-    /// use orion::operators::nn::{NNTrait, NN_i32_fp8x23};
-    /// use orion::numbers::{i32, FP8x23, IntegerTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
+    /// use orion::operators::nn::{NNTrait, FP8x23NN};
+    /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn softsign_example() -> Tensor<FP8x23> {
-    ///     let tensor = TensorTrait::<i32>::new(
+    ///     let tensor = TensorTrait::<FP8x23>::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
-    ///             IntegerTrait::new(0, false),
-    ///             IntegerTrait::new(1, false),
-    ///             IntegerTrait::new(2, false),
-    ///             IntegerTrait::new(3, false),
+    ///             FixedTrait::new(0, false),
+    ///             FixedTrait::new(1, false),
+    ///             FixedTrait::new(2, false),
+    ///             FixedTrait::new(3, false),
     ///         ]
     ///             .span(),
     ///     );
@@ -261,11 +277,11 @@ trait NNTrait<T, F> {
     ///     // [[0, 0.5],[0.67, 0.75]]
     /// ```
     ///
-    fn softsign(tensor: @Tensor<T>) -> Tensor<F>;
+    fn softsign(tensor: @Tensor<T>) -> Tensor<T>;
     /// # NNTrait::softplus
     ///
     /// ```rust 
-    ///    fn softplus(tensor: @Tensor<T>) -> Tensor<F>;
+    ///    fn softplus(tensor: @Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Applies the Softplus function to an n-dimensional input Tensor such that the elements of the n-dimensional output Tensor lie in the range \[-1,1].
@@ -282,23 +298,27 @@ trait NNTrait<T, F> {
     ///
     /// A Tensor of fixed point numbers with the same shape than the input Tensor.
     ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
     /// ## Examples
     /// 
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i32_fp8x23};
-    /// use orion::operators::nn::{NNTrait, NN_i32_fp8x23};
-    /// use orion::numbers::{i32, FP8x23, IntegerTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
+    /// use orion::operators::nn::{NNTrait, FP8x23NN};
+    /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn softplus_example() -> Tensor<FP8x23> {
-    ///     let tensor = TensorTrait::<i32>::new(
+    ///     let tensor = TensorTrait::<FP8x23>::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
-    ///             IntegerTrait::new(0, false),
-    ///             IntegerTrait::new(1, false),
-    ///             IntegerTrait::new(2, false),
-    ///             IntegerTrait::new(3, false),
+    ///             FixedTrait::new(0, false),
+    ///             FixedTrait::new(1, false),
+    ///             FixedTrait::new(2, false),
+    ///             FixedTrait::new(3, false),
     ///         ]
     ///             .span(),
     ///     );
@@ -310,7 +330,7 @@ trait NNTrait<T, F> {
     ///     // [[0.6931452, 1.31326096],[2.12692796, 3.04858728]]
     /// ```
     ///
-    fn softplus(tensor: @Tensor<T>) -> Tensor<F>;
+    fn softplus(tensor: @Tensor<T>) -> Tensor<T>;
     /// # NNTrait::linear
     /// 
     /// ```rust
@@ -338,8 +358,8 @@ trait NNTrait<T, F> {
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i32_fp8x23};
-    /// use orion::operators::nn::{NNTrait, NN_i32_fp8x23};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
+    /// use orion::operators::nn::{NNTrait, I32NN};
     /// use orion::numbers::{i32, IntegerTrait};
     /// 
     /// fn linear_example() -> Tensor<i32> {
@@ -381,7 +401,7 @@ trait NNTrait<T, F> {
     /// # NNTrait::leaky_relu
     /// 
     /// ```rust
-    ///  fn leaky_relu(inputs: @Tensor<T>, alpha: @F) -> Tensor<F>
+    ///  fn leaky_relu(inputs: @Tensor<T>, alpha: @T) -> Tensor<T>
     /// ```
     ///
     /// Applies the leaky rectified linear unit (Leaky ReLU) activation function element-wise to a given tensor.
@@ -390,30 +410,34 @@ trait NNTrait<T, F> {
     ///
     /// ## Args
     /// * `inputs`(`@Tensor<T>`) - A snapshot of a tensor to which the Leaky ReLU function will be applied.
-    /// * `alpha`(`@F`) - A snapshot of a fixed point scalar that defines the alpha value of the Leaky ReLU function.
+    /// * `alpha`(`@T`) - A snapshot of a fixed point scalar that defines the alpha value of the Leaky ReLU function.
     ///
     /// ## Returns
     /// A new fixed point tensor with the same shape as the input tensor and the Leaky ReLU function applied element-wise.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
     ///
     /// ## Examples
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i32_fp8x23};
-    /// use orion::operators::nn::{NNTrait, NN_i32_fp8x23};
-    /// use orion::numbers::{i32, FP8x23, IntegerTrait, FixedTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
+    /// use orion::operators::nn::{NNTrait, FP8x23NN};
+    /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn leaky_relu_example() -> Tensor<FP8x23> {
-    ///     let tensor = TensorTrait::<i32>::new(
+    ///     let tensor = TensorTrait::<FP8x23>::new(
     ///         shape: array![2, 3].span(),
     ///         data: array![
-    ///             IntegerTrait::new(1, false),
-    ///             IntegerTrait::new(2, false),
-    ///             IntegerTrait::new(1, true),
-    ///             IntegerTrait::new(2, true),
-    ///             IntegerTrait::new(0, false),
-    ///             IntegerTrait::new(0, false),
+    ///             FixedTrait::new(1, false),
+    ///             FixedTrait::new(2, false),
+    ///             FixedTrait::new(1, true),
+    ///             FixedTrait::new(2, true),
+    ///             FixedTrait::new(0, false),
+    ///             FixedTrait::new(0, false),
     ///         ]
     ///             .span(),
     ///     );
@@ -426,5 +450,5 @@ trait NNTrait<T, F> {
     ///     [[1, 2, 0.1], [0.2, 0, 0]]
     /// ```
     /// 
-    fn leaky_relu(inputs: @Tensor<T>, alpha: @F) -> Tensor<F>;
+    fn leaky_relu(inputs: @Tensor<T>, alpha: @T) -> Tensor<T>;
 }

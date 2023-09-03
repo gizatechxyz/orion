@@ -3,12 +3,11 @@ mod input_1;
 mod output_0; 
 
 
-use array::ArrayTrait;
-use orion::operators::tensor::core::TensorTrait;
-use orion::operators::tensor::implementations::tensor_i8_fp16x16::{Tensor_i8_fp16x16, i8TensorMul};
-use orion::operators::tensor::implementations::tensor_i8_fp16x16::i8TensorPartialEq;
+use array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::TensorTrait;
+use orion::operators::tensor::{I8Tensor, I8TensorMul};
+use orion::operators::tensor::I8TensorPartialEq;
 use orion::utils::assert_eq;
-
 
 #[test]
 #[available_gas(2000000000)]

@@ -29,8 +29,7 @@ use array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{
     TensorTrait, // we import the trait
     Tensor, // we import the type
-    Tensor_u32_fp16x16 // we import the implementation. 
-    //Here, it uses FP16x16 fixed-point for certain intermediate calculations (if needed).
+    U32Tensor // we import the implementation. 
 };
 
 // 1D TENSOR

@@ -1,9 +1,8 @@
-use array::ArrayTrait;
-
-use orion::operators::tensor::core::{TensorTrait, Tensor};
-use orion::numbers::fixed_point::core::{FixedTrait};
-use orion::operators::tensor::implementations::tensor_fp8x23::Tensor_fp8x23;use orion::numbers::FP8x23;
-
+use array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::{TensorTrait, Tensor};
+use orion::operators::tensor::FP8x23Tensor;
+use orion::numbers::FixedTrait;
+use orion::numbers::FP8x23;
 
 fn output_0() -> Tensor<FP8x23> {
     let mut shape = ArrayTrait::<usize>::new();
@@ -11,11 +10,9 @@ fn output_0() -> Tensor<FP8x23> {
     shape.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(FP8x23 { mag: 15352108, sign: true });
-    data.append(FP8x23 { mag: 1466530, sign: true });
-    data.append(FP8x23 { mag: 25129093, sign: true });
-    data.append(FP8x23 { mag: 430328, sign: true });
-
-    
+    data.append(FP8x23 { mag: 1430064, sign: true });
+    data.append(FP8x23 { mag: 15545622, sign: true });
+    data.append(FP8x23 { mag: 469121, sign: true });
+    data.append(FP8x23 { mag: 24424260, sign: true });
     TensorTrait::new(shape.span(), data.span())
 }

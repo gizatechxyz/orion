@@ -3,8 +3,8 @@ use array::SpanTrait;
 
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use orion::operators::tensor::implementations::tensor_i32_fp16x16::Tensor_i32_fp16x16;
-use orion::operators::tensor::core::{TensorTrait, Tensor};
+use orion::operators::tensor::I32Tensor;
+use orion::operators::tensor::{TensorTrait, Tensor};
 
 // 1D
 fn i32_tensor_1x3_helper() -> Tensor<i32> {

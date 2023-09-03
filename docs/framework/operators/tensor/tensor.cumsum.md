@@ -28,7 +28,7 @@ Case 1: cumsum with default parameters
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn cumsum_example() -> Tensor<u32> {
     let tensor = TensorTrait::<u32>::new(
@@ -45,7 +45,7 @@ Case 2: cumsum with exclusive = true
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn cumsum_example() -> Tensor<u32> {
     let tensor = TensorTrait::<u32>::new(
@@ -62,7 +62,7 @@ Case 3: cumsum with exclusive = true and reverse = true
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn cumsum_example() -> Tensor<u32> {
     let tensor = TensorTrait::<u32>::new(

@@ -5,16 +5,16 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16;
 use orion::operators::tensor::implementations::tensor_fp16x16::{
-    Tensor_fp16x16, FP16x16TensorDiv, FP16x16TensorAdd
+    FP16x16Tensor, FP16x16TensorDiv, FP16x16TensorAdd
 };
 
-impl NN_fp16x16 of NNTrait<FP16x16, FP16x16> {
+impl FP16x16NN of NNTrait<FP16x16> {
     fn relu(tensor: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         functional::relu::relu(*tensor)
     }
 
     fn sigmoid(tensor: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        functional::sigmoid::sigmoid_from_fp(*tensor)
+        functional::sigmoid::sigmoid(*tensor)
     }
 
     fn softmax(tensor: @Tensor<FP16x16>, axis: usize) -> Tensor<FP16x16> {
@@ -26,11 +26,11 @@ impl NN_fp16x16 of NNTrait<FP16x16, FP16x16> {
     }
 
     fn softsign(tensor: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        functional::softsign::softsign_from_fp(*tensor)
+        functional::softsign::softsign(*tensor)
     }
 
     fn softplus(tensor: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        functional::softplus::softplus_from_fp(*tensor)
+        functional::softplus::softplus(*tensor)
     }
 
     fn linear(
@@ -40,6 +40,6 @@ impl NN_fp16x16 of NNTrait<FP16x16, FP16x16> {
     }
 
     fn leaky_relu(inputs: @Tensor<FP16x16>, alpha: @FP16x16) -> Tensor<FP16x16> {
-        functional::leaky_relu::leaky_relu_from_fp(*inputs, alpha)
+        functional::leaky_relu::leaky_relu(*inputs, alpha)
     }
 }

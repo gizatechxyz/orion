@@ -2,7 +2,7 @@
 
 #[cfg(test)]
 mod tensor_1D {
-    use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
+    use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16Tensor;
     use orion::operators::tensor::core::TensorTrait;
     use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_1x3_helper;
     use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
@@ -22,7 +22,7 @@ mod tensor_1D {
 
 #[cfg(test)]
 mod tensor_2D {
-    use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
+    use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16Tensor;
     use orion::operators::tensor::core::TensorTrait;
     use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_2x2_helper;
     use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
@@ -43,7 +43,7 @@ mod tensor_2D {
 
 #[cfg(test)]
 mod tensor_3D {
-    use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
+    use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16Tensor;
     use orion::operators::tensor::core::TensorTrait;
     use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_2x2x2_helper;
     use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;

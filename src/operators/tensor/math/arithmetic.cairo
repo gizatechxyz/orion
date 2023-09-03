@@ -10,12 +10,7 @@ use orion::operators::tensor::helpers::{broadcast_index_mapping, len_from_shape,
 use orion::utils::saturate;
 
 fn add<
-    T,
-    F,
-    impl TTensor: TensorTrait<T, F>,
-    impl TAdd: Add<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>
+    T, impl TTensor: TensorTrait<T>, impl TAdd: Add<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>
 >(
     self: @Tensor<T>, other: @Tensor<T>
 ) -> Tensor<T> {
@@ -44,10 +39,9 @@ fn add<
 
 fn saturated_add<
     T,
-    F,
     Q,
-    impl TTensor: TensorTrait<T, F>,
-    impl QTensor: TensorTrait<Q, F>,
+    impl TTensor: TensorTrait<T>,
+    impl QTensor: TensorTrait<Q>,
     impl TAdd: Add<T>,
     impl TPartialOrd: PartialOrd<T>,
     impl TTryInto: TryInto<T, Q>,
@@ -86,16 +80,11 @@ fn saturated_add<
         };
     };
 
-    return TensorTrait::<Q, F>::new(broadcasted_shape, result.span());
+    return TensorTrait::<Q>::new(broadcasted_shape, result.span());
 }
 
 fn sub<
-    T,
-    F,
-    impl TTensor: TensorTrait<T, F>,
-    impl TSub: Sub<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>
+    T, impl TTensor: TensorTrait<T>, impl TSub: Sub<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>
 >(
     self: @Tensor<T>, other: @Tensor<T>
 ) -> Tensor<T> {
@@ -124,10 +113,9 @@ fn sub<
 
 fn saturated_sub<
     T,
-    F,
     Q,
-    impl TTensor: TensorTrait<T, F>,
-    impl QTensor: TensorTrait<Q, F>,
+    impl TTensor: TensorTrait<T>,
+    impl QTensor: TensorTrait<Q>,
     impl TSub: Sub<T>,
     impl TPartialOrd: PartialOrd<T>,
     impl TTryInto: TryInto<T, Q>,
@@ -166,16 +154,11 @@ fn saturated_sub<
         };
     };
 
-    return TensorTrait::<Q, F>::new(broadcasted_shape, result.span());
+    return TensorTrait::<Q>::new(broadcasted_shape, result.span());
 }
 
 fn mul<
-    T,
-    F,
-    impl TTensor: TensorTrait<T, F>,
-    impl TMul: Mul<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>
+    T, impl TTensor: TensorTrait<T>, impl TMul: Mul<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>
 >(
     self: @Tensor<T>, other: @Tensor<T>
 ) -> Tensor<T> {
@@ -204,10 +187,9 @@ fn mul<
 
 fn saturated_mul<
     T,
-    F,
     Q,
-    impl TTensor: TensorTrait<T, F>,
-    impl QTensor: TensorTrait<Q, F>,
+    impl TTensor: TensorTrait<T>,
+    impl QTensor: TensorTrait<Q>,
     impl TMul: Mul<T>,
     impl TPartialOrd: PartialOrd<T>,
     impl TTryInto: TryInto<T, Q>,
@@ -246,16 +228,11 @@ fn saturated_mul<
         };
     };
 
-    return TensorTrait::<Q, F>::new(broadcasted_shape, result.span());
+    return TensorTrait::<Q>::new(broadcasted_shape, result.span());
 }
 
 fn div<
-    T,
-    F,
-    impl TTensor: TensorTrait<T, F>,
-    impl TMul: Div<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>
+    T, impl TTensor: TensorTrait<T>, impl TMul: Div<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>
 >(
     self: @Tensor<T>, other: @Tensor<T>
 ) -> Tensor<T> {
@@ -284,10 +261,9 @@ fn div<
 
 fn saturated_div<
     T,
-    F,
     Q,
-    impl TTensor: TensorTrait<T, F>,
-    impl QTensor: TensorTrait<Q, F>,
+    impl TTensor: TensorTrait<T>,
+    impl QTensor: TensorTrait<Q>,
     impl TDiv: Div<T>,
     impl TPartialOrd: PartialOrd<T>,
     impl TTryInto: TryInto<T, Q>,
@@ -326,5 +302,5 @@ fn saturated_div<
         };
     };
 
-    return TensorTrait::<Q, F>::new(broadcasted_shape, result.span());
+    return TensorTrait::<Q>::new(broadcasted_shape, result.span());
 }

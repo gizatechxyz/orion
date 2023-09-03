@@ -7,15 +7,15 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 /// Cf: TensorTrait::asin docstring
 fn asin<
-    F,
+    T,
     MAG,
-    impl FFixedTrait: FixedTrait<F, MAG>,
-    impl FTensor: TensorTrait<F, F>,
-    impl FCopy: Copy<F>,
-    impl FDrop: Drop<F>,
+    impl FFixedTrait: FixedTrait<T, MAG>,
+    impl FTensor: TensorTrait<T>,
+    impl FCopy: Copy<T>,
+    impl FDrop: Drop<T>,
 >(
-    mut self: Tensor<F>
-) -> Tensor<F> {
+    mut self: Tensor<T>
+) -> Tensor<T> {
     let mut result = ArrayTrait::new();
 
     loop {

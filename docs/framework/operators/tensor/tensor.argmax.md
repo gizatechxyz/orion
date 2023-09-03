@@ -28,7 +28,7 @@ Case 1: argmax with default parameters
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn argmax_example() -> Tensor<usize> {
     let tensor = TensorTrait::<u32>::new(
@@ -45,7 +45,7 @@ Case 2: argmax with keepdims set to false
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn argmax_example() -> Tensor<usize> {
     let tensor = TensorTrait::<u32>::new(
@@ -64,7 +64,7 @@ Case 3: argmax with select_last_index set to true
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn argmax_example() -> Tensor<usize> {
     let tensor = TensorTrait::<u32>::new(

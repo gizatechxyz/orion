@@ -28,7 +28,7 @@ Case 1: argmin with default parameters
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn argmin_example() -> Tensor<usize> {
     let tensor = TensorTrait::<u32>::new(
@@ -46,7 +46,7 @@ Case 2: argmin with keepdims set to false
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn argmin_example() -> Tensor<usize> {
     let tensor = TensorTrait::<u32>::new(
@@ -65,7 +65,7 @@ Case 3: argmin with select_last_index set to true
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn argmin_example() -> Tensor<usize> {
     let tensor = TensorTrait::<u32>::new(

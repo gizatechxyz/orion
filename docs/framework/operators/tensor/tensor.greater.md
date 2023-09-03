@@ -29,7 +29,7 @@ Case 1: Compare tensors with same shape
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn greater_example() -> Tensor<usize> {
     let tensor_1 = TensorTrait::<u32>::new(
@@ -51,7 +51,7 @@ Case 2: Compare tensors with different shapes
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn greater_example() -> Tensor<usize> {
     let tensor_1 = TensorTrait::<u32>::new(

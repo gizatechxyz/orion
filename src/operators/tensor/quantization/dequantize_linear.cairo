@@ -11,8 +11,7 @@ use orion::utils::saturate;
 fn dequantize_linear<
     Q,
     T,
-    F,
-    impl TTensor: TensorTrait<T, F>,
+    impl TTensor: TensorTrait<T>,
     impl QIntoT: Into<Q, T>,
     impl TSub: Sub<T>,
     impl TMul: Mul<T>,
@@ -38,8 +37,7 @@ fn dequantize_linear<
 
 fn dequantize_per_axis<
     T,
-    F,
-    impl TTensor: TensorTrait<T, F>,
+    impl TTensor: TensorTrait<T>,
     impl TTensorSub: Sub<Tensor<T>>,
     impl TTensorMul: Mul<Tensor<T>>,
     impl TCopy: Copy<T>,
@@ -55,8 +53,7 @@ fn dequantize_per_axis<
 fn dequantize_element_wise<
     Q,
     T,
-    F,
-    impl TTensor: TensorTrait<T, F>,
+    impl TTensor: TensorTrait<T>,
     impl QIntoT: Into<Q, T>,
     impl TSub: Sub<T>,
     impl TMul: Mul<T>,

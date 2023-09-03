@@ -10,9 +10,8 @@ use orion::numbers::NumberTrait;
 /// Cf: TensorTrait::cumsum docstring
 fn cumsum<
     T,
-    F,
     MAG,
-    impl TTensorTrait: TensorTrait<T, F>,
+    impl TTensorTrait: TensorTrait<T>,
     impl TNumber: NumberTrait<T, MAG>,
     impl TAddEq: AddEq<T>,
     impl TAdd: Add<T>,
@@ -28,17 +27,16 @@ fn cumsum<
     };
 
     if reverse {
-        cumsum_reverse::<T, F>(self, axis, exclusive, NumberTrait::zero())
+        cumsum_reverse::<T>(self, axis, exclusive, NumberTrait::zero())
     } else {
-        cumsum_forward::<T, F>(self, axis, exclusive, NumberTrait::zero())
+        cumsum_forward::<T>(self, axis, exclusive, NumberTrait::zero())
     }
 }
 
 /// Cf: TensorTrait::cumsum docstring
 fn cumsum_forward<
     T,
-    F,
-    impl TTensorTrait: TensorTrait<T, F>,
+    impl TTensorTrait: TensorTrait<T>,
     impl TAdd: Add<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
@@ -100,8 +98,7 @@ fn cumsum_forward<
 /// Cf: TensorTrait::cumsum docstring
 fn cumsum_reverse<
     T,
-    F,
-    impl TTensorTrait: TensorTrait<T, F>,
+    impl TTensorTrait: TensorTrait<T>,
     impl TAddEq: AddEq<T>,
     impl TSub: Sub<T>,
     impl TCopy: Copy<T>,

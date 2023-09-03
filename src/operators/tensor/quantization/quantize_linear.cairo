@@ -12,10 +12,9 @@ use orion::utils::saturate;
 /// Cf: TensorTrait::quantize_linear docstring
 fn quantize_linear<
     T,
-    F,
     Q,
-    impl TTensor: TensorTrait<T, F>,
-    impl QTensor: TensorTrait<Q, F>,
+    impl TTensor: TensorTrait<T>,
+    impl QTensor: TensorTrait<Q>,
     impl TAdd: Add<T>,
     impl TDiv: Div<T>,
     impl TTensorDiv: Div<Tensor<T>>,
@@ -40,10 +39,9 @@ fn quantize_linear<
 
 fn quantize_per_axis<
     T,
-    F,
     Q,
-    impl TTensor: TensorTrait<T, F>,
-    impl QTensor: TensorTrait<Q, F>,
+    impl TTensor: TensorTrait<T>,
+    impl QTensor: TensorTrait<Q>,
     impl TAdd: Add<T>,
     impl TTensorDiv: Div<Tensor<T>>,
     impl TPartialOrd: PartialOrd<T>,
@@ -59,7 +57,6 @@ fn quantize_per_axis<
 
 fn quantize_element_wise<
     T,
-    F,
     Q,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
@@ -69,7 +66,7 @@ fn quantize_element_wise<
     impl TDiv: Div<T>,
     impl TAdd: Add<T>,
     impl TTryIntoQ: TryInto<T, Q>,
-    impl QTensor: TensorTrait<Q, F>
+    impl QTensor: TensorTrait<Q>
 >(
     mut x: Tensor::<T>, y_scale: T, y_zero_point: T, min: T, max: T
 ) -> Tensor::<Q> {

@@ -1,7 +1,7 @@
 # tensor.log
 
 ```rust 
-    fn log(self: @Tensor<T>) -> Tensor<F>;
+    fn log(self: @Tensor<T>) -> Tensor<T>;
 ```
 
 Computes the natural log of all elements of the input tensor.
@@ -15,19 +15,29 @@ $$
 
 ## Returns
 
-Returns a new tensor in `F` with the natural log of the elements of the input tensor.
+Returns a new tensor in `T` with the natural log of the elements of the input tensor.
+
+## Type Constraints
+
+Constrain input and output types to fixed point tensors.
 
 ## Examples
 
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp8x23};
-use orion::numbers::FP8x23;
+use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
+use orion::numbers::{FP8x23, FixedTrait};
 
 fn log_example() -> Tensor<FP8x23> {
     let tensor = TensorTrait::<u32>::new(
-        shape: array![2, 2].span(), data: array![1, 2, 3, 100].span(),
+        shape: array![2, 2].span(), 
+        data: array![
+                FixedTrait::new_unscaled(0, false), 
+                FixedTrait::new_unscaled(1, false), 
+                FixedTrait::new_unscaled(2, false), 
+                FixedTrait::new_unscaled(100, false), 
+            ]
     );
 
     // We can call `log` function as follows.

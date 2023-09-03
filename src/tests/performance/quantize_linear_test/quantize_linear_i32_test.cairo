@@ -5,8 +5,8 @@ use traits::Into;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::i8};
 use orion::numbers::fixed_point::core::{FixedTrait};
-use orion::operators::tensor::implementations::tensor_i32_fp16x16::Tensor_i32_fp16x16;
-use orion::operators::tensor::core::{TensorTrait, Tensor};
+use orion::operators::tensor::I32Tensor;
+use orion::operators::tensor::{TensorTrait, Tensor};
 
 #[test]
 #[available_gas(2000000)]

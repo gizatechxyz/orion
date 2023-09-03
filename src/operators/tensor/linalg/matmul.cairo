@@ -8,9 +8,8 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 /// Cf: TensorTrait::matmul docstring
 fn matmul<
     T,
-    F,
     MAG,
-    impl TTensor: TensorTrait<T, F>,
+    impl TTensor: TensorTrait<T>,
     impl TNumber: NumberTrait<T, MAG>,
     impl TMul: Mul<T>,
     impl TAddEq: AddEq<T>,
@@ -105,9 +104,8 @@ fn dot_product<
 /// * Returns the restulting i32 tensor.
 fn matrix_multiply<
     T,
-    F,
     MAG,
-    impl TTensor: TensorTrait<T, F>,
+    impl TTensor: TensorTrait<T>,
     impl TNumber: NumberTrait<T, MAG>,
     impl TMul: Mul<T>,
     impl TAddEq: AddEq<T>,

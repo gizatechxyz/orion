@@ -1,7 +1,7 @@
 use array::ArrayTrait;
 use array::SpanTrait;
-use orion::operators::tensor::implementations::tensor_u32_fp16x16::Tensor_u32_fp16x16;
-use orion::operators::tensor::core::{TensorTrait, Tensor};
+use orion::operators::tensor::U32Tensor;
+use orion::operators::tensor::{TensorTrait, Tensor};
 
 // 1D
 fn u32_tensor_1x3_helper() -> Tensor<u32> {

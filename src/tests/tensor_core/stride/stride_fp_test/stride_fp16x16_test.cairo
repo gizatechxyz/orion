@@ -5,7 +5,7 @@ mod tensor_1D {
     use array::ArrayTrait;
     use array::SpanTrait;
 
-    use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
+    use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16Tensor;
     use orion::operators::tensor::core::{TensorTrait};
     use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_1x3_helper;
 
@@ -27,7 +27,7 @@ mod tensor_2D {
     use array::ArrayTrait;
     use array::SpanTrait;
 
-    use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
+    use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16Tensor;
     use orion::operators::tensor::core::{TensorTrait};
     use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_2x2_helper;
 
@@ -50,7 +50,7 @@ mod tensor_3D {
     use array::ArrayTrait;
     use array::SpanTrait;
 
-    use orion::operators::tensor::implementations::tensor_fp16x16::Tensor_fp16x16;
+    use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16Tensor;
     use orion::operators::tensor::core::{TensorTrait};
     use orion::tests::helpers::tensor::fixed_point::fp16x16::fp_tensor_2x2x2_helper;
 

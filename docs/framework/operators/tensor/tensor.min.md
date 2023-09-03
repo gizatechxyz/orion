@@ -19,7 +19,7 @@ The minimum `T` value in the tensor.
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_u32_fp16x16};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn min_example() -> u32 {
     let tensor = TensorTrait::new(

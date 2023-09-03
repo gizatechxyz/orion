@@ -10,9 +10,8 @@ use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, com
 /// Cf: TensorTrait::reduce_sum docstring
 fn reduce_sum<
     T,
-    F,
     MAG,
-    impl TTensor: TensorTrait<T, F>,
+    impl TTensor: TensorTrait<T>,
     impl TNumber: NumberTrait<T, MAG>,
     impl TAddEq: AddEq<T>,
     impl TCopy: Copy<T>,

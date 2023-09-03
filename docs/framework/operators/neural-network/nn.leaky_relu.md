@@ -1,7 +1,7 @@
 # NNTrait::leaky_relu
 
 ```rust
- fn leaky_relu(inputs: @Tensor<T>, alpha: @F) -> Tensor<F>
+ fn leaky_relu(inputs: @Tensor<T>, alpha: @T) -> Tensor<T>
 ```
 
 Applies the leaky rectified linear unit (Leaky ReLU) activation function element-wise to a given tensor.
@@ -10,30 +10,34 @@ The Leaky ReLU function is defined as f(x) = alpha * x if x < 0, f(x) = x otherw
 
 ## Args
 * `inputs`(`@Tensor<T>`) - A snapshot of a tensor to which the Leaky ReLU function will be applied.
-* `alpha`(`@F`) - A snapshot of a fixed point scalar that defines the alpha value of the Leaky ReLU function.
+* `alpha`(`@T`) - A snapshot of a fixed point scalar that defines the alpha value of the Leaky ReLU function.
 
 ## Returns
 A new fixed point tensor with the same shape as the input tensor and the Leaky ReLU function applied element-wise.
+
+## Type Constraints
+
+Constrain input and output types to fixed point tensors.
 
 ## Examples
 
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, Tensor_i32_fp8x23};
-use orion::operators::nn::{NNTrait, NN_i32_fp8x23};
-use orion::numbers::{i32, FP8x23, IntegerTrait, FixedTrait};
+use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
+use orion::operators::nn::{NNTrait, FP8x23NN};
+use orion::numbers::{FP8x23, FixedTrait};
 
 fn leaky_relu_example() -> Tensor<FP8x23> {
-    let tensor = TensorTrait::<i32>::new(
+    let tensor = TensorTrait::<FP8x23>::new(
         shape: array![2, 3].span(),
         data: array![
-            IntegerTrait::new(1, false),
-            IntegerTrait::new(2, false),
-            IntegerTrait::new(1, true),
-            IntegerTrait::new(2, true),
-            IntegerTrait::new(0, false),
-            IntegerTrait::new(0, false),
+            FixedTrait::new(1, false),
+            FixedTrait::new(2, false),
+            FixedTrait::new(1, true),
+            FixedTrait::new(2, true),
+            FixedTrait::new(0, false),
+            FixedTrait::new(0, false),
         ]
             .span(),
     );
