@@ -108,3 +108,5 @@ mod argmin_u32_3D_keepdims_false;
 mod argmin_u32_3D_last_index; 
 mod asin_fp16x16; 
 mod asin_fp8x23; 
+mod asinh_fp16x16; 
+mod asinh_fp8x23; 
