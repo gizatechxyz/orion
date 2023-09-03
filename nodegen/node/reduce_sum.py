@@ -182,7 +182,7 @@ class Reduce_sum(RunAll):
             y = np.array([3]).astype(np.int64)
 
             x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                x.flatten(), FixedImpl.FP8x23))
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
                 y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
 
@@ -248,7 +248,7 @@ class Reduce_sum(RunAll):
             y = np.array([3]).astype(np.int64)
 
             x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                x.flatten(), FixedImpl.FP16x16))
             y = Tensor(Dtype.FP16x16, y.shape, to_fp(
                 y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
 

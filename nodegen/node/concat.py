@@ -397,7 +397,7 @@ class Concat(RunAll):
             x2 = Tensor(Dtype.FP8x23, x2.shape, to_fp(
                 x2.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
             y = Tensor(Dtype.FP8x23, y.shape,  to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                y.flatten(), FixedImpl.FP8x23)) 
 
             name = "concat_fp8x23_1d"
             make_node([x1, x2], [y], name)
