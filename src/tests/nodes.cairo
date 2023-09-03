@@ -308,3 +308,5 @@ mod sin_fp16x16;
 mod sin_fp8x23; 
 mod sinh_fp16x16; 
 mod sinh_fp8x23; 
+mod softmax_fp16x16; 
+mod softmax_fp8x23; 
