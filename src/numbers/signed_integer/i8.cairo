@@ -2,10 +2,11 @@ use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::signed_integer::i32::i32;
-use orion::numbers::fixed_point::implementations::fp8x23::core::ONE as ONE_fp8x23;
-use orion::numbers::fixed_point::implementations::fp16x16::core::ONE as ONE_fp16x16;
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-
+use orion::numbers::fixed_point::implementations::fp8x23::core::{ONE as ONE_fp8x23, FP8x23};
+use orion::numbers::fixed_point::implementations::fp16x16::core::{ONE as ONE_fp16x16, FP16x16};
+use orion::numbers::fixed_point::implementations::fp64x64::core::{ONE as ONE_fp64x64, FP64x64};
+use orion::numbers::fixed_point::implementations::fp32x32::core::{ONE as ONE_fp32x32, FP32x32};
+use orion::numbers::fixed_point::core::FixedTrait;
 
 // ====================== INT 8 ======================
 
@@ -171,16 +172,30 @@ impl I8IntoI32 of Into<i8, i32> {
 }
 
 // Implements the Into trait for i8 to fp_8x23.
-impl I8IntoFP8x23 of Into<i8, FixedType> {
-    fn into(self: i8) -> FixedType {
+impl I8IntoFP8x23 of Into<i8, FP8x23> {
+    fn into(self: i8) -> FP8x23 {
         i8_to_fp8x23(self)
     }
 }
 
 // Implements the Into trait for i8 to fp_16x16.
-impl I8IntoFP16x16 of Into<i8, FixedType> {
-    fn into(self: i8) -> FixedType {
+impl I8IntoFP16x16 of Into<i8, FP16x16> {
+    fn into(self: i8) -> FP16x16 {
         i8_to_fp16x16(self)
+    }
+}
+
+// Implements the Into trait for i8 to fp_64x64.
+impl I8IntoFP64x64 of Into<i8, FP64x64> {
+    fn into(self: i8) -> FP64x64 {
+        i8_to_fp64x64(self)
+    }
+}
+
+// Implements the Into trait for i8 to fp_32x32.
+impl I8IntoFP32x32 of Into<i8, FP32x32> {
+    fn into(self: i8) -> FP32x32 {
+        i8_to_fp32x32(self)
     }
 }
 
@@ -496,14 +511,20 @@ fn i8_to_i32(x: i8) -> i32 {
     i32 { mag: x.mag.into(), sign: x.sign }
 }
 
-use debug::PrintTrait;
-
-fn i8_to_fp8x23(x: i8) -> FixedType {
-    FixedType { mag: x.mag.into() * ONE_fp8x23, sign: x.sign }
+fn i8_to_fp8x23(x: i8) -> FP8x23 {
+    FP8x23 { mag: x.mag.into() * ONE_fp8x23, sign: x.sign }
 }
 
-fn i8_to_fp16x16(x: i8) -> FixedType {
-    FixedType { mag: x.mag.into() * ONE_fp16x16, sign: x.sign }
+fn i8_to_fp16x16(x: i8) -> FP16x16 {
+    FP16x16 { mag: x.mag.into() * ONE_fp16x16, sign: x.sign }
+}
+
+fn i8_to_fp64x64(x: i8) -> FP64x64 {
+    FP64x64 { mag: x.mag.into() * ONE_fp64x64, sign: x.sign }
+}
+
+fn i8_to_fp32x32(x: i8) -> FP32x32 {
+    FP32x32 { mag: x.mag.into() * ONE_fp32x32, sign: x.sign }
 }
 
 fn ensure_non_negative_zero(mag: u8, sign: bool) -> i8 {

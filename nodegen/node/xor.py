@@ -106,9 +106,9 @@ class Xor(RunAll):
             z = np.logical_xor(x, y)
 
             x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                x.flatten(), FixedImpl.FP8x23))
             y = Tensor(Dtype.FP8x23, y.shape,  to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "xor_fp8x23"
@@ -121,9 +121,9 @@ class Xor(RunAll):
             z = np.logical_xor(x, y)
 
             x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                x.flatten(), FixedImpl.FP8x23))
             y = Tensor(Dtype.FP8x23, y.shape,  to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "xor_fp8x23_broadcast"
@@ -141,9 +141,9 @@ class Xor(RunAll):
             z = np.logical_xor(x, y)
 
             x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                x.flatten(), FixedImpl.FP16x16))
             y = Tensor(Dtype.FP16x16, y.shape,  to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "xor_fp16x16"
@@ -156,9 +156,9 @@ class Xor(RunAll):
             z = np.logical_xor(x, y)
 
             x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                x.flatten(), FixedImpl.FP16x16))
             y = Tensor(Dtype.FP16x16, y.shape,  to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "xor_fp16x16_broadcast"

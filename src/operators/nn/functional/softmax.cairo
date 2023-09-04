@@ -1,4 +1,21 @@
-mod softmax_u32;
-mod softmax_i32;
-mod softmax_i8;
-mod softmax_fp;
+use orion::operators::tensor::core::{Tensor, TensorTrait};
+
+
+/// Cf: NNTrait::softmax docstring
+fn softmax<
+    T,
+    impl TTensor: TensorTrait<T>,
+    impl TTensor: TensorTrait<T>,
+    impl TTensorDiv: Div<Tensor<T>>,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>,
+>(
+    z: @Tensor<T>, axis: usize
+) -> Tensor<T> {
+    let exp_tensor = z.exp();
+    let sum = exp_tensor.reduce_sum(axis, true);
+    let softmax = exp_tensor / sum;
+
+    return softmax;
+}
+

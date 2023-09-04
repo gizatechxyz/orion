@@ -1,14 +1,14 @@
 # fp.asinh
 
 ```rust
-fn asinh(self: FixedType) -> FixedType;
+fn asinh(self: T) -> T;
 ```
 
 Returns the value of the inverse hyperbolic sine of the fixed point number.
 
 ## Args
 
-* `self`(`FixedType`) - The input fixed point
+* `self`(`T`) - The input fixed point
 
 ## Returns
 
@@ -17,10 +17,9 @@ The inverse hyperbolic sine of the input fixed point number.
 ## Examples
 
 ```rust
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 
-fn asinh_fp_example() -> FixedType {
+fn asinh_fp_example() -> FP16x16 {
     // We instantiate fixed point here.
     let fp = FixedTrait::new_unscaled(2, false);
 

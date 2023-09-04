@@ -1,14 +1,14 @@
 # fp.asin_fast
 
 ```rust
-fn asin_fast(self: FixedType) -> FixedType;
+fn asin_fast(self: T) -> T;
 ```
 
 Returns the  arcsine (inverse of sine) of the fixed point number faster with LUT.
 
 ## Args
 
-* `self`(`FixedType`) - The input fixed point
+* `self`(`T`) - The input fixed point
 
 ## Returns
 
@@ -17,10 +17,9 @@ A fixed point number representing the asin of the input value.
 ## Examples
 
 ```rust
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 
-fn asin_fast_fp_example() -> FixedType {
+fn asin_fast_fp_example() -> FP16x16 {
     // We instantiate fixed point here.
     let fp = FixedTrait::new_unscaled(1, false);
 

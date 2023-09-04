@@ -18,7 +18,7 @@ class Concat(RunAll):
             name = "concat_u32_1d"
             make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                 file_name= name, trait_type= Trait.TENSOR)
                     
             
@@ -34,7 +34,7 @@ class Concat(RunAll):
             name = "concat_u32_2d"
             make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                 file_name= name, trait_type= Trait.TENSOR)
             
         def concat_3D():
@@ -50,7 +50,7 @@ class Concat(RunAll):
                 name = "concat_u32_3d_default"
                 make_node([x1, x2], [y], name)
                 make_test(
-                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                     file_name= name, trait_type= Trait.TENSOR)
 
             def axis_1():
@@ -145,7 +145,7 @@ class Concat(RunAll):
             name = "concat_i32_1d"
             make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                 file_name= name, trait_type= Trait.TENSOR.TENSOR)
                     
             
@@ -161,7 +161,7 @@ class Concat(RunAll):
             name = "concat_i32_2d"
             make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                 file_name= name, trait_type= Trait.TENSOR)
             
         def concat_3D():
@@ -177,7 +177,7 @@ class Concat(RunAll):
                 name = "concat_i32_3d_default"
                 make_node([x1, x2], [y], name)
                 make_test(
-                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                     file_name= name, trait_type= Trait.TENSOR)
 
             def axis_1():
@@ -272,7 +272,7 @@ class Concat(RunAll):
             name = "concat_i8_1d"
             make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                 file_name= name, trait_type= Trait.TENSOR.TENSOR)
                     
             
@@ -288,7 +288,7 @@ class Concat(RunAll):
             name = "concat_i8_2d"
             make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                 file_name= name, trait_type= Trait.TENSOR)
             
         def concat_3D():
@@ -304,7 +304,7 @@ class Concat(RunAll):
                 name = "concat_i8_3d_default"
                 make_node([x1, x2], [y], name)
                 make_test(
-                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                     file_name= name, trait_type= Trait.TENSOR)
 
             def axis_1():
@@ -393,16 +393,16 @@ class Concat(RunAll):
             y = np.concatenate((x1, x2))
 
             x1 = Tensor(Dtype.FP8x23, x1.shape, to_fp(
-                x1.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)  
+                x1.flatten(), FixedImpl.FP8x23))  
             x2 = Tensor(Dtype.FP8x23, x2.shape, to_fp(
-                x2.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                x2.flatten(), FixedImpl.FP8x23)) 
             y = Tensor(Dtype.FP8x23, y.shape,  to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                y.flatten(), FixedImpl.FP8x23)) 
 
             name = "concat_fp8x23_1d"
             make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                 file_name= name, trait_type= Trait.TENSOR.TENSOR)
                     
             
@@ -412,16 +412,16 @@ class Concat(RunAll):
             y = np.concatenate((x1, x2), axis=0)
 
             x1 = Tensor(Dtype.FP8x23, x1.shape, to_fp(
-                x1.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                x1.flatten(), FixedImpl.FP8x23))
             x2 = Tensor(Dtype.FP8x23, x2.shape, to_fp(
-                x2.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                x2.flatten(), FixedImpl.FP8x23)) 
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                y.flatten(), FixedImpl.FP8x23)) 
 
             name = "concat_fp8x23_2d"
             make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                 file_name= name, trait_type= Trait.TENSOR)
             
         def concat_3D():
@@ -431,16 +431,16 @@ class Concat(RunAll):
                 y = np.concatenate((x1, x2), axis=0)
 
                 x1 = Tensor(Dtype.FP8x23, x1.shape, to_fp(
-                x1.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                x1.flatten(), FixedImpl.FP8x23))
                 x2 = Tensor(Dtype.FP8x23, x2.shape, to_fp(
-                x2.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                x2.flatten(), FixedImpl.FP8x23)) 
                 y = Tensor(Dtype.FP8x23, y.shape,to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                y.flatten(), FixedImpl.FP8x23)) 
 
                 name = "concat_fp8x23_3d_default"
                 make_node([x1, x2], [y], name)
                 make_test(
-                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                     file_name= name, trait_type= Trait.TENSOR)
 
             def axis_1():
@@ -449,11 +449,11 @@ class Concat(RunAll):
                 y = np.concatenate((x1, x2), axis=1)
 
                 x1 = Tensor(Dtype.FP8x23, x1.shape, to_fp(
-                x1.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                x1.flatten(), FixedImpl.FP8x23))
                 x2 = Tensor(Dtype.FP8x23, x2.shape, to_fp(
-                x2.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                x2.flatten(), FixedImpl.FP8x23)) 
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                y.flatten(), FixedImpl.FP8x23)) 
 
                 name = "concat_fp8x23_3d_axis_1"
                 make_node([x1, x2], [y], name)
@@ -467,11 +467,11 @@ class Concat(RunAll):
                 y = np.concatenate((x1, x2), axis=2)
 
                 x1 = Tensor(Dtype.FP8x23, x1.shape, to_fp(
-                x1.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                x1.flatten(), FixedImpl.FP8x23))
                 x2 = Tensor(Dtype.FP8x23, x2.shape, to_fp(
-                x2.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                x2.flatten(), FixedImpl.FP8x23)) 
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                y.flatten(), FixedImpl.FP8x23)) 
 
                 name = "concat_fp8x23_3d_axis_2"
                 make_node([x1, x2], [y], name)
@@ -487,14 +487,14 @@ class Concat(RunAll):
                 y = np.concatenate((x1, x2, x3), axis=1)
 
                 x1 = Tensor(Dtype.FP8x23, x1.shape, to_fp(
-                x1.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                x1.flatten(), FixedImpl.FP8x23))
                 x2 = Tensor(Dtype.FP8x23, x2.shape, to_fp(
-                x2.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                x2.flatten(), FixedImpl.FP8x23)) 
                 x3 = Tensor(Dtype.FP8x23, x3.shape,to_fp(
-                x3.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                x3.flatten(), FixedImpl.FP8x23)) 
 
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                y.flatten(), FixedImpl.FP8x23)) 
 
                 name = "concat_fp8x23_3d_three_tensors_axis_1"
                 make_node([x1, x2, x3], [y], name)
@@ -510,14 +510,14 @@ class Concat(RunAll):
                 y = np.concatenate((x1, x2, x3), axis=2)
 
                 x1 = Tensor(Dtype.FP8x23, x1.shape, to_fp(
-                x1.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                x1.flatten(), FixedImpl.FP8x23))
                 x2 = Tensor(Dtype.FP8x23, x2.shape, to_fp(
-                x2.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                x2.flatten(), FixedImpl.FP8x23)) 
                 x3 = Tensor(Dtype.FP8x23, x3.shape, to_fp(
-                x3.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                x3.flatten(), FixedImpl.FP8x23)) 
 
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23) 
+                y.flatten(), FixedImpl.FP8x23)) 
 
                 name = "concat_fp8x23_3d_three_tensors_axis_2"
                 make_node([x1, x2, x3], [y], name)
@@ -543,16 +543,16 @@ class Concat(RunAll):
             y = np.concatenate((x1, x2))
 
             x1 = Tensor(Dtype.FP16x16, x1.shape, to_fp(
-                x1.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)  
+                x1.flatten(), FixedImpl.FP16x16))  
             x2 = Tensor(Dtype.FP16x16, x2.shape, to_fp(
-                x2.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
+                x2.flatten(), FixedImpl.FP16x16)) 
             y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
+                y.flatten(), FixedImpl.FP16x16)) 
 
             name = "concat_fp16x16_1d"
             make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                 file_name= name, trait_type= Trait.TENSOR.TENSOR)
                     
             
@@ -562,16 +562,16 @@ class Concat(RunAll):
             y = np.concatenate((x1, x2), axis=0)
 
             x1 = Tensor(Dtype.FP16x16, x1.shape, to_fp(
-                x1.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                x1.flatten(), FixedImpl.FP16x16))
             x2 = Tensor(Dtype.FP16x16, x2.shape, to_fp(
-                x2.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
+                x2.flatten(), FixedImpl.FP16x16)) 
             y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
+                y.flatten(), FixedImpl.FP16x16)) 
 
             name = "concat_fp16x16_2d"
             make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                 file_name= name, trait_type= Trait.TENSOR)
             
         def concat_3D():
@@ -581,16 +581,16 @@ class Concat(RunAll):
                 y = np.concatenate((x1, x2), axis=0)
 
                 x1 = Tensor(Dtype.FP16x16, x1.shape, to_fp(
-                x1.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                x1.flatten(), FixedImpl.FP16x16))
                 x2 = Tensor(Dtype.FP16x16, x2.shape, to_fp(
-                x2.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
+                x2.flatten(), FixedImpl.FP16x16)) 
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
+                y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "concat_fp16x16_3d_default"
                 make_node([x1, x2], [y], name)
                 make_test(
-                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
                     file_name= name, trait_type= Trait.TENSOR)
 
             def axis_1():
@@ -599,11 +599,11 @@ class Concat(RunAll):
                 y = np.concatenate((x1, x2), axis=1)
 
                 x1 = Tensor(Dtype.FP16x16, x1.shape, to_fp(
-                x1.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                x1.flatten(), FixedImpl.FP16x16))
                 x2 = Tensor(Dtype.FP16x16, x2.shape, to_fp(
-                x2.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
-                y = Tensor(Dtype.FP16x16, y.shape,to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
+                x2.flatten(), FixedImpl.FP16x16)) 
+                y = Tensor(Dtype.FP16x16, y.shape ,to_fp(
+                y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "concat_fp16x16_3d_axis_1"
                 make_node([x1, x2], [y], name)
@@ -617,11 +617,11 @@ class Concat(RunAll):
                 y = np.concatenate((x1, x2), axis=2)
 
                 x1 = Tensor(Dtype.FP16x16, x1.shape, to_fp(
-                x1.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                x1.flatten(), FixedImpl.FP16x16))
                 x2 = Tensor(Dtype.FP16x16, x2.shape, to_fp(
-                x2.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
+                x2.flatten(), FixedImpl.FP16x16)) 
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
+                y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "concat_fp16x16_3d_axis_2"
                 make_node([x1, x2], [y], name)
@@ -637,14 +637,14 @@ class Concat(RunAll):
                 y = np.concatenate((x1, x2, x3), axis=1)
 
                 x1 = Tensor(Dtype.FP16x16, x1.shape, to_fp(
-                x1.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                x1.flatten(), FixedImpl.FP16x16))
                 x2 = Tensor(Dtype.FP16x16, x2.shape, to_fp(
-                x2.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
-                x3 = Tensor(Dtype.FP16x16, x3.shape,  to_fp(
-                x3.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
+                x2.flatten(), FixedImpl.FP16x16)) 
+                x3 = Tensor(Dtype.FP16x16, x3.shape, to_fp(
+                x3.flatten(), FixedImpl.FP16x16)) 
 
                 y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
+                y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "concat_fp16x16_3d_three_tensors_axis_1"
                 make_node([x1, x2, x3], [y], name)
@@ -660,14 +660,14 @@ class Concat(RunAll):
                 y = np.concatenate((x1, x2, x3), axis=2)
 
                 x1 = Tensor(Dtype.FP16x16, x1.shape, to_fp(
-                x1.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                x1.flatten(), FixedImpl.FP16x16))
                 x2 = Tensor(Dtype.FP16x16, x2.shape, to_fp(
-                x2.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
+                x2.flatten(), FixedImpl.FP16x16)) 
                 x3 = Tensor(Dtype.FP16x16, x3.shape, to_fp(
-                x3.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
+                x3.flatten(), FixedImpl.FP16x16)) 
 
                 y = Tensor(Dtype.FP16x16, y.shape,to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16) 
+                y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "concat_fp16x16_3d_three_tensors_axis_2"
                 make_node([x1, x2, x3], [y], name)

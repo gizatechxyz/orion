@@ -14,7 +14,7 @@ class Abs(RunAll):
 
         name = "abs_i32"
         make_node([x], [y], name)
-        make_test([x], y, "x.abs()", name)
+        make_test([x], y, "input_0.abs()", name)
 
     @staticmethod
     def abs_i8():
@@ -26,7 +26,7 @@ class Abs(RunAll):
 
         name = "abs_i8"
         make_node([x], [y], name)
-        make_test([x], y, "x.abs()", name)
+        make_test([x], y, "input_0.abs()", name)
 
     @staticmethod
     def abs_fp8x23():
@@ -34,12 +34,12 @@ class Abs(RunAll):
                                     ).astype(np.int64), FixedImpl.FP8x23)
         y = abs(x)
 
-        x = Tensor(Dtype.FP8x23, x.shape, x.flatten(), FixedImpl.FP8x23)
-        y = Tensor(Dtype.FP8x23, y.shape, y.flatten(), FixedImpl.FP8x23)
+        x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
+        y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
         name = "abs_fp8x23"
         make_node([x], [y], name)
-        make_test([x], y, "x.abs()", name)
+        make_test([x], y, "input_0.abs()", name)
 
     @staticmethod
     def abs_fp16x16():
@@ -47,9 +47,9 @@ class Abs(RunAll):
                                     ).astype(np.int64), FixedImpl.FP16x16)
         y = abs(x)
 
-        x = Tensor(Dtype.FP16x16, x.shape, x.flatten(), FixedImpl.FP16x16)
-        y = Tensor(Dtype.FP16x16, y.shape, y.flatten(), FixedImpl.FP16x16)
+        x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
+        y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
         name = "abs_fp16x16"
         make_node([x], [y], name)
-        make_test([x], y, "x.abs()", name)
+        make_test([x], y, "input_0.abs()", name)

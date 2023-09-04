@@ -5,7 +5,6 @@ use traits::Into;
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::signed_integer::i8::i8;
 
-
 // ====================== INT 32 ======================
 
 // i32 represents a 32-bit integer.

@@ -1,12 +1,12 @@
-mod input_0; 
-mod input_1; 
-mod output_0; 
+mod input_0;
+mod input_1;
+mod output_0;
 
 
-use array::ArrayTrait;
-use orion::operators::tensor::core::TensorTrait;
-use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-use orion::operators::tensor::implementations::impl_tensor_fp::FP16x16Tensor::FPTensorPartialEq;
+use array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::TensorTrait;
+use orion::operators::tensor::FP16x16Tensor;
+use orion::operators::tensor::FP16x16TensorPartialEq;
 use orion::utils::assert_eq;
 
 #[test]
@@ -17,6 +17,6 @@ fn test_concat_fp16x16_3d_axis_2() {
     let z = output_0::output_0();
 
     let y = TensorTrait::concat(array![input_0, input_1].span(), 2);
-
+    
     assert_eq(y, z);
 }

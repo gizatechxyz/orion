@@ -25,23 +25,13 @@ A new `Tensor<T>` concatenated tensor of the input tensors.
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-fn concat_example() -> Tensor<FixedType> {
-    let tensor1 = TensorTrait::<u32>::new(
-        shape: array![2, 2].span(), 
-        data: array![0, 1, 2, 3].span(), 
-        extra: Option::None(())
-    );
-
-    let tensor2 = TensorTrait::<u32>::new(
-        shape: array![2, 2].span(), 
-        data: array![0, 1, 2, 3].span(), 
-        extra: Option::None(())
-    );
-
-   let result = TensorTrait::concat(tensors: array![tensor1, tensor2].span(), axis: 0);
-   return result;
+fn concat_example() -> Tensor<u32> {
+    let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
+    let tensor2 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
+    let result = TensorTrait::concat(tensors: array![tensor1, tensor2].span(), axis: 0);
+    return result;
 }
 >>> [[0. 1.]
      [2. 3.],

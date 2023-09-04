@@ -1,19 +1,18 @@
-use array::ArrayTrait;
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
-use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+use array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::{TensorTrait, Tensor};
+use orion::operators::tensor::FP8x23Tensor;
+use orion::numbers::FixedTrait;
+use orion::numbers::FP8x23;
 
-fn output_0() -> Tensor<FixedType> {
+fn output_0() -> Tensor<FP8x23> {
     let mut shape = ArrayTrait::<usize>::new();
     shape.append(2);
     shape.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(FixedType { mag: 34768449, sign: false });
-    data.append(FixedType { mag: 36430042, sign: false });
-    data.append(FixedType { mag: 39407365, sign: false });
-    data.append(FixedType { mag: 39667339, sign: false });
-
-    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
-    TensorTrait::new(shape.span(), data.span(), Option::Some(extra))
+    data.append(FP8x23 { mag: 26329079, sign: false });
+    data.append(FP8x23 { mag: 26716028, sign: false });
+    data.append(FP8x23 { mag: 34865928, sign: false });
+    data.append(FP8x23 { mag: 27982715, sign: false });
+    TensorTrait::new(shape.span(), data.span())
 }

@@ -3,10 +3,10 @@ mod input_1;
 mod output_0; 
 
 
-use array::ArrayTrait;
-use orion::operators::tensor::core::TensorTrait;
-use orion::operators::tensor::implementations::impl_tensor_i8::{Tensor_i8, i8TensorSub};
-use orion::operators::tensor::implementations::impl_tensor_i8::i8TensorPartialEq;
+use array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::TensorTrait;
+use orion::operators::tensor::{I8Tensor, I8TensorSub};
+use orion::operators::tensor::I8TensorPartialEq;
 use orion::utils::assert_eq;
 
 #[test]

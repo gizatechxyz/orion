@@ -2,7 +2,6 @@ use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 
-
 // ====================== INT 64 ======================
 
 // i64 represents a 64-bit integer.
@@ -158,7 +157,6 @@ impl i64Neg of Neg<i64> {
         i64_neg(a)
     }
 }
-
 
 // Checks if the given i64 integer is zero and has the correct sign.
 // # Arguments

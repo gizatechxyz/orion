@@ -2,7 +2,6 @@ use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 
-
 // ====================== INT 128 ======================
 
 // i128 represents a 128-bit integer.
@@ -158,7 +157,6 @@ impl i128Neg of Neg<i128> {
         i128_neg(a)
     }
 }
-
 
 // Checks if the given i128 integer is zero and has the correct sign.
 // # Arguments

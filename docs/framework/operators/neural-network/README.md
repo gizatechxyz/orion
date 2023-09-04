@@ -10,12 +10,12 @@ use orion::operators::nn;
 
 Orion supports currently these `NN` types.
 
-| Data type                 | dtype    |
-| ------------------------- | -------- |
-| 32-bit integer (signed)   | `nn_i32` |
-| 8-bit integer (signed)    | `nn_i8`  |
-| 32-bit integer (unsigned) | `nn_u32` |
-| Fixed point (signed)      | `nn_fp`  |
+| Data type                 | dtype          |
+| ------------------------- | -------------- |
+| 32-bit integer (signed)   | `Tensor<i32>`  |
+| 8-bit integer (signed)    | `Tensor<i8>`   |
+| 32-bit integer (unsigned) | `Tensor<u32>`  |
+| Fixed point (signed)      | `Tensor<FP8x23 | FP16x16 | FP32x32 | FP64x64` |
 
 ### NN**Trait**
 

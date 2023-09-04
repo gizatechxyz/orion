@@ -344,10 +344,10 @@ class Softmax(RunAll):
             y = softmax(x, 0)
             
             # Convert the input and output to Tensor class, similar to Orion's Tensor struct:
-            x = Tensor(Dtype.I32, x.shape, x.flatten(), FixedImpl.FP8x23)
+            x = Tensor(Dtype.I32, x.shape, x.flatten())
             # Convert the floats values in `y` to fixed points with `to_fp` method:
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
             
             # Define the name of the generated folder. 
             name = "softmax_i32_fp8x23"
@@ -367,9 +367,9 @@ class Softmax(RunAll):
             x = np.random.randint(-3, 3, (2, 2)).astype(np.int32)
             y = softmax(x, 1)
 
-            x = Tensor(Dtype.I32, x.shape, x.flatten(), FixedImpl.FP16x16)
+            x = Tensor(Dtype.I32, x.shape, x.flatten())
             y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
 
             name = "softmax_i32_fp16x16"
             make_node([x], [y], name)
@@ -385,9 +385,9 @@ class Softmax(RunAll):
             x = np.random.randint(-3, 3, (2, 2)).astype(np.int8)
             y = softmax(x, 1)
 
-            x = Tensor(Dtype.I8, x.shape, x.flatten(), FixedImpl.FP8x23)
+            x = Tensor(Dtype.I8, x.shape, x.flatten())
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
 
             name = "softmax_i8_fp8x23"
             make_node([x], [y], name)
@@ -398,9 +398,9 @@ class Softmax(RunAll):
             x = np.random.randint(-3, 3, (2, 2)).astype(np.int8)
             y = softmax(x, 0)
 
-            x = Tensor(Dtype.I8, x.shape, x.flatten(), FixedImpl.FP16x16)
+            x = Tensor(Dtype.I8, x.shape, x.flatten())
             y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
 
             name = "softmax_i8_fp16x16"
             make_node([x], [y], name)
@@ -416,9 +416,9 @@ class Softmax(RunAll):
             x = np.random.randint(0, 3, (2, 2)).astype(np.int32)
             y = softmax(x, 1)
 
-            x = Tensor(Dtype.U32, x.shape, x.flatten(), FixedImpl.FP8x23)
+            x = Tensor(Dtype.U32, x.shape, x.flatten())
             y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
 
             name = "softmax_u32_fp8x23"
             make_node([x], [y], name)
@@ -429,9 +429,9 @@ class Softmax(RunAll):
             x = np.random.randint(0, 3, (2, 2)).astype(np.int32)
             y = softmax(x, 0)
 
-            x = Tensor(Dtype.U32, x.shape, x.flatten(), FixedImpl.FP16x16)
+            x = Tensor(Dtype.U32, x.shape, x.flatten())
             y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
 
             name = "softmax_u32_fp16x16"
             make_node([x], [y], name)

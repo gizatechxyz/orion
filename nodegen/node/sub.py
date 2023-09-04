@@ -105,11 +105,11 @@ class Sub(RunAll):
             z = x - y
 
             x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                x.flatten(), FixedImpl.FP8x23))
             y = Tensor(Dtype.FP8x23, y.shape,  to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
             z = Tensor(Dtype.FP8x23, z.shape, to_fp(
-                z.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                z.flatten(), FixedImpl.FP8x23))
 
             name = "sub_fp8x23"
             make_node([x, y], [z], name)
@@ -121,11 +121,11 @@ class Sub(RunAll):
             z = x - y
 
             x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                x.flatten(), FixedImpl.FP8x23))
             y = Tensor(Dtype.FP8x23, y.shape,  to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
             z = Tensor(Dtype.FP8x23, z.shape, to_fp(
-                z.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                z.flatten(), FixedImpl.FP8x23))
 
             name = "sub_fp8x23_broadcast"
             make_node([x, y], [z], name)
@@ -142,11 +142,11 @@ class Sub(RunAll):
             z = x - y
 
             x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                x.flatten(), FixedImpl.FP16x16))
             y = Tensor(Dtype.FP16x16, y.shape,  to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
             z = Tensor(Dtype.FP16x16, z.shape, to_fp(
-                z.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                z.flatten(), FixedImpl.FP16x16))
 
             name = "sub_fp16x16"
             make_node([x, y], [z], name)
@@ -158,11 +158,11 @@ class Sub(RunAll):
             z = x - y
 
             x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                x.flatten(), FixedImpl.FP16x16))
             y = Tensor(Dtype.FP16x16, y.shape,  to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
             z = Tensor(Dtype.FP16x16, z.shape, to_fp(
-                z.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                z.flatten(), FixedImpl.FP16x16))
 
             name = "sub_fp16x16_broadcast"
             make_node([x, y], [z], name)

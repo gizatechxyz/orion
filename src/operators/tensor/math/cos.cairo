@@ -1,4 +1,36 @@
-mod cos_i8;
-mod cos_i32;
-mod cos_u32;
-mod cos_fp;
+use array::ArrayTrait;
+use array::SpanTrait;
+use option::OptionTrait;
+use traits::Into;
+
+use orion::numbers::NumberTrait;
+use orion::numbers::fixed_point::core::FixedTrait;
+use orion::operators::tensor::core::{Tensor, TensorTrait};
+
+
+/// Cf: TensorTrait::cos docstring
+fn cos<
+    T,
+    MAG,
+    impl FFixedTrait: FixedTrait<T, MAG>,
+    impl FTensor: TensorTrait<T>,
+    impl FCopy: Copy<T>,
+    impl FDrop: Drop<T>,
+>(
+    mut self: Tensor<T>
+) -> Tensor<T> {
+    let mut result = ArrayTrait::new();
+
+    loop {
+        match self.data.pop_front() {
+            Option::Some(item) => {
+                result.append((*item).cos());
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
+    };
+
+    return TensorTrait::new(self.shape, result.span());
+}

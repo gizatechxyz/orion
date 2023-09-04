@@ -17,7 +17,7 @@ class Add(RunAll):
 
             name = "add_u32"
             make_node([x, y], [z], name)
-            make_test([x, y], z, "input_0.add(@input_1)", name)
+            make_test([x, y], z, "input_0 + input_1", name)
 
         def broadcast():
             x = np.random.randint(0, 3, (3, 3, 3)).astype(np.uint32)
@@ -30,7 +30,7 @@ class Add(RunAll):
 
             name = "add_u32_broadcast"
             make_node([x, y], [z], name)
-            make_test([x, y], z, "input_0.add(@input_1)", name)
+            make_test([x, y], z, "input_0 + input_1", name)
 
         default()
         broadcast()
@@ -48,7 +48,7 @@ class Add(RunAll):
 
             name = "add_i32"
             make_node([x, y], [z], name)
-            make_test([x, y], z, "input_0.add(@input_1)", name)
+            make_test([x, y], z, "input_0 + input_1", name)
 
         def broadcast():
             x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.int32)
@@ -61,7 +61,7 @@ class Add(RunAll):
 
             name = "add_i32_broadcast"
             make_node([x, y], [z], name)
-            make_test([x, y], z, "input_0.add(@input_1)", name)
+            make_test([x, y], z, "input_0 + input_1", name)
 
         default()
         broadcast()
@@ -79,7 +79,7 @@ class Add(RunAll):
 
             name = "add_i8"
             make_node([x, y], [z], name)
-            make_test([x, y], z, "input_0.add(@input_1)", name)
+            make_test([x, y], z, "input_0 + input_1", name)
 
         def broadcast():
             x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.int8)
@@ -92,7 +92,7 @@ class Add(RunAll):
 
             name = "add_i8_broadcast"
             make_node([x, y], [z], name)
-            make_test([x, y], z, "input_0.add(@input_1)", name)
+            make_test([x, y], z, "input_0 + input_1", name)
 
         default()
         broadcast()
@@ -105,15 +105,15 @@ class Add(RunAll):
             z = x + y
 
             x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                x.flatten(), FixedImpl.FP8x23))
             y = Tensor(Dtype.FP8x23, y.shape,  to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
             z = Tensor(Dtype.FP8x23, z.shape, to_fp(
-                z.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                z.flatten(), FixedImpl.FP8x23))
 
             name = "add_fp8x23"
             make_node([x, y], [z], name)
-            make_test([x, y], z, "input_0.add(@input_1)", name)
+            make_test([x, y], z, "input_0 + input_1", name)
 
         def broadcast():
             x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.float64)
@@ -121,15 +121,15 @@ class Add(RunAll):
             z = x + y
 
             x = Tensor(Dtype.FP8x23, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                x.flatten(), FixedImpl.FP8x23))
             y = Tensor(Dtype.FP8x23, y.shape,  to_fp(
-                y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                y.flatten(), FixedImpl.FP8x23))
             z = Tensor(Dtype.FP8x23, z.shape, to_fp(
-                z.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+                z.flatten(), FixedImpl.FP8x23))
 
             name = "add_fp8x23_broadcast"
             make_node([x, y], [z], name)
-            make_test([x, y], z, "input_0.add(@input_1)", name)
+            make_test([x, y], z, "input_0 + input_1", name)
 
         default()
         broadcast()
@@ -142,15 +142,15 @@ class Add(RunAll):
             z = x + y
 
             x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                x.flatten(), FixedImpl.FP16x16))
             y = Tensor(Dtype.FP16x16, y.shape,  to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
             z = Tensor(Dtype.FP16x16, z.shape, to_fp(
-                z.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                z.flatten(), FixedImpl.FP16x16))
 
             name = "add_fp16x16"
             make_node([x, y], [z], name)
-            make_test([x, y], z, "input_0.add(@input_1)", name)
+            make_test([x, y], z, "input_0 + input_1", name)
 
         def broadcast():
             x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.float64)
@@ -158,15 +158,15 @@ class Add(RunAll):
             z = x + y
 
             x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                x.flatten(), FixedImpl.FP16x16))
             y = Tensor(Dtype.FP16x16, y.shape,  to_fp(
-                y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                y.flatten(), FixedImpl.FP16x16))
             z = Tensor(Dtype.FP16x16, z.shape, to_fp(
-                z.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+                z.flatten(), FixedImpl.FP16x16))
 
             name = "add_fp16x16_broadcast"
             make_node([x, y], [z], name)
-            make_test([x, y], z, "input_0.add(@input_1)", name)
+            make_test([x, y], z, "input_0 + input_1", name)
 
         default()
         broadcast()

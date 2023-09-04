@@ -5,21 +5,21 @@
 /// abs - Computes the absolute value of the given `signed_integer`
 /// max - Returns the maximum between two `signed_integer`
 /// min - Returns the minimum between two `signed_integer`
-trait IntegerTrait<T, U> {
+trait IntegerTrait<T, MAG> {
     /// # IntegerTrait::new
     /// 
     /// ```rust
-    /// fn new(mag: U, sign: bool) -> T;
+    /// fn new(mag: MAG, sign: bool) -> T;
     /// ```
     /// 
     /// Returns a new signed integer.
     ///
     /// ## Args
     ///
-    /// * `mag`(`U`) - The magnitude of the integer.
+    /// * `mag`(`MAG`) - The magnitude of the integer.
     /// * `sign`(`bool`) - The sign of the integer, where `true` represents a negative number.
     ///
-    /// > _`<U>` generic type depends on the uint type (u8, u16, u32, u64, u128)._
+    /// > _`<MAG>` generic type depends on the uint type (u8, u16, u32, u64, u128)._
     ///
     /// ## Panics
     ///
@@ -45,7 +45,7 @@ trait IntegerTrait<T, U> {
     /// >>> panics with "int: out of range"
     /// ```
     /// 
-    fn new(mag: U, sign: bool) -> T;
+    fn new(mag: MAG, sign: bool) -> T;
     /// # int.div_rem
     /// 
     /// ```rust

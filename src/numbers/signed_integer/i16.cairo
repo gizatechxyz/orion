@@ -2,7 +2,6 @@ use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 
-
 // ====================== INT 16 ======================
 
 // i16 represents a 16-bit integer.
@@ -158,7 +157,6 @@ impl i16Neg of Neg<i16> {
         i16_neg(a)
     }
 }
-
 
 // Checks if the given i16 integer is zero and has the correct sign.
 // # Arguments

@@ -16,19 +16,20 @@ Computes the sine of all elements of the input tensor.
 A new `Tensor<T>` of the same shape as the input tensor with 
 the sine value of all elements in the input tensor.
 
+## Type Constraints
+
+Constrain input and output types to fixed point tensors.
+
 ## Example
 
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp};
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
-use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
+use orion::numbers::{FP8x23, FixedTrait};
 
-fn sin_example() -> Tensor<FixedType> {
-    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
-    let tensor = TensorTrait::<FixedType>::new(
+fn sin_example() -> Tensor<FP8x23> {
+    let tensor = TensorTrait::<FP8x23>::new(
         shape: array![3].span(),
         data: array![
             FixedTrait::new_unscaled(0, false),
@@ -36,7 +37,6 @@ fn sin_example() -> Tensor<FixedType> {
             FixedTrait::new_unscaled(2, false)
         ]
             .span(),
-        extra: Option::Some(extra)
     );
 
     return tensor.sin();
