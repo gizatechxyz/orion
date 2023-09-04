@@ -99,8 +99,8 @@ class Slice(RunAll):
                                         ).astype(np.int64), FixedImpl.FP8x23)
             y = x[0:2, 2:4]
 
-            x = Tensor(Dtype.FP8x23, x.shape, x.flatten(), FixedImpl.FP8x23)
-            y = Tensor(Dtype.FP8x23, y.shape, y.flatten(), FixedImpl.FP8x23)
+            x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
+            y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
             
             name = "slice_fp8x23_2d"
             make_node([x], [y], name)
@@ -112,8 +112,8 @@ class Slice(RunAll):
                                         ).astype(np.int64), FixedImpl.FP8x23)
             y = x[0:3, 0:10:3]
 
-            x = Tensor(Dtype.FP8x23, x.shape, x.flatten(), FixedImpl.FP8x23)
-            y = Tensor(Dtype.FP8x23, y.shape, y.flatten(), FixedImpl.FP8x23)
+            x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
+            y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
             
             name = "slice_fp8x23_3d"
             make_node([x], [y], name)
