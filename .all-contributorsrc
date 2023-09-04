@@ -88,7 +88,7 @@
       "contributions": [
         "code",
         "doc"
-        ]
+      ]
     },
     {
       "login": "danilowhk",
@@ -98,7 +98,7 @@
       "contributions": [
         "code"
       ]
-    }, 
+    },
     {
       "login": "Falco90",
       "name": "Falco R",
@@ -115,7 +115,7 @@
       "profile": "https://github.com/richwarner",
       "contributions": [
         "code"
-       ]
+      ]
     },
     {
       "login": "dbejarano820",
@@ -135,7 +135,6 @@
         "doc"
       ]
     }
-    
   ],
   "contributorsPerLine": 7,
   "skipCi": true,
