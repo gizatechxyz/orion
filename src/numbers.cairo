@@ -369,6 +369,330 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
     }
 }
 
+use orion::numbers::fixed_point::implementations::fp64x64::core::{FP64x64Impl, FP64x64};
+use orion::numbers::fixed_point::implementations::fp64x64::core as core_fp64x64;
+use orion::numbers::fixed_point::implementations::fp64x64::comp as comp_fp64x64;
+use cubit::f128 as fp64x64;
+
+impl FP64x64Number of NumberTrait<FP64x64, u128> {
+    fn new(mag: u128, sign: bool) -> FP64x64 {
+        FP64x64Impl::new(mag, sign)
+    }
+
+    fn new_unscaled(mag: u128, sign: bool) -> FP64x64 {
+        FP64x64Impl::new_unscaled(mag, sign)
+    }
+
+    fn from_felt(val: felt252) -> FP64x64 {
+        FP64x64Impl::from_felt(val)
+    }
+
+    fn ceil(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::ceil(self)
+    }
+
+    fn exp(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::exp(self)
+    }
+
+    fn exp2(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::exp2(self)
+    }
+
+    fn floor(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::floor(self)
+    }
+
+    fn ln(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::ln(self)
+    }
+
+    fn log2(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::log2(self)
+    }
+
+    fn log10(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::log10(self)
+    }
+
+    fn pow(self: FP64x64, b: FP64x64) -> FP64x64 {
+        FP64x64Impl::pow(self, b)
+    }
+
+    fn round(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::round(self)
+    }
+
+    fn sqrt(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::sqrt(self)
+    }
+
+    fn acos(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::acos(self)
+    }
+
+    fn asin(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::asin(self)
+    }
+
+    fn atan(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::atan(self)
+    }
+
+    fn cos(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::cos(self)
+    }
+
+    fn sin(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::sin(self)
+    }
+
+    fn tan(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::tan(self)
+    }
+
+    fn acosh(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::acosh(self)
+    }
+
+    fn asinh(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::asinh(self)
+    }
+
+    fn atanh(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::atanh(self)
+    }
+
+    fn cosh(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::cosh(self)
+    }
+
+    fn sinh(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::sinh(self)
+    }
+
+    fn tanh(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::tanh(self)
+    }
+
+    fn zero() -> FP64x64 {
+        FP64x64Impl::ZERO()
+    }
+    fn is_zero(self: FP64x64) -> bool {
+        fp64x64::core::eq(@self, @FP64x64Impl::ZERO())
+    }
+
+    fn one() -> FP64x64 {
+        FP64x64Impl::ONE()
+    }
+
+    fn neg_one() -> FP64x64 {
+        FP64x64 { mag: core_fp64x64::ONE, sign: true }
+    }
+
+    fn is_one(self: FP64x64) -> bool {
+        core_fp64x64::eq(@self, @FP64x64Impl::ONE())
+    }
+
+    fn abs(self: FP64x64) -> FP64x64 {
+        fp64x64::core::abs(self)
+    }
+
+    fn min_value() -> FP64x64 {
+        FP64x64 { mag: core_fp64x64::MAX, sign: true }
+    }
+
+    fn max_value() -> FP64x64 {
+        FP64x64 { mag: core_fp64x64::MAX, sign: false }
+    }
+
+    fn min(self: FP64x64, other: FP64x64) -> FP64x64 {
+        fp64x64::comp::min(self, other)
+    }
+
+    fn max(self: FP64x64, other: FP64x64) -> FP64x64 {
+        fp64x64::comp::max(self, other)
+    }
+
+    fn mag(self: FP64x64) -> u128 {
+        self.mag
+    }
+
+    fn is_neg(self: FP64x64) -> bool {
+        self.sign
+    }
+
+    fn xor(lhs: FP64x64, rhs: FP64x64) -> bool {
+        comp_fp64x64::xor(lhs, rhs)
+    }
+
+    fn or(lhs: FP64x64, rhs: FP64x64) -> bool {
+        comp_fp64x64::or(lhs, rhs)
+    }
+}
+
+use orion::numbers::fixed_point::implementations::fp32x32::core::{FP32x32Impl, FP32x32};
+use orion::numbers::fixed_point::implementations::fp32x32::core as core_fp32x32;
+use orion::numbers::fixed_point::implementations::fp32x32::comp as comp_fp32x32;
+use cubit::f64 as fp32x32;
+
+impl FP32x32Number of NumberTrait<FP32x32, u64> {
+    fn new(mag: u64, sign: bool) -> FP32x32 {
+        FP32x32Impl::new(mag, sign)
+    }
+
+    fn new_unscaled(mag: u64, sign: bool) -> FP32x32 {
+        FP32x32Impl::new_unscaled(mag, sign)
+    }
+
+    fn from_felt(val: felt252) -> FP32x32 {
+        FP32x32Impl::from_felt(val)
+    }
+
+    fn ceil(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::ceil(self)
+    }
+
+    fn exp(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::exp(self)
+    }
+
+    fn exp2(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::exp2(self)
+    }
+
+    fn floor(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::floor(self)
+    }
+
+    fn ln(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::ln(self)
+    }
+
+    fn log2(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::log2(self)
+    }
+
+    fn log10(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::log10(self)
+    }
+
+    fn pow(self: FP32x32, b: FP32x32) -> FP32x32 {
+        FP32x32Impl::pow(self, b)
+    }
+
+    fn round(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::round(self)
+    }
+
+    fn sqrt(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::sqrt(self)
+    }
+
+    fn acos(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::acos(self)
+    }
+
+    fn asin(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::asin(self)
+    }
+
+    fn atan(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::atan(self)
+    }
+
+    fn cos(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::cos(self)
+    }
+
+    fn sin(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::sin(self)
+    }
+
+    fn tan(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::tan(self)
+    }
+
+    fn acosh(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::acosh(self)
+    }
+
+    fn asinh(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::asinh(self)
+    }
+
+    fn atanh(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::atanh(self)
+    }
+
+    fn cosh(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::cosh(self)
+    }
+
+    fn sinh(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::sinh(self)
+    }
+
+    fn tanh(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::tanh(self)
+    }
+
+    fn zero() -> FP32x32 {
+        FP32x32Impl::ZERO()
+    }
+    fn is_zero(self: FP32x32) -> bool {
+        fp32x32::core::eq(@self, @FP32x32Impl::ZERO())
+    }
+
+    fn one() -> FP32x32 {
+        FP32x32Impl::ONE()
+    }
+
+    fn neg_one() -> FP32x32 {
+        FP32x32 { mag: core_fp32x32::ONE, sign: true }
+    }
+
+    fn is_one(self: FP32x32) -> bool {
+        core_fp32x32::eq(@self, @FP32x32Impl::ONE())
+    }
+
+    fn abs(self: FP32x32) -> FP32x32 {
+        fp32x32::core::abs(self)
+    }
+
+    fn min_value() -> FP32x32 {
+        FP32x32 { mag: core_fp32x32::MAX, sign: true }
+    }
+
+    fn max_value() -> FP32x32 {
+        FP32x32 { mag: core_fp32x32::MAX, sign: false }
+    }
+
+    fn min(self: FP32x32, other: FP32x32) -> FP32x32 {
+        fp32x32::comp::min(self, other)
+    }
+
+    fn max(self: FP32x32, other: FP32x32) -> FP32x32 {
+        fp32x32::comp::max(self, other)
+    }
+
+    fn mag(self: FP32x32) -> u64 {
+        self.mag
+    }
+
+    fn is_neg(self: FP32x32) -> bool {
+        self.sign
+    }
+
+    fn xor(lhs: FP32x32, rhs: FP32x32) -> bool {
+        comp_fp32x32::xor(lhs, rhs)
+    }
+
+    fn or(lhs: FP32x32, rhs: FP32x32) -> bool {
+        comp_fp32x32::or(lhs, rhs)
+    }
+}
+
 use orion::numbers::signed_integer::i8 as i8_core;
 use orion::numbers::signed_integer::i8::i8;
 
