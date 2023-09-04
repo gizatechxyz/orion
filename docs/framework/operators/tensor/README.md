@@ -87,6 +87,7 @@ use orion::operators::tensor::core::TensorTrait;
 | [`tensor.cosh`](tensor.cosh.md) | Computes the hyperbolic cosine of all elements of the input tensor. |
 | [`tensor.asinh`](tensor.asinh.md) | Computes the inverse hyperbolic sine of all elements of the input tensor. |
 | [`tensor.acosh`](tensor.acosh.md) | Computes the inverse hyperbolic cosine of all elements of the input tensor. |
+| [`tensor.slice`](tensor.slice.md) | Produces a slice of the input tensor along multiple axes.  |
 | [`tensor.concat`](tensor.concat.md) | Concatenate a list of tensors into a single tensor. |
 | [`tensor.quantize_linear`](tensor.quantize\_linear.md) | Quantizes a Tensor to i8 using linear quantization. |
 | [`tensor.dequantize_linear`](tensor.dequantize\_linear.md) | Dequantizes an i8 Tensor using linear dequantization. |

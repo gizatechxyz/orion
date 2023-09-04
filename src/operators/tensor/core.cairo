@@ -1,5 +1,8 @@
 use array::{ArrayTrait, SpanTrait};
 use serde::Serde;
+use option::OptionTrait;
+
+use alexandria_data_structures::array_ext::{SpanTraitExt};
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
 use orion::numbers::i8;
@@ -65,6 +68,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// cosh - Computes the hyperbolic cosine of all elements of the input tensor.
 /// asinh - Computes the inverse hyperbolic sine of all elements of the input tensor.
 /// acosh - Computes the inverse hyperbolic cosine of all elements of the input tensor.
+/// slice - Produces a slice of the input tensor along multiple axes. 
 /// concat - Concatenate a list of tensors into a single tensor.
 /// quantize_linear - Quantizes a Tensor to i8 using linear quantization.
 /// dequantize_linear - Dequantizes an i8 Tensor using linear dequantization.
@@ -2350,6 +2354,63 @@ trait TensorTrait<T> {
     fn dequantize_linear(
         self: @Tensor<i8>, x_scale: @Tensor<T>, x_zero_point: @Tensor<T>
     ) -> Tensor::<T>;
+    /// # tensor.slice
+    ///
+    /// ```rust 
+    ///    fn slice(self: @Tensor<T>, starts: Span<usize>, ends: Span<usize>, axes: Option<Span<usize>>, steps: Option<Span<usize>>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Produces a slice of the input tensor along multiple axes.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - Tensor of data to extract slices from.
+    /// * `starts`(Span<usize>) - 1-D tensor of starting indices of corresponding axis in `axes`
+    /// * `ends`(Span<usize>) - 1-D tensor of ending indices (exclusive) of corresponding axis in `axes`
+    /// * `axes`(Option<Span<usize>>) - 1-D tensor of axes that `starts` and `ends` apply to. 
+    /// * `steps`(Option<Span<usize>>) - 1-D tensor of slice step of corresponding axis in `axes`.    
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the length of starts is not equal to the length of ends.
+    /// * Panics if the length of starts is not equal to the length of axes.
+    /// * Panics if the length of starts is not equal to the length of steps.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` slice of the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn slice_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 4].span(), 
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(), 
+    ///     );
+    /// 
+    ///     return tensor.slice(
+    ///         starts: array![0, 2].span(), 
+    ///         ends: array![2, 4].span(), 
+    ///         axis: Option::None(()), 
+    ///         steps: Option::Some(array![1, 1].span())
+    ///     );
+    /// }
+    /// >>> [[2 3]
+    ///      [6 7]]
+    /// ```
+    ///
+    fn slice(
+        self: @Tensor<T>,
+        starts: Span<usize>,
+        ends: Span<usize>,
+        axes: Option<Span<usize>>,
+        steps: Option<Span<usize>>
+    ) -> Tensor<T>;
 }
 
 
@@ -2474,3 +2535,153 @@ fn tensor_eq<T, impl TPartialEq: PartialEq<T>>(mut lhs: Tensor<T>, mut rhs: Tens
     return is_eq;
 }
 
+/// Cf: TensorTrait::slice docstring
+fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
+    self: @Tensor<T>, starts: Span<usize>, ends: Span<usize>, axes: Option<Span<usize>>, steps: Option<Span<usize>>
+) -> Tensor<T> {
+    let axes = match axes {
+        Option::Some(axes) => axes,
+        Option::None(_) => {
+            let mut ret: Array<usize> = ArrayTrait::new();
+            let mut i: usize = 0;
+            let stop_i = starts.len() - 1;
+            loop {
+                ret.append(i);
+                if i == stop_i {
+                    break ();
+                }
+                i += 1;
+            };
+            ret.span()
+        },
+    };
+    let steps = match steps {
+        Option::Some(steps) => steps,
+        Option::None(_) => {
+            let mut ret: Array<usize> = ArrayTrait::new();
+            let mut i: usize = 0;
+            let stop_i = starts.len() - 1;
+            loop {
+                ret.append(1);
+                if i == stop_i {
+                    break ();
+                }
+                i += 1;
+            };
+            ret.span()
+        },
+    };
+    assert(starts.len() == ends.len(), 'Ends and starts len unequal');
+    assert(starts.len() == axes.len(), 'Axes and starts len unequal');
+    assert(starts.len() == steps.len(), 'Steps and starts len unequal');
+
+    let mut is_empty: bool = false;
+    let mut output_shape: Array<usize> = ArrayTrait::new();
+    let mut processed_starts: Array<usize> = ArrayTrait::new();
+    let mut processed_ends: Array<usize> = ArrayTrait::new();
+    let mut processed_steps: Array<usize> = ArrayTrait::new();
+
+    let mut i: usize = 0;
+    let stop_i = (*self.shape).len() - 1;
+    loop {
+        let (axis_index, is_found) = match axes.index_of(i) {
+            Option::Some(axis_index) => (axis_index, true),
+            Option::None(_) => (0, false),
+        };
+
+        let mut processed_params = (0, 0, 0, 0);
+        if is_found {
+            let mut start: usize = *(*self.shape).at(i);
+            let mut end: usize = 0;
+            if *starts.at(axis_index) < *(*self.shape).at(i) {
+                start = *starts.at(axis_index);
+            }
+
+            if *(*self.shape).at(i) > *ends.at(axis_index) {
+                end = *ends.at(axis_index);
+            }
+            else {
+                end = *(*self.shape).at(i);
+            }
+
+            if start >= end {
+                is_empty = true;
+            } else {
+                let dim = (end - start + (*steps.at(axis_index) - 1)) / *steps.at(axis_index);
+
+                if dim == 0 {
+                    is_empty = true;
+                } else {
+                    processed_params = (start, end, *steps.at(axis_index), dim);
+                }
+            }
+
+        } else {
+            processed_params = (0, *(*self.shape).at(i), 1, *(*self.shape).at(i));
+        }
+        let (start, end, step, shape) = processed_params;
+        processed_starts.append(start);
+        processed_ends.append(end);
+        processed_steps.append(step);
+        output_shape.append(shape);
+        
+        if i == stop_i {
+            break ();
+        }
+        i += 1;
+    };
+
+    let mut output_data: Array<T> = ArrayTrait::new();
+
+    if is_empty {
+        return Tensor::<T> {shape: output_shape.span(), data: output_data.span()};
+    }
+    
+    let stop_j = (*self.data).len() - 1;
+    let stop_k = (*self.shape).len() - 1;
+    let mut j: usize = 0;
+
+    let starts = processed_starts.span();
+    let ends = processed_ends.span();
+    let steps = processed_steps.span();
+    loop {
+        let mut indices = unravel_index(j, *self.shape);
+        let mut is_included = false;
+
+        let mut k: usize = 0;
+        loop {
+            let start = *(starts).at(k);
+            let end = *(ends).at(k);
+            let step = *(steps).at(k);
+            let index = *(indices).at(k);
+
+            if index < start || index >= end {
+                is_included = false;
+                break ();
+            }
+            if (index - start) % step == 0 {
+                is_included = true;
+            }
+            else {
+                is_included = false;
+                break ();
+            }
+
+            if k == stop_k {
+                break ();
+            }
+            k += 1;
+        };
+
+        if is_included {
+            output_data.append(*(*self.data).at(j));
+        }
+
+        if j == stop_j {
+            break ();
+        }
+        j += 1;
+    };
+
+    return Tensor::<T> {shape: output_shape.span(), data: output_data.span()};
+}

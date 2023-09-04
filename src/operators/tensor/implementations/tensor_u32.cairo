@@ -7,7 +7,7 @@ use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization};
+use orion::operators::tensor::{math, linalg, quantization, core};
 use orion::numbers::{i8, NumberTrait};
 use orion::operators::tensor::implementations::tensor_i8::I8Tensor;
 
@@ -187,6 +187,16 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Tensor::<u32> {
         panic(array!['not supported!'])
     }
+
+    fn slice(
+        self: @Tensor<u32>,
+        starts: Span<usize>,
+        ends: Span<usize>,
+        axes: Option<Span<usize>>,
+        steps: Option<Span<usize>>
+    ) -> Tensor<u32> {
+        core::slice(self, starts, ends, axes, steps)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.
@@ -269,9 +279,7 @@ impl U32TryIntoI8 of TryInto<u32, i8> {
 
 // Internals
 
-fn tensor_eq(
-    mut lhs: Tensor<u32>, mut rhs: Tensor<u32>,
-) -> bool {
+fn tensor_eq(mut lhs: Tensor<u32>, mut rhs: Tensor<u32>,) -> bool {
     let mut is_eq = true;
 
     loop {

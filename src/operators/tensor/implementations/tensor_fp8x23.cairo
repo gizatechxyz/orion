@@ -7,7 +7,7 @@ use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization};
+use orion::operators::tensor::{math, linalg, quantization, core};
 use orion::numbers::{i8, NumberTrait, FP8x23};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
@@ -192,6 +192,16 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         self: @Tensor<i8>, x_scale: @Tensor<FP8x23>, x_zero_point: @Tensor<FP8x23>
     ) -> Tensor::<FP8x23> {
         quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
+    }
+
+    fn slice(
+        self: @Tensor<FP8x23>,
+        starts: Span<usize>,
+        ends: Span<usize>,
+        axes: Option<Span<usize>>,
+        steps: Option<Span<usize>>
+    ) -> Tensor<FP8x23> {
+        core::slice(self, starts, ends, axes, steps)
     }
 }
 

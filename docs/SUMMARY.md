@@ -75,6 +75,7 @@
     * [tensor.or](framework/operators/tensor/tensor.or.md)
     * [tensor.xor](framework/operators/tensor/tensor.xor.md)
     * [tensor.onehot](framework/operators/tensor/tensor.onehot.md)
+    * [tensor.slice](framework/operators/tensor/tensor.slice.md)
     * [tensor.concat](framework/operators/tensor/tensor.concat.md)
     * [tensor.quantize\_linear](framework/operators/tensor/tensor.quantize\_linear.md)
     * [tensor.dequantize\_linear](framework/operators/tensor/tensor.dequantize\_linear.md)
