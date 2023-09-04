@@ -194,6 +194,16 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> Tensor::<FP64x64> {
         quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
     }
+
+    fn slice(
+        self: @Tensor<FP64x64>,
+        starts: Span<usize>,
+        ends: Span<usize>,
+        axes: Option<Span<usize>>,
+        steps: Option<Span<usize>>
+    ) -> Tensor<FP64x64> {
+        core::slice(self, starts, ends, axes, steps)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

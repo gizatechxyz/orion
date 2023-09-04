@@ -194,6 +194,16 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Tensor::<FP32x32> {
         quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
     }
+
+    fn slice(
+        self: @Tensor<FP32x32>,
+        starts: Span<usize>,
+        ends: Span<usize>,
+        axes: Option<Span<usize>>,
+        steps: Option<Span<usize>>
+    ) -> Tensor<FP32x32> {
+        core::slice(self, starts, ends, axes, steps)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.
