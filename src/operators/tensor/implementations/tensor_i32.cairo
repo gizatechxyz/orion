@@ -7,7 +7,7 @@ use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization};
+use orion::operators::tensor::{math, linalg, quantization, core};
 use orion::numbers::{i32, i8, NumberTrait};
 use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_i8::I8Tensor};
 
@@ -194,6 +194,16 @@ impl I32Tensor of TensorTrait<i32> {
     ) -> Tensor::<i32> {
         quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
     }
+
+    fn slice(
+        self: @Tensor<i32>,
+        starts: Span<usize>,
+        ends: Span<usize>,
+        axes: Option<Span<usize>>,
+        steps: Option<Span<usize>>
+    ) -> Tensor<i32> {
+        core::slice(self, starts, ends, axes, steps)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.
@@ -282,9 +292,7 @@ impl TensorI8IntoTensorI32 of Into<Tensor<i8>, Tensor<i32>> {
 
 // Internals
 
-fn tensor_eq(
-    mut lhs: Tensor<i32>, mut rhs: Tensor<i32>,
-) -> bool {
+fn tensor_eq(mut lhs: Tensor<i32>, mut rhs: Tensor<i32>,) -> bool {
     let mut is_eq = true;
 
     loop {

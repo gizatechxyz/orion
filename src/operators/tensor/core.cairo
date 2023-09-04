@@ -2634,7 +2634,7 @@ fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     let mut output_data: Array<T> = ArrayTrait::new();
 
     if is_empty {
-        return Tensor::<T> {shape: output_shape.span(), data: output_data.span(), extra: *self.extra};
+        return Tensor::<T> {shape: output_shape.span(), data: output_data.span()};
     }
     
     let stop_j = (*self.data).len() - 1;
@@ -2683,5 +2683,5 @@ fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
         j += 1;
     };
 
-    return Tensor::<T> {shape: output_shape.span(), data: output_data.span(), extra: *self.extra};
+    return Tensor::<T> {shape: output_shape.span(), data: output_data.span()};
 }

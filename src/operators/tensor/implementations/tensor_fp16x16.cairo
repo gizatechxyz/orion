@@ -7,7 +7,7 @@ use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization};
+use orion::operators::tensor::{math, linalg, quantization, core};
 use orion::numbers::{i8, NumberTrait, FP16x16};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
@@ -192,6 +192,16 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         self: @Tensor<i8>, x_scale: @Tensor<FP16x16>, x_zero_point: @Tensor<FP16x16>
     ) -> Tensor::<FP16x16> {
         quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
+    }
+
+    fn slice(
+        self: @Tensor<FP16x16>,
+        starts: Span<usize>,
+        ends: Span<usize>,
+        axes: Option<Span<usize>>,
+        steps: Option<Span<usize>>
+    ) -> Tensor<FP16x16> {
+        core::slice(self, starts, ends, axes, steps)
     }
 }
 
