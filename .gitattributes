@@ -1,1 +1,2 @@
-*.cairo linguist-language=rust
+* linguist-vendored
+*.cairo linguist-vendored=false
