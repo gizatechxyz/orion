@@ -7,7 +7,7 @@ use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization};
+use orion::operators::tensor::{math, linalg, quantization, core};
 use orion::numbers::{i8, NumberTrait};
 use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
 
@@ -193,6 +193,17 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Tensor::<i8> {
         quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
     }
+
+    fn slice(
+        self: @Tensor<i8>,
+        starts: Span<usize>,
+        ends: Span<usize>,
+        axes: Option<Span<usize>>,
+        steps: Option<Span<usize>>
+    ) -> Tensor<i8> {
+        core::slice(self, starts, ends, axes, steps)
+    }
+    
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
