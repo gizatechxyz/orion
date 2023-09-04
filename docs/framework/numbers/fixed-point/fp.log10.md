@@ -1,14 +1,14 @@
 # fp.log10
 
 ```rust
-fn log10(self: FixedType) -> FixedType;
+fn log10(self: T) -> T;
 ```
 
 Returns the base-10 logarithm of the fixed point number.
 
 ## Args
 
-* `self`(`FixedType`) - The input fixed point
+* `self`(`T`) - The input fixed point
 
 ## Returns
 
@@ -17,10 +17,9 @@ A fixed point representing the base 10 logarithm of the input number.
 ## Examples
 
 ```rust
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 
-fn log10_fp_example() -> FixedType {
+fn log10_fp_example() -> FP16x16 {
     // We instantiate fixed point here.
     let fp = FixedTrait::new_unscaled(3, false);
 

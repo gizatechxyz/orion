@@ -1,12 +1,12 @@
-mod input_0;
-mod input_1;
-mod output_0;
+mod input_0; 
+mod input_1; 
+mod output_0; 
 
 
-use array::ArrayTrait;
-use orion::operators::tensor::core::TensorTrait;
-use orion::operators::tensor::implementations::impl_tensor_fp::{Tensor_fp, FixedTypeTensorAdd};
-use orion::operators::tensor::implementations::impl_tensor_fp::FP8x23Tensor::FPTensorPartialEq;
+use array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::TensorTrait;
+use orion::operators::tensor::{FP8x23Tensor, FP8x23TensorAdd};
+use orion::operators::tensor::FP8x23TensorPartialEq;
 use orion::utils::assert_eq;
 
 #[test]

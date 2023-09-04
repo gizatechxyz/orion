@@ -2,7 +2,6 @@ use traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 
-
 // ====================== INT 64 ======================
 
 // i64 represents a 64-bit integer.
@@ -159,7 +158,6 @@ impl i64Neg of Neg<i64> {
     }
 }
 
-
 // Checks if the given i64 integer is zero and has the correct sign.
 // # Arguments
 // * `x` - The i64 integer to check.
@@ -198,7 +196,7 @@ fn i64_add(a: i64, b: i64) -> i64 {
         if (sum == 0_u64) {
             return IntegerTrait::new(sum, false);
         }
-        return IntegerTrait::new(sum, a.sign);
+        return ensure_non_negative_zero(sum, a.sign);
     } else {
         // If the integers have different signs, 
         // the larger absolute value is subtracted from the smaller one.
@@ -212,7 +210,7 @@ fn i64_add(a: i64, b: i64) -> i64 {
         if (difference == 0_u64) {
             return IntegerTrait::new(difference, false);
         }
-        return IntegerTrait::new(difference, larger.sign);
+        return ensure_non_negative_zero(difference, larger.sign);
     }
 }
 
@@ -231,7 +229,7 @@ fn i64_sub(a: i64, b: i64) -> i64 {
     }
 
     // The subtraction of `a` to `b` is achieved by negating `b` sign and adding it to `a`.
-    let neg_b = IntegerTrait::new(b.mag, !b.sign);
+    let neg_b = ensure_non_negative_zero(b.mag, !b.sign);
     return a + neg_b;
 }
 
@@ -258,7 +256,7 @@ fn i64_mul(a: i64, b: i64) -> i64 {
         return IntegerTrait::new(mag, false);
     }
 
-    return IntegerTrait::new(mag, sign);
+    return ensure_non_negative_zero(mag, sign);
 }
 
 // Divides the first i64 by the second i64.
@@ -277,7 +275,7 @@ fn i64_div(a: i64, b: i64) -> i64 {
 
     if (sign == false) {
         // If the operands are positive, the quotient is simply their absolute value quotient.
-        return IntegerTrait::new(a.mag / b.mag, sign);
+        return ensure_non_negative_zero(a.mag / b.mag, sign);
     }
 
     // If the operands have different signs, rounding is necessary.
@@ -287,7 +285,7 @@ fn i64_div(a: i64, b: i64) -> i64 {
         if (quotient == 0_u64) {
             return IntegerTrait::new(quotient, false);
         }
-        return IntegerTrait::new(quotient, sign);
+        return ensure_non_negative_zero(quotient, sign);
     }
 
     // If the quotient is not an integer, multiply the dividend by 10 to move the decimal point over.
@@ -300,9 +298,9 @@ fn i64_div(a: i64, b: i64) -> i64 {
 
     // Check the last digit to determine rounding direction.
     if (last_digit <= 5_u64) {
-        return IntegerTrait::new(quotient / 10_u64, sign);
+        return ensure_non_negative_zero(quotient / 10_u64, sign);
     } else {
-        return IntegerTrait::new((quotient / 10_u64) + 1_u64, sign);
+        return ensure_non_negative_zero((quotient / 10_u64) + 1_u64, sign);
     }
 }
 
@@ -426,7 +424,7 @@ fn i64_ge(a: i64, b: i64) -> bool {
 // * `i64` - The negation of `x`.
 fn i64_neg(x: i64) -> i64 {
     // The negation of an integer is obtained by flipping its sign.
-    return IntegerTrait::new(x.mag, !x.sign);
+    return ensure_non_negative_zero(x.mag, !x.sign);
 }
 
 /// Cf: IntegerTrait::abs docstring
@@ -449,5 +447,13 @@ fn i64_min(a: i64, b: i64) -> i64 {
         return a;
     } else {
         return b;
+    }
+}
+
+fn ensure_non_negative_zero(mag: u64, sign: bool) -> i64 {
+    if mag == 0 {
+        IntegerTrait::<i64>::new(mag, false)
+    } else {
+        IntegerTrait::<i64>::new(mag, sign)
     }
 }

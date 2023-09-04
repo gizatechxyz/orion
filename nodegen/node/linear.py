@@ -74,13 +74,13 @@ class Linear(RunAll):
         y = linear(i, w, b)
 
         i = Tensor(Dtype.FP8x23, i.shape, to_fp(
-            i.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+            i.flatten(), FixedImpl.FP8x23))
         w = Tensor(Dtype.FP8x23, w.shape, to_fp(
-            w.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+            w.flatten(), FixedImpl.FP8x23))
         b = Tensor(Dtype.FP8x23, b.shape, to_fp(
-            b.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+            b.flatten(), FixedImpl.FP8x23))
         y = Tensor(Dtype.FP8x23, y.shape, to_fp(
-            y.flatten(), FixedImpl.FP8x23), FixedImpl.FP8x23)
+            y.flatten(), FixedImpl.FP8x23))
 
         name = "linear_fp8x23"
         make_node([i, w, b], [y], name)
@@ -95,13 +95,13 @@ class Linear(RunAll):
         y = linear(i, w, b)
 
         i = Tensor(Dtype.FP16x16, i.shape, to_fp(
-            i.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+            i.flatten(), FixedImpl.FP16x16))
         w = Tensor(Dtype.FP16x16, w.shape, to_fp(
-            w.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+            w.flatten(), FixedImpl.FP16x16))
         b = Tensor(Dtype.FP16x16, b.shape, to_fp(
-            b.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+            b.flatten(), FixedImpl.FP16x16))
         y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-            y.flatten(), FixedImpl.FP16x16), FixedImpl.FP16x16)
+            y.flatten(), FixedImpl.FP16x16))
 
         name = "linear_fp16x16"
         make_node([i, w, b], [y], name)

@@ -1,14 +1,11 @@
-use core::traits::Into;
-use core::array::SpanTrait;
-use debug::PrintTrait;
 mod input_0;
 mod output_0;
 
 
-use array::ArrayTrait;
-use orion::operators::tensor::core::TensorTrait;
-use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-use orion::operators::tensor::implementations::impl_tensor_fp::FP8x23Tensor::FPTensorPartialEq;
+use array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::TensorTrait;
+use orion::operators::tensor::FP8x23Tensor;
+use orion::operators::tensor::FP8x23TensorPartialEq;
 use orion::utils::assert_eq;
 
 #[test]

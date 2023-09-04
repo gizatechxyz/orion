@@ -3,7 +3,7 @@
 #[cfg(test)]
 mod tensor_1D {
     use core::traits::Into;
-    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+    use orion::operators::tensor::implementations::tensor_fp8x23::FP8x23Tensor;
     use orion::tests::helpers::tensor::fixed_point::fp8x23::fp_tensor_1x3_helper;
     use orion::operators::tensor::core::TensorTrait;
 
@@ -23,7 +23,7 @@ mod tensor_1D {
 #[cfg(test)]
 mod tensor_2D {
     use core::traits::Into;
-    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+    use orion::operators::tensor::implementations::tensor_fp8x23::FP8x23Tensor;
     use orion::tests::helpers::tensor::fixed_point::fp8x23::fp_tensor_2x2_helper;
     use orion::operators::tensor::core::TensorTrait;
 
@@ -52,7 +52,7 @@ mod tensor_2D {
 #[cfg(test)]
 mod tensor_3D {
     use core::traits::Into;
-    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+    use orion::operators::tensor::implementations::tensor_fp8x23::FP8x23Tensor;
     use orion::tests::helpers::tensor::fixed_point::fp8x23::fp_tensor_2x2x2_helper;
     use orion::operators::tensor::core::TensorTrait;
 

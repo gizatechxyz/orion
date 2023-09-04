@@ -1,19 +1,18 @@
-use array::ArrayTrait;
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
-use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+use array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::{TensorTrait, Tensor};
+use orion::operators::tensor::FP16x16Tensor;
+use orion::numbers::FixedTrait;
+use orion::numbers::FP16x16;
 
-fn output_0() -> Tensor<FixedType> {
+fn output_0() -> Tensor<FP16x16> {
     let mut shape = ArrayTrait::<usize>::new();
     shape.append(2);
     shape.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(FixedType { mag: 156286, sign: false });
-    data.append(FixedType { mag: 79704, sign: false });
-    data.append(FixedType { mag: 106215, sign: false });
-    data.append(FixedType { mag: 18494, sign: false });
-
-    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16) };
-    TensorTrait::new(shape.span(), data.span(), Option::Some(extra))
+    data.append(FP16x16 { mag: 144277, sign: false });
+    data.append(FP16x16 { mag: 125876, sign: false });
+    data.append(FP16x16 { mag: 122742, sign: false });
+    data.append(FP16x16 { mag: 142848, sign: false });
+    TensorTrait::new(shape.span(), data.span())
 }

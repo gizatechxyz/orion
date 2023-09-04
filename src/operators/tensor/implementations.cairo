@@ -1,4 +1,5 @@
-mod impl_tensor_fp;
-mod impl_tensor_i32;
-mod impl_tensor_u32;
-mod impl_tensor_i8;
+mod tensor_u32;
+mod tensor_i8;
+mod tensor_i32;
+mod tensor_fp8x23;
+mod tensor_fp16x16;

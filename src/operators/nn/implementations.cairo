@@ -1,4 +1,6 @@
-mod impl_nn_i8;
-mod impl_nn_i32;
-mod impl_nn_u32;
-mod impl_nn_fp;
+mod nn_i8;
+mod nn_i32;
+mod nn_u32;
+mod nn_fp8x23;
+mod nn_fp16x16;
+

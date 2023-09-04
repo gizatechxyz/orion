@@ -1,14 +1,14 @@
 # fp.atanh
 
 ```rust
-fn atanh(self: FixedType) -> FixedType;
+fn atanh(self: T) -> T;
 ```
 
 Returns the value of the inverse hyperbolic tangent of the fixed point number.
 
 ## Args
 
-* `self`(`FixedType`) - The input fixed point
+* `self`(`T`) - The input fixed point
 
 ## Returns
 
@@ -17,10 +17,9 @@ The inverse hyperbolic tangent of the input fixed point number.
 ## Examples
 
 ```rust
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 
-fn atanh_fp_example() -> FixedType {
+fn atanh_fp_example() -> FP16x16 {
     // We instantiate fixed point here.
     let fp = FixedTrait::from_felt(32768); // 0.5
 

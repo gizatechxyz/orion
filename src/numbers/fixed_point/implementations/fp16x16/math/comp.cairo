@@ -1,8 +1,8 @@
 use orion::numbers::fixed_point::implementations::fp16x16::core::{
-    FixedType, FixedTrait, FP16x16Impl, FP16x16PartialOrd, FP16x16PartialEq
+    FP16x16, FixedTrait, FP16x16Impl, FP16x16PartialOrd, FP16x16PartialEq
 };
 
-fn max(a: FixedType, b: FixedType) -> FixedType {
+fn max(a: FP16x16, b: FP16x16) -> FP16x16 {
     if (a >= b) {
         return a;
     } else {
@@ -10,7 +10,7 @@ fn max(a: FixedType, b: FixedType) -> FixedType {
     }
 }
 
-fn min(a: FixedType, b: FixedType) -> FixedType {
+fn min(a: FP16x16, b: FP16x16) -> FP16x16 {
     if (a <= b) {
         return a;
     } else {
@@ -18,7 +18,7 @@ fn min(a: FixedType, b: FixedType) -> FixedType {
     }
 }
 
-fn xor(a: FixedType, b: FixedType) -> bool {
+fn xor(a: FP16x16, b: FP16x16) -> bool {
     if (a == FixedTrait::new(0, false) || b == FixedTrait::new(0, false)) && (a != b) {
         return true;
     } else {
@@ -26,7 +26,7 @@ fn xor(a: FixedType, b: FixedType) -> bool {
     }
 }
 
-fn or(a: FixedType, b: FixedType) -> bool {
+fn or(a: FP16x16, b: FP16x16) -> bool {
     let zero = FixedTrait::new(0, false);
     if a == zero && b == zero {
         return false;

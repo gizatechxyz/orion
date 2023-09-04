@@ -3,11 +3,6 @@ use option::OptionTrait;
 use array::ArrayTrait;
 use array::SpanTrait;
 
-use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
-use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, ONE as ONE_8x23};
-use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, ONE as ONE_16x16};
-
 fn u32_max(a: u32, b: u32) -> u32 {
     if a > b {
         a

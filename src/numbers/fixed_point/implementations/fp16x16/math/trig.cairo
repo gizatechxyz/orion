@@ -4,7 +4,7 @@ use option::OptionTrait;
 
 use orion::numbers::fixed_point::implementations::fp16x16::math::lut;
 use orion::numbers::fixed_point::implementations::fp16x16::core::{
-    HALF, ONE, TWO, FixedType, FP16x16Impl, FP16x16Add, FP16x16Sub, FP16x16Mul, FP16x16Div,
+    HALF, ONE, TWO, FP16x16, FP16x16Impl, FP16x16Add, FP16x16Sub, FP16x16Mul, FP16x16Div,
     FP16x16IntoFelt252, FixedTrait
 };
 
@@ -18,7 +18,7 @@ const HALF_PI: u32 = 102944;
 
 // Calculates arccos(a) for -1 <= a <= 1 (fixed point)
 // arccos(a) = arcsin(sqrt(1 - a^2)) - arctan identity has discontinuity at zero
-fn acos(a: FixedType) -> FixedType {
+fn acos(a: FP16x16) -> FP16x16 {
     let asin_arg = (FixedTrait::ONE() - a * a).sqrt(); // will fail if a > 1
     let asin_res = asin(asin_arg);
 
@@ -29,7 +29,7 @@ fn acos(a: FixedType) -> FixedType {
     }
 }
 
-fn acos_fast(a: FixedType) -> FixedType {
+fn acos_fast(a: FP16x16) -> FP16x16 {
     let asin_arg = (FixedTrait::ONE() - a * a).sqrt(); // will fail if a > 1
     let asin_res = asin_fast(asin_arg);
 
@@ -42,7 +42,7 @@ fn acos_fast(a: FixedType) -> FixedType {
 
 // Calculates arcsin(a) for -1 <= a <= 1 (fixed point)
 // arcsin(a) = arctan(a / sqrt(1 - a^2))
-fn asin(a: FixedType) -> FixedType {
+fn asin(a: FP16x16) -> FP16x16 {
     if (a.mag == ONE) {
         return FixedTrait::new(HALF_PI, a.sign);
     }
@@ -51,7 +51,7 @@ fn asin(a: FixedType) -> FixedType {
     return atan(a / div);
 }
 
-fn asin_fast(a: FixedType) -> FixedType {
+fn asin_fast(a: FP16x16) -> FP16x16 {
     if (a.mag == ONE) {
         return FixedTrait::new(HALF_PI, a.sign);
     }
@@ -62,7 +62,7 @@ fn asin_fast(a: FixedType) -> FixedType {
 
 // Calculates arctan(a) (fixed point)
 // See https://stackoverflow.com/a/50894477 for range adjustments
-fn atan(a: FixedType) -> FixedType {
+fn atan(a: FP16x16) -> FP16x16 {
     let mut at = a.abs();
     let mut shift = false;
     let mut invert = false;
@@ -104,7 +104,7 @@ fn atan(a: FixedType) -> FixedType {
 }
 
 
-fn atan_fast(a: FixedType) -> FixedType {
+fn atan_fast(a: FP16x16) -> FP16x16 {
     let mut at = a.abs();
     let mut shift = false;
     let mut invert = false;
@@ -132,22 +132,22 @@ fn atan_fast(a: FixedType) -> FixedType {
     }
 
     if (invert) {
-        res = res - FixedTrait::new(HALF_PI, false);
+        res = res - FixedTrait::<FP16x16>::new(HALF_PI, false);
     }
 
     return FixedTrait::new(res.mag, a.sign);
 }
 
 // Calculates cos(a) with a in radians (fixed point)
-fn cos(a: FixedType) -> FixedType {
+fn cos(a: FP16x16) -> FP16x16 {
     return sin(FixedTrait::new(HALF_PI, false) - a);
 }
 
-fn cos_fast(a: FixedType) -> FixedType {
+fn cos_fast(a: FP16x16) -> FP16x16 {
     return sin_fast(FixedTrait::new(HALF_PI, false) - a);
 }
 
-fn sin(a: FixedType) -> FixedType {
+fn sin(a: FP16x16) -> FP16x16 {
     let a1 = a.mag % TWO_PI;
     let (whole_rem, partial_rem) = u32_safe_divmod(a1, u32_as_non_zero(PI));
     let a2 = FixedTrait::new(partial_rem, false);
@@ -157,7 +157,7 @@ fn sin(a: FixedType) -> FixedType {
     return FixedTrait::new(loop_res.mag, a.sign ^ partial_sign && loop_res.mag != 0);
 }
 
-fn sin_fast(a: FixedType) -> FixedType {
+fn sin_fast(a: FP16x16) -> FP16x16 {
     let a1 = a.mag % TWO_PI;
     let (whole_rem, mut partial_rem) = u32_safe_divmod(a1, u32_as_non_zero(PI));
     let partial_sign = whole_rem == 1;
@@ -169,20 +169,20 @@ fn sin_fast(a: FixedType) -> FixedType {
     let (start, low, high) = lut::sin(partial_rem);
     let partial_step = FixedTrait::new(partial_rem - start, false) / FixedTrait::new(402, false);
     let res = partial_step * (FixedTrait::new(high, false) - FixedTrait::new(low, false))
-        + FixedTrait::new(low, false);
+        + FixedTrait::<FP16x16>::new(low, false);
 
     return FixedTrait::new(res.mag, a.sign ^ partial_sign && res.mag != 0);
 }
 
 // Calculates tan(a) with a in radians (fixed point)
-fn tan(a: FixedType) -> FixedType {
+fn tan(a: FP16x16) -> FP16x16 {
     let sinx = sin(a);
     let cosx = cos(a);
     assert(cosx.mag != 0, 'tan undefined');
     return sinx / cosx;
 }
 
-fn tan_fast(a: FixedType) -> FixedType {
+fn tan_fast(a: FP16x16) -> FP16x16 {
     let sinx = sin_fast(a);
     let cosx = cos_fast(a);
     assert(cosx.mag != 0, 'tan undefined');
@@ -190,7 +190,7 @@ fn tan_fast(a: FixedType) -> FixedType {
 }
 
 // Helper function to calculate Taylor series for sin
-fn _sin_loop(a: FixedType, i: u32, acc: FixedType) -> FixedType {
+fn _sin_loop(a: FP16x16, i: u32, acc: FP16x16) -> FP16x16 {
     let div = (2 * i + 2) * (2 * i + 3);
     let term = a * a * acc / FixedTrait::new_unscaled(div, false);
     let new_acc = FixedTrait::ONE() - term;

@@ -23,11 +23,10 @@ class FixedImpl(Enum):
 
 
 class Tensor:
-    def __init__(self, dtype: Dtype, shape: [], data: [], extra_fp=FixedImpl.FP16x16):
+    def __init__(self, dtype: Dtype, shape: [], data: []):
         self.dtype = dtype
         self.shape = shape
         self.data = data
-        self.extra_fp = extra_fp
 
 
 class Trait(Enum):
@@ -60,76 +59,75 @@ def make_test(inputs: [Tensor], output: Tensor, func_sig: str, file_name: str, t
 
     match  trait_type:
         case Trait.TENSOR:
-            code.append("\n\nuse array::ArrayTrait;\n")
-            code.append("use orion::operators::tensor::core::TensorTrait;\n")
+            code.append("\n\nuse array::{ArrayTrait, SpanTrait};\n")
+            code.append("use orion::operators::tensor::TensorTrait;\n")
             match type_of_first_input:
                 case Dtype.U32:
                     code.append(
-                        "use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;\n")
+                        "use orion::operators::tensor::U32Tensor;\n")
                 case Dtype.I32:
                     code.append(
-                        "use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;\n")
+                        "use orion::operators::tensor::I32Tensor;\n")
                 case Dtype.I8:
                     code.append(
-                        "use orion::operators::tensor::implementations::impl_tensor_i8::Tensor_i8;\n")
-                case Dtype.FP16x16 | Dtype.FP8x23:
+                        "use orion::operators::tensor::I8Tensor;\n")
+                case Dtype.FP8x23:
                     code.append(
-                        "use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;\n")
+                        "use orion::operators::tensor::FP8x23Tensor;\n")
+                case Dtype.FP16x16:
+                    code.append(
+                        "use orion::operators::tensor::FP16x16Tensor;\n")
             match type_of_output:
                 case Dtype.U32:
                     code.append(
-                        "use orion::operators::tensor::implementations::impl_tensor_u32::u32TensorPartialEq;\n")
+                        "use orion::operators::tensor::U32TensorPartialEq;\n")
                 case Dtype.I32:
                     code.append(
-                        "use orion::operators::tensor::implementations::impl_tensor_i32::i32TensorPartialEq;\n")
+                        "use orion::operators::tensor::I32TensorPartialEq;\n")
                 case Dtype.I8:
                     code.append(
-                        "use orion::operators::tensor::implementations::impl_tensor_i8::i8TensorPartialEq;\n")
+                        "use orion::operators::tensor::I8TensorPartialEq;\n")
                 case Dtype.FP16x16:
                     code.append(
-                        "use orion::operators::tensor::implementations::impl_tensor_fp::FP16x16Tensor::FPTensorPartialEq;\n")
+                        "use orion::operators::tensor::FP16x16TensorPartialEq;\n")
                 case Dtype.FP8x23:
                     code.append(
-                        "use orion::operators::tensor::implementations::impl_tensor_fp::FP8x23Tensor::FPTensorPartialEq;\n")
+                        "use orion::operators::tensor::FP8x23TensorPartialEq;\n")
         case Trait.NN:
-            code.append("\n\nuse orion::operators::nn::core::NNTrait;\n")
-            code.append("use orion::numbers::fixed_point::core::FixedTrait;\n")
+            code.append("\n\nuse orion::operators::nn::NNTrait;\n")
+            code.append("use orion::numbers::FixedTrait;\n")
             match type_of_first_input:
                 case Dtype.I32:
                     code.append(
-                        "use orion::operators::nn::implementations::impl_nn_i32::NN_i32;\n")
+                        "use orion::operators::nn::I32NN;\n")
                 case Dtype.I8:
                     code.append(
-                        "use orion::operators::nn::implementations::impl_nn_i8::NN_i8;\n")
+                        "use orion::operators::nn::I8NN;\n")
                 case Dtype.U32:
                     code.append(
-                        "use orion::operators::nn::implementations::impl_nn_u32::NN_u32;\n")
-                case Dtype.FP8x23 | Dtype.FP16x16:
+                        "use orion::operators::nn::U32NN;\n")
+                case Dtype.FP8x23:
                     code.append(
-                        "use orion::operators::nn::implementations::impl_nn_fp::NN_fp;\n")
-            match inputs[0].extra_fp:
-                case FixedImpl.FP8x23:
+                        "use orion::operators::nn::FP8x23NN;\n")
+                case Dtype.FP16x16:
                     code.append(
-                        "use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;\n")
-                case FixedImpl.FP16x16:
-                    code.append(
-                        "use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;\n")
+                        "use orion::operators::nn::FP16x16NN;\n")
             match type_of_output:
                 case Dtype.U32:
                     code.append(
-                        "use orion::operators::tensor::implementations::impl_tensor_u32::u32TensorPartialEq;\n")
+                        "use orion::operators::tensor::U32TensorPartialEq;\n")
                 case Dtype.I32:
                     code.append(
-                        "use orion::operators::tensor::implementations::impl_tensor_i32::i32TensorPartialEq;\n")
+                        "use orion::operators::tensor::I32TensorPartialEq;\n")
                 case Dtype.I8:
                     code.append(
-                        "use orion::operators::tensor::implementations::impl_tensor_i8::i8TensorPartialEq;\n")
+                        "use orion::operators::tensor::I8TensorPartialEq;\n")
                 case Dtype.FP16x16:
                     code.append(
-                        "use orion::operators::tensor::implementations::impl_tensor_fp::FP16x16Tensor::FPTensorPartialEq;\n")
+                        "use orion::operators::tensor::FP16x16TensorPartialEq;\n")
                 case Dtype.FP8x23:
                     code.append(
-                        "use orion::operators::tensor::implementations::impl_tensor_fp::FP8x23Tensor::FPTensorPartialEq;\n")
+                        "use orion::operators::tensor::FP8x23TensorPartialEq;\n")
 
     code.append("use orion::utils::assert_eq;\n\n")
     code.append("#[test]\n")
@@ -166,23 +164,38 @@ def to_fp(x: np.array, fp_impl: FixedImpl):
 
 def __build_tensor_code(tensor: Tensor, name: str, type_string: str, is_fixed: bool = False, is_signed_int: bool = False) -> []:
     result = [
-        f"use array::ArrayTrait;\n",
-        f"use orion::operators::tensor::core::{{TensorTrait, Tensor, ExtraParams}};\n",
+        "use array::{ArrayTrait, SpanTrait};\n",
+        "use orion::operators::tensor::{TensorTrait, Tensor};\n",
     ]
 
-    if is_fixed:
-        result.append(
-            f"use orion::numbers::fixed_point::core::{{FixedTrait, FixedType, FixedImpl}};\n")
-        result.append(
-            f"use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;\n")
-    else:
-        result.append(
-            f"use orion::numbers::fixed_point::core::FixedImpl;\n")
-        result.append(
-            f"use orion::operators::tensor::implementations::impl_tensor_{type_string.lower()}::Tensor_{type_string.lower()};\n")
-        if is_signed_int:
+    match tensor.dtype:
+        case Dtype.U32:
             result.append(
-                f"use orion::numbers::signed_integer::{{integer_trait::IntegerTrait, {type_string}::{type_string}}};\n")
+                "use orion::operators::tensor::U32Tensor;\n")
+        case Dtype.I32:
+            result.append(
+                "use orion::operators::tensor::I32Tensor;\n")
+            result.append(
+                "use orion::numbers::{IntegerTrait, i32};\n")
+        case Dtype.I8:
+            result.append(
+                "use orion::operators::tensor::I8Tensor;\n")
+            result.append(
+                "use orion::numbers::{IntegerTrait, i8};\n")
+        case Dtype.FP8x23:
+            result.append(
+                "use orion::operators::tensor::FP8x23Tensor;\n")
+            result.append(
+                "use orion::numbers::FixedTrait;\n")
+            result.append(
+                "use orion::numbers::FP8x23;\n")
+        case Dtype.FP16x16:
+            result.append(
+                "use orion::operators::tensor::FP16x16Tensor;\n")
+            result.append(
+                "use orion::numbers::FixedTrait;\n")
+            result.append(
+                "use orion::numbers::FP16x16;\n")
 
     result.append(f"\nfn {name}() -> Tensor<{type_string}> {{\n")
     result.append("    let mut shape = ArrayTrait::<usize>::new();\n")
@@ -197,17 +210,15 @@ def __build_tensor_code(tensor: Tensor, name: str, type_string: str, is_fixed: b
         for val in tensor.data:
             result.append(f"    data.append({abs(int(val))});\n")
     result.append(
-        f"\n    let extra = ExtraParams {{ fixed_point: Option::Some(FixedImpl::{tensor.extra_fp.name}) }};\n")
-    result.append(
-        "    TensorTrait::new(shape.span(), data.span(), Option::Some(extra))\n")
+        "    TensorTrait::new(shape.span(), data.span())\n")
     result.append("}")
     return result
 
 
 def __convert_tensor_to_cairo(tensor: Tensor, name: str) -> []:
     dtype_mapping = {
-        Dtype.FP8x23: ('FixedType',  True, False),
-        Dtype.FP16x16: ('FixedType', True, False),
+        Dtype.FP8x23: ('FP8x23',  True, False),
+        Dtype.FP16x16: ('FP16x16', True, False),
         Dtype.I32: ('i32', False, True),
         Dtype.I8: ('i8', False, True),
         Dtype.U32: ('u32', False, False),

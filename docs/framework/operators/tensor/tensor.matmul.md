@@ -31,21 +31,12 @@ Case 1: Dot product of two vectors (1D \* 1D)
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn dot_product_example() -> Tensor<usize> {
-    let tensor_1 = TensorTrait::<u32>::new(
-        shape: array![3].span(),
-        data: array![0, 1, 2].span(),
-        extra: Option::None(())
-    );
+    let tensor_1 = TensorTrait::<u32>::new(shape: array![3].span(), data: array![0, 1, 2].span(),);
 
-    let tensor_2 = TensorTrait::<u32>::new(
-        shape: array![3].span(),
-        data: array![0, 1, 2].span(),
-        extra: Option::None(())
-    );
+    let tensor_2 = TensorTrait::<u32>::new(shape: array![3].span(), data: array![0, 1, 2].span(),);
 
     // We can call `matmul` function as follows.
     return tensor_1.matmul(@tensor_2);
@@ -58,20 +49,15 @@ Case 2: Matrix multiplication (2D \* 2D)
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn matrix_mul_example() -> Tensor<usize> {
     let tensor_1 = TensorTrait::<u32>::new(
-        shape: array![2, 2].span(),
-        data: array![244, 99, 109, 162].span(),
-        extra: Option::None(())
+        shape: array![2, 2].span(), data: array![244, 99, 109, 162].span()
     );
 
     let tensor_2 = TensorTrait::<u32>::new(
-        shape: array![2, 2].span(),
-        data: array![151, 68, 121, 170].span(),
-        extra: Option::None(())
+        shape: array![2, 2].span(), data: array![151, 68, 121, 170].span()
     );
 
     // We can call `matmul` function as follows.
@@ -85,21 +71,14 @@ Case 3: Matrix-Vector multiplication (2D x 1D)
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn matrix_vec_mul_example() -> Tensor<usize> {
     let tensor_1 = TensorTrait::<u32>::new(
-        shape: array![3, 3].span(),
-        data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
-        extra: Option::None(())
+        shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     );
 
-    let tensor_2 = TensorTrait::<u32>::new(
-        shape: array![3].span(),
-        data: array![0, 1, 2].span(),
-        extra: Option::None(())
-    );
+    let tensor_2 = TensorTrait::<u32>::new(shape: array![3].span(), data: array![0, 1, 2].span(),);
 
     // We can call `matmul` function as follows.
     return tensor_1.matmul(@tensor_2);
