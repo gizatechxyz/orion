@@ -21,7 +21,6 @@
     * [fp.new](framework/numbers/fixed-point/fp.new.md)
     * [fp.new\_unscaled](framework/numbers/fixed-point/fp.new\_unscaled.md)
     * [fp.from\_felt](framework/numbers/fixed-point/fp.from\_felt.md)
-    * [fp.from\_unscaled\_felt](framework/numbers/fixed-point/fp.from\_unscaled\_felt.md)
     * [fp.abs](framework/numbers/fixed-point/fp.abs.md)
     * [fp.ceil](framework/numbers/fixed-point/fp.ceil.md)
     * [fp.floor](framework/numbers/fixed-point/fp.floor.md)

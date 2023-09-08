@@ -6,7 +6,7 @@ description: An Open-source ecosystem for Validity and ZK ML.
 
 Orion is an open-source, community-driven framework dedicated to Provable Machine Learning. It provides essential components and a new ONNX runtime for building verifiable Machine Learning models using [STARKs](https://starkware.co/stark/).
 
-<figure><img src=".gitbook/assets/Orion.png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/gitbook_banner.png" alt=""><figcaption></figcaption></figure>
 
 ### 🤔 What is ONNX Runtime?
 
