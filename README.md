@@ -1,8 +1,9 @@
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <div align="center">
-  <img src="docs/images/orion-banner.jpeg" height="450px">
+  <img src="docs/images/orion-banner.jpeg" style="width: 70%; height: auto;">
 </div>
+
 
 <div align="center">
 <!-- markdownlint-restore -->
