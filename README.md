@@ -1,7 +1,7 @@
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <div align="center">
-  <img src="docs/images/orion-banner.jpeg">
+  <img src="docs/images/orion-banner.jpeg" height="450px">
 </div>
 
 <div align="center">
