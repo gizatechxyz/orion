@@ -145,7 +145,7 @@ name = "verifiable_linear_regression"
 version = "0.1.0"
 
 [dependencies]
-orion = { git = "https://github.com/gizatechxyz/orion.git", branch = "einsum-impl"   }
+orion = { git = "https://github.com/gizatechxyz/orion.git"}
 
 [scripts]
 test = "scarb cairo-test -f linear_regression_test"
@@ -165,11 +165,9 @@ def generate_cairo_files(data, name):
     with open(os.path.join('src', 'generated', f"{name}.cairo"), "w") as f:
             f.write(
                 "use array::ArrayTrait;\n" +
-                "use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};\n" +
-                "use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;\n" +
-                "use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};\n"
-                "use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16PartialEq };\n"+
-                "fn {0}() -> Tensor<FixedType>  ".format(name) + "{\n" +
+                "use orion::operators::tensor::{FP16x16Tensor, TensorTrait, Tensor};\n" +
+                "use orion::numbers::{FixedTrait, FP16x16, FP16x16Impl};\n"
+                "\nfn {0}() -> Tensor<FixedType>  ".format(name) + "{\n" +
                 "    let mut shape = ArrayTrait::new();\n"
             )
             for dim in data.shape:
@@ -180,19 +178,13 @@ def generate_cairo_files(data, name):
             for val in np.nditer(data.flatten()):
                 f.write("    data.append(FixedTrait::new({0}, {1} ));\n".format(abs(int(val * 2**16)), str(val < 0).lower()))
             f.write(
-                "let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) }; \n" +
-                "let tensor = TensorTrait::<FixedType>::new(shape.span(), data.span(), Option::Some(extra)); \n \n" +
+                "let tensor = TensorTrait::<FixedType>::new(shape.span(), data.span()); \n \n" +
                 "return tensor;\n\n"+
                 "}\n"
             )
     with open(os.path.join('src', 'generated.cairo'), 'w') as f:
         for param_name in tensor_name:
             f.write(f"mod {param_name};\n")
-            
-            
-generate_cairo_files(X, 'X_values')
-generate_cairo_files(y, 'Y_values')
-
 ```
 
 The X\_values and y\_values tensor values will now be generated under `src/generated` directory.
@@ -209,52 +201,41 @@ This will tell our compiler to include the separate modules listed above during 
 
 ```rust
 use array::ArrayTrait;
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
-use orion::numbers::signed_integer::i32::i32;
+use orion::operators::tensor::{FP16x16Tensor, TensorTrait, Tensor};
+use orion::numbers::{FixedTrait, FP16x16, FP16x16Impl};
 
-use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
-use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16Into, FP16x16PartialEq }; 
-
-fn X_values() -> Tensor<FixedType>  {
+fn X_values() -> Tensor<FP16x16> {
     let mut shape = ArrayTrait::new();
-    shape.append(150); 
+    shape.append(150);
     let mut data = ArrayTrait::new();
-    data.append(FixedTrait::new_unscaled(10, true ));
-    data.append(FixedTrait::new_unscaled(9, true ));
+    data.append(FixedTrait::new(32768, true));
+    data.append(FixedTrait::new(32328, true));
+    // data has been truncated (only showing the first and last 2 values out of the 150 values)
+    data.append(FixedTrait::new(32328, false));
+    data.append(FixedTrait::new(32768, false));
+    let tensor = TensorTrait::<FP16x16>::new(shape.span(), data.span());
 
-// data has been truncated (only showing the first and last 2 values out of the 150 values)
-    
-    data.append(FixedTrait::new_unscaled(24, false ));
-    data.append(FixedTrait::new_unscaled(25, false ));
-let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) }; 
-let tensor = TensorTrait::<FixedType>::new(shape.span(), data.span(), Option::Some(extra)); 
- 
-return tensor;
-
+    return tensor;
 }
-
 ```
 
 Since Cairo does not come with built-in signed integers we have to explicitly define it for our X and y values. Luckily, this is already implemented in Orion for us as a struct as shown below:
 
 ```rust
-// Example of a FixedType.
-struct FixedType {
-    mag: u128,
+// Example of a FP16x16.
+struct FP16x16 {
+    mag: u32,
     sign: bool
 }
 
 ```
 
-For this tutorial, we will use FixedType numbers where the magnitude represents the absolute value and the boolean indicates whether the number is negative or positive. To replicate the OLS functions, we will conduct our operations using FixedType Tensors which are also represented as a structs in Orion.
+For this tutorial, we will use FP16x16 numbers where the magnitude represents the absolute value and the boolean indicates whether the number is negative or positive. To replicate the OLS functions, we will conduct our operations using FP16x16 Tensors which are also represented as a structs in Orion.
 
 ```rust
 struct Tensor<T> {
     shape: Span<usize>,
     data: Span<T>
-    extra: Option<ExtraParams>
 }
 
 struct ExtraParams {
@@ -263,40 +244,34 @@ struct ExtraParams {
 
 ```
 
-A `Tensor` in Orion takes a shape, a span array of the data and an extra parameter. For our tutorial, the ExtraParams specifies that the Tensor is associated with using fp16x16 format. In a 16x16 fixed-point format, there are 16 bits dedicated to the integer part of the number and 16 bits for the fractional part of the number. This format allows us to work with a wide range of values and a high degree of precision for conducting the OLS Tensor operations.
-
-```rust=
-let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) };
-
-```
+A `Tensor` in Orion takes a shape and a span array of the data and an extra parameter. In a 16x16 fixed-point format, there are 16 bits dedicated to the integer part of the number and 16 bits for the fractional part of the number. This format allows us to work with a wide range of values and a high degree of precision for conducting the OLS Tensor operations.
 
 ### Implementing OLS functions using Orion
 
-At this stage, we will be reproducing the OLS functions now that we have generated our X and Y Fixedpoint Tensors. We will begin by creating a separate file for our linear regression functions file named `lin_reg_func.cairo` to host all of our linear regression functions.
+At this stage, we will be reproducing the OLS functions now that we have generated our X and Y fixed point Tensors. We will begin by creating a separate file for our linear regression functions file named `lin_reg_func.cairo` to host all of our linear regression functions.
 
 #### Computing the mean
 
 ```rust
-fn calculate_mean(tensor_data: Tensor<FixedType>) -> FixedType {
-
-    let tensor_size = FP16x16Impl::new_unscaled(tensor_data.data.len(), false);
+/// Calculates the mean of a given 1D tensor.
+fn calculate_mean(tensor_data: Tensor<FP16x16>) -> FP16x16 {
+    let tensor_size = FixedTrait::<FP16x16>::new_unscaled(tensor_data.data.len(), false);
 
     let cumulated_sum = tensor_data.cumsum(0, Option::None(()), Option::None(()));
-    let sum_result = cumulated_sum.data[tensor_data.data.len()  - 1];
-    let mean = FP16x16Div::div(*sum_result, tensor_size);
+    let sum_result = cumulated_sum.data[tensor_data.data.len() - 1];
+    let mean = *sum_result / tensor_size;
 
     return mean;
 }
-
 ```
 
-The above function takes in a FixedType Tensor and computes its corresponding mean value. We break the steps down by first calculating the cumulative sum of the tensor values using the `cumsum` built-in orion operator. We then divide the result by the length of the tensor size and return the output as a Fixedtype number.
+The above function takes in an FP16x16 Tensor and computes its corresponding mean value. We break the steps down by first calculating the cumulative sum of the tensor values using the `cumsum` built-in orion operator. We then divide the result by the length of the tensor size and return the output as a fixed point number.
 
 #### Computing the deviation from the mean
 
 ```rust
-fn deviation_from_mean(tensor_data: Tensor<FixedType> ) -> Tensor<FixedType> {
-
+/// Calculates the deviation of each element from the mean of the provided 1D tensor.
+fn deviation_from_mean(tensor_data: Tensor<FP16x16>) -> Tensor<FP16x16> {
     let mean_value = calculate_mean(tensor_data);
 
     let mut tensor_shape = array::ArrayTrait::new();
@@ -304,21 +279,22 @@ fn deviation_from_mean(tensor_data: Tensor<FixedType> ) -> Tensor<FixedType> {
 
     let mut deviation_values = array::ArrayTrait::new();
 
-    let mut i:u32 = 0;
+    let mut i: u32 = 0;
     loop {
-        if i >= tensor_data.data.len()  {
-            break();
+        if i >= tensor_data.data.len() {
+            break ();
         }
         let distance_from_mean = *tensor_data.data.at(i) - mean_value;
         deviation_values.append(distance_from_mean);
         i += 1;
-        };
-    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) };
-    let distance_from_mean_tensor = TensorTrait::<FixedType>::new(tensor_shape.span(), deviation_values.span(), Option::Some(extra));
+    };
+
+    let distance_from_mean_tensor = TensorTrait::<FP16x16>::new(
+        tensor_shape.span(), deviation_values.span()
+    );
 
     return distance_from_mean_tensor;
 }
-
 ```
 
 The following deviation\_from\_mean function calculates the deviation from the mean for each element of a given tensor. We initially calculate the tensor's mean value and store it under the variable mean\_value. We then create a for loop to iterate over each element in the tensor values and calculate the deviation from the mean which we will append the result to `deviation_values` array. Finally, we create a new tensor named distance\_from\_mean\_tensor by passing the deviation\_values array and the tensor shape.
@@ -332,20 +308,18 @@ $$
 $$
 
 ```rust
-
-fn compute_beta(x_values: Tensor<FixedType>, y_values: Tensor<FixedType> ) -> FixedType {
-
+/// Calculates the beta value for linear regression.
+fn compute_beta(x_values: Tensor<FP16x16>, y_values: Tensor<FP16x16>) -> FP16x16 {
     let x_deviation = deviation_from_mean(x_values);
     let y_deviation = deviation_from_mean(y_values);
 
     let x_y_covariance = x_deviation.matmul(@y_deviation);
     let x_variance = x_deviation.matmul(@x_deviation);
 
-    let beta_value = FP16x16Div::div(*x_y_covariance.data.at(0), *x_variance.data.at(0));
+    let beta_value = *x_y_covariance.data.at(0) / *x_variance.data.at(0);
 
     return beta_value;
 }
-
 ```
 
 We can now compute the beta value for our linear regression utilising the previous deviation\_from\_mean function. We first calculate both the deviation of x values and y values from the mean and store them in separate variables as tensors. To calculate the covariance, we use the built-in Orion `matmul` operator to multiply x\_deviation by y\_deviation tensors. Similarly, we compute the X variance by multiplying x\_deviation tensor by itself. Finally, we divide the `x_y_covariance` by the `x_variance` to get an approximate gradient value for our regression model.
@@ -354,17 +328,17 @@ We can now compute the beta value for our linear regression utilising the previo
 
 ```rust
 /// Calculates the intercept for linear regression.
-fn compute_intercept(beta_value:FixedType, x_values: Tensor<FixedType>, y_values: Tensor<FixedType>) -> FixedType {
-
+fn compute_intercept(
+    beta_value: FP16x16, x_values: Tensor<FP16x16>, y_values: Tensor<FP16x16>
+) -> FP16x16 {
     let x_mean = calculate_mean(x_values);
     let y_mean = calculate_mean(y_values);
 
-    let mx= FP16x16Mul::mul(beta_value, x_mean);
+    let mx = beta_value * x_mean;
     let intercept = y_mean - mx;
 
     return intercept;
 }
-
 ```
 
 Calculating the y-intercept is fairly simple, we just need to substitute the calculated beta, y\_mean and x\_mean values and rearrange for the intercept value as previously shown in the Python implementation section.
@@ -374,56 +348,46 @@ Calculating the y-intercept is fairly simple, we just need to substitute the cal
 Now that we have implemented all the necessary functions for the OLS method, we can finally test our linear regression model. We begin by creating a new separate test file named `test.cairo` and import all the necessary Orion libraries including our `X_values` and `y_values` found in the generated folder. We also import all the OLS functions from `lin_reg_func.cairo` file as we will be relying upon them to construct the regression model.
 
 ```rust
-use core::array::SpanTrait;
-use traits::Into;
 use debug::PrintTrait;
-use array::ArrayTrait;
+
 use verifiable_linear_regression::generated::X_values::X_values;
 use verifiable_linear_regression::generated::Y_values::Y_values;
-use verifiable_linear_regression::lin_reg_func::{calculate_mean, deviation_from_mean, compute_beta, compute_intercept, predict_y_values, compute_mse, calculate_r_score};
-
-use orion::operators::tensor::math::cumsum::cumsum_i32::cumsum;
-use orion::operators::tensor::implementations::{impl_tensor_u32::Tensor_u32, impl_tensor_fp::Tensor_fp};
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::math::arithmetic::arithmetic_fp::core::{add, sub, mul, div};
-use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
-use orion::numbers::fixed_point::implementations::fp16x16::core::{
-    FP16x16Impl, FP16x16Add, FP16x16AddEq, FP16x16Print, FP16x16PartialEq, FP16x16Sub,
-    FP16x16SubEq, FP16x16Mul, FP16x16MulEq, FP16x16Div, FP16x16DivEq, FP16x16PartialOrd, FP16x16Neg
+use verifiable_linear_regression::lin_reg_func::{
+    calculate_mean, deviation_from_mean, compute_beta, compute_intercept, predict_y_values,
+    compute_mse, calculate_r_score
 };
 
-use orion::operators::tensor::linalg::matmul::matmul_fp::core::matmul;
 
 #[test]
 #[available_gas(99999999999999999)]
 fn linear_regression_test() {
-    //Data Retrieval
+    // Fetching the x and y values
     let y_values = Y_values();
     let x_values = X_values();
 
-    //Beta Calculation
-    let beta_value = compute_beta(x_values,y_values );
+    // (*x_values.data.at(18)).print();
+
+    let beta_value = compute_beta(x_values, y_values);
     // beta_value.print();    // calculated gradient value
 
-    //Intercept Calculation
-    let intercept_value =  compute_intercept(beta_value, x_values, y_values );
+    let intercept_value = compute_intercept(beta_value, x_values, y_values);
     // intercept_value.print();   // calculated intercept value
 
-    //Prediction Phase
-    let y_pred = predict_y_values(beta_value, x_values, y_values );
+    let y_pred = predict_y_values(beta_value, x_values, y_values);
 
-    //Evaluation
     let mse = compute_mse(y_values, y_pred);
     // mse.print();       // mean squared error ouput
+
     let r_score = calculate_r_score(y_values, y_pred);
-    // r_score.print();   // accuracy of model 0.97494506835
+    r_score.print(); // accuracy of model around 0.97494506835
 
     assert(beta_value.mag > 0, 'x & y not positively correlated');
     assert(r_score.mag > 0, 'R-Squared needs to be above 0');
-    assert(r_score.mag < 65536, 'R-Squared has to be below 65536'); // 65536 represents ONE in fp16x16.
+    assert(
+        r_score.mag < 65536, 'R-Squared has to be below 65536'
+    ); // 65536 represents ONE in fp16x16.
     assert(r_score.mag > 32768, 'Accuracy below 50% ');
 }
-
 ```
 
 Our model will get tested under the `linear_regression_test()` function which will follow the following steps:

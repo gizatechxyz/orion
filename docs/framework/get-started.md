@@ -3,7 +3,7 @@
 In this section, we will guide you to start using Orion successfully. We will help you install Cairo 1.0 and add Orion dependency in your project.
 
 {% hint style="info" %}
-Orion supports <mark style="color:orange;">**Cairo v2.1.1**</mark> and <mark style="color:orange;">**Scarb 0.6.2**</mark>
+Orion supports <mark style="color:orange;">**Cairo v2.2.0**</mark> and <mark style="color:orange;">**Scarb 0.7.0**</mark>
 {% endhint %}
 
 ## 📦 Installations
@@ -58,10 +58,8 @@ You can now use the `orion` in your files:
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
-use orion::operators::nn::core::NNTrait;
-use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
+use orion::operators::nn::{NNTrait, I32NN};
 use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
 
 fn relu_example() -> Tensor<i32> {
@@ -72,8 +70,8 @@ fn relu_example() -> Tensor<i32> {
             IntegerTrait::new(2, false),
             IntegerTrait::new(1, true),
             IntegerTrait::new(2, true),
-        ].span(),
-        extra: Option::None(())
+        ]
+            .span(),
     );
 
     return NNTrait::relu(@tensor);
@@ -82,4 +80,4 @@ fn relu_example() -> Tensor<i32> {
 
 ## 🔭 Discover the Orion APIs
 
-<table data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td></td><td>⚙️ <strong>Operators</strong></td><td>A set of standardized math functions that are used in the computation of neural network models.</td><td><a href="operators/">operators</a></td></tr><tr><td></td><td>🔢 <strong>Numbers</strong></td><td>A full implementation of Signed Integer and Fixed Point in Cairo.</td><td><a href="numbers/">numbers</a></td></tr><tr><td></td><td>🚀 <strong>Performance</strong></td><td>A set of functions to increase the performance of your model.</td><td><a href="performance/">performance</a></td></tr></tbody></table>
+<table data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td></td><td>⚙️ <strong>Operators</strong></td><td>A set of standardized math functions that are used in the computation of neural network models.</td><td><a href="operators/">operators</a></td></tr><tr><td></td><td>🔢 <strong>Numbers</strong></td><td>A full implementation of Signed Integer and Fixed Point in Cairo.</td><td><a href="numbers/">numbers</a></td></tr></tbody></table>
