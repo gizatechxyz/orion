@@ -204,6 +204,12 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Tensor<FP32x32> {
         core::slice(self, starts, ends, axes, steps)
     }
+
+    fn gather(
+    self: @Tensor<FP32x32>, indices: Tensor<FP32x32>, axis: Option<usize>
+    ) -> Tensor<FP32x32> {
+        math::gather::gather(self, indices, axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

@@ -203,6 +203,12 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         core::slice(self, starts, ends, axes, steps)
     }
+
+    fn gather(
+    self: @Tensor<FP16x16>, indices: Tensor<FP16x16>, axis: Option<usize>
+    ) -> Tensor<FP16x16> {
+        math::gather::gather(self, indices, axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

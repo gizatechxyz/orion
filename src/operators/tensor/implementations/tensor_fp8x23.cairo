@@ -203,6 +203,12 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         core::slice(self, starts, ends, axes, steps)
     }
+
+    fn gather(
+    self: @Tensor<FP8x23>, indices: Tensor<FP8x23>, axis: Option<usize>
+    ) -> Tensor<FP8x23> {
+        math::gather::gather(self, indices, axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

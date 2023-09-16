@@ -197,6 +197,13 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Tensor<u32> {
         core::slice(self, starts, ends, axes, steps)
     }
+
+    fn gather(
+    self: @Tensor<u32>, indices: Tensor<u32>, axis: Option<usize>
+    ) -> Tensor<u32> {
+        // math::gather::gather(self, indices, axis)
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

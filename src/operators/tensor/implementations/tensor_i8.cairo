@@ -203,6 +203,13 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Tensor<i8> {
         core::slice(self, starts, ends, axes, steps)
     }
+
+    fn gather(
+    self: @Tensor<i8>, indices: Tensor<i8>, axis: Option<usize>
+    ) -> Tensor<i8> {
+        // math::gather::gather(self, indices, axis)
+        panic(array!['not supported!'])
+    }
     
 }
 

@@ -204,6 +204,12 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> Tensor<FP64x64> {
         core::slice(self, starts, ends, axes, steps)
     }
+
+    fn gather(
+    self: @Tensor<FP64x64>, indices: Tensor<FP64x64>, axis: Option<usize>
+    ) -> Tensor<FP64x64> {
+        math::gather::gather(self, indices, axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.
