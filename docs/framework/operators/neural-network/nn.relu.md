@@ -23,11 +23,9 @@ A `Tensor<T>` with the same shape as the input tensor.
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
-use orion::operators::nn::core::NNTrait;
-use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
-use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
+use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
+use orion::operators::nn::{NNTrait, I32NN};
+use orion::numbers::{i32, IntegerTrait};
 
 fn relu_example() -> Tensor<i32> {
     let tensor = TensorTrait::<i32>::new(
@@ -37,8 +35,8 @@ fn relu_example() -> Tensor<i32> {
             IntegerTrait::new(2, false),
             IntegerTrait::new(1, true),
             IntegerTrait::new(2, true),
-        ].span(),
-        extra: Option::None(())
+        ]
+            .span(),
     );
 
     return NNTrait::relu(@tensor);

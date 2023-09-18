@@ -5,8 +5,8 @@ mod tensor_1D {
     use array::ArrayTrait;
     use array::SpanTrait;
 
-    use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
-    use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+    use orion::operators::tensor::U32Tensor;
+    use orion::operators::tensor::core::{TensorTrait};
     use orion::tests::helpers::tensor::u32::u32_tensor_1x3_helper;
 
 
@@ -27,8 +27,8 @@ mod tensor_2D {
     use array::ArrayTrait;
     use array::SpanTrait;
 
-    use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
-    use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+    use orion::operators::tensor::U32Tensor;
+    use orion::operators::tensor::core::{TensorTrait};
     use orion::tests::helpers::tensor::u32::u32_tensor_2x2_helper;
 
 
@@ -50,8 +50,8 @@ mod tensor_3D {
     use array::ArrayTrait;
     use array::SpanTrait;
 
-    use orion::operators::tensor::implementations::impl_tensor_u32::Tensor_u32;
-    use orion::operators::tensor::core::{TensorTrait, ExtraParams};
+    use orion::operators::tensor::U32Tensor;
+    use orion::operators::tensor::core::{TensorTrait};
     use orion::tests::helpers::tensor::u32::u32_tensor_2x2x2_helper;
 
 

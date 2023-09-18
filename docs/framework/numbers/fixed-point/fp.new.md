@@ -1,14 +1,14 @@
 # FixedTrait::new
 
 ```rust
-fn new(mag: u32, sign: bool) -> FixedType;
+fn new(mag: MAG, sign: bool) -> T;
 ```
 
 Constructs a new fixed point instance.
 
 ## Args
 
-* `mag`(`u32`) - The magnitude of the fixed point.
+* `mag`(`MAG`) - The magnitude of the fixed point.
 * `sign`(`bool`) - The sign of the fixed point, where `true` represents a negative number.
 
 ## Returns
@@ -18,10 +18,9 @@ A new fixed point instance.
 ## Examples
 
 ```rust
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 
-fn new_fp_example() -> FixedType {
+fn new_fp_example() -> FP16x16 {
     // We can call `new` function as follows. 
     FixedTrait::new(65536, false)
 }

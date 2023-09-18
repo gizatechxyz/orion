@@ -29,20 +29,15 @@ Case 1: Compare tensors with same shape
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn less_equal_example() -> Tensor<usize> {
     let tensor_1 = TensorTrait::<u32>::new(
-        shape: array![3, 3, 3].span(),
-        data: array![0,1, 2, 3, 4, 5, 6, 7, 8].span(),
-        extra: Option::None(())
+        shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     );
 
     let tensor_2 = TensorTrait::<u32>::new(
-        shape: array![3, 3, 3].span(),
-        data: array![0, 1, 2, 3, 4, 5, 9, 1, 5].span(),
-        extra: Option::None(())
+        shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 9, 1, 5].span(),
     );
 
     // We can call `less_equal` function as follows.
@@ -56,21 +51,14 @@ Case 2: Compare tensors with different shapes
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn less_equal_example() -> Tensor<usize> {
     let tensor_1 = TensorTrait::<u32>::new(
-        shape: array![3, 3, 3].span(),
-        data: array![0,1, 2, 3, 4, 5, 6, 7, 8].span(),
-        extra: Option::None(())
+        shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     );
 
-    let tensor_2 = TensorTrait::<u32>::new(
-        shape: array![3].span(),
-        data: array![0, 1, 2].span(),
-        extra: Option::None(())
-    );
+    let tensor_2 = TensorTrait::<u32>::new(shape: array![3].span(), data: array![0, 1, 2].span(),);
 
     // We can call `less_equal` function as follows.
     return tensor_1.less_equal(@tensor_2);

@@ -21,7 +21,6 @@
     * [fp.new](framework/numbers/fixed-point/fp.new.md)
     * [fp.new\_unscaled](framework/numbers/fixed-point/fp.new\_unscaled.md)
     * [fp.from\_felt](framework/numbers/fixed-point/fp.from\_felt.md)
-    * [fp.from\_unscaled\_felt](framework/numbers/fixed-point/fp.from\_unscaled\_felt.md)
     * [fp.abs](framework/numbers/fixed-point/fp.abs.md)
     * [fp.ceil](framework/numbers/fixed-point/fp.ceil.md)
     * [fp.floor](framework/numbers/fixed-point/fp.floor.md)
@@ -75,6 +74,10 @@
     * [tensor.or](framework/operators/tensor/tensor.or.md)
     * [tensor.xor](framework/operators/tensor/tensor.xor.md)
     * [tensor.onehot](framework/operators/tensor/tensor.onehot.md)
+    * [tensor.slice](framework/operators/tensor/tensor.slice.md)
+    * [tensor.concat](framework/operators/tensor/tensor.concat.md)
+    * [tensor.quantize\_linear](framework/operators/tensor/tensor.quantize\_linear.md)
+    * [tensor.dequantize\_linear](framework/operators/tensor/tensor.dequantize\_linear.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)
@@ -84,9 +87,6 @@
     * [nn.softsign](framework/operators/neural-network/nn.softsign.md)
     * [nn.softplus](framework/operators/neural-network/nn.softplus.md)
     * [nn.linear](framework/operators/neural-network/nn.linear.md)
-* [Performance](framework/performance/README.md)
-  * [performance.quantize\_linear](framework/performance/performance.quantize\_linear.md)
-  * [performance.dequantize\_linear](framework/performance/performance.dequantize\_linear.md)
 
 ## 🏛 Hub
 

@@ -4,11 +4,10 @@ mod input_2;
 mod output_0; 
 
 
-use orion::operators::nn::core::NNTrait;
-use orion::numbers::fixed_point::core::FixedTrait;
-use orion::operators::nn::implementations::impl_nn_i8::NN_i8;
-use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
-use orion::operators::tensor::implementations::impl_tensor_i8::i8TensorPartialEq;
+use orion::operators::nn::NNTrait;
+use orion::numbers::FixedTrait;
+use orion::operators::nn::I8NN;
+use orion::operators::tensor::I8TensorPartialEq;
 use orion::utils::assert_eq;
 
 #[test]

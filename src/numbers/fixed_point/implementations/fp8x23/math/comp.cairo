@@ -1,8 +1,8 @@
 use orion::numbers::fixed_point::implementations::fp8x23::core::{
-    FixedType, FixedTrait, FP8x23Impl, FP8x23PartialOrd, FP8x23PartialEq
+    FP8x23, FixedTrait, FP8x23PartialOrd, FP8x23PartialEq
 };
 
-fn max(a: FixedType, b: FixedType) -> FixedType {
+fn max(a: FP8x23, b: FP8x23) -> FP8x23 {
     if (a >= b) {
         return a;
     } else {
@@ -10,7 +10,7 @@ fn max(a: FixedType, b: FixedType) -> FixedType {
     }
 }
 
-fn min(a: FixedType, b: FixedType) -> FixedType {
+fn min(a: FP8x23, b: FP8x23) -> FP8x23 {
     if (a <= b) {
         return a;
     } else {
@@ -18,7 +18,7 @@ fn min(a: FixedType, b: FixedType) -> FixedType {
     }
 }
 
-fn xor(a: FixedType, b: FixedType) -> bool {
+fn xor(a: FP8x23, b: FP8x23) -> bool {
     if (a == FixedTrait::new(0, false) || b == FixedTrait::new(0, false)) && (a != b) {
         return true;
     } else {
@@ -26,7 +26,7 @@ fn xor(a: FixedType, b: FixedType) -> bool {
     }
 }
 
-fn or(a: FixedType, b: FixedType) -> bool {
+fn or(a: FP8x23, b: FP8x23) -> bool {
     let zero = FixedTrait::new(0, false);
     if a == zero && b == zero {
         return false;

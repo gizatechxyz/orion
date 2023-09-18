@@ -1,7 +1,7 @@
 # NNTrait::leaky_relu
 
 ```rust
- fn leaky_relu(inputs: @Tensor<T>, alpha: @FixedType) -> Tensor<FixedType>
+ fn leaky_relu(inputs: @Tensor<T>, alpha: @T) -> Tensor<T>
 ```
 
 Applies the leaky rectified linear unit (Leaky ReLU) activation function element-wise to a given tensor.
@@ -10,38 +10,36 @@ The Leaky ReLU function is defined as f(x) = alpha * x if x < 0, f(x) = x otherw
 
 ## Args
 * `inputs`(`@Tensor<T>`) - A snapshot of a tensor to which the Leaky ReLU function will be applied.
-* `alpha`(`@FixedType`) - A snapshot of a FixedType scalar that defines the alpha value of the Leaky ReLU function.
+* `alpha`(`@T`) - A snapshot of a fixed point scalar that defines the alpha value of the Leaky ReLU function.
 
 ## Returns
-A new FixedType tensor with the same shape as the input tensor and the Leaky ReLU function applied element-wise.
+A new fixed point tensor with the same shape as the input tensor and the Leaky ReLU function applied element-wise.
+
+## Type Constraints
+
+Constrain input and output types to fixed point tensors.
 
 ## Examples
 
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_i32::{Tensor_i32};
-use orion::operators::nn::core::NNTrait;
-use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
-use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
-use orion::numbers::fixed_point::core::{FixedImpl, FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
+use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
+use orion::operators::nn::{NNTrait, FP8x23NN};
+use orion::numbers::{FP8x23, FixedTrait};
 
-fn leaky_relu_example() -> Tensor<FixedType> {
-    let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP8x23) };
-    let tensor = TensorTrait::<i32>::new(
+fn leaky_relu_example() -> Tensor<FP8x23> {
+    let tensor = TensorTrait::<FP8x23>::new(
         shape: array![2, 3].span(),
         data: array![
-            IntegerTrait::new(1, false),
-            IntegerTrait::new(2, false),
-            IntegerTrait::new(1, true),
-            IntegerTrait::new(2, true),
-            IntegerTrait::new(0, false),
-            IntegerTrait::new(0, false),
+            FixedTrait::new(1, false),
+            FixedTrait::new(2, false),
+            FixedTrait::new(1, true),
+            FixedTrait::new(2, true),
+            FixedTrait::new(0, false),
+            FixedTrait::new(0, false),
         ]
             .span(),
-        extra: Option::Some(extra)
     );
     let alpha = FixedTrait::from_felt(838861); // 0.1
 

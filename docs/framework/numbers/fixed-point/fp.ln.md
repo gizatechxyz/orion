@@ -2,14 +2,14 @@
 
 
 ```rust
-fn ln(self: FixedType) -> FixedType;
+fn ln(self: T) -> T;
 ```
 
 Returns the natural logarithm of the fixed point number.
 
 ## Args
 
-* `self`(`FixedType`) - The input fixed point
+* `self`(`T`) - The input fixed point
 
 ## Returns 
 
@@ -18,10 +18,9 @@ A fixed point representing the natural logarithm of the input number.
 ## Examples
 
 ```rust
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 
-fn ln_fp_example() -> FixedType {
+fn ln_fp_example() -> FP16x16 {
     // We instantiate fixed point here.
     let fp = FixedTrait::new_unscaled(1, false);
 

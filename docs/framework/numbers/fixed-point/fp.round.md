@@ -1,14 +1,14 @@
 # fp.round
 
 ```rust
-fn round(self: FixedType) -> FixedType;
+fn round(self: T) -> T;
 ```
 
 Rounds the fixed point number to the nearest whole number.
 
 ## Args
 
-* `self`(`FixedType`) - The input fixed point
+* `self`(`T`) - The input fixed point
 
 ## Returns
 
@@ -18,10 +18,9 @@ A fixed point number representing the rounded value.
 
 
 ```rust
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 
-fn round_fp_example() -> FixedType {
+fn round_fp_example() -> FP16x16 {
     // We instantiate FixedTrait points here.
     let a = FixedTrait::from_felt(190054); // 2.9
 

@@ -2,17 +2,17 @@ use core::serde::Serde;
 use core::option::OptionTrait;
 use core::clone::Clone;
 // ===== 1D ===== //
-use orion::numbers::fixed_point::core::{FixedTrait, FixedType};
+use orion::numbers::fixed_point::core::FixedTrait;
 
 #[cfg(test)]
 mod tensor_1D {
     use array::{ArrayTrait, SpanTrait};
     use core::traits::Into;
-    use orion::numbers::fixed_point::core::{FixedTrait, FixedType, FixedImpl};
+    use orion::numbers::fixed_point::core::{FixedTrait};
     use orion::numbers::fixed_point::implementations::fp16x16::core::{
-        FP16x16Impl, FP16x16PartialEq
+        FP16x16, FP16x16PartialEq
     };
-    use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+    use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16Tensor;
     use orion::tests::helpers::tensor::fixed_point::fp16x16::{
         fp_tensor_1x3_helper, fp_tensor_2x2_helper, fp_tensor_3x2x2_neg_helper,
         fp_tensor_1x3_neg_helper, fp_tensor_2x2x2_helper
@@ -25,9 +25,9 @@ mod tensor_1D {
 
     // use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
     // use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
-    use orion::operators::tensor::core::{Tensor, ExtraParams};
+    use orion::operators::tensor::core::{Tensor};
 
-    fn fp_tensor_3x2x2_new() -> Tensor<FixedType> {
+    fn fp_tensor_3x2x2_new() -> Tensor<FP16x16> {
         let mut sizes = ArrayTrait::new();
         sizes.append(3);
         sizes.append(2);
@@ -47,14 +47,14 @@ mod tensor_1D {
         data.append(FixedTrait::new_unscaled(2, false));
         data.append(FixedTrait::new_unscaled(3, false));
 
-        let extra = Option::<ExtraParams>::None(());
+        
 
-        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<FP16x16>::new(sizes.span(), data.span());
 
         return tensor;
     }
 
-    fn fp_tensor_2x2_pos_neg_new() -> Tensor<FixedType> {
+    fn fp_tensor_2x2_pos_neg_new() -> Tensor<FP16x16> {
         let mut sizes = ArrayTrait::new();
         sizes.append(2);
         sizes.append(2);
@@ -65,9 +65,9 @@ mod tensor_1D {
         data.append(FixedTrait::new_unscaled(2, true));
         data.append(FixedTrait::new_unscaled(1, true));
 
-        let extra = Option::<ExtraParams>::None(());
+        
 
-        let tensor = TensorTrait::<FixedType>::new(sizes.span(), data.span(), extra);
+        let tensor = TensorTrait::<FP16x16>::new(sizes.span(), data.span());
 
         return tensor;
     }

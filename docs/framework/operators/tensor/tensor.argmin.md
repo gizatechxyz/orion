@@ -28,22 +28,15 @@ Case 1: argmin with default parameters
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn argmin_example() -> Tensor<usize> {
     let tensor = TensorTrait::<u32>::new(
-        shape: array![2, 2, 2].span(),
-        data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
-        extra: Option::None(())
+        shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
     );
 
     // We can call `argmin` function as follows.
-    return tensor.argmin(
-        axis: 2,
-        keepdims: Option::None(()),
-        select_last_index: Option::None(())
-    );
+    return tensor.argmin(axis: 2, keepdims: Option::None(()), select_last_index: Option::None(()));
 }
 >>> [[[0,0],[0,0]]]
 
@@ -53,22 +46,16 @@ Case 2: argmin with keepdims set to false
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn argmin_example() -> Tensor<usize> {
     let tensor = TensorTrait::<u32>::new(
-        shape: array![2, 2, 2].span(),
-        data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
-        extra: Option::None(())
+        shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
     );
 
     // We can call `argmin` function as follows.
-    return tensor.argmin(
-        axis: 2,
-        keepdims: Option::Some(false),
-        select_last_index: Option::None(())
-    );
+    return tensor
+        .argmin(axis: 2, keepdims: Option::Some(false), select_last_index: Option::None(()));
 }
 >>> [[0,0],[0,0]]
 ```
@@ -78,22 +65,16 @@ Case 3: argmin with select_last_index set to true
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn argmin_example() -> Tensor<usize> {
     let tensor = TensorTrait::<u32>::new(
-        shape: array![2, 2, 2].span(),
-        data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
-        extra: Option::None(())
+        shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 4, 5, 5].span(),
     );
 
     // We can call `argmin` function as follows.
-    return tensor.argmin(
-        axis: 2,
-        keepdims: Option::None(()),
-        select_last_index: Option::None(true)
-    );
+    return tensor
+        .argmin(axis: 2, keepdims: Option::None(()), select_last_index: Option::Some(true));
 }
 >>> [[[0,0],[1,1]]]
 ```

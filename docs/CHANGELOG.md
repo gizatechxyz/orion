@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - 2023-09-03
+
+## Changed
+- Add FP64x64 and FP32x32 fixed points (from cubit library).
+- Implement Tensor FP64x64 and FP3x32.
+- Implement NN FP64x64 and FP3x32.
+
+## [Unreleased] - 2023-09-01
+
+## Changed
+Refactored Orion to support generic types.
+
 ## [Unreleased] - 2023-08-24
 
 ## Changed
@@ -13,6 +25,19 @@ Refactored Loops to use match to break loops.
 
 ## Changed
 Use only LUTs for trigonometric functions.
+
+## [Unreleased] - 2023-08-15
+
+### Added
+
+- Concat for tensors with tests
+- Added i8 tensor helper for tests.
+
+## [Unreleased] - 2023-08-09
+
+### Added
+
+- Onehot encoding for tensors with tests
 
 ## [Unreleased] - 2023-08-15
 

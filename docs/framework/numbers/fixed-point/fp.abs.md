@@ -1,14 +1,14 @@
 # fp.abs
 
 ```rust
-fn abs(self: FixedType) -> FixedType;
+fn abs(self: T) -> T;
 ```
 
 Returns the absolute value of the fixed point number.
 
 ## Args
 
-* `self`(`FixedType`) - The input fixed point
+* `self`(`T`) - The input fixed point
 
 ## Returns
 
@@ -17,10 +17,10 @@ The absolute value of the input fixed point number.
 ## Examples
 
 ```rust
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait};
-use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 
-fn abs_fp_example() -> FixedType {
+
+fn abs_fp_example() -> FP16x16 {
     // We instantiate fixed point here.
     let fp = FixedTrait::new_unscaled(1, true);
 

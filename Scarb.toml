@@ -7,6 +7,7 @@ homepage = "https://github.com/gizatechxyz/orion"
 
 [dependencies]
 alexandria_data_structures = { git = "https://github.com/keep-starknet-strange/alexandria.git" }
+cubit = { git = "https://github.com/influenceth/cubit.git" }
 
 [scripts]
 sierra = "cairo-compile . -r"

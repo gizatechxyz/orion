@@ -2,7 +2,7 @@
 
 <figure><img src="../../.gitbook/assets/photo_2023-06-14_13-50-17.jpg" alt=""><figcaption></figcaption></figure>
 
-Orion is a dedicated Cairo-based library designed specifically to build machine learning models for ValidityML. Its purpose is to facilitate verifiable inference. Orion exclusively operates with 8-bit quantized models, an approach intended to optimize performance. In this tutorial, you will be guided on how to train your model using Quantized Aware Training using MNIST dataset, how to convert your pre-trained model to Cairo 1, and how to perform inference with Orion.
+Orion is a dedicated Cairo-based library designed specifically to build machine learning models for ValidityML. Its purpose is to facilitate verifiable inference. For better performance we will operate with an 8-bit quantized model. In this tutorial, you will be guided on how to train your model using Quantized Aware Training using MNIST dataset, how to convert your pre-trained model to Cairo 1, and how to perform inference with Orion.
 
 {% hint style="info" %}
 You can find all the code and the notebook in the dedicated [repository.](https://github.com/gizatechxyz/orion\_tutorials)
@@ -385,30 +385,28 @@ tensors = {
 
 Now let's generate Cairo files for each tensor in the object.
 
-<pre class="language-python"><code class="lang-python"># Create the directory if it doesn't exist
+```python
+# Create the directory if it doesn't exist
 os.makedirs('src/generated', exist_ok=True)
 
 for tensor_name, tensor in tensors.items():
     with open(os.path.join('src', 'generated', f"{tensor_name}.cairo"), "w") as f:
         f.write(
-           <a data-footnote-ref href="#user-content-fn-1"> "use array::ArrayTrait;\n" +</a>
-            "use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};\n" +
-            "use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;\n" +
-            "use orion::numbers::fixed_point::core::FixedImpl;\n" +
-            "use orion::numbers::signed_integer::i32::i32;\n\n" +
-            "fn {0}() -> Tensor&#x3C;i32> ".format(tensor_name) + "{\n" +
-            "    let mut shape = ArrayTrait::&#x3C;usize>::new();\n"
+            "use array::ArrayTrait;\n" +
+            "use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};\n" +
+            "use orion::numbers::i32;\n\n" +
+            "\nfn {0}() -> Tensor<i32> ".format(tensor_name) + "{\n" +
+            "    let mut shape = ArrayTrait::<usize>::new();\n"
         )
         for dim in tensor.shape:
             f.write("    shape.append({0});\n".format(dim))
         f.write(
-            "    let mut data = ArrayTrait::&#x3C;i32>::new();\n"
+            "    let mut data = ArrayTrait::<i32>::new();\n"
         )
         for val in np.nditer(tensor.flatten()):
-            f.write("    data.append(i32 {{ mag: {0}, sign: {1} }});\n".format(abs(int(val)), str(val &#x3C; 0).lower()))
+            f.write("    data.append(i32 {{ mag: {0}, sign: {1} }});\n".format(abs(int(val)), str(val < 0).lower()))
         f.write(
-            "let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) }; \n" +
-            "    TensorTrait::new(shape.span(), data.span(), Option::Some(extra))\n" +
+            "    TensorTrait::new(shape.span(), data.span())\n" +
             "}\n"
         )
       
@@ -416,7 +414,7 @@ with open(os.path.join('src', 'generated.cairo'), 'w') as f:
     for param_name in tensors.keys():
         f.write(f"mod {param_name};\n")
 
-</code></pre>
+```
 
 Your Cairo files are generated in `src/generated` directory.
 
@@ -434,27 +432,25 @@ Here is a file we generated: `fc1_bias.cairo`
 
 ```rust
 use array::ArrayTrait;
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
-use orion::numbers::fixed_point::core::FixedImpl;
-use orion::numbers::signed_integer::i32::i32;
+use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
+use orion::numbers::i32;
+
 
 fn fc1_bias() -> Tensor<i32> {
     let mut shape = ArrayTrait::<usize>::new();
     shape.append(10);
     let mut data = ArrayTrait::<i32>::new();
-    data.append(i32 { mag: 1300, sign: true });
-    data.append(i32 { mag: 7644, sign: false });
-    data.append(i32 { mag: 472, sign: true });
-    data.append(i32 { mag: 3601, sign: false });
-    data.append(i32 { mag: 5538, sign: false });
-    data.append(i32 { mag: 5476, sign: false });
-    data.append(i32 { mag: 3879, sign: false });
-    data.append(i32 { mag: 3268, sign: true });
-    data.append(i32 { mag: 1979, sign: false });
-    data.append(i32 { mag: 1435, sign: false });
-let extra = ExtraParams { fixed_point: Option::Some(FixedImpl::FP16x16(())) }; 
-    TensorTrait::new(shape.span(), data.span(), Option::Some(extra))
+    data.append(i32 { mag: 1287, sign: false });
+    data.append(i32 { mag: 3667, sign: true });
+    data.append(i32 { mag: 2954, sign: false });
+    data.append(i32 { mag: 7938, sign: false });
+    data.append(i32 { mag: 3959, sign: false });
+    data.append(i32 { mag: 5862, sign: true });
+    data.append(i32 { mag: 4886, sign: false });
+    data.append(i32 { mag: 4992, sign: false });
+    data.append(i32 { mag: 10126, sign: false });
+    data.append(i32 { mag: 2237, sign: true });
+    TensorTrait::new(shape.span(), data.span())
 }
 ```
 
@@ -482,15 +478,6 @@ The second concept Orion introduced is the [Tensor](../../framework/operators/te
 struct Tensor<T> {
     shape: Span<usize>,
     data: Span<T>
-    extra: Option<ExtraParams>
-}
-```
-
-`ExtraParams` is a struct containing additional parameters for the tensor. The `fixed_point` parameter specifies the fixed-point implementation to be used when a tensor operation uses fixed points.
-
-```rust
-struct ExtraParams {
-    fixed_point: Option<FixedImpl>
 }
 ```
 
@@ -527,7 +514,8 @@ It should return a `Tensor<i32>`.
 
 ```rust
 use orion::operators::tensor::core::Tensor;
-use orion::numbers::signed_integer::i32::i32;
+use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
+use orion::operators::nn::{NNTrait, I32NN};
 
 fn fc1(i: Tensor<i32>, w: Tensor<i32>, b: Tensor<i32>) -> Tensor<i32> {
     // ...
@@ -539,35 +527,30 @@ To build the first layer, we need a [Linear](../../framework/operators/neural-ne
 ```rust
 use orion::operators::tensor::core::Tensor;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use orion::operators::nn::core::NNTrait;
-use orion::numbers::fixed_point::core::FixedType;
-use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+use orion::operators::nn::{NNTrait, I32NN};
 
 fn fc1(i: Tensor<i32>, w: Tensor<i32>, b: Tensor<i32>) -> Tensor<i32> {
-    let x = NNTrait::linear(i, w, b, true); // `true` because we want to quantize the result
-    NNTrait::relu(@x, IntegerTrait::new(0, false))
+    let x = NNTrait::linear(i, w, b);
+    NNTrait::relu(@x)
 }
 ```
 
 #### Dense Layer 2
 
-In a similar way, we can build the second layer `fc2`, which contains a [Linear](../../framework/operators/neural-network/nn.linear.md) function and a [Softmax](../../framework/operators/neural-network/nn.softmax.md) from [NNTrait](../../framework/operators/neural-network/). Because after a softmax the output tensor lies in the interval \[0,1], floating points are represented by [fixed points](../../framework/numbers/fixed-point/). This is why `fc2` returns `Tensor<FixedType>`.
+In a similar way, we can build the second layer `fc2`, which contains a [Linear](../../framework/operators/neural-network/nn.linear.md) function and a [Softmax](../../framework/operators/neural-network/nn.softmax.md) from [NNTrait](../../framework/operators/neural-network/). We could convert the tensor to fixed point in order to perform softmax, but for this simple tutorial it's not necessary.&#x20;
 
 ```rust
 use orion::operators::tensor::core::Tensor;
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
-use orion::operators::nn::core::NNTrait;
-use orion::numbers::fixed_point::core::FixedType;
-use orion::operators::nn::implementations::impl_nn_i32::NN_i32;
+use orion::operators::nn::{NNTrait, I32NN};
 
 fn fc1(i: Tensor<i32>, w: Tensor<i32>, b: Tensor<i32>) -> Tensor<i32> {
-    let x = NNTrait::linear(i, w, b, true);
-    NNTrait::relu(@x, IntegerTrait::new(0, false))
+    let x = NNTrait::linear(i, w, b);
+    NNTrait::relu(@x)
 }
 
-fn fc2(i: Tensor<i32>, w: Tensor<i32>, b: Tensor<i32>) -> Tensor<FixedType> {
-    let x = NNTrait::linear(i, w, b, true);
-    NNTrait::softmax(@x, 0)
+fn fc2(i: Tensor<i32>, w: Tensor<i32>, b: Tensor<i32>) -> Tensor<i32> {
+    NNTrait::linear(i, w, b)
 }
 ```
 
@@ -638,7 +621,7 @@ fn mnist_nn_test() {
 }
 ```
 
-Finally, let's make a prediction. The input data represents the digit 7. The probability at index 7 must therefore be close to 1.
+Finally, let's make a prediction. The input data represents the digit 7. So the index 7 should have the highest probability.
 
 ```rust
 use core::array::SpanTrait;
@@ -651,7 +634,7 @@ use mnist_nn::generated::fc1_weights::fc1_weights;
 use mnist_nn::generated::fc2_bias::fc2_bias;
 use mnist_nn::generated::fc2_weights::fc2_weights;
 
-use orion::operators::tensor::implementations::impl_tensor_fp::Tensor_fp;
+use orion::operators::tensor::I32Tensor;
 
 #[test]
 #[available_gas(99999999999999999)]
@@ -665,21 +648,13 @@ fn mnist_nn_test() {
     let x = fc1(input, fc1_weights, fc1_bias);
     let x = fc2(x, fc2_weights, fc2_bias);
 
-    assert(*x.data.at(0).mag == 0, 'proba x is 0 -> 0');
-    assert(*x.data.at(1).mag == 0, 'proba x is 1 -> 0');
-    assert(*x.data.at(2).mag == 0, 'proba x is 2 -> 0');
-    assert(*x.data.at(3).mag == 0, 'proba x is 3 -> 0');
-    assert(*x.data.at(4).mag == 0, 'proba x is 4 -> 0');
-    assert(*x.data.at(5).mag == 0, 'proba x is 5 -> 0');
-    assert(*x.data.at(6).mag == 0, 'proba x is 6 -> 0');
-    assert(*x.data.at(7).mag > 62259, 'proba x is 7 -> 1'); // 62259 represents ONE in fp16x16.
-    assert(*x.data.at(8).mag == 0, 'proba x is 8 -> 0');
-    assert(*x.data.at(9).mag == 0, 'proba x is 9 -> 0');
-}
+    let x = *x.argmax(0, Option::None(()), Option::None(())).data.at(0);
 
+    assert(x == 7, 'should predict 7');
+}
 ```
 
-Test your model by running `scarb cairo-test -f mnist_nn_test`.
+Test your model by running `scarb test`.
 
 ```sh
 testing mnist_nn ...
@@ -693,5 +668,3 @@ Bravo 👏 You can be proud of yourself! You just built your first Neural Networ
 Orion leverages Cairo to guarantee the reliability of inference, providing developers with a user-friendly framework to build complex and verifiable machine learning models. We invite the community to join us in shaping a future where trustworthy AI becomes a reliable resource for all.
 
 <table data-card-size="large" data-view="cards"><thead><tr><th></th><th align="center"></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td></td><td align="center"><mark style="color:orange;"><strong>Join Discord Community</strong></mark></td><td></td><td><a href="https://discord.gg/yqWB57XNYg">https://discord.gg/yqWB57XNYg</a></td></tr><tr><td></td><td align="center"><mark style="color:orange;"><strong>Get Started Orion</strong></mark></td><td></td><td><a href="https://orion.gizatech.xyz/apis/get-started">https://orion.gizatech.xyz/apis/get-started</a></td></tr></tbody></table>
-
-[^1]: Maybe for this to make it a bit cleaner we could use triple quotes so we don't have to add "\n" on each line
