@@ -76,6 +76,7 @@
     * [tensor.onehot](framework/operators/tensor/tensor.onehot.md)
     * [tensor.slice](framework/operators/tensor/tensor.slice.md)
     * [tensor.concat](framework/operators/tensor/tensor.concat.md)
+    * [tensor.gather](framework/operators/tensor/tensor.gather.md)
     * [tensor.quantize\_linear](framework/operators/tensor/tensor.quantize\_linear.md)
     * [tensor.dequantize\_linear](framework/operators/tensor/tensor.dequantize\_linear.md)
   * [Neural Network](framework/operators/neural-network/README.md)
