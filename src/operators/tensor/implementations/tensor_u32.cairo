@@ -199,10 +199,9 @@ impl U32Tensor of TensorTrait<u32> {
     }
 
     fn gather(
-    self: @Tensor<u32>, indices: Tensor<u32>, axis: Option<usize>
-    ) -> Tensor<u32> {
-        // math::gather::gather(self, indices, axis)
-        panic(array!['not supported!'])
+    self: @Tensor<u32>, indices: Tensor<usize>, axis: Option<usize>
+    ) ->  Tensor<u32> {
+        math::gather::gather(self, indices, axis)
     }
 }
 

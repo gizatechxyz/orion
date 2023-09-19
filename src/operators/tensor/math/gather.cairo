@@ -1,3 +1,4 @@
+use alexandria_data_structures::array_ext::SpanTraitExt;
 use array::ArrayTrait;
 use array::SpanTrait;
 
@@ -9,24 +10,16 @@ use core::traits::Destruct;
 use option::OptionTrait;
 
 use orion::numbers::NumberTrait;
-use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::{TensorTrait, Tensor};
 
 /// Cf: TensorTrait::gather docstring
 fn gather<
-    T,
-    MAG,
-    impl FFixed: FixedTrait<T, MAG>,
-    impl FTensorTrait: TensorTrait<T>,
-    impl FNumber: NumberTrait<T, MAG>,
-    impl U32TryIntoMAG: TryInto<u32, MAG>,
-    impl FPartialEq: PartialEq<T>,
-    impl FPartialOrd: PartialOrd<T>,
-    impl FAdd: Add<T>,
-    impl FCopy: Copy<T>,
-    impl FDrop: Drop<T>,
+    T, 
+    impl TTensorTrait: TensorTrait<T>, 
+    impl TCopy: Copy<T>, 
+    impl TDrop: Drop<T>,
 >(
-    self: @Tensor<T>, indices: Tensor<T>, axis: Option<usize>
+    self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>
 ) -> Tensor<T> {
     let data = *self.data;
     let shape = *self.shape;
@@ -41,7 +34,9 @@ fn gather<
     let rank_indices = indices.shape.len();
     let data_indices = indices.data;
     let axis_shape = *shape.at(axis);
-    assert(indices.max() < FixedTrait::<T, MAG>::new_unscaled(axis_shape.try_into().unwrap(), false), 'this index out of bounds');
+    let ind_max = data_indices.max().unwrap();
+    assert(ind_max < axis_shape, 'this index out of bounds');
+
 
 
     
@@ -115,7 +110,8 @@ fn gather<
             }; 
 
             let new_val = inner_loop / divisor % *shape.at(axis);
-            if (FixedTrait::<T, MAG>::new_unscaled(new_val.try_into().unwrap(), false) == indice) {
+            if (indice == new_val) {
+
                 let val = break_loop * outer_loop + inner_loop;
                 let data_val = *data.at(val);
                 output_data.append(data_val);

@@ -206,7 +206,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     }
 
     fn gather(
-    self: @Tensor<FP64x64>, indices: Tensor<FP64x64>, axis: Option<usize>
+    self: @Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP64x64> {
         math::gather::gather(self, indices, axis)
     }

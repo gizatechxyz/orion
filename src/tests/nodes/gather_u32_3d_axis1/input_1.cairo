@@ -12,7 +12,7 @@ fn input_1() -> Tensor<u32> {
     data.append(1);
     data.append(2);
     data.append(1);
-    data.append(0);
-    data.append(2);
+    data.append(1);
+    data.append(3);
     TensorTrait::new(shape.span(), data.span())
 }

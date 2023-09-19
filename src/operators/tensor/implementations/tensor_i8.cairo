@@ -205,10 +205,9 @@ impl I8Tensor of TensorTrait<i8> {
     }
 
     fn gather(
-    self: @Tensor<i8>, indices: Tensor<i8>, axis: Option<usize>
+    self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<i8> {
-        // math::gather::gather(self, indices, axis)
-        panic(array!['not supported!'])
+        math::gather::gather(self, indices, axis)
     }
     
 }

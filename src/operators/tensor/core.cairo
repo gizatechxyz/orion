@@ -2466,7 +2466,7 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn gather(
-    self: @Tensor<T>, indices: Tensor<T>, axis: Option<usize>
+    self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<T> ;
 }
 
