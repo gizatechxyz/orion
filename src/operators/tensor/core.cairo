@@ -2536,7 +2536,7 @@ fn tensor_eq<T, impl TPartialEq: PartialEq<T>>(mut lhs: Tensor<T>, mut rhs: Tens
 }
 
 /// Cf: TensorTrait::slice docstring
-fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
+fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     self: @Tensor<T>, starts: Span<usize>, ends: Span<usize>, axes: Option<Span<usize>>, steps: Option<Span<usize>>
 ) -> Tensor<T> {
     let axes = match axes {
@@ -2624,7 +2624,7 @@ fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
         processed_ends.append(end);
         processed_steps.append(step);
         output_shape.append(shape);
-        
+
         if i == stop_i {
             break ();
         }
@@ -2636,7 +2636,7 @@ fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     if is_empty {
         return Tensor::<T> {shape: output_shape.span(), data: output_data.span()};
     }
-    
+
     let stop_j = (*self.data).len() - 1;
     let stop_k = (*self.shape).len() - 1;
     let mut j: usize = 0;
@@ -2683,5 +2683,5 @@ fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
         j += 1;
     };
 
-    return Tensor::<T> {shape: output_shape.span(), data: output_data.span()};
+    return TensorTrait::new(output_shape.span(), output_data.span());    
 }
