@@ -2537,7 +2537,11 @@ fn tensor_eq<T, impl TPartialEq: PartialEq<T>>(mut lhs: Tensor<T>, mut rhs: Tens
 
 /// Cf: TensorTrait::slice docstring
 fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
-    self: @Tensor<T>, starts: Span<usize>, ends: Span<usize>, axes: Option<Span<usize>>, steps: Option<Span<usize>>
+    self: @Tensor<T>,
+    starts: Span<usize>,
+    ends: Span<usize>,
+    axes: Option<Span<usize>>,
+    steps: Option<Span<usize>>
 ) -> Tensor<T> {
     let axes = match axes {
         Option::Some(axes) => axes,
@@ -2592,15 +2596,22 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
         let mut processed_params = (0, 0, 0, 0);
         if is_found {
             let mut start: usize = *(*self.shape).at(i);
-            let mut end: usize = 0;
+            let mut end: usize = *(*self.shape).at(i);
+
             if *starts.at(axis_index) < *(*self.shape).at(i) {
                 start = *starts.at(axis_index);
             }
 
             if *(*self.shape).at(i) > *ends.at(axis_index) {
                 end = *ends.at(axis_index);
+            } else {
+                end = *(*self.shape).at(i);
             }
-            else {
+
+            if start > *(*self.shape).at(i) {
+                start = *(*self.shape).at(i);
+            }
+            if end > *(*self.shape).at(i) {
                 end = *(*self.shape).at(i);
             }
 
@@ -2615,10 +2626,10 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
                     processed_params = (start, end, *steps.at(axis_index), dim);
                 }
             }
-
         } else {
             processed_params = (0, *(*self.shape).at(i), 1, *(*self.shape).at(i));
         }
+
         let (start, end, step, shape) = processed_params;
         processed_starts.append(start);
         processed_ends.append(end);
@@ -2634,7 +2645,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
     let mut output_data: Array<T> = ArrayTrait::new();
 
     if is_empty {
-        return Tensor::<T> {shape: output_shape.span(), data: output_data.span()};
+        return Tensor::<T> { shape: output_shape.span(), data: output_data.span() };
     }
 
     let stop_j = (*self.data).len() - 1;
@@ -2661,8 +2672,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
             }
             if (index - start) % step == 0 {
                 is_included = true;
-            }
-            else {
+            } else {
                 is_included = false;
                 break ();
             }
@@ -2683,5 +2693,5 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
         j += 1;
     };
 
-    return TensorTrait::new(output_shape.span(), output_data.span());    
+    return TensorTrait::new(output_shape.span(), output_data.span());
 }
