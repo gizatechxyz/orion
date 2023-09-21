@@ -204,6 +204,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Tensor<FP32x32> {
         core::slice(self, starts, ends, axes, steps)
     }
+
+    fn nonzero(self: @Tensor<FP32x32>) -> Tensor<usize> {
+        core::nonzero(self)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

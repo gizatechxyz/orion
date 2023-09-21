@@ -5,7 +5,7 @@ use option::OptionTrait;
 use alexandria_data_structures::array_ext::{SpanTraitExt};
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::i8;
+use orion::numbers::{i8, NumberTrait};
 
 #[derive(Copy, Drop)]
 struct Tensor<T> {
@@ -2411,6 +2411,44 @@ trait TensorTrait<T> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<T>;
+    /// # tensor.nonzero
+    ///
+    /// ```rust 
+    ///    fn nonzero(self: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Produces indices of the elements that are non-zero (in row-major order - by dimension).
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - Tensor of data to calculate non-zero indices.  
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<usize>` indices of the elements that are non-zero (in row-major order - by dimension).
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn slice_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 4].span(), 
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(), 
+    ///     );
+    /// 
+    ///     return tensor.slice();
+    /// }
+    /// >>> [[0 0 0 1 1 1 1]
+    ///      [1 2 3 0 1 2 3]]
+    /// ```
+    ///
+    fn nonzero(
+        self: @Tensor<T>
+    ) -> Tensor<usize>;
 }
 
 
@@ -2684,4 +2722,65 @@ fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     };
 
     return Tensor::<T> {shape: output_shape.span(), data: output_data.span()};
+}
+
+/// Cf: TensorTrait::nonzero docstring
+fn nonzero<T, MAG, impl TTensor: TensorTrait<T>, impl TPartialEq: PartialEq<T>, impl TDrop: Drop<T>, impl TCopy: Copy<T>,
+    impl TNumber: NumberTrait<T, MAG>>(self: @Tensor<T>) -> Tensor<usize> {
+    let mut indexes_of_dimensions: Array<usize> = ArrayTrait::new();
+
+    let stop_i = (*self.shape).len() - 1;
+    let mut i: usize = 0;
+    let stop_j = (*self.data).len() - 1;
+    let mut j: usize = 0;
+    
+    loop {
+        if (*(*self.data).at(j)) != NumberTrait::zero() {
+            let indices = unravel_index(j, *self.shape);
+            i = 0;
+
+            loop {
+                indexes_of_dimensions.append(*indices.at(i));
+
+                if i == stop_i {
+                    break ();
+                }
+                i += 1;
+            };
+        }
+
+        if j == stop_j {
+            break ();
+        }
+        j += 1;
+    };
+
+    let indexes_of_dimensions_span = indexes_of_dimensions.span();
+    let mut output_data: Array<usize> = ArrayTrait::new();
+
+    if indexes_of_dimensions_span.len() == 0 {
+        return Tensor::<usize> {shape: array![(*self.shape).len(), 0].span(), data: output_data.span()};
+    }
+
+    let stop_k = (indexes_of_dimensions_span.len() / (*self.shape).len()) - 1;
+    
+    i = 0;
+    loop {
+        let mut k: usize = 0;
+        loop {
+            output_data.append(*indexes_of_dimensions_span.at((*self.shape).len() * k + i));
+            
+            if k == stop_k {
+                break ();
+            }
+            k += 1;
+        };
+
+        if i == stop_i {
+            break ();
+        }
+        i += 1; 
+    };
+    
+    return Tensor::<usize> {shape: array![(*self.shape).len(), stop_k + 1].span(), data: output_data.span()};
 }

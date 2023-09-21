@@ -203,6 +203,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         core::slice(self, starts, ends, axes, steps)
     }
+
+    fn nonzero(self: @Tensor<FP16x16>) -> Tensor<usize> {
+        core::nonzero(self)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

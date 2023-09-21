@@ -75,7 +75,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.concat`](tensor.concat.md)                        | Concatenate a list of tensors into a single tensor.                                                                   |
 | [`tensor.quantize_linear`](tensor.quantize\_linear.md)     | Quantizes a Tensor to i8 using linear quantization.                                                                   |
 | [`tensor.dequantize_linear`](tensor.dequantize\_linear.md) | Dequantizes an i8 Tensor using linear dequantization.                                                                 |
-
+| [`tensor.nonzero`](tensor.nonzero.md) | Produces indices of the elements that are non-zero (in row-major order - by dimension).                                                                 |
 ### Arithmetic Operations
 
 `Tensor` implements arithmetic traits. This allows you to perform basic arithmetic operations using the associated operators. (`+`, `-`, `*`, `/` ). Tensors arithmetic operations supports broadcasting.
