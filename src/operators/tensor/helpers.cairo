@@ -323,16 +323,22 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
 fn replace_index(mut shape: Span<usize>, index: usize, value: usize) -> Span<usize> {
     let mut output = ArrayTrait::new();
     let mut i = 0;
+
     loop {
-        if i == shape.len() {
-            break ();
+        match shape.pop_front() {
+            Option::Some(item) => {
+                if i == index {
+                    output.append(value);
+                } else {
+                    output.append(*item);
+                };
+                i += 1;
+            },
+            Option::None(_) => {
+                break;
+            }
         };
-        if i == index {
-            output.append(value);
-        } else {
-            output.append(*shape[i]);
-        };
-        i += 1;
     };
+
     return output.span();
 }

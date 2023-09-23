@@ -36,17 +36,21 @@ fn validate_shapes<T>(mut tensors: Span<Tensor<T>>, mut base_shape: Span<usize>,
                 assert(base_shape.len() == (*tensor.shape).len(), 'Dimension not the same');
 
                 let mut axis_index = 0;
+                let mut tensor_shape = *tensor.shape;
+                let mut base_shape_copy = base_shape;
                 loop {
-                    if axis_index == base_shape.len() {
-                        break;
-                    }
-                    if axis_index != axis {
-                        assert(
-                            base_shape.at(axis_index) == (*tensor.shape).at(axis_index),
-                            'Shape is not the same'
-                        );
-                    }
-                    axis_index += 1;
+                    match tensor_shape.pop_front() {
+                        Option::Some(tensor_shape_i) => {
+                            let base_shape_i = base_shape_copy.pop_front().unwrap();
+                            if axis_index != axis {
+                                assert(base_shape_i == tensor_shape_i, 'Shape is not the same');
+                            }
+                            axis_index += 1;
+                        },
+                        Option::None(_) => {
+                            break;
+                        }
+                    };
                 };
             },
             Option::None(_) => {
@@ -106,25 +110,29 @@ fn concatenate_data<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>,>(
             break;
         }
 
-        let mut tensor_index = 0;
+        let mut tensors_copy = tensors;
         loop {
-            if tensor_index == tensors.len() {
-                break;
-            }
-            let tensor = tensors.at(tensor_index);
-            let slice_len = (*tensor.data).len() / total_loops;
+            match tensors_copy.pop_front() {
+                Option::Some(tensor) => {
+                    let slice_len = (*tensor.data).len() / total_loops;
 
-            let mut inner_index = 0;
-            loop {
-                if inner_index == slice_len {
+                    let mut inner_index = 0;
+                    loop {
+                        if inner_index == slice_len {
+                            break;
+                        }
+
+                        output_data
+                            .append(*(*tensor.data).at(slice_len * outer_loop_index + inner_index));
+                        inner_index += 1;
+                    };
+                },
+                Option::None(_) => {
                     break;
                 }
-
-                output_data.append(*(*tensor.data).at(slice_len * outer_loop_index + inner_index));
-                inner_index += 1;
             };
-            tensor_index += 1;
         };
+
         outer_loop_index += 1;
     };
 
@@ -136,11 +144,20 @@ fn product_upto(mut shape: Span<usize>, upto: usize) -> usize {
     let mut index = 0;
 
     loop {
-        if index == upto {
-            break;
-        }
-        total *= *shape.at(index);
-        index += 1;
+        match shape.pop_front() {
+            Option::Some(val) => {
+                if index == upto {
+                    break;
+                }
+
+                total *= *val;
+                index += 1;
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
     };
+
     total
 }
