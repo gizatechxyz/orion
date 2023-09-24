@@ -28,8 +28,8 @@ fn onehot_encode<
 >(
     self: @Tensor<T>, depth: usize, axis: Option<usize>, values: Tensor<T>
 ) -> Tensor<T> {
-    let data = *self.data;
-    let shape = *self.shape;
+    let mut data = *self.data;
+    let mut shape = *self.shape;
     let rank = shape.len();
 
     // using 999 to denote -1, innermost dimension
@@ -46,48 +46,51 @@ fn onehot_encode<
     let mut output_size = ArrayTrait::<u32>::new();
 
     // New shape for output data
-    let mut index: usize = 0;
     loop {
-        if index == shape.len() {
-            break ();
+        match shape.pop_front() {
+            Option::Some(size) => {
+                output_size.append(*size);
+            },
+            Option::None(_) => {
+                break;
+            }
         };
-        let size: usize = *shape.at(index);
-        output_size.append(size);
-        index += 1;
     };
     output_size.append(depth.into());
 
     // OneHot enocde loop
-    let mut outer_index: usize = 0;
     loop {
-        if outer_index == tensor_len {
-            break ();
+        match data.pop_front() {
+            Option::Some(outer_index) => {
+                let mut fixed_number = *outer_index;
+
+                if fixed_number.is_neg() {
+                    fixed_number =
+                        FixedTrait::<T, MAG>::new_unscaled(depth.try_into().unwrap(), false)
+                        + fixed_number
+                }
+
+                let mut inner_index = 0;
+                loop {
+                    if inner_index == depth {
+                        break ();
+                    };
+                    let ind = FixedTrait::<T,
+                    MAG>::new_unscaled(inner_index.try_into().unwrap(), false);
+
+                    if fixed_number == ind {
+                        output_data.append(*values.data.at(1));
+                    } else {
+                        output_data.append(*values.data.at(0));
+                    };
+
+                    inner_index += 1;
+                };
+            },
+            Option::None(_) => {
+                break;
+            }
         };
-
-        let mut inner_index = 0;
-        let mut fixed_number = *(*self.data).at(outer_index);
-
-        if fixed_number.is_neg() {
-            fixed_number = FixedTrait::<T, MAG>::new_unscaled(depth.try_into().unwrap(), false)
-                + fixed_number
-        }
-
-        loop {
-            if inner_index == depth {
-                break ();
-            };
-            let ind = FixedTrait::<T, MAG>::new_unscaled(inner_index.try_into().unwrap(), false);
-
-            if fixed_number == ind {
-                output_data.append(*values.data.at(1));
-            } else {
-                output_data.append(*values.data.at(0));
-            };
-
-            inner_index += 1;
-        };
-
-        outer_index += 1;
     };
 
     let mut output_tensor = TensorTrait::new(output_size.span(), output_data.span());

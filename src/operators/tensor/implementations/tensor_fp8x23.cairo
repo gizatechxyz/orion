@@ -201,7 +201,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<FP8x23> {
-        core::slice(self, starts, ends, axes, steps)
+        core::slice::<FP8x23>(self, starts, ends, axes, steps)
     }
 }
 

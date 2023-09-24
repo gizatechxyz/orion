@@ -201,7 +201,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<FP16x16> {
-        core::slice(self, starts, ends, axes, steps)
+        core::slice::<FP16x16>(self, starts, ends, axes, steps)
     }
 }
 

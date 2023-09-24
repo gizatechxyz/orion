@@ -202,7 +202,7 @@ impl I32Tensor of TensorTrait<i32> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<i32> {
-        core::slice(self, starts, ends, axes, steps)
+        core::slice::<i32>(self, starts, ends, axes, steps)
     }
 }
 
