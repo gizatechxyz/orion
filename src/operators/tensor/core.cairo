@@ -2728,31 +2728,35 @@ fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
 fn nonzero<T, MAG, impl TTensor: TensorTrait<T>, impl TPartialEq: PartialEq<T>, impl TDrop: Drop<T>, impl TCopy: Copy<T>,
     impl TNumber: NumberTrait<T, MAG>>(self: @Tensor<T>) -> Tensor<usize> {
     let mut indexes_of_dimensions: Array<usize> = ArrayTrait::new();
-
-    let stop_i = (*self.shape).len() - 1;
-    let mut i: usize = 0;
-    let stop_j = (*self.data).len() - 1;
+    let mut self_data_copy = *self.data;
     let mut j: usize = 0;
     
     loop {
-        if (*(*self.data).at(j)) != NumberTrait::zero() {
-            let indices = unravel_index(j, *self.shape);
-            i = 0;
-
-            loop {
-                indexes_of_dimensions.append(*indices.at(i));
-
-                if i == stop_i {
-                    break ();
+        match self_data_copy.pop_front() {
+            Option::Some(val) => {
+                if *val != NumberTrait::zero() {
+                    let indices = unravel_index(j, *self.shape);
+                    let mut i: usize = 0;
+                
+                    let mut self_shape_copy = *self.shape;
+                    loop {
+                        match self_shape_copy.pop_front() {
+                            Option::Some(val) => { 
+                                indexes_of_dimensions.append(*indices.at(i));
+                                i += 1;
+                            },
+                            Option::None(_) => {
+                                break ();
+                            }
+                        };
+                    };
                 }
-                i += 1;
-            };
-        }
-
-        if j == stop_j {
-            break ();
-        }
-        j += 1;
+                j += 1;
+            },
+            Option::None(_) => {
+                break ();
+            }
+        };
     };
 
     let indexes_of_dimensions_span = indexes_of_dimensions.span();
@@ -2763,24 +2767,29 @@ fn nonzero<T, MAG, impl TTensor: TensorTrait<T>, impl TPartialEq: PartialEq<T>, 
     }
 
     let stop_k = (indexes_of_dimensions_span.len() / (*self.shape).len()) - 1;
+    let mut self_shape_copy = *self.shape;
+    let mut i: usize = 0;
     
-    i = 0;
     loop {
-        let mut k: usize = 0;
-        loop {
-            output_data.append(*indexes_of_dimensions_span.at((*self.shape).len() * k + i));
-            
-            if k == stop_k {
+        match self_shape_copy.pop_front() {
+            Option::Some(val) => {
+                let mut k: usize = 0;
+
+                loop {
+                    output_data.append(*indexes_of_dimensions_span.at((*self.shape).len() * k + i));
+                    
+                    if k == stop_k {
+                        break ();
+                    }
+                    k += 1;
+                };
+                i += 1; 
+            },
+            Option::None(_) => {
                 break ();
             }
-            k += 1;
         };
-
-        if i == stop_i {
-            break ();
-        }
-        i += 1; 
     };
-    
+
     return Tensor::<usize> {shape: array![(*self.shape).len(), stop_k + 1].span(), data: output_data.span()};
 }
