@@ -1,59 +1,58 @@
 use array::{IndexView, SpanTrait, ArrayTrait};
-
-use orion::numbers::{FP16x16, FixedTrait, FP16x16Impl};
-use orion::numbers::fixed_point::implementations::fp16x16::core::MAX;
-use orion::operators::tensor::{Tensor, FP16x16Tensor};
+use orion::numbers::{FixedTrait, FP16x16, FP16x16Impl};
 
 #[derive(Copy, Drop)]
-struct TreeNode {
-    left: Option<Box<TreeNode>>,
-    right: Option<Box<TreeNode>>,
+struct TreeNode<T> {
+    left: Option<Box<TreeNode<T>>>,
+    right: Option<Box<TreeNode<T>>>,
     split_feature: usize,
-    split_value: FP16x16,
-    prediction: FP16x16,
+    split_value: T,
+    prediction: T,
 }
 
 #[generate_trait]
-impl TreeNodeImpl of TreeNodeTrait {
-    fn predict(ref self: TreeNode, features: Span<FP16x16>) -> FP16x16 {
-        let mut current_node: TreeNode = self;
-
-        loop {
-            match current_node.left {
-                Option::Some(left) => {
-                    match current_node.right {
-                        Option::Some(right) => {
-                            if *features.at(current_node.split_feature) < current_node.split_value {
-                                current_node = left.unbox();
-                            } else {
-                                current_node = right.unbox();
-                            }
-                        },
-                        Option::None(_) => {
-                            break;
-                        }
-                    }
-                },
-                Option::None(_) => {
-                    break;
-                }
-            };
-        };
-
-        current_node.prediction
+impl TreeNodeImpl<T> of TreeNodeTrait<T> {
+    fn predict<
+        T,
+        MAG,
+        impl FFixedTrait: FixedTrait<T, MAG>,
+        impl TPartialOrd: PartialOrd<T>,
+        impl FCopy: Copy<T>,
+        impl FDrop: Drop<T>,
+    >(
+        ref self: TreeNode<T>, features: Span<T>
+    ) -> T {
+        predict(ref self, features)
     }
 }
 
-fn mse(y: Span<FP16x16>, prediction: FP16x16) -> FP16x16 {
-    let mut sum_squared_error: FP16x16 = FixedTrait::new(0, false);
+fn predict<
+    T,
+    MAG,
+    impl FFixedTrait: FixedTrait<T, MAG>,
+    impl TPartialOrd: PartialOrd<T>,
+    impl FCopy: Copy<T>,
+    impl FDrop: Drop<T>,
+>(
+    ref self: TreeNode<T>, features: Span<T>
+) -> T {
+    let mut current_node: TreeNode<T> = self;
 
-    let mut y_copy = y;
     loop {
-        match y_copy.pop_front() {
-            Option::Some(yi) => {
-                let error = *yi - prediction;
-                sum_squared_error += error.pow(FP16x16 { mag: 131072, sign: false } // 2
-                );
+        match current_node.left {
+            Option::Some(left) => {
+                match current_node.right {
+                    Option::Some(right) => {
+                        if *features.at(current_node.split_feature) < current_node.split_value {
+                            current_node = left.unbox();
+                        } else {
+                            current_node = right.unbox();
+                        }
+                    },
+                    Option::None(_) => {
+                        break;
+                    }
+                }
             },
             Option::None(_) => {
                 break;
@@ -61,14 +60,63 @@ fn mse(y: Span<FP16x16>, prediction: FP16x16) -> FP16x16 {
         };
     };
 
-    sum_squared_error / FixedTrait::new_unscaled(y.len(), false)
+    current_node.prediction
 }
 
-fn best_split(data: Span<Span<FP16x16>>, target: Span<FP16x16>) -> (usize, FP16x16, FP16x16) {
-    let mut best_mse = FP16x16 { mag: MAX, sign: false };
+fn mse<
+    T,
+    MAG,
+    impl FFixedTrait: FixedTrait<T, MAG>,
+    impl TSub: Sub<T>,
+    impl TAddEq: AddEq<T>,
+    impl TDiv: Div<T>,
+    impl U32IntoMAG: Into<u32, MAG>,
+    impl FeltTryIntoMAG: TryInto<felt252, MAG>,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>,
+>(
+    y: Span<T>, prediction: T
+) -> T {
+    let mut sum_squared_error: T = FixedTrait::ZERO();
+
+    let mut y_copy = y;
+    loop {
+        match y_copy.pop_front() {
+            Option::Some(yi) => {
+                let error = *yi - prediction;
+                sum_squared_error += error
+                    .pow(FixedTrait::new_unscaled(2.try_into().unwrap(), false));
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
+    };
+
+    sum_squared_error / FixedTrait::new_unscaled(y.len().into(), false)
+}
+
+fn best_split<
+    T,
+    MAG,
+    impl FFixedTrait: FixedTrait<T, MAG>,
+    impl TPartialOrd: PartialOrd<T>,
+    impl TAddEq: AddEq<T>,
+    impl TAdd: Add<T>,
+    impl TSub: Sub<T>,
+    impl TDiv: Div<T>,
+    impl TMul: Mul<T>,
+    impl U32IntoMAG: Into<u32, MAG>,
+    impl FeltTryIntoMAG: TryInto<felt252, MAG>,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>,
+>(
+    data: Span<Span<T>>, target: Span<T>
+) -> (usize, T, T) {
+    let mut best_mse = FixedTrait::MAX();
     let mut best_split_feature = 0;
-    let mut best_split_value = FP16x16 { mag: 0, sign: false };
-    let mut best_prediction = FP16x16 { mag: 0, sign: false };
+    let mut best_split_value = FixedTrait::ZERO();
+    let mut best_prediction = FixedTrait::ZERO();
 
     let n_features: u32 = (*data[0]).len();
 
@@ -117,7 +165,7 @@ fn best_split(data: Span<Span<FP16x16>>, target: Span<FP16x16>) -> (usize, FP16x
                     };
 
                     if !left_target.is_empty() && !right_target.is_empty() {
-                        let mut left_sum = FP16x16 { mag: 0, sign: false };
+                        let mut left_sum = FixedTrait::ZERO();
                         let mut left_target_copy = left_target.span();
                         loop {
                             match left_target_copy.pop_front() {
@@ -129,12 +177,12 @@ fn best_split(data: Span<Span<FP16x16>>, target: Span<FP16x16>) -> (usize, FP16x
                                 }
                             };
                         };
-                        let left_target_as_fp: FP16x16 = FixedTrait::new_unscaled(
-                            left_target.len(), false
+                        let left_target_as_fp: T = FixedTrait::new_unscaled(
+                            left_target.len().into(), false
                         );
                         let left_pred = left_sum / left_target_as_fp;
 
-                        let mut right_sum = FP16x16 { mag: 0, sign: false };
+                        let mut right_sum = FixedTrait::ZERO();
                         let mut right_target_copy = right_target.span();
                         loop {
                             match right_target_copy.pop_front() {
@@ -146,8 +194,8 @@ fn best_split(data: Span<Span<FP16x16>>, target: Span<FP16x16>) -> (usize, FP16x
                                 }
                             };
                         };
-                        let right_target_as_fp: FP16x16 = FixedTrait::new_unscaled(
-                            right_target.len(), false
+                        let right_target_as_fp: T = FixedTrait::new_unscaled(
+                            right_target.len().into(), false
                         );
                         let right_pred = right_sum / right_target_as_fp;
 
@@ -159,7 +207,7 @@ fn best_split(data: Span<Span<FP16x16>>, target: Span<FP16x16>) -> (usize, FP16x
                             best_split_feature = feature;
                             best_split_value = *value;
 
-                            let mut total_sum = FP16x16 { mag: 0, sign: false };
+                            let mut total_sum = FixedTrait::ZERO();
                             let mut target_copy = target;
                             loop {
                                 match target_copy.pop_front() {
@@ -173,7 +221,7 @@ fn best_split(data: Span<Span<FP16x16>>, target: Span<FP16x16>) -> (usize, FP16x
                             };
 
                             best_prediction = total_sum
-                                / FixedTrait::new_unscaled(target.len(), false);
+                                / FixedTrait::new_unscaled(target.len().into(), false);
                         }
                     }
                 },
@@ -189,11 +237,25 @@ fn best_split(data: Span<Span<FP16x16>>, target: Span<FP16x16>) -> (usize, FP16x
     (best_split_feature, best_split_value, best_prediction)
 }
 
-fn build_tree(
-    data: Span<Span<FP16x16>>, target: Span<FP16x16>, depth: usize, max_depth: usize
-) -> TreeNode {
+fn build_tree<
+    T,
+    MAG,
+    impl FFixedTrait: FixedTrait<T, MAG>,
+    impl TPartialOrd: PartialOrd<T>,
+    impl TAddEq: AddEq<T>,
+    impl TAdd: Add<T>,
+    impl TSub: Sub<T>,
+    impl TDiv: Div<T>,
+    impl TMul: Mul<T>,
+    impl U32IntoMAG: Into<u32, MAG>,
+    impl FeltTryIntoMAG: TryInto<felt252, MAG>,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>,
+>(
+    data: Span<Span<T>>, target: Span<T>, depth: usize, max_depth: usize
+) -> TreeNode<T> {
     if depth == max_depth || data.len() < 2 {
-        let mut total = FP16x16 { mag: 0, sign: false };
+        let mut total = FixedTrait::ZERO();
         let mut target_copy = target;
         loop {
             match target_copy.pop_front() {
@@ -209,8 +271,8 @@ fn build_tree(
             left: Option::None(()),
             right: Option::None(()),
             split_feature: 0,
-            split_value: FP16x16 { mag: 0, sign: false },
-            prediction: total / FixedTrait::new_unscaled(target.len(), false),
+            split_value: FixedTrait::ZERO(),
+            prediction: total / FixedTrait::new_unscaled(target.len().into(), false),
         };
     }
 
@@ -256,13 +318,33 @@ fn build_tree(
 
 #[test]
 #[available_gas(2000000000000)]
+fn test_mse() {
+    let mut y = array![
+        FixedTrait::new_unscaled(2, false),
+        FixedTrait::new_unscaled(4, false),
+        FixedTrait::new_unscaled(6, false),
+        FixedTrait::new_unscaled(8, false)
+    ]
+        .span();
+
+    let prediction = FixedTrait::<FP16x16>::new_unscaled(5, false);
+    let expected_mse = FixedTrait::<FP16x16>::new_unscaled(
+        5, false
+    ); // MSE = [(2-5)^2 + (4-5)^2 + (6-5)^2 + (8-5)^2] / 4 = 5
+
+    let computed_mse = mse(y, prediction);
+    assert(computed_mse == expected_mse, 'Failed mse');
+}
+
+
+#[test]
+#[available_gas(2000000000000)]
 fn test_tree() {
     let data = array![
         array![FixedTrait::new_unscaled(1, false), FixedTrait::new_unscaled(2, false)].span(),
         array![FixedTrait::new_unscaled(3, false), FixedTrait::new_unscaled(4, false)].span(),
         array![FixedTrait::new_unscaled(5, false), FixedTrait::new_unscaled(6, false)].span(),
-        array![FixedTrait::new_unscaled(7, false), FixedTrait::<FP16x16>::new_unscaled(8, false)]
-            .span(),
+        array![FixedTrait::new_unscaled(7, false), FixedTrait::new_unscaled(8, false)].span(),
     ]
         .span();
 
@@ -270,34 +352,35 @@ fn test_tree() {
         FixedTrait::new_unscaled(2, false),
         FixedTrait::new_unscaled(4, false),
         FixedTrait::new_unscaled(6, false),
-        FixedTrait::<FP16x16>::new_unscaled(8, false)
+        FixedTrait::new_unscaled(8, false)
     ]
         .span();
 
-    let mut tree = build_tree(data, target, 0, 3);
+    let mut tree = build_tree::<FP16x16>(data, target, 0, 3);
 
-    let prediction_1 = tree
-        .predict(
-            array![FixedTrait::new_unscaled(1, false), FixedTrait::new_unscaled(2, false)].span()
-        );
+    let prediction_1 = predict(
+        ref tree,
+        array![FixedTrait::new_unscaled(1, false), FixedTrait::new_unscaled(2, false)].span()
+    );
 
-    let prediction_2 = tree
-        .predict(
-            array![FixedTrait::new_unscaled(3, false), FixedTrait::new_unscaled(4, false)].span()
-        );
+    let prediction_2 = predict(
+        ref tree,
+        array![FixedTrait::new_unscaled(3, false), FixedTrait::new_unscaled(4, false)].span()
+    );
 
-    let prediction_3 = tree
-        .predict(
-            array![FixedTrait::new_unscaled(5, false), FixedTrait::new_unscaled(6, false)].span()
-        );
+    let prediction_3 = predict(
+        ref tree,
+        array![FixedTrait::new_unscaled(5, false), FixedTrait::new_unscaled(6, false)].span()
+    );
 
-    let prediction_4 = tree
-        .predict(
-            array![FixedTrait::new_unscaled(7, false), FixedTrait::new_unscaled(8, false)].span()
-        );
+    let prediction_4 = predict(
+        ref tree,
+        array![FixedTrait::new_unscaled(7, false), FixedTrait::new_unscaled(8, false)].span()
+    );
 
     assert(prediction_1 == FixedTrait::new_unscaled(2, false), 'should predict 2');
     assert(prediction_2 == FixedTrait::new_unscaled(4, false), 'should predict 4');
     assert(prediction_3 == FixedTrait::new_unscaled(6, false), 'should predict 6');
     assert(prediction_4 == FixedTrait::new_unscaled(8, false), 'should predict 8');
 }
+
