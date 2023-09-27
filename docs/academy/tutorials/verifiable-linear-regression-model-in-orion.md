@@ -237,14 +237,9 @@ struct Tensor<T> {
     shape: Span<usize>,
     data: Span<T>
 }
-
-struct ExtraParams {
-    fixed_point: Option<FixedImpl>
-}
-
 ```
 
-A `Tensor` in Orion takes a shape and a span array of the data and an extra parameter. In a 16x16 fixed-point format, there are 16 bits dedicated to the integer part of the number and 16 bits for the fractional part of the number. This format allows us to work with a wide range of values and a high degree of precision for conducting the OLS Tensor operations.
+A `Tensor` in Orion takes a shape and a span array of the data. We work with a `Tensor<FP16x16>`. In a 16x16 fixed-point format, there are 16 bits dedicated to the integer part of the number and 16 bits for the fractional part of the number. This format allows us to work with a wide range of values and a high degree of precision for conducting the OLS Tensor operations.
 
 ### Implementing OLS functions using Orion
 

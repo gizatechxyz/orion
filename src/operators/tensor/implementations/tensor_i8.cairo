@@ -201,7 +201,7 @@ impl I8Tensor of TensorTrait<i8> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<i8> {
-        core::slice(self, starts, ends, axes, steps)
+        core::slice::<i8>(self, starts, ends, axes, steps)
     }
 
     fn gather(

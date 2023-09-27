@@ -100,3 +100,4 @@
   * [MNIST Classification with Orion](academy/tutorials/mnist-classification-with-orion.md)
   * [Implement new operators in Orion](academy/tutorials/implement-new-operators-in-orion.md)
   * [Verifiable Linear Regression Model](academy/tutorials/verifiable-linear-regression-model-in-orion.md)
+  * [Verifiable Support Vector Machine](academy/tutorials/verifiable-support-vector-machine.md)

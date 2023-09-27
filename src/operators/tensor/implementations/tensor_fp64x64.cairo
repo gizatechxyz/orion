@@ -202,7 +202,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<FP64x64> {
-        core::slice(self, starts, ends, axes, steps)
+        core::slice::<FP64x64>(self, starts, ends, axes, steps)
     }
 
     fn gather(

@@ -195,7 +195,7 @@ impl U32Tensor of TensorTrait<u32> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<u32> {
-        core::slice(self, starts, ends, axes, steps)
+        core::slice::<u32>(self, starts, ends, axes, steps)
     }
 
     fn gather(
