@@ -64,7 +64,7 @@ fn test_tree() {
             array![FixedTrait::new_unscaled(7, false), FixedTrait::new_unscaled(8, false)].span()
         );
 
-    // assert(prediction_1 == FixedTrait::<FP16x16>::new_unscaled(2, false), 'should predict 2');
+    assert(prediction_1 == FixedTrait::<FP16x16>::new_unscaled(2, false), 'should predict 2');
     assert(prediction_2 == FixedTrait::<FP16x16>::new_unscaled(4, false), 'should predict 4');
     assert(prediction_3 == FixedTrait::<FP16x16>::new_unscaled(6, false), 'should predict 6');
     assert(prediction_4 == FixedTrait::<FP16x16>::new_unscaled(8, false), 'should predict 8');
