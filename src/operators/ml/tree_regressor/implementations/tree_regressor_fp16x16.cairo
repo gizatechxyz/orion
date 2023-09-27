@@ -4,9 +4,9 @@ use orion::numbers::FP16x16;
 
 impl FP16x16TreeRegressor of TreeRegressorTrait<FP16x16> {
     fn build_tree(
-        data: Span<Span<FP16x16>>, target: Span<FP16x16>, depth: usize, max_depth: usize
+        data: Span<Span<FP16x16>>, target: Span<FP16x16>, max_depth: usize
     ) -> TreeNode<FP16x16> {
-        core::build_tree(data, target, depth, max_depth)
+        core::build_tree(data, target, 0, max_depth)
     }
 
     fn predict(ref self: TreeNode<FP16x16>, features: Span<FP16x16>) -> FP16x16 {

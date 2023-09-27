@@ -10,7 +10,7 @@ struct TreeNode<T> {
 }
 
 trait TreeRegressorTrait<T> {
-    fn build_tree(data: Span<Span<T>>, target: Span<T>, depth: usize, max_depth: usize) -> TreeNode<T>;
+    fn build_tree(data: Span<Span<T>>, target: Span<T>, max_depth: usize) -> TreeNode<T>;
     fn predict(ref self: TreeNode<T>, features: Span<T>) -> T;
 }
 
