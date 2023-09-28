@@ -203,6 +203,10 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Tensor<i8> {
         core::slice::<i8>(self, starts, ends, axes, steps)
     }
+
+    fn nonzero(self: @Tensor<i8>) -> Tensor<usize> {
+        core::nonzero(self)
+    }
     
 }
 

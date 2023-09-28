@@ -197,6 +197,10 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Tensor<u32> {
         core::slice::<u32>(self, starts, ends, axes, steps)
     }
+
+    fn nonzero(self: @Tensor<u32>) -> Tensor<usize> {
+        core::nonzero(self)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.
