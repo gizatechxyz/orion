@@ -4,7 +4,7 @@
    fn gather(self: @Tensor<T>, indices: Tensor<T>, axis: Option<usize>) -> Tensor<T>;
 ```
 
-gather entries of the axis dimension of data.
+Gather entries of the axis dimension of data.
 
 ## Args
 
@@ -23,23 +23,18 @@ A new `Tensor<T>` .
 ## Example
 
 ```rust
-fn gather_example() -> Tensor<FixedType> {
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
-use orion::operators::tensor::implementations::impl_tensor_u32::{Tensor_u32};
-use orion::numbers::fixed_point::core::{FixedType, FixedTrait, FixedImpl};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn gather_example() -> Tensor<u32> {
     let tensor = TensorTrait::<u32>::new(
         shape: array![2, 3].span(), 
         data: array![[ 1, 2, 3],[4, 5, 6]].span(), 
-        extra: Option::None(())
     );
     let indices = TensorTrait::<u32>::new(
         shape: array![1, 1].span(), 
         data: array![1, 0].span(), 
-        extra: Option::None(())
     );
 
     return tensor.gather(
