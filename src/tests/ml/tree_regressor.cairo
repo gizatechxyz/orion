@@ -42,7 +42,7 @@ fn test_tree() {
     ]
         .span();
 
-    let mut tree = TreeRegressorTrait::fit(data, target, 3);
+    let mut tree = TreeRegressorTrait::fit(data, target, 3, 42);
 
     let prediction_1 = tree
         .predict(

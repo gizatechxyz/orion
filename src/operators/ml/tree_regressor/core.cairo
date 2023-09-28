@@ -19,7 +19,7 @@ trait TreeRegressorTrait<T> {
     /// # TreeRegressorTrait::fit
     ///
     /// ```rust 
-    ///    fn fit(data: Span<Span<T>>, target: Span<T>, max_depth: usize) -> TreeNode<T>;
+    ///    fn fit(data: Span<Span<T>>, target: Span<T>, max_depth: usize, random_state: usize) -> TreeNode<T>;
     /// ```
     ///
     /// Builds a decision tree based on the provided data and target values up to a specified maximum depth.
@@ -29,6 +29,7 @@ trait TreeRegressorTrait<T> {
     /// * `data`: A span of spans representing rows of features in the dataset.
     /// * `target`: A span representing the target values corresponding to each row in the dataset.
     /// * `max_depth`: The maximum depth of the decision tree. The tree stops growing once this depth is reached.
+    /// * `random_state`: It ensures that the tie-breaking is consistent across multiple runs, leading to reproducible results.
     ///
     /// ## Returns
     ///
@@ -62,11 +63,11 @@ trait TreeRegressorTrait<T> {
     ///  ]
     ///      .span();
     ///
-    ///  TreeRegressorTrait::fit(data, target, 3);
+    ///  TreeRegressorTrait::fit(data, target, 3, 42);
     /// }
     /// ```
     ///
-    fn fit(data: Span<Span<T>>, target: Span<T>, max_depth: usize) -> TreeNode<T>;
+    fn fit(data: Span<Span<T>>, target: Span<T>, max_depth: usize, random_state: usize) -> TreeNode<T>;
     /// # TreeRegressorTrait::predict
     ///
     /// ```rust 
@@ -210,7 +211,7 @@ fn best_split<
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
 >(
-    data: Span<Span<T>>, target: Span<T>
+    data: Span<Span<T>>, target: Span<T>, random_state: usize
 ) -> (usize, T, T) {
     let mut best_mse = FixedTrait::MAX();
     let mut best_split_feature = 0;
@@ -335,7 +336,7 @@ fn best_split<
         feature += 1;
     };
 
-    let random_idx: usize = u64_between(42, 0, best_splits.len().into()) // TODO: add seed
+    let random_idx: usize = u64_between(random_state.into(), 0, best_splits.len().into())
         .try_into()
         .unwrap();
     let (best_split_feature, best_split_value, best_prediction) = *best_splits.at(random_idx);
@@ -359,7 +360,7 @@ fn fit<
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
 >(
-    data: Span<Span<T>>, target: Span<T>, depth: usize, max_depth: usize
+    data: Span<Span<T>>, target: Span<T>, depth: usize, max_depth: usize, random_state: usize
 ) -> TreeNode<T> {
     if depth == max_depth || data.len() < 2 {
         let mut total = FixedTrait::ZERO();
@@ -383,7 +384,7 @@ fn fit<
         };
     }
 
-    let (split_feature, split_value, prediction) = best_split(data, target);
+    let (split_feature, split_value, prediction) = best_split(data, target, random_state);
     let mut left_data = ArrayTrait::new();
     let mut left_target = ArrayTrait::new();
 
@@ -412,10 +413,10 @@ fn fit<
 
     TreeNode {
         left: Option::Some(
-            BoxTrait::new(fit(left_data.span(), left_target.span(), depth + 1, max_depth))
+            BoxTrait::new(fit(left_data.span(), left_target.span(), depth + 1, max_depth, random_state))
         ),
         right: Option::Some(
-            BoxTrait::new(fit(right_data.span(), right_target.span(), depth + 1, max_depth))
+            BoxTrait::new(fit(right_data.span(), right_target.span(), depth + 1, max_depth, random_state))
         ),
         split_feature,
         split_value,
