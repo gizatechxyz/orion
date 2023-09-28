@@ -205,9 +205,13 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     }
 
     fn gather(
-    self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP16x16> {
         math::gather::gather(self, indices, axis)
+    }
+
+    fn nonzero(self: @Tensor<FP16x16>) -> Tensor<usize> {
+        core::nonzero(self)
     }
 }
 

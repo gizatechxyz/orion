@@ -204,12 +204,13 @@ impl I8Tensor of TensorTrait<i8> {
         core::slice::<i8>(self, starts, ends, axes, steps)
     }
 
-    fn gather(
-    self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>
-    ) -> Tensor<i8> {
+    fn gather(self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i8> {
         math::gather::gather(self, indices, axis)
     }
-    
+
+    fn nonzero(self: @Tensor<i8>) -> Tensor<usize> {
+        core::nonzero(self)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
@@ -291,9 +292,7 @@ impl I8TryIntoI8 of TryInto<i8, i8> {
 
 // Internals
 
-fn tensor_eq(
-    mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,
-) -> bool {
+fn tensor_eq(mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,) -> bool {
     let mut is_eq = true;
 
     loop {

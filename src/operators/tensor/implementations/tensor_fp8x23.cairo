@@ -205,9 +205,13 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     }
 
     fn gather(
-    self: @Tensor<FP8x23>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP8x23>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP8x23> {
         math::gather::gather(self, indices, axis)
+    }
+
+    fn nonzero(self: @Tensor<FP8x23>) -> Tensor<usize> {
+        core::nonzero(self)
     }
 }
 
