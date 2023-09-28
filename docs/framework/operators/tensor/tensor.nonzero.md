@@ -21,13 +21,13 @@ use array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-fn slice_example() -> Tensor<u32> {
+fn nonzero_example() -> Tensor<u32> {
     let tensor = TensorTrait::<u32>::new(
         shape: array![2, 4].span(), 
         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(), 
     );
 
-    return tensor.slice();
+    return tensor.nonzero();
 }
 >>> [[0 0 0 1 1 1 1]
      [1 2 3 0 1 2 3]]

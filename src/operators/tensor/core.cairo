@@ -72,6 +72,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// concat - Concatenate a list of tensors into a single tensor.
 /// quantize_linear - Quantizes a Tensor to i8 using linear quantization.
 /// dequantize_linear - Dequantizes an i8 Tensor using linear dequantization.
+/// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
 /// 
 trait TensorTrait<T> {
     /// # tensor.new
@@ -2434,13 +2435,13 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn slice_example() -> Tensor<u32> {
+    /// fn nonzero_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
     ///         shape: array![2, 4].span(), 
     ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(), 
     ///     );
     /// 
-    ///     return tensor.slice();
+    ///     return tensor.nonzero();
     /// }
     /// >>> [[0 0 0 1 1 1 1]
     ///      [1 2 3 0 1 2 3]]

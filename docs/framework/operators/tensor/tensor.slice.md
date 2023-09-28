@@ -1,6 +1,6 @@
 # tensor.slice
 
-```rust
+```rust 
    fn slice(self: @Tensor<T>, starts: Span<usize>, ends: Span<usize>, axes: Option<Span<usize>>, steps: Option<Span<usize>>) -> Tensor<usize>;
 ```
 
@@ -9,10 +9,10 @@ Produces a slice of the input tensor along multiple axes.
 ## Args
 
 * `self`(`@Tensor<T>`) - Tensor of data to extract slices from.
-* `starts`(Span) - 1-D tensor of starting indices of corresponding axis in `axes`
-* `ends`(Span) - 1-D tensor of ending indices (exclusive) of corresponding axis in `axes`
-* `axes`(Option\<Span>) - 1-D tensor of axes that `starts` and `ends` apply to.
-* `steps`(Option\<Span>) - 1-D tensor of slice step of corresponding axis in `axes`.
+* `starts`(Span<usize>) - 1-D tensor of starting indices of corresponding axis in `axes`
+* `ends`(Span<usize>) - 1-D tensor of ending indices (exclusive) of corresponding axis in `axes`
+* `axes`(Option<Span<usize>>) - 1-D tensor of axes that `starts` and `ends` apply to. 
+* `steps`(Option<Span<usize>>) - 1-D tensor of slice step of corresponding axis in `axes`.    
 
 ## Panics
 
@@ -20,7 +20,7 @@ Produces a slice of the input tensor along multiple axes.
 * Panics if the length of starts is not equal to the length of axes.
 * Panics if the length of starts is not equal to the length of steps.
 
-## Returns
+## Returns 
 
 A new `Tensor<T>` slice of the input tensor.
 
