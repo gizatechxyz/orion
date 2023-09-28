@@ -89,7 +89,7 @@
     * [nn.linear](framework/operators/neural-network/nn.linear.md)
   * [Machine Learning](framework/operators/machine-learning/README.md)
     * [Tree Regressor](framework/operators/machine-learning/tree-regressor/README.md)
-      * [tree.build](framework/operators/machine-learning/tree-regressor/tree.build_tree.md)
+      * [tree.build](framework/operators/machine-learning/tree-regressor/tree.fit.md)
       * [tree.predict](framework/operators/machine-learning/tree-regressor/tree.predict.md)
 
 ## 🏛 Hub

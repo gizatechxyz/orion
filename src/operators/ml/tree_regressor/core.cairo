@@ -13,13 +13,13 @@ struct TreeNode<T> {
 
 /// Trait
 ///
-/// build_tree - Constructs a decision tree regressor based on the provided data and target values.
+/// fit - Constructs a decision tree regressor based on the provided data and target values.
 /// predict - Given a set of features, predicts the target value using the constructed decision tree.
 trait TreeRegressorTrait<T> {
-    /// # TreeRegressorTrait::build_tree
+    /// # TreeRegressorTrait::fit
     ///
     /// ```rust 
-    ///    fn build_tree(data: Span<Span<T>>, target: Span<T>, max_depth: usize) -> TreeNode<T>;
+    ///    fn fit(data: Span<Span<T>>, target: Span<T>, max_depth: usize) -> TreeNode<T>;
     /// ```
     ///
     /// Builds a decision tree based on the provided data and target values up to a specified maximum depth.
@@ -62,11 +62,11 @@ trait TreeRegressorTrait<T> {
     ///  ]
     ///      .span();
     ///
-    ///  TreeRegressorTrait::build_tree(data, target, 3);
+    ///  TreeRegressorTrait::fit(data, target, 3);
     /// }
     /// ```
     ///
-    fn build_tree(data: Span<Span<T>>, target: Span<T>, max_depth: usize) -> TreeNode<T>;
+    fn fit(data: Span<Span<T>>, target: Span<T>, max_depth: usize) -> TreeNode<T>;
     /// # TreeRegressorTrait::predict
     ///
     /// ```rust 
@@ -112,7 +112,7 @@ trait TreeRegressorTrait<T> {
     ///  ]
     ///      .span();
     ///
-    ///  let mut tree = TreeRegressorTrait::build_tree(data, target, 3);
+    ///  let mut tree = TreeRegressorTrait::fit(data, target, 3);
     ///
     ///  let prediction_1 = tree
     ///    .predict(
@@ -343,7 +343,7 @@ fn best_split<
     (best_split_feature, best_split_value, best_prediction)
 }
 
-fn build_tree<
+fn fit<
     T,
     MAG,
     impl FFixedTrait: FixedTrait<T, MAG>,
@@ -412,10 +412,10 @@ fn build_tree<
 
     TreeNode {
         left: Option::Some(
-            BoxTrait::new(build_tree(left_data.span(), left_target.span(), depth + 1, max_depth))
+            BoxTrait::new(fit(left_data.span(), left_target.span(), depth + 1, max_depth))
         ),
         right: Option::Some(
-            BoxTrait::new(build_tree(right_data.span(), right_target.span(), depth + 1, max_depth))
+            BoxTrait::new(fit(right_data.span(), right_target.span(), depth + 1, max_depth))
         ),
         split_feature,
         split_value,

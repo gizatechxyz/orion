@@ -3,10 +3,10 @@ use orion::operators::ml::tree_regressor::core;
 use orion::numbers::{FP64x64, FP64x64Impl};
 
 impl FP64x64TreeRegressor of TreeRegressorTrait<FP64x64> {
-    fn build_tree(
+    fn fit(
         data: Span<Span<FP64x64>>, target: Span<FP64x64>, max_depth: usize
     ) -> TreeNode<FP64x64> {
-        core::build_tree(data, target, 0, max_depth)
+        core::fit(data, target, 0, max_depth)
     }
 
     fn predict(ref self: TreeNode<FP64x64>, features: Span<FP64x64>) -> FP64x64 {
