@@ -1,5 +1,7 @@
 # Verifiable Support Vector Machine
 
+<figure><img src="../../.gitbook/assets/orion_banner_tutorial_#4.png" alt=""><figcaption></figcaption></figure>
+
 {% hint style="info" %}
 Repository and Notebooks can be found [here](https://github.com/gizatechxyz/orion\_tutorials/tree/main/verifiable\_support\_vector\_machine).
 {% endhint %}
