@@ -1,7 +1,7 @@
 # TreeRegressorTrait::fit
 
 ```rust 
-   fn fit(data: Span<Span<T>>, target: Span<T>, max_depth: usize) -> TreeNode<T>;
+   fn fit(data: Span<Span<T>>, target: Span<T>, max_depth: usize, random_state: usize) -> TreeNode<T>;
 ```
 
 Builds a decision tree based on the provided data and target values up to a specified maximum depth.
@@ -11,6 +11,7 @@ Builds a decision tree based on the provided data and target values up to a spec
 * `data`: A span of spans representing rows of features in the dataset.
 * `target`: A span representing the target values corresponding to each row in the dataset.
 * `max_depth`: The maximum depth of the decision tree. The tree stops growing once this depth is reached.
+* `random_state`: It ensures that the tie-breaking is consistent across multiple runs, leading to reproducible results.
 
 ## Returns
 
@@ -44,6 +45,6 @@ fn tree_regressor_example() {
  ]
      .span();
 
- TreeRegressorTrait::fit(data, target, 3);
+ TreeRegressorTrait::fit(data, target, 3, 42);
 }
 ```

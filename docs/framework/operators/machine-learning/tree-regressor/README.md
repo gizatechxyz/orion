@@ -19,6 +19,6 @@ Orion supports currently only fixed point data types for `TreeRegressorTrait`.
 
 | function | description |
 | --- | --- |
-| [`tree.fit`](tree.fit\_tree.md) | Constructs a decision tree regressor based on the provided data and target values. |
+| [`tree.fit`](tree.fit.md) | Constructs a decision tree regressor based on the provided data and target values. |
 | [`tree.predict`](tree.predict.md) | Given a set of features, predicts the target value using the constructed decision tree. |
 
