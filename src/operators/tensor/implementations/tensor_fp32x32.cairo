@@ -205,6 +205,12 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         core::slice::<FP32x32>(self, starts, ends, axes, steps)
     }
 
+    fn gather(
+        self: @Tensor<FP32x32>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP32x32> {
+        math::gather::gather(self, indices, axis)
+    }
+    
     fn nonzero(self: @Tensor<FP32x32>) -> Tensor<usize> {
         core::nonzero(self)
     }
