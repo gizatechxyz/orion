@@ -18,7 +18,7 @@ Below, we provide a brief review of implementing an SVM model using the Gradient
 
 ### Generating the dataset
 
-For the purposes of this tutorial, we generated linearly separable data using `make_blobs` from Scikit-learn
+For the purposes of this tutorial, we generated linearly separable data using `make_blobs` from Scikit-learn.
 
 ```python
 import numpy as np
@@ -133,8 +133,6 @@ print("Accuracy: {}".format((predictions == y_test).mean()))
 
 >>Accuracy: 0.98
 ```
-
-### Print w
 
 <pre class="language-python"><code class="lang-python"><strong>w
 </strong>
