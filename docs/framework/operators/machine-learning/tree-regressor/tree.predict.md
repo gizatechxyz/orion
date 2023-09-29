@@ -1,6 +1,6 @@
-# TreeRegressorTrait::predict
+# tree.predict
 
-```rust 
+```rust
    fn predict(ref self: TreeNode<T>, features: Span<T>) -> T;
 ```
 
