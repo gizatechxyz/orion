@@ -24,6 +24,10 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
         return FP32x32 { mag: ONE, sign: false };
     }
 
+    fn MAX() -> FP32x32 {
+        return FP32x32 { mag: MAX, sign: false };
+    }
+
     fn new(mag: u64, sign: bool) -> FP32x32 {
         return FP32x32 { mag: mag, sign: sign };
     }

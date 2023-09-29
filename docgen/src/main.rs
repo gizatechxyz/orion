@@ -34,6 +34,14 @@ fn main() {
     let trait_name: &str = "IntegerTrait";
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
+
+    // TREE REGRESSOR DOC
+    let trait_path = "src/operators/ml/tree_regressor/core.cairo";
+    let doc_path = "docs/framework/operators/machine-learning/tree-regressor";
+    let label = "tree";
+    let trait_name: &str = "TreeRegressorTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
 }
 
 fn doc_trait(trait_path: &str, doc_path: &str, label: &str) {

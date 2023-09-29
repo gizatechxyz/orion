@@ -33,6 +33,10 @@ impl FP8x23Impl of FixedTrait<FP8x23, u32> {
         return FP8x23 { mag: ONE, sign: false };
     }
 
+    fn MAX() -> FP8x23 {
+        return FP8x23 { mag: MAX, sign: false };
+    }
+
     fn new(mag: u32, sign: bool) -> FP8x23 {
         return FP8x23 { mag: mag, sign: sign };
     }
