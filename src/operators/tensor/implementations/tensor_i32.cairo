@@ -202,7 +202,15 @@ impl I32Tensor of TensorTrait<i32> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<i32> {
-        core::slice(self, starts, ends, axes, steps)
+        core::slice::<i32>(self, starts, ends, axes, steps)
+    }
+
+    fn gather(self: @Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i32> {
+        math::gather::gather(self, indices, axis)
+    }
+
+    fn nonzero(self: @Tensor<i32>) -> Tensor<usize> {
+        core::nonzero(self)
     }
 }
 

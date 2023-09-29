@@ -6,8 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased] - 2023-09-27
 
-## Add
+## Added
 - Implement `TreeRegressor` trait for decision tree regression.
+  
+## [Unreleased] - 2023-09-15
+
+### Added
+- Added gather operator.
 
 ## [Unreleased] - 2023-09-03
 

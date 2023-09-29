@@ -5,7 +5,7 @@ use option::OptionTrait;
 use alexandria_data_structures::array_ext::{SpanTraitExt};
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::i8;
+use orion::numbers::{i8, NumberTrait};
 
 #[derive(Copy, Drop)]
 struct Tensor<T> {
@@ -72,6 +72,8 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// concat - Concatenate a list of tensors into a single tensor.
 /// quantize_linear - Quantizes a Tensor to i8 using linear quantization.
 /// dequantize_linear - Dequantizes an i8 Tensor using linear dequantization.
+/// gather - Gather entries of the axis dimension of data.
+/// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
 /// 
 trait TensorTrait<T> {
     /// # tensor.new
@@ -2411,6 +2413,95 @@ trait TensorTrait<T> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<T>;
+    /// # tensor.nonzero
+    ///
+    /// ```rust 
+    ///    fn nonzero(self: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Produces indices of the elements that are non-zero (in row-major order - by dimension).
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - Tensor of data to calculate non-zero indices.  
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<usize>` indices of the elements that are non-zero (in row-major order - by dimension).
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn nonzero_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 4].span(), 
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(), 
+    ///     );
+    /// 
+    ///     return tensor.nonzero();
+    /// }
+    /// >>> [[0 0 0 1 1 1 1]
+    ///      [1 2 3 0 1 2 3]]
+    /// ```
+    ///
+    fn nonzero(
+        self: @Tensor<T>
+    ) -> Tensor<usize>;
+    /// # tensor.gather
+    ///
+    /// ```rust 
+    ///    fn gather(self: @Tensor<T>, indices: Tensor<T>, axis: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Gather entries of the axis dimension of data.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `indices`(`Tensor<T>`) - Tensor of indices.
+    /// * `axis`(`Option<usize>`) - Axis to gather on. Default: axis=0.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if index values are not within bounds [-s, s-1] along axis of size s.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` .
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn gather_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 3].span(), 
+    ///         data: array![[ 1, 2, 3],[4, 5, 6]].span(), 
+    ///     );
+    ///     let indices = TensorTrait::<u32>::new(
+    ///         shape: array![1, 1].span(), 
+    ///         data: array![1, 0].span(), 
+    ///     );
+    /// 
+    ///     return tensor.gather(
+    ///         indices: indices, 
+    ///         axis: Option::None(()), 
+    ///     );
+    /// }
+    /// >>> [[4. 5. 6.]
+    ///      [1. 2. 3.]]
+    /// ```
+    ///
+    fn gather(
+    self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<T> ;
 }
 
 
@@ -2428,14 +2519,17 @@ fn ravel_index(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
     let mut stride: usize = 1;
 
     loop {
-        if shape.len() == 0 {
-            break ();
-        }
+        match shape.pop_back() {
+            Option::Some(i) => {
+                let index = *indices.pop_back().unwrap();
+                raveled_index += index * stride;
 
-        let index = *indices.pop_back().unwrap();
-        raveled_index += index * stride;
-
-        stride *= *shape.pop_back().unwrap();
+                stride *= *i;
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
     };
 
     raveled_index
@@ -2450,16 +2544,19 @@ fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
     let mut stride = len_from_shape(shape);
 
     loop {
-        if shape.len() == 0 {
-            break ();
-        }
+        match shape.pop_front() {
+            Option::Some(i) => {
+                stride /= *i;
 
-        stride /= *shape.pop_front().unwrap();
+                let coord = remainder / stride;
+                remainder = remainder % stride;
 
-        let coord = remainder / stride;
-        remainder = remainder % stride;
-
-        result.append(coord);
+                result.append(coord);
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
     };
 
     return result.span();
@@ -2474,22 +2571,27 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
     let mut accumulated: usize = 1;
     let mut temp_result = ArrayTrait::new();
     loop {
-        temp_result.append(accumulated);
-
-        if shape.len() == 0 {
-            break ();
-        }
-        accumulated *= *shape.pop_back().unwrap();
+        match shape.pop_back() {
+            Option::Some(i) => {
+                temp_result.append(accumulated);
+                accumulated *= *i;
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
     };
 
-    let mut i: usize = shape_len - 1;
+    let mut temp_result = temp_result.span();
     loop {
-        result.append(*temp_result.at(i));
-
-        if i == 0 {
-            break ();
-        }
-        i -= 1;
+        match temp_result.pop_back() {
+            Option::Some(val) => {
+                result.append(*val);
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
     };
 
     return result.span();
@@ -2536,8 +2638,12 @@ fn tensor_eq<T, impl TPartialEq: PartialEq<T>>(mut lhs: Tensor<T>, mut rhs: Tens
 }
 
 /// Cf: TensorTrait::slice docstring
-fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
-    self: @Tensor<T>, starts: Span<usize>, ends: Span<usize>, axes: Option<Span<usize>>, steps: Option<Span<usize>>
+fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
+    self: @Tensor<T>,
+    starts: Span<usize>,
+    ends: Span<usize>,
+    axes: Option<Span<usize>>,
+    steps: Option<Span<usize>>
 ) -> Tensor<T> {
     let axes = match axes {
         Option::Some(axes) => axes,
@@ -2581,107 +2687,191 @@ fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     let mut processed_ends: Array<usize> = ArrayTrait::new();
     let mut processed_steps: Array<usize> = ArrayTrait::new();
 
+    let mut shape = *self.shape;
     let mut i: usize = 0;
-    let stop_i = (*self.shape).len() - 1;
     loop {
-        let (axis_index, is_found) = match axes.index_of(i) {
-            Option::Some(axis_index) => (axis_index, true),
-            Option::None(_) => (0, false),
-        };
+        match shape.pop_front() {
+            Option::Some(ele) => {
+                let (axis_index, is_found) = match axes.index_of(i) {
+                    Option::Some(axis_index) => (axis_index, true),
+                    Option::None(_) => (0, false),
+                };
 
-        let mut processed_params = (0, 0, 0, 0);
-        if is_found {
-            let mut start: usize = *(*self.shape).at(i);
-            let mut end: usize = 0;
-            if *starts.at(axis_index) < *(*self.shape).at(i) {
-                start = *starts.at(axis_index);
-            }
+                let mut processed_params = (0, 0, 0, 0);
+                if is_found {
+                    let mut start: usize = *ele;
+                    let mut end: usize = *ele;
 
-            if *(*self.shape).at(i) > *ends.at(axis_index) {
-                end = *ends.at(axis_index);
-            }
-            else {
-                end = *(*self.shape).at(i);
-            }
+                    if *starts.at(axis_index) < *ele {
+                        start = *starts.at(axis_index);
+                    }
 
-            if start >= end {
-                is_empty = true;
-            } else {
-                let dim = (end - start + (*steps.at(axis_index) - 1)) / *steps.at(axis_index);
+                    if *ele > *ends.at(axis_index) {
+                        end = *ends.at(axis_index);
+                    };
 
-                if dim == 0 {
-                    is_empty = true;
+                    if start > *ele {
+                        start = *ele;
+                    };
+
+                    if end > *ele {
+                        end = *ele;
+                    };
+
+                    if start >= end {
+                        is_empty = true;
+                    } else {
+                        let dim = (end - start + (*steps.at(axis_index) - 1))
+                            / *steps.at(axis_index);
+
+                        if dim == 0 {
+                            is_empty = true;
+                        } else {
+                            processed_params = (start, end, *steps.at(axis_index), dim);
+                        };
+                    };
                 } else {
-                    processed_params = (start, end, *steps.at(axis_index), dim);
+                    processed_params = (0, *ele, 1, *ele);
                 }
-            }
 
-        } else {
-            processed_params = (0, *(*self.shape).at(i), 1, *(*self.shape).at(i));
-        }
-        let (start, end, step, shape) = processed_params;
-        processed_starts.append(start);
-        processed_ends.append(end);
-        processed_steps.append(step);
-        output_shape.append(shape);
-        
-        if i == stop_i {
-            break ();
-        }
-        i += 1;
+                let (start, end, step, shape) = processed_params;
+                processed_starts.append(start);
+                processed_ends.append(end);
+                processed_steps.append(step);
+                output_shape.append(shape);
+
+                i += 1;
+            },
+            Option::None(_) => {
+                break;
+            }
+        };
     };
 
     let mut output_data: Array<T> = ArrayTrait::new();
 
     if is_empty {
-        return Tensor::<T> {shape: output_shape.span(), data: output_data.span()};
+        return Tensor::<T> { shape: output_shape.span(), data: output_data.span() };
     }
-    
-    let stop_j = (*self.data).len() - 1;
-    let stop_k = (*self.shape).len() - 1;
+
+    let mut data = *self.data;
     let mut j: usize = 0;
-
-    let starts = processed_starts.span();
-    let ends = processed_ends.span();
-    let steps = processed_steps.span();
     loop {
-        let mut indices = unravel_index(j, *self.shape);
-        let mut is_included = false;
+        match data.pop_front() {
+            Option::Some(ele) => {
+                let mut indices = unravel_index(j, *self.shape);
+                let mut is_included = false;
 
-        let mut k: usize = 0;
-        loop {
-            let start = *(starts).at(k);
-            let end = *(ends).at(k);
-            let step = *(steps).at(k);
-            let index = *(indices).at(k);
+                let mut shape = *self.shape;
+                let mut starts = processed_starts.span();
+                let mut ends = processed_ends.span();
+                let mut steps = processed_steps.span();
+                loop {
+                    match shape.pop_front() {
+                        Option::Some(item) => {
+                            let start = *starts.pop_front().unwrap();
+                            let end = *ends.pop_front().unwrap();
+                            let step = *steps.pop_front().unwrap();
+                            let index = *indices.pop_front().unwrap();
 
-            if index < start || index >= end {
-                is_included = false;
-                break ();
-            }
-            if (index - start) % step == 0 {
-                is_included = true;
-            }
-            else {
-                is_included = false;
-                break ();
-            }
+                            if index < start || index >= end {
+                                is_included = false;
+                                break ();
+                            }
+                            if (index - start) % step == 0 {
+                                is_included = true;
+                            } else {
+                                is_included = false;
+                                break ();
+                            }
+                        },
+                        Option::None(_) => {
+                            break;
+                        }
+                    };
+                };
 
-            if k == stop_k {
-                break ();
+                if is_included {
+                    output_data.append(*ele);
+                }
+
+                j += 1;
+            },
+            Option::None(_) => {
+                break;
             }
-            k += 1;
         };
-
-        if is_included {
-            output_data.append(*(*self.data).at(j));
-        }
-
-        if j == stop_j {
-            break ();
-        }
-        j += 1;
     };
 
-    return Tensor::<T> {shape: output_shape.span(), data: output_data.span()};
+    return TensorTrait::new(output_shape.span(), output_data.span());
+}
+
+/// Cf: TensorTrait::nonzero docstring
+fn nonzero<T, MAG, impl TTensor: TensorTrait<T>, impl TPartialEq: PartialEq<T>, impl TDrop: Drop<T>, impl TCopy: Copy<T>,
+    impl TNumber: NumberTrait<T, MAG>>(self: @Tensor<T>) -> Tensor<usize> {
+    let mut indexes_of_dimensions: Array<usize> = ArrayTrait::new();
+    let mut self_data_copy = *self.data;
+    let mut j: usize = 0;
+    
+    loop {
+        match self_data_copy.pop_front() {
+            Option::Some(val) => {
+                if *val != NumberTrait::zero() {
+                    let indices = unravel_index(j, *self.shape);
+                    let mut i: usize = 0;
+                
+                    let mut self_shape_copy = *self.shape;
+                    loop {
+                        match self_shape_copy.pop_front() {
+                            Option::Some(val) => { 
+                                indexes_of_dimensions.append(*indices.at(i));
+                                i += 1;
+                            },
+                            Option::None(_) => {
+                                break ();
+                            }
+                        };
+                    };
+                }
+                j += 1;
+            },
+            Option::None(_) => {
+                break ();
+            }
+        };
+    };
+
+    let indexes_of_dimensions_span = indexes_of_dimensions.span();
+    let mut output_data: Array<usize> = ArrayTrait::new();
+
+    if indexes_of_dimensions_span.len() == 0 {
+        return Tensor::<usize> {shape: array![(*self.shape).len(), 0].span(), data: output_data.span()};
+    }
+
+    let stop_k = (indexes_of_dimensions_span.len() / (*self.shape).len()) - 1;
+    let mut self_shape_copy = *self.shape;
+    let mut i: usize = 0;
+    
+    loop {
+        match self_shape_copy.pop_front() {
+            Option::Some(val) => {
+                let mut k: usize = 0;
+
+                loop {
+                    output_data.append(*indexes_of_dimensions_span.at((*self.shape).len() * k + i));
+                    
+                    if k == stop_k {
+                        break ();
+                    }
+                    k += 1;
+                };
+                i += 1; 
+            },
+            Option::None(_) => {
+                break ();
+            }
+        };
+    };
+
+    return Tensor::<usize> {shape: array![(*self.shape).len(), stop_k + 1].span(), data: output_data.span()};
 }

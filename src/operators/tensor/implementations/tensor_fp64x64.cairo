@@ -202,7 +202,17 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<FP64x64> {
-        core::slice(self, starts, ends, axes, steps)
+        core::slice::<FP64x64>(self, starts, ends, axes, steps)
+    }
+
+    fn gather(
+        self: @Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP64x64> {
+        math::gather::gather(self, indices, axis)
+    }
+    
+    fn nonzero(self: @Tensor<FP64x64>) -> Tensor<usize> {
+        core::nonzero(self)
     }
 }
 
