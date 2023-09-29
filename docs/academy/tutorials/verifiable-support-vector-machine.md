@@ -8,17 +8,17 @@ Repository and Notebooks can be found [here](https://github.com/gizatechxyz/orio
 
 The Support Vector Machines (SVM) model is a supervised learning technique used for classification and regression. It is employed to solve binary classification problems where it identifies the hyperplane that best divides a data set into classes. This hyperplane results from maximizing the margin between the two classes. By determining this optimal hyperplane, predictions can be made for new data points and understand how the input attributes influence classification.
 
-Below, we provide a brief review of implementing an SVM model using the Gradient Descent method for the linear kernel in Python, which we will later convert to Cairo to transform it into a verifiable ZKML (support vector machine model), using [Orion's](broken-reference) library. This allows an opportunity to familiarize oneself with the main functions and operators that the framework offers for the implementation of the SVM.
+Below, we provide a brief review of implementing an SVM model using the Gradient Descent method for the linear kernel in Python, which we will later convert to Cairo to transform it into a verifiable ZKML (support vector machine model), using [Orion's](../../) library. This allows an opportunity to familiarize oneself with the main functions and operators that the framework offers for the implementation of the SVM.
 
-Content overview:
+### Content overview:
 
 1. Support Vector Machine with Python: We start with the basic implementation of SVM using gradient descent in Python.
 2. Convert your model to Cairo: In the subsequent stage, we will create a new scarb project and replicate our model to Cairo which is a language for creating STARK-provable programs.
 3. Implementing SVM model using Orion: To catalyze our development process, we will use the Orion Framework to construct the key functions to build our verifiable SVM classification model.
 
-#### Generating the dataset
+### Generating the dataset
 
-For the purposes of this tutorial, we generated linearly separable data using make\_blobs from Scikit-learn
+For the purposes of this tutorial, we generated linearly separable data using `make_blobs` from Scikit-learn
 
 ```python
 import numpy as np
@@ -41,19 +41,13 @@ print(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
 
 Upon examining the graph, we notice that the data separates into two distinct groups. Our goal in this tutorial is to differentiate these groups using a Support Vector Machine (SVM). Using the provided data points, we will seek to find an optimal hyperplane that effectively separates these two clusters.
 
-#### Loss function, gradient and Weight init
+### Loss function, gradient and Weight init
 
 We will start by generating the key functions for SVM.
 
 Next, we'll define the loss functions and its gradient, with **L2** regularization, both necessary to train our SVM.
 
-In the case of the loss function in SVM, the Hinge Loss,
-
-$$
-(\max(0, 1 - y_i \times (\mathbf{w} \cdot \mathbf{x}_i)))
-$$
-
-is used, which measures how far a sample is on the "wrong side" of the margin. If the sample is on the correct side of the margin, the loss is 0.
+In the case of the loss function in SVM, the Hinge Loss, $$(\max(0, 1 - y_i \times (\mathbf{w} \cdot \mathbf{x}_i)))$$is used, which measures how far a sample is on the "wrong side" of the margin. If the sample is on the correct side of the margin, the loss is 0.
 
 $$Loss Function = \frac{1}{N} \sum_{i=1}^{N} \max(0, 1 - y_i \times (\mathbf{w} \cdot \mathbf{x}_i)) + C \times \frac{1}{2} \times \mathbf{w} \cdot \mathbf{w}$$
 
@@ -77,9 +71,9 @@ losses = []
 w = np.zeros(3)
 ```
 
-#### Initial hyperparameters
+### Initial hyperparameters
 
-Now, we declare the hyperparameters: learning rate (learning\_rate), the number of epochs (num\_epochs), and the regularization parameter (C). Then, we will use gradient descent to adjust the weights of the SVM model. For the purposes of this tutorial, we stick with the following hyperparameters; however, the hyperplane acquisition could be improved with their adjustment.
+Now, we declare the hyperparameters: learning rate (`learning_rate`), the number of epochs (`num_epochs`), and the regularization parameter (`C`). Then, we will use gradient descent to adjust the weights of the SVM model. For the purposes of this tutorial, we stick with the following hyperparameters; however, the hyperplane acquisition could be improved with their adjustment.
 
 ```python
 learning_rate = 0.01
@@ -87,7 +81,7 @@ num_epochs = 100
 C = 1
 ```
 
-#### Training
+### Training
 
 Next, we execute the training of the SVM model, adjusting its parameters to minimize the loss over 100 iterations, and we monitor the training progress by printing the loss.
 
@@ -140,7 +134,7 @@ print("Accuracy: {}".format((predictions == y_test).mean()))
 >>Accuracy: 0.98
 ```
 
-Print w
+### Print w
 
 <pre class="language-python"><code class="lang-python"><strong>w
 </strong>
@@ -160,13 +154,13 @@ plt.plot(x_plot, y_plot, 'k-')
 
 The equation of the line obtained is $$mathbf{Y} = 1.023\mathbf{X} + 0.349$$
 
-### Convert your model to Cairo
+## Convert your model to Cairo
 
 Now that we have a good understanding of the SVM models and their key functions, we will replicate the entire model in Cairo to make it fully verifiable. Since we will be rebuilding the model from scratch, this will be a good opportunity to get acquainted with Orion's built-in functions and the operators that make the transition to Cairo seamless.
 
-#### Create a new Scarb project
+### Create a new Scarb project
 
-Scarb is the Cairo package manager specifically created to streamline our Cairo and Starknet development process. Scarb will typically manage project dependencies, the compilation process (both pure Cairo and Starknet contracts), downloading and building external libraries to accelerate our development with Orion.You can find all information about Scarb and Cairo installation here.
+Scarb is the Cairo package manager specifically created to streamline our Cairo and Starknet development process. Scarb will typically manage project dependencies, the compilation process (both pure Cairo and Starknet contracts), downloading and building external libraries to accelerate our development with Orion.You can find all information about Scarb and Cairo installation [here](../../framework/get-started.md).
 
 To create a new Scarb project, open your terminal and run:
 
@@ -185,7 +179,7 @@ version = "0.1.0"
 orion = { git = "https://github.com/gizatechxyz/orion.git", rev = "v0.1.0" }
 ```
 
-#### Gerating the dataset in Cairo
+### Gerating the dataset in Cairo
 
 Now let's generate the necessary files to begin our transition to Cairo. In our Jupyter Notebook, we'll run the necessary code to convert our dataset obtained with make\_blobs from Scikit-learn into fixed-point values and represent our X\_train, y\_train, X\_test, and y\_test values as fixed-point tensors in Orion.
 
@@ -245,11 +239,11 @@ mod helper;
 This will tell our compiler to include the separate modules listed above during the compilation of our code. We will be covering each module in detail in the following section, but let’s first review the generated folder files.
 
 ```rust
-    use array::ArrayTrait;
-    use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor};
-    use orion::numbers::{FixedTrait, FP16x16, FP16x16Impl};
+use array::ArrayTrait;
+use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor};
+use orion::numbers::{FixedTrait, FP16x16, FP16x16Impl};
 
-    fn X_train() -> Tensor<FP16x16>{
+fn X_train() -> Tensor<FP16x16>{
 
     let mut shape = ArrayTrait::new();
     shape.append(100);
@@ -454,7 +448,7 @@ fn pred(x: @Tensor<FP16x16>, w: @Tensor<FP16x16>) -> Tensor<FP16x16> {
 }
 ```
 
-Finally, our train.cairo file implements model training using the functions described earlier and is executed as part of our model tests.
+Finally, our `train.cairo` file implements model training using the functions described earlier and is executed as part of our model tests.
 
 ```rust
 use debug::PrintTrait;
@@ -578,7 +572,7 @@ fn train(
 }
 ```
 
-#### Testing the model
+#### Testing the model.
 
 Now that we have implemented all the necessary functions for SVM, we can finally test our classification model. We begin by creating a new separate test file named `test.cairo` and import all the necessary Orion libraries, including our X values and y values (train and test) found in the generated folder. We also import all the key functions for SVM from the `helper.cairo` file, as we will rely on them to construct the model.
 
