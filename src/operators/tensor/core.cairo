@@ -5,7 +5,7 @@ use option::OptionTrait;
 use alexandria_data_structures::array_ext::{SpanTraitExt};
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::{i8, NumberTrait};
+use orion::numbers::{i8, i32, NumberTrait};
 
 #[derive(Copy, Drop)]
 struct Tensor<T> {
@@ -74,7 +74,9 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// dequantize_linear - Dequantizes an i8 Tensor using linear dequantization.
 /// gather - Gather entries of the axis dimension of data.
 /// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
-/// 
+/// squeeze - Removes dimensions of size 1 from the shape of a tensor.
+/// unsqueeze - Inserts single-dimensional entries to the shape of an input tensor.
+///
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -2502,6 +2504,99 @@ trait TensorTrait<T> {
     fn gather(
     self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<T> ;
+    /// # tensor.unsqueeze
+    ///
+    /// ```rust 
+    ///    fn unsqueeze(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Insert single-dimensional entries to the shape of an input tensor (data). Takes one required input axes -
+    /// which contains a list of dimension indices and this operator will insert a dimension of value 1 into the
+    /// corresponding index of the output tensor (expanded).
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - Tensor of data to unsquezee.
+    /// * `axes`(`Span<usize>`) - List of integers indicating the dimensions to be inserted. 
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the given axes have duplicate elements.
+    /// * Panics if one of the given axes is invalid.
+    ///
+    /// ## Returns 
+    ///
+    /// Reshaped `Tensor<T>` with same data as input.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn unsqueeze_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 4].span(), 
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(), 
+    ///     );
+    /// 
+    ///     return tensor.unsqueeze(
+    ///         axes: array![0, 3].span(), 
+    ///     );
+    /// }
+    /// >>> [[[[0]
+    ///        [1]
+    ///        [2]
+    ///        [3]]
+    ///
+    ///       [[4]
+    ///        [5]
+    ///        [6]
+    ///        [7]]]]
+    /// ```
+    ///
+    fn unsqueeze(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T>;
+    /// # tensor.squeeze
+    ///
+    /// ```rust 
+    ///    fn squeeze(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Removes dimensions of size 1 from the shape of a tensor.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - Tensor of data to calculate non-zero indices.  
+	/// * `axes`(`Option<Span<i32>>`) - List of integers indicating the dimensions to squeeze.  
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` Reshaped tensor with same data as input.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn squeeze_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![1, 2, 1, 2, 1].span(), 
+    ///         data: array![1, 1, 1, 1].span(), 
+    ///     );
+    /// 
+    ///     return tensor.squeeze(axes: Option::None(());
+    /// }
+    /// >>> [[1 1]
+    ///      [1 1]]
+    /// ```
+    ///
+    fn squeeze(
+    self: @Tensor<T>,
+    axes: Option<Span<i32>>
+    ) -> Tensor<T>;
 }
 
 
@@ -2874,4 +2969,113 @@ fn nonzero<T, MAG, impl TTensor: TensorTrait<T>, impl TPartialEq: PartialEq<T>, 
     };
 
     return Tensor::<usize> {shape: array![(*self.shape).len(), stop_k + 1].span(), data: output_data.span()};
+}
+
+/// Cf: TensorTrait::squeeze docstring
+fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
+    
+    let target_shape = match axes {
+        Option::Some(mut axes) => {
+            let mut axis_squeezed = 0;
+            let mut shape = *self.shape;
+            loop {
+                match axes.pop_front() {
+                    Option::Some(axis) => {
+                        let mut reshape: Array<usize> = ArrayTrait::new();
+                        let mut index = 0_usize;
+                        let axis = if *axis.sign {
+                            assert(*axis.mag <= (*self.shape).len(), 'axis out of accepted range');
+                            (*self.shape).len() - *axis.mag
+                        } else {
+                            assert(*axis.mag < (*self.shape).len(), 'axis out of accepted range');
+                            *axis.mag
+                        };
+
+                        loop {
+                            match shape.pop_front() {
+                                Option::Some(shape) => {
+                                    let squeezed = if axis >= axis_squeezed {
+                                        axis - axis_squeezed
+                                    } else {
+                                        axis
+                                    };
+                                    if index == squeezed {
+                                        assert(*shape == 1, 'shape entry not equal to one');
+                                        axis_squeezed += 1;
+                                    } else {
+                                        reshape.append(*shape);
+                                    }
+                                },
+                                Option::None(_) => {
+                                    break;
+                                },
+                            };
+                            index += 1;
+                        };
+                        shape = reshape.span();
+                    },
+                    Option::None(_) => {
+                        break shape;
+                    },
+                };
+            }
+        },
+        Option::None(_) => {
+            let mut reshape: Array<usize> = ArrayTrait::new();
+            let mut shape = *self.shape;
+            loop {
+                match shape.pop_front() {
+                    Option::Some(shape) => {
+                        if *shape != 1 {
+                            reshape.append(*shape);
+                        }
+                    },
+                    Option::None(_) => {
+                        break reshape.span();
+                    },
+                };
+            }
+        },
+    };
+
+    return Tensor::<T>{ shape: target_shape, data: *self.data };
+}
+/// Cf: TensorTrait::unsqueeze docstring
+fn unsqueeze<T>(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T> {
+    let dedupped_array = axes.dedup();
+    assert(dedupped_array.len() == axes.len(), 'Duplicated input axes');
+
+    let mut self_shape_copy = *self.shape;
+    let mut i: usize = 0;
+    let mut added_axes_count: usize = 0;
+    let mut output_shape: Array<usize> = ArrayTrait::new();
+    loop {
+        if axes.contains(i + added_axes_count) {
+            output_shape.append(1);
+            added_axes_count += 1;
+        } else {
+            match self_shape_copy.pop_front() {
+                Option::Some(val) => {
+                    output_shape.append(*val);
+                    i += 1;
+                },
+                Option::None(_) => {
+                    break ();
+                }
+            };
+        };
+    };
+
+    let mut j: usize = output_shape.len();
+    loop {
+        if axes.contains(j) {
+            output_shape.append(1);
+        } else {
+            break ();
+        }
+        j += 1;
+    };
+    assert(output_shape.len() == axes.len() + (*self.shape).len(), 'Invalid input axes');
+
+    return Tensor::<T> { shape: output_shape.span(), data: *self.data };
 }
