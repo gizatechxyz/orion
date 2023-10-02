@@ -403,3 +403,8 @@ mod nonzero_i8_2d;
 mod nonzero_i8_3d; 
 mod nonzero_u32_2d; 
 mod nonzero_u32_3d; 
+mod squeeze_fP16x16; 
+mod squeeze_fP8x23; 
+mod squeeze_i32; 
+mod squeeze_i8; 
+mod squeeze_u32;

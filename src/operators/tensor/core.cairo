@@ -5,7 +5,7 @@ use option::OptionTrait;
 use alexandria_data_structures::array_ext::{SpanTraitExt};
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::{i8, NumberTrait};
+use orion::numbers::{i8, i32, NumberTrait};
 
 #[derive(Copy, Drop)]
 struct Tensor<T> {
@@ -74,6 +74,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// dequantize_linear - Dequantizes an i8 Tensor using linear dequantization.
 /// gather - Gather entries of the axis dimension of data.
 /// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
+/// squeeze - Removes dimensions of size 1 from the shape of a tensor.
 /// 
 trait TensorTrait<T> {
     /// # tensor.new
@@ -2502,6 +2503,46 @@ trait TensorTrait<T> {
     fn gather(
     self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<T> ;
+    /// # tensor.squeeze
+    ///
+    /// ```rust 
+    ///    fn squeeze(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Removes dimensions of size 1 from the shape of a tensor.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - Tensor of data to calculate non-zero indices.  
+	/// * `axes`(`Option<Span<i32>>`) - List of integers indicating the dimensions to squeeze.  
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` Reshaped tensor with same data as input.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn squeeze_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![1, 2, 1, 2, 1].span(), 
+    ///         data: array![1, 1, 1, 1].span(), 
+    ///     );
+    /// 
+    ///     return tensor.squeeze(axes: Option::None(());
+    /// }
+    /// >>> [[1 1]
+    ///      [1 1]]
+    /// ```
+    ///
+    fn squeeze(
+    self: @Tensor<T>,
+    axes: Option<Span<i32>>
+    ) -> Tensor<T>;
 }
 
 
@@ -2874,4 +2915,74 @@ fn nonzero<T, MAG, impl TTensor: TensorTrait<T>, impl TPartialEq: PartialEq<T>, 
     };
 
     return Tensor::<usize> {shape: array![(*self.shape).len(), stop_k + 1].span(), data: output_data.span()};
+}
+
+/// Cf: TensorTrait::squeeze docstring
+fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
+    
+    let target_shape = match axes {
+        Option::Some(mut axes) => {
+            let mut axis_squeezed = 0;
+            let mut shape = *self.shape;
+            loop {
+                match axes.pop_front() {
+                    Option::Some(axis) => {
+                        let mut reshape: Array<usize> = ArrayTrait::new();
+                        let mut index = 0_usize;
+                        let axis = if *axis.sign {
+                            assert(*axis.mag <= (*self.shape).len(), 'axis out of accepted range');
+                            (*self.shape).len() - *axis.mag
+                        } else {
+                            assert(*axis.mag < (*self.shape).len(), 'axis out of accepted range');
+                            *axis.mag
+                        };
+
+                        loop {
+                            match shape.pop_front() {
+                                Option::Some(shape) => {
+                                    let squeezed = if axis >= axis_squeezed {
+                                        axis - axis_squeezed
+                                    } else {
+                                        axis
+                                    };
+                                    if index == squeezed {
+                                        assert(*shape == 1, 'shape entry not equal to one');
+                                        axis_squeezed += 1;
+                                    } else {
+                                        reshape.append(*shape);
+                                    }
+                                },
+                                Option::None(_) => {
+                                    break;
+                                },
+                            };
+                            index += 1;
+                        };
+                        shape = reshape.span();
+                    },
+                    Option::None(_) => {
+                        break shape;
+                    },
+                };
+            }
+        },
+        Option::None(_) => {
+            let mut reshape: Array<usize> = ArrayTrait::new();
+            let mut shape = *self.shape;
+            loop {
+                match shape.pop_front() {
+                    Option::Some(shape) => {
+                        if *shape != 1 {
+                            reshape.append(*shape);
+                        }
+                    },
+                    Option::None(_) => {
+                        break reshape.span();
+                    },
+                };
+            }
+        },
+    };
+
+    return Tensor::<T>{ shape: target_shape, data: *self.data };
 }

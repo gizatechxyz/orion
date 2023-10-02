@@ -53,5 +53,6 @@ You can see below the list of current supported ONNX Operators:
 |  [QuantizeLinear](operators/tensor/tensor.quantize\_linear.md)  | :white\_check\_mark: |
 | [DequantizeLinear](operators/tensor/tensor.quantize\_linear.md) | :white\_check\_mark: |
 |          [Nonzero](operators/tensor/tensor.nonzero.md)          | :white\_check\_mark: |
+|          [Squeeze](operators/tensor/tensor.squeeze.md)          | :white\_check\_mark: |
 
-Current Operators support: **45/156 (29%)**
+Current Operators support: **48/156 (30%)**

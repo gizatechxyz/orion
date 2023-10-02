@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
-use orion::numbers::{i8, NumberTrait};
+use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::tensor_i8::I8Tensor;
 
 impl U32Tensor of TensorTrait<u32> {
@@ -204,6 +204,10 @@ impl U32Tensor of TensorTrait<u32> {
     
     fn nonzero(self: @Tensor<u32>) -> Tensor<usize> {
         core::nonzero(self)
+    }
+
+    fn squeeze(self: @Tensor<u32>, axes: Option<Span<i32>>) -> Tensor<u32> {
+        core::squeeze(self, axes)
     }
 }
 
