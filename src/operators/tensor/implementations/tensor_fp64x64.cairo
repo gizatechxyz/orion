@@ -214,6 +214,13 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn nonzero(self: @Tensor<FP64x64>) -> Tensor<usize> {
         core::nonzero(self)
     }
+
+    fn unsqueeze(
+        self: @Tensor<FP64x64>,
+        axes: Span<usize>
+    ) -> Tensor<FP64x64> {
+        core::unsqueeze(self, axes)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

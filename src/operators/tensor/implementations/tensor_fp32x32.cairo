@@ -214,6 +214,13 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn nonzero(self: @Tensor<FP32x32>) -> Tensor<usize> {
         core::nonzero(self)
     }
+
+    fn unsqueeze(
+        self: @Tensor<FP32x32>,
+        axes: Span<usize>
+    ) -> Tensor<FP32x32> {
+        core::unsqueeze(self, axes)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

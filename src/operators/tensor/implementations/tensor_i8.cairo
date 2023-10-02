@@ -211,6 +211,13 @@ impl I8Tensor of TensorTrait<i8> {
     fn nonzero(self: @Tensor<i8>) -> Tensor<usize> {
         core::nonzero(self)
     }
+
+    fn unsqueeze(
+        self: @Tensor<i8>,
+        axes: Span<usize>
+    ) -> Tensor<i8> {
+        core::unsqueeze(self, axes)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
