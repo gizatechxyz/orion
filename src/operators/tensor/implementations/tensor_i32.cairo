@@ -212,11 +212,12 @@ impl I32Tensor of TensorTrait<i32> {
     fn nonzero(self: @Tensor<i32>) -> Tensor<usize> {
         core::nonzero(self)
     }
-    
-    fn unsqueeze(
-        self: @Tensor<i32>,
-        axes: Span<usize>
-    ) -> Tensor<i32> {
+
+    fn squeeze(self: @Tensor<i32>, axes: Option<Span<i32>>) -> Tensor<i32> {
+        core::squeeze(self, axes)
+    }
+
+    fn unsqueeze(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
         core::unsqueeze(self, axes)
     }
 }
