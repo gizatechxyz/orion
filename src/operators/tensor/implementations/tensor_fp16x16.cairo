@@ -217,6 +217,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn squeeze(self: @Tensor<FP16x16>, axes: Option<Span<i32>>) -> Tensor<FP16x16> {
         core::squeeze(self, axes)
     }
+
+    fn unsqueeze(self: @Tensor<FP16x16>, axes: Span<usize>) -> Tensor<FP16x16> {
+        core::unsqueeze(self, axes)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

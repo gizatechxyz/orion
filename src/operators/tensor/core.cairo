@@ -75,7 +75,8 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// gather - Gather entries of the axis dimension of data.
 /// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
 /// squeeze - Removes dimensions of size 1 from the shape of a tensor.
-/// 
+/// unsqueeze - Inserts single-dimensional entries to the shape of an input tensor.
+///
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -2503,6 +2504,59 @@ trait TensorTrait<T> {
     fn gather(
     self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<T> ;
+    /// # tensor.unsqueeze
+    ///
+    /// ```rust 
+    ///    fn unsqueeze(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Insert single-dimensional entries to the shape of an input tensor (data). Takes one required input axes -
+    /// which contains a list of dimension indices and this operator will insert a dimension of value 1 into the
+    /// corresponding index of the output tensor (expanded).
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - Tensor of data to unsquezee.
+    /// * `axes`(`Span<usize>`) - List of integers indicating the dimensions to be inserted. 
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the given axes have duplicate elements.
+    /// * Panics if one of the given axes is invalid.
+    ///
+    /// ## Returns 
+    ///
+    /// Reshaped `Tensor<T>` with same data as input.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn unsqueeze_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 4].span(), 
+    ///         data: array![0, 1, 2, 3, 4, 5, 6, 7].span(), 
+    ///     );
+    /// 
+    ///     return tensor.unsqueeze(
+    ///         axes: array![0, 3].span(), 
+    ///     );
+    /// }
+    /// >>> [[[[0]
+    ///        [1]
+    ///        [2]
+    ///        [3]]
+    ///
+    ///       [[4]
+    ///        [5]
+    ///        [6]
+    ///        [7]]]]
+    /// ```
+    ///
+    fn unsqueeze(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T>;
     /// # tensor.squeeze
     ///
     /// ```rust 
@@ -2985,4 +3039,43 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
     };
 
     return Tensor::<T>{ shape: target_shape, data: *self.data };
+}
+/// Cf: TensorTrait::unsqueeze docstring
+fn unsqueeze<T>(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T> {
+    let dedupped_array = axes.dedup();
+    assert(dedupped_array.len() == axes.len(), 'Duplicated input axes');
+
+    let mut self_shape_copy = *self.shape;
+    let mut i: usize = 0;
+    let mut added_axes_count: usize = 0;
+    let mut output_shape: Array<usize> = ArrayTrait::new();
+    loop {
+        if axes.contains(i + added_axes_count) {
+            output_shape.append(1);
+            added_axes_count += 1;
+        } else {
+            match self_shape_copy.pop_front() {
+                Option::Some(val) => {
+                    output_shape.append(*val);
+                    i += 1;
+                },
+                Option::None(_) => {
+                    break ();
+                }
+            };
+        };
+    };
+
+    let mut j: usize = output_shape.len();
+    loop {
+        if axes.contains(j) {
+            output_shape.append(1);
+        } else {
+            break ();
+        }
+        j += 1;
+    };
+    assert(output_shape.len() == axes.len() + (*self.shape).len(), 'Invalid input axes');
+
+    return Tensor::<T> { shape: output_shape.span(), data: *self.data };
 }

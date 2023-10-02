@@ -210,13 +210,17 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Tensor<FP32x32> {
         math::gather::gather(self, indices, axis)
     }
-    
+
     fn nonzero(self: @Tensor<FP32x32>) -> Tensor<usize> {
         core::nonzero(self)
     }
 
     fn squeeze(self: @Tensor<FP32x32>, axes: Option<Span<i32>>) -> Tensor<FP32x32> {
         core::squeeze(self, axes)
+    }
+
+    fn unsqueeze(self: @Tensor<FP32x32>, axes: Span<usize>) -> Tensor<FP32x32> {
+        core::unsqueeze(self, axes)
     }
 }
 
