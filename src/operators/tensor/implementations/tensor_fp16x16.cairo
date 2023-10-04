@@ -221,6 +221,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn unsqueeze(self: @Tensor<FP16x16>, axes: Span<usize>) -> Tensor<FP16x16> {
         core::unsqueeze(self, axes)
     }
+
+    fn sign(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::sign::sign(*self)
+    }    
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

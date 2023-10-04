@@ -33,6 +33,10 @@ impl i16Impl of IntegerTrait<i16, u16> {
     fn min(self: i16, other: i16) -> i16 {
         i16_min(self, other)
     }
+
+    fn sign(self: i16) -> i16 {
+        i16_sign(self)
+    }    
 }
 
 // Implements the Into trait for i16.
@@ -455,5 +459,14 @@ fn ensure_non_negative_zero(mag: u16, sign: bool) -> i16 {
         IntegerTrait::<i16>::new(mag, false)
     } else {
         IntegerTrait::<i16>::new(mag, sign)
+    }
+}
+
+fn i16_sign(a: i16) -> i16 {
+    if a.mag == 0 {
+        IntegerTrait::<i16>::new(0, false)
+    } 
+    else {
+        IntegerTrait::<i16>::new(1, a.sign)
     }
 }

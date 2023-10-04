@@ -213,6 +213,10 @@ impl U32Tensor of TensorTrait<u32> {
     fn unsqueeze(self: @Tensor<u32>, axes: Span<usize>) -> Tensor<u32> {
         core::unsqueeze(self, axes)
     }
+
+    fn sign(self: @Tensor<u32>) -> Tensor<u32> {
+        panic(array!['not supported!'])        
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

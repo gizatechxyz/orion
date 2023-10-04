@@ -39,6 +39,10 @@ impl i8Impl of IntegerTrait<i8, u8> {
     fn min(self: i8, other: i8) -> i8 {
         i8_min(self, other)
     }
+
+    fn sign(self: i8) -> i8 {
+        i8_sign(self)
+    }    
 }
 
 // Implements the Into trait for i8.
@@ -532,5 +536,14 @@ fn ensure_non_negative_zero(mag: u8, sign: bool) -> i8 {
         IntegerTrait::<i8>::new(mag, false)
     } else {
         IntegerTrait::<i8>::new(mag, sign)
+    }
+}
+
+fn i8_sign(a: i8) -> i8 {
+    if a.mag == 0 {
+        IntegerTrait::<i8>::new(0, false)
+    } 
+    else {
+        IntegerTrait::<i8>::new(1, a.sign)
     }
 }

@@ -418,3 +418,8 @@ mod unsqueeze_i8_2d;
 mod unsqueeze_i8_3d; 
 mod unsqueeze_u32_2d; 
 mod unsqueeze_u32_3d; 
+mod sign_fP16x16; 
+mod sign_fP8x23; 
+mod sign_fail; 
+mod sign_i32; 
+mod sign_i8; 

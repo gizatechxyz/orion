@@ -45,6 +45,7 @@ trait NumberTrait<T, MAG> {
     fn is_neg(self: T) -> bool;
     fn xor(lhs: T, rhs: T) -> bool;
     fn or(lhs: T, rhs: T) -> bool;
+    fn sign(self: T) -> T;
 }
 
 use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23};
@@ -206,6 +207,10 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
     fn or(lhs: FP8x23, rhs: FP8x23) -> bool {
         comp_fp8x23::or(lhs, rhs)
     }
+
+    fn sign(self: FP8x23) -> FP8x23 {
+        core_fp8x23::sign(self)
+    }        
 }
 
 use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16};
@@ -366,6 +371,10 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
 
     fn or(lhs: FP16x16, rhs: FP16x16) -> bool {
         comp_fp16x16::or(lhs, rhs)
+    }
+
+    fn sign(self: FP16x16) -> FP16x16 {
+        core_fp16x16::sign(self)
     }
 }
 
@@ -529,6 +538,10 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
     fn or(lhs: FP64x64, rhs: FP64x64) -> bool {
         comp_fp64x64::or(lhs, rhs)
     }
+
+    fn sign(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::sign(self)
+    }    
 }
 
 use orion::numbers::fixed_point::implementations::fp32x32::core::{FP32x32Impl, FP32x32};
@@ -691,6 +704,10 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
     fn or(lhs: FP32x32, rhs: FP32x32) -> bool {
         comp_fp32x32::or(lhs, rhs)
     }
+
+    fn sign(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::sign(self)
+    }    
 }
 
 use orion::numbers::signed_integer::i8 as i8_core;
@@ -859,6 +876,10 @@ impl I8Number of NumberTrait<i8, u8> {
             return true;
         }
     }
+
+    fn sign(self: i8) -> i8 {
+        i8_core::i8_sign(self)
+    }    
 }
 
 use orion::numbers::signed_integer::i16 as i16_core;
@@ -1027,6 +1048,10 @@ impl i16Number of NumberTrait<i16, u16> {
             return true;
         }
     }
+
+    fn sign(self: i16) -> i16 {
+        i16_core::i16_sign(self)
+    }    
 }
 
 use orion::numbers::signed_integer::i32 as i32_core;
@@ -1195,6 +1220,10 @@ impl i32Number of NumberTrait<i32, u32> {
             return true;
         }
     }
+
+    fn sign(self: i32) -> i32 {
+        i32_core::i32_sign(self)
+    }    
 }
 
 use orion::numbers::signed_integer::i64 as i64_core;
@@ -1363,6 +1392,10 @@ impl i64Number of NumberTrait<i64, u64> {
             return true;
         }
     }
+
+    fn sign(self: i64) -> i64 {
+        i64_core::i64_sign(self)
+    }    
 }
 
 use orion::numbers::signed_integer::i128 as i128_core;
@@ -1532,6 +1565,10 @@ impl i128Number of NumberTrait<i128, u128> {
             return true;
         }
     }
+
+    fn sign(self: i128) -> i128 {
+        i128_core::i128_sign(self)
+    }    
 }
 
 impl u32Number of NumberTrait<u32, u32> {
@@ -1706,4 +1743,8 @@ impl u32Number of NumberTrait<u32, u32> {
             return true;
         }
     }
+
+    fn sign(self: u32) -> u32 {
+        panic(array!['not supported!'])
+    }    
 }

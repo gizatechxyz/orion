@@ -220,6 +220,11 @@ impl I32Tensor of TensorTrait<i32> {
     fn unsqueeze(self: @Tensor<i32>, axes: Span<usize>) -> Tensor<i32> {
         core::unsqueeze(self, axes)
     }
+
+    fn sign(self: @Tensor<i32>) -> Tensor<i32> {
+        math::sign::sign(*self)
+    }
+    
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

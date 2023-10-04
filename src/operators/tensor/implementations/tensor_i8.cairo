@@ -219,6 +219,10 @@ impl I8Tensor of TensorTrait<i8> {
     fn unsqueeze(self: @Tensor<i8>, axes: Span<usize>) -> Tensor<i8> {
         core::unsqueeze(self, axes)
     }
+
+    fn sign(self: @Tensor<i8>) -> Tensor<i8> {
+        math::sign::sign(*self)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

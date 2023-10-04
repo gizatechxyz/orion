@@ -33,6 +33,10 @@ impl i64Impl of IntegerTrait<i64, u64> {
     fn min(self: i64, other: i64) -> i64 {
         i64_min(self, other)
     }
+
+    fn sign(self: i64) -> i64 {
+        i64_sign(self)
+    }    
 }
 
 // Implements the Into trait for i64.
@@ -455,5 +459,14 @@ fn ensure_non_negative_zero(mag: u64, sign: bool) -> i64 {
         IntegerTrait::<i64>::new(mag, false)
     } else {
         IntegerTrait::<i64>::new(mag, sign)
+    }
+}
+
+fn i64_sign(a: i64) -> i64 {
+    if a.mag == 0 {
+        IntegerTrait::<i64>::new(0, false)
+    } 
+    else {
+        IntegerTrait::<i64>::new(1, a.sign)
     }
 }

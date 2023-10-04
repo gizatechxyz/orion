@@ -68,6 +68,7 @@ use orion::numbers::fixed_point::core::FixedTrait;
 | [`fp.cosh`](fp.cosh.md) | Returns the value of the hyperbolic cosine of the fixed point number. |
 | [`fp.sinh`](fp.sinh.md) | Returns the value of the hyperbolic sine of the fixed point number. |
 | [`fp.tanh`](fp.tanh.md) | Returns the value of the hyperbolic tangent of the fixed point number. |
+| [`fp.sign`](fp.sign.md) | Returns the element-wise indication of the sign of the input fixed point number. |
 
 ### Arithmetic & Comparison operators
 
