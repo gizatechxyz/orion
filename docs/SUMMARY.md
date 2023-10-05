@@ -76,8 +76,12 @@
     * [tensor.onehot](framework/operators/tensor/tensor.onehot.md)
     * [tensor.slice](framework/operators/tensor/tensor.slice.md)
     * [tensor.concat](framework/operators/tensor/tensor.concat.md)
+    * [tensor.gather](framework/operators/tensor/tensor.gather.md)
     * [tensor.quantize\_linear](framework/operators/tensor/tensor.quantize\_linear.md)
     * [tensor.dequantize\_linear](framework/operators/tensor/tensor.dequantize\_linear.md)
+    * [tensor.nonzero](framework/operators/tensor/tensor.nonzero.md)
+    * [tensor.squeeze](framework/operators/tensor/tensor.squeeze.md)
+    * [tensor.unsqueeze](framework/operators/tensor/tensor.unsqueeze.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)
@@ -87,6 +91,10 @@
     * [nn.softsign](framework/operators/neural-network/nn.softsign.md)
     * [nn.softplus](framework/operators/neural-network/nn.softplus.md)
     * [nn.linear](framework/operators/neural-network/nn.linear.md)
+  * [Machine Learning](framework/operators/machine-learning/README.md)
+    * [Tree Regressor](framework/operators/machine-learning/tree-regressor/README.md)
+      * [tree.fit](framework/operators/machine-learning/tree-regressor/tree.fit.md)
+      * [tree.predict](framework/operators/machine-learning/tree-regressor/tree.predict.md)
 
 ## 🏛 Hub
 

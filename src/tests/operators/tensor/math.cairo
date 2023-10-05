@@ -30,3 +30,4 @@ mod acos;
 mod onehot;
 mod sqrt;
 mod concat;
+mod gather;

@@ -1,20 +1,19 @@
-# TreeRegressorTrait::fit
+# tree.predict
 
-```rust 
-   fn fit(data: Span<Span<T>>, target: Span<T>, max_depth: usize) -> TreeNode<T>;
+```rust
+   fn predict(ref self: TreeNode<T>, features: Span<T>) -> T;
 ```
 
-Builds a decision tree based on the provided data and target values up to a specified maximum depth.
+Predicts the target value for a set of features using the provided decision tree.
 
 ## Args
 
-* `data`: A span of spans representing rows of features in the dataset.
-* `target`: A span representing the target values corresponding to each row in the dataset.
-* `max_depth`: The maximum depth of the decision tree. The tree stops growing once this depth is reached.
+* `self`: A reference to the decision tree used for making the prediction.
+* `features`: A span representing the features for which the prediction is to be made.
 
 ## Returns
 
-A `TreeNode` representing the root of the constructed decision tree.
+The predicted target value.
 
 ## Type Constraints
 
@@ -44,6 +43,11 @@ fn tree_regressor_example() {
  ]
      .span();
 
- TreeRegressorTrait::fit(data, target, 3);
+ let mut tree = TreeRegressorTrait::fit(data, target, 3);
+
+ let prediction_1 = tree
+   .predict(
+       array![FixedTrait::new_unscaled(1, false), FixedTrait::new_unscaled(2, false),].span()
+   );
 }
 ```

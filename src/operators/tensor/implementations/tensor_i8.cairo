@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
-use orion::numbers::{i8, NumberTrait};
+use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
 
 impl I8Tensor of TensorTrait<i8> {
@@ -201,9 +201,24 @@ impl I8Tensor of TensorTrait<i8> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<i8> {
-        core::slice(self, starts, ends, axes, steps)
+        core::slice::<i8>(self, starts, ends, axes, steps)
+    }
+
+    fn gather(self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i8> {
+        math::gather::gather(self, indices, axis)
+    }
+
+    fn nonzero(self: @Tensor<i8>) -> Tensor<usize> {
+        core::nonzero(self)
+    }
+
+    fn squeeze(self: @Tensor<i8>, axes: Option<Span<i32>>) -> Tensor<i8> {
+        core::squeeze(self, axes)
     }
     
+    fn unsqueeze(self: @Tensor<i8>, axes: Span<usize>) -> Tensor<i8> {
+        core::unsqueeze(self, axes)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
@@ -285,9 +300,7 @@ impl I8TryIntoI8 of TryInto<i8, i8> {
 
 // Internals
 
-fn tensor_eq(
-    mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,
-) -> bool {
+fn tensor_eq(mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,) -> bool {
     let mut is_eq = true;
 
     loop {

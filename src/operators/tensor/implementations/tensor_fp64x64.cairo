@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
-use orion::numbers::{i8, NumberTrait, FP64x64, FP64x64Impl};
+use orion::numbers::{i8, i32, NumberTrait, FP64x64, FP64x64Impl};
 use orion::numbers::fixed_point::implementations::fp64x64::core::ONE;
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
@@ -202,7 +202,25 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<FP64x64> {
-        core::slice(self, starts, ends, axes, steps)
+        core::slice::<FP64x64>(self, starts, ends, axes, steps)
+    }
+
+    fn gather(
+        self: @Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP64x64> {
+        math::gather::gather(self, indices, axis)
+    }
+
+    fn nonzero(self: @Tensor<FP64x64>) -> Tensor<usize> {
+        core::nonzero(self)
+    }
+
+    fn squeeze(self: @Tensor<FP64x64>, axes: Option<Span<i32>>) -> Tensor<FP64x64> {
+        core::squeeze(self, axes)
+    }
+
+    fn unsqueeze(self: @Tensor<FP64x64>, axes: Span<usize>) -> Tensor<FP64x64> {
+        core::unsqueeze(self, axes)
     }
 }
 
