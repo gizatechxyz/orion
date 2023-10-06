@@ -13,3 +13,6 @@ cubit = { git = "https://github.com/influenceth/cubit.git" }
 sierra = "cairo-compile . -r"
 docgen = "cd docgen && cargo run"
 nodegen = "python3 nodegen/node/__init__.py"
+
+[workspace]
+members = ["tests/"]
