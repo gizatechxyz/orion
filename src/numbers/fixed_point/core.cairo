@@ -1,4 +1,3 @@
-
 /// Trait
 ///
 /// new - Constructs a new fixed point instance.

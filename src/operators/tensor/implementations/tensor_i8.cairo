@@ -215,7 +215,7 @@ impl I8Tensor of TensorTrait<i8> {
     fn squeeze(self: @Tensor<i8>, axes: Option<Span<i32>>) -> Tensor<i8> {
         core::squeeze(self, axes)
     }
-    
+
     fn unsqueeze(self: @Tensor<i8>, axes: Span<usize>) -> Tensor<i8> {
         core::unsqueeze(self, axes)
     }
@@ -223,7 +223,7 @@ impl I8Tensor of TensorTrait<i8> {
     fn sign(self: @Tensor<i8>) -> Tensor<i8> {
         math::sign::sign(*self)
     }
-    
+
     fn clip(self: @Tensor<i8>, min: Option<i8>, max: Option<i8>) -> Tensor<i8> {
         core::clip(self, min, max)
     }

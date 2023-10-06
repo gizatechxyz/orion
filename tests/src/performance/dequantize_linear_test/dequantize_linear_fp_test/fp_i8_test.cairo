@@ -24,7 +24,7 @@ mod fp8x23 {
         data.append(IntegerTrait::new(3, false));
         data.append(IntegerTrait::new(125, false));
         data.append(IntegerTrait::new(127, false));
-        
+
         let x = TensorTrait::new(shape.span(), data.span());
 
         // XSCALE
@@ -32,7 +32,7 @@ mod fp8x23 {
         shape.append(1);
         let mut data = ArrayTrait::<FP8x23>::new();
         data.append(FixedTrait::new_unscaled(2, false));
-        
+
         let x_scale = TensorTrait::new(shape.span(), data.span());
 
         // ZEROPOINT
@@ -40,7 +40,7 @@ mod fp8x23 {
         shape.append(1);
         let mut data = ArrayTrait::<FP8x23>::new();
         data.append(FixedTrait::new_unscaled(0, false));
-        
+
         let x_zero_point = TensorTrait::new(shape.span(), data.span());
 
         let y: Tensor<FP8x23> = x.dequantize_linear(@x_scale, @x_zero_point);
@@ -172,7 +172,7 @@ mod fp16x16 {
         data.append(IntegerTrait::new(3, false));
         data.append(IntegerTrait::new(125, false));
         data.append(IntegerTrait::new(127, false));
-        
+
         let x = TensorTrait::new(shape.span(), data.span());
 
         // XSCALE
@@ -180,7 +180,7 @@ mod fp16x16 {
         shape.append(1);
         let mut data = ArrayTrait::<FP16x16>::new();
         data.append(FixedTrait::new_unscaled(2, false));
-        
+
         let x_scale = TensorTrait::new(shape.span(), data.span());
 
         // ZEROPOINT
@@ -188,7 +188,7 @@ mod fp16x16 {
         shape.append(1);
         let mut data = ArrayTrait::<FP16x16>::new();
         data.append(FixedTrait::new_unscaled(0, false));
-        
+
         let x_zero_point = TensorTrait::new(shape.span(), data.span());
 
         let y: Tensor<FP16x16> = x.dequantize_linear(@x_scale, @x_zero_point);
@@ -239,7 +239,7 @@ mod fp16x16 {
         data.append(IntegerTrait::new(127, false));
         data.append(IntegerTrait::new(121, false));
         data.append(IntegerTrait::new(102, false));
-        
+
         let x = TensorTrait::new(shape.span(), data.span());
 
         // XSCALE
@@ -252,7 +252,7 @@ mod fp16x16 {
         data.append(FixedTrait::new_unscaled(2, false));
         data.append(FixedTrait::new_unscaled(4, false));
         data.append(FixedTrait::new_unscaled(5, false));
-        
+
         let x_scale = TensorTrait::new(shape.span(), data.span());
 
         // ZEROPOINT
@@ -265,7 +265,7 @@ mod fp16x16 {
         data.append(FixedTrait::new_unscaled(1, false));
         data.append(FixedTrait::new_unscaled(2, false));
         data.append(FixedTrait::new_unscaled(3, false));
-        
+
         let x_zero_point = TensorTrait::new(shape.span(), data.span());
 
         let y: Tensor<FP16x16> = x.dequantize_linear(@x_scale, @x_zero_point);

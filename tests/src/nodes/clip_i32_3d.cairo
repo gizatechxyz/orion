@@ -1,5 +1,5 @@
-mod input_0; 
-mod output_0; 
+mod input_0;
+mod output_0;
 
 
 use array::{ArrayTrait, SpanTrait};
@@ -15,7 +15,10 @@ fn test_clip_i32_3d() {
     let input_0 = input_0::input_0();
     let z = output_0::output_0();
 
-    let y = input_0.clip(Option::Some(i32 { mag: 10, sign: true }), Option::Some(i32 { mag: 20, sign: false }));
+    let y = input_0
+        .clip(
+            Option::Some(i32 { mag: 10, sign: true }), Option::Some(i32 { mag: 20, sign: false })
+        );
 
     assert_eq(y, z);
 }

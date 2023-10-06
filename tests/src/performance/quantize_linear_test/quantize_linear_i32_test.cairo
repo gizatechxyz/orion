@@ -21,7 +21,7 @@ fn quantize_linear() {
     data.append(IntegerTrait::new(1000, false));
     data.append(IntegerTrait::new(254, true));
     data.append(IntegerTrait::new(1000, true));
-    
+
     let x = TensorTrait::new(shape.span(), data.span());
 
     // YSCALE
@@ -29,7 +29,7 @@ fn quantize_linear() {
     shape.append(1);
     let mut data = ArrayTrait::<i32>::new();
     data.append(IntegerTrait::new(2, false));
-    
+
     let y_scale = TensorTrait::new(shape.span(), data.span());
 
     // ZEROPOINT
@@ -37,7 +37,7 @@ fn quantize_linear() {
     shape.append(1);
     let mut data = ArrayTrait::<i32>::new();
     data.append(IntegerTrait::new(1, false));
-    
+
     let y_zero_point = TensorTrait::new(shape.span(), data.span());
 
     let y: Tensor<i8> = x.quantize_linear(@y_scale, @y_zero_point);
@@ -79,7 +79,7 @@ fn per_axis() {
     data.append(IntegerTrait::new(270, true));
     data.append(IntegerTrait::new(375, true));
     data.append(IntegerTrait::new(470, true));
-    
+
     let x = TensorTrait::new(shape.span(), data.span());
 
     // YSCALE
@@ -92,7 +92,7 @@ fn per_axis() {
     data.append(IntegerTrait::new(2, false));
     data.append(IntegerTrait::new(4, false));
     data.append(IntegerTrait::new(5, false));
-    
+
     let y_scale = TensorTrait::new(shape.span(), data.span());
 
     // ZEROPOINT
@@ -105,7 +105,7 @@ fn per_axis() {
     data.append(IntegerTrait::new(84, false));
     data.append(IntegerTrait::new(24, false));
     data.append(IntegerTrait::new(196, false));
-    
+
     let y_zero_point = TensorTrait::new(shape.span(), data.span());
 
     let y: Tensor<i8> = x.quantize_linear(@y_scale, @y_zero_point);

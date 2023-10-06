@@ -1,6 +1,6 @@
-mod input_0; 
-mod input_1; 
-mod output_0; 
+mod input_0;
+mod input_1;
+mod output_0;
 
 
 use array::{ArrayTrait, SpanTrait};
@@ -16,7 +16,7 @@ fn test_concat_fp16x16_3d_axis_1() {
     let input_1 = input_1::input_1();
     let z = output_0::output_0();
 
-    let y = TensorTrait::concat(array![input_0, input_1 ].span(), 1);
+    let y = TensorTrait::concat(array![input_0, input_1].span(), 1);
 
     assert_eq(y, z);
 }

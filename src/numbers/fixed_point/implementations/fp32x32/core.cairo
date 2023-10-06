@@ -172,7 +172,7 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
 
     fn sign(self: FP32x32) -> FP32x32 {
         panic(array!['not supported!'])
-    }    
+    }
 }
 
 

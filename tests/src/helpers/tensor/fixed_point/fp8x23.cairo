@@ -14,7 +14,6 @@ fn fp_tensor_1x3_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(0, false));
     data.append(FixedTrait::new_unscaled(1, false));
     data.append(FixedTrait::new_unscaled(2, false));
-    
 
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
@@ -29,7 +28,6 @@ fn fp_tensor_1x3_neg_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(0, false));
     data.append(FixedTrait::new_unscaled(1, true));
     data.append(FixedTrait::new_unscaled(2, true));
-    
 
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
@@ -48,7 +46,6 @@ fn fp_tensor_2x2_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(1, false));
     data.append(FixedTrait::new_unscaled(2, false));
     data.append(FixedTrait::new_unscaled(3, false));
-    
 
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
@@ -65,7 +62,6 @@ fn fp_tensor_2x2_neg_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(1, true));
     data.append(FixedTrait::new_unscaled(2, true));
     data.append(FixedTrait::new_unscaled(3, true));
-    
 
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
@@ -88,8 +84,6 @@ fn fp_tensor_3x3_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(7, false));
     data.append(FixedTrait::new_unscaled(8, false));
 
-    
-
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
     return tensor;
@@ -111,8 +105,6 @@ fn fp_tensor_3x3_neg_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(7, true));
     data.append(FixedTrait::new_unscaled(8, true));
 
-    
-
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
     return tensor;
@@ -130,8 +122,6 @@ fn fp_tensor_3x2_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(3, false));
     data.append(FixedTrait::new_unscaled(4, false));
     data.append(FixedTrait::new_unscaled(5, false));
-
-    
 
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
@@ -151,8 +141,6 @@ fn fp_tensor_3x2_neg_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(4, true));
     data.append(FixedTrait::new_unscaled(5, true));
 
-    
-
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
     return tensor;
@@ -168,8 +156,6 @@ fn fp_tensor_3x1_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(1, false));
     data.append(FixedTrait::new_unscaled(2, false));
 
-    
-
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
     return tensor;
@@ -184,8 +170,6 @@ fn fp_tensor_3x1_neg_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(0, false));
     data.append(FixedTrait::new_unscaled(1, true));
     data.append(FixedTrait::new_unscaled(2, true));
-
-    
 
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
@@ -205,8 +189,6 @@ fn fp_tensor_2x3_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(4, false));
     data.append(FixedTrait::new_unscaled(5, false));
 
-    
-
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
     return tensor;
@@ -224,8 +206,6 @@ fn fp_tensor_2x3_neg_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(3, true));
     data.append(FixedTrait::new_unscaled(4, true));
     data.append(FixedTrait::new_unscaled(5, true));
-
-    
 
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
@@ -250,8 +230,6 @@ fn fp_tensor_2x2x2_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(6, false));
     data.append(FixedTrait::new_unscaled(7, false));
 
-    
-
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
     return tensor;
@@ -272,8 +250,6 @@ fn fp_tensor_2x2x2_neg_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(5, true));
     data.append(FixedTrait::new_unscaled(6, true));
     data.append(FixedTrait::new_unscaled(7, true));
-
-    
 
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
@@ -300,8 +276,6 @@ fn fp_tensor_3x2x2_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(10, false));
     data.append(FixedTrait::new_unscaled(11, false));
 
-    
-
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
     return tensor;
@@ -326,8 +300,6 @@ fn fp_tensor_3x2x2_neg_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(9, true));
     data.append(FixedTrait::new_unscaled(10, true));
     data.append(FixedTrait::new_unscaled(11, true));
-
-    
 
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
@@ -370,8 +342,6 @@ fn fp_tensor_3x3x3_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(25, false));
     data.append(FixedTrait::new_unscaled(26, false));
 
-    
-
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
     return tensor;
@@ -411,8 +381,6 @@ fn fp_tensor_3x3x3_neg_helper() -> Tensor<FP8x23> {
     data.append(FixedTrait::new_unscaled(24, true));
     data.append(FixedTrait::new_unscaled(25, true));
     data.append(FixedTrait::new_unscaled(26, true));
-
-    
 
     let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 

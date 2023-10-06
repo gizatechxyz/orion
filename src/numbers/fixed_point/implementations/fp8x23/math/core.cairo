@@ -284,11 +284,9 @@ fn sub(a: FP8x23, b: FP8x23) -> FP8x23 {
 }
 
 fn sign(a: FP8x23) -> FP8x23 {
-
     if a.mag == 0 {
         FixedTrait::new(0, false)
-    } 
-    else {
+    } else {
         FixedTrait::new(ONE, a.sign)
     }
 }
@@ -645,7 +643,6 @@ fn test_sign() {
 
     let a = FixedTrait::<FP8x23>::new(HALF, false);
     assert(a.sign().mag == ONE && !a.sign().sign, 'invalid sign (HALF, false)');
-
 
     let a = FixedTrait::<FP8x23>::new(ONE, true);
     assert(a.sign().mag == ONE && a.sign().sign, 'invalid sign (ONE, true)');

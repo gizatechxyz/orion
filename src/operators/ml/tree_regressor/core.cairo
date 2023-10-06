@@ -67,7 +67,9 @@ trait TreeRegressorTrait<T> {
     /// }
     /// ```
     ///
-    fn fit(data: Span<Span<T>>, target: Span<T>, max_depth: usize, random_state: usize) -> TreeNode<T>;
+    fn fit(
+        data: Span<Span<T>>, target: Span<T>, max_depth: usize, random_state: usize
+    ) -> TreeNode<T>;
     /// # TreeRegressorTrait::predict
     ///
     /// ```rust 
@@ -413,10 +415,14 @@ fn fit<
 
     TreeNode {
         left: Option::Some(
-            BoxTrait::new(fit(left_data.span(), left_target.span(), depth + 1, max_depth, random_state))
+            BoxTrait::new(
+                fit(left_data.span(), left_target.span(), depth + 1, max_depth, random_state)
+            )
         ),
         right: Option::Some(
-            BoxTrait::new(fit(right_data.span(), right_target.span(), depth + 1, max_depth, random_state))
+            BoxTrait::new(
+                fit(right_data.span(), right_target.span(), depth + 1, max_depth, random_state)
+            )
         ),
         split_feature,
         split_value,
