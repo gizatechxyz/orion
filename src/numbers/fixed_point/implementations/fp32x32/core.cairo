@@ -169,6 +169,10 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     fn tanh(self: FP32x32) -> FP32x32 {
         return fp32x32::hyp::tanh(self);
     }
+
+    fn sign(self: FP32x32) -> FP32x32 {
+        panic(array!['not supported!'])
+    }    
 }
 
 

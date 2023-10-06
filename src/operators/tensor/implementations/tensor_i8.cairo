@@ -220,6 +220,10 @@ impl I8Tensor of TensorTrait<i8> {
         core::unsqueeze(self, axes)
     }
 
+    fn sign(self: @Tensor<i8>) -> Tensor<i8> {
+        math::sign::sign(*self)
+    }
+    
     fn clip(self: @Tensor<i8>, min: Option<i8>, max: Option<i8>) -> Tensor<i8> {
         core::clip(self, min, max)
     }

@@ -31,3 +31,4 @@ mod onehot;
 mod sqrt;
 mod concat;
 mod gather;
+mod sign;

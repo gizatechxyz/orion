@@ -222,6 +222,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         core::unsqueeze(self, axes)
     }
 
+    fn sign(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::sign::sign(*self)
+    }    
+    
     fn clip(self: @Tensor<FP16x16>, min: Option<FP16x16>, max: Option<FP16x16>) -> Tensor<FP16x16> {
         core::clip(self, min, max)
     }
