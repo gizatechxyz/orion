@@ -36,6 +36,10 @@ impl i32Impl of IntegerTrait<i32, u32> {
     fn min(self: i32, other: i32) -> i32 {
         i32_min(self, other)
     }
+
+    fn sign(self: i32) -> i32 {
+        i32_sign(self)
+    }    
 }
 
 // Implements the Into trait for i32.
@@ -487,5 +491,14 @@ fn ensure_non_negative_zero(mag: u32, sign: bool) -> i32 {
         IntegerTrait::<i32>::new(mag, false)
     } else {
         IntegerTrait::<i32>::new(mag, sign)
+    }
+}
+
+fn i32_sign(a: i32) -> i32 {
+    if a.mag == 0 {
+        IntegerTrait::<i32>::new(0, false)
+    } 
+    else {
+        IntegerTrait::<i32>::new(1, a.sign)
     }
 }

@@ -283,6 +283,16 @@ fn sub(a: FP8x23, b: FP8x23) -> FP8x23 {
     return add(a, -b);
 }
 
+fn sign(a: FP8x23) -> FP8x23 {
+
+    if a.mag == 0 {
+        FixedTrait::new(0, false)
+    } 
+    else {
+        FixedTrait::new(ONE, a.sign)
+    }
+}
+
 // Tests --------------------------------------------------------------------------------------------------------------
 
 use orion::numbers::fixed_point::implementations::fp8x23::helpers::{
@@ -622,4 +632,32 @@ fn test_sin() {
 fn test_tan() {
     let a = FixedTrait::<FP8x23>::new(HALF_PI / 2, false);
     assert(a.tan().mag == 8388608, 'invalid quarter pi');
+}
+
+#[test]
+#[available_gas(2000000)]
+fn test_sign() {
+    let a = FixedTrait::<FP8x23>::new(0, false);
+    assert(a.sign().mag == 0 && !a.sign().sign, 'invalid sign (0, true)');
+
+    let a = FixedTrait::<FP8x23>::new(HALF, true);
+    assert(a.sign().mag == ONE && a.sign().sign, 'invalid sign (HALF, true)');
+
+    let a = FixedTrait::<FP8x23>::new(HALF, false);
+    assert(a.sign().mag == ONE && !a.sign().sign, 'invalid sign (HALF, false)');
+
+
+    let a = FixedTrait::<FP8x23>::new(ONE, true);
+    assert(a.sign().mag == ONE && a.sign().sign, 'invalid sign (ONE, true)');
+
+    let a = FixedTrait::<FP8x23>::new(ONE, false);
+    assert(a.sign().mag == ONE && !a.sign().sign, 'invalid sign (ONE, false)');
+}
+
+#[test]
+#[should_panic]
+#[available_gas(2000000)]
+fn test_sign_fail() {
+    let a = FixedTrait::<FP8x23>::new(HALF, true);
+    assert(a.sign().mag != ONE && !a.sign().sign, 'invalid sign (HALF, true)');
 }

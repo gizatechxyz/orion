@@ -1,7 +1,6 @@
 [package]
 name = "orion"
-version = "0.1.0"
-# cairo-version = ">=2.0.1"
+version = "0.1.2"
 description = "ONNX Runtime in Cairo for verifiable ML inference using STARK"
 homepage = "https://github.com/gizatechxyz/orion"
 
@@ -13,3 +12,6 @@ cubit = { git = "https://github.com/influenceth/cubit.git" }
 sierra = "cairo-compile . -r"
 docgen = "cd docgen && cargo run"
 nodegen = "python3 nodegen/node/__init__.py"
+
+[workspace]
+members = ["tests/"]

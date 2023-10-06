@@ -178,6 +178,10 @@ impl FP16x16Impl of FixedTrait<FP16x16, u32> {
     fn tanh(self: FP16x16) -> FP16x16 {
         return hyp::tanh(self);
     }
+
+    fn sign(self: FP16x16) -> FP16x16 {
+        return core::sign(self);
+    }    
 }
 
 

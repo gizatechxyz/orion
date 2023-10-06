@@ -43,6 +43,7 @@ use orion::numbers::signed_integer::IntegerTrait;
 | [`int.abs`](int.abs.md) | Computes the absolute value of the given `signed_integer` |
 | [`int.max`](int.max.md) | Returns the maximum between two `signed_integer` |
 | [`int.min`](int.min.md) | Returns the minimum between two `signed_integer` |
+| [`int.sign`](int.sign.md) | Returns an element-wise indication of the given `signed_integer` |
 
 ### Arithmetic & Comparison operators
 

@@ -76,6 +76,8 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
 /// squeeze - Removes dimensions of size 1 from the shape of a tensor.
 /// unsqueeze - Inserts single-dimensional entries to the shape of an input tensor.
+/// sign - Calculates the sign of the given input tensor element-wise.
+/// clip - Clip operator limits the given input within an interval.
 ///
 trait TensorTrait<T> {
     /// # tensor.new
@@ -2597,8 +2599,86 @@ trait TensorTrait<T> {
     self: @Tensor<T>,
     axes: Option<Span<i32>>
     ) -> Tensor<T>;
+    /// # tensor.clip
+    ///
+    /// ```rust 
+    ///    fn clip(self: @Tensor<T>, min: T, max: T) -> Tensor<T>;
+    /// ```
+    ///
+    /// Clip operator limits the given input within an interval.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - Input tensor whose elements to be clipped.
+    /// * `min`(`Option<T>`) - Minimum value, under which element is replaced by min.
+    /// * `max`(`Option<T>`) - Maximum value, above which element is replaced by max.
+    ///
+    /// ## Returns 
+    ///
+    /// Output `Tensor<T>` with clipped input elements.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn clip_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 3].span(), 
+    ///         data: array![[ 1, 2, 3],[4, 5, 6]].span(), 
+    ///     );
+    /// 
+    ///     return tensor.clip(
+    ///         min: Option::None(()), 
+    ///         max: Option::Some(3),
+    ///     );
+    /// }
+    /// >>> [[1. 2. 3.]
+    ///      [3. 3. 3.]]
+    /// ```
+    ///
+    fn clip(self: @Tensor<T>, min: Option<T>, max: Option<T>) -> Tensor<T>;
+    /// # tensor.sign
+    ///
+    /// ```rust 
+    ///    fn sign(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Calculates the sign of the given input tensor element-wise.
+    /// If input > 0, output 1. if input < 0, output -1. if input == 0, output 0.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - Tensor of data to calculates the sign of the given input tensor element-wise.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with The sign of the input tensor computed element-wise.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
+    /// 
+    /// fn sign_example() -> Tensor<FP8x23> {
+    ///     let tensor = TensorTrait::<FP8x23>::new(
+    ///         shape: array![11].span(), 
+    ///         data: array![-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].span(), 
+    ///     );
+    /// 
+    ///     return tensor.sign();
+    /// }
+    /// >>> [-1, -1, -1, -1, -1, 0, 1, 1, 1, 1, 1]
+    /// ```
+    ///
+    fn sign(
+    self: @Tensor<T>
+    ) -> Tensor<T>;
 }
-
 
 /// Cf: TensorTrait::new docstring
 fn new_tensor<T>(shape: Span<usize>, data: Span<T>) -> Tensor<T> {
@@ -3078,4 +3158,76 @@ fn unsqueeze<T>(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T> {
     assert(output_shape.len() == axes.len() + (*self.shape).len(), 'Invalid input axes');
 
     return Tensor::<T> { shape: output_shape.span(), data: *self.data };
+}
+
+/// Cf: TensorTrait::sign docstring
+fn sign<T, 
+        MAG, 
+        impl TNumber: NumberTrait<T, MAG>,
+        impl TPartialEq: PartialEq<T>,
+        impl TDrop: Drop<T>,
+        impl TCopy: Copy<T>,
+        >(self: @Tensor<T>) -> Tensor<T> {
+
+    let mut sign_data_array: Array<T> = ArrayTrait::new();
+    let mut data = *self.data;
+
+    loop {
+        match data.pop_front() {
+            Option::Some(data) => {
+                let sign_data = if *data == NumberTrait::zero() {
+                                    NumberTrait::zero()
+                                } else if NumberTrait::is_neg(*data) {
+                                    NumberTrait::neg_one()
+                                }
+                                else {
+                                    NumberTrait::one()
+                                };
+                sign_data_array.append(sign_data);
+            },
+            Option::None(_) => {
+                break Tensor::<T>{ shape: *self.shape, data: sign_data_array.span() };
+            }
+        };
+    }
+}
+
+/// Cf: TensorTrait::clip docstring
+fn clip<T, MAG, impl TCopy: Copy<T>, impl TDrop: Drop<T>, impl TTensor: TensorTrait<T>, impl TPartialOrd: PartialOrd<T>, impl TNumber: NumberTrait<T, MAG>>(self: @Tensor<T>, min: Option<T>, max: Option<T>) -> Tensor<T> {
+    let min = match min {
+        Option::Some(min) => min,
+        Option::None(_) => {
+            NumberTrait::min_value()
+        },
+    };
+    let max = match max {
+        Option::Some(max) => max,
+        Option::None(_) => {
+            NumberTrait::max_value()
+        },
+    };
+
+    let mut return_data: Array<T> = ArrayTrait::new();
+    let mut self_data_copy = *self.data;
+    
+    loop {
+        match self_data_copy.pop_front() {
+            Option::Some(val) => {
+                if *val < min {
+                    return_data.append(min);
+                }
+                else if *val > max {
+                    return_data.append(max);
+                } 
+                else {
+                    return_data.append(*val);
+                }
+            },
+            Option::None(_) => {
+                break ();
+            }
+        };
+    };
+
+    return Tensor::<T> {shape: *self.shape, data: return_data.span()};
 }
