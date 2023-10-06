@@ -81,6 +81,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.squeeze`](tensor.squeeze.md) | Removes dimensions of size 1 from the shape of a tensor. |
 | [`tensor.unsqueeze`](tensor.unsqueeze.md) | Inserts single-dimensional entries to the shape of an input tensor. |
 | [`tensor.sign`](tensor.sign.md) | Calculates the sign of the given input tensor element-wise. |
+| [`tensor.clip`](tensor.clip.md) | Clip operator limits the given input within an interval. |
 
 ## Arithmetic Operations
 
