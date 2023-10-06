@@ -1,7 +1,7 @@
-mod input_0; 
-mod input_1; 
-mod input_2; 
-mod output_0; 
+mod input_0;
+mod input_1;
+mod input_2;
+mod output_0;
 
 
 use orion::operators::nn::NNTrait;

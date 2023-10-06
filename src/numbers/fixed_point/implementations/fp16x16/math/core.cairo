@@ -283,11 +283,9 @@ fn sub(a: FP16x16, b: FP16x16) -> FP16x16 {
 }
 
 fn sign(a: FP16x16) -> FP16x16 {
-
     if a.mag == 0 {
         FixedTrait::new(0, false)
-    } 
-    else {
+    } else {
         FixedTrait::new(ONE, a.sign)
     }
 }
@@ -636,7 +634,6 @@ fn test_tan() {
 #[test]
 #[available_gas(2000000)]
 fn test_sign() {
-    
     let a = FixedTrait::<FP16x16>::new(0, false);
     assert(a.sign().mag == 0 && !a.sign().sign, 'invalid sign (0, true)');
 
@@ -646,13 +643,11 @@ fn test_sign() {
     let a = FixedTrait::<FP16x16>::new(HALF, false);
     assert(a.sign().mag == ONE && !a.sign().sign, 'invalid sign (HALF, false)');
 
-
     let a = FixedTrait::<FP16x16>::new(ONE, true);
     assert(a.sign().mag == ONE && a.sign().sign, 'invalid sign (ONE, true)');
 
     let a = FixedTrait::<FP16x16>::new(ONE, false);
     assert(a.sign().mag == ONE && !a.sign().sign, 'invalid sign (ONE, false)');
-
 }
 
 #[test]

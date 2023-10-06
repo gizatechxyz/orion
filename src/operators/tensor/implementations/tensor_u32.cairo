@@ -209,15 +209,15 @@ impl U32Tensor of TensorTrait<u32> {
     fn squeeze(self: @Tensor<u32>, axes: Option<Span<i32>>) -> Tensor<u32> {
         core::squeeze(self, axes)
     }
-    
+
     fn unsqueeze(self: @Tensor<u32>, axes: Span<usize>) -> Tensor<u32> {
         core::unsqueeze(self, axes)
     }
 
     fn sign(self: @Tensor<u32>) -> Tensor<u32> {
-        panic(array!['not supported!'])        
+        panic(array!['not supported!'])
     }
-    
+
     fn clip(self: @Tensor<u32>, min: Option<u32>, max: Option<u32>) -> Tensor<u32> {
         core::clip(self, min, max)
     }

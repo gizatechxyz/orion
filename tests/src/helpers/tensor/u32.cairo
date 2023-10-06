@@ -12,7 +12,6 @@ fn u32_tensor_1x3_helper() -> Tensor<u32> {
     data.append(0);
     data.append(1);
     data.append(2);
-    
 
     let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
 
@@ -31,7 +30,6 @@ fn u32_tensor_2x2_helper() -> Tensor<u32> {
     data.append(1);
     data.append(2);
     data.append(3);
-    
 
     let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
 
@@ -54,8 +52,6 @@ fn u32_tensor_3x3_helper() -> Tensor<u32> {
     data.append(7);
     data.append(8);
 
-    
-
     let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
 
     return tensor;
@@ -74,8 +70,6 @@ fn u32_tensor_3x2_helper() -> Tensor<u32> {
     data.append(4);
     data.append(5);
 
-    
-
     let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
 
     return tensor;
@@ -90,8 +84,6 @@ fn u32_tensor_3x1_helper() -> Tensor<u32> {
     data.append(0);
     data.append(1);
     data.append(2);
-
-    
 
     let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
 
@@ -110,8 +102,6 @@ fn u32_tensor_2x3_helper() -> Tensor<u32> {
     data.append(3);
     data.append(4);
     data.append(5);
-
-    
 
     let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
 
@@ -135,8 +125,6 @@ fn u32_tensor_2x2x2_helper() -> Tensor<u32> {
     data.append(5);
     data.append(6);
     data.append(7);
-
-    
 
     let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
 
@@ -162,8 +150,6 @@ fn u32_tensor_3x2x2_helper() -> Tensor<u32> {
     data.append(9);
     data.append(10);
     data.append(11);
-
-    
 
     let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
 
@@ -204,8 +190,6 @@ fn u32_tensor_3x3x3_helper() -> Tensor<u32> {
     data.append(24);
     data.append(25);
     data.append(26);
-
-    
 
     let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
 

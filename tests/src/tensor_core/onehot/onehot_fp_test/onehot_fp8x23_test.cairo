@@ -43,7 +43,6 @@ mod tensor_1D {
         data.append(FixedTrait::new_unscaled(2, false));
         data.append(FixedTrait::new_unscaled(3, false));
 
-        
         let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
         return tensor;
@@ -60,7 +59,6 @@ mod tensor_1D {
         data.append(FixedTrait::new_unscaled(2, true));
         data.append(FixedTrait::new_unscaled(1, true));
 
-        
         let tensor = TensorTrait::<FP8x23>::new(sizes.span(), data.span());
 
         return tensor;

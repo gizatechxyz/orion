@@ -1,6 +1,6 @@
-mod input_0; 
-mod input_1; 
-mod output_0; 
+mod input_0;
+mod input_1;
+mod output_0;
 
 
 use array::{ArrayTrait, SpanTrait};
@@ -16,7 +16,7 @@ fn test_gather_i32_3d_axis1() {
     let input_1 = input_1::input_1();
     let z = output_0::output_0();
 
-    let y = input_0.gather(indices:input_1, axis:Option::Some(1));
+    let y = input_0.gather(indices: input_1, axis: Option::Some(1));
 
     assert_eq(y, z);
 }

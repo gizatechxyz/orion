@@ -181,7 +181,7 @@ impl FP8x23Impl of FixedTrait<FP8x23, u32> {
 
     fn sign(self: FP8x23) -> FP8x23 {
         return core::sign(self);
-    }    
+    }
 }
 
 

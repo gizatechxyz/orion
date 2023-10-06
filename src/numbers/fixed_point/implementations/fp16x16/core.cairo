@@ -181,7 +181,7 @@ impl FP16x16Impl of FixedTrait<FP16x16, u32> {
 
     fn sign(self: FP16x16) -> FP16x16 {
         return core::sign(self);
-    }    
+    }
 }
 
 

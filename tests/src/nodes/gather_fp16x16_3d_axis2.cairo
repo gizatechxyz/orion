@@ -1,6 +1,6 @@
-mod input_0; 
-mod input_1; 
-mod output_0; 
+mod input_0;
+mod input_1;
+mod output_0;
 
 
 use array::{ArrayTrait, SpanTrait};
@@ -16,7 +16,7 @@ fn test_gather_fp16x16_3d_axis2() {
     let input_1 = input_1::input_1();
     let z = output_0::output_0();
 
-    let y = input_0.gather(indices:input_1, axis:Option::Some(2));
+    let y = input_0.gather(indices: input_1, axis: Option::Some(2));
 
     assert_eq(y, z);
 }
