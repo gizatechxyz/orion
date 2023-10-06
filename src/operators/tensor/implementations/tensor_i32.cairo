@@ -224,7 +224,7 @@ impl I32Tensor of TensorTrait<i32> {
     fn sign(self: @Tensor<i32>) -> Tensor<i32> {
         math::sign::sign(*self)
     }
-    
+
     fn clip(self: @Tensor<i32>, min: Option<i32>, max: Option<i32>) -> Tensor<i32> {
         core::clip(self, min, max)
     }

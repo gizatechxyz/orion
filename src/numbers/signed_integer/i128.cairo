@@ -36,7 +36,7 @@ impl i128Impl of IntegerTrait<i128, u128> {
 
     fn sign(self: i128) -> i128 {
         i128_sign(self)
-    }    
+    }
 }
 
 // Implements the Into trait for i128.
@@ -465,8 +465,7 @@ fn ensure_non_negative_zero(mag: u128, sign: bool) -> i128 {
 fn i128_sign(a: i128) -> i128 {
     if a.mag == 0 {
         IntegerTrait::<i128>::new(0, false)
-    } 
-    else {
+    } else {
         IntegerTrait::<i128>::new(1, a.sign)
     }
 }

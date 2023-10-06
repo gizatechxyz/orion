@@ -17,6 +17,6 @@ fn test_concat_fp16x16_3d_axis_2() {
     let z = output_0::output_0();
 
     let y = TensorTrait::concat(array![input_0, input_1].span(), 2);
-    
+
     assert_eq(y, z);
 }

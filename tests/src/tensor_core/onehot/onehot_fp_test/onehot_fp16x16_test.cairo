@@ -9,9 +9,7 @@ mod tensor_1D {
     use array::{ArrayTrait, SpanTrait};
     use core::traits::Into;
     use orion::numbers::fixed_point::core::{FixedTrait};
-    use orion::numbers::fixed_point::implementations::fp16x16::core::{
-        FP16x16, FP16x16PartialEq
-    };
+    use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16, FP16x16PartialEq};
     use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16Tensor;
     use orion_tests::helpers::tensor::fixed_point::fp16x16::{
         fp_tensor_1x3_helper, fp_tensor_2x2_helper, fp_tensor_3x2x2_neg_helper,
@@ -47,8 +45,6 @@ mod tensor_1D {
         data.append(FixedTrait::new_unscaled(2, false));
         data.append(FixedTrait::new_unscaled(3, false));
 
-        
-
         let tensor = TensorTrait::<FP16x16>::new(sizes.span(), data.span());
 
         return tensor;
@@ -64,8 +60,6 @@ mod tensor_1D {
         data.append(FixedTrait::new_unscaled(1, false));
         data.append(FixedTrait::new_unscaled(2, true));
         data.append(FixedTrait::new_unscaled(1, true));
-
-        
 
         let tensor = TensorTrait::<FP16x16>::new(sizes.span(), data.span());
 

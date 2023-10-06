@@ -2452,9 +2452,7 @@ trait TensorTrait<T> {
     ///      [1 2 3 0 1 2 3]]
     /// ```
     ///
-    fn nonzero(
-        self: @Tensor<T>
-    ) -> Tensor<usize>;
+    fn nonzero(self: @Tensor<T>) -> Tensor<usize>;
     /// # tensor.gather
     ///
     /// ```rust 
@@ -2503,9 +2501,7 @@ trait TensorTrait<T> {
     ///      [1. 2. 3.]]
     /// ```
     ///
-    fn gather(
-    self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>
-    ) -> Tensor<T> ;
+    fn gather(self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<T>;
     /// # tensor.unsqueeze
     ///
     /// ```rust 
@@ -2570,7 +2566,7 @@ trait TensorTrait<T> {
     /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - Tensor of data to calculate non-zero indices.  
-	/// * `axes`(`Option<Span<i32>>`) - List of integers indicating the dimensions to squeeze.  
+    /// * `axes`(`Option<Span<i32>>`) - List of integers indicating the dimensions to squeeze.  
     ///
     /// ## Returns 
     ///
@@ -2595,10 +2591,7 @@ trait TensorTrait<T> {
     ///      [1 1]]
     /// ```
     ///
-    fn squeeze(
-    self: @Tensor<T>,
-    axes: Option<Span<i32>>
-    ) -> Tensor<T>;
+    fn squeeze(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T>;
     /// # tensor.clip
     ///
     /// ```rust 
@@ -2675,9 +2668,7 @@ trait TensorTrait<T> {
     /// >>> [-1, -1, -1, -1, -1, 0, 1, 1, 1, 1, 1]
     /// ```
     ///
-    fn sign(
-    self: @Tensor<T>
-    ) -> Tensor<T>;
+    fn sign(self: @Tensor<T>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring
@@ -2982,23 +2973,32 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
 }
 
 /// Cf: TensorTrait::nonzero docstring
-fn nonzero<T, MAG, impl TTensor: TensorTrait<T>, impl TPartialEq: PartialEq<T>, impl TDrop: Drop<T>, impl TCopy: Copy<T>,
-    impl TNumber: NumberTrait<T, MAG>>(self: @Tensor<T>) -> Tensor<usize> {
+fn nonzero<
+    T,
+    MAG,
+    impl TTensor: TensorTrait<T>,
+    impl TPartialEq: PartialEq<T>,
+    impl TDrop: Drop<T>,
+    impl TCopy: Copy<T>,
+    impl TNumber: NumberTrait<T, MAG>
+>(
+    self: @Tensor<T>
+) -> Tensor<usize> {
     let mut indexes_of_dimensions: Array<usize> = ArrayTrait::new();
     let mut self_data_copy = *self.data;
     let mut j: usize = 0;
-    
+
     loop {
         match self_data_copy.pop_front() {
             Option::Some(val) => {
                 if *val != NumberTrait::zero() {
                     let indices = unravel_index(j, *self.shape);
                     let mut i: usize = 0;
-                
+
                     let mut self_shape_copy = *self.shape;
                     loop {
                         match self_shape_copy.pop_front() {
-                            Option::Some(val) => { 
+                            Option::Some(val) => {
                                 indexes_of_dimensions.append(*indices.at(i));
                                 i += 1;
                             },
@@ -3020,13 +3020,15 @@ fn nonzero<T, MAG, impl TTensor: TensorTrait<T>, impl TPartialEq: PartialEq<T>, 
     let mut output_data: Array<usize> = ArrayTrait::new();
 
     if indexes_of_dimensions_span.len() == 0 {
-        return Tensor::<usize> {shape: array![(*self.shape).len(), 0].span(), data: output_data.span()};
+        return Tensor::<usize> {
+            shape: array![(*self.shape).len(), 0].span(), data: output_data.span()
+        };
     }
 
     let stop_k = (indexes_of_dimensions_span.len() / (*self.shape).len()) - 1;
     let mut self_shape_copy = *self.shape;
     let mut i: usize = 0;
-    
+
     loop {
         match self_shape_copy.pop_front() {
             Option::Some(val) => {
@@ -3034,13 +3036,13 @@ fn nonzero<T, MAG, impl TTensor: TensorTrait<T>, impl TPartialEq: PartialEq<T>, 
 
                 loop {
                     output_data.append(*indexes_of_dimensions_span.at((*self.shape).len() * k + i));
-                    
+
                     if k == stop_k {
                         break ();
                     }
                     k += 1;
                 };
-                i += 1; 
+                i += 1;
             },
             Option::None(_) => {
                 break ();
@@ -3048,12 +3050,13 @@ fn nonzero<T, MAG, impl TTensor: TensorTrait<T>, impl TPartialEq: PartialEq<T>, 
         };
     };
 
-    return Tensor::<usize> {shape: array![(*self.shape).len(), stop_k + 1].span(), data: output_data.span()};
+    return Tensor::<usize> {
+        shape: array![(*self.shape).len(), stop_k + 1].span(), data: output_data.span()
+    };
 }
 
 /// Cf: TensorTrait::squeeze docstring
 fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
-    
     let target_shape = match axes {
         Option::Some(mut axes) => {
             let mut axis_squeezed = 0;
@@ -3118,7 +3121,7 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
         },
     };
 
-    return Tensor::<T>{ shape: target_shape, data: *self.data };
+    return Tensor::<T> { shape: target_shape, data: *self.data };
 }
 /// Cf: TensorTrait::unsqueeze docstring
 fn unsqueeze<T>(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T> {
@@ -3161,14 +3164,16 @@ fn unsqueeze<T>(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T> {
 }
 
 /// Cf: TensorTrait::sign docstring
-fn sign<T, 
-        MAG, 
-        impl TNumber: NumberTrait<T, MAG>,
-        impl TPartialEq: PartialEq<T>,
-        impl TDrop: Drop<T>,
-        impl TCopy: Copy<T>,
-        >(self: @Tensor<T>) -> Tensor<T> {
-
+fn sign<
+    T,
+    MAG,
+    impl TNumber: NumberTrait<T, MAG>,
+    impl TPartialEq: PartialEq<T>,
+    impl TDrop: Drop<T>,
+    impl TCopy: Copy<T>,
+>(
+    self: @Tensor<T>
+) -> Tensor<T> {
     let mut sign_data_array: Array<T> = ArrayTrait::new();
     let mut data = *self.data;
 
@@ -3176,24 +3181,33 @@ fn sign<T,
         match data.pop_front() {
             Option::Some(data) => {
                 let sign_data = if *data == NumberTrait::zero() {
-                                    NumberTrait::zero()
-                                } else if NumberTrait::is_neg(*data) {
-                                    NumberTrait::neg_one()
-                                }
-                                else {
-                                    NumberTrait::one()
-                                };
+                    NumberTrait::zero()
+                } else if NumberTrait::is_neg(*data) {
+                    NumberTrait::neg_one()
+                } else {
+                    NumberTrait::one()
+                };
                 sign_data_array.append(sign_data);
             },
             Option::None(_) => {
-                break Tensor::<T>{ shape: *self.shape, data: sign_data_array.span() };
+                break Tensor::<T> { shape: *self.shape, data: sign_data_array.span() };
             }
         };
     }
 }
 
 /// Cf: TensorTrait::clip docstring
-fn clip<T, MAG, impl TCopy: Copy<T>, impl TDrop: Drop<T>, impl TTensor: TensorTrait<T>, impl TPartialOrd: PartialOrd<T>, impl TNumber: NumberTrait<T, MAG>>(self: @Tensor<T>, min: Option<T>, max: Option<T>) -> Tensor<T> {
+fn clip<
+    T,
+    MAG,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>,
+    impl TTensor: TensorTrait<T>,
+    impl TPartialOrd: PartialOrd<T>,
+    impl TNumber: NumberTrait<T, MAG>
+>(
+    self: @Tensor<T>, min: Option<T>, max: Option<T>
+) -> Tensor<T> {
     let min = match min {
         Option::Some(min) => min,
         Option::None(_) => {
@@ -3209,17 +3223,15 @@ fn clip<T, MAG, impl TCopy: Copy<T>, impl TDrop: Drop<T>, impl TTensor: TensorTr
 
     let mut return_data: Array<T> = ArrayTrait::new();
     let mut self_data_copy = *self.data;
-    
+
     loop {
         match self_data_copy.pop_front() {
             Option::Some(val) => {
                 if *val < min {
                     return_data.append(min);
-                }
-                else if *val > max {
+                } else if *val > max {
                     return_data.append(max);
-                } 
-                else {
+                } else {
                     return_data.append(*val);
                 }
             },
@@ -3229,5 +3241,5 @@ fn clip<T, MAG, impl TCopy: Copy<T>, impl TDrop: Drop<T>, impl TTensor: TensorTr
         };
     };
 
-    return Tensor::<T> {shape: *self.shape, data: return_data.span()};
+    return Tensor::<T> { shape: *self.shape, data: return_data.span() };
 }

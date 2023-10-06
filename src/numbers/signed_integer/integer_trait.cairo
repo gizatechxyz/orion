@@ -208,6 +208,6 @@ trait IntegerTrait<T, MAG> {
     /// >>> {mag: 1, sign: true}
     /// ```
     /// 
-    fn sign(self: T) -> T;    
+    fn sign(self: T) -> T;
 }
 
