@@ -213,6 +213,10 @@ impl U32Tensor of TensorTrait<u32> {
     fn unsqueeze(self: @Tensor<u32>, axes: Span<usize>) -> Tensor<u32> {
         core::unsqueeze(self, axes)
     }
+
+    fn clip(self: @Tensor<u32>, min: Option<u32>, max: Option<u32>) -> Tensor<u32> {
+        core::clip(self, min, max)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

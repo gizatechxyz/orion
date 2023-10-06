@@ -219,6 +219,10 @@ impl I8Tensor of TensorTrait<i8> {
     fn unsqueeze(self: @Tensor<i8>, axes: Span<usize>) -> Tensor<i8> {
         core::unsqueeze(self, axes)
     }
+
+    fn clip(self: @Tensor<i8>, min: Option<i8>, max: Option<i8>) -> Tensor<i8> {
+        core::clip(self, min, max)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

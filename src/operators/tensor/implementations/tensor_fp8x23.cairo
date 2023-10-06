@@ -221,6 +221,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn unsqueeze(self: @Tensor<FP8x23>, axes: Span<usize>) -> Tensor<FP8x23> {
         core::unsqueeze(self, axes)
     }
+
+    fn clip(self: @Tensor<FP8x23>, min: Option<FP8x23>, max: Option<FP8x23>) -> Tensor<FP8x23> {
+        core::clip(self, min, max)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.
