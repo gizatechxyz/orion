@@ -5,6 +5,7 @@
 ```
 
 Calculates the sign of the given input tensor element-wise.
+If input > 0, output 1. if input < 0, output -1. if input == 0, output 0.
 
 ## Args
 

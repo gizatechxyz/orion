@@ -77,6 +77,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// squeeze - Removes dimensions of size 1 from the shape of a tensor.
 /// unsqueeze - Inserts single-dimensional entries to the shape of an input tensor.
 /// sign - Calculates the sign of the given input tensor element-wise.
+/// clip - Clip operator limits the given input within an interval.
 ///
 trait TensorTrait<T> {
     /// # tensor.new
@@ -2646,6 +2647,7 @@ trait TensorTrait<T> {
     /// ```
     ///
     /// Calculates the sign of the given input tensor element-wise.
+    /// If input > 0, output 1. if input < 0, output -1. if input == 0, output 0.
     ///
     /// ## Args
     ///
