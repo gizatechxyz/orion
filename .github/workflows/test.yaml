@@ -10,4 +10,4 @@ jobs:
       - uses: software-mansion/setup-scarb@v1
         with:
           scarb-version: "0.7.0"
-      - run: scarb test
+      - run: scarb test --workspace

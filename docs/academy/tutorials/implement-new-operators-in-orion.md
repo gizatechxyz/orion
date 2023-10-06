@@ -323,7 +323,7 @@ class Softmax(RunAll):
 
 Once set up, you can generate tests and data by executing `scarb run nodegen softmax`.
 
-The above code will generate 6 test files located in `src/tests/nodes`. As an example, here's the content of the `softmax_fp8x23.cairo` generated file:
+The above code will generate 6 test files located in `tests/src/nodes`. As an example, here's the content of the `softmax_fp8x23.cairo` generated file:
 
 ```rust
 // softmax_fp8x23.cairo
