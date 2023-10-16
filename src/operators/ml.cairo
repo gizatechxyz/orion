@@ -1,4 +1,5 @@
 mod tree_regressor;
+mod tree_classifier;
 mod xgboost_regressor;
 
 use orion::operators::ml::tree_regressor::core::{TreeRegressorTrait, TreeNode};
