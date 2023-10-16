@@ -89,7 +89,7 @@ trait TreeRegressorTrait<T> {
     ///
     /// ## Type Constraints
     ///
-    /// Constrain input and output types to fixed point tensors.
+    /// Constrain input and output types to fixed point.
     ///
     /// ## Examples
     /// 

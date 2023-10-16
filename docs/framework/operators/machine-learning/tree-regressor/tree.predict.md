@@ -1,7 +1,7 @@
 # TreeRegressorTrait::predict
 
 ```rust 
-   fn predict(ref self: TreeNode<T>, features: Span<T>) -> T;
+   fn predict(ref self: TreeRegressor<T>, features: Span<T>) -> T;
 ```
 
 Predicts the target value for a set of features using the provided decision tree.
@@ -17,7 +17,7 @@ The predicted target value.
 
 ## Type Constraints
 
-Constrain input and output types to fixed point tensors.
+Constrain input and output types to fixed point.
 
 ## Examples
 
