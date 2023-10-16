@@ -3,9 +3,9 @@ use cubit::f64::procgen::rand::u64_between;
 use orion::numbers::{FixedTrait};
 
 #[derive(Copy, Drop)]
-struct TreeNode<T> {
-    left: Option<Box<TreeNode<T>>>,
-    right: Option<Box<TreeNode<T>>>,
+struct TreeRegressor<T> {
+    left: Option<Box<TreeRegressor<T>>>,
+    right: Option<Box<TreeRegressor<T>>>,
     split_feature: usize,
     split_value: T,
     prediction: T,
@@ -19,7 +19,7 @@ trait TreeRegressorTrait<T> {
     /// # TreeRegressorTrait::fit
     ///
     /// ```rust 
-    ///    fn fit(data: Span<Span<T>>, target: Span<T>, max_depth: usize, random_state: usize) -> TreeNode<T>;
+    ///    fn fit(data: Span<Span<T>>, target: Span<T>, max_depth: usize, random_state: usize) -> TreeRegressor<T>;
     /// ```
     ///
     /// Builds a decision tree based on the provided data and target values up to a specified maximum depth.
@@ -33,7 +33,7 @@ trait TreeRegressorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A `TreeNode` representing the root of the constructed decision tree.
+    /// A `TreeRegressor` representing the root of the constructed decision tree.
     ///
     /// ## Type Constraints
     ///
@@ -69,11 +69,11 @@ trait TreeRegressorTrait<T> {
     ///
     fn fit(
         data: Span<Span<T>>, target: Span<T>, max_depth: usize, random_state: usize
-    ) -> TreeNode<T>;
+    ) -> TreeRegressor<T>;
     /// # TreeRegressorTrait::predict
     ///
     /// ```rust 
-    ///    fn predict(ref self: TreeNode<T>, features: Span<T>) -> T;
+    ///    fn predict(ref self: TreeRegressor<T>, features: Span<T>) -> T;
     /// ```
     ///
     /// Predicts the target value for a set of features using the provided decision tree.
@@ -124,7 +124,7 @@ trait TreeRegressorTrait<T> {
     /// }
     /// ```
     ///
-    fn predict(ref self: TreeNode<T>, features: Span<T>) -> T;
+    fn predict(ref self: TreeRegressor<T>, features: Span<T>) -> T;
 }
 
 fn predict<
@@ -135,9 +135,9 @@ fn predict<
     impl FCopy: Copy<T>,
     impl FDrop: Drop<T>,
 >(
-    ref self: TreeNode<T>, features: Span<T>
+    ref self: TreeRegressor<T>, features: Span<T>
 ) -> T {
-    let mut current_node: TreeNode<T> = self;
+    let mut current_node: TreeRegressor<T> = self;
 
     loop {
         match current_node.left {
@@ -363,7 +363,7 @@ fn fit<
     impl TDrop: Drop<T>,
 >(
     data: Span<Span<T>>, target: Span<T>, depth: usize, max_depth: usize, random_state: usize
-) -> TreeNode<T> {
+) -> TreeRegressor<T> {
     if depth == max_depth || data.len() < 2 {
         let mut total = FixedTrait::ZERO();
         let mut target_copy = target;
@@ -377,7 +377,7 @@ fn fit<
                 }
             };
         };
-        return TreeNode {
+        return TreeRegressor {
             left: Option::None(()),
             right: Option::None(()),
             split_feature: 0,
@@ -413,7 +413,7 @@ fn fit<
         };
     };
 
-    TreeNode {
+    TreeRegressor {
         left: Option::Some(
             BoxTrait::new(
                 fit(left_data.span(), left_target.span(), depth + 1, max_depth, random_state)

@@ -1,9 +1,9 @@
 use orion::numbers::{FixedTrait};
 
 #[derive(Copy, Drop)]
-struct TreeNode<T> {
-    left: Option<Box<TreeNode<T>>>,
-    right: Option<Box<TreeNode<T>>>,
+struct TreeClassifier<T> {
+    left: Option<Box<TreeClassifier<T>>>,
+    right: Option<Box<TreeClassifier<T>>>,
     split_feature: usize,
     split_value: T,
     prediction: T,
@@ -15,8 +15,8 @@ struct TreeNode<T> {
 /// predict - Given a set of features, predicts the target value using the constructed decision tree.
 /// predict_proba - Given a set of features, predicts the probability of each X example being of a given class..
 trait TreeClassifierTrait<T> {
-    fn predict(ref self: TreeNode<T>, features: Span<T>) -> T;
-    fn predict_proba(ref self: TreeNode<T>, features: Span<T>) -> Span<T>;
+    fn predict(ref self: TreeClassifier<T>, features: Span<T>) -> T;
+    fn predict_proba(ref self: TreeClassifier<T>, features: Span<T>) -> Span<T>;
 }
 
 fn predict<
@@ -27,9 +27,9 @@ fn predict<
     impl FCopy: Copy<T>,
     impl FDrop: Drop<T>,
 >(
-    ref self: TreeNode<T>, features: Span<T>
+    ref self: TreeClassifier<T>, features: Span<T>
 ) -> T {
-    let mut current_node: TreeNode<T> = self;
+    let mut current_node: TreeClassifier<T> = self;
 
     loop {
         match current_node.left {
@@ -64,9 +64,9 @@ fn predict_proba<
     impl FCopy: Copy<T>,
     impl FDrop: Drop<T>,
 >(
-    ref self: TreeNode<T>, features: Span<T>
+    ref self: TreeClassifier<T>, features: Span<T>
 ) -> Span<T> {
-    let mut current_node: TreeNode<T> = self;
+    let mut current_node: TreeClassifier<T> = self;
 
     loop {
         match current_node.left {
