@@ -22,32 +22,14 @@ Constrain input and output types to fixed point.
 ## Examples
 
 ```rust
-use orion::operators::ml::{FP16x16TreeRegressor, TreeRegressorTrait};
+use orion::operators::ml::{FP16x16TreeRegressor, TreeRegressorTrait, TreeRegressor};
 use orion::numbers::{FP16x16, FixedTrait};
 
-fn tree_regressor_example() {
+fn tree_regressor_example(tree: TreeRegressor<FP16x16>) {
 
- let data = array![
-     array![FixedTrait::new_unscaled(1, false), FixedTrait::new_unscaled(2, false)].span(),
-     array![FixedTrait::new_unscaled(3, false), FixedTrait::new_unscaled(4, false)].span(),
-     array![FixedTrait::new_unscaled(5, false), FixedTrait::new_unscaled(6, false)].span(),
-     array![FixedTrait::new_unscaled(7, false), FixedTrait::new_unscaled(8, false)].span(),
- ]
-     .span();
-
- let target = array![
-     FixedTrait::new_unscaled(2, false),
-     FixedTrait::new_unscaled(4, false),
-     FixedTrait::new_unscaled(6, false),
-     FixedTrait::new_unscaled(8, false)
- ]
-     .span();
-
- let mut tree = TreeRegressorTrait::fit(data, target, 3);
-
- let prediction_1 = tree
-   .predict(
+ tree.predict(
        array![FixedTrait::new_unscaled(1, false), FixedTrait::new_unscaled(2, false),].span()
    );
+   
 }
 ```
