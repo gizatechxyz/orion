@@ -99,6 +99,8 @@
     * [Tree Regressor](framework/operators/machine-learning/tree-regressor/README.md)
       * [tree.fit](framework/operators/machine-learning/tree-regressor/tree.fit.md)
       * [tree.predict](framework/operators/machine-learning/tree-regressor/tree.predict.md)
+    * [XGBoost Regressor](framework/operators/machine-learning/xgboost-regressor/README.md)
+      * [xgboost.predict](framework/operators/machine-learning/xgboost-regressor/xgboost.predict.md)
 
 ## 🏛 Hub
 
