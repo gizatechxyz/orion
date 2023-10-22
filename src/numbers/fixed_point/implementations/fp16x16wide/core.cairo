@@ -5,7 +5,7 @@ use result::{ResultTrait, ResultTraitImpl};
 use traits::{TryInto, Into};
 
 use orion::numbers::signed_integer::{i32::i32, i8::i8};
-use orion::numbers::fixed_point::core::FixedTrait;
+use orion::numbers::{fixed_point::core::FixedTrait, FP16x16};
 use orion::numbers::fixed_point::implementations::fp16x16wide::math::{core, trig, hyp};
 use orion::numbers::fixed_point::utils;
 
@@ -208,6 +208,25 @@ impl FP16x16WIntoFelt252 of Into<FP16x16W, felt252> {
 impl FP16x16WIntoI32 of Into<FP16x16W, i32> {
     fn into(self: FP16x16W) -> i32 {
         _i32_into_fp(self)
+    }
+}
+
+impl FP16x16IntoFP16x16W of Into<FP16x16, FP16x16W> {
+    fn into(self: FP16x16) -> FP16x16W {
+        FP16x16W { mag: self.mag.into(), sign: self.sign }
+    }
+}
+
+impl FP16x16WTryIntoFP16x16 of TryInto<FP16x16W, FP16x16> {
+    fn try_into(self: FP16x16W) -> Option<FP16x16> {
+        match self.mag.try_into() {
+            Option::Some(val) => {
+                Option::Some(FP16x16 { mag: val, sign: self.sign })
+            },
+            Option::None(_) => {
+                Option::None(())
+            }
+        }
     }
 }
 
