@@ -6,8 +6,8 @@ use integer::{u64_safe_divmod, u64_as_non_zero, u64_wide_mul};
 
 use orion::numbers::fixed_point::implementations::fp16x16wide::core::{
     HALF, ONE, MAX, FP16x16W, FP16x16WImpl, FP16x16WAdd, FP16x16WAddEq, FP16x16WSub, FP16x16WMul,
-    FP16x16WMulEq, FP16x16WTryIntoU128, FP16x16WPartialEq, FP16x16WPartialOrd, FP16x16WSubEq, FP16x16WNeg,
-    FP16x16WDiv, FP16x16WIntoFelt252, FixedTrait
+    FP16x16WMulEq, FP16x16WTryIntoU128, FP16x16WPartialEq, FP16x16WPartialOrd, FP16x16WSubEq,
+    FP16x16WNeg, FP16x16WDiv, FP16x16WIntoFelt252, FixedTrait
 };
 use orion::numbers::fixed_point::implementations::fp16x16wide::math::lut;
 
@@ -61,7 +61,6 @@ fn eq(a: @FP16x16W, b: @FP16x16W) -> bool {
 
 // Calculates the natural exponent of x: e^x
 fn exp(a: FP16x16W) -> FP16x16W {
-   (exp2(FixedTrait::new(94548, false) * a)).print();
     return exp2(FixedTrait::new(94548, false) * a); // log2(e) * 2^23 ≈ 12102203
 }
 
@@ -88,6 +87,7 @@ fn exp2(a: FP16x16W) -> FP16x16W {
     }
 
     if (a.sign == true) {
+        (FixedTrait::ONE() / res_u).print();
         return FixedTrait::ONE() / res_u;
     } else {
         return res_u;
