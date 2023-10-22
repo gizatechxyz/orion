@@ -378,6 +378,171 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
     }
 }
 
+use orion::numbers::fixed_point::implementations::fp16x16wide::core::{FP16x16WImpl, FP16x16W};
+use orion::numbers::fixed_point::implementations::fp16x16wide::math::core as core_fp16x16wide;
+use orion::numbers::fixed_point::implementations::fp16x16wide::math::comp as comp_fp16x16wide;
+
+impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
+    fn new(mag: u64, sign: bool) -> FP16x16W {
+        FP16x16WImpl::new(mag, sign)
+    }
+
+    fn new_unscaled(mag: u64, sign: bool) -> FP16x16W {
+        FP16x16WImpl::new_unscaled(mag, sign)
+    }
+
+    fn from_felt(val: felt252) -> FP16x16W {
+        FP16x16WImpl::from_felt(val)
+    }
+
+    fn ceil(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::ceil(self)
+    }
+
+    fn exp(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::exp(self)
+    }
+
+    fn exp2(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::exp2(self)
+    }
+
+    fn floor(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::floor(self)
+    }
+
+    fn ln(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::ln(self)
+    }
+
+    fn log2(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::log2(self)
+    }
+
+    fn log10(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::log10(self)
+    }
+
+    fn pow(self: FP16x16W, b: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::pow(self, b)
+    }
+
+    fn round(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::round(self)
+    }
+
+    fn sqrt(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::sqrt(self)
+    }
+
+    fn acos(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::acos(self)
+    }
+
+    fn asin(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::asin(self)
+    }
+
+    fn atan(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::atan(self)
+    }
+
+    fn cos(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::cos(self)
+    }
+
+    fn sin(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::sin(self)
+    }
+
+    fn tan(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::tan(self)
+    }
+
+    fn acosh(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::acosh(self)
+    }
+
+    fn asinh(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::asinh(self)
+    }
+
+    fn atanh(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::atanh(self)
+    }
+
+    fn cosh(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::cosh(self)
+    }
+
+    fn sinh(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::sinh(self)
+    }
+
+    fn tanh(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::tanh(self)
+    }
+
+    fn zero() -> FP16x16W {
+        FP16x16WImpl::ZERO()
+    }
+    fn is_zero(self: FP16x16W) -> bool {
+        core_fp16x16wide::eq(@self, @FP16x16WImpl::ZERO())
+    }
+
+    fn one() -> FP16x16W {
+        FP16x16WImpl::ONE()
+    }
+
+    fn neg_one() -> FP16x16W {
+        FP16x16W { mag: core_fp16x16wide::ONE, sign: true }
+    }
+
+    fn is_one(self: FP16x16W) -> bool {
+        core_fp16x16wide::eq(@self, @FP16x16WImpl::ONE())
+    }
+
+    fn abs(self: FP16x16W) -> FP16x16W {
+        core_fp16x16wide::abs(self)
+    }
+
+    fn min_value() -> FP16x16W {
+        FP16x16W { mag: core_fp16x16wide::MAX, sign: true }
+    }
+
+    fn max_value() -> FP16x16W {
+        FP16x16W { mag: core_fp16x16wide::MAX, sign: false }
+    }
+
+    fn min(self: FP16x16W, other: FP16x16W) -> FP16x16W {
+        comp_fp16x16wide::min(self, other)
+    }
+
+    fn max(self: FP16x16W, other: FP16x16W) -> FP16x16W {
+        comp_fp16x16wide::max(self, other)
+    }
+
+    fn mag(self: FP16x16W) -> u64 {
+        self.mag
+    }
+
+    fn is_neg(self: FP16x16W) -> bool {
+        self.sign
+    }
+
+    fn xor(lhs: FP16x16W, rhs: FP16x16W) -> bool {
+        comp_fp16x16wide::xor(lhs, rhs)
+    }
+
+    fn or(lhs: FP16x16W, rhs: FP16x16W) -> bool {
+        comp_fp16x16wide::or(lhs, rhs)
+    }
+
+    fn sign(self: FP16x16W) -> FP16x16W {
+        core_fp16x16wide::sign(self)
+    }
+}
+
 use orion::numbers::fixed_point::implementations::fp64x64::core::{FP64x64Impl, FP64x64};
 use orion::numbers::fixed_point::implementations::fp64x64::core as core_fp64x64;
 use orion::numbers::fixed_point::implementations::fp64x64::comp as comp_fp64x64;
