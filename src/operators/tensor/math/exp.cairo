@@ -62,8 +62,6 @@ fn exp_upcast<
     loop {
         match self.data.pop_front() {
             Option::Some(item) => {
-                ((*item)).print();
-
                 result.append((TIntoW::into(*item)).exp());
             },
             Option::None(_) => {

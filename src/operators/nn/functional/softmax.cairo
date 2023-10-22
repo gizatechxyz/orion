@@ -58,9 +58,10 @@ use debug::PrintTrait;
 /// Cf: NNTrait::softmax docstring
 fn softmaxWide2(z: @Tensor<FP16x16>, axis: usize) -> Tensor<FP16x16> {
     let exp_tensor: Tensor<FP16x16W> = exp_upcast(*z);
-    // (*exp_tensor.data.at(0)).print();
-    // (*exp_tensor.data.at(1)).print();
-    // (*exp_tensor.data.at(2)).print();
+
+    (*(*z).data.at(0)).print();
+    (*(*z).data.at(1)).print();
+    (*(*z).data.at(2)).print();
 
     // let sum = exp_tensor.reduce_sum(axis, true);
     // (*sum.data.at(0)).print();
