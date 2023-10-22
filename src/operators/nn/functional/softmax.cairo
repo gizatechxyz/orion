@@ -55,7 +55,7 @@ use orion::operators::tensor::{
 /// Cf: NNTrait::softmax docstring
 fn softmaxWide2(z: @Tensor<FP16x16>, axis: usize) -> Tensor<FP16x16> {
     let exp_tensor: Tensor<FP16x16W> = exp_upcast(*z);
-    // let sum = exp_tensor.reduce_sum(axis, true);
+    let sum = exp_tensor.reduce_sum(axis, true);
     // let softmax = exp_tensor / sum;
     // return exp_tensor;
     *z
