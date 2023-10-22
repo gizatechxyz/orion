@@ -47,3 +47,15 @@ fn softmaxWide<
     return softmax;
 }
 
+use orion::numbers::{FP16x16, FP16x16W};
+use orion::operators::tensor::{
+    implementations::tensor_fp16x16wide::{FP16x16WTensor, FP16x16WTensorDiv}, FP16x16Tensor
+};
+
+/// Cf: NNTrait::softmax docstring
+fn softmaxWide2(z: @Tensor<FP16x16>, axis: usize) -> Tensor<FP16x16W> {
+    let exp_tensor: Tensor<FP16x16W> = exp_upcast(*z);
+    let sum = exp_tensor.reduce_sum(axis, true);
+    let softmax = exp_tensor / sum;
+    return softmax;
+}
