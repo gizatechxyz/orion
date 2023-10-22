@@ -37,7 +37,8 @@ fn softmaxWide<
     impl WDrop: Drop<W>,
     impl TFixed: FixedTrait<T, TMAG>,
     impl WFixed: FixedTrait<W, WMAG>,
-    impl TPrint: PrintTrait<T>
+    impl TPrint: PrintTrait<T>,
+    impl WPrint: PrintTrait<W>
 >(
     z: @Tensor<T>, axis: usize
 ) -> Tensor<T> {

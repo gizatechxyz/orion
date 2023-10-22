@@ -52,7 +52,8 @@ fn exp_upcast<
     impl WCopy: Copy<W>,
     impl WDrop: Drop<W>,
     impl TIntoW: Into<T, W>,
-    impl TPrint: PrintTrait<T>
+    impl TPrint: PrintTrait<T>,
+    impl WPrint: PrintTrait<W>
 >(
     mut self: Tensor<T>
 ) -> Tensor<W> {
@@ -61,7 +62,7 @@ fn exp_upcast<
     loop {
         match self.data.pop_front() {
             Option::Some(item) => {
-                (*item).print();
+                (TIntoW::into(*item)).print();
 
                 result.append((TIntoW::into(*item)).exp());
             },
