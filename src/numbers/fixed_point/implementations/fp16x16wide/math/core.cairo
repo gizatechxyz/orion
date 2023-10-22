@@ -61,7 +61,7 @@ fn eq(a: @FP16x16W, b: @FP16x16W) -> bool {
 
 // Calculates the natural exponent of x: e^x
 fn exp(a: FP16x16W) -> FP16x16W {
-    a.sign.print();
+    // a.sign.print();
     return exp2(FixedTrait::new(94548, false) * a); // log2(e) * 2^23 ≈ 12102203
 }
 
