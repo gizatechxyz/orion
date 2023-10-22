@@ -35,6 +35,8 @@ fn exp<
     return TensorTrait::new(self.shape, result.span());
 }
 
+use debug::PrintTrait;
+
 /// Cf: TensorTrait::exp docstring
 fn exp_upcast<
     T,
@@ -50,6 +52,7 @@ fn exp_upcast<
     impl WCopy: Copy<W>,
     impl WDrop: Drop<W>,
     impl TIntoW: Into<T, W>,
+    impl TPrint: PrintTrait<T>
 >(
     mut self: Tensor<T>
 ) -> Tensor<W> {
@@ -58,6 +61,8 @@ fn exp_upcast<
     loop {
         match self.data.pop_front() {
             Option::Some(item) => {
+                (*item).print();
+
                 result.append((TIntoW::into(*item)).exp());
             },
             Option::None(_) => {
