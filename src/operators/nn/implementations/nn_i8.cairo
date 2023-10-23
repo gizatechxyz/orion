@@ -38,4 +38,8 @@ impl I8NN of NNTrait<i8> {
     fn leaky_relu(inputs: @Tensor<i8>, alpha: @i8) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
+
+    fn thresholded_relu(tensor: @Tensor<i8>, alpha: @i8) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
 }

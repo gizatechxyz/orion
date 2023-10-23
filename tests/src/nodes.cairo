@@ -433,3 +433,5 @@ mod clip_i8_2d;
 mod clip_i8_3d;
 mod clip_u32_2d;
 mod clip_u32_3d;
+mod thresholded_relu_fp16x16; 
+mod thresholded_relu_fp8x23; 

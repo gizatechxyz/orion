@@ -6,3 +6,4 @@ mod softsign;
 mod softplus;
 mod linear;
 mod logsoftmax;
+mod thresholded_relu;

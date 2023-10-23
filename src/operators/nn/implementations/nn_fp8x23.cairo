@@ -42,4 +42,8 @@ impl FP8x23NN of NNTrait<FP8x23> {
     fn leaky_relu(inputs: @Tensor<FP8x23>, alpha: @FP8x23) -> Tensor<FP8x23> {
         functional::leaky_relu::leaky_relu(*inputs, alpha)
     }
+
+    fn thresholded_relu(tensor: @Tensor<FP8x23>, alpha: @FP8x23) -> Tensor<FP8x23> {
+        functional::thresholded_relu::thresholded_relu(*tensor, alpha)
+    }
 }

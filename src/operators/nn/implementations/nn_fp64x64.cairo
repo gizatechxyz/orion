@@ -42,4 +42,8 @@ impl FP64x64NN of NNTrait<FP64x64> {
     fn leaky_relu(inputs: @Tensor<FP64x64>, alpha: @FP64x64) -> Tensor<FP64x64> {
         functional::leaky_relu::leaky_relu(*inputs, alpha)
     }
+
+    fn thresholded_relu(tensor: @Tensor<FP64x64>, alpha: @FP64x64) -> Tensor<FP64x64> {
+        functional::thresholded_relu::thresholded_relu(*tensor, alpha)
+    }
 }
