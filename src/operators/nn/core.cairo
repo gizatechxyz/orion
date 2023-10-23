@@ -451,4 +451,57 @@ trait NNTrait<T> {
     /// ```
     /// 
     fn leaky_relu(inputs: @Tensor<T>, alpha: @T) -> Tensor<T>;
+    /// # NNTrait::hard_sigmoid
+    ///
+    /// ```rust 
+    ///    fn hard_sigmoid(tensor: @Tensor<T>, alpha: @T, beta: @T) -> Tensor<T>;
+    /// ```
+    ///
+    /// Applies the HardSigmoid function to an n-dimensional input tensor.
+    /// 
+    /// $$
+    /// \text{HardSigmoid}(x_i) = \text{max}(0, \text{min}(alpha * x + beta, 1))
+    /// $$
+    /// 
+    /// ## Args
+    ///
+    /// * `tensor`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// A Tensor of fixed point numbers with the same shape than the input Tensor.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
+    /// use orion::operators::nn::{NNTrait, FP8x23NN};
+    /// use orion::numbers::{FP8x23, FixedTrait};
+    /// 
+    /// fn hard_sigmoid_example() -> Tensor<FP8x23> {
+    ///     let tensor = TensorTrait::<FP8x23>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![
+    ///             FixedTrait::new(0, false),
+    ///             FixedTrait::new(1, false),
+    ///             FixedTrait::new(2, false),
+    ///             FixedTrait::new(3, false),
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     return NNTrait::hard_sigmoid(@tensor);
+    /// }
+    /// >>> [[4194304,6132564],[7388661,7990771]]
+    ///     // The fixed point representation of
+    ///     // [[0.5, 0.7310586],[0.88079703, 0.95257413]]
+    /// ```
+    ///
+    fn hard_sigmoid(tensor: @Tensor<T>, alpha: @T, beta: @T) -> Tensor<T>;
 }

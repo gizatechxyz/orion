@@ -42,4 +42,8 @@ impl FP32x32NN of NNTrait<FP32x32> {
     fn leaky_relu(inputs: @Tensor<FP32x32>, alpha: @FP32x32) -> Tensor<FP32x32> {
         functional::leaky_relu::leaky_relu(*inputs, alpha)
     }
+
+    fn hard_sigmoid(tensor: @Tensor<FP32x32>, alpha: @FP32x32, beta: @FP32x32) -> Tensor<FP32x32> {
+        functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
+    }
 }
