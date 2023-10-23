@@ -5,7 +5,7 @@ use result::{ResultTrait, ResultTraitImpl};
 use traits::{TryInto, Into};
 
 use orion::numbers::signed_integer::{i32::i32, i8::i8};
-use orion::numbers::fixed_point::core::{FixedTrait};
+use orion::numbers::{fixed_point::core::{FixedTrait}, FP8x23};
 use orion::numbers::fixed_point::implementations::fp8x23wide::math::{core, trig, hyp};
 use orion::numbers::fixed_point::utils;
 
@@ -201,6 +201,25 @@ impl FP8x23WIntoFelt252 of Into<FP8x23W, felt252> {
             return mag_felt * -1;
         } else {
             return mag_felt * 1;
+        }
+    }
+}
+
+impl FP8x23IntoFP8x23W of Into<FP8x23, FP8x23W> {
+    fn into(self: FP8x23) -> FP8x23W {
+        FP8x23W { mag: self.mag.into(), sign: self.sign }
+    }
+}
+
+impl FP8x23WTryIntoFP8x23 of TryInto<FP8x23W, FP8x23> {
+    fn try_into(self: FP8x23W) -> Option<FP8x23> {
+        match self.mag.try_into() {
+            Option::Some(val) => {
+                Option::Some(FP8x23 { mag: val, sign: self.sign })
+            },
+            Option::None(_) => {
+                Option::None(())
+            }
         }
     }
 }

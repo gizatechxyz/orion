@@ -213,6 +213,171 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
     }
 }
 
+use orion::numbers::fixed_point::implementations::fp8x23wide::core::{FP8x23WImpl, FP8x23W};
+use orion::numbers::fixed_point::implementations::fp8x23wide::math::core as core_fp8x23wide;
+use orion::numbers::fixed_point::implementations::fp8x23wide::math::comp as comp_fp8x23wide;
+
+impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
+    fn new(mag: u64, sign: bool) -> FP8x23W {
+        FP8x23WImpl::new(mag, sign)
+    }
+
+    fn new_unscaled(mag: u64, sign: bool) -> FP8x23W {
+        FP8x23WImpl::new_unscaled(mag, sign)
+    }
+
+    fn from_felt(val: felt252) -> FP8x23W {
+        FP8x23WImpl::from_felt(val)
+    }
+
+    fn ceil(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::ceil(self)
+    }
+
+    fn exp(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::exp(self)
+    }
+
+    fn exp2(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::exp2(self)
+    }
+
+    fn floor(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::floor(self)
+    }
+
+    fn ln(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::ln(self)
+    }
+
+    fn log2(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::log2(self)
+    }
+
+    fn log10(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::log10(self)
+    }
+
+    fn pow(self: FP8x23W, b: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::pow(self, b)
+    }
+
+    fn round(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::round(self)
+    }
+
+    fn sqrt(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::sqrt(self)
+    }
+
+    fn acos(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::acos(self)
+    }
+
+    fn asin(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::asin(self)
+    }
+
+    fn atan(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::atan(self)
+    }
+
+    fn cos(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::cos(self)
+    }
+
+    fn sin(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::sin(self)
+    }
+
+    fn tan(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::tan(self)
+    }
+
+    fn acosh(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::acosh(self)
+    }
+
+    fn asinh(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::asinh(self)
+    }
+
+    fn atanh(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::atanh(self)
+    }
+
+    fn cosh(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::cosh(self)
+    }
+
+    fn sinh(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::sinh(self)
+    }
+
+    fn tanh(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::tanh(self)
+    }
+
+    fn zero() -> FP8x23W {
+        FP8x23WImpl::ZERO()
+    }
+    fn is_zero(self: FP8x23W) -> bool {
+        core_fp8x23wide::eq(@self, @FP8x23WImpl::ZERO())
+    }
+
+    fn one() -> FP8x23W {
+        FP8x23WImpl::ONE()
+    }
+
+    fn neg_one() -> FP8x23W {
+        FP8x23W { mag: core_fp8x23wide::ONE, sign: true }
+    }
+
+    fn is_one(self: FP8x23W) -> bool {
+        core_fp8x23wide::eq(@self, @FP8x23WImpl::ONE())
+    }
+
+    fn abs(self: FP8x23W) -> FP8x23W {
+        core_fp8x23wide::abs(self)
+    }
+
+    fn min_value() -> FP8x23W {
+        FP8x23W { mag: core_fp8x23wide::MAX, sign: true }
+    }
+
+    fn max_value() -> FP8x23W {
+        FP8x23W { mag: core_fp8x23wide::MAX, sign: false }
+    }
+
+    fn min(self: FP8x23W, other: FP8x23W) -> FP8x23W {
+        comp_fp8x23wide::min(self, other)
+    }
+
+    fn max(self: FP8x23W, other: FP8x23W) -> FP8x23W {
+        comp_fp8x23wide::max(self, other)
+    }
+
+    fn mag(self: FP8x23W) -> u64 {
+        self.mag
+    }
+
+    fn is_neg(self: FP8x23W) -> bool {
+        self.sign
+    }
+
+    fn xor(lhs: FP8x23W, rhs: FP8x23W) -> bool {
+        comp_fp8x23wide::xor(lhs, rhs)
+    }
+
+    fn or(lhs: FP8x23W, rhs: FP8x23W) -> bool {
+        comp_fp8x23wide::or(lhs, rhs)
+    }
+
+    fn sign(self: FP8x23W) -> FP8x23W {
+        core_fp8x23wide::sign(self)
+    }
+}
+
 use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16};
 use orion::numbers::fixed_point::implementations::fp16x16::math::core as core_fp16x16;
 use orion::numbers::fixed_point::implementations::fp16x16::math::comp as comp_fp16x16;
