@@ -15,9 +15,7 @@ fn softmax<
 ) -> Tensor<T> {
     let exp_tensor = z.exp();
     let sum = exp_tensor.reduce_sum(axis, true);
-    let softmax = exp_tensor / sum;
-
-    return softmax;
+    exp_tensor / sum
 }
 
 /// Cf: NNTrait::softmax docstring
@@ -37,35 +35,11 @@ fn softmaxWide<
     impl WDrop: Drop<W>,
     impl TFixed: FixedTrait<T, TMAG>,
     impl WFixed: FixedTrait<W, WMAG>,
-    impl TPrint: PrintTrait<T>,
-    impl WPrint: PrintTrait<W>
 >(
     z: @Tensor<T>, axis: usize
 ) -> Tensor<T> {
     let exp_tensor: Tensor<W> = exp_upcast(*z);
     let sum = exp_tensor.reduce_sum(axis, true);
-    let softmax: Tensor<T> = div_downcast(@exp_tensor, @sum);
-
-    return softmax;
+    div_downcast(@exp_tensor, @sum)
 }
 
-use orion::numbers::{FP16x16, FP16x16W};
-use orion::operators::tensor::{
-    implementations::tensor_fp16x16wide::{FP16x16WTensor, FP16x16WTensorDiv}, FP16x16Tensor
-};
-use debug::PrintTrait;
-
-/// Cf: NNTrait::softmax docstring
-fn softmaxWide2(z: @Tensor<FP16x16>, axis: usize) -> Tensor<FP16x16> {
-    let exp_tensor: Tensor<FP16x16W> = exp_upcast(*z);
-
-    (*(*z).data.at(0)).print();
-    (*(*z).data.at(1)).print();
-    (*(*z).data.at(2)).print();
-
-    // let sum = exp_tensor.reduce_sum(axis, true);
-    // (*sum.data.at(0)).print();
-    // let softmax = exp_tensor / sum;
-    // return exp_tensor;
-    *z
-}

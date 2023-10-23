@@ -52,8 +52,6 @@ fn exp_upcast<
     impl WCopy: Copy<W>,
     impl WDrop: Drop<W>,
     impl TIntoW: Into<T, W>,
-    impl TPrint: PrintTrait<T>,
-    impl WPrint: PrintTrait<W>
 >(
     mut self: Tensor<T>
 ) -> Tensor<W> {
