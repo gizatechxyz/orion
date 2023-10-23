@@ -3243,3 +3243,10 @@ fn clip<
 
     return Tensor::<T> { shape: *self.shape, data: return_data.span() };
 }
+
+trait TensorDebug<T> {
+    fn print_data(self: Tensor<T>);
+    fn data_len(self: Tensor<T>) -> usize;
+    fn print_shape(self: Tensor<T>);
+    fn shape_len(self: Tensor<T>) -> usize;
+}
