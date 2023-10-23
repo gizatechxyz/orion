@@ -22,7 +22,7 @@ fn thresholded_relu<
     loop {
         match z.data.pop_front() {
             Option::Some(item) => {
-                if (*item) < (*alpha) {
+                if (*item) <= (*alpha) {
                     data_result.append(NumberTrait::zero());
                 } else {
                     data_result.append(*item);
