@@ -26,7 +26,7 @@ impl FP8x23NN of NNTrait<FP8x23> {
     }
 
     fn logsoftmax(tensor: @Tensor<FP8x23>, axis: usize) -> Tensor<FP8x23> {
-        functional::logsoftmax::logsoftmax(tensor, axis)
+        functional::logsoftmax::logsoftmaxWide::<FP8x23, u32, FP8x23W, u64>(tensor, axis)
     }
 
     fn softsign(tensor: @Tensor<FP8x23>) -> Tensor<FP8x23> {
