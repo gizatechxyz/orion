@@ -6,7 +6,7 @@ from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Tra
 class Thresholded_relu(RunAll):
 
     @staticmethod
-    def leaky_thresholded_fp8x23():
+    def thresholded_relu_fp8x23():
 
         alpha = 1.0
 
@@ -25,7 +25,7 @@ class Thresholded_relu(RunAll):
                   name, Trait.NN)
 
     @staticmethod
-    def leaky_thresholded_fp16x16():
+    def thresholded_relu_fp16x16():
 
         alpha = 1.0
 

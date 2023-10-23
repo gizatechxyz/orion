@@ -454,7 +454,7 @@ trait NNTrait<T> {
     /// # NNTrait::thresholded_relu
     /// 
     /// ```rust
-    ///  fn thresholded_relu(inputs: @Tensor<T>, alpha: @T) -> Tensor<T>
+    ///  fn thresholded_relu(tensor: @Tensor<T>, alpha: @T) -> Tensor<T>
     /// ```
     ///
     /// Applies the thresholded rectified linear unit (Thresholded ReLU) activation function element-wise to a given tensor.
@@ -488,7 +488,7 @@ trait NNTrait<T> {
     ///             FixedTrait::new(0, false),
     ///             FixedTrait::new(256, false),
     ///             FixedTrait::new(512, false),
-    ///             FixedTrait::new(513, false),
+    ///             FixedTrait::new(257, false),
     ///         ]
     ///             .span(),
     ///     );
@@ -496,7 +496,7 @@ trait NNTrait<T> {
     /// 
     ///     return NNTrait::leaky_relu(@tensor, @alpha);
     /// }
-    /// >>> [[0, 0], [512, 513]]
+    /// >>> [[0, 0], [512, 257]]
     /// ```
     /// 
     fn thresholded_relu(tensor: @Tensor<T>, alpha: @T) -> Tensor<T>;
