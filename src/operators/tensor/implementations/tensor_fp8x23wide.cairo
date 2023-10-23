@@ -229,6 +229,11 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn clip(self: @Tensor<FP8x23W>, min: Option<FP8x23W>, max: Option<FP8x23W>) -> Tensor<FP8x23W> {
         core::clip(self, min, max)
     }
+
+    fn identity(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
+        core::identity(self)
+    }
+
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.
