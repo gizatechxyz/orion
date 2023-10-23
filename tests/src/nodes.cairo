@@ -433,3 +433,7 @@ mod clip_i8_2d;
 mod clip_i8_3d;
 mod clip_u32_2d;
 mod clip_u32_3d;
+mod neg_fp16x16; 
+mod neg_fp8x23; 
+mod neg_i32; 
+mod neg_i8; 
