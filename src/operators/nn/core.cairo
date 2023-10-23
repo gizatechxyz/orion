@@ -466,6 +466,8 @@ trait NNTrait<T> {
     /// ## Args
     ///
     /// * `tensor`(`@Tensor<T>`) - The input tensor.
+    /// * `alpha`(`@T`) - value of alpha.
+    /// * `beta`(`@T`) - value of beta.
     ///
     /// ## Returns
     ///
@@ -482,25 +484,25 @@ trait NNTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
     /// use orion::operators::nn::{NNTrait, FP8x23NN};
-    /// use orion::numbers::{FP8x23, FixedTrait};
+    /// use orion::numbers::{FP16x16, FixedTrait};
     /// 
-    /// fn hard_sigmoid_example() -> Tensor<FP8x23> {
-    ///     let tensor = TensorTrait::<FP8x23>::new(
+    /// fn hard_sigmoid_example() -> Tensor<FP16x16> {
+    ///     let tensor = TensorTrait::<FP16x16>::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
     ///             FixedTrait::new(0, false),
-    ///             FixedTrait::new(1, false),
-    ///             FixedTrait::new(2, false),
-    ///             FixedTrait::new(3, false),
+    ///             FixedTrait::new(13107, false),
+    ///             FixedTrait::new(32768, false),
+    ///             FixedTrait::new(65536, false),
     ///         ]
     ///             .span(),
     ///     );
+    ///     let alpha = FixedTrait::new(13107, false);
+    ///     let beta = FixedTrait::new(32768, false);
     /// 
-    ///     return NNTrait::hard_sigmoid(@tensor);
+    ///     return NNTrait::hard_sigmoid(@tensor, @alpha, @beta);
     /// }
-    /// >>> [[4194304,6132564],[7388661,7990771]]
-    ///     // The fixed point representation of
-    ///     // [[0.5, 0.7310586],[0.88079703, 0.95257413]]
+    /// >>> [[32768, 35389],[39321, 45875]]
     /// ```
     ///
     fn hard_sigmoid(tensor: @Tensor<T>, alpha: @T, beta: @T) -> Tensor<T>;
