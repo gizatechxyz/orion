@@ -346,6 +346,10 @@ impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
         core_fp8x23wide::abs(self)
     }
 
+    fn neg(self: FP8x23W) -> FP8x23W {
+        core_fp8x23wide::neg(self)
+    }
+
     fn min_value() -> FP8x23W {
         FP8x23W { mag: core_fp8x23wide::MAX, sign: true }
     }
@@ -678,6 +682,10 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
 
     fn abs(self: FP16x16W) -> FP16x16W {
         core_fp16x16wide::abs(self)
+    }
+
+    fn neg(self: FP16x16W) -> FP16x16W {
+        core_fp16x16wide::neg(self)
     }
 
     fn min_value() -> FP16x16W {

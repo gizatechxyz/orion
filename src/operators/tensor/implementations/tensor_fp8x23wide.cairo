@@ -100,6 +100,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::abs::abs(*self)
     }
 
+    fn neg(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
+        math::neg::neg(*self)
+    }
+
     fn ceil(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         math::ceil::ceil(*self)
     }
