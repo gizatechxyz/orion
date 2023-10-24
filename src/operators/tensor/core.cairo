@@ -56,6 +56,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// exp - Computes the exponential of all elements of the input tensor.
 /// log - Computes the natural log of all elements of the input tensor.
 /// abs - Computes the absolute value of all elements in the input tensor.
+/// neg - Computes the negation of all elements in the input tensor.
 /// ceil - Rounds up the value of each element in the input tensor.
 /// sqrt - Computes the square root of all elements of the input tensor.
 /// sin - Computes the sine of all elements of the input tensor.
