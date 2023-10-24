@@ -33,6 +33,7 @@ You can see below the list of current supported ONNX Operators:
 |          [Flatten](operators/tensor/tensor.flatten.md)          | :white\_check\_mark: |
 |           [Relu](operators/neural-network/nn.relu.md)           | :white\_check\_mark: |
 |     [LeakyRelu](operators/neural-network/nn.leaky\_relu.md)     | :white\_check\_mark: |
+|[ThresholdedRelu](operators/neural-network/nn.thresholded\_relu.md)| :white\_check\_mark: |
 |        [Sigmoid](operators/neural-network/nn.sigmoid.md)        | :white\_check\_mark: |
 |        [Softmax](operators/neural-network/nn.softmax.md)        | :white\_check\_mark: |
 |     [LogSoftmax](operators/neural-network/nn.logsoftmax.md)     | :white\_check\_mark: |
