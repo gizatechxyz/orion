@@ -100,6 +100,10 @@ impl I8Tensor of TensorTrait<i8> {
         math::abs::abs(*self)
     }
 
+    fn neg(self: @Tensor<i8>) -> Tensor<i8> {
+        math::neg::neg(*self)
+    }
+
     fn ceil(self: @Tensor<i8>) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
