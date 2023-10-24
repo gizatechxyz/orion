@@ -314,6 +314,24 @@ impl TensorI8IntoTensorFP16x16 of Into<Tensor<i8>, Tensor<FP16x16>> {
     }
 }
 
+// impl TensorDebugTraitFP16x16 of TensorDebugTrait<FP16x16> {
+//     fn print_data_len(self: Tensor<FP16x16>) -> usize {
+//         print_data_len(*self);
+//     }
+
+//     fn print_data(self: Tensor<FP16x16>) {
+//         print_data(*self);
+//     }
+
+//     fn print_shape_len(self: Tensor<FP16x16>) -> usize {
+//         print_shape_len(*self);
+//     }
+
+//     fn print_shape(self: Tensor<FP16x16>) {
+//         print_shape(*self);
+//     }
+// }
+
 
 // Internals
 const PRECISION: u32 = 589; // 0.009

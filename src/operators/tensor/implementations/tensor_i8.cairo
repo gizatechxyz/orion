@@ -306,6 +306,23 @@ impl I8TryIntoI8 of TryInto<i8, i8> {
     }
 }
 
+// impl TensorDebugTraiti8 of TensorDebugTrait<FP8x23> {
+//     fn print_data_len(self: Tensor<i8>) -> usize {
+//         print_data_len(*self);
+//     }
+
+//     fn print_data(self: Tensor<i8>) {
+//         print_data(*self);
+//     }
+
+//     fn print_shape_len(self: Tensor<i8>) -> usize {
+//         print_shape_len(*self);
+//     }
+
+//     fn print_shape(self: Tensor<i8>) {
+//         print_shape(*self);
+//     }
+// }
 // Internals
 
 fn tensor_eq(mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,) -> bool {

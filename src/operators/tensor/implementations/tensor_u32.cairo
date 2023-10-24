@@ -301,6 +301,24 @@ impl U32TryIntoI8 of TryInto<u32, i8> {
     }
 }
 
+// impl TensorDebugTraitFP8x23 of TensorDebugTrait<u32> {
+//     fn print_data_len(self: Tensor<u32>) -> usize {
+//         print_data_len(*self);
+//     }
+
+//     fn print_data(self: Tensor<u32>) {
+//         print_data(*self);
+//     }
+
+//     fn print_shape_len(self: Tensor<u32>) -> usize {
+//         print_shape_len(*self);
+//     }
+
+//     fn print_shape(self: Tensor<u32>) {
+//         print_shape(*self);
+//     }
+// }
+
 // Internals
 
 fn tensor_eq(mut lhs: Tensor<u32>, mut rhs: Tensor<u32>,) -> bool {

@@ -313,6 +313,23 @@ impl TensorI8IntoTensorI32 of Into<Tensor<i8>, Tensor<i32>> {
     }
 }
 
+// impl TensorDebugTraiti32 of TensorDebugTrait<i32> {
+//     fn print_data_len(self: Tensor<i32>) -> usize {
+//         print_data_len(*self);
+//     }
+
+//     fn print_data(self: Tensor<i32>) {
+//         print_data(*self);
+//     }
+
+//     fn print_shape_len(self: Tensor<i32>) -> usize {
+//         print_shape_len(*self);
+//     }
+
+//     fn print_shape(self: Tensor<i32>) {
+//         print_shape(*self);
+//     }
+// }
 
 // Internals
 

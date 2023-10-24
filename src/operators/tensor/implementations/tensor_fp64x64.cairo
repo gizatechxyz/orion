@@ -321,6 +321,23 @@ impl TensorI8IntoTensorFP64x64 of Into<Tensor<i8>, Tensor<FP64x64>> {
     }
 }
 
+// impl TensorDebugTraitFP64x64 of TensorDebugTrait<FP64x64> {
+//     fn print_data_len(self: Tensor<FP64x64>) -> usize {
+//         print_data_len(*self);
+//     }
+
+//     fn print_data(self: Tensor<FP64x64>) {
+//         print_data(*self);
+//     }
+
+//     fn print_shape_len(self: Tensor<FP64x64>) -> usize {
+//         print_shape_len(*self);
+//     }
+
+//     fn print_shape(self: Tensor<FP64x64>) {
+//         print_shape(*self);
+//     }
+// }
 
 // Internals
 

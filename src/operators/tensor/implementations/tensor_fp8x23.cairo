@@ -5,9 +5,9 @@ use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor, TensorDebugTrait
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, debug};
 use orion::numbers::{i8, i32, NumberTrait, FP8x23};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
@@ -338,6 +338,25 @@ impl TensorI8IntoTensorFP8x23 of Into<Tensor<i8>, Tensor<FP8x23>> {
     }
 }
 
+impl TensorDebugTraitFP8x23 of TensorDebugTrait<FP8x23> {
+    fn print_data_len(self: Tensor<FP8x23>) -> usize {
+        let len: usize = debug::print_data_len::print_data_len(self);
+        len
+    }
+
+    fn print_data(self: Tensor<FP8x23>) {
+        debug::print_data::print_data(self);
+    }
+
+    fn print_shape_len(self: Tensor<FP8x23>) -> usize {
+        let len: usize = debug::print_shape_len::print_shape_len(self);
+        len
+    }
+
+    fn print_shape(self: Tensor<FP8x23>) {
+        debug::print_shape::print_shape(self);
+    }
+}
 
 // Internals
 
