@@ -228,6 +228,10 @@ impl I32Tensor of TensorTrait<i32> {
     fn clip(self: @Tensor<i32>, min: Option<i32>, max: Option<i32>) -> Tensor<i32> {
         core::clip(self, min, max)
     }
+
+    fn and(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+        math::and::and(self, other)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

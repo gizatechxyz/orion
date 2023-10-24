@@ -227,6 +227,10 @@ impl I8Tensor of TensorTrait<i8> {
     fn clip(self: @Tensor<i8>, min: Option<i8>, max: Option<i8>) -> Tensor<i8> {
         core::clip(self, min, max)
     }
+
+    fn and(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
+        math::and::and(self, other)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

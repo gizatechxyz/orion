@@ -2669,6 +2669,7 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn sign(self: @Tensor<T>) -> Tensor<T>;
+    fn and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
 }
 
 /// Cf: TensorTrait::new docstring

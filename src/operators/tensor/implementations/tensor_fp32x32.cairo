@@ -230,6 +230,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn clip(self: @Tensor<FP32x32>, min: Option<FP32x32>, max: Option<FP32x32>) -> Tensor<FP32x32> {
         core::clip(self, min, max)
     }
+
+    fn and(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<usize> {
+        math::and::and(self, other)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

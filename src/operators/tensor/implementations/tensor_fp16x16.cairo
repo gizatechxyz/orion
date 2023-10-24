@@ -229,6 +229,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn clip(self: @Tensor<FP16x16>, min: Option<FP16x16>, max: Option<FP16x16>) -> Tensor<FP16x16> {
         core::clip(self, min, max)
     }
+
+    fn and(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
+        math::and::and(self, other)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.
