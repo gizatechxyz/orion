@@ -38,6 +38,10 @@ impl U32NN of NNTrait<u32> {
         panic(array!['not supported!'])
     }
 
+    fn thresholded_relu(tensor: @Tensor<u32>, alpha: @u32) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
     fn hard_sigmoid(tensor: @Tensor<u32>, alpha: @u32, beta: @u32) -> Tensor<u32> {
         panic(array!['not supported!'])
     }

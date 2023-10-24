@@ -97,6 +97,7 @@
     * [nn.softplus](framework/operators/neural-network/nn.softplus.md)
     * [nn.linear](framework/operators/neural-network/nn.linear.md)
     * [nn.hard\_sigmoid](framework/operators/neural-network/nn.hard\_sigmoid.md)
+    * [nn.thresholded\_relu](framework/operators/neural-network/nn.thresholded_relu.md)
   * [Machine Learning](framework/operators/machine-learning/README.md)
     * [Tree Regressor](framework/operators/machine-learning/tree-regressor/README.md)
       * [tree.predict](framework/operators/machine-learning/tree-regressor/tree.predict.md)
