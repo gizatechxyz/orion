@@ -276,7 +276,7 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
         let mut dim1 = 1;
         let mut dim2 = 1;
 
-        match shape1.pop_back() {
+        match shape1.pop_front() {
             Option::Some(item) => {
                 dim1 = *item;
             },
@@ -287,7 +287,7 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
             }
         };
 
-        match shape2.pop_back() {
+        match shape2.pop_front() {
             Option::Some(item) => {
                 dim2 = *item;
             },
@@ -302,7 +302,7 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
         result.append(broadcasted_dim);
     };
 
-    return result.reverse().span();
+    return result.span();
 }
 
 
