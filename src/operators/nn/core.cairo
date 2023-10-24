@@ -557,4 +557,13 @@ trait NNTrait<T> {
     /// ```
     /// 
     fn thresholded_relu(tensor: @Tensor<T>, alpha: @T) -> Tensor<T>;
+    fn gemm(
+        A: Tensor<T>,
+        B: Tensor<T>,
+        C: Option<Tensor<T>>,
+        alpha: Option<T>,
+        beta: Option<T>,
+        transA: bool,
+        transB: bool
+    ) -> Tensor<T>;
 }
