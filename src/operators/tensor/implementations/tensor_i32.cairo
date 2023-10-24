@@ -101,6 +101,10 @@ impl I32Tensor of TensorTrait<i32> {
         math::abs::abs(*self)
     }
 
+    fn neg(self: @Tensor<i32>) -> Tensor<i32> {
+        math::neg::neg(*self)
+    }
+
     fn ceil(self: @Tensor<i32>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }

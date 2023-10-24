@@ -106,6 +106,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::abs::abs(*self)
     }
 
+    fn neg(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::neg::neg(*self)
+    }
+
     fn ceil(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
         math::ceil::ceil(*self)
     }

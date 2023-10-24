@@ -101,6 +101,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::abs::abs(*self)
     }
 
+    fn neg(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::neg::neg(*self)
+    }
+
     fn ceil(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
         math::ceil::ceil(*self)
     }
