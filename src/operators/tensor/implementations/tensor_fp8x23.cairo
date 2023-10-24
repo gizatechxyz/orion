@@ -2,6 +2,7 @@ use array::ArrayTrait;
 use array::SpanTrait;
 use option::OptionTrait;
 use traits::{TryInto, Into};
+use debug::PrintTrait;
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
@@ -338,23 +339,28 @@ impl TensorI8IntoTensorFP8x23 of Into<Tensor<i8>, Tensor<FP8x23>> {
     }
 }
 
-impl TensorDebugTraitFP8x23 of TensorDebugTrait<FP8x23> {
+impl TensorDebugTraitFP8x23<FP8x23, 
+    impl TTensorDebug: TensorDebugTrait<FP8x23>,
+    impl TTensor: TensorTrait<FP8x23>,
+    impl TPrint: PrintTrait<FP8x23>,
+    impl TCopy: Copy<FP8x23>,
+    impl TDrop: Drop<FP8x23>> of TensorDebugTrait<FP8x23> {
     fn print_data_len(self: Tensor<FP8x23>) -> usize {
-        let len: usize = debug::print_data_len::print_data_len(self);
+        let len: usize = debug::print_data_len::print_data_len::<FP8x23>(self);
         len
     }
 
     fn print_data(self: Tensor<FP8x23>) {
-        debug::print_data::print_data(self);
+        debug::print_data::print_data::<FP8x23>(self);
     }
 
     fn print_shape_len(self: Tensor<FP8x23>) -> usize {
-        let len: usize = debug::print_shape_len::print_shape_len(self);
+        let len: usize = debug::print_shape_len::print_shape_len::<FP8x23>(self);
         len
     }
 
     fn print_shape(self: Tensor<FP8x23>) {
-        debug::print_shape::print_shape(self);
+        debug::print_shape::print_shape::<FP8x23>(self);
     }
 }
 

@@ -5,9 +5,9 @@ use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor, TensorDebugTrait
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, debug};
 use orion::numbers::{i8, i32, NumberTrait, FP32x32, FP32x32Impl};
 use orion::numbers::fixed_point::implementations::fp32x32::core::ONE;
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
@@ -321,23 +321,25 @@ impl TensorI8IntoTensorFP32x32 of Into<Tensor<i8>, Tensor<FP32x32>> {
     }
 }
 
-// impl TensorDebugTraitFP32x32 of TensorDebugTrait<FP32x32> {
-//     fn print_data_len(self: Tensor<FP32x32>) -> usize {
-//         print_data_len(*self);
-//     }
+impl TensorDebugTraitFP32x32 of TensorDebugTrait<FP32x32> {
+    fn print_data_len(self: Tensor<FP32x32>) -> usize {
+        let len: usize = debug::print_data_len::print_data_len(self);
+        len
+    }
 
-//     fn print_data(self: Tensor<FP32x32>) {
-//         print_data(*self);
-//     }
+    fn print_data(self: Tensor<FP32x32>) {
+        debug::print_data::print_data(self);
+    }
 
-//     fn print_shape_len(self: Tensor<FP32x32>) -> usize {
-//         print_shape_len(*self);
-//     }
+    fn print_shape_len(self: Tensor<FP32x32>) -> usize {
+        let len: usize = debug::print_shape_len::print_shape_len(self);
+        len
+    }
 
-//     fn print_shape(self: Tensor<FP32x32>) {
-//         print_shape(*self);
-//     }
-// }
+    fn print_shape(self: Tensor<FP32x32>) {
+        debug::print_shape::print_shape(self);
+    }
+}
 
 // Internals
 
