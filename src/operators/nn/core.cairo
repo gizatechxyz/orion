@@ -11,6 +11,7 @@ use orion::operators::tensor::core::Tensor;
 /// softplus - Applies the Softplus function element-wise.
 /// linear - Performs a linear transformation of the input tensor using the provided weights and bias.
 /// hard_sigmoid - Applies the Hard Sigmoid function to an n-dimensional input tensor.
+/// thresholded_relu - performs the thresholded relu activation function element-wise.
 trait NNTrait<T> {
     /// # NNTrait::relu
     ///
