@@ -18,6 +18,7 @@ You can see below the list of current supported ONNX Operators:
 |             [Less](operators/tensor/tensor.less.md)             | :white\_check\_mark: |
 |      [LessOrEqual](operators/tensor/tensor.less\_equal.md)      | :white\_check\_mark: |
 |              [Abs](operators/tensor/tensor.abs.md)              | :white\_check\_mark: |
+|              [Neg](operators/tensor/tensor.neg.md)              | :white\_check\_mark: |
 |             [Ceil](operators/tensor/tensor.ceil.md)             | :white\_check\_mark: |
 |              [Exp](operators/tensor/tensor.exp.md)              | :white\_check\_mark: |
 |              [Ln](operators/tensor/tensor.log.md)               | :white\_check\_mark: |
@@ -33,12 +34,14 @@ You can see below the list of current supported ONNX Operators:
 |          [Flatten](operators/tensor/tensor.flatten.md)          | :white\_check\_mark: |
 |           [Relu](operators/neural-network/nn.relu.md)           | :white\_check\_mark: |
 |     [LeakyRelu](operators/neural-network/nn.leaky\_relu.md)     | :white\_check\_mark: |
+|[ThresholdedRelu](operators/neural-network/nn.thresholded\_relu.md)| :white\_check\_mark: |
 |        [Sigmoid](operators/neural-network/nn.sigmoid.md)        | :white\_check\_mark: |
 |        [Softmax](operators/neural-network/nn.softmax.md)        | :white\_check\_mark: |
 |     [LogSoftmax](operators/neural-network/nn.logsoftmax.md)     | :white\_check\_mark: |
 |       [Softsign](operators/neural-network/nn.softsign.md)       | :white\_check\_mark: |
 |       [Softplus](operators/neural-network/nn.softplus.md)       | :white\_check\_mark: |
 |         [Linear](operators/neural-network/nn.linear.md)         | :white\_check\_mark: |
+|   [HardSigmoid](operators/neural-network/nn.hard\_sigmoid.md)   | :white\_check\_mark: |
 |             [Sinh](operators/tensor/tensor.sinh.md)             | :white\_check\_mark: |
 |            [Asinh](operators/tensor/tensor.asinh.md)            | :white\_check\_mark: |
 |             [Cosh](operators/tensor/tensor.cosh.md)             | :white\_check\_mark: |
@@ -57,5 +60,6 @@ You can see below the list of current supported ONNX Operators:
 |        [Unsqueeze](operators/tensor/tensor.unsqueeze.md)        | :white\_check\_mark: |
 |             [Sign](operators/tensor/tensor.sign.md)             | :white\_check\_mark: |
 |             [Clip](operators/tensor/tensor.clip.md)             | :white\_check\_mark: |
+|             [Identity](operators/tensor/tensor.identity.md)     | :white\_check\_mark: |
 
-Current Operators support: **50/156 (32%)**
+Current Operators support: **51/156 (33%)**

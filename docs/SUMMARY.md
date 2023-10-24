@@ -59,6 +59,7 @@
     * [tensor.less](framework/operators/tensor/tensor.less.md)
     * [tensor.less\_equal](framework/operators/tensor/tensor.less\_equal.md)
     * [tensor.abs](framework/operators/tensor/tensor.abs.md)
+    * [tensor.neg](framework/operators/tensor/tensor.neg.md)
     * [tensor.ceil](framework/operators/tensor/tensor.ceil.md)
     * [tensor.cumsum](framework/operators/tensor/tensor.cumsum.md)
     * [tensor.sin](framework/operators/tensor/tensor.sin.md)
@@ -86,6 +87,7 @@
     * [tensor.unsqueeze](framework/operators/tensor/tensor.unsqueeze.md)
     * [tensor.sign](framework/operators/tensor/tensor.sign.md)
     * [tensor.clip](framework/operators/tensor/tensor.clip.md)
+    * [tensor.identity](framework/operators/tensor/tensor.identity.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)
@@ -95,10 +97,16 @@
     * [nn.softsign](framework/operators/neural-network/nn.softsign.md)
     * [nn.softplus](framework/operators/neural-network/nn.softplus.md)
     * [nn.linear](framework/operators/neural-network/nn.linear.md)
+    * [nn.hard\_sigmoid](framework/operators/neural-network/nn.hard\_sigmoid.md)
+    * [nn.thresholded\_relu](framework/operators/neural-network/nn.thresholded_relu.md)
   * [Machine Learning](framework/operators/machine-learning/README.md)
     * [Tree Regressor](framework/operators/machine-learning/tree-regressor/README.md)
-      * [tree.fit](framework/operators/machine-learning/tree-regressor/tree.fit.md)
       * [tree.predict](framework/operators/machine-learning/tree-regressor/tree.predict.md)
+    * [Tree Classifier](framework/operators/machine-learning/tree-classifier/README.md)
+      * [tree.predict](framework/operators/machine-learning/tree-classifier/tree.predict.md)
+      * [tree.predict_proba](framework/operators/machine-learning/tree-classifier/tree.predict_proba.md)
+    * [XGBoost Regressor](framework/operators/machine-learning/xgboost-regressor/README.md)
+      * [xgboost.predict](framework/operators/machine-learning/xgboost-regressor/xgboost.predict.md)
 
 ## 🏛 Hub
 
