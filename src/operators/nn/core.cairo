@@ -10,6 +10,7 @@ use orion::operators::tensor::core::Tensor;
 /// softsign - Applies the Softsign function element-wise.
 /// softplus - Applies the Softplus function element-wise.
 /// linear - Performs a linear transformation of the input tensor using the provided weights and bias.
+/// thresholded_relu - performs the thresholded relu activation function element-wise.
 trait NNTrait<T> {
     /// # NNTrait::relu
     ///

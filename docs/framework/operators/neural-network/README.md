@@ -31,4 +31,5 @@ Orion supports currently these `NN` types.
 | [`nn.softsign`](nn.softsign.md) | Applies the Softsign function element-wise. |
 | [`nn.softplus`](nn.softplus.md) | Applies the Softplus function element-wise. |
 | [`nn.linear`](nn.linear.md) | Performs a linear transformation of the input tensor using the provided weights and bias. |
+| [`nn.thresholded_relu`](nn.thresholded\_relu.md) | performs the thresholded relu activation function element-wise. |
 
