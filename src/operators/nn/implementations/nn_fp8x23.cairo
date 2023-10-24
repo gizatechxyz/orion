@@ -46,4 +46,8 @@ impl FP8x23NN of NNTrait<FP8x23> {
     fn leaky_relu(inputs: @Tensor<FP8x23>, alpha: @FP8x23) -> Tensor<FP8x23> {
         functional::leaky_relu::leaky_relu(*inputs, alpha)
     }
+    
+    fn hard_sigmoid(tensor: @Tensor<FP8x23>, alpha: @FP8x23, beta: @FP8x23) -> Tensor<FP8x23> {
+        functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
+    }
 }
