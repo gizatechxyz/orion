@@ -1,7 +1,7 @@
-# TreeRegressorTrait::predict
+# TreeClassifierTrait::predict
 
 ```rust 
-   fn predict(ref self: TreeRegressor<T>, features: Span<T>) -> T;
+   fn predict(ref self: TreeClassifier<T>, features: Span<T>) -> T;
 ```
 
 Predicts the target value for a set of features using the provided decision tree.
@@ -22,10 +22,10 @@ Constrain input and output types to fixed point.
 ## Examples
 
 ```rust
-use orion::operators::ml::{FP16x16TreeRegressor, TreeRegressorTrait, TreeRegressor};
+use orion::operators::ml::{FP16x16TreeClassifier, TreeClassifierTrait, TreeClassifier};
 use orion::numbers::{FP16x16, FixedTrait};
 
-fn tree_regressor_example(tree: TreeRegressor<FP16x16>) {
+fn tree_classifier_example(tree: TreeClassifier<FP16x16>) {
 
  tree.predict(
        array![FixedTrait::new_unscaled(1, false), FixedTrait::new_unscaled(2, false),].span()
