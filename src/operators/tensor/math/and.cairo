@@ -8,6 +8,7 @@ use orion::operators::tensor::helpers::{
     broadcast_shape, broadcast_index_mapping, len_from_shape, check_compatibility
 };
 
+/// Cf: TensorTrait::and docstring
 fn and<
     T,
     MAG,

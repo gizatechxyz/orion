@@ -82,6 +82,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.unsqueeze`](tensor.unsqueeze.md) | Inserts single-dimensional entries to the shape of an input tensor. |
 | [`tensor.sign`](tensor.sign.md) | Calculates the sign of the given input tensor element-wise. |
 | [`tensor.clip`](tensor.clip.md) | Clip operator limits the given input within an interval. |
+| [`tensor.and`](tensor.and.md) | Computes the logical AND of two tensors element-wise.  |
 
 ## Arithmetic Operations
 
