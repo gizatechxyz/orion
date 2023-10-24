@@ -1,0 +1,4 @@
+mod xgboost_regressor_fp8x23;
+mod xgboost_regressor_fp16x16;
+mod xgboost_regressor_fp32x32;
+mod xgboost_regressor_fp64x64;
