@@ -60,5 +60,6 @@ You can see below the list of current supported ONNX Operators:
 |        [Unsqueeze](operators/tensor/tensor.unsqueeze.md)        | :white\_check\_mark: |
 |             [Sign](operators/tensor/tensor.sign.md)             | :white\_check\_mark: |
 |             [Clip](operators/tensor/tensor.clip.md)             | :white\_check\_mark: |
+|             [Identity](operators/tensor/tensor.identity.md)     | :white\_check\_mark: |
 
-Current Operators support: **50/156 (32%)**
+Current Operators support: **51/156 (33%)**

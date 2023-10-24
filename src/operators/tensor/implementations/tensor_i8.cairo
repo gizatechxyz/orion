@@ -231,6 +231,11 @@ impl I8Tensor of TensorTrait<i8> {
     fn clip(self: @Tensor<i8>, min: Option<i8>, max: Option<i8>) -> Tensor<i8> {
         core::clip(self, min, max)
     }
+
+    fn identity(self: @Tensor<i8>) -> Tensor<i8> {
+        core::identity(self)
+    }
+
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

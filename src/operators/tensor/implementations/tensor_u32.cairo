@@ -225,6 +225,11 @@ impl U32Tensor of TensorTrait<u32> {
     fn clip(self: @Tensor<u32>, min: Option<u32>, max: Option<u32>) -> Tensor<u32> {
         core::clip(self, min, max)
     }
+
+    fn identity(self: @Tensor<u32>) -> Tensor<u32> {
+        core::identity(self)
+    }
+
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.
