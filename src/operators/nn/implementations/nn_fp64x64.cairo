@@ -46,4 +46,8 @@ impl FP64x64NN of NNTrait<FP64x64> {
     fn thresholded_relu(tensor: @Tensor<FP64x64>, alpha: @FP64x64) -> Tensor<FP64x64> {
         functional::thresholded_relu::thresholded_relu(*tensor, alpha)
     }
+
+    fn hard_sigmoid(tensor: @Tensor<FP64x64>, alpha: @FP64x64, beta: @FP64x64) -> Tensor<FP64x64> {
+        functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
+    }
 }

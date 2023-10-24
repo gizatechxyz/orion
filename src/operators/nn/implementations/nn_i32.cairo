@@ -42,4 +42,8 @@ impl I32NN of NNTrait<i32> {
     fn thresholded_relu(tensor: @Tensor<i32>, alpha: @i32) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
+
+    fn hard_sigmoid(tensor: @Tensor<i32>, alpha: @i32, beta: @i32) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
 }
