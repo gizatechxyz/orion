@@ -18,6 +18,7 @@ You can see below the list of current supported ONNX Operators:
 |             [Less](operators/tensor/tensor.less.md)             | :white\_check\_mark: |
 |      [LessOrEqual](operators/tensor/tensor.less\_equal.md)      | :white\_check\_mark: |
 |              [Abs](operators/tensor/tensor.abs.md)              | :white\_check\_mark: |
+|              [Neg](operators/tensor/tensor.neg.md)              | :white\_check\_mark: |
 |             [Ceil](operators/tensor/tensor.ceil.md)             | :white\_check\_mark: |
 |              [Exp](operators/tensor/tensor.exp.md)              | :white\_check\_mark: |
 |              [Ln](operators/tensor/tensor.log.md)               | :white\_check\_mark: |

@@ -100,6 +100,10 @@ impl U32Tensor of TensorTrait<u32> {
         math::abs::abs(*self)
     }
 
+    fn neg(self: @Tensor<u32>) -> Tensor<u32> {
+        math::neg::neg(*self)
+    }
+
     fn ceil(self: @Tensor<u32>) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
