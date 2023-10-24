@@ -143,6 +143,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "0xfulanito",
+      "name": "0xfulanito",
+      "avatar_url": "https://avatars.githubusercontent.com/u/145947367?v=4",
+      "profile": "https://github.com/0xfulanito",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
