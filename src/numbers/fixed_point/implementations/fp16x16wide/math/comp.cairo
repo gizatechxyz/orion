@@ -35,6 +35,15 @@ fn or(a: FP16x16W, b: FP16x16W) -> bool {
     }
 }
 
+fn and(a: FP16x16W, b: FP16x16W) -> bool {
+    let zero = FixedTrait::new(0, false);
+    if a == zero || b == zero {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 // Tests --------------------------------------------------------------------------------------------------------------
 
 #[test]

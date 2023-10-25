@@ -390,6 +390,10 @@ impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
     fn sign(self: FP8x23W) -> FP8x23W {
         core_fp8x23wide::sign(self)
     }
+
+    fn and(lhs: FP8x23W, rhs: FP8x23W) -> bool {
+        comp_fp8x23wide::and(lhs, rhs)
+    }
 }
 
 use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16};
@@ -731,6 +735,10 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
 
     fn sign(self: FP16x16W) -> FP16x16W {
         core_fp16x16wide::sign(self)
+    }
+
+    fn and(lhs: FP16x16W, rhs: FP16x16W) -> bool {
+        comp_fp16x16wide::and(lhs, rhs)
     }
 }
 
