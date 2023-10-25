@@ -62,5 +62,6 @@ You can see below the list of current supported ONNX Operators:
 |               [Clip](operators/tensor/tensor.clip.md)               | :white\_check\_mark: |
 |           [Identity](operators/tensor/tensor.identity.md)           | :white\_check\_mark: |
 |                [And](operators/tensor/tensor.and.md)                | :white\_check\_mark: |
+|             [Gemm](operators/neural-network/nn.gemm.md)             | :white\_check\_mark: |
 
 Current Operators support: **51/156 (33%)**
