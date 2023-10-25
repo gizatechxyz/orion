@@ -32,5 +32,6 @@ Orion supports currently these `NN` types.
 | [`nn.softplus`](nn.softplus.md) | Applies the Softplus function element-wise. |
 | [`nn.linear`](nn.linear.md) | Performs a linear transformation of the input tensor using the provided weights and bias. |
 | [`nn.hard_sigmoid`](nn.hard\_sigmoid.md) | Applies the Hard Sigmoid function to an n-dimensional input tensor. |
-| [`nn.thresholded_relu`](nn.thresholded\_relu.md) | performs the thresholded relu activation function element-wise. |
+| [`nn.thresholded_relu`](nn.thresholded\_relu.md) | Performs the thresholded relu activation function element-wise. |
+| [`nn.gemm`](nn.gemm.md) | Performs General Matrix multiplication. |
 

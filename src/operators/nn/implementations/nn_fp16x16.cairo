@@ -56,4 +56,16 @@ impl FP16x16NN of NNTrait<FP16x16> {
     fn hard_sigmoid(tensor: @Tensor<FP16x16>, alpha: @FP16x16, beta: @FP16x16) -> Tensor<FP16x16> {
         functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
     }
+
+    fn gemm(
+        A: Tensor<FP16x16>,
+        B: Tensor<FP16x16>,
+        C: Option<Tensor<FP16x16>>,
+        alpha: Option<FP16x16>,
+        beta: Option<FP16x16>,
+        transA: bool,
+        transB: bool
+    ) -> Tensor<FP16x16> {
+        functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
+    }
 }

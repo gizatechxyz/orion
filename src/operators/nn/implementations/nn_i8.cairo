@@ -46,4 +46,16 @@ impl I8NN of NNTrait<i8> {
     fn hard_sigmoid(tensor: @Tensor<i8>, alpha: @i8, beta: @i8) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
+
+    fn gemm(
+        A: Tensor<i8>,
+        B: Tensor<i8>,
+        C: Option<Tensor<i8>>,
+        alpha: Option<i8>,
+        beta: Option<i8>,
+        transA: bool,
+        transB: bool
+    ) -> Tensor<i8> {
+        functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
+    }
 }

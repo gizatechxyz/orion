@@ -50,4 +50,16 @@ impl FP64x64NN of NNTrait<FP64x64> {
     fn hard_sigmoid(tensor: @Tensor<FP64x64>, alpha: @FP64x64, beta: @FP64x64) -> Tensor<FP64x64> {
         functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
     }
+
+    fn gemm(
+        A: Tensor<FP64x64>,
+        B: Tensor<FP64x64>,
+        C: Option<Tensor<FP64x64>>,
+        alpha: Option<FP64x64>,
+        beta: Option<FP64x64>,
+        transA: bool,
+        transB: bool
+    ) -> Tensor<FP64x64> {
+        functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
+    }
 }
