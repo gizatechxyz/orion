@@ -1,7 +1,7 @@
 use array::SpanTrait;
 
 use orion::numbers::NumberTrait;
-use orion::operators::tensor::{core::{Tensor, TensorTrait}, math::arithmetic::mul_by_val};
+use orion::operators::tensor::{core::{Tensor, TensorTrait}, math::arithmetic::mul_by_scalar};
 
 /// Cf: NNTrait::gemm docstring
 fn gemm<
@@ -45,10 +45,10 @@ fn gemm<
 
     match C {
         Option::Some(c) => {
-            return mul_by_val(@A.matmul(@B), alpha) + mul_by_val(@c, beta);
+            return mul_by_scalar(@A.matmul(@B), alpha) + mul_by_scalar(@c, beta);
         },
         Option::None(_) => {
-            return mul_by_val(@A.matmul(@B), alpha);
+            return mul_by_scalar(@A.matmul(@B), alpha);
         }
     }
 }

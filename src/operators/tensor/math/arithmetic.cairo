@@ -38,7 +38,7 @@ fn add<
     return TensorTrait::<T>::new(broadcasted_shape, result.span());
 }
 
-fn add_by_val<
+fn add_by_scalar<
     T,
     MAG,
     impl TTensor: TensorTrait<T>,
@@ -144,7 +144,7 @@ fn sub<
     return TensorTrait::<T>::new(broadcasted_shape, result.span());
 }
 
-fn sub_by_val<
+fn sub_by_scalar<
     T,
     MAG,
     impl TTensor: TensorTrait<T>,
@@ -250,7 +250,7 @@ fn mul<
     return TensorTrait::<T>::new(broadcasted_shape, result.span());
 }
 
-fn mul_by_val<
+fn mul_by_scalar<
     T,
     MAG,
     impl TTensor: TensorTrait<T>,
@@ -356,7 +356,7 @@ fn div<
     return TensorTrait::<T>::new(broadcasted_shape, result.span());
 }
 
-fn div_by_val<
+fn div_by_scalar<
     T,
     MAG,
     impl TTensor: TensorTrait<T>,
