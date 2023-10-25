@@ -17,3 +17,12 @@ fn or(a: FP64x64, b: FP64x64) -> bool {
         return true;
     }
 }
+
+fn and(a: FP64x64, b: FP64x64) -> bool {
+    let zero = FixedTrait::new(0, false);
+    if a == zero || b == zero {
+        return false;
+    } else {
+        return true;
+    }
+}

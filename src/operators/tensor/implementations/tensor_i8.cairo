@@ -232,6 +232,10 @@ impl I8Tensor of TensorTrait<i8> {
         core::clip(self, min, max)
     }
 
+    fn and(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
+        math::and::and(self, other)
+    }
+    
     fn identity(self: @Tensor<i8>) -> Tensor<i8> {
         core::identity(self)
     }

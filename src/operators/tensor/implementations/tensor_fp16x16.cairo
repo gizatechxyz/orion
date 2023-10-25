@@ -234,6 +234,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         core::clip(self, min, max)
     }
 
+    fn and(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
+        math::and::and(self, other)
+    }
+    
     fn identity(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         core::identity(self)
     }
