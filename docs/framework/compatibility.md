@@ -44,6 +44,7 @@ You can see below the list of current supported ONNX Operators:
 |     [HardSigmoid](operators/neural-network/nn.hard\_sigmoid.md)     | :white\_check\_mark: |
 |               [Sinh](operators/tensor/tensor.sinh.md)               | :white\_check\_mark: |
 |              [Asinh](operators/tensor/tensor.asinh.md)              | :white\_check\_mark: |
+|              [Atanh](operators/tensor/tensor.atanh.md)              | :white\_check\_mark: |
 |               [Cosh](operators/tensor/tensor.cosh.md)               | :white\_check\_mark: |
 |              [ACosh](operators/tensor/tensor.acosh.md)              | :white\_check\_mark: |
 |               [Tanh](operators/tensor/tensor.tanh.md)               | :white\_check\_mark: |
@@ -62,6 +63,8 @@ You can see below the list of current supported ONNX Operators:
 |               [Clip](operators/tensor/tensor.clip.md)               | :white\_check\_mark: |
 |           [Identity](operators/tensor/tensor.identity.md)           | :white\_check\_mark: |
 |                [And](operators/tensor/tensor.and.md)                | :white\_check\_mark: |
+|                [Xor](operators/tensor/tensor.xor.md)                | :white\_check\_mark: |
+|                 [Or](operators/tensor/tensor.or.md)                 | :white\_check\_mark: |
 |             [Gemm](operators/neural-network/nn.gemm.md)             | :white\_check\_mark: |
 
-Current Operators support: **51/156 (33%)**
+Current Operators support: **60/156 (38%)**
