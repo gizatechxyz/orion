@@ -234,6 +234,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         core::clip(self, min, max)
     }
 
+    fn and(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<usize> {
+        math::and::and(self, other)
+    }
+    
     fn identity(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         core::identity(self)
     }

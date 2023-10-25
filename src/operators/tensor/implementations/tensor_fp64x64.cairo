@@ -235,6 +235,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         core::clip(self, min, max)
     }
 
+    fn and(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<usize> {
+        math::and::and(self, other)
+    }
+    
     fn identity(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
         core::identity(self)
     }
