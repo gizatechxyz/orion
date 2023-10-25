@@ -23,7 +23,7 @@
 
 # Orion: An Open-source Framework for Validity and ZK ML ✨
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-19-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Orion is an open-source, community-driven framework dedicated to Provable Machine Learning. It provides essential components and a new ONNX runtime for building verifiable Machine Learning models using [STARKs](https://starkware.co/stark/).
@@ -82,10 +82,16 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/BemTG"><img src="https://avatars.githubusercontent.com/u/62312643?v=4?s=100" width="100px;" alt="BemTG"/><br /><sub><b>BemTG</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=BemTG" title="Code">💻</a> <a href="https://github.com/gizatechxyz/orion/commits?author=BemTG" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/danilowhk"><img src="https://avatars.githubusercontent.com/u/12735159?v=4?s=100" width="100px;" alt="danilowhk"/><br /><sub><b>danilowhk</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=danilowhk" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Falco90"><img src="https://avatars.githubusercontent.com/u/43743459?v=4?s=100" width="100px;" alt="Falco R"/><br /><sub><b>Falco R</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=Falco90" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dincerguner"><img src="https://avatars.githubusercontent.com/u/32523713?v=4?s=100" width="100px;" alt="dincerguner"/><br /><sub><b>dincerguner</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=dincerguner" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/richwarner"><img src="https://avatars.githubusercontent.com/u/1719742?v=4?s=100" width="100px;" alt="Rich Warner"/><br /><sub><b>Rich Warner</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=richwarner" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/dbejarano820"><img src="https://avatars.githubusercontent.com/u/58019353?v=4?s=100" width="100px;" alt="Daniel Bejarano"/><br /><sub><b>Daniel Bejarano</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=dbejarano820" title="Documentation">📖</a></td>
+    </tr>
+    <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/vikkydataseo"><img src="https://avatars.githubusercontent.com/u/65757691?v=4?s=100" width="100px;" alt="vikkydataseo"/><br /><sub><b>vikkydataseo</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=vikkydataseo" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dincerguner"><img src="https://avatars.githubusercontent.com/u/32523713?v=4" width="100px;" alt="dincerguner"/><br /><sub><b>dincerguner</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=dincerguner" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://www.brilliantblocks.io/"><img src="https://avatars.githubusercontent.com/u/83556514?v=4?s=100" width="100px;" alt="Daniel"/><br /><sub><b>Daniel</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=Dl-Vv" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/chachaleo"><img src="https://avatars.githubusercontent.com/u/49371958?v=4?s=100" width="100px;" alt="Charlotte"/><br /><sub><b>Charlotte</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=chachaleo" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/0xfulanito"><img src="https://avatars.githubusercontent.com/u/145947367?v=4?s=100" width="100px;" alt="0xfulanito"/><br /><sub><b>0xfulanito</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=0xfulanito" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/0x73e"><img src="https://avatars.githubusercontent.com/u/132935850?v=4?s=100" width="100px;" alt="0x73e"/><br /><sub><b>0x73e</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=0x73e" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

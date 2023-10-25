@@ -100,6 +100,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::abs::abs(*self)
     }
 
+    fn neg(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::neg::neg(*self)
+    }
+
     fn ceil(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::ceil::ceil(*self)
     }
@@ -229,6 +233,15 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn clip(self: @Tensor<FP16x16>, min: Option<FP16x16>, max: Option<FP16x16>) -> Tensor<FP16x16> {
         core::clip(self, min, max)
     }
+
+    fn and(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
+        math::and::and(self, other)
+    }
+    
+    fn identity(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        core::identity(self)
+    }
+
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

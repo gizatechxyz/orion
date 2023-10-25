@@ -60,6 +60,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.exp`](tensor.exp.md) | Computes the exponential of all elements of the input tensor. |
 | [`tensor.log`](tensor.log.md) | Computes the natural log of all elements of the input tensor. |
 | [`tensor.abs`](tensor.abs.md) | Computes the absolute value of all elements in the input tensor. |
+| [`tensor.neg`](tensor.neg.md) | Computes the negation of all elements in the input tensor. |
 | [`tensor.ceil`](tensor.ceil.md) | Rounds up the value of each element in the input tensor. |
 | [`tensor.sqrt`](tensor.sqrt.md) | Computes the square root of all elements of the input tensor. |
 | [`tensor.sin`](tensor.sin.md) | Computes the sine of all elements of the input tensor. |
@@ -82,6 +83,8 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.unsqueeze`](tensor.unsqueeze.md) | Inserts single-dimensional entries to the shape of an input tensor. |
 | [`tensor.sign`](tensor.sign.md) | Calculates the sign of the given input tensor element-wise. |
 | [`tensor.clip`](tensor.clip.md) | Clip operator limits the given input within an interval. |
+| [`tensor.and`](tensor.and.md) | Computes the logical AND of two tensors element-wise.  |
+| [`tensor.identity`](tensor.identity.md) | Return a Tensor with the same shape and contents as input. |
 
 ## Arithmetic Operations
 
