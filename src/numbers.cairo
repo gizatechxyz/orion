@@ -10,6 +10,7 @@ trait NumberTrait<T, MAG> {
     fn new_unscaled(mag: MAG, sign: bool) -> T;
     fn from_felt(val: felt252) -> T;
     fn abs(self: T) -> T;
+    fn neg(self: T) -> T;
     fn ceil(self: T) -> T;
     fn exp(self: T) -> T;
     fn exp2(self: T) -> T;
@@ -176,6 +177,10 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
         core_fp8x23::abs(self)
     }
 
+    fn neg(self: FP8x23) -> FP8x23 {
+        core_fp8x23::neg(self)
+    }
+
     fn min_value() -> FP8x23 {
         FP8x23 { mag: core_fp8x23::MAX, sign: true }
     }
@@ -210,6 +215,175 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
 
     fn sign(self: FP8x23) -> FP8x23 {
         core_fp8x23::sign(self)
+    }
+}
+
+use orion::numbers::fixed_point::implementations::fp8x23wide::core::{FP8x23WImpl, FP8x23W};
+use orion::numbers::fixed_point::implementations::fp8x23wide::math::core as core_fp8x23wide;
+use orion::numbers::fixed_point::implementations::fp8x23wide::math::comp as comp_fp8x23wide;
+
+impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
+    fn new(mag: u64, sign: bool) -> FP8x23W {
+        FP8x23WImpl::new(mag, sign)
+    }
+
+    fn new_unscaled(mag: u64, sign: bool) -> FP8x23W {
+        FP8x23WImpl::new_unscaled(mag, sign)
+    }
+
+    fn from_felt(val: felt252) -> FP8x23W {
+        FP8x23WImpl::from_felt(val)
+    }
+
+    fn ceil(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::ceil(self)
+    }
+
+    fn exp(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::exp(self)
+    }
+
+    fn exp2(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::exp2(self)
+    }
+
+    fn floor(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::floor(self)
+    }
+
+    fn ln(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::ln(self)
+    }
+
+    fn log2(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::log2(self)
+    }
+
+    fn log10(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::log10(self)
+    }
+
+    fn pow(self: FP8x23W, b: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::pow(self, b)
+    }
+
+    fn round(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::round(self)
+    }
+
+    fn sqrt(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::sqrt(self)
+    }
+
+    fn acos(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::acos(self)
+    }
+
+    fn asin(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::asin(self)
+    }
+
+    fn atan(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::atan(self)
+    }
+
+    fn cos(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::cos(self)
+    }
+
+    fn sin(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::sin(self)
+    }
+
+    fn tan(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::tan(self)
+    }
+
+    fn acosh(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::acosh(self)
+    }
+
+    fn asinh(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::asinh(self)
+    }
+
+    fn atanh(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::atanh(self)
+    }
+
+    fn cosh(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::cosh(self)
+    }
+
+    fn sinh(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::sinh(self)
+    }
+
+    fn tanh(self: FP8x23W) -> FP8x23W {
+        FP8x23WImpl::tanh(self)
+    }
+
+    fn zero() -> FP8x23W {
+        FP8x23WImpl::ZERO()
+    }
+    fn is_zero(self: FP8x23W) -> bool {
+        core_fp8x23wide::eq(@self, @FP8x23WImpl::ZERO())
+    }
+
+    fn one() -> FP8x23W {
+        FP8x23WImpl::ONE()
+    }
+
+    fn neg_one() -> FP8x23W {
+        FP8x23W { mag: core_fp8x23wide::ONE, sign: true }
+    }
+
+    fn is_one(self: FP8x23W) -> bool {
+        core_fp8x23wide::eq(@self, @FP8x23WImpl::ONE())
+    }
+
+    fn abs(self: FP8x23W) -> FP8x23W {
+        core_fp8x23wide::abs(self)
+    }
+
+    fn neg(self: FP8x23W) -> FP8x23W {
+        core_fp8x23wide::neg(self)
+    }
+
+    fn min_value() -> FP8x23W {
+        FP8x23W { mag: core_fp8x23wide::MAX, sign: true }
+    }
+
+    fn max_value() -> FP8x23W {
+        FP8x23W { mag: core_fp8x23wide::MAX, sign: false }
+    }
+
+    fn min(self: FP8x23W, other: FP8x23W) -> FP8x23W {
+        comp_fp8x23wide::min(self, other)
+    }
+
+    fn max(self: FP8x23W, other: FP8x23W) -> FP8x23W {
+        comp_fp8x23wide::max(self, other)
+    }
+
+    fn mag(self: FP8x23W) -> u64 {
+        self.mag
+    }
+
+    fn is_neg(self: FP8x23W) -> bool {
+        self.sign
+    }
+
+    fn xor(lhs: FP8x23W, rhs: FP8x23W) -> bool {
+        comp_fp8x23wide::xor(lhs, rhs)
+    }
+
+    fn or(lhs: FP8x23W, rhs: FP8x23W) -> bool {
+        comp_fp8x23wide::or(lhs, rhs)
+    }
+
+    fn sign(self: FP8x23W) -> FP8x23W {
+        core_fp8x23wide::sign(self)
     }
 }
 
@@ -341,6 +515,10 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
         core_fp16x16::abs(self)
     }
 
+    fn neg(self: FP16x16) -> FP16x16 {
+        core_fp16x16::neg(self)
+    }
+
     fn min_value() -> FP16x16 {
         FP16x16 { mag: core_fp16x16::MAX, sign: true }
     }
@@ -375,6 +553,175 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
 
     fn sign(self: FP16x16) -> FP16x16 {
         core_fp16x16::sign(self)
+    }
+}
+
+use orion::numbers::fixed_point::implementations::fp16x16wide::core::{FP16x16WImpl, FP16x16W};
+use orion::numbers::fixed_point::implementations::fp16x16wide::math::core as core_fp16x16wide;
+use orion::numbers::fixed_point::implementations::fp16x16wide::math::comp as comp_fp16x16wide;
+
+impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
+    fn new(mag: u64, sign: bool) -> FP16x16W {
+        FP16x16WImpl::new(mag, sign)
+    }
+
+    fn new_unscaled(mag: u64, sign: bool) -> FP16x16W {
+        FP16x16WImpl::new_unscaled(mag, sign)
+    }
+
+    fn from_felt(val: felt252) -> FP16x16W {
+        FP16x16WImpl::from_felt(val)
+    }
+
+    fn ceil(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::ceil(self)
+    }
+
+    fn exp(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::exp(self)
+    }
+
+    fn exp2(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::exp2(self)
+    }
+
+    fn floor(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::floor(self)
+    }
+
+    fn ln(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::ln(self)
+    }
+
+    fn log2(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::log2(self)
+    }
+
+    fn log10(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::log10(self)
+    }
+
+    fn pow(self: FP16x16W, b: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::pow(self, b)
+    }
+
+    fn round(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::round(self)
+    }
+
+    fn sqrt(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::sqrt(self)
+    }
+
+    fn acos(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::acos(self)
+    }
+
+    fn asin(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::asin(self)
+    }
+
+    fn atan(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::atan(self)
+    }
+
+    fn cos(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::cos(self)
+    }
+
+    fn sin(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::sin(self)
+    }
+
+    fn tan(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::tan(self)
+    }
+
+    fn acosh(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::acosh(self)
+    }
+
+    fn asinh(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::asinh(self)
+    }
+
+    fn atanh(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::atanh(self)
+    }
+
+    fn cosh(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::cosh(self)
+    }
+
+    fn sinh(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::sinh(self)
+    }
+
+    fn tanh(self: FP16x16W) -> FP16x16W {
+        FP16x16WImpl::tanh(self)
+    }
+
+    fn zero() -> FP16x16W {
+        FP16x16WImpl::ZERO()
+    }
+    fn is_zero(self: FP16x16W) -> bool {
+        core_fp16x16wide::eq(@self, @FP16x16WImpl::ZERO())
+    }
+
+    fn one() -> FP16x16W {
+        FP16x16WImpl::ONE()
+    }
+
+    fn neg_one() -> FP16x16W {
+        FP16x16W { mag: core_fp16x16wide::ONE, sign: true }
+    }
+
+    fn is_one(self: FP16x16W) -> bool {
+        core_fp16x16wide::eq(@self, @FP16x16WImpl::ONE())
+    }
+
+    fn abs(self: FP16x16W) -> FP16x16W {
+        core_fp16x16wide::abs(self)
+    }
+
+    fn neg(self: FP16x16W) -> FP16x16W {
+        core_fp16x16wide::neg(self)
+    }
+
+    fn min_value() -> FP16x16W {
+        FP16x16W { mag: core_fp16x16wide::MAX, sign: true }
+    }
+
+    fn max_value() -> FP16x16W {
+        FP16x16W { mag: core_fp16x16wide::MAX, sign: false }
+    }
+
+    fn min(self: FP16x16W, other: FP16x16W) -> FP16x16W {
+        comp_fp16x16wide::min(self, other)
+    }
+
+    fn max(self: FP16x16W, other: FP16x16W) -> FP16x16W {
+        comp_fp16x16wide::max(self, other)
+    }
+
+    fn mag(self: FP16x16W) -> u64 {
+        self.mag
+    }
+
+    fn is_neg(self: FP16x16W) -> bool {
+        self.sign
+    }
+
+    fn xor(lhs: FP16x16W, rhs: FP16x16W) -> bool {
+        comp_fp16x16wide::xor(lhs, rhs)
+    }
+
+    fn or(lhs: FP16x16W, rhs: FP16x16W) -> bool {
+        comp_fp16x16wide::or(lhs, rhs)
+    }
+
+    fn sign(self: FP16x16W) -> FP16x16W {
+        core_fp16x16wide::sign(self)
     }
 }
 
@@ -505,6 +852,10 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
 
     fn abs(self: FP64x64) -> FP64x64 {
         fp64x64::core::abs(self)
+    }
+
+    fn neg(self: FP64x64) -> FP64x64 {
+        fp64x64::core::neg(self)
     }
 
     fn min_value() -> FP64x64 {
@@ -673,6 +1024,10 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
         fp32x32::core::abs(self)
     }
 
+    fn neg(self: FP32x32) -> FP32x32 {
+        fp32x32::core::neg(self)
+    }
+
     fn min_value() -> FP32x32 {
         FP32x32 { mag: core_fp32x32::MAX, sign: true }
     }
@@ -835,6 +1190,10 @@ impl I8Number of NumberTrait<i8, u8> {
 
     fn abs(self: i8) -> i8 {
         i8_core::i8_abs(self)
+    }
+
+    fn neg(self: i8) -> i8 {
+        i8_core::i8_neg(self)
     }
 
     fn min_value() -> i8 {
@@ -1009,6 +1368,10 @@ impl i16Number of NumberTrait<i16, u16> {
         i16_core::i16_abs(self)
     }
 
+    fn neg(self: i16) -> i16 {
+        i16_core::i16_neg(self)
+    }
+
     fn min_value() -> i16 {
         i16 { mag: 32768, sign: true }
     }
@@ -1181,6 +1544,10 @@ impl i32Number of NumberTrait<i32, u32> {
         i32_core::i32_abs(self)
     }
 
+    fn neg(self: i32) -> i32 {
+        i32_core::i32_neg(self)
+    }
+
     fn min_value() -> i32 {
         i32 { mag: 2147483648, sign: true }
     }
@@ -1351,6 +1718,10 @@ impl i64Number of NumberTrait<i64, u64> {
 
     fn abs(self: i64) -> i64 {
         i64_core::i64_abs(self)
+    }
+
+    fn neg(self: i64) -> i64 {
+        i64_core::i64_neg(self)
     }
 
     fn min_value() -> i64 {
@@ -1526,6 +1897,10 @@ impl i128Number of NumberTrait<i128, u128> {
         i128_core::i128_abs(self)
     }
 
+    fn neg(self: i128) -> i128 {
+        i128_core::i128_neg(self)
+    }
+
     fn min_value() -> i128 {
         i128 { mag: 170141183460469231731687303715884105728, sign: true }
     }
@@ -1694,6 +2069,10 @@ impl u32Number of NumberTrait<u32, u32> {
 
     fn abs(self: u32) -> u32 {
         self
+    }
+
+    fn neg(self: u32) -> u32 {
+        panic(array!['not supported'])
     }
 
     fn min_value() -> u32 {
