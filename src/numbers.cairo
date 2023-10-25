@@ -47,7 +47,11 @@ trait NumberTrait<T, MAG> {
     fn xor(lhs: T, rhs: T) -> bool;
     fn or(lhs: T, rhs: T) -> bool;
     fn sign(self: T) -> T;
+<<<<<<< HEAD
     fn and(lhs: T, rhs: T) -> bool;
+=======
+    fn where(self: T, x: T, y: T) -> T;
+>>>>>>> ed26bd8b (Make tests pass)
 }
 
 use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23};
@@ -218,6 +222,7 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
         core_fp8x23::sign(self)
     }
 
+<<<<<<< HEAD
     fn and(lhs: FP8x23, rhs: FP8x23) -> bool {
         comp_fp8x23::and(lhs, rhs)
     }
@@ -393,6 +398,10 @@ impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
 
     fn and(lhs: FP8x23W, rhs: FP8x23W) -> bool {
         comp_fp8x23wide::and(lhs, rhs)
+=======
+    fn where(self: FP8x23, x: FP8x23, y: FP8x23) -> FP8x23 {
+        comp_fp8x23::where(self, x, y)
+>>>>>>> ed26bd8b (Make tests pass)
     }
 }
 
@@ -564,6 +573,7 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
         core_fp16x16::sign(self)
     }
 
+<<<<<<< HEAD
     fn and(lhs: FP16x16, rhs: FP16x16) -> bool {
         comp_fp16x16::and(lhs, rhs)
     }
@@ -739,6 +749,10 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
 
     fn and(lhs: FP16x16W, rhs: FP16x16W) -> bool {
         comp_fp16x16wide::and(lhs, rhs)
+=======
+    fn where(self: FP16x16, x: FP16x16, y: FP16x16) -> FP16x16 {
+        comp_fp16x16::where(self, x, y)
+>>>>>>> ed26bd8b (Make tests pass)
     }
 }
 
@@ -911,8 +925,13 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
         FP64x64Impl::sign(self)
     }
 
+<<<<<<< HEAD
     fn and(lhs: FP64x64, rhs: FP64x64) -> bool {
         comp_fp64x64::and(lhs, rhs)
+=======
+    fn where(self: FP64x64, x: FP64x64, y: FP64x64) -> FP64x64 {
+        comp_fp64x64::where(self, x, y)
+>>>>>>> ed26bd8b (Make tests pass)
     }
 }
 
@@ -1085,8 +1104,13 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
         FP32x32Impl::sign(self)
     }
 
+<<<<<<< HEAD
     fn and(lhs: FP32x32, rhs: FP32x32) -> bool {
         comp_fp32x32::and(lhs, rhs)
+=======
+    fn where(self: FP32x32, x: FP32x32, y: FP32x32) -> FP32x32 {
+        comp_fp32x32::where(self, x, y)
+>>>>>>> ed26bd8b (Make tests pass)
     }
 }
 
@@ -1265,11 +1289,19 @@ impl I8Number of NumberTrait<i8, u8> {
         i8_core::i8_sign(self)
     }
 
+<<<<<<< HEAD
     fn and(lhs: i8, rhs: i8) -> bool {
         if (lhs.mag == 0 || rhs.mag == 0) {
             return false;
         } else {
             return true;
+=======
+    fn where(self: i8, x: i8, y: i8) -> i8 {
+        if self.mag == 0 {
+            return y;
+        } else {
+            return x;
+>>>>>>> ed26bd8b (Make tests pass)
         }
     }
 }
@@ -1449,11 +1481,19 @@ impl i16Number of NumberTrait<i16, u16> {
         i16_core::i16_sign(self)
     }
 
+<<<<<<< HEAD
     fn and(lhs: i16, rhs: i16) -> bool {
         if (lhs.mag == 0 || rhs.mag == 0) {
             return false;
         } else {
             return true;
+=======
+    fn where(self: i16, x: i16, y: i16) -> i16 {
+        if self.mag == 0 {
+            return y;
+        } else {
+            return x;
+>>>>>>> ed26bd8b (Make tests pass)
         }
     }
 }
@@ -1633,11 +1673,19 @@ impl i32Number of NumberTrait<i32, u32> {
         i32_core::i32_sign(self)
     }
 
+<<<<<<< HEAD
     fn and(lhs: i32, rhs: i32) -> bool {
         if (lhs.mag == 0 || rhs.mag == 0) {
             return false;
         } else {
             return true;
+=======
+    fn where(self: i32, x: i32, y: i32) -> i32 {
+        if self.mag == 0 {
+            return y;
+        } else {
+            return x;
+>>>>>>> ed26bd8b (Make tests pass)
         }
     }
 }
@@ -1817,11 +1865,19 @@ impl i64Number of NumberTrait<i64, u64> {
         i64_core::i64_sign(self)
     }
 
+<<<<<<< HEAD
     fn and(lhs: i64, rhs: i64) -> bool {
         if (lhs.mag == 0 || rhs.mag == 0) {
             return false;
         } else {
             return true;
+=======
+    fn where(self: i64, x: i64, y: i64) -> i64 {
+        if self.mag == 0 {
+            return y;
+        } else {
+            return x;
+>>>>>>> ed26bd8b (Make tests pass)
         }
     }
 }
@@ -2002,11 +2058,19 @@ impl i128Number of NumberTrait<i128, u128> {
         i128_core::i128_sign(self)
     }
 
+<<<<<<< HEAD
     fn and(lhs: i128, rhs: i128) -> bool {
         if (lhs.mag == 0 || rhs.mag == 0) {
             return false;
         } else {
             return true;
+=======
+    fn where(self: i128, x: i128, y: i128) -> i128 {
+        if self.mag == 0 {
+            return y;
+        } else {
+            return x;
+>>>>>>> ed26bd8b (Make tests pass)
         }
     }
 }
@@ -2192,11 +2256,19 @@ impl u32Number of NumberTrait<u32, u32> {
         panic(array!['not supported!'])
     }
 
+<<<<<<< HEAD
     fn and(lhs: u32, rhs: u32) -> bool {
         if (lhs == 0 || rhs == 0) {
             return false;
         } else {
             return true;
+=======
+    fn where(self: u32, x: u32, y: u32) -> u32 {
+        if self == 0 {
+            return y;
+        } else {
+            return x;
+>>>>>>> ed26bd8b (Make tests pass)
         }
     }
 }
