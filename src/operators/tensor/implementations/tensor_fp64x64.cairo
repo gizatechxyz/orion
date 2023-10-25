@@ -101,6 +101,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::abs::abs(*self)
     }
 
+    fn neg(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::neg::neg(*self)
+    }
+
     fn ceil(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
         math::ceil::ceil(*self)
     }
@@ -234,6 +238,11 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn and(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<usize> {
         math::and::and(self, other)
     }
+    
+    fn identity(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        core::identity(self)
+    }
+
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

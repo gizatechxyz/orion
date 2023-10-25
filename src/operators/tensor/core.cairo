@@ -56,6 +56,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// exp - Computes the exponential of all elements of the input tensor.
 /// log - Computes the natural log of all elements of the input tensor.
 /// abs - Computes the absolute value of all elements in the input tensor.
+/// neg - Computes the negation of all elements in the input tensor.
 /// ceil - Rounds up the value of each element in the input tensor.
 /// sqrt - Computes the square root of all elements of the input tensor.
 /// sin - Computes the sine of all elements of the input tensor.
@@ -79,6 +80,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// sign - Calculates the sign of the given input tensor element-wise.
 /// clip - Clip operator limits the given input within an interval.
 /// and - Computes the logical AND of two tensors element-wise. 
+/// identity - Return a Tensor with the same shape and contents as input.
 ///
 trait TensorTrait<T> {
     /// # tensor.new
@@ -1235,6 +1237,47 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn abs(self: @Tensor<T>) -> Tensor<T>;
+    /// #tensor.neg
+    ///
+    /// ```rust
+    ///     fn neg(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the negation of all elements in the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the negation of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
+    /// use orion::numbers::{i32, IntegerTrait};
+    /// 
+    /// fn neg_example() -> Tensor<i32> {
+    ///     let tensor = TensorTrait::new(
+    ///         shape: array![3].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(1, true), IntegerTrait::new(2, true), IntegerTrait::new(3, false)
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     return tensor.neg();
+    /// }
+    /// >>> [1, 2, -3]
+    /// ```
+    ///
+    fn neg(self: @Tensor<T>) -> Tensor<T>;
     /// #tensor.ceil
     ///
     /// ```rust
@@ -2670,6 +2713,41 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn sign(self: @Tensor<T>) -> Tensor<T>;
+    /// # tensor.identity
+    ///
+    /// ```rust 
+    ///    fn identity(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Return a Tensor with the same shape and contents as input.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - Input tensor.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` to copy input into.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
+    /// 
+    /// fn identity_example() -> Tensor<FP16x16> {
+    ///     let tensor = TensorTrait::<FP16x16>::new(
+    ///         shape: array![2, 2].span(), 
+    ///         data: array![1, 2, 3, 4].span(), 
+    ///     );
+    ///     let t_identity = tensor.identity();
+    ///     t_identity
+    /// }
+    /// >>> [[1 2] [3 4]] // A Tensor with the same shape and contents as input
+    /// ```
+    ///
+    fn identity(self: @Tensor<T>) -> Tensor<T>;    
     /// #tensor.and
     ///
     /// ```rust
@@ -3312,4 +3390,12 @@ fn clip<
     };
 
     return Tensor::<T> { shape: *self.shape, data: return_data.span() };
+}
+
+/// Cf: TensorTrait::identity docstring
+fn identity<T>
+(
+    self: @Tensor<T>
+) -> Tensor<T> {
+    Tensor::<T> { shape: *self.shape, data: *self.data }
 }

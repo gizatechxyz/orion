@@ -304,3 +304,44 @@ fn saturated_div<
 
     return TensorTrait::<Q>::new(broadcasted_shape, result.span());
 }
+
+fn div_downcast<
+    T,
+    D,
+    impl TTensor: TensorTrait<T>,
+    impl DTensor: TensorTrait<D>,
+    impl DDiv: Div<D>,
+    impl TTryIntoD: TryInto<T, D>,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>,
+    impl DCopy: Copy<D>,
+    impl DDrop: Drop<D>
+>(
+    self: @Tensor<T>, other: @Tensor<T>
+) -> Tensor<D> {
+    let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
+    let mut result = ArrayTrait::new();
+
+    let num_elements = len_from_shape(broadcasted_shape);
+
+    let mut n: usize = 0;
+    loop {
+        let indices_broadcasted = unravel_index(n, broadcasted_shape);
+
+        let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
+        let indices_other = broadcast_index_mapping(*other.shape, indices_broadcasted);
+
+        result
+            .append(
+                (*(*self.data)[indices_self]).try_into().unwrap()
+                    / (*(*other.data)[indices_other]).try_into().unwrap()
+            );
+
+        n += 1;
+        if n == num_elements {
+            break ();
+        };
+    };
+
+    return TensorTrait::<D>::new(broadcasted_shape, result.span());
+}

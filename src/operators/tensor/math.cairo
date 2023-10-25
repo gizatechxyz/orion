@@ -33,3 +33,4 @@ mod concat;
 mod gather;
 mod sign;
 mod and;
+mod neg;

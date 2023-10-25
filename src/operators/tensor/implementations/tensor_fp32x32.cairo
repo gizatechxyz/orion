@@ -101,6 +101,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::abs::abs(*self)
     }
 
+    fn neg(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::neg::neg(*self)
+    }
+
     fn ceil(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::ceil::ceil(*self)
     }
@@ -234,6 +238,11 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn and(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<usize> {
         math::and::and(self, other)
     }
+    
+    fn identity(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        core::identity(self)
+    }
+
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.
