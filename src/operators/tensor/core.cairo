@@ -81,6 +81,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// clip - Clip operator limits the given input within an interval.
 /// and - Computes the logical AND of two tensors element-wise. 
 /// identity - Return a Tensor with the same shape and contents as input.
+/// where - Return elements chosen from x or y depending on condition.
 ///
 trait TensorTrait<T> {
     /// # tensor.new

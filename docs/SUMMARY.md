@@ -87,8 +87,12 @@
     * [tensor.unsqueeze](framework/operators/tensor/tensor.unsqueeze.md)
     * [tensor.sign](framework/operators/tensor/tensor.sign.md)
     * [tensor.clip](framework/operators/tensor/tensor.clip.md)
+<<<<<<< HEAD
     * [tensor.identity](framework/operators/tensor/tensor.identity.md)
     * [tensor.and](framework/operators/tensor/tensor.and.md)
+=======
+    * [tensor.where](framework/operators/tensor/tensor.where.md)
+>>>>>>> 92f40651 (Add docs)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)
