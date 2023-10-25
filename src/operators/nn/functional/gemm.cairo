@@ -23,6 +23,9 @@ fn gemm<
     transA: bool,
     transB: bool
 ) -> Tensor<T> {
+    let mut A = A;
+    let mut B = B;
+
     let alpha: T = if alpha.is_some() {
         alpha.unwrap()
     } else {
@@ -36,11 +39,11 @@ fn gemm<
     };
 
     if transA == true {
-        let A = A.transpose(array![1, 0].span());
+        A = A.transpose(array![1, 0].span());
     }
 
     if transB == true {
-        let B = B.transpose(array![1, 0].span());
+        B = B.transpose(array![1, 0].span());
     }
 
     match C {

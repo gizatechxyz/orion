@@ -103,3 +103,86 @@ class Gemm(RunAll):
         make_node([a, b], [y], name)
         make_test(
             [a, b], y, "NNTrait::gemm(input_0, input_1, Option::None(()), Option::None(()), Option::None(()), true, false)", name, Trait.NN)
+
+    @staticmethod
+    def gemm_transposeB():
+        a = np.random.ranf([3, 6]).astype(np.float32)
+        b = np.random.ranf([4, 6]).astype(np.float32)
+        c = np.zeros([1, 4]).astype(np.float32)
+        y = gemm_reference_implementation(a, b, c, transB=1)
+
+        a = Tensor(Dtype.FP16x16, a.shape, to_fp(
+            a.flatten(), FixedImpl.FP16x16))
+        b = Tensor(Dtype.FP16x16, b.shape, to_fp(
+            b.flatten(), FixedImpl.FP16x16))
+        y = Tensor(Dtype.FP16x16, y.shape, to_fp(
+            y.flatten(), FixedImpl.FP16x16))
+
+        name = "gemm_transposeB"
+        make_node([a, b], [y], name)
+        make_test(
+            [a, b], y, "NNTrait::gemm(input_0, input_1, Option::None(()), Option::None(()), Option::None(()), false, true)", name, Trait.NN)
+
+    @staticmethod
+    def gemm_alpha():
+        a = np.random.ranf([3, 5]).astype(np.float32)
+        b = np.random.ranf([5, 4]).astype(np.float32)
+        c = np.zeros([1, 4]).astype(np.float32)
+        y = gemm_reference_implementation(a, b, c, alpha=0.5)
+
+        a = Tensor(Dtype.FP16x16, a.shape, to_fp(
+            a.flatten(), FixedImpl.FP16x16))
+        b = Tensor(Dtype.FP16x16, b.shape, to_fp(
+            b.flatten(), FixedImpl.FP16x16))
+        y = Tensor(Dtype.FP16x16, y.shape, to_fp(
+            y.flatten(), FixedImpl.FP16x16))
+
+        name = "gemm_alpha"
+        make_node([a, b], [y], name)
+        make_test(
+            [a, b], y, "NNTrait::gemm(input_0, input_1, Option::None(()), Option::Some(FixedTrait::new(32768, false)), Option::None(()), false, false)", name, Trait.NN)
+
+    @staticmethod
+    def gemm_beta():
+        a = np.random.ranf([2, 7]).astype(np.float32)
+        b = np.random.ranf([7, 4]).astype(np.float32)
+        c = np.random.ranf([1, 4]).astype(np.float32)
+        y = gemm_reference_implementation(a, b, c, beta=0.5)
+
+        a = Tensor(Dtype.FP16x16, a.shape, to_fp(
+            a.flatten(), FixedImpl.FP16x16))
+        b = Tensor(Dtype.FP16x16, b.shape, to_fp(
+            b.flatten(), FixedImpl.FP16x16))
+        c = Tensor(Dtype.FP16x16, c.shape, to_fp(
+            c.flatten(), FixedImpl.FP16x16))
+        y = Tensor(Dtype.FP16x16, y.shape, to_fp(
+            y.flatten(), FixedImpl.FP16x16))
+
+        name = "gemm_beta"
+        make_node([a, b, c], [y], name)
+        make_test(
+            [a, b, c], y, "NNTrait::gemm(input_0, input_1, Option::Some(input_2), Option::None(()), Option::Some(FixedTrait::new(32768, false)), false, false)", name, Trait.NN)
+
+    @staticmethod
+    def gemm_all_attributes():
+        a = np.random.ranf([4, 3]).astype(np.float32)
+        b = np.random.ranf([5, 4]).astype(np.float32)
+        c = np.random.ranf([1, 5]).astype(np.float32)
+        y = gemm_reference_implementation(
+            a, b, c, transA=1, transB=1, alpha=0.25, beta=0.35
+        )
+
+        a = Tensor(Dtype.FP16x16, a.shape, to_fp(
+            a.flatten(), FixedImpl.FP16x16))
+        b = Tensor(Dtype.FP16x16, b.shape, to_fp(
+            b.flatten(), FixedImpl.FP16x16))
+        c = Tensor(Dtype.FP16x16, c.shape, to_fp(
+            c.flatten(), FixedImpl.FP16x16))
+        y = Tensor(Dtype.FP16x16, y.shape, to_fp(
+            y.flatten(), FixedImpl.FP16x16))
+
+        name = "gemm_all_attributes"
+        make_node([a, b, c], [y], name)
+        make_test(
+            [a, b, c], y, "NNTrait::gemm(input_0, input_1, Option::Some(input_2), Option::Some(FixedTrait::new(16384, false)), Option::Some(FixedTrait::new(22938, false)), true, true)", name, Trait.NN)
+
