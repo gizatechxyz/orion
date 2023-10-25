@@ -11,31 +11,31 @@ fn input_0() -> Tensor<i8> {
 
     let mut data = ArrayTrait::new();
     data.append(i8 { mag: 1, sign: false });
-    data.append(i8 { mag: 0, sign: false });
-    data.append(i8 { mag: 1, sign: false });
-    data.append(i8 { mag: 0, sign: false });
-    data.append(i8 { mag: 0, sign: false });
-    data.append(i8 { mag: 1, sign: false });
-    data.append(i8 { mag: 0, sign: false });
-    data.append(i8 { mag: 1, sign: false });
-    data.append(i8 { mag: 1, sign: false });
-    data.append(i8 { mag: 1, sign: false });
     data.append(i8 { mag: 1, sign: false });
     data.append(i8 { mag: 0, sign: false });
     data.append(i8 { mag: 1, sign: false });
     data.append(i8 { mag: 0, sign: false });
-    data.append(i8 { mag: 0, sign: false });
     data.append(i8 { mag: 1, sign: false });
-    data.append(i8 { mag: 1, sign: false });
-    data.append(i8 { mag: 0, sign: false });
-    data.append(i8 { mag: 0, sign: false });
     data.append(i8 { mag: 1, sign: false });
     data.append(i8 { mag: 1, sign: false });
     data.append(i8 { mag: 1, sign: false });
     data.append(i8 { mag: 1, sign: false });
     data.append(i8 { mag: 0, sign: false });
     data.append(i8 { mag: 0, sign: false });
+    data.append(i8 { mag: 0, sign: false });
     data.append(i8 { mag: 1, sign: false });
+    data.append(i8 { mag: 1, sign: false });
+    data.append(i8 { mag: 0, sign: false });
+    data.append(i8 { mag: 0, sign: false });
+    data.append(i8 { mag: 0, sign: false });
+    data.append(i8 { mag: 0, sign: false });
+    data.append(i8 { mag: 1, sign: false });
+    data.append(i8 { mag: 1, sign: false });
+    data.append(i8 { mag: 0, sign: false });
+    data.append(i8 { mag: 0, sign: false });
+    data.append(i8 { mag: 1, sign: false });
+    data.append(i8 { mag: 0, sign: false });
+    data.append(i8 { mag: 0, sign: false });
     data.append(i8 { mag: 0, sign: false });
     TensorTrait::new(shape.span(), data.span())
 }

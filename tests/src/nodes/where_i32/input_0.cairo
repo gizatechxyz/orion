@@ -15,27 +15,27 @@ fn input_0() -> Tensor<i32> {
     data.append(i32 { mag: 1, sign: false });
     data.append(i32 { mag: 0, sign: false });
     data.append(i32 { mag: 0, sign: false });
-    data.append(i32 { mag: 1, sign: false });
-    data.append(i32 { mag: 0, sign: false });
-    data.append(i32 { mag: 0, sign: false });
-    data.append(i32 { mag: 1, sign: false });
-    data.append(i32 { mag: 1, sign: false });
-    data.append(i32 { mag: 1, sign: false });
     data.append(i32 { mag: 0, sign: false });
     data.append(i32 { mag: 0, sign: false });
     data.append(i32 { mag: 1, sign: false });
     data.append(i32 { mag: 0, sign: false });
-    data.append(i32 { mag: 0, sign: false });
-    data.append(i32 { mag: 1, sign: false });
-    data.append(i32 { mag: 1, sign: false });
-    data.append(i32 { mag: 1, sign: false });
     data.append(i32 { mag: 1, sign: false });
     data.append(i32 { mag: 0, sign: false });
     data.append(i32 { mag: 1, sign: false });
     data.append(i32 { mag: 1, sign: false });
     data.append(i32 { mag: 0, sign: false });
     data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 0, sign: false });
     data.append(i32 { mag: 1, sign: false });
     data.append(i32 { mag: 1, sign: false });
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 1, sign: false });
+    data.append(i32 { mag: 0, sign: false });
+    data.append(i32 { mag: 0, sign: false });
     TensorTrait::new(shape.span(), data.span())
 }

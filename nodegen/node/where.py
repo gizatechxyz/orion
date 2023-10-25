@@ -8,36 +8,36 @@ class Where(RunAll):
     @staticmethod
     def where_u32():
         def default():
+            cond = np.random.choice([1, 0], (3, 3, 3)).astype(np.uint32)
             x = np.random.randint(0, 6, (3, 3, 3)).astype(np.uint32)
             y = np.random.randint(0, 6, (3, 3, 3)).astype(np.uint32)
-            condition = np.random.choice([1, 0], x.shape).astype(np.uint32)
             
-            z = np.where(condition, x, y).astype(x.dtype)
+            z = np.where(cond, x, y).astype(x.dtype)
 
-            condition = Tensor(Dtype.U32, condition.shape, condition.flatten())
+            cond = Tensor(Dtype.U32, cond.shape, cond.flatten())
             x = Tensor(Dtype.U32, x.shape, x.flatten())
             y = Tensor(Dtype.U32, y.shape, y.flatten())
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "where_u32"
-            make_node([condition, x, y], [z], name)
-            make_test([condition, x, y], z, "input_0.where(@input_1,@input_2)", name)
+            make_node([cond, x, y], [z], name)
+            make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         def broadcast():
+            cond = np.random.choice([1, 0], (1, 1)).astype(np.uint32)
             x = np.random.randint(0, 6, (2, 2)).astype(np.uint32)
             y = np.random.randint(0, 6, (1, 2)).astype(np.uint32)
-            condition = np.random.choice([1, 0], x.shape).astype(np.uint32)
             
-            z = np.where(condition, x, y).astype(x.dtype)
+            z = np.where(cond, x, y).astype(x.dtype)
 
-            condition = Tensor(Dtype.U32, condition.shape, condition.flatten())
+            cond = Tensor(Dtype.U32, cond.shape, cond.flatten())
             x = Tensor(Dtype.U32, x.shape, x.flatten())
             y = Tensor(Dtype.U32, y.shape, y.flatten())
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "where_u32_broadcast"
-            make_node([condition, x, y], [z], name)
-            make_test([condition, x, y], z, "input_0.where(@input_1,@input_2)", name)
+            make_node([cond, x, y], [z], name)
+            make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         default()
         broadcast()
@@ -45,36 +45,36 @@ class Where(RunAll):
     @staticmethod
     def where_i32():
         def default():
+            cond = np.random.choice([1, 0], (3, 3, 3)).astype(np.int32)
             x = np.random.randint(0, 6, (3, 3, 3)).astype(np.int32)
             y = np.random.randint(0, 6, (3, 3, 3)).astype(np.int32)
-            condition = np.random.choice([1, 0], x.shape).astype(np.int32)
             
-            z = np.where(condition, x, y).astype(x.dtype)
+            z = np.where(cond, x, y).astype(x.dtype)
 
-            condition = Tensor(Dtype.I32, condition.shape, condition.flatten())
+            cond = Tensor(Dtype.I32, cond.shape, cond.flatten())
             x = Tensor(Dtype.I32, x.shape, x.flatten())
             y = Tensor(Dtype.I32, y.shape, y.flatten())
             z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "where_i32"
-            make_node([condition, x, y], [z], name)
-            make_test([condition, x, y], z, "input_0.where(@input_1,@input_2)", name)
+            make_node([cond, x, y], [z], name)
+            make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         def broadcast():
+            cond = np.random.choice([1, 0], (1, 1)).astype(np.int32)
             x = np.random.randint(0, 6, (2, 2)).astype(np.int32)
             y = np.random.randint(0, 6, (1, 2)).astype(np.int32)
-            condition = np.random.choice([1, 0], x.shape).astype(np.int32)
 
-            z = np.where(condition, x, y).astype(x.dtype)
+            z = np.where(cond, x, y).astype(x.dtype)
 
-            condition = Tensor(Dtype.I32, condition.shape, condition.flatten())
+            cond = Tensor(Dtype.I32, cond.shape, cond.flatten())
             x = Tensor(Dtype.I32, x.shape, x.flatten())
             y = Tensor(Dtype.I32, y.shape, y.flatten())
             z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "where_i32_broadcast"
-            make_node([condition, x, y], [z], name)
-            make_test([condition, x, y], z, "input_0.where(@input_1,@input_2)", name)
+            make_node([cond, x, y], [z], name)
+            make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         default()
         broadcast()
@@ -82,36 +82,36 @@ class Where(RunAll):
     @staticmethod
     def where_i8():
         def default():
+            cond = np.random.choice([1, 0], (3, 3, 3)).astype(np.int8)
             x = np.random.randint(0, 6, (3, 3, 3)).astype(np.int8)
             y = np.random.randint(0, 6, (3, 3, 3)).astype(np.int8)
-            condition = np.random.choice([1, 0], x.shape).astype(np.int8)
 
-            z = np.where(condition, x, y).astype(x.dtype)
+            z = np.where(cond, x, y).astype(x.dtype)
 
-            condition = Tensor(Dtype.I8, condition.shape, condition.flatten())
+            cond = Tensor(Dtype.I8, cond.shape, cond.flatten())
             x = Tensor(Dtype.I8, x.shape, x.flatten())
             y = Tensor(Dtype.I8, y.shape, y.flatten())
             z = Tensor(Dtype.I8, z.shape, z.flatten())
 
             name = "where_i8"
-            make_node([condition, x, y], [z], name)
-            make_test([condition, x, y], z, "input_0.where(@input_1,@input_2)", name)
+            make_node([cond, x, y], [z], name)
+            make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         def broadcast():
+            cond = np.random.choice([1, 0], (1, 1)).astype(np.int8)
             x = np.random.randint(0, 6, (2, 2)).astype(np.int8)
             y = np.random.randint(0, 6, (1, 2)).astype(np.int8)
-            condition = np.random.choice([1, 0], x.shape).astype(np.int8)
             
-            z = np.where(condition, x, y).astype(x.dtype)
+            z = np.where(cond, x, y).astype(x.dtype)
 
-            condition = Tensor(Dtype.I8, condition.shape, condition.flatten())
+            cond = Tensor(Dtype.I8, cond.shape, cond.flatten())
             x = Tensor(Dtype.I8, x.shape, x.flatten())
             y = Tensor(Dtype.I8, y.shape, y.flatten())
             z = Tensor(Dtype.I8, z.shape, z.flatten())
 
             name = "where_i8_broadcast"
-            make_node([condition, x, y], [z], name)
-            make_test([condition, x, y], z, "input_0.where(@input_1,@input_2)", name)
+            make_node([cond, x, y], [z], name)
+            make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         default()
         broadcast()
@@ -119,14 +119,14 @@ class Where(RunAll):
     @staticmethod
     def where_fp8x23():
         def default():
+            cond = np.random.choice([1, 0], (3, 3, 3)).astype(np.float64)
             x = np.random.randint(0, 6, (3, 3, 3)).astype(np.float64)
             y = np.random.randint(0, 6, (3, 3, 3)).astype(np.float64)
-            condition = np.random.choice([1, 0], x.shape).astype(np.float64)
             
-            z = np.where(condition, x, y).astype(x.dtype)
+            z = np.where(cond, x, y).astype(x.dtype)
 
-            condition = Tensor(Dtype.FP8x23, condition.shape, to_fp(
-                condition.flatten(), FixedImpl.FP8x23))
+            cond = Tensor(Dtype.FP8x23, cond.shape, to_fp(
+                cond.flatten(), FixedImpl.FP8x23))
             x = Tensor(Dtype.FP8x23, x.shape, to_fp(
                 x.flatten(), FixedImpl.FP8x23))
             y = Tensor(Dtype.FP8x23, y.shape,  to_fp(
@@ -135,18 +135,18 @@ class Where(RunAll):
                 z.flatten(), FixedImpl.FP8x23))
 
             name = "where_fp8x23"
-            make_node([condition, x, y], [z], name)
-            make_test([condition, x, y], z, "input_0.where(@input_1,@input_2)", name)
+            make_node([cond, x, y], [z], name)
+            make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         def broadcast():
+            cond = np.random.choice([1, 0], (1, 1)).astype(np.float64)
             x = np.random.randint(0, 6, (2, 2)).astype(np.float64)
             y = np.random.randint(0, 6, (1, 2)).astype(np.float64)
-            condition = np.random.choice([1, 0], x.shape).astype(np.float64)
             
-            z = np.where(condition, x, y).astype(x.dtype)
+            z = np.where(cond, x, y).astype(x.dtype)
 
-            condition = Tensor(Dtype.FP8x23, condition.shape, to_fp(
-                condition.flatten(), FixedImpl.FP8x23))
+            cond = Tensor(Dtype.FP8x23, cond.shape, to_fp(
+                cond.flatten(), FixedImpl.FP8x23))
             x = Tensor(Dtype.FP8x23, x.shape, to_fp(
                 x.flatten(), FixedImpl.FP8x23))
             y = Tensor(Dtype.FP8x23, y.shape,  to_fp(
@@ -155,8 +155,8 @@ class Where(RunAll):
                 z.flatten(), FixedImpl.FP8x23))
 
             name = "where_fp8x23_broadcast"
-            make_node([condition, x, y], [z], name)
-            make_test([condition, x, y], z, "input_0.where(@input_1,@input_2)", name)
+            make_node([cond, x, y], [z], name)
+            make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         default()
         broadcast()
@@ -164,14 +164,14 @@ class Where(RunAll):
     @staticmethod
     def where_fp16x16():
         def default():
+            cond = np.random.choice([1, 0], (3, 3, 3)).astype(np.float64)
             x = np.random.randint(0, 6, (3, 3, 3)).astype(np.float64)
             y = np.random.randint(0, 6, (3, 3, 3)).astype(np.float64)
-            condition = np.random.choice([1, 0], x.shape).astype(np.float64)
             
-            z = np.where(condition, x, y).astype(x.dtype)
+            z = np.where(cond, x, y).astype(x.dtype)
 
-            condition = Tensor(Dtype.FP16x16, condition.shape, to_fp(
-                condition.flatten(), FixedImpl.FP16x16))
+            cond = Tensor(Dtype.FP16x16, cond.shape, to_fp(
+                cond.flatten(), FixedImpl.FP16x16))
             x = Tensor(Dtype.FP16x16, x.shape, to_fp(
                 x.flatten(), FixedImpl.FP16x16))
             y = Tensor(Dtype.FP16x16, y.shape,  to_fp(
@@ -180,18 +180,18 @@ class Where(RunAll):
                 z.flatten(), FixedImpl.FP16x16))
             
             name = "where_fp16x16"
-            make_node([condition, x, y], [z], name)
-            make_test([condition, x, y], z, "input_0.where(@input_1,@input_2)", name)
+            make_node([cond, x, y], [z], name)
+            make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         def broadcast():
+            cond = np.random.choice([1, 0], (1, 1)).astype(np.float64)
             x = np.random.randint(0, 6, (2, 2)).astype(np.float64)
             y = np.random.randint(0, 6, (1, 2)).astype(np.float64)
-            condition = np.random.choice([1, 0], x.shape).astype(np.float64)
             
-            z = np.where(condition, x, y).astype(x.dtype)
+            z = np.where(cond, x, y).astype(x.dtype)
 
-            condition = Tensor(Dtype.FP16x16, condition.shape, to_fp(
-                condition.flatten(), FixedImpl.FP16x16))
+            cond = Tensor(Dtype.FP16x16, cond.shape, to_fp(
+                cond.flatten(), FixedImpl.FP16x16))
             x = Tensor(Dtype.FP16x16, x.shape, to_fp(
                 x.flatten(), FixedImpl.FP16x16))
             y = Tensor(Dtype.FP16x16, y.shape,  to_fp(
@@ -200,8 +200,8 @@ class Where(RunAll):
                 z.flatten(), FixedImpl.FP16x16))
 
             name = "where_fp16x16_broadcast"
-            make_node([condition, x, y], [z], name)
-            make_test([condition, x, y], z, "input_0.where(@input_1,@input_2)", name)
+            make_node([cond, x, y], [z], name)
+            make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         default()
         broadcast()

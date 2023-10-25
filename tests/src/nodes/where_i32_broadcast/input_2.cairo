@@ -9,7 +9,7 @@ fn input_2() -> Tensor<i32> {
     shape.append(2);
 
     let mut data = ArrayTrait::new();
-    data.append(i32 { mag: 3, sign: false });
-    data.append(i32 { mag: 4, sign: false });
+    data.append(i32 { mag: 2, sign: false });
+    data.append(i32 { mag: 5, sign: false });
     TensorTrait::new(shape.span(), data.span())
 }
