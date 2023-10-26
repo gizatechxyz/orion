@@ -12,7 +12,7 @@ mod tensor_1D {
     use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23, FP8x23PartialEq};
     use orion::operators::tensor::implementations::tensor_fp8x23::FP8x23Tensor;
     use orion::operators::tensor::core::TensorTrait;
-    use orion::helpers::tensor::fixed_point::fp8x23::{
+    use orion::test_helper::tensor::fixed_point::fp8x23::{
         fp_tensor_1x3_helper, fp_tensor_2x2_helper, fp_tensor_3x2x2_neg_helper,
         fp_tensor_1x3_neg_helper, fp_tensor_2x2x2_helper
     };

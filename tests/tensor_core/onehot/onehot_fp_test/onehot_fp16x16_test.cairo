@@ -11,7 +11,7 @@ mod tensor_1D {
     use orion::numbers::fixed_point::core::{FixedTrait};
     use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16, FP16x16PartialEq};
     use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16Tensor;
-    use orion::helpers::tensor::fixed_point::fp16x16::{
+    use orion::test_helper::tensor::fixed_point::fp16x16::{
         fp_tensor_1x3_helper, fp_tensor_2x2_helper, fp_tensor_3x2x2_neg_helper,
         fp_tensor_1x3_neg_helper, fp_tensor_2x2x2_helper
     };

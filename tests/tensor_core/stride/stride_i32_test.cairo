@@ -7,7 +7,7 @@ mod tensor_1D {
 
     use orion::operators::tensor::I32Tensor;
     use orion::operators::tensor::core::{TensorTrait};
-    use orion::helpers::tensor::i32::i32_tensor_1x3_helper;
+    use orion::test_helper::tensor::i32::i32_tensor_1x3_helper;
 
 
     #[test]
@@ -29,7 +29,7 @@ mod tensor_2D {
 
     use orion::operators::tensor::I32Tensor;
     use orion::operators::tensor::core::{TensorTrait};
-    use orion::helpers::tensor::i32::i32_tensor_2x2_helper;
+    use orion::test_helper::tensor::i32::i32_tensor_2x2_helper;
 
 
     #[test]
@@ -52,7 +52,7 @@ mod tensor_3D {
 
     use orion::operators::tensor::I32Tensor;
     use orion::operators::tensor::core::{TensorTrait};
-    use orion::helpers::tensor::i32::i32_tensor_2x2x2_helper;
+    use orion::test_helper::tensor::i32::i32_tensor_2x2x2_helper;
 
 
     #[test]
