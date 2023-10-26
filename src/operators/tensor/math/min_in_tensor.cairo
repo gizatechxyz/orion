@@ -3,7 +3,7 @@ use option::OptionTrait;
 
 use orion::numbers::NumberTrait;
 
-/// Cf: TensorTrait::min docstring
+/// Cf: TensorTrait::min_in_tensor docstring
 fn min_in_tensor<
     T,
     MAG,
