@@ -24,6 +24,10 @@ impl U32Tensor of TensorTrait<u32> {
         math::min_in_tensor::min_in_tensor::<u32, u32>(*self.data)
     }
 
+    fn min(tensors: Span<Tensor<u32>>) -> Tensor<u32> {
+        math::min::min(tensors)
+    }
+
     fn max(self: @Tensor<u32>) -> u32 {
         math::max::max_in_tensor(*self.data)
     }

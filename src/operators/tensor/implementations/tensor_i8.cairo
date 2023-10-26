@@ -24,6 +24,10 @@ impl I8Tensor of TensorTrait<i8> {
         math::min_in_tensor::min_in_tensor::<i8, u8>(*self.data)
     }
 
+    fn min(tensors: Span<Tensor<i8>>) -> Tensor<i8> {
+        math::min::min(tensors)
+    }
+
     fn max(self: @Tensor<i8>) -> i8 {
         math::max::max_in_tensor(*self.data)
     }

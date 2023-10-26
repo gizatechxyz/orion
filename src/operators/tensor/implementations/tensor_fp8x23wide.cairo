@@ -24,6 +24,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::min_in_tensor::min_in_tensor::<FP8x23W, u64>(*self.data)
     }
 
+    fn min(tensors: Span<Tensor<FP8x23W>>) -> Tensor<FP8x23W> {
+        math::min::min(tensors)
+    }
+
     fn max(self: @Tensor<FP8x23W>) -> FP8x23W {
         math::max::max_in_tensor(*self.data)
     }

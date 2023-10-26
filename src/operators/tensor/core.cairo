@@ -219,6 +219,7 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn min_in_tensor(self: @Tensor<T>) -> T;
+    fn min(tensors: Span<Tensor<T>>) -> Tensor<T>;
     /// # tensor.max
     ///
     /// ```rust 
