@@ -46,40 +46,46 @@ fn and(a: FP16x16W, b: FP16x16W) -> bool {
 
 // Tests --------------------------------------------------------------------------------------------------------------
 
-#[test]
-fn test_max() {
-    let a = FixedTrait::new_unscaled(1, false);
-    let b = FixedTrait::new_unscaled(0, false);
-    let c = FixedTrait::new_unscaled(1, true);
+#[cfg(test)]
+mod tests {
+    use super::{FixedTrait, max, min};
 
-    assert(max(a, a) == a, 'max(a, a)');
-    assert(max(a, b) == a, 'max(a, b)');
-    assert(max(a, c) == a, 'max(a, c)');
 
-    assert(max(b, a) == a, 'max(b, a)');
-    assert(max(b, b) == b, 'max(b, b)');
-    assert(max(b, c) == b, 'max(b, c)');
+    #[test]
+    fn test_max() {
+        let a = FixedTrait::new_unscaled(1, false);
+        let b = FixedTrait::new_unscaled(0, false);
+        let c = FixedTrait::new_unscaled(1, true);
 
-    assert(max(c, a) == a, 'max(c, a)');
-    assert(max(c, b) == b, 'max(c, b)');
-    assert(max(c, c) == c, 'max(c, c)');
-}
+        assert(max(a, a) == a, 'max(a, a)');
+        assert(max(a, b) == a, 'max(a, b)');
+        assert(max(a, c) == a, 'max(a, c)');
 
-#[test]
-fn test_min() {
-    let a = FixedTrait::new_unscaled(1, false);
-    let b = FixedTrait::new_unscaled(0, false);
-    let c = FixedTrait::new_unscaled(1, true);
+        assert(max(b, a) == a, 'max(b, a)');
+        assert(max(b, b) == b, 'max(b, b)');
+        assert(max(b, c) == b, 'max(b, c)');
 
-    assert(min(a, a) == a, 'min(a, a)');
-    assert(min(a, b) == b, 'min(a, b)');
-    assert(min(a, c) == c, 'min(a, c)');
+        assert(max(c, a) == a, 'max(c, a)');
+        assert(max(c, b) == b, 'max(c, b)');
+        assert(max(c, c) == c, 'max(c, c)');
+    }
 
-    assert(min(b, a) == b, 'min(b, a)');
-    assert(min(b, b) == b, 'min(b, b)');
-    assert(min(b, c) == c, 'min(b, c)');
+    #[test]
+    fn test_min() {
+        let a = FixedTrait::new_unscaled(1, false);
+        let b = FixedTrait::new_unscaled(0, false);
+        let c = FixedTrait::new_unscaled(1, true);
 
-    assert(min(c, a) == c, 'min(c, a)');
-    assert(min(c, b) == c, 'min(c, b)');
-    assert(min(c, c) == c, 'min(c, c)');
+        assert(min(a, a) == a, 'min(a, a)');
+        assert(min(a, b) == b, 'min(a, b)');
+        assert(min(a, c) == c, 'min(a, c)');
+
+        assert(min(b, a) == b, 'min(b, a)');
+        assert(min(b, b) == b, 'min(b, b)');
+        assert(min(b, c) == c, 'min(b, c)');
+
+        assert(min(c, a) == c, 'min(c, a)');
+        assert(min(c, b) == c, 'min(c, b)');
+        assert(min(c, c) == c, 'min(c, c)');
+    }
 }

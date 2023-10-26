@@ -339,12 +339,6 @@ impl FP8x23TensorPartialEq of PartialEq<Tensor<FP8x23>> {
     }
 }
 
-impl U32TryIntoU32 of TryInto<u32, u32> {
-    fn try_into(self: u32) -> Option<u32> {
-        Option::Some(self)
-    }
-}
-
 impl TensorI8IntoTensorFP8x23 of Into<Tensor<i8>, Tensor<FP8x23>> {
     fn into(self: Tensor<i8>) -> Tensor<FP8x23> {
         tensor_i8_to_tensor_fp8x23(@self)

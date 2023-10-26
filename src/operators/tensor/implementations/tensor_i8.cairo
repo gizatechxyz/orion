@@ -313,12 +313,6 @@ impl I8TensorPartialEq of PartialEq<Tensor<i8>> {
     }
 }
 
-impl I8TryIntoI8 of TryInto<i8, i8> {
-    fn try_into(self: i8) -> Option<i8> {
-        Option::Some(self)
-    }
-}
-
 // Internals
 
 fn tensor_eq(mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,) -> bool {

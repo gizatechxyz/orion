@@ -45,10 +45,17 @@ fn atanh(a: FP16x16W) -> FP16x16W {
 
 // Tests --------------------------------------------------------------------------------------------------------------
 
+#[cfg(test)]
+mod tests {
+
+
 use option::OptionTrait;
 use traits::Into;
 
 use orion::numbers::fixed_point::implementations::fp16x16wide::helpers::assert_precise;
+
+    use super::{FixedTrait, TWO, cosh, ONE, sinh, tanh, acosh, asinh, atanh, HALF};
+
 
 #[test]
 #[available_gas(10000000)]
@@ -156,4 +163,6 @@ fn test_atanh() {
 
     let a = FixedTrait::new(58982, true); // 0.9
     assert_precise(atanh(a), -96483, 'invalid -0.9', Option::None(())); // 1.36892147623689
+}
+
 }

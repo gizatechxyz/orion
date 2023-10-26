@@ -292,10 +292,19 @@ fn sign(a: FP16x16W) -> FP16x16W {
 
 // Tests --------------------------------------------------------------------------------------------------------------
 
+#[cfg(test)]
+mod tests {
+
+
 use orion::numbers::fixed_point::implementations::fp16x16wide::helpers::{
     assert_precise, assert_relative
 };
 use orion::numbers::fixed_point::implementations::fp16x16wide::math::trig::{PI, HALF_PI};
+
+    use super::{
+        FixedTrait, ONE, FP16x16W, ceil, floor, sqrt, round, lut, pow, exp, exp2, exp2_int, ln, log2,
+        log10, eq, add, ne, HALF
+    };
 
 #[test]
 fn test_into() {
@@ -656,4 +665,6 @@ fn test_sign() {
 fn test_sign_fail() {
     let a = FixedTrait::<FP16x16W>::new(HALF, true);
     assert(a.sign().mag != ONE && !a.sign().sign, 'invalid sign (HALF, true)');
+}
+
 }

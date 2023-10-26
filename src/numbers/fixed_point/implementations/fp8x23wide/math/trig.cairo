@@ -203,11 +203,20 @@ fn _sin_loop(a: FP8x23W, i: u64, acc: FP8x23W) -> FP8x23W {
 
 // Tests --------------------------------------------------------------------------------------------------------------
 
+#[cfg(test)]
+mod tests {
+
+
 use traits::Into;
 
 use orion::numbers::fixed_point::implementations::fp8x23wide::helpers::{
     assert_precise, assert_relative
 };
+
+    use super::{
+        FixedTrait, acos, HALF_PI, ONE, acos_fast, PI, atan_fast, atan, asin, cos, cos_fast, sin,
+        sin_fast, tan
+    };
 
 #[test]
 #[available_gas(3000000)]
@@ -445,4 +454,6 @@ fn test_tan() {
 
     let a = FixedTrait::new_unscaled(17, true);
     assert_precise(tan(a), -29309106, 'invalid -17', Option::None(())); // -3.493917677159002
+}
+
 }
