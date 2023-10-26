@@ -242,6 +242,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         core::identity(self)
     }
 
+    fn where(self: @Tensor<FP8x23W>, x: @Tensor<FP8x23W>, y: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
+        math::where::where(self, x, y)
+    }
+
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.
