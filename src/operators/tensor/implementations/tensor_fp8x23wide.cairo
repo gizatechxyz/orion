@@ -241,7 +241,6 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn identity(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         core::identity(self)
     }
-
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

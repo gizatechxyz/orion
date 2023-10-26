@@ -1,5 +1,5 @@
-mod input_0; 
-mod output_0; 
+mod input_0;
+mod output_0;
 
 use array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::TensorTrait;
@@ -14,6 +14,6 @@ fn test_identity_fP16x16() {
     let z = output_0::output_0();
 
     let y = input_0.identity();
-    
+
     assert_eq(y, z);
 }

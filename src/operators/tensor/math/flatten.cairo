@@ -21,9 +21,7 @@ fn flatten<T, impl TTensorTrait: TensorTrait<T>>(self: @Tensor<T>, axis: usize) 
                 new_shape_first_axis *= *val;
                 index += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 

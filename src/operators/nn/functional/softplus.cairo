@@ -30,9 +30,7 @@ fn softplus<
                 let result = (FixedTrait::ONE() + (*item).exp()).ln();
                 data_result.append(result);
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 

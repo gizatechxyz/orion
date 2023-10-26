@@ -32,9 +32,7 @@ fn hard_sigmoid<
                 let result = temp.min(NumberTrait::one()).max(NumberTrait::zero());
                 data_result.append(result);
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 

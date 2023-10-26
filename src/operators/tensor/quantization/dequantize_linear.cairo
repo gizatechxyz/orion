@@ -72,9 +72,7 @@ fn dequantize_element_wise<
                 let dequantized = dequantize(*item, x_scale, x_zero_point);
                 result_data.append(dequantized);
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 

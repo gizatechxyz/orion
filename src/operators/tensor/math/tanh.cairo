@@ -23,12 +23,8 @@ fn tanh<
 
     loop {
         match self.data.pop_front() {
-            Option::Some(item) => {
-                result.append((*item).tanh());
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(item) => { result.append((*item).tanh()); },
+            Option::None(_) => { break; }
         };
     };
 

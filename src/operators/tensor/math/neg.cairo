@@ -19,12 +19,8 @@ fn neg<
     let mut data_result = ArrayTrait::<T>::new();
     loop {
         match z.data.pop_front() {
-            Option::Some(item) => {
-                data_result.append((*item).neg());
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(item) => { data_result.append((*item).neg()); },
+            Option::None(_) => { break; }
         };
     };
 

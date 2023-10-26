@@ -1,6 +1,6 @@
-mod input_0; 
-mod input_1; 
-mod output_0; 
+mod input_0;
+mod input_1;
+mod output_0;
 
 
 use array::{ArrayTrait, SpanTrait};

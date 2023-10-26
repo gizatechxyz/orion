@@ -73,9 +73,7 @@ fn predict<
                 let mut tree = *tree;
                 sum_prediction += tree.predict(features) * *weights.pop_front().unwrap()
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 

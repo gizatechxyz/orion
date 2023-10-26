@@ -48,7 +48,6 @@ fn and(a: FP8x23, b: FP8x23) -> bool {
 
 #[cfg(test)]
 mod tests {
-
     use super::{FixedTrait, max, min};
 
     #[test]
