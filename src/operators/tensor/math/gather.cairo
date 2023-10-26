@@ -37,12 +37,8 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
                     let mut indices_shape = indices.shape;
                     loop {
                         match indices_shape.pop_front() {
-                            Option::Some(item) => {
-                                output_size.append(*item);
-                            },
-                            Option::None(_) => {
-                                break;
-                            }
+                            Option::Some(item) => { output_size.append(*item); },
+                            Option::None(_) => { break; }
                         };
                     };
                 } else {
@@ -50,9 +46,7 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
                 }
                 i += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -72,9 +66,7 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
                 divisor /= *val;
                 i += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -88,9 +80,7 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
                 }
                 break_loop *= *val;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -118,9 +108,7 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
                         inner_loop += 1;
                     }
                 },
-                Option::None(_) => {
-                    break;
-                },
+                Option::None(_) => { break; },
             };
         };
 

@@ -235,11 +235,10 @@ impl I8Tensor of TensorTrait<i8> {
     fn and(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         math::and::and(self, other)
     }
-    
+
     fn identity(self: @Tensor<i8>) -> Tensor<i8> {
         core::identity(self)
     }
-
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
@@ -310,12 +309,6 @@ impl I8TensorPartialEq of PartialEq<Tensor<i8>> {
 
     fn ne(lhs: @Tensor<i8>, rhs: @Tensor<i8>) -> bool {
         !tensor_eq(*lhs, *rhs)
-    }
-}
-
-impl I8TryIntoI8 of TryInto<i8, i8> {
-    fn try_into(self: i8) -> Option<i8> {
-        Option::Some(self)
     }
 }
 

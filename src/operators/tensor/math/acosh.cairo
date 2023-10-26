@@ -22,12 +22,8 @@ fn acosh<
 
     loop {
         match self.data.pop_front() {
-            Option::Some(item) => {
-                result.append((*item).acosh());
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(item) => { result.append((*item).acosh()); },
+            Option::None(_) => { break; }
         };
     };
 

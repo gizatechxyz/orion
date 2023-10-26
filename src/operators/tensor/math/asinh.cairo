@@ -23,12 +23,8 @@ fn asinh<
 
     loop {
         match self.data.pop_front() {
-            Option::Some(item) => {
-                result.append((*item).asinh());
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(item) => { result.append((*item).asinh()); },
+            Option::None(_) => { break; }
         };
     };
 

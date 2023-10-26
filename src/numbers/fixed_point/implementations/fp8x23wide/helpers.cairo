@@ -23,7 +23,9 @@ fn assert_precise(result: FP8x23W, expected: felt252, msg: felt252, custom_preci
     }
 }
 
-fn assert_relative(result: FP8x23W, expected: felt252, msg: felt252, custom_precision: Option<u64>) {
+fn assert_relative(
+    result: FP8x23W, expected: felt252, msg: felt252, custom_precision: Option<u64>
+) {
     let precision = match custom_precision {
         Option::Some(val) => val,
         Option::None(_) => DEFAULT_PRECISION,

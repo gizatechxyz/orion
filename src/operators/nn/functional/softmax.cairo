@@ -6,7 +6,6 @@ use orion::numbers::fixed_point::core::FixedTrait;
 fn softmax<
     T,
     impl TTensor: TensorTrait<T>,
-    impl TTensor: TensorTrait<T>,
     impl TTensorDiv: Div<Tensor<T>>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,

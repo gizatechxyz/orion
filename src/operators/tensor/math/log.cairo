@@ -23,12 +23,8 @@ fn log<
 
     loop {
         match self.data.pop_front() {
-            Option::Some(item) => {
-                result.append((*item).ln());
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(item) => { result.append((*item).ln()); },
+            Option::None(_) => { break; }
         };
     };
 

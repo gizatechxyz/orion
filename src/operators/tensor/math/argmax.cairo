@@ -56,9 +56,9 @@ fn argmax<
         };
     };
 
-    return TensorTrait::<usize>::new(
-        reduce_output_shape(*self.shape, axis, keepdims), output_data.span()
-    );
+    return TensorTrait::<
+        usize
+    >::new(reduce_output_shape(*self.shape, axis, keepdims), output_data.span());
 }
 
 /// Helper function that finds the index of the maximum value in a flat tensor.
@@ -89,9 +89,9 @@ fn find_argmax_1D<
     let mut max = match input.data.pop_front() {
         Option::Some(item) => *item,
         Option::None(_) => {
-            return TensorTrait::<usize>::new(
-                reduce_output_shape(input.shape, axis, keepdims), output_data.span()
-            );
+            return TensorTrait::<
+                usize
+            >::new(reduce_output_shape(input.shape, axis, keepdims), output_data.span());
         }
     };
     let mut max_index = 0;
@@ -111,17 +111,15 @@ fn find_argmax_1D<
                     }
                 };
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
     output_data.append(max_index);
 
-    return TensorTrait::<usize>::new(
-        reduce_output_shape(input.shape, axis, keepdims), output_data.span()
-    );
+    return TensorTrait::<
+        usize
+    >::new(reduce_output_shape(input.shape, axis, keepdims), output_data.span());
 }
 
 
