@@ -23,12 +23,8 @@ fn cos<
 
     loop {
         match self.data.pop_front() {
-            Option::Some(item) => {
-                result.append((*item).cos());
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(item) => { result.append((*item).cos()); },
+            Option::None(_) => { break; }
         };
     };
 

@@ -2748,7 +2748,7 @@ trait TensorTrait<T> {
     /// >>> [[1 2] [3 4]] // A Tensor with the same shape and contents as input
     /// ```
     ///
-    fn identity(self: @Tensor<T>) -> Tensor<T>;    
+    fn identity(self: @Tensor<T>) -> Tensor<T>;
     /// #tensor.and
     ///
     /// ```rust
@@ -2891,9 +2891,7 @@ fn ravel_index(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
 
                 stride *= *i;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -2918,9 +2916,7 @@ fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
 
                 result.append(coord);
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -2941,21 +2937,15 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
                 temp_result.append(accumulated);
                 accumulated *= *i;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
     let mut temp_result = temp_result.span();
     loop {
         match temp_result.pop_back() {
-            Option::Some(val) => {
-                result.append(*val);
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(val) => { result.append(*val); },
+            Option::None(_) => { break; }
         };
     };
 
@@ -3107,9 +3097,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
 
                 i += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -3150,9 +3138,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
                                 break ();
                             }
                         },
-                        Option::None(_) => {
-                            break;
-                        }
+                        Option::None(_) => { break; }
                     };
                 };
 
@@ -3162,9 +3148,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
 
                 j += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -3201,17 +3185,13 @@ fn nonzero<
                                 indexes_of_dimensions.append(*indices.at(i));
                                 i += 1;
                             },
-                            Option::None(_) => {
-                                break ();
-                            }
+                            Option::None(_) => { break (); }
                         };
                     };
                 }
                 j += 1;
             },
-            Option::None(_) => {
-                break ();
-            }
+            Option::None(_) => { break (); }
         };
     };
 
@@ -3219,9 +3199,9 @@ fn nonzero<
     let mut output_data: Array<usize> = ArrayTrait::new();
 
     if indexes_of_dimensions_span.len() == 0 {
-        return Tensor::<usize> {
-            shape: array![(*self.shape).len(), 0].span(), data: output_data.span()
-        };
+        return Tensor::<
+            usize
+        > { shape: array![(*self.shape).len(), 0].span(), data: output_data.span() };
     }
 
     let stop_k = (indexes_of_dimensions_span.len() / (*self.shape).len()) - 1;
@@ -3243,15 +3223,13 @@ fn nonzero<
                 };
                 i += 1;
             },
-            Option::None(_) => {
-                break ();
-            }
+            Option::None(_) => { break (); }
         };
     };
 
-    return Tensor::<usize> {
-        shape: array![(*self.shape).len(), stop_k + 1].span(), data: output_data.span()
-    };
+    return Tensor::<
+        usize
+    > { shape: array![(*self.shape).len(), stop_k + 1].span(), data: output_data.span() };
 }
 
 /// Cf: TensorTrait::squeeze docstring
@@ -3288,17 +3266,13 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
                                         reshape.append(*shape);
                                     }
                                 },
-                                Option::None(_) => {
-                                    break;
-                                },
+                                Option::None(_) => { break; },
                             };
                             index += 1;
                         };
                         shape = reshape.span();
                     },
-                    Option::None(_) => {
-                        break shape;
-                    },
+                    Option::None(_) => { break shape; },
                 };
             }
         },
@@ -3307,14 +3281,10 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
             let mut shape = *self.shape;
             loop {
                 match shape.pop_front() {
-                    Option::Some(shape) => {
-                        if *shape != 1 {
-                            reshape.append(*shape);
-                        }
-                    },
-                    Option::None(_) => {
-                        break reshape.span();
-                    },
+                    Option::Some(shape) => { if *shape != 1 {
+                        reshape.append(*shape);
+                    } },
+                    Option::None(_) => { break reshape.span(); },
                 };
             }
         },
@@ -3341,9 +3311,7 @@ fn unsqueeze<T>(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T> {
                     output_shape.append(*val);
                     i += 1;
                 },
-                Option::None(_) => {
-                    break ();
-                }
+                Option::None(_) => { break (); }
             };
         };
     };
@@ -3409,15 +3377,11 @@ fn clip<
 ) -> Tensor<T> {
     let min = match min {
         Option::Some(min) => min,
-        Option::None(_) => {
-            NumberTrait::min_value()
-        },
+        Option::None(_) => { NumberTrait::min_value() },
     };
     let max = match max {
         Option::Some(max) => max,
-        Option::None(_) => {
-            NumberTrait::max_value()
-        },
+        Option::None(_) => { NumberTrait::max_value() },
     };
 
     let mut return_data: Array<T> = ArrayTrait::new();
@@ -3434,9 +3398,7 @@ fn clip<
                     return_data.append(*val);
                 }
             },
-            Option::None(_) => {
-                break ();
-            }
+            Option::None(_) => { break (); }
         };
     };
 
@@ -3444,9 +3406,6 @@ fn clip<
 }
 
 /// Cf: TensorTrait::identity docstring
-fn identity<T>
-(
-    self: @Tensor<T>
-) -> Tensor<T> {
+fn identity<T>(self: @Tensor<T>) -> Tensor<T> {
     Tensor::<T> { shape: *self.shape, data: *self.data }
 }

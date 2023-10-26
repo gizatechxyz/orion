@@ -236,7 +236,7 @@ impl I32Tensor of TensorTrait<i32> {
     fn and(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
         math::and::and(self, other)
     }
-    
+
     fn identity(self: @Tensor<i32>) -> Tensor<i32> {
         core::identity(self)
     }
