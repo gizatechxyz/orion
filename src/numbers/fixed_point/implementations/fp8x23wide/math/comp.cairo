@@ -44,6 +44,14 @@ fn and(a: FP8x23W, b: FP8x23W) -> bool {
     }
 }
 
+fn where(a: FP8x23W, b: FP8x23W, c: FP8x23W) -> FP8x23W {
+    if a == FixedTrait::new(0, false) {
+        return c;
+    } else {
+        return b;
+    }
+}
+
 // Tests --------------------------------------------------------------------------------------------------------------
 
 #[cfg(test)]

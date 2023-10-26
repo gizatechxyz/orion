@@ -241,6 +241,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn identity(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         core::identity(self)
     }
+
+    fn where(self: @Tensor<FP16x16>, x: @Tensor<FP16x16>, y: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::where::where(self, x, y)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

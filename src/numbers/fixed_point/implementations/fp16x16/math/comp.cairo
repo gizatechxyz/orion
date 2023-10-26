@@ -44,6 +44,14 @@ fn and(a: FP16x16, b: FP16x16) -> bool {
     }
 }
 
+fn where(a: FP16x16, b: FP16x16, c: FP16x16) -> FP16x16 {
+    if a == FixedTrait::new(0, false) {
+        return c;
+    } else {
+        return b;
+    }
+}
+
 // Tests --------------------------------------------------------------------------------------------------------------
 
 #[cfg(test)]
