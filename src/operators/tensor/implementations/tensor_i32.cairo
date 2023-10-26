@@ -244,7 +244,6 @@ impl I32Tensor of TensorTrait<i32> {
     fn where(self: @Tensor<i32>, x: @Tensor<i32>, y: @Tensor<i32>) -> Tensor<i32> {
         math::where::where(self, x, y)
     }
-
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

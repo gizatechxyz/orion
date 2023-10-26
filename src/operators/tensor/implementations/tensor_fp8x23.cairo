@@ -241,11 +241,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn identity(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         core::identity(self)
     }
-    
+
     fn where(self: @Tensor<FP8x23>, x: @Tensor<FP8x23>, y: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::where::where(self, x, y)
     }
-
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

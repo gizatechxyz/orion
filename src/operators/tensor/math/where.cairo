@@ -33,7 +33,9 @@ fn where<
         let indices_x = broadcast_index_mapping(*x.shape, indices_broadcasted);
         let indices_y = broadcast_index_mapping(*y.shape, indices_broadcasted);
 
-        let res = NumberTrait::where(*(*self.data)[indices_cond], *(*x.data)[indices_x], *(*y.data)[indices_y]);
+        let res = NumberTrait::where(
+            *(*self.data)[indices_cond], *(*x.data)[indices_x], *(*y.data)[indices_y]
+        );
         result.append(res);
 
         n += 1;
