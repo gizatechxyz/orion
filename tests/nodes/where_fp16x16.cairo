@@ -1,7 +1,7 @@
-mod input_0; 
-mod input_1; 
-mod input_2; 
-mod output_0; 
+mod input_0;
+mod input_1;
+mod input_2;
+mod output_0;
 
 
 use array::{ArrayTrait, SpanTrait};
@@ -18,7 +18,7 @@ fn test_where_fp16x16() {
     let input_2 = input_2::input_2();
     let z = output_0::output_0();
 
-    let y = input_0.where(@input_1,@input_2);
+    let y = input_0.where(@input_1, @input_2);
 
     assert_eq(y, z);
 }
