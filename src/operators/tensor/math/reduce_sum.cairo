@@ -100,12 +100,8 @@ fn accumulate_sum<
     } else {
         loop {
             match input_data.pop_front() {
-                Option::Some(item) => {
-                    acc += *item;
-                },
-                Option::None(_) => {
-                    break;
-                }
+                Option::Some(item) => { acc += *item; },
+                Option::None(_) => { break; }
             };
         };
     }

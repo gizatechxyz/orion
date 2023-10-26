@@ -26,3 +26,11 @@ fn and(a: FP64x64, b: FP64x64) -> bool {
         return true;
     }
 }
+
+fn where(a: FP64x64, b: FP64x64, c: FP64x64) -> FP64x64 {
+    if a == FixedTrait::new(0, false) {
+        return c;
+    } else {
+        return b;
+    }
+}

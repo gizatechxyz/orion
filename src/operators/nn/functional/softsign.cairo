@@ -30,9 +30,7 @@ fn softsign<
                 let result = *item / (FixedTrait::ONE() + (*item).abs());
                 data_result.append(result);
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 

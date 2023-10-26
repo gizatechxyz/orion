@@ -292,368 +292,376 @@ fn sign(a: FP16x16) -> FP16x16 {
 
 // Tests --------------------------------------------------------------------------------------------------------------
 
-use orion::numbers::fixed_point::implementations::fp16x16::helpers::{
-    assert_precise, assert_relative
-};
-use orion::numbers::fixed_point::implementations::fp16x16::math::trig::{PI, HALF_PI};
+#[cfg(test)]
+mod tests {
+    use orion::numbers::fixed_point::implementations::fp16x16::helpers::{
+        assert_precise, assert_relative
+    };
+    use orion::numbers::fixed_point::implementations::fp16x16::math::trig::{PI, HALF_PI};
 
-#[test]
-fn test_into() {
-    let a = FixedTrait::<FP16x16>::new_unscaled(5, false);
-    assert(a.mag == 5 * ONE, 'invalid result');
-}
+    use super::{
+        FixedTrait, ONE, FP16x16, ceil, floor, sqrt, round, lut, pow, exp, exp2, exp2_int, ln, log2,
+        log10, eq, add, ne, HALF
+    };
 
-#[test]
-fn test_try_into_u128() {
-    // Positive unscaled
-    let a = FixedTrait::<FP16x16>::new_unscaled(5, false);
-    assert(a.try_into().unwrap() == 5_u128, 'invalid result');
+    #[test]
+    fn test_into() {
+        let a = FixedTrait::<FP16x16>::new_unscaled(5, false);
+        assert(a.mag == 5 * ONE, 'invalid result');
+    }
 
-    // Positive scaled
-    let b = FixedTrait::<FP16x16>::new(5 * ONE, false);
-    assert(b.try_into().unwrap() == 5_u128, 'invalid result');
+    #[test]
+    fn test_try_into_u128() {
+        // Positive unscaled
+        let a = FixedTrait::<FP16x16>::new_unscaled(5, false);
+        assert(a.try_into().unwrap() == 5_u128, 'invalid result');
 
-    // Zero
-    let d = FixedTrait::<FP16x16>::new_unscaled(0, false);
-    assert(d.try_into().unwrap() == 0_u128, 'invalid result');
-}
+        // Positive scaled
+        let b = FixedTrait::<FP16x16>::new(5 * ONE, false);
+        assert(b.try_into().unwrap() == 5_u128, 'invalid result');
 
-#[test]
-#[should_panic]
-fn test_negative_try_into_u128() {
-    let a = FixedTrait::<FP16x16>::new_unscaled(1, true);
-    let a: u128 = a.try_into().unwrap();
-}
+        // Zero
+        let d = FixedTrait::<FP16x16>::new_unscaled(0, false);
+        assert(d.try_into().unwrap() == 0_u128, 'invalid result');
+    }
 
-#[test]
-#[available_gas(1000000)]
-fn test_acos() {
-    let a = FixedTrait::<FP16x16>::ONE();
-    assert(a.acos().into() == 0, 'invalid one');
-}
+    #[test]
+    #[should_panic]
+    fn test_negative_try_into_u128() {
+        let a = FixedTrait::<FP16x16>::new_unscaled(1, true);
+        let a: u128 = a.try_into().unwrap();
+    }
 
-#[test]
-#[available_gas(1000000)]
-fn test_asin() {
-    let a = FixedTrait::ONE();
-    assert_precise(a.asin(), HALF_PI.into(), 'invalid one', Option::None(())); // PI / 2
-}
+    #[test]
+    #[available_gas(1000000)]
+    fn test_acos() {
+        let a = FixedTrait::<FP16x16>::ONE();
+        assert(a.acos().into() == 0, 'invalid one');
+    }
 
-#[test]
-#[available_gas(2000000)]
-fn test_atan() {
-    let a = FixedTrait::new(2 * ONE, false);
-    assert_relative(a.atan(), 72558, 'invalid two', Option::None(()));
-}
+    #[test]
+    #[available_gas(1000000)]
+    fn test_asin() {
+        let a = FixedTrait::ONE();
+        assert_precise(a.asin(), HALF_PI.into(), 'invalid one', Option::None(())); // PI / 2
+    }
 
-#[test]
-fn test_ceil() {
-    let a = FixedTrait::new(190054, false); // 2.9
-    assert(ceil(a).mag == 3 * ONE, 'invalid pos decimal');
-}
+    #[test]
+    #[available_gas(2000000)]
+    fn test_atan() {
+        let a = FixedTrait::new(2 * ONE, false);
+        assert_relative(a.atan(), 72558, 'invalid two', Option::None(()));
+    }
 
-#[test]
-fn test_floor() {
-    let a = FixedTrait::new(190054, false); // 2.9
-    assert(floor(a).mag == 2 * ONE, 'invalid pos decimal');
-}
+    #[test]
+    fn test_ceil() {
+        let a = FixedTrait::new(190054, false); // 2.9
+        assert(ceil(a).mag == 3 * ONE, 'invalid pos decimal');
+    }
 
-#[test]
-fn test_round() {
-    let a = FixedTrait::new(190054, false); // 2.9
-    assert(round(a).mag == 3 * ONE, 'invalid pos decimal');
-}
+    #[test]
+    fn test_floor() {
+        let a = FixedTrait::new(190054, false); // 2.9
+        assert(floor(a).mag == 2 * ONE, 'invalid pos decimal');
+    }
 
-#[test]
-#[should_panic]
-fn test_sqrt_fail() {
-    let a = FixedTrait::new_unscaled(25, true);
-    sqrt(a);
-}
+    #[test]
+    fn test_round() {
+        let a = FixedTrait::new(190054, false); // 2.9
+        assert(round(a).mag == 3 * ONE, 'invalid pos decimal');
+    }
 
-#[test]
-fn test_sqrt() {
-    let mut a = FixedTrait::new_unscaled(0, false);
-    assert(sqrt(a).mag == 0, 'invalid zero root');
-    a = FixedTrait::new_unscaled(25, false);
-    assert(sqrt(a).mag == 5 * ONE, 'invalid pos root');
-}
+    #[test]
+    #[should_panic]
+    fn test_sqrt_fail() {
+        let a = FixedTrait::new_unscaled(25, true);
+        sqrt(a);
+    }
+
+    #[test]
+    fn test_sqrt() {
+        let mut a = FixedTrait::new_unscaled(0, false);
+        assert(sqrt(a).mag == 0, 'invalid zero root');
+        a = FixedTrait::new_unscaled(25, false);
+        assert(sqrt(a).mag == 5 * ONE, 'invalid pos root');
+    }
 
 
-#[test]
-#[available_gas(100000)]
-fn test_msb() {
-    let a = FixedTrait::<FP16x16>::new_unscaled(100, false);
-    let (msb, div) = lut::msb(a.mag / ONE);
-    assert(msb == 6, 'invalid msb');
-    assert(div == 64, 'invalid msb ceil');
-}
+    #[test]
+    #[available_gas(100000)]
+    fn test_msb() {
+        let a = FixedTrait::<FP16x16>::new_unscaled(100, false);
+        let (msb, div) = lut::msb(a.mag / ONE);
+        assert(msb == 6, 'invalid msb');
+        assert(div == 64, 'invalid msb ceil');
+    }
 
-#[test]
-#[available_gas(600000)]
-fn test_pow() {
-    let a = FixedTrait::new_unscaled(3, false);
-    let b = FixedTrait::new_unscaled(4, false);
-    assert(pow(a, b).mag == 81 * ONE, 'invalid pos base power');
-}
+    #[test]
+    #[available_gas(600000)]
+    fn test_pow() {
+        let a = FixedTrait::new_unscaled(3, false);
+        let b = FixedTrait::new_unscaled(4, false);
+        assert(pow(a, b).mag == 81 * ONE, 'invalid pos base power');
+    }
 
-#[test]
-#[available_gas(900000)]
-fn test_pow_frac() {
-    let a = FixedTrait::new_unscaled(3, false);
-    let b = FixedTrait::new(32768, false); // 0.5
-    assert_relative(
-        pow(a, b), 113512, 'invalid pos base power', Option::None(())
-    ); // 1.7320508075688772
-}
+    #[test]
+    #[available_gas(900000)]
+    fn test_pow_frac() {
+        let a = FixedTrait::new_unscaled(3, false);
+        let b = FixedTrait::new(32768, false); // 0.5
+        assert_relative(
+            pow(a, b), 113512, 'invalid pos base power', Option::None(())
+        ); // 1.7320508075688772
+    }
 
-#[test]
-#[available_gas(1000000)]
-fn test_exp() {
-    let a = FixedTrait::new_unscaled(2, false);
-    assert_relative(exp(a), 484249, 'invalid exp of 2', Option::None(())); // 7.389056098793725
-}
+    #[test]
+    #[available_gas(1000000)]
+    fn test_exp() {
+        let a = FixedTrait::new_unscaled(2, false);
+        assert_relative(exp(a), 484249, 'invalid exp of 2', Option::None(())); // 7.389056098793725
+    }
 
-#[test]
-#[available_gas(400000)]
-fn test_exp2() {
-    let a = FixedTrait::new_unscaled(5, false);
-    assert(exp2(a).mag == 2097152, 'invalid exp2 of 2');
-}
+    #[test]
+    #[available_gas(400000)]
+    fn test_exp2() {
+        let a = FixedTrait::new_unscaled(5, false);
+        assert(exp2(a).mag == 2097152, 'invalid exp2 of 2');
+    }
 
-#[test]
-#[available_gas(20000)]
-fn test_exp2_int() {
-    assert(exp2_int(5).into() == 2097152, 'invalid exp2 of 2');
-}
+    #[test]
+    #[available_gas(20000)]
+    fn test_exp2_int() {
+        assert(exp2_int(5).into() == 2097152, 'invalid exp2 of 2');
+    }
 
-#[test]
-#[available_gas(1000000)]
-fn test_ln() {
-    let mut a = FixedTrait::new_unscaled(1, false);
-    assert(ln(a).mag == 0, 'invalid ln of 1');
+    #[test]
+    #[available_gas(1000000)]
+    fn test_ln() {
+        let mut a = FixedTrait::new_unscaled(1, false);
+        assert(ln(a).mag == 0, 'invalid ln of 1');
 
-    a = FixedTrait::new(178145, false);
-    assert_relative(ln(a), ONE.into(), 'invalid ln of 2.7...', Option::None(()));
-}
+        a = FixedTrait::new(178145, false);
+        assert_relative(ln(a), ONE.into(), 'invalid ln of 2.7...', Option::None(()));
+    }
 
-#[test]
-#[available_gas(1000000)]
-fn test_log2() {
-    let mut a = FixedTrait::new_unscaled(32, false);
-    assert(log2(a) == FixedTrait::new_unscaled(5, false), 'invalid log2 32');
+    #[test]
+    #[available_gas(1000000)]
+    fn test_log2() {
+        let mut a = FixedTrait::new_unscaled(32, false);
+        assert(log2(a) == FixedTrait::new_unscaled(5, false), 'invalid log2 32');
 
-    a = FixedTrait::new_unscaled(10, false);
-    assert_relative(log2(a), 217706, 'invalid log2 10', Option::None(())); // 3.321928094887362
-}
+        a = FixedTrait::new_unscaled(10, false);
+        assert_relative(log2(a), 217706, 'invalid log2 10', Option::None(())); // 3.321928094887362
+    }
 
-#[test]
-#[available_gas(1000000)]
-fn test_log10() {
-    let a = FixedTrait::new_unscaled(100, false);
-    assert_relative(log10(a), 2 * ONE.into(), 'invalid log10', Option::None(()));
-}
+    #[test]
+    #[available_gas(1000000)]
+    fn test_log10() {
+        let a = FixedTrait::new_unscaled(100, false);
+        assert_relative(log10(a), 2 * ONE.into(), 'invalid log10', Option::None(()));
+    }
 
-#[test]
-fn test_eq() {
-    let a = FixedTrait::new_unscaled(42, false);
-    let b = FixedTrait::new_unscaled(42, false);
-    let c = eq(@a, @b);
-    assert(c == true, 'invalid result');
-}
+    #[test]
+    fn test_eq() {
+        let a = FixedTrait::new_unscaled(42, false);
+        let b = FixedTrait::new_unscaled(42, false);
+        let c = eq(@a, @b);
+        assert(c == true, 'invalid result');
+    }
 
-#[test]
-fn test_ne() {
-    let a = FixedTrait::new_unscaled(42, false);
-    let b = FixedTrait::new_unscaled(42, false);
-    let c = ne(@a, @b);
-    assert(c == false, 'invalid result');
-}
+    #[test]
+    fn test_ne() {
+        let a = FixedTrait::new_unscaled(42, false);
+        let b = FixedTrait::new_unscaled(42, false);
+        let c = ne(@a, @b);
+        assert(c == false, 'invalid result');
+    }
 
-#[test]
-fn test_add() {
-    let a = FixedTrait::new_unscaled(1, false);
-    let b = FixedTrait::new_unscaled(2, false);
-    assert(add(a, b) == FixedTrait::new_unscaled(3, false), 'invalid result');
-}
+    #[test]
+    fn test_add() {
+        let a = FixedTrait::new_unscaled(1, false);
+        let b = FixedTrait::new_unscaled(2, false);
+        assert(add(a, b) == FixedTrait::new_unscaled(3, false), 'invalid result');
+    }
 
-#[test]
-fn test_add_eq() {
-    let mut a = FixedTrait::new_unscaled(1, false);
-    let b = FixedTrait::new_unscaled(2, false);
-    a += b;
-    assert(a == FixedTrait::<FP16x16>::new_unscaled(3, false), 'invalid result');
-}
+    #[test]
+    fn test_add_eq() {
+        let mut a = FixedTrait::new_unscaled(1, false);
+        let b = FixedTrait::new_unscaled(2, false);
+        a += b;
+        assert(a == FixedTrait::<FP16x16>::new_unscaled(3, false), 'invalid result');
+    }
 
-#[test]
-fn test_sub() {
-    let a = FixedTrait::new_unscaled(5, false);
-    let b = FixedTrait::new_unscaled(2, false);
-    let c = a - b;
-    assert(c == FixedTrait::<FP16x16>::new_unscaled(3, false), 'false result invalid');
-}
+    #[test]
+    fn test_sub() {
+        let a = FixedTrait::new_unscaled(5, false);
+        let b = FixedTrait::new_unscaled(2, false);
+        let c = a - b;
+        assert(c == FixedTrait::<FP16x16>::new_unscaled(3, false), 'false result invalid');
+    }
 
-#[test]
-fn test_sub_eq() {
-    let mut a = FixedTrait::new_unscaled(5, false);
-    let b = FixedTrait::new_unscaled(2, false);
-    a -= b;
-    assert(a == FixedTrait::<FP16x16>::new_unscaled(3, false), 'invalid result');
-}
+    #[test]
+    fn test_sub_eq() {
+        let mut a = FixedTrait::new_unscaled(5, false);
+        let b = FixedTrait::new_unscaled(2, false);
+        a -= b;
+        assert(a == FixedTrait::<FP16x16>::new_unscaled(3, false), 'invalid result');
+    }
 
-#[test]
-#[available_gas(100000)]
-fn test_mul_pos() {
-    let a = FP16x16 { mag: 190054, sign: false };
-    let b = FP16x16 { mag: 190054, sign: false };
-    let c = a * b;
-    assert(c.mag == 551155, 'invalid result');
-}
+    #[test]
+    #[available_gas(100000)]
+    fn test_mul_pos() {
+        let a = FP16x16 { mag: 190054, sign: false };
+        let b = FP16x16 { mag: 190054, sign: false };
+        let c = a * b;
+        assert(c.mag == 551155, 'invalid result');
+    }
 
-#[test]
-fn test_mul_neg() {
-    let a = FixedTrait::new_unscaled(5, false);
-    let b = FixedTrait::new_unscaled(2, true);
-    let c = a * b;
-    assert(c == FixedTrait::<FP16x16>::new_unscaled(10, true), 'invalid result');
-}
+    #[test]
+    fn test_mul_neg() {
+        let a = FixedTrait::new_unscaled(5, false);
+        let b = FixedTrait::new_unscaled(2, true);
+        let c = a * b;
+        assert(c == FixedTrait::<FP16x16>::new_unscaled(10, true), 'invalid result');
+    }
 
-#[test]
-fn test_mul_eq() {
-    let mut a = FixedTrait::new_unscaled(5, false);
-    let b = FixedTrait::new_unscaled(2, true);
-    a *= b;
-    assert(a == FixedTrait::<FP16x16>::new_unscaled(10, true), 'invalid result');
-}
+    #[test]
+    fn test_mul_eq() {
+        let mut a = FixedTrait::new_unscaled(5, false);
+        let b = FixedTrait::new_unscaled(2, true);
+        a *= b;
+        assert(a == FixedTrait::<FP16x16>::new_unscaled(10, true), 'invalid result');
+    }
 
-#[test]
-fn test_div() {
-    let a = FixedTrait::new_unscaled(10, false);
-    let b = FixedTrait::<FP16x16>::new(190054, false); // 2.9
-    let c = a / b;
-    assert(c.mag == 225986, 'invalid pos decimal'); // 3.4482758620689653
-}
+    #[test]
+    fn test_div() {
+        let a = FixedTrait::new_unscaled(10, false);
+        let b = FixedTrait::<FP16x16>::new(190054, false); // 2.9
+        let c = a / b;
+        assert(c.mag == 225986, 'invalid pos decimal'); // 3.4482758620689653
+    }
 
-#[test]
-fn test_le() {
-    let a = FixedTrait::new_unscaled(1, false);
-    let b = FixedTrait::new_unscaled(0, false);
-    let c = FixedTrait::<FP16x16>::new_unscaled(1, true);
+    #[test]
+    fn test_le() {
+        let a = FixedTrait::new_unscaled(1, false);
+        let b = FixedTrait::new_unscaled(0, false);
+        let c = FixedTrait::<FP16x16>::new_unscaled(1, true);
 
-    assert(a <= a, 'a <= a');
-    assert(a <= b == false, 'a <= b');
-    assert(a <= c == false, 'a <= c');
+        assert(a <= a, 'a <= a');
+        assert(a <= b == false, 'a <= b');
+        assert(a <= c == false, 'a <= c');
 
-    assert(b <= a, 'b <= a');
-    assert(b <= b, 'b <= b');
-    assert(b <= c == false, 'b <= c');
+        assert(b <= a, 'b <= a');
+        assert(b <= b, 'b <= b');
+        assert(b <= c == false, 'b <= c');
 
-    assert(c <= a, 'c <= a');
-    assert(c <= b, 'c <= b');
-    assert(c <= c, 'c <= c');
-}
+        assert(c <= a, 'c <= a');
+        assert(c <= b, 'c <= b');
+        assert(c <= c, 'c <= c');
+    }
 
-#[test]
-fn test_lt() {
-    let a = FixedTrait::new_unscaled(1, false);
-    let b = FixedTrait::new_unscaled(0, false);
-    let c = FixedTrait::<FP16x16>::new_unscaled(1, true);
+    #[test]
+    fn test_lt() {
+        let a = FixedTrait::new_unscaled(1, false);
+        let b = FixedTrait::new_unscaled(0, false);
+        let c = FixedTrait::<FP16x16>::new_unscaled(1, true);
 
-    assert(a < a == false, 'a < a');
-    assert(a < b == false, 'a < b');
-    assert(a < c == false, 'a < c');
+        assert(a < a == false, 'a < a');
+        assert(a < b == false, 'a < b');
+        assert(a < c == false, 'a < c');
 
-    assert(b < a, 'b < a');
-    assert(b < b == false, 'b < b');
-    assert(b < c == false, 'b < c');
+        assert(b < a, 'b < a');
+        assert(b < b == false, 'b < b');
+        assert(b < c == false, 'b < c');
 
-    assert(c < a, 'c < a');
-    assert(c < b, 'c < b');
-    assert(c < c == false, 'c < c');
-}
+        assert(c < a, 'c < a');
+        assert(c < b, 'c < b');
+        assert(c < c == false, 'c < c');
+    }
 
-#[test]
-fn test_ge() {
-    let a = FixedTrait::new_unscaled(1, false);
-    let b = FixedTrait::new_unscaled(0, false);
-    let c = FixedTrait::<FP16x16>::new_unscaled(1, true);
+    #[test]
+    fn test_ge() {
+        let a = FixedTrait::new_unscaled(1, false);
+        let b = FixedTrait::new_unscaled(0, false);
+        let c = FixedTrait::<FP16x16>::new_unscaled(1, true);
 
-    assert(a >= a, 'a >= a');
-    assert(a >= b, 'a >= b');
-    assert(a >= c, 'a >= c');
+        assert(a >= a, 'a >= a');
+        assert(a >= b, 'a >= b');
+        assert(a >= c, 'a >= c');
 
-    assert(b >= a == false, 'b >= a');
-    assert(b >= b, 'b >= b');
-    assert(b >= c, 'b >= c');
+        assert(b >= a == false, 'b >= a');
+        assert(b >= b, 'b >= b');
+        assert(b >= c, 'b >= c');
 
-    assert(c >= a == false, 'c >= a');
-    assert(c >= b == false, 'c >= b');
-    assert(c >= c, 'c >= c');
-}
+        assert(c >= a == false, 'c >= a');
+        assert(c >= b == false, 'c >= b');
+        assert(c >= c, 'c >= c');
+    }
 
-#[test]
-fn test_gt() {
-    let a = FixedTrait::new_unscaled(1, false);
-    let b = FixedTrait::new_unscaled(0, false);
-    let c = FixedTrait::<FP16x16>::new_unscaled(1, true);
+    #[test]
+    fn test_gt() {
+        let a = FixedTrait::new_unscaled(1, false);
+        let b = FixedTrait::new_unscaled(0, false);
+        let c = FixedTrait::<FP16x16>::new_unscaled(1, true);
 
-    assert(a > a == false, 'a > a');
-    assert(a > b, 'a > b');
-    assert(a > c, 'a > c');
+        assert(a > a == false, 'a > a');
+        assert(a > b, 'a > b');
+        assert(a > c, 'a > c');
 
-    assert(b > a == false, 'b > a');
-    assert(b > b == false, 'b > b');
-    assert(b > c, 'b > c');
+        assert(b > a == false, 'b > a');
+        assert(b > b == false, 'b > b');
+        assert(b > c, 'b > c');
 
-    assert(c > a == false, 'c > a');
-    assert(c > b == false, 'c > b');
-    assert(c > c == false, 'c > c');
-}
+        assert(c > a == false, 'c > a');
+        assert(c > b == false, 'c > b');
+        assert(c > c == false, 'c > c');
+    }
 
-#[test]
-#[available_gas(1000000)]
-fn test_cos() {
-    let a = FixedTrait::<FP16x16>::new(HALF_PI, false);
-    assert(a.cos().into() == 0, 'invalid half pi');
-}
+    #[test]
+    #[available_gas(1000000)]
+    fn test_cos() {
+        let a = FixedTrait::<FP16x16>::new(HALF_PI, false);
+        assert(a.cos().into() == 0, 'invalid half pi');
+    }
 
-#[test]
-#[available_gas(1000000)]
-fn test_sin() {
-    let a = FixedTrait::new(HALF_PI, false);
-    assert_precise(a.sin(), ONE.into(), 'invalid half pi', Option::None(()));
-}
+    #[test]
+    #[available_gas(1000000)]
+    fn test_sin() {
+        let a = FixedTrait::new(HALF_PI, false);
+        assert_precise(a.sin(), ONE.into(), 'invalid half pi', Option::None(()));
+    }
 
-#[test]
-#[available_gas(2000000)]
-fn test_tan() {
-    let a = FixedTrait::<FP16x16>::new(HALF_PI / 2, false);
-    assert(a.tan().mag == 65536, 'invalid quarter pi');
-}
+    #[test]
+    #[available_gas(2000000)]
+    fn test_tan() {
+        let a = FixedTrait::<FP16x16>::new(HALF_PI / 2, false);
+        assert(a.tan().mag == 65536, 'invalid quarter pi');
+    }
 
-#[test]
-#[available_gas(2000000)]
-fn test_sign() {
-    let a = FixedTrait::<FP16x16>::new(0, false);
-    assert(a.sign().mag == 0 && !a.sign().sign, 'invalid sign (0, true)');
+    #[test]
+    #[available_gas(2000000)]
+    fn test_sign() {
+        let a = FixedTrait::<FP16x16>::new(0, false);
+        assert(a.sign().mag == 0 && !a.sign().sign, 'invalid sign (0, true)');
 
-    let a = FixedTrait::<FP16x16>::new(HALF, true);
-    assert(a.sign().mag == ONE && a.sign().sign, 'invalid sign (HALF, true)');
+        let a = FixedTrait::<FP16x16>::new(HALF, true);
+        assert(a.sign().mag == ONE && a.sign().sign, 'invalid sign (HALF, true)');
 
-    let a = FixedTrait::<FP16x16>::new(HALF, false);
-    assert(a.sign().mag == ONE && !a.sign().sign, 'invalid sign (HALF, false)');
+        let a = FixedTrait::<FP16x16>::new(HALF, false);
+        assert(a.sign().mag == ONE && !a.sign().sign, 'invalid sign (HALF, false)');
 
-    let a = FixedTrait::<FP16x16>::new(ONE, true);
-    assert(a.sign().mag == ONE && a.sign().sign, 'invalid sign (ONE, true)');
+        let a = FixedTrait::<FP16x16>::new(ONE, true);
+        assert(a.sign().mag == ONE && a.sign().sign, 'invalid sign (ONE, true)');
 
-    let a = FixedTrait::<FP16x16>::new(ONE, false);
-    assert(a.sign().mag == ONE && !a.sign().sign, 'invalid sign (ONE, false)');
-}
+        let a = FixedTrait::<FP16x16>::new(ONE, false);
+        assert(a.sign().mag == ONE && !a.sign().sign, 'invalid sign (ONE, false)');
+    }
 
-#[test]
-#[should_panic]
-#[available_gas(2000000)]
-fn test_sign_fail() {
-    let a = FixedTrait::<FP16x16>::new(HALF, true);
-    assert(a.sign().mag != ONE && !a.sign().sign, 'invalid sign (HALF, true)');
+    #[test]
+    #[should_panic]
+    #[available_gas(2000000)]
+    fn test_sign_fail() {
+        let a = FixedTrait::<FP16x16>::new(HALF, true);
+        assert(a.sign().mag != ONE && !a.sign().sign, 'invalid sign (HALF, true)');
+    }
 }

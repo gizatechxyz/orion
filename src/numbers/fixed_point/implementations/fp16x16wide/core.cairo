@@ -220,12 +220,8 @@ impl FP16x16IntoFP16x16W of Into<FP16x16, FP16x16W> {
 impl FP16x16WTryIntoFP16x16 of TryInto<FP16x16W, FP16x16> {
     fn try_into(self: FP16x16W) -> Option<FP16x16> {
         match self.mag.try_into() {
-            Option::Some(val) => {
-                Option::Some(FP16x16 { mag: val, sign: self.sign })
-            },
-            Option::None(_) => {
-                Option::None(())
-            }
+            Option::Some(val) => { Option::Some(FP16x16 { mag: val, sign: self.sign }) },
+            Option::None(_) => { Option::None(()) }
         }
     }
 }

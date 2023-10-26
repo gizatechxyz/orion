@@ -237,11 +237,14 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn and(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
         math::and::and(self, other)
     }
-    
+
     fn identity(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         core::identity(self)
     }
 
+    fn where(self: @Tensor<FP16x16>, x: @Tensor<FP16x16>, y: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::where::where(self, x, y)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.
@@ -312,12 +315,6 @@ impl FP16x16TensorPartialEq of PartialEq<Tensor<FP16x16>> {
 
     fn ne(lhs: @Tensor<FP16x16>, rhs: @Tensor<FP16x16>) -> bool {
         !tensor_eq(*lhs, *rhs)
-    }
-}
-
-impl U32TryIntoU32 of TryInto<u32, u32> {
-    fn try_into(self: u32) -> Option<u32> {
-        Option::Some(self)
     }
 }
 
