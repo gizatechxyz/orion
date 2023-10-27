@@ -51,7 +51,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.stride`](tensor.stride.md) | Computes the stride of each dimension in the tensor. |
 | [`tensor.onehot`](tensor.onehot.md) | Produces one-hot tensor based on input. |
 | [`tensor.min`](tensor.min.md) | Returns the minimum value in the tensor. |
-| [`tensor.max`](tensor.max.md) | Returns the maximum value in the tensor. |
+| [`tensor.max_in_tensor`](tensor.max\_in\_tensor.md) | Returns the maximum value in the tensor. |
 | [`tensor.reduce_sum`](tensor.reduce\_sum.md) | Reduces a tensor by summing its elements along a specified axis. |
 | [`tensor.argmax`](tensor.argmax.md) | Returns the index of the maximum value along the specified axis. |
 | [`tensor.argmin`](tensor.argmin.md) | Returns the index of the minimum value along the specified axis. |

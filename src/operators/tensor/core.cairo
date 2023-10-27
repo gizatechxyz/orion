@@ -47,7 +47,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// stride - Computes the stride of each dimension in the tensor.
 /// onehot - Produces one-hot tensor based on input.
 /// min - Returns the minimum value in the tensor.
-/// max - Returns the maximum value in the tensor.
+/// max_in_tensor - Returns the maximum value in the tensor.
 /// reduce_sum - Reduces a tensor by summing its elements along a specified axis.
 /// argmax - Returns the index of the maximum value along the specified axis.
 /// argmin - Returns the index of the minimum value along the specified axis.
@@ -220,10 +220,10 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn min(self: @Tensor<T>) -> T;
-    /// # tensor.max
+    /// # tensor.max_in_tensor
     ///
     /// ```rust 
-    ///    fn max(self: @Tensor<T>) -> T;
+    ///    fn max_in_tensor(self: @Tensor<T>) -> T;
     /// ```
     ///
     /// Returns the maximum value in the tensor.
@@ -243,18 +243,18 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn max_example() -> u32 {
+    /// fn max_in_tensor_example() -> u32 {
     ///     let tensor = TensorTrait::new(
     ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
     ///     );
     /// 
-    ///     // We can call `max` function as follows.
-    ///     return tensor.max();
+    ///     // We can call `max_in_tensor` function as follows.
+    ///     return tensor.max_in_tensor();
     /// }
     /// >>> 7
     /// ```
     /// 
-    fn max(self: @Tensor<T>) -> T;
+    fn max_in_tensor(self: @Tensor<T>) -> T;
     /// # tensor.stride
     ///
     /// ```rust 

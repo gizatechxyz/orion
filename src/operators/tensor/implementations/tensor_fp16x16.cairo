@@ -24,8 +24,8 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::min::min_in_tensor::<FP16x16, u32>(*self.data)
     }
 
-    fn max(self: @Tensor<FP16x16>) -> FP16x16 {
-        math::max::max_in_tensor(*self.data)
+    fn max_in_tensor(self: @Tensor<FP16x16>) -> FP16x16 {
+        math::max_in_tensor::max_in_tensor(*self.data)
     }
 
     fn stride(self: @Tensor<FP16x16>) -> Span<usize> {

@@ -3,7 +3,7 @@ use option::OptionTrait;
 
 use orion::numbers::NumberTrait;
 
-/// Cf: TensorTrait::max docstring
+/// Cf: TensorTrait::max_in_tensor docstring
 fn max_in_tensor<
     T,
     MAG,

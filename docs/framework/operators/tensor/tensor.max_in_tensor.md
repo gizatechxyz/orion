@@ -1,7 +1,7 @@
-# tensor.max
+# tensor.max_in_tensor
 
 ```rust 
-   fn max(self: @Tensor<T>) -> T;
+   fn max_in_tensor(self: @Tensor<T>) -> T;
 ```
 
 Returns the maximum value in the tensor.
@@ -21,13 +21,13 @@ use array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-fn max_example() -> u32 {
+fn max_in_tensor_example() -> u32 {
     let tensor = TensorTrait::new(
         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
     );
 
-    // We can call `max` function as follows.
-    return tensor.max();
+    // We can call `max_in_tensor` function as follows.
+    return tensor.max_in_tensor();
 }
 >>> 7
 ```

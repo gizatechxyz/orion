@@ -25,8 +25,8 @@ impl I32Tensor of TensorTrait<i32> {
         math::min::min_in_tensor::<i32, u32>(*self.data)
     }
 
-    fn max(self: @Tensor<i32>) -> i32 {
-        math::max::max_in_tensor(*self.data)
+    fn max_in_tensor(self: @Tensor<i32>) -> i32 {
+        math::max_in_tensor::max_in_tensor(*self.data)
     }
 
     fn stride(self: @Tensor<i32>) -> Span<usize> {

@@ -24,8 +24,8 @@ impl I8Tensor of TensorTrait<i8> {
         math::min::min_in_tensor::<i8, u8>(*self.data)
     }
 
-    fn max(self: @Tensor<i8>) -> i8 {
-        math::max::max_in_tensor(*self.data)
+    fn max_in_tensor(self: @Tensor<i8>) -> i8 {
+        math::max_in_tensor::max_in_tensor(*self.data)
     }
 
     fn stride(self: @Tensor<i8>) -> Span<usize> {

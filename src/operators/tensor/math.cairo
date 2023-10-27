@@ -1,5 +1,5 @@
 mod min;
-mod max;
+mod max_in_tensor;
 mod reduce_sum;
 mod argmax;
 mod argmin;
