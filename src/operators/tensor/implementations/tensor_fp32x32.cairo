@@ -29,6 +29,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::max_in_tensor::max_in_tensor(*self.data)
     }
 
+    fn max(tensors: Span<Tensor<FP32x32>>) -> Tensor<FP32x32> {
+        math::max::max(tensors)
+    }
+
     fn stride(self: @Tensor<FP32x32>) -> Span<usize> {
         stride(*self.shape)
     }

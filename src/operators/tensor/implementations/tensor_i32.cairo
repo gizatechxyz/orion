@@ -29,6 +29,10 @@ impl I32Tensor of TensorTrait<i32> {
         math::max_in_tensor::max_in_tensor(*self.data)
     }
 
+    fn max(tensors: Span<Tensor<i32>>) -> Tensor<i32> {
+        math::max::max(tensors)
+    }
+
     fn stride(self: @Tensor<i32>) -> Span<usize> {
         stride(*self.shape)
     }

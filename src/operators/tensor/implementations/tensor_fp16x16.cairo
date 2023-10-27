@@ -28,6 +28,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::max_in_tensor::max_in_tensor(*self.data)
     }
 
+    fn max(tensors: Span<Tensor<FP16x16>>) -> Tensor<FP16x16> {
+        math::max::max(tensors)
+    }
+
     fn stride(self: @Tensor<FP16x16>) -> Span<usize> {
         stride(*self.shape)
     }

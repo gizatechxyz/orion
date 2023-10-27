@@ -28,6 +28,10 @@ impl U32Tensor of TensorTrait<u32> {
         math::max_in_tensor::max_in_tensor(*self.data)
     }
 
+    fn max(tensors: Span<Tensor<u32>>) -> Tensor<u32> {
+        math::max::max(tensors)
+    }
+
     fn stride(self: @Tensor<u32>) -> Span<usize> {
         stride(*self.shape)
     }

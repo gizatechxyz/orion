@@ -255,6 +255,7 @@ trait TensorTrait<T> {
     /// ```
     /// 
     fn max_in_tensor(self: @Tensor<T>) -> T;
+    fn max(tensors: Span<Tensor<T>>) -> Tensor<T>;
     /// # tensor.stride
     ///
     /// ```rust 

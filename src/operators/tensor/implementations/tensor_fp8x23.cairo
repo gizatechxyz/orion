@@ -28,6 +28,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::max_in_tensor::max_in_tensor(*self.data)
     }
 
+    fn max(tensors: Span<Tensor<FP8x23>>) -> Tensor<FP8x23> {
+        math::max::max(tensors)
+    }
+
     fn stride(self: @Tensor<FP8x23>) -> Span<usize> {
         stride(*self.shape)
     }
