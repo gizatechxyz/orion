@@ -42,6 +42,7 @@
     * [tensor.at](framework/operators/tensor/tensor.at.md)
     * [tensor.min](framework/operators/tensor/tensor.min.md)
     * [tensor.max\_in\_tensor](framework/operators/tensor/tensor.max\_in\_tensor.md)
+    * [tensor.max](framework/operators/tensor/tensor.max.md)
     * [tensor.stride](framework/operators/tensor/tensor.stride.md)
     * [tensor.ravel\_index](framework/operators/tensor/tensor.ravel\_index.md)
     * [tensor.unravel\_index](framework/operators/tensor/tensor.unravel\_index.md)
