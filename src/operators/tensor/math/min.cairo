@@ -15,7 +15,7 @@ fn min<
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
 >(
-    mut tensors: Span<Tensor<T>>
+    tensors: Span<Tensor<T>>
 ) -> Tensor<T> {
 
     assert(tensors.len() >= 1, 'Input tensors must be >= 1');
