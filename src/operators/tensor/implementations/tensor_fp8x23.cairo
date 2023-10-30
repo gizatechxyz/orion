@@ -245,6 +245,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn where(self: @Tensor<FP8x23>, x: @Tensor<FP8x23>, y: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::where::where(self, x, y)
     }
+
+    fn bitwise_and(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<usize> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

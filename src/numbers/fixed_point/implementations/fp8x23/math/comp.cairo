@@ -52,6 +52,10 @@ fn where(a: FP8x23, b: FP8x23, c: FP8x23) -> FP8x23 {
     }
 }
 
+fn bitwise_and(a: FP8x23, b: FP8x23) -> FP8x23 {
+    return FixedTrait::new(a.mag & b.mag, a.sign & b.sign);
+}
+
 // Tests --------------------------------------------------------------------------------------------------------------
 
 #[cfg(test)]

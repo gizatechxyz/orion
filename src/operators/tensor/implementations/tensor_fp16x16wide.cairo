@@ -255,6 +255,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     ) -> Tensor<FP16x16W> {
         math::where::where(self, x, y)
     }
+
+    fn bitwise_and(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<usize> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.

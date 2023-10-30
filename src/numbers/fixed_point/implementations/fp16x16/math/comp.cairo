@@ -52,6 +52,10 @@ fn where(a: FP16x16, b: FP16x16, c: FP16x16) -> FP16x16 {
     }
 }
 
+fn bitwise_and(a: FP16x16, b: FP16x16) -> FP16x16 {
+    return FixedTrait::new(a.mag & b.mag, a.sign & b.sign);
+}
+
 // Tests --------------------------------------------------------------------------------------------------------------
 
 #[cfg(test)]

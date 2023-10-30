@@ -34,3 +34,7 @@ fn where(a: FP32x32, b: FP32x32, c: FP32x32) -> FP32x32 {
         return b;
     }
 }
+
+fn bitwise_and(a: FP32x32, b: FP32x32) -> FP32x32 {
+    return FixedTrait::new(a.mag & b.mag, a.sign & b.sign);
+}
