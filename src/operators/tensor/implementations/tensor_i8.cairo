@@ -243,6 +243,10 @@ impl I8Tensor of TensorTrait<i8> {
     fn where(self: @Tensor<i8>, x: @Tensor<i8>, y: @Tensor<i8>) -> Tensor<i8> {
         math::where::where(self, x, y)
     }
+
+    fn bitwise_and(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

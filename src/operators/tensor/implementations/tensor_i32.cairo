@@ -244,6 +244,10 @@ impl I32Tensor of TensorTrait<i32> {
     fn where(self: @Tensor<i32>, x: @Tensor<i32>, y: @Tensor<i32>) -> Tensor<i32> {
         math::where::where(self, x, y)
     }
+
+    fn bitwise_and(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.
