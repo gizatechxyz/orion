@@ -100,6 +100,10 @@ impl U32Tensor of TensorTrait<u32> {
         math::abs::abs(*self)
     }
 
+    fn neg(self: @Tensor<u32>) -> Tensor<u32> {
+        math::neg::neg(*self)
+    }
+
     fn ceil(self: @Tensor<u32>) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
@@ -220,6 +224,18 @@ impl U32Tensor of TensorTrait<u32> {
 
     fn clip(self: @Tensor<u32>, min: Option<u32>, max: Option<u32>) -> Tensor<u32> {
         core::clip(self, min, max)
+    }
+
+    fn and(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+        math::and::and(self, other)
+    }
+
+    fn identity(self: @Tensor<u32>) -> Tensor<u32> {
+        core::identity(self)
+    }
+
+    fn where(self: @Tensor<u32>, x: @Tensor<u32>, y: @Tensor<u32>) -> Tensor<u32> {
+        math::where::where(self, x, y)
     }
 }
 

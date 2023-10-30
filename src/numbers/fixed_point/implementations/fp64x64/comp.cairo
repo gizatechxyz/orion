@@ -17,3 +17,20 @@ fn or(a: FP64x64, b: FP64x64) -> bool {
         return true;
     }
 }
+
+fn and(a: FP64x64, b: FP64x64) -> bool {
+    let zero = FixedTrait::new(0, false);
+    if a == zero || b == zero {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+fn where(a: FP64x64, b: FP64x64, c: FP64x64) -> FP64x64 {
+    if a == FixedTrait::new(0, false) {
+        return c;
+    } else {
+        return b;
+    }
+}

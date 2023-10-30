@@ -38,4 +38,24 @@ impl I32NN of NNTrait<i32> {
     fn leaky_relu(inputs: @Tensor<i32>, alpha: @i32) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
+
+    fn thresholded_relu(tensor: @Tensor<i32>, alpha: @i32) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
+    fn hard_sigmoid(tensor: @Tensor<i32>, alpha: @i32, beta: @i32) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
+    fn gemm(
+        A: Tensor<i32>,
+        B: Tensor<i32>,
+        C: Option<Tensor<i32>>,
+        alpha: Option<i32>,
+        beta: Option<i32>,
+        transA: bool,
+        transB: bool
+    ) -> Tensor<i32> {
+        functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
+    }
 }

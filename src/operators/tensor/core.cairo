@@ -56,6 +56,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// exp - Computes the exponential of all elements of the input tensor.
 /// log - Computes the natural log of all elements of the input tensor.
 /// abs - Computes the absolute value of all elements in the input tensor.
+/// neg - Computes the negation of all elements in the input tensor.
 /// ceil - Rounds up the value of each element in the input tensor.
 /// sqrt - Computes the square root of all elements of the input tensor.
 /// sin - Computes the sine of all elements of the input tensor.
@@ -78,6 +79,9 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// unsqueeze - Inserts single-dimensional entries to the shape of an input tensor.
 /// sign - Calculates the sign of the given input tensor element-wise.
 /// clip - Clip operator limits the given input within an interval.
+/// and - Computes the logical AND of two tensors element-wise. 
+/// identity - Return a Tensor with the same shape and contents as input.
+/// where - Return elements chosen from x or y depending on condition.
 ///
 trait TensorTrait<T> {
     /// # tensor.new
@@ -1234,6 +1238,47 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn abs(self: @Tensor<T>) -> Tensor<T>;
+    /// #tensor.neg
+    ///
+    /// ```rust
+    ///     fn neg(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the negation of all elements in the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the negation of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
+    /// use orion::numbers::{i32, IntegerTrait};
+    /// 
+    /// fn neg_example() -> Tensor<i32> {
+    ///     let tensor = TensorTrait::new(
+    ///         shape: array![3].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(1, true), IntegerTrait::new(2, true), IntegerTrait::new(3, false)
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     return tensor.neg();
+    /// }
+    /// >>> [1, 2, -3]
+    /// ```
+    ///
+    fn neg(self: @Tensor<T>) -> Tensor<T>;
     /// #tensor.ceil
     ///
     /// ```rust
@@ -2669,6 +2714,160 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn sign(self: @Tensor<T>) -> Tensor<T>;
+    /// # tensor.identity
+    ///
+    /// ```rust 
+    ///    fn identity(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Return a Tensor with the same shape and contents as input.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - Input tensor.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` to copy input into.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
+    /// 
+    /// fn identity_example() -> Tensor<FP16x16> {
+    ///     let tensor = TensorTrait::<FP16x16>::new(
+    ///         shape: array![2, 2].span(), 
+    ///         data: array![1, 2, 3, 4].span(), 
+    ///     );
+    ///     let t_identity = tensor.identity();
+    ///     t_identity
+    /// }
+    /// >>> [[1 2] [3 4]] // A Tensor with the same shape and contents as input
+    /// ```
+    ///
+    fn identity(self: @Tensor<T>) -> Tensor<T>;
+    /// #tensor.and
+    ///
+    /// ```rust
+    ///     fn and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Computes the logical AND of two tensors element-wise.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn and_example() -> Tensor<usize> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 0, 1, 2, 0, 1, 2].span(),
+    ///     );
+    /// 
+    ///     return tensor_1.and(@tensor_2);
+    /// }
+    /// >>> [0,1,1,0,1,1,0,1,1]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn and_example() -> Tensor<usize> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![1, 3].span(), data: array![0, 1, 2].span(),
+    ///     );
+    /// 
+    ///     return tensor_1.and(@tensor_2);
+    /// }
+    /// >>> [0,1,1,0,1,1,0,1,1]
+    /// ```
+    ///
+    fn and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// #tensor.where
+    ///
+    /// ```rust
+    ///     fn where(self: @Tensor<T>, x: @Tensor<T>, y: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes a new tensor by selecting values from tensor x (resp. y) at
+    /// indices where the condition is 1 (resp. 0).
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The condition tensor
+    /// * `x`(`@Tensor<T>`) - The first input tensor
+    /// * `y`(`@Tensor<T>`) - The second input tensor
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// Return a new `Tensor<T>` of the same shape as the input with elements 
+    /// chosen from x or y depending on the condition.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    ///
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    ///
+    /// fn where_example() -> Tensor<u32> {
+    ///     let tensor_cond = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2].span(), data: array![0, 1, 0, 1].span(),
+    ///     );
+    ///
+    ///     let tensor_x = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2].span(), data: array![2, 4, 6, 8].span(),
+    ///     );
+    ///
+    ///     let tensor_y = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2].span(), data: array![1, 3, 5, 9].span(),
+    ///     );
+    ///
+    ///     return tensor_cond.where(@tensor_1, @tensor_2);
+    /// }
+    /// >>> [1,4,5,8]
+    /// ```
+    ///
+    fn where(self: @Tensor<T>, x: @Tensor<T>, y: @Tensor<T>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring
@@ -2692,9 +2891,7 @@ fn ravel_index(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
 
                 stride *= *i;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -2719,9 +2916,7 @@ fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
 
                 result.append(coord);
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -2742,21 +2937,15 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
                 temp_result.append(accumulated);
                 accumulated *= *i;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
     let mut temp_result = temp_result.span();
     loop {
         match temp_result.pop_back() {
-            Option::Some(val) => {
-                result.append(*val);
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(val) => { result.append(*val); },
+            Option::None(_) => { break; }
         };
     };
 
@@ -2908,9 +3097,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
 
                 i += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -2951,9 +3138,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
                                 break ();
                             }
                         },
-                        Option::None(_) => {
-                            break;
-                        }
+                        Option::None(_) => { break; }
                     };
                 };
 
@@ -2963,9 +3148,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
 
                 j += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -3002,17 +3185,13 @@ fn nonzero<
                                 indexes_of_dimensions.append(*indices.at(i));
                                 i += 1;
                             },
-                            Option::None(_) => {
-                                break ();
-                            }
+                            Option::None(_) => { break (); }
                         };
                     };
                 }
                 j += 1;
             },
-            Option::None(_) => {
-                break ();
-            }
+            Option::None(_) => { break (); }
         };
     };
 
@@ -3020,9 +3199,9 @@ fn nonzero<
     let mut output_data: Array<usize> = ArrayTrait::new();
 
     if indexes_of_dimensions_span.len() == 0 {
-        return Tensor::<usize> {
-            shape: array![(*self.shape).len(), 0].span(), data: output_data.span()
-        };
+        return Tensor::<
+            usize
+        > { shape: array![(*self.shape).len(), 0].span(), data: output_data.span() };
     }
 
     let stop_k = (indexes_of_dimensions_span.len() / (*self.shape).len()) - 1;
@@ -3044,15 +3223,13 @@ fn nonzero<
                 };
                 i += 1;
             },
-            Option::None(_) => {
-                break ();
-            }
+            Option::None(_) => { break (); }
         };
     };
 
-    return Tensor::<usize> {
-        shape: array![(*self.shape).len(), stop_k + 1].span(), data: output_data.span()
-    };
+    return Tensor::<
+        usize
+    > { shape: array![(*self.shape).len(), stop_k + 1].span(), data: output_data.span() };
 }
 
 /// Cf: TensorTrait::squeeze docstring
@@ -3089,17 +3266,13 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
                                         reshape.append(*shape);
                                     }
                                 },
-                                Option::None(_) => {
-                                    break;
-                                },
+                                Option::None(_) => { break; },
                             };
                             index += 1;
                         };
                         shape = reshape.span();
                     },
-                    Option::None(_) => {
-                        break shape;
-                    },
+                    Option::None(_) => { break shape; },
                 };
             }
         },
@@ -3108,14 +3281,10 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
             let mut shape = *self.shape;
             loop {
                 match shape.pop_front() {
-                    Option::Some(shape) => {
-                        if *shape != 1 {
-                            reshape.append(*shape);
-                        }
-                    },
-                    Option::None(_) => {
-                        break reshape.span();
-                    },
+                    Option::Some(shape) => { if *shape != 1 {
+                        reshape.append(*shape);
+                    } },
+                    Option::None(_) => { break reshape.span(); },
                 };
             }
         },
@@ -3142,9 +3311,7 @@ fn unsqueeze<T>(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T> {
                     output_shape.append(*val);
                     i += 1;
                 },
-                Option::None(_) => {
-                    break ();
-                }
+                Option::None(_) => { break (); }
             };
         };
     };
@@ -3210,15 +3377,11 @@ fn clip<
 ) -> Tensor<T> {
     let min = match min {
         Option::Some(min) => min,
-        Option::None(_) => {
-            NumberTrait::min_value()
-        },
+        Option::None(_) => { NumberTrait::min_value() },
     };
     let max = match max {
         Option::Some(max) => max,
-        Option::None(_) => {
-            NumberTrait::max_value()
-        },
+        Option::None(_) => { NumberTrait::max_value() },
     };
 
     let mut return_data: Array<T> = ArrayTrait::new();
@@ -3235,11 +3398,14 @@ fn clip<
                     return_data.append(*val);
                 }
             },
-            Option::None(_) => {
-                break ();
-            }
+            Option::None(_) => { break (); }
         };
     };
 
     return Tensor::<T> { shape: *self.shape, data: return_data.span() };
+}
+
+/// Cf: TensorTrait::identity docstring
+fn identity<T>(self: @Tensor<T>) -> Tensor<T> {
+    Tensor::<T> { shape: *self.shape, data: *self.data }
 }

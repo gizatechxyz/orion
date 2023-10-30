@@ -10,6 +10,9 @@ use orion::operators::tensor::core::Tensor;
 /// softsign - Applies the Softsign function element-wise.
 /// softplus - Applies the Softplus function element-wise.
 /// linear - Performs a linear transformation of the input tensor using the provided weights and bias.
+/// hard_sigmoid - Applies the Hard Sigmoid function to an n-dimensional input tensor.
+/// thresholded_relu - Performs the thresholded relu activation function element-wise.
+/// gemm - Performs General Matrix multiplication.
 trait NNTrait<T> {
     /// # NNTrait::relu
     ///
@@ -451,4 +454,185 @@ trait NNTrait<T> {
     /// ```
     /// 
     fn leaky_relu(inputs: @Tensor<T>, alpha: @T) -> Tensor<T>;
+    /// # NNTrait::hard_sigmoid
+    ///
+    /// ```rust 
+    ///    fn hard_sigmoid(tensor: @Tensor<T>, alpha: @T, beta: @T) -> Tensor<T>;
+    /// ```
+    ///
+    /// Applies the HardSigmoid function to an n-dimensional input tensor.
+    /// 
+    /// $$
+    /// \text{HardSigmoid}(x_i) = \text{max}(0, \text{min}(alpha * x + beta, 1))
+    /// $$
+    /// 
+    /// ## Args
+    ///
+    /// * `tensor`(`@Tensor<T>`) - The input tensor.
+    /// * `alpha`(`@T`) - value of alpha.
+    /// * `beta`(`@T`) - value of beta.
+    ///
+    /// ## Returns
+    ///
+    /// A Tensor of fixed point numbers with the same shape than the input Tensor.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
+    /// use orion::operators::nn::{NNTrait, FP8x23NN};
+    /// use orion::numbers::{FP16x16, FixedTrait};
+    /// 
+    /// fn hard_sigmoid_example() -> Tensor<FP16x16> {
+    ///     let tensor = TensorTrait::<FP16x16>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![
+    ///             FixedTrait::new(0, false),
+    ///             FixedTrait::new(13107, false),
+    ///             FixedTrait::new(32768, false),
+    ///             FixedTrait::new(65536, false),
+    ///         ]
+    ///             .span(),
+    ///     );
+    ///     let alpha = FixedTrait::new(13107, false);
+    ///     let beta = FixedTrait::new(32768, false);
+    /// 
+    ///     return NNTrait::hard_sigmoid(@tensor, @alpha, @beta);
+    /// }
+    /// >>> [[32768, 35389],[39321, 45875]]
+    /// ```
+    ///
+    fn hard_sigmoid(tensor: @Tensor<T>, alpha: @T, beta: @T) -> Tensor<T>;
+    /// # NNTrait::thresholded_relu
+    /// 
+    /// ```rust
+    ///  fn thresholded_relu(tensor: @Tensor<T>, alpha: @T) -> Tensor<T>
+    /// ```
+    ///
+    /// Applies the thresholded rectified linear unit (Thresholded ReLU) activation function element-wise to a given tensor.
+    ///
+    /// The Thresholded ReLU function is defined as f(x) = x if x > alpha, f(x) = 0 otherwise, where x is the input element.
+    ///
+    /// ## Args
+    /// * `tensor`(`@Tensor<T>`) - A snapshot of a tensor to which the Leaky ReLU function will be applied.
+    /// * `alpha`(`@T`) - A snapshot of a fixed point scalar that defines the alpha value of the Thresholded ReLU function.
+    ///
+    /// ## Returns
+    /// A new fixed point tensor with the same shape as the input tensor and the Thresholded ReLU function applied element-wise.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
+    /// use orion::operators::nn::{NNTrait, FP8x23NN};
+    /// use orion::numbers::{FP8x23, FixedTrait};
+    /// 
+    /// fn thresholded_relu_example() -> Tensor<FP8x23> {
+    ///     let tensor = TensorTrait::<FP8x23>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![
+    ///             FixedTrait::new(0, false),
+    ///             FixedTrait::new(256, false),
+    ///             FixedTrait::new(512, false),
+    ///             FixedTrait::new(257, false),
+    ///         ]
+    ///             .span(),
+    ///     );
+    ///     let alpha = FixedTrait::from_felt(256); // 1.0
+    /// 
+    ///     return NNTrait::leaky_relu(@tensor, @alpha);
+    /// }
+    /// >>> [[0, 0], [512, 257]]
+    /// ```
+    /// 
+    fn thresholded_relu(tensor: @Tensor<T>, alpha: @T) -> Tensor<T>;
+    /// # NNTrait::gemm
+    /// 
+    /// ```rust
+    ///     fn gemm(
+    ///         A: Tensor<T>,
+    ///         B: Tensor<T>,
+    ///         C: Option<Tensor<T>>,
+    ///         alpha: Option<T>,
+    ///         beta: Option<T>,
+    ///         transA: bool,
+    ///         transB: bool
+    ///     ) -> Tensor<T>;
+    /// ```
+    /// 
+    /// Performs General Matrix multiplication: https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms#Level_3
+    ///
+    /// * A' = transpose(A) if transA else A
+    /// * B' = transpose(B) if transB else B
+    ///
+    /// Compute `Y = alpha * A' * B' + beta * C`, where input tensor A has shape (M, K) or (K, M), input tensor B has shape (K, N) or (N, K), input tensor C is broadcastable to shape (M, N), and output tensor Y has shape (M, N).
+    /// `A` will be transposed before doing the computation if attribute `transA` is `true`, same for `B` and `transB`.
+    /// 
+    /// ## Args
+    ///
+    /// * `A`(`Tensor<T>`) - Input tensor A. The shape of `A` should be (M, K) if `transA` is `false`, or (K, M) if `transA` is `true`.
+    /// * `B`(`Tensor<T>`) - Input tensor B. The shape of `B` should be (K, N) if `transB` is `false`, or (N, K) if `transB` is `true`.
+    /// * `C`(`Option<Tensor<T>>`) - Optional input tensor C. The shape of C should be unidirectional broadcastable to (M, N). 
+    /// * `alpha`(`Option<T>`) - Optional scalar multiplier for the product of input tensors `A * B`.
+    /// * `beta`(`Option<T>`) - Optional scalar multiplier for input tensor `C`.
+    /// * `transA`(`bool`) - Whether `A` should be transposed.
+    /// * `transB`(`bool`) - Whether `B` should be transposed.
+    ///
+    /// ## Returns
+    ///
+    /// A `Tensor<T>` of shape (M, N).
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    ///     mod input_0;
+    ///     mod input_1;
+    ///     mod input_2;
+    ///     
+    ///     use orion::operators::nn::NNTrait;
+    ///     use orion::numbers::FixedTrait;
+    ///     use orion::operators::nn::FP16x16NN;
+    ///     use orion::operators::tensor::FP16x16TensorPartialEq;
+    ///
+    ///   fn gemm_all_attributes_example() -> Tensor<FP16x16> {
+    ///       let input_0 = input_0::input_0(); // shape [4;3]
+    ///       let input_1 = input_1::input_1(); // shape [5;4]
+    ///       let input_2 = input_2::input_2(); // shape [1;5]
+    ///
+    ///       let y = NNTrait::gemm(
+    ///           input_0,
+    ///           input_1,
+    ///           Option::Some(input_2),
+    ///           Option::Some(FixedTrait::new(16384, false)), // 0.25
+    ///           Option::Some(FixedTrait::new(22938, false)), // 0.35
+    ///           true,
+    ///           true
+    ///       );
+    ///
+    ///       return y;
+    ///   } 
+    ///  >>> tensor of shape [3;5]
+    /// ````
+    ///
+    fn gemm(
+        A: Tensor<T>,
+        B: Tensor<T>,
+        C: Option<Tensor<T>>,
+        alpha: Option<T>,
+        beta: Option<T>,
+        transA: bool,
+        transB: bool
+    ) -> Tensor<T>;
 }

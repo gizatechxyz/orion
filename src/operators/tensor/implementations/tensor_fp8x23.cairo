@@ -100,6 +100,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::abs::abs(*self)
     }
 
+    fn neg(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::neg::neg(*self)
+    }
+
     fn ceil(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::ceil::ceil(*self)
     }
@@ -229,6 +233,18 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn clip(self: @Tensor<FP8x23>, min: Option<FP8x23>, max: Option<FP8x23>) -> Tensor<FP8x23> {
         core::clip(self, min, max)
     }
+
+    fn and(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<usize> {
+        math::and::and(self, other)
+    }
+
+    fn identity(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        core::identity(self)
+    }
+
+    fn where(self: @Tensor<FP8x23>, x: @Tensor<FP8x23>, y: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::where::where(self, x, y)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.
@@ -323,12 +339,6 @@ impl FP8x23TensorPartialEq of PartialEq<Tensor<FP8x23>> {
 
     fn ne(lhs: @Tensor<FP8x23>, rhs: @Tensor<FP8x23>) -> bool {
         !tensor_eq(*lhs, *rhs)
-    }
-}
-
-impl U32TryIntoU32 of TryInto<u32, u32> {
-    fn try_into(self: u32) -> Option<u32> {
-        Option::Some(self)
     }
 }
 

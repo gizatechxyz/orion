@@ -20,12 +20,8 @@ fn asin<
 
     loop {
         match self.data.pop_front() {
-            Option::Some(item) => {
-                result.append((*item).asin());
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(item) => { result.append((*item).asin()); },
+            Option::None(_) => { break; }
         };
     };
 
