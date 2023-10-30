@@ -474,4 +474,5 @@ mod where_i8;
 mod where_i8_broadcast;
 mod where_u32;
 mod where_u32_broadcast;
-
+mod round_fp16x16; 
+mod round_fp8x23; 

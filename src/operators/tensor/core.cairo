@@ -82,7 +82,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// and - Computes the logical AND of two tensors element-wise. 
 /// identity - Return a Tensor with the same shape and contents as input.
 /// where - Return elements chosen from x or y depending on condition.
-///
+/// round - Computes the round value of all elements in the input tensor.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -2868,6 +2868,47 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn where(self: @Tensor<T>, x: @Tensor<T>, y: @Tensor<T>) -> Tensor<T>;
+    /// #tensor.round
+    ///
+    /// ```rust
+    ///     fn round(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the round value of all elements in the input tensor.
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the round value of all elements in the input tensor.
+    ///
+    /// ## Example
+    ///
+	/// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
+    /// use orion::numbers::{FixedTrait, FP16x16};
+    /// 
+    /// fn round_example() -> Tensor<FP16x16> {
+    ///     let tensor = TensorTrait::<FP16x16>::new(
+    ///         shape: array![3].span(),
+    ///         data: array![
+    ///             FixedTrait::new(190054, false),  // 2.9
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     return tensor.round();
+    /// }
+    /// >>> [3]
+    /// ```
+    ///
+    fn round(self: @Tensor<T>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

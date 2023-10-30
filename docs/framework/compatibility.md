@@ -67,5 +67,6 @@ You can see below the list of current supported ONNX Operators:
 |                 [Or](operators/tensor/tensor.or.md)                 | :white\_check\_mark: |
 |             [Gemm](operators/neural-network/nn.gemm.md)             | :white\_check\_mark: |
 |             [Where](operators/tensor/tensor.where.md)               | :white\_check\_mark: |
+|             [Round](operators/tensor/tensor.round.md)               | :white\_check\_mark: |
 
 Current Operators support: **61/156 (39%)**

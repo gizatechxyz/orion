@@ -86,6 +86,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.and`](tensor.and.md) | Computes the logical AND of two tensors element-wise.  |
 | [`tensor.identity`](tensor.identity.md) | Return a Tensor with the same shape and contents as input. |
 | [`tensor.where`](tensor.where.md) | Return elements chosen from x or y depending on condition. |
+| [`tensor.round`](tensor.round.md) | Computes the round value of all elements in the input tensor. |
 
 ## Arithmetic Operations
 
