@@ -6,3 +6,5 @@ target
 __pycache__
 
 neural_network/.venv
+
+./Scarb.lock
