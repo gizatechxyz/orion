@@ -200,7 +200,14 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     }
 
     fn qlinear_matmul(
-        self: @Tensor<i8>, a_scale: @Tensor<FP64x64>, a_zero_point: @Tensor<FP64x64>, b: @Tensor<i8>, b_scale: @Tensor<FP64x64>, b_zero_point: @Tensor<FP64x64>, y_scale: @Tensor<FP64x64>, y_zero_point: @Tensor<FP64x64>
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP64x64>,
+        a_zero_point: @Tensor<FP64x64>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP64x64>,
+        b_zero_point: @Tensor<FP64x64>,
+        y_scale: @Tensor<FP64x64>,
+        y_zero_point: @Tensor<FP64x64>
     ) -> Tensor::<i8> {
         quantization::qlinear_matmul::qlinear_matmul(
             self,
@@ -215,7 +222,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
             NumberTrait::new_unscaled(127, false)
         )
     }
-    
+
     fn slice(
         self: @Tensor<FP64x64>,
         starts: Span<usize>,

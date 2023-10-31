@@ -200,7 +200,14 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     }
 
     fn qlinear_matmul(
-        self: @Tensor<i8>, a_scale: @Tensor<FP32x32>, a_zero_point: @Tensor<FP32x32>, b: @Tensor<i8>, b_scale: @Tensor<FP32x32>, b_zero_point: @Tensor<FP32x32>, y_scale: @Tensor<FP32x32>, y_zero_point: @Tensor<FP32x32>
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP32x32>,
+        a_zero_point: @Tensor<FP32x32>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP32x32>,
+        b_zero_point: @Tensor<FP32x32>,
+        y_scale: @Tensor<FP32x32>,
+        y_zero_point: @Tensor<FP32x32>
     ) -> Tensor::<i8> {
         quantization::qlinear_matmul::qlinear_matmul(
             self,

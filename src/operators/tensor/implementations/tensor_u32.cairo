@@ -193,7 +193,14 @@ impl U32Tensor of TensorTrait<u32> {
     }
 
     fn qlinear_matmul(
-        self: @Tensor<i8>, a_scale: @Tensor<u32>, a_zero_point: @Tensor<u32>, b: @Tensor<i8>, b_scale: @Tensor<u32>, b_zero_point: @Tensor<u32>, y_scale: @Tensor<u32>, y_zero_point: @Tensor<u32>
+        self: @Tensor<i8>,
+        a_scale: @Tensor<u32>,
+        a_zero_point: @Tensor<u32>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<u32>,
+        b_zero_point: @Tensor<u32>,
+        y_scale: @Tensor<u32>,
+        y_zero_point: @Tensor<u32>
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
     }

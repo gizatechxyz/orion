@@ -261,25 +261,17 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
         let mut dim2 = 1;
 
         match shape1.pop_front() {
-            Option::Some(item) => {
-                dim1 = *item;
-            },
-            Option::None(_) => {
-                if shape1.len() == 0 && shape2.len() == 0 {
-                    break ();
-                };
-            }
+            Option::Some(item) => { dim1 = *item; },
+            Option::None(_) => { if shape1.len() == 0 && shape2.len() == 0 {
+                break ();
+            }; }
         };
 
         match shape2.pop_front() {
-            Option::Some(item) => {
-                dim2 = *item;
-            },
-            Option::None(_) => {
-                if shape1.len() == 0 && shape2.len() == 0 {
-                    break ();
-                };
-            }
+            Option::Some(item) => { dim2 = *item; },
+            Option::None(_) => { if shape1.len() == 0 && shape2.len() == 0 {
+                break ();
+            }; }
         };
 
         let broadcasted_dim = u32_max(dim1, dim2);

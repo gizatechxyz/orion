@@ -199,7 +199,14 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     }
 
     fn qlinear_matmul(
-        self: @Tensor<i8>, a_scale: @Tensor<FP8x23>, a_zero_point: @Tensor<FP8x23>, b: @Tensor<i8>, b_scale: @Tensor<FP8x23>, b_zero_point: @Tensor<FP8x23>, y_scale: @Tensor<FP8x23>, y_zero_point: @Tensor<FP8x23>
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP8x23>,
+        a_zero_point: @Tensor<FP8x23>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP8x23>,
+        b_zero_point: @Tensor<FP8x23>,
+        y_scale: @Tensor<FP8x23>,
+        y_zero_point: @Tensor<FP8x23>
     ) -> Tensor::<i8> {
         quantization::qlinear_matmul::qlinear_matmul(
             self,

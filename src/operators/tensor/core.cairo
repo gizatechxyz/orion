@@ -2440,7 +2440,14 @@ trait TensorTrait<T> {
     /// u32 tensor, not supported.
     ///
     fn qlinear_matmul(
-        self: @Tensor<i8>, a_scale: @Tensor<T>, a_zero_point: @Tensor<T>, b: @Tensor<i8>, b_scale: @Tensor<T>, b_zero_point: @Tensor<T>, y_scale: @Tensor<T>, y_zero_point: @Tensor<T>
+        self: @Tensor<i8>,
+        a_scale: @Tensor<T>,
+        a_zero_point: @Tensor<T>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<T>,
+        b_zero_point: @Tensor<T>,
+        y_scale: @Tensor<T>,
+        y_zero_point: @Tensor<T>
     ) -> Tensor::<i8>;
     /// # tensor.slice
     ///

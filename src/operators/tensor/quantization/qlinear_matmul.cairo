@@ -106,12 +106,8 @@ fn x_shape(ref x_data: Array<usize>, mut shape: Span<usize>, m: usize, n: usize)
             break;
         }
         match shape.pop_front() {
-            Option::Some(elem) => {
-                x_data.append(*elem);
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(elem) => { x_data.append(*elem); },
+            Option::None(_) => { break; }
         };
     };
     x_data.append(m);
@@ -125,23 +121,14 @@ fn stride(mut shape: Span<usize>) -> usize {
     let mut accumulated: usize = 1;
     loop {
         match shape.pop_back() {
-            Option::Some(i) => {
-                accumulated *= *i;
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(i) => { accumulated *= *i; },
+            Option::None(_) => { break; }
         };
     };
     return accumulated;
 }
 
-fn subtensor<
-    T,
-    impl TTensor: TensorTrait<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>
->(
+fn subtensor<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     x: @Tensor<T>, start: usize, shape: Span<usize>
 ) -> Tensor::<T> {
     let mut data = ArrayTrait::<T>::new();

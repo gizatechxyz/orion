@@ -12,7 +12,9 @@ use orion::numbers::{i8, i32};
 #[test]
 #[available_gas(200000000000)]
 fn qlinearmatmul_2D_test() {
-    let a = TensorTrait::<i8>::new(
+    let a = TensorTrait::<
+        i8
+    >::new(
         shape: array![2, 4].span(),
         data: array![
             IntegerTrait::<i8>::new(1_u8, true),
@@ -26,7 +28,9 @@ fn qlinearmatmul_2D_test() {
         ]
             .span(),
     );
-    let b = TensorTrait::<i8>::new(
+    let b = TensorTrait::<
+        i8
+    >::new(
         shape: array![4, 3].span(),
         data: array![
             IntegerTrait::<i8>::new(2_u8, true),
@@ -45,31 +49,33 @@ fn qlinearmatmul_2D_test() {
             .span(),
     );
 
-    let a_scale = TensorTrait::<FP16x16>::new(
-        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(2000, false)].span(),
-    );
-    let a_zero_point = TensorTrait::<FP16x16>::new(
-        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),
-    );
-    let b_scale = TensorTrait::<FP16x16>::new(
-        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(2500, false)].span(),
-    );
-    let b_zero_point = TensorTrait::<FP16x16>::new(
-        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),
-    );
+    let a_scale = TensorTrait::<
+        FP16x16
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(2000, false)].span(),);
+    let a_zero_point = TensorTrait::<
+        FP16x16
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
+    let b_scale = TensorTrait::<
+        FP16x16
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(2500, false)].span(),);
+    let b_zero_point = TensorTrait::<
+        FP16x16
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
 
-    let y_scale = TensorTrait::<FP16x16>::new(
-        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(3000, false)].span(),
-    );
-    let y_zero_point = TensorTrait::<FP16x16>::new(
-        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),
-    );
+    let y_scale = TensorTrait::<
+        FP16x16
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(3000, false)].span(),);
+    let y_zero_point = TensorTrait::<
+        FP16x16
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
 
     let actual_output = a
         .qlinear_matmul(
             @a_scale, @a_zero_point, @b, @b_scale, @b_zero_point, @y_scale, @y_zero_point
         );
-    let expected_output = TensorTrait::<i8>::new(
+    let expected_output = TensorTrait::<
+        i8
+    >::new(
         shape: array![2, 3].span(),
         data: array![
             IntegerTrait::<i8>::new(3_u8, true),
@@ -88,14 +94,15 @@ fn qlinearmatmul_2D_test() {
     assert((*actual_output.data[3]).into() == 8, '*result[3] == 8');
     assert((*actual_output.data[4]).into() == 9, '*result[4] == 9');
     assert((*actual_output.data[5]).into() == 10, '*result[5] == 10');
-
 }
 
 
 #[test]
 #[available_gas(200000000000)]
 fn qlinearmatmul_3D_test() {
-    let a = TensorTrait::<i8>::new(
+    let a = TensorTrait::<
+        i8
+    >::new(
         shape: array![2, 2, 3].span(),
         data: array![
             IntegerTrait::<i8>::new(1_u8, true),
@@ -113,7 +120,9 @@ fn qlinearmatmul_3D_test() {
         ]
             .span(),
     );
-    let b = TensorTrait::<i8>::new(
+    let b = TensorTrait::<
+        i8
+    >::new(
         shape: array![2, 3, 2].span(),
         data: array![
             IntegerTrait::<i8>::new(2_u8, true),
@@ -132,31 +141,33 @@ fn qlinearmatmul_3D_test() {
             .span(),
     );
 
-    let a_scale = TensorTrait::<FP16x16>::new(
-        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(20000, false)].span(),
-    );
-    let a_zero_point = TensorTrait::<FP16x16>::new(
-        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),
-    );
-    let b_scale = TensorTrait::<FP16x16>::new(
-        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(25000, false)].span(),
-    );
-    let b_zero_point = TensorTrait::<FP16x16>::new(
-        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),
-    );
+    let a_scale = TensorTrait::<
+        FP16x16
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(20000, false)].span(),);
+    let a_zero_point = TensorTrait::<
+        FP16x16
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
+    let b_scale = TensorTrait::<
+        FP16x16
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(25000, false)].span(),);
+    let b_zero_point = TensorTrait::<
+        FP16x16
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
 
-    let y_scale = TensorTrait::<FP16x16>::new(
-        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(30000, false)].span(),
-    );
-    let y_zero_point = TensorTrait::<FP16x16>::new(
-        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),
-    );
+    let y_scale = TensorTrait::<
+        FP16x16
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(30000, false)].span(),);
+    let y_zero_point = TensorTrait::<
+        FP16x16
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
 
     let actual_output = a
         .qlinear_matmul(
             @a_scale, @a_zero_point, @b, @b_scale, @b_zero_point, @y_scale, @y_zero_point
         );
-    let expected_output = TensorTrait::<i8>::new(
+    let expected_output = TensorTrait::<
+        i8
+    >::new(
         shape: array![2, 2, 2].span(),
         data: array![
             IntegerTrait::<i8>::new(8_u8, true),
@@ -178,18 +189,13 @@ fn qlinearmatmul_3D_test() {
     assert((*actual_output.data[5]).into() == 35, '*result[5] == 35');
     assert((*actual_output.data[6]).into() == 36, '*result[6] == 36');
     assert((*actual_output.data[7]).into() == 47, '*result[7] == 47');
-
 }
 
 fn print_span(mut span: Span<i8>) {
     loop {
         match span.pop_front() {
-            Option::Some(i) => {
-                (*i.mag).print();
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(i) => { (*i.mag).print(); },
+            Option::None(_) => { break; }
         };
     };
 }
