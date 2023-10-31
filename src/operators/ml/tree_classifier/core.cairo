@@ -7,7 +7,9 @@ struct TreeClassifier<T> {
     split_feature: usize,
     split_value: T,
     prediction: T,
-    class_distribution: Span<T>, // assuming class labels of type usize (span index), and probability as T.
+    class_distribution: Span<
+        T
+    >, // assuming class labels of type usize (span index), and probability as T.
 }
 
 /// Trait
@@ -117,14 +119,10 @@ fn predict<
                             current_node = right.unbox();
                         }
                     },
-                    Option::None(_) => {
-                        break;
-                    }
+                    Option::None(_) => { break; }
                 }
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -154,14 +152,10 @@ fn predict_proba<
                             current_node = right.unbox();
                         }
                     },
-                    Option::None(_) => {
-                        break;
-                    }
+                    Option::None(_) => { break; }
                 }
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 

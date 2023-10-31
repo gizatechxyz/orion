@@ -22,12 +22,8 @@ fn len_from_shape(mut shape: Span<usize>) -> usize {
 
     loop {
         match shape.pop_front() {
-            Option::Some(item) => {
-                result *= *item;
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(item) => { result *= *item; },
+            Option::None(_) => { break; }
         };
     };
 
@@ -67,9 +63,7 @@ fn check_compatibility(mut shape_1: Span<usize>, mut shape_2: Span<usize>) {
                     'tensors shape must match'
                 );
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 }
@@ -100,9 +94,7 @@ fn broadcast_index_mapping(mut shape: Span<usize>, mut indices: Span<usize>) -> 
                 let index = (indices_val % *shape_val) * stride_val;
                 result += index;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -141,9 +133,7 @@ fn reduce_output_shape(mut input_shape: Span<usize>, axis: usize, keepdims: bool
 
                 n += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -172,12 +162,8 @@ fn permutation_output_shape(input_shape: Span<usize>, mut axes: Span<usize>) -> 
 
     loop {
         match axes.pop_front() {
-            Option::Some(item) => {
-                output_shape.append(*input_shape[*item]);
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(item) => { output_shape.append(*input_shape[*item]); },
+            Option::None(_) => { break; }
         };
     };
 
@@ -247,9 +233,7 @@ fn find_axis(mut axes: Span<usize>, target_axis: usize) -> usize {
                 }
                 axis += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -277,25 +261,17 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
         let mut dim2 = 1;
 
         match shape1.pop_front() {
-            Option::Some(item) => {
-                dim1 = *item;
-            },
-            Option::None(_) => {
-                if shape1.len() == 0 && shape2.len() == 0 {
-                    break ();
-                };
-            }
+            Option::Some(item) => { dim1 = *item; },
+            Option::None(_) => { if shape1.len() == 0 && shape2.len() == 0 {
+                break ();
+            }; }
         };
 
         match shape2.pop_front() {
-            Option::Some(item) => {
-                dim2 = *item;
-            },
-            Option::None(_) => {
-                if shape1.len() == 0 && shape2.len() == 0 {
-                    break ();
-                };
-            }
+            Option::Some(item) => { dim2 = *item; },
+            Option::None(_) => { if shape1.len() == 0 && shape2.len() == 0 {
+                break ();
+            }; }
         };
 
         let broadcasted_dim = u32_max(dim1, dim2);
@@ -334,9 +310,7 @@ fn replace_index(mut shape: Span<usize>, index: usize, value: usize) -> Span<usi
                 };
                 i += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 

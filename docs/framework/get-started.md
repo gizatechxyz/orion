@@ -3,7 +3,7 @@
 In this section, we will guide you to start using Orion successfully. We will help you install Cairo 1.0 and add Orion dependency in your project.
 
 {% hint style="info" %}
-Orion supports <mark style="color:orange;">**Cairo v2.2.0**</mark> and <mark style="color:orange;">**Scarb 0.7.0**</mark>
+Orion supports <mark style="color:orange;">**Cairo and Scarb v2.3.0**</mark>
 {% endhint %}
 
 ## 📦 Installations

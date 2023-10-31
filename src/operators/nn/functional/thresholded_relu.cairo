@@ -28,9 +28,7 @@ fn thresholded_relu<
                     data_result.append(*item);
                 };
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 

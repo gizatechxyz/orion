@@ -68,5 +68,6 @@ You can see below the list of current supported ONNX Operators:
 |             [Gemm](operators/neural-network/nn.gemm.md)             | :white\_check\_mark: |
 |    [MinInTensor](operators/tensor/tensor.min\_in\_tensor.md)        | :white\_check\_mark: |
 |                [Min](operators/tensor/tensor.min.md)                | :white\_check\_mark: |
+|             [Where](operators/tensor/tensor.where.md)               | :white\_check\_mark: |
 
-Current Operators support: **60/156 (38%)**
+Current Operators support: **61/156 (39%)**

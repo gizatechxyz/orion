@@ -77,14 +77,10 @@ fn predict<
                             current_node = right.unbox();
                         }
                     },
-                    Option::None(_) => {
-                        break;
-                    }
+                    Option::None(_) => { break; }
                 }
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 

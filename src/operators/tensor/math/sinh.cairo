@@ -23,12 +23,8 @@ fn sinh<
 
     loop {
         match self.data.pop_front() {
-            Option::Some(item) => {
-                result.append((*item).sinh());
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(item) => { result.append((*item).sinh()); },
+            Option::None(_) => { break; }
         };
     };
 

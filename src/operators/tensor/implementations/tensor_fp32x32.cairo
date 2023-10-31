@@ -242,11 +242,14 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn and(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<usize> {
         math::and::and(self, other)
     }
-    
+
     fn identity(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         core::identity(self)
     }
 
+    fn where(self: @Tensor<FP32x32>, x: @Tensor<FP32x32>, y: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::where::where(self, x, y)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

@@ -19,12 +19,8 @@ fn acos<
     let mut result = ArrayTrait::new();
     loop {
         match self.data.pop_front() {
-            Option::Some(item) => {
-                result.append((*item).acos());
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(item) => { result.append((*item).acos()); },
+            Option::None(_) => { break; }
         };
     };
 

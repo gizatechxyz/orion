@@ -47,15 +47,11 @@ fn validate_shapes<T>(mut tensors: Span<Tensor<T>>, mut base_shape: Span<usize>,
                             }
                             axis_index += 1;
                         },
-                        Option::None(_) => {
-                            break;
-                        }
+                        Option::None(_) => { break; }
                     };
                 };
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 }
@@ -68,12 +64,8 @@ fn compute_output_size<T>(
     let mut axis_size = 0;
     loop {
         match tensors.pop_front() {
-            Option::Some(tensor) => {
-                axis_size += *(*tensor.shape).at(axis);
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(tensor) => { axis_size += *(*tensor.shape).at(axis); },
+            Option::None(_) => { break; }
         };
     };
 
@@ -88,9 +80,7 @@ fn compute_output_size<T>(
                 }
                 shape_index += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -127,9 +117,7 @@ fn concatenate_data<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>,>(
                         inner_index += 1;
                     };
                 },
-                Option::None(_) => {
-                    break;
-                }
+                Option::None(_) => { break; }
             };
         };
 
@@ -153,9 +141,7 @@ fn product_upto(mut shape: Span<usize>, upto: usize) -> usize {
                 total *= *val;
                 index += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
