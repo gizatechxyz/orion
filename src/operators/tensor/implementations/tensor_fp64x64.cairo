@@ -29,8 +29,12 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::min::min(tensors)
     }
 
-    fn max(self: @Tensor<FP64x64>) -> FP64x64 {
-        math::max::max_in_tensor(*self.data)
+    fn max_in_tensor(self: @Tensor<FP64x64>) -> FP64x64 {
+        math::max_in_tensor::max_in_tensor(*self.data)
+    }
+
+    fn max(tensors: Span<Tensor<FP64x64>>) -> Tensor<FP64x64> {
+        math::max::max(tensors)
     }
 
     fn stride(self: @Tensor<FP64x64>) -> Span<usize> {

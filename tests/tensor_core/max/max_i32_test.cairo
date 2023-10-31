@@ -11,7 +11,7 @@ mod tensor_1D {
     fn tensor_max() {
         let tensor = i32_tensor_1x3_helper();
 
-        let result = tensor.max().mag;
+        let result = tensor.max_in_tensor().mag;
         assert(result == 2, 'tensor.max = 2');
     }
 }
@@ -29,7 +29,7 @@ mod tensor_2D {
     fn tensor_max() {
         let tensor = i32_tensor_2x2_helper();
 
-        let result = tensor.max().mag;
+        let result = tensor.max_in_tensor().mag;
         assert(result == 3, 'tensor.max = 3');
     }
 }
@@ -47,7 +47,7 @@ mod tensor_3D {
     fn tensor_max() {
         let tensor = i32_tensor_2x2x2_helper();
 
-        let result = tensor.max().mag;
+        let result = tensor.max_in_tensor().mag;
         assert(result == 7, 'tensor.max = 7');
     }
 }

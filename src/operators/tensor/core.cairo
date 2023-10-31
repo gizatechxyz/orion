@@ -46,7 +46,9 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// xor - Computes the logical XOR of two tensors element-wise.
 /// stride - Computes the stride of each dimension in the tensor.
 /// onehot - Produces one-hot tensor based on input.
+/// max_in_tensor - Returns the maximum value in the tensor.
 /// min_in_tensor - Returns the minimum value in the tensor.
+/// min - Returns the minimum value in the tensor.
 /// max - Returns the maximum value in the tensor.
 /// reduce_sum - Reduces a tensor by summing its elements along a specified axis.
 /// argmax - Returns the index of the maximum value along the specified axis.
@@ -285,10 +287,10 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn min(tensors: Span<Tensor<T>>) -> Tensor<T>;
-    /// # tensor.max
+    /// # tensor.max_in_tensor
     ///
     /// ```rust 
-    ///    fn max(self: @Tensor<T>) -> T;
+    ///    fn max_in_tensor(self: @Tensor<T>) -> T;
     /// ```
     ///
     /// Returns the maximum value in the tensor.
@@ -308,18 +310,83 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn max_example() -> u32 {
+    /// fn max_in_tensor_example() -> u32 {
     ///     let tensor = TensorTrait::new(
     ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
     ///     );
     /// 
-    ///     // We can call `max` function as follows.
-    ///     return tensor.max();
+    ///     // We can call `max_in_tensor` function as follows.
+    ///     return tensor.max_in_tensor();
     /// }
     /// >>> 7
     /// ```
     /// 
-    fn max(self: @Tensor<T>) -> T;
+    fn max_in_tensor(self: @Tensor<T>) -> T;
+    /// # tensor.max
+    ///
+    /// ```rust 
+    ///    fn max(tensors: Span<Tensor<T>>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Returns the element-wise maximum values from a list of input tensors
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `tensors`(` Span<Tensor<T>>,`) - Array of the input tensors
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` containing the element-wise maximum values
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if tensor array is empty
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Process tensors with same shape
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn max_example() -> Tensor<u32> {
+    ///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
+    ///     let tensor2 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 3, 1, 2].span(),);
+    ///     let result = TensorTrait::max(tensors: array![tensor1, tensor2].span());
+    ///     return result;
+    /// }
+    /// >>> [0, 3, 2, 3]
+    ///
+    ///     result.shape
+    /// >>> (2, 2)
+    /// ```
+    /// 
+    /// Case 2: Process tensors with different shapes
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn max_example() -> Tensor<u32> {
+    ///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
+    ///     let tensor2 = TensorTrait::new(shape: array![1, 2].span(), data: array![1, 4].span(),);
+    ///     let result = TensorTrait::max(tensors: array![tensor1, tensor2].span());
+    ///     return result;
+    /// }
+    /// >>> [1, 4, 2, 4]
+    ///
+    ///     result.shape
+    /// >>> (2, 2)
+    /// ```
+    ///
+    fn max(tensors: Span<Tensor<T>>) -> Tensor<T>;
     /// # tensor.stride
     ///
     /// ```rust 
