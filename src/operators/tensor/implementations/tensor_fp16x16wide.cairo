@@ -263,6 +263,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     ) -> Tensor<FP16x16W> {
         math::where::where(self, x, y)
     }
+
+    fn round(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::round::round(*self)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.

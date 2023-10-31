@@ -251,6 +251,10 @@ impl I8Tensor of TensorTrait<i8> {
     fn where(self: @Tensor<i8>, x: @Tensor<i8>, y: @Tensor<i8>) -> Tensor<i8> {
         math::where::where(self, x, y)
     }
+
+    fn round(self: @Tensor<i8>) -> Tensor<i8> {
+        math::round::round(*self)
+    } 
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
