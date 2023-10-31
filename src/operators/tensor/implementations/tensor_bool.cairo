@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
-use orion::numbers::{bool, i32, NumberTrait};
+use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
 
 impl BoolTensor of TensorTrait<bool> {
@@ -21,11 +21,11 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn min(self: @Tensor<bool>) -> bool {
-        math::min::min_in_tensor::<bool, u8>(*self.data)
+        panic(array!['not supported!'])
     }
 
     fn max(self: @Tensor<bool>) -> bool {
-        math::max::max_in_tensor(*self.data)
+        panic(array!['not supported!'])
     }
 
     fn stride(self: @Tensor<bool>) -> Span<usize> {
@@ -45,19 +45,19 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn reduce_sum(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+        panic(array!['not supported!'])
     }
 
     fn argmax(
         self: @Tensor<bool>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {
-        math::argmax::argmax(self, axis, keepdims, select_last_index)
+        panic(array!['not supported!'])
     }
 
     fn argmin(
         self: @Tensor<bool>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {
-        math::argmin::argmin(self, axis, keepdims, select_last_index)
+        panic(array!['not supported!'])
     }
 
     fn transpose(self: @Tensor<bool>, axes: Span<usize>) -> Tensor<bool> {
@@ -65,7 +65,7 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn matmul(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
-        linalg::matmul::matmul(self, other)
+        panic(array!['not supported!'])
     }
 
     fn exp(self: @Tensor<bool>) -> Tensor<bool> {
@@ -81,23 +81,27 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn greater(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
-        math::greater::greater(self, other)
+        panic(array!['not supported!'])
     }
 
     fn greater_equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
-        math::greater_equal::greater_equal(self, other)
+        panic(array!['not supported!'])
     }
 
     fn less(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
-        math::less::less(self, other)
+        panic(array!['not supported!'])
     }
 
     fn less_equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
-        math::less_equal::less_equal(self, other)
+        panic(array!['not supported!'])
     }
 
     fn abs(self: @Tensor<bool>) -> Tensor<bool> {
-        math::abs::abs(*self)
+        panic(array!['not supported!'])
+    }
+
+    fn neg(self: @Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
     }
 
     fn ceil(self: @Tensor<bool>) -> Tensor<bool> {
@@ -119,7 +123,7 @@ impl BoolTensor of TensorTrait<bool> {
     fn cumsum(
         self: @Tensor<bool>, axis: usize, exclusive: Option<bool>, reverse: Option<bool>
     ) -> Tensor<bool> {
-         panic(array!['not supported!'])
+        panic(array!['not supported!'])
     }
 
     fn flatten(self: @Tensor<bool>, axis: usize) -> Tensor<bool> {
@@ -151,11 +155,11 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn xor(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
-        math::xor::xor(self, other)
+        panic(array!['not supported!'])
     }
 
     fn or(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
-        math::or::or(self, other)
+        panic(array!['not supported!'])
     }
 
     fn acos(self: @Tensor<bool>) -> Tensor<bool> {
@@ -178,20 +182,14 @@ impl BoolTensor of TensorTrait<bool> {
 
     fn quantize_linear(
         self: @Tensor<bool>, y_scale: @Tensor<bool>, y_zero_point: @Tensor<bool>
-    ) -> Tensor::<bool> {
-        quantization::quantize_linear::quantize_linear(
-            self,
-            y_scale,
-            y_zero_point,
-            NumberTrait::new_unscaled(128, true),
-            NumberTrait::new_unscaled(127, false)
-        )
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
     }
 
     fn dequantize_linear(
-        self: @Tensor<bool>, x_scale: @Tensor<bool>, x_zero_point: @Tensor<bool>
+        self: @Tensor<i8>, x_scale: @Tensor<bool>, x_zero_point: @Tensor<bool>
     ) -> Tensor::<bool> {
-        quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
+        panic(array!['not supported!'])
     }
 
     fn slice(
@@ -221,16 +219,28 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn sign(self: @Tensor<bool>) -> Tensor<bool> {
-         panic(array!['not supported!'])
+        panic(array!['not supported!'])
     }
 
     fn clip(self: @Tensor<bool>, min: Option<bool>, max: Option<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
+
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+        panic(array!['not supported!'])
+    }
+
+    fn identity(self: @Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn where(self: @Tensor<bool>, x: @Tensor<bool>, y: @Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<bool>` using the `Add` trait.
-impl boolTensorAdd of Add<Tensor<bool>> {
+impl BoolTensorAdd of Add<Tensor<bool>> {
     /// Adds two `Tensor<bool>` instances element-wise.
     ///
     /// # Arguments
@@ -240,12 +250,12 @@ impl boolTensorAdd of Add<Tensor<bool>> {
     /// # Returns
     /// * A `Tensor<bool>` instance representing the result of the element-wise addition.
     fn add(lhs: Tensor<bool>, rhs: Tensor<bool>) -> Tensor<bool> {
-         panic(array!['not supported!'])
+        panic(array!['not supported!'])
     }
 }
 
 /// Implements subtraction for `Tensor<bool>` using the `Sub` trait.
-impl boolTensorSub of Sub<Tensor<bool>> {
+impl BoolTensorSub of Sub<Tensor<bool>> {
     /// Subtracts two `Tensor<bool>` instances element-wise.
     ///
     /// # Arguments
@@ -260,7 +270,7 @@ impl boolTensorSub of Sub<Tensor<bool>> {
 }
 
 /// Implements multiplication for `Tensor<bool>` using the `Mul` trait.
-impl boolTensorMul of Mul<Tensor<bool>> {
+impl BoolTensorMul of Mul<Tensor<bool>> {
     /// Multiplies two `Tensor<bool>` instances element-wise.
     ///
     /// # Arguments
@@ -275,7 +285,7 @@ impl boolTensorMul of Mul<Tensor<bool>> {
 }
 
 /// Implements division for `Tensor<bool>` using the `Div` trait.
-impl boolTensorDiv of Div<Tensor<bool>> {
+impl BoolTensorDiv of Div<Tensor<bool>> {
     /// Divides two `Tensor<bool>` instances element-wise.
     ///
     /// # Arguments
@@ -285,12 +295,12 @@ impl boolTensorDiv of Div<Tensor<bool>> {
     /// # Returns
     /// * A `Tensor<bool>` instance representing the result of the element-wise division.
     fn div(lhs: Tensor<bool>, rhs: Tensor<bool>) -> Tensor<bool> {
-         panic(array!['not supported!'])
+        panic(array!['not supported!'])
     }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.
-impl boolTensorPartialEq of PartialEq<Tensor<bool>> {
+impl BoolTensorPartialEq of PartialEq<Tensor<bool>> {
     fn eq(lhs: @Tensor<bool>, rhs: @Tensor<bool>) -> bool {
         tensor_eq(*lhs, *rhs)
     }
