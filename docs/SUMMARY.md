@@ -40,6 +40,7 @@
   * [Tensor](framework/operators/tensor/README.md)
     * [tensor.new](framework/operators/tensor/tensor.new.md)
     * [tensor.at](framework/operators/tensor/tensor.at.md)
+    * [tensor.min_in_tensor](framework/operators/tensor/tensor.min_in_tensor.md)
     * [tensor.min](framework/operators/tensor/tensor.min.md)
     * [tensor.max\_in\_tensor](framework/operators/tensor/tensor.max\_in\_tensor.md)
     * [tensor.max](framework/operators/tensor/tensor.max.md)
