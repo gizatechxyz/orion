@@ -1,3 +1,4 @@
+mod min_in_tensor;
 mod min;
 mod max;
 mod reduce_sum;

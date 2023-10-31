@@ -20,8 +20,12 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         *at_tensor(self, indices)
     }
 
-    fn min(self: @Tensor<FP16x16W>) -> FP16x16W {
-        math::min::min_in_tensor::<FP16x16W, u64>(*self.data)
+    fn min_in_tensor(self: @Tensor<FP16x16W>) -> FP16x16W {
+        math::min_in_tensor::min_in_tensor::<FP16x16W, u64>(*self.data)
+    }
+
+    fn min(tensors: Span<Tensor<FP16x16W>>) -> Tensor<FP16x16W> {
+        math::min::min(tensors)
     }
 
     fn max(self: @Tensor<FP16x16W>) -> FP16x16W {

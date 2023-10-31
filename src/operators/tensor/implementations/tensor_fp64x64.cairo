@@ -21,8 +21,12 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         *at_tensor(self, indices)
     }
 
-    fn min(self: @Tensor<FP64x64>) -> FP64x64 {
-        math::min::min_in_tensor::<FP64x64, u128>(*self.data)
+    fn min_in_tensor(self: @Tensor<FP64x64>) -> FP64x64 {
+        math::min_in_tensor::min_in_tensor::<FP64x64, u128>(*self.data)
+    }
+
+    fn min(tensors: Span<Tensor<FP64x64>>) -> Tensor<FP64x64> {
+        math::min::min(tensors)
     }
 
     fn max(self: @Tensor<FP64x64>) -> FP64x64 {
