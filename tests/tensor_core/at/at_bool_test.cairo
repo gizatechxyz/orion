@@ -24,7 +24,7 @@ mod tensor_1D {
         let mut indices = ArrayTrait::new();
         indices.append(1);
 
-        let result = tensor.at(indices.span()).mag;
+        let result = tensor.at(indices.span());
 
         assert(result == true, 'result[2] = true');
     }
