@@ -50,6 +50,8 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.xor`](tensor.xor.md) | Computes the logical XOR of two tensors element-wise. |
 | [`tensor.stride`](tensor.stride.md) | Computes the stride of each dimension in the tensor. |
 | [`tensor.onehot`](tensor.onehot.md) | Produces one-hot tensor based on input. |
+| [`tensor.max_in_tensor`](tensor.max\_in\_tensor.md) | Returns the maximum value in the tensor. |
+| [`tensor.min_in_tensor`](tensor.min\_in\_tensor.md) | Returns the minimum value in the tensor. |
 | [`tensor.min`](tensor.min.md) | Returns the minimum value in the tensor. |
 | [`tensor.max`](tensor.max.md) | Returns the maximum value in the tensor. |
 | [`tensor.reduce_sum`](tensor.reduce\_sum.md) | Reduces a tensor by summing its elements along a specified axis. |
