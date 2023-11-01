@@ -1,13 +1,17 @@
-use core::array::SpanTrait;
-use core::dict::Felt252DictTrait;
-use core::Felt252Dict;
+use orion::numbers::NumberTrait;
+use orion::operators::tensor::{Tensor, TensorTrait, U32Tensor};
+use orion::utils::get_row;
+
+use alexandria_data_structures::merkle_tree::{pedersen::PedersenHasherImpl};
+use alexandria_data_structures::array_ext::ArrayTraitExt;
 
 impl UsizeDictCopy of Copy<Felt252Dict<usize>>;
 impl UsizeDictDrop of Drop<Felt252Dict<usize>>;
 
+
 #[derive(Copy, Drop)]
 struct TreeEnsembleAttributes<T> {
-    nodes_modes: Span<NODE_MODES>, // Change to modes
+    nodes_modes: Span<NODE_MODES>,
     nodes_featureids: Span<usize>,
     nodes_missing_value_tracks_true: Span<usize>,
     nodes_values: Span<T>,
@@ -34,24 +38,85 @@ enum NODE_MODES {
     LEAF
 }
 
+#[generate_trait]
+impl TreeEnsembleImpl<
+    T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +PartialOrd<T>, +PartialEq<T>
+> of TreeEnsembleTrait<T> {
+    fn leaf_index_tree(ref self: TreeEnsemble<T>, x: Span<T>, tree_id: usize) -> usize {
+        let mut index: usize = self.root_index.get(tree_id.into());
 
-fn leaf_index_tree<T, +Drop<T>, +Copy<T>>(
-    ref ensemble: TreeEnsemble<T>, x: Span<T>, tree_id: usize
-) -> usize {
-    let mut index = ensemble.root_index.get(tree_id.into());
+        loop {
+            let x_value = *x.at(*(self.atts.nodes_missing_value_tracks_true).at(index));
+            let r = if x_value.is_nan() {
+                *self.atts.nodes_missing_value_tracks_true.at(index) >= 1
+            } else {
+                match *self.atts.nodes_modes.at(index) {
+                    NODE_MODES::BRANCH_LEQ => x_value <= *self.atts.nodes_values[index],
+                    NODE_MODES::BRANCH_LT => x_value < *self.atts.nodes_values[index],
+                    NODE_MODES::BRANCH_GTE => x_value >= *self.atts.nodes_values[index],
+                    NODE_MODES::BRANCH_GT => x_value > *self.atts.nodes_values[index],
+                    NODE_MODES::BRANCH_EQ => x_value == *self.atts.nodes_values[index],
+                    NODE_MODES::BRANCH_NEQ => x_value != *self.atts.nodes_values[index],
+                    NODE_MODES::LEAF => {
+                        panic(array!['Unexpected rule for node index ', index.into()])
+                    },
+                }
+            };
 
-    loop {
-        match *ensemble.atts.nodes_modes.at(index) {
-            NODE_MODES::BRANCH_LEQ => { continue; },
-            NODE_MODES::BRANCH_LT => { continue; },
-            NODE_MODES::BRANCH_GTE => { continue; },
-            NODE_MODES::BRANCH_GT => { continue; },
-            NODE_MODES::BRANCH_EQ => { continue; },
-            NODE_MODES::BRANCH_NEQ => { continue; },
-            NODE_MODES::LEAF => { break; },
+            let nid = if r {
+                *self.atts.nodes_truenodeids[index]
+            } else {
+                *self.atts.nodes_falsenodeids[index]
+            };
+
+            // key of TreeEnsemble.node_index is pedersen hash of tree_id and nid.
+            let mut key = PedersenHasherImpl::new();
+            let key: felt252 = key.hash(tree_id.into(), nid.into());
+
+            index = self.node_index.get(key);
+
+            // Loop breaker
+            match *self.atts.nodes_modes.at(index) {
+                NODE_MODES::BRANCH_LEQ => { continue; },
+                NODE_MODES::BRANCH_LT => { continue; },
+                NODE_MODES::BRANCH_GTE => { continue; },
+                NODE_MODES::BRANCH_GT => { continue; },
+                NODE_MODES::BRANCH_EQ => { continue; },
+                NODE_MODES::BRANCH_NEQ => { continue; },
+                NODE_MODES::LEAF => { break; },
+            };
         };
-    };
 
-    1
+        index
+    }
+    fn leave_index_tree(ref self: TreeEnsemble<T>, x: Tensor<T>) -> Tensor<usize> {
+        let mut outputs = ArrayTrait::new();
+
+        let mut i: usize = 0;
+        let breaker: usize = *x.shape[0];
+        loop {
+            if i == breaker {
+                break;
+            }
+
+            let row_data: Span<T> = get_row(x, i);
+            let mut outs = ArrayTrait::new();
+            let mut tree_ids = self.tree_ids;
+            loop {
+                match tree_ids.pop_front() {
+                    Option::Some(tree_id) => {
+                        outs
+                            .append(
+                                TreeEnsembleImpl::<T>::leaf_index_tree(ref self, row_data, *tree_id)
+                            )
+                    },
+                    Option::None(_) => { break; }
+                };
+            };
+            outputs.append_all(ref outs);
+        };
+
+        TensorTrait::new(array![*x.shape[0], self.tree_ids.len()].span(), outputs.span())
+    }
 }
 
