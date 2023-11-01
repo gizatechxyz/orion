@@ -46,6 +46,17 @@ impl TreeEnsembleImpl<
         let mut index: usize = self.root_index.get(tree_id.into());
 
         loop {
+            // Loop breaker
+            match *self.atts.nodes_modes.at(index) {
+                NODE_MODES::BRANCH_LEQ => {},
+                NODE_MODES::BRANCH_LT => {},
+                NODE_MODES::BRANCH_GTE => {},
+                NODE_MODES::BRANCH_GT => {},
+                NODE_MODES::BRANCH_EQ => {},
+                NODE_MODES::BRANCH_NEQ => {},
+                NODE_MODES::LEAF => { break; },
+            };
+
             let x_value = *x.at(*(self.atts.nodes_missing_value_tracks_true).at(index));
             let r = if x_value.is_nan() {
                 *self.atts.nodes_missing_value_tracks_true.at(index) >= 1
@@ -74,17 +85,6 @@ impl TreeEnsembleImpl<
             let key: felt252 = key.hash(tree_id.into(), nid.into());
 
             index = self.node_index.get(key);
-
-            // Loop breaker
-            match *self.atts.nodes_modes.at(index) {
-                NODE_MODES::BRANCH_LEQ => { continue; },
-                NODE_MODES::BRANCH_LT => { continue; },
-                NODE_MODES::BRANCH_GTE => { continue; },
-                NODE_MODES::BRANCH_GT => { continue; },
-                NODE_MODES::BRANCH_EQ => { continue; },
-                NODE_MODES::BRANCH_NEQ => { continue; },
-                NODE_MODES::LEAF => { break; },
-            };
         };
 
         index
