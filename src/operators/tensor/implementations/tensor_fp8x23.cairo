@@ -257,6 +257,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn round(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::round::round(*self)
     }
+
+    fn size(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        core::size(self)
+    }    
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

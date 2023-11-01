@@ -258,6 +258,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::round::round(*self)
     }
 
+    fn size(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        core::size(self)
+    }
+
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

@@ -257,7 +257,11 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
 
     fn round(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::round::round(*self)
-    } 
+    }
+
+    fn size(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        core::size(self)
+    }    
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

@@ -249,6 +249,10 @@ impl U32Tensor of TensorTrait<u32> {
     fn round(self: @Tensor<u32>) -> Tensor<u32> {
         math::round::round(*self)
     }
+
+    fn size(self: @Tensor<u32>) -> Tensor<u32> {
+        core::size(self)
+    }    
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

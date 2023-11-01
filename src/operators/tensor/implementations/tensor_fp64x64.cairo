@@ -258,6 +258,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn round(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
         math::round::round(*self)
     }
+
+    fn size(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        core::size(self)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.
