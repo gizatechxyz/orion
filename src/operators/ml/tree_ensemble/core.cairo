@@ -114,6 +114,7 @@ impl TreeEnsembleImpl<
                 };
             };
             outputs.append_all(ref outs);
+            i += 1;
         };
 
         TensorTrait::new(array![*x.shape[0], self.tree_ids.len()].span(), outputs.span())
