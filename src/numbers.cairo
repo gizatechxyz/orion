@@ -49,6 +49,8 @@ trait NumberTrait<T, MAG> {
     fn sign(self: T) -> T;
     fn and(lhs: T, rhs: T) -> bool;
     fn where(self: T, x: T, y: T) -> T;
+    fn NaN() -> T;
+    fn is_nan(self: T) -> bool;
 }
 
 use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23};
@@ -225,6 +227,14 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
 
     fn where(self: FP8x23, x: FP8x23, y: FP8x23) -> FP8x23 {
         comp_fp8x23::where(self, x, y)
+    }
+
+    fn NaN() -> FP8x23 {
+        FP8x23Impl::NaN()
+    }
+
+    fn is_nan(self: FP8x23) -> bool {
+        FP8x23Impl::is_nan(self)
     }
 }
 
@@ -403,6 +413,14 @@ impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
     fn where(self: FP8x23W, x: FP8x23W, y: FP8x23W) -> FP8x23W {
         comp_fp8x23wide::where(self, x, y)
     }
+
+    fn NaN() -> FP8x23W {
+        FP8x23WImpl::NaN()
+    }
+
+    fn is_nan(self: FP8x23W) -> bool {
+        FP8x23WImpl::is_nan(self)
+    }
 }
 
 use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16};
@@ -580,6 +598,14 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
     fn where(self: FP16x16, x: FP16x16, y: FP16x16) -> FP16x16 {
         comp_fp16x16::where(self, x, y)
     }
+
+    fn NaN() -> FP16x16 {
+        FP16x16Impl::NaN()
+    }
+
+    fn is_nan(self: FP16x16) -> bool {
+        FP16x16Impl::is_nan(self)
+    }
 }
 
 use orion::numbers::fixed_point::implementations::fp16x16wide::core::{FP16x16WImpl, FP16x16W};
@@ -756,6 +782,14 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
 
     fn where(self: FP16x16W, x: FP16x16W, y: FP16x16W) -> FP16x16W {
         comp_fp16x16wide::where(self, x, y)
+    }
+
+    fn NaN() -> FP16x16W {
+        FP16x16WImpl::NaN()
+    }
+
+    fn is_nan(self: FP16x16W) -> bool {
+        FP16x16WImpl::is_nan(self)
     }
 }
 
@@ -935,6 +969,14 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
     fn where(self: FP64x64, x: FP64x64, y: FP64x64) -> FP64x64 {
         comp_fp64x64::where(self, x, y)
     }
+
+    fn NaN() -> FP64x64 {
+        FP64x64Impl::NaN()
+    }
+
+    fn is_nan(self: FP64x64) -> bool {
+        FP64x64Impl::is_nan(self)
+    }
 }
 
 use orion::numbers::fixed_point::implementations::fp32x32::core::{FP32x32Impl, FP32x32};
@@ -1112,6 +1154,14 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
 
     fn where(self: FP32x32, x: FP32x32, y: FP32x32) -> FP32x32 {
         comp_fp32x32::where(self, x, y)
+    }
+
+    fn NaN() -> FP32x32 {
+        FP32x32Impl::NaN()
+    }
+
+    fn is_nan(self: FP32x32) -> bool {
+        FP32x32Impl::is_nan(self)
     }
 }
 
@@ -1305,6 +1355,14 @@ impl I8Number of NumberTrait<i8, u8> {
             return x;
         }
     }
+
+    fn NaN() -> i8 {
+        IntegerTrait::NaN()
+    }
+
+    fn is_nan(self: i8) -> bool {
+        IntegerTrait::is_nan(self)
+    }
 }
 
 use orion::numbers::signed_integer::i16 as i16_core;
@@ -1496,6 +1554,14 @@ impl i16Number of NumberTrait<i16, u16> {
         } else {
             return x;
         }
+    }
+
+    fn NaN() -> i16 {
+        IntegerTrait::NaN()
+    }
+
+    fn is_nan(self: i16) -> bool {
+        IntegerTrait::is_nan(self)
     }
 }
 
@@ -1689,6 +1755,14 @@ impl i32Number of NumberTrait<i32, u32> {
             return x;
         }
     }
+
+    fn NaN() -> i32 {
+        IntegerTrait::NaN()
+    }
+
+    fn is_nan(self: i32) -> bool {
+        IntegerTrait::is_nan(self)
+    }
 }
 
 use orion::numbers::signed_integer::i64 as i64_core;
@@ -1880,6 +1954,14 @@ impl i64Number of NumberTrait<i64, u64> {
         } else {
             return x;
         }
+    }
+
+    fn NaN() -> i64 {
+        IntegerTrait::NaN()
+    }
+
+    fn is_nan(self: i64) -> bool {
+        IntegerTrait::is_nan(self)
     }
 }
 
@@ -2073,6 +2155,15 @@ impl i128Number of NumberTrait<i128, u128> {
         } else {
             return x;
         }
+    }
+
+
+    fn NaN() -> i128 {
+        IntegerTrait::NaN()
+    }
+
+    fn is_nan(self: i128) -> bool {
+        IntegerTrait::is_nan(self)
     }
 }
 
@@ -2271,5 +2362,13 @@ impl u32Number of NumberTrait<u32, u32> {
         } else {
             return x;
         }
+    }
+
+    fn NaN() -> u32 {
+        4242424242
+    }
+
+    fn is_nan(self: u32) -> bool {
+        self == 4242424242
     }
 }

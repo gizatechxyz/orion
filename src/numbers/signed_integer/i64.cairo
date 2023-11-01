@@ -37,6 +37,14 @@ impl i64Impl of IntegerTrait<i64, u64> {
     fn sign(self: i64) -> i64 {
         i64_sign(self)
     }
+
+    fn NaN() -> i64 {
+        return i64 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: i64) -> bool {
+        self == i64 { mag: 0, sign: true }
+    }
 }
 
 // Implements the Into trait for i64.

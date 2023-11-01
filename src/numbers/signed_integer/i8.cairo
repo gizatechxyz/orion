@@ -43,6 +43,14 @@ impl i8Impl of IntegerTrait<i8, u8> {
     fn sign(self: i8) -> i8 {
         i8_sign(self)
     }
+
+    fn NaN() -> i8 {
+        return i8 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: i8) -> bool {
+        self == i8 { mag: 0, sign: true }
+    }
 }
 
 // Implements the Into trait for i8.

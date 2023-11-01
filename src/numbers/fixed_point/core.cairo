@@ -1102,5 +1102,6 @@ trait FixedTrait<T, MAG> {
     fn ZERO() -> T;
     fn ONE() -> T;
     fn MAX() -> T;
-    // fn NaN() -> T;
+    fn NaN() -> T;
+    fn is_nan(self: T) -> bool;
 }
