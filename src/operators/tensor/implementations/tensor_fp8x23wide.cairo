@@ -246,7 +246,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::where::where(self, x, y)
     }
 
-    fn bitwise_and(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
+    fn bitwise_and(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         math::bitwise_and::bitwise_and(self, other)
     }
 }

@@ -247,7 +247,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::where::where(self, x, y)
     }
 
-    fn bitwise_and(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<usize> {
+    fn bitwise_and(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::bitwise_and::bitwise_and(self, other)
     }
 }

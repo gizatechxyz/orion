@@ -238,7 +238,7 @@ impl U32Tensor of TensorTrait<u32> {
         math::where::where(self, x, y)
     }
 
-    fn bitwise_and(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+    fn bitwise_and(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
         math::bitwise_and::bitwise_and(self, other)
     }
 }

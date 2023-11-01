@@ -2937,7 +2937,7 @@ trait TensorTrait<T> {
     /// >>> [0,1,1,0,1,1,0,1,1]
     /// ```
     ///
-    fn bitwise_and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn bitwise_and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring
