@@ -11,12 +11,16 @@ impl UsizeDictDrop of Drop<Felt252Dict<usize>>;
 
 #[derive(Copy, Drop)]
 struct TreeEnsembleAttributes<T> {
-    nodes_modes: Span<NODE_MODES>,
-    nodes_featureids: Span<usize>,
-    nodes_missing_value_tracks_true: Span<usize>,
-    nodes_values: Span<T>,
-    nodes_truenodeids: Span<usize>,
+    base_values: Option<Span<T>>,
     nodes_falsenodeids: Span<usize>,
+    nodes_featureids: Span<usize>,
+    nodes_hitrates: Span<T>,
+    nodes_missing_value_tracks_true: Span<usize>,
+    nodes_modes: Span<NODE_MODES>,
+    nodes_nodeids: Span<usize>,
+    nodes_treeids: Span<usize>,
+    nodes_truenodeids: Span<usize>,
+    nodes_values: Span<T>,
 }
 
 #[derive(Copy, Drop)]
