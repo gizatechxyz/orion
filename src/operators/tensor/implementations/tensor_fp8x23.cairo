@@ -257,6 +257,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn round(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::round::round(*self)
     }
+
+    fn trilu(self: @Tensor<FP8x23>, upper: bool, k: i64) -> Tensor<FP8x23> {
+        linalg::trilu::trilu(self, upper, k)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

@@ -254,7 +254,11 @@ impl I8Tensor of TensorTrait<i8> {
 
     fn round(self: @Tensor<i8>) -> Tensor<i8> {
         math::round::round(*self)
-    } 
+    }
+
+    fn trilu(self: @Tensor<i8>, upper: bool, k: i64) -> Tensor<i8> {
+        linalg::trilu::trilu(self, upper, k)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

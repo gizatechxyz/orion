@@ -267,6 +267,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn round(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
         math::round::round(*self)
     }
+
+    fn trilu(self: @Tensor<FP16x16W>, upper: bool, k: i64) -> Tensor<FP16x16W> {
+        linalg::trilu::trilu(self, upper, k)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.

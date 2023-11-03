@@ -249,6 +249,10 @@ impl U32Tensor of TensorTrait<u32> {
     fn round(self: @Tensor<u32>) -> Tensor<u32> {
         math::round::round(*self)
     }
+
+    fn trilu(self: @Tensor<u32>, upper: bool, k: i64) -> Tensor<u32> {
+        linalg::trilu::trilu(self, upper, k)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

@@ -89,6 +89,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.identity`](tensor.identity.md) | Return a Tensor with the same shape and contents as input. |
 | [`tensor.where`](tensor.where.md) | Return elements chosen from x or y depending on condition. |
 | [`tensor.round`](tensor.round.md) | Computes the round value of all elements in the input tensor. |
+| [`tensor.trilu`](tensor.trilu.md) | Returns the upper or lower triangular part of a tensor or a batch of 2D matrices. |
 
 ## Arithmetic Operations
 

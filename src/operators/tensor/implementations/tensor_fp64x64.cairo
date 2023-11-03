@@ -258,6 +258,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn round(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
         math::round::round(*self)
     }
+
+    fn trilu(self: @Tensor<FP64x64>, upper: bool, k: i64) -> Tensor<FP64x64> {
+        linalg::trilu::trilu(self, upper, k)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

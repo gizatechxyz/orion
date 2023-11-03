@@ -254,11 +254,14 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::where::where(self, x, y)
     }
 
-    fn round(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> { 
+    fn round(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         math::round::round(*self)
     }
 
-} 
+    fn trilu(self: @Tensor<FP8x23W>, upper: bool, k: i64) -> Tensor<FP8x23W> {
+        linalg::trilu::trilu(self, upper, k)
+    }
+}
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.
 impl FP8x23WTensorAdd<
