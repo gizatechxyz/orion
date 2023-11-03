@@ -48,12 +48,8 @@ fn onehot_encode<
     // New shape for output data
     loop {
         match shape.pop_front() {
-            Option::Some(size) => {
-                output_size.append(*size);
-            },
-            Option::None(_) => {
-                break;
-            }
+            Option::Some(size) => { output_size.append(*size); },
+            Option::None(_) => { break; }
         };
     };
     output_size.append(depth.into());
@@ -75,8 +71,9 @@ fn onehot_encode<
                     if inner_index == depth {
                         break ();
                     };
-                    let ind = FixedTrait::<T,
-                    MAG>::new_unscaled(inner_index.try_into().unwrap(), false);
+                    let ind = FixedTrait::<
+                        T, MAG
+                    >::new_unscaled(inner_index.try_into().unwrap(), false);
 
                     if fixed_number == ind {
                         output_data.append(*values.data.at(1));
@@ -87,9 +84,7 @@ fn onehot_encode<
                     inner_index += 1;
                 };
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 

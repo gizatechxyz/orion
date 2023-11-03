@@ -143,6 +143,51 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Dl-Vv",
+      "name": "Daniel",
+      "avatar_url": "https://avatars.githubusercontent.com/u/83556514?v=4",
+      "profile": "https://www.brilliantblocks.io/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "chachaleo",
+      "name": "Charlotte",
+      "avatar_url": "https://avatars.githubusercontent.com/u/49371958?v=4",
+      "profile": "https://github.com/chachaleo",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "0xfulanito",
+      "name": "0xfulanito",
+      "avatar_url": "https://avatars.githubusercontent.com/u/145947367?v=4",
+      "profile": "https://github.com/0xfulanito",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "0x73e",
+      "name": "0x73e",
+      "avatar_url": "https://avatars.githubusercontent.com/u/132935850?v=4",
+      "profile": "https://github.com/0x73e",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "TsBauer",
+      "name": "Thomas S. Bauer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25390947?v=4",
+      "profile": "https://brilliantblocks.io",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

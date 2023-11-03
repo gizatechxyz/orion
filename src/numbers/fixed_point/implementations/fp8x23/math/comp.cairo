@@ -35,42 +35,64 @@ fn or(a: FP8x23, b: FP8x23) -> bool {
     }
 }
 
-// Tests --------------------------------------------------------------------------------------------------------------
-
-#[test]
-fn test_max() {
-    let a = FixedTrait::new_unscaled(1, false);
-    let b = FixedTrait::new_unscaled(0, false);
-    let c = FixedTrait::new_unscaled(1, true);
-
-    assert(max(a, a) == a, 'max(a, a)');
-    assert(max(a, b) == a, 'max(a, b)');
-    assert(max(a, c) == a, 'max(a, c)');
-
-    assert(max(b, a) == a, 'max(b, a)');
-    assert(max(b, b) == b, 'max(b, b)');
-    assert(max(b, c) == b, 'max(b, c)');
-
-    assert(max(c, a) == a, 'max(c, a)');
-    assert(max(c, b) == b, 'max(c, b)');
-    assert(max(c, c) == c, 'max(c, c)');
+fn and(a: FP8x23, b: FP8x23) -> bool {
+    let zero = FixedTrait::new(0, false);
+    if a == zero || b == zero {
+        return false;
+    } else {
+        return true;
+    }
 }
 
-#[test]
-fn test_min() {
-    let a = FixedTrait::new_unscaled(1, false);
-    let b = FixedTrait::new_unscaled(0, false);
-    let c = FixedTrait::new_unscaled(1, true);
+fn where(a: FP8x23, b: FP8x23, c: FP8x23) -> FP8x23 {
+    if a == FixedTrait::new(0, false) {
+        return c;
+    } else {
+        return b;
+    }
+}
 
-    assert(min(a, a) == a, 'min(a, a)');
-    assert(min(a, b) == b, 'min(a, b)');
-    assert(min(a, c) == c, 'min(a, c)');
+// Tests --------------------------------------------------------------------------------------------------------------
 
-    assert(min(b, a) == b, 'min(b, a)');
-    assert(min(b, b) == b, 'min(b, b)');
-    assert(min(b, c) == c, 'min(b, c)');
+#[cfg(test)]
+mod tests {
+    use super::{FixedTrait, max, min};
 
-    assert(min(c, a) == c, 'min(c, a)');
-    assert(min(c, b) == c, 'min(c, b)');
-    assert(min(c, c) == c, 'min(c, c)');
+    #[test]
+    fn test_max() {
+        let a = FixedTrait::new_unscaled(1, false);
+        let b = FixedTrait::new_unscaled(0, false);
+        let c = FixedTrait::new_unscaled(1, true);
+
+        assert(max(a, a) == a, 'max(a, a)');
+        assert(max(a, b) == a, 'max(a, b)');
+        assert(max(a, c) == a, 'max(a, c)');
+
+        assert(max(b, a) == a, 'max(b, a)');
+        assert(max(b, b) == b, 'max(b, b)');
+        assert(max(b, c) == b, 'max(b, c)');
+
+        assert(max(c, a) == a, 'max(c, a)');
+        assert(max(c, b) == b, 'max(c, b)');
+        assert(max(c, c) == c, 'max(c, c)');
+    }
+
+    #[test]
+    fn test_min() {
+        let a = FixedTrait::new_unscaled(1, false);
+        let b = FixedTrait::new_unscaled(0, false);
+        let c = FixedTrait::new_unscaled(1, true);
+
+        assert(min(a, a) == a, 'min(a, a)');
+        assert(min(a, b) == b, 'min(a, b)');
+        assert(min(a, c) == c, 'min(a, c)');
+
+        assert(min(b, a) == b, 'min(b, a)');
+        assert(min(b, b) == b, 'min(b, b)');
+        assert(min(b, c) == c, 'min(b, c)');
+
+        assert(min(c, a) == c, 'min(c, a)');
+        assert(min(c, b) == c, 'min(c, b)');
+        assert(min(c, c) == c, 'min(c, c)');
+    }
 }
