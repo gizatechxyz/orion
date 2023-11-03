@@ -256,6 +256,12 @@ impl I32Tensor of TensorTrait<i32> {
     fn round(self: @Tensor<i32>) -> Tensor<i32> {
         math::round::round(*self)
     }
+
+    fn scatter(
+        self: @Tensor<i32>, updates: Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
+        -> Tensor<i32> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.
