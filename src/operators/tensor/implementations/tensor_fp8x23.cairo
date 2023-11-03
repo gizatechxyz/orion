@@ -257,6 +257,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn round(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::round::round(*self)
     }
+
+    fn reduce_l1(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

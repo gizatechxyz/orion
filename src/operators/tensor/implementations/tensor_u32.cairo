@@ -249,6 +249,10 @@ impl U32Tensor of TensorTrait<u32> {
     fn round(self: @Tensor<u32>) -> Tensor<u32> {
         math::round::round(*self)
     }
+
+    fn reduce_l1(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.
