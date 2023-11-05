@@ -20,12 +20,20 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         *at_tensor(self, indices)
     }
 
-    fn min(self: @Tensor<FP16x16>) -> FP16x16 {
-        math::min::min_in_tensor::<FP16x16, u32>(*self.data)
+    fn min_in_tensor(self: @Tensor<FP16x16>) -> FP16x16 {
+        math::min_in_tensor::min_in_tensor::<FP16x16, u32>(*self.data)
     }
 
-    fn max(self: @Tensor<FP16x16>) -> FP16x16 {
-        math::max::max_in_tensor(*self.data)
+    fn min(tensors: Span<Tensor<FP16x16>>) -> Tensor<FP16x16> {
+        math::min::min(tensors)
+    }
+
+    fn max_in_tensor(self: @Tensor<FP16x16>) -> FP16x16 {
+        math::max_in_tensor::max_in_tensor(*self.data)
+    }
+
+    fn max(tensors: Span<Tensor<FP16x16>>) -> Tensor<FP16x16> {
+        math::max::max(tensors)
     }
 
     fn stride(self: @Tensor<FP16x16>) -> Span<usize> {
@@ -198,6 +206,30 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
     }
 
+    fn qlinear_matmul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP16x16>,
+        a_zero_point: @Tensor<FP16x16>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP16x16>,
+        b_zero_point: @Tensor<FP16x16>,
+        y_scale: @Tensor<FP16x16>,
+        y_zero_point: @Tensor<FP16x16>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_matmul::qlinear_matmul(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn slice(
         self: @Tensor<FP16x16>,
         starts: Span<usize>,
@@ -245,6 +277,17 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn where(self: @Tensor<FP16x16>, x: @Tensor<FP16x16>, y: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::where::where(self, x, y)
     }
+
+    fn round(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::round::round(*self)
+    }
+
+    fn scatter(
+        self: @Tensor<FP16x16>, updates: Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
+        -> Tensor<FP16x16> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

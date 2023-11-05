@@ -20,12 +20,20 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         *at_tensor(self, indices)
     }
 
-    fn min(self: @Tensor<FP8x23W>) -> FP8x23W {
-        math::min::min_in_tensor::<FP8x23W, u64>(*self.data)
+    fn min_in_tensor(self: @Tensor<FP8x23W>) -> FP8x23W {
+        math::min_in_tensor::min_in_tensor::<FP8x23W, u64>(*self.data)
     }
 
-    fn max(self: @Tensor<FP8x23W>) -> FP8x23W {
-        math::max::max_in_tensor(*self.data)
+    fn min(tensors: Span<Tensor<FP8x23W>>) -> Tensor<FP8x23W> {
+        math::min::min(tensors)
+    }
+
+    fn max_in_tensor(self: @Tensor<FP8x23W>) -> FP8x23W {
+        math::max_in_tensor::max_in_tensor(*self.data)
+    }
+
+    fn max(tensors: Span<Tensor<FP8x23W>>) -> Tensor<FP8x23W> {
+        math::max::max(tensors)
     }
 
     fn stride(self: @Tensor<FP8x23W>) -> Span<usize> {
@@ -198,6 +206,19 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_matmul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP8x23W>,
+        a_zero_point: @Tensor<FP8x23W>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP8x23W>,
+        b_zero_point: @Tensor<FP8x23W>,
+        y_scale: @Tensor<FP8x23W>,
+        y_zero_point: @Tensor<FP8x23W>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn slice(
         self: @Tensor<FP8x23W>,
         starts: Span<usize>,
@@ -245,7 +266,18 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn where(self: @Tensor<FP8x23W>, x: @Tensor<FP8x23W>, y: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         math::where::where(self, x, y)
     }
-}
+
+    fn round(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> { 
+        math::round::round(*self)
+    }
+
+    fn scatter(
+        self: @Tensor<FP8x23W>, updates: Tensor<FP8x23W>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
+        -> Tensor<FP8x23W> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
+} 
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.
 impl FP8x23WTensorAdd<

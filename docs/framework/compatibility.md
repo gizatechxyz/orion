@@ -56,6 +56,7 @@ You can see below the list of current supported ONNX Operators:
 |             [Gather](operators/tensor/tensor.gather.md)             | :white\_check\_mark: |
 |    [QuantizeLinear](operators/tensor/tensor.quantize\_linear.md)    | :white\_check\_mark: |
 |   [DequantizeLinear](operators/tensor/tensor.quantize\_linear.md)   | :white\_check\_mark: |
+|   [QLinearMatmul](operators/tensor/tensor.qlinear\_matmul.md)   | :white\_check\_mark: |
 |            [Nonzero](operators/tensor/tensor.nonzero.md)            | :white\_check\_mark: |
 |            [Squeeze](operators/tensor/tensor.squeeze.md)            | :white\_check\_mark: |
 |          [Unsqueeze](operators/tensor/tensor.unsqueeze.md)          | :white\_check\_mark: |
@@ -66,6 +67,12 @@ You can see below the list of current supported ONNX Operators:
 |                [Xor](operators/tensor/tensor.xor.md)                | :white\_check\_mark: |
 |                 [Or](operators/tensor/tensor.or.md)                 | :white\_check\_mark: |
 |             [Gemm](operators/neural-network/nn.gemm.md)             | :white\_check\_mark: |
+|    [MinInTensor](operators/tensor/tensor.min\_in\_tensor.md)        | :white\_check\_mark: |
+|                [Min](operators/tensor/tensor.min.md)                | :white\_check\_mark: |
 |             [Where](operators/tensor/tensor.where.md)               | :white\_check\_mark: |
+|             [Round](operators/tensor/tensor.round.md)               | :white\_check\_mark: |
+|      [MaxInTensor](operators/tensor/tensor.max\_in\_tensor.md)      | :white\_check\_mark: |
+|                 [Max](operators/tensor/tensor.max.md)               | :white\_check\_mark: |
+|             [Scatter](operators/tensor/scatter.max.md)              | :white\_check\_mark: |
 
-Current Operators support: **61/156 (39%)**
+Current Operators support: **68/156 (43%)**

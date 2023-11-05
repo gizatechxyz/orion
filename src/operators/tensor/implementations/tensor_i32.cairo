@@ -21,12 +21,20 @@ impl I32Tensor of TensorTrait<i32> {
         *at_tensor(self, indices)
     }
 
-    fn min(self: @Tensor<i32>) -> i32 {
-        math::min::min_in_tensor::<i32, u32>(*self.data)
+    fn min_in_tensor(self: @Tensor<i32>) -> i32 {
+        math::min_in_tensor::min_in_tensor::<i32, u32>(*self.data)
     }
 
-    fn max(self: @Tensor<i32>) -> i32 {
-        math::max::max_in_tensor(*self.data)
+    fn min(tensors: Span<Tensor<i32>>) -> Tensor<i32> {
+        math::min::min(tensors)
+    }
+
+    fn max_in_tensor(self: @Tensor<i32>) -> i32 {
+        math::max_in_tensor::max_in_tensor(*self.data)
+    }
+
+    fn max(tensors: Span<Tensor<i32>>) -> Tensor<i32> {
+        math::max::max(tensors)
     }
 
     fn stride(self: @Tensor<i32>) -> Span<usize> {
@@ -199,6 +207,31 @@ impl I32Tensor of TensorTrait<i32> {
         quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
     }
 
+    fn qlinear_matmul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<i32>,
+        a_zero_point: @Tensor<i32>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<i32>,
+        b_zero_point: @Tensor<i32>,
+        y_scale: @Tensor<i32>,
+        y_zero_point: @Tensor<i32>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_matmul::qlinear_matmul(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
+
     fn slice(
         self: @Tensor<i32>,
         starts: Span<usize>,
@@ -243,6 +276,16 @@ impl I32Tensor of TensorTrait<i32> {
 
     fn where(self: @Tensor<i32>, x: @Tensor<i32>, y: @Tensor<i32>) -> Tensor<i32> {
         math::where::where(self, x, y)
+    }
+
+    fn round(self: @Tensor<i32>) -> Tensor<i32> {
+        math::round::round(*self)
+    }
+
+    fn scatter(
+        self: @Tensor<i32>, updates: Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
+        -> Tensor<i32> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 }
 
