@@ -3053,7 +3053,7 @@ trait TensorTrait<T> {
     /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
-    /// * `updates`(`Tensor<T>`) - The inupdates tensor.
+    /// * `updates`(`Tensor<T>`) - The updates tensor.
     /// * `indices`(`Tensor<T>`) - Tensor of indices.
     /// * `axis`(`Option<usize>`) - Axis to scatter on. Default: axis=0.
     /// * `reduction`(`Option<usize>`) - Reduction operation. Default: reduction='none'.

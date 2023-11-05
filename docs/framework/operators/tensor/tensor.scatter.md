@@ -9,7 +9,7 @@ Produces a copy of input data, and updates value to values specified by updates 
 ## Args
 
 * `self`(`@Tensor<T>`) - The input tensor.
-* `updates`(`Tensor<T>`) - The inupdates tensor.
+* `updates`(`Tensor<T>`) - The updates tensor.
 * `indices`(`Tensor<T>`) - Tensor of indices.
 * `axis`(`Option<usize>`) - Axis to scatter on. Default: axis=0.
 * `reduction`(`Option<usize>`) - Reduction operation. Default: reduction='none'.
