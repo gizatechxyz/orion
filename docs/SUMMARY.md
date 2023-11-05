@@ -94,6 +94,7 @@
     * [tensor.and](framework/operators/tensor/tensor.and.md)
     * [tensor.where](framework/operators/tensor/tensor.where.md)
     * [tensor.round](framework/operators/tensor/tensor.round.md)
+    * [tensor.size](framework/operators/tensor/tensor.size.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)

@@ -3,6 +3,7 @@ mod signed_integer;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
+use orion::numbers::fixed_point::utils;
 
 // Common methods from Fixed Point and Signed Integers.
 trait NumberTrait<T, MAG> {
@@ -1128,7 +1129,9 @@ impl I8Number of NumberTrait<i8, u8> {
     }
 
     fn from_felt(val: felt252) -> i8 {
-        panic(array!['not supported!'])
+        let mag = integer::u8_try_from_felt252(utils::felt_abs(val)).unwrap();
+        let sign = utils::felt_sign(val);
+        i8 { mag, sign }
     }
 
     fn ceil(self: i8) -> i8 {
@@ -1320,7 +1323,9 @@ impl i16Number of NumberTrait<i16, u16> {
     }
 
     fn from_felt(val: felt252) -> i16 {
-        panic(array!['not supported!'])
+        let mag = integer::u16_try_from_felt252(utils::felt_abs(val)).unwrap();
+        let sign = utils::felt_sign(val);
+        i16 { mag, sign }
     }
 
     fn ceil(self: i16) -> i16 {
@@ -1512,7 +1517,9 @@ impl i32Number of NumberTrait<i32, u32> {
     }
 
     fn from_felt(val: felt252) -> i32 {
-        panic(array!['not supported!'])
+        let mag = integer::u32_try_from_felt252(utils::felt_abs(val)).unwrap();
+        let sign = utils::felt_sign(val);
+        i32 { mag, sign }
     }
 
     fn ceil(self: i32) -> i32 {
@@ -1704,7 +1711,9 @@ impl i64Number of NumberTrait<i64, u64> {
     }
 
     fn from_felt(val: felt252) -> i64 {
-        panic(array!['not supported!'])
+        let mag = integer::u64_try_from_felt252(utils::felt_abs(val)).unwrap();
+        let sign = utils::felt_sign(val);
+        i64 { mag, sign }
     }
 
     fn ceil(self: i64) -> i64 {
@@ -1896,7 +1905,9 @@ impl i128Number of NumberTrait<i128, u128> {
     }
 
     fn from_felt(val: felt252) -> i128 {
-        panic(array!['not supported!'])
+        let mag = integer::u128_try_from_felt252(utils::felt_abs(val)).unwrap();
+        let sign = utils::felt_sign(val);
+        i128 { mag, sign }
     }
 
     fn ceil(self: i128) -> i128 {
@@ -2086,7 +2097,7 @@ impl u32Number of NumberTrait<u32, u32> {
     }
 
     fn from_felt(val: felt252) -> u32 {
-        panic(array!['not supported!'])
+        integer::u32_try_from_felt252(utils::felt_abs(val)).unwrap()
     }
 
     fn ceil(self: u32) -> u32 {

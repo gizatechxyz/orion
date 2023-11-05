@@ -279,7 +279,11 @@ impl I8Tensor of TensorTrait<i8> {
 
     fn round(self: @Tensor<i8>) -> Tensor<i8> {
         math::round::round(*self)
-    } 
+    }
+
+    fn size(self: @Tensor<i8>) -> Tensor<i8> {
+        core::size(self)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

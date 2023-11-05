@@ -86,6 +86,8 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// identity - Return a Tensor with the same shape and contents as input.
 /// where - Return elements chosen from x or y depending on condition.
 /// round - Computes the round value of all elements in the input tensor.
+/// size - Returns the size of a tensor.
+///
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -3147,6 +3149,41 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn round(self: @Tensor<T>) -> Tensor<T>;
+    /// # tensor.size
+    ///
+    /// ```rust 
+    ///    fn size(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Takes a tensor as input and outputs a int64 scalar that equals to the total number of elements of the input tensor.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - An input tensor.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` of Total number of elements of the input tensor.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
+    /// 
+    /// fn size_example() -> Tensor<FP8x23> {
+    ///     let tensor = TensorTrait::<FP8x23>::new(
+    ///         shape: array![2, 3].span(), 
+    ///         data: array![[[1, 2, 3], [4, 5, 6]]].span(), 
+    ///     );
+    /// 
+    ///     return tensor.size();
+    /// }
+    /// >>> [6]
+    /// ```
+    ///
+    fn size(self: @Tensor<T>) -> Tensor<T>;    
 }
 
 /// Cf: TensorTrait::new docstring
@@ -3687,4 +3724,20 @@ fn clip<
 /// Cf: TensorTrait::identity docstring
 fn identity<T>(self: @Tensor<T>) -> Tensor<T> {
     Tensor::<T> { shape: *self.shape, data: *self.data }
+}
+
+/// Cf: TensorTrait::size docstring
+fn size<
+T,
+MAG,
+impl TNumber: NumberTrait<T, MAG>,
+impl TDrop: Drop<T>,
+>
+(
+    self: @Tensor<T>
+) -> Tensor<T> {
+
+    let value = NumberTrait::new_unscaled(NumberTrait::mag(NumberTrait::<T, MAG>::from_felt(len_from_shape(*self.shape).into())), false);
+    Tensor::<T> { shape: array![1].span(), data: array![value].span() }
+    
 }
