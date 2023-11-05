@@ -50,6 +50,8 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.xor`](tensor.xor.md) | Computes the logical XOR of two tensors element-wise. |
 | [`tensor.stride`](tensor.stride.md) | Computes the stride of each dimension in the tensor. |
 | [`tensor.onehot`](tensor.onehot.md) | Produces one-hot tensor based on input. |
+| [`tensor.max_in_tensor`](tensor.max\_in\_tensor.md) | Returns the maximum value in the tensor. |
+| [`tensor.min_in_tensor`](tensor.min\_in\_tensor.md) | Returns the minimum value in the tensor. |
 | [`tensor.min`](tensor.min.md) | Returns the minimum value in the tensor. |
 | [`tensor.max`](tensor.max.md) | Returns the maximum value in the tensor. |
 | [`tensor.reduce_sum`](tensor.reduce\_sum.md) | Reduces a tensor by summing its elements along a specified axis. |
@@ -87,6 +89,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.and`](tensor.and.md) | Computes the logical AND of two tensors element-wise.  |
 | [`tensor.identity`](tensor.identity.md) | Return a Tensor with the same shape and contents as input. |
 | [`tensor.where`](tensor.where.md) | Return elements chosen from x or y depending on condition. |
+| [`tensor.round`](tensor.round.md) | Computes the round value of all elements in the input tensor. |
 
 ## Arithmetic Operations
 

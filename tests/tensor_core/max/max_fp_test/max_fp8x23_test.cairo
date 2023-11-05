@@ -13,7 +13,7 @@ mod tensor_1D {
     fn tensor_max() {
         let tensor = fp_tensor_1x3_helper();
 
-        let result = tensor.max().mag;
+        let result = tensor.max_in_tensor().mag;
         assert(result == FixedTrait::<FP8x23>::new_unscaled(2, false).mag, 'tensor.max = 2');
     }
 }
@@ -34,7 +34,7 @@ mod tensor_2D {
     fn tensor_max() {
         let tensor = fp_tensor_2x2_helper();
 
-        let result = tensor.max().mag;
+        let result = tensor.max_in_tensor().mag;
         assert(result == FixedTrait::<FP8x23>::new_unscaled(3, false).mag, 'tensor.max = 3');
     }
 }
@@ -55,7 +55,7 @@ mod tensor_3D {
     fn tensor_max() {
         let tensor = fp_tensor_2x2x2_helper();
 
-        let result = tensor.max().mag;
+        let result = tensor.max_in_tensor().mag;
         assert(result == FixedTrait::<FP8x23>::new_unscaled(7, false).mag, 'tensor.max = 7');
     }
 }

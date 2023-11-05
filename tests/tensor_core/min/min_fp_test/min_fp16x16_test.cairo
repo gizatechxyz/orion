@@ -13,7 +13,7 @@ mod tensor_1D {
     fn tensor_min() {
         let tensor = fp_tensor_1x3_helper();
 
-        let result = tensor.min().mag;
+        let result = tensor.min_in_tensor().mag;
         assert(result == 0, 'tensor.min = 0');
     }
 }
@@ -34,7 +34,7 @@ mod tensor_2D {
     fn tensor_min() {
         let tensor = fp_tensor_2x2_helper();
 
-        let result = tensor.min().mag;
+        let result = tensor.min_in_tensor().mag;
         assert(result == 0, 'tensor.min = 0');
     }
 }
@@ -55,7 +55,7 @@ mod tensor_3D {
     fn tensor_min() {
         let tensor = fp_tensor_2x2x2_helper();
 
-        let result = tensor.min().mag;
+        let result = tensor.min_in_tensor().mag;
         assert(result == 0, 'tensor.min = 0');
     }
 }

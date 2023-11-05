@@ -20,12 +20,20 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         *at_tensor(self, indices)
     }
 
-    fn min(self: @Tensor<FP16x16>) -> FP16x16 {
-        math::min::min_in_tensor::<FP16x16, u32>(*self.data)
+    fn min_in_tensor(self: @Tensor<FP16x16>) -> FP16x16 {
+        math::min_in_tensor::min_in_tensor::<FP16x16, u32>(*self.data)
     }
 
-    fn max(self: @Tensor<FP16x16>) -> FP16x16 {
-        math::max::max_in_tensor(*self.data)
+    fn min(tensors: Span<Tensor<FP16x16>>) -> Tensor<FP16x16> {
+        math::min::min(tensors)
+    }
+
+    fn max_in_tensor(self: @Tensor<FP16x16>) -> FP16x16 {
+        math::max_in_tensor::max_in_tensor(*self.data)
+    }
+
+    fn max(tensors: Span<Tensor<FP16x16>>) -> Tensor<FP16x16> {
+        math::max::max(tensors)
     }
 
     fn stride(self: @Tensor<FP16x16>) -> Span<usize> {
@@ -269,6 +277,11 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn where(self: @Tensor<FP16x16>, x: @Tensor<FP16x16>, y: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::where::where(self, x, y)
     }
+
+    fn round(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::round::round(*self)
+    }
+
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.
