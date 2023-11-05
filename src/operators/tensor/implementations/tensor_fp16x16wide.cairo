@@ -216,7 +216,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
     }
-    
+
     fn slice(
         self: @Tensor<FP16x16W>,
         starts: Span<usize>,

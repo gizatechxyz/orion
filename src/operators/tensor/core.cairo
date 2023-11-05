@@ -73,6 +73,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// concat - Concatenate a list of tensors into a single tensor.
 /// quantize_linear - Quantizes a Tensor to i8 using linear quantization.
 /// dequantize_linear - Dequantizes an i8 Tensor using linear dequantization.
+/// qlinear_matmul - Performs the product of two quantized i8 Tensors.
 /// gather - Gather entries of the axis dimension of data.
 /// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
 /// squeeze - Removes dimensions of size 1 from the shape of a tensor.
@@ -2438,7 +2439,68 @@ trait TensorTrait<T> {
     /// ## Type Constraints
     ///
     /// u32 tensor, not supported.
-    ///
+    ///  
+    /// ## Example
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
+    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// fn qlinear_matmul_example() -> Tensor<i8> {    
+    ///     let a = TensorTrait::<
+    ///         i8
+    ///     >::new(
+    ///         shape: array![2, 3].span(),
+    ///         data: array![
+    ///             IntegerTrait::<i8>::new(3_u8, false),
+    ///             IntegerTrait::<i8>::new(4_u8, false),
+    ///             IntegerTrait::<i8>::new(5_u8, false),
+    ///             IntegerTrait::<i8>::new(2_u8, false),
+    ///             IntegerTrait::<i8>::new(4_u8, false),
+    ///             IntegerTrait::<i8>::new(3_u8, false)
+    ///         ]
+    ///             .span(),
+    ///     );
+    ///     let b = TensorTrait::<
+    ///         i8
+    ///     >::new(
+    ///         shape: array![3, 1].span(),
+    ///         data: array![
+    ///             IntegerTrait::<i8>::new(4_u8, false),
+    ///             IntegerTrait::<i8>::new(8_u8, false),
+    ///             IntegerTrait::<i8>::new(4_u8, false)
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     let a_scale = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(131072, false)].span(),);
+    ///     let a_zero_point = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(65536, false)].span(),);
+    ///     let b_scale = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(16384, false)].span(),);
+    ///     let b_zero_point = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
+    /// 
+    ///     let y_scale = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(393216, false)].span(),);
+    ///     let y_zero_point = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(655360, false)].span(),);
+    /// 
+    ///     return a
+    ///         .qlinear_matmul(
+    ///             @a_scale, @a_zero_point, @b, @b_scale, @b_zero_point, @y_scale, @y_zero_point
+    ///         );
+    /// }        
+    /// >>> [14, 13]
+    /// ```
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<T>,
