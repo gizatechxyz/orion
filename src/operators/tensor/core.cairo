@@ -3072,14 +3072,21 @@ trait TensorTrait<T> {
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn reduce_l2_example() -> Tensor<u32> {
-    ///     let tensor = TensorTrait::<u32>::new(
-    ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
-    ///     );
+    ///
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(2);
+    ///     shape.append(2);
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(FixedTrait::new_unscaled(1, false));
+    ///     data.append(FixedTrait::new_unscaled(2, false));
+    ///     data.append(FixedTrait::new_unscaled(3, false));
+    ///     data.append(FixedTrait::new_unscaled(5, false));
+    ///     let tensor = TensorTrait::<FP8x23>::new(shape.span(), data.span());
     /// 
-    ///     // We can call `reduce_l2` function as follows.
-    ///     return tensor.reduce_l2(axis: 1, keepdims: false);
+    ///     We can call `reduce_l2` function as follows.
+    ///     return tensor.reduce_l2(axis: 1, keepdims: true);
     /// }
-    /// >>> [[2,4],[10,12]]
+    /// >>> [[0x11e3779, 0x2ea5ca1]]
     /// ```
     ///
     fn reduce_l2(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
