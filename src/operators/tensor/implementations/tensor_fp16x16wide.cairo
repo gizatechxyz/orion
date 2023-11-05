@@ -280,6 +280,12 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn round(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
         math::round::round(*self)
     }
+
+     fn scatter(
+        self: @Tensor<FP16x16W>, updates: Tensor<FP16x16W>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
+        -> Tensor<FP16x16W> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.

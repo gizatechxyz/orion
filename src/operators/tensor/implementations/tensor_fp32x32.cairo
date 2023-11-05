@@ -282,6 +282,12 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn round(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::round::round(*self)
     } 
+
+    fn scatter(
+        self: @Tensor<FP32x32>, updates: Tensor<FP32x32>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
+        -> Tensor<FP32x32> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.
