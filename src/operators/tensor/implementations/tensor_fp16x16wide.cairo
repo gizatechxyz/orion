@@ -212,6 +212,19 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_matmul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP16x16W>,
+        a_zero_point: @Tensor<FP16x16W>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP16x16W>,
+        b_zero_point: @Tensor<FP16x16W>,
+        y_scale: @Tensor<FP16x16W>,
+        y_zero_point: @Tensor<FP16x16W>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn slice(
         self: @Tensor<FP16x16W>,
         starts: Span<usize>,
