@@ -19,8 +19,8 @@ A new `Tensor<T>` containing the element-wise minimum values
 
 ## Panics
 
+* Panics if tensor array is empty
 * Panics if the shapes are not equal or broadcastable
-* Panics if tensor array length is not >= 1
 
 ## Examples
 

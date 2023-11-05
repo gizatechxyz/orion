@@ -37,7 +37,7 @@ fn where_example() -> Tensor<u32> {
     let tensor_x = TensorTrait::<u32>::new(
         shape: array![2, 2].span(), data: array![2, 4, 6, 8].span(),
     );
- 
+
     let tensor_y = TensorTrait::<u32>::new(
         shape: array![2, 2].span(), data: array![1, 3, 5, 9].span(),
     );

@@ -257,7 +257,8 @@ impl I8Tensor of TensorTrait<i8> {
     } 
 
     fn reduce_l2(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
-        math::reduce_l2::reduce_l2(self, axis, keepdims)
+        // math::reduce_l2::reduce_l2(self, axis, keepdims)
+        panic(array!['not supported!'])
     }
 }
 
