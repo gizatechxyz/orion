@@ -251,7 +251,6 @@ impl U32Tensor of TensorTrait<u32> {
     }
 
     fn reduce_l2(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
-        // math::reduce_l2::reduce_l2(self, axis, keepdims)
         panic(array!['not supported!'])
     }
 }
