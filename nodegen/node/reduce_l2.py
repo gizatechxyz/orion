@@ -12,7 +12,7 @@ class Reduce_l2(RunAll):
             axes = np.array([2], dtype=np.int64)
             keepdims = False
             x = np.reshape(np.arange(1, np.prod(shape) + 1, dtype=np.float32), shape).astype(np.int64)
-            y = np.sqrt(np.sum(a=np.abs(x), axis=tuple(axes), keepdims=False)).astype(np.int64)
+            y = np.sqrt(np.sum(a=np.square(x), axis=tuple(axes), keepdims=False)).astype(np.int64)
 
             x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
@@ -27,7 +27,7 @@ class Reduce_l2(RunAll):
             axes = np.array([2], dtype=np.int64)
             keepdims = True
             x = np.reshape(np.arange(1, np.prod(shape) + 1, dtype=np.float32), shape).astype(np.int64)
-            y = np.sqrt(np.sum(a=np.abs(x), axis=tuple(axes), keepdims=True)).astype(np.int64)
+            y = np.sqrt(np.sum(a=np.square(x), axis=tuple(axes), keepdims=True)).astype(np.int64)
 
             x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
@@ -42,7 +42,7 @@ class Reduce_l2(RunAll):
             axes = np.array([0], dtype=np.int64)
             keepdims = True
             x = np.reshape(np.arange(1, np.prod(shape) + 1, dtype=np.float32), shape).astype(np.int64)
-            y = np.sqrt(np.sum(a=np.abs(x), axis=tuple(axes), keepdims=True)).astype(np.int64)
+            y = np.sqrt(np.sum(a=np.square(x), axis=tuple(axes), keepdims=True)).astype(np.int64)
 
             x = Tensor(Dtype.FP8x23, x.shape, x.flatten())
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
@@ -64,7 +64,7 @@ class Reduce_l2(RunAll):
             axes = np.array([2], dtype=np.int64)
             keepdims = False
             x = np.reshape(np.arange(1, np.prod(shape) + 1, dtype=np.float32), shape).astype(np.int64)
-            y = np.sqrt(np.sum(a=np.abs(x), axis=tuple(axes), keepdims=False)).astype(np.int64)
+            y = np.sqrt(np.sum(a=np.square(x), axis=tuple(axes), keepdims=False)).astype(np.int64)
 
             x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
@@ -79,7 +79,7 @@ class Reduce_l2(RunAll):
             axes = np.array([2], dtype=np.int64)
             keepdims = True
             x = np.reshape(np.arange(1, np.prod(shape) + 1, dtype=np.float32), shape).astype(np.int64)
-            y = np.sqrt(np.sum(a=np.abs(x), axis=tuple(axes), keepdims=True)).astype(np.int64)
+            y = np.sqrt(np.sum(a=np.square(x), axis=tuple(axes), keepdims=True)).astype(np.int64)
 
             x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
@@ -94,7 +94,7 @@ class Reduce_l2(RunAll):
             axes = np.array([0], dtype=np.int64)
             keepdims = True
             x = np.reshape(np.arange(1, np.prod(shape) + 1, dtype=np.float32), shape).astype(np.int64)
-            y = np.sqrt(np.sum(a=np.abs(x), axis=tuple(axes), keepdims=True)).astype(np.int64)
+            y = np.sqrt(np.sum(a=np.square(x), axis=tuple(axes), keepdims=True)).astype(np.int64)
 
             x = Tensor(Dtype.FP16x16, x.shape, x.flatten())
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
