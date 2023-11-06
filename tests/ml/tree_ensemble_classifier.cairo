@@ -1,11 +1,12 @@
 use core::dict::Felt252DictTrait;
 use orion::numbers::FP16x16;
-use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor};
+use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor, U32Tensor};
 use orion::operators::ml::tree_ensemble::core::{
     NODE_MODES, TreeEnsembleAttributes, TreeEnsemble, TreeEnsembleImpl
-//TreeEnsembleHelperTrait
 };
-// use orion::operators::ml::tree_ensemble::implementations::{FP16x16TreeEnsembleHelper};
+use orion::operators::ml::tree_ensemble::tree_ensemble_classifier::{
+    TreeEnsembleClassifierImpl, TreeEnsembleClassifier, PostTransform
+};
 
 #[test]
 #[available_gas(2000000000)]
@@ -123,12 +124,40 @@ fn test_tree_ensemble_classifier_multi() {
     };
 
     let mut ensemble: TreeEnsemble<FP16x16> = TreeEnsemble {
-        atts: atts, tree_ids: tree_ids, root_index: root_index, node_index: node_index
+        atts, tree_ids, root_index, node_index
     };
 
-    TreeEnsembleImpl::leave_index_tree(
-        ref ensemble,
-        TensorTrait::new(array![1].span(), array![FP16x16 { mag: 0, sign: false }].span())
+    let base_values: Option<Span<FP16x16>> = Option::None;
+
+    let post_transform = PostTransform::None;
+
+    let mut classifier: TreeEnsembleClassifier<FP16x16> = TreeEnsembleClassifier {
+        ensemble,
+        class_ids,
+        class_nodeids,
+        class_treeids,
+        class_weights,
+        class_labels,
+        base_values,
+        post_transform
+    };
+
+    let mut X: Tensor<FP16x16> = TensorTrait::new(
+        array![3, 3].span(),
+        array![
+            FP16x16 { mag: 65536, sign: true },
+            FP16x16 { mag: 52429, sign: true },
+            FP16x16 { mag: 39322, sign: true },
+            FP16x16 { mag: 26214, sign: true },
+            FP16x16 { mag: 13107, sign: true },
+            FP16x16 { mag: 0, sign: false },
+            FP16x16 { mag: 13107, sign: false },
+            FP16x16 { mag: 26214, sign: false },
+            FP16x16 { mag: 39322, sign: false },
+        ]
+            .span()
     );
+
+    TreeEnsembleClassifierImpl::predict(ref classifier, X);
 }
 

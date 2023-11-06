@@ -43,7 +43,6 @@ impl TreeEnsembleClassifierImpl<
     +Copy<Felt252Dict<Nullable<Array<(usize, T)>>>>,
     +Copy<Nullable<Array<(usize, T)>>>,
     +Copy<Felt252Dict<Nullable<T>>>,
-    +Drop<(Span::<u32>, Felt252Dict::<Nullable<T>>)>,
 > of TreeEnsembleClassifierTrait<T> {
     fn predict(ref self: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Tensor<usize>, Tensor<T>) {
         let leaf_indices = self.ensemble.leave_index_tree(X);
@@ -60,8 +59,6 @@ fn compute_scores<
     +Drop<T>,
     +Copy<T>,
     +NumberTrait<T, MAG>,
-    +PartialOrd<T>,
-    +PartialEq<T>,
     +Add<T>,
     +Copy<Felt252Dict<Nullable<Array<(usize, T)>>>>,
     +Copy<Nullable<Array<(usize, T)>>>,
@@ -194,14 +191,8 @@ fn classify<
     +Copy<T>,
     +NumberTrait<T, MAG>,
     +PartialOrd<T>,
-    +PartialEq<T>,
-    +Add<T>,
     +TensorTrait<usize>,
     +TensorTrait<T>,
-    +Copy<Felt252Dict<Nullable<Array<(usize, T)>>>>,
-    +Copy<Nullable<Array<(usize, T)>>>,
-    +Copy<Felt252Dict<Nullable<T>>>,
-    +Drop<(Span::<u32>, Felt252Dict::<Nullable<T>>)>,
 >(
     ref self: TreeEnsembleClassifier<T>, scores: (Span<usize>, Felt252Dict::<Nullable<T>>)
 ) -> (Tensor<usize>, Tensor<T>) {

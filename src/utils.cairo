@@ -36,7 +36,6 @@ fn get_row<T, +Drop<T>, +Copy<T>>(self: Tensor<T>, row: usize) -> Span<T> {
 
     let row_length = *self.shape[1];
     let start = row * row_length;
-    let end = start + row_length;
 
-    self.data.slice(start, end)
+    self.data.slice(start, row_length)
 }
