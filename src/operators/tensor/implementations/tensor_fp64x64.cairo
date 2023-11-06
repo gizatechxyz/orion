@@ -313,6 +313,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn reduce_sum_square(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

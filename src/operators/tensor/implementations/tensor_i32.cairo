@@ -311,6 +311,10 @@ impl I32Tensor of TensorTrait<i32> {
         -> Tensor<i32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+
+    fn reduce_sum_square(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.
