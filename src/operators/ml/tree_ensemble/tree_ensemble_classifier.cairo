@@ -7,7 +7,7 @@ use orion::numbers::NumberTrait;
 
 use alexandria_data_structures::merkle_tree::{pedersen::PedersenHasherImpl};
 
-#[derive(Copy, Drop)]
+#[derive(Destruct)]
 struct TreeEnsembleClassifier<T> {
     ensemble: TreeEnsemble<T>,
     class_ids: Span<usize>,
@@ -43,7 +43,7 @@ impl TreeEnsembleClassifierImpl<
     +Copy<Felt252Dict<Nullable<Array<(usize, T)>>>>,
     +Copy<Nullable<Array<(usize, T)>>>,
     +Copy<Felt252Dict<Nullable<T>>>,
-    +Drop<(Span::<u32>, Felt252Dict::<Nullable<T>>)>
+    +Drop<(Span::<u32>, Felt252Dict::<Nullable<T>>)>,
 > of TreeEnsembleClassifierTrait<T> {
     fn predict(ref self: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Tensor<usize>, Tensor<T>) {
         let leaf_indices = self.ensemble.leave_index_tree(X);
@@ -65,7 +65,7 @@ fn compute_scores<
     +Add<T>,
     +Copy<Felt252Dict<Nullable<Array<(usize, T)>>>>,
     +Copy<Nullable<Array<(usize, T)>>>,
-    +Copy<Felt252Dict<Nullable<T>>>
+    +Copy<Felt252Dict<Nullable<T>>>,
 >(
     ref self: TreeEnsembleClassifier<T>, leaf_indices: Tensor<usize>
 ) -> (Span<usize>, Felt252Dict::<Nullable<T>>) {
@@ -201,7 +201,7 @@ fn classify<
     +Copy<Felt252Dict<Nullable<Array<(usize, T)>>>>,
     +Copy<Nullable<Array<(usize, T)>>>,
     +Copy<Felt252Dict<Nullable<T>>>,
-    +Drop<(Span::<u32>, Felt252Dict::<Nullable<T>>)>
+    +Drop<(Span::<u32>, Felt252Dict::<Nullable<T>>)>,
 >(
     ref self: TreeEnsembleClassifier<T>, scores: (Span<usize>, Felt252Dict::<Nullable<T>>)
 ) -> (Tensor<usize>, Tensor<T>) {

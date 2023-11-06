@@ -1,3 +1,5 @@
+use core::array::ArrayTrait;
+use alexandria_data_structures::array_ext::SpanTraitExt;
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{Tensor, TensorTrait, U32Tensor};
 use orion::utils::get_row;
@@ -5,16 +7,11 @@ use orion::utils::get_row;
 use alexandria_data_structures::merkle_tree::{pedersen::PedersenHasherImpl};
 use alexandria_data_structures::array_ext::ArrayTraitExt;
 
-impl UsizeDictCopy of Copy<Felt252Dict<usize>>;
-impl UsizeDictDrop of Drop<Felt252Dict<usize>>;
 
-
-#[derive(Copy, Drop)]
+#[derive(Copy, Drop, Destruct)]
 struct TreeEnsembleAttributes<T> {
-    base_values: Option<Span<T>>,
     nodes_falsenodeids: Span<usize>,
     nodes_featureids: Span<usize>,
-    nodes_hitrates: Span<T>,
     nodes_missing_value_tracks_true: Span<usize>,
     nodes_modes: Span<NODE_MODES>,
     nodes_nodeids: Span<usize>,
@@ -23,7 +20,7 @@ struct TreeEnsembleAttributes<T> {
     nodes_values: Span<T>,
 }
 
-#[derive(Copy, Drop)]
+#[derive(Destruct)]
 struct TreeEnsemble<T> {
     atts: TreeEnsembleAttributes<T>,
     tree_ids: Span<usize>,
@@ -41,6 +38,7 @@ enum NODE_MODES {
     BRANCH_NEQ,
     LEAF
 }
+
 
 #[generate_trait]
 impl TreeEnsembleImpl<
