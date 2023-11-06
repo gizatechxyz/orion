@@ -86,11 +86,8 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// identity - Return a Tensor with the same shape and contents as input.
 /// where - Return elements chosen from x or y depending on condition.
 /// round - Computes the round value of all elements in the input tensor.
-<<<<<<< HEAD
-/// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
-=======
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
->>>>>>> bc808751053ef1b3068269cdbb04b8995abb969e
+/// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
 trait TensorTrait<T> {
     /// # tensor.new
     ///

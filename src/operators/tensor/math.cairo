@@ -38,8 +38,5 @@ mod and;
 mod neg;
 mod where;
 mod round;
-<<<<<<< HEAD
-mod reduce_l2;
-=======
 mod scatter;
->>>>>>> bc808751053ef1b3068269cdbb04b8995abb969e
+mod reduce_l2;
