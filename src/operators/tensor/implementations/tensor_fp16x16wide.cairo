@@ -212,6 +212,19 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_matmul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP16x16W>,
+        a_zero_point: @Tensor<FP16x16W>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP16x16W>,
+        b_zero_point: @Tensor<FP16x16W>,
+        y_scale: @Tensor<FP16x16W>,
+        y_zero_point: @Tensor<FP16x16W>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn slice(
         self: @Tensor<FP16x16W>,
         starts: Span<usize>,
@@ -268,9 +281,15 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::round::round(*self)
     }
 
-    fn reduce_l2(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
-        math::reduce_l2::reduce_l2(self, axis, keepdims)
+    fn scatter(
+        self: @Tensor<FP16x16W>, updates: Tensor<FP16x16W>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
+        -> Tensor<FP16x16W> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+
+     fn reduce_l2(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
+        math::reduce_l2::reduce_l2(self, axis, keepdims)
+     }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.

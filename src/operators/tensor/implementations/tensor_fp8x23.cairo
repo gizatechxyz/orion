@@ -206,6 +206,30 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
     }
 
+    fn qlinear_matmul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP8x23>,
+        a_zero_point: @Tensor<FP8x23>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP8x23>,
+        b_zero_point: @Tensor<FP8x23>,
+        y_scale: @Tensor<FP8x23>,
+        y_zero_point: @Tensor<FP8x23>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_matmul::qlinear_matmul(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn slice(
         self: @Tensor<FP8x23>,
         starts: Span<usize>,
@@ -257,7 +281,13 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn round(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::round::round(*self)
     }
-    
+
+    fn scatter(
+        self: @Tensor<FP8x23>, updates: Tensor<FP8x23>, indices: Tensor<usize>,  axis: Option<usize>, reduction: Option<usize>) 
+        -> Tensor<FP8x23> {
+        math::scatter::scatter(self, updates, indices,  axis, reduction)
+    }
+
     fn reduce_l2(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }

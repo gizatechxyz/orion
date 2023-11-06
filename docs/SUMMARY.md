@@ -84,6 +84,7 @@
     * [tensor.gather](framework/operators/tensor/tensor.gather.md)
     * [tensor.quantize\_linear](framework/operators/tensor/tensor.quantize\_linear.md)
     * [tensor.dequantize\_linear](framework/operators/tensor/tensor.dequantize\_linear.md)
+    * [tensor.qlinear\_matmul](framework/operators/tensor/tensor.qlinear\_matmul.md)
     * [tensor.nonzero](framework/operators/tensor/tensor.nonzero.md)
     * [tensor.squeeze](framework/operators/tensor/tensor.squeeze.md)
     * [tensor.unsqueeze](framework/operators/tensor/tensor.unsqueeze.md)
@@ -93,8 +94,8 @@
     * [tensor.and](framework/operators/tensor/tensor.and.md)
     * [tensor.where](framework/operators/tensor/tensor.where.md)
     * [tensor.round](framework/operators/tensor/tensor.round.md)
+    * [tensor.scatter](framework/operators/tensor/tensor.scatter.md)
     * [tensor.reduce\_l2](framework/operators/tensor/tensor.reduce\_l2.md)
-
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)

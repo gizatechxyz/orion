@@ -206,6 +206,19 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_matmul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP8x23W>,
+        a_zero_point: @Tensor<FP8x23W>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP8x23W>,
+        b_zero_point: @Tensor<FP8x23W>,
+        y_scale: @Tensor<FP8x23W>,
+        y_zero_point: @Tensor<FP8x23W>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn slice(
         self: @Tensor<FP8x23W>,
         starts: Span<usize>,
@@ -258,9 +271,16 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::round::round(*self)
     }
 
+    fn scatter(
+        self: @Tensor<FP8x23W>, updates: Tensor<FP8x23W>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
+        -> Tensor<FP8x23W> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
     fn reduce_l2(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
+
 } 
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.
