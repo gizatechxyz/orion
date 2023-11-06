@@ -79,6 +79,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.concat`](tensor.concat.md) | Concatenate a list of tensors into a single tensor. |
 | [`tensor.quantize_linear`](tensor.quantize\_linear.md) | Quantizes a Tensor to i8 using linear quantization. |
 | [`tensor.dequantize_linear`](tensor.dequantize\_linear.md) | Dequantizes an i8 Tensor using linear dequantization. |
+| [`tensor.qlinear_add`](tensor.qlinear\_add.md) | Performs the sum of two quantized i8 Tensors. |
 | [`tensor.qlinear_matmul`](tensor.qlinear\_matmul.md) | Performs the product of two quantized i8 Tensors. |
 | [`tensor.gather`](tensor.gather.md) | Gather entries of the axis dimension of data. |
 | [`tensor.nonzero`](tensor.nonzero.md) | Produces indices of the elements that are non-zero (in row-major order - by dimension). |
