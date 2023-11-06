@@ -200,6 +200,19 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_matmul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<u32>,
+        a_zero_point: @Tensor<u32>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<u32>,
+        b_zero_point: @Tensor<u32>,
+        y_scale: @Tensor<u32>,
+        y_zero_point: @Tensor<u32>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn slice(
         self: @Tensor<u32>,
         starts: Span<usize>,
@@ -249,7 +262,12 @@ impl U32Tensor of TensorTrait<u32> {
     fn round(self: @Tensor<u32>) -> Tensor<u32> {
         math::round::round(*self)
     }
-
+    
+    fn scatter(
+        self: @Tensor<u32>, updates: Tensor<u32>, indices: Tensor<usize>,  axis: Option<usize>, reduction: Option<usize>) 
+        -> Tensor<u32> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
     fn reduce_l1(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
         math::reduce_l1::reduce_l1(self, axis, keepdims)
     }

@@ -207,6 +207,30 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
     }
 
+    fn qlinear_matmul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP32x32>,
+        a_zero_point: @Tensor<FP32x32>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP32x32>,
+        b_zero_point: @Tensor<FP32x32>,
+        y_scale: @Tensor<FP32x32>,
+        y_zero_point: @Tensor<FP32x32>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_matmul::qlinear_matmul(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn slice(
         self: @Tensor<FP32x32>,
         starts: Span<usize>,
@@ -259,7 +283,13 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::round::round(*self)
     } 
 
-     fn reduce_l1(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
+    fn scatter(
+        self: @Tensor<FP32x32>, updates: Tensor<FP32x32>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
+        -> Tensor<FP32x32> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+    
+    fn reduce_l1(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
         math::reduce_l1::reduce_l1(self, axis, keepdims)
     }
 }
