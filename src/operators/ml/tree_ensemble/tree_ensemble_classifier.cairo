@@ -28,8 +28,12 @@ enum PostTransform {
     Probit,
 }
 
-#[generate_trait]
-impl TreeEnsembleClassifierImpl<
+
+trait TreeEnsembleClassifierTrait<T> {
+    fn predict(ref self: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Tensor<usize>, Tensor<T>);
+}
+
+fn predict<
     T,
     MAG,
     +Drop<T>,
@@ -43,15 +47,16 @@ impl TreeEnsembleClassifierImpl<
     +Copy<Felt252Dict<Nullable<Array<(usize, T)>>>>,
     +Copy<Nullable<Array<(usize, T)>>>,
     +Copy<Felt252Dict<Nullable<T>>>,
-> of TreeEnsembleClassifierTrait<T> {
-    fn predict(ref self: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Tensor<usize>, Tensor<T>) {
-        let leaf_indices = self.ensemble.leave_index_tree(X);
-        let scores = compute_scores(ref self, leaf_indices);
-        let (predictions, final_scores) = classify(ref self, scores);
+>(
+    ref self: TreeEnsembleClassifier<T>, X: Tensor<T>
+) -> (Tensor<usize>, Tensor<T>) {
+    let leaf_indices = self.ensemble.leave_index_tree(X);
+    let scores = compute_scores(ref self, leaf_indices);
+    let (predictions, final_scores) = classify(ref self, scores);
 
-        (predictions, final_scores)
-    }
+    (predictions, final_scores)
 }
+
 
 fn compute_scores<
     T,
