@@ -288,6 +288,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         -> Tensor<FP32x32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+
+    fn binarizer(self: @Tensor<FP32x32>, threshold: @FP32x32) -> Tensor<usize> {
+        math::binarizer::binarizer(*self, threshold)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

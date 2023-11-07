@@ -286,6 +286,10 @@ impl I8Tensor of TensorTrait<i8> {
         -> Tensor<i8> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+
+    fn binarizer(self: @Tensor<i8>, threshold: @i8) -> Tensor<usize> {
+        math::binarizer::binarizer(*self, threshold)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

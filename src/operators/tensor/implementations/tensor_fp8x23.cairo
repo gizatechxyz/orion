@@ -287,6 +287,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         -> Tensor<FP8x23> {
         math::scatter::scatter(self, updates, indices,  axis, reduction)
     }
+
+    fn binarizer(self: @Tensor<FP8x23>, threshold: @FP8x23) -> Tensor<usize> {
+        math::binarizer::binarizer(*self, threshold)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

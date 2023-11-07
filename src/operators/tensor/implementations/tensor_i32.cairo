@@ -287,6 +287,10 @@ impl I32Tensor of TensorTrait<i32> {
         -> Tensor<i32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+
+    fn binarizer(self: @Tensor<i32>, threshold: @i32) -> Tensor<usize> {
+        math::binarizer::binarizer(*self, threshold)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

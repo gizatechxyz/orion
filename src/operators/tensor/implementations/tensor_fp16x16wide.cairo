@@ -286,6 +286,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         -> Tensor<FP16x16W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+
+    fn binarizer(self: @Tensor<FP16x16W>, threshold: @FP16x16W) -> Tensor<usize> {
+        math::binarizer::binarizer(*self, threshold)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.
