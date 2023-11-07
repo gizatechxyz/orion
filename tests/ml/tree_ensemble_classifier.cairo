@@ -5,7 +5,8 @@ use orion::operators::ml::tree_ensemble::core::{
     NODE_MODES, TreeEnsembleAttributes, TreeEnsemble, TreeEnsembleImpl
 };
 use orion::operators::ml::tree_ensemble::tree_ensemble_classifier::{
-    TreeEnsembleClassifierImpl, TreeEnsembleClassifier, PostTransform
+    //TreeEnsembleClassifierImpl, 
+    TreeEnsembleClassifier, PostTransform, TreeEnsembleClassifierTrait
 };
 
 #[test]
@@ -158,6 +159,6 @@ fn test_tree_ensemble_classifier_multi() {
             .span()
     );
 
-    TreeEnsembleClassifierImpl::predict(ref classifier, X);
+    TreeEnsembleClassifierTrait::predict(ref classifier, X);
 }
 
