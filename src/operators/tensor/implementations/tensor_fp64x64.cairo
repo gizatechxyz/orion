@@ -207,6 +207,54 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
     }
 
+    fn qlinear_add(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP64x64>,
+        a_zero_point: @Tensor<FP64x64>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP64x64>,
+        b_zero_point: @Tensor<FP64x64>,
+        y_scale: @Tensor<FP64x64>,
+        y_zero_point: @Tensor<FP64x64>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_add::qlinear_add(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
+    fn qlinear_matmul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP64x64>,
+        a_zero_point: @Tensor<FP64x64>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP64x64>,
+        b_zero_point: @Tensor<FP64x64>,
+        y_scale: @Tensor<FP64x64>,
+        y_zero_point: @Tensor<FP64x64>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_matmul::qlinear_matmul(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn slice(
         self: @Tensor<FP64x64>,
         starts: Span<usize>,
@@ -262,6 +310,12 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn trilu(self: @Tensor<FP64x64>, upper: bool, k: i64) -> Tensor<FP64x64> {
         linalg::trilu::trilu(self, upper, k)
     }
+    fn scatter(
+        self: @Tensor<FP64x64>, updates: Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
+        -> Tensor<FP64x64> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.
