@@ -5,7 +5,8 @@ use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
+    at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
 use orion::numbers::{i8, i32, NumberTrait, FP8x23W};
@@ -14,6 +15,10 @@ use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32:
 impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn new(shape: Span<usize>, data: Span<FP8x23W>) -> Tensor<FP8x23W> {
         new_tensor(shape, data)
+    }
+
+    fn constant_of_shape(shape: Span<usize>, value: FP8x23W) -> Tensor<FP8x23W> {
+        constant_of_shape(shape, value)
     }
 
     fn at(self: @Tensor<FP8x23W>, indices: Span<usize>) -> FP8x23W {
@@ -280,17 +285,20 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::where::where(self, x, y)
     }
 
-    fn round(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> { 
+    fn round(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         math::round::round(*self)
     }
 
     fn scatter(
-        self: @Tensor<FP8x23W>, updates: Tensor<FP8x23W>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<FP8x23W> {
+        self: @Tensor<FP8x23W>,
+        updates: Tensor<FP8x23W>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP8x23W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
-
-} 
+}
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.
 impl FP8x23WTensorAdd<

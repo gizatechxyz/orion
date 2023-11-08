@@ -37,6 +37,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.new`](tensor.new.md) | Returns a new tensor with the given shape and data. |
 | [`tensor.reshape`](tensor.reshape.md) | Returns a new tensor with the specified target shape and the same data as the input tensor. |
 | [`tensor.flatten`](tensor.flatten.md) | Flattens the input tensor into a 2D tensor. |
+| [`tensor.constant_of_shape`](tensor.constant\_of\_shape.md) | Generate a tensor with given value and shape. |
 | [`tensor.transpose`](tensor.transpose.md) | Returns a new tensor with the axes rearranged according to the given permutation. |
 | [`tensor.at`](tensor.at.md) | Retrieves the value at the specified indices of a Tensor. |
 | [`tensor.ravel_index`](tensor.ravel\_index.md) | Converts a multi-dimensional index to a one-dimensional index. |

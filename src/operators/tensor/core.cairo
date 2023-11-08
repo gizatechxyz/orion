@@ -33,6 +33,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// new - Returns a new tensor with the given shape and data.
 /// reshape - Returns a new tensor with the specified target shape and the same data as the input tensor.
 /// flatten - Flattens the input tensor into a 2D tensor.
+/// constant_of_shape - Generate a tensor with given value and shape.
 /// transpose - Returns a new tensor with the axes rearranged according to the given permutation.
 /// at - Retrieves the value at the specified indices of a Tensor.
 /// ravel_index - Converts a multi-dimensional index to a one-dimensional index.
@@ -148,6 +149,61 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
+    /// # tensor.constant_of_shape
+    ///
+    /// ```rust 
+    ///    fn constant_of_shape(shape: Span<usize>, value: T) -> Tensor<T>;
+    /// ```
+    ///
+    /// Returns a new tensor with the given shape and constant value.
+    /// 
+    /// ## Args
+    /// 
+    /// * `shape`(`Span<usize>`) - A span representing the shape of the tensor.
+    /// * `value` (`T`) - the constant value.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` instance.
+    ///
+    /// ## Examples
+    /// 
+    /// Let's create new u32 Tensor with constant 0.
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{
+    ///     TensorTrait, // we import the trait
+    ///     Tensor, // we import the type
+    ///     U32Tensor // we import the implementation. 
+    /// };
+    /// 
+    /// // 1D TENSOR
+    /// fn tensor_1D() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::new(shape: array![3].span(), value: 0);
+    /// 
+    ///     return tensor;
+    /// }
+    /// 
+    /// // 2D TENSOR
+    /// fn tensor_2D() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::new(shape: array![2, 2].span(), value: 10);
+    /// 
+    ///     return tensor;
+    /// }
+    /// 
+    /// // 3D TENSOR
+    /// fn tensor_3D() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::new(
+    ///         shape: array![2, 2, 2].span(), value: 20,
+    ///     );
+    /// 
+    ///     return tensor;
+    /// }
+    /// ```
+    ///
+    fn constant_of_shape(shape: Span<usize>, value: T) -> Tensor<T>;
     /// # tensor.at
     ///
     /// ```rust 
@@ -3239,7 +3295,7 @@ trait TensorTrait<T> {
     ///
     /// ## Example
     ///
-	/// ```rust
+    /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
@@ -3323,13 +3379,39 @@ trait TensorTrait<T> {
     ///      [ 4, 0, 3, 0, 0]]
     /// ```
     ///
-    fn scatter(self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>,  axis: Option<usize>, reduction: Option<usize>) -> Tensor<T>;
+    fn scatter(
+        self: @Tensor<T>,
+        updates: Tensor<T>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring
 fn new_tensor<T>(shape: Span<usize>, data: Span<T>) -> Tensor<T> {
     check_shape::<T>(shape, data);
     Tensor::<T> { shape, data }
+}
+
+/// Cf: TensorTrait::constant_of_shape docstring
+fn constant_of_shape<T, impl FCopy: Copy<T>, impl FDrop: Drop<T>,>(
+    shape: Span<usize>, value: T
+) -> Tensor<T> {
+    let mut data = ArrayTrait::new();
+
+    let mut i = 0;
+    let length = len_from_shape(shape);
+
+    loop {
+        if i == length {
+            break ();
+        }
+        data.append(value.clone());
+        i += 1;
+    };
+
+    Tensor::<T> { shape, data: data.span() }
 }
 
 /// Cf: TensorTrait::ravel_index docstring

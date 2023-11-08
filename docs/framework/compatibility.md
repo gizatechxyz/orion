@@ -75,5 +75,6 @@ You can see below the list of current supported ONNX Operators:
 |      [MaxInTensor](operators/tensor/tensor.max\_in\_tensor.md)      | :white\_check\_mark: |
 |                 [Max](operators/tensor/tensor.max.md)               | :white\_check\_mark: |
 |             [Scatter](operators/tensor/scatter.max.md)              | :white\_check\_mark: |
+|             [ConstantOfShape](operators/tensor/tensor.constant_of_shape.md)              | :white\_check\_mark: |
 
 Current Operators support: **68/156 (43%)**

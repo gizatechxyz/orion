@@ -5,7 +5,8 @@ use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
+    at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
 use orion::numbers::{i8, i32, NumberTrait};
@@ -14,6 +15,10 @@ use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
 impl I8Tensor of TensorTrait<i8> {
     fn new(shape: Span<usize>, data: Span<i8>) -> Tensor<i8> {
         new_tensor(shape, data)
+    }
+
+    fn constant_of_shape(shape: Span<usize>, value: i8) -> Tensor<i8> {
+        constant_of_shape(shape, value)
     }
 
     fn at(self: @Tensor<i8>, indices: Span<usize>) -> i8 {
@@ -303,11 +308,15 @@ impl I8Tensor of TensorTrait<i8> {
 
     fn round(self: @Tensor<i8>) -> Tensor<i8> {
         math::round::round(*self)
-    } 
+    }
 
     fn scatter(
-        self: @Tensor<i8>, updates: Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<i8> {
+        self: @Tensor<i8>,
+        updates: Tensor<i8>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<i8> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 }
