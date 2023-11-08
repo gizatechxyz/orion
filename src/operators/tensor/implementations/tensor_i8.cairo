@@ -288,7 +288,7 @@ impl I8Tensor of TensorTrait<i8> {
     }
 
     fn binarizer(self: @Tensor<i8>, threshold: @i8) -> Tensor<usize> {
-        math::binarizer::binarizer(*self, threshold)
+        panic(array!['not supported!'])
     }
 }
 

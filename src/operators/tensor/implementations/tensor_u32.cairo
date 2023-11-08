@@ -270,7 +270,7 @@ impl U32Tensor of TensorTrait<u32> {
     }
 
     fn binarizer(self: @Tensor<u32>, threshold: @u32) -> Tensor<usize> {
-        math::binarizer::binarizer(*self, threshold)
+        panic(array!['not supported!'])
     }
 }
 
