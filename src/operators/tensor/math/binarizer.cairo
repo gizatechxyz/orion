@@ -9,23 +9,23 @@ use orion::numbers::NumberTrait;
 fn binarizer<
     T,
     MAG,
-    impl TTensor: TensorTrait<usize>,
+    impl TTensor: TensorTrait<T>,
     impl TNumber: NumberTrait<T, MAG>,
     impl TPartialOrd: PartialOrd<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
 >(
     mut self: Tensor<T>, threshold: @T
-) -> Tensor<usize> {
-    let mut binarized_data: Array<usize> = ArrayTrait::new();
+) -> Tensor<T> {
+    let mut binarized_data = ArrayTrait::<T>::new();
 
     loop {
         match self.data.pop_front() {
             Option::Some(item) => {
                 if (*item) > (*threshold) {
-                    binarized_data.append(1);
+                    binarized_data.append(NumberTrait::one());
                 } else {
-                    binarized_data.append(0);
+                    binarized_data.append(NumberTrait::zero());
                 }
             },
             Option::None(_) => {

@@ -288,7 +288,7 @@ impl I32Tensor of TensorTrait<i32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
-    fn binarizer(self: @Tensor<i32>, threshold: @i32) -> Tensor<usize> {
+    fn binarizer(self: @Tensor<i32>, threshold: @i32) -> Tensor<i32> {
         math::binarizer::binarizer(*self, threshold)
     }
 }

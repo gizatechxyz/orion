@@ -289,7 +289,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
-    fn binarizer(self: @Tensor<FP32x32>, threshold: @FP32x32) -> Tensor<usize> {
+    fn binarizer(self: @Tensor<FP32x32>, threshold: @FP32x32) -> Tensor<FP32x32> {
         math::binarizer::binarizer(*self, threshold)
     }
 }

@@ -3212,7 +3212,7 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn scatter(self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>,  axis: Option<usize>, reduction: Option<usize>) -> Tensor<T>;
-    fn binarizer(self: @Tensor<T>, threshold: @T) -> Tensor<usize>;
+    fn binarizer(self: @Tensor<T>, threshold: @T) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

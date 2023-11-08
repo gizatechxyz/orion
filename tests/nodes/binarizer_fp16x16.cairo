@@ -6,7 +6,7 @@ use array::{ArrayTrait, SpanTrait};
 use orion::numbers::FixedTrait;
 use orion::operators::tensor::TensorTrait;
 use orion::operators::tensor::FP16x16Tensor;
-use orion::operators::tensor::U32TensorPartialEq;
+use orion::operators::tensor::FP16x16TensorPartialEq;
 use orion::utils::assert_eq;
 
 #[test]
