@@ -230,6 +230,30 @@ impl I8Tensor of TensorTrait<i8> {
         )
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<i8>,
+        a_zero_point: @Tensor<i8>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<i8>,
+        b_zero_point: @Tensor<i8>,
+        y_scale: @Tensor<i8>,
+        y_zero_point: @Tensor<i8>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_mul::qlinear_mul(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<i8>,
