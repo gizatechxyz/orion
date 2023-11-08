@@ -3400,15 +3400,16 @@ fn constant_of_shape<T, impl FCopy: Copy<T>, impl FDrop: Drop<T>,>(
 ) -> Tensor<T> {
     let mut data = ArrayTrait::new();
 
-    let mut i = 0;
-    let length = len_from_shape(shape);
+    let mut length = len_from_shape(shape);
 
     loop {
-        if i == length {
-            break ();
+        match length.into() {
+            0 => { break (); },
+            _ => {
+                data.append(value.clone());
+                length -= 1;
+            }
         }
-        data.append(value.clone());
-        i += 1;
     };
 
     Tensor::<T> { shape, data: data.span() }
