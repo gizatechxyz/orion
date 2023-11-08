@@ -232,8 +232,9 @@ fn classify<
 
             let mut key = PedersenHasherImpl::new();
             let key: felt252 = key.hash((sample_index).into(), (class_index).into());
-            let score = scores_data[key]
-                .deref(); // <-- PANICS HERE WITH 'Attempted to deref null value'
+            let score = scores_data[key].deref();
+
+            final_scores_data.append(score);
 
             if score > max_score {
                 max_score = score;
@@ -243,7 +244,6 @@ fn classify<
             class_index += 1;
         };
 
-        final_scores_data.append(max_score);
         predictions_data.append(max_class_index);
         sample_index += 1;
     };
