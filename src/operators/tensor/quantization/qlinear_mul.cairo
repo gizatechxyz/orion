@@ -8,8 +8,6 @@ use orion::operators::tensor::quantization::quantize_linear::quantize_linear;
 use orion::operators::tensor::{TensorTrait, Tensor};
 
 
-
-
 fn qlinear_mul<
     T,
     MAG,
@@ -46,7 +44,6 @@ fn qlinear_mul<
     min: T,
     max: T
 ) -> Tensor<Q> {
-
     let mut dequantized_a = dequantize_linear(@(*a), a_scale, a_zero_point);
     let mut dequantized_b = dequantize_linear(@(*b), b_scale, b_zero_point);
 
@@ -54,5 +51,4 @@ fn qlinear_mul<
 
     return quantize_linear(@x, y_scale, y_zero_point, min, max);
 }
-
 

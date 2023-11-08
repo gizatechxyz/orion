@@ -3365,7 +3365,7 @@ trait TensorTrait<T> {
     ///
     /// ## Example
     ///
-	/// ```rust
+    /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
@@ -3449,7 +3449,13 @@ trait TensorTrait<T> {
     ///      [ 4, 0, 3, 0, 0]]
     /// ```
     ///
-    fn scatter(self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>,  axis: Option<usize>, reduction: Option<usize>) -> Tensor<T>;
+    fn scatter(
+        self: @Tensor<T>,
+        updates: Tensor<T>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

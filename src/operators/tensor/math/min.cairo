@@ -17,7 +17,6 @@ fn min<
 >(
     tensors: Span<Tensor<T>>
 ) -> Tensor<T> {
-
     assert(tensors.len() >= 1, 'Input tensors must be >= 1');
 
     let first_tensor = *tensors.at(0);
@@ -48,9 +47,13 @@ fn min<
             let mut indices_broadcasted = unravel_index(n, broadcasted_shape);
 
             let mut indices_self = broadcast_index_mapping(min_shape, indices_broadcasted);
-            let mut indices_other = broadcast_index_mapping(current_tensor.shape, indices_broadcasted);
+            let mut indices_other = broadcast_index_mapping(
+                current_tensor.shape, indices_broadcasted
+            );
 
-            let mut min_value = NumberTrait::min(*(min_data)[indices_self], *(current_tensor.data)[indices_other]);
+            let mut min_value = NumberTrait::min(
+                *(min_data)[indices_self], *(current_tensor.data)[indices_other]
+            );
             new_min_data.append(min_value);
 
             n += 1;

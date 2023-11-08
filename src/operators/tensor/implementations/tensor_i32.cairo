@@ -331,8 +331,12 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn scatter(
-        self: @Tensor<i32>, updates: Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<i32> {
+        self: @Tensor<i32>,
+        updates: Tensor<i32>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<i32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 }

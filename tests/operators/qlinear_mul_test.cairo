@@ -73,9 +73,7 @@ fn qlinearmul_test() {
     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
 
     let actual_output = a
-        .qlinear_mul(
-            @a_scale, @a_zero_point, @b, @b_scale, @b_zero_point, @y_scale, @y_zero_point
-        );
+        .qlinear_mul(@a_scale, @a_zero_point, @b, @b_scale, @b_zero_point, @y_scale, @y_zero_point);
 
     assert((*actual_output.data[0]).into() == 0, '*result[0] == 0');
     assert((*actual_output.data[1]).into() == 0, '*result[1] == 0');
@@ -89,7 +87,6 @@ fn qlinearmul_test() {
     assert((*actual_output.data[9]).into() == 5, '*result[9] == 5');
     assert((*actual_output.data[10]).into() == 6, '*result[10] == 6');
     assert((*actual_output.data[11]).into() == 7, '*result[11] == 7');
-
 }
 
 
@@ -147,7 +144,7 @@ fn qlinear_mul_broadcast_test() {
 
     let actual_output = a
         .qlinear_mul(@a_scale, @a_zero_point, @b, @b_scale, @b_zero_point, @y_scale, @y_zero_point);
-    
+
     assert((*actual_output.data[0]).into() == 0, '*result[0] == 0');
     assert((*actual_output.data[1]).into() == 2, '*result[1] == 2');
     assert((*actual_output.data[2]).into() == 4, '*result[2] == 4');
@@ -215,9 +212,7 @@ fn test_example_doc() {
     );
 
     let actual_output = a
-        .qlinear_mul(
-            @a_scale, @a_zero_point, @b, @b_scale, @b_zero_point, @y_scale, @y_zero_point
-        );
+        .qlinear_mul(@a_scale, @a_zero_point, @b, @b_scale, @b_zero_point, @y_scale, @y_zero_point);
 
     assert((*actual_output.data[0]).into() == 16, '*result[0] == 16');
     assert((*actual_output.data[1]).into() == 23, '*result[1] == 23');
@@ -225,6 +220,5 @@ fn test_example_doc() {
     assert((*actual_output.data[3]).into() == 23, '*result[3] == 23');
     assert((*actual_output.data[4]).into() == 36, '*result[4] == 36');
     assert((*actual_output.data[5]).into() == 50, '*result[5] == 50');
-
 }
 

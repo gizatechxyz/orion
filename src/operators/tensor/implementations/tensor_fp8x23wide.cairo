@@ -293,17 +293,20 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::where::where(self, x, y)
     }
 
-    fn round(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> { 
+    fn round(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         math::round::round(*self)
     }
 
     fn scatter(
-        self: @Tensor<FP8x23W>, updates: Tensor<FP8x23W>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<FP8x23W> {
+        self: @Tensor<FP8x23W>,
+        updates: Tensor<FP8x23W>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP8x23W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
-
-} 
+}
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.
 impl FP8x23WTensorAdd<
