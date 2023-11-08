@@ -4,6 +4,9 @@ import re
 
 import numpy as np
 
+
+__PATH = "/tests/nodes"
+
 ######################
 #   DATA STRUCTURES
 ######################
@@ -38,7 +41,7 @@ class Trait(Enum):
 ################
 
 
-def make_node(inputs: [Tensor], outputs: [Tensor], dir_name, path="tests/src/nodes/"):
+def make_node(inputs: [Tensor], outputs: [Tensor], dir_name, path=__PATH):
 
     path = path + dir_name
 
@@ -143,7 +146,7 @@ def make_test(inputs: [Tensor], output: Tensor, func_sig: str, file_name: str, t
     code.append("    assert_eq(y, z);\n")
     code.append("}")
 
-    with open(os.path.join("tests/src/nodes", f"{file_name}.cairo"), "a") as f:
+    with open(os.path.join(__PATH, f"{file_name}.cairo"), "a") as f:
         f.write(
             ''.join(code)
         )
@@ -238,14 +241,14 @@ def __generate_data(tensor: Tensor, path: str, name: str):
     # Add mod parent to nodes.cairo
     if not os.path.exists(path) or not os.listdir(path):
         os.makedirs(path, exist_ok=True)
-        parent = path.replace("tests/src/nodes/", "")
-        with open("tests/src/nodes.cairo", "a") as f:
+        parent = path.replace(__PATH, "")
+        with open(f"{__PATH}.cairo", "a") as f:
             f.write(f"mod {parent}; \n")
 
     # Add tensor mod in parent file
-    parent = path.replace("tests/src/nodes/", "")
-    if not __module_exists(os.path.join("tests/src/nodes/", f"{parent}.cairo"), name):
-        with open(os.path.join("tests/src/nodes/", f"{parent}.cairo"), "a") as f:
+    parent = path.replace(__PATH, "")
+    if not __module_exists(os.path.join(__PATH, f"{parent}.cairo"), name):
+        with open(os.path.join(__PATH, f"{parent}.cairo"), "a") as f:
             f.write(f"mod {name}; \n")
 
     # Convert tensor to cairo
