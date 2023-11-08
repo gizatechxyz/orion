@@ -5,7 +5,6 @@ use orion::operators::ml::tree_ensemble::core::{
     NODE_MODES, TreeEnsembleAttributes, TreeEnsemble, TreeEnsembleImpl
 };
 use orion::operators::ml::tree_ensemble::tree_ensemble_classifier::{
-    //TreeEnsembleClassifierImpl, 
     TreeEnsembleClassifier, PostTransform, TreeEnsembleClassifierTrait
 };
 

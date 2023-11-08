@@ -10,6 +10,8 @@ use orion::numbers::NumberTrait;
 use alexandria_data_structures::merkle_tree::{pedersen::PedersenHasherImpl};
 use alexandria_data_structures::array_ext::{SpanTraitExt};
 
+use debug::PrintTrait;
+
 #[derive(Destruct)]
 struct TreeEnsembleClassifier<T> {
     ensemble: TreeEnsemble<T>,
@@ -107,14 +109,18 @@ fn compute_scores<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +Add<T>,>(
                 let mut key = PedersenHasherImpl::new();
                 let key: felt252 = key.hash(tree_id.into(), node_id.into());
 
-                let prev_value = class_index.get(key);
-                match match_nullable(prev_value) {
-                    FromNullableResult::Null(()) => { // entry.finalize(NullableTrait::new(array![]))
+                let value = class_index.get(key);
+                match match_nullable(value) {
+                    FromNullableResult::Null(()) => {
+                        class_index
+                            .insert(
+                                key, NullableTrait::new(array![(class_id, *class_weight)].span())
+                            );
                     },
                     FromNullableResult::NotNull(val) => {
-                        let mut new_val = prev_value.deref();
-                        let new_va = new_val.concat(array![(class_id, *class_weight)].span());
-                        class_index.insert(key, nullable_from_box(BoxTrait::new(new_va)));
+                        let mut new_val = value.deref();
+                        let new_val = new_val.concat(array![(class_id, *class_weight)].span());
+                        class_index.insert(key, NullableTrait::new(new_val));
                     },
                 };
             },
@@ -148,12 +154,20 @@ fn compute_scores<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +Add<T>,>(
                                     let key: felt252 = key
                                         .hash((sample_index).into(), (class_id).into());
 
-                                    let value = scores_data.get(key).deref();
-                                    scores_data
-                                        .insert(
-                                            key,
-                                            nullable_from_box(BoxTrait::new(value + class_weight))
-                                        );
+                                    let value = scores_data.get(key);
+                                    match match_nullable(value) {
+                                        FromNullableResult::Null(()) => {
+                                            scores_data
+                                                .insert(key, NullableTrait::new(class_weight));
+                                        },
+                                        FromNullableResult::NotNull(val) => {
+                                            scores_data
+                                                .insert(
+                                                    key,
+                                                    NullableTrait::new(value.deref() + class_weight)
+                                                );
+                                        },
+                                    }
                                 },
                                 Option::None(_) => { break; }
                             };
@@ -218,7 +232,8 @@ fn classify<
 
             let mut key = PedersenHasherImpl::new();
             let key: felt252 = key.hash((sample_index).into(), (class_index).into());
-            let score = scores_data[key].deref();
+            let score = scores_data[key]
+                .deref(); // <-- PANICS HERE WITH 'Attempted to deref null value'
 
             if score > max_score {
                 max_score = score;
