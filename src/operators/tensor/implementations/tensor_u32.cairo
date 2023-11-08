@@ -280,8 +280,12 @@ impl U32Tensor of TensorTrait<u32> {
         linalg::trilu::trilu(self, upper, k)
     }
     fn scatter(
-        self: @Tensor<u32>, updates: Tensor<u32>, indices: Tensor<usize>,  axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<u32> {
+        self: @Tensor<u32>,
+        updates: Tensor<u32>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<u32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 }
