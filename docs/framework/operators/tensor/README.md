@@ -91,6 +91,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.where`](tensor.where.md) | Return elements chosen from x or y depending on condition. |
 | [`tensor.round`](tensor.round.md) | Computes the round value of all elements in the input tensor. |
 | [`tensor.scatter`](tensor.scatter.md) | Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices. |
+| [`tensor.binarizer`](tensor.binarizer.md) | Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value. |
 
 ## Arithmetic Operations
 
