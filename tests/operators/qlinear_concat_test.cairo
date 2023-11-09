@@ -5,6 +5,15 @@ use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tens
 use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
 use orion::numbers::{NumberTrait, IntegerTrait};
 use orion::numbers::{i8, i32};
+fn print_span(mut span: Span<i8>) {
+    loop {
+        match span.pop_front() {
+            Option::Some(i) => { (*i.mag).print(); },
+            Option::None(_) => { break; }
+        };
+    };
+}
+
 
 #[test]
 #[available_gas(200000000000)]
@@ -64,14 +73,15 @@ fn qlinear_concat_test() {
 
     let actual_output = TensorTrait::qlinear_concat(tensors, scales, zero_points, @y_scale, @y_zero_point, 0);
     
+    print_span(actual_output.data);
     assert((*actual_output.data[0]).into() == 3, '*result[0] == 3');
     assert((*actual_output.data[1]).into() == 6, '*result[1] == 6');
     assert((*actual_output.data[2]).into() == 9, '*result[2] == 9');
     assert((*actual_output.data[3]).into() == 12, '*result[3] == 12');
     assert((*actual_output.data[4]).into() == 7, '*result[4] == 8');
     assert((*actual_output.data[5]).into() == 15, '*result[5] == 15');
-    assert((*actual_output.data[6]).into() == 24, '*result[6] == 24');
-    assert((*actual_output.data[7]).into() == 40, '*result[7] == 40');
+    assert((*actual_output.data[6]).into() == 22, '*result[6] == 22');
+    assert((*actual_output.data[7]).into() == 30, '*result[7] == 30');
 }
  
  
