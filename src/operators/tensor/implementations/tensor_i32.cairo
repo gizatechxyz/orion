@@ -231,6 +231,26 @@ impl I32Tensor of TensorTrait<i32> {
         )
     }
 
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<i32>>,
+        zero_points: Span<Tensor<i32>>,
+        y_scale: @Tensor<i32>,
+        y_zero_point: @Tensor<i32>,
+        axis: usize
+    ) -> Tensor::<i8> {
+        quantization::qlinear_concat::qlinear_concat(
+            tensors,
+            scales,
+            zero_points,
+            y_scale,
+            y_zero_point,
+            axis,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
 
     fn slice(
         self: @Tensor<i32>,

@@ -230,6 +230,26 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         )
     }
 
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<FP16x16>>,
+        zero_points: Span<Tensor<FP16x16>>,
+        y_scale: @Tensor<FP16x16>,
+        y_zero_point: @Tensor<FP16x16>,
+        axis: usize
+    ) -> Tensor::<i8> {
+        quantization::qlinear_concat::qlinear_concat(
+            tensors,
+            scales,
+            zero_points,
+            y_scale,
+            y_zero_point,
+            axis,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn slice(
         self: @Tensor<FP16x16>,
         starts: Span<usize>,

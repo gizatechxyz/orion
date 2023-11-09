@@ -85,6 +85,7 @@
     * [tensor.quantize\_linear](framework/operators/tensor/tensor.quantize\_linear.md)
     * [tensor.dequantize\_linear](framework/operators/tensor/tensor.dequantize\_linear.md)
     * [tensor.qlinear\_matmul](framework/operators/tensor/tensor.qlinear\_matmul.md)
+    * [tensor.qlinear\_concat](framework/operators/tensor/tensor.qlinear\_concat.md)
     * [tensor.nonzero](framework/operators/tensor/tensor.nonzero.md)
     * [tensor.squeeze](framework/operators/tensor/tensor.squeeze.md)
     * [tensor.unsqueeze](framework/operators/tensor/tensor.unsqueeze.md)

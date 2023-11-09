@@ -231,6 +231,26 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         )
     }
 
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<FP32x32>>,
+        zero_points: Span<Tensor<FP32x32>>,
+        y_scale: @Tensor<FP32x32>,
+        y_zero_point: @Tensor<FP32x32>,
+        axis: usize
+    ) -> Tensor::<i8> {
+        quantization::qlinear_concat::qlinear_concat(
+            tensors,
+            scales,
+            zero_points,
+            y_scale,
+            y_zero_point,
+            axis,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }    
+
     fn slice(
         self: @Tensor<FP32x32>,
         starts: Span<usize>,

@@ -21,7 +21,7 @@ Scalar refers to per tensor quantization whereas N-D refers to per row or per co
 * `b`(`@Tensor<i8>`) - The second tensor to be multiplied
 * `b_scale`(`@Tensor<T>`) - Scale for input `b`.
 * `b_zero_point`(`@Tensor<T>`) - Zero point for input `b`.    
-* `y_scale`(`@Tensor<T>`) - Scale for outut.
+* `y_scale`(`@Tensor<T>`) - Scale for output.
 * `y_zero_point`(`@Tensor<T>`) - Zero point for output.   
 
 ## Returns
