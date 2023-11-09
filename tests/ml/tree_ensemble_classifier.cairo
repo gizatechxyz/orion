@@ -1,12 +1,15 @@
+use core::array::SpanTrait;
 use core::dict::Felt252DictTrait;
 use orion::numbers::FP16x16;
 use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor, U32Tensor};
 use orion::operators::ml::tree_ensemble::core::{
     NODE_MODES, TreeEnsembleAttributes, TreeEnsemble, TreeEnsembleImpl
 };
-use orion::operators::ml::tree_ensemble::tree_ensemble_classifier::{
+use orion::operators::ml::tree_ensemble::tree_ensemble_classifier2::{
     TreeEnsembleClassifier, PostTransform, TreeEnsembleClassifierTrait
 };
+
+use debug::PrintTrait;
 
 #[test]
 #[available_gas(2000000000)]
@@ -42,7 +45,7 @@ fn test_tree_ensemble_classifier_multi() {
     ]
         .span();
 
-    let class_labels: Span<usize> = array![0, 1, 2].span();
+    let classlabels: Span<usize> = array![0, 1, 2].span();
 
     let nodes_falsenodeids: Span<usize> = array![4, 3, 0, 0, 0, 2, 0, 4, 0, 0].span();
 
@@ -137,7 +140,7 @@ fn test_tree_ensemble_classifier_multi() {
         class_nodeids,
         class_treeids,
         class_weights,
-        class_labels,
+        classlabels,
         base_values,
         post_transform
     };
@@ -158,6 +161,10 @@ fn test_tree_ensemble_classifier_multi() {
             .span()
     );
 
-    TreeEnsembleClassifierTrait::predict(ref classifier, X);
+    let (prediction, score) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
+
+    // (*score.data.at(0)).print();
+    // (*score.data.at(1)).print();
+    // (*score.data.at(2)).print();
 }
 

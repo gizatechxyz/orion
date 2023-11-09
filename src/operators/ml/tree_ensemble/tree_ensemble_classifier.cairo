@@ -1,3 +1,4 @@
+use core::array::SpanTrait;
 use core::nullable::NullableTrait;
 use core::dict::Felt252DictTrait;
 use core::dict::Felt252DictEntryTrait;
@@ -46,6 +47,7 @@ impl TreeEnsembleClassifierImpl<
     +Add<T>,
     +TensorTrait<usize>,
     +TensorTrait<T>,
+    +PrintTrait<T>
 > of TreeEnsembleClassifierTrait<T> {
     fn predict(ref self: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Tensor<usize>, Tensor<T>) {
         let leaf_indices = self.ensemble.leave_index_tree(X);
@@ -57,7 +59,7 @@ impl TreeEnsembleClassifierImpl<
 }
 
 
-fn compute_scores<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +Add<T>,>(
+fn compute_scores<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +Add<T>, +PrintTrait<T>>(
     ref self: TreeEnsembleClassifier<T>, leaf_indices: Tensor<usize>
 ) -> (Span<usize>, Felt252Dict::<Nullable<T>>) {
     // Initialize the scores array, either with base_values or zeros

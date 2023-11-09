@@ -101,7 +101,7 @@ impl TreeEnsembleImpl<
                 break;
             }
 
-            let row_data: Span<T> = get_row(x, i);
+            let row_data: Span<T> = get_row(@x, i);
             let mut outs = ArrayTrait::new();
             let mut tree_ids = self.tree_ids;
             loop {
