@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 
 class Unsqueeze(RunAll):
@@ -16,7 +16,6 @@ class Unsqueeze(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "unsqueeze_u32_2d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.unsqueeze(array![1, 4, 0].span())", name)
 
@@ -30,7 +29,6 @@ class Unsqueeze(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "unsqueeze_u32_3d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.unsqueeze(array![5, 4, 2].span())", name)
 
@@ -49,7 +47,6 @@ class Unsqueeze(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "unsqueeze_i32_2d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.unsqueeze(array![1, 4, 0].span())", name)
 
@@ -63,7 +60,6 @@ class Unsqueeze(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "unsqueeze_i32_3d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.unsqueeze(array![5, 4, 2].span())", name)
 
@@ -83,7 +79,6 @@ class Unsqueeze(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "unsqueeze_i8_2d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.unsqueeze(array![1, 4, 0].span())", name)
 
@@ -97,7 +92,6 @@ class Unsqueeze(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "unsqueeze_i8_3d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.unsqueeze(array![5, 4, 2].span())", name)
 
@@ -117,7 +111,6 @@ class Unsqueeze(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
             
             name = "unsqueeze_fp8x23_2d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.unsqueeze(array![1, 4, 0].span())", name)
 
@@ -132,7 +125,6 @@ class Unsqueeze(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
             
             name = "unsqueeze_fp8x23_3d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.unsqueeze(array![5, 4, 2].span())", name)
 
@@ -152,7 +144,6 @@ class Unsqueeze(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "unsqueeze_fp16x16_2d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.unsqueeze(array![1, 4, 0].span())", name)
 
@@ -167,7 +158,6 @@ class Unsqueeze(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "unsqueeze_fp16x16_3d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.unsqueeze(array![5, 4, 2].span())", name)
 
