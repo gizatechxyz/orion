@@ -528,3 +528,6 @@ mod scatter_i8_axis1_max;
 mod scatter_u32_default; 
 mod scatter_u32_axis1; 
 mod scatter_u32_add; 
+mod array_feature_extractor_fp16x16; 
+mod array_feature_extractor_fp8x23; 
+mod array_feature_extractor_i32; 
