@@ -37,11 +37,11 @@ struct TreeEnsembleClassifier<T> {
 
 #[derive(Copy, Drop)]
 enum PostTransform {
-    None,
-    Softmax,
-    Logistic,
-    SoftmaxZero,
-    Probit,
+    NONE,
+    SOFTMAX,
+    LOGISTIC,
+    SOFTMAXZERO,
+    PROBIT,
 }
 
 #[generate_trait]
@@ -196,11 +196,11 @@ impl TreeEnsembleClassifierImpl<
 
         // Post Transform
         let mut new_scores = match self.post_transform {
-            PostTransform::None => { res }, // No action required
-            PostTransform::Softmax => { res.softmax(1) },
-            PostTransform::Logistic => panic_with_felt252('Logistic not supported yet'),
-            PostTransform::SoftmaxZero => panic_with_felt252('SoftmaxZero not supported yet'),
-            PostTransform::Probit => panic_with_felt252('Probit not supported yet'),
+            PostTransform::NONE => { res }, // No action required
+            PostTransform::SOFTMAX => { res.softmax(1) },
+            PostTransform::LOGISTIC => panic_with_felt252('Logistic not supported yet'),
+            PostTransform::SOFTMAXZERO => panic_with_felt252('SoftmaxZero not supported yet'),
+            PostTransform::PROBIT => panic_with_felt252('Probit not supported yet'),
         };
 
         // Labels

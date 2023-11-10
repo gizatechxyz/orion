@@ -1,19 +1,11 @@
-use core::option::OptionTrait;
-use orion::operators::matrix::MutMatrixTrait;
-use core::array::SpanTrait;
-use core::dict::Felt252DictTrait;
 use orion::numbers::FP16x16;
 use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor, U32Tensor};
-use orion::operators::ml::tree_ensemble::core::{
-    NODE_MODES, TreeEnsembleAttributes, TreeEnsemble, TreeEnsembleImpl
-};
+use orion::operators::ml::tree_ensemble::core::{NODE_MODES, TreeEnsembleAttributes, TreeEnsemble};
 use orion::operators::ml::tree_ensemble::tree_ensemble_classifier::{
     TreeEnsembleClassifier, PostTransform, TreeEnsembleClassifierTrait
 };
 use orion::operators::tensor::implementations::tensor_fp16x16::relative_eq;
 use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
-
-use debug::PrintTrait;
 
 #[test]
 #[available_gas(200000000000)]
@@ -136,7 +128,7 @@ fn test_tree_ensemble_classifier_multi_pt_none() {
 
     let base_values: Option<Span<FP16x16>> = Option::None;
 
-    let post_transform = PostTransform::None;
+    let post_transform = PostTransform::NONE;
 
     let mut classifier: TreeEnsembleClassifier<FP16x16> = TreeEnsembleClassifier {
         ensemble,
@@ -333,7 +325,7 @@ fn test_tree_ensemble_classifier_multi_pt_softmax() {
 
     let base_values: Option<Span<FP16x16>> = Option::None;
 
-    let post_transform = PostTransform::Softmax;
+    let post_transform = PostTransform::SOFTMAX;
 
     let mut classifier: TreeEnsembleClassifier<FP16x16> = TreeEnsembleClassifier {
         ensemble,
