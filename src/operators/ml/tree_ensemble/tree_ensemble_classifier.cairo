@@ -1,3 +1,9 @@
+use core::array::ArrayTrait;
+use core::clone::Clone;
+use core::box::BoxTrait;
+use core::traits::Into;
+use core::option::OptionTrait;
+use orion::operators::matrix::MutMatrixTrait;
 use core::array::SpanTrait;
 use core::nullable::NullableTrait;
 use core::dict::Felt252DictTrait;
@@ -7,9 +13,13 @@ use nullable::{match_nullable, FromNullableResult};
 use orion::operators::tensor::{Tensor, TensorTrait};
 use orion::operators::ml::tree_ensemble::core::{TreeEnsemble, TreeEnsembleImpl, TreeEnsembleTrait};
 use orion::numbers::NumberTrait;
+use orion::utils::get_row;
 
 use alexandria_data_structures::merkle_tree::{pedersen::PedersenHasherImpl};
 use alexandria_data_structures::array_ext::{SpanTraitExt};
+
+use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
+use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
 
 use debug::PrintTrait;
 
@@ -20,7 +30,7 @@ struct TreeEnsembleClassifier<T> {
     class_nodeids: Span<usize>,
     class_treeids: Span<usize>,
     class_weights: Span<T>,
-    class_labels: Span<usize>,
+    classlabels: Span<usize>,
     base_values: Option<Span<T>>,
     post_transform: PostTransform,
 }
@@ -34,7 +44,6 @@ enum PostTransform {
     Probit,
 }
 
-
 #[generate_trait]
 impl TreeEnsembleClassifierImpl<
     T,
@@ -47,212 +56,163 @@ impl TreeEnsembleClassifierImpl<
     +Add<T>,
     +TensorTrait<usize>,
     +TensorTrait<T>,
-    +PrintTrait<T>
+    +PrintTrait<T>,
 > of TreeEnsembleClassifierTrait<T> {
-    fn predict(ref self: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Tensor<usize>, Tensor<T>) {
-        let leaf_indices = self.ensemble.leave_index_tree(X);
-        let scores = compute_scores(ref self, leaf_indices);
-        let (predictions, final_scores) = classify(ref self, scores);
+    fn predict(ref self: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Span<usize>, MutMatrix::<T>) {
+        let leaves_index = self.ensemble.leave_index_tree(X);
+        let n_classes = self.classlabels.len();
+        let mut res: MutMatrix<T> = MutMatrixImpl::new(*leaves_index.shape.at(0), n_classes);
 
-        (predictions, final_scores)
-    }
-}
-
-
-fn compute_scores<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +Add<T>, +PrintTrait<T>>(
-    ref self: TreeEnsembleClassifier<T>, leaf_indices: Tensor<usize>
-) -> (Span<usize>, Felt252Dict::<Nullable<T>>) {
-    // Initialize the scores array, either with base_values or zeros
-    let num_samples = *leaf_indices.shape[0];
-    let num_classes = self.class_labels.len();
-    let mut scores_shape = array![num_samples, num_classes].span();
-
-    // Store scores in dictionary because of immutability of array.
-    let mut scores_data: Felt252Dict<Nullable<T>> = Default::default();
-    if self.base_values.is_some() {
-        // Repeat base values for each sample
-        let mut sample_index: usize = 0;
-        loop {
-            if sample_index == num_samples {
-                break;
-            }
-
-            let mut class_index: usize = 0;
+        // Set base values
+        if self.base_values.is_some() {
+            let mut base_values = self.base_values.unwrap();
+            let mut row: usize = 0;
             loop {
-                if class_index == num_classes {
+                if row == res.rows {
                     break;
                 }
 
-                let mut key = PedersenHasherImpl::new();
-                let key: felt252 = key.hash(sample_index.into(), class_index.into());
-                scores_data
-                    .insert(key, NullableTrait::new(*self.base_values.unwrap().at(class_index)));
+                let mut col: usize = 0;
+                loop {
+                    if col == res.cols {
+                        break;
+                    }
 
-                class_index += 1;
-            };
+                    let value = *base_values.pop_front().unwrap();
+                    res.set(row, col, value);
 
-            sample_index += 1;
-        }
-    }
-
-    // Compute class index mapping
-    let mut class_index: Felt252Dict<Nullable<Span<(usize, T)>>> = Default::default();
-    let mut class_weights = self.class_weights;
-    let mut class_ids = self.class_ids;
-    let mut class_nodeids = self.class_nodeids;
-    let mut class_treeids = self.class_treeids;
-    loop {
-        match class_weights.pop_front() {
-            Option::Some(class_weight) => {
-                let mut class_id: usize = *class_ids.pop_front().unwrap();
-                let mut node_id: usize = *class_nodeids.pop_front().unwrap();
-                let mut tree_id: usize = *class_treeids.pop_front().unwrap();
-
-                let mut key = PedersenHasherImpl::new();
-                let key: felt252 = key.hash(tree_id.into(), node_id.into());
-
-                let value = class_index.get(key);
-                match match_nullable(value) {
-                    FromNullableResult::Null(()) => {
-                        class_index
-                            .insert(
-                                key, NullableTrait::new(array![(class_id, *class_weight)].span())
-                            );
-                    },
-                    FromNullableResult::NotNull(val) => {
-                        let mut new_val = value.deref();
-                        let new_val = new_val.concat(array![(class_id, *class_weight)].span());
-                        class_index.insert(key, NullableTrait::new(new_val));
-                    },
+                    col += 1
                 };
-            },
-            Option::None(_) => { break; }
-        };
-    };
 
-    // Update scores based on class index mapping
-    let mut sample_index: usize = 0;
-    let mut leaf_indices_data = leaf_indices.data;
-    loop {
-        match leaf_indices_data.pop_front() {
-            Option::Some(leaf_index) => {
-                let mut key = PedersenHasherImpl::new();
-                let key: felt252 = key
-                    .hash(
-                        (*self.ensemble.atts.nodes_treeids[*leaf_index]).into(),
-                        (*self.ensemble.atts.nodes_nodeids[*leaf_index]).into()
-                    );
-
-                match match_nullable(class_index.get(key)) {
-                    FromNullableResult::Null(()) => { continue; },
-                    FromNullableResult::NotNull(class_weight_pairs) => {
-                        let mut class_weight_pairs_span = class_weight_pairs.unbox();
-                        loop {
-                            match class_weight_pairs_span.pop_front() {
-                                Option::Some(class_weight_pair) => {
-                                    let (class_id, class_weight) = *class_weight_pair;
-
-                                    let mut key = PedersenHasherImpl::new();
-                                    let key: felt252 = key
-                                        .hash((sample_index).into(), (class_id).into());
-
-                                    let value = scores_data.get(key);
-                                    match match_nullable(value) {
-                                        FromNullableResult::Null(()) => {
-                                            scores_data
-                                                .insert(key, NullableTrait::new(class_weight));
-                                        },
-                                        FromNullableResult::NotNull(val) => {
-                                            scores_data
-                                                .insert(
-                                                    key,
-                                                    NullableTrait::new(value.deref() + class_weight)
-                                                );
-                                        },
-                                    }
-                                },
-                                Option::None(_) => { break; }
-                            };
-                        }
-                    },
+                row += 1;
+            }
+        } else {
+            let mut row: usize = 0;
+            loop {
+                if row == res.rows {
+                    break;
                 }
 
-                sample_index += 1;
-            },
-            Option::None(_) => { break; }
-        };
-    };
+                let mut col: usize = 0;
+                loop {
+                    if col == res.cols {
+                        break;
+                    }
 
-    // Apply post-transform to scores
-    match self.post_transform {
-        PostTransform::None => {}, // No action required
-        PostTransform::Softmax => panic_with_felt252(''),
-        PostTransform::Logistic => panic_with_felt252(''),
-        PostTransform::SoftmaxZero => panic_with_felt252(''),
-        PostTransform::Probit => panic_with_felt252(''),
-    }
+                    res.set(row, col, NumberTrait::zero());
 
-    (scores_shape, scores_data)
-}
+                    col += 1
+                };
 
-fn classify<
-    T,
-    MAG,
-    +Drop<T>,
-    +Copy<T>,
-    +NumberTrait<T, MAG>,
-    +PartialOrd<T>,
-    +TensorTrait<usize>,
-    +TensorTrait<T>,
->(
-    ref self: TreeEnsembleClassifier<T>, scores: (Span<usize>, Felt252Dict::<Nullable<T>>)
-) -> (Tensor<usize>, Tensor<T>) {
-    let (scores_shape, mut scores_data) = scores;
-    let num_samples = *scores_shape[0];
-    let num_classes = *scores_shape[1];
-
-    let predictions_shape = array![num_samples].span();
-    let mut final_scores_shape = scores_shape;
-    let mut predictions_data = ArrayTrait::new();
-    let mut final_scores_data = ArrayTrait::new();
-
-    let mut sample_index: usize = 0;
-    loop {
-        if sample_index == num_samples {
-            break;
+                row += 1;
+            }
         }
 
-        // Placeholder for the minimum value for type T
-        let mut max_score = NumberTrait::<T>::min_value();
-        let mut max_class_index = 0;
-
-        let mut class_index: usize = 0;
+        let mut class_index: Felt252Dict<Nullable<Span<usize>>> = Default::default();
+        let mut i: usize = 0;
         loop {
-            if class_index == num_classes {
+            if i == self.class_treeids.len() {
                 break;
             }
 
+            let tid = *self.class_treeids[i];
+            let nid = *self.class_nodeids[i];
+
             let mut key = PedersenHasherImpl::new();
-            let key: felt252 = key.hash((sample_index).into(), (class_index).into());
-            let score = scores_data[key].deref();
-
-            final_scores_data.append(score);
-
-            if score > max_score {
-                max_score = score;
-                max_class_index = class_index;
+            let key: felt252 = key.hash(tid.into(), nid.into());
+            match match_nullable(class_index.get(key)) {
+                FromNullableResult::Null(()) => {
+                    class_index.insert(key, NullableTrait::new(array![i].span()));
+                },
+                FromNullableResult::NotNull(val) => {
+                    let mut new_val = val.unbox();
+                    let new_val = new_val.concat(array![i].span());
+                    class_index.insert(key, NullableTrait::new(new_val));
+                },
             }
 
-            class_index += 1;
+            i += 1;
+        };
+        let mut i: usize = 0;
+        loop {
+            if i == res.rows {
+                break;
+            }
+
+            let mut indices = get_row(@leaves_index, i);
+            let mut t_index: Array<Span<core::integer::u32>> = ArrayTrait::new();
+            loop {
+                match indices.pop_front() {
+                    Option::Some(index) => {
+                        let mut key = PedersenHasherImpl::new();
+                        let key: felt252 = key
+                            .hash(
+                                (*self.ensemble.atts.nodes_treeids[*index]).into(),
+                                (*self.ensemble.atts.nodes_nodeids[*index]).into()
+                            );
+                        t_index.append(class_index.get(key).deref());
+                    },
+                    Option::None(_) => { break; }
+                };
+            };
+            let mut t_index = t_index.span();
+            loop {
+                match t_index.pop_front() {
+                    Option::Some(its) => {
+                        let mut its = *its;
+                        loop {
+                            match its.pop_front() {
+                                Option::Some(it) => {
+                                    let prev_val = match res.get(i, *self.class_ids[*it]) {
+                                        Option::Some(val) => {
+                                            res
+                                                .set(
+                                                    i,
+                                                    *self.class_ids[*it],
+                                                    val + *self.class_weights[*it]
+                                                );
+                                        },
+                                        Option::None => {
+                                            res
+                                                .set(
+                                                    i,
+                                                    *self.class_ids[*it],
+                                                    *self.class_weights[*it]
+                                                );
+                                        },
+                                    };
+                                },
+                                Option::None(_) => { break; }
+                            };
+                        };
+                    },
+                    Option::None(_) => { break; }
+                };
+            };
+            i += 1;
         };
 
-        predictions_data.append(max_class_index);
-        sample_index += 1;
-    };
+        // Post Transform
+        let mut new_scores = match self.post_transform {
+            PostTransform::None => { res }, // No action required
+            PostTransform::Softmax => panic_with_felt252(''),
+            PostTransform::Logistic => panic_with_felt252(''),
+            PostTransform::SoftmaxZero => panic_with_felt252(''),
+            PostTransform::Probit => panic_with_felt252(''),
+        };
 
-    (
-        TensorTrait::new(predictions_shape, predictions_data.span()),
-        TensorTrait::new(final_scores_shape, final_scores_data.span())
-    )
+        // Labels
+        let mut labels = new_scores.argmax(1);
+
+        let mut labels_list = ArrayTrait::new();
+        loop {
+            match labels.pop_front() {
+                Option::Some(i) => { labels_list.append(*self.classlabels[*i]); },
+                Option::None(_) => { break; }
+            };
+        };
+
+        return (labels_list.span(), new_scores);
+    }
 }
 

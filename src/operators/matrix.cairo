@@ -1,19 +1,20 @@
 use core::array::ArrayTrait;
 use core::option::OptionTrait;
-use alexandria_data_structures::vec::{VecTrait, NullableVec, NullableVecImpl};
+// use alexandria_data_structures::vec::{VecTrait, NullableVec, NullableVecImpl};
 
 use orion::numbers::NumberTrait;
+use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
 
-impl VecCopy<T> of Copy<NullableVec<T>>;
-impl NullCopy<T> of Copy<Felt252Dict<Nullable<T>>>;
-impl VecDrop<T> of Drop<NullableVec<T>>;
-impl NullDrop<T> of Drop<Felt252Dict<Nullable<T>>>;
-
-#[derive(Copy, Drop)]
 struct MutMatrix<T> {
     data: NullableVec<T>,
     rows: usize,
     cols: usize,
+}
+
+impl MutMatrixDestruct<T, +Drop<T>> of Destruct<MutMatrix<T>> {
+    fn destruct(self: MutMatrix<T>) nopanic {
+        self.data.destruct()
+    }
 }
 
 #[generate_trait]

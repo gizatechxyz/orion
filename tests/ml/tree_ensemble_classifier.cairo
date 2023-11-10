@@ -1,3 +1,5 @@
+use core::option::OptionTrait;
+use orion::operators::matrix::MutMatrixTrait;
 use core::array::SpanTrait;
 use core::dict::Felt252DictTrait;
 use orion::numbers::FP16x16;
@@ -5,14 +7,16 @@ use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor, U32Tensor};
 use orion::operators::ml::tree_ensemble::core::{
     NODE_MODES, TreeEnsembleAttributes, TreeEnsemble, TreeEnsembleImpl
 };
-use orion::operators::ml::tree_ensemble::tree_ensemble_classifier2::{
+use orion::operators::ml::tree_ensemble::tree_ensemble_classifier::{
     TreeEnsembleClassifier, PostTransform, TreeEnsembleClassifierTrait
 };
+
+use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
 
 use debug::PrintTrait;
 
 #[test]
-#[available_gas(2000000000)]
+#[available_gas(200000000000)]
 fn test_tree_ensemble_classifier_multi() {
     let class_ids: Span<usize> = array![0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2]
         .span();
@@ -161,10 +165,11 @@ fn test_tree_ensemble_classifier_multi() {
             .span()
     );
 
-    let (prediction, score) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
+    let (labels, mut score) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
+    // (*labels.at(0)).print();
+    // (*labels.at(1)).print();
+    // (*labels.at(2)).print();
 
-    // (*score.data.at(0)).print();
-    // (*score.data.at(1)).print();
-    // (*score.data.at(2)).print();
+    score.get(0, 0).unwrap().print();
 }
 
