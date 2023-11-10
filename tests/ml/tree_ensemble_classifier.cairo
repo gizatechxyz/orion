@@ -10,7 +10,7 @@ use orion::operators::ml::tree_ensemble::core::{
 use orion::operators::ml::tree_ensemble::tree_ensemble_classifier::{
     TreeEnsembleClassifier, PostTransform, TreeEnsembleClassifierTrait
 };
-
+use orion::operators::tensor::implementations::tensor_fp16x16::relative_eq;
 use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
 
 use debug::PrintTrait;
@@ -165,11 +165,50 @@ fn test_tree_ensemble_classifier_multi() {
             .span()
     );
 
-    let (labels, mut score) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
-    // (*labels.at(0)).print();
-    // (*labels.at(1)).print();
-    // (*labels.at(2)).print();
+    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
 
-    score.get(0, 0).unwrap().print();
+    // ASSERT LABELS
+    assert(*labels[0] == 0, 'labels[0] == 0');
+    assert(*labels[1] == 0, 'labels[1] == 0');
+    assert(*labels[2] == 1, 'labels[2] == 1');
+    assert(labels.len() == 3, 'len(labels) == 3');
+
+    // ASSERT SCORES
+    assert(
+        relative_eq(@scores.get(0, 0).unwrap(), @FP16x16 { mag: 60075, sign: false }) == true,
+        'score[0, 0] == 0.9166666'
+    );
+    assert(
+        relative_eq(@scores.get(0, 1).unwrap(), @FP16x16 { mag: 0, sign: false }) == true,
+        'score[0, 1] == 0'
+    );
+    assert(
+        relative_eq(@scores.get(0, 2).unwrap(), @FP16x16 { mag: 5461, sign: false }) == true,
+        'score[0, 2] == 0.08333334'
+    );
+    assert(
+        relative_eq(@scores.get(1, 0).unwrap(), @FP16x16 { mag: 37329, sign: false }) == true,
+        'score[1, 0] == 0.56960785'
+    );
+    assert(
+        relative_eq(@scores.get(1, 1).unwrap(), @FP16x16 { mag: 12528, sign: false }) == true,
+        'score[1, 1] == 0.19117647'
+    );
+    assert(
+        relative_eq(@scores.get(1, 2).unwrap(), @FP16x16 { mag: 15677, sign: false }) == true,
+        'score[1, 2] == 0.23921569'
+    );
+    assert(
+        relative_eq(@scores.get(2, 0).unwrap(), @FP16x16 { mag: 19853, sign: false }) == true,
+        'score[2, 0] == 0.30294117'
+    );
+    assert(
+        relative_eq(@scores.get(2, 1).unwrap(), @FP16x16 { mag: 28257, sign: false }) == true,
+        'score[2, 1] == 0.43117648'
+    );
+    assert(
+        relative_eq(@scores.get(2, 2).unwrap(), @FP16x16 { mag: 17424, sign: false }) == true,
+        'score[2, 2] == 0.26588234'
+    );
 }
 
