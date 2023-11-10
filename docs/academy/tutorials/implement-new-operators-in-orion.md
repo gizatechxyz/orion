@@ -268,7 +268,7 @@ Finally, we create a Softmax class, containing tests for each dtypes.
 ```python
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 def softmax(x: np.ndarray, axis: int = -1) -> np.ndarray:
     x_max = np.max(x, axis=axis, keepdims=True)
@@ -293,8 +293,6 @@ class Softmax(RunAll):
         
         # Define the name of the generated folder. 
         name = "softmax_fp8x23"
-        # Invoke `make_node` method to generate Cairo representation of `x` and `y`:
-        make_node([x], [y], name)
         # Invoke `make_test` method to generate corresponding Cairo tests:
         make_test(
             [x], # List of input tensors.
@@ -316,7 +314,6 @@ class Softmax(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "softmax_fp16x16"
-        make_node([x], [y], name)
         make_test([x], y, "NNTrait::softmax(@input_0, 1)",
                     name, Trait.NN)
 ```
