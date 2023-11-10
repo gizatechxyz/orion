@@ -7,7 +7,7 @@ use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP8x23W};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
@@ -275,6 +275,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         self: @Tensor<FP8x23W>, updates: Tensor<FP8x23W>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
         -> Tensor<FP8x23W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
+    fn array_feature_extractor(self: @Tensor<FP8x23W>, indices: Tensor<usize>) -> Tensor<FP8x23W> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
 
 } 

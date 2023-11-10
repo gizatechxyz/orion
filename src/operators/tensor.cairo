@@ -4,6 +4,7 @@ mod math;
 mod linalg;
 mod quantization;
 mod implementations;
+mod ml;
 
 use orion::operators::tensor::core::{Tensor, TensorSerde, TensorTrait};
 

@@ -3212,6 +3212,7 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn scatter(self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>,  axis: Option<usize>, reduction: Option<usize>) -> Tensor<T>;
+    fn array_feature_extractor(self: @Tensor<T>, indices: Tensor<usize>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring
