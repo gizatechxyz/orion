@@ -39,28 +39,46 @@ class Trait(Enum):
     NN = 'NN'
 
 
-def make_test(inputs: list[Tensor], output: Tensor, func_sig: str, name: str, trait: Trait = Trait.TENSOR):
+def make_test(inputs: list[Tensor | list[Tensor]], output: Tensor | list[Tensor], func_sig: str, name: str, trait: Trait = Trait.TENSOR):
     Mod().update(name)
 
     for i, input in enumerate(inputs):
         input_data = Data(os.path.join(name, f"input_{i}.cairo"))
-        input_data.buffer = Data.template(
-            func=f"input_{i}",
-            dtype=input.dtype.value,
-            refs=get_data_refs(input.dtype),
-            data=get_data_data(input.data, input.dtype),
-            shape=input.shape,
-        )
+        if isinstance(input, list):
+            input_data.buffer = Data.template_sequence(
+                func=f"input_{i}",
+                dtype=input[0].dtype.value,
+                refs=get_data_refs(input[0].dtype),
+                data=get_data_data_sequence(input, input[0].dtype),
+                shape=[x.shape for x in input],
+            )
+        else:
+            input_data.buffer = Data.template(
+                func=f"input_{i}",
+                dtype=input.dtype.value,
+                refs=get_data_refs(input.dtype),
+                data=get_data_data(input.data, input.dtype),
+                shape=input.shape,
+            )
         input_data.dump()
 
     output_data = Data(os.path.join(name, "output_0.cairo"))
-    output_data.buffer = Data.template(
-        func="output_0",
-        dtype=output.dtype.value,
-        refs=get_data_refs(output.dtype),
-        data=get_data_data(output.data, output.dtype),
-        shape=output.shape,
-    )
+    if isinstance(output, list):
+        output_data.buffer = Data.template_sequence(
+            func="output_0",
+            dtype=output[0].dtype.value,
+            refs=get_data_refs(output[0].dtype),
+            data=get_data_data_sequence(output, output[0].dtype),
+            shape=[x.shape for x in output],
+        )
+    else:
+        output_data.buffer = Data.template(
+            func="output_0",
+            dtype=output.dtype.value,
+            refs=get_data_refs(output.dtype),
+            data=get_data_data(output.data, output.dtype),
+            shape=output.shape,
+        )
     output_data.dump()
 
     test_file = Test(f"{name}.cairo")
@@ -73,8 +91,15 @@ def make_test(inputs: list[Tensor], output: Tensor, func_sig: str, name: str, tr
     test_file.dump()
 
 
-def find_all_types(tensors: list[Tensor]) -> list[Dtype]:
-    return list(set([tensor.dtype for tensor in tensors]))
+def find_all_types(tensors: list[Tensor | list[Tensor]]) -> list[Dtype]:
+    dtypes = []
+    for tensor in tensors:
+        if isinstance(tensor, list):
+            dtypes += [x.dtype for x in tensor]
+        else:
+            dtypes.append(tensor.dtype)
+
+    return list(set(dtypes))
 
 
 def get_all_use(dtypes: list[Dtype], trait: Trait) -> list[str]:
@@ -97,6 +122,10 @@ def get_data_data(data: np.ndarray, dtype: Dtype) -> list[str]:
             return ["FP8x23 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
         case Dtype.FP16x16:
             return ["FP16x16 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
+
+
+def get_data_data_sequence(data: list[Tensor], dtype: Dtype) -> list[list[str]]:
+    return [get_data_data(x.data, dtype) for x in data]
 
 
 def get_data_refs(dtype: Dtype) -> list[str]:

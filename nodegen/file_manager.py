@@ -77,3 +77,31 @@ class Data(File):
             *[ "    TensorTrait::new(shape.span(), data.span())"],
             *[ "}"],
         ]
+
+    @classmethod
+    def template_sequence(cls, func: str, dtype: str, refs: list[str], data: list[list[str]], shape: list[tuple]) -> list[str]:
+        def rep(s: list[tuple], d: list[list[str]]) -> list[str]:
+            x = []
+            for i in range(len(s)):
+                x += [
+                    *[ "    let mut shape = ArrayTrait::<usize>::new();"],
+                    *[f"    shape.append({s});" for s in s[i]],
+                    *[ ""],
+                    *[ "    let mut data = ArrayTrait::new();"],
+                    *[f"    data.append({d});" for d in d[i]],
+                    *[ ""],
+                    *[ "    sequence.append(TensorTrait::new(shape.span(), data.span()));"],
+                    *[ ""],
+                ]
+            return x
+
+        return [
+            *[f"use {ref};" for ref in refs],
+            *[ ""],
+            *[f"fn {func}() -> Array<Tensor<{dtype}>>"+" {"],
+            *[ "    let mut sequence = ArrayTrait::new();"],
+            *[ ""],
+            *rep(shape, data),
+            *[ "    sequence"],
+            *[ "}"],
+        ]
