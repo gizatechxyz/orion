@@ -57,6 +57,8 @@ impl TreeEnsembleClassifierImpl<
     +TensorTrait<usize>,
     +TensorTrait<T>,
     +PrintTrait<T>,
+    +AddEq<T>,
+    +Div<T>
 > of TreeEnsembleClassifierTrait<T> {
     fn predict(ref self: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Span<usize>, MutMatrix::<T>) {
         let leaves_index = self.ensemble.leave_index_tree(X);
@@ -195,10 +197,10 @@ impl TreeEnsembleClassifierImpl<
         // Post Transform
         let mut new_scores = match self.post_transform {
             PostTransform::None => { res }, // No action required
-            PostTransform::Softmax => panic_with_felt252(''),
-            PostTransform::Logistic => panic_with_felt252(''),
-            PostTransform::SoftmaxZero => panic_with_felt252(''),
-            PostTransform::Probit => panic_with_felt252(''),
+            PostTransform::Softmax => { res.softmax(1) },
+            PostTransform::Logistic => panic_with_felt252('Logistic not supported yet'),
+            PostTransform::SoftmaxZero => panic_with_felt252('SoftmaxZero not supported yet'),
+            PostTransform::Probit => panic_with_felt252('Probit not supported yet'),
         };
 
         // Labels

@@ -1,6 +1,5 @@
 use core::array::ArrayTrait;
 use core::option::OptionTrait;
-// use alexandria_data_structures::vec::{VecTrait, NullableVec, NullableVecImpl};
 
 use orion::numbers::NumberTrait;
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
@@ -132,5 +131,87 @@ impl MutMatrixImpl<
         };
 
         return result.span();
+    }
+
+    /// Apply softmax to the matrix along the specified axis
+    /// Apply softmax to the matrix along the specified axis
+    fn softmax<+AddEq<T>, +Div<T>>(ref self: MutMatrix<T>, axis: usize) -> MutMatrix<T> {
+        assert(axis < 2, 'Invalid axis');
+
+        let mut result = MutMatrixImpl::new(self.rows, self.cols);
+
+        if axis == 0 {
+            let mut col: usize = 0;
+            loop {
+                if col == self.cols {
+                    break;
+                }
+
+                let mut sum_exp = NumberTrait::zero();
+                let mut row: usize = 0;
+                loop {
+                    if row == self.rows {
+                        break;
+                    }
+
+                    let value = self.get(row, col).unwrap().into();
+                    sum_exp += value.exp();
+
+                    row += 1;
+                };
+
+                row = 0;
+                loop {
+                    if row == self.rows {
+                        break;
+                    }
+
+                    let value = self.get(row, col).unwrap().into();
+                    let softmax_value = (value.exp() / sum_exp).into();
+                    result.set(row, col, softmax_value);
+
+                    row += 1;
+                };
+
+                col += 1;
+            };
+        } else {
+            let mut row: usize = 0;
+            loop {
+                if row == self.rows {
+                    break;
+                }
+
+                let mut sum_exp = NumberTrait::zero();
+                let mut col: usize = 0;
+                loop {
+                    if col == self.cols {
+                        break;
+                    }
+
+                    let value = self.get(row, col).unwrap().into();
+                    sum_exp += value.exp();
+
+                    col += 1;
+                };
+
+                col = 0;
+                loop {
+                    if col == self.cols {
+                        break;
+                    }
+
+                    let value = self.get(row, col).unwrap().into();
+                    let softmax_value = (value.exp() / sum_exp).into();
+                    result.set(row, col, softmax_value);
+
+                    col += 1;
+                };
+
+                row += 1;
+            };
+        }
+
+        result
     }
 }
