@@ -1,7 +1,8 @@
 from enum import Enum
 import os
+from typing import List
 
-from .file_manager import Test, Data, Mod
+from .file_manager import CairoTest, CairoData, ModFile
 
 import numpy as np
 
@@ -34,83 +35,91 @@ class Tensor:
         self.data = data
 
 
+Sequence = List[Tensor]
+
+
 class Trait(Enum):
     TENSOR = 'TENSOR'
     NN = 'NN'
 
 
-def make_test(inputs: list[Tensor | list[Tensor]], output: Tensor | list[Tensor], func_sig: str, name: str, trait: Trait = Trait.TENSOR):
-    Mod().update(name)
+def make_test(inputs: list[Tensor | Sequence], output: Tensor | Sequence, func_sig: str, name: str, trait: Trait = Trait.TENSOR):
+    """
+    Generate and write Cairo tests based on the provided inputs and output.
+
+    Args:
+        inputs (list[Tensor | list[Tensor]]): A list of input tensors or tensor sequences.
+        output (Tensor | list[Tensor]): The expected output tensor or tensor sequences.
+        func_sig (str): The signature of the function to be tested.
+        name (str): The name of the test.
+        trait (Trait, optional): The trait of the tensors. Defaults to Trait.TENSOR.
+    """
+    ModFile().update(name)
 
     for i, input in enumerate(inputs):
-        input_data = Data(os.path.join(name, f"input_{i}.cairo"))
-        if isinstance(input, list):
-            input_data.buffer = Data.template_sequence(
-                func=f"input_{i}",
-                dtype=input[0].dtype.value,
-                refs=get_data_refs(input[0].dtype),
-                data=get_data_data_sequence(input, input[0].dtype),
-                shape=[x.shape for x in input],
-            )
-        else:
-            input_data.buffer = Data.template(
-                func=f"input_{i}",
-                dtype=input.dtype.value,
-                refs=get_data_refs(input.dtype),
-                data=get_data_data(input.data, input.dtype),
-                shape=input.shape,
-            )
+        input_data = CairoData(os.path.join(name, f"input_{i}.cairo"))
+        match input:
+            case list():
+                input_data.buffer = CairoData.sequence_template(
+                    func=f"input_{i}",
+                    dtype=input[0].dtype.value,
+                    refs=get_data_refs(input[0].dtype),
+                    data=get_data_statement_for_sequences(input, input[0].dtype),
+                    shape=[x.shape for x in input],
+                )
+            case Tensor():
+                input_data.buffer = CairoData.base_template(
+                    func=f"input_{i}",
+                    dtype=input.dtype.value,
+                    refs=get_data_refs(input.dtype),
+                    data=get_data_statement(input.data, input.dtype),
+                    shape=input.shape,
+                )
+
         input_data.dump()
 
-    output_data = Data(os.path.join(name, "output_0.cairo"))
-    if isinstance(output, list):
-        output_data.buffer = Data.template_sequence(
-            func="output_0",
-            dtype=output[0].dtype.value,
-            refs=get_data_refs(output[0].dtype),
-            data=get_data_data_sequence(output, output[0].dtype),
-            shape=[x.shape for x in output],
-        )
-    else:
-        output_data.buffer = Data.template(
-            func="output_0",
-            dtype=output.dtype.value,
-            refs=get_data_refs(output.dtype),
-            data=get_data_data(output.data, output.dtype),
-            shape=output.shape,
-        )
+    output_data = CairoData(os.path.join(name, "output_0.cairo"))
+    match output:
+        case list():
+            output_data.buffer = CairoData.sequence_template(
+                func="output_0",
+                dtype=output[0].dtype.value,
+                refs=get_data_refs(output[0].dtype),
+                data=get_data_statement_for_sequences(output, output[0].dtype),
+                shape=[x.shape for x in output],
+            )
+        case Tensor():
+            output_data.buffer = CairoData.base_template(
+                func="output_0",
+                dtype=output.dtype.value,
+                refs=get_data_refs(output.dtype),
+                data=get_data_statement(output.data, output.dtype),
+                shape=output.shape,
+            )
+
     output_data.dump()
 
-    test_file = Test(f"{name}.cairo")
-    test_file.buffer = Test.template(
+    test_file = CairoTest(f"{name}.cairo")
+    test_file.buffer = CairoTest.template(
         name=name,
         arg_cnt=len(inputs),
-        refs=get_all_use(find_all_types([*inputs, output]), trait),
+        refs=get_all_test_refs(find_all_types([*inputs, output]), trait, isinstance(output, list)),
         func_sig=func_sig,
     )
     test_file.dump()
 
 
-def find_all_types(tensors: list[Tensor | list[Tensor]]) -> list[Dtype]:
-    dtypes = []
-    for tensor in tensors:
-        if isinstance(tensor, list):
-            dtypes += [x.dtype for x in tensor]
-        else:
-            dtypes.append(tensor.dtype)
+def get_data_refs(dtype: Dtype) -> list[str]:
+    refs = [
+        *trait_to_ref[Trait.TENSOR],
+        *dtype_to_tensor[dtype],
+        *dtype_to_numbers[dtype],
+    ]
 
-    return list(set(dtypes))
-
-
-def get_all_use(dtypes: list[Dtype], trait: Trait) -> list[str]:
-    refs = []
-    for dtype in dtypes:
-        refs += get_test_refs(dtype, trait)
-
-    return list(set(refs))
+    return refs
 
 
-def get_data_data(data: np.ndarray, dtype: Dtype) -> list[str]:
+def get_data_statement(data: np.ndarray, dtype: Dtype) -> list[str]:
     match dtype:
         case Dtype.U32:
             return [f"{int(x)}" for x in data.flatten()]
@@ -124,33 +133,42 @@ def get_data_data(data: np.ndarray, dtype: Dtype) -> list[str]:
             return ["FP16x16 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
 
 
-def get_data_data_sequence(data: list[Tensor], dtype: Dtype) -> list[list[str]]:
-    return [get_data_data(x.data, dtype) for x in data]
+def get_data_statement_for_sequences(data: Sequence, dtype: Dtype) -> list[list[str]]:
+    return [get_data_statement(x.data, dtype) for x in data]
 
 
-def get_data_refs(dtype: Dtype) -> list[str]:
+def get_all_test_refs(dtypes: list[Dtype], trait: Trait, is_sequence: bool) -> list[str]:
+    refs = []
+    for dtype in dtypes:
+        refs += get_test_refs(dtype, trait, is_sequence)
+
+    return list(set(refs))
+
+
+def get_test_refs(dtype: Dtype, trait: Trait, is_sequence: bool) -> list[str]:
+    dtype_ref = dtype_to_nn[dtype] if trait == Trait.NN else dtype_to_tensor[dtype]
     refs = [
-        *trait2use[Trait.TENSOR],
-        *dtype2tensor[dtype],
-        *dtype2numbers[dtype],
-    ]
-
-    return refs
-
-
-def get_test_refs(dtype: Dtype, trait: Trait) -> list[str]:
-    dtype_ref = dtype2nn[dtype] if trait == Trait.NN else dtype2tensor[dtype]
-    refs = [
-        *trait2use[trait],
+        *trait_to_ref[trait],
         *dtype_ref,
-        *dtype2partial[dtype],
-        "orion::utils::assert_eq",
+        *dtype_to_partial_eq[dtype],
+        "orion::utils::{assert_eq, assert_seq_eq}",
         ]
 
     return refs
 
 
-trait2use = {
+def find_all_types(tensors: list[Tensor | Sequence]) -> list[Dtype]:
+    dtypes = []
+    for tensor in tensors:
+        if isinstance(tensor, list):
+            dtypes += [x.dtype for x in tensor]
+        else:
+            dtypes.append(tensor.dtype)
+
+    return list(set(dtypes))
+
+
+trait_to_ref = {
     Trait.TENSOR: [
         "array::{ArrayTrait, SpanTrait}",
         "orion::operators::tensor::{TensorTrait, Tensor}",
@@ -162,7 +180,7 @@ trait2use = {
 }
 
 
-dtype2tensor = {
+dtype_to_tensor = {
     Dtype.U32: ["orion::operators::tensor::U32Tensor",],
     Dtype.I32: ["orion::operators::tensor::I32Tensor",],
     Dtype.I8: ["orion::operators::tensor::I8Tensor",],
@@ -171,7 +189,7 @@ dtype2tensor = {
 }
 
 
-dtype2nn = {
+dtype_to_nn = {
     Dtype.U32: ["orion::operators::nn::U32NN",],
     Dtype.I32: ["orion::operators::nn::I32NN",],
     Dtype.I8: ["orion::operators::nn::I8NN",],
@@ -180,7 +198,7 @@ dtype2nn = {
 }
 
 
-dtype2partial = {
+dtype_to_partial_eq = {
     Dtype.U32: ["orion::operators::tensor::U32TensorPartialEq",],
     Dtype.I32: ["orion::operators::tensor::I32TensorPartialEq",],
     Dtype.I8: ["orion::operators::tensor::I8TensorPartialEq",],
@@ -189,7 +207,7 @@ dtype2partial = {
 }
 
 
-dtype2numbers = {
+dtype_to_numbers = {
     Dtype.U32: [],
     Dtype.I32: ["orion::numbers::{IntegerTrait, i32}",],
     Dtype.I8: ["orion::numbers::{IntegerTrait, i8}",],
