@@ -212,6 +212,19 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_add(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP16x16W>,
+        a_zero_point: @Tensor<FP16x16W>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP16x16W>,
+        b_zero_point: @Tensor<FP16x16W>,
+        y_scale: @Tensor<FP16x16W>,
+        y_zero_point: @Tensor<FP16x16W>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<FP16x16W>,
@@ -277,8 +290,20 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+    
     fn round(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
         math::round::round(*self)
+    }
+
+    fn reduce_l1(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+
+    fn trilu(self: @Tensor<FP16x16W>, upper: bool, k: i64) -> Tensor<FP16x16W> {
+        linalg::trilu::trilu(self, upper, k)
     }
 
     fn scatter(

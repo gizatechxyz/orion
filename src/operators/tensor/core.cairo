@@ -75,6 +75,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// concat - Concatenate a list of tensors into a single tensor.
 /// quantize_linear - Quantizes a Tensor to i8 using linear quantization.
 /// dequantize_linear - Dequantizes an i8 Tensor using linear dequantization.
+/// qlinear_add - Performs the sum of two quantized i8 Tensors.
 /// qlinear_matmul - Performs the product of two quantized i8 Tensors.
 /// gather - Gather entries of the axis dimension of data.
 /// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
@@ -85,7 +86,10 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// and - Computes the logical AND of two tensors element-wise. 
 /// identity - Return a Tensor with the same shape and contents as input.
 /// where - Return elements chosen from x or y depending on condition.
+/// bitwise_and - Computes the bitwise AND of two tensors element-wise.
 /// round - Computes the round value of all elements in the input tensor.
+/// reduce_l1 - Computes the L1 norm of the input tensor's elements along the provided axes.
+/// trilu - Returns the upper or lower triangular part of a tensor or a batch of 2D matrices.
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
 trait TensorTrait<T> {
@@ -2540,6 +2544,117 @@ trait TensorTrait<T> {
     fn dequantize_linear(
         self: @Tensor<i8>, x_scale: @Tensor<T>, x_zero_point: @Tensor<T>
     ) -> Tensor::<T>;
+    /// # tensor.qlinear_add
+    ///
+    /// ```rust
+    ///     fn qlinear_add(self: @Tensor<i8>, a_scale: @Tensor<T>, a_zero_point: @Tensor<T>, b: @Tensor<i8>, b_scale: @Tensor<T>, b_zero_point: @Tensor<T>, y_scale: @Tensor<T>, y_zero_point: @Tensor<T>) -> Tensor::<i8>;
+    /// ```
+    /// 
+    /// Performs the sum of quantized Tensors
+    ///
+    /// It consumes two quantized input tensors, their scales and zero points, scale and zero point of output, and computes the quantized output. 
+    /// The quantization formula is y = saturate((x / y_scale) + y_zero_point).
+    /// It perfoms the addition of the two vectors once dequantized, then return the quantization of the result of the multiplication.
+    /// The broadcasting is supported
+    /// Scale and zero point must have same shape and the same type. They must be either scalar (per tensor) or N-D tensor (per row for 'a' and per column for 'b'). 
+    /// Scalar refers to per tensor quantization whereas N-D refers to per row or per column quantization.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<i8>`) - The first tensor to be multiplied (a).
+    /// * `a_scale`(`@Tensor<T>`) - Scale for input `a`.
+    /// * `a_zero_point`(`@Tensor<T>`) - Zero point for input `a`.
+    /// * `b`(`@Tensor<i8>`) - The second tensor to be multiplied
+    /// * `b_scale`(`@Tensor<T>`) - Scale for input `b`.
+    /// * `b_zero_point`(`@Tensor<T>`) - Zero point for input `b`.    
+    /// * `y_scale`(`@Tensor<T>`) - Scale for outut.
+    /// * `y_zero_point`(`@Tensor<T>`) - Zero point for output.   
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<i8>`, containing the quantized result of the addition of the dequantized inputs.
+    ///
+    /// ## Type Constraints
+    ///
+    /// u32 tensor, not supported.
+    ///  
+    /// ## Example
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
+    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// 
+    /// 
+    /// fn qlinear_add_example() -> Tensor<i8> {    
+    ///     let a = TensorTrait::<
+    ///         i8
+    ///     >::new(
+    ///         shape: array![2, 3].span(),
+    ///         data: array![
+    ///             IntegerTrait::<i8>::new(6_u8, false),
+    ///             IntegerTrait::<i8>::new(6_u8, false),
+    ///             IntegerTrait::<i8>::new(6_u8, false),
+    ///             IntegerTrait::<i8>::new(11_u8, false),
+    ///             IntegerTrait::<i8>::new(11_u8, false),
+    ///             IntegerTrait::<i8>::new(11_u8, false)
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     // As the operator supports broadcasting shapes [1, 3] and [2, 3] are compatible
+    ///     let b = TensorTrait::<
+    ///         i8
+    ///     >::new(
+    ///         shape: array![1, 3].span(),
+    ///         data: array![
+    ///             IntegerTrait::<i8>::new(40_u8, false),
+    ///             IntegerTrait::<i8>::new(40_u8, false),
+    ///             IntegerTrait::<i8>::new(40_u8, false)
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     let a_scale = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(131072, false)].span(),);
+    ///     let a_zero_point = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(65536, false)].span(),);
+    ///     let b_scale = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(16384, false)].span(),);
+    ///     let b_zero_point = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
+    /// 
+    ///     let y_scale = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(655360, false)].span(),);
+    ///     let y_zero_point = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(65536, true)].span(),);
+    /// 
+    ///     return a
+    ///         .qlinear_add(
+    ///             @a_scale, @a_zero_point, @b, @b_scale, @b_zero_point, @y_scale, @y_zero_point
+    ///         );
+    /// }        
+    /// 
+    /// >>> [[1, 1, 1], [2, 2, 2]]
+    /// ```
+    ///
+    fn qlinear_add(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<T>,
+        a_zero_point: @Tensor<T>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<T>,
+        b_zero_point: @Tensor<T>,
+        y_scale: @Tensor<T>,
+        y_zero_point: @Tensor<T>
+    ) -> Tensor::<i8>;
     /// # tensor.qlinear_matmul
     /// 
     /// ```rust
@@ -3128,7 +3243,7 @@ trait TensorTrait<T> {
     ///
     /// ## Example
     ///
-	/// ```rust
+    /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
@@ -3213,6 +3328,129 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn scatter(self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>,  axis: Option<usize>, reduction: Option<usize>) -> Tensor<T>;
+    /// # tensor.trilu
+    ///
+    /// ```rust 
+    ///    fn trilu(self: @Tensor<T>, upper: bool, k: i64) -> Tensor<T>;
+    /// ```
+    ///
+    /// Returns a new tensor with the uppper/lower triangular part of the tensor.
+    ///
+    /// ## Args
+    /// 
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `upper`(`bool`) - if true, returns the upper triangular part of the tensor, otherwise returns the lower part.
+    /// * `k`(`i64`) - value corresponding to the number diagonals above or below the main diagonal to exclude or include.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the dimension of the tensor is less than 2.
+    ///
+    /// ## Returns
+    ///
+    /// A `Tensor<T>` instance with the uppper/lower triangular part of the tensor.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn trilu_tensor_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 3, 3].span(), data: array![0, 4, 3, 2, 0, 9, 8, 2, 5, 2, 7, 2, 2, 6, 0, 2, 6 ,5].span(),
+    ///     );
+    /// 
+    ///     // We can call `trilu` function as follows.
+    ///     return tensor.trilu(false, 0);
+    /// }
+    /// >>> [[[0, 0, 0],[2, 0, 0], [8, 2, 5]], [[2, 0, 0], [2, 6, 0], [2, 6, 5]]]
+    /// ```
+    ///
+    fn trilu(self: @Tensor<T>, upper: bool, k: i64) -> Tensor<T>;
+    /// #tensor.bitwise_and
+    ///
+    /// ```rust
+    ///     fn bitwise_and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Computes the bitwise AND of two tensors element-wise.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` with the same shape as the broadcasted inputs.
+    ///
+    /// ## Example
+    ///
+    /// fn and_example() -> Tensor<usize> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 0, 4, 5, 0, 6, 2].span(),
+    ///     );
+    /// 
+    ///     return tensor_1.bitwise_and(@tensor_2);
+    /// }
+    /// >>> [0,1,2,0,4,5,0,6,2]
+    /// ```
+    ///
+    fn bitwise_and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
+    /// ## tensor.reduce_l1
+    ///
+    /// ```rust 
+    ///    fn reduce_l1(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the L1 norm of the input tensor's elements along the provided axes.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The dimension to reduce.
+    /// * `keepdims`(`bool`) - If true, retains reduced dimensions with length 1.
+    ///
+    /// ## Panics 
+    /// 
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn reduce_l1_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///     );
+    /// 
+    ///     // We can call `reduce_l1` function as follows.
+    ///     return tensor.reduce_l1(axis: 1, keepdims: false);
+    /// }
+    /// >>> [[2,4],[10,12]]
+    /// ```
+    ///
+    fn reduce_l1(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
     /// ## tensor.reduce_l2
     ///
     /// ```rust 
