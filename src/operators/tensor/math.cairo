@@ -39,3 +39,6 @@ mod neg;
 mod where;
 mod round;
 mod reduce_l1;
+mod bitwise_and;
+mod round;
+mod scatter;
