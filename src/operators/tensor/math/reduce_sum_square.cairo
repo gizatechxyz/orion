@@ -36,6 +36,7 @@ fn square<
     let tensor_square = TensorTrait::new(*self.shape, output_data.span());
     return tensor_square;
 }
+
 /// Cf: TensorTrait::reduce_sum_square docstring
 fn reduce_sum_square<
     T,
