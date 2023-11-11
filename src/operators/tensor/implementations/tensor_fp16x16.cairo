@@ -309,13 +309,16 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn trilu(self: @Tensor<FP16x16>, upper: bool, k: i64) -> Tensor<FP16x16> {
         linalg::trilu::trilu(self, upper, k)
     }
-    
+
     fn scatter(
-        self: @Tensor<FP16x16>, updates: Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<FP16x16> {
+        self: @Tensor<FP16x16>,
+        updates: Tensor<FP16x16>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP16x16> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
-
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

@@ -312,8 +312,12 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     } 
 
     fn scatter(
-        self: @Tensor<FP32x32>, updates: Tensor<FP32x32>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<FP32x32> {
+        self: @Tensor<FP32x32>,
+        updates: Tensor<FP32x32>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP32x32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 }

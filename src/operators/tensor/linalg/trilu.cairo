@@ -19,23 +19,35 @@ fn trilu<
 
     let shape_len = (*self.shape).len();
     let mut output_data = ArrayTrait::new();
+    let mut output_size = ArrayTrait::new();
 
     let mut batch_size = 1;
-    let n: u32 = *self.shape[shape_len - 2];
-    let m: u32 = *self.shape[shape_len - 1];
+    let mut n: u32 = 0;
+    let mut m: u32 = 0;
 
     {
+        let mut self_shape = *self.shape;
         let mut i = 0;
         loop {
-            if i == shape_len - 2 {
-                break ();
+            match self_shape.pop_front() {
+                Option::Some(val) => {
+                    if i == shape_len - 2 {
+                        n = *val;
+                    } else if i == shape_len - 1 {
+                        m = *val;
+                    } else {
+                        batch_size *= *val;
+                    }
+                    i += 1;
+                    output_size.append(*val);
+                },
+                Option::None(_) => { break (); }
             }
-            batch_size *= *self.shape[i];
-            i += 1;
         }
     }
 
     {
+        let mut self_data = *self.data;
         let mut b = 0;
         loop {
             if b == batch_size {
@@ -59,11 +71,17 @@ fn trilu<
                     let iii: i64 = ii.try_into().unwrap();
                     let jjj: i64 = jj.try_into().unwrap();
 
-                    let result = if (upper && (iii + k <= jjj)) || (!upper && (iii + k >= jjj)) {
-                        *(*self.data)[(b * n * m) + (i * m + j)]
-                    } else {
-                        NumberTrait::zero()
+                    let result = match self_data.pop_front() {
+                        Option::Some(val) => {
+                            if (upper && (iii + k <= jjj)) || (!upper && (iii + k >= jjj)) {
+                                *val
+                            } else {
+                                NumberTrait::zero()
+                            }
+                        },
+                        Option::None(_) => { break (); }
                     };
+
                     output_data.append(result);
                     j += 1;
                 };

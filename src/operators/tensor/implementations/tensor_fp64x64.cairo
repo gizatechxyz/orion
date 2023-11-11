@@ -312,11 +312,14 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     }
     
     fn scatter(
-        self: @Tensor<FP64x64>, updates: Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<FP64x64> {
+        self: @Tensor<FP64x64>,
+        updates: Tensor<FP64x64>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP64x64> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
-
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

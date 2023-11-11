@@ -310,8 +310,12 @@ impl I8Tensor of TensorTrait<i8> {
     }
 
     fn scatter(
-        self: @Tensor<i8>, updates: Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<i8> {
+        self: @Tensor<i8>,
+        updates: Tensor<i8>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<i8> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 }
