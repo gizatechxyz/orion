@@ -41,4 +41,5 @@ mod round;
 mod scatter;
 mod reduce_l2;
 mod reduce_l1;
+mod reduce_sum_square;
 mod bitwise_and;

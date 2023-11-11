@@ -329,6 +329,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn reduce_sum_square(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+    
     fn reduce_l2(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }

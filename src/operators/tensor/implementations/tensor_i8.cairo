@@ -327,6 +327,10 @@ impl I8Tensor of TensorTrait<i8> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn reduce_sum_square(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+    
     fn reduce_l2(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
         panic(array!['not supported!'])
     }

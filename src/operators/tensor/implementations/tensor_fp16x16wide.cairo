@@ -312,6 +312,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn reduce_sum_square(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+    
      fn reduce_l2(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
      }

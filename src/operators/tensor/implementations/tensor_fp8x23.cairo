@@ -324,6 +324,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::scatter::scatter(self, updates, indices,  axis, reduction)
     }
 
+    fn reduce_sum_square(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+    
     fn reduce_l2(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }

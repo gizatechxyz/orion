@@ -315,6 +315,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::reduce_l1::reduce_l1(self, axis, keepdims)
     }
 
+    fn reduce_sum_square(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+
     fn reduce_l2(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
