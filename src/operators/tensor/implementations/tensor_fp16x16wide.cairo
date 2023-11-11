@@ -20,12 +20,20 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         *at_tensor(self, indices)
     }
 
-    fn min(self: @Tensor<FP16x16W>) -> FP16x16W {
-        math::min::min_in_tensor::<FP16x16W, u64>(*self.data)
+    fn min_in_tensor(self: @Tensor<FP16x16W>) -> FP16x16W {
+        math::min_in_tensor::min_in_tensor::<FP16x16W, u64>(*self.data)
     }
 
-    fn max(self: @Tensor<FP16x16W>) -> FP16x16W {
-        math::max::max_in_tensor(*self.data)
+    fn min(tensors: Span<Tensor<FP16x16W>>) -> Tensor<FP16x16W> {
+        math::min::min(tensors)
+    }
+
+    fn max_in_tensor(self: @Tensor<FP16x16W>) -> FP16x16W {
+        math::max_in_tensor::max_in_tensor(*self.data)
+    }
+
+    fn max(tensors: Span<Tensor<FP16x16W>>) -> Tensor<FP16x16W> {
+        math::max::max(tensors)
     }
 
     fn stride(self: @Tensor<FP16x16W>) -> Span<usize> {
@@ -204,6 +212,32 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_add(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP16x16W>,
+        a_zero_point: @Tensor<FP16x16W>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP16x16W>,
+        b_zero_point: @Tensor<FP16x16W>,
+        y_scale: @Tensor<FP16x16W>,
+        y_zero_point: @Tensor<FP16x16W>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn qlinear_matmul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP16x16W>,
+        a_zero_point: @Tensor<FP16x16W>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP16x16W>,
+        b_zero_point: @Tensor<FP16x16W>,
+        y_scale: @Tensor<FP16x16W>,
+        y_zero_point: @Tensor<FP16x16W>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn slice(
         self: @Tensor<FP16x16W>,
         starts: Span<usize>,
@@ -258,6 +292,20 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
 
     fn bitwise_and(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
         math::bitwise_and::bitwise_and(self, other)
+    }
+    
+    fn round(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::round::round(*self)
+    }
+
+    fn scatter(
+        self: @Tensor<FP16x16W>,
+        updates: Tensor<FP16x16W>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP16x16W> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 }
 

@@ -1,4 +1,6 @@
+mod min_in_tensor;
 mod min;
+mod max_in_tensor;
 mod max;
 mod reduce_sum;
 mod argmax;
@@ -36,3 +38,5 @@ mod and;
 mod neg;
 mod where;
 mod bitwise_and;
+mod round;
+mod scatter;

@@ -50,6 +50,8 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.xor`](tensor.xor.md) | Computes the logical XOR of two tensors element-wise. |
 | [`tensor.stride`](tensor.stride.md) | Computes the stride of each dimension in the tensor. |
 | [`tensor.onehot`](tensor.onehot.md) | Produces one-hot tensor based on input. |
+| [`tensor.max_in_tensor`](tensor.max\_in\_tensor.md) | Returns the maximum value in the tensor. |
+| [`tensor.min_in_tensor`](tensor.min\_in\_tensor.md) | Returns the minimum value in the tensor. |
 | [`tensor.min`](tensor.min.md) | Returns the minimum value in the tensor. |
 | [`tensor.max`](tensor.max.md) | Returns the maximum value in the tensor. |
 | [`tensor.reduce_sum`](tensor.reduce\_sum.md) | Reduces a tensor by summing its elements along a specified axis. |
@@ -77,6 +79,8 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.concat`](tensor.concat.md) | Concatenate a list of tensors into a single tensor. |
 | [`tensor.quantize_linear`](tensor.quantize\_linear.md) | Quantizes a Tensor to i8 using linear quantization. |
 | [`tensor.dequantize_linear`](tensor.dequantize\_linear.md) | Dequantizes an i8 Tensor using linear dequantization. |
+| [`tensor.qlinear_add`](tensor.qlinear\_add.md) | Performs the sum of two quantized i8 Tensors. |
+| [`tensor.qlinear_matmul`](tensor.qlinear\_matmul.md) | Performs the product of two quantized i8 Tensors. |
 | [`tensor.gather`](tensor.gather.md) | Gather entries of the axis dimension of data. |
 | [`tensor.nonzero`](tensor.nonzero.md) | Produces indices of the elements that are non-zero (in row-major order - by dimension). |
 | [`tensor.squeeze`](tensor.squeeze.md) | Removes dimensions of size 1 from the shape of a tensor. |
@@ -87,6 +91,8 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.identity`](tensor.identity.md) | Return a Tensor with the same shape and contents as input. |
 | [`tensor.where`](tensor.where.md) | Return elements chosen from x or y depending on condition. |
 | [`tensor.bitwise_and`](tensor.bitwise\_and.md) | Computes the bitwise AND of two tensors element-wise. |
+| [`tensor.round`](tensor.round.md) | Computes the round value of all elements in the input tensor. |
+| [`tensor.scatter`](tensor.scatter.md) | Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices. |
 
 ## Arithmetic Operations
 
