@@ -42,4 +42,3 @@ mod scatter;
 mod reduce_l2;
 mod reduce_l1;
 mod bitwise_and;
-mod scatter;
