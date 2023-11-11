@@ -88,6 +88,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// where - Return elements chosen from x or y depending on condition.
 /// bitwise_and - Computes the bitwise AND of two tensors element-wise.
 /// round - Computes the round value of all elements in the input tensor.
+/// reduce_l1 - Computes the L1 norm of the input tensor's elements along the provided axes.
 /// trilu - Returns the upper or lower triangular part of a tensor or a batch of 2D matrices.
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
 trait TensorTrait<T> {
@@ -3408,6 +3409,47 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn bitwise_and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
+    /// ## tensor.reduce_l1
+    ///
+    /// ```rust 
+    ///    fn reduce_l1(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the L1 norm of the input tensor's elements along the provided axes.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The dimension to reduce.
+    /// * `keepdims`(`bool`) - If true, retains reduced dimensions with length 1.
+    ///
+    /// ## Panics 
+    /// 
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn reduce_l1_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///     );
+    /// 
+    ///     // We can call `reduce_l1` function as follows.
+    ///     return tensor.reduce_l1(axis: 1, keepdims: false);
+    /// }
+    /// >>> [[2,4],[10,12]]
+    /// ```
+    ///
+    fn reduce_l1(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

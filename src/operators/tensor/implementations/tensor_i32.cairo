@@ -310,6 +310,10 @@ impl I32Tensor of TensorTrait<i32> {
         math::round::round(*self)
     }
 
+    fn reduce_l1(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+    
     fn trilu(self: @Tensor<i32>, upper: bool, k: i64) -> Tensor<i32> {
         linalg::trilu::trilu(self, upper, k)
     }

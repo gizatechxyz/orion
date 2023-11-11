@@ -94,6 +94,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.round`](tensor.round.md) | Computes the round value of all elements in the input tensor. |
 | [`tensor.trilu`](tensor.trilu.md) | Returns the upper or lower triangular part of a tensor or a batch of 2D matrices. |
 | [`tensor.scatter`](tensor.scatter.md) | Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices. |
+| [`tensor.reduce_l1`](tensor.reduce\_l1.md) | Computes the L1 norm of the input tensor's elements along the provided axes. |
 
 ## Arithmetic Operations
 

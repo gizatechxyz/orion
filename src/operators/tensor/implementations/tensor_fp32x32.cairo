@@ -315,6 +315,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         linalg::trilu::trilu(self, upper, k)
     } 
 
+    fn reduce_l1(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+
     fn scatter(
         self: @Tensor<FP32x32>,
         updates: Tensor<FP32x32>,

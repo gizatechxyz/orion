@@ -307,6 +307,10 @@ impl I8Tensor of TensorTrait<i8> {
     
     fn round(self: @Tensor<i8>) -> Tensor<i8> {
         math::round::round(*self)
+    } 
+
+    fn reduce_l1(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
     }
 
     fn trilu(self: @Tensor<i8>, upper: bool, k: i64) -> Tensor<i8> {

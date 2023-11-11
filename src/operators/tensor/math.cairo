@@ -37,6 +37,7 @@ mod sign;
 mod and;
 mod neg;
 mod where;
-mod bitwise_and;
 mod round;
+mod reduce_l1;
+mod bitwise_and;
 mod scatter;
