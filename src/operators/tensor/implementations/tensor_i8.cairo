@@ -312,7 +312,6 @@ impl I8Tensor of TensorTrait<i8> {
     fn reduce_l1(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
         math::reduce_l1::reduce_l1(self, axis, keepdims)
     }
-    }
 
     fn trilu(self: @Tensor<i8>, upper: bool, k: i64) -> Tensor<i8> {
         linalg::trilu::trilu(self, upper, k)
