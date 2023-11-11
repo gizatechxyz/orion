@@ -302,6 +302,10 @@ impl I32Tensor of TensorTrait<i32> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+
     fn round(self: @Tensor<i32>) -> Tensor<i32> {
         math::round::round(*self)
     }

@@ -94,6 +94,7 @@
     * [tensor.identity](framework/operators/tensor/tensor.identity.md)
     * [tensor.and](framework/operators/tensor/tensor.and.md)
     * [tensor.where](framework/operators/tensor/tensor.where.md)
+    * [tensor.bitwise_and](framework/operators/tensor/tensor.bitwise_and.md)
     * [tensor.round](framework/operators/tensor/tensor.round.md)
     * [tensor.scatter](framework/operators/tensor/tensor.scatter.md)
   * [Neural Network](framework/operators/neural-network/README.md)

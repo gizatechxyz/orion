@@ -280,6 +280,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+
     fn round(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         math::round::round(*self)
     }
@@ -297,8 +301,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     ) -> Tensor<FP8x23W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
-
-} 
+}
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.
 impl FP8x23WTensorAdd<

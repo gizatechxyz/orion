@@ -71,6 +71,7 @@ You can see below the list of current supported ONNX Operators:
 |    [MinInTensor](operators/tensor/tensor.min\_in\_tensor.md)        | :white\_check\_mark: |
 |                [Min](operators/tensor/tensor.min.md)                | :white\_check\_mark: |
 |             [Where](operators/tensor/tensor.where.md)               | :white\_check\_mark: |
+|       [BitwiseAnd](operators/tensor/tensor.bitwise_and.md)          | :white\_check\_mark: |
 |             [Round](operators/tensor/tensor.round.md)               | :white\_check\_mark: |
 |      [MaxInTensor](operators/tensor/tensor.max\_in\_tensor.md)      | :white\_check\_mark: |
 |                 [Max](operators/tensor/tensor.max.md)               | :white\_check\_mark: |
