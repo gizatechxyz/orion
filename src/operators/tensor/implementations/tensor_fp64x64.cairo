@@ -315,6 +315,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::reduce_l1::reduce_l1(self, axis, keepdims)
     }
 
+    fn reduce_l2(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_l2::reduce_l2(self, axis, keepdims)
+    }
+
     fn trilu(self: @Tensor<FP64x64>, upper: bool, k: i64) -> Tensor<FP64x64> {
         linalg::trilu::trilu(self, upper, k)
     }

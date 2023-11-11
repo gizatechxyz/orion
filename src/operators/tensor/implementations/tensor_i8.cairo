@@ -326,6 +326,10 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Tensor<i8> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+
+    fn reduce_l2(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

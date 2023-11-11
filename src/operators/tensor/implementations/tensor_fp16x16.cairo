@@ -314,6 +314,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::reduce_l1::reduce_l1(self, axis, keepdims)
     }
 
+    fn reduce_l2(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
+        math::reduce_l2::reduce_l2(self, axis, keepdims)
+    }
+
     fn trilu(self: @Tensor<FP16x16>, upper: bool, k: i64) -> Tensor<FP16x16> {
         linalg::trilu::trilu(self, upper, k)
     }

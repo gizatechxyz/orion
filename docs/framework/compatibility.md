@@ -78,5 +78,6 @@ You can see below the list of current supported ONNX Operators:
 |                 [Trilu](operators/tensor/tensor.trilu.md)               | :white\_check\_mark: |
 |             [Scatter](operators/tensor/scatter.max.md)              | :white\_check\_mark: |
 |          [ReduceL1](operators/tensor/tensor.reduce\_l1.md)          | :white\_check\_mark: |
+|         [ReduceL2](operators/tensor/tensor.reduce\_l2.md)           | :white\_check\_mark: |
 
 Current Operators support: **68/156 (43%)**

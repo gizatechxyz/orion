@@ -618,6 +618,12 @@ mod scatter_i8_axis1_max;
 mod scatter_u32_default; 
 mod scatter_u32_axis1; 
 mod scatter_u32_add; 
+mod reduce_l2_fp16x16_export_do_not_keepdims; 
+mod reduce_l2_fp16x16_export_keepdims; 
+mod reduce_l2_fp16x16_export_negative_axes_keepdims; 
+mod reduce_l2_fp8x23_export_do_not_keepdims; 
+mod reduce_l2_fp8x23_export_keepdims; 
+mod reduce_l2_fp8x23_export_negative_axes_keepdims; 
 mod reduce_l1_fp16x16_export_do_not_keepdims; 
 mod reduce_l1_fp16x16_export_keepdims; 
 mod reduce_l1_fp16x16_export_negative_axes_keepdims; 
@@ -633,4 +639,3 @@ mod reduce_l1_i8_export_negative_axes_keepdims;
 mod reduce_l1_u32_export_do_not_keepdims; 
 mod reduce_l1_u32_export_keepdims; 
 mod reduce_l1_u32_export_negative_axes_keepdims; 
-

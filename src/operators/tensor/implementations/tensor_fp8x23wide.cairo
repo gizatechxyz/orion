@@ -292,6 +292,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::reduce_l1::reduce_l1(self, axis, keepdims)
     }
 
+    fn reduce_l2(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
+        math::reduce_l2::reduce_l2(self, axis, keepdims)
+    }
+
     fn trilu(self: @Tensor<FP8x23W>, upper: bool, k: i64) -> Tensor<FP8x23W> {
         linalg::trilu::trilu(self, upper, k)
     }
