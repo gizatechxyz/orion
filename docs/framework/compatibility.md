@@ -56,6 +56,8 @@ You can see below the list of current supported ONNX Operators:
 |             [Gather](operators/tensor/tensor.gather.md)             | :white\_check\_mark: |
 |    [QuantizeLinear](operators/tensor/tensor.quantize\_linear.md)    | :white\_check\_mark: |
 |   [DequantizeLinear](operators/tensor/tensor.quantize\_linear.md)   | :white\_check\_mark: |
+|   [QlinearAdd](operators/tensor/tensor.qlinear\_add.md)             | :white\_check\_mark: |
+|   [QLinearMatmul](operators/tensor/tensor.qlinear\_matmul.md)       | :white\_check\_mark: |
 |            [Nonzero](operators/tensor/tensor.nonzero.md)            | :white\_check\_mark: |
 |            [Squeeze](operators/tensor/tensor.squeeze.md)            | :white\_check\_mark: |
 |          [Unsqueeze](operators/tensor/tensor.unsqueeze.md)          | :white\_check\_mark: |
@@ -73,5 +75,6 @@ You can see below the list of current supported ONNX Operators:
 |      [MaxInTensor](operators/tensor/tensor.max\_in\_tensor.md)      | :white\_check\_mark: |
 |                 [Max](operators/tensor/tensor.max.md)               | :white\_check\_mark: |
 |                 [Trilu](operators/tensor/tensor.trilu.md)               | :white\_check\_mark: |
+|             [Scatter](operators/tensor/scatter.max.md)              | :white\_check\_mark: |
 
-Current Operators support: **61/156 (39%)**
+Current Operators support: **68/156 (43%)**

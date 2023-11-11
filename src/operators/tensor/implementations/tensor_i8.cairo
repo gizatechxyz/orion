@@ -206,6 +206,55 @@ impl I8Tensor of TensorTrait<i8> {
         quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
     }
 
+    fn qlinear_add(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<i8>,
+        a_zero_point: @Tensor<i8>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<i8>,
+        b_zero_point: @Tensor<i8>,
+        y_scale: @Tensor<i8>,
+        y_zero_point: @Tensor<i8>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_add::qlinear_add(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
+    fn qlinear_matmul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<i8>,
+        a_zero_point: @Tensor<i8>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<i8>,
+        b_zero_point: @Tensor<i8>,
+        y_scale: @Tensor<i8>,
+        y_zero_point: @Tensor<i8>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_matmul::qlinear_matmul(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
+
     fn slice(
         self: @Tensor<i8>,
         starts: Span<usize>,
@@ -258,6 +307,12 @@ impl I8Tensor of TensorTrait<i8> {
 
     fn trilu(self: @Tensor<i8>, upper: bool, k: i64) -> Tensor<i8> {
         linalg::trilu::trilu(self, upper, k)
+    }
+
+    fn scatter(
+        self: @Tensor<i8>, updates: Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
+        -> Tensor<i8> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 }
 
