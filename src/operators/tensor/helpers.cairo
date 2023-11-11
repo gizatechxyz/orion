@@ -316,3 +316,4 @@ fn replace_index(mut shape: Span<usize>, index: usize, value: usize) -> Span<usi
 
     return output.span();
 }
+

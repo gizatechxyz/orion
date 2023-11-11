@@ -94,10 +94,12 @@
     * [tensor.identity](framework/operators/tensor/tensor.identity.md)
     * [tensor.and](framework/operators/tensor/tensor.and.md)
     * [tensor.where](framework/operators/tensor/tensor.where.md)
+    * [tensor.bitwise_and](framework/operators/tensor/tensor.bitwise_and.md)
     * [tensor.round](framework/operators/tensor/tensor.round.md)
     * [tensor.scatter](framework/operators/tensor/tensor.scatter.md)
     * [tensor.reduce\_sum\_square](framework/operators/tensor/tensor.reduce\_sum\_square.md)
-
+    * [tensor.reduce\_l2](framework/operators/tensor/tensor.reduce\_l2.md)
+    * [tensor.reduce\_l1](framework/operators/tensor/tensor.reduce\_l1.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)

@@ -71,11 +71,14 @@ You can see below the list of current supported ONNX Operators:
 |    [MinInTensor](operators/tensor/tensor.min\_in\_tensor.md)        | :white\_check\_mark: |
 |                [Min](operators/tensor/tensor.min.md)                | :white\_check\_mark: |
 |             [Where](operators/tensor/tensor.where.md)               | :white\_check\_mark: |
+|       [BitwiseAnd](operators/tensor/tensor.bitwise_and.md)          | :white\_check\_mark: |
 |             [Round](operators/tensor/tensor.round.md)               | :white\_check\_mark: |
 |      [MaxInTensor](operators/tensor/tensor.max\_in\_tensor.md)      | :white\_check\_mark: |
 |                 [Max](operators/tensor/tensor.max.md)               | :white\_check\_mark: |
-|             [Scatter](operators/tensor/tensor.scatter.md)           | :white\_check\_mark: |
 |  [ReduceSumSquare](operators/tensor/tensor.reduce\_sum\_square.md)  | :white\_check\_mark: |
-
+|                 [Trilu](operators/tensor/tensor.trilu.md)               | :white\_check\_mark: |
+|             [Scatter](operators/tensor/scatter.max.md)              | :white\_check\_mark: |
+|          [ReduceL1](operators/tensor/tensor.reduce\_l1.md)          | :white\_check\_mark: |
+|         [ReduceL2](operators/tensor/tensor.reduce\_l2.md)           | :white\_check\_mark: |
 
 Current Operators support: **68/156 (43%)**

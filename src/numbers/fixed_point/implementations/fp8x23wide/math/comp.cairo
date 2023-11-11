@@ -52,11 +52,15 @@ fn where(a: FP8x23W, b: FP8x23W, c: FP8x23W) -> FP8x23W {
     }
 }
 
+fn bitwise_and(a: FP8x23W, b: FP8x23W) -> FP8x23W {
+    return FixedTrait::new(a.mag & b.mag, a.sign & b.sign);
+}
+
 // Tests --------------------------------------------------------------------------------------------------------------
 
 #[cfg(test)]
 mod tests {
-    use super::{FixedTrait, max, min};
+    use super::{FixedTrait, max, min, bitwise_and};
 
 
     #[test]
@@ -95,5 +99,13 @@ mod tests {
         assert(min(c, a) == c, 'min(c, a)');
         assert(min(c, b) == c, 'min(c, b)');
         assert(min(c, c) == c, 'min(c, c)');
+    }
+
+    #[test]
+    fn test_bitwise_and() {
+        let a = FixedTrait::new(28835840, false);  // 3.4375
+        let b = FixedTrait::new(1639448576, true);  // -60.5625
+
+        assert(bitwise_and(a, b) == a, 'bitwise_and(a,b)')
     }
 }

@@ -9,10 +9,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Added
 - Reduce Sum Square Operator.
 
+## [Unreleased] - 2023-11-05
+
+### Added
+- ReduceL2 operator.
+
+## [Unreleased] - 2023-11-06
+
+## Added
+- Reduce L1 Operator.
+
+
 ## [Unreleased] - 2023-11-03
 
 ## Added
 - Scatter Elements Operator.
+
 
 ## [Unreleased] - 2023-09-27
 

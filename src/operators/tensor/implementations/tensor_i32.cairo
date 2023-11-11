@@ -302,18 +302,38 @@ impl I32Tensor of TensorTrait<i32> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+
     fn round(self: @Tensor<i32>) -> Tensor<i32> {
         math::round::round(*self)
     }
 
+    fn reduce_l1(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+    
+    fn trilu(self: @Tensor<i32>, upper: bool, k: i64) -> Tensor<i32> {
+        linalg::trilu::trilu(self, upper, k)
+    }
+    
     fn scatter(
-        self: @Tensor<i32>, updates: Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<i32> {
+        self: @Tensor<i32>,
+        updates: Tensor<i32>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<i32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
     fn reduce_sum_square(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+    
+    fn reduce_l2(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 }
 

@@ -290,11 +290,23 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+    
     fn round(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
         math::round::round(*self)
     }
 
-     fn scatter(
+    fn reduce_l1(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+
+    fn trilu(self: @Tensor<FP16x16W>, upper: bool, k: i64) -> Tensor<FP16x16W> {
+        linalg::trilu::trilu(self, upper, k)
+    }
+
+    fn scatter(
         self: @Tensor<FP16x16W>, updates: Tensor<FP16x16W>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
         -> Tensor<FP16x16W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
@@ -303,6 +315,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn reduce_sum_square(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
+    
+     fn reduce_l2(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
+        math::reduce_l2::reduce_l2(self, axis, keepdims)
+     }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.
