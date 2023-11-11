@@ -301,13 +301,21 @@ impl I8Tensor of TensorTrait<i8> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+    
     fn round(self: @Tensor<i8>) -> Tensor<i8> {
         math::round::round(*self)
-    } 
+    }
 
     fn scatter(
-        self: @Tensor<i8>, updates: Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<i8> {
+        self: @Tensor<i8>,
+        updates: Tensor<i8>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<i8> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 }

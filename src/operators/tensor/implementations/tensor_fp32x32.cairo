@@ -303,13 +303,21 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+    
     fn round(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::round::round(*self)
-    } 
+    }
 
     fn scatter(
-        self: @Tensor<FP32x32>, updates: Tensor<FP32x32>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<FP32x32> {
+        self: @Tensor<FP32x32>,
+        updates: Tensor<FP32x32>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP32x32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 }
