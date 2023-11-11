@@ -309,6 +309,10 @@ impl I8Tensor of TensorTrait<i8> {
         math::round::round(*self)
     }
 
+    fn trilu(self: @Tensor<i8>, upper: bool, k: i64) -> Tensor<i8> {
+        linalg::trilu::trilu(self, upper, k)
+    }
+
     fn scatter(
         self: @Tensor<i8>,
         updates: Tensor<i8>,

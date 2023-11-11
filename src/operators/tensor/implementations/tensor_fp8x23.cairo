@@ -310,14 +310,14 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::round::round(*self)
     }
 
+    fn trilu(self: @Tensor<FP8x23>, upper: bool, k: i64) -> Tensor<FP8x23> {
+        linalg::trilu::trilu(self, upper, k)
+    }
+    
     fn scatter(
-        self: @Tensor<FP8x23>,
-        updates: Tensor<FP8x23>,
-        indices: Tensor<usize>,
-        axis: Option<usize>,
-        reduction: Option<usize>
-    ) -> Tensor<FP8x23> {
-        math::scatter::scatter(self, updates, indices, axis, reduction)
+        self: @Tensor<FP8x23>, updates: Tensor<FP8x23>, indices: Tensor<usize>,  axis: Option<usize>, reduction: Option<usize>) 
+        -> Tensor<FP8x23> {
+        math::scatter::scatter(self, updates, indices,  axis, reduction)
     }
 }
 

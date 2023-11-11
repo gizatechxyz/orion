@@ -311,6 +311,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::round::round(*self)
     }
 
+    fn trilu(self: @Tensor<FP64x64>, upper: bool, k: i64) -> Tensor<FP64x64> {
+        linalg::trilu::trilu(self, upper, k)
+    }
+    
     fn scatter(
         self: @Tensor<FP64x64>,
         updates: Tensor<FP64x64>,

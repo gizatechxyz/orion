@@ -88,6 +88,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// where - Return elements chosen from x or y depending on condition.
 /// bitwise_and - Computes the bitwise AND of two tensors element-wise.
 /// round - Computes the round value of all elements in the input tensor.
+/// trilu - Returns the upper or lower triangular part of a tensor or a batch of 2D matrices.
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
 trait TensorTrait<T> {
     /// # tensor.new
@@ -3240,7 +3241,7 @@ trait TensorTrait<T> {
     ///
     /// ## Example
     ///
-	/// ```rust
+    /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
@@ -3325,6 +3326,47 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn scatter(self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>,  axis: Option<usize>, reduction: Option<usize>) -> Tensor<T>;
+    /// # tensor.trilu
+    ///
+    /// ```rust 
+    ///    fn trilu(self: @Tensor<T>, upper: bool, k: i64) -> Tensor<T>;
+    /// ```
+    ///
+    /// Returns a new tensor with the uppper/lower triangular part of the tensor.
+    ///
+    /// ## Args
+    /// 
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `upper`(`bool`) - if true, returns the upper triangular part of the tensor, otherwise returns the lower part.
+    /// * `k`(`i64`) - value corresponding to the number diagonals above or below the main diagonal to exclude or include.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the dimension of the tensor is less than 2.
+    ///
+    /// ## Returns
+    ///
+    /// A `Tensor<T>` instance with the uppper/lower triangular part of the tensor.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn trilu_tensor_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 3, 3].span(), data: array![0, 4, 3, 2, 0, 9, 8, 2, 5, 2, 7, 2, 2, 6, 0, 2, 6 ,5].span(),
+    ///     );
+    /// 
+    ///     // We can call `trilu` function as follows.
+    ///     return tensor.trilu(false, 0);
+    /// }
+    /// >>> [[[0, 0, 0],[2, 0, 0], [8, 2, 5]], [[2, 0, 0], [2, 6, 0], [2, 6, 5]]]
+    /// ```
+    ///
+    fn trilu(self: @Tensor<T>, upper: bool, k: i64) -> Tensor<T>;
     /// #tensor.bitwise_and
     ///
     /// ```rust
@@ -3351,11 +3393,6 @@ trait TensorTrait<T> {
     ///
     /// ## Example
     ///
-    /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
-    /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-    /// 
     /// fn and_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
