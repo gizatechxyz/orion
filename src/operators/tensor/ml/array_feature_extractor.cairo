@@ -36,6 +36,8 @@ fn array_feature_extractor<
 
             let mut current_indices_value = *indices.data.at(indices_counter);
 
+            assert(current_indices_value < *input_shape.at(0), 'Indices out of range');
+
             let mut current_data_value = *input_data.at(current_indices_value);
 
             output_data.append(current_data_value);
@@ -45,6 +47,8 @@ fn array_feature_extractor<
 
         return TensorTrait::new(indices.shape, output_data.span());
     }
+
+    let last_tensor_axis: usize = *input_shape.at(input_shape.len() - 1);
 
     let mut input_shape_counter: usize = 0;
 
@@ -94,6 +98,8 @@ fn array_feature_extractor<
             }
 
             let mut current_indices_value = *indices.data.at(indices_counter);
+
+            assert(current_indices_value < last_tensor_axis, 'Indices out of range');
 
             let mut flat_index = base_index + current_indices_value * (*strides.at(strides.len() - 1));
 
