@@ -200,7 +200,7 @@ impl TreeEnsembleClassifierImpl<
             POST_TRANSFORM::NONE => res, // No action required
             POST_TRANSFORM::SOFTMAX => res.softmax(1),
             POST_TRANSFORM::LOGISTIC => res.sigmoid(),
-            POST_TRANSFORM::SOFTMAXZERO => panic_with_felt252('SoftmaxZero not supported yet'),
+            POST_TRANSFORM::SOFTMAXZERO => res.softmax_zero(1),
             POST_TRANSFORM::PROBIT => panic_with_felt252('Probit not supported yet'),
         };
 

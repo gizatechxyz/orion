@@ -113,6 +113,59 @@ fn test_tree_ensemble_classifier_multi_pt_softmax() {
 
 #[test]
 #[available_gas(200000000000)]
+fn test_tree_ensemble_classifier_multi_pt_softmax_zero() {
+    let (mut classifier, X) = tree_ensemble_classifier_helper(POST_TRANSFORM::SOFTMAXZERO);
+
+    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
+
+    // ASSERT LABELS
+    assert(*labels[0] == 0, 'labels[0] == 0');
+    assert(*labels[1] == 0, 'labels[1] == 0');
+    assert(*labels[2] == 1, 'labels[2] == 1');
+    assert(labels.len() == 3, 'len(labels) == 3');
+
+    // ASSERT SCORES
+    assert(
+        relative_eq(@scores.get(0, 0).unwrap(), @FP16x16 { mag: 45682, sign: false }) == true,
+        'score[0, 0]'
+    );
+    assert(
+        relative_eq(@scores.get(0, 1).unwrap(), @FP16x16 { mag: 0, sign: false }) == true,
+        'score[0, 1]'
+    );
+    assert(
+        relative_eq(@scores.get(0, 2).unwrap(), @FP16x16 { mag: 19853, sign: false }) == true,
+        'score[0, 2]'
+    );
+    assert(
+        relative_eq(@scores.get(1, 0).unwrap(), @FP16x16 { mag: 27266, sign: false }) == true,
+        'score[1, 0]'
+    );
+    assert(
+        relative_eq(@scores.get(1, 1).unwrap(), @FP16x16 { mag: 18675, sign: false }) == true,
+        'score[1, 1]'
+    );
+    assert(
+        relative_eq(@scores.get(1, 2).unwrap(), @FP16x16 { mag: 19594, sign: false }) == true,
+        'score[1, 2]'
+    );
+    assert(
+        relative_eq(@scores.get(2, 0).unwrap(), @FP16x16 { mag: 21137, sign: false }) == true,
+        'score[2, 0]'
+    );
+    assert(
+        relative_eq(@scores.get(2, 1).unwrap(), @FP16x16 { mag: 24029, sign: false }) == true,
+        'score[2, 1]'
+    );
+    assert(
+        relative_eq(@scores.get(2, 2).unwrap(), @FP16x16 { mag: 20368, sign: false }) == true,
+        'score[2, 2]'
+    );
+}
+
+
+#[test]
+#[available_gas(200000000000)]
 fn test_tree_ensemble_classifier_multi_pt_logistic() {
     let (mut classifier, X) = tree_ensemble_classifier_helper(POST_TRANSFORM::LOGISTIC);
 

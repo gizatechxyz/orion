@@ -214,6 +214,100 @@ impl MutMatrixImpl<
         result
     }
 
+    /// Apply softmax to the matrix along the specified axis, treating zeros as neutral
+    fn softmax_zero<+AddEq<T>, +Div<T>, +PartialEq<T>>(
+        ref self: MutMatrix<T>, axis: usize
+    ) -> MutMatrix<T> {
+        assert(axis < 2, 'Invalid axis');
+
+        let mut result = MutMatrixImpl::new(self.rows, self.cols);
+
+        if axis == 0 {
+            let mut col: usize = 0;
+            loop {
+                if col == self.cols {
+                    break;
+                }
+
+                let mut sum_exp = NumberTrait::zero();
+                let mut row: usize = 0;
+                loop {
+                    if row == self.rows {
+                        break;
+                    }
+
+                    let value = self.get(row, col).unwrap().into();
+                    if value != NumberTrait::zero() {
+                        sum_exp += value.exp();
+                    }
+                    row += 1;
+                };
+
+                row = 0;
+                loop {
+                    if row == self.rows {
+                        break;
+                    }
+
+                    let value = self.get(row, col).unwrap().into();
+                    if value != NumberTrait::zero() {
+                        let softmax_value = (value.exp() / sum_exp).into();
+                        result.set(row, col, softmax_value);
+                    } else {
+                        result.set(row, col, NumberTrait::zero());
+                    }
+
+                    row += 1;
+                };
+
+                col += 1;
+            };
+        } else {
+            let mut row: usize = 0;
+            loop {
+                if row == self.rows {
+                    break;
+                }
+
+                let mut sum_exp = NumberTrait::zero();
+                let mut col: usize = 0;
+                loop {
+                    if col == self.cols {
+                        break;
+                    }
+
+                    let value = self.get(row, col).unwrap().into();
+                    if value != NumberTrait::zero() {
+                        sum_exp += value.exp();
+                    }
+                    col += 1;
+                };
+
+                col = 0;
+                loop {
+                    if col == self.cols {
+                        break;
+                    }
+
+                    let value = self.get(row, col).unwrap().into();
+
+                    if value != NumberTrait::zero() {
+                        let softmax_value = (value.exp() / sum_exp).into();
+                        result.set(row, col, softmax_value);
+                    } else {
+                        result.set(row, col, NumberTrait::zero());
+                    }
+
+                    col += 1;
+                };
+
+                row += 1;
+            };
+        }
+
+        result
+    }
+
     /// Apply the sigmoid function to each element of the matrix
     fn sigmoid<+Mul<T>, +Add<T>, +Div<T>>(ref self: MutMatrix<T>) -> MutMatrix<T> {
         let mut result = MutMatrixImpl::new(self.rows, self.cols);
