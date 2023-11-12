@@ -17,7 +17,7 @@ A new `Tensor<T>` instance.
 
 ## Examples
 
-Let's create new u32 Tensor with constant 0.
+Let's create new u32 Tensor with constant 42.
 
 ```rust
 use array::{ArrayTrait, SpanTrait};
@@ -28,26 +28,11 @@ use orion::operators::tensor::{
     U32Tensor // we import the implementation. 
 };
 
-// 1D TENSOR
-fn tensor_1D() -> Tensor<u32> {
-    let tensor = TensorTrait::new(shape: array![3].span(), value: 0);
+fn constant_of_shape_example() -> Tensor<u32> {
+    let tensor = TensorTrait::constant_of_shape(shape: array![3].span(), value: 42);
 
     return tensor;
 }
 
-// 2D TENSOR
-fn tensor_2D() -> Tensor<u32> {
-    let tensor = TensorTrait::new(shape: array![2, 2].span(), value: 10);
-
-    return tensor;
-}
-
-// 3D TENSOR
-fn tensor_3D() -> Tensor<u32> {
-    let tensor = TensorTrait::new(
-        shape: array![2, 2, 2].span(), value: 20,
-    );
-
-    return tensor;
-}
+>>> [42, 42, 42]
 ```

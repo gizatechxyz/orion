@@ -154,61 +154,6 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn new(shape: Span<usize>, data: Span<T>) -> Tensor<T>;
-    /// # tensor.constant_of_shape
-    ///
-    /// ```rust 
-    ///    fn constant_of_shape(shape: Span<usize>, value: T) -> Tensor<T>;
-    /// ```
-    ///
-    /// Returns a new tensor with the given shape and constant value.
-    /// 
-    /// ## Args
-    /// 
-    /// * `shape`(`Span<usize>`) - A span representing the shape of the tensor.
-    /// * `value` (`T`) - the constant value.
-    ///
-    /// ## Returns
-    ///
-    /// A new `Tensor<T>` instance.
-    ///
-    /// ## Examples
-    /// 
-    /// Let's create new u32 Tensor with constant 0.
-    /// 
-    /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
-    /// 
-    /// use orion::operators::tensor::{
-    ///     TensorTrait, // we import the trait
-    ///     Tensor, // we import the type
-    ///     U32Tensor // we import the implementation. 
-    /// };
-    /// 
-    /// // 1D TENSOR
-    /// fn tensor_1D() -> Tensor<u32> {
-    ///     let tensor = TensorTrait::new(shape: array![3].span(), value: 0);
-    /// 
-    ///     return tensor;
-    /// }
-    /// 
-    /// // 2D TENSOR
-    /// fn tensor_2D() -> Tensor<u32> {
-    ///     let tensor = TensorTrait::new(shape: array![2, 2].span(), value: 10);
-    /// 
-    ///     return tensor;
-    /// }
-    /// 
-    /// // 3D TENSOR
-    /// fn tensor_3D() -> Tensor<u32> {
-    ///     let tensor = TensorTrait::new(
-    ///         shape: array![2, 2, 2].span(), value: 20,
-    ///     );
-    /// 
-    ///     return tensor;
-    /// }
-    /// ```
-    ///
-    fn constant_of_shape(shape: Span<usize>, value: T) -> Tensor<T>;
     /// # tensor.at
     ///
     /// ```rust 
@@ -3452,6 +3397,11 @@ trait TensorTrait<T> {
     ///
     /// ## Example
     ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    ///
     /// fn and_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
@@ -3607,7 +3557,7 @@ trait TensorTrait<T> {
     ///
     /// ## Examples
     /// 
-    /// Let's create new u32 Tensor with constant 0.
+    /// Let's create new u32 Tensor with constant 42.
     /// 
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
@@ -3618,28 +3568,13 @@ trait TensorTrait<T> {
     ///     U32Tensor // we import the implementation. 
     /// };
     /// 
-    /// // 1D TENSOR
-    /// fn tensor_1D() -> Tensor<u32> {
-    ///     let tensor = TensorTrait::new(shape: array![3].span(), value: 0);
+    /// fn constant_of_shape_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::constant_of_shape(shape: array![3].span(), value: 42);
     /// 
     ///     return tensor;
     /// }
     /// 
-    /// // 2D TENSOR
-    /// fn tensor_2D() -> Tensor<u32> {
-    ///     let tensor = TensorTrait::new(shape: array![2, 2].span(), value: 10);
-    /// 
-    ///     return tensor;
-    /// }
-    /// 
-    /// // 3D TENSOR
-    /// fn tensor_3D() -> Tensor<u32> {
-    ///     let tensor = TensorTrait::new(
-    ///         shape: array![2, 2, 2].span(), value: 20,
-    ///     );
-    /// 
-    ///     return tensor;
-    /// }
+    /// >>> [42, 42, 42]
     /// ```
     ///
     fn constant_of_shape(shape: Span<usize>, value: T) -> Tensor<T>;
