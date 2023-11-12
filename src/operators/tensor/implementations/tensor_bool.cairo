@@ -239,66 +239,6 @@ impl BoolTensor of TensorTrait<bool> {
     }
 }
 
-/// Implements addition for `Tensor<bool>` using the `Add` trait.
-impl BoolTensorAdd of Add<Tensor<bool>> {
-    /// Adds two `Tensor<bool>` instances element-wise.
-    ///
-    /// # Arguments
-    /// * `lhs` - The first tensor.
-    /// * `rhs` - The second tensor.
-    ///
-    /// # Returns
-    /// * A `Tensor<bool>` instance representing the result of the element-wise addition.
-    fn add(lhs: Tensor<bool>, rhs: Tensor<bool>) -> Tensor<bool> {
-        panic(array!['not supported!'])
-    }
-}
-
-/// Implements subtraction for `Tensor<bool>` using the `Sub` trait.
-impl BoolTensorSub of Sub<Tensor<bool>> {
-    /// Subtracts two `Tensor<bool>` instances element-wise.
-    ///
-    /// # Arguments
-    /// * `lhs` - The first tensor.
-    /// * `rhs` - The second tensor.
-    ///
-    /// # Returns
-    /// * A `Tensor<bool>` instance representing the result of the element-wise subtraction.
-    fn sub(lhs: Tensor<bool>, rhs: Tensor<bool>) -> Tensor<bool> {
-        panic(array!['not supported!'])
-    }
-}
-
-/// Implements multiplication for `Tensor<bool>` using the `Mul` trait.
-impl BoolTensorMul of Mul<Tensor<bool>> {
-    /// Multiplies two `Tensor<bool>` instances element-wise.
-    ///
-    /// # Arguments
-    /// * `lhs` - The first tensor.
-    /// * `rhs` - The second tensor.
-    ///
-    /// # Returns
-    /// * A `Tensor<bool>` instance representing the result of the element-wise multiplication.
-    fn mul(lhs: Tensor<bool>, rhs: Tensor<bool>) -> Tensor<bool> {
-        panic(array!['not supported!'])
-    }
-}
-
-/// Implements division for `Tensor<bool>` using the `Div` trait.
-impl BoolTensorDiv of Div<Tensor<bool>> {
-    /// Divides two `Tensor<bool>` instances element-wise.
-    ///
-    /// # Arguments
-    /// * `lhs` - The first tensor.
-    /// * `rhs` - The second tensor.
-    ///
-    /// # Returns
-    /// * A `Tensor<bool>` instance representing the result of the element-wise division.
-    fn div(lhs: Tensor<bool>, rhs: Tensor<bool>) -> Tensor<bool> {
-        panic(array!['not supported!'])
-    }
-}
-
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.
 impl BoolTensorPartialEq of PartialEq<Tensor<bool>> {
     fn eq(lhs: @Tensor<bool>, rhs: @Tensor<bool>) -> bool {
