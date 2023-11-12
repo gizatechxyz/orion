@@ -106,6 +106,8 @@
     * [nn.thresholded\_relu](framework/operators/neural-network/nn.thresholded_relu.md)
     * [nn.gemm](framework/operators/neural-network/nn.gemm.md)
   * [Machine Learning](framework/operators/machine-learning/README.md)
+    * [Tree Ensemble Classifier](framework/operators/machine-learning/tree-ensemble-classifier/README.md)
+      * [tree.predict](framework/operators/machine-learning/tree-regressor/tree_ensemble_classifier.predict.md)
     * [Tree Regressor](framework/operators/machine-learning/tree-regressor/README.md)
       * [tree.predict](framework/operators/machine-learning/tree-regressor/tree.predict.md)
     * [Tree Classifier](framework/operators/machine-learning/tree-classifier/README.md)
