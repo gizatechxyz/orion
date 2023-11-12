@@ -21,7 +21,7 @@ You can utilize [this notebook](https://colab.research.google.com/drive/1qem56rU
 
 ***
 
-| function                                                                  | description                                 |
-| ------------------------------------------------------------------------- | ------------------------------------------- |
+| function | description |
+| --- | --- |
 | [`tree_ensemble_classifier.predict`](tree_ensemble_classifier.predict.md) | Returns the top class for each of N inputs. |
 

@@ -25,8 +25,8 @@ Tree Ensemble classifier. Returns the top class for each of N inputs.
 ```rust
 use orion::numbers::FP16x16;
 use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor, U32Tensor};
-use orion::operators::ml::tree_ensemble::core::{NODE_MODES, TreeEnsembleAttributes, TreeEnsemble};
-use orion::operators::ml::tree_ensemble::tree_ensemble_classifier::{
+use orion::operators::ml::{NODE_MODES, TreeEnsembleAttributes, TreeEnsemble};
+use orion::operators::ml::{
     TreeEnsembleClassifier, POST_TRANSFORM, TreeEnsembleClassifierTrait
 };
 use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
