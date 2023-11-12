@@ -64,6 +64,7 @@ impl TreeEnsembleClassifierImpl<
     fn predict(ref self: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Span<usize>, MutMatrix::<T>) {
         let leaves_index = self.ensemble.leave_index_tree(X);
         let n_classes = self.classlabels.len();
+        assert(n_classes > 1, 'binary class not supported yet');
         let mut res: MutMatrix<T> = MutMatrixImpl::new(*leaves_index.shape.at(0), n_classes);
 
         // Set base values
