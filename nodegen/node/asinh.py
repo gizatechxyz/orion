@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 
 class Asinh(RunAll):
@@ -16,7 +16,6 @@ class Asinh(RunAll):
             y.flatten(), FixedImpl.FP8x23))
 
         name = "asinh_fp8x23"
-        make_node([x], [y], name)
         make_test([x], y, "input_0.asinh()", name)
 
     @staticmethod
@@ -30,5 +29,4 @@ class Asinh(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "asinh_fp16x16"
-        make_node([x], [y], name)
         make_test([x], y, "input_0.asinh()", name)
