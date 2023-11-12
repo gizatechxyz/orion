@@ -22,7 +22,29 @@ fn array_feature_extractor<
     
     let input_shape: Span<usize> = self.shape;
     let input_data: Span<T> = self.data;
-    let mut last_tensor_axis: usize = *input_shape.at(input_shape.len() - 1);
+    
+    if input_shape.len() == 1 {
+
+        let mut output_data = ArrayTrait::<T>::new();
+
+        let mut indices_counter: usize = 0;
+
+        loop {
+            if indices_counter > indices.data.len() - 1 {
+                break;
+            }
+
+            let mut current_indices_value = *indices.data.at(indices_counter);
+
+            let mut current_data_value = *input_data.at(current_indices_value);
+
+            output_data.append(current_data_value);
+            
+            indices_counter += 1;
+        };
+
+        return TensorTrait::new(indices.shape, output_data.span());
+    }
 
     let mut input_shape_counter: usize = 0;
 
@@ -58,7 +80,11 @@ fn array_feature_extractor<
             break;
         }
 
-        let mut base_index = element_counter * (*strides.at(strides.len() - 2));
+        let mut base_index = if strides.len() > 1 {
+            element_counter * (*strides.at(strides.len() - 2))
+        } else {
+            0  
+        };
 
         let mut indices_counter: usize = 0;
 
