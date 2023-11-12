@@ -5,7 +5,8 @@ use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    constant_of_shape, new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
+    at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
 use orion::numbers::{i8, i32, NumberTrait};
@@ -20,11 +21,19 @@ impl BoolTensor of TensorTrait<bool> {
         *at_tensor(self, indices)
     }
 
-    fn min(self: @Tensor<bool>) -> bool {
+    fn min_in_tensor(self: @Tensor<bool>) -> bool {
         panic(array!['not supported!'])
     }
 
-    fn max(self: @Tensor<bool>) -> bool {
+    fn min(tensors: Span<Tensor<bool>>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn max_in_tensor(self: @Tensor<bool>) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn max(tensors: Span<Tensor<bool>>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
@@ -127,7 +136,7 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn flatten(self: @Tensor<bool>, axis: usize) -> Tensor<bool> {
-        math::flatten::flatten(self, axis)
+        panic(array!['not supported!'])
     }
 
     fn sinh(self: @Tensor<bool>) -> Tensor<bool> {
@@ -231,11 +240,77 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn identity(self: @Tensor<bool>) -> Tensor<bool> {
-        panic(array!['not supported!'])
+        core::identity(self)
     }
 
     fn where(self: @Tensor<bool>, x: @Tensor<bool>, y: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
+    }
+
+    fn qlinear_matmul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<bool>,
+        a_zero_point: @Tensor<bool>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<bool>,
+        b_zero_point: @Tensor<bool>,
+        y_scale: @Tensor<bool>,
+        y_zero_point: @Tensor<bool>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn qlinear_add(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<bool>,
+        a_zero_point: @Tensor<bool>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<bool>,
+        b_zero_point: @Tensor<bool>,
+        y_scale: @Tensor<bool>,
+        y_zero_point: @Tensor<bool>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+
+    fn round(self: @Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn scatter(
+        self: @Tensor<bool>,
+        updates: Tensor<bool>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn trilu(self: @Tensor<bool>, upper: bool, k: i64) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn bitwise_and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn reduce_l1(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn reduce_l2(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn reduce_sum_square(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+
+    fn constant_of_shape(shape: Span<usize>, value: bool) -> Tensor<bool> {
+        constant_of_shape(shape, value)
     }
 }
 
