@@ -5,7 +5,8 @@ use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
+    at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
 use orion::numbers::{i8, i32, NumberTrait, FP8x23W};
@@ -14,6 +15,10 @@ use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32:
 impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn new(shape: Span<usize>, data: Span<FP8x23W>) -> Tensor<FP8x23W> {
         new_tensor(shape, data)
+    }
+
+    fn constant_of_shape(shape: Span<usize>, value: FP8x23W) -> Tensor<FP8x23W> {
+        constant_of_shape(shape, value)
     }
 
     fn at(self: @Tensor<FP8x23W>, indices: Span<usize>) -> FP8x23W {
