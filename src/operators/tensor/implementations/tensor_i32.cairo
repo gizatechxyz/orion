@@ -5,7 +5,8 @@ use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
+    at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
 use orion::numbers::{i32, i8, NumberTrait};
@@ -15,6 +16,10 @@ use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_i8
 impl I32Tensor of TensorTrait<i32> {
     fn new(shape: Span<usize>, data: Span<i32>) -> Tensor<i32> {
         new_tensor(shape, data)
+    }
+
+    fn constant_of_shape(shape: Span<usize>, value: i32) -> Tensor<i32> {
+        constant_of_shape(shape, value)
     }
 
     fn at(self: @Tensor<i32>, indices: Span<usize>) -> i32 {
@@ -302,14 +307,38 @@ impl I32Tensor of TensorTrait<i32> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+
     fn round(self: @Tensor<i32>) -> Tensor<i32> {
         math::round::round(*self)
     }
 
+    fn reduce_l1(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+    
+    fn trilu(self: @Tensor<i32>, upper: bool, k: i64) -> Tensor<i32> {
+        linalg::trilu::trilu(self, upper, k)
+    }
+    
     fn scatter(
-        self: @Tensor<i32>, updates: Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<i32> {
+        self: @Tensor<i32>,
+        updates: Tensor<i32>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<i32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
+    fn reduce_sum_square(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+    
+    fn reduce_l2(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 }
 

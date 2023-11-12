@@ -5,7 +5,7 @@ use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tens
 use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
 use orion::numbers::{NumberTrait, IntegerTrait};
 use orion::numbers::{i8, i32};
- 
+
 
 #[test]
 #[available_gas(200000000000)]
@@ -144,7 +144,7 @@ fn qlinearadd_broadcast_test() {
 
 #[test]
 #[available_gas(200000000000)]
-fn test_example_doc() {    
+fn test_example_doc() {
     let a = TensorTrait::<
         i8
     >::new(
@@ -173,7 +173,9 @@ fn test_example_doc() {
 
     let a_scale = TensorTrait::<
         FP16x16
-    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(131072, false)].span(),);
+    >::new(
+        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(131072, false)].span(),
+    );
     let a_zero_point = TensorTrait::<
         FP16x16
     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(65536, false)].span(),);
@@ -186,19 +188,19 @@ fn test_example_doc() {
 
     let y_scale = TensorTrait::<
         FP16x16
-    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(655360, false)].span(),);
+    >::new(
+        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(655360, false)].span(),
+    );
     let y_zero_point = TensorTrait::<
         FP16x16
     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(65536, true)].span(),);
 
     let actual_output = a
-        .qlinear_add(
-            @a_scale, @a_zero_point, @b, @b_scale, @b_zero_point, @y_scale, @y_zero_point
-        );
+        .qlinear_add(@a_scale, @a_zero_point, @b, @b_scale, @b_zero_point, @y_scale, @y_zero_point);
     assert((*actual_output.data[0]).into() == 1, '*result[0] == 1');
     assert((*actual_output.data[1]).into() == 1, '*result[1] == 1');
     assert((*actual_output.data[2]).into() == 1, '*result[2] == 1');
     assert((*actual_output.data[3]).into() == 2, '*result[3] == 2');
     assert((*actual_output.data[4]).into() == 2, '*result[4] == 2');
-    assert((*actual_output.data[5]).into() == 2, '*result[5] == 2');  
-}        
+    assert((*actual_output.data[5]).into() == 2, '*result[5] == 2');
+}

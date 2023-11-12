@@ -197,6 +197,33 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Ephraim-nonso",
+      "name": "Ephraim Chukwu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/68496788?v=4",
+      "profile": "https://audits.quillhash.com/smart-contract-audit",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Bal7hazar",
+      "name": "Bal7hazar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97087040?v=4",
+      "profile": "https://github.com/Bal7hazar",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "okhaimie-dev",
+      "name": "Tony Stark",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57156589?v=4",
+      "profile": "https://okhaimie.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

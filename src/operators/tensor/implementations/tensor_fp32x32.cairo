@@ -5,7 +5,8 @@ use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
+    at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
 use orion::numbers::{i8, i32, NumberTrait, FP32x32, FP32x32Impl};
@@ -15,6 +16,10 @@ use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32:
 impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn new(shape: Span<usize>, data: Span<FP32x32>) -> Tensor<FP32x32> {
         new_tensor(shape, data)
+    }
+
+    fn constant_of_shape(shape: Span<usize>, value: FP32x32) -> Tensor<FP32x32> {
+        constant_of_shape(shape, value)
     }
 
     fn at(self: @Tensor<FP32x32>, indices: Span<usize>) -> FP32x32 {
@@ -303,14 +308,38 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+    
     fn round(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::round::round(*self)
+    }
+
+    fn trilu(self: @Tensor<FP32x32>, upper: bool, k: i64) -> Tensor<FP32x32> {
+        linalg::trilu::trilu(self, upper, k)
     } 
 
+    fn reduce_l1(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+
     fn scatter(
-        self: @Tensor<FP32x32>, updates: Tensor<FP32x32>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<FP32x32> {
+        self: @Tensor<FP32x32>,
+        updates: Tensor<FP32x32>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP32x32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
+    fn reduce_sum_square(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+    
+    fn reduce_l2(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
+        math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 }
 

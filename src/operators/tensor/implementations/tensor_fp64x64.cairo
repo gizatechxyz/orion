@@ -5,7 +5,8 @@ use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
+    at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
 use orion::numbers::{i8, i32, NumberTrait, FP64x64, FP64x64Impl};
@@ -15,6 +16,10 @@ use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32:
 impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn new(shape: Span<usize>, data: Span<FP64x64>) -> Tensor<FP64x64> {
         new_tensor(shape, data)
+    }
+
+    fn constant_of_shape(shape: Span<usize>, value: FP64x64) -> Tensor<FP64x64> {
+        constant_of_shape(shape, value)
     }
 
     fn at(self: @Tensor<FP64x64>, indices: Span<usize>) -> FP64x64 {
@@ -303,16 +308,39 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+
     fn round(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
         math::round::round(*self)
     }
 
-    fn scatter(
-        self: @Tensor<FP64x64>, updates: Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<FP64x64> {
-        math::scatter::scatter(self, updates, indices, axis, reduction)
+    fn reduce_l1(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
     }
 
+    fn reduce_sum_square(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+
+    fn reduce_l2(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_l2::reduce_l2(self, axis, keepdims)
+    }
+
+    fn trilu(self: @Tensor<FP64x64>, upper: bool, k: i64) -> Tensor<FP64x64> {
+        linalg::trilu::trilu(self, upper, k)
+    }
+    
+    fn scatter(
+        self: @Tensor<FP64x64>,
+        updates: Tensor<FP64x64>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP64x64> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.
