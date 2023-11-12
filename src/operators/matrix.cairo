@@ -134,7 +134,6 @@ impl MutMatrixImpl<
     }
 
     /// Apply softmax to the matrix along the specified axis
-    /// Apply softmax to the matrix along the specified axis
     fn softmax<+AddEq<T>, +Div<T>>(ref self: MutMatrix<T>, axis: usize) -> MutMatrix<T> {
         assert(axis < 2, 'Invalid axis');
 
@@ -211,6 +210,39 @@ impl MutMatrixImpl<
                 row += 1;
             };
         }
+
+        result
+    }
+
+    /// Apply the sigmoid function to each element of the matrix
+    fn sigmoid<+Mul<T>, +Add<T>, +Div<T>>(ref self: MutMatrix<T>) -> MutMatrix<T> {
+        let mut result = MutMatrixImpl::new(self.rows, self.cols);
+
+        let mut row: usize = 0;
+        loop {
+            if row == self.rows {
+                break;
+            }
+
+            let mut col: usize = 0;
+            loop {
+                if col == self.cols {
+                    break;
+                }
+
+                let value = self.get(row, col);
+                if value.is_some() {
+                    let value = NumberTrait::one()
+                        / (NumberTrait::one() + (value.unwrap() * NumberTrait::neg_one()).exp());
+
+                    result.set(row, col, value);
+                }
+
+                col += 1;
+            };
+
+            row += 1;
+        };
 
         result
     }

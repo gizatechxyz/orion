@@ -32,11 +32,11 @@ struct TreeEnsembleClassifier<T> {
     class_weights: Span<T>,
     classlabels: Span<usize>,
     base_values: Option<Span<T>>,
-    post_transform: PostTransform,
+    post_transform: POST_TRANSFORM,
 }
 
 #[derive(Copy, Drop)]
-enum PostTransform {
+enum POST_TRANSFORM {
     NONE,
     SOFTMAX,
     LOGISTIC,
@@ -58,7 +58,8 @@ impl TreeEnsembleClassifierImpl<
     +TensorTrait<T>,
     +PrintTrait<T>,
     +AddEq<T>,
-    +Div<T>
+    +Div<T>,
+    +Mul<T>
 > of TreeEnsembleClassifierTrait<T> {
     fn predict(ref self: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Span<usize>, MutMatrix::<T>) {
         let leaves_index = self.ensemble.leave_index_tree(X);
@@ -196,11 +197,11 @@ impl TreeEnsembleClassifierImpl<
 
         // Post Transform
         let mut new_scores = match self.post_transform {
-            PostTransform::NONE => { res }, // No action required
-            PostTransform::SOFTMAX => { res.softmax(1) },
-            PostTransform::LOGISTIC => panic_with_felt252('Logistic not supported yet'),
-            PostTransform::SOFTMAXZERO => panic_with_felt252('SoftmaxZero not supported yet'),
-            PostTransform::PROBIT => panic_with_felt252('Probit not supported yet'),
+            POST_TRANSFORM::NONE => res, // No action required
+            POST_TRANSFORM::SOFTMAX => res.softmax(1),
+            POST_TRANSFORM::LOGISTIC => res.sigmoid(),
+            POST_TRANSFORM::SOFTMAXZERO => panic_with_felt252('SoftmaxZero not supported yet'),
+            POST_TRANSFORM::PROBIT => panic_with_felt252('Probit not supported yet'),
         };
 
         // Labels
