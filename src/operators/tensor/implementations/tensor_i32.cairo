@@ -318,11 +318,11 @@ impl I32Tensor of TensorTrait<i32> {
     fn reduce_l1(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         math::reduce_l1::reduce_l1(self, axis, keepdims)
     }
-    
+
     fn trilu(self: @Tensor<i32>, upper: bool, k: i64) -> Tensor<i32> {
         linalg::trilu::trilu(self, upper, k)
     }
-    
+
     fn scatter(
         self: @Tensor<i32>,
         updates: Tensor<i32>,
@@ -336,7 +336,7 @@ impl I32Tensor of TensorTrait<i32> {
     fn reduce_sum_square(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
-    
+
     fn reduce_l2(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         panic(array!['not supported!'])
     }

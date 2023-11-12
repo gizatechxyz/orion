@@ -20,10 +20,9 @@ mod tensor_1D {
 
         let tensor = TensorTrait::<bool>::new(sizes.span(), data.span());
 
-
         let result = tensor.stride();
 
-       assert(*result[0] == 1, 'stride x = 1');
+        assert(*result[0] == 1, 'stride x = 1');
         assert(result.len() == 1, 'len = 1');
     }
 }
@@ -41,7 +40,7 @@ mod tensor_2D {
     #[test]
     #[available_gas(2000000)]
     fn tensor_at() {
-         let mut sizes = ArrayTrait::new();
+        let mut sizes = ArrayTrait::new();
         sizes.append(2);
         sizes.append(2);
 
@@ -53,10 +52,9 @@ mod tensor_2D {
 
         let tensor = TensorTrait::<bool>::new(sizes.span(), data.span());
 
-
         let result = tensor.stride();
 
-         assert(*result[0] == 2, 'stride x = 2');
+        assert(*result[0] == 2, 'stride x = 2');
         assert(*result[1] == 1, 'stride y = 1');
         assert(result.len() == 2, 'len = 2');
     }
@@ -74,7 +72,6 @@ mod tensor_3D {
     #[test]
     #[available_gas(2000000)]
     fn tensor_at() {
-
         let mut sizes = ArrayTrait::new();
         sizes.append(2);
         sizes.append(2);
@@ -84,10 +81,10 @@ mod tensor_3D {
         data.append(false);
         data.append(false);
         data.append(false);
-         data.append(true);
+        data.append(true);
         data.append(false);
         data.append(false);
-         data.append(false);
+        data.append(false);
         data.append(false);
 
         let tensor = TensorTrait::<bool>::new(sizes.span(), data.span());

@@ -25,10 +25,10 @@ fn square<
 
     loop {
         match data.pop_front() {
-            Option::Some(item) => { 
+            Option::Some(item) => {
                 let ele = *item;
-                output_data.append(ele * ele); 
-                },
+                output_data.append(ele * ele);
+            },
             Option::None(_) => { break; }
         };
     };
@@ -50,7 +50,6 @@ fn reduce_l2<
     self: @Tensor<T>, axis: usize, keepdims: bool
 ) -> Tensor<T> {
     let tensor_square = square(self);
-    let tensor_square_sum =  tensor_square.reduce_sum(axis: axis, keepdims: keepdims);
+    let tensor_square_sum = tensor_square.reduce_sum(axis: axis, keepdims: keepdims);
     return tensor_square_sum.sqrt();
-
 }

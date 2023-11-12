@@ -101,10 +101,9 @@ mod tests {
     }
     #[test]
     fn test_bitwise_and() {
-        let a = FixedTrait::new(28835840, false);  // 3.4375
-        let b = FixedTrait::new(1639448576, true);  // -60.5625
+        let a = FixedTrait::new(28835840, false); // 3.4375
+        let b = FixedTrait::new(1639448576, true); // -60.5625
 
         assert(bitwise_and(a, b) == a, 'bitwise_and(a,b)')
     }
-   
 }

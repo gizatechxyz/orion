@@ -318,11 +318,11 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn reduce_l1(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
         math::reduce_l1::reduce_l1(self, axis, keepdims)
     }
-    
+
     fn trilu(self: @Tensor<FP8x23>, upper: bool, k: i64) -> Tensor<FP8x23> {
         linalg::trilu::trilu(self, upper, k)
     }
-    
+
     fn scatter(
         self: @Tensor<FP8x23>,
         updates: Tensor<FP8x23>,
@@ -336,7 +336,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn reduce_sum_square(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
-    
+
     fn reduce_l2(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }

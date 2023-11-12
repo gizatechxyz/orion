@@ -21,5 +21,4 @@ fn reduce_l1<
 ) -> Tensor<T> {
     let data_abs = self.abs();
     return data_abs.reduce_sum(axis: axis, keepdims: keepdims);
-
 }

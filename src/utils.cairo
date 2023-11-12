@@ -36,10 +36,10 @@ fn assert_seq_eq<T, impl TPartialEq: PartialEq<T>, impl TCopy: Copy<T>, impl TDr
 
     let mut i = 0;
     loop {
-	if i >= lhs.len() {
-	    break;
-	}
-	assert_eq(lhs[i], rhs[i]);
-	i += 1;
+        if i >= lhs.len() {
+            break;
+        }
+        assert_eq(lhs[i], rhs[i]);
+        i += 1;
     }
 }
