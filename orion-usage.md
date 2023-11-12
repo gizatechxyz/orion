@@ -59,7 +59,7 @@ Discover ML models made by the community with Orion!
 
 ## Use Cases 
 
-| Author                  | Title                                                                                                | Description                                                                                                                                                     |
-| ----------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| StorSwift               | Verifiable Medical Diagnosis                                                                         | A verifiable medical diagnosis web3 app. The aim is to create a robust and reliable platform to empower individuals in their healthcare decision-making process |
-| dblancove & dataonchain | A verifiable anomaly detection model for in fraud detection and analysis of bank transaction alerts. |
+| Author                  | Title                              | Description                                                                                                                                                     |
+| ----------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| StorSwift               | Verifiable Medical Diagnosis       | A verifiable medical diagnosis web3 app. The aim is to create a robust and reliable platform to empower individuals in their healthcare decision-making process |
+| dblancove & dataonchain | Fraud Detection with Verifiable ML | A verifiable anomaly detection model for in fraud detection and analysis of bank transaction alerts.                                                            |
