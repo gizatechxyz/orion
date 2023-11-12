@@ -28,7 +28,7 @@ Constrain input and output types to fixed point tensors.
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
+use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
 use orion::operators::nn::{NNTrait, FP8x23NN};
 use orion::numbers::{FP8x23, FixedTrait};
 
@@ -36,10 +36,10 @@ fn softmax_example() -> Tensor<FP8x23> {
     let tensor = TensorTrait::<FP8x23>::new(
         shape: array![2, 2].span(),
         data: array![
-            NNTrait::new(0, false),
-            NNTrait::new(1, false),
-            NNTrait::new(2, false),
-            NNTrait::new(3, false),
+            FixedTrait::new(0, false),
+            FixedTrait::new(1, false),
+            FixedTrait::new(2, false),
+            FixedTrait::new(3, false),
         ]
             .span(),
     );

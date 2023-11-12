@@ -206,6 +206,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "okhaimie-dev",
+      "name": "Tony Stark",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57156589?v=4",
+      "profile": "https://okhaimie.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
