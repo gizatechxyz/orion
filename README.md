@@ -23,7 +23,7 @@
 
 # Orion: An Open-source Framework for Validity and ZK ML ✨
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-21-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-22-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Orion is an open-source, community-driven framework dedicated to Provable Machine Learning. It provides essential components and a new ONNX runtime for building verifiable Machine Learning models using [STARKs](https://starkware.co/stark/).
@@ -94,6 +94,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/0x73e"><img src="https://avatars.githubusercontent.com/u/132935850?v=4?s=100" width="100px;" alt="0x73e"/><br /><sub><b>0x73e</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=0x73e" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://brilliantblocks.io"><img src="https://avatars.githubusercontent.com/u/25390947?v=4?s=100" width="100px;" alt="Thomas S. Bauer"/><br /><sub><b>Thomas S. Bauer</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=TsBauer" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://andresmayorca.github.io"><img src="https://avatars.githubusercontent.com/u/70079260?v=4?s=100" width="100px;" alt="Andres"/><br /><sub><b>Andres</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=andresmayorca" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Bal7hazar"><img src="https://avatars.githubusercontent.com/u/97087040?v=4?s=100" width="100px;" alt="Bal7hazar"/><br /><sub><b>Bal7hazar</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/issues?q=author%3ABal7hazar" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
