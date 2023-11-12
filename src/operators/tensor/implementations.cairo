@@ -8,4 +8,3 @@ mod tensor_fp64x64;
 mod tensor_fp32x32;
 mod tensor_fp16x16wide;
 mod tensor_fp8x23wide;
-mod tensor_bool;
