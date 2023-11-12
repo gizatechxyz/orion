@@ -14,9 +14,21 @@ use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 use dict::Felt252DictTrait;
 use nullable::{nullable_from_box, match_nullable, FromNullableResult};
 /// Cf: TensorTrait::scatter docstring
-fn scatter< T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>,  impl TAddEq: AddEq<T>,
-            impl TMulEq: MulEq<T>, impl TPartialOrd: PartialOrd<T>, impl TPartialEq: PartialEq<T>,>(
-    self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>,  axis: Option<usize>, reduction: Option<usize>
+fn scatter<
+    T,
+    impl TTensorTrait: TensorTrait<T>,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>,
+    impl TAddEq: AddEq<T>,
+    impl TMulEq: MulEq<T>,
+    impl TPartialOrd: PartialOrd<T>,
+    impl TPartialEq: PartialEq<T>,
+>(
+    self: @Tensor<T>,
+    updates: Tensor<T>,
+    indices: Tensor<usize>,
+    axis: Option<usize>,
+    reduction: Option<usize>
 ) -> Tensor<T> {
     let mut axis = match axis {
         Option::Some(val) => val,
@@ -40,7 +52,10 @@ fn scatter< T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
     let data_shape = *self.shape;
     let mut indices_shape = indices.shape;
     let updates_shape = updates.shape;
-    assert((*indices_shape[0] == *updates_shape[0]) & (*indices_shape[1] == *updates_shape[1]), 'shape must be same');
+    assert(
+        (*indices_shape[0] == *updates_shape[0]) & (*indices_shape[1] == *updates_shape[1]),
+        'shape must be same'
+    );
 
     let mut output_data = ArrayTrait::new();
     let mut data_indices = indices.data;
@@ -54,31 +69,27 @@ fn scatter< T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
     let data_loop_first = *data_shape_copy.pop_front().unwrap();
     let indices_loop_first = *indices_shape_copy.pop_front().unwrap();
 
-    let mut indices_loop: usize = 1; 
-    let mut data_loop:usize = 1; 
+    let mut indices_loop: usize = 1;
+    let mut data_loop: usize = 1;
 
     if (axis == 0) {
         loop {
             match indices_shape_copy.pop_front() {
-            Option::Some(val) => {
-                let d = *val;
-                indices_loop *= *val;
+                Option::Some(val) => {
+                    let d = *val;
+                    indices_loop *= *val;
                 },
-            Option::None(_) => {
-                break;
-             }
+                Option::None(_) => { break; }
             };
         };
 
-       loop {
+        loop {
             match data_shape_copy.pop_front() {
-            Option::Some(val) => {
-                let d = *val;
-                data_loop *= *val;
+                Option::Some(val) => {
+                    let d = *val;
+                    data_loop *= *val;
                 },
-            Option::None(_) => {
-                break;
-                }
+                Option::None(_) => { break; }
             };
         };
     }
@@ -93,8 +104,8 @@ fn scatter< T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
         axis = 2;
         transpose = true;
     }
-   
-    if (axis == (data_rank - 1) ){
+
+    if (axis == (data_rank - 1)) {
         data_loop = *data_shape_copy.pop_back().unwrap();
         indices_loop = *indices_shape_copy.pop_back().unwrap();
     }
@@ -104,24 +115,26 @@ fn scatter< T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
 
     loop {
         let mut i: usize = 0;
-        let mut result:usize = 0;
+        let mut result: usize = 0;
 
         match data_indices.pop_front() {
             Option::Some(val) => {
-                let value = total_count+1;
+                let value = total_count + 1;
 
                 if (axis == 0) {
                     let column = total_count % indices_loop;
                     result = (*val * data_loop) + (column);
-                    if ((result % *data_shape.at(data_rank -1)) != total_count % *indices_shape.at(data_rank -1)){
-                        result += (*data_shape.at(data_rank -1) - *indices_shape.at(data_rank -1));
+                    if ((result % *data_shape.at(data_rank - 1)) != total_count % *indices_shape
+                        .at(data_rank - 1)) {
+                        result +=
+                            (*data_shape.at(data_rank - 1) - *indices_shape.at(data_rank - 1));
                     }
                 }
 
-                if( axis == (data_rank - 1)) {
+                if (axis == (data_rank - 1)) {
                     let mut row = total_count / indices_loop;
-                    if ((data_rank > 2) & (row % *data_shape.at(1) >= *indices_shape.at(1))){
-                        shift = ( *data_shape.at(1) -  *indices_shape.at(1));
+                    if ((data_rank > 2) & (row % *data_shape.at(1) >= *indices_shape.at(1))) {
+                        shift = (*data_shape.at(1) - *indices_shape.at(1));
                     }
 
                     result = *val + (data_loop * (row + shift));
@@ -129,8 +142,7 @@ fn scatter< T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
 
                 if (reduction == 'none') {
                     indices_updates.insert(result.into(), value.into());
-                }
-                else {
+                } else {
                     let mut arr = ArrayTrait::new();
 
                     let val = indices_updates_reduction.get(result.into());
@@ -142,22 +154,17 @@ fn scatter< T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
 
                     loop {
                         match span.pop_front() {
-                            Option::Some(val) => {
-                                arr.append(*val);
-                            },
-                            Option::None(_) => {
-                                break;
-                            }
+                            Option::Some(val) => { arr.append(*val); },
+                            Option::None(_) => { break; }
                         };
                     };
                     arr.append(total_count);
-                    indices_updates_reduction.insert(result.into(), nullable_from_box(BoxTrait::new(arr.span())));
+                    indices_updates_reduction
+                        .insert(result.into(), nullable_from_box(BoxTrait::new(arr.span())));
                 }
                 total_count += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
@@ -170,13 +177,11 @@ fn scatter< T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
                     let value = indices_updates.get(i.into());
                     if (value == 0) {
                         output_data.append(*val);
-                    }
-                    else {
-                        let data_value = data_updates[value-1];
+                    } else {
+                        let data_value = data_updates[value - 1];
                         output_data.append(*data_value);
                     }
-                } 
-                else {
+                } else {
                     let value = indices_updates_reduction.get(i.into());
                     let mut a = ArrayTrait::new();
                     let mut span = match match_nullable(value) {
@@ -186,22 +191,15 @@ fn scatter< T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
 
                     if (span.len() == 0) {
                         output_data.append(*val);
-                    }
-
-                    else {
+                    } else {
                         // let mut result = *data_updates.at(*span.pop_front().unwrap());
                         let mut result = *val;
-
 
                         if (reduction == 'add') {
                             loop {
                                 match span.pop_front() {
-                                Option::Some(val) => {
-                                    result += *data_updates[*val];
-                                },
-                                Option::None(_) => {
-                                    break;
-                                    }
+                                    Option::Some(val) => { result += *data_updates[*val]; },
+                                    Option::None(_) => { break; }
                                 };
                             };
                             output_data.append(result);
@@ -210,12 +208,8 @@ fn scatter< T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
                         if (reduction == 'mul') {
                             loop {
                                 match span.pop_front() {
-                                Option::Some(val) => {
-                                    result *= *data_updates[*val];
-                                },
-                                Option::None(_) => {
-                                    break;
-                                    }
+                                    Option::Some(val) => { result *= *data_updates[*val]; },
+                                    Option::None(_) => { break; }
                                 };
                             };
                             output_data.append(result);
@@ -224,15 +218,13 @@ fn scatter< T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
                         if (reduction == 'max') {
                             loop {
                                 match span.pop_front() {
-                                Option::Some(val) => {
-                                    let holder = *data_updates[*val];
-                                    if (holder > result){
-                                        result = holder;
-                                    }
-                                },
-                                Option::None(_) => {
-                                    break;
-                                    }
+                                    Option::Some(val) => {
+                                        let holder = *data_updates[*val];
+                                        if (holder > result) {
+                                            result = holder;
+                                        }
+                                    },
+                                    Option::None(_) => { break; }
                                 };
                             };
                             output_data.append(result);
@@ -241,27 +233,23 @@ fn scatter< T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
                         if (reduction == 'min') {
                             loop {
                                 match span.pop_front() {
-                                Option::Some(val) => {
-                                    let holder = *data_updates[*val];
-                                    if (holder < result){
-                                        result = holder;
-                                    }
-                                },
-                                Option::None(_) => {
-                                    break;
-                                    }
+                                    Option::Some(val) => {
+                                        let holder = *data_updates[*val];
+                                        if (holder < result) {
+                                            result = holder;
+                                        }
+                                    },
+                                    Option::None(_) => { break; }
                                 };
                             };
                             output_data.append(result);
                         }
                     }
                 }
-                   
-                i+=1;
+
+                i += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
