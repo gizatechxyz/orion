@@ -277,10 +277,22 @@ impl U32Tensor of TensorTrait<u32> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+    
     fn round(self: @Tensor<u32>) -> Tensor<u32> {
         math::round::round(*self)
     }
 
+    fn reduce_l1(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+    
+    fn trilu(self: @Tensor<u32>, upper: bool, k: i64) -> Tensor<u32> {
+        linalg::trilu::trilu(self, upper, k)
+    }
+    
     fn scatter(
         self: @Tensor<u32>,
         updates: Tensor<u32>,
@@ -289,6 +301,14 @@ impl U32Tensor of TensorTrait<u32> {
         reduction: Option<usize>
     ) -> Tensor<u32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
+    fn reduce_sum_square(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+    
+    fn reduce_l2(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        panic(array!['not supported!'])
     }
 }
 

@@ -306,8 +306,20 @@ impl I8Tensor of TensorTrait<i8> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+    
     fn round(self: @Tensor<i8>) -> Tensor<i8> {
         math::round::round(*self)
+    }
+
+    fn reduce_l1(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+
+    fn trilu(self: @Tensor<i8>, upper: bool, k: i64) -> Tensor<i8> {
+        linalg::trilu::trilu(self, upper, k)
     }
 
     fn scatter(
@@ -318,6 +330,14 @@ impl I8Tensor of TensorTrait<i8> {
         reduction: Option<usize>
     ) -> Tensor<i8> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
+    fn reduce_sum_square(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+    
+    fn reduce_l2(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
+        panic(array!['not supported!'])
     }
 }
 

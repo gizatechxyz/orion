@@ -307,8 +307,28 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+    
     fn round(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::round::round(*self)
+    }
+
+    fn reduce_l1(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+
+    fn reduce_sum_square(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+
+    fn reduce_l2(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
+        math::reduce_l2::reduce_l2(self, axis, keepdims)
+    }
+
+    fn trilu(self: @Tensor<FP16x16>, upper: bool, k: i64) -> Tensor<FP16x16> {
+        linalg::trilu::trilu(self, upper, k)
     }
 
     fn scatter(

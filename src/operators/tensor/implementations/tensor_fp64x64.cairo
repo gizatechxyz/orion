@@ -308,10 +308,30 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+
     fn round(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
         math::round::round(*self)
     }
 
+    fn reduce_l1(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+
+    fn reduce_sum_square(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+
+    fn reduce_l2(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_l2::reduce_l2(self, axis, keepdims)
+    }
+
+    fn trilu(self: @Tensor<FP64x64>, upper: bool, k: i64) -> Tensor<FP64x64> {
+        linalg::trilu::trilu(self, upper, k)
+    }
+    
     fn scatter(
         self: @Tensor<FP64x64>,
         updates: Tensor<FP64x64>,
