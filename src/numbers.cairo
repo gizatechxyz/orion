@@ -49,6 +49,7 @@ trait NumberTrait<T, MAG> {
     fn sign(self: T) -> T;
     fn and(lhs: T, rhs: T) -> bool;
     fn where(self: T, x: T, y: T) -> T;
+    fn bitwise_and(lhs: T, rhs: T) -> T;
 }
 
 use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23};
@@ -225,6 +226,10 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
 
     fn where(self: FP8x23, x: FP8x23, y: FP8x23) -> FP8x23 {
         comp_fp8x23::where(self, x, y)
+    }
+
+    fn bitwise_and(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
+        comp_fp8x23::bitwise_and(lhs, rhs)
     }
 }
 
@@ -403,6 +408,10 @@ impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
     fn where(self: FP8x23W, x: FP8x23W, y: FP8x23W) -> FP8x23W {
         comp_fp8x23wide::where(self, x, y)
     }
+
+    fn bitwise_and(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
+        comp_fp8x23wide::bitwise_and(lhs, rhs)
+    }
 }
 
 use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16};
@@ -580,6 +589,10 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
     fn where(self: FP16x16, x: FP16x16, y: FP16x16) -> FP16x16 {
         comp_fp16x16::where(self, x, y)
     }
+
+    fn bitwise_and(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
+        comp_fp16x16::bitwise_and(lhs, rhs)
+    }
 }
 
 use orion::numbers::fixed_point::implementations::fp16x16wide::core::{FP16x16WImpl, FP16x16W};
@@ -756,6 +769,10 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
 
     fn where(self: FP16x16W, x: FP16x16W, y: FP16x16W) -> FP16x16W {
         comp_fp16x16wide::where(self, x, y)
+    }
+
+    fn bitwise_and(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
+        comp_fp16x16wide::bitwise_and(lhs, rhs)
     }
 }
 
@@ -935,6 +952,10 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
     fn where(self: FP64x64, x: FP64x64, y: FP64x64) -> FP64x64 {
         comp_fp64x64::where(self, x, y)
     }
+
+    fn bitwise_and(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
+        comp_fp64x64::bitwise_and(lhs, rhs)
+    }
 }
 
 use orion::numbers::fixed_point::implementations::fp32x32::core::{FP32x32Impl, FP32x32};
@@ -1112,6 +1133,10 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
 
     fn where(self: FP32x32, x: FP32x32, y: FP32x32) -> FP32x32 {
         comp_fp32x32::where(self, x, y)
+    }
+
+    fn bitwise_and(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
+        comp_fp32x32::bitwise_and(lhs, rhs)
     }
 }
 
@@ -1305,6 +1330,10 @@ impl I8Number of NumberTrait<i8, u8> {
             return x;
         }
     }
+
+    fn bitwise_and(lhs: i8, rhs: i8) -> i8 {
+        i8_core::i8_bitwise_and(lhs, rhs)
+    }
 }
 
 use orion::numbers::signed_integer::i16 as i16_core;
@@ -1496,6 +1525,10 @@ impl i16Number of NumberTrait<i16, u16> {
         } else {
             return x;
         }
+    }
+
+    fn bitwise_and(lhs: i16, rhs: i16) -> i16 {
+        i16_core::i16_bitwise_and(lhs, rhs)
     }
 }
 
@@ -1689,6 +1722,10 @@ impl i32Number of NumberTrait<i32, u32> {
             return x;
         }
     }
+
+    fn bitwise_and(lhs: i32, rhs: i32) -> i32 {
+        i32_core::i32_bitwise_and(lhs, rhs)
+    }
 }
 
 use orion::numbers::signed_integer::i64 as i64_core;
@@ -1880,6 +1917,10 @@ impl i64Number of NumberTrait<i64, u64> {
         } else {
             return x;
         }
+    }
+
+    fn bitwise_and(lhs: i64, rhs: i64) -> i64 {
+        i64_core::i64_bitwise_and(lhs, rhs)
     }
 }
 
@@ -2073,6 +2114,10 @@ impl i128Number of NumberTrait<i128, u128> {
         } else {
             return x;
         }
+    }
+
+    fn bitwise_and(lhs: i128, rhs: i128) -> i128 {
+        i128_core::i128_bitwise_and(lhs, rhs)
     }
 }
 
@@ -2271,5 +2316,9 @@ impl u32Number of NumberTrait<u32, u32> {
         } else {
             return x;
         }
+    }
+
+    fn bitwise_and(lhs: u32, rhs: u32) -> u32 {
+        lhs & rhs
     }
 }

@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 
 def argmin_use_numpy(data: np.ndarray, axis: int = 0, keepdims: int = 1, dtype=np.int64) -> np.ndarray:
@@ -34,7 +34,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_u32_1D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -47,7 +46,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_u32_1D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -60,7 +58,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_u32_1D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
@@ -78,7 +75,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_u32_2D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -91,7 +87,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_u32_2D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -104,7 +99,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_u32_2D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
@@ -122,7 +116,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_u32_3D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -135,7 +128,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_u32_3D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -148,7 +140,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_u32_3D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
@@ -168,7 +159,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i32_1D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -181,7 +171,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i32_1D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -194,7 +183,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i32_1D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
@@ -212,7 +200,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i32_2D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -225,7 +212,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i32_2D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -238,7 +224,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i32_2D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
@@ -256,7 +241,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i32_3D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -269,7 +253,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i32_3D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -282,7 +265,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i32_3D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
@@ -302,7 +284,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i8_1D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -315,7 +296,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i8_1D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -328,7 +308,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i8_1D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
@@ -346,7 +325,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i8_2D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -359,7 +337,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i8_2D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -372,7 +349,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i8_2D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
@@ -390,7 +366,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i8_3D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -403,7 +378,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i8_3D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -416,7 +390,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_i8_3D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
@@ -437,7 +410,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp16x16_1D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -451,7 +423,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp16x16_1D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -465,7 +436,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp16x16_1D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
@@ -484,7 +454,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp16x16_2D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -498,7 +467,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp16x16_2D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -512,7 +480,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp16x16_2D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
@@ -531,7 +498,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp16x16_3D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -545,7 +511,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp16x16_3D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -559,7 +524,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp16x16_3D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
@@ -581,7 +545,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp8x23_1D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -596,7 +559,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp8x23_1D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -611,7 +573,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp8x23_1D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
@@ -630,7 +591,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp8x23_2D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -645,7 +605,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp8x23_2D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -660,7 +619,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp8x23_2D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 
@@ -680,7 +638,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp8x23_3D_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::None(()))", name)
 
@@ -695,7 +652,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp8x23_3D_keepdims_false"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::Some(false), Option::None(()))", name)
 
@@ -710,7 +666,6 @@ class Argmin(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "argmin_fp8x23_3D_last_index"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.argmin(0, Option::None(()), Option::Some(true))", name)
 

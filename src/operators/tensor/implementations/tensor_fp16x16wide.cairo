@@ -5,7 +5,8 @@ use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
+    at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
 use orion::numbers::{i8, i32, NumberTrait, FP16x16W};
@@ -14,6 +15,10 @@ use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32:
 impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn new(shape: Span<usize>, data: Span<FP16x16W>) -> Tensor<FP16x16W> {
         new_tensor(shape, data)
+    }
+
+    fn constant_of_shape(shape: Span<usize>, value: FP16x16W) -> Tensor<FP16x16W> {
+        constant_of_shape(shape, value)
     }
 
     fn at(self: @Tensor<FP16x16W>, indices: Span<usize>) -> FP16x16W {
@@ -212,6 +217,19 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_add(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP16x16W>,
+        a_zero_point: @Tensor<FP16x16W>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP16x16W>,
+        b_zero_point: @Tensor<FP16x16W>,
+        y_scale: @Tensor<FP16x16W>,
+        y_zero_point: @Tensor<FP16x16W>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<FP16x16W>,
@@ -277,14 +295,38 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+
     fn round(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
         math::round::round(*self)
     }
 
-     fn scatter(
-        self: @Tensor<FP16x16W>, updates: Tensor<FP16x16W>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<FP16x16W> {
+    fn reduce_l1(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+
+    fn trilu(self: @Tensor<FP16x16W>, upper: bool, k: i64) -> Tensor<FP16x16W> {
+        linalg::trilu::trilu(self, upper, k)
+    }
+
+    fn scatter(
+        self: @Tensor<FP16x16W>,
+        updates: Tensor<FP16x16W>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP16x16W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
+    fn reduce_sum_square(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+
+    fn reduce_l2(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
+        math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 }
 

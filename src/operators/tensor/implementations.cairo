@@ -1,3 +1,4 @@
+mod tensor_bool;
 mod tensor_u32;
 mod tensor_i8;
 mod tensor_i32;
