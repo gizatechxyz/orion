@@ -12,6 +12,11 @@ use orion::operators::tensor::implementations::tensor_fp8x23::{
     FP8x23TensorPartialEq,
 };
 
+use orion::operators::tensor::implementations::tensor_fp32x32::{
+    FP32x32Tensor, FP32x32TensorAdd, FP32x32TensorSub, FP32x32TensorMul, FP32x32TensorDiv,
+    FP32x32TensorPartialEq,
+};
+
 use orion::operators::tensor::implementations::tensor_fp16x16::{
     FP16x16Tensor, FP16x16TensorAdd, FP16x16TensorSub, FP16x16TensorMul, FP16x16TensorDiv,
     FP16x16TensorPartialEq,
