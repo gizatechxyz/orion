@@ -182,6 +182,14 @@ impl FP8x23Impl of FixedTrait<FP8x23, u32> {
     fn sign(self: FP8x23) -> FP8x23 {
         return core::sign(self);
     }
+
+    fn NaN() -> FP8x23 {
+        return FP8x23 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: FP8x23) -> bool {
+        self == FP8x23 { mag: 0, sign: true }
+    }
 }
 
 
