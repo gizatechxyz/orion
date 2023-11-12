@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 
 class Thresholded_relu(RunAll):
@@ -20,7 +20,6 @@ class Thresholded_relu(RunAll):
             y.flatten(), FixedImpl.FP8x23))
 
         name = "thresholded_relu_fp8x23"
-        make_node([x], [y], name)
         make_test([x], y, "NNTrait::thresholded_relu(@input_0, @FixedTrait::new(256, false))",
                   name, Trait.NN)
 
@@ -39,6 +38,5 @@ class Thresholded_relu(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "thresholded_relu_fp16x16"
-        make_node([x], [y], name)
         make_test([x], y, "NNTrait::thresholded_relu(@input_0, @FixedTrait::new(65536, false))",
                   name, Trait.NN)

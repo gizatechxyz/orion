@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 class Min(RunAll):
 
@@ -16,8 +16,7 @@ class Min(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "min_u32_two_tensors"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span());", name)
+            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span())", name)
 
         def broadcast():
             x = np.random.randint(0, 6, (2, 2)).astype(np.uint32)
@@ -29,8 +28,7 @@ class Min(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "min_u32_broadcast_two_tensors"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span());", name)
+            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span())", name)
 
         default()
         broadcast()
@@ -47,8 +45,7 @@ class Min(RunAll):
             z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "min_i32_two_tensors"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span());", name)
+            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span())", name)
 
         def broadcast():
             x = np.random.randint(0, 6, (2, 2)).astype(np.int32)
@@ -60,8 +57,7 @@ class Min(RunAll):
             z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "min_i32_broadcast_two_tensors"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span());", name)
+            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span())", name)
 
         default()
         broadcast()
@@ -78,8 +74,7 @@ class Min(RunAll):
             z = Tensor(Dtype.I8, z.shape, z.flatten())
 
             name = "min_i8_two_tensors"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span());", name)
+            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span())", name)
 
         def broadcast():
             x = np.random.randint(0, 6, (2, 2)).astype(np.int8)
@@ -91,8 +86,7 @@ class Min(RunAll):
             z = Tensor(Dtype.I8, z.shape, z.flatten())
 
             name = "min_i8_broadcast_two_tensors"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span());", name)
+            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span())", name)
 
         default()
         broadcast()
@@ -112,8 +106,7 @@ class Min(RunAll):
                 z.flatten(), FixedImpl.FP8x23))
 
             name = "min_fp8x23_two_tensors"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span());", name)
+            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span())", name)
 
         def broadcast():
             x = np.random.randint(-3, 3, (2, 2)).astype(np.float64)
@@ -128,8 +121,7 @@ class Min(RunAll):
                 z.flatten(), FixedImpl.FP8x23))
 
             name = "min_fp8x23_broadcast_two_tensors"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span());", name)
+            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span())", name)
 
         default()
         broadcast()
@@ -149,8 +141,7 @@ class Min(RunAll):
                 z.flatten(), FixedImpl.FP16x16))
 
             name = "min_fp16x16_two_tensors"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span());", name)
+            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span())", name)
 
         def broadcast():
             x = np.random.randint(-3, 3, (2, 2)).astype(np.float64)
@@ -165,8 +156,7 @@ class Min(RunAll):
                 z.flatten(), FixedImpl.FP16x16))
 
             name = "min_fp16x16_broadcast_two_tensors"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span());", name)
+            make_test([x, y], z, "TensorTrait::min(array![input_0, input_1].span())", name)
 
         default()
         broadcast()
@@ -186,8 +176,7 @@ class Min(RunAll):
             m = Tensor(Dtype.U32, m.shape, m.flatten())
 
             name = "min_u32_three_tensors"
-            make_node([x, y, z], [m], name)
-            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span());", name)
+            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span())", name)
 
         def broadcast():
             x = np.random.randint(0, 6, (2, 2)).astype(np.uint32)
@@ -201,8 +190,7 @@ class Min(RunAll):
             m = Tensor(Dtype.U32, m.shape, m.flatten())
 
             name = "min_u32_broadcast_three_tensors"
-            make_node([x, y, z], [m], name)
-            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span());", name)
+            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span())", name)
 
         default()
         broadcast()
@@ -221,8 +209,7 @@ class Min(RunAll):
             m = Tensor(Dtype.I32, m.shape, m.flatten())
 
             name = "min_i32_three_tensors"
-            make_node([x, y, z], [m], name)
-            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span());", name)
+            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span())", name)
 
         def broadcast():
             x = np.random.randint(0, 6, (2, 2)).astype(np.int32)
@@ -236,8 +223,7 @@ class Min(RunAll):
             m = Tensor(Dtype.I32, m.shape, m.flatten())
 
             name = "min_i32_broadcast_three_tensors"
-            make_node([x, y, z], [m], name)
-            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span());", name)
+            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span())", name)
 
         default()
         broadcast()
@@ -256,8 +242,7 @@ class Min(RunAll):
             m = Tensor(Dtype.I8, m.shape, m.flatten())
 
             name = "min_i8_three_tensors"
-            make_node([x, y, z], [m], name)
-            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span());", name)
+            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span())", name)
 
         def broadcast():
             x = np.random.randint(0, 6, (2, 2)).astype(np.int8)
@@ -271,8 +256,7 @@ class Min(RunAll):
             m = Tensor(Dtype.I8, m.shape, m.flatten())
 
             name = "min_i8_broadcast_three_tensors"
-            make_node([x, y, z], [m], name)
-            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span());", name)
+            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span())", name)
 
         default()
         broadcast()
@@ -295,8 +279,7 @@ class Min(RunAll):
                 m.flatten(), FixedImpl.FP8x23)) 
 
             name = "min_fp8x23_three_tensors"
-            make_node([x, y, z], [m], name)
-            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span());", name)
+            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span())", name)
 
         def broadcast():
             x = np.random.randint(-3, 3, (2, 2)).astype(np.float64)
@@ -314,8 +297,7 @@ class Min(RunAll):
                 m.flatten(), FixedImpl.FP8x23))
 
             name = "min_fp8x23_broadcast_three_tensors"
-            make_node([x, y, z], [m], name)
-            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span());", name)
+            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span())", name)
 
         default()
         broadcast()
@@ -338,8 +320,7 @@ class Min(RunAll):
                 m.flatten(), FixedImpl.FP16x16))   
 
             name = "min_fp16x16_three_tensors"
-            make_node([x, y, z], [m], name)
-            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span());", name)
+            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span())", name)
 
         def broadcast():
             x = np.random.randint(-3, 3, (2, 2)).astype(np.float64)
@@ -357,8 +338,7 @@ class Min(RunAll):
                 m.flatten(), FixedImpl.FP16x16)) 
 
             name = "min_fp16x16_broadcast_three_tensors"
-            make_node([x, y, z], [m], name)
-            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span());", name)
+            make_test([x, y, z], m, "TensorTrait::min(array![input_0, input_1, input_2].span())", name)
 
         default()
         broadcast()

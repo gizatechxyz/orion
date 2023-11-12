@@ -1,12 +1,12 @@
 [package]
 name = "orion"
-version = "0.1.5"
+version = "0.1.7"
 description = "ONNX Runtime in Cairo for verifiable ML inference using STARK"
 homepage = "https://github.com/gizatechxyz/orion"
 
 [dependencies]
 alexandria_data_structures = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "f37d73d" }
-cubit = { git = "https://github.com/raphaelDkhn/cubit.git" }
+cubit = { git = "https://github.com/influenceth/cubit.git", rev = "b459053" }
 
 [scripts]
 sierra = "cairo-compile . -r"

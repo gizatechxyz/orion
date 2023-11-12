@@ -554,3 +554,7 @@ fn i8_sign(a: i8) -> i8 {
         IntegerTrait::<i8>::new(1, a.sign)
     }
 }
+
+fn i8_bitwise_and(a: i8, b: i8) -> i8 {
+    return IntegerTrait::<i8>::new(a.mag & b.mag, a.sign & b.sign);
+}

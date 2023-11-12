@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 
 class Matmul(RunAll):
@@ -17,7 +17,6 @@ class Matmul(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "matmul_u32_1d"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -31,7 +30,6 @@ class Matmul(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "matmul_u32_2x2"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -45,7 +43,6 @@ class Matmul(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "matmul_u32_2x1"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -59,7 +56,6 @@ class Matmul(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "matmul_u32_1x2"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -80,7 +76,6 @@ class Matmul(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "matmul_i32_1d"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -94,7 +89,6 @@ class Matmul(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "matmul_i32_2x2"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -108,7 +102,6 @@ class Matmul(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "matmul_i32_2x1"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -122,7 +115,6 @@ class Matmul(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "matmul_i32_1x2"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -143,7 +135,6 @@ class Matmul(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "matmul_i8_1d"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -157,7 +148,6 @@ class Matmul(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "matmul_i8_2x2"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -171,7 +161,6 @@ class Matmul(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "matmul_i8_2x1"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -185,7 +174,6 @@ class Matmul(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "matmul_i8_1x2"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -209,7 +197,6 @@ class Matmul(RunAll):
                 y.flatten(), FixedImpl.FP8x23))
 
             name = "matmul_fp8x23_1d"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -226,7 +213,6 @@ class Matmul(RunAll):
                 y.flatten(), FixedImpl.FP8x23))
 
             name = "matmul_fp8x23_2x2"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -243,7 +229,6 @@ class Matmul(RunAll):
                 y.flatten(), FixedImpl.FP8x23))
 
             name = "matmul_fp8x23_2x1"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -260,7 +245,6 @@ class Matmul(RunAll):
                 y.flatten(), FixedImpl.FP8x23))
 
             name = "matmul_fp8x23_1x2"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -284,7 +268,6 @@ class Matmul(RunAll):
                 y.flatten(), FixedImpl.FP16x16))
 
             name = "matmul_fp16x16_1d"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -301,7 +284,6 @@ class Matmul(RunAll):
                 y.flatten(), FixedImpl.FP16x16))
 
             name = "matmul_fp16x16_2x2"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -318,7 +300,6 @@ class Matmul(RunAll):
                 y.flatten(), FixedImpl.FP16x16))
 
             name = "matmul_fp16x16_2x1"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 
@@ -335,7 +316,6 @@ class Matmul(RunAll):
                 y.flatten(), FixedImpl.FP16x16))
 
             name = "matmul_fp16x16_1x2"
-            make_node([a, b], [y], name)
             make_test(
                 [a, b], y, "input_0.matmul(@input_1)", name)
 

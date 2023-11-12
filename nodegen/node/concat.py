@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 # 687
 class Concat(RunAll):
     @staticmethod
@@ -16,10 +16,9 @@ class Concat(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "concat_u32_1d"
-            make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                file_name= name, trait_type= Trait.TENSOR)
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                name= name, trait= Trait.TENSOR)
                     
             
         def concat_2D():
@@ -32,10 +31,9 @@ class Concat(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "concat_u32_2d"
-            make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                file_name= name, trait_type= Trait.TENSOR)
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                name= name, trait= Trait.TENSOR)
             
         def concat_3D():
             def default():
@@ -48,10 +46,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "concat_u32_3d_default"
-                make_node([x1, x2], [y], name)
                 make_test(
-                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                    name= name, trait= Trait.TENSOR)
 
             def axis_1():
                 x1 = np.arange(0,27).astype(np.uint32).reshape(3,3,3)
@@ -63,10 +60,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "concat_u32_3d_axis_1"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 1)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             def axis_2():
                 x1 = np.arange(0,27).astype(np.uint32).reshape(3,3,3)
@@ -78,10 +74,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "concat_u32_3d_axis_2"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 2)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             def three_tensors_axis_1():
                 x1 = np.arange(0,27).astype(np.uint32).reshape(3,3,3)
@@ -97,10 +92,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "concat_u32_3d_three_tensors_axis_1"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1, input_2].span(), 1)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
                 
             def three_tensors_axis_2():
                 x1 = np.arange(0,27).astype(np.uint32).reshape(3,3,3)
@@ -116,10 +110,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "concat_u32_3d_three_tensors_axis_2"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1, input_2].span(), 2)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             default()
             axis_1()
@@ -143,10 +136,9 @@ class Concat(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "concat_i32_1d"
-            make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                file_name= name, trait_type= Trait.TENSOR.TENSOR)
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                name= name, trait= Trait.TENSOR.TENSOR)
                     
             
         def concat_2D():
@@ -159,10 +151,9 @@ class Concat(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "concat_i32_2d"
-            make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                file_name= name, trait_type= Trait.TENSOR)
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                name= name, trait= Trait.TENSOR)
             
         def concat_3D():
             def default():
@@ -175,10 +166,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.I32, y.shape, y.flatten())
 
                 name = "concat_i32_3d_default"
-                make_node([x1, x2], [y], name)
                 make_test(
-                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                    name= name, trait= Trait.TENSOR)
 
             def axis_1():
                 x1 = np.arange(0,27).astype(np.int32).reshape(3,3,3)
@@ -190,10 +180,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.I32, y.shape, y.flatten())
 
                 name = "concat_i32_3d_axis_1"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 1)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             def axis_2():
                 x1 = np.arange(0,27).astype(np.int32).reshape(3,3,3)
@@ -205,10 +194,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.I32, y.shape, y.flatten())
 
                 name = "concat_i32_3d_axis_2"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 2)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             def three_tensors_axis_1():
                 x1 = np.arange(0,27).astype(np.int32).reshape(3,3,3)
@@ -224,10 +212,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.I32, y.shape, y.flatten())
 
                 name = "concat_i32_3d_three_tensors_axis_1"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1, input_2].span(), 1)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
                 
             def three_tensors_axis_2():
                 x1 = np.arange(0,27).astype(np.int32).reshape(3,3,3)
@@ -243,10 +230,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.I32, y.shape, y.flatten())
 
                 name = "concat_i32_3d_three_tensors_axis_2"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1, input_2].span(), 2)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             default()
             axis_1()
@@ -270,10 +256,9 @@ class Concat(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "concat_i8_1d"
-            make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                file_name= name, trait_type= Trait.TENSOR.TENSOR)
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                name= name, trait= Trait.TENSOR.TENSOR)
                     
             
         def concat_2D():
@@ -286,10 +271,9 @@ class Concat(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "concat_i8_2d"
-            make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                file_name= name, trait_type= Trait.TENSOR)
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                name= name, trait= Trait.TENSOR)
             
         def concat_3D():
             def default():
@@ -302,10 +286,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
                 name = "concat_i8_3d_default"
-                make_node([x1, x2], [y], name)
                 make_test(
-                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                    name= name, trait= Trait.TENSOR)
 
             def axis_1():
                 x1 = np.arange(0,27).astype(np.int8).reshape(3,3,3)
@@ -317,10 +300,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
                 name = "concat_i8_3d_axis_1"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 1)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             def axis_2():
                 x1 = np.arange(0,27).astype(np.int8).reshape(3,3,3)
@@ -332,10 +314,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
                 name = "concat_i8_3d_axis_2"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 2)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             def three_tensors_axis_1():
                 x1 = np.arange(0,27).astype(np.int8).reshape(3,3,3)
@@ -351,10 +332,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
                 name = "concat_i8_3d_three_tensors_axis_1"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1, input_2].span(), 1)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
                 
             def three_tensors_axis_2():
                 x1 = np.arange(0,27).astype(np.int8).reshape(3,3,3)
@@ -370,10 +350,9 @@ class Concat(RunAll):
                 y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
                 name = "concat_i8_3d_three_tensors_axis_2"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1, input_2].span(), 2)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             default()
             axis_1()
@@ -400,10 +379,9 @@ class Concat(RunAll):
                 y.flatten(), FixedImpl.FP8x23)) 
 
             name = "concat_fp8x23_1d"
-            make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                file_name= name, trait_type= Trait.TENSOR.TENSOR)
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                name= name, trait= Trait.TENSOR.TENSOR)
                     
             
         def concat_2D():
@@ -419,10 +397,9 @@ class Concat(RunAll):
                 y.flatten(), FixedImpl.FP8x23)) 
 
             name = "concat_fp8x23_2d"
-            make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                file_name= name, trait_type= Trait.TENSOR)
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                name= name, trait= Trait.TENSOR)
             
         def concat_3D():
             def default():
@@ -438,10 +415,9 @@ class Concat(RunAll):
                 y.flatten(), FixedImpl.FP8x23)) 
 
                 name = "concat_fp8x23_3d_default"
-                make_node([x1, x2], [y], name)
                 make_test(
-                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                    name= name, trait= Trait.TENSOR)
 
             def axis_1():
                 x1 = np.arange(0,27).astype(np.int64).reshape(3,3,3)
@@ -456,10 +432,9 @@ class Concat(RunAll):
                 y.flatten(), FixedImpl.FP8x23)) 
 
                 name = "concat_fp8x23_3d_axis_1"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 1)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             def axis_2():
                 x1 = np.arange(0,27).astype(np.int64).reshape(3,3,3)
@@ -474,10 +449,9 @@ class Concat(RunAll):
                 y.flatten(), FixedImpl.FP8x23)) 
 
                 name = "concat_fp8x23_3d_axis_2"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 2)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             def three_tensors_axis_1():
                 x1 = np.arange(0,27).astype(np.int64).reshape(3,3,3)
@@ -497,10 +471,9 @@ class Concat(RunAll):
                 y.flatten(), FixedImpl.FP8x23)) 
 
                 name = "concat_fp8x23_3d_three_tensors_axis_1"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1, input_2].span(), 1)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
                 
             def three_tensors_axis_2():
                 x1 = np.arange(0,27).astype(np.int64).reshape(3,3,3)
@@ -520,10 +493,9 @@ class Concat(RunAll):
                 y.flatten(), FixedImpl.FP8x23)) 
 
                 name = "concat_fp8x23_3d_three_tensors_axis_2"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1, input_2].span(), 2)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             default()
             axis_1()
@@ -550,10 +522,9 @@ class Concat(RunAll):
                 y.flatten(), FixedImpl.FP16x16)) 
 
             name = "concat_fp16x16_1d"
-            make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                file_name= name, trait_type= Trait.TENSOR.TENSOR)
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                name= name, trait= Trait.TENSOR.TENSOR)
                     
             
         def concat_2D():
@@ -569,10 +540,9 @@ class Concat(RunAll):
                 y.flatten(), FixedImpl.FP16x16)) 
 
             name = "concat_fp16x16_2d"
-            make_node([x1, x2], [y], name)
             make_test(
-                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                file_name= name, trait_type= Trait.TENSOR)
+                inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                name= name, trait= Trait.TENSOR)
             
         def concat_3D():
             def default():
@@ -588,10 +558,9 @@ class Concat(RunAll):
                 y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "concat_fp16x16_3d_default"
-                make_node([x1, x2], [y], name)
                 make_test(
-                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0);", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 0)", 
+                    name= name, trait= Trait.TENSOR)
 
             def axis_1():
                 x1 = np.arange(0,27).astype(np.int64).reshape(3,3,3)
@@ -606,10 +575,9 @@ class Concat(RunAll):
                 y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "concat_fp16x16_3d_axis_1"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 1)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             def axis_2():
                 x1 = np.arange(0,27).astype(np.int64).reshape(3,3,3)
@@ -624,10 +592,9 @@ class Concat(RunAll):
                 y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "concat_fp16x16_3d_axis_2"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1].span(), 2)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             def three_tensors_axis_1():
                 x1 = np.arange(0,27).astype(np.int64).reshape(3,3,3)
@@ -647,10 +614,9 @@ class Concat(RunAll):
                 y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "concat_fp16x16_3d_three_tensors_axis_1"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1, input_2].span(), 1)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
                 
             def three_tensors_axis_2():
                 x1 = np.arange(0,27).astype(np.int64).reshape(3,3,3)
@@ -670,10 +636,9 @@ class Concat(RunAll):
                 y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "concat_fp16x16_3d_three_tensors_axis_2"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "TensorTrait::concat(array![input_0, input_1, input_2].span(), 2)", 
-                    file_name= name, trait_type= Trait.TENSOR)
+                    name= name, trait= Trait.TENSOR)
 
             default()
             axis_1()
