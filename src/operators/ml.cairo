@@ -1,6 +1,7 @@
 mod tree_regressor;
 mod tree_classifier;
 mod xgboost_regressor;
+mod tree_ensemble;
 
 use orion::operators::ml::tree_regressor::core::{TreeRegressorTrait, TreeRegressor};
 use orion::operators::ml::tree_regressor::implementations::tree_regressor_fp16x16::FP16x16TreeRegressor;
@@ -19,3 +20,10 @@ use orion::operators::ml::xgboost_regressor::implementations::xgboost_regressor_
 use orion::operators::ml::xgboost_regressor::implementations::xgboost_regressor_fp8x23::FP8x23XGBoostRegressor;
 use orion::operators::ml::xgboost_regressor::implementations::xgboost_regressor_fp32x32::FP32x32XGBoostRegressor;
 use orion::operators::ml::xgboost_regressor::implementations::xgboost_regressor_fp64x64::FP64x64XGBoostRegressor;
+
+use orion::operators::ml::tree_ensemble::core::{
+    TreeEnsemble, TreeEnsembleAttributes, TreeEnsembleImpl, NODE_MODES
+};
+use orion::operators::ml::tree_ensemble::tree_ensemble_classifier::{
+    TreeEnsembleClassifier, TreeEnsembleClassifierImpl, TreeEnsembleClassifierTrait, POST_TRANSFORM
+};
