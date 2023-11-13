@@ -474,4 +474,6 @@ mod where_i8;
 mod where_i8_broadcast;
 mod where_u32;
 mod where_u32_broadcast;
+mod not_bool; 
+
 

@@ -240,7 +240,7 @@ impl BoolTensor of TensorTrait<bool> {
 }
 
 /// Implements addition for `Tensor<bool>` using the `Add` trait.
-impl boolTensorAdd of Add<Tensor<bool>> {
+impl BoolTensorAdd of Add<Tensor<bool>> {
     /// Adds two `Tensor<bool>` instances element-wise.
     ///
     /// # Arguments
@@ -255,7 +255,7 @@ impl boolTensorAdd of Add<Tensor<bool>> {
 }
 
 /// Implements subtraction for `Tensor<bool>` using the `Sub` trait.
-impl boolTensorSub of Sub<Tensor<bool>> {
+impl BoolTensorSub of Sub<Tensor<bool>> {
     /// Subtracts two `Tensor<bool>` instances element-wise.
     ///
     /// # Arguments
@@ -270,7 +270,7 @@ impl boolTensorSub of Sub<Tensor<bool>> {
 }
 
 /// Implements multiplication for `Tensor<bool>` using the `Mul` trait.
-impl boolTensorMul of Mul<Tensor<bool>> {
+impl BoolTensorMul of Mul<Tensor<bool>> {
     /// Multiplies two `Tensor<bool>` instances element-wise.
     ///
     /// # Arguments
@@ -285,7 +285,7 @@ impl boolTensorMul of Mul<Tensor<bool>> {
 }
 
 /// Implements division for `Tensor<bool>` using the `Div` trait.
-impl boolTensorDiv of Div<Tensor<bool>> {
+impl BoolTensorDiv of Div<Tensor<bool>> {
     /// Divides two `Tensor<bool>` instances element-wise.
     ///
     /// # Arguments
@@ -300,7 +300,7 @@ impl boolTensorDiv of Div<Tensor<bool>> {
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.
-impl boolTensorPartialEq of PartialEq<Tensor<bool>> {
+impl BoolTensorPartialEq of PartialEq<Tensor<bool>> {
     fn eq(lhs: @Tensor<bool>, rhs: @Tensor<bool>) -> bool {
         tensor_eq(*lhs, *rhs)
     }
@@ -310,7 +310,7 @@ impl boolTensorPartialEq of PartialEq<Tensor<bool>> {
     }
 }
 
-impl boolTryIntobool of TryInto<bool, bool> {
+impl BoolTryIntobool of TryInto<bool, bool> {
     fn try_into(self: bool) -> Option<bool> {
         Option::Some(self)
     }

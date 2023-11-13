@@ -15,6 +15,7 @@ class Dtype(Enum):
     I8 = 'I8'
     I32 = 'I32'
     U32 = 'U32'
+    Bool = "Bool"
 
 
 class FixedImpl(Enum):
@@ -62,6 +63,10 @@ def make_test(inputs: [Tensor], output: Tensor, func_sig: str, file_name: str, t
             code.append("\n\nuse array::{ArrayTrait, SpanTrait};\n")
             code.append("use orion::operators::tensor::TensorTrait;\n")
             match type_of_first_input:
+                case Dtype.Bool:
+                    code.append(
+                        "use orion::operators::tensor::BoolTensor;\n"
+                    )
                 case Dtype.U32:
                     code.append(
                         "use orion::operators::tensor::U32Tensor;\n")
@@ -78,6 +83,9 @@ def make_test(inputs: [Tensor], output: Tensor, func_sig: str, file_name: str, t
                     code.append(
                         "use orion::operators::tensor::FP16x16Tensor;\n")
             match type_of_output:
+                case Dtype.Bool:
+                    code.append(
+                        "use orion::operators::tensor::BoolTensorPartialEq;\n")
                 case Dtype.U32:
                     code.append(
                         "use orion::operators::tensor::U32TensorPartialEq;\n")
@@ -169,6 +177,9 @@ def __build_tensor_code(tensor: Tensor, name: str, type_string: str, is_fixed: b
     ]
 
     match tensor.dtype:
+        case Dtype.Bool:
+            result.append(
+                "use orion::operators::tensor::BoolTensor;\n")
         case Dtype.U32:
             result.append(
                 "use orion::operators::tensor::U32Tensor;\n")
@@ -198,7 +209,10 @@ def __build_tensor_code(tensor: Tensor, name: str, type_string: str, is_fixed: b
                 "use orion::numbers::FP16x16;\n")
 
     result.append(f"\nfn {name}() -> Tensor<{type_string}> {{\n")
-    result.append("    let mut shape = ArrayTrait::<usize>::new();\n")
+    if Dtype.Bool:  
+        result.append("    let mut shape = ArrayTrait::new();\n")
+    else: 
+        result.append("    let mut shape = ArrayTrait::<usize>::new();\n")
     for dim in tensor.shape:
         result.append(f"    shape.append({dim});\n")
     result.append("\n    let mut data = ArrayTrait::new();\n")
@@ -206,6 +220,10 @@ def __build_tensor_code(tensor: Tensor, name: str, type_string: str, is_fixed: b
         for val in tensor.data:
             result.append(
                 f"    data.append({type_string} {{ mag: {abs(int(val))}, sign: {str(val < 0).lower()} }});\n")
+    elif ((is_signed_int== False) & (is_fixed == False)):
+        for val in tensor.data:
+            result.append(
+                f"    data.append({str(val < 0).lower()});\n")
     else:
         for val in tensor.data:
             result.append(f"    data.append({abs(int(val))});\n")
@@ -222,6 +240,7 @@ def __convert_tensor_to_cairo(tensor: Tensor, name: str) -> []:
         Dtype.I32: ('i32', False, True),
         Dtype.I8: ('i8', False, True),
         Dtype.U32: ('u32', False, False),
+        Dtype.Bool: ('bool', False, False),
     }
 
     dtype_info = dtype_mapping.get(tensor.dtype)

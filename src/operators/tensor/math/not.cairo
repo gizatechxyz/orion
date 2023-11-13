@@ -4,10 +4,10 @@ use option::OptionTrait;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
+use orion::operators::tensor::implementations::{tensor_bool::BoolTensor};
 
 
 // Cf TensorTrait::not docstring
-
 fn not <
     T,
     MAG,
@@ -16,13 +16,13 @@ fn not <
     impl TPartialOrd: PartialOrd<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
-> (mut z: Tensor<T>) -> Tensor<T> {
-    let mut data_result = ArrayTrait::<T>::new();
+> (mut z: Tensor<bool>) -> Tensor<bool> {
+    let mut data_result = ArrayTrait::<bool>::new();
 
     loop {
         match z.data.pop_front() {
             Option::Some(item) => {
-                data_result.append(!*item);
+                data_result.append((!*item));
                
             },
             Option::None(_) => {
