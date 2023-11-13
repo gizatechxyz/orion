@@ -328,6 +328,15 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn reduce_l2(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
+
+    fn reduce_mean(
+        self: @Tensor<FP16x16W>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP16x16W> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.
