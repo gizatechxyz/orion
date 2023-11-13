@@ -310,6 +310,10 @@ impl U32Tensor of TensorTrait<u32> {
     fn reduce_l2(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
+
+    fn sequence_empty() -> Array<Tensor<u32>> {
+        math::sequence_empty::sequence_empty::<u32>()
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

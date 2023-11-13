@@ -318,6 +318,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     ) -> Tensor<FP8x23W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+
+    fn sequence_empty() -> Array<Tensor<FP8x23W>> {
+        math::sequence_empty::sequence_empty::<FP8x23W>()
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

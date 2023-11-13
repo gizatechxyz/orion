@@ -654,3 +654,8 @@ mod reduce_l1_i8_export_negative_axes_keepdims;
 mod reduce_l1_u32_export_do_not_keepdims;
 mod reduce_l1_u32_export_keepdims;
 mod reduce_l1_u32_export_negative_axes_keepdims;
+mod sequence_empty_fp16x16;
+mod sequence_empty_fp8x23;
+mod sequence_empty_i32;
+mod sequence_empty_i8;
+mod sequence_empty_u32;
