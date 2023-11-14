@@ -21,7 +21,7 @@ fn shrink<
     let bias: T = if bias.is_some() {
         bias.unwrap()
     } else {
-        NumberTrait::one()
+        NumberTrait::zero()
     };
 
     let lambd: T = if lambd.is_some() {

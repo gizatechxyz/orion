@@ -654,3 +654,7 @@ mod reduce_l1_i8_export_negative_axes_keepdims;
 mod reduce_l1_u32_export_do_not_keepdims;
 mod reduce_l1_u32_export_keepdims;
 mod reduce_l1_u32_export_negative_axes_keepdims;
+mod shrink_hard_fp16x16;
+mod shrink_soft_fp16x16;
+mod shrink_hard_fp8x23;
+mod shrink_soft_fp8x23;
