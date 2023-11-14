@@ -1,7 +1,7 @@
 # tensor.binarizer
 
 ```rust
- fn binarizer(self: @Tensor<T>, threshold: @T) -> Tensor<T>
+ fn binarizer(self: @Tensor<T>, threshold: Option<T>) -> Tensor<T>
 ```
 
 Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
