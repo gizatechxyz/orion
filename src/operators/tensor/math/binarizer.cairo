@@ -15,14 +15,21 @@ fn binarizer<
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
 >(
-    mut self: Tensor<T>, threshold: @T
+    mut self: Tensor<T>, threshold: Option<T>
 ) -> Tensor<T> {
+
+    let threshold: T = if threshold.is_some() {
+        threshold.unwrap()
+    } else {
+        NumberTrait::zero()
+    };
+
     let mut binarized_data = ArrayTrait::<T>::new();
 
     loop {
         match self.data.pop_front() {
             Option::Some(item) => {
-                if (*item) > (*threshold) {
+                if (*item) > threshold {
                     binarized_data.append(NumberTrait::one());
                 } else {
                     binarized_data.append(NumberTrait::zero());

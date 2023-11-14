@@ -288,7 +288,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::scatter::scatter(self, updates, indices,  axis, reduction)
     }
 
-    fn binarizer(self: @Tensor<FP8x23>, threshold: @FP8x23) -> Tensor<FP8x23> {
+    fn binarizer(self: @Tensor<FP8x23>, threshold: Option<FP8x23>) -> Tensor<FP8x23> {
         math::binarizer::binarizer(*self, threshold)
     }
 }

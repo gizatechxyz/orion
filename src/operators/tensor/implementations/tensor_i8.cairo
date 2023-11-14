@@ -287,7 +287,7 @@ impl I8Tensor of TensorTrait<i8> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
-    fn binarizer(self: @Tensor<i8>, threshold: @i8) -> Tensor<i8> {
+    fn binarizer(self: @Tensor<i8>, threshold: Option<i8>) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
 }

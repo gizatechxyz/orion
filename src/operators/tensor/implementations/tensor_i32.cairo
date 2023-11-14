@@ -288,8 +288,8 @@ impl I32Tensor of TensorTrait<i32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
-    fn binarizer(self: @Tensor<i32>, threshold: @i32) -> Tensor<i32> {
-        math::binarizer::binarizer(*self, threshold)
+    fn binarizer(self: @Tensor<i32>, threshold: Option<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
     }
 }
 

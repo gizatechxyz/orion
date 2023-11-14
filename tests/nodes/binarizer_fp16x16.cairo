@@ -15,7 +15,7 @@ fn test_binarizer_fp16x16() {
     let input_0 = input_0::input_0();
     let z = output_0::output_0();
 
-    let y = TensorTrait::binarizer(@input_0, @FixedTrait::new(65536, false));
+    let y = TensorTrait::binarizer(@input_0, Option::Some(FixedTrait::new(65536, false)));
 
     assert_eq(y, z);
 }

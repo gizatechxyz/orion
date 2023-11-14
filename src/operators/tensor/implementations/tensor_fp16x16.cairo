@@ -288,7 +288,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
-    fn binarizer(self: @Tensor<FP16x16>, threshold: @FP16x16) -> Tensor<FP16x16> {
+    fn binarizer(self: @Tensor<FP16x16>, threshold: Option<FP16x16>) -> Tensor<FP16x16> {
         math::binarizer::binarizer(*self, threshold)
     }
 

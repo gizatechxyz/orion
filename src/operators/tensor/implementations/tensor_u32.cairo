@@ -269,7 +269,7 @@ impl U32Tensor of TensorTrait<u32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
-    fn binarizer(self: @Tensor<u32>, threshold: @u32) -> Tensor<u32> {
+    fn binarizer(self: @Tensor<u32>, threshold: Option<u32>) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
 }

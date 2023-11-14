@@ -529,5 +529,4 @@ mod scatter_u32_default;
 mod scatter_u32_axis1; 
 mod scatter_u32_add; 
 mod binarizer_fp16x16; 
-mod binarizer_fp8x23; 
-mod binarizer_i32; 
+mod binarizer_fp8x23;  

@@ -6,20 +6,6 @@ from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
 class Binarizer(RunAll):
 
     @staticmethod
-    def binarizer_i32():
-        x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.int32)
-        threshold = np.int32(1)
-        y = (x > threshold).astype(np.int32)
-
-        x = Tensor(Dtype.I32, x.shape, x.flatten())
-        y = Tensor(Dtype.I32, y.shape, y.flatten())
-
-        name = "binarizer_i32"
-        make_node([x], [y], name)
-        make_test([x], y, "TensorTrait::binarizer(@input_0, @IntegerTrait::new(1, false));", name)
-
-
-    @staticmethod
     def binarizer_fp8x23():
         x = np.random.uniform(-3, 3, (3, 3, 3)).astype(np.float64)
         threshold = np.float64(1)
@@ -32,7 +18,7 @@ class Binarizer(RunAll):
 
         name = "binarizer_fp8x23"
         make_node([x], [y], name)
-        make_test([x], y, "TensorTrait::binarizer(@input_0, @FixedTrait::new(8388608, false));", name)
+        make_test([x], y, "TensorTrait::binarizer(@input_0, Option::Some(FixedTrait::new(8388608, false));", name)
 
     
     @staticmethod
@@ -48,4 +34,4 @@ class Binarizer(RunAll):
 
         name = "binarizer_fp16x16"
         make_node([x], [y], name)
-        make_test([x], y, "TensorTrait::binarizer(@input_0, @FixedTrait::new(65536, false));", name)
+        make_test([x], y, "TensorTrait::binarizer(@input_0, Option::Some(FixedTrait::new(65536, false));", name)

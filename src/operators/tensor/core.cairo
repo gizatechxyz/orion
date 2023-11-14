@@ -3258,7 +3258,7 @@ trait TensorTrait<T> {
     /// >>> [0, 0, 0, 1]
     /// ```
     ///
-    fn binarizer(self: @Tensor<T>, threshold: @T) -> Tensor<T>;
+    fn binarizer(self: @Tensor<T>, threshold: Option<T>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

@@ -289,7 +289,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
-    fn binarizer(self: @Tensor<FP64x64>, threshold: @FP64x64) -> Tensor<FP64x64> {
+    fn binarizer(self: @Tensor<FP64x64>, threshold: Option<FP64x64>) -> Tensor<FP64x64> {
         math::binarizer::binarizer(*self, threshold)
     }
 
