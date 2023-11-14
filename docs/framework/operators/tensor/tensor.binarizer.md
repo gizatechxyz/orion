@@ -8,37 +8,39 @@ Maps the values of a tensor element-wise to 0 or 1 based on the comparison again
 
 ## Args
 * `self`(`@Tensor<T>`) - The input tensor to be binarized.
-* `threshold`(`@T`) - The threshold for the binarization operation.
+* `threshold`(`Option<T>`) - The threshold for the binarization operation.
 
 ## Returns
 A new `Tensor<T>` of the same shape as the input tensor with binarized values.
 
 ## Type Constraints
 
-Constrain input and output types to fixed point and int32 tensors.
+Constrain input and output types to fixed point numbers.
 
 ## Examples
 
 ```rust
 use array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
-use orion::numbers::{i32, IntegerTrait};
+use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
+use orion::numbers::{FixedTrait, FP8x23};
 
-fn binarizer_example() -> Tensor<i32> {
-    let tensor = TensorTrait::<i32>::new(
+fn binarizer_example() -> Tensor<FP8x23> {
+    let tensor = TensorTrait::<FP8x23>::new(
         shape: array![2, 2].span(),
         data: array![
-            IntegerTrait::new(1, true),
-            IntegerTrait::new(0, false),
-            IntegerTrait::new(1, false),
-            IntegerTrait::new(2, false),
+            FixedTrait::new(0, false),
+            FixedTrait::new(1, false),
+            FixedTrait::new(2, false),
+            FixedTrait::new(3, false)
         ]
             .span(),
     );
-    let threshold = IntegerTrait::<i32>::new(1, false)
+    let threshold = Option::Some(FixedTrait::new(1, false))
 
-    return tensor.binarizer(@tensor, @threshold);
+    return tensor.binarizer(@tensor, threshold);
 }
->>> [0, 0, 0, 1]
+>>> [0, 0, 8388608, 8388608]
+    // The fixed point representation of
+    [0, 0, 1, 1]
 ```
