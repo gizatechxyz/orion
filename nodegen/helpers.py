@@ -26,6 +26,7 @@ class Dtype(Enum):
     I8 = 'i8'
     I32 = 'i32'
     U32 = 'u32'
+    BOOL = 'bool'
 
 
 class Tensor:
@@ -131,6 +132,8 @@ def get_data_statement(data: np.ndarray, dtype: Dtype) -> list[str]:
             return ["FP8x23 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
         case Dtype.FP16x16:
             return ["FP16x16 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
+        case Dtype.BOOL:
+            return [str(x).lower() for x in data.flatten()]
 
 
 def get_data_statement_for_sequences(data: Sequence, dtype: Dtype) -> list[list[str]]:
@@ -146,6 +149,9 @@ def get_all_test_refs(dtypes: list[Dtype], trait: Trait, is_sequence: bool) -> l
 
 
 def get_test_refs(dtype: Dtype, trait: Trait, is_sequence: bool) -> list[str]:
+    if trait == Trait.NN and dtype == Dtype.BOOL:
+        raise Exception("NN trait does not support bool dtype")
+
     dtype_ref = dtype_to_nn[dtype] if trait == Trait.NN else dtype_to_tensor[dtype]
     refs = [
         *trait_to_ref[trait],
@@ -186,6 +192,7 @@ dtype_to_tensor = {
     Dtype.I8: ["orion::operators::tensor::I8Tensor",],
     Dtype.FP8x23: ["orion::operators::tensor::FP8x23Tensor",],
     Dtype.FP16x16: ["orion::operators::tensor::FP16x16Tensor",],
+    Dtype.BOOL: ["orion::operators::tensor::BoolTensor",],
 }
 
 
@@ -204,6 +211,7 @@ dtype_to_partial_eq = {
     Dtype.I8: ["orion::operators::tensor::I8TensorPartialEq",],
     Dtype.FP8x23: ["orion::operators::tensor::FP8x23TensorPartialEq",],
     Dtype.FP16x16: ["orion::operators::tensor::FP16x16TensorPartialEq",],
+    Dtype.BOOL: ["orion::operators::tensor::BoolTensorPartialEq",],
 }
 
 
@@ -213,4 +221,5 @@ dtype_to_numbers = {
     Dtype.I8: ["orion::numbers::{IntegerTrait, i8}",],
     Dtype.FP8x23: ["orion::numbers::{FixedTrait, FP8x23}",],
     Dtype.FP16x16: ["orion::numbers::{FixedTrait, FP16x16}",],
+    Dtype.BOOL: [],
 }
