@@ -29,6 +29,10 @@ impl FP8x23Impl of FixedTrait<FP8x23, u32> {
         return FP8x23 { mag: 0, sign: false };
     }
 
+    fn HALF() -> FP8x23 {
+        return FP8x23 { mag: HALF, sign: false };
+    }
+
     fn ONE() -> FP8x23 {
         return FP8x23 { mag: ONE, sign: false };
     }

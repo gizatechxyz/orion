@@ -341,6 +341,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn reduce_l2(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
+
+    fn shrink(self: Tensor<FP32x32>, bias: Option<FP32x32>, lambd: Option<FP32x32>) -> Tensor<FP32x32> {
+        math::shrink::shrink(self, bias, lambd)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

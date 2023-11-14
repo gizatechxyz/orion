@@ -3584,6 +3584,7 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn constant_of_shape(shape: Span<usize>, value: T) -> Tensor<T>;
+    fn shrink(self: Tensor<T>, bias: Option<T>, lambd: Option<T>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

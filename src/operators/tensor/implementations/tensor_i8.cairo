@@ -339,6 +339,10 @@ impl I8Tensor of TensorTrait<i8> {
     fn reduce_l2(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
+
+    fn shrink(self: Tensor<i8>, bias: Option<i8>, lambd: Option<i8>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

@@ -318,6 +318,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     ) -> Tensor<FP8x23W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+
+    fn shrink(self: Tensor<FP8x23W>, bias: Option<FP8x23W>, lambd: Option<FP8x23W>) -> Tensor<FP8x23W> {
+        math::shrink::shrink(self, bias, lambd)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

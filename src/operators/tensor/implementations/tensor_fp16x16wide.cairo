@@ -328,6 +328,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn reduce_l2(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
+
+    fn shrink(self: Tensor<FP16x16W>, bias: Option<FP16x16W>, lambd: Option<FP16x16W>) -> Tensor<FP16x16W> {
+        math::shrink::shrink(self, bias, lambd)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.

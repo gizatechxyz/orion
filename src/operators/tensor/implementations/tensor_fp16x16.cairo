@@ -340,6 +340,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+
+    fn shrink(self: Tensor<FP16x16>, bias: Option<FP16x16>, lambd: Option<FP16x16>) -> Tensor<FP16x16> {
+        math::shrink::shrink(self, bias, lambd)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

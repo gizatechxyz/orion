@@ -13,9 +13,15 @@ use orion::numbers::fixed_point::core::{FixedTrait};
 use orion::numbers::fixed_point::utils;
 use orion::numbers::{i32, i8};
 
+const HALF: u128 = 9223372036854775808_u128; // 2 ** 63
+
 impl FP64x64Impl of FixedTrait<FP64x64, u128> {
     fn ZERO() -> FP64x64 {
         return FP64x64 { mag: 0, sign: false };
+    }
+
+    fn HALF() -> FP64x64 {
+        return FP64x64 { mag: HALF, sign: false };
     }
 
     fn ONE() -> FP64x64 {

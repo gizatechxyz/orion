@@ -310,6 +310,10 @@ impl U32Tensor of TensorTrait<u32> {
     fn reduce_l2(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
+
+    fn shrink(self: Tensor<u32>, bias: Option<u32>, lambd: Option<u32>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

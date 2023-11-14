@@ -6,7 +6,7 @@ use traits::{TryInto, Into};
 
 use cubit::f64 as fp32x32;
 use cubit::f64::Fixed as FP32x32;
-use cubit::f64::ONE;
+use cubit::f64::{ONE, HALF};
 use cubit::f64::types::fixed;
 
 use orion::numbers::fixed_point::core::{FixedTrait};
@@ -18,6 +18,10 @@ const MAX: u64 = 9223372036854775808;
 impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     fn ZERO() -> FP32x32 {
         return FP32x32 { mag: 0, sign: false };
+    }
+
+    fn HALF() -> FP32x32 {
+        return FP32x32 { mag: HALF, sign: false };
     }
 
     fn ONE() -> FP32x32 {
