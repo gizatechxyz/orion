@@ -87,6 +87,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// where - Return elements chosen from x or y depending on condition.
 /// round - Computes the round value of all elements in the input tensor.
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
+/// array_feature_extractor – Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
