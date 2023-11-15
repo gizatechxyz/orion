@@ -10,7 +10,12 @@ fn output_0() -> Tensor<u32> {
 
     let mut data = ArrayTrait::new();
     data.append(1);
+    data.append(0);
     data.append(1);
+    data.append(1);
+    data.append(1);
+    data.append(0);
+    data.append(0);
     data.append(1);
     data.append(1);
     data.append(0);
@@ -20,21 +25,16 @@ fn output_0() -> Tensor<u32> {
     data.append(1);
     data.append(1);
     data.append(1);
-    data.append(0);
-    data.append(1);
     data.append(1);
     data.append(1);
     data.append(0);
-    data.append(0);
-    data.append(1);
-    data.append(0);
-    data.append(1);
-    data.append(1);
     data.append(1);
     data.append(1);
     data.append(1);
     data.append(0);
     data.append(1);
+    data.append(1);
     data.append(0);
+    data.append(1);
     TensorTrait::new(shape.span(), data.span())
 }
