@@ -370,6 +370,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     ) -> Tensor<FP16x16W> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
+
+    fn sequence_insert(self: Array<Tensor<FP16x16W>>, tensor: @Tensor<FP16x16W>, position: @Tensor<i32>) -> Array<Tensor<FP16x16W>> {
+	math::sequence_insert::sequence_insert(self, tensor, position)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.

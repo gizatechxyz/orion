@@ -30,7 +30,7 @@ class Sequence_insert(RunAll):
             expected_sequence.insert(position, tensor)
 
             name = "sequence_insert_u32"
-            make_test([sequence, tensor, scalar(position)], expected_sequence, "input_0.sequence_insert(input_1,input_2)", name)
+            make_test([sequence, tensor, scalar(position)], expected_sequence, "input_0.sequence_insert(@input_1,@input_2)", name)
 
         default()
 
@@ -56,7 +56,7 @@ class Sequence_insert(RunAll):
             expected_sequence.insert(position, tensor)
 
             name = "sequence_insert_i32"
-            make_test([sequence, tensor, scalar(position)], expected_sequence, "input_0.sequence_insert(input_1,input_2)", name)
+            make_test([sequence, tensor, scalar(position)], expected_sequence, "input_0.sequence_insert(@input_1,@input_2)", name)
 
         default()
 
@@ -82,7 +82,7 @@ class Sequence_insert(RunAll):
             expected_sequence.insert(position, tensor)
 
             name = "sequence_insert_i8"
-            make_test([sequence, tensor, scalar(position)], expected_sequence, "input_0.sequence_insert(input_1,input_2)", name)
+            make_test([sequence, tensor, scalar(position)], expected_sequence, "input_0.sequence_insert(@input_1,@input_2)", name)
 
         default()
 
@@ -110,7 +110,7 @@ class Sequence_insert(RunAll):
             expected_sequence.insert(position, tensor)
 
             name = "sequence_insert_fp8x23"
-            make_test([sequence, tensor, scalar(position)], expected_sequence, "input_0.sequence_insert(input_1,input_2)", name)
+            make_test([sequence, tensor, scalar(position)], expected_sequence, "input_0.sequence_insert(@input_1,@input_2)", name)
 
         default()
 
@@ -138,6 +138,6 @@ class Sequence_insert(RunAll):
             expected_sequence.insert(position, tensor)
 
             name = "sequence_insert_fp16x16"
-            make_test([sequence, tensor, scalar(position)], expected_sequence, "input_0.sequence_insert(input_1,input_2)", name)
+            make_test([sequence, tensor, scalar(position)], expected_sequence, "input_0.sequence_insert(@input_1,@input_2)", name)
 
         default()
