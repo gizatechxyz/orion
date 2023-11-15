@@ -94,6 +94,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
+/// sequence_length - Returns the length of the input sequence.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -3584,6 +3585,8 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn constant_of_shape(shape: Span<usize>, value: T) -> Tensor<T>;
+    /// TODO
+    fn sequence_length(self: Array<Tensor<T>>) -> Tensor<u32>;
 }
 
 /// Cf: TensorTrait::new docstring
