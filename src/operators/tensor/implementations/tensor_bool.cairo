@@ -312,6 +312,10 @@ impl BoolTensor of TensorTrait<bool> {
     fn constant_of_shape(shape: Span<usize>, value: bool) -> Tensor<bool> {
         constant_of_shape(shape, value)
     }
+
+    fn sequence_construct(tensors: Array<Tensor<bool>>) -> Array<Tensor<bool>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

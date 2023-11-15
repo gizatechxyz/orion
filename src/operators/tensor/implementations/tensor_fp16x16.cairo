@@ -340,6 +340,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+
+    fn sequence_construct(tensors: Array<Tensor<FP16x16>>) -> Array<Tensor<FP16x16>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

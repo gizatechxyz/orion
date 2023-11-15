@@ -3584,6 +3584,7 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn constant_of_shape(shape: Span<usize>, value: T) -> Tensor<T>;
+    fn sequence_construct(tensors: Array<Tensor<T>>) -> Array<Tensor<T>>;
 }
 
 /// Cf: TensorTrait::new docstring

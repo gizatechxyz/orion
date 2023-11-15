@@ -341,6 +341,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> Tensor<FP64x64> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+
+    fn sequence_construct(tensors: Array<Tensor<FP64x64>>) -> Array<Tensor<FP64x64>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

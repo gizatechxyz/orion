@@ -339,6 +339,10 @@ impl I8Tensor of TensorTrait<i8> {
     fn reduce_l2(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
+
+    fn sequence_construct(tensors: Array<Tensor<i8>>) -> Array<Tensor<i8>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
