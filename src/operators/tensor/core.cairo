@@ -94,6 +94,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
+/// shrink – Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
