@@ -340,6 +340,15 @@ impl I32Tensor of TensorTrait<i32> {
     fn reduce_l2(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
+
+    fn reduce_min(
+        self: @Tensor<i32>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<i32> {
+        math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.
