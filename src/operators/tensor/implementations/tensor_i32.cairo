@@ -340,6 +340,10 @@ impl I32Tensor of TensorTrait<i32> {
     fn reduce_l2(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
+
+    fn sequence_at(sequence: Array<Tensor<i32>>, index: Tensor<i32>) -> Tensor<i32> {
+        math::sequence_at::sequence_at(sequence, index)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

@@ -328,6 +328,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn reduce_l2(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
+
+    fn sequence_at(sequence: Array<Tensor<FP16x16W>>, index: Tensor<i32>) -> Tensor<FP16x16W> {
+        math::sequence_at::sequence_at(sequence, index)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.

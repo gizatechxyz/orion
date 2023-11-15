@@ -340,6 +340,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn reduce_l2(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
+
+    fn sequence_at(sequence: Array<Tensor<FP8x23>>, index: Tensor<i32>) -> Tensor<FP8x23> {
+        math::sequence_at::sequence_at(sequence, index)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.
