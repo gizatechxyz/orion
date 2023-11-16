@@ -16,7 +16,7 @@ fn sequence_at<
 
     let position_value_i32: i32 = *position.data.at(0);
     let is_negative: bool = position_value_i32.sign;
-    let position_value = position_value_i32.mag;
+    let position_value: u32 = position_value_i32.mag;
 
     assert((is_negative == false && position_value <= sequence.len() - 1) || (is_negative == true && position_value <= sequence.len()), 'Position out of bounds');
     

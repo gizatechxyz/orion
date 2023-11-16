@@ -100,6 +100,7 @@
     * [tensor.reduce\_sum\_square](framework/operators/tensor/tensor.reduce\_sum\_square.md)
     * [tensor.reduce\_l2](framework/operators/tensor/tensor.reduce\_l2.md)
     * [tensor.reduce\_l1](framework/operators/tensor/tensor.reduce\_l1.md)
+    * [tensor.sequence\_at](framework/operators/tensor/tensor.sequence\_at.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)

@@ -94,6 +94,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
+/// sequence_at – Outputs the tensor at the specified position in the input sequence.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -3584,6 +3585,52 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn constant_of_shape(shape: Span<usize>, value: T) -> Tensor<T>;
+    /// ## tensor.sequence_at
+    ///
+    /// ```rust 
+    ///    fn sequence_at(sequence: Array<Tensor<T>>, position: Tensor<i32>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Outputs the tensor at the specified position in the input sequence.
+    ///
+    /// ## Args
+    ///
+    /// * `tensors`(`Array<Tensor<T>>`) - The tensor sequence.
+    /// * `position`(`Tensor<i32>`) - The position tensor.
+    ///
+    /// ## Panics 
+    /// 
+    /// * Panics if position is not a scalar
+    /// * Panics if position is out of bounds [-n, n - 1]
+    ///
+    /// ## Returns
+    ///
+    /// The tensor `Tensor<T>` from the sequence at the specified position.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor, I32Tensor};
+    /// use orion::numbers::{i32, IntegerTrait};
+    ///
+    /// fn sequence_at_example() -> Tensor<u32> {
+    ///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span());
+    ///     let tensor2 = TensorTrait::new(shape: array![2, 2].span(), data: array![4, 5, 6, 7].span());
+    ///     
+    ///     let mut sequence = ArrayTrait::new();
+    ///     sequence.append(tensor1);
+    ///     sequence.append(tensor2);
+    ///
+    ///     let position = TensorTrait::new(shape: array![].span(), data: array![IntegerTrait::new(1, false)].span());
+    ///
+    ///     let result = TensorTrait::sequence_at(sequence, position);
+    ///     return result;
+    /// }
+    /// >>> [4, 5, 6, 7]
+    /// ```
+    ///
     fn sequence_at(sequence: Array<Tensor<T>>, position: Tensor<i32>) -> Tensor<T>;
 }
 
