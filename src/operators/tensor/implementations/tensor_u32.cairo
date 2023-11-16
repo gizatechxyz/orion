@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::tensor_i8::I8Tensor;
 
@@ -303,6 +303,10 @@ impl U32Tensor of TensorTrait<u32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn array_feature_extractor(self: @Tensor<u32>, indices: Tensor<usize>) -> Tensor<u32> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
+    }
+    
     fn binarizer(self: @Tensor<u32>, threshold: Option<u32>) -> Tensor<u32> {
         panic(array!['not supported!'])
     }

@@ -97,6 +97,7 @@
     * [tensor.bitwise_and](framework/operators/tensor/tensor.bitwise_and.md)
     * [tensor.round](framework/operators/tensor/tensor.round.md)
     * [tensor.scatter](framework/operators/tensor/tensor.scatter.md)
+    * [tensor.array_feature_extractor](framework/operators/tensor/tensor.array\_feature\_extractor.md)
     * [tensor.binarizer](framework/operators/tensor/tensor.binarizer.md)
     * [tensor.reduce\_sum\_square](framework/operators/tensor/tensor.reduce\_sum\_square.md)
     * [tensor.reduce\_l2](framework/operators/tensor/tensor.reduce\_l2.md)
