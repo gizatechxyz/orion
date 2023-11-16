@@ -321,7 +321,9 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
-    fn array_feature_extractor(self: @Tensor<FP16x16W>, indices: Tensor<usize>) -> Tensor<FP16x16W> {
+    fn array_feature_extractor(
+        self: @Tensor<FP16x16W>, indices: Tensor<usize>
+    ) -> Tensor<FP16x16W> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
 
@@ -340,15 +342,17 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn sequence_construct(tensors: Array<Tensor<FP16x16W>>) -> Array<Tensor<FP16x16W>> {
         math::sequence_construct::sequence_construct(tensors)
     }
-    
-    fn shrink(self: Tensor<FP16x16W>, bias: Option<FP16x16W>, lambd: Option<FP16x16W>) -> Tensor<FP16x16W> {
-        math::shrink::shrink(self, bias, lambd) 
+
+    fn shrink(
+        self: Tensor<FP16x16W>, bias: Option<FP16x16W>, lambd: Option<FP16x16W>
+    ) -> Tensor<FP16x16W> {
+        math::shrink::shrink(self, bias, lambd)
     }
-    
+
     fn sequence_empty() -> Array<Tensor<FP16x16W>> {
         math::sequence_empty::sequence_empty::<FP16x16W>()
     }
-    
+
     fn reduce_mean(
         self: @Tensor<FP16x16W>,
         axes: Option<Span<usize>>,

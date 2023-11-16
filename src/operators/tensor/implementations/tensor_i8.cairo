@@ -335,10 +335,9 @@ impl I8Tensor of TensorTrait<i8> {
     fn array_feature_extractor(self: @Tensor<i8>, indices: Tensor<usize>) -> Tensor<i8> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
-    
-    fn binarizer(self: @Tensor<i8>, threshold: Option<i8>) -> Tensor<i8> {
-                panic(array!['not supported!'])
 
+    fn binarizer(self: @Tensor<i8>, threshold: Option<i8>) -> Tensor<i8> {
+        panic(array!['not supported!'])
     }
 
     fn reduce_sum_square(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
@@ -352,15 +351,15 @@ impl I8Tensor of TensorTrait<i8> {
     fn sequence_construct(tensors: Array<Tensor<i8>>) -> Array<Tensor<i8>> {
         math::sequence_construct::sequence_construct(tensors)
     }
-    
+
     fn shrink(self: Tensor<i8>, bias: Option<i8>, lambd: Option<i8>) -> Tensor<i8> {
-        panic(array!['not supported!']) 
+        panic(array!['not supported!'])
     }
-    
+
     fn sequence_empty() -> Array<Tensor<i8>> {
         math::sequence_empty::sequence_empty::<i8>()
     }
-    
+
     fn reduce_mean(
         self: @Tensor<i8>,
         axes: Option<Span<usize>>,

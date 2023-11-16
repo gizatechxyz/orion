@@ -306,11 +306,11 @@ impl U32Tensor of TensorTrait<u32> {
     fn array_feature_extractor(self: @Tensor<u32>, indices: Tensor<usize>) -> Tensor<u32> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
-    
+
     fn binarizer(self: @Tensor<u32>, threshold: Option<u32>) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
-    
+
     fn reduce_sum_square(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
@@ -322,15 +322,15 @@ impl U32Tensor of TensorTrait<u32> {
     fn sequence_construct(tensors: Array<Tensor<u32>>) -> Array<Tensor<u32>> {
         math::sequence_construct::sequence_construct(tensors)
     }
-    
+
     fn shrink(self: Tensor<u32>, bias: Option<u32>, lambd: Option<u32>) -> Tensor<u32> {
-        panic(array!['not supported!']) 
+        panic(array!['not supported!'])
     }
-    
+
     fn sequence_empty() -> Array<Tensor<u32>> {
         math::sequence_empty::sequence_empty::<u32>()
     }
-    
+
     fn reduce_mean(
         self: @Tensor<u32>,
         axes: Option<Span<usize>>,

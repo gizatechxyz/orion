@@ -9,7 +9,9 @@ use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
-use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices, get_all_axes};
+use orion::operators::tensor::helpers::{
+    reduce_output_shape, len_from_shape, combine_indices, get_all_axes
+};
 
 use alexandria_sorting::bubble_sort;
 use alexandria_data_structures::array_ext::{SpanTraitExt};
@@ -32,27 +34,20 @@ fn reduce_min<
 ) -> Tensor<T> {
     let noop_with_empty_axes = match noop_with_empty_axes {
         Option::Some(noop_with_empty_axes) => noop_with_empty_axes,
-        Option::None(_) => {
-            false
-        },
+        Option::None(_) => { false },
     };
     let axes = match axes {
         Option::Some(axes) => {
-            if(axes.len() == 0) {
+            if (axes.len() == 0) {
                 get_all_axes(*self.shape)
-            }
-            else {
+            } else {
                 assert(axes.len() == axes.unique().len(), 'duplicated axis.');
                 let mut axes_arr = ArrayTrait::new();
                 let mut copy_axes = axes;
                 loop {
                     match copy_axes.pop_front() {
-                        Option::Some(axis) => {
-                            axes_arr.append(*axis);
-                        },
-                        Option::None(_) => {
-                            break;
-                        }
+                        Option::Some(axis) => { axes_arr.append(*axis); },
+                        Option::None(_) => { break; }
                     };
                 };
                 let sorted_axes = bubble_sort::bubble_sort_elements(axes_arr).span();
@@ -68,11 +63,9 @@ fn reduce_min<
     };
     let keepdims = match keepdims {
         Option::Some(keepdims) => keepdims,
-        Option::None(_) => {
-            true
-        },
+        Option::None(_) => { true },
     };
-    
+
     let mut axis_c = 0;
     let mut copy_axes = axes;
     let mut shape = *self.shape;
@@ -84,15 +77,15 @@ fn reduce_min<
                     let current_min = accumulate_min::<T>(data, shape, shape, 0);
                     shape = array![].span();
                     data = array![current_min].span();
-                    break();
+                    break ();
                 }
                 let mut temp_data = ArrayTrait::new();
-                let mut temp_shape = reduce_output_shape(shape, *axis-axis_c, false);
+                let mut temp_shape = reduce_output_shape(shape, *axis - axis_c, false);
                 let data_len = len_from_shape(temp_shape);
                 let mut index: usize = 0;
                 loop {
                     let indices = unravel_index(index, temp_shape);
-                    let current_min = accumulate_min::<T>(data, shape, indices, *axis-axis_c);
+                    let current_min = accumulate_min::<T>(data, shape, indices, *axis - axis_c);
 
                     temp_data.append(current_min);
 
@@ -105,23 +98,17 @@ fn reduce_min<
                 data = temp_data.span();
                 axis_c += 1;
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
-    
+
     let mut axes_copy = axes;
     if keepdims == true {
         shape = *self.shape;
         loop {
             match axes_copy.pop_front() {
-                Option::Some(axis) => {
-                    shape = reduce_output_shape(shape, *axis, true);
-                },
-                Option::None(_) => {
-                    break;
-                }
+                Option::Some(axis) => { shape = reduce_output_shape(shape, *axis, true); },
+                Option::None(_) => { break; }
             };
         };
         return TensorTrait::<T>::new(shape, data);
@@ -176,11 +163,9 @@ fn accumulate_min<
     } else {
         loop {
             match input_data.pop_front() {
-                Option::Some(item) => { 
-                    if (*item < min) {
-                        min = *item;
-                    }
-                },
+                Option::Some(item) => { if (*item < min) {
+                    min = *item;
+                } },
                 Option::None(_) => { break; }
             };
         };

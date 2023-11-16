@@ -15,7 +15,11 @@ fn test_shrink_soft_fp16x16() {
     let input_0 = input_0::input_0();
     let z = output_0::output_0();
 
-    let y = TensorTrait::shrink(input_0, Option::Some(FixedTrait::new(65536, false)), Option::Some(FixedTrait::new(65536, false)));
+    let y = TensorTrait::shrink(
+        input_0,
+        Option::Some(FixedTrait::new(65536, false)),
+        Option::Some(FixedTrait::new(65536, false))
+    );
 
     assert_eq(y, z);
 }

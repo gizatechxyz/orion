@@ -337,11 +337,11 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn array_feature_extractor(self: @Tensor<FP32x32>, indices: Tensor<usize>) -> Tensor<FP32x32> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
-    
+
     fn binarizer(self: @Tensor<FP32x32>, threshold: Option<FP32x32>) -> Tensor<FP32x32> {
         math::binarizer::binarizer(*self, threshold)
     }
-    
+
     fn reduce_sum_square(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
@@ -353,15 +353,17 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn sequence_construct(tensors: Array<Tensor<FP32x32>>) -> Array<Tensor<FP32x32>> {
         math::sequence_construct::sequence_construct(tensors)
     }
-    
-    fn shrink(self: Tensor<FP32x32>, bias: Option<FP32x32>, lambd: Option<FP32x32>) -> Tensor<FP32x32> {
+
+    fn shrink(
+        self: Tensor<FP32x32>, bias: Option<FP32x32>, lambd: Option<FP32x32>
+    ) -> Tensor<FP32x32> {
         math::shrink::shrink(self, bias, lambd)
     }
-    
+
     fn sequence_empty() -> Array<Tensor<FP32x32>> {
         math::sequence_empty::sequence_empty::<FP32x32>()
     }
-    
+
     fn reduce_mean(
         self: @Tensor<FP32x32>,
         axes: Option<Span<usize>>,

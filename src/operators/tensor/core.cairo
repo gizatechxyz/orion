@@ -3734,7 +3734,12 @@ trait TensorTrait<T> {
     /// >>> [[1,2],[5,6]]
     /// ```
     ///
-    fn reduce_mean(self: @Tensor<T>, axes: Option<Span<usize>>, keepdims: Option<bool>, noop_with_empty_axes: Option<bool>) -> Tensor<T>;
+    fn reduce_mean(
+        self: @Tensor<T>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<T>;
     /// # tensor.sequence_empty
     ///
     /// ```rust
@@ -3903,7 +3908,12 @@ trait TensorTrait<T> {
     /// >>> [[0,1],[4,5]]
     /// ```
     ///
-    fn reduce_min(self: @Tensor<T>, axes: Option<Span<usize>>, keepdims: Option<bool>, noop_with_empty_axes: Option<bool>) -> Tensor<T>;
+    fn reduce_min(
+        self: @Tensor<T>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

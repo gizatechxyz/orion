@@ -305,7 +305,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn binarizer(self: @Tensor<FP8x23W>, threshold: Option<FP8x23W>) -> Tensor<FP8x23W> {
         math::binarizer::binarizer(*self, threshold)
     }
- 
+
     fn reduce_sum_square(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
@@ -331,15 +331,17 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn sequence_construct(tensors: Array<Tensor<FP8x23W>>) -> Array<Tensor<FP8x23W>> {
         math::sequence_construct::sequence_construct(tensors)
     }
-    
-    fn shrink(self: Tensor<FP8x23W>, bias: Option<FP8x23W>, lambd: Option<FP8x23W>) -> Tensor<FP8x23W> {
-        math::shrink::shrink(self, bias, lambd) 
+
+    fn shrink(
+        self: Tensor<FP8x23W>, bias: Option<FP8x23W>, lambd: Option<FP8x23W>
+    ) -> Tensor<FP8x23W> {
+        math::shrink::shrink(self, bias, lambd)
     }
-    
+
     fn sequence_empty() -> Array<Tensor<FP8x23W>> {
         math::sequence_empty::sequence_empty::<FP8x23W>()
     }
-    
+
     fn reduce_mean(
         self: @Tensor<FP8x23W>,
         axes: Option<Span<usize>>,
@@ -357,8 +359,6 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     ) -> Tensor<FP8x23W> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
-
-    
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

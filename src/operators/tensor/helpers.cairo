@@ -328,7 +328,7 @@ fn replace_index(mut shape: Span<usize>, index: usize, value: usize) -> Span<usi
 ///
 /// # Returns
 /// * `Span<usize>` - A span containing the usize elements representing the axes.
-fn get_all_axes(shape: Span<usize>) -> Span<usize>{
+fn get_all_axes(shape: Span<usize>) -> Span<usize> {
     let mut ret: Array<usize> = ArrayTrait::new();
     let mut i: usize = 0;
     let stop_i = shape.len() - 1;

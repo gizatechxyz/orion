@@ -336,7 +336,7 @@ impl I32Tensor of TensorTrait<i32> {
     fn array_feature_extractor(self: @Tensor<i32>, indices: Tensor<usize>) -> Tensor<i32> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
-    
+
     fn binarizer(self: @Tensor<i32>, threshold: Option<i32>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
@@ -352,15 +352,15 @@ impl I32Tensor of TensorTrait<i32> {
     fn sequence_construct(tensors: Array<Tensor<i32>>) -> Array<Tensor<i32>> {
         math::sequence_construct::sequence_construct(tensors)
     }
-    
+
     fn shrink(self: Tensor<i32>, bias: Option<i32>, lambd: Option<i32>) -> Tensor<i32> {
-        panic(array!['not supported!']) 
+        panic(array!['not supported!'])
     }
-    
+
     fn sequence_empty() -> Array<Tensor<i32>> {
         math::sequence_empty::sequence_empty::<i32>()
     }
-    
+
     fn reduce_mean(
         self: @Tensor<i32>,
         axes: Option<Span<usize>>,

@@ -57,7 +57,9 @@ trait NumberTrait<T, MAG> {
     fn sub(lhs: T, rhs: T) -> T;
 }
 
-use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23, FP8x23Add, FP8x23Sub};
+use orion::numbers::fixed_point::implementations::fp8x23::core::{
+    FP8x23Impl, FP8x23, FP8x23Add, FP8x23Sub
+};
 use orion::numbers::fixed_point::implementations::fp8x23::math::core as core_fp8x23;
 use orion::numbers::fixed_point::implementations::fp8x23::math::comp as comp_fp8x23;
 
@@ -258,7 +260,9 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
     }
 }
 
-use orion::numbers::fixed_point::implementations::fp8x23wide::core::{FP8x23WImpl, FP8x23W, FP8x23WAdd, FP8x23WSub};
+use orion::numbers::fixed_point::implementations::fp8x23wide::core::{
+    FP8x23WImpl, FP8x23W, FP8x23WAdd, FP8x23WSub
+};
 use orion::numbers::fixed_point::implementations::fp8x23wide::math::core as core_fp8x23wide;
 use orion::numbers::fixed_point::implementations::fp8x23wide::math::comp as comp_fp8x23wide;
 
@@ -459,7 +463,9 @@ impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
     }
 }
 
-use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16, FP16x16Add, FP16x16Sub};
+use orion::numbers::fixed_point::implementations::fp16x16::core::{
+    FP16x16Impl, FP16x16, FP16x16Add, FP16x16Sub
+};
 use orion::numbers::fixed_point::implementations::fp16x16::math::core as core_fp16x16;
 use orion::numbers::fixed_point::implementations::fp16x16::math::comp as comp_fp16x16;
 
@@ -660,7 +666,9 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
     }
 }
 
-use orion::numbers::fixed_point::implementations::fp16x16wide::core::{FP16x16WImpl, FP16x16W, FP16x16WAdd, FP16x16WSub};
+use orion::numbers::fixed_point::implementations::fp16x16wide::core::{
+    FP16x16WImpl, FP16x16W, FP16x16WAdd, FP16x16WSub
+};
 use orion::numbers::fixed_point::implementations::fp16x16wide::math::core as core_fp16x16wide;
 use orion::numbers::fixed_point::implementations::fp16x16wide::math::comp as comp_fp16x16wide;
 
@@ -861,7 +869,9 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
     }
 }
 
-use orion::numbers::fixed_point::implementations::fp64x64::core::{FP64x64Impl, FP64x64, FP64x64Add, FP64x64Sub};
+use orion::numbers::fixed_point::implementations::fp64x64::core::{
+    FP64x64Impl, FP64x64, FP64x64Add, FP64x64Sub
+};
 use orion::numbers::fixed_point::implementations::fp64x64::core as core_fp64x64;
 use orion::numbers::fixed_point::implementations::fp64x64::comp as comp_fp64x64;
 use cubit::f128 as fp64x64;
@@ -1063,7 +1073,9 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
     }
 }
 
-use orion::numbers::fixed_point::implementations::fp32x32::core::{FP32x32Impl, FP32x32, FP32x32Add, FP32x32Sub};
+use orion::numbers::fixed_point::implementations::fp32x32::core::{
+    FP32x32Impl, FP32x32, FP32x32Add, FP32x32Sub
+};
 use orion::numbers::fixed_point::implementations::fp32x32::core as core_fp32x32;
 use orion::numbers::fixed_point::implementations::fp32x32::comp as comp_fp32x32;
 use cubit::f64 as fp32x32;

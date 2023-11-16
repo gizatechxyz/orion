@@ -344,15 +344,15 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn sequence_construct(tensors: Array<Tensor<FP8x23>>) -> Array<Tensor<FP8x23>> {
         math::sequence_construct::sequence_construct(tensors)
     }
-    
+
     fn shrink(self: Tensor<FP8x23>, bias: Option<FP8x23>, lambd: Option<FP8x23>) -> Tensor<FP8x23> {
-        math::shrink::shrink(self, bias, lambd) 
+        math::shrink::shrink(self, bias, lambd)
     }
-    
+
     fn sequence_empty() -> Array<Tensor<FP8x23>> {
         math::sequence_empty::sequence_empty::<FP8x23>()
     }
-    
+
     fn reduce_mean(
         self: @Tensor<FP8x23>,
         axes: Option<Span<usize>>,
@@ -361,7 +361,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
     }
-    
+
     fn binarizer(self: @Tensor<FP8x23>, threshold: Option<FP8x23>) -> Tensor<FP8x23> {
         math::binarizer::binarizer(*self, threshold)
     }
@@ -378,8 +378,6 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
-
-    
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.
