@@ -24,9 +24,7 @@ fn min_in_tensor<
                     min_value = check_min;
                 }
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 

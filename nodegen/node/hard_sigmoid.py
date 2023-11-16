@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 class Hard_sigmoid(RunAll):
 
@@ -17,7 +17,6 @@ class Hard_sigmoid(RunAll):
             y.flatten(), FixedImpl.FP8x23))
 
         name = "hard_sigmoid_fp8x23"
-        make_node([x], [y], name)
         make_test([x], y, "NNTrait::hard_sigmoid(@input_0, @FixedTrait::new(1677721, false), @FixedTrait::new(4194304, false))",
                     name, Trait.NN)
 
@@ -34,7 +33,6 @@ class Hard_sigmoid(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "hard_sigmoid_fp16x16"
-        make_node([x], [y], name)
         make_test([x], y, "NNTrait::hard_sigmoid(@input_0, @FixedTrait::new(13107, false), @FixedTrait::new(32768, false))",
                     name, Trait.NN)
 

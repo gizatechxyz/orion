@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 
 class Nonzero(RunAll):
@@ -14,7 +14,6 @@ class Nonzero(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "nonzero_u32_2d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.nonzero()", name)
 
@@ -26,7 +25,6 @@ class Nonzero(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "nonzero_u32_3d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.nonzero()", name)
 
@@ -43,7 +41,6 @@ class Nonzero(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "nonzero_i32_2d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.nonzero()", name)
 
@@ -55,7 +52,6 @@ class Nonzero(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "nonzero_i32_3d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.nonzero()", name)
 
@@ -73,7 +69,6 @@ class Nonzero(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "nonzero_i8_2d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.nonzero()", name)
 
@@ -85,7 +80,6 @@ class Nonzero(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "nonzero_i8_3d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.nonzero()", name)
 
@@ -103,7 +97,6 @@ class Nonzero(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
             
             name = "nonzero_fp8x23_2d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.nonzero()", name)
 
@@ -116,7 +109,6 @@ class Nonzero(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
             
             name = "nonzero_fp8x23_3d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.nonzero()", name)
 
@@ -134,7 +126,6 @@ class Nonzero(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "nonzero_fp16x16_2d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.nonzero()", name)
 
@@ -147,7 +138,6 @@ class Nonzero(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "nonzero_fp16x16_3d"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.nonzero()", name)
 

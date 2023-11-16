@@ -17,7 +17,6 @@ fn max<
 >(
     tensors: Span<Tensor<T>>
 ) -> Tensor<T> {
-
     assert(tensors.len() >= 1, 'Input tensors must be >= 1');
 
     let first_tensor = *tensors.at(0);
@@ -48,9 +47,13 @@ fn max<
             let mut indices_broadcasted = unravel_index(n, broadcasted_shape);
 
             let mut indices_self = broadcast_index_mapping(max_shape, indices_broadcasted);
-            let mut indices_other = broadcast_index_mapping(current_tensor.shape, indices_broadcasted);
+            let mut indices_other = broadcast_index_mapping(
+                current_tensor.shape, indices_broadcasted
+            );
 
-            let mut max_value = NumberTrait::max(*(max_data)[indices_self], *(current_tensor.data)[indices_other]);
+            let mut max_value = NumberTrait::max(
+                *(max_data)[indices_self], *(current_tensor.data)[indices_other]
+            );
             new_max_data.append(max_value);
 
             n += 1;

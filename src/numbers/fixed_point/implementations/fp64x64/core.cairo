@@ -171,6 +171,14 @@ impl FP64x64Impl of FixedTrait<FP64x64, u128> {
     fn sign(self: FP64x64) -> FP64x64 {
         panic(array!['not supported!'])
     }
+
+    fn NaN() -> FP64x64 {
+        return FP64x64 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: FP64x64) -> bool {
+        self == FP64x64 { mag: 0, sign: true }
+    }
 }
 
 
@@ -244,17 +252,17 @@ impl FP64x64TryIntoI8 of TryInto<FP64x64, i8> {
     }
 }
 
-impl FP64x64PartialEq of PartialEq<FP64x64> {
-    #[inline(always)]
-    fn eq(lhs: @FP64x64, rhs: @FP64x64) -> bool {
-        return fp64x64::core::eq(lhs, rhs);
-    }
+// impl FP64x64PartialEq of PartialEq<FP64x64> {
+//     #[inline(always)]
+//     fn eq(lhs: @FP64x64, rhs: @FP64x64) -> bool {
+//         return fp64x64::core::eq(lhs, rhs);
+//     }
 
-    #[inline(always)]
-    fn ne(lhs: @FP64x64, rhs: @FP64x64) -> bool {
-        return fp64x64::core::ne(lhs, rhs);
-    }
-}
+//     #[inline(always)]
+//     fn ne(lhs: @FP64x64, rhs: @FP64x64) -> bool {
+//         return fp64x64::core::ne(lhs, rhs);
+//     }
+// }
 
 impl FP64x64Add of Add<FP64x64> {
     fn add(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {

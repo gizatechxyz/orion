@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 
 class Cumsum(RunAll):
@@ -15,7 +15,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "cumsum_u32_1d_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
@@ -27,7 +26,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "cumsum_u32_1d_exclusive"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(false))", name)
 
@@ -39,7 +37,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "cumsum_u32_1d_reverse"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(false), Option::Some(true))", name)
 
@@ -51,7 +48,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "cumsum_u32_1d_reverse_exclusive"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(true))", name)
 
@@ -72,7 +68,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "cumsum_u32_2d_axis_0"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
@@ -86,7 +81,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "cumsum_u32_2d_axis_1"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(1, Option::None(()), Option::None(()))", name)
 
@@ -105,7 +99,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.I32, y.shape, y.flatten())
 
                 name = "cumsum_i32_1d_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
@@ -117,7 +110,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.I32, y.shape, y.flatten())
 
                 name = "cumsum_i32_1d_exclusive"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(false))", name)
 
@@ -129,7 +121,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.I32, y.shape, y.flatten())
 
                 name = "cumsum_i32_1d_reverse"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(false), Option::Some(true))", name)
 
@@ -141,7 +132,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.I32, y.shape, y.flatten())
 
                 name = "cumsum_i32_1d_reverse_exclusive"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(true))", name)
 
@@ -162,7 +152,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.I32, y.shape, y.flatten())
 
                 name = "cumsum_i32_2d_axis_0"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
@@ -176,7 +165,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.I32, y.shape, y.flatten())
 
                 name = "cumsum_i32_2d_axis_1"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(1, Option::None(()), Option::None(()))", name)
 
@@ -195,7 +183,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.I8, y.shape, y.flatten())
 
                 name = "cumsum_i8_1d_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
@@ -207,7 +194,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.I8, y.shape, y.flatten())
 
                 name = "cumsum_i8_1d_exclusive"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(false))", name)
 
@@ -219,7 +205,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.I8, y.shape, y.flatten())
 
                 name = "cumsum_i8_1d_reverse"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(false), Option::Some(true))", name)
 
@@ -231,7 +216,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.I8, y.shape, y.flatten())
 
                 name = "cumsum_i8_1d_reverse_exclusive"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(true))", name)
 
@@ -252,7 +236,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.I8, y.shape, y.flatten())
 
                 name = "cumsum_i8_2d_axis_0"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
@@ -266,7 +249,6 @@ class Cumsum(RunAll):
                 y = Tensor(Dtype.I8, y.shape, y.flatten())
 
                 name = "cumsum_i8_2d_axis_1"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(1, Option::None(()), Option::None(()))", name)
 
@@ -287,7 +269,6 @@ class Cumsum(RunAll):
                     y.flatten(), FixedImpl.FP8x23))
 
                 name = "cumsum_fp8x23_1d_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
@@ -301,7 +282,6 @@ class Cumsum(RunAll):
                     y.flatten(), FixedImpl.FP8x23))
 
                 name = "cumsum_fp8x23_1d_exclusive"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(false))", name)
 
@@ -315,7 +295,6 @@ class Cumsum(RunAll):
                     y.flatten(), FixedImpl.FP8x23))
 
                 name = "cumsum_fp8x23_1d_reverse"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(false), Option::Some(true))", name)
 
@@ -329,7 +308,6 @@ class Cumsum(RunAll):
                     y.flatten(), FixedImpl.FP8x23))
 
                 name = "cumsum_fp8x23_1d_reverse_exclusive"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(true))", name)
 
@@ -352,7 +330,6 @@ class Cumsum(RunAll):
                     y.flatten(), FixedImpl.FP8x23))
 
                 name = "cumsum_fp8x23_2d_axis_0"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
@@ -368,7 +345,6 @@ class Cumsum(RunAll):
                     y.flatten(), FixedImpl.FP8x23))
 
                 name = "cumsum_fp8x23_2d_axis_1"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(1, Option::None(()), Option::None(()))", name)
 
@@ -389,7 +365,6 @@ class Cumsum(RunAll):
                     y.flatten(), FixedImpl.FP16x16))
 
                 name = "cumsum_fp16x16_1d_default"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
@@ -403,7 +378,6 @@ class Cumsum(RunAll):
                     y.flatten(), FixedImpl.FP16x16))
 
                 name = "cumsum_fp16x16_1d_exclusive"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(false))", name)
 
@@ -417,7 +391,6 @@ class Cumsum(RunAll):
                     y.flatten(), FixedImpl.FP16x16))
 
                 name = "cumsum_fp16x16_1d_reverse"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(false), Option::Some(true))", name)
 
@@ -431,7 +404,6 @@ class Cumsum(RunAll):
                     y.flatten(), FixedImpl.FP16x16))
 
                 name = "cumsum_fp16x16_1d_reverse_exclusive"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::Some(true), Option::Some(true))", name)
 
@@ -454,7 +426,6 @@ class Cumsum(RunAll):
                     y.flatten(), FixedImpl.FP16x16))
 
                 name = "cumsum_fp16x16_2d_axis_0"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(0, Option::None(()), Option::None(()))", name)
 
@@ -470,7 +441,6 @@ class Cumsum(RunAll):
                     y.flatten(), FixedImpl.FP16x16))
 
                 name = "cumsum_fp16x16_2d_axis_1"
-                make_node([x], [y], name)
                 make_test(
                     [x], y, "input_0.cumsum(1, Option::None(()), Option::None(()))", name)
 
