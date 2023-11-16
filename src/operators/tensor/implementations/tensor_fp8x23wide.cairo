@@ -360,7 +360,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
 
-    fn sequence_insert(self: Array<Tensor<FP8x23W>>, tensor: @Tensor<FP8x23W>, position: @Tensor<i32>) -> Array<Tensor<FP8x23W>> {
+    fn sequence_insert(self: Array<Tensor<FP8x23W>>, tensor: @Tensor<FP8x23W>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23W>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
 }

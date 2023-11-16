@@ -379,7 +379,7 @@ impl I32Tensor of TensorTrait<i32> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
 
-    fn sequence_insert(self: Array<Tensor<i32>>, tensor: @Tensor<i32>, position: @Tensor<i32>) -> Array<Tensor<i32>> {
+    fn sequence_insert(self: Array<Tensor<i32>>, tensor: @Tensor<i32>, position: Option<Tensor<i32>>) -> Array<Tensor<i32>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
 }

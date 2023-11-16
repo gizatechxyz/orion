@@ -96,15 +96,12 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// binarizer – Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
-<<<<<<< HEAD
 /// reduce_min - Computes the min of the input tensor's elements along the provided axes.
 /// sequence_construct – Constructs a tensor sequence containing the input tensors.
 /// shrink – Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula.
 /// sequence_empty - Returns an empty tensor sequence.
 /// reduce_mean - Computes the mean of the input tensor's elements along the provided axes.
-=======
 /// sequence_insert - Insert a tensor into a sequence.
->>>>>>> a3286e87 (Add tests)
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -3919,7 +3916,7 @@ trait TensorTrait<T> {
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<T>;
     /// TODO
-    fn sequence_insert(self: Array<Tensor<T>>, tensor: @Tensor<T>, position: @Tensor<i32>) -> Array<Tensor<T>>;
+    fn sequence_insert(self: Array<Tensor<T>>, tensor: @Tensor<T>, position: Option<Tensor<i32>>) -> Array<Tensor<T>>;
 }
 
 /// Cf: TensorTrait::new docstring

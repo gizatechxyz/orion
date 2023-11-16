@@ -20,7 +20,7 @@ fn test_sequence_insert_i8() {
     let input_2 = input_2::input_2();
     let z = output_0::output_0();
 
-    let y = input_0.sequence_insert(@input_1,@input_2);
+    let y = input_0.sequence_insert(@input_1,Option::Some(input_2));
 
     assert_seq_eq(y, z);
 }
