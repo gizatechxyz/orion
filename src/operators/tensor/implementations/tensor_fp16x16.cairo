@@ -369,6 +369,15 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
     }
+
+    fn reduce_min(
+        self: @Tensor<FP16x16>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP16x16> {
+        math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

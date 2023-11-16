@@ -369,6 +369,15 @@ impl I32Tensor of TensorTrait<i32> {
     ) -> Tensor<i32> {
         math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
     }
+
+    fn reduce_min(
+        self: @Tensor<i32>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<i32> {
+        math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

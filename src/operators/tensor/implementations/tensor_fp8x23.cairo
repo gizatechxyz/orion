@@ -369,6 +369,17 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn array_feature_extractor(self: @Tensor<FP8x23>, indices: Tensor<usize>) -> Tensor<FP8x23> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
+
+    fn reduce_min(
+        self: @Tensor<FP8x23>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP8x23> {
+        math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
+    }
+
+    
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

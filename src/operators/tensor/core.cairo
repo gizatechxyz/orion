@@ -96,6 +96,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// binarizer – Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
+/// reduce_min - Computes the min of the input tensor's elements along the provided axes.
 /// sequence_construct – Constructs a tensor sequence containing the input tensors.
 /// shrink – Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula.
 /// sequence_empty - Returns an empty tensor sequence.
@@ -3859,6 +3860,50 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn sequence_construct(tensors: Array<Tensor<T>>) -> Array<Tensor<T>>;
+    /// ## tensor.reduce_min
+    ///
+    /// ```rust 
+    ///    fn reduce_min(self: @Tensor<T>, axes: Option<Span<usize>>, keepdims: Option<bool>, noop_with_empty_axes: Option<bool>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the min of the input tensor's elements along the provided axes.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axes`(`Option<Span<usize>>`) - Optional input list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor if 'noop_with_empty_axes' is false, else act as an Identity op when 'noop_with_empty_axes' is true.
+    /// * `keepdims`(`Option<bool>`) - Keep the reduced dimension or not, default true means keep reduced dimension.
+    /// * `noop_with_empty_axes`(`Option<bool>`) - Defines behavior if 'axes' is empty. Default behavior with 'false' is to reduce all axes. When axes is empty and this attribute is set to true, input tensor will not be reduced,and the output tensor would be equivalent to input tensor.
+    ///
+    /// ## Panics 
+    /// 
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` instance with the specified axes reduced by minimum of its elements.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn reduce_min_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///     );
+    /// 
+    ///     // We can call `reduce_mean` function as follows.
+    ///     return tensor.reduce_min(axes: array![1].span(), 
+    ///         keepdims: Option::None(()), 
+    ///         noop_with_empty_axes:  Option::None(()));
+    /// }
+    /// >>> [[0,1],[4,5]]
+    /// ```
+    ///
+    fn reduce_min(self: @Tensor<T>, axes: Option<Span<usize>>, keepdims: Option<bool>, noop_with_empty_axes: Option<bool>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

@@ -340,6 +340,16 @@ impl BoolTensor of TensorTrait<bool> {
     fn array_feature_extractor(self: @Tensor<bool>, indices: Tensor<usize>) -> Tensor<bool> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
+
+    fn reduce_min(
+        self: @Tensor<bool>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.
