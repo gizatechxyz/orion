@@ -350,6 +350,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn sequence_empty() -> Array<Tensor<FP64x64>> {
+        math::sequence_empty::sequence_empty::<FP64x64>()
+    }
+    
     fn reduce_mean(
         self: @Tensor<FP64x64>,
         axes: Option<Span<usize>>,

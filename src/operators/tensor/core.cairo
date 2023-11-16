@@ -96,6 +96,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// binarizer – Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
+/// sequence_empty - Returns an empty tensor sequence.
 /// reduce_mean - Computes the mean of the input tensor's elements along the provided axes.
 trait TensorTrait<T> {
     /// # tensor.new
@@ -3731,6 +3732,43 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn reduce_mean(self: @Tensor<T>, axes: Option<Span<usize>>, keepdims: Option<bool>, noop_with_empty_axes: Option<bool>) -> Tensor<T>;
+    /// # tensor.sequence_empty
+    ///
+    /// ```rust
+    ///    fn sequence_empty() -> Array<Tensor<T>>;
+    /// ```
+    ///
+    /// Returns an empty tensor sequence.
+    ///
+    /// ## Args
+    ///
+    /// ## Returns
+    ///
+    /// An empty `Array<Tensor<T>>` instance.
+    ///
+    /// ## Examples
+    ///
+    /// Let's create a new empty sequence.
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    ///
+    /// use orion::operators::tensor::{
+    ///     TensorTrait, // we import the trait
+    ///     Tensor, // we import the type
+    ///     U32Tensor // we import the implementation. 
+    /// };
+    ///
+    /// fn sequence_empty_example() -> Array<Tensor<u32>> {
+    ///     let sequence = TensorTrait::sequence_empty();
+    ///
+    ///     return sequence;
+    /// }
+    ///
+    /// >>> []
+    /// ```
+    ///
+    fn sequence_empty() -> Array<Tensor<T>>;
 }
 
 /// Cf: TensorTrait::new docstring

@@ -349,6 +349,10 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
+    fn sequence_empty() -> Array<Tensor<i8>> {
+        math::sequence_empty::sequence_empty::<i8>()
+    }
+    
     fn reduce_mean(
         self: @Tensor<i8>,
         axes: Option<Span<usize>>,

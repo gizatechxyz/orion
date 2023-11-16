@@ -350,6 +350,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 
+    fn sequence_empty() -> Array<Tensor<FP32x32>> {
+        math::sequence_empty::sequence_empty::<FP32x32>()
+    }
+    
     fn reduce_mean(
         self: @Tensor<FP32x32>,
         axes: Option<Span<usize>>,

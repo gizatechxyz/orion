@@ -308,11 +308,14 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-
     fn constant_of_shape(shape: Span<usize>, value: bool) -> Tensor<bool> {
         constant_of_shape(shape, value)
     }
 
+    fn sequence_empty() -> Array<Tensor<bool>> {
+        math::sequence_empty::sequence_empty::<bool>()
+    }
+    
     fn reduce_mean(
         self: @Tensor<bool>,
         axes: Option<Span<usize>>,
