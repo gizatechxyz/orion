@@ -37,6 +37,6 @@ use orion::operators::tensor::implementations::tensor_u32::{
 };
 
 use orion::operators::tensor::implementations::tensor_bool::{
-    BoolTensor, BoolTensorAdd, BoolTensorSub, BoolTensorMul, BoolTensorDiv, BoolTensorPartialEq
+    BoolTensor, BoolTensorPartialEq
 };
 
