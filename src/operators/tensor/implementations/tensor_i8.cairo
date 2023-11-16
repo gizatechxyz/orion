@@ -332,6 +332,11 @@ impl I8Tensor of TensorTrait<i8> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn binarizer(self: @Tensor<i8>, threshold: Option<i8>) -> Tensor<i8> {
+                panic(array!['not supported!'])
+
+    }
+
     fn reduce_sum_square(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }

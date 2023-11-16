@@ -312,6 +312,10 @@ impl BoolTensor of TensorTrait<bool> {
     fn constant_of_shape(shape: Span<usize>, value: bool) -> Tensor<bool> {
         constant_of_shape(shape, value)
     }
+
+    fn binarizer(self: @Tensor<bool>, threshold: Option<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

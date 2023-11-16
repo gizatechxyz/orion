@@ -303,6 +303,10 @@ impl U32Tensor of TensorTrait<u32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn binarizer(self: @Tensor<u32>, threshold: Option<u32>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+    
     fn reduce_sum_square(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }

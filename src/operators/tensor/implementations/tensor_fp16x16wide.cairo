@@ -321,6 +321,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn binarizer(self: @Tensor<FP16x16W>, threshold: Option<FP16x16W>) -> Tensor<FP16x16W> {
+        math::binarizer::binarizer(*self, threshold)
+    }
+
     fn reduce_sum_square(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
