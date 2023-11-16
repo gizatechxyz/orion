@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::tensor_i8::I8Tensor;
 
@@ -303,6 +303,14 @@ impl U32Tensor of TensorTrait<u32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn array_feature_extractor(self: @Tensor<u32>, indices: Tensor<usize>) -> Tensor<u32> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
+    }
+    
+    fn binarizer(self: @Tensor<u32>, threshold: Option<u32>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+    
     fn reduce_sum_square(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
@@ -313,6 +321,23 @@ impl U32Tensor of TensorTrait<u32> {
 
     fn sequence_length(self: Array<Tensor<u32>>) -> Tensor<u32> {
 	math::sequence_length::sequence_length(self)
+    }
+    
+    fn shrink(self: Tensor<u32>, bias: Option<u32>, lambd: Option<u32>) -> Tensor<u32> {
+        panic(array!['not supported!']) 
+    }
+    
+    fn sequence_empty() -> Array<Tensor<u32>> {
+        math::sequence_empty::sequence_empty::<u32>()
+    }
+    
+    fn reduce_mean(
+        self: @Tensor<u32>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<u32> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
     }
 }
 
