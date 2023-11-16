@@ -378,6 +378,10 @@ impl I32Tensor of TensorTrait<i32> {
     ) -> Tensor<i32> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
+
+    fn sequence_erase(sequence: Array<Tensor<i32>>, position: Option<Tensor<i32>>) -> Array<Tensor<i32>> {
+        math::sequence_erase::sequence_erase(sequence, position)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

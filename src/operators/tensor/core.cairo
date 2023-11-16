@@ -3914,6 +3914,7 @@ trait TensorTrait<T> {
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<T>;
+    fn sequence_erase(sequence: Array<Tensor<T>>, position: Option<Tensor<i32>>) -> Array<Tensor<T>>;
 }
 
 /// Cf: TensorTrait::new docstring

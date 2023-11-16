@@ -349,6 +349,10 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
+
+    fn sequence_erase(sequence: Array<Tensor<bool>>, position: Option<Tensor<i32>>) -> Array<Tensor<bool>> {
+        math::sequence_erase::sequence_erase(sequence, position)
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.
