@@ -105,6 +105,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.shrink`](tensor.shrink.md) | Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula. |
 | [`tensor.sequence_empty`](tensor.sequence\_empty.md) | Returns an empty tensor sequence. |
 | [`tensor.reduce_mean`](tensor.reduce\_mean.md) | Computes the mean of the input tensor's elements along the provided axes. |
+| [`tensor.sequence_insert`](tensor.sequence\_insert.md) | Insert a tensor into a sequence. |
 
 ## Arithmetic Operations
 
