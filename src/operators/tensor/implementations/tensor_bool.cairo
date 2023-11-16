@@ -313,6 +313,15 @@ impl BoolTensor of TensorTrait<bool> {
         constant_of_shape(shape, value)
     }
 
+    fn reduce_mean(
+        self: @Tensor<bool>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+    
     fn binarizer(self: @Tensor<bool>, threshold: Option<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }

@@ -318,6 +318,15 @@ impl U32Tensor of TensorTrait<u32> {
     fn reduce_l2(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
+
+    fn reduce_mean(
+        self: @Tensor<u32>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<u32> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

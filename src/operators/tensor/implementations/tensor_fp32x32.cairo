@@ -349,6 +349,15 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn reduce_l2(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
+
+    fn reduce_mean(
+        self: @Tensor<FP32x32>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP32x32> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

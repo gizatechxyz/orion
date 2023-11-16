@@ -100,6 +100,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.binarizer`](tensor.binarizer.md) | Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value. |
 | [`tensor.reduce_sum_square`](tensor.reduce\_sum\_square.md) | Computes the sum square of the input tensor's elements along the provided axes.  |
 | [`tensor.reduce_l2`](tensor.reduce\_l2.md) | Computes the L2 norm of the input tensor's elements along the provided axes. |
+| [`tensor.reduce_mean`](tensor.reduce\_mean.md) | Computes the mean of the input tensor's elements along the provided axes. |
 
 ## Arithmetic Operations
 

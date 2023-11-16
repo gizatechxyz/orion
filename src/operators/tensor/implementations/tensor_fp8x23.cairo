@@ -341,6 +341,15 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 
+    fn reduce_mean(
+        self: @Tensor<FP8x23>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP8x23> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
+    }
+    
     fn binarizer(self: @Tensor<FP8x23>, threshold: Option<FP8x23>) -> Tensor<FP8x23> {
         math::binarizer::binarizer(*self, threshold)
     }
