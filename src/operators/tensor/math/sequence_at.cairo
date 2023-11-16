@@ -17,21 +17,18 @@ fn sequence_at<
     sequence: Array<Tensor<T>>, index: Tensor<i32>
 ) -> Tensor<T> {
 
-    assert(index.shape.len() == 1 && *index.shape.at(0) == 1, 'Index must be a scalar');
+    assert(index.shape.len() == 0 && index.data.len() == 1, 'Index must be a scalar');
 
     let index_value_i32: i32 = *index.data.at(0);
-
     let is_negative: bool = index_value_i32.sign;
     let index_value = index_value_i32.mag;
 
-    assert((is_negative == false && index_value < sequence.len() - 1) || (is_negative == true && index_value < sequence.len()), 'Index out of bounds');
+    assert((is_negative == false && index_value <= sequence.len() - 1) || (is_negative == true && index_value <= sequence.len()), 'Index out of bounds');
     
     if is_negative == false {
-        let output_tensor = *sequence.at(index_value);
-        return output_tensor;
+        return *sequence.at(index_value);
     } else {
         let reverted_index_value = sequence.len() - index_value;
-        let output_tensor = *sequence.at(reverted_index_value);
-        return output_tensor;
+        return *sequence.at(reverted_index_value);
     }
 }
