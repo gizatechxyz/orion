@@ -341,8 +341,8 @@ impl I32Tensor of TensorTrait<i32> {
         panic(array!['not supported!'])
     }
 
-    fn sequence_at(sequence: Array<Tensor<i32>>, index: Tensor<i32>) -> Tensor<i32> {
-        math::sequence_at::sequence_at(sequence, index)
+    fn sequence_at(sequence: Array<Tensor<i32>>, position: Tensor<i32>) -> Tensor<i32> {
+        math::sequence_at::sequence_at(sequence, position)
     }
 }
 

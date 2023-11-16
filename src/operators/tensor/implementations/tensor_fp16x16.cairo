@@ -341,8 +341,8 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
-    fn sequence_at(sequence: Array<Tensor<FP16x16>>, index: Tensor<i32>) -> Tensor<FP16x16> {
-        math::sequence_at::sequence_at(sequence, index)
+    fn sequence_at(sequence: Array<Tensor<FP16x16>>, position: Tensor<i32>) -> Tensor<FP16x16> {
+        math::sequence_at::sequence_at(sequence, position)
     }
 }
 

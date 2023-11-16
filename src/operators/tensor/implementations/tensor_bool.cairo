@@ -313,7 +313,7 @@ impl BoolTensor of TensorTrait<bool> {
         constant_of_shape(shape, value)
     }
 
-    fn sequence_at(sequence: Array<Tensor<bool>>, index: Tensor<i32>) -> Tensor<bool> {
+    fn sequence_at(sequence: Array<Tensor<bool>>, position: Tensor<i32>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 }

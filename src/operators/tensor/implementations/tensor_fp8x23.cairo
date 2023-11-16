@@ -341,8 +341,8 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 
-    fn sequence_at(sequence: Array<Tensor<FP8x23>>, index: Tensor<i32>) -> Tensor<FP8x23> {
-        math::sequence_at::sequence_at(sequence, index)
+    fn sequence_at(sequence: Array<Tensor<FP8x23>>, position: Tensor<i32>) -> Tensor<FP8x23> {
+        math::sequence_at::sequence_at(sequence, position)
     }
 }
 

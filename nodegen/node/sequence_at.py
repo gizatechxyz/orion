@@ -10,7 +10,7 @@ class Sequence_at(RunAll):
 
     @staticmethod
     def sequence_at_u32():
-        def positive_index():
+        def positive_position():
             sequence = []
             shape = np.random.randint(1, 4, 2)
 
@@ -20,12 +20,12 @@ class Sequence_at(RunAll):
 
                 sequence.append(tensor)
 
-            index = scalar(2)
+            position = scalar(2)
 
             name = "sequence_at_u32_positive"
-            make_test([sequence, index], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
 
-        def negative_index():
+        def negative_position():
             sequence = []
             shape = np.random.randint(1, 4, 2)
 
@@ -35,18 +35,18 @@ class Sequence_at(RunAll):
 
                 sequence.append(tensor)
 
-            index = scalar(-2)
+            position = scalar(-2)
 
             name = "sequence_at_u32_negative"
-            make_test([sequence, index], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
 
-        positive_index()
-        negative_index()
+        positive_position()
+        negative_position()
 
 
     @staticmethod
     def sequence_at_i32():
-        def positive_index():
+        def positive_position():
             sequence = []
             shape = np.random.randint(1, 4, 2)
 
@@ -56,12 +56,12 @@ class Sequence_at(RunAll):
 
                 sequence.append(tensor)
 
-            index = scalar(2)
+            position = scalar(2)
 
             name = "sequence_at_i32_positive"
-            make_test([sequence, index], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
 
-        def negative_index():
+        def negative_position():
             sequence = []
             shape = np.random.randint(1, 4, 2)
 
@@ -71,18 +71,18 @@ class Sequence_at(RunAll):
 
                 sequence.append(tensor)
 
-            index = scalar(-2)
+            position = scalar(-2)
 
             name = "sequence_at_i32_negative"
-            make_test([sequence, index], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
 
-        positive_index()
-        negative_index()
+        positive_position()
+        negative_position()
 
 
     @staticmethod
     def sequence_at_i8():
-        def positive_index():
+        def positive_position():
             sequence = []
             shape = np.random.randint(1, 4, 2)
 
@@ -92,12 +92,12 @@ class Sequence_at(RunAll):
 
                 sequence.append(tensor)
 
-            index = scalar(2)
+            position = scalar(2)
 
             name = "sequence_at_i8_positive"
-            make_test([sequence, index], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
 
-        def negative_index():
+        def negative_position():
             sequence = []
             shape = np.random.randint(1, 4, 2)
 
@@ -107,18 +107,18 @@ class Sequence_at(RunAll):
 
                 sequence.append(tensor)
 
-            index = scalar(-2)
+            position = scalar(-2)
 
             name = "sequence_at_i8_negative"
-            make_test([sequence, index], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
 
-        positive_index()
-        negative_index()
+        positive_position()
+        negative_position()
 
 
     @staticmethod
     def sequence_at_fp8x23():
-        def positive_index():
+        def positive_position():
             sequence = []
             shape = np.random.randint(1, 4, 2)
 
@@ -128,12 +128,12 @@ class Sequence_at(RunAll):
 
                 sequence.append(tensor)
 
-            index = scalar(2)
+            position = scalar(2)
 
             name = "sequence_at_fp8x23_positive"
-            make_test([sequence, index], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
 
-        def negative_index():
+        def negative_position():
             sequence = []
             shape = np.random.randint(1, 4, 2)
 
@@ -143,18 +143,18 @@ class Sequence_at(RunAll):
 
                 sequence.append(tensor)
 
-            index = scalar(-2)
+            position = scalar(-2)
 
             name = "sequence_at_fp8x23_negative"
-            make_test([sequence, index], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
 
-        positive_index()
-        negative_index()
+        positive_position()
+        negative_position()
     
 
     @staticmethod
     def sequence_at_fp16x16():
-        def positive_index():
+        def positive_position():
             sequence = []
             shape = np.random.randint(1, 4, 2)
 
@@ -164,12 +164,12 @@ class Sequence_at(RunAll):
 
                 sequence.append(tensor)
 
-            index = scalar(2)
+            position = scalar(2)
 
             name = "sequence_at_fp16x16_positive"
-            make_test([sequence, index], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
 
-        def negative_index():
+        def negative_position():
             sequence = []
             shape = np.random.randint(1, 4, 2)
 
@@ -179,10 +179,10 @@ class Sequence_at(RunAll):
 
                 sequence.append(tensor)
 
-            index = scalar(-2)
+            position = scalar(-2)
 
             name = "sequence_at_fp16x16_negative"
-            make_test([sequence, index], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
 
-        positive_index()
-        negative_index()
+        positive_position()
+        negative_position()

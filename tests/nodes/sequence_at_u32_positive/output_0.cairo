@@ -8,8 +8,8 @@ fn output_0() -> Tensor<u32> {
     shape.append(3);
 
     let mut data = ArrayTrait::new();
-    data.append(0);
     data.append(5);
-    data.append(2);
+    data.append(5);
+    data.append(0);
     TensorTrait::new(shape.span(), data.span())
 }

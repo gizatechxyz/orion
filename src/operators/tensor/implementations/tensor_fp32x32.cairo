@@ -342,8 +342,8 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 
-    fn sequence_at(sequence: Array<Tensor<FP32x32>>, index: Tensor<i32>) -> Tensor<FP32x32> {
-        math::sequence_at::sequence_at(sequence, index)
+    fn sequence_at(sequence: Array<Tensor<FP32x32>>, position: Tensor<i32>) -> Tensor<FP32x32> {
+        math::sequence_at::sequence_at(sequence, position)
     }
 }
 
