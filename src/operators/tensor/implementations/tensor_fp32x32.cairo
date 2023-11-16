@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP32x32, FP32x32Impl};
 use orion::numbers::fixed_point::implementations::fp32x32::core::ONE;
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
@@ -334,12 +334,41 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn array_feature_extractor(self: @Tensor<FP32x32>, indices: Tensor<usize>) -> Tensor<FP32x32> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
+    }
+    
+    fn binarizer(self: @Tensor<FP32x32>, threshold: Option<FP32x32>) -> Tensor<FP32x32> {
+        math::binarizer::binarizer(*self, threshold)
+    }
+    
     fn reduce_sum_square(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
 
     fn reduce_l2(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
+    }
+
+    fn sequence_construct(tensors: Array<Tensor<FP32x32>>) -> Array<Tensor<FP32x32>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
+    
+    fn shrink(self: Tensor<FP32x32>, bias: Option<FP32x32>, lambd: Option<FP32x32>) -> Tensor<FP32x32> {
+        math::shrink::shrink(self, bias, lambd)
+    }
+    
+    fn sequence_empty() -> Array<Tensor<FP32x32>> {
+        math::sequence_empty::sequence_empty::<FP32x32>()
+    }
+    
+    fn reduce_mean(
+        self: @Tensor<FP32x32>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP32x32> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
     }
 
     fn reduce_min(

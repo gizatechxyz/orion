@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
 
@@ -332,12 +332,42 @@ impl I8Tensor of TensorTrait<i8> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn array_feature_extractor(self: @Tensor<i8>, indices: Tensor<usize>) -> Tensor<i8> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
+    }
+    
+    fn binarizer(self: @Tensor<i8>, threshold: Option<i8>) -> Tensor<i8> {
+                panic(array!['not supported!'])
+
+    }
+
     fn reduce_sum_square(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
 
     fn reduce_l2(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
         panic(array!['not supported!'])
+    }
+
+    fn sequence_construct(tensors: Array<Tensor<i8>>) -> Array<Tensor<i8>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
+    
+    fn shrink(self: Tensor<i8>, bias: Option<i8>, lambd: Option<i8>) -> Tensor<i8> {
+        panic(array!['not supported!']) 
+    }
+    
+    fn sequence_empty() -> Array<Tensor<i8>> {
+        math::sequence_empty::sequence_empty::<i8>()
+    }
+    
+    fn reduce_mean(
+        self: @Tensor<i8>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<i8> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
     }
 
     fn reduce_min(
