@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP16x16W};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
@@ -321,6 +321,14 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn array_feature_extractor(self: @Tensor<FP16x16W>, indices: Tensor<usize>) -> Tensor<FP16x16W> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
+    }
+
+    fn binarizer(self: @Tensor<FP16x16W>, threshold: Option<FP16x16W>) -> Tensor<FP16x16W> {
+        math::binarizer::binarizer(*self, threshold)
+    }
+
     fn reduce_sum_square(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
@@ -330,7 +338,20 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     }
 
     fn shrink(self: Tensor<FP16x16W>, bias: Option<FP16x16W>, lambd: Option<FP16x16W>) -> Tensor<FP16x16W> {
-        math::shrink::shrink(self, bias, lambd)
+        math::shrink::shrink(self, bias, lambd) 
+    }
+    
+    fn sequence_empty() -> Array<Tensor<FP16x16W>> {
+        math::sequence_empty::sequence_empty::<FP16x16W>()
+    }
+    
+    fn reduce_mean(
+        self: @Tensor<FP16x16W>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP16x16W> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
     }
 }
 

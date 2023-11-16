@@ -1103,4 +1103,6 @@ trait FixedTrait<T, MAG> {
     fn HALF() -> T;
     fn ONE() -> T;
     fn MAX() -> T;
+    fn NaN() -> T;
+    fn is_nan(self: T) -> bool;
 }

@@ -26,6 +26,7 @@ class Dtype(Enum):
     I8 = 'i8'
     I32 = 'i32'
     U32 = 'u32'
+    BOOL = 'bool'
 
 
 class Tensor:
@@ -100,12 +101,22 @@ def make_test(inputs: list[Tensor | Sequence], output: Tensor | Sequence, func_s
     output_data.dump()
 
     test_file = CairoTest(f"{name}.cairo")
-    test_file.buffer = CairoTest.template(
-        name=name,
-        arg_cnt=len(inputs),
-        refs=get_all_test_refs(find_all_types([*inputs, output]), trait, isinstance(output, list)),
-        func_sig=func_sig,
-    )
+    match output:
+        case list():
+            test_file.buffer = CairoTest.sequence_template(
+                name=name,
+                arg_cnt=len(inputs),
+                refs=get_all_test_refs(find_all_types([*inputs, *output]), trait),
+                func_sig=func_sig,
+            )
+        case Tensor():
+            test_file.buffer = CairoTest.base_template(
+                name=name,
+                arg_cnt=len(inputs),
+                refs=get_all_test_refs(find_all_types([*inputs, output]), trait),
+                func_sig=func_sig,
+            )
+
     test_file.dump()
 
 
@@ -131,21 +142,26 @@ def get_data_statement(data: np.ndarray, dtype: Dtype) -> list[str]:
             return ["FP8x23 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
         case Dtype.FP16x16:
             return ["FP16x16 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
+        case Dtype.BOOL:
+            return [str(x).lower() for x in data.flatten()]
 
 
 def get_data_statement_for_sequences(data: Sequence, dtype: Dtype) -> list[list[str]]:
     return [get_data_statement(x.data, dtype) for x in data]
 
 
-def get_all_test_refs(dtypes: list[Dtype], trait: Trait, is_sequence: bool) -> list[str]:
+def get_all_test_refs(dtypes: list[Dtype], trait: Trait) -> list[str]:
     refs = []
     for dtype in dtypes:
-        refs += get_test_refs(dtype, trait, is_sequence)
+        refs += get_test_refs(dtype, trait)
 
     return list(set(refs))
 
 
 def get_test_refs(dtype: Dtype, trait: Trait, is_sequence: bool) -> list[str]:
+    if trait == Trait.NN and dtype == Dtype.BOOL:
+        raise Exception("NN trait does not support bool dtype")
+
     dtype_ref = dtype_to_nn[dtype] if trait == Trait.NN else dtype_to_tensor[dtype]
     refs = [
         *trait_to_ref[trait],
@@ -186,6 +202,7 @@ dtype_to_tensor = {
     Dtype.I8: ["orion::operators::tensor::I8Tensor",],
     Dtype.FP8x23: ["orion::operators::tensor::FP8x23Tensor",],
     Dtype.FP16x16: ["orion::operators::tensor::FP16x16Tensor",],
+    Dtype.BOOL: ["orion::operators::tensor::BoolTensor",],
 }
 
 
@@ -204,6 +221,7 @@ dtype_to_partial_eq = {
     Dtype.I8: ["orion::operators::tensor::I8TensorPartialEq",],
     Dtype.FP8x23: ["orion::operators::tensor::FP8x23TensorPartialEq",],
     Dtype.FP16x16: ["orion::operators::tensor::FP16x16TensorPartialEq",],
+    Dtype.BOOL: ["orion::operators::tensor::BoolTensorPartialEq",],
 }
 
 
@@ -213,4 +231,5 @@ dtype_to_numbers = {
     Dtype.I8: ["orion::numbers::{IntegerTrait, i8}",],
     Dtype.FP8x23: ["orion::numbers::{FixedTrait, FP8x23}",],
     Dtype.FP16x16: ["orion::numbers::{FixedTrait, FP16x16}",],
+    Dtype.BOOL: [],
 }

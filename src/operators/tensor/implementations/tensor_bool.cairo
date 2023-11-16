@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     constant_of_shape, new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
 
@@ -308,13 +308,33 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-
     fn constant_of_shape(shape: Span<usize>, value: bool) -> Tensor<bool> {
         constant_of_shape(shape, value)
     }
 
     fn shrink(self: Tensor<bool>, bias: Option<bool>, lambd: Option<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
+    }
+    
+    fn sequence_empty() -> Array<Tensor<bool>> {
+        math::sequence_empty::sequence_empty::<bool>()
+    }
+    
+    fn reduce_mean(
+        self: @Tensor<bool>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+    
+    fn binarizer(self: @Tensor<bool>, threshold: Option<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn array_feature_extractor(self: @Tensor<bool>, indices: Tensor<usize>) -> Tensor<bool> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
 }
 

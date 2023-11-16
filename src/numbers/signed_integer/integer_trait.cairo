@@ -209,5 +209,8 @@ trait IntegerTrait<T, MAG> {
     /// ```
     /// 
     fn sign(self: T) -> T;
+
+    fn NaN() -> T;
+    fn is_nan(self: T) -> bool;
 }
 

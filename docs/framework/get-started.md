@@ -14,7 +14,7 @@ Orion supports <mark style="color:orange;">**Cairo and Scarb v2.3.0**</mark>
 
 **Step 1: Install Cairo**
 
-There are different ways to install Cairo. Use the one that suits you best: [Cairo installer](https://cairo-book.github.io/ch01-01-installation.html).
+There are different ways to install Cairo. Use the one that suits you best: [Cairo installer.](https://book.cairo-lang.org/ch01-01-installation.html)
 
 **Step 2: Setup Language Server**
 
