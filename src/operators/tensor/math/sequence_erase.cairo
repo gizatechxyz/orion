@@ -13,13 +13,16 @@ fn sequence_erase<
     sequence: Array<Tensor<T>>, position: Option<Tensor<i32>>
 ) -> Array<Tensor<T>> {
 
-    let position: Tensor<i32> = if position.is_some() {
-        position.unwrap()
-    } else {
-        let mut shape = ArrayTrait::<usize>::new();
-        let mut data = ArrayTrait::<i32>::new();
-        data.append(i32 { mag: 1, sign: true });
-        TensorTrait::<i32>::new(shape.span(), data.span())
+    let position: Tensor<i32> = match position {
+        Option::Some(value) => {
+            position.unwrap()
+        },
+        Option::None(_) => {
+            let mut shape = ArrayTrait::<usize>::new();
+            let mut data = ArrayTrait::<i32>::new();
+            data.append(i32 { mag: 1, sign: true });
+            TensorTrait::<i32>::new(shape.span(), data.span())
+        }
     };
 
     assert(position.shape.len() == 0 && position.data.len() == 1, 'Position must be a scalar');
@@ -34,21 +37,21 @@ fn sequence_erase<
         position_value = sequence.len() - position_value;
     }
 
+    let mut input_sequence_copy = sequence;
     let mut output_sequence = ArrayTrait::new();
-
     let mut tensor_counter: usize = 0;
     loop {
-        if tensor_counter > sequence.len() - 1 {
-            break;
-        }
+        match input_sequence_copy.pop_front() {
+            Option::Some(input_sequence_value) => {
+                if tensor_counter == position_value {
+                    continue;
+                }
+                output_sequence.append(input_sequence_value);
 
-        if tensor_counter == position_value {
-            continue;
-        }
-
-        output_sequence.append(*sequence.at(tensor_counter));
-
-        tensor_counter += 1;
+                tensor_counter += 1;
+            },
+            Option::None(_) => { break; }
+        };
     };
 
     return output_sequence;
