@@ -4,12 +4,18 @@ mod math;
 mod linalg;
 mod quantization;
 mod implementations;
+mod ml;
 
 use orion::operators::tensor::core::{Tensor, TensorSerde, TensorTrait};
 
 use orion::operators::tensor::implementations::tensor_fp8x23::{
     FP8x23Tensor, FP8x23TensorAdd, FP8x23TensorSub, FP8x23TensorMul, FP8x23TensorDiv,
     FP8x23TensorPartialEq,
+};
+
+use orion::operators::tensor::implementations::tensor_fp32x32::{
+    FP32x32Tensor, FP32x32TensorAdd, FP32x32TensorSub, FP32x32TensorMul, FP32x32TensorDiv,
+    FP32x32TensorPartialEq,
 };
 
 use orion::operators::tensor::implementations::tensor_fp16x16::{

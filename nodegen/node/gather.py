@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 class Gather(RunAll):
 
@@ -19,10 +19,9 @@ class Gather(RunAll):
                 y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "gather_fp16x16_3d_default"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(0))", 
-                    file_name= name)
+                    name= name)
                 
             def axis1():
                 x1 = np.arange(0,27).reshape(3,3,3).astype(np.int64)
@@ -35,10 +34,9 @@ class Gather(RunAll):
                 y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "gather_fp16x16_3d_axis1"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(1))", 
-                    file_name= name)
+                    name= name)
                 
             def axis2():
                 x1 = np.arange(0,27).reshape(3,3,3).astype(np.int64)
@@ -51,10 +49,9 @@ class Gather(RunAll):
                 y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "gather_fp16x16_3d_axis2"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(2))", 
-                    file_name= name)
+                    name= name)
                 
             default()
             axis1()
@@ -75,10 +72,9 @@ class Gather(RunAll):
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(y.flatten(), FixedImpl.FP8x23))
 
                 name = "gather_fp8x23_3d_default"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(0))", 
-                    file_name= name)
+                    name= name)
                 
             def axis1():
                 x1 = np.arange(0,27).reshape(3,3,3).astype(np.int64)
@@ -90,10 +86,9 @@ class Gather(RunAll):
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(y.flatten(), FixedImpl.FP8x23)) 
 
                 name = "gather_fp8x23_3d_axis1"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(1))", 
-                    file_name= name)
+                    name= name)
                 
             def axis2():
                 x1 = np.arange(0,27).reshape(3,3,3).astype(np.int64)
@@ -105,10 +100,9 @@ class Gather(RunAll):
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(y.flatten(), FixedImpl.FP8x23))
 
                 name = "gather_fp8x23_3d_axis2"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(2))", 
-                    file_name= name)
+                    name= name)
                 
             default()
             axis1()
@@ -129,10 +123,9 @@ class Gather(RunAll):
                 y =  Tensor(Dtype.I8, y.shape, y.flatten()) 
 
                 name = "gather_i8_3d_default"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(0))", 
-                    file_name= name)
+                    name= name)
                 
             def axis1():
                 x1 = np.arange(0,27).reshape(3,3,3).astype(np.int8)
@@ -144,10 +137,9 @@ class Gather(RunAll):
                 y =  Tensor(Dtype.I8, y.shape, y.flatten())
 
                 name = "gather_i8_3d_axis1"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(1))", 
-                    file_name= name)
+                    name= name)
                 
             def axis2():
                 x1 = np.arange(0,27).reshape(3,3,3).astype(np.int8)
@@ -159,10 +151,9 @@ class Gather(RunAll):
                 y =  Tensor(Dtype.I8, y.shape, y.flatten())
 
                 name = "gather_i8_3d_axis2"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(2))", 
-                    file_name= name)
+                    name= name)
                 
             default()
             axis1()
@@ -184,10 +175,9 @@ class Gather(RunAll):
                 y =  Tensor(Dtype.I32, y.shape, y.flatten()) 
 
                 name = "gather_i32_3d_default"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(0))", 
-                    file_name= name)
+                    name= name)
                 
             def axis1():
                 x1 = np.arange(0,27).reshape(3,3,3).astype(np.int32)
@@ -199,10 +189,9 @@ class Gather(RunAll):
                 y =  Tensor(Dtype.I32, y.shape, y.flatten())
 
                 name = "gather_i32_3d_axis1"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(1))", 
-                    file_name= name)
+                    name= name)
                 
             def axis2():
                 x1 = np.arange(0,27).reshape(3,3,3).astype(np.int32)
@@ -214,10 +203,9 @@ class Gather(RunAll):
                 y =  Tensor(Dtype.I32, y.shape, y.flatten())
 
                 name = "gather_i32_3d_axis2"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(2))", 
-                    file_name= name)
+                    name= name)
                 
             default()
             axis1()
@@ -238,10 +226,9 @@ class Gather(RunAll):
                 y =  Tensor(Dtype.U32, y.shape, y.flatten()) 
 
                 name = "gather_u32_3d_default"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(0))", 
-                    file_name= name)
+                    name= name)
                 
             def axis1():
                 x1 = np.arange(0,36).reshape(3,4,3).astype(np.uint32)
@@ -253,10 +240,9 @@ class Gather(RunAll):
                 y =  Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "gather_u32_3d_axis1"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(1))", 
-                    file_name= name)
+                    name= name)
                 
             def axis2():
                 x1 = np.arange(0,36).reshape(3,4,3).astype(np.uint32)
@@ -268,10 +254,9 @@ class Gather(RunAll):
                 y =  Tensor(Dtype.U32, y.shape, y.flatten())
 
                 name = "gather_u32_3d_axis2"
-                make_node([x1, x2], [y], name)
                 make_test(
                     inputs = [x1, x2], output = y, func_sig = "input_0.gather(indices:input_1, axis:Option::Some(2))", 
-                    file_name= name)
+                    name= name)
                 
             default()
             axis1()

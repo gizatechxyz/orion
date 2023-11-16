@@ -37,6 +37,14 @@ impl i16Impl of IntegerTrait<i16, u16> {
     fn sign(self: i16) -> i16 {
         i16_sign(self)
     }
+
+    fn NaN() -> i16 {
+        return i16 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: i16) -> bool {
+        self == i16 { mag: 0, sign: true }
+    }
 }
 
 // Implements the Into trait for i16.
@@ -468,4 +476,8 @@ fn i16_sign(a: i16) -> i16 {
     } else {
         IntegerTrait::<i16>::new(1, a.sign)
     }
+}
+
+fn i16_bitwise_and(a: i16, b: i16) -> i16 {
+    IntegerTrait::<i16>::new(a.mag & b.mag, a.sign & b.sign)
 }

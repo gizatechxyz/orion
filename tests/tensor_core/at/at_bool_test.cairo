@@ -3,7 +3,7 @@
 #[cfg(test)]
 mod tensor_1D {
     use array::ArrayTrait;
-    use orion::operators::tensor::{BoolTensor};
+    use orion::operators::tensor::BoolTensor;
     use orion::operators::tensor::core::{TensorTrait};
 
 
@@ -19,7 +19,6 @@ mod tensor_1D {
         data.append(false);
 
         let tensor = TensorTrait::<bool>::new(sizes.span(), data.span());
-
 
         let mut indices = ArrayTrait::new();
         indices.append(1);
@@ -43,7 +42,7 @@ mod tensor_2D {
     #[test]
     #[available_gas(2000000)]
     fn tensor_at() {
-         let mut sizes = ArrayTrait::new();
+        let mut sizes = ArrayTrait::new();
         sizes.append(2);
         sizes.append(2);
 
@@ -54,7 +53,6 @@ mod tensor_2D {
         data.append(true);
 
         let tensor = TensorTrait::<bool>::new(sizes.span(), data.span());
-
 
         let mut indices = ArrayTrait::new();
         indices.append(1);
@@ -78,7 +76,6 @@ mod tensor_3D {
     #[test]
     #[available_gas(2000000)]
     fn tensor_at() {
-
         let mut sizes = ArrayTrait::new();
         sizes.append(2);
         sizes.append(2);
@@ -88,14 +85,13 @@ mod tensor_3D {
         data.append(false);
         data.append(false);
         data.append(false);
-         data.append(true);
+        data.append(true);
         data.append(false);
         data.append(false);
-         data.append(false);
+        data.append(false);
         data.append(false);
 
         let tensor = TensorTrait::<bool>::new(sizes.span(), data.span());
-
 
         let mut indices = ArrayTrait::new();
         indices.append(0);

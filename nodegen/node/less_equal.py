@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 
 class Less_equal(RunAll):
@@ -16,7 +16,6 @@ class Less_equal(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "less_equal_u32"
-            make_node([x, y], [z], name)
             make_test([x, y], z, "input_0.less_equal(@input_1)", name)
 
         def broadcast():
@@ -29,7 +28,6 @@ class Less_equal(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "less_equal_u32_broadcast"
-            make_node([x, y], [z], name)
             make_test([x, y], z, "input_0.less_equal(@input_1)", name)
 
         default()
@@ -47,7 +45,6 @@ class Less_equal(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "less_equal_i32"
-            make_node([x, y], [z], name)
             make_test([x, y], z, "input_0.less_equal(@input_1)", name)
 
         def broadcast():
@@ -60,7 +57,6 @@ class Less_equal(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "less_equal_i32_broadcast"
-            make_node([x, y], [z], name)
             make_test([x, y], z, "input_0.less_equal(@input_1)", name)
 
         default()
@@ -78,7 +74,6 @@ class Less_equal(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "less_equal_i8"
-            make_node([x, y], [z], name)
             make_test([x, y], z, "input_0.less_equal(@input_1)", name)
 
         def broadcast():
@@ -91,7 +86,6 @@ class Less_equal(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "less_equal_i8_broadcast"
-            make_node([x, y], [z], name)
             make_test([x, y], z, "input_0.less_equal(@input_1)", name)
 
         default()
@@ -111,7 +105,6 @@ class Less_equal(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "less_equal_fp8x23"
-            make_node([x, y], [z], name)
             make_test([x, y], z, "input_0.less_equal(@input_1)", name)
 
         def broadcast():
@@ -126,7 +119,6 @@ class Less_equal(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "less_equal_fp8x23_broadcast"
-            make_node([x, y], [z], name)
             make_test([x, y], z, "input_0.less_equal(@input_1)", name)
 
         default()
@@ -146,7 +138,6 @@ class Less_equal(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "less_equal_fp16x16"
-            make_node([x, y], [z], name)
             make_test([x, y], z, "input_0.less_equal(@input_1)", name)
 
         def broadcast():
@@ -161,7 +152,6 @@ class Less_equal(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "less_equal_fp16x16_broadcast"
-            make_node([x, y], [z], name)
             make_test([x, y], z, "input_0.less_equal(@input_1)", name)
 
         default()

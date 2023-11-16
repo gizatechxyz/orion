@@ -5,9 +5,10 @@ use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
+    at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::tensor_i8::I8Tensor;
 
@@ -16,16 +17,28 @@ impl U32Tensor of TensorTrait<u32> {
         new_tensor(shape, data)
     }
 
+    fn constant_of_shape(shape: Span<usize>, value: u32) -> Tensor<u32> {
+        constant_of_shape(shape, value)
+    }
+
     fn at(self: @Tensor<u32>, indices: Span<usize>) -> u32 {
         *at_tensor(self, indices)
     }
 
-    fn min(self: @Tensor<u32>) -> u32 {
-        math::min::min_in_tensor::<u32, u32>(*self.data)
+    fn min_in_tensor(self: @Tensor<u32>) -> u32 {
+        math::min_in_tensor::min_in_tensor::<u32, u32>(*self.data)
     }
 
-    fn max(self: @Tensor<u32>) -> u32 {
-        math::max::max_in_tensor(*self.data)
+    fn min(tensors: Span<Tensor<u32>>) -> Tensor<u32> {
+        math::min::min(tensors)
+    }
+
+    fn max_in_tensor(self: @Tensor<u32>) -> u32 {
+        math::max_in_tensor::max_in_tensor(*self.data)
+    }
+
+    fn max(tensors: Span<Tensor<u32>>) -> Tensor<u32> {
+        math::max::max(tensors)
     }
 
     fn stride(self: @Tensor<u32>) -> Span<usize> {
@@ -192,6 +205,32 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_add(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<u32>,
+        a_zero_point: @Tensor<u32>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<u32>,
+        b_zero_point: @Tensor<u32>,
+        y_scale: @Tensor<u32>,
+        y_zero_point: @Tensor<u32>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn qlinear_matmul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<u32>,
+        a_zero_point: @Tensor<u32>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<u32>,
+        b_zero_point: @Tensor<u32>,
+        y_scale: @Tensor<u32>,
+        y_zero_point: @Tensor<u32>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn slice(
         self: @Tensor<u32>,
         starts: Span<usize>,
@@ -236,6 +275,48 @@ impl U32Tensor of TensorTrait<u32> {
 
     fn where(self: @Tensor<u32>, x: @Tensor<u32>, y: @Tensor<u32>) -> Tensor<u32> {
         math::where::where(self, x, y)
+    }
+
+    fn bitwise_and(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+
+    fn round(self: @Tensor<u32>) -> Tensor<u32> {
+        math::round::round(*self)
+    }
+
+    fn reduce_l1(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+
+    fn trilu(self: @Tensor<u32>, upper: bool, k: i64) -> Tensor<u32> {
+        linalg::trilu::trilu(self, upper, k)
+    }
+
+    fn scatter(
+        self: @Tensor<u32>,
+        updates: Tensor<u32>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<u32> {
+        math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
+    fn array_feature_extractor(self: @Tensor<u32>, indices: Tensor<usize>) -> Tensor<u32> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
+    }
+    
+    fn binarizer(self: @Tensor<u32>, threshold: Option<u32>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+    
+    fn reduce_sum_square(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+
+    fn reduce_l2(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        panic(array!['not supported!'])
     }
 }
 

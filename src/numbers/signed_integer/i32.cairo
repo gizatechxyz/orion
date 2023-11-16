@@ -40,6 +40,14 @@ impl i32Impl of IntegerTrait<i32, u32> {
     fn sign(self: i32) -> i32 {
         i32_sign(self)
     }
+
+    fn NaN() -> i32 {
+        return i32 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: i32) -> bool {
+        self == i32 { mag: 0, sign: true }
+    }
 }
 
 // Implements the Into trait for i32.
@@ -500,4 +508,8 @@ fn i32_sign(a: i32) -> i32 {
     } else {
         IntegerTrait::<i32>::new(1, a.sign)
     }
+}
+
+fn i32_bitwise_and(a: i32, b: i32) -> i32 {
+    IntegerTrait::<i32>::new(a.mag & b.mag, a.sign & b.sign)
 }
