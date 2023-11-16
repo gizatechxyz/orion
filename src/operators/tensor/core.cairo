@@ -92,6 +92,8 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// reduce_l1 - Computes the L1 norm of the input tensor's elements along the provided axes.
 /// trilu - Returns the upper or lower triangular part of a tensor or a batch of 2D matrices.
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
+/// array_feature_extractor – Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
+/// binarizer – Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
 trait TensorTrait<T> {
@@ -3584,6 +3586,106 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn constant_of_shape(shape: Span<usize>, value: T) -> Tensor<T>;
+    /// # tensor.binarizer
+    /// 
+    /// ```rust
+    ///  fn binarizer(self: @Tensor<T>, threshold: Option<T>) -> Tensor<T>
+    /// ```
+    ///
+    /// Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
+    ///
+    /// ## Args
+    /// * `self`(`@Tensor<T>`) - The input tensor to be binarized.
+    /// * `threshold`(`Option<T>`) - The threshold for the binarization operation.
+    ///
+    /// ## Returns
+    /// A new `Tensor<T>` of the same shape as the input tensor with binarized values.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point numbers.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
+    /// use orion::numbers::{FixedTrait, FP8x23};
+    /// 
+    /// fn binarizer_example() -> Tensor<FP8x23> {
+    ///     let tensor = TensorTrait::<FP8x23>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![
+    ///             FixedTrait::new(0, false),
+    ///             FixedTrait::new(1, false),
+    ///             FixedTrait::new(2, false),
+    ///             FixedTrait::new(3, false)
+    ///         ]
+    ///             .span(),
+    ///     );
+    ///     let threshold = Option::Some(FixedTrait::new(1, false))
+    /// 
+    ///     return tensor.binarizer(@tensor, threshold);
+    /// }
+    /// >>> [0, 0, 8388608, 8388608]
+    ///     // The fixed point representation of
+    ///     [0, 0, 1, 1]
+    /// ```
+    ///
+    fn binarizer(self: @Tensor<T>, threshold: Option<T>) -> Tensor<T>;
+    /// # tensor.array_feature_extractor
+    ///
+    /// ```rust
+    ///     fn array_feature_extractor(self: @Tensor<T>, indices: Tensor<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Selects elements of the input tensor based on the indices passed applied to the last tensor axis. 
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `indices`(`Tensor<usize>`) - Tensor of indices.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if indices tensor is not 1-dimensional.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with selected elements based on provided indices.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
+    /// use orion::numbers::{i32, IntegerTrait};
+    /// 
+    /// fn array_feature_extractor_example() -> Tensor<i32> {
+    ///     let input_tensor = TensorTrait::new(
+    ///         shape: array![3, 4].span(),
+    ///         data: array![
+    ///             IntegerTrait::new(0, false), IntegerTrait::new(1, false), IntegerTrait::new(2, false), IntegerTrait::new(3, false),
+    ///             IntegerTrait::new(4, false), IntegerTrait::new(5, false), IntegerTrait::new(6, false), IntegerTrait::new(7, false),
+    ///             IntegerTrait::new(8, false), IntegerTrait::new(9, false), IntegerTrait::new(10, false), IntegerTrait::new(11, false)
+    ///         ]
+    ///             .span(),
+    ///     );
+    ///     
+    ///     let indices = TensorTrait::<u32>::new(
+    ///         shape: array![2].span(), data: array![1, 3].span(),
+    ///     );
+    /// 
+    ///     return tensor.array_feature_extractor(@input_tensor, @indices);
+    /// }
+    /// >>> [[1, 3]
+    ///      [5, 7]
+    ///      [9, 11]]
+    /// ```
+    ///
+    fn array_feature_extractor(self: @Tensor<T>, indices: Tensor<usize>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

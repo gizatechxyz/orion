@@ -101,12 +101,22 @@ def make_test(inputs: list[Tensor | Sequence], output: Tensor | Sequence, func_s
     output_data.dump()
 
     test_file = CairoTest(f"{name}.cairo")
-    test_file.buffer = CairoTest.template(
-        name=name,
-        arg_cnt=len(inputs),
-        refs=get_all_test_refs(find_all_types([*inputs, output]), trait, isinstance(output, list)),
-        func_sig=func_sig,
-    )
+    match output:
+        case list():
+            test_file.buffer = CairoTest.sequence_template(
+                name=name,
+                arg_cnt=len(inputs),
+                refs=get_all_test_refs(find_all_types([*inputs, *output]), trait),
+                func_sig=func_sig,
+            )
+        case Tensor():
+            test_file.buffer = CairoTest.base_template(
+                name=name,
+                arg_cnt=len(inputs),
+                refs=get_all_test_refs(find_all_types([*inputs, output]), trait),
+                func_sig=func_sig,
+            )
+
     test_file.dump()
 
 
@@ -140,10 +150,10 @@ def get_data_statement_for_sequences(data: Sequence, dtype: Dtype) -> list[list[
     return [get_data_statement(x.data, dtype) for x in data]
 
 
-def get_all_test_refs(dtypes: list[Dtype], trait: Trait, is_sequence: bool) -> list[str]:
+def get_all_test_refs(dtypes: list[Dtype], trait: Trait) -> list[str]:
     refs = []
     for dtype in dtypes:
-        refs += get_test_refs(dtype, trait, is_sequence)
+        refs += get_test_refs(dtype, trait)
 
     return list(set(refs))
 

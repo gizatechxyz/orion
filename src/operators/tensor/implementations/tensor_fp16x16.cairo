@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP16x16};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
@@ -317,6 +317,14 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
 
     fn reduce_l1(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
         math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+
+    fn array_feature_extractor(self: @Tensor<FP16x16>, indices: Tensor<usize>) -> Tensor<FP16x16> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
+    }
+
+    fn binarizer(self: @Tensor<FP16x16>, threshold: Option<FP16x16>) -> Tensor<FP16x16> {
+        math::binarizer::binarizer(*self, threshold)
     }
 
     fn reduce_sum_square(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
