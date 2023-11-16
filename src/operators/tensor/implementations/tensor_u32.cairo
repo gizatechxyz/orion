@@ -319,6 +319,10 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
+    fn sequence_construct(tensors: Array<Tensor<u32>>) -> Array<Tensor<u32>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
+    
     fn shrink(self: Tensor<u32>, bias: Option<u32>, lambd: Option<u32>) -> Tensor<u32> {
         panic(array!['not supported!']) 
     }

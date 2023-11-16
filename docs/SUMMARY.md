@@ -102,6 +102,7 @@
     * [tensor.reduce\_sum\_square](framework/operators/tensor/tensor.reduce\_sum\_square.md)
     * [tensor.reduce\_l2](framework/operators/tensor/tensor.reduce\_l2.md)
     * [tensor.reduce\_l1](framework/operators/tensor/tensor.reduce\_l1.md)
+    * [tensor.sequence\_construct](framework/operators/tensor/tensor.sequence\_construct.md)
     * [tensor.shrink](framework/operators/tensor/tensor.shrink.md)
     * [tensor.sequence\_empty](framework/operators/tensor/tensor.sequence\_empty.md)
     * [tensor.reduce_mean](framework/operators/tensor/tensor.reduce\_mean.md)

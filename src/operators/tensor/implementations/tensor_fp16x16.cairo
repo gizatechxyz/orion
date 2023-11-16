@@ -349,6 +349,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn sequence_construct(tensors: Array<Tensor<FP16x16>>) -> Array<Tensor<FP16x16>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
+    
     fn shrink(self: Tensor<FP16x16>, bias: Option<FP16x16>, lambd: Option<FP16x16>) -> Tensor<FP16x16> {
         math::shrink::shrink(self, bias, lambd)
     }
