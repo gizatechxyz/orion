@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 
 def softsign(x: np.ndarray) -> np.ndarray:
@@ -21,7 +21,6 @@ class Softsign(RunAll):
                 y.flatten(), FixedImpl.FP8x23))
 
             name = "softsign_fp8x23"
-            make_node([x], [y], name)
             make_test([x], y, "NNTrait::softsign(@input_0)",
                       name, Trait.NN)
 
@@ -35,7 +34,6 @@ class Softsign(RunAll):
                 y.flatten(), FixedImpl.FP16x16))
 
             name = "softsign_fp16x16"
-            make_node([x], [y], name)
             make_test([x], y, "NNTrait::softsign(@input_0)",
                       name, Trait.NN)
 

@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 class Sign(RunAll):
     @staticmethod
@@ -13,7 +13,6 @@ class Sign(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "sign_i8"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.sign()", name)
         sign()
@@ -28,7 +27,6 @@ class Sign(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "sign_i32"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.sign()", name)
         sign()
@@ -44,7 +42,6 @@ class Sign(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "sign_fail"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.sign()", name)
         sign()
@@ -60,7 +57,6 @@ class Sign(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "sign_fP16x16"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.sign()", name)
         sign()
@@ -76,7 +72,6 @@ class Sign(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "sign_fP8x23"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.sign()", name)
         sign()

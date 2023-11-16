@@ -1,7 +1,6 @@
 import numpy as np
-import torch
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 # The below ScatterElements' numpy implementation is from https://stackoverflow.com/a/46204790/11767360
 def scatter_elements(data, indices, updates, axis=0, reduction="none"):  # type: ignore
@@ -91,10 +90,9 @@ class Scatter(RunAll):
                 y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "scatter_fp16x16_3d_default"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(0), reduction:Option::Some('none'))", 
-                    file_name= name)
+                    name= name)
                 
             def axis_1():
                 x1 = np.zeros((3, 3)).astype(np.int64)
@@ -113,10 +111,9 @@ class Scatter(RunAll):
                 y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "scatter_fp16x16_3d_axis1"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(1), reduction:Option::Some('none'))", 
-                    file_name= name)
+                    name= name)
                 
             def axis_1_add():
                 x1 = np.zeros((3, 3)).astype(np.int64)
@@ -135,10 +132,9 @@ class Scatter(RunAll):
                 y.flatten(), FixedImpl.FP16x16)) 
 
                 name = "scatter_fp16x16_3d_axis1_add"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(1), reduction:Option::Some('add'))", 
-                    file_name= name)
+                    name= name)
                 
             default()
             axis_1()
@@ -166,10 +162,9 @@ class Scatter(RunAll):
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(y.flatten(), FixedImpl.FP8x23))
 
                 name = "scatter_fp8x23_default"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(0), reduction:Option::Some('none'))", 
-                    file_name= name)
+                    name= name)
                 
 
             def axis1():
@@ -188,10 +183,9 @@ class Scatter(RunAll):
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(y.flatten(), FixedImpl.FP8x23))
 
                 name = "scatter_fp8x23_axis1"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(1), reduction:Option::Some('none'))", 
-                    file_name= name)
+                    name= name)
                 
             def axis1_mul():
                 x1 = np.zeros((3, 3)).astype(np.int64)
@@ -209,10 +203,9 @@ class Scatter(RunAll):
                 y = Tensor(Dtype.FP8x23, y.shape, to_fp(y.flatten(), FixedImpl.FP8x23))
 
                 name = "scatter_fp8x23_mul"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(0), reduction:Option::Some('mul'))", 
-                    file_name= name)
+                    name= name)
                 
             default()
             axis1()
@@ -239,10 +232,9 @@ class Scatter(RunAll):
                 y =  Tensor(Dtype.I8, y.shape, y.flatten()) 
 
                 name = "scatter_i8_default"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(0), reduction:Option::Some('none'))", 
-                    file_name= name)
+                    name= name)
                 
             def axis1():
                 x1 = np.zeros((3, 3)).astype(np.int8)
@@ -260,10 +252,9 @@ class Scatter(RunAll):
                 y =  Tensor(Dtype.I8, y.shape, y.flatten()) 
 
                 name = "scatter_i8_axis1"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(1), reduction:Option::Some('none'))", 
-                    file_name= name)
+                    name= name)
                 
                 
             def axis1_max():
@@ -282,10 +273,9 @@ class Scatter(RunAll):
                 y =  Tensor(Dtype.I8, y.shape, y.flatten()) 
 
                 name = "scatter_i8_axis1_max"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(1), reduction:Option::Some('max'))", 
-                    file_name= name)
+                    name= name)
                 
             default()
             axis1()
@@ -312,10 +302,9 @@ class Scatter(RunAll):
                 y =  Tensor(Dtype.I32, y.shape, y.flatten()) 
 
                 name = "scatter_i8_default"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(0), reduction:Option::Some('none'))", 
-                    file_name= name)
+                    name= name)
                 
             def axis1():
                 x1 = np.zeros((3, 3)).astype(np.int32)
@@ -333,10 +322,9 @@ class Scatter(RunAll):
                 y =  Tensor(Dtype.I32, y.shape, y.flatten()) 
 
                 name = "scatter_i8_axis1"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(1), reduction:Option::Some('none'))", 
-                    file_name= name)
+                    name= name)
                 
             def axis_min():
                 x1 = np.zeros((3, 3)).astype(np.int32)
@@ -354,10 +342,9 @@ class Scatter(RunAll):
                 y =  Tensor(Dtype.I32, y.shape, y.flatten()) 
 
                 name = "scatter_i8_default"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(1), reduction:Option::Some('min'))", 
-                    file_name= name)
+                    name= name)
                 
             default()
             axis1()
@@ -385,10 +372,9 @@ class Scatter(RunAll):
                 y =  Tensor(Dtype.U32, y.shape, y.flatten()) 
 
                 name = "scatter_u32_default"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(0), reduction:Option::Some('none'))", 
-                    file_name= name)
+                    name= name)
                 
                 
             def axis1():
@@ -407,10 +393,9 @@ class Scatter(RunAll):
                 y =  Tensor(Dtype.U32, y.shape, y.flatten()) 
 
                 name = "scatter_u32_axis1"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(1), reduction:Option::Some('none'))", 
-                    file_name= name)
+                    name= name)
                 
             def axis_add():
                 x1 = np.zeros((3, 3)).astype(np.uint32)
@@ -428,10 +413,9 @@ class Scatter(RunAll):
                 y =  Tensor(Dtype.U32, y.shape, y.flatten()) 
 
                 name = "scatter_u32_add"
-                make_node([x1, x2, x3], [y], name)
                 make_test(
                     inputs = [x1, x2, x3], output = y, func_sig = "input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(0), reduction:Option::Some('add'))", 
-                    file_name= name)
+                    name= name)
                 
             default()
             axis1()

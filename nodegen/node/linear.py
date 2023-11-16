@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 from typing import Optional
 
 
@@ -28,7 +28,6 @@ class Linear(RunAll):
         y = Tensor(Dtype.I32, y.shape, y.flatten())
 
         name = "linear_i32"
-        make_node([i, w, b], [y], name)
         make_test([i, w, b], y, "NNTrait::linear(input_0, input_1, input_2)",
                   name, Trait.NN)
 
@@ -45,7 +44,6 @@ class Linear(RunAll):
         y = Tensor(Dtype.I8, y.shape, y.flatten())
 
         name = "linear_i8"
-        make_node([i, w, b], [y], name)
         make_test([i, w, b], y, "NNTrait::linear(input_0, input_1, input_2)",
                   name, Trait.NN)
 
@@ -62,7 +60,6 @@ class Linear(RunAll):
         y = Tensor(Dtype.U32, y.shape, y.flatten())
 
         name = "linear_u32"
-        make_node([i, w, b], [y], name)
         make_test([i, w, b], y, "NNTrait::linear(input_0, input_1, input_2)",
                   name, Trait.NN)
 
@@ -83,7 +80,6 @@ class Linear(RunAll):
             y.flatten(), FixedImpl.FP8x23))
 
         name = "linear_fp8x23"
-        make_node([i, w, b], [y], name)
         make_test([i, w, b], y, "NNTrait::linear(input_0, input_1, input_2)",
                   name, Trait.NN)
 
@@ -104,6 +100,5 @@ class Linear(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "linear_fp16x16"
-        make_node([i, w, b], [y], name)
         make_test([i, w, b], y, "NNTrait::linear(input_0, input_1, input_2)",
                   name, Trait.NN)

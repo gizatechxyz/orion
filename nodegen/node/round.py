@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 class Round(RunAll):
    
@@ -13,7 +13,6 @@ class Round(RunAll):
         y = Tensor(Dtype.FP8x23, y.shape, to_fp(y.flatten(), FixedImpl.FP8x23))
         
         name = "round_fp8x23"
-        make_node([x], [y], name)
         make_test([x], y, "input_0.round()", name)
      
     @staticmethod
@@ -25,5 +24,4 @@ class Round(RunAll):
         y = Tensor(Dtype.FP16x16, y.shape, to_fp(y.flatten(), FixedImpl.FP16x16))
 
         name = "round_fp16x16"
-        make_node([x], [y], name)
         make_test([x], y, "input_0.round()", name)
