@@ -312,6 +312,10 @@ impl BoolTensor of TensorTrait<bool> {
         constant_of_shape(shape, value)
     }
 
+    fn shrink(self: Tensor<bool>, bias: Option<bool>, lambd: Option<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+    
     fn sequence_empty() -> Array<Tensor<bool>> {
         math::sequence_empty::sequence_empty::<bool>()
     }

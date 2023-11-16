@@ -96,6 +96,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// binarizer – Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
+/// shrink – Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula.
 /// sequence_empty - Returns an empty tensor sequence.
 /// reduce_mean - Computes the mean of the input tensor's elements along the provided axes.
 trait TensorTrait<T> {
@@ -3769,6 +3770,57 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn sequence_empty() -> Array<Tensor<T>>;
+    /// # tensor.shrink
+    /// 
+    /// ```rust
+    ///  fn shrink(self: @Tensor<T>, bias: Option<T>, lambd: Option<T>) -> Tensor<T>
+    /// ```
+    ///
+    /// Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on the following formula:
+    /// If x < -lambd: y = x + bias; If x > lambd: y = x - bias; Otherwise: y = 0.
+    ///
+    /// ## Args
+    /// * `self`(`@Tensor<T>`) - The input tensor to be shrinked.
+    /// * `bias`(`Option<T>`) - The bias value added to or subtracted from input tensor values.
+    /// * `lambd`(`Option<T>`) - The lambd value defining the shrink condition.
+    ///
+    /// ## Returns
+    /// A new `Tensor<T>` of the same datatype and shape as the input tensor with shrinked values.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point numbers.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
+    /// use orion::numbers::{FixedTrait, FP8x23};
+    /// 
+    /// fn shrink_example() -> Tensor<FP8x23> {
+    ///     let tensor = TensorTrait::<FP8x23>::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![
+    ///             FixedTrait::new(2, true),
+    ///             FixedTrait::new(1, true),
+    ///             FixedTrait::new(1, false),
+    ///             FixedTrait::new(2, false)
+    ///         ]
+    ///             .span(),
+    ///     );
+    ///     let bias = Option::Some(FixedTrait::new(1, false))
+    ///     let lambd = Option::Some(FixedTrait::new(1, false))
+    /// 
+    ///     return tensor.shrink(tensor, bias, lambd);
+    /// }
+    /// >>> [-8388608, 0, 0, 8388608]
+    ///     // The fixed point representation of
+    ///     [-1, 0, 0, 1]
+    /// ```
+    ///
+    fn shrink(self: Tensor<T>, bias: Option<T>, lambd: Option<T>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

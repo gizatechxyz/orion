@@ -349,6 +349,10 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
+    fn shrink(self: Tensor<i8>, bias: Option<i8>, lambd: Option<i8>) -> Tensor<i8> {
+        panic(array!['not supported!']) 
+    }
+    
     fn sequence_empty() -> Array<Tensor<i8>> {
         math::sequence_empty::sequence_empty::<i8>()
     }

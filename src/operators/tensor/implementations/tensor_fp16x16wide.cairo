@@ -337,6 +337,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 
+    fn shrink(self: Tensor<FP16x16W>, bias: Option<FP16x16W>, lambd: Option<FP16x16W>) -> Tensor<FP16x16W> {
+        math::shrink::shrink(self, bias, lambd) 
+    }
+    
     fn sequence_empty() -> Array<Tensor<FP16x16W>> {
         math::sequence_empty::sequence_empty::<FP16x16W>()
     }
