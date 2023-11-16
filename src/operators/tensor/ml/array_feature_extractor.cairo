@@ -16,9 +16,8 @@ fn array_feature_extractor<
 >(
     self: Tensor<T>, indices: Tensor<usize>
 ) -> Tensor<T> {
-
     assert(indices.shape.len() == 1, 'Indices must be a 1D tensor');
-    
+
     if self.shape.len() == 1 {
         return process_1D_tensor(self, indices);
     }
@@ -41,22 +40,21 @@ fn process_1D_tensor<
 >(
     self: Tensor<T>, indices: Tensor<usize>
 ) -> Tensor<T> {
-
     let mut output_data = ArrayTrait::<T>::new();
 
     let mut indices_counter: usize = 0;
+
+    let mut indices_values: Span<usize> = indices.data;
+    let self_len = *self.shape.at(0);
     loop {
-        if indices_counter > indices.data.len() - 1 {
-            break;
-        }
-
-        let mut current_indices_value = *indices.data.at(indices_counter);
-        assert(current_indices_value < *self.shape.at(0), 'Indices out of range');
-
-        let mut current_data_value = *self.data.at(current_indices_value);
-        output_data.append(current_data_value);
-        
-        indices_counter += 1;
+        match indices_values.pop_front() {
+            Option::Some(current_indices_value) => {
+                assert(*current_indices_value < self_len, 'Indices out of range');
+                let mut current_data_value = *self.data.at(*current_indices_value);
+                output_data.append(current_data_value);
+            },
+            Option::None(_) => { break; }
+        };
     };
 
     return TensorTrait::new(indices.shape, output_data.span());
@@ -73,22 +71,25 @@ fn calculate_output_shape<
 >(
     input_shape: Span<usize>, indices: Tensor<usize>
 ) -> (Array<usize>, usize) {
-
     let mut total_elements: usize = 1;
     let mut output_shape: Array<usize> = ArrayTrait::new();
 
+    let mut input_shape_copy = input_shape;
     let mut input_shape_counter: usize = 0;
+    let breaker = input_shape.len() - 2;
     loop {
-        if input_shape_counter > input_shape.len() - 2 {
-            break;
-        }
+        match input_shape_copy.pop_front() {
+            Option::Some(current_shape_value) => {
+                if input_shape_counter > breaker {
+                    break;
+                }
+                output_shape.append(*current_shape_value);
+                total_elements = total_elements * *current_shape_value;
 
-        let mut current_shape_value = *input_shape.at(input_shape_counter);
-        output_shape.append(current_shape_value);
-
-        total_elements = total_elements * current_shape_value;
-
-        input_shape_counter += 1;
+                input_shape_counter += 1;
+            },
+            Option::None(_) => { break; }
+        };
     };
 
     output_shape.append(indices.data.len());
@@ -107,7 +108,6 @@ fn calculate_output_data<
 >(
     self: Tensor<T>, indices: Tensor<usize>, total_elements: usize
 ) -> Array<T> {
-
     let last_tensor_axis: usize = *self.shape.at(self.shape.len() - 1);
 
     let mut output_data = ArrayTrait::<T>::new();
@@ -115,32 +115,31 @@ fn calculate_output_data<
     let strides: Span<usize> = TensorTrait::stride(@self);
 
     let mut element_counter: usize = 0;
+    let mut stride_l2 = *strides.at(strides.len() - 2);
+    let mut stride_l1 = *strides.at(strides.len() - 1);
     loop {
         if element_counter > total_elements - 1 {
             break;
         }
 
         let mut base_index = if strides.len() > 1 {
-            element_counter * (*strides.at(strides.len() - 2))
+            element_counter * stride_l2
         } else {
-            0  
+            0
         };
 
-        let mut indices_counter: usize = 0;
+        let mut indices_values = indices.data;
         loop {
-            if indices_counter > indices.data.len() - 1 {
-                break;
-            }
+            match indices_values.pop_front() {
+                Option::Some(current_indices_value) => {
+                    assert(*current_indices_value < last_tensor_axis, 'Indices out of range');
+                    let mut flat_index = base_index + *current_indices_value * (stride_l1);
 
-            let mut current_indices_value = *indices.data.at(indices_counter);
-            assert(current_indices_value < last_tensor_axis, 'Indices out of range');
-
-            let mut flat_index = base_index + current_indices_value * (*strides.at(strides.len() - 1));
-
-            let mut current_data_value = *self.data.at(flat_index);
-            output_data.append(current_data_value);
-            
-            indices_counter += 1;
+                    let mut current_data_value = *self.data.at(flat_index);
+                    output_data.append(current_data_value);
+                },
+                Option::None(_) => { break; }
+            };
         };
 
         element_counter += 1;
