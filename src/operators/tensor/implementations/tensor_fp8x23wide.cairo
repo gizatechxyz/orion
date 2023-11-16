@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP8x23W};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
@@ -297,6 +297,15 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::reduce_l1::reduce_l1(self, axis, keepdims)
     }
 
+    fn array_feature_extractor(self: @Tensor<FP8x23W>, indices: Tensor<usize>) -> Tensor<FP8x23W> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
+    }
+
+
+    fn binarizer(self: @Tensor<FP8x23W>, threshold: Option<FP8x23W>) -> Tensor<FP8x23W> {
+        math::binarizer::binarizer(*self, threshold)
+    }
+ 
     fn reduce_sum_square(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
