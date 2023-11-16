@@ -8,9 +8,7 @@ use orion::numbers::NumberTrait;
 /// Cf: TensorTrait::array_feature_extractor docstring
 fn array_feature_extractor<
     T,
-    MAG,
     impl TTensor: TensorTrait<T>,
-    impl TNumber: NumberTrait<T, MAG>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
 >(
@@ -22,9 +20,9 @@ fn array_feature_extractor<
         return process_1D_tensor(self, indices);
     }
 
-    let (output_shape, total_elements) = calculate_output_shape::<T, MAG>(self.shape, indices);
+    let (output_shape, total_elements) = calculate_output_shape::<T>(self.shape, indices);
 
-    let output_data = calculate_output_data::<T, MAG>(self, indices, total_elements);
+    let output_data = calculate_output_data::<T>(self, indices, total_elements);
 
     return TensorTrait::new(output_shape.span(), output_data.span());
 }
@@ -32,9 +30,7 @@ fn array_feature_extractor<
 
 fn process_1D_tensor<
     T,
-    MAG,
     impl TTensor: TensorTrait<T>,
-    impl TNumber: NumberTrait<T, MAG>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
 >(
@@ -63,9 +59,7 @@ fn process_1D_tensor<
 
 fn calculate_output_shape<
     T,
-    MAG,
     impl TTensor: TensorTrait<T>,
-    impl TNumber: NumberTrait<T, MAG>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
 >(
@@ -100,9 +94,7 @@ fn calculate_output_shape<
 
 fn calculate_output_data<
     T,
-    MAG,
     impl TTensor: TensorTrait<T>,
-    impl TNumber: NumberTrait<T, MAG>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
 >(

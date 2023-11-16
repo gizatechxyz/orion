@@ -537,7 +537,6 @@ mod array_feature_extractor_2D_fp16x16;
 mod array_feature_extractor_3D_i32; 
 mod array_feature_extractor_3D_fp8x23; 
 mod array_feature_extractor_3D_fp16x16; 
-mod scatter_u32_add; 
 mod binarizer_fp16x16; 
 mod binarizer_fp8x23;  
 mod tril_fp16x16;
