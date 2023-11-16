@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP8x23};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
@@ -343,6 +343,23 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
 
     fn sequence_empty() -> Array<Tensor<FP8x23>> {
         math::sequence_empty::sequence_empty::<FP8x23>()
+    }
+    
+    fn reduce_mean(
+        self: @Tensor<FP8x23>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP8x23> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
+    }
+    
+    fn binarizer(self: @Tensor<FP8x23>, threshold: Option<FP8x23>) -> Tensor<FP8x23> {
+        math::binarizer::binarizer(*self, threshold)
+    }
+
+    fn array_feature_extractor(self: @Tensor<FP8x23>, indices: Tensor<usize>) -> Tensor<FP8x23> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
 }
 
