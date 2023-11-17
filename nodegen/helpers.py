@@ -158,7 +158,7 @@ def get_all_test_refs(dtypes: list[Dtype], trait: Trait) -> list[str]:
     return list(set(refs))
 
 
-def get_test_refs(dtype: Dtype, trait: Trait, is_sequence: bool) -> list[str]:
+def get_test_refs(dtype: Dtype, trait: Trait) -> list[str]:
     if trait == Trait.NN and dtype == Dtype.BOOL:
         raise Exception("NN trait does not support bool dtype")
 
