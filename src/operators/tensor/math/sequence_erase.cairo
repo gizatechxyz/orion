@@ -14,9 +14,7 @@ fn sequence_erase<
 ) -> Array<Tensor<T>> {
 
     let position: Tensor<i32> = match position {
-        Option::Some(value) => {
-            position.unwrap()
-        },
+        Option::Some(p) => p,
         Option::None(_) => {
             let mut shape = ArrayTrait::<usize>::new();
             let mut data = ArrayTrait::<i32>::new();
@@ -38,12 +36,13 @@ fn sequence_erase<
     }
 
     let mut input_sequence_copy = sequence;
-    let mut output_sequence = ArrayTrait::new();
+    let mut output_sequence = ArrayTrait::<Tensor<T>>::new();
     let mut tensor_counter: usize = 0;
     loop {
         match input_sequence_copy.pop_front() {
             Option::Some(input_sequence_value) => {
                 if tensor_counter == position_value {
+                    tensor_counter += 1;
                     continue;
                 }
                 output_sequence.append(input_sequence_value);
