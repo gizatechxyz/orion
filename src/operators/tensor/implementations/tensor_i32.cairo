@@ -304,6 +304,22 @@ impl I32Tensor of TensorTrait<i32> {
         )
     }
 
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<i32>,
+        a_zero_point: @Tensor<i32>,
+        alpha: i32
+
+    ) -> Tensor::<i8> {
+        quantization::qlinear_leakyrelu::qlinear_leakyrelu(
+            self,
+            a_scale,
+            a_zero_point,
+            alpha,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
 
     fn slice(
         self: @Tensor<i32>,

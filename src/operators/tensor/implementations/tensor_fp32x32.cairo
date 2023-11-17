@@ -304,6 +304,23 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         )
     }    
 
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP32x32>,
+        a_zero_point: @Tensor<FP32x32>,
+        alpha: FP32x32
+
+    ) -> Tensor::<i8> {
+        quantization::qlinear_leakyrelu::qlinear_leakyrelu(
+            self,
+            a_scale,
+            a_zero_point,
+            alpha,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn slice(
         self: @Tensor<FP32x32>,
         starts: Span<usize>,
