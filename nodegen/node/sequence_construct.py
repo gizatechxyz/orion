@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 
 class Sequence_construct(RunAll):
@@ -18,7 +18,7 @@ class Sequence_construct(RunAll):
             sequence.append(tensor)
 
         name = "sequence_construct_u32"
-        make_test([sequence], sequence, "TensorTrait::sequence_construct(input_0)", name)
+        make_test([sequence], sequence, "SequenceTrait::sequence_construct(input_0)", name, Trait.SEQUENCE)
 
 
     @staticmethod
@@ -34,7 +34,7 @@ class Sequence_construct(RunAll):
             sequence.append(tensor)
 
         name = "sequence_construct_i32"
-        make_test([sequence], sequence, "TensorTrait::sequence_construct(input_0)", name)
+        make_test([sequence], sequence, "SequenceTrait::sequence_construct(input_0)", name, Trait.SEQUENCE)
 
 
     @staticmethod
@@ -50,7 +50,7 @@ class Sequence_construct(RunAll):
             sequence.append(tensor)
 
         name = "sequence_construct_i8"
-        make_test([sequence], sequence, "TensorTrait::sequence_construct(input_0)", name)
+        make_test([sequence], sequence, "SequenceTrait::sequence_construct(input_0)", name, Trait.SEQUENCE)
 
 
     @staticmethod
@@ -66,7 +66,7 @@ class Sequence_construct(RunAll):
             sequence.append(tensor)
 
         name = "sequence_construct_fp8x23"
-        make_test([sequence], sequence, "TensorTrait::sequence_construct(input_0)", name)
+        make_test([sequence], sequence, "SequenceTrait::sequence_construct(input_0)", name, Trait.SEQUENCE)
 
 
     @staticmethod
@@ -82,4 +82,4 @@ class Sequence_construct(RunAll):
             sequence.append(tensor)
 
         name = "sequence_construct_fp16x16"
-        make_test([sequence], sequence, "TensorTrait::sequence_construct(input_0)", name)
+        make_test([sequence], sequence, "SequenceTrait::sequence_construct(input_0)", name, Trait.SEQUENCE)
