@@ -312,16 +312,8 @@ impl BoolTensor of TensorTrait<bool> {
         constant_of_shape(shape, value)
     }
 
-    fn sequence_construct(tensors: Array<Tensor<bool>>) -> Array<Tensor<bool>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
     fn shrink(self: Tensor<bool>, bias: Option<bool>, lambd: Option<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
-    }
-
-    fn sequence_empty() -> Array<Tensor<bool>> {
-        math::sequence_empty::sequence_empty::<bool>()
     }
 
     fn reduce_mean(

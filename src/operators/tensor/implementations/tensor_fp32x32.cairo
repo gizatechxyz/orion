@@ -350,18 +350,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 
-    fn sequence_construct(tensors: Array<Tensor<FP32x32>>) -> Array<Tensor<FP32x32>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
     fn shrink(
         self: Tensor<FP32x32>, bias: Option<FP32x32>, lambd: Option<FP32x32>
     ) -> Tensor<FP32x32> {
         math::shrink::shrink(self, bias, lambd)
-    }
-
-    fn sequence_empty() -> Array<Tensor<FP32x32>> {
-        math::sequence_empty::sequence_empty::<FP32x32>()
     }
 
     fn reduce_mean(

@@ -45,7 +45,5 @@ mod reduce_l1;
 mod reduce_sum_square;
 mod bitwise_and;
 mod reduce_min;
-mod sequence_construct;
 mod shrink;
-mod sequence_empty;
 mod reduce_mean;

@@ -349,16 +349,8 @@ impl I32Tensor of TensorTrait<i32> {
         panic(array!['not supported!'])
     }
 
-    fn sequence_construct(tensors: Array<Tensor<i32>>) -> Array<Tensor<i32>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
     fn shrink(self: Tensor<i32>, bias: Option<i32>, lambd: Option<i32>) -> Tensor<i32> {
         panic(array!['not supported!'])
-    }
-
-    fn sequence_empty() -> Array<Tensor<i32>> {
-        math::sequence_empty::sequence_empty::<i32>()
     }
 
     fn reduce_mean(

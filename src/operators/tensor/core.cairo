@@ -97,9 +97,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
 /// reduce_min - Computes the min of the input tensor's elements along the provided axes.
-/// sequence_construct – Constructs a tensor sequence containing the input tensors.
 /// shrink – Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula.
-/// sequence_empty - Returns an empty tensor sequence.
 /// reduce_mean - Computes the mean of the input tensor's elements along the provided axes.
 trait TensorTrait<T> {
     /// # tensor.new
@@ -3740,43 +3738,6 @@ trait TensorTrait<T> {
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<T>;
-    /// # tensor.sequence_empty
-    ///
-    /// ```rust
-    ///    fn sequence_empty() -> Array<Tensor<T>>;
-    /// ```
-    ///
-    /// Returns an empty tensor sequence.
-    ///
-    /// ## Args
-    ///
-    /// ## Returns
-    ///
-    /// An empty `Array<Tensor<T>>` instance.
-    ///
-    /// ## Examples
-    ///
-    /// Let's create a new empty sequence.
-    ///
-    /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
-    ///
-    /// use orion::operators::tensor::{
-    ///     TensorTrait, // we import the trait
-    ///     Tensor, // we import the type
-    ///     U32Tensor // we import the implementation. 
-    /// };
-    ///
-    /// fn sequence_empty_example() -> Array<Tensor<u32>> {
-    ///     let sequence = TensorTrait::sequence_empty();
-    ///
-    ///     return sequence;
-    /// }
-    ///
-    /// >>> []
-    /// ```
-    ///
-    fn sequence_empty() -> Array<Tensor<T>>;
     /// # tensor.shrink
     /// 
     /// ```rust
@@ -3828,43 +3789,6 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn shrink(self: Tensor<T>, bias: Option<T>, lambd: Option<T>) -> Tensor<T>;
-    /// ## tensor.sequence_construct
-    ///
-    /// ```rust 
-    ///    fn sequence_construct(tensors: Array<Tensor<T>>) -> Array<Tensor<T>>;
-    /// ```
-    ///
-    /// Constructs a tensor sequence containing the input tensors.
-    ///
-    /// ## Args
-    ///
-    /// * `tensors`(`Array<Tensor<T>>`) - The array of input tensors.
-    ///
-    /// ## Panics 
-    /// 
-    /// * Panics if input tensor array is empty.
-    ///
-    /// ## Returns
-    ///
-    /// A tensor sequence `Array<Tensor<T>>` containing the input tensors.
-    ///
-    /// ## Examples
-    ///
-    /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
-    /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-    ///
-    /// fn sequence_construct_example() -> Array<Tensor<usize>> {
-    ///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span());
-    ///     let tensor2 = TensorTrait::new(shape: array![2, 2].span(), data: array![4, 5, 6, 7].span());
-    ///     let result = TensorTrait::sequence_construct(tensors: array![tensor1, tensor2]);
-    ///     return result;
-    /// }
-    /// >>> [[0, 1, 2, 3], [4, 5, 6, 7]]
-    /// ```
-    ///
-    fn sequence_construct(tensors: Array<Tensor<T>>) -> Array<Tensor<T>>;
     /// ## tensor.reduce_min
     ///
     /// ```rust 

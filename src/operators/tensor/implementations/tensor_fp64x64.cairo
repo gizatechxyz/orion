@@ -350,18 +350,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
-    fn sequence_construct(tensors: Array<Tensor<FP64x64>>) -> Array<Tensor<FP64x64>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
     fn shrink(
         self: Tensor<FP64x64>, bias: Option<FP64x64>, lambd: Option<FP64x64>
     ) -> Tensor<FP64x64> {
         math::shrink::shrink(self, bias, lambd)
-    }
-
-    fn sequence_empty() -> Array<Tensor<FP64x64>> {
-        math::sequence_empty::sequence_empty::<FP64x64>()
     }
 
     fn reduce_mean(

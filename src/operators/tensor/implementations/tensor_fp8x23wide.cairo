@@ -328,18 +328,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
-    fn sequence_construct(tensors: Array<Tensor<FP8x23W>>) -> Array<Tensor<FP8x23W>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
     fn shrink(
         self: Tensor<FP8x23W>, bias: Option<FP8x23W>, lambd: Option<FP8x23W>
     ) -> Tensor<FP8x23W> {
         math::shrink::shrink(self, bias, lambd)
-    }
-
-    fn sequence_empty() -> Array<Tensor<FP8x23W>> {
-        math::sequence_empty::sequence_empty::<FP8x23W>()
     }
 
     fn reduce_mean(
