@@ -87,5 +87,6 @@ You can see below the list of current supported ONNX Operators:
 |               [Shrink](operators/tensor/tensor.shrink.md)           | :white\_check\_mark: |
 |         [SequenceEmpty](operators/tensor/tensor.sequence\_empty.md) | :white\_check\_mark: |
 |          [ReduceL2](operators/tensor/tensor.reduce\_l2.md)          | :white\_check\_mark: |
+|    [SequenceErase](operators/tensor/tensor.sequence\_erase.md)      | :white\_check\_mark: |
 
-Current Operators support: **81/156 (52%)**
+Current Operators support: **82/156 (53%)**

@@ -107,6 +107,7 @@
     * [tensor.shrink](framework/operators/tensor/tensor.shrink.md)
     * [tensor.sequence\_empty](framework/operators/tensor/tensor.sequence\_empty.md)
     * [tensor.reduce_mean](framework/operators/tensor/tensor.reduce\_mean.md)
+    * [tensor.sequence\_erase](framework/operators/tensor/tensor.sequence\_erase.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)
