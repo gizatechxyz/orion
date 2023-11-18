@@ -348,6 +348,10 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Tensor<u32> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
+
+    fn pow(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

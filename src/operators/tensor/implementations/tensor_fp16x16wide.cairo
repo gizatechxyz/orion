@@ -370,6 +370,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     ) -> Tensor<FP16x16W> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
+
+    fn pow(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::pow::pow(self, other)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.

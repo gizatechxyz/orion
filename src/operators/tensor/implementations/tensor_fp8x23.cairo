@@ -378,6 +378,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
+
+    fn pow(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::pow::pow(self, other)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

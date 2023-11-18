@@ -377,6 +377,10 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Tensor<i8> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
+
+    fn pow(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

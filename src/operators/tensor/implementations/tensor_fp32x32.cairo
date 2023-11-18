@@ -381,6 +381,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Tensor<FP32x32> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
+
+    fn pow(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::pow::pow(self, other)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.
