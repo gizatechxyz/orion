@@ -103,9 +103,7 @@
     * [tensor.reduce\_l2](framework/operators/tensor/tensor.reduce\_l2.md)
     * [tensor.reduce\_l1](framework/operators/tensor/tensor.reduce\_l1.md)
     * [tensor.reduce\_min](framework/operators/tensor/tensor.reduce\_min.md)
-    * [tensor.sequence\_construct](framework/operators/tensor/tensor.sequence\_construct.md)
     * [tensor.shrink](framework/operators/tensor/tensor.shrink.md)
-    * [tensor.sequence\_empty](framework/operators/tensor/tensor.sequence\_empty.md)
     * [tensor.reduce_mean](framework/operators/tensor/tensor.reduce\_mean.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
@@ -129,6 +127,9 @@
       * [tree.predict_proba](framework/operators/machine-learning/tree-classifier/tree.predict_proba.md)
     * [XGBoost Regressor](framework/operators/machine-learning/xgboost-regressor/README.md)
       * [xgboost.predict](framework/operators/machine-learning/xgboost-regressor/xgboost.predict.md)
+  * [Sequence](framework/operators/sequence/README.md)
+    * [sequence.sequence\_construct](framework/operators/sequence/sequence.sequence\_construct.md)
+    * [sequence.sequence\_empty](framework/operators/sequence/sequence.sequence\_empty.md)
 
 ## 🏛 Hub
 
