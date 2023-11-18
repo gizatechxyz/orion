@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
-use orion::numbers::{i8, i32, NumberTrait, FP16x16};
+use orion::numbers::{i8, i32, i64, NumberTrait, FP16x16};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
 impl FP16x16Tensor of TensorTrait<FP16x16> {
@@ -287,7 +287,12 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         -> Tensor<FP16x16> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
-
+    
+    fn unique(
+        self: @Tensor<FP16x16>, axis: Option<usize>, sorted: Option<bool>
+    ) -> (Tensor<FP16x16>, Tensor<i64>, Tensor<i64>, Tensor<i64>) {
+        core::unique(self, axis, sorted)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

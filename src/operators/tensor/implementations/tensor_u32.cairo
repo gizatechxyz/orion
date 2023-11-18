@@ -5,10 +5,10 @@ use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
-use orion::numbers::{i8, i32, NumberTrait};
+use orion::numbers::{i8, i32, i64, NumberTrait};
 use orion::operators::tensor::implementations::tensor_i8::I8Tensor;
 
 impl U32Tensor of TensorTrait<u32> {
@@ -267,6 +267,12 @@ impl U32Tensor of TensorTrait<u32> {
         self: @Tensor<u32>, updates: Tensor<u32>, indices: Tensor<usize>,  axis: Option<usize>, reduction: Option<usize>) 
         -> Tensor<u32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
+    fn unique(
+        self: @Tensor<u32>, axis: Option<usize>, sorted: Option<bool>
+    ) -> (Tensor<u32>, Tensor<i64>, Tensor<i64>, Tensor<i64>) {
+        core::unique(self, axis, sorted)
     }
 }
 

@@ -3223,7 +3223,7 @@ trait TensorTrait<T> {
     /// # tensor.unique
     ///
     /// ```rust
-    ///     fn unique(self: @Tensor<T>, axis: Option<i32>, sorted: Option<bool>) -> (Tensor<T>, Tensor<i64>, Tensor<i64>, Tensor<i64>);
+    ///     fn unique(self: @Tensor<T>, axis: Option<usize>, sorted: Option<bool>) -> (Tensor<T>, Tensor<i64>, Tensor<i64>, Tensor<i64>);
     /// ```
     ///
     /// Identifies the unique elements or subtensors of a tensor, with an optional axis parameter for subtensor slicing.
@@ -3256,7 +3256,7 @@ trait TensorTrait<T> {
     ///
     /// TODO
     fn unique(
-        self: @Tensor<T>, axis: Option<i32>, sorted: Option<bool>
+        self: @Tensor<T>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<T>, Tensor<i64>, Tensor<i64>, Tensor<i64>);
 }
 
@@ -3853,7 +3853,10 @@ fn unique<
     let mut unique_elements_cpy = unique_elements.span();
     loop {
         match unique_elements_cpy.pop_front() {
-            Option::Some(element) => { count.append(self.data.occurrences_of(*element)); },
+            Option::Some(element) => {
+                let occurences = (*self.data).occurrences_of(*element);
+                count.append(occurences.into());
+            },
             Option::None => { break; }
         }
     };

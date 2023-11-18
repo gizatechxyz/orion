@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
-use orion::numbers::{i8, i32, NumberTrait, FP8x23};
+use orion::numbers::{i8, i32, i64, NumberTrait, FP8x23};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
 impl FP8x23Tensor of TensorTrait<FP8x23> {
@@ -286,6 +286,12 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         self: @Tensor<FP8x23>, updates: Tensor<FP8x23>, indices: Tensor<usize>,  axis: Option<usize>, reduction: Option<usize>) 
         -> Tensor<FP8x23> {
         math::scatter::scatter(self, updates, indices,  axis, reduction)
+    }
+
+    fn unique(
+        self: @Tensor<FP8x23>, axis: Option<usize>, sorted: Option<bool>
+    ) -> (Tensor<FP8x23>, Tensor<i64>, Tensor<i64>, Tensor<i64>) {
+        core::unique(self, axis, sorted)
     }
 }
 

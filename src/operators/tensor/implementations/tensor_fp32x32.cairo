@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core};
-use orion::numbers::{i8, i32, NumberTrait, FP32x32, FP32x32Impl};
+use orion::numbers::{i8, i32, i64, NumberTrait, FP32x32, FP32x32Impl};
 use orion::numbers::fixed_point::implementations::fp32x32::core::ONE;
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
@@ -287,6 +287,12 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         self: @Tensor<FP32x32>, updates: Tensor<FP32x32>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
         -> Tensor<FP32x32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
+    fn unique(
+        self: @Tensor<FP32x32>, axis: Option<usize>, sorted: Option<bool>
+    ) -> (Tensor<FP32x32>, Tensor<i64>, Tensor<i64>, Tensor<i64>) {
+        core::unique(self, axis, sorted)
     }
 }
 
