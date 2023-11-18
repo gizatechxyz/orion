@@ -341,6 +341,12 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> Tensor<FP64x64> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+
+    fn gather_elements(
+        self: @Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP64x64> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

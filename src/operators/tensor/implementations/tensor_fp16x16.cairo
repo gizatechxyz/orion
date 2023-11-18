@@ -340,6 +340,12 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+
+    fn gather_elements(
+        self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP16x16> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

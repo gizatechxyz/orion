@@ -312,6 +312,10 @@ impl BoolTensor of TensorTrait<bool> {
     fn constant_of_shape(shape: Span<usize>, value: bool) -> Tensor<bool> {
         constant_of_shape(shape, value)
     }
+
+    fn gather_elements(self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.
