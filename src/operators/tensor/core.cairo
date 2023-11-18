@@ -2,10 +2,11 @@ use array::{ArrayTrait, SpanTrait};
 use serde::Serde;
 use option::OptionTrait;
 
-use alexandria_data_structures::array_ext::{SpanTraitExt};
+use alexandria_data_structures::array_ext::{ArrayTraitExt, SpanTraitExt};
+use alexandria_sorting::merge_sort::merge;
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::{i8, i32, NumberTrait};
+use orion::numbers::{i8, i32, i64, NumberTrait};
 
 #[derive(Copy, Drop)]
 struct Tensor<T> {
@@ -87,6 +88,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// where - Return elements chosen from x or y depending on condition.
 /// round - Computes the round value of all elements in the input tensor.
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
+/// unique - Find the unique elements of a tensor.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -3127,7 +3129,7 @@ trait TensorTrait<T> {
     ///
     /// ## Example
     ///
-	/// ```rust
+    /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
@@ -3211,7 +3213,51 @@ trait TensorTrait<T> {
     ///      [ 4, 0, 3, 0, 0]]
     /// ```
     ///
-    fn scatter(self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>,  axis: Option<usize>, reduction: Option<usize>) -> Tensor<T>;
+    fn scatter(
+        self: @Tensor<T>,
+        updates: Tensor<T>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<T>;
+    /// # tensor.unique
+    ///
+    /// ```rust
+    ///     fn unique(self: @Tensor<T>, axis: Option<i32>, sorted: Option<bool>) -> (Tensor<T>, Tensor<i64>, Tensor<i64>, Tensor<i64>);
+    /// ```
+    ///
+    /// Identifies the unique elements or subtensors of a tensor, with an optional axis parameter for subtensor slicing.
+    /// This function returns a tuple containing the tensor of unique elements or subtensors, and optionally,
+    /// tensors for indices, inverse indices, and counts of unique elements.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`Option<i32>`) - Specifies the dimension along which to find unique subtensors. A None value means the unique
+    ///                           elements of the tensor will be returned in a flattened form. A negative value indicates
+    ///                           dimension counting from the end.
+    /// * `sorted`(`Option<bool>`) -  Determines if the unique elements should be returned in ascending order. Defaults to true.
+    ///
+    /// ## Returns
+    ///
+    /// A tuple containing:
+    /// * A Tensor<T> with unique values or subtensors from self.
+    /// * A Tensor<i64> with the first occurrence indices of unique elements in self. If axis is given, it returns indices
+    ///   along that axis; otherwise, it refers to the flattened tensor.
+    /// * A Tensor<i64> mapping each element of self to its index in the unique tensor. If axis is specified, it maps to
+    ///   the subtensor index; otherwise, it maps to the unique flattened tensor.
+    /// * A Tensor<i64> for the counts of each unique element or subtensor in self.
+    ///
+    /// ## Panics
+    ///
+    /// TODO
+    ///
+    /// ## Examples
+    ///
+    /// TODO
+    fn unique(
+        self: @Tensor<T>, axis: Option<i32>, sorted: Option<bool>
+    ) -> (Tensor<T>, Tensor<i64>, Tensor<i64>, Tensor<i64>);
 }
 
 /// Cf: TensorTrait::new docstring
@@ -3752,4 +3798,81 @@ fn clip<
 /// Cf: TensorTrait::identity docstring
 fn identity<T>(self: @Tensor<T>) -> Tensor<T> {
     Tensor::<T> { shape: *self.shape, data: *self.data }
+}
+
+/// Cf: TensorTrait::unique docstring
+fn unique<
+    T,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>,
+    impl TPartialOrd: PartialOrd<T>,
+    impl TPartialEq: PartialEq<T>
+>(
+    self: @Tensor<T>, axis: Option<usize>, sorted: Option<bool>
+) -> (Tensor<T>, Tensor<i64>, Tensor<i64>, Tensor<i64>) {
+    // 0. Instanciate the sorted flag
+    let sorted = match sorted {
+        Option::Some(sorted) => sorted,
+        Option::None => true,
+    };
+
+    // 1. Initiatialize the outputs as Arrays
+    let mut unique_elements: Array<T> = ArrayTrait::new();
+    let mut indices: Array<i64> = ArrayTrait::new();
+    let mut inverse_indices: Array<i64> = ArrayTrait::new();
+
+    // 2. Compute unique elements for axis
+    let mut data_cpy = *self.data;
+    match axis {
+        Option::Some(axis) => { assert(1 == 0, 'not implemented yet'); },
+        Option::None => {
+            let mut idx: usize = 0;
+            loop {
+                match data_cpy.pop_front() {
+                    Option::Some(value) => {
+                        match unique_elements.index_of(*value) {
+                            Option::Some(found_idx) => {
+                                inverse_indices.append(found_idx.into());
+                            },
+                            Option::None => {
+                                unique_elements.append(*value);
+                                indices.append(idx.into());
+                                inverse_indices.append(idx.into());
+                            }
+                        }
+                    },
+                    Option::None => { break; }
+                }
+                idx += 1;
+            };
+        }
+    }
+
+    // 3. Count the occurences of each unique elements in self
+    let mut count: Array<i64> = ArrayTrait::new();
+    let mut unique_elements_cpy = unique_elements.span();
+    loop {
+        match unique_elements_cpy.pop_front() {
+            Option::Some(element) => { count.append(self.data.occurrences_of(*element)); },
+            Option::None => { break; }
+        }
+    };
+
+    // 4. Sort the unique elements if necessary
+    if (sorted) {
+        unique_elements = merge(unique_elements);
+    }
+
+    // 5. Convert arrays to tensors
+    let unique_elements = Tensor::<
+        T
+    > { shape: array![unique_elements.len(), 1].span(), data: unique_elements.span() };
+    let indices = Tensor::<i64> { shape: array![indices.len(), 1].span(), data: indices.span() };
+    let inverse_indices = Tensor::<
+        i64
+    > { shape: array![inverse_indices.len(), 1].span(), data: inverse_indices.span() };
+    let count = Tensor::<i64> { shape: array![count.len(), 1].span(), data: count.span() };
+
+    // 6. Return the outputs as tensors
+    (unique_elements, indices, inverse_indices, count)
 }

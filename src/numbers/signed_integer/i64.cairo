@@ -39,6 +39,16 @@ impl i64Impl of IntegerTrait<i64, u64> {
     }
 }
 
+// Implements the Into trait for u32 -> i64
+impl u32Intoi64 of Into<u32, i64> {
+    fn into(self: u32) -> i64 {
+        i64 {
+            mag: self.into(),
+            sign: false
+        }
+    }
+}
+
 // Implements the Into trait for i64.
 impl i32Into of Into<i64, felt252> {
     fn into(self: i64) -> felt252 {
