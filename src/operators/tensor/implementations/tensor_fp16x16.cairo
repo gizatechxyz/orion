@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP16x16};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
 
@@ -319,6 +319,14 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::reduce_l1::reduce_l1(self, axis, keepdims)
     }
 
+    fn array_feature_extractor(self: @Tensor<FP16x16>, indices: Tensor<usize>) -> Tensor<FP16x16> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
+    }
+
+    fn binarizer(self: @Tensor<FP16x16>, threshold: Option<FP16x16>) -> Tensor<FP16x16> {
+        math::binarizer::binarizer(*self, threshold)
+    }
+
     fn reduce_sum_square(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
@@ -345,6 +353,37 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP16x16> {
         math::gather_elements::gather_elements(self, indices, axis)
+
+    fn sequence_construct(tensors: Array<Tensor<FP16x16>>) -> Array<Tensor<FP16x16>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
+
+    fn shrink(
+        self: Tensor<FP16x16>, bias: Option<FP16x16>, lambd: Option<FP16x16>
+    ) -> Tensor<FP16x16> {
+        math::shrink::shrink(self, bias, lambd)
+    }
+
+    fn sequence_empty() -> Array<Tensor<FP16x16>> {
+        math::sequence_empty::sequence_empty::<FP16x16>()
+    }
+
+    fn reduce_mean(
+        self: @Tensor<FP16x16>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP16x16> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
+    }
+
+    fn reduce_min(
+        self: @Tensor<FP16x16>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP16x16> {
+        math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
 }
 

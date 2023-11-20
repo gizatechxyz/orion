@@ -96,9 +96,16 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.reduce_l1`](tensor.reduce\_l1.md) | Computes the L1 norm of the input tensor's elements along the provided axes. |
 | [`tensor.trilu`](tensor.trilu.md) | Returns the upper or lower triangular part of a tensor or a batch of 2D matrices. |
 | [`tensor.scatter`](tensor.scatter.md) | Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices. |
+| [`tensor.array_feature_extractor`](tensor.array_feature_extractor.md) | Selects elements of the input tensor based on the indices passed applied to the last tensor axis. |
+| [`tensor.binarizer`](tensor.binarizer.md) | Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value. |
 | [`tensor.reduce_sum_square`](tensor.reduce\_sum\_square.md) | Computes the sum square of the input tensor's elements along the provided axes.  |
 | [`tensor.reduce_l2`](tensor.reduce\_l2.md) | Computes the L2 norm of the input tensor's elements along the provided axes. |
 | [`tensor.gather_elements`](tensor.gather\_elements.md) | GatherElements is an indexing operation that produces its output by indexing into the input data tensor at index positions determined by elements of the indices tensor. |
+| [`tensor.reduce_min`](tensor.reduce\_min.md) | Computes the min of the input tensor's elements along the provided axes. |
+| [`tensor.sequence_construct`](tensor.sequence\_construct.md) | Constructs a tensor sequence containing the input tensors. |
+| [`tensor.shrink`](tensor.shrink.md) | Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula. |
+| [`tensor.sequence_empty`](tensor.sequence\_empty.md) | Returns an empty tensor sequence. |
+| [`tensor.reduce_mean`](tensor.reduce\_mean.md) | Computes the mean of the input tensor's elements along the provided axes. |
 
 ## Arithmetic Operations
 
