@@ -19,10 +19,6 @@ fn gather_elements<
     impl TTensorTrait: TensorTrait<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
-    // impl TAddEq: AddEq<T>,
-    // impl TMulEq: MulEq<T>,
-    // impl TPartialOrd: PartialOrd<T>,
-    // impl TPartialEq: PartialEq<T>,
 >(
     self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>
 ) -> Tensor<T> {
@@ -36,53 +32,41 @@ fn gather_elements<
     let indices_rank = (indices.shape).len();
     assert((data_rank == indices_rank ) & (indices_rank >= 1), 'must be same rank');
 
-
     let axis_shape = *(*self.shape).at(axis);
     let ind_max = indices.data.max().unwrap();
     assert(ind_max < axis_shape, 'this index out of bounds');
 
-
-    // let ind_max = indices.data.max().unwrap();
-    // assert(ind_max < axis_shape, 'this index out of bounds');
     let mut indices_shape = indices.shape;
-    let data_shape = *self.shape;
+    let mut data_shape = *self.shape;
+    let mut data_shape_clone = data_shape.clone();
 
 
-    if (indices_rank == 2) {
-        if (axis == 0) {
-            assert(indices_shape.at(axis+1) == data_shape.at(axis+1), 'out of index')
-        }
-        if (axis == 1) {
-            assert(indices_shape.at(axis-1) == data_shape.at(axis-1), 'out of index')
-        }
-    }
-
-    // if (indices_rank == 3) {
-    //     if (axis == 0) {
-    //         assert((indices_shape.at(axis+1) == data_shape.at(axis+1)) & (indices_shape.at(axis+2) == data_shape.at(axis+2)), 'out of index')
-    //     }
-    //     if (axis == 1) {
-    //         assert((*indices_shape.at(axis-1) < *data_shape.at(axis-1)) & (indices_shape.at(axis+1) == data_shape.at(axis+1)), 'out of index')
-    //     }
-    //     if (axis == 2) {
-    //         assert((*indices_shape.at(axis-2) <= *data_shape.at(axis-2)) & (indices_shape.at(axis-1) == data_shape.at(axis-1)), 'out of index')
-    //     }
-    // }
+    let mut ind = 0;
+    loop {
+        match data_shape.pop_front() {
+            Option::Some(val) => {
+                if (ind != axis) {
+                    assert(*val == *indices_shape.at(ind), 'shape mismatch');
+                }
+                ind += 1;
+            },
+            Option::None(_) => { break; }
+        };
+    };
 
     let mut output_data = ArrayTrait::new();
 
-    let mut outer_loop = indices_shape.at(axis);
+    let mut outer_loop = data_shape_clone.at(axis);
     let mut inner_loop = 1;
     let mut multiplier = 1;
     let mut ind = 0;
     loop {
-        match indices_shape.pop_front() {
+        match data_shape_clone.pop_front() {
             Option::Some(val) => {
                 inner_loop *= *val;
                 if (ind >= axis) {
                     multiplier *= *val;
                 }
-               
                 ind += 1;
             },
             Option::None(_) => { break; }
@@ -95,7 +79,19 @@ fn gather_elements<
         inner_loop /= *outer_loop;
     }
 
-    
+    let mut multiplier_index = 1;
+    let mut ind = 0;
+    loop {
+        match indices_shape.pop_front() {
+            Option::Some(val) => {
+                if (ind >= axis) {
+                    multiplier_index *= *val;
+                }
+                ind += 1;
+            },
+            Option::None(_) => { break; }
+        };
+    };
 
     let mut data_indices = indices.data;
     let mut i: usize = 0;
@@ -109,19 +105,9 @@ fn gather_elements<
                 if ((axis == indices_rank-1) & (axis != 0)) {
                     let value = *val + *outer_loop * (i / *outer_loop);
                     output_data.append(*self.data[value]);
-
                 }
-                 if ((axis != indices_rank-1) & (axis != 0)) {
-                    let value = *val * (looper ) + (i % looper) + (multiplier  * (i / multiplier));
-                    // 'start'.print();
-                    // i.print();
-                    // (*val).print();
-                    // (looper).print();
-                    // (i % multiplier).print();
-                    // (multiplier).print();
-                    // (i / multiplier).print();
-                    // value.print();
-
+                if ((axis != indices_rank-1) & (axis != 0)) {
+                    let value = *val * (looper ) + (i % looper) + (multiplier  * (i / multiplier_index));
                     output_data.append(*self.data[value]);
                 }
                 i += 1;
@@ -448,28 +434,215 @@ fn u32_tensor_3x2x3x2_helper() -> Tensor<u32> {
     return tensor;
 }
 
+fn u32_tensor_3x2x3x2_index0() -> Tensor<u32> {
+    let mut sizes = ArrayTrait::new();
+    sizes.append(2);
+    sizes.append(2);
+    sizes.append(3);
+    sizes.append(2);
 
+
+    let mut data = ArrayTrait::new();
+    data.append(0);
+    data.append(1);
+    data.append(1);
+    data.append(0);
+    data.append(1);
+    data.append(0);
+    data.append(0);
+    data.append(1);
+    data.append(0);
+    data.append(0);
+    data.append(0);
+    data.append(1);
+    data.append(1);
+    data.append(1);
+    data.append(0);
+    data.append(1);
+    data.append(0);
+    data.append(0);
+    data.append(1);
+    data.append(1);
+    data.append(0);
+    data.append(1);
+    data.append(1);
+    data.append(0);
+
+    let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
+
+    return tensor;
+}
+
+fn u32_tensor_3x2x3x2_index2() -> Tensor<u32> {
+    let mut sizes = ArrayTrait::new();
+    sizes.append(3);
+    sizes.append(2);
+    sizes.append(4);
+    sizes.append(2);
+
+
+    let mut data = ArrayTrait::new();
+    data.append(0);
+    data.append(1);
+    data.append(1);
+    data.append(0);
+    data.append(1);
+    data.append(0);
+    data.append(0);
+    data.append(1);
+    data.append(0);
+    data.append(0);
+
+    data.append(0);
+    data.append(1);
+    data.append(1);
+    data.append(1);
+    data.append(0);
+    data.append(1);
+    data.append(0);
+    data.append(0);
+    data.append(1);
+    data.append(1);
+
+    data.append(0);
+    data.append(1);
+    data.append(1);
+    data.append(0);
+    data.append(0);
+    data.append(0);
+    data.append(0);
+    data.append(1);
+    data.append(0);
+    data.append(0);
+    
+    data.append(1);
+    data.append(0);
+    data.append(1);
+    data.append(0);
+    data.append(0);
+    data.append(0);
+    data.append(0);
+    data.append(0);
+    data.append(0);
+    data.append(0);
+    
+    data.append(0);
+    data.append(0);
+    data.append(0);
+    data.append(0);
+    data.append(0);
+    data.append(0);
+    data.append(0);
+    data.append(0);
+
+
+    let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
+
+    return tensor;
+}
 
 #[test]
 #[available_gas(20000000000)]
 fn test_gather_elements_default() {
+    let data = data2();
+    let indices = indices22();
+
+    let y = data.gather_elements(indices: indices,  axis:Option::Some(1));
+    let mut output = y.data;
+
+    // loop {
+    //     match output.pop_front() {
+    //         Option::Some(val) => {
+    //            (*val).print();
+    //         },
+    //         Option::None(_) => { break; }
+    //     };
+    // };
+
+}
+
+
+#[test]
+#[available_gas(2000000000)]
+fn test_gather_elements_3error_work() {
     let data = u32_tensor_3x2x3x2_helper();
-    let indices = u32_tensor_3x2x3x2_index();
+    let indices = u32_tensor_3x2x3x2_index0();
+
+
+    let y = data.gather_elements(indices: indices,  axis:Option::Some(0));
+    let mut output = y.data;
+}
+
+#[test]
+#[available_gas(2000000000)]
+fn test_gather_elements_3error1() {
+    let data = u32_tensor_3x2x3x2_helper();
+    let indices = u32_tensor_3x2x3x2_index0();
+
+
+    let y = data.gather_elements(indices: indices,  axis:Option::Some(1));
+    let mut output = y.data;
+}
+
+#[test]
+#[available_gas(2000000000)]
+fn test_gather_elements_3error2() {
+    let data = u32_tensor_3x2x3x2_helper();
+    let indices = u32_tensor_3x2x3x2_index0();
 
 
     let y = data.gather_elements(indices: indices,  axis:Option::Some(2));
     let mut output = y.data;
-
-    loop {
-        match output.pop_front() {
-            Option::Some(val) => {
-               (*val).print();
-            },
-            Option::None(_) => { break; }
-        };
-    };
-
 }
+
+
+#[test]
+#[available_gas(2000000000)]
+fn test_gather_elements_3error3() {
+    let data = u32_tensor_3x2x3x2_helper();
+    let indices = u32_tensor_3x2x3x2_index0();
+
+
+    let y = data.gather_elements(indices: indices,  axis:Option::Some(3));
+    let mut output = y.data;
+}
+
+
+
+#[test]
+#[available_gas(2000000000)]
+fn test_gather_elements_3errorSecond0() {
+    let data = u32_tensor_3x2x3x2_helper();
+    let indices = u32_tensor_3x2x3x2_index2();
+
+
+    let y = data.gather_elements(indices: indices,  axis:Option::Some(0));
+    let mut output = y.data;
+}
+
+#[test]
+#[available_gas(2000000000)]
+fn test_gather_elements_3errorSecond1() {
+    let data = u32_tensor_3x2x3x2_helper();
+    let indices = u32_tensor_3x2x3x2_index2();
+
+
+    let y = data.gather_elements(indices: indices,  axis:Option::Some(1));
+    let mut output = y.data;
+}
+
+#[test]
+#[available_gas(2000000000)]
+fn test_gather_elements_3errorSecondwork() {
+    let data = u32_tensor_3x2x3x2_helper();
+    let indices = u32_tensor_3x2x3x2_index2();
+
+
+    let y = data.gather_elements(indices: indices,  axis:Option::Some(2));
+    let mut output = y.data;
+}
+
+
 
 #[test]
 #[available_gas(20000000000)]
@@ -501,105 +674,105 @@ fn test_gather_elements_axis_1() {
 
 }
 
-// #[test]
-// #[available_gas(2000000000)]
-// fn test_gather_elements_3_lastaxis() {
-//     let data = data();
-//     let indices = indices();
+#[test]
+#[available_gas(2000000000)]
+fn test_gather_elements_3_lastaxis() {
+    let data = data();
+    let indices = indices();
 
 
-//     let y = data.gather_elements(indices: indices,  axis:Option::Some(1));
-//     let mut output = y.data;
+    let y = data.gather_elements(indices: indices,  axis:Option::Some(1));
+    let mut output = y.data;
 
-//     assert(*output[0] == 1, 'not correct');
-//     assert(*output[1] == 2, 'not correct');
-//     assert(*output[2] == 3, 'not correct');
-//     assert(*output[3] == 5, 'not correct');
-//     assert(*output[4] == 4, 'not correct');
-//     assert(*output[5] == 5, 'not correct');
+    assert(*output[0] == 1, 'not correct');
+    assert(*output[1] == 2, 'not correct');
+    assert(*output[2] == 3, 'not correct');
+    assert(*output[3] == 5, 'not correct');
+    assert(*output[4] == 4, 'not correct');
+    assert(*output[5] == 5, 'not correct');
 
-// }
+}
 
-// #[test]
-// #[available_gas(20000000000)]
-// fn test_gather_elements2_lastaxis() {
-//     let data = data2();
-//     let indices = indices22();
-
-
-//     let y = data.gather_elements(indices: indices,  axis:Option::Some(2));
-//     let mut output = y.data;
-
-//     assert(*output[0] == 0, 'not correct');
-//     assert(*output[1] == 1, 'not correct');
-//     assert(*output[2] == 3, 'not correct');
-//     assert(*output[3] == 3, 'not correct');
-//     assert(*output[4] == 5, 'not correct');
-//     assert(*output[5] == 4, 'not correct');
-//     assert(*output[6] == 7, 'not correct');
-//     assert(*output[7] == 7, 'not correct');
-//     assert(*output[8] == 9, 'not correct');
-//     assert(*output[9] == 8, 'not correct');
-//     assert(*output[10] == 11, 'not correct');
-//     assert(*output[11] == 11, 'not correct');
-
-// }
-
-// #[test]
-// #[available_gas(20000000000)]
-// fn test_gather_elements2() {
-//     let data = data2();
-//     let indices = indices22();
+#[test]
+#[available_gas(20000000000)]
+fn test_gather_elements2_lastaxis() {
+    let data = data2();
+    let indices = indices22();
 
 
-//     let y = data.gather_elements(indices: indices,  axis:Option::Some(0));
-//     let mut output = y.data;
+    let y = data.gather_elements(indices: indices,  axis:Option::Some(2));
+    let mut output = y.data;
 
-//     assert(*output[0] == 0, 'not correct');
-//     assert(*output[1] == 7, 'not correct');
-//     assert(*output[2] == 8, 'not correct');
-//     assert(*output[3] == 9, 'not correct');
-//     assert(*output[4] == 10, 'not correct');
-//     assert(*output[5] == 5, 'not correct');
-//     assert(*output[6] == 6, 'not correct');
-//     assert(*output[7] == 7, 'not correct');
-//     assert(*output[8] == 8, 'not correct');
-//     assert(*output[9] == 3, 'not correct');
+    assert(*output[0] == 0, 'not correct');
+    assert(*output[1] == 1, 'not correct');
+    assert(*output[2] == 3, 'not correct');
+    assert(*output[3] == 3, 'not correct');
+    assert(*output[4] == 5, 'not correct');
+    assert(*output[5] == 4, 'not correct');
+    assert(*output[6] == 7, 'not correct');
+    assert(*output[7] == 7, 'not correct');
+    assert(*output[8] == 9, 'not correct');
+    assert(*output[9] == 8, 'not correct');
+    assert(*output[10] == 11, 'not correct');
+    assert(*output[11] == 11, 'not correct');
 
-// }
+}
 
-// #[test]
-// #[available_gas(2000000000)]
-// fn test_gather_elements_1() {
-//     let data = data1();
-//     let indices = indices1();
-
-
-//     let y = data.gather_elements(indices: indices,  axis:Option::Some(0));
-//     let mut output = y.data;
-
-//     assert(*output[0] == 1, 'not correct');
-//     assert(*output[1] == 2, 'not correct');
-//     assert(*output[2] == 1, 'not correct');
-//     assert(*output[3] == 3, 'not correct');
-//     assert(*output[4] == 3, 'not correct');
-// }
-
-// #[test]
-// #[available_gas(2000000000)]
-// fn test_gather_elements_3() {
-//     let data = data();
-//     let indices = indices();
+#[test]
+#[available_gas(20000000000)]
+fn test_gather_elements2() {
+    let data = data2();
+    let indices = indices22();
 
 
-//     let y = data.gather_elements(indices: indices,  axis:Option::Some(0));
-//     let mut output = y.data;
+    let y = data.gather_elements(indices: indices,  axis:Option::Some(0));
+    let mut output = y.data;
 
-//     assert(*output[0] == 1, 'not correct');
-//     assert(*output[1] == 5, 'not correct');
-//     assert(*output[2] == 9, 'not correct');
-//     assert(*output[3] == 4, 'not correct');
-//     assert(*output[4] == 2, 'not correct');
-//     assert(*output[5] == 6, 'not correct');
+    assert(*output[0] == 0, 'not correct');
+    assert(*output[1] == 7, 'not correct');
+    assert(*output[2] == 8, 'not correct');
+    assert(*output[3] == 9, 'not correct');
+    assert(*output[4] == 10, 'not correct');
+    assert(*output[5] == 5, 'not correct');
+    assert(*output[6] == 6, 'not correct');
+    assert(*output[7] == 7, 'not correct');
+    assert(*output[8] == 8, 'not correct');
+    assert(*output[9] == 3, 'not correct');
 
-// }
+}
+
+#[test]
+#[available_gas(2000000000)]
+fn test_gather_elements_1() {
+    let data = data1();
+    let indices = indices1();
+
+
+    let y = data.gather_elements(indices: indices,  axis:Option::Some(0));
+    let mut output = y.data;
+
+    assert(*output[0] == 1, 'not correct');
+    assert(*output[1] == 2, 'not correct');
+    assert(*output[2] == 1, 'not correct');
+    assert(*output[3] == 3, 'not correct');
+    assert(*output[4] == 3, 'not correct');
+}
+
+#[test]
+#[available_gas(2000000000)]
+fn test_gather_elements_3() {
+    let data = data();
+    let indices = indices();
+
+
+    let y = data.gather_elements(indices: indices,  axis:Option::Some(0));
+    let mut output = y.data;
+
+    assert(*output[0] == 1, 'not correct');
+    assert(*output[1] == 5, 'not correct');
+    assert(*output[2] == 9, 'not correct');
+    assert(*output[3] == 4, 'not correct');
+    assert(*output[4] == 2, 'not correct');
+    assert(*output[5] == 6, 'not correct');
+
+}
