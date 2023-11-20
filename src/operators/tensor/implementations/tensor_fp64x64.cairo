@@ -354,6 +354,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         self: @Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP64x64> {
         math::gather_elements::gather_elements(self, indices, axis)
+    }
 
     fn sequence_construct(tensors: Array<Tensor<FP64x64>>) -> Array<Tensor<FP64x64>> {
         math::sequence_construct::sequence_construct(tensors)

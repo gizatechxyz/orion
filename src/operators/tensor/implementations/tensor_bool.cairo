@@ -314,8 +314,9 @@ impl BoolTensor of TensorTrait<bool> {
 
     fn gather_elements(self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
         math::gather_elements::gather_elements(self, indices, axis)
+    }
 
-fn sequence_construct(tensors: Array<Tensor<bool>>) -> Array<Tensor<bool>> {
+    fn sequence_construct(tensors: Array<Tensor<bool>>) -> Array<Tensor<bool>> {
         math::sequence_construct::sequence_construct(tensors)
     }
 

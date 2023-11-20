@@ -321,6 +321,7 @@ impl U32Tensor of TensorTrait<u32> {
 
     fn gather_elements(self: @Tensor<u32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
         math::gather_elements::gather_elements(self, indices, axis)
+    }
 
     fn sequence_construct(tensors: Array<Tensor<u32>>) -> Array<Tensor<u32>> {
         math::sequence_construct::sequence_construct(tensors)

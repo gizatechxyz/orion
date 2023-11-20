@@ -353,6 +353,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP16x16> {
         math::gather_elements::gather_elements(self, indices, axis)
+    }
 
     fn sequence_construct(tensors: Array<Tensor<FP16x16>>) -> Array<Tensor<FP16x16>> {
         math::sequence_construct::sequence_construct(tensors)

@@ -345,6 +345,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         self: @Tensor<FP8x23>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP8x23> {
         math::gather_elements::gather_elements(self, indices, axis)
+    }
 
     fn sequence_construct(tensors: Array<Tensor<FP8x23>>) -> Array<Tensor<FP8x23>> {
         math::sequence_construct::sequence_construct(tensors)
