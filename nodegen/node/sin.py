@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 
 class Sin(RunAll):
@@ -16,7 +16,6 @@ class Sin(RunAll):
             y.flatten(), FixedImpl.FP8x23))
 
         name = "sin_fp8x23"
-        make_node([x], [y], name)
         make_test([x], y, "input_0.sin()", name)
 
     @staticmethod
@@ -30,5 +29,4 @@ class Sin(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "sin_fp16x16"
-        make_node([x], [y], name)
         make_test([x], y, "input_0.sin()", name)

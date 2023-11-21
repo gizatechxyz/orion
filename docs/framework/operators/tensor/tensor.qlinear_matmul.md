@@ -31,6 +31,8 @@ A new `Tensor<i8>`, containing the quantized result of the multiplication of the
 ## Type Constraints
 
 u32 tensor, not supported.
+fp8x23wide tensor, not supported.
+fp16x16wide tensor, not supported.
  
 ## Example
 

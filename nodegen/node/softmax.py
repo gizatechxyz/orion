@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 
 def softmax(x: np.ndarray, axis: int = -1) -> np.ndarray:
@@ -24,7 +24,6 @@ class Softmax(RunAll):
             y.flatten(), FixedImpl.FP8x23))
 
         name = "softmax_fp8x23"
-        make_node([x], [y], name)
         make_test([x], y, "NNTrait::softmax(@input_0, 0)",
                     name, Trait.NN)
 
@@ -39,7 +38,6 @@ class Softmax(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "softmax_fp16x16"
-        make_node([x], [y], name)
         make_test([x], y, "NNTrait::softmax(@input_0, 1)",
                     name, Trait.NN)
 

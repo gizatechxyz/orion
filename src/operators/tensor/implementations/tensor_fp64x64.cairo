@@ -5,9 +5,10 @@ use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
+    at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP64x64, FP64x64Impl};
 use orion::numbers::fixed_point::implementations::fp64x64::core::ONE;
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
@@ -15,6 +16,10 @@ use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32:
 impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn new(shape: Span<usize>, data: Span<FP64x64>) -> Tensor<FP64x64> {
         new_tensor(shape, data)
+    }
+
+    fn constant_of_shape(shape: Span<usize>, value: FP64x64) -> Tensor<FP64x64> {
+        constant_of_shape(shape, value)
     }
 
     fn at(self: @Tensor<FP64x64>, indices: Span<usize>) -> FP64x64 {
@@ -207,6 +212,54 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
     }
 
+    fn qlinear_add(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP64x64>,
+        a_zero_point: @Tensor<FP64x64>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP64x64>,
+        b_zero_point: @Tensor<FP64x64>,
+        y_scale: @Tensor<FP64x64>,
+        y_zero_point: @Tensor<FP64x64>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_add::qlinear_add(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP64x64>,
+        a_zero_point: @Tensor<FP64x64>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP64x64>,
+        b_zero_point: @Tensor<FP64x64>,
+        y_scale: @Tensor<FP64x64>,
+        y_zero_point: @Tensor<FP64x64>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_mul::qlinear_mul(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<FP64x64>,
@@ -299,16 +352,79 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+
     fn round(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
         math::round::round(*self)
     }
 
+    fn reduce_l1(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+
+    fn array_feature_extractor(self: @Tensor<FP64x64>, indices: Tensor<usize>) -> Tensor<FP64x64> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
+    }
+
+    fn binarizer(self: @Tensor<FP64x64>, threshold: Option<FP64x64>) -> Tensor<FP64x64> {
+        math::binarizer::binarizer(*self, threshold)
+    }
+
+    fn reduce_sum_square(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+
+    fn reduce_l2(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_l2::reduce_l2(self, axis, keepdims)
+    }
+
+    fn trilu(self: @Tensor<FP64x64>, upper: bool, k: i64) -> Tensor<FP64x64> {
+        linalg::trilu::trilu(self, upper, k)
+    }
+
     fn scatter(
-        self: @Tensor<FP64x64>, updates: Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<FP64x64> {
+        self: @Tensor<FP64x64>,
+        updates: Tensor<FP64x64>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP64x64> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn sequence_construct(tensors: Array<Tensor<FP64x64>>) -> Array<Tensor<FP64x64>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
+
+    fn shrink(
+        self: Tensor<FP64x64>, bias: Option<FP64x64>, lambd: Option<FP64x64>
+    ) -> Tensor<FP64x64> {
+        math::shrink::shrink(self, bias, lambd)
+    }
+
+    fn sequence_empty() -> Array<Tensor<FP64x64>> {
+        math::sequence_empty::sequence_empty::<FP64x64>()
+    }
+
+    fn reduce_mean(
+        self: @Tensor<FP64x64>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP64x64> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
+    }
+
+    fn reduce_min(
+        self: @Tensor<FP64x64>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP64x64> {
+        math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

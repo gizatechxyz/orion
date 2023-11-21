@@ -58,6 +58,14 @@ fn main() {
     let trait_name: &str = "XGBoostRegressorTrait";
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
+
+    // TREE ENSEMBLE CLASSIFIER DOC
+    let trait_path = "src/operators/ml/tree_ensemble/tree_ensemble_classifier.cairo";
+    let doc_path = "docs/framework/operators/machine-learning/tree-ensemble-classifier";
+    let label = "tree_ensemble_classifier";
+    let trait_name: &str = "TreeEnsembleClassifierTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
 }
 
 fn doc_trait(trait_path: &str, doc_path: &str, label: &str) {

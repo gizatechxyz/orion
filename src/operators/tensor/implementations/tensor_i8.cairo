@@ -5,15 +5,20 @@ use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
-    new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape, at_tensor,
+    new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
+    at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
 
 impl I8Tensor of TensorTrait<i8> {
     fn new(shape: Span<usize>, data: Span<i8>) -> Tensor<i8> {
         new_tensor(shape, data)
+    }
+
+    fn constant_of_shape(shape: Span<usize>, value: i8) -> Tensor<i8> {
+        constant_of_shape(shape, value)
     }
 
     fn at(self: @Tensor<i8>, indices: Span<usize>) -> i8 {
@@ -206,6 +211,54 @@ impl I8Tensor of TensorTrait<i8> {
         quantization::dequantize_linear::dequantize_linear(self, x_scale, x_zero_point)
     }
 
+    fn qlinear_add(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<i8>,
+        a_zero_point: @Tensor<i8>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<i8>,
+        b_zero_point: @Tensor<i8>,
+        y_scale: @Tensor<i8>,
+        y_zero_point: @Tensor<i8>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_add::qlinear_add(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<i8>,
+        a_zero_point: @Tensor<i8>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<i8>,
+        b_zero_point: @Tensor<i8>,
+        y_scale: @Tensor<i8>,
+        y_zero_point: @Tensor<i8>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_mul::qlinear_mul(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<i8>,
@@ -297,14 +350,76 @@ impl I8Tensor of TensorTrait<i8> {
         math::where::where(self, x, y)
     }
 
+    fn bitwise_and(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
+        math::bitwise_and::bitwise_and(self, other)
+    }
+
     fn round(self: @Tensor<i8>) -> Tensor<i8> {
         math::round::round(*self)
-    } 
+    }
+
+    fn reduce_l1(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
+        math::reduce_l1::reduce_l1(self, axis, keepdims)
+    }
+
+    fn trilu(self: @Tensor<i8>, upper: bool, k: i64) -> Tensor<i8> {
+        linalg::trilu::trilu(self, upper, k)
+    }
 
     fn scatter(
-        self: @Tensor<i8>, updates: Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>, reduction: Option<usize>) 
-        -> Tensor<i8> {
+        self: @Tensor<i8>,
+        updates: Tensor<i8>,
+        indices: Tensor<usize>,
+        axis: Option<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<i8> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
+    fn array_feature_extractor(self: @Tensor<i8>, indices: Tensor<usize>) -> Tensor<i8> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
+    }
+
+    fn binarizer(self: @Tensor<i8>, threshold: Option<i8>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn reduce_sum_square(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
+        math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
+    }
+
+    fn reduce_l2(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn sequence_construct(tensors: Array<Tensor<i8>>) -> Array<Tensor<i8>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
+
+    fn shrink(self: Tensor<i8>, bias: Option<i8>, lambd: Option<i8>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn sequence_empty() -> Array<Tensor<i8>> {
+        math::sequence_empty::sequence_empty::<i8>()
+    }
+
+    fn reduce_mean(
+        self: @Tensor<i8>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<i8> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
+    }
+
+    fn reduce_min(
+        self: @Tensor<i8>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<i8> {
+        math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
 }
 
