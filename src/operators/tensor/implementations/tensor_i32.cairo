@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i32, i8, NumberTrait};
 use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_i8::I8Tensor};
 
@@ -236,6 +236,30 @@ impl I32Tensor of TensorTrait<i32> {
         )
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<i32>,
+        a_zero_point: @Tensor<i32>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<i32>,
+        b_zero_point: @Tensor<i32>,
+        y_scale: @Tensor<i32>,
+        y_zero_point: @Tensor<i32>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_mul::qlinear_mul(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<i32>,
@@ -255,6 +279,26 @@ impl I32Tensor of TensorTrait<i32> {
             b_zero_point,
             y_scale,
             y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<i32>>,
+        zero_points: Span<Tensor<i32>>,
+        y_scale: @Tensor<i32>,
+        y_zero_point: @Tensor<i32>,
+        axis: usize
+    ) -> Tensor::<i8> {
+        quantization::qlinear_concat::qlinear_concat(
+            tensors,
+            scales,
+            zero_points,
+            y_scale,
+            y_zero_point,
+            axis,
             NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )
@@ -333,6 +377,14 @@ impl I32Tensor of TensorTrait<i32> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn array_feature_extractor(self: @Tensor<i32>, indices: Tensor<usize>) -> Tensor<i32> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
+    }
+
+    fn binarizer(self: @Tensor<i32>, threshold: Option<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
     fn reduce_sum_square(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
@@ -343,6 +395,36 @@ impl I32Tensor of TensorTrait<i32> {
 
     fn sequence_at(sequence: Array<Tensor<i32>>, position: Tensor<i32>) -> Tensor<i32> {
         math::sequence_at::sequence_at(sequence, position)
+    }
+    
+    fn sequence_construct(tensors: Array<Tensor<i32>>) -> Array<Tensor<i32>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
+
+    fn shrink(self: Tensor<i32>, bias: Option<i32>, lambd: Option<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
+    fn sequence_empty() -> Array<Tensor<i32>> {
+        math::sequence_empty::sequence_empty::<i32>()
+    }
+
+    fn reduce_mean(
+        self: @Tensor<i32>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<i32> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
+    }
+
+    fn reduce_min(
+        self: @Tensor<i32>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<i32> {
+        math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
 }
 

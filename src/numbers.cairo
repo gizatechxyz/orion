@@ -35,6 +35,7 @@ trait NumberTrait<T, MAG> {
     fn tanh(self: T) -> T;
     fn zero() -> T;
     fn is_zero(self: T) -> bool;
+    fn half() -> T;
     fn one() -> T;
     fn is_one(self: T) -> bool;
     fn neg_one() -> T;
@@ -52,9 +53,13 @@ trait NumberTrait<T, MAG> {
     fn NaN() -> T;
     fn is_nan(self: T) -> bool;
     fn bitwise_and(lhs: T, rhs: T) -> T;
+    fn add(lhs: T, rhs: T) -> T;
+    fn sub(lhs: T, rhs: T) -> T;
 }
 
-use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23Impl, FP8x23};
+use orion::numbers::fixed_point::implementations::fp8x23::core::{
+    FP8x23Impl, FP8x23, FP8x23Add, FP8x23Sub
+};
 use orion::numbers::fixed_point::implementations::fp8x23::math::core as core_fp8x23;
 use orion::numbers::fixed_point::implementations::fp8x23::math::comp as comp_fp8x23;
 
@@ -166,6 +171,10 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
         core_fp8x23::eq(@self, @FP8x23Impl::ZERO())
     }
 
+    fn half() -> FP8x23 {
+        FP8x23Impl::HALF()
+    }
+
     fn one() -> FP8x23 {
         FP8x23Impl::ONE()
     }
@@ -241,9 +250,19 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
     fn bitwise_and(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
         comp_fp8x23::bitwise_and(lhs, rhs)
     }
+
+    fn add(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
+        FP8x23Add::add(lhs, rhs)
+    }
+
+    fn sub(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
+        FP8x23Sub::sub(lhs, rhs)
+    }
 }
 
-use orion::numbers::fixed_point::implementations::fp8x23wide::core::{FP8x23WImpl, FP8x23W};
+use orion::numbers::fixed_point::implementations::fp8x23wide::core::{
+    FP8x23WImpl, FP8x23W, FP8x23WAdd, FP8x23WSub
+};
 use orion::numbers::fixed_point::implementations::fp8x23wide::math::core as core_fp8x23wide;
 use orion::numbers::fixed_point::implementations::fp8x23wide::math::comp as comp_fp8x23wide;
 
@@ -355,6 +374,10 @@ impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
         core_fp8x23wide::eq(@self, @FP8x23WImpl::ZERO())
     }
 
+    fn half() -> FP8x23W {
+        FP8x23WImpl::HALF()
+    }
+
     fn one() -> FP8x23W {
         FP8x23WImpl::ONE()
     }
@@ -430,9 +453,19 @@ impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
     fn bitwise_and(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
         comp_fp8x23wide::bitwise_and(lhs, rhs)
     }
+
+    fn add(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
+        FP8x23WAdd::add(lhs, rhs)
+    }
+
+    fn sub(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
+        FP8x23WSub::sub(lhs, rhs)
+    }
 }
 
-use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16Impl, FP16x16};
+use orion::numbers::fixed_point::implementations::fp16x16::core::{
+    FP16x16Impl, FP16x16, FP16x16Add, FP16x16Sub
+};
 use orion::numbers::fixed_point::implementations::fp16x16::math::core as core_fp16x16;
 use orion::numbers::fixed_point::implementations::fp16x16::math::comp as comp_fp16x16;
 
@@ -544,6 +577,10 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
         core_fp16x16::eq(@self, @FP16x16Impl::ZERO())
     }
 
+    fn half() -> FP16x16 {
+        FP16x16Impl::HALF()
+    }
+
     fn one() -> FP16x16 {
         FP16x16Impl::ONE()
     }
@@ -619,9 +656,19 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
     fn bitwise_and(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
         comp_fp16x16::bitwise_and(lhs, rhs)
     }
+
+    fn add(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
+        FP16x16Add::add(lhs, rhs)
+    }
+
+    fn sub(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
+        FP16x16Sub::sub(lhs, rhs)
+    }
 }
 
-use orion::numbers::fixed_point::implementations::fp16x16wide::core::{FP16x16WImpl, FP16x16W};
+use orion::numbers::fixed_point::implementations::fp16x16wide::core::{
+    FP16x16WImpl, FP16x16W, FP16x16WAdd, FP16x16WSub
+};
 use orion::numbers::fixed_point::implementations::fp16x16wide::math::core as core_fp16x16wide;
 use orion::numbers::fixed_point::implementations::fp16x16wide::math::comp as comp_fp16x16wide;
 
@@ -733,6 +780,10 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
         core_fp16x16wide::eq(@self, @FP16x16WImpl::ZERO())
     }
 
+    fn half() -> FP16x16W {
+        FP16x16WImpl::HALF()
+    }
+
     fn one() -> FP16x16W {
         FP16x16WImpl::ONE()
     }
@@ -808,9 +859,19 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
     fn bitwise_and(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
         comp_fp16x16wide::bitwise_and(lhs, rhs)
     }
+
+    fn add(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
+        FP16x16WAdd::add(lhs, rhs)
+    }
+
+    fn sub(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
+        FP16x16WSub::sub(lhs, rhs)
+    }
 }
 
-use orion::numbers::fixed_point::implementations::fp64x64::core::{FP64x64Impl, FP64x64};
+use orion::numbers::fixed_point::implementations::fp64x64::core::{
+    FP64x64Impl, FP64x64, FP64x64Add, FP64x64Sub
+};
 use orion::numbers::fixed_point::implementations::fp64x64::core as core_fp64x64;
 use orion::numbers::fixed_point::implementations::fp64x64::comp as comp_fp64x64;
 use cubit::f128 as fp64x64;
@@ -923,6 +984,10 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
         fp64x64::core::eq(@self, @FP64x64Impl::ZERO())
     }
 
+    fn half() -> FP64x64 {
+        FP64x64Impl::HALF()
+    }
+
     fn one() -> FP64x64 {
         FP64x64Impl::ONE()
     }
@@ -998,9 +1063,19 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
     fn bitwise_and(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
         comp_fp64x64::bitwise_and(lhs, rhs)
     }
+
+    fn add(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
+        FP64x64Add::add(lhs, rhs)
+    }
+
+    fn sub(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
+        FP64x64Sub::sub(lhs, rhs)
+    }
 }
 
-use orion::numbers::fixed_point::implementations::fp32x32::core::{FP32x32Impl, FP32x32};
+use orion::numbers::fixed_point::implementations::fp32x32::core::{
+    FP32x32Impl, FP32x32, FP32x32Add, FP32x32Sub
+};
 use orion::numbers::fixed_point::implementations::fp32x32::core as core_fp32x32;
 use orion::numbers::fixed_point::implementations::fp32x32::comp as comp_fp32x32;
 use cubit::f64 as fp32x32;
@@ -1113,6 +1188,10 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
         fp32x32::core::eq(@self, @FP32x32Impl::ZERO())
     }
 
+    fn half() -> FP32x32 {
+        FP32x32Impl::HALF()
+    }
+
     fn one() -> FP32x32 {
         FP32x32Impl::ONE()
     }
@@ -1188,10 +1267,19 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
     fn bitwise_and(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
         comp_fp32x32::bitwise_and(lhs, rhs)
     }
+
+    fn add(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
+        FP32x32Add::add(lhs, rhs)
+    }
+
+    fn sub(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
+        FP32x32Sub::sub(lhs, rhs)
+    }
 }
 
 use orion::numbers::signed_integer::i8 as i8_core;
 use orion::numbers::signed_integer::i8::i8;
+use orion::numbers::signed_integer::i8::{i8Add, i8Sub};
 
 impl I8Number of NumberTrait<i8, u8> {
     fn new(mag: u8, sign: bool) -> i8 {
@@ -1301,6 +1389,10 @@ impl I8Number of NumberTrait<i8, u8> {
         i8_core::i8_eq(self, i8 { mag: 0, sign: false })
     }
 
+    fn half() -> i8 {
+        panic(array!['not supported!'])
+    }
+
     fn one() -> i8 {
         i8 { mag: 1, sign: false }
     }
@@ -1392,10 +1484,19 @@ impl I8Number of NumberTrait<i8, u8> {
     fn bitwise_and(lhs: i8, rhs: i8) -> i8 {
         i8_core::i8_bitwise_and(lhs, rhs)
     }
+
+    fn add(lhs: i8, rhs: i8) -> i8 {
+        i8Add::add(lhs, rhs)
+    }
+
+    fn sub(lhs: i8, rhs: i8) -> i8 {
+        i8Sub::sub(lhs, rhs)
+    }
 }
 
 use orion::numbers::signed_integer::i16 as i16_core;
 use orion::numbers::signed_integer::i16::i16;
+use orion::numbers::signed_integer::i16::{i16Add, i16Sub};
 
 impl i16Number of NumberTrait<i16, u16> {
     fn new(mag: u16, sign: bool) -> i16 {
@@ -1505,6 +1606,10 @@ impl i16Number of NumberTrait<i16, u16> {
         i16_core::i16_eq(self, i16 { mag: 0, sign: false })
     }
 
+    fn half() -> i16 {
+        panic(array!['not supported!'])
+    }
+
     fn one() -> i16 {
         i16 { mag: 1, sign: false }
     }
@@ -1596,10 +1701,19 @@ impl i16Number of NumberTrait<i16, u16> {
     fn bitwise_and(lhs: i16, rhs: i16) -> i16 {
         i16_core::i16_bitwise_and(lhs, rhs)
     }
+
+    fn add(lhs: i16, rhs: i16) -> i16 {
+        i16Add::add(lhs, rhs)
+    }
+
+    fn sub(lhs: i16, rhs: i16) -> i16 {
+        i16Sub::sub(lhs, rhs)
+    }
 }
 
 use orion::numbers::signed_integer::i32 as i32_core;
 use orion::numbers::signed_integer::i32::i32;
+use orion::numbers::signed_integer::i32::{i32Add, i32Sub};
 
 impl i32Number of NumberTrait<i32, u32> {
     fn new(mag: u32, sign: bool) -> i32 {
@@ -1709,6 +1823,10 @@ impl i32Number of NumberTrait<i32, u32> {
         i32_core::i32_eq(self, i32 { mag: 0, sign: false })
     }
 
+    fn half() -> i32 {
+        panic(array!['not supported!'])
+    }
+
     fn one() -> i32 {
         i32 { mag: 1, sign: false }
     }
@@ -1800,10 +1918,19 @@ impl i32Number of NumberTrait<i32, u32> {
     fn bitwise_and(lhs: i32, rhs: i32) -> i32 {
         i32_core::i32_bitwise_and(lhs, rhs)
     }
+
+    fn add(lhs: i32, rhs: i32) -> i32 {
+        i32Add::add(lhs, rhs)
+    }
+
+    fn sub(lhs: i32, rhs: i32) -> i32 {
+        i32Sub::sub(lhs, rhs)
+    }
 }
 
 use orion::numbers::signed_integer::i64 as i64_core;
 use orion::numbers::signed_integer::i64::i64;
+use orion::numbers::signed_integer::i64::{i64Add, i64Sub};
 
 impl i64Number of NumberTrait<i64, u64> {
     fn new(mag: u64, sign: bool) -> i64 {
@@ -1913,6 +2040,10 @@ impl i64Number of NumberTrait<i64, u64> {
         i64_core::i64_eq(self, i64 { mag: 0, sign: false })
     }
 
+    fn half() -> i64 {
+        panic(array!['not supported!'])
+    }
+
     fn one() -> i64 {
         i64 { mag: 1, sign: false }
     }
@@ -2004,10 +2135,19 @@ impl i64Number of NumberTrait<i64, u64> {
     fn bitwise_and(lhs: i64, rhs: i64) -> i64 {
         i64_core::i64_bitwise_and(lhs, rhs)
     }
+
+    fn add(lhs: i64, rhs: i64) -> i64 {
+        i64Add::add(lhs, rhs)
+    }
+
+    fn sub(lhs: i64, rhs: i64) -> i64 {
+        i64Sub::sub(lhs, rhs)
+    }
 }
 
 use orion::numbers::signed_integer::i128 as i128_core;
 use orion::numbers::signed_integer::i128::i128;
+use orion::numbers::signed_integer::i128::{i128Add, i128Sub};
 
 impl i128Number of NumberTrait<i128, u128> {
     fn new(mag: u128, sign: bool) -> i128 {
@@ -2118,6 +2258,10 @@ impl i128Number of NumberTrait<i128, u128> {
         i128_core::i128_eq(self, i128 { mag: 0, sign: false })
     }
 
+    fn half() -> i128 {
+        panic(array!['not supported!'])
+    }
+
     fn one() -> i128 {
         i128 { mag: 1, sign: false }
     }
@@ -2209,6 +2353,14 @@ impl i128Number of NumberTrait<i128, u128> {
 
     fn bitwise_and(lhs: i128, rhs: i128) -> i128 {
         i128_core::i128_bitwise_and(lhs, rhs)
+    }
+
+    fn add(lhs: i128, rhs: i128) -> i128 {
+        i128Add::add(lhs, rhs)
+    }
+
+    fn sub(lhs: i128, rhs: i128) -> i128 {
+        i128Sub::sub(lhs, rhs)
     }
 }
 
@@ -2321,6 +2473,10 @@ impl u32Number of NumberTrait<u32, u32> {
         self == 0
     }
 
+    fn half() -> u32 {
+        panic(array!['not supported!'])
+    }
+
     fn one() -> u32 {
         1
     }
@@ -2419,5 +2575,13 @@ impl u32Number of NumberTrait<u32, u32> {
 
     fn bitwise_and(lhs: u32, rhs: u32) -> u32 {
         lhs & rhs
+    }
+
+    fn add(lhs: u32, rhs: u32) -> u32 {
+        lhs + rhs
+    }
+
+    fn sub(lhs: u32, rhs: u32) -> u32 {
+        lhs - rhs
     }
 }
