@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 
 def logsoftmax(x: np.ndarray, axis: int = -1) -> np.ndarray:
@@ -23,7 +23,6 @@ class Logsoftmax(RunAll):
                 y.flatten(), FixedImpl.FP8x23))
 
             name = "logsoftmax_fp8x23_axis_0"
-            make_node([x], [y], name)
             make_test([x], y, "NNTrait::logsoftmax(@input_0, 0)",
                       name, Trait.NN)
 
@@ -37,7 +36,6 @@ class Logsoftmax(RunAll):
                 y.flatten(), FixedImpl.FP8x23))
 
             name = "logsoftmax_fp8x23_axis_1"
-            make_node([x], [y], name)
             make_test([x], y, "NNTrait::logsoftmax(@input_0, 1)",
                       name, Trait.NN)
 
@@ -55,7 +53,6 @@ class Logsoftmax(RunAll):
                 y.flatten(), FixedImpl.FP16x16))
 
             name = "logsoftmax_fp16x16_axis_0"
-            make_node([x], [y], name)
             make_test([x], y, "NNTrait::logsoftmax(@input_0, 0)",
                       name, Trait.NN)
 
@@ -69,7 +66,6 @@ class Logsoftmax(RunAll):
                 y.flatten(), FixedImpl.FP16x16))
 
             name = "logsoftmax_fp16x16_axis_1"
-            make_node([x], [y], name)
             make_test([x], y, "NNTrait::logsoftmax(@input_0, 1)",
                       name, Trait.NN)
 

@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 import tensorflow as tf
 
 
@@ -17,7 +17,6 @@ class Sigmoid(RunAll):
             y.flatten(), FixedImpl.FP8x23))
 
         name = "sigmoid_fp8x23"
-        make_node([x], [y], name)
         make_test([x], y, "NNTrait::sigmoid(@input_0)",
                     name, Trait.NN)
 
@@ -32,7 +31,6 @@ class Sigmoid(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "sigmoid_fp16x16"
-        make_node([x], [y], name)
         make_test([x], y, "NNTrait::sigmoid(@input_0)",
                     name, Trait.NN)
 

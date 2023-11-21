@@ -37,6 +37,14 @@ impl i64Impl of IntegerTrait<i64, u64> {
     fn sign(self: i64) -> i64 {
         i64_sign(self)
     }
+
+    fn NaN() -> i64 {
+        return i64 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: i64) -> bool {
+        self == i64 { mag: 0, sign: true }
+    }
 }
 
 // Implements the Into trait for i64.
@@ -468,4 +476,8 @@ fn i64_sign(a: i64) -> i64 {
     } else {
         IntegerTrait::<i64>::new(1, a.sign)
     }
+}
+
+fn i64_bitwise_and(a: i64, b: i64) -> i64 {
+    IntegerTrait::<i64>::new(a.mag & b.mag, a.sign & b.sign)
 }
