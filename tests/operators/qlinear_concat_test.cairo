@@ -73,7 +73,6 @@ fn qlinear_concat_test() {
 
     let actual_output = TensorTrait::qlinear_concat(tensors, scales, zero_points, @y_scale, @y_zero_point, 0);
     
-    print_span(actual_output.data);
     assert((*actual_output.data[0]).into() == 3, '*result[0] == 3');
     assert((*actual_output.data[1]).into() == 6, '*result[1] == 6');
     assert((*actual_output.data[2]).into() == 9, '*result[2] == 9');
