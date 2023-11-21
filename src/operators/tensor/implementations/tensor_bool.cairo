@@ -335,6 +335,10 @@ impl BoolTensor of TensorTrait<bool> {
         constant_of_shape(shape, value)
     }
 
+    fn sequence_at(sequence: Array<Tensor<bool>>, position: Tensor<i32>) -> Tensor<bool> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+
     fn sequence_construct(tensors: Array<Tensor<bool>>) -> Array<Tensor<bool>> {
         math::sequence_construct::sequence_construct(tensors)
     }

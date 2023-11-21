@@ -393,6 +393,10 @@ impl I32Tensor of TensorTrait<i32> {
         panic(array!['not supported!'])
     }
 
+    fn sequence_at(sequence: Array<Tensor<i32>>, position: Tensor<i32>) -> Tensor<i32> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+    
     fn sequence_construct(tensors: Array<Tensor<i32>>) -> Array<Tensor<i32>> {
         math::sequence_construct::sequence_construct(tensors)
     }

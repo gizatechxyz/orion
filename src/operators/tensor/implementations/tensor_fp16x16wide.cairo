@@ -363,6 +363,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 
+    fn sequence_at(sequence: Array<Tensor<FP16x16W>>, position: Tensor<i32>) -> Tensor<FP16x16W> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+    
     fn sequence_construct(tensors: Array<Tensor<FP16x16W>>) -> Array<Tensor<FP16x16W>> {
         math::sequence_construct::sequence_construct(tensors)
     }

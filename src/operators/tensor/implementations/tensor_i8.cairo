@@ -392,6 +392,10 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
+    fn sequence_at(sequence: Array<Tensor<i8>>, position: Tensor<i32>) -> Tensor<i8> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+    
     fn sequence_construct(tensors: Array<Tensor<i8>>) -> Array<Tensor<i8>> {
         math::sequence_construct::sequence_construct(tensors)
     }

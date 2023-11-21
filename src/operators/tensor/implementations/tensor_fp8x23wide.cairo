@@ -352,6 +352,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn sequence_at(sequence: Array<Tensor<FP8x23W>>, position: Tensor<i32>) -> Tensor<FP8x23W> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+    
     fn sequence_construct(tensors: Array<Tensor<FP8x23W>>) -> Array<Tensor<FP8x23W>> {
         math::sequence_construct::sequence_construct(tensors)
     }
