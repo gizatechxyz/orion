@@ -244,6 +244,17 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<u32>>,
+        zero_points: Span<Tensor<u32>>,
+        y_scale: @Tensor<u32>,
+        y_zero_point: @Tensor<u32>,
+        axis: usize,
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn slice(
         self: @Tensor<u32>,
         starts: Span<usize>,

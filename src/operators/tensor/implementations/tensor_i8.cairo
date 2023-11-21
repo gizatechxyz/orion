@@ -283,6 +283,26 @@ impl I8Tensor of TensorTrait<i8> {
         )
     }
 
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<i8>>,
+        zero_points: Span<Tensor<i8>>,
+        y_scale: @Tensor<i8>,
+        y_zero_point: @Tensor<i8>,
+        axis: usize
+    ) -> Tensor::<i8> {
+        quantization::qlinear_concat::qlinear_concat(
+            tensors,
+            scales,
+            zero_points,
+            y_scale,
+            y_zero_point,
+            axis,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
 
     fn slice(
         self: @Tensor<i8>,

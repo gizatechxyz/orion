@@ -83,6 +83,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.qlinear_add`](tensor.qlinear\_add.md) | Performs the sum of two quantized i8 Tensors. |
 | [`tensor.qlinear_mul`](tensor.qlinear\_mul.md) | Performs the element-wise multiplication of two quantized i8 Tensors. |
 | [`tensor.qlinear_matmul`](tensor.qlinear\_matmul.md) | Performs the product of two quantized i8 Tensors. |
+| [`tensor.qlinear_concat`](tensor.qlinear\_concat.md) | Performs the concatenation of a list of quantized i8 Tensors. |
 | [`tensor.gather`](tensor.gather.md) | Gather entries of the axis dimension of data. |
 | [`tensor.nonzero`](tensor.nonzero.md) | Produces indices of the elements that are non-zero (in row-major order - by dimension). |
 | [`tensor.squeeze`](tensor.squeeze.md) | Removes dimensions of size 1 from the shape of a tensor. |

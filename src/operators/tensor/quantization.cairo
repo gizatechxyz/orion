@@ -1,5 +1,6 @@
 mod quantize_linear;
 mod dequantize_linear;
 mod qlinear_matmul;
+mod qlinear_concat;
 mod qlinear_add;
 mod qlinear_mul;
