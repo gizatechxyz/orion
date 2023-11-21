@@ -273,6 +273,18 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<bool>,
+        a_zero_point: @Tensor<bool>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<bool>,
+        b_zero_point: @Tensor<bool>,
+        y_scale: @Tensor<bool>,
+        y_zero_point: @Tensor<bool>
+    ) -> Tensor::<i8> {
+            panic(array!['not supported!'])
+    }
 
     fn round(self: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])

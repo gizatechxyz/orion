@@ -235,6 +235,30 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         )
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP16x16>,
+        a_zero_point: @Tensor<FP16x16>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP16x16>,
+        b_zero_point: @Tensor<FP16x16>,
+        y_scale: @Tensor<FP16x16>,
+        y_zero_point: @Tensor<FP16x16>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_mul::qlinear_mul(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<FP16x16>,
