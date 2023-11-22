@@ -77,9 +77,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// quantize_linear - Quantizes a Tensor to i8 using linear quantization.
 /// dequantize_linear - Dequantizes an i8 Tensor using linear dequantization.
 /// qlinear_add - Performs the sum of two quantized i8 Tensors.
-/// qlinear_mul - Performs the element-wise multiplication of two quantized i8 Tensors.
 /// qlinear_matmul - Performs the product of two quantized i8 Tensors.
-/// qlinear_concat - Performs the concatenation of a list of quantized i8 Tensors.
 /// gather - Gather entries of the axis dimension of data.
 /// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
 /// squeeze - Removes dimensions of size 1 from the shape of a tensor.
@@ -94,16 +92,8 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// reduce_l1 - Computes the L1 norm of the input tensor's elements along the provided axes.
 /// trilu - Returns the upper or lower triangular part of a tensor or a batch of 2D matrices.
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
-/// array_feature_extractor – Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
-/// binarizer – Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
-/// sequence_at – Outputs the tensor at the specified position in the input sequence.
-/// reduce_min - Computes the min of the input tensor's elements along the provided axes.
-/// sequence_construct – Constructs a tensor sequence containing the input tensors.
-/// shrink – Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula.
-/// sequence_empty - Returns an empty tensor sequence.
-/// reduce_mean - Computes the mean of the input tensor's elements along the provided axes.
 /// sequence_insert - Insert a tensor into a sequence.
 trait TensorTrait<T> {
     /// # tensor.new
