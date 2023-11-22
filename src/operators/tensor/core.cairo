@@ -77,7 +77,9 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// quantize_linear - Quantizes a Tensor to i8 using linear quantization.
 /// dequantize_linear - Dequantizes an i8 Tensor using linear dequantization.
 /// qlinear_add - Performs the sum of two quantized i8 Tensors.
+/// qlinear_mul - Performs the element-wise multiplication of quantized Tensors.
 /// qlinear_matmul - Performs the product of two quantized i8 Tensors.
+/// qlinear_concat - Concatenate a list of tensors after dequantizing them with their respective scales and zero_points and returns the quantized result.
 /// gather - Gather entries of the axis dimension of data.
 /// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
 /// squeeze - Removes dimensions of size 1 from the shape of a tensor.
@@ -95,6 +97,15 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
 /// sequence_insert - Insert a tensor into a sequence.
+/// sequence_at - Outputs the tensor at the specified position in the input sequence.
+/// sequence_construct - Constructs a tensor sequence containing the input tensors.
+/// shrink - Shrinks the input tensor element-wise to the output tensor.
+/// reduce_mean - Computes the mean of the input tensor's elements along the provided axes.
+/// sequence_empty - Returns an empty tensor sequence.
+/// binarizer - Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
+/// array_feature_extractor - Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
+/// reduce_min - Computes the min of the input tensor's elements along the provided axes.
+/// 
 trait TensorTrait<T> {
     /// # tensor.new
     ///
