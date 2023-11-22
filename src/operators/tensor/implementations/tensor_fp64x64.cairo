@@ -236,6 +236,30 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         )
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP64x64>,
+        a_zero_point: @Tensor<FP64x64>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP64x64>,
+        b_zero_point: @Tensor<FP64x64>,
+        y_scale: @Tensor<FP64x64>,
+        y_zero_point: @Tensor<FP64x64>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_mul::qlinear_mul(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<FP64x64>,
@@ -255,6 +279,26 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
             b_zero_point,
             y_scale,
             y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<FP64x64>>,
+        zero_points: Span<Tensor<FP64x64>>,
+        y_scale: @Tensor<FP64x64>,
+        y_zero_point: @Tensor<FP64x64>,
+        axis: usize
+    ) -> Tensor::<i8> {
+        quantization::qlinear_concat::qlinear_concat(
+            tensors,
+            scales,
+            zero_points,
+            y_scale,
+            y_zero_point,
+            axis,
             NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )
@@ -350,6 +394,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn sequence_at(sequence: Array<Tensor<FP64x64>>, position: Tensor<i32>) -> Tensor<FP64x64> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+    
     fn sequence_construct(tensors: Array<Tensor<FP64x64>>) -> Array<Tensor<FP64x64>> {
         math::sequence_construct::sequence_construct(tensors)
     }

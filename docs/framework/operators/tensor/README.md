@@ -81,7 +81,9 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.quantize_linear`](tensor.quantize\_linear.md) | Quantizes a Tensor to i8 using linear quantization. |
 | [`tensor.dequantize_linear`](tensor.dequantize\_linear.md) | Dequantizes an i8 Tensor using linear dequantization. |
 | [`tensor.qlinear_add`](tensor.qlinear\_add.md) | Performs the sum of two quantized i8 Tensors. |
+| [`tensor.qlinear_mul`](tensor.qlinear\_mul.md) | Performs the element-wise multiplication of two quantized i8 Tensors. |
 | [`tensor.qlinear_matmul`](tensor.qlinear\_matmul.md) | Performs the product of two quantized i8 Tensors. |
+| [`tensor.qlinear_concat`](tensor.qlinear\_concat.md) | Performs the concatenation of a list of quantized i8 Tensors. |
 | [`tensor.gather`](tensor.gather.md) | Gather entries of the axis dimension of data. |
 | [`tensor.nonzero`](tensor.nonzero.md) | Produces indices of the elements that are non-zero (in row-major order - by dimension). |
 | [`tensor.squeeze`](tensor.squeeze.md) | Removes dimensions of size 1 from the shape of a tensor. |
@@ -100,6 +102,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.binarizer`](tensor.binarizer.md) | Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value. |
 | [`tensor.reduce_sum_square`](tensor.reduce\_sum\_square.md) | Computes the sum square of the input tensor's elements along the provided axes.  |
 | [`tensor.reduce_l2`](tensor.reduce\_l2.md) | Computes the L2 norm of the input tensor's elements along the provided axes. |
+| [`tensor.sequence_at`](tensor.sequence\_at.md) | Outputs the tensor at the specified position in the input sequence. |
 | [`tensor.reduce_min`](tensor.reduce\_min.md) | Computes the min of the input tensor's elements along the provided axes. |
 | [`tensor.sequence_construct`](tensor.sequence\_construct.md) | Constructs a tensor sequence containing the input tensors. |
 | [`tensor.shrink`](tensor.shrink.md) | Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula. |
