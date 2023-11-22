@@ -224,6 +224,19 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP8x23W>,
+        a_zero_point: @Tensor<FP8x23W>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP8x23W>,
+        b_zero_point: @Tensor<FP8x23W>,
+        y_scale: @Tensor<FP8x23W>,
+        y_zero_point: @Tensor<FP8x23W>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<FP8x23W>,
@@ -233,6 +246,17 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         b_zero_point: @Tensor<FP8x23W>,
         y_scale: @Tensor<FP8x23W>,
         y_zero_point: @Tensor<FP8x23W>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<FP8x23W>>,
+        zero_points: Span<Tensor<FP8x23W>>,
+        y_scale: @Tensor<FP8x23W>,
+        y_zero_point: @Tensor<FP8x23W>,
+        axis: usize
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
     }
@@ -305,7 +329,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn binarizer(self: @Tensor<FP8x23W>, threshold: Option<FP8x23W>) -> Tensor<FP8x23W> {
         math::binarizer::binarizer(*self, threshold)
     }
- 
+
     fn reduce_sum_square(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
@@ -336,10 +360,19 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::shrink::shrink(self, bias, lambd) 
     }
     
+    fn sequence_at(sequence: Array<Tensor<FP8x23W>>, position: Tensor<i32>) -> Tensor<FP8x23W> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+    
+    fn sequence_construct(tensors: Array<Tensor<FP8x23W>>) -> Array<Tensor<FP8x23W>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
+
+  
     fn sequence_empty() -> Array<Tensor<FP8x23W>> {
         math::sequence_empty::sequence_empty::<FP8x23W>()
     }
-    
+
     fn reduce_mean(
         self: @Tensor<FP8x23W>,
         axes: Option<Span<usize>>,
@@ -347,6 +380,27 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<FP8x23W> {
         math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
+    }
+
+    fn reduce_min(
+        self: @Tensor<FP8x23W>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP8x23W> {
+        math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
+    }
+
+    fn pow(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
+        math::pow::pow(self, other)
+    }
+    
+    fn sequence_erase(sequence: Array<Tensor<FP8x23W>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23W>> {
+        math::sequence_erase::sequence_erase(sequence, position)
+    }
+    
+    fn sequence_insert(self: Array<Tensor<FP8x23W>>, tensor: @Tensor<FP8x23W>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23W>> {
+	math::sequence_insert::sequence_insert(self, tensor, position)
     }
 }
 

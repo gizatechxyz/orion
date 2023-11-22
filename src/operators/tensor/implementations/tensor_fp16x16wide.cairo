@@ -230,6 +230,19 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP16x16W>,
+        a_zero_point: @Tensor<FP16x16W>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP16x16W>,
+        b_zero_point: @Tensor<FP16x16W>,
+        y_scale: @Tensor<FP16x16W>,
+        y_zero_point: @Tensor<FP16x16W>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<FP16x16W>,
@@ -242,6 +255,17 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
     }
+
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<FP16x16W>>,
+        zero_points: Span<Tensor<FP16x16W>>,
+        y_scale: @Tensor<FP16x16W>,
+        y_zero_point: @Tensor<FP16x16W>,
+        axis: usize
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }    
 
     fn slice(
         self: @Tensor<FP16x16W>,
@@ -321,7 +345,9 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
-    fn array_feature_extractor(self: @Tensor<FP16x16W>, indices: Tensor<usize>) -> Tensor<FP16x16W> {
+    fn array_feature_extractor(
+        self: @Tensor<FP16x16W>, indices: Tensor<usize>
+    ) -> Tensor<FP16x16W> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
 
@@ -345,10 +371,18 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::shrink::shrink(self, bias, lambd) 
     }
     
+    fn sequence_at(sequence: Array<Tensor<FP16x16W>>, position: Tensor<i32>) -> Tensor<FP16x16W> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+    
+    fn sequence_construct(tensors: Array<Tensor<FP16x16W>>) -> Array<Tensor<FP16x16W>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
+
     fn sequence_empty() -> Array<Tensor<FP16x16W>> {
         math::sequence_empty::sequence_empty::<FP16x16W>()
     }
-    
+
     fn reduce_mean(
         self: @Tensor<FP16x16W>,
         axes: Option<Span<usize>>,
@@ -356,6 +390,27 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<FP16x16W> {
         math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
+    }
+
+    fn reduce_min(
+        self: @Tensor<FP16x16W>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP16x16W> {
+        math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
+    }
+
+    fn pow(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::pow::pow(self, other)
+    }
+    
+    fn sequence_erase(sequence: Array<Tensor<FP16x16W>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP16x16W>> {
+        math::sequence_erase::sequence_erase(sequence, position)
+    }
+    
+    fn sequence_insert(self: Array<Tensor<FP16x16W>>, tensor: @Tensor<FP16x16W>, position: Option<Tensor<i32>>) -> Array<Tensor<FP16x16W>> {
+	math::sequence_insert::sequence_insert(self, tensor, position)
     }
 }
 

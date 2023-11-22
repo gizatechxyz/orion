@@ -1,6 +1,6 @@
 # tensor.sequence_empty
 
-```rust 
+```rust
    fn sequence_empty() -> Array<Tensor<T>>;
 ```
 

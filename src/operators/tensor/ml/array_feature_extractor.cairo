@@ -7,10 +7,7 @@ use orion::numbers::NumberTrait;
 
 /// Cf: TensorTrait::array_feature_extractor docstring
 fn array_feature_extractor<
-    T,
-    impl TTensor: TensorTrait<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>
+    T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>
 >(
     self: Tensor<T>, indices: Tensor<usize>
 ) -> Tensor<T> {
@@ -28,12 +25,7 @@ fn array_feature_extractor<
 }
 
 
-fn process_1D_tensor<
-    T,
-    impl TTensor: TensorTrait<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>
->(
+fn process_1D_tensor<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     self: Tensor<T>, indices: Tensor<usize>
 ) -> Tensor<T> {
     let mut output_data = ArrayTrait::<T>::new();
@@ -58,10 +50,7 @@ fn process_1D_tensor<
 
 
 fn calculate_output_shape<
-    T,
-    impl TTensor: TensorTrait<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>
+    T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>
 >(
     input_shape: Span<usize>, indices: Tensor<usize>
 ) -> (Array<usize>, usize) {
@@ -92,12 +81,7 @@ fn calculate_output_shape<
 }
 
 
-fn calculate_output_data<
-    T,
-    impl TTensor: TensorTrait<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>
->(
+fn calculate_output_data<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     self: Tensor<T>, indices: Tensor<usize>, total_elements: usize
 ) -> Array<T> {
     let last_tensor_axis: usize = *self.shape.at(self.shape.len() - 1);

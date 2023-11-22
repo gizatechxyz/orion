@@ -2,6 +2,6 @@
 
 Discover amazing ML apps and POCs made by the community with Orion!
 
-{% hint style="info" %}
-This section is currently under development. If you're looking for ideas for POCs that can be implemented using Orion, don't hesitate to contact [Raphael](https://twitter.com/raphael\_dkhn) or [Fran](https://twitter.com/franalgaba\_). We have a bunch of exciting ideas to share!
-{% endhint %}
+
+
+<table data-card-size="large" data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><a href="https://github.com/OwnerOfJK/TicTacToeAgent/tree/main"><strong>Tic Tac Toe in PixeLAW</strong></a></td><td></td><td>Welcome to the Tic Tac Toe game integrated into the PixeLAW world, where you can challenge an ML bot to a game of Tic Tac Toe onchain!</td><td><a href="https://github.com/OwnerOfJK/TicTacToeAgent/tree/main">https://github.com/OwnerOfJK/TicTacToeAgent/tree/main</a></td></tr></tbody></table>

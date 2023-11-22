@@ -77,7 +77,9 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// quantize_linear - Quantizes a Tensor to i8 using linear quantization.
 /// dequantize_linear - Dequantizes an i8 Tensor using linear dequantization.
 /// qlinear_add - Performs the sum of two quantized i8 Tensors.
+/// qlinear_mul - Performs the element-wise multiplication of quantized Tensors.
 /// qlinear_matmul - Performs the product of two quantized i8 Tensors.
+/// qlinear_concat - Concatenate a list of tensors after dequantizing them with their respective scales and zero_points and returns the quantized result.
 /// gather - Gather entries of the axis dimension of data.
 /// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
 /// squeeze - Removes dimensions of size 1 from the shape of a tensor.
@@ -92,14 +94,21 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// reduce_l1 - Computes the L1 norm of the input tensor's elements along the provided axes.
 /// trilu - Returns the upper or lower triangular part of a tensor or a batch of 2D matrices.
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
-/// array_feature_extractor – Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
-/// binarizer – Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
 /// sequence_length - Returns the length of the input sequence.
-/// shrink – Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula.
-/// sequence_empty - Returns an empty tensor sequence.
+/// sequence_insert - Insert a tensor into a sequence.
+/// sequence_at - Outputs the tensor at the specified position in the input sequence.
+/// sequence_construct - Constructs a tensor sequence containing the input tensors.
+/// shrink - Shrinks the input tensor element-wise to the output tensor.
 /// reduce_mean - Computes the mean of the input tensor's elements along the provided axes.
+/// pow - Pow takes input data (Tensor) and exponent Tensor, and produces one output data (Tensor) where the function f(x) = x^exponent, is applied to the data tensor elementwise.
+/// sequence_erase – Outputs the tensor sequence with the erased tensor at the specified position.
+/// sequence_empty - Returns an empty tensor sequence.
+/// binarizer - Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
+/// array_feature_extractor - Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
+/// reduce_min - Computes the min of the input tensor's elements along the provided axes.
+/// 
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -2512,6 +2521,8 @@ trait TensorTrait<T> {
     /// ## Type Constraints
     ///
     /// u32 tensor, not supported.
+    /// fp8x23wide tensor, not supported.
+    /// fp16x16wide tensor, not supported.
     ///
     /// ## Examples
     /// 
@@ -2562,17 +2573,17 @@ trait TensorTrait<T> {
     ///
     /// It consumes two quantized input tensors, their scales and zero points, scale and zero point of output, and computes the quantized output. 
     /// The quantization formula is y = saturate((x / y_scale) + y_zero_point).
-    /// It perfoms the addition of the two vectors once dequantized, then return the quantization of the result of the multiplication.
+    /// It perfoms the addition of the two vectors once dequantized, then return the quantization of the result of the addition.
     /// The broadcasting is supported
     /// Scale and zero point must have same shape and the same type. They must be either scalar (per tensor) or N-D tensor (per row for 'a' and per column for 'b'). 
     /// Scalar refers to per tensor quantization whereas N-D refers to per row or per column quantization.
     ///
     /// ## Args
     ///
-    /// * `self`(`@Tensor<i8>`) - The first tensor to be multiplied (a).
+    /// * `self`(`@Tensor<i8>`) - The first tensor to be additionned (a).
     /// * `a_scale`(`@Tensor<T>`) - Scale for input `a`.
     /// * `a_zero_point`(`@Tensor<T>`) - Zero point for input `a`.
-    /// * `b`(`@Tensor<i8>`) - The second tensor to be multiplied
+    /// * `b`(`@Tensor<i8>`) - The second tensor to be additionned
     /// * `b_scale`(`@Tensor<T>`) - Scale for input `b`.
     /// * `b_zero_point`(`@Tensor<T>`) - Zero point for input `b`.    
     /// * `y_scale`(`@Tensor<T>`) - Scale for outut.
@@ -2585,6 +2596,8 @@ trait TensorTrait<T> {
     /// ## Type Constraints
     ///
     /// u32 tensor, not supported.
+    /// fp8x23wide tensor, not supported.
+    /// fp16x16wide tensor, not supported.
     ///  
     /// ## Example
     /// 
@@ -2663,6 +2676,125 @@ trait TensorTrait<T> {
         y_scale: @Tensor<T>,
         y_zero_point: @Tensor<T>
     ) -> Tensor::<i8>;
+    /// # tensor.qlinear_mul
+    ///
+    /// ```rust
+    ///     fn qlinear_mul(self: @Tensor<i8>, a_scale: @Tensor<T>, a_zero_point: @Tensor<T>, b: @Tensor<i8>, b_scale: @Tensor<T>, b_zero_point: @Tensor<T>, y_scale: @Tensor<T>, y_zero_point: @Tensor<T>) -> Tensor::<i8>;
+    /// ```
+    /// 
+    /// Performs the element-wise multiplication of quantized Tensors
+    ///
+    /// It consumes two quantized input tensors, their scales and zero points, scale and zero point of output, and computes the quantized output. 
+    /// The quantization formula is y = saturate((x / y_scale) + y_zero_point).
+    /// It perfoms the element-wise multiplication of the two vectors once dequantized, then return the quantization of the result of the multiplication.
+    /// The broadcasting is supported
+    /// Scale and zero point must have same shape and the same type. They must be either scalar (per tensor) or N-D tensor (per row for 'a' and per column for 'b'). 
+    /// Scalar refers to per tensor quantization whereas N-D refers to per row or per column quantization.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<i8>`) - The first tensor to be multiplied (a).
+    /// * `a_scale`(`@Tensor<T>`) - Scale for input `a`.
+    /// * `a_zero_point`(`@Tensor<T>`) - Zero point for input `a`.
+    /// * `b`(`@Tensor<i8>`) - The second tensor to be multiplied
+    /// * `b_scale`(`@Tensor<T>`) - Scale for input `b`.
+    /// * `b_zero_point`(`@Tensor<T>`) - Zero point for input `b`.    
+    /// * `y_scale`(`@Tensor<T>`) - Scale for outut.
+    /// * `y_zero_point`(`@Tensor<T>`) - Zero point for output.   
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<i8>`, containing the quantized result of the element-wise multiplication of the dequantized inputs.
+    ///
+    /// ## Type Constraints
+    ///
+    /// u32 tensor, not supported.
+    /// fp8x23wide tensor, not supported.
+    /// fp16x16wide tensor, not supported.
+    /// 
+    /// ## Example 
+    ///
+    ///
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
+    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// 
+    /// ```rust 
+    /// #[test]
+    /// #[available_gas(200000000000)]
+    /// fn qlinear_mul_example() -> Tensor<i8>{
+    ///     let a = TensorTrait::<
+    ///         i8
+    ///     >::new(
+    ///         shape: array![2, 3].span(),
+    ///         data: array![
+    ///             IntegerTrait::<i8>::new(21_u8, false),
+    ///             IntegerTrait::<i8>::new(21_u8, false),
+    ///             IntegerTrait::<i8>::new(21_u8, false),
+    ///             IntegerTrait::<i8>::new(41_u8, false),
+    ///             IntegerTrait::<i8>::new(41_u8, false),
+    ///             IntegerTrait::<i8>::new(41_u8, false)
+    ///         ]
+    ///             .span(),
+    ///     );
+    ///     let b = TensorTrait::<
+    ///         i8
+    ///     >::new(
+    ///         shape: array![1, 3].span(),
+    ///         data: array![
+    ///             IntegerTrait::<i8>::new(4_u8, false),
+    ///             IntegerTrait::<i8>::new(8_u8, false),
+    ///             IntegerTrait::<i8>::new(12_u8, false)
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     let a_scale = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(
+    ///         shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(131072, false)].span(),
+    ///     );
+    ///     let a_zero_point = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(65536, false)].span(),);
+    ///     let b_scale = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(16384, false)].span(),);
+    ///     let b_zero_point = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
+    /// 
+    ///     let y_scale = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(
+    ///         shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(393216, false)].span(),
+    ///     );
+    ///     let y_zero_point = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(
+    ///         shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(655360, false)].span(),
+    ///     );
+    /// 
+    ///     return = a
+    ///         .qlinear_mul(
+    ///             @a_scale, @a_zero_point, @b, @b_scale, @b_zero_point, @y_scale, @y_zero_point
+    ///         );
+    /// 
+    /// }
+    ///
+    /// >>> [[16, 23, 30], [23, 36, 50]]
+    /// ```
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<T>,
+        a_zero_point: @Tensor<T>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<T>,
+        b_zero_point: @Tensor<T>,
+        y_scale: @Tensor<T>,
+        y_zero_point: @Tensor<T>
+    ) -> Tensor::<i8>;
     /// # tensor.qlinear_matmul
     /// 
     /// ```rust
@@ -2686,7 +2818,7 @@ trait TensorTrait<T> {
     /// * `b`(`@Tensor<i8>`) - The second tensor to be multiplied
     /// * `b_scale`(`@Tensor<T>`) - Scale for input `b`.
     /// * `b_zero_point`(`@Tensor<T>`) - Zero point for input `b`.    
-    /// * `y_scale`(`@Tensor<T>`) - Scale for outut.
+    /// * `y_scale`(`@Tensor<T>`) - Scale for output.
     /// * `y_zero_point`(`@Tensor<T>`) - Zero point for output.   
     ///
     /// ## Returns
@@ -2696,6 +2828,8 @@ trait TensorTrait<T> {
     /// ## Type Constraints
     ///
     /// u32 tensor, not supported.
+    /// fp8x23wide tensor, not supported.
+    /// fp16x16wide tensor, not supported.
     ///  
     /// ## Example
     /// 
@@ -2758,6 +2892,7 @@ trait TensorTrait<T> {
     /// }        
     /// >>> [14, 13]
     /// ```
+    ///
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<T>,
@@ -2767,6 +2902,114 @@ trait TensorTrait<T> {
         b_zero_point: @Tensor<T>,
         y_scale: @Tensor<T>,
         y_zero_point: @Tensor<T>
+    ) -> Tensor::<i8>;
+    /// # tensor.qlinear_concat
+    ///
+    /// ```rust 
+    ///   qlinear_concat(tensors: Span<Tensor<i8>>, scales: Span<Tensor<T>>, zero_points: Span<Tensor<T>>, y_scale: @Tensor<T>, y_zero_point: @Tensor<T>, axis: usize) -> Tensor::<i8>;
+    /// ```
+    ///
+    /// Concatenate a list of tensors after dequantizing them with their respective scales and zero_points and returns the quantized result.
+    ///
+    /// ## Args
+    ///
+    /// * `tensors`(` Span<Tensor<i8>>,`) - Array of the quantized input tensors.
+    /// * `scales`(` Span<Tensor<T>>,`) - Array of the scales of the quantized input tensors.
+    /// * `zero_points`(` Span<Tensor<T>>,`) - Arrayof the zero_points of the quantized input tensors.
+    /// * `y_scale`(`@Tensor<T>`) - Scale for output.
+    /// * `y_zero_point`(`@Tensor<T>`) - Zero point for output.   
+    /// * `axis`(`usize`) -  Axis to concat on.
+    ///
+    /// ## Panics
+    ///
+    /// * Panic if tensor length is not greater than 1.
+    /// * Panics if dimension is not greater than axis.
+    ///
+    /// ## Type Constraints
+    ///
+    /// u32 tensor, not supported.
+    /// fp8x23wide tensor, not supported.
+    /// fp16x16wide tensor, not supported.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<i8>` concatenated quantized tensor of the dequantized input tensors.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    ///
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
+    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// 
+    /// fn qlinear_concat_example() -> Tensor<i8> {
+    ///     let tensor1 = TensorTrait::<
+    ///         i8
+    ///     >::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![
+    ///             IntegerTrait::<i8>::new(5_u8, false),
+    ///             IntegerTrait::<i8>::new(5_u8, false),
+    ///             IntegerTrait::<i8>::new(5_u8, false),
+    ///             IntegerTrait::<i8>::new(5_u8, false),
+    ///         ]
+    ///             .span(),
+    ///     );
+    ///     let tensor2 = TensorTrait::<
+    ///         i8
+    ///     >::new(
+    ///         shape: array![2, 2].span(),
+    ///         data: array![
+    ///             IntegerTrait::<i8>::new(1_u8, false),
+    ///             IntegerTrait::<i8>::new(1_u8, false),
+    ///             IntegerTrait::<i8>::new(1_u8, false),
+    ///             IntegerTrait::<i8>::new(1_u8, false),
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     let tensors = array![tensor1, tensor2].span();
+    /// 
+    ///     let tensor1_scale = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(131072, false)].span(),);
+    ///     let tensor2_scale = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(262144, false)].span(),);
+    /// 
+    ///     let scales = array![tensor1_scale, tensor2_scale].span();
+    /// 
+    ///     let tensor1_zero_point = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(327680, false)].span(),); 
+    ///     let tensor2_zero_point = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
+    /// 
+    ///     let zero_points = array![tensor1_zero_point, tensor2_zero_point].span();
+    /// 
+    ///     let y_scale = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(262144, false)].span(),);
+    /// 
+    ///     let y_zero_point = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(65536, false)].span(),);
+    /// 
+    ///     return TensorTrait::qlinear_concat(tensors, scales, zero_points, @y_scale, @y_zero_point, 0);
+    /// }
+    /// 
+    /// >>> [[1, 1, 1, 1], [2, 2, 2, 2]]  
+    /// ```
+    ///
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<T>>,
+        zero_points: Span<Tensor<T>>,
+        y_scale: @Tensor<T>,
+        y_zero_point: @Tensor<T>,
+        axis: usize
     ) -> Tensor::<i8>;
     /// # tensor.slice
     ///
@@ -3733,7 +3976,12 @@ trait TensorTrait<T> {
     /// >>> [[1,2],[5,6]]
     /// ```
     ///
-    fn reduce_mean(self: @Tensor<T>, axes: Option<Span<usize>>, keepdims: Option<bool>, noop_with_empty_axes: Option<bool>) -> Tensor<T>;
+    fn reduce_mean(
+        self: @Tensor<T>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<T>;
     /// # tensor.sequence_empty
     ///
     /// ```rust
@@ -3822,6 +4070,314 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn shrink(self: Tensor<T>, bias: Option<T>, lambd: Option<T>) -> Tensor<T>;
+    /// ## tensor.sequence_construct
+    ///
+    /// ```rust 
+    ///    fn sequence_construct(tensors: Array<Tensor<T>>) -> Array<Tensor<T>>;
+    /// ```
+    ///
+    /// Constructs a tensor sequence containing the input tensors.
+    ///
+    /// ## Args
+    ///
+    /// * `tensors`(`Array<Tensor<T>>`) - The array of input tensors.
+    ///
+    /// ## Panics 
+    /// 
+    /// * Panics if input tensor array is empty.
+    ///
+    /// ## Returns
+    ///
+    /// A tensor sequence `Array<Tensor<T>>` containing the input tensors.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    ///
+    /// fn sequence_construct_example() -> Array<Tensor<usize>> {
+    ///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span());
+    ///     let tensor2 = TensorTrait::new(shape: array![2, 2].span(), data: array![4, 5, 6, 7].span());
+    ///     let result = TensorTrait::sequence_construct(tensors: array![tensor1, tensor2]);
+    ///     return result;
+    /// }
+    /// >>> [[0, 1, 2, 3], [4, 5, 6, 7]]
+    /// ```
+    ///
+    fn sequence_construct(tensors: Array<Tensor<T>>) -> Array<Tensor<T>>;
+    /// ## tensor.reduce_min
+    ///
+    /// ```rust 
+    ///    fn reduce_min(self: @Tensor<T>, axes: Option<Span<usize>>, keepdims: Option<bool>, noop_with_empty_axes: Option<bool>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the min of the input tensor's elements along the provided axes.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axes`(`Option<Span<usize>>`) - Optional input list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor if 'noop_with_empty_axes' is false, else act as an Identity op when 'noop_with_empty_axes' is true.
+    /// * `keepdims`(`Option<bool>`) - Keep the reduced dimension or not, default true means keep reduced dimension.
+    /// * `noop_with_empty_axes`(`Option<bool>`) - Defines behavior if 'axes' is empty. Default behavior with 'false' is to reduce all axes. When axes is empty and this attribute is set to true, input tensor will not be reduced,and the output tensor would be equivalent to input tensor.
+    ///
+    /// ## Panics 
+    /// 
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` instance with the specified axes reduced by minimum of its elements.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn reduce_min_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///     );
+    /// 
+    ///     // We can call `reduce_mean` function as follows.
+    ///     return tensor.reduce_min(axes: array![1].span(), 
+    ///         keepdims: Option::None(()), 
+    ///         noop_with_empty_axes:  Option::None(()));
+    /// }
+    /// >>> [[0,1],[4,5]]
+    /// ```
+    ///
+    fn reduce_min(
+        self: @Tensor<T>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<T>;
+    /// # tensor.sequence_insert
+    ///
+    /// ```rust 
+    ///    fn sequence_insert(self: Array<Tensor<T>>, tensor: @Tensor<T>, position: Option<Tensor<i32>>) -> Array<Tensor<T>>;
+    /// ```
+    ///
+    /// Returns a tensor sequence that inserts 'tensor' into 'self' at 'position'.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`Array<Tensor<T>>`) - input sequence.
+    /// * `tensor` (`@Tensor<T>`) - the tensor to insert.
+    /// * `position` (`@Tensor<i32>`) - the index for insertion (default: -1).
+    ///
+    /// ## Returns
+    ///
+    /// Tensor sequence containing 'tensor' inserted into 'self' at 'position'.
+    ///
+    /// ## Examples
+    ///
+    /// Let's insert the tensor [2] into the sequence [[1], [3]] at position 1.
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
+    ///
+    /// fn sequence_insert_example() -> Array<Tensor<u32>> {
+    ///     // Prepare sequence
+    ///     let mut sequence = ArrayTrait::new();
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(1);
+    ///
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(1);
+    ///     sequence.append(TensorTrait::new(shape.span(), data.span()));
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(3);
+    ///
+    ///     sequence.append(TensorTrait::new(shape.span(), data.span()));
+    ///
+    ///     // Prepare input tensor
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(2);
+    ///     let tensor = TensorTrait::new(shape.span(), data.span());
+    ///
+    ///     // Prepare position
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     let mut data = ArrayTrait::<i32>::new();
+    ///     data.append(i32 { mag: 1, sign: false });
+    ///     let position = TensorTrait::<i32>::new(shape.span(), data.span())
+    ///
+    ///     let sequence = self.sequence_insert(tensor, Option::Some(position));
+    ///
+    ///     return sequence;
+    /// }
+    ///
+    /// >>> [[1], [2], [3]]
+    /// ```
+    ///
+    fn sequence_insert(self: Array<Tensor<T>>, tensor: @Tensor<T>, position: Option<Tensor<i32>>) -> Array<Tensor<T>>;
+    /// ## tensor.sequence_at
+    ///
+    /// ```rust 
+    ///    fn sequence_at(sequence: Array<Tensor<T>>, position: Tensor<i32>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Outputs the tensor at the specified position in the input sequence.
+    ///
+    /// ## Args
+    ///
+    /// * `tensors`(`Array<Tensor<T>>`) - The tensor sequence.
+    /// * `position`(`Tensor<i32>`) - The position tensor.
+    ///
+    /// ## Panics 
+    /// 
+    /// * Panics if position is not a scalar
+    /// * Panics if position is out of bounds [-n, n - 1]
+    ///
+    /// ## Returns
+    ///
+    /// The tensor `Tensor<T>` from the sequence at the specified position.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor, I32Tensor};
+    /// use orion::numbers::{i32, IntegerTrait};
+    ///
+    /// fn sequence_at_example() -> Tensor<u32> {
+    ///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span());
+    ///     let tensor2 = TensorTrait::new(shape: array![2, 2].span(), data: array![4, 5, 6, 7].span());
+    ///     
+    ///     let mut sequence = ArrayTrait::new();
+    ///     sequence.append(tensor1);
+    ///     sequence.append(tensor2);
+    ///
+    ///     let position = TensorTrait::new(shape: array![].span(), data: array![IntegerTrait::new(1, false)].span());
+    ///
+    ///     let result = TensorTrait::sequence_at(sequence, position);
+    ///     return result;
+    /// }
+    /// >>> [4, 5, 6, 7]
+    /// ```
+    ///
+    fn sequence_at(sequence: Array<Tensor<T>>, position: Tensor<i32>) -> Tensor<T>;
+    /// ## tensor.sequence_erase
+    ///
+    /// ```rust 
+    ///    fn sequence_erase(sequence: Array<Tensor<T>>, position: Option<Tensor<i32>>) -> Array<Tensor<T>>;
+    /// ```
+    ///
+    /// Outputs the tensor sequence with the erased tensor at the specified position.
+    ///
+    /// ## Args
+    ///
+    /// * `tensors`(`Array<Tensor<T>>`) - The tensor sequence.
+    /// * `position`(`Option<Tensor<i32>>`) - The optional position tensor (by default erases the last tensor).
+    ///
+    /// ## Panics 
+    /// 
+    /// * Panics if position is not a scalar
+    /// * Panics if position is out of bounds [-n, n - 1]
+    ///
+    /// ## Returns
+    ///
+    /// The tensor sequence `Array<Tensor<T>>` with the erased tensor at the specified position.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor, I32Tensor};
+    /// use orion::numbers::{i32, IntegerTrait};
+    ///
+    /// fn sequence_erase_example() -> Tensor<u32> {
+    ///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span());
+    ///     let tensor2 = TensorTrait::new(shape: array![2, 2].span(), data: array![4, 5, 6, 7].span());
+    ///     let tensor3 = TensorTrait::new(shape: array![2, 2].span(), data: array![8, 9, 10, 11].span());
+    ///     
+    ///     let mut sequence = ArrayTrait::new();
+    ///     sequence.append(tensor1);
+    ///     sequence.append(tensor2);
+    ///     sequence.append(tensor3);
+    ///
+    ///     let position = TensorTrait::new(shape: array![].span(), data: array![IntegerTrait::new(1, false)].span());
+    ///
+    ///     let result = TensorTrait::sequence_erase(sequence, position);
+    ///     return result;
+    /// }
+    /// >>> [[0, 1, 2, 3], [8, 9, 10, 11]]
+    /// ```
+    ///
+    fn sequence_erase(sequence: Array<Tensor<T>>, position: Option<Tensor<i32>>) -> Array<Tensor<T>>;
+    /// #tensor.pow
+    ///
+    /// ```rust
+    ///     fn pow(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Pow takes input data (Tensor) and exponent Tensor, and produces one output data (Tensor) where the function f(x) = x^exponent, is applied to the data tensor elementwise.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor, base of the exponent.
+    /// * `other`(`@Tensor<T>`) - The second tensor, power of the exponent.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` with the same shape as the broadcasted inputs.
+    ///
+    /// ## Examples
+    ///
+    /// Case 1: Compare tensors with same shape
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn pow_example() -> Tensor<usize> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 0, 1, 2, 0, 1, 2].span(),
+    ///     );
+    /// 
+    ///     return tensor_1.pow(@tensor_2);
+    /// }
+    /// >>> [0,1,4,0,4,25,0,7,64]
+    /// ```
+    ///
+    /// Case 2: Compare tensors with different shapes
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn pow_example() -> Tensor<usize> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![1, 3].span(), data: array![0, 1, 2].span(),
+    ///     );
+    /// 
+    ///     return tensor_1.pow(@tensor_2);
+    /// }
+    /// >>> [0,1,4,0,4,25,0,7,64]
+    /// ```
+    ///
+    fn pow(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
     /// # tensor.sequence_length
     ///
     /// ```rust

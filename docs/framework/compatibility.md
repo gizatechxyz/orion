@@ -56,8 +56,10 @@ You can see below the list of current supported ONNX Operators:
 |             [Gather](operators/tensor/tensor.gather.md)             | :white\_check\_mark: |
 |    [QuantizeLinear](operators/tensor/tensor.quantize\_linear.md)    | :white\_check\_mark: |
 |   [DequantizeLinear](operators/tensor/tensor.quantize\_linear.md)   | :white\_check\_mark: |
-|        [QlinearAdd](operators/tensor/tensor.qlinear\_add.md)        | :white\_check\_mark: |
-|     [QLinearMatmul](operators/tensor/tensor.qlinear\_matmul.md)     | :white\_check\_mark: |
+|   [QLinearMatmul](operators/tensor/tensor.qlinear\_matmul.md)       | :white\_check\_mark: |
+|   [QLinearConcat](operators/tensor/tensor.qlinear\_concat.md)       | :white\_check\_mark: |
+|   [QlinearAdd](operators/tensor/tensor.qlinear\_add.md)             | :white\_check\_mark: |
+|   [QlinearMul](operators/tensor/tensor.qlinear\_mul.md)             | :white\_check\_mark: |
 |            [Nonzero](operators/tensor/tensor.nonzero.md)            | :white\_check\_mark: |
 |            [Squeeze](operators/tensor/tensor.squeeze.md)            | :white\_check\_mark: |
 |          [Unsqueeze](operators/tensor/tensor.unsqueeze.md)          | :white\_check\_mark: |
@@ -84,8 +86,12 @@ You can see below the list of current supported ONNX Operators:
 |          [ReduceL1](operators/tensor/tensor.reduce\_l1.md)          | :white\_check\_mark: |
 |         [ReduceL2](operators/tensor/tensor.reduce\_l2.md)           | :white\_check\_mark: |
 |         [SequenceLength](operators/tensor/tensor.sequence\_length.md)   | :white\_check\_mark: |
+|        [SequenceAt](operators/tensor/tensor.sequence\_at.md)        | :white\_check\_mark: |
+| [SequenceConstruct](operators/tensor/tensor.sequence\_construct.md) | :white\_check\_mark: |
 |               [Shrink](operators/tensor/tensor.shrink.md)           | :white\_check\_mark: |
 |         [SequenceEmpty](operators/tensor/tensor.sequence\_empty.md) | :white\_check\_mark: |
 |          [ReduceL2](operators/tensor/tensor.reduce\_l2.md)          | :white\_check\_mark: |
+|    [SequenceErase](operators/tensor/tensor.sequence\_erase.md)      | :white\_check\_mark: |
+|         [SequenceInsert](operators/tensor/tensor.sequence\_insert.md)   | :white\_check\_mark: |
 
-Current Operators support: **76/156 (49%)**
+Current Operators support: **82/156 (53%)**
