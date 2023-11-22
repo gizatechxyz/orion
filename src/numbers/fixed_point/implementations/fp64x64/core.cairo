@@ -13,9 +13,15 @@ use orion::numbers::fixed_point::core::{FixedTrait};
 use orion::numbers::fixed_point::utils;
 use orion::numbers::{i32, i8};
 
+const HALF: u128 = 9223372036854775808_u128; // 2 ** 63
+
 impl FP64x64Impl of FixedTrait<FP64x64, u128> {
     fn ZERO() -> FP64x64 {
         return FP64x64 { mag: 0, sign: false };
+    }
+
+    fn HALF() -> FP64x64 {
+        return FP64x64 { mag: HALF, sign: false };
     }
 
     fn ONE() -> FP64x64 {
@@ -171,6 +177,14 @@ impl FP64x64Impl of FixedTrait<FP64x64, u128> {
     fn sign(self: FP64x64) -> FP64x64 {
         panic(array!['not supported!'])
     }
+
+    fn NaN() -> FP64x64 {
+        return FP64x64 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: FP64x64) -> bool {
+        self == FP64x64 { mag: 0, sign: true }
+    }
 }
 
 
@@ -244,17 +258,17 @@ impl FP64x64TryIntoI8 of TryInto<FP64x64, i8> {
     }
 }
 
-impl FP64x64PartialEq of PartialEq<FP64x64> {
-    #[inline(always)]
-    fn eq(lhs: @FP64x64, rhs: @FP64x64) -> bool {
-        return fp64x64::core::eq(lhs, rhs);
-    }
+// impl FP64x64PartialEq of PartialEq<FP64x64> {
+//     #[inline(always)]
+//     fn eq(lhs: @FP64x64, rhs: @FP64x64) -> bool {
+//         return fp64x64::core::eq(lhs, rhs);
+//     }
 
-    #[inline(always)]
-    fn ne(lhs: @FP64x64, rhs: @FP64x64) -> bool {
-        return fp64x64::core::ne(lhs, rhs);
-    }
-}
+//     #[inline(always)]
+//     fn ne(lhs: @FP64x64, rhs: @FP64x64) -> bool {
+//         return fp64x64::core::ne(lhs, rhs);
+//     }
+// }
 
 impl FP64x64Add of Add<FP64x64> {
     fn add(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {

@@ -29,6 +29,10 @@ impl FP16x16WImpl of FixedTrait<FP16x16W, u64> {
         return FP16x16W { mag: 0, sign: false };
     }
 
+    fn HALF() -> FP16x16W {
+        return FP16x16W { mag: HALF, sign: false };
+    }
+
     fn ONE() -> FP16x16W {
         return FP16x16W { mag: ONE, sign: false };
     }
@@ -181,6 +185,14 @@ impl FP16x16WImpl of FixedTrait<FP16x16W, u64> {
 
     fn sign(self: FP16x16W) -> FP16x16W {
         return core::sign(self);
+    }
+
+    fn NaN() -> FP16x16W {
+        return FP16x16W { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: FP16x16W) -> bool {
+        self == FP16x16W { mag: 0, sign: true }
     }
 }
 

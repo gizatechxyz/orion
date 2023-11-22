@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP64x64, FP64x64Impl};
 use orion::numbers::fixed_point::implementations::fp64x64::core::ONE;
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
@@ -236,6 +236,30 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         )
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP64x64>,
+        a_zero_point: @Tensor<FP64x64>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP64x64>,
+        b_zero_point: @Tensor<FP64x64>,
+        y_scale: @Tensor<FP64x64>,
+        y_zero_point: @Tensor<FP64x64>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_mul::qlinear_mul(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<FP64x64>,
@@ -255,6 +279,26 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
             b_zero_point,
             y_scale,
             y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<FP64x64>>,
+        zero_points: Span<Tensor<FP64x64>>,
+        y_scale: @Tensor<FP64x64>,
+        y_zero_point: @Tensor<FP64x64>,
+        axis: usize
+    ) -> Tensor::<i8> {
+        quantization::qlinear_concat::qlinear_concat(
+            tensors,
+            scales,
+            zero_points,
+            y_scale,
+            y_zero_point,
+            axis,
             NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )
@@ -320,6 +364,14 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::reduce_l1::reduce_l1(self, axis, keepdims)
     }
 
+    fn array_feature_extractor(self: @Tensor<FP64x64>, indices: Tensor<usize>) -> Tensor<FP64x64> {
+        ml::array_feature_extractor::array_feature_extractor(*self, indices)
+    }
+
+    fn binarizer(self: @Tensor<FP64x64>, threshold: Option<FP64x64>) -> Tensor<FP64x64> {
+        math::binarizer::binarizer(*self, threshold)
+    }
+
     fn reduce_sum_square(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
@@ -340,6 +392,42 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         reduction: Option<usize>
     ) -> Tensor<FP64x64> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
+    }
+
+    fn sequence_at(sequence: Array<Tensor<FP64x64>>, position: Tensor<i32>) -> Tensor<FP64x64> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+    
+    fn sequence_construct(tensors: Array<Tensor<FP64x64>>) -> Array<Tensor<FP64x64>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
+
+    fn shrink(
+        self: Tensor<FP64x64>, bias: Option<FP64x64>, lambd: Option<FP64x64>
+    ) -> Tensor<FP64x64> {
+        math::shrink::shrink(self, bias, lambd)
+    }
+
+    fn sequence_empty() -> Array<Tensor<FP64x64>> {
+        math::sequence_empty::sequence_empty::<FP64x64>()
+    }
+
+    fn reduce_mean(
+        self: @Tensor<FP64x64>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP64x64> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
+    }
+
+    fn reduce_min(
+        self: @Tensor<FP64x64>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP64x64> {
+        math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
 }
 

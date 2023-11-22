@@ -48,18 +48,27 @@ Discover ML models made by the community with Orion!
 | Bem Baraki      | [Linear Regression](https://github.com/BemTG/Verifiable-Linear-Regression-)                                           |
 | Raphael Doukhan | [MNIST MLP](https://github.com/gizatechxyz/orion_tutorials/blob/main/mnist_nn/QAT_MNIST_MLP.ipynb)                    |
 
+# Spaces 
+
+Discover amazing ML apps and POCs made by the community with Orion!
+
+| Author                            | Title                                                                                       |
+| --------------------------------- | ------------------------------------------------------------------------------------------- |
+| ownerofjk, umburloko, coostendorp | [Tic Tac Toe in PixeLAW with ML Bot](https://github.com/OwnerOfJK/TicTacToeAgent/tree/main) |
+
 ## Hackathon Projects
 
-| Author                | Event          | Title                                                                                  | Prizes             |
-| --------------------- | -------------- | -------------------------------------------------------------------------------------- | ------------------ |
-| manuj-mishra          | Lambda ZK week | [ZK Differential Privacy](https://github.com/manuj-mishra/zkdiffpriv)                  | 🏅                  |
-| codingnirvana         | Lambda ZK week | [Cairo Convolution ](https://github.com/gizatechxyz/orion/pull/160)                    |                    |
-| danilo, richie, falco | ETHGlobal      | [Cairo Einsum](https://x.com/danilowhk2/status/1683138159985545216?s=20)               | 🥇 (Starknet track) |
-| 0xbyyou               | ETHToronto     | [Cairo Logistic Regression](https://x.com/gizatechxyz/status/1695016787698417770?s=20) |                    |
+| Author                            | Event          | Title                                                                                       | Prizes             |
+| --------------------------------- | -------------- | ------------------------------------------------------------------------------------------- | ------------------ |
+| manuj-mishra                      | Lambda ZK week | [ZK Differential Privacy](https://github.com/manuj-mishra/zkdiffpriv)                       | 🏅                  |
+| codingnirvana                     | Lambda ZK week | [Cairo Convolution ](https://github.com/gizatechxyz/orion/pull/160)                         |                    |
+| danilo, richie, falco             | ETHGlobal      | [Cairo Einsum](https://x.com/danilowhk2/status/1683138159985545216?s=20)                    | 🥇 (Starknet track) |
+| 0xbyyou                           | ETHToronto     | [Cairo Logistic Regression](https://x.com/gizatechxyz/status/1695016787698417770?s=20)      |                    |
+| ownerofjk, umburloko, coostendorp | ETHGlobal Ist. | [Tic Tac Toe in PixeLAW with ML Bot](https://github.com/OwnerOfJK/TicTacToeAgent/tree/main) | 🥇 (Starknet track) |
 
 ## Use Cases 
 
 | Author                  | Title                              | Description                                                                                                                                                     |
 | ----------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | StorSwift               | Verifiable Medical Diagnosis       | A verifiable medical diagnosis web3 app. The aim is to create a robust and reliable platform to empower individuals in their healthcare decision-making process |
-| dblancove & dataonchain | Fraud Detection with Verifiable ML | A verifiable anomaly detection model in fraud detection and analysis of bank transaction alerts.                                                            |
+| dblancove & dataonchain | Fraud Detection with Verifiable ML | A verifiable anomaly detection model in fraud detection and analysis of bank transaction alerts.                                                                |

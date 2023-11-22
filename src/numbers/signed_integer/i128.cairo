@@ -37,6 +37,14 @@ impl i128Impl of IntegerTrait<i128, u128> {
     fn sign(self: i128) -> i128 {
         i128_sign(self)
     }
+
+    fn NaN() -> i128 {
+        return i128 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: i128) -> bool {
+        self == i128 { mag: 0, sign: true }
+    }
 }
 
 // Implements the Into trait for i128.
