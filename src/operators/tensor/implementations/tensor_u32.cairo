@@ -218,6 +218,19 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<u32>,
+        a_zero_point: @Tensor<u32>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<u32>,
+        b_zero_point: @Tensor<u32>,
+        y_scale: @Tensor<u32>,
+        y_zero_point: @Tensor<u32>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<u32>,
@@ -227,6 +240,17 @@ impl U32Tensor of TensorTrait<u32> {
         b_zero_point: @Tensor<u32>,
         y_scale: @Tensor<u32>,
         y_zero_point: @Tensor<u32>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<u32>>,
+        zero_points: Span<Tensor<u32>>,
+        y_scale: @Tensor<u32>,
+        y_zero_point: @Tensor<u32>,
+        axis: usize,
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
     }
@@ -319,6 +343,10 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
+    fn sequence_at(sequence: Array<Tensor<u32>>, position: Tensor<i32>) -> Tensor<u32> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+    
     fn sequence_construct(tensors: Array<Tensor<u32>>) -> Array<Tensor<u32>> {
         math::sequence_construct::sequence_construct(tensors)
     }
@@ -351,6 +379,10 @@ impl U32Tensor of TensorTrait<u32> {
 
     fn sequence_erase(sequence: Array<Tensor<u32>>, position: Option<Tensor<i32>>) -> Array<Tensor<u32>> {
         math::sequence_erase::sequence_erase(sequence, position)
+    }
+    
+    fn sequence_insert(self: Array<Tensor<u32>>, tensor: @Tensor<u32>, position: Option<Tensor<i32>>) -> Array<Tensor<u32>> {
+	math::sequence_insert::sequence_insert(self, tensor, position)
     }
 }
 

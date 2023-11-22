@@ -273,6 +273,29 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<bool>,
+        a_zero_point: @Tensor<bool>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<bool>,
+        b_zero_point: @Tensor<bool>,
+        y_scale: @Tensor<bool>,
+        y_zero_point: @Tensor<bool>
+    ) -> Tensor::<i8> {
+            panic(array!['not supported!'])
+    }
+
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<bool>>,
+        zero_points: Span<Tensor<bool>>,
+        y_scale: @Tensor<bool>,
+        y_zero_point: @Tensor<bool>,
+        axis: usize
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
 
     fn round(self: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
@@ -310,6 +333,10 @@ impl BoolTensor of TensorTrait<bool> {
 
     fn constant_of_shape(shape: Span<usize>, value: bool) -> Tensor<bool> {
         constant_of_shape(shape, value)
+    }
+
+    fn sequence_at(sequence: Array<Tensor<bool>>, position: Tensor<i32>) -> Tensor<bool> {
+        math::sequence_at::sequence_at(sequence, position)
     }
 
     fn sequence_construct(tensors: Array<Tensor<bool>>) -> Array<Tensor<bool>> {
@@ -352,6 +379,10 @@ impl BoolTensor of TensorTrait<bool> {
 
     fn sequence_erase(sequence: Array<Tensor<bool>>, position: Option<Tensor<i32>>) -> Array<Tensor<bool>> {
         math::sequence_erase::sequence_erase(sequence, position)
+    }
+    
+    fn sequence_insert(self: Array<Tensor<bool>>, tensor: @Tensor<bool>, position: Option<Tensor<i32>>) -> Array<Tensor<bool>> {
+	    math::sequence_insert::sequence_insert(self, tensor, position)
     }
 }
 

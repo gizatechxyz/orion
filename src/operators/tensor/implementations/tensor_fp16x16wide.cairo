@@ -230,6 +230,19 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP16x16W>,
+        a_zero_point: @Tensor<FP16x16W>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP16x16W>,
+        b_zero_point: @Tensor<FP16x16W>,
+        y_scale: @Tensor<FP16x16W>,
+        y_zero_point: @Tensor<FP16x16W>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<FP16x16W>,
@@ -242,6 +255,17 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
     }
+
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<FP16x16W>>,
+        zero_points: Span<Tensor<FP16x16W>>,
+        y_scale: @Tensor<FP16x16W>,
+        y_zero_point: @Tensor<FP16x16W>,
+        axis: usize
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }    
 
     fn slice(
         self: @Tensor<FP16x16W>,
@@ -339,6 +363,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 
+    fn sequence_at(sequence: Array<Tensor<FP16x16W>>, position: Tensor<i32>) -> Tensor<FP16x16W> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+    
     fn sequence_construct(tensors: Array<Tensor<FP16x16W>>) -> Array<Tensor<FP16x16W>> {
         math::sequence_construct::sequence_construct(tensors)
     }
@@ -373,6 +401,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
 
     fn sequence_erase(sequence: Array<Tensor<FP16x16W>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP16x16W>> {
         math::sequence_erase::sequence_erase(sequence, position)
+    }
+    
+    fn sequence_insert(self: Array<Tensor<FP16x16W>>, tensor: @Tensor<FP16x16W>, position: Option<Tensor<i32>>) -> Array<Tensor<FP16x16W>> {
+	math::sequence_insert::sequence_insert(self, tensor, position)
     }
 }
 
