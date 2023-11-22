@@ -224,6 +224,19 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP8x23W>,
+        a_zero_point: @Tensor<FP8x23W>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP8x23W>,
+        b_zero_point: @Tensor<FP8x23W>,
+        y_scale: @Tensor<FP8x23W>,
+        y_zero_point: @Tensor<FP8x23W>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<FP8x23W>,
@@ -233,6 +246,17 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         b_zero_point: @Tensor<FP8x23W>,
         y_scale: @Tensor<FP8x23W>,
         y_zero_point: @Tensor<FP8x23W>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<FP8x23W>>,
+        zero_points: Span<Tensor<FP8x23W>>,
+        y_scale: @Tensor<FP8x23W>,
+        y_zero_point: @Tensor<FP8x23W>,
+        axis: usize
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
     }
@@ -328,6 +352,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn sequence_at(sequence: Array<Tensor<FP8x23W>>, position: Tensor<i32>) -> Tensor<FP8x23W> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+    
     fn sequence_construct(tensors: Array<Tensor<FP8x23W>>) -> Array<Tensor<FP8x23W>> {
         math::sequence_construct::sequence_construct(tensors)
     }
@@ -362,6 +390,14 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
 
     fn pow(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         math::pow::pow(self, other)
+    }
+    
+    fn sequence_erase(sequence: Array<Tensor<FP8x23W>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23W>> {
+        math::sequence_erase::sequence_erase(sequence, position)
+    }
+    
+    fn sequence_insert(self: Array<Tensor<FP8x23W>>, tensor: @Tensor<FP8x23W>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23W>> {
+	math::sequence_insert::sequence_insert(self, tensor, position)
     }
 }
 
