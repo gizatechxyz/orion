@@ -105,6 +105,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.sequence_construct`](tensor.sequence\_construct.md) | Constructs a tensor sequence containing the input tensors. |
 | [`tensor.shrink`](tensor.shrink.md) | Shrinks the input tensor element-wise to the output tensor. |
 | [`tensor.reduce_mean`](tensor.reduce\_mean.md) | Computes the mean of the input tensor's elements along the provided axes. |
+| [`tensor.sequence_erase`](tensor.sequence\_erase.md) | Outputs the tensor sequence with the erased tensor at the specified position. |
 | [`tensor.sequence_empty`](tensor.sequence\_empty.md) | Returns an empty tensor sequence. |
 | [`tensor.binarizer`](tensor.binarizer.md) | Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value. |
 | [`tensor.array_feature_extractor`](tensor.array\_feature\_extractor.md) | Selects elements of the input tensor based on the indices passed applied to the last tensor axis. |

@@ -430,6 +430,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
 
+    fn sequence_erase(sequence: Array<Tensor<FP32x32>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP32x32>> {
+        math::sequence_erase::sequence_erase(sequence, position)
+    }
+    
     fn sequence_insert(self: Array<Tensor<FP32x32>>, tensor: @Tensor<FP32x32>, position: Option<Tensor<i32>>) -> Array<Tensor<FP32x32>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
