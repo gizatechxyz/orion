@@ -393,6 +393,14 @@ impl I32Tensor of TensorTrait<i32> {
         panic(array!['not supported!'])
     }
 
+    fn sequence_length(self: Array<Tensor<i32>>) -> Tensor<u32> {
+	math::sequence_length::sequence_length(self)
+    }
+    
+    fn shrink(self: Tensor<i32>, bias: Option<i32>, lambd: Option<i32>) -> Tensor<i32> {
+        panic(array!['not supported!']) 
+    }
+    
     fn sequence_at(sequence: Array<Tensor<i32>>, position: Tensor<i32>) -> Tensor<i32> {
         math::sequence_at::sequence_at(sequence, position)
     }
@@ -401,9 +409,7 @@ impl I32Tensor of TensorTrait<i32> {
         math::sequence_construct::sequence_construct(tensors)
     }
 
-    fn shrink(self: Tensor<i32>, bias: Option<i32>, lambd: Option<i32>) -> Tensor<i32> {
-        panic(array!['not supported!'])
-    }
+
 
     fn sequence_empty() -> Array<Tensor<i32>> {
         math::sequence_empty::sequence_empty::<i32>()

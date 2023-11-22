@@ -385,6 +385,14 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 
+    fn sequence_length(self: Array<Tensor<FP8x23>>) -> Tensor<u32> {
+	math::sequence_length::sequence_length(self)
+    }
+    
+    fn shrink(self: Tensor<FP8x23>, bias: Option<FP8x23>, lambd: Option<FP8x23>) -> Tensor<FP8x23> {
+        math::shrink::shrink(self, bias, lambd) 
+    }
+    
     fn sequence_at(sequence: Array<Tensor<FP8x23>>, position: Tensor<i32>) -> Tensor<FP8x23> {
         math::sequence_at::sequence_at(sequence, position)
     }
@@ -393,9 +401,6 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::sequence_construct::sequence_construct(tensors)
     }
 
-    fn shrink(self: Tensor<FP8x23>, bias: Option<FP8x23>, lambd: Option<FP8x23>) -> Tensor<FP8x23> {
-        math::shrink::shrink(self, bias, lambd)
-    }
 
     fn sequence_empty() -> Array<Tensor<FP8x23>> {
         math::sequence_empty::sequence_empty::<FP8x23>()

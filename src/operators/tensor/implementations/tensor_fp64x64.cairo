@@ -394,6 +394,14 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn sequence_length(self: Array<Tensor<FP64x64>>) -> Tensor<u32> {
+	math::sequence_length::sequence_length(self)
+    }
+    
+    fn shrink(self: Tensor<FP64x64>, bias: Option<FP64x64>, lambd: Option<FP64x64>) -> Tensor<FP64x64> {
+        math::shrink::shrink(self, bias, lambd) 
+    }
+    
     fn sequence_at(sequence: Array<Tensor<FP64x64>>, position: Tensor<i32>) -> Tensor<FP64x64> {
         math::sequence_at::sequence_at(sequence, position)
     }
@@ -402,11 +410,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::sequence_construct::sequence_construct(tensors)
     }
 
-    fn shrink(
-        self: Tensor<FP64x64>, bias: Option<FP64x64>, lambd: Option<FP64x64>
-    ) -> Tensor<FP64x64> {
-        math::shrink::shrink(self, bias, lambd)
-    }
+
 
     fn sequence_empty() -> Array<Tensor<FP64x64>> {
         math::sequence_empty::sequence_empty::<FP64x64>()

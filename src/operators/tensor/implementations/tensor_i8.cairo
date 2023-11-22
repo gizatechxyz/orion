@@ -392,6 +392,14 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
+    fn sequence_length(self: Array<Tensor<i8>>) -> Tensor<u32> {
+	math::sequence_length::sequence_length(self)
+    }
+    
+    fn shrink(self: Tensor<i8>, bias: Option<i8>, lambd: Option<i8>) -> Tensor<i8> {
+        panic(array!['not supported!']) 
+    }
+    
     fn sequence_at(sequence: Array<Tensor<i8>>, position: Tensor<i32>) -> Tensor<i8> {
         math::sequence_at::sequence_at(sequence, position)
     }
@@ -400,9 +408,7 @@ impl I8Tensor of TensorTrait<i8> {
         math::sequence_construct::sequence_construct(tensors)
     }
 
-    fn shrink(self: Tensor<i8>, bias: Option<i8>, lambd: Option<i8>) -> Tensor<i8> {
-        panic(array!['not supported!'])
-    }
+
 
     fn sequence_empty() -> Array<Tensor<i8>> {
         math::sequence_empty::sequence_empty::<i8>()

@@ -393,6 +393,14 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn sequence_length(self: Array<Tensor<FP16x16>>) -> Tensor<u32> {
+	math::sequence_length::sequence_length(self)
+    }
+    
+    fn shrink(self: Tensor<FP16x16>, bias: Option<FP16x16>, lambd: Option<FP16x16>) -> Tensor<FP16x16> {
+        math::shrink::shrink(self, bias, lambd)
+    }
+    
     fn sequence_at(sequence: Array<Tensor<FP16x16>>, position: Tensor<i32>) -> Tensor<FP16x16> {
         math::sequence_at::sequence_at(sequence, position)
     }
@@ -401,11 +409,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::sequence_construct::sequence_construct(tensors)
     }
 
-    fn shrink(
-        self: Tensor<FP16x16>, bias: Option<FP16x16>, lambd: Option<FP16x16>
-    ) -> Tensor<FP16x16> {
-        math::shrink::shrink(self, bias, lambd)
-    }
+  
 
     fn sequence_empty() -> Array<Tensor<FP16x16>> {
         math::sequence_empty::sequence_empty::<FP16x16>()
