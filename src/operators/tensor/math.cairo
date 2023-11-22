@@ -50,3 +50,4 @@ mod sequence_construct;
 mod shrink;
 mod sequence_empty;
 mod reduce_mean;
+mod sequence_insert;

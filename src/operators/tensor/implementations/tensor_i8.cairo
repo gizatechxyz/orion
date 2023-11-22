@@ -425,6 +425,10 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Tensor<i8> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
+
+    fn sequence_insert(self: Array<Tensor<i8>>, tensor: @Tensor<i8>, position: Option<Tensor<i32>>) -> Array<Tensor<i8>> {
+	math::sequence_insert::sequence_insert(self, tensor, position)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

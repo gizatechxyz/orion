@@ -426,6 +426,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
+
+    fn sequence_insert(self: Array<Tensor<FP8x23>>, tensor: @Tensor<FP8x23>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23>> {
+	math::sequence_insert::sequence_insert(self, tensor, position)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

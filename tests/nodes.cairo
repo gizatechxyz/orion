@@ -729,3 +729,8 @@ mod reduce_mean_u32_1D;
 mod reduce_mean_u32_2D_default;
 mod reduce_mean_u32_2D_keepdims;
 mod reduce_mean_u32_2D_axis_1;
+mod sequence_insert_fp16x16;
+mod sequence_insert_fp8x23;
+mod sequence_insert_i32;
+mod sequence_insert_i8;
+mod sequence_insert_u32;

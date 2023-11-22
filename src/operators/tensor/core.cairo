@@ -77,9 +77,9 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// quantize_linear - Quantizes a Tensor to i8 using linear quantization.
 /// dequantize_linear - Dequantizes an i8 Tensor using linear dequantization.
 /// qlinear_add - Performs the sum of two quantized i8 Tensors.
-/// qlinear_mul - Performs the element-wise multiplication of two quantized i8 Tensors.
+/// qlinear_mul - Performs the element-wise multiplication of quantized Tensors.
 /// qlinear_matmul - Performs the product of two quantized i8 Tensors.
-/// qlinear_concat - Performs the concatenation of a list of quantized i8 Tensors.
+/// qlinear_concat - Concatenate a list of tensors after dequantizing them with their respective scales and zero_points and returns the quantized result.
 /// gather - Gather entries of the axis dimension of data.
 /// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
 /// squeeze - Removes dimensions of size 1 from the shape of a tensor.
@@ -94,16 +94,18 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// reduce_l1 - Computes the L1 norm of the input tensor's elements along the provided axes.
 /// trilu - Returns the upper or lower triangular part of a tensor or a batch of 2D matrices.
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
-/// array_feature_extractor – Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
-/// binarizer – Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
-/// sequence_at – Outputs the tensor at the specified position in the input sequence.
-/// reduce_min - Computes the min of the input tensor's elements along the provided axes.
-/// sequence_construct – Constructs a tensor sequence containing the input tensors.
-/// shrink – Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula.
-/// sequence_empty - Returns an empty tensor sequence.
+/// sequence_insert - Insert a tensor into a sequence.
+/// sequence_at - Outputs the tensor at the specified position in the input sequence.
+/// sequence_construct - Constructs a tensor sequence containing the input tensors.
+/// shrink - Shrinks the input tensor element-wise to the output tensor.
 /// reduce_mean - Computes the mean of the input tensor's elements along the provided axes.
+/// sequence_empty - Returns an empty tensor sequence.
+/// binarizer - Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
+/// array_feature_extractor - Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
+/// reduce_min - Computes the min of the input tensor's elements along the provided axes.
+/// 
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -4151,6 +4153,63 @@ trait TensorTrait<T> {
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<T>;
+    /// # tensor.sequence_insert
+    ///
+    /// ```rust 
+    ///    fn sequence_insert(self: Array<Tensor<T>>, tensor: @Tensor<T>, position: Option<Tensor<i32>>) -> Array<Tensor<T>>;
+    /// ```
+    ///
+    /// Returns a tensor sequence that inserts 'tensor' into 'self' at 'position'.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`Array<Tensor<T>>`) - input sequence.
+    /// * `tensor` (`@Tensor<T>`) - the tensor to insert.
+    /// * `position` (`@Tensor<i32>`) - the index for insertion (default: -1).
+    ///
+    /// ## Returns
+    ///
+    /// Tensor sequence containing 'tensor' inserted into 'self' at 'position'.
+    ///
+    /// ## Examples
+    ///
+    /// Let's insert the tensor [2] into the sequence [[1], [3]] at position 1.
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
+    ///
+    /// fn sequence_insert_example() -> Array<Tensor<u32>> {
+    ///     // Prepare sequence
+    ///     let mut sequence = ArrayTrait::new();
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(1);
+    ///
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(1);
+    ///     sequence.append(TensorTrait::new(shape.span(), data.span()));
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(3);
+    ///
+    ///     sequence.append(TensorTrait::new(shape.span(), data.span()));
+    ///
+    ///     // Prepare input tensor
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(2);
+    ///     let tensor = TensorTrait::new(shape.span(), data.span());
+    ///
+    ///     // Prepare position
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     let mut data = ArrayTrait::<i32>::new();
+    ///     data.append(i32 { mag: 1, sign: false });
+    ///     let position = TensorTrait::<i32>::new(shape.span(), data.span())
+    ///
+    ///     let sequence = self.sequence_insert(tensor, Option::Some(position));
+    ///
+    ///     return sequence;
+    /// }
+    ///
+    /// >>> [[1], [2], [3]]
+    /// ```
+    ///
+    fn sequence_insert(self: Array<Tensor<T>>, tensor: @Tensor<T>, position: Option<Tensor<i32>>) -> Array<Tensor<T>>;
     /// ## tensor.sequence_at
     ///
     /// ```rust 
