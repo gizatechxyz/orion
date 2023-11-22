@@ -110,6 +110,7 @@
     * [tensor.shrink](framework/operators/tensor/tensor.shrink.md)
     * [tensor.sequence\_empty](framework/operators/tensor/tensor.sequence\_empty.md)
     * [tensor.reduce_mean](framework/operators/tensor/tensor.reduce\_mean.md)
+    * [tensor.pow](framework/operators/tensor/tensor.pow.md)
     * [tensor.sequence\_erase](framework/operators/tensor/tensor.sequence\_erase.md)
     * [tensor.sequence\_insert](framework/operators/tensor/tensor.sequence\_insert.md)
   * [Neural Network](framework/operators/neural-network/README.md)

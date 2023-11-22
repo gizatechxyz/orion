@@ -388,6 +388,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
 
+    fn pow(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
+        math::pow::pow(self, other)
+    }
+    
     fn sequence_erase(sequence: Array<Tensor<FP8x23W>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23W>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }

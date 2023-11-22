@@ -426,6 +426,10 @@ impl I8Tensor of TensorTrait<i8> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
 
+    fn pow(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+    
     fn sequence_erase(sequence: Array<Tensor<i8>>, position: Option<Tensor<i32>>) -> Array<Tensor<i8>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }

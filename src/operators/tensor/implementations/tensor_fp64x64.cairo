@@ -430,6 +430,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
     }
 
+    fn pow(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::pow::pow(self, other)
+    }
+    
     fn sequence_erase(sequence: Array<Tensor<FP64x64>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP64x64>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }

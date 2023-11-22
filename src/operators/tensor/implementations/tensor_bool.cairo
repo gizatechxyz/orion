@@ -377,6 +377,10 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn pow(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+    
     fn sequence_erase(sequence: Array<Tensor<bool>>, position: Option<Tensor<i32>>) -> Array<Tensor<bool>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }
