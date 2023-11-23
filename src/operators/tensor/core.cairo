@@ -80,6 +80,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// qlinear_mul - Performs the element-wise multiplication of quantized Tensors.
 /// qlinear_matmul - Performs the product of two quantized i8 Tensors.
 /// qlinear_concat - Concatenate a list of tensors after dequantizing them with their respective scales and zero_points and returns the quantized result.
+/// qlinear_leakyrelu - Applies the Leaky Relu operator to a quantized Tensor
 /// gather - Gather entries of the axis dimension of data.
 /// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
 /// squeeze - Removes dimensions of size 1 from the shape of a tensor.
@@ -3017,7 +3018,7 @@ trait TensorTrait<T> {
     ///     fn qlinear_leakyrelu(self: @Tensor<i8>, a_scale: @Tensor<T>, a_zero_point: @Tensor<T>, alpha: T) -> Tensor::<i8>;
     /// ```
     /// 
-    /// Apply the Leaky Relu operator to a quantized Tensor
+    /// Applies the Leaky Relu operator to a quantized Tensor
     ///
     /// QLinar LeakyRelu takes as input a quantized Tensor, its scale and zero point and an scalar alpha, and produces one output data (a quantized Tensor)
     /// where the function `f(x) = alpha * x for x < 0, f(x) = x for x >= 0`, is applied to the data tensor elementwise.
@@ -3087,10 +3088,7 @@ trait TensorTrait<T> {
     /// >>> [[-118, -118, -118], [10, 10, 10]]
     ///
     fn qlinear_leakyrelu(
-        self: @Tensor<i8>,
-        a_scale: @Tensor<T>,
-        a_zero_point: @Tensor<T>,
-        alpha: T
+        self: @Tensor<i8>, a_scale: @Tensor<T>, a_zero_point: @Tensor<T>, alpha: T
     ) -> Tensor::<i8>;
     /// # tensor.slice
     ///

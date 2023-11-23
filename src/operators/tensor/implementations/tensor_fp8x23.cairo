@@ -304,11 +304,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     }
 
     fn qlinear_leakyrelu(
-        self: @Tensor<i8>,
-        a_scale: @Tensor<FP8x23>,
-        a_zero_point: @Tensor<FP8x23>,
-        alpha: FP8x23
-
+        self: @Tensor<i8>, a_scale: @Tensor<FP8x23>, a_zero_point: @Tensor<FP8x23>, alpha: FP8x23
     ) -> Tensor::<i8> {
         quantization::qlinear_leakyrelu::qlinear_leakyrelu(
             self,

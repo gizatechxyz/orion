@@ -262,11 +262,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     }
 
     fn qlinear_leakyrelu(
-        self: @Tensor<i8>,
-        a_scale: @Tensor<FP8x23W>,
-        a_zero_point: @Tensor<FP8x23W>,
-        alpha: FP8x23W
-
+        self: @Tensor<i8>, a_scale: @Tensor<FP8x23W>, a_zero_point: @Tensor<FP8x23W>, alpha: FP8x23W
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
     }

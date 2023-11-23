@@ -32,29 +32,26 @@ fn qlinear_leakyrelu<
     impl QCopy: Copy<Q>,
     impl QDrop: Drop<Q>
 >(
-    a: @Tensor<Q>,
-    a_scale: @Tensor<T>,
-    a_zero_point: @Tensor<T>,
-    alpha: T,
-    min: T,
-    max: T
+    a: @Tensor<Q>, a_scale: @Tensor<T>, a_zero_point: @Tensor<T>, alpha: T, min: T, max: T
 ) -> Tensor<Q> {
     let mut dequantized_a = dequantize_linear(@(*a), a_scale, a_zero_point);
-    
+
     let mut result_data = ArrayTrait::<T>::new();
     let mut i = 0;
     loop {
         match dequantized_a.data.pop_front() {
-            Option::Some(elem) => { 
+            Option::Some(elem) => {
                 if *elem < NumberTrait::zero() {
                     result_data.append(*elem * alpha);
                 } else {
                     result_data.append(*elem);
                 }
-             },
-            Option::None(_) => { break;}
+            },
+            Option::None(_) => { break; }
         };
     };
 
-    return quantize_linear(@TensorTrait::new(dequantized_a.shape, result_data.span()), a_scale, a_zero_point, min, max);
+    return quantize_linear(
+        @TensorTrait::new(dequantized_a.shape, result_data.span()), a_scale, a_zero_point, min, max
+    );
 }

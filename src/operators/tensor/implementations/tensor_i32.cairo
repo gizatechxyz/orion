@@ -305,11 +305,7 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn qlinear_leakyrelu(
-        self: @Tensor<i8>,
-        a_scale: @Tensor<i32>,
-        a_zero_point: @Tensor<i32>,
-        alpha: i32
-
+        self: @Tensor<i8>, a_scale: @Tensor<i32>, a_zero_point: @Tensor<i32>, alpha: i32
     ) -> Tensor::<i8> {
         quantization::qlinear_leakyrelu::qlinear_leakyrelu(
             self,

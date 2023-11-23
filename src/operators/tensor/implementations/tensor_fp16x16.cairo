@@ -304,11 +304,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     }
 
     fn qlinear_leakyrelu(
-        self: @Tensor<i8>,
-        a_scale: @Tensor<FP16x16>,
-        a_zero_point: @Tensor<FP16x16>,
-        alpha: FP16x16
-
+        self: @Tensor<i8>, a_scale: @Tensor<FP16x16>, a_zero_point: @Tensor<FP16x16>, alpha: FP16x16
     ) -> Tensor::<i8> {
         quantization::qlinear_leakyrelu::qlinear_leakyrelu(
             self,

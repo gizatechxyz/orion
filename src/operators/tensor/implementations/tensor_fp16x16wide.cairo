@@ -272,7 +272,6 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         a_scale: @Tensor<FP16x16W>,
         a_zero_point: @Tensor<FP16x16W>,
         alpha: FP16x16W
-
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
     }
