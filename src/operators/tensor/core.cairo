@@ -108,7 +108,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// binarizer - Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
 /// array_feature_extractor - Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
 /// reduce_min - Computes the min of the input tensor's elements along the provided axes.
-/// 
+/// is_inf - Maps infinity to true and other values to false.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -4416,6 +4416,8 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn sequence_length(self: Array<Tensor<T>>) -> Tensor<u32>;
+    /// TODO
+    fn is_inf(self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool>;
 }
 
 /// Cf: TensorTrait::new docstring

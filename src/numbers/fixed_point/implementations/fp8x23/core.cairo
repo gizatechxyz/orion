@@ -194,6 +194,30 @@ impl FP8x23Impl of FixedTrait<FP8x23, u32> {
     fn is_nan(self: FP8x23) -> bool {
         self == FP8x23 { mag: 0, sign: true }
     }
+
+    fn INF() -> FP8x23 {
+        return FP8x23 { mag: 4294967295, sign: false };
+    }
+
+    fn POS_INF() -> FP8x23 {
+        return FP8x23 { mag: 4294967295, sign: false };
+    }
+
+    fn NEG_INF() -> FP8x23 {
+        return FP8x23 { mag: 4294967295, sign: true };
+    }
+
+    fn is_inf(self: FP8x23) -> bool {
+        self.mag == 4294967295
+    }
+
+    fn is_pos_inf(self: FP8x23) -> bool {
+	self.is_inf() && !self.sign
+    }
+
+    fn is_neg_inf(self: FP8x23) -> bool {
+	self.is_inf() && self.sign
+    }
 }
 
 

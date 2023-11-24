@@ -52,6 +52,10 @@ trait NumberTrait<T, MAG> {
     fn where(self: T, x: T, y: T) -> T;
     fn NaN() -> T;
     fn is_nan(self: T) -> bool;
+    fn INF() -> T;
+    fn is_inf(self: T) -> bool;
+    fn is_pos_inf(self: T) -> bool;
+    fn is_neg_inf(self: T) -> bool;
     fn bitwise_and(lhs: T, rhs: T) -> T;
     fn add(lhs: T, rhs: T) -> T;
     fn sub(lhs: T, rhs: T) -> T;
@@ -245,6 +249,22 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
 
     fn is_nan(self: FP8x23) -> bool {
         FP8x23Impl::is_nan(self)
+    }
+
+    fn INF() -> FP8x23 {
+        FP8x23Impl::INF()
+    }
+
+    fn is_inf(self: FP8x23) -> bool {
+        FP8x23Impl::is_inf(self)
+    }
+
+    fn is_pos_inf(self: FP8x23) -> bool {
+        FP8x23Impl::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: FP8x23) -> bool {
+        FP8x23Impl::is_neg_inf(self)
     }
 
     fn bitwise_and(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
@@ -450,6 +470,22 @@ impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
         FP8x23WImpl::is_nan(self)
     }
 
+    fn INF() -> FP8x23W {
+        FP8x23WImpl::INF()
+    }
+
+    fn is_inf(self: FP8x23W) -> bool {
+        FP8x23WImpl::is_inf(self)
+    }
+
+    fn is_pos_inf(self: FP8x23W) -> bool {
+        FP8x23WImpl::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: FP8x23W) -> bool {
+        FP8x23WImpl::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
         comp_fp8x23wide::bitwise_and(lhs, rhs)
     }
@@ -653,6 +689,22 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
         FP16x16Impl::is_nan(self)
     }
 
+    fn INF() -> FP16x16 {
+        FP16x16Impl::INF()
+    }
+
+    fn is_inf(self: FP16x16) -> bool {
+        FP16x16Impl::is_inf(self)
+    }
+
+    fn is_pos_inf(self: FP16x16) -> bool {
+        FP16x16Impl::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: FP16x16) -> bool {
+        FP16x16Impl::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
         comp_fp16x16::bitwise_and(lhs, rhs)
     }
@@ -854,6 +906,22 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
 
     fn is_nan(self: FP16x16W) -> bool {
         FP16x16WImpl::is_nan(self)
+    }
+
+    fn INF() -> FP16x16W {
+        FP16x16WImpl::INF()
+    }
+
+    fn is_inf(self: FP16x16W) -> bool {
+        FP16x16WImpl::is_inf(self)
+    }
+
+    fn is_pos_inf(self: FP16x16W) -> bool {
+        FP16x16WImpl::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: FP16x16W) -> bool {
+        FP16x16WImpl::is_neg_inf(self)
     }
 
     fn bitwise_and(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
@@ -1060,6 +1128,22 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
         FP64x64Impl::is_nan(self)
     }
 
+    fn INF() -> FP64x64 {
+        FP64x64Impl::INF()
+    }
+
+    fn is_inf(self: FP64x64) -> bool {
+        FP64x64Impl::is_inf(self)
+    }
+
+    fn is_pos_inf(self: FP64x64) -> bool {
+        FP64x64Impl::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: FP64x64) -> bool {
+        FP64x64Impl::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
         comp_fp64x64::bitwise_and(lhs, rhs)
     }
@@ -1262,6 +1346,22 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
 
     fn is_nan(self: FP32x32) -> bool {
         FP32x32Impl::is_nan(self)
+    }
+
+    fn INF() -> FP32x32 {
+        FP32x32Impl::INF()
+    }
+
+    fn is_inf(self: FP32x32) -> bool {
+        FP32x32Impl::is_inf(self)
+    }
+
+    fn is_pos_inf(self: FP32x32) -> bool {
+        FP32x32Impl::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: FP32x32) -> bool {
+        FP32x32Impl::is_neg_inf(self)
     }
 
     fn bitwise_and(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
@@ -1481,6 +1581,22 @@ impl I8Number of NumberTrait<i8, u8> {
         IntegerTrait::is_nan(self)
     }
 
+    fn INF() -> i8 {
+        IntegerTrait::INF()
+    }
+
+    fn is_inf(self: i8) -> bool {
+        IntegerTrait::is_inf(self)
+    }
+
+    fn is_pos_inf(self: i8) -> bool {
+        IntegerTrait::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: i8) -> bool {
+        IntegerTrait::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: i8, rhs: i8) -> i8 {
         i8_core::i8_bitwise_and(lhs, rhs)
     }
@@ -1696,6 +1812,22 @@ impl i16Number of NumberTrait<i16, u16> {
 
     fn is_nan(self: i16) -> bool {
         IntegerTrait::is_nan(self)
+    }
+
+    fn INF() -> i16 {
+        IntegerTrait::INF()
+    }
+
+    fn is_inf(self: i16) -> bool {
+        IntegerTrait::is_inf(self)
+    }
+
+    fn is_pos_inf(self: i16) -> bool {
+        IntegerTrait::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: i16) -> bool {
+        IntegerTrait::is_neg_inf(self)
     }
 
     fn bitwise_and(lhs: i16, rhs: i16) -> i16 {
@@ -1915,6 +2047,22 @@ impl i32Number of NumberTrait<i32, u32> {
         IntegerTrait::is_nan(self)
     }
 
+    fn INF() -> i32 {
+        IntegerTrait::INF()
+    }
+
+    fn is_inf(self: i32) -> bool {
+        IntegerTrait::is_inf(self)
+    }
+
+    fn is_pos_inf(self: i32) -> bool {
+        IntegerTrait::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: i32) -> bool {
+        IntegerTrait::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: i32, rhs: i32) -> i32 {
         i32_core::i32_bitwise_and(lhs, rhs)
     }
@@ -2132,6 +2280,22 @@ impl i64Number of NumberTrait<i64, u64> {
         IntegerTrait::is_nan(self)
     }
 
+    fn INF() -> i64 {
+        IntegerTrait::INF()
+    }
+
+    fn is_inf(self: i64) -> bool {
+        IntegerTrait::is_inf(self)
+    }
+
+    fn is_pos_inf(self: i64) -> bool {
+        IntegerTrait::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: i64) -> bool {
+        IntegerTrait::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: i64, rhs: i64) -> i64 {
         i64_core::i64_bitwise_and(lhs, rhs)
     }
@@ -2342,13 +2506,28 @@ impl i128Number of NumberTrait<i128, u128> {
         }
     }
 
-
     fn NaN() -> i128 {
         IntegerTrait::NaN()
     }
 
     fn is_nan(self: i128) -> bool {
         IntegerTrait::is_nan(self)
+    }
+
+    fn INF() -> i128 {
+        IntegerTrait::INF()
+    }
+
+    fn is_inf(self: i128) -> bool {
+        IntegerTrait::is_inf(self)
+    }
+
+    fn is_pos_inf(self: i128) -> bool {
+        IntegerTrait::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: i128) -> bool {
+        IntegerTrait::is_neg_inf(self)
     }
 
     fn bitwise_and(lhs: i128, rhs: i128) -> i128 {
@@ -2571,6 +2750,22 @@ impl u32Number of NumberTrait<u32, u32> {
 
     fn is_nan(self: u32) -> bool {
         self == 4242424242
+    }
+
+    fn INF() -> u32 {
+        4294967295
+    }
+
+    fn is_inf(self: u32) -> bool {
+        self == 4294967295
+    }
+
+    fn is_pos_inf(self: u32) -> bool {
+        self == 4294967295
+    }
+
+    fn is_neg_inf(self: u32) -> bool {
+        panic(array!['not supported!'])
     }
 
     fn bitwise_and(lhs: u32, rhs: u32) -> u32 {

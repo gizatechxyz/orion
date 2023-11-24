@@ -185,6 +185,30 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     fn is_nan(self: FP32x32) -> bool {
         self == FP32x32 { mag: 0, sign: true }
     }
+
+    fn INF() -> FP32x32 {
+        return FP32x32 { mag: 4294967295, sign: false };
+    }
+
+    fn POS_INF() -> FP32x32 {
+        return FP32x32 { mag: 4294967295, sign: false };
+    }
+
+    fn NEG_INF() -> FP32x32 {
+        return FP32x32 { mag: 4294967295, sign: true };
+    }
+
+    fn is_inf(self: FP32x32) -> bool {
+        self.mag == 4294967295
+    }
+
+    fn is_pos_inf(self: FP32x32) -> bool {
+	self.is_inf() && !self.sign
+    }
+
+    fn is_neg_inf(self: FP32x32) -> bool {
+	self.is_inf() && self.sign
+    }
 }
 
 
