@@ -56,6 +56,10 @@ fn bitwise_and(a: FP16x16, b: FP16x16) -> FP16x16 {
     return FixedTrait::new(a.mag & b.mag, a.sign & b.sign);
 }
 
+fn bitwise_or(a: FP16x16, b: FP16x16) -> FP16x16 {
+    return FixedTrait::new(a.mag | b.mag, a.sign | b.sign);
+}
+
 // Tests --------------------------------------------------------------------------------------------------------------
 
 #[cfg(test)]
