@@ -39,18 +39,8 @@ impl i64Impl of IntegerTrait<i64, u64> {
     }
 }
 
-// Implements the Into trait for u32 -> i64
-impl u32Intoi64 of Into<u32, i64> {
-    fn into(self: u32) -> i64 {
-        i64 {
-            mag: self.into(),
-            sign: false
-        }
-    }
-}
-
 // Implements the Into trait for i64.
-impl i32Into of Into<i64, felt252> {
+impl i64Into of Into<i64, felt252> {
     fn into(self: i64) -> felt252 {
         let mag_felt = self.mag.into();
 
@@ -478,4 +468,8 @@ fn i64_sign(a: i64) -> i64 {
     } else {
         IntegerTrait::<i64>::new(1, a.sign)
     }
+}
+
+fn i64_bitwise_and(a: i64, b: i64) -> i64 {
+    IntegerTrait::<i64>::new(a.mag & b.mag, a.sign & b.sign)
 }

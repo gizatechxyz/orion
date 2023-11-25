@@ -28,3 +28,18 @@ fn assert_eq<T, impl TPartialEq: PartialEq<T>, impl TCopy: Copy<T>, impl TDrop: 
 ) {
     assert(lhs == rhs, 'should be equal');
 }
+
+fn assert_seq_eq<T, impl TPartialEq: PartialEq<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
+    lhs: Array<T>, rhs: Array<T>
+) {
+    assert(lhs.len() == rhs.len(), 'should be equal');
+
+    let mut i = 0;
+    loop {
+        if i >= lhs.len() {
+            break;
+        }
+        assert_eq(lhs[i], rhs[i]);
+        i += 1;
+    }
+}

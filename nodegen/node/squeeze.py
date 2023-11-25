@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 
 class Squeeze(RunAll):
@@ -14,7 +14,6 @@ class Squeeze(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "squeeze_i8"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.squeeze(Option::Some(array![i32 { mag: 0, sign: false }, i32 { mag: 2, sign: false }].span()))", name)
         squeeze()
@@ -29,7 +28,6 @@ class Squeeze(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "squeeze_i32"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.squeeze(Option::Some(array![i32 { mag: 0, sign: false }, i32 { mag: 2, sign: false }].span()))", name)
         squeeze()
@@ -44,7 +42,6 @@ class Squeeze(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "squeeze_u32"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.squeeze(Option::Some(array![i32 { mag: 0, sign: false }, i32 { mag: 2, sign: false }].span()))", name)
         squeeze()
@@ -61,7 +58,6 @@ class Squeeze(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "squeeze_fP16x16"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.squeeze(Option::Some(array![i32 { mag: 0, sign: false }, i32 { mag: 2, sign: false }].span()))", name)
         squeeze()
@@ -78,7 +74,6 @@ class Squeeze(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "squeeze_fP8x23"
-            make_node([x], [y], name)
             make_test(
                 [x], y, "input_0.squeeze(Option::Some(array![i32 { mag: 0, sign: false }, i32 { mag: 2, sign: false }].span()))", name)
         squeeze()

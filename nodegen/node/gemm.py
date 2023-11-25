@@ -2,7 +2,7 @@ from typing import Optional
 
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 
 def gemm_reference_implementation(
@@ -39,7 +39,6 @@ class Gemm(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "gemm_default_no_bias"
-        make_node([a, b], [y], name)
         make_test(
             [a, b], y, "NNTrait::gemm(input_0, input_1, Option::None(()), Option::None(()), Option::None(()), false, false)", name, Trait.NN)
         
@@ -60,7 +59,6 @@ class Gemm(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "gemm_default_vector_bias"
-        make_node([a, b, c], [y], name)
         make_test(
             [a, b, c], y, "NNTrait::gemm(input_0, input_1, Option::Some(input_2), Option::None(()), Option::None(()), false, false)", name, Trait.NN)
         
@@ -81,7 +79,6 @@ class Gemm(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "gemm_default_matrix_bias"
-        make_node([a, b, c], [y], name)
         make_test(
             [a, b, c], y, "NNTrait::gemm(input_0, input_1, Option::Some(input_2), Option::None(()), Option::None(()), false, false)", name, Trait.NN)
 
@@ -100,7 +97,6 @@ class Gemm(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "gemm_transposeA"
-        make_node([a, b], [y], name)
         make_test(
             [a, b], y, "NNTrait::gemm(input_0, input_1, Option::None(()), Option::None(()), Option::None(()), true, false)", name, Trait.NN)
 
@@ -119,7 +115,6 @@ class Gemm(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "gemm_transposeB"
-        make_node([a, b], [y], name)
         make_test(
             [a, b], y, "NNTrait::gemm(input_0, input_1, Option::None(()), Option::None(()), Option::None(()), false, true)", name, Trait.NN)
 
@@ -138,7 +133,6 @@ class Gemm(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "gemm_alpha"
-        make_node([a, b], [y], name)
         make_test(
             [a, b], y, "NNTrait::gemm(input_0, input_1, Option::None(()), Option::Some(FixedTrait::new(32768, false)), Option::None(()), false, false)", name, Trait.NN)
 
@@ -159,7 +153,6 @@ class Gemm(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "gemm_beta"
-        make_node([a, b, c], [y], name)
         make_test(
             [a, b, c], y, "NNTrait::gemm(input_0, input_1, Option::Some(input_2), Option::None(()), Option::Some(FixedTrait::new(32768, false)), false, false)", name, Trait.NN)
 
@@ -182,7 +175,6 @@ class Gemm(RunAll):
             y.flatten(), FixedImpl.FP16x16))
 
         name = "gemm_all_attributes"
-        make_node([a, b, c], [y], name)
         make_test(
             [a, b, c], y, "NNTrait::gemm(input_0, input_1, Option::Some(input_2), Option::Some(FixedTrait::new(16384, false)), Option::Some(FixedTrait::new(22938, false)), true, true)", name, Trait.NN)
 

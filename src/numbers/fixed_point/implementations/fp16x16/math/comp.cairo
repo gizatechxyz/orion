@@ -52,11 +52,15 @@ fn where(a: FP16x16, b: FP16x16, c: FP16x16) -> FP16x16 {
     }
 }
 
+fn bitwise_and(a: FP16x16, b: FP16x16) -> FP16x16 {
+    return FixedTrait::new(a.mag & b.mag, a.sign & b.sign);
+}
+
 // Tests --------------------------------------------------------------------------------------------------------------
 
 #[cfg(test)]
 mod tests {
-    use super::{FixedTrait, max, min};
+    use super::{FixedTrait, max, min, bitwise_and};
 
 
     #[test]
@@ -95,5 +99,14 @@ mod tests {
         assert(min(c, a) == c, 'min(c, a)');
         assert(min(c, b) == c, 'min(c, b)');
         assert(min(c, c) == c, 'min(c, c)');
+    }
+
+    #[test]
+    fn test_bitwise_and() {
+        let a = FixedTrait::new(225280, false); // 3.4375
+        let b = FixedTrait::new(4160843776, true); // -2046.5625
+        let c = FixedTrait::new(94208, false); // 1.4375
+
+        assert(bitwise_and(a, b) == c, 'bitwise_and(a,b)')
     }
 }

@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 
 class Where(RunAll):
@@ -20,7 +20,6 @@ class Where(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "where_u32"
-            make_node([cond, x, y], [z], name)
             make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         def broadcast():
@@ -36,7 +35,6 @@ class Where(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "where_u32_broadcast"
-            make_node([cond, x, y], [z], name)
             make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         default()
@@ -57,7 +55,6 @@ class Where(RunAll):
             z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "where_i32"
-            make_node([cond, x, y], [z], name)
             make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         def broadcast():
@@ -73,7 +70,6 @@ class Where(RunAll):
             z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "where_i32_broadcast"
-            make_node([cond, x, y], [z], name)
             make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         default()
@@ -94,7 +90,6 @@ class Where(RunAll):
             z = Tensor(Dtype.I8, z.shape, z.flatten())
 
             name = "where_i8"
-            make_node([cond, x, y], [z], name)
             make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         def broadcast():
@@ -110,7 +105,6 @@ class Where(RunAll):
             z = Tensor(Dtype.I8, z.shape, z.flatten())
 
             name = "where_i8_broadcast"
-            make_node([cond, x, y], [z], name)
             make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         default()
@@ -135,7 +129,6 @@ class Where(RunAll):
                 z.flatten(), FixedImpl.FP8x23))
 
             name = "where_fp8x23"
-            make_node([cond, x, y], [z], name)
             make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         def broadcast():
@@ -155,7 +148,6 @@ class Where(RunAll):
                 z.flatten(), FixedImpl.FP8x23))
 
             name = "where_fp8x23_broadcast"
-            make_node([cond, x, y], [z], name)
             make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         default()
@@ -180,7 +172,6 @@ class Where(RunAll):
                 z.flatten(), FixedImpl.FP16x16))
             
             name = "where_fp16x16"
-            make_node([cond, x, y], [z], name)
             make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         def broadcast():
@@ -200,7 +191,6 @@ class Where(RunAll):
                 z.flatten(), FixedImpl.FP16x16))
 
             name = "where_fp16x16_broadcast"
-            make_node([cond, x, y], [z], name)
             make_test([cond, x, y], z, "input_0.where(@input_1,@input_2)", name)
 
         default()

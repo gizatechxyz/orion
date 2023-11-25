@@ -42,6 +42,16 @@ impl i32Impl of IntegerTrait<i32, u32> {
     }
 }
 
+// Implements the Into trait for u32 -> i32
+impl u32Intoi32 of Into<u32, i32> {
+    fn into(self: u32) -> i32 {
+        i32 {
+            mag: self.into(),
+            sign: false
+        }
+    }
+}
+
 // Implements the Into trait for i32.
 impl i32Into of Into<i32, felt252> {
     fn into(self: i32) -> felt252 {
@@ -500,4 +510,8 @@ fn i32_sign(a: i32) -> i32 {
     } else {
         IntegerTrait::<i32>::new(1, a.sign)
     }
+}
+
+fn i32_bitwise_and(a: i32, b: i32) -> i32 {
+    IntegerTrait::<i32>::new(a.mag & b.mag, a.sign & b.sign)
 }
