@@ -311,6 +311,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::bitwise_and::bitwise_and(self, other)
     }
 
+    fn bitwise_or(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::bitwise_or::bitwise_or(self, other)
+    }
+
     fn round(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::round::round(*self)
     }
