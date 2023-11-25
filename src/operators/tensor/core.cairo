@@ -2,7 +2,7 @@ use array::{ArrayTrait, SpanTrait};
 use serde::Serde;
 use option::OptionTrait;
 
-use alexandria_data_structures::array_ext::{ArrayTraitExt, SpanTraitExt};
+use alexandria_data_structures::array_ext::{SpanTraitExt};
 use alexandria_sorting::merge_sort::merge;
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
@@ -4249,53 +4249,64 @@ fn unique<
 
     // 1. Initiatialize the outputs as Arrays
     let mut unique_elements: Array<T> = ArrayTrait::new();
-    let mut indices: Array<i32> = ArrayTrait::new();
-    let mut inverse_indices: Array<i32> = ArrayTrait::new();
 
     // 2. Compute unique elements for axis
     let mut data_cpy = *self.data;
     match axis {
-        Option::Some(axis) => { assert(1 == 0, 'not implemented yet'); },
+        Option::Some(axis) => {
+            let shape_cpy = *self.shape;
+            let rank = shape_cpy.len();
+            assert(axis <= rank, 'axis out of dimensions');
+
+            let axis_len: usize = *shape_cpy.at(axis);
+            assert(1 == 0, 'not implemented yet');
+        },
         Option::None => {
-            let mut idx: usize = 0;
             loop {
                 match data_cpy.pop_front() {
                     Option::Some(value) => {
-                        match unique_elements.index_of(*value) {
-                            Option::Some(found_idx) => {
-                                inverse_indices.append(found_idx.into());
-                            },
-                            Option::None => {
-                                unique_elements.append(*value);
-                                indices.append(idx.into());
-                                inverse_indices.append(idx.into());
-                            }
+                        if !unique_elements.span().contains(*value) {
+                            unique_elements.append(*value);
                         }
                     },
                     Option::None => { break; }
                 }
-                idx += 1;
             };
         }
     }
 
-    // 3. Count the occurences of each unique elements in self
+    // 3. Sort the unique elements if necessary
+    if (sorted) {
+        unique_elements = merge(unique_elements);
+    }
+
+    // 4. Build occurences, indices & inverse_indices arrays
+    let mut indices: Array<i32> = ArrayTrait::new();
+    let mut inverse_indices: Array<i32> = ArrayTrait::new();
     let mut count: Array<i32> = ArrayTrait::new();
     let mut unique_elements_cpy = unique_elements.span();
     loop {
         match unique_elements_cpy.pop_front() {
-            Option::Some(element) => {
-                let occurences = (*self.data).occurrences_of(*element);
+            Option::Some(value) => {
+                let occurences = (*self.data).occurrences_of(*value);
                 count.append(occurences.into());
+                let idx_in_data = (*self.data).index_of(*value).unwrap();
+                indices.append(idx_in_data.into());
             },
             Option::None => { break; }
         }
     };
-
-    // 4. Sort the unique elements if necessary
-    if (sorted) {
-        unique_elements = merge(unique_elements);
-    }
+    let mut data_cpy = *self.data;
+    let mut unique_elements_cpy = unique_elements.span();
+    loop {
+        match data_cpy.pop_front() {
+            Option::Some(value) => {
+                let idx_in_uniques = unique_elements_cpy.index_of(*value).unwrap();
+                inverse_indices.append(idx_in_uniques.into());
+            },
+            Option::None => { break; }
+        }
+    };
 
     // 5. Convert arrays to tensors
     let mut unique_elements_shape: Array<usize> = array![];
@@ -4308,9 +4319,11 @@ fn unique<
     let unique_elements = Tensor::<
         T
     > { shape: unique_elements_shape.span(), data: unique_elements.span() };
-    let indices: Tensor<i32> = TensorTrait::new(shape: array![indices.len()].span(), data: indices.span());
-    let inverse_indices: Tensor<i32> = TensorTrait::new(shape: array![inverse_indices.len()].span(), data: inverse_indices.span());
-    let count: Tensor<i32> = TensorTrait::new(shape: array![count.len()].span(), data: count.span());
+    let indices = Tensor::<i32> { shape: array![indices.len()].span(), data: indices.span() };
+    let inverse_indices = Tensor::<
+        i32
+    > { shape: array![inverse_indices.len()].span(), data: inverse_indices.span() };
+    let count = Tensor::<i32> { shape: array![count.len()].span(), data: count.span() };
 
     // 6. Return the outputs as tensors
     (unique_elements, indices, inverse_indices, count)
