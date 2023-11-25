@@ -5,7 +5,7 @@ use orion::numbers::{IntegerTrait, i32};
 
 fn output_1() -> Tensor<i32> {
     let mut shape = ArrayTrait::<usize>::new();
-    shape.append(12);
+    shape.append(14);
 
     let mut data = ArrayTrait::new();
     data.append(i32 { mag: 0, sign: false });
@@ -20,5 +20,7 @@ fn output_1() -> Tensor<i32> {
     data.append(i32 { mag: 9, sign: false });
     data.append(i32 { mag: 10, sign: false });
     data.append(i32 { mag: 11, sign: false });
+    data.append(i32 { mag: 12, sign: false });
+    data.append(i32 { mag: 13, sign: false });
     TensorTrait::new(shape.span(), data.span())
 }

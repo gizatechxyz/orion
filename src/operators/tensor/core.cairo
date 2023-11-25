@@ -4298,14 +4298,19 @@ fn unique<
     }
 
     // 5. Convert arrays to tensors
+    let mut unique_elements_shape: Array<usize> = array![];
+    if axis.is_none() {
+        unique_elements_shape.append(unique_elements.len());
+    } else {
+        assert(1 == 0, 'not implemented yet');
+    }
+
     let unique_elements = Tensor::<
         T
-    > { shape: array![unique_elements.len(), 1].span(), data: unique_elements.span() };
-    let indices = Tensor::<i32> { shape: array![indices.len(), 1].span(), data: indices.span() };
-    let inverse_indices = Tensor::<
-        i32
-    > { shape: array![inverse_indices.len(), 1].span(), data: inverse_indices.span() };
-    let count = Tensor::<i32> { shape: array![count.len(), 1].span(), data: count.span() };
+    > { shape: unique_elements_shape.span(), data: unique_elements.span() };
+    let indices: Tensor<i32> = TensorTrait::new(shape: array![indices.len()].span(), data: indices.span());
+    let inverse_indices: Tensor<i32> = TensorTrait::new(shape: array![inverse_indices.len()].span(), data: inverse_indices.span());
+    let count: Tensor<i32> = TensorTrait::new(shape: array![count.len()].span(), data: count.span());
 
     // 6. Return the outputs as tensors
     (unique_elements, indices, inverse_indices, count)

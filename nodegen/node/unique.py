@@ -4,8 +4,8 @@ from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 
 def _unsort_outputs(
-    y: np.ndarray, indices: np.ndarray, inverse_indices: np.ndarray
-) -> (np.ndarray, np.ndarray, np.ndarray):
+    y: np.ndarray, indices: np.ndarray, inverse_indices: np.ndarray, counts: np.ndarray
+) -> (np.ndarray, np.ndarray, np.ndarray, np.ndarray):
     """Unsort the result of np.unique().
 
     This is done because numpy unique does not retain original order (it sorts
@@ -17,7 +17,8 @@ def _unsort_outputs(
     y_unsorted = y[unsorted_positions]
     inverse_indices_unsorted = unsorted_positions[inverse_indices]
     indices_unsorted = np.arange(y.size)
-    return y_unsorted, indices_unsorted, inverse_indices_unsorted
+    counts_unsorted = counts[unsorted_positions]
+    return y_unsorted, indices_unsorted, inverse_indices_unsorted, counts_unsorted
 
 
 class Unique(RunAll):
@@ -57,8 +58,8 @@ class Unique(RunAll):
                 x, axis=axis, return_index=True, return_inverse=True, return_counts=True
             )
 
-            unique_values, indices, inverse_indices = _unsort_outputs(
-                unique_values, indices, inverse_indices
+            unique_values, indices, inverse_indices, counts = _unsort_outputs(
+                unique_values, indices, inverse_indices, counts
             )
 
             x = Tensor(Dtype.U32, x.shape, x.flatten())
@@ -112,8 +113,8 @@ class Unique(RunAll):
             unique_values, indices, inverse_indices, counts = np.unique(
                 x, axis=axis, return_index=True, return_inverse=True, return_counts=True
             )
-            unique_values, indices, inverse_indices = _unsort_outputs(
-                unique_values, indices, inverse_indices
+            unique_values, indices, inverse_indices, counts = _unsort_outputs(
+                unique_values, indices, inverse_indices, counts
             )
 
             x = Tensor(Dtype.U32, x.shape, x.flatten())
@@ -167,8 +168,8 @@ class Unique(RunAll):
             unique_values, indices, inverse_indices, counts = np.unique(
                 x, axis=axis, return_index=True, return_inverse=True, return_counts=True
             )
-            unique_values, indices, inverse_indices = _unsort_outputs(
-                unique_values, indices, inverse_indices
+            unique_values, indices, inverse_indices, counts = _unsort_outputs(
+                unique_values, indices, inverse_indices, counts
             )
 
             x = Tensor(Dtype.U32, x.shape, x.flatten())
