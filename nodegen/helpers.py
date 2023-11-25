@@ -92,15 +92,15 @@ def make_test(inputs: list[Tensor | Sequence], output: Tensor | Sequence, func_s
             output_data.dump()
 
         case tuple():
-            for i, tensor in enumerate(output):
+            for i, out in enumerate(output):
                 output_data = CairoData(
                     os.path.join(name, f"output_{i}.cairo"))
                 output_data.buffer = CairoData.base_template(
                     func=f"output_{i}",
-                    dtype=tensor.dtype.value,
-                    refs=get_data_refs(tensor.dtype),
-                    data=get_data_statement(tensor.data, tensor.dtype),
-                    shape=tensor.shape,
+                    dtype=out.dtype.value,
+                    refs=get_data_refs(out.dtype),
+                    data=get_data_statement(out.data, out.dtype),
+                    shape=out.shape,
                 )
                 output_data.dump()
 

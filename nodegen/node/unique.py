@@ -4,7 +4,7 @@ from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 
 def _unsort_outputs(
-    x: np.ndarray, indices: np.ndarray, inverse_indices: np.ndarray
+    y: np.ndarray, indices: np.ndarray, inverse_indices: np.ndarray
 ) -> (np.ndarray, np.ndarray, np.ndarray):
     """Unsort the result of np.unique().
 
@@ -12,20 +12,19 @@ def _unsort_outputs(
     the output unique values).
     # https://github.com/numpy/numpy/issues/8621
     """
-    sorted_unique_values = x
-    unsorted_unique_values = sorted_unique_values[inverse_indices]
-    unsorted_indices = np.argsort(indices)
-    unsorted_inverse_indices = np.empty_like(inverse_indices)
-    unsorted_inverse_indices[unsorted_indices] = np.arange(len(indices))
-    return unsorted_unique_values, unsorted_indices, unsorted_inverse_indices
+    original_positions = np.arange(y.size)
+    unsorted_positions = original_positions[np.argsort(indices)]
+    y_unsorted = y[unsorted_positions]
+    inverse_indices_unsorted = unsorted_positions[inverse_indices]
+    indices_unsorted = np.arange(y.size)
+    return y_unsorted, indices_unsorted, inverse_indices_unsorted
 
 
 class Unique(RunAll):
     @staticmethod
     def unique_u32():
         def without_axis_sorted():
-            # random X with random shape
-            x = np.random.randint(0, 6, (3, 3, 3)).astype(np.uint32)
+            x = np.random.randint(0, 15, (3, 3, 3)).astype(np.uint32)
             axis = None
 
             unique_values, indices, inverse_indices, counts = np.unique(
@@ -51,7 +50,7 @@ class Unique(RunAll):
             )
 
         def without_axis_not_sorted():
-            x = np.random.randint(0, 6, (3, 3, 3)).astype(np.uint32)
+            x = np.random.randint(0, 15, (3, 3, 3)).astype(np.uint32)
             axis = None
 
             unique_values, indices, inverse_indices, counts = np.unique(
@@ -81,7 +80,7 @@ class Unique(RunAll):
             )
 
         def with_axis_zero_sorted():
-            x = np.random.randint(0, 6, (3, 3, 3)).astype(np.uint32)
+            x = np.random.randint(0, 15, (3, 3, 3)).astype(np.uint32)
             axis = 0
 
             unique_values, indices, inverse_indices, counts = np.unique(
@@ -107,7 +106,7 @@ class Unique(RunAll):
             )
 
         def with_axis_zero_not_sorted():
-            x = np.random.randint(0, 6, (3, 3, 3)).astype(np.uint32)
+            x = np.random.randint(0, 15, (3, 3, 3)).astype(np.uint32)
             axis = 0
 
             unique_values, indices, inverse_indices, counts = np.unique(
@@ -136,7 +135,7 @@ class Unique(RunAll):
             )
 
         def with_axis_one_sorted():
-            x = np.random.randint(0, 6, (3, 3, 3)).astype(np.uint32)
+            x = np.random.randint(0, 15, (3, 3, 3)).astype(np.uint32)
             axis = 1
 
             unique_values, indices, inverse_indices, counts = np.unique(
@@ -162,7 +161,7 @@ class Unique(RunAll):
             )
 
         def with_axis_one_not_sorted():
-            x = np.random.randint(0, 6, (3, 3, 3)).astype(np.uint32)
+            x = np.random.randint(0, 15, (3, 3, 3)).astype(np.uint32)
             axis = 1
 
             unique_values, indices, inverse_indices, counts = np.unique(
