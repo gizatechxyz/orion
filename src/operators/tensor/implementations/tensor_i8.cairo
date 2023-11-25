@@ -443,6 +443,10 @@ impl I8Tensor of TensorTrait<i8> {
     fn sequence_insert(self: Array<Tensor<i8>>, tensor: @Tensor<i8>, position: Option<Tensor<i32>>) -> Array<Tensor<i8>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn concat_from_sequence(sequence: Array<Tensor<i8>>, axis: i32, new_axis: Option<usize>) -> Tensor<i8> {
+        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

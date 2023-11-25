@@ -445,6 +445,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn sequence_insert(self: Array<Tensor<FP64x64>>, tensor: @Tensor<FP64x64>, position: Option<Tensor<i32>>) -> Array<Tensor<FP64x64>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn concat_from_sequence(sequence: Array<Tensor<FP64x64>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP64x64> {
+        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

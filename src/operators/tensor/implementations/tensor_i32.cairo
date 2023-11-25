@@ -444,6 +444,10 @@ impl I32Tensor of TensorTrait<i32> {
     fn sequence_insert(self: Array<Tensor<i32>>, tensor: @Tensor<i32>, position: Option<Tensor<i32>>) -> Array<Tensor<i32>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn concat_from_sequence(sequence: Array<Tensor<i32>>, axis: i32, new_axis: Option<usize>) -> Tensor<i32> {
+        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

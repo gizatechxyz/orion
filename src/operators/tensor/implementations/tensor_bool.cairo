@@ -392,6 +392,10 @@ impl BoolTensor of TensorTrait<bool> {
     fn sequence_insert(self: Array<Tensor<bool>>, tensor: @Tensor<bool>, position: Option<Tensor<i32>>) -> Array<Tensor<bool>> {
 	    math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn concat_from_sequence(sequence: Array<Tensor<bool>>, axis: i32, new_axis: Option<usize>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

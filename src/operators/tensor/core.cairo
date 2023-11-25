@@ -4416,6 +4416,7 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn sequence_length(self: Array<Tensor<T>>) -> Tensor<u32>;
+    fn concat_from_sequence(sequence: Array<Tensor<T>>, axis: i32, new_axis: Option<usize>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

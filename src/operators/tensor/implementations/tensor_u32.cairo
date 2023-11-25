@@ -394,6 +394,10 @@ impl U32Tensor of TensorTrait<u32> {
     fn sequence_insert(self: Array<Tensor<u32>>, tensor: @Tensor<u32>, position: Option<Tensor<i32>>) -> Array<Tensor<u32>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn concat_from_sequence(sequence: Array<Tensor<u32>>, axis: i32, new_axis: Option<usize>) -> Tensor<u32> {
+        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

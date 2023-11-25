@@ -412,6 +412,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn sequence_insert(self: Array<Tensor<FP16x16W>>, tensor: @Tensor<FP16x16W>, position: Option<Tensor<i32>>) -> Array<Tensor<FP16x16W>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn concat_from_sequence(sequence: Array<Tensor<FP16x16W>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP16x16W> {
+        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.
