@@ -64,7 +64,8 @@ def make_test(inputs: list[Tensor | Sequence], output: Tensor | Sequence, func_s
                     func=f"input_{i}",
                     dtype=input[0].dtype.value,
                     refs=get_data_refs(input[0].dtype),
-                    data=get_data_statement_for_sequences(input, input[0].dtype),
+                    data=get_data_statement_for_sequences(
+                        input, input[0].dtype),
                     shape=[x.shape for x in input],
                 )
             case Tensor():
@@ -78,9 +79,9 @@ def make_test(inputs: list[Tensor | Sequence], output: Tensor | Sequence, func_s
 
         input_data.dump()
 
-    output_data = CairoData(os.path.join(name, "output_0.cairo"))
     match output:
         case list():
+            output_data = CairoData(os.path.join(name, "output_0.cairo"))
             output_data.buffer = CairoData.sequence_template(
                 func="output_0",
                 dtype=output[0].dtype.value,
@@ -88,7 +89,23 @@ def make_test(inputs: list[Tensor | Sequence], output: Tensor | Sequence, func_s
                 data=get_data_statement_for_sequences(output, output[0].dtype),
                 shape=[x.shape for x in output],
             )
+            output_data.dump()
+
+        case tuple():
+            for i, tensor in enumerate(output):
+                output_data = CairoData(
+                    os.path.join(name, f"output_{i}.cairo"))
+                output_data.buffer = CairoData.base_template(
+                    func=f"output_{i}",
+                    dtype=tensor.dtype.value,
+                    refs=get_data_refs(tensor.dtype),
+                    data=get_data_statement(tensor.data, tensor.dtype),
+                    shape=tensor.shape,
+                )
+                output_data.dump()
+
         case Tensor():
+            output_data = CairoData(os.path.join(name, "output_0.cairo"))
             output_data.buffer = CairoData.base_template(
                 func="output_0",
                 dtype=output.dtype.value,
@@ -96,14 +113,15 @@ def make_test(inputs: list[Tensor | Sequence], output: Tensor | Sequence, func_s
                 data=get_data_statement(output.data, output.dtype),
                 shape=output.shape,
             )
-
-    output_data.dump()
+            output_data.dump()
 
     test_file = CairoTest(f"{name}.cairo")
     test_file.buffer = CairoTest.template(
         name=name,
         arg_cnt=len(inputs),
-        refs=get_all_test_refs(find_all_types([*inputs, output]), trait, isinstance(output, list)),
+        out_cnt=len(output) if isinstance(output, tuple) else 1,
+        refs=get_all_test_refs(find_all_types(
+            [*inputs, output]), trait, isinstance(output, list)),
         func_sig=func_sig,
     )
     test_file.dump()
@@ -152,7 +170,7 @@ def get_test_refs(dtype: Dtype, trait: Trait, is_sequence: bool) -> list[str]:
         *dtype_ref,
         *dtype_to_partial_eq[dtype],
         "orion::utils::{assert_eq, assert_seq_eq}",
-        ]
+    ]
 
     return refs
 
@@ -160,7 +178,7 @@ def get_test_refs(dtype: Dtype, trait: Trait, is_sequence: bool) -> list[str]:
 def find_all_types(tensors: list[Tensor | Sequence]) -> list[Dtype]:
     dtypes = []
     for tensor in tensors:
-        if isinstance(tensor, list):
+        if isinstance(tensor, list) or isinstance(tensor, tuple):
             dtypes += [x.dtype for x in tensor]
         else:
             dtypes.append(tensor.dtype)

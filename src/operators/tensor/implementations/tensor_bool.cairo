@@ -315,7 +315,7 @@ impl BoolTensor of TensorTrait<bool> {
     fn unique(
         self: @Tensor<bool>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<bool>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
-        panic(array!['not implemented yet!'])
+        panic(array!['not supported!'])
     }
 }
 

@@ -76,10 +76,11 @@ You can see below the list of current supported ONNX Operators:
 |      [MaxInTensor](operators/tensor/tensor.max\_in\_tensor.md)      | :white\_check\_mark: |
 |                 [Max](operators/tensor/tensor.max.md)               | :white\_check\_mark: |
 |  [ReduceSumSquare](operators/tensor/tensor.reduce\_sum\_square.md)  | :white\_check\_mark: |
-|                 [Trilu](operators/tensor/tensor.trilu.md)               | :white\_check\_mark: |
+|                 [Trilu](operators/tensor/tensor.trilu.md)           | :white\_check\_mark: |
 |             [Scatter](operators/tensor/scatter.max.md)              | :white\_check\_mark: |
-|             [ConstantOfShape](operators/tensor/tensor.constant_of_shape.md)              | :white\_check\_mark: |
+|  [ConstantOfShape](operators/tensor/tensor.constant_of_shape.md)    | :white\_check\_mark: |
 |          [ReduceL1](operators/tensor/tensor.reduce\_l1.md)          | :white\_check\_mark: |
 |         [ReduceL2](operators/tensor/tensor.reduce\_l2.md)           | :white\_check\_mark: |
+|         [Unique](operators/tensor/tensor.unique.md)                 | :white\_check\_mark: |
 
 Current Operators support: **75/156 (48%)**
