@@ -763,3 +763,5 @@ mod sequence_insert_fp8x23;
 mod sequence_insert_i32;
 mod sequence_insert_i8;
 mod sequence_insert_u32;
+mod is_nan_fp16x16;
+mod is_nan_fp8x23;
