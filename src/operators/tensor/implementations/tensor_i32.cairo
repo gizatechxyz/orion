@@ -8,7 +8,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core};
+use orion::operators::tensor::{math, linalg, quantization, manipulation, core};
 use orion::numbers::{i32, i8, NumberTrait};
 use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_i8::I8Tensor};
 
@@ -344,7 +344,7 @@ impl I32Tensor of TensorTrait<i32> {
     fn unique(
         self: @Tensor<i32>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<i32>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
-        core::unique(self, axis, sorted)
+        manipulation::unique::unique(self, axis, sorted)
     }
 }
 
