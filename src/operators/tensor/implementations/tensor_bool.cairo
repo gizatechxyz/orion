@@ -260,6 +260,10 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn not(self: @Tensor<bool>) -> Tensor<bool> {
+        math::not::not(*self)
+    }
+
     fn qlinear_add(
         self: @Tensor<i8>,
         a_scale: @Tensor<bool>,
@@ -320,6 +324,7 @@ impl BoolTensor of TensorTrait<bool> {
     fn array_feature_extractor(self: @Tensor<bool>, indices: Tensor<usize>) -> Tensor<bool> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
+
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

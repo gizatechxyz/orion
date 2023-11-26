@@ -10,9 +10,7 @@ use orion::operators::tensor::implementations::{tensor_bool::BoolTensor};
 // Cf TensorTrait::not docstring
 fn not <
     T,
-    MAG,
     impl TTensor: TensorTrait<T>,
-    impl TNumber: NumberTrait<T, MAG>,
     impl TPartialOrd: PartialOrd<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>

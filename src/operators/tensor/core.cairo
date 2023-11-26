@@ -60,6 +60,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// log - Computes the natural log of all elements of the input tensor.
 /// abs - Computes the absolute value of all elements in the input tensor.
 /// neg - Computes the negation of all elements in the input tensor.
+/// not - Computes the logical negation of all elements in the input tensor.
 /// ceil - Rounds up the value of each element in the input tensor.
 /// sqrt - Computes the square root of all elements of the input tensor.
 /// sin - Computes the sine of all elements of the input tensor.
@@ -3234,6 +3235,13 @@ trait TensorTrait<T> {
     /// ```
     ///
     /// Computes the round value of all elements in the input tensor.
+    /// #tensor.not
+    ///
+    /// ```rust
+    ///     fn not(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the negation of the elements in the bool type input tensor.
     /// 
     /// ## Args
     ///
@@ -3244,6 +3252,7 @@ trait TensorTrait<T> {
     ///
     /// A new `Tensor<T>` of the same shape as the input tensor with 
     /// the round value of all elements in the input tensor.
+    /// the negation of all elements in the input tensor.
     ///
     /// ## Example
     ///
@@ -3686,6 +3695,24 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn array_feature_extractor(self: @Tensor<T>, indices: Tensor<usize>) -> Tensor<T>;
+    /// use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
+    /// use orion::numbers::{i32, IntegerTrait};
+    /// 
+    /// fn not_example() -> Tensor<bool> {
+    ///     let tensor = TensorTrait::<bool>new(
+    ///         shape: array![3].span(),
+    ///         data: array![
+    ///             true, true, false
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     return tensor.not();
+    /// }
+    /// >>> [true, true, false]
+    /// ```
+    ///
+    fn not(self: @Tensor<T>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

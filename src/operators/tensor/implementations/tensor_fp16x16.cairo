@@ -348,6 +348,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+    
+    fn not(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

@@ -327,6 +327,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     ) -> Tensor<FP8x23W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+    
+    fn not(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

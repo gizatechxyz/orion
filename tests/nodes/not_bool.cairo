@@ -14,7 +14,7 @@ fn test_not_bool() {
     let input_0 = input_0::input_0();
     let z = output_0::output_0();
 
-    let y = input_0;
+    let y = input_0.not();
 
     assert_eq(y, z);
 }
