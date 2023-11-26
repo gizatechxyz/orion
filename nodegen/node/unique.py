@@ -59,7 +59,7 @@ class Unique(RunAll):
                 name,
             )
 
-        def example_2():
+        def example_two():
             x = np.array(
                 [[1, 0, 0],
                  [1, 0, 0],
@@ -256,7 +256,7 @@ class Unique(RunAll):
             )
 
         example()
-        example_2()
+        example_two()
         without_axis_sorted()
         without_axis_not_sorted()
         with_axis_zero_sorted()
