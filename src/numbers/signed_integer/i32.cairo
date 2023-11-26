@@ -46,10 +46,7 @@ impl i32Impl of IntegerTrait<i32, u32> {
 // Implements the Into trait for u32 -> i32
 impl u32Intoi32 of Into<u32, i32> {
     fn into(self: u32) -> i32 {
-        i32 {
-            mag: self.into(),
-            sign: false
-        }
+        i32 { mag: self.into(), sign: false }
     }
 }
 

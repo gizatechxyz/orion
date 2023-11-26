@@ -40,6 +40,9 @@ class Unique(RunAll):
             unique_values, indices, inverse_indices, counts = np.unique(
                 x, axis=axis, return_index=True, return_inverse=True, return_counts=True
             )
+            unique_values, indices, inverse_indices, counts = _unsort_outputs(
+                x, axis, unique_values, indices, inverse_indices, counts
+            )
 
             x = Tensor(Dtype.U32, x.shape, x.flatten())
             unique_values = Tensor(
@@ -70,6 +73,9 @@ class Unique(RunAll):
             unique_values, indices, inverse_indices, counts = np.unique(
                 x, axis=axis, return_index=True, return_inverse=True, return_counts=True
             )
+            unique_values, indices, inverse_indices, counts = _unsort_outputs(
+                x, axis, unique_values, indices, inverse_indices, counts
+            )
 
             x = Tensor(Dtype.U32, x.shape, x.flatten())
             unique_values = Tensor(
@@ -96,7 +102,10 @@ class Unique(RunAll):
             unique_values, indices, inverse_indices, counts = np.unique(
                 x, axis=axis, return_index=True, return_inverse=True, return_counts=True
             )
-
+            unique_values, indices, inverse_indices, counts = _unsort_outputs(
+                x, axis, unique_values, indices, inverse_indices, counts
+            )
+                
             x = Tensor(Dtype.U32, x.shape, x.flatten())
             unique_values = Tensor(
                 Dtype.U32, unique_values.shape, unique_values.flatten()
@@ -122,7 +131,6 @@ class Unique(RunAll):
             unique_values, indices, inverse_indices, counts = np.unique(
                 x, axis=axis, return_index=True, return_inverse=True, return_counts=True
             )
-
             unique_values, indices, inverse_indices, counts = _unsort_outputs(
                 x, axis, unique_values, indices, inverse_indices, counts
             )

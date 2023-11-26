@@ -9,7 +9,7 @@ use alexandria_data_structures::array_ext::SpanTraitExt;
 use alexandria_sorting::merge_sort::merge;
 
 use orion::numbers::{i32, NumberTrait};
-use orion::operators::tensor::core::{Tensor, TensorTrait};
+use orion::operators::tensor::core::{Tensor, TensorTrait, stride};
 
 
 /// Cf: TensorTrait::unique docstring
@@ -32,7 +32,7 @@ fn unique<
     let (unique_elements, new_shape, indices, inverse_indices, count) = if axis.is_none() {
         unique_flatten(self, sorted)
     } else {
-        unique_axis(self, axis.unwrap(), sorted)
+        unique_along_axis(self, axis.unwrap(), sorted)
     };
 
     let unique_elements = Tensor::<T> { shape: new_shape.span(), data: unique_elements.span() };
@@ -74,23 +74,28 @@ fn unique_flatten<
     };
     new_shape.append(unique_elements.len());
 
+    // TODO: investigate why calling merge before the next 2 loops
+    // cause the program to crash with error:
+    // #73054: One of the arguments does not satisfy the requirements of the libfunc.
     if (sorted) {
-        unique_elements = merge(unique_elements);
+        // unique_elements = merge(unique_elements);
+        unique_elements = unique_elements;
     }
+
     let mut unique_elements_span = unique_elements.span();
+    let mut data_cpy = *(t.data);
     loop {
         match unique_elements_span.pop_front() {
             Option::Some(value) => {
-                let occurences = (*t.data).occurrences_of(*value);
+                let occurences = data_cpy.occurrences_of(*value);
                 count.append(occurences.into());
-                let idx_in_data = (*t.data).index_of(*value).unwrap();
+                let idx_in_data = data_cpy.index_of(*value).unwrap();
                 indices.append(idx_in_data.into());
             },
             Option::None => { break; }
         }
     };
     unique_elements_span = unique_elements.span();
-    data_cpy = *t.data;
     loop {
         match data_cpy.pop_front() {
             Option::Some(value) => {
@@ -105,7 +110,7 @@ fn unique_flatten<
 }
 
 /// Subfunction unique for tensors (wth axis).
-fn unique_axis<
+fn unique_along_axis<
     T,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
@@ -116,7 +121,6 @@ fn unique_axis<
 >(
     t: @Tensor<T>, axis: usize, sorted: bool
 ) -> (Array<T>, Array<usize>, Array<i32>, Array<i32>, Array<i32>) {
-    let mut unique_elements: Array<T> = array![];
     let mut unique_tensors: Array<Tensor<T>> = array![];
     let mut new_shape: Array<usize> = array![];
     let mut indices: Array<i32> = array![];
@@ -142,7 +146,12 @@ fn unique_axis<
         });
         i += 1;
     };
-    'TODO: sort the tensor'.print();
+    // TODO: need to implement PartialOrd for Tensor<T> in order to sort the tensors
+    // using merge from Alexandria. (is this the right solution?)
+    if (sorted) {
+        // unique_tensors = merge(unique_tensors);
+        unique_tensors = unique_tensors;
+    }
     let mut unique_tensors_span = unique_tensors.span();
     let mut all_tensors_span = all_tensors.span();
     loop {
@@ -167,20 +176,7 @@ fn unique_axis<
         }
     };
 
-    // Flatten unique tensors into unique elements
-    loop {
-        match unique_tensors.pop_front() {
-            Option::Some(mut t) => {
-                loop {
-                    match t.data.pop_front() {
-                        Option::Some(v) => { unique_elements.append(*v); },
-                        Option::None => { break; }
-                    }
-                };
-            },
-            Option::None => { break; },
-        }
-    };
+    let unique_elements = flatten_array_of_tensors(unique_tensors, axis, new_shape.span());
 
     return (unique_elements, new_shape, indices, inverse_indices, count);
 }
@@ -251,6 +247,7 @@ fn as_tensors_array<
     as_tensors
 }
 
+/// TODO
 fn get_unique_tensors<
     T,
     impl TCopy: Copy<T>,
@@ -275,4 +272,38 @@ fn get_unique_tensors<
         }
     };
     return uniques_tensors;
+}
+
+/// TODO
+fn flatten_array_of_tensors<
+    T,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>,
+    impl TTensor: TensorTrait<T>,
+    impl TPartialOrd: PartialOrd<T>,
+    impl TPartialEq: PartialEq<T>,
+    impl TPartialEqTensor: PartialEq<Tensor<T>>
+>(
+    tensors: Array<Tensor<T>>, axis: usize, new_shape: Span<usize>
+) -> Array<T> {
+    let num_sub_tensors = tensors.len(); // Number of sub-tensors in the array
+    let mut new_stride = stride(new_shape);
+
+    let mut tensors_span = tensors.span();
+    let mut flattened: Array<T> = array![];
+    loop {
+        match tensors_span.pop_front() {
+            Option::Some(mut t) => {
+                let mut data = *t.data;
+                loop {
+                    match data.pop_front() {
+                        Option::Some(v) => { flattened.append(*v); },
+                        Option::None => { break; }
+                    }
+                };
+            },
+            Option::None => { break; },
+        }
+    };
+    flattened
 }
