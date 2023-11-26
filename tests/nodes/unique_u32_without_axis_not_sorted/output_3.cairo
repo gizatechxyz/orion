@@ -10,8 +10,8 @@ fn output_3() -> Tensor<i32> {
     let mut data = ArrayTrait::new();
     data.append(i32 { mag: 7, sign: false });
     data.append(i32 { mag: 5, sign: false });
+    data.append(i32 { mag: 5, sign: false });
     data.append(i32 { mag: 7, sign: false });
     data.append(i32 { mag: 3, sign: false });
-    data.append(i32 { mag: 5, sign: false });
     TensorTrait::new(shape.span(), data.span())
 }

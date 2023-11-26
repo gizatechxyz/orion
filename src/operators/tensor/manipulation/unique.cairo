@@ -20,7 +20,8 @@ fn unique<
     impl TTensor: TensorTrait<T>,
     impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
-    impl TPartialEqTensor: PartialEq<Tensor<T>>
+    impl TPartialEqTensor: PartialEq<Tensor<T>>,
+    impl TInto: Into<T, felt252> // delete this
 >(
     self: @Tensor<T>, axis: Option<usize>, sorted: Option<bool>
 ) -> (Tensor<T>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
@@ -117,7 +118,7 @@ fn unique_along_axis<
     impl TTensor: TensorTrait<T>,
     impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
-    impl TPartialEqTensor: PartialEq<Tensor<T>>
+    impl TPartialEqTensor: PartialEq<Tensor<T>>,
 >(
     t: @Tensor<T>, axis: usize, sorted: bool
 ) -> (Array<T>, Array<usize>, Array<i32>, Array<i32>, Array<i32>) {
@@ -282,28 +283,41 @@ fn flatten_array_of_tensors<
     impl TTensor: TensorTrait<T>,
     impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
-    impl TPartialEqTensor: PartialEq<Tensor<T>>
+    impl TPartialEqTensor: PartialEq<Tensor<T>>,
 >(
     tensors: Array<Tensor<T>>, axis: usize, new_shape: Span<usize>
 ) -> Array<T> {
-    let num_sub_tensors = tensors.len(); // Number of sub-tensors in the array
     let mut new_stride = stride(new_shape);
 
-    let mut tensors_span = tensors.span();
     let mut flattened: Array<T> = array![];
+
+    let stride_lim: usize = *new_stride.at(axis);
+
+    let max_row = (*(*tensors.at(0).shape).at(0));
+    let mut row = 0;
     loop {
-        match tensors_span.pop_front() {
-            Option::Some(mut t) => {
-                let mut data = *t.data;
-                loop {
-                    match data.pop_front() {
-                        Option::Some(v) => { flattened.append(*v); },
-                        Option::None => { break; }
-                    }
-                };
-            },
-            Option::None => { break; },
+        if row >= max_row {
+            break;
         }
+        let mut tensors_span = tensors.span();
+        loop {
+            let mut i = 0;
+            match tensors_span.pop_front() {
+                Option::Some(mut t) => {
+                    let mut data = *t.data;
+                    loop {
+                        if i >= stride_lim {
+                            break;
+                        }
+                        let idx = i + (row * stride_lim);
+                        flattened.append(*data.at(idx));
+                        i += 1;
+                    }
+                },
+                Option::None => { break; },
+            }
+        };
+        row += 1;
     };
     flattened
 }
