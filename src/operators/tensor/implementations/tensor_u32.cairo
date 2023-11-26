@@ -394,6 +394,10 @@ impl U32Tensor of TensorTrait<u32> {
     fn sequence_insert(self: Array<Tensor<u32>>, tensor: @Tensor<u32>, position: Option<Tensor<i32>>) -> Array<Tensor<u32>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn is_nan(self: @Tensor<u32>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

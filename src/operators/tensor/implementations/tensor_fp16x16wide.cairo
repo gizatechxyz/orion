@@ -412,6 +412,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn sequence_insert(self: Array<Tensor<FP16x16W>>, tensor: @Tensor<FP16x16W>, position: Option<Tensor<i32>>) -> Array<Tensor<FP16x16W>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn is_nan(self: @Tensor<FP16x16W>) -> Tensor<bool> {
+	math::is_nan::is_nan(self)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.

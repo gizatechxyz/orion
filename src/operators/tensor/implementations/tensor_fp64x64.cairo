@@ -445,6 +445,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn sequence_insert(self: Array<Tensor<FP64x64>>, tensor: @Tensor<FP64x64>, position: Option<Tensor<i32>>) -> Array<Tensor<FP64x64>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn is_nan(self: @Tensor<FP64x64>) -> Tensor<bool> {
+	math::is_nan::is_nan(self)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

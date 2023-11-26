@@ -402,6 +402,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn sequence_insert(self: Array<Tensor<FP8x23W>>, tensor: @Tensor<FP8x23W>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23W>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn is_nan(self: @Tensor<FP8x23W>) -> Tensor<bool> {
+	math::is_nan::is_nan(self)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

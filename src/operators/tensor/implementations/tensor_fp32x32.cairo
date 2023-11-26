@@ -443,6 +443,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn sequence_insert(self: Array<Tensor<FP32x32>>, tensor: @Tensor<FP32x32>, position: Option<Tensor<i32>>) -> Array<Tensor<FP32x32>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn is_nan(self: @Tensor<FP32x32>) -> Tensor<bool> {
+	math::is_nan::is_nan(self)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.
