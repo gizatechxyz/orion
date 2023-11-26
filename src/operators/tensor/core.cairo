@@ -4231,13 +4231,17 @@ fn identity<T>(self: @Tensor<T>) -> Tensor<T> {
     Tensor::<T> { shape: *self.shape, data: *self.data }
 }
 
+use debug::PrintTrait;
+
 /// Cf: TensorTrait::unique docstring
 fn unique<
     T,
+    impl TTensor: TensorTrait<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
     impl TPartialOrd: PartialOrd<T>,
-    impl TPartialEq: PartialEq<T>
+    impl TPartialEq: PartialEq<T>,
+    impl TPrint: PrintTrait<T>
 >(
     self: @Tensor<T>, axis: Option<usize>, sorted: Option<bool>
 ) -> (Tensor<T>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
@@ -4257,8 +4261,51 @@ fn unique<
             let shape_cpy = *self.shape;
             let rank = shape_cpy.len();
             assert(axis <= rank, 'axis out of dimensions');
-
             let axis_len: usize = *shape_cpy.at(axis);
+
+            let mut idx: usize = 0;
+            loop {
+                if idx >= axis_len {
+                    break;
+                }
+
+                let mut starts: Array<usize> = array![];
+                let mut ends: Array<usize> = array![];
+                let mut axes: Array<usize> = array![];
+                let mut i: usize = 0;
+                loop {
+                    if i >= rank {
+                        break;
+                    }
+                    starts.append(if i == axis { idx } else { 0 });
+                    ends.append(if i == axis { idx + 1 } else { *shape_cpy.at(i) });
+                    axes.append(i);
+                    i += 1;
+                };
+
+                let sub_tensor: Tensor<T> = self.slice(
+                    starts: starts.span(),
+                    ends: ends.span(),
+                    axes: Option::Some(axes.span()),
+                    steps: Option::None(())
+                );
+
+                let mut tmp = sub_tensor.data;
+                loop {
+                    match tmp.pop_front() {
+                        Option::Some(x) => {
+                            (*x).print();
+                        },
+                        Option::None => {
+                            break;
+                        }
+                    }
+                };
+                '--------------------'.print();
+
+                idx += 1;
+            };
+
             assert(1 == 0, 'not implemented yet');
         },
         Option::None => {

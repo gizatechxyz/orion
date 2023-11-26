@@ -1,6 +1,7 @@
 use core::option::OptionTrait;
 use core::traits::TryInto;
 use traits::Into;
+use debug::PrintTrait;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::signed_integer::i8::i8;
@@ -175,9 +176,18 @@ impl i32Neg of Neg<i32> {
     }
 }
 
+// Implements the TryInto i8 trait for i32
 impl I32TryIntoI8 of TryInto<i32, i8> {
     fn try_into(self: i32) -> Option<i8> {
         i8_try_from_i32(self)
+    }
+}
+
+// Implements the PrintTrait for i32
+impl I32PrintTrait of PrintTrait<i32> {
+    fn print(self: i32) {
+        let intermediate: felt252 = self.into();
+        intermediate.print();
     }
 }
 
