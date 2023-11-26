@@ -55,24 +55,13 @@ fn unique_flatten<
 >(
     t: @Tensor<T>, sorted: bool
 ) -> (Span<T>, Span<usize>, Span<i32>, Span<i32>, Span<i32>) {
-    let mut unique_elements: Array<T> = array![];
-    let mut new_shape: Array<usize> = array![];
     let mut indices: Array<i32> = array![];
     let mut inverse_indices: Array<i32> = array![];
     let mut count: Array<i32> = array![];
 
     let mut data_cpy = *t.data;
-    loop {
-        match data_cpy.pop_front() {
-            Option::Some(value) => {
-                if !unique_elements.span().contains(*value) {
-                    unique_elements.append(*value);
-                }
-            },
-            Option::None => { break; }
-        }
-    };
-    new_shape.append(unique_elements.len());
+    let mut unique_elements = data_cpy.unique();
+    let mut new_shape: Array<usize> = array![unique_elements.len()];
 
     // TODO: investigate why calling merge before the next 2 loops
     // cause the program to crash with error:
@@ -120,9 +109,9 @@ fn unique_along_axis<
     T,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
-    impl TTensor: TensorTrait<T>,
     impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
+    impl TTensor: TensorTrait<T>,
     impl TPartialEqTensor: PartialEq<Tensor<T>>,
 >(
     t: @Tensor<T>, axis: usize, sorted: bool
@@ -193,15 +182,7 @@ fn unique_along_axis<
 }
 
 /// Returns a Tensor as an array of tensors
-fn as_tensors_array<
-    T,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>,
-    impl TTensor: TensorTrait<T>,
-    impl TPartialOrd: PartialOrd<T>,
-    impl TPartialEq: PartialEq<T>,
-    impl TPartialEqTensor: PartialEq<Tensor<T>>
->(
+fn as_tensors_array<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>, impl TTensor: TensorTrait<T>,>(
     tensor: @Tensor<T>, axis: usize, rank: usize
 ) -> Array<Tensor<T>> {
     let shape = *tensor.shape;
@@ -263,8 +244,6 @@ fn get_unique_tensors<
     T,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
-    impl TTensor: TensorTrait<T>,
-    impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
     impl TPartialEqTensor: PartialEq<Tensor<T>>
 >(
@@ -286,15 +265,7 @@ fn get_unique_tensors<
 }
 
 /// Flatten a given array of tensors into an Array<T>.
-fn flatten_array_of_tensors<
-    T,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>,
-    impl TTensor: TensorTrait<T>,
-    impl TPartialOrd: PartialOrd<T>,
-    impl TPartialEq: PartialEq<T>,
-    impl TPartialEqTensor: PartialEq<Tensor<T>>,
->(
+fn flatten_array_of_tensors<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>,>(
     tensors: Array<Tensor<T>>, axis: usize, new_shape: Span<usize>
 ) -> Span<T> {
     let mut new_stride = stride(new_shape);
