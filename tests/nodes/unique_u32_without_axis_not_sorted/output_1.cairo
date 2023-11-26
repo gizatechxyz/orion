@@ -11,7 +11,7 @@ fn output_1() -> Tensor<i32> {
     data.append(i32 { mag: 0, sign: false });
     data.append(i32 { mag: 1, sign: false });
     data.append(i32 { mag: 3, sign: false });
-    data.append(i32 { mag: 5, sign: false });
-    data.append(i32 { mag: 11, sign: false });
+    data.append(i32 { mag: 7, sign: false });
+    data.append(i32 { mag: 9, sign: false });
     TensorTrait::new(shape.span(), data.span())
 }

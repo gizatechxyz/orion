@@ -51,3 +51,6 @@ mod unique_u32_with_axis_zero_sorted;
 mod unique_u32_with_axis_zero_not_sorted;
 mod unique_u32_with_axis_one_sorted;
 mod unique_u32_with_axis_one_not_sorted;
+mod unique_u32_with_axis_one_not_sorted_custom;
+mod unique_fp16x16_without_axis_sorted;
+mod unique_fp16x16_with_axis_zero_sorted;

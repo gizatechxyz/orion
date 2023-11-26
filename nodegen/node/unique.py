@@ -269,6 +269,38 @@ class Unique(RunAll):
                 name,
             )
 
+        def with_axis_one_not_sorted_custom():
+            x = np.array(
+                [[1, 0, 0, 2, 2, 4, 2],
+                 [1, 0, 0, 1, 2, 3, 1]]
+            ).astype(np.uint32)
+            axis = 1
+
+            unique_values, indices, inverse_indices, counts = np.unique(
+                x, axis=axis, return_index=True, return_inverse=True, return_counts=True
+            )
+            unique_values, indices, inverse_indices, counts = _unsort_outputs(
+                x, axis, unique_values, indices, inverse_indices, counts
+            )
+
+            x = Tensor(Dtype.U32, x.shape, x.flatten())
+            unique_values = Tensor(
+                Dtype.U32, unique_values.shape, unique_values.flatten()
+            )
+            indices = Tensor(Dtype.I32, indices.shape, indices.flatten())
+            inverse_indices = Tensor(
+                Dtype.I32, inverse_indices.shape, inverse_indices.flatten()
+            )
+            counts = Tensor(Dtype.I32, counts.shape, counts.flatten())
+
+            name = "unique_u32_with_axis_one_not_sorted_custom"
+            make_test(
+                [x],
+                (unique_values, indices, inverse_indices, counts),
+                "input_0.unique(Option::Some(1), Option::Some(false))",
+                name,
+            )
+
         example()
         example_two()
         without_axis_sorted()
@@ -277,3 +309,73 @@ class Unique(RunAll):
         with_axis_zero_not_sorted()
         with_axis_one_sorted()
         with_axis_one_not_sorted()
+        with_axis_one_not_sorted_custom()
+
+    @staticmethod
+    def unique_fp16x16():
+        def without_axis_sorted():
+            x = np.random.uniform(0, 3, (3, 3, 3)).astype(np.float64)
+            axis = None
+
+            unique_values, indices, inverse_indices, counts = np.unique(
+                x, axis=axis, return_index=True, return_inverse=True, return_counts=True
+            )
+            unique_values, indices, inverse_indices, counts = _unsort_outputs(
+                x, axis, unique_values, indices, inverse_indices, counts
+            )
+            unique_values = unique_values.astype(np.float16)
+
+            x = Tensor(Dtype.FP16x16, x.shape, to_fp(
+                x.flatten(), FixedImpl.FP16x16))
+            unique_values = Tensor(
+                Dtype.FP16x16, unique_values.shape, to_fp(
+                    unique_values.flatten(), FixedImpl.FP16x16)
+            )
+            indices = Tensor(Dtype.I32, indices.shape, indices.flatten())
+            inverse_indices = Tensor(
+                Dtype.I32, inverse_indices.shape, inverse_indices.flatten()
+            )
+            counts = Tensor(Dtype.I32, counts.shape, counts.flatten())
+
+            name = "unique_fp16x16_without_axis_sorted"
+            make_test(
+                [x],
+                (unique_values, indices, inverse_indices, counts),
+                "input_0.unique(Option::None(()), Option::Some(true))",
+                name,
+            )
+
+        def with_axis_zero_sorted():
+            x = np.random.uniform(-3, 3, (3, 3, 3)).astype(np.float64)
+            axis = 0
+
+            unique_values, indices, inverse_indices, counts = np.unique(
+                x, axis=axis, return_index=True, return_inverse=True, return_counts=True
+            )
+            unique_values, indices, inverse_indices, counts = _unsort_outputs(
+                x, axis, unique_values, indices, inverse_indices, counts
+            )
+            unique_values = unique_values.astype(np.float16)
+
+            x = Tensor(Dtype.FP16x16, x.shape, to_fp(
+                x.flatten(), FixedImpl.FP16x16))
+            unique_values = Tensor(
+                Dtype.FP16x16, unique_values.shape, to_fp(
+                    unique_values.flatten(), FixedImpl.FP16x16)
+            )
+            indices = Tensor(Dtype.I32, indices.shape, indices.flatten())
+            inverse_indices = Tensor(
+                Dtype.I32, inverse_indices.shape, inverse_indices.flatten()
+            )
+            counts = Tensor(Dtype.I32, counts.shape, counts.flatten())
+
+            name = "unique_fp16x16_with_axis_zero_sorted"
+            make_test(
+                [x],
+                (unique_values, indices, inverse_indices, counts),
+                "input_0.unique(Option::Some(0), Option::Some(true))",
+                name,
+            )
+
+        without_axis_sorted()
+        with_axis_zero_sorted()

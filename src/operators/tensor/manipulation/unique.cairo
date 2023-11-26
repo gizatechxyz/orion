@@ -21,7 +21,6 @@ fn unique<
     impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
     impl TPartialEqTensor: PartialEq<Tensor<T>>,
-    impl TInto: Into<T, felt252> // delete this
 >(
     self: @Tensor<T>, axis: Option<usize>, sorted: Option<bool>
 ) -> (Tensor<T>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
@@ -36,12 +35,12 @@ fn unique<
         unique_along_axis(self, axis.unwrap(), sorted)
     };
 
-    let unique_elements = Tensor::<T> { shape: new_shape.span(), data: unique_elements.span() };
-    let indices = Tensor::<i32> { shape: array![indices.len()].span(), data: indices.span() };
+    let unique_elements = Tensor::<T> { shape: new_shape, data: unique_elements };
+    let indices = Tensor::<i32> { shape: array![indices.len()].span(), data: indices };
     let inverse_indices = Tensor::<
         i32
-    > { shape: array![inverse_indices.len()].span(), data: inverse_indices.span() };
-    let count = Tensor::<i32> { shape: array![count.len()].span(), data: count.span() };
+    > { shape: array![inverse_indices.len()].span(), data: inverse_indices };
+    let count = Tensor::<i32> { shape: array![count.len()].span(), data: count };
 
     (unique_elements, indices, inverse_indices, count)
 }
@@ -55,7 +54,7 @@ fn unique_flatten<
     impl TPartialEq: PartialEq<T>,
 >(
     t: @Tensor<T>, sorted: bool
-) -> (Array<T>, Array<usize>, Array<i32>, Array<i32>, Array<i32>) {
+) -> (Span<T>, Span<usize>, Span<i32>, Span<i32>, Span<i32>) {
     let mut unique_elements: Array<T> = array![];
     let mut new_shape: Array<usize> = array![];
     let mut indices: Array<i32> = array![];
@@ -107,7 +106,13 @@ fn unique_flatten<
         }
     };
 
-    return (unique_elements, new_shape, indices, inverse_indices, count);
+    return (
+        unique_elements.span(),
+        new_shape.span(),
+        indices.span(),
+        inverse_indices.span(),
+        count.span()
+    );
 }
 
 /// Subfunction unique for tensors (wth axis).
@@ -121,7 +126,7 @@ fn unique_along_axis<
     impl TPartialEqTensor: PartialEq<Tensor<T>>,
 >(
     t: @Tensor<T>, axis: usize, sorted: bool
-) -> (Array<T>, Array<usize>, Array<i32>, Array<i32>, Array<i32>) {
+) -> (Span<T>, Span<usize>, Span<i32>, Span<i32>, Span<i32>) {
     let mut unique_tensors: Array<Tensor<T>> = array![];
     let mut new_shape: Array<usize> = array![];
     let mut indices: Array<i32> = array![];
@@ -129,7 +134,7 @@ fn unique_along_axis<
     let mut count: Array<i32> = array![];
 
     let rank = (*t).shape.len();
-    assert(axis <= rank, 'axis out of dimensions');
+    assert(axis < rank, 'axis out of dimensions');
 
     let all_tensors = as_tensors_array(t, axis, rank);
     let mut unique_tensors = get_unique_tensors(all_tensors.span());
@@ -177,9 +182,14 @@ fn unique_along_axis<
         }
     };
 
-    let unique_elements = flatten_array_of_tensors(unique_tensors, axis, new_shape.span());
+    let new_shape_span = new_shape.span();
+    let unique_elements = if (*t).shape == new_shape_span {
+        *t.data
+    } else {
+        flatten_array_of_tensors(unique_tensors, axis, new_shape_span)
+    };
 
-    return (unique_elements, new_shape, indices, inverse_indices, count);
+    return (unique_elements, new_shape_span, indices.span(), inverse_indices.span(), count.span());
 }
 
 /// Returns a Tensor as an array of tensors
@@ -248,7 +258,7 @@ fn as_tensors_array<
     as_tensors
 }
 
-/// TODO
+/// Returns from an array of tensors all the uniques tensors.
 fn get_unique_tensors<
     T,
     impl TCopy: Copy<T>,
@@ -275,7 +285,7 @@ fn get_unique_tensors<
     return uniques_tensors;
 }
 
-/// TODO
+/// Flatten a given array of tensors into an Array<T>.
 fn flatten_array_of_tensors<
     T,
     impl TCopy: Copy<T>,
@@ -286,13 +296,12 @@ fn flatten_array_of_tensors<
     impl TPartialEqTensor: PartialEq<Tensor<T>>,
 >(
     tensors: Array<Tensor<T>>, axis: usize, new_shape: Span<usize>
-) -> Array<T> {
+) -> Span<T> {
     let mut new_stride = stride(new_shape);
 
     let mut flattened: Array<T> = array![];
 
     let stride_lim: usize = *new_stride.at(axis);
-
     let max_row = (*(*tensors.at(0).shape).at(0));
     let mut row = 0;
     loop {
@@ -319,5 +328,5 @@ fn flatten_array_of_tensors<
         };
         row += 1;
     };
-    flattened
+    flattened.span()
 }
