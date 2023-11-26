@@ -53,6 +53,7 @@ trait NumberTrait<T, MAG> {
     fn NaN() -> T;
     fn is_nan(self: T) -> bool;
     fn bitwise_and(lhs: T, rhs: T) -> T;
+    fn bitwise_xor(lhs: T, rhs: T) -> T;
     fn add(lhs: T, rhs: T) -> T;
     fn sub(lhs: T, rhs: T) -> T;
 }
@@ -249,6 +250,10 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
 
     fn bitwise_and(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
         comp_fp8x23::bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
+        comp_fp8x23::bitwise_xor(lhs, rhs)
     }
 
     fn add(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
@@ -454,6 +459,10 @@ impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
         comp_fp8x23wide::bitwise_and(lhs, rhs)
     }
 
+    fn bitwise_xor(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
+        comp_fp8x23wide::bitwise_xor(lhs, rhs)
+    }
+
     fn add(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
         FP8x23WAdd::add(lhs, rhs)
     }
@@ -657,6 +666,10 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
         comp_fp16x16::bitwise_and(lhs, rhs)
     }
 
+    fn bitwise_xor(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
+        comp_fp16x16::bitwise_xor(lhs, rhs)
+    }
+
     fn add(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
         FP16x16Add::add(lhs, rhs)
     }
@@ -858,6 +871,10 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
 
     fn bitwise_and(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
         comp_fp16x16wide::bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
+        comp_fp16x16wide::bitwise_xor(lhs, rhs)
     }
 
     fn add(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
@@ -1064,6 +1081,10 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
         comp_fp64x64::bitwise_and(lhs, rhs)
     }
 
+    fn bitwise_xor(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
+        comp_fp64x64::bitwise_xor(lhs, rhs)
+    }
+
     fn add(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
         FP64x64Add::add(lhs, rhs)
     }
@@ -1266,6 +1287,10 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
 
     fn bitwise_and(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
         comp_fp32x32::bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
+        comp_fp32x32::bitwise_xor(lhs, rhs)
     }
 
     fn add(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
@@ -1485,6 +1510,10 @@ impl I8Number of NumberTrait<i8, u8> {
         i8_core::i8_bitwise_and(lhs, rhs)
     }
 
+    fn bitwise_xor(lhs: i8, rhs: i8) -> i8 {
+        i8_core::i8_bitwise_xor(lhs, rhs)
+    }
+
     fn add(lhs: i8, rhs: i8) -> i8 {
         i8Add::add(lhs, rhs)
     }
@@ -1700,6 +1729,10 @@ impl i16Number of NumberTrait<i16, u16> {
 
     fn bitwise_and(lhs: i16, rhs: i16) -> i16 {
         i16_core::i16_bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: i16, rhs: i16) -> i16 {
+        i16_core::i16_bitwise_xor(lhs, rhs)
     }
 
     fn add(lhs: i16, rhs: i16) -> i16 {
@@ -1919,6 +1952,10 @@ impl i32Number of NumberTrait<i32, u32> {
         i32_core::i32_bitwise_and(lhs, rhs)
     }
 
+    fn bitwise_xor(lhs: i32, rhs: i32) -> i32 {
+        i32_core::i32_bitwise_xor(lhs, rhs)
+    }
+
     fn add(lhs: i32, rhs: i32) -> i32 {
         i32Add::add(lhs, rhs)
     }
@@ -2134,6 +2171,10 @@ impl i64Number of NumberTrait<i64, u64> {
 
     fn bitwise_and(lhs: i64, rhs: i64) -> i64 {
         i64_core::i64_bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: i64, rhs: i64) -> i64 {
+        i64_core::i64_bitwise_xor(lhs, rhs)
     }
 
     fn add(lhs: i64, rhs: i64) -> i64 {
@@ -2353,6 +2394,10 @@ impl i128Number of NumberTrait<i128, u128> {
 
     fn bitwise_and(lhs: i128, rhs: i128) -> i128 {
         i128_core::i128_bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: i128, rhs: i128) -> i128 {
+        i128_core::i128_bitwise_xor(lhs, rhs)
     }
 
     fn add(lhs: i128, rhs: i128) -> i128 {
@@ -2575,6 +2620,10 @@ impl u32Number of NumberTrait<u32, u32> {
 
     fn bitwise_and(lhs: u32, rhs: u32) -> u32 {
         lhs & rhs
+    }
+
+    fn bitwise_xor(lhs: u32, rhs: u32) -> u32 {
+        lhs ^ rhs
     }
 
     fn add(lhs: u32, rhs: u32) -> u32 {

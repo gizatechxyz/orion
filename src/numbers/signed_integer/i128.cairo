@@ -481,3 +481,7 @@ fn i128_sign(a: i128) -> i128 {
 fn i128_bitwise_and(a: i128, b: i128) -> i128 {
     IntegerTrait::<i128>::new(a.mag & b.mag, a.sign & b.sign)
 }
+
+fn i128_bitwise_xor(a: i128, b: i128) -> i128 {
+    IntegerTrait::<i128>::new(a.mag ^ b.mag, a.sign ^ b.sign)
+}

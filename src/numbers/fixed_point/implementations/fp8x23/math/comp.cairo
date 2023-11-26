@@ -56,6 +56,10 @@ fn bitwise_and(a: FP8x23, b: FP8x23) -> FP8x23 {
     return FixedTrait::new(a.mag & b.mag, a.sign & b.sign);
 }
 
+fn bitwise_xor(a: FP8x23, b: FP8x23) -> FP8x23 {
+    return FixedTrait::new(a.mag ^ b.mag, a.sign ^ b.sign);
+}
+
 // Tests --------------------------------------------------------------------------------------------------------------
 
 #[cfg(test)]
