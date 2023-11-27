@@ -3,6 +3,7 @@ mod min;
 mod max_in_tensor;
 mod max;
 mod reduce_sum;
+mod reduce_prod;
 mod argmax;
 mod argmin;
 mod exp;
