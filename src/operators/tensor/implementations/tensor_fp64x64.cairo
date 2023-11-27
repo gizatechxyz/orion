@@ -62,6 +62,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::reduce_sum::reduce_sum(self, axis, keepdims)
     }
 
+    fn reduce_prod(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_prod::reduce_prod(self, axis, keepdims)
+    }
+
     fn argmax(
         self: @Tensor<FP64x64>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {
