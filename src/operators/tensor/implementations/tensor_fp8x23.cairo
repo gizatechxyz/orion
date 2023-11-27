@@ -62,7 +62,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     }
 
     fn reduce_prod(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
-        math::reduce_prod::reduce_sum(self, axis, keepdims)
+        math::reduce_prod::reduce_prod(self, axis, keepdims)
     }
 
     fn argmax(
