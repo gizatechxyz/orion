@@ -3658,7 +3658,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     ///
-    /// fn and_example() -> Tensor<usize> {
+    /// fn xor_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
