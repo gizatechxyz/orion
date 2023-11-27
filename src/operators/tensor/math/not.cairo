@@ -8,13 +8,7 @@ use orion::operators::tensor::implementations::{tensor_bool::BoolTensor};
 
 
 // Cf TensorTrait::not docstring
-fn not <
-    T,
-    impl TTensor: TensorTrait<T>,
-    impl TPartialOrd: PartialOrd<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>
-> (mut z: Tensor<bool>) -> Tensor<bool> {
+fn not (mut z: Tensor<bool>) -> Tensor<bool> {
     let mut data_result = ArrayTrait::<bool>::new();
 
     loop {
