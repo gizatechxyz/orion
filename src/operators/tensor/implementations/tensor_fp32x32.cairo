@@ -356,6 +356,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::bitwise_and::bitwise_and(self, other)
     }
 
+    fn bitwise_xor(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::bitwise_xor::bitwise_xor(self, other)
+    }
+
     fn round(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::round::round(*self)
     }

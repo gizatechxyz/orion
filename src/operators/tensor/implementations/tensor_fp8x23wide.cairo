@@ -313,6 +313,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::bitwise_and::bitwise_and(self, other)
     }
 
+    fn bitwise_xor(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
+        math::bitwise_xor::bitwise_xor(self, other)
+    }
+
     fn round(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         math::round::round(*self)
     }
