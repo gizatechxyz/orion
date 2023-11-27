@@ -52,6 +52,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// min - Returns the minimum value in the tensor.
 /// max - Returns the maximum value in the tensor.
 /// reduce_sum - Reduces a tensor by summing its elements along a specified axis.
+/// reduce_prod - Reduces a tensor to its products along specified axis.
 /// argmax - Returns the index of the maximum value along the specified axis.
 /// argmin - Returns the index of the minimum value along the specified axis.
 /// cumsum - Performs cumulative sum of the input elements along the given axis.
@@ -3584,6 +3585,47 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn constant_of_shape(shape: Span<usize>, value: T) -> Tensor<T>;
+    /// ## tensor.reduce_prod
+    ///
+    /// ```rust 
+    ///    fn reduce_prod(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
+    /// ```
+    ///
+    /// Reduces a tensor by multiplying its elements along a specified axis.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The dimension to reduce.
+    /// * `keepdims`(`bool`) - If true, retains reduced dimensions with length 1.
+    ///
+    /// ## Panics 
+    /// 
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` instance with the specified axis reduced by multiplying its elements.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn reduce_prod_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///     );
+    /// 
+    ///     // We can call `reduce_prod` function as follows.
+    ///     return tensor.reduce_prod(axis: 0, keepdims: false);
+    /// }
+    /// >>> [[0,5],[12,21]]
+    /// ```
+    ///
+    fn reduce_prod(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring
