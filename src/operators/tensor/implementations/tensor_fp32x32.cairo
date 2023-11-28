@@ -236,6 +236,30 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         )
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP32x32>,
+        a_zero_point: @Tensor<FP32x32>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<FP32x32>,
+        b_zero_point: @Tensor<FP32x32>,
+        y_scale: @Tensor<FP32x32>,
+        y_zero_point: @Tensor<FP32x32>
+    ) -> Tensor::<i8> {
+        quantization::qlinear_mul::qlinear_mul(
+            self,
+            a_scale,
+            a_zero_point,
+            b,
+            b_scale,
+            b_zero_point,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<FP32x32>,
@@ -259,6 +283,26 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
             NumberTrait::new_unscaled(127, false)
         )
     }
+
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<FP32x32>>,
+        zero_points: Span<Tensor<FP32x32>>,
+        y_scale: @Tensor<FP32x32>,
+        y_zero_point: @Tensor<FP32x32>,
+        axis: usize
+    ) -> Tensor::<i8> {
+        quantization::qlinear_concat::qlinear_concat(
+            tensors,
+            scales,
+            zero_points,
+            y_scale,
+            y_zero_point,
+            axis,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }    
 
     fn slice(
         self: @Tensor<FP32x32>,
@@ -359,11 +403,21 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn sequence_construct(tensors: Array<Tensor<FP32x32>>) -> Array<Tensor<FP32x32>> {
         math::sequence_construct::sequence_construct(tensors)
     }
-
-    fn shrink(
-        self: Tensor<FP32x32>, bias: Option<FP32x32>, lambd: Option<FP32x32>
-    ) -> Tensor<FP32x32> {
+    
+    fn sequence_length(self: Array<Tensor<FP32x32>>) -> Tensor<u32> {
+	math::sequence_length::sequence_length(self)
+    }
+    
+    fn shrink(self: Tensor<FP32x32>, bias: Option<FP32x32>, lambd: Option<FP32x32>) -> Tensor<FP32x32> {
         math::shrink::shrink(self, bias, lambd)
+    }
+    
+    fn sequence_at(sequence: Array<Tensor<FP32x32>>, position: Tensor<i32>) -> Tensor<FP32x32> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+    
+    fn sequence_construct(tensors: Array<Tensor<FP32x32>>) -> Array<Tensor<FP32x32>> {
+        math::sequence_construct::sequence_construct(tensors)
     }
 
     fn sequence_empty() -> Array<Tensor<FP32x32>> {
@@ -386,6 +440,18 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<FP32x32> {
         math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
+    }
+
+    fn pow(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::pow::pow(self, other)
+    }
+    
+    fn sequence_erase(sequence: Array<Tensor<FP32x32>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP32x32>> {
+        math::sequence_erase::sequence_erase(sequence, position)
+    }
+    
+    fn sequence_insert(self: Array<Tensor<FP32x32>>, tensor: @Tensor<FP32x32>, position: Option<Tensor<i32>>) -> Array<Tensor<FP32x32>> {
+	math::sequence_insert::sequence_insert(self, tensor, position)
     }
 }
 
