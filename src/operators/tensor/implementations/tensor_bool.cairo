@@ -296,6 +296,12 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
     }
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<bool>, a_zero_point: @Tensor<bool>, alpha: bool,
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
 
     fn round(self: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])

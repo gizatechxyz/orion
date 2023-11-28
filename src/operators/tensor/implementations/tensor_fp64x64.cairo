@@ -304,6 +304,19 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         )
     }
 
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<FP64x64>, a_zero_point: @Tensor<FP64x64>, alpha: FP64x64
+    ) -> Tensor::<i8> {
+        quantization::qlinear_leakyrelu::qlinear_leakyrelu(
+            self,
+            a_scale,
+            a_zero_point,
+            alpha,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn slice(
         self: @Tensor<FP64x64>,
         starts: Span<usize>,

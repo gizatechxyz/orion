@@ -297,7 +297,20 @@ impl I8Tensor of TensorTrait<i8> {
             zero_points,
             y_scale,
             y_zero_point,
-            axis,
+            axis,            
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+    
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<i8>, a_zero_point: @Tensor<i8>, alpha: i8
+    ) -> Tensor::<i8> {
+        quantization::qlinear_leakyrelu::qlinear_leakyrelu(
+            self,
+            a_scale,
+            a_zero_point,
+            alpha,
             NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )

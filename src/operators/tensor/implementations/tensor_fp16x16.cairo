@@ -303,6 +303,19 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         )
     }
 
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<FP16x16>, a_zero_point: @Tensor<FP16x16>, alpha: FP16x16
+    ) -> Tensor::<i8> {
+        quantization::qlinear_leakyrelu::qlinear_leakyrelu(
+            self,
+            a_scale,
+            a_zero_point,
+            alpha,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn slice(
         self: @Tensor<FP16x16>,
         starts: Span<usize>,
