@@ -5,11 +5,12 @@ use orion::numbers::{IntegerTrait, i32};
 
 fn output_2() -> Tensor<i32> {
     let mut shape = ArrayTrait::<usize>::new();
-    shape.append(3);
+    shape.append(4);
 
     let mut data = ArrayTrait::new();
     data.append(i32 { mag: 0, sign: false });
     data.append(i32 { mag: 0, sign: false });
     data.append(i32 { mag: 1, sign: false });
+    data.append(i32 { mag: 0, sign: false });
     TensorTrait::new(shape.span(), data.span())
 }

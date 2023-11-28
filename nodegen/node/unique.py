@@ -1,12 +1,16 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 from typing import Optional
 
 
 def _unsort_outputs(
-    x: np.ndarray, axis: Optional[int], unique_values: np.ndarray,
-    indices: np.ndarray, inverse_indices: np.ndarray, counts: np.ndarray
+    x: np.ndarray,
+    axis: Optional[int],
+    unique_values: np.ndarray,
+    indices: np.ndarray,
+    inverse_indices: np.ndarray,
+    counts: np.ndarray,
 ) -> (np.ndarray, np.ndarray, np.ndarray, np.ndarray):
     """Unsort the result of np.unique().
 
@@ -63,11 +67,7 @@ class Unique(RunAll):
             )
 
         def example_two():
-            x = np.array(
-                [[1, 0, 0],
-                 [1, 0, 0],
-                 [2, 3, 4]]
-            ).astype(np.uint32)
+            x = np.array([[1, 0, 0], [1, 0, 0], [2, 3, 4], [1, 0, 0]]).astype(np.uint32)
             axis = 0
 
             unique_values, indices, inverse_indices, counts = np.unique(
@@ -270,10 +270,9 @@ class Unique(RunAll):
             )
 
         def with_axis_one_not_sorted_custom():
-            x = np.array(
-                [[1, 0, 0, 2, 2, 4, 2],
-                 [1, 0, 0, 1, 2, 3, 1]]
-            ).astype(np.uint32)
+            x = np.array([[1, 0, 0, 2, 2, 4, 2], [1, 0, 0, 1, 2, 3, 1]]).astype(
+                np.uint32
+            )
             axis = 1
 
             unique_values, indices, inverse_indices, counts = np.unique(
@@ -325,11 +324,11 @@ class Unique(RunAll):
             )
             unique_values = unique_values.astype(np.float16)
 
-            x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP16x16))
+            x = Tensor(Dtype.FP16x16, x.shape, to_fp(x.flatten(), FixedImpl.FP16x16))
             unique_values = Tensor(
-                Dtype.FP16x16, unique_values.shape, to_fp(
-                    unique_values.flatten(), FixedImpl.FP16x16)
+                Dtype.FP16x16,
+                unique_values.shape,
+                to_fp(unique_values.flatten(), FixedImpl.FP16x16),
             )
             indices = Tensor(Dtype.I32, indices.shape, indices.flatten())
             inverse_indices = Tensor(
@@ -357,11 +356,11 @@ class Unique(RunAll):
             )
             unique_values = unique_values.astype(np.float16)
 
-            x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-                x.flatten(), FixedImpl.FP16x16))
+            x = Tensor(Dtype.FP16x16, x.shape, to_fp(x.flatten(), FixedImpl.FP16x16))
             unique_values = Tensor(
-                Dtype.FP16x16, unique_values.shape, to_fp(
-                    unique_values.flatten(), FixedImpl.FP16x16)
+                Dtype.FP16x16,
+                unique_values.shape,
+                to_fp(unique_values.flatten(), FixedImpl.FP16x16),
             )
             indices = Tensor(Dtype.I32, indices.shape, indices.flatten())
             inverse_indices = Tensor(

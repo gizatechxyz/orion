@@ -59,8 +59,7 @@ fn unique_flatten<
     let mut inverse_indices: Array<i32> = array![];
     let mut count: Array<i32> = array![];
 
-    let mut data_cpy = *t.data;
-    let mut unique_elements = data_cpy.unique();
+    let mut unique_elements = (*t.data).unique();
     let mut new_shape: Array<usize> = array![unique_elements.len()];
 
     // TODO: investigate why calling merge before the next 2 loops
@@ -116,7 +115,6 @@ fn unique_along_axis<
 >(
     t: @Tensor<T>, axis: usize, sorted: bool
 ) -> (Span<T>, Span<usize>, Span<i32>, Span<i32>, Span<i32>) {
-    let mut unique_tensors: Array<Tensor<T>> = array![];
     let mut new_shape: Array<usize> = array![];
     let mut indices: Array<i32> = array![];
     let mut inverse_indices: Array<i32> = array![];
@@ -147,8 +145,8 @@ fn unique_along_axis<
         // unique_tensors = merge(unique_tensors);
         unique_tensors = unique_tensors;
     }
-    let mut unique_tensors_span = unique_tensors.span();
     let mut all_tensors_span = all_tensors.span();
+    let mut unique_tensors_span = unique_tensors.span();
     loop {
         match unique_tensors_span.pop_front() {
             Option::Some(t) => {
