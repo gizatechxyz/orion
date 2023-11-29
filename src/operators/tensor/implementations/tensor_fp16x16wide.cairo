@@ -265,7 +265,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         axis: usize
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
-    }    
+    }
 
     fn qlinear_leakyrelu(
         self: @Tensor<i8>,
@@ -373,17 +373,19 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     }
 
     fn sequence_length(self: Array<Tensor<FP16x16W>>) -> Tensor<u32> {
-	math::sequence_length::sequence_length(self) 
+        math::sequence_length::sequence_length(self)
     }
-    
-    fn shrink(self: Tensor<FP16x16W>, bias: Option<FP16x16W>, lambd: Option<FP16x16W>) -> Tensor<FP16x16W> {
-        math::shrink::shrink(self, bias, lambd) 
+
+    fn shrink(
+        self: Tensor<FP16x16W>, bias: Option<FP16x16W>, lambd: Option<FP16x16W>
+    ) -> Tensor<FP16x16W> {
+        math::shrink::shrink(self, bias, lambd)
     }
-    
+
     fn sequence_at(sequence: Array<Tensor<FP16x16W>>, position: Tensor<i32>) -> Tensor<FP16x16W> {
         math::sequence_at::sequence_at(sequence, position)
     }
-    
+
     fn sequence_construct(tensors: Array<Tensor<FP16x16W>>) -> Array<Tensor<FP16x16W>> {
         math::sequence_construct::sequence_construct(tensors)
     }
@@ -413,13 +415,17 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn pow(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
         math::pow::pow(self, other)
     }
-    
-    fn sequence_erase(sequence: Array<Tensor<FP16x16W>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP16x16W>> {
+
+    fn sequence_erase(
+        sequence: Array<Tensor<FP16x16W>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP16x16W>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }
-    
-    fn sequence_insert(self: Array<Tensor<FP16x16W>>, tensor: @Tensor<FP16x16W>, position: Option<Tensor<i32>>) -> Array<Tensor<FP16x16W>> {
-	math::sequence_insert::sequence_insert(self, tensor, position)
+
+    fn sequence_insert(
+        self: Array<Tensor<FP16x16W>>, tensor: @Tensor<FP16x16W>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP16x16W>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
     }
 }
 

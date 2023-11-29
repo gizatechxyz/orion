@@ -4291,7 +4291,9 @@ trait TensorTrait<T> {
     /// >>> [[1], [2], [3]]
     /// ```
     ///
-    fn sequence_insert(self: Array<Tensor<T>>, tensor: @Tensor<T>, position: Option<Tensor<i32>>) -> Array<Tensor<T>>;
+    fn sequence_insert(
+        self: Array<Tensor<T>>, tensor: @Tensor<T>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<T>>;
     /// ## tensor.sequence_at
     ///
     /// ```rust 
@@ -4387,7 +4389,9 @@ trait TensorTrait<T> {
     /// >>> [[0, 1, 2, 3], [8, 9, 10, 11]]
     /// ```
     ///
-    fn sequence_erase(sequence: Array<Tensor<T>>, position: Option<Tensor<i32>>) -> Array<Tensor<T>>;
+    fn sequence_erase(
+        sequence: Array<Tensor<T>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<T>>;
     /// #tensor.pow
     ///
     /// ```rust

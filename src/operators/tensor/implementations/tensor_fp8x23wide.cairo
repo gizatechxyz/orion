@@ -359,22 +359,24 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     }
 
     fn sequence_length(self: Array<Tensor<FP8x23W>>) -> Tensor<u32> {
-	math::sequence_length::sequence_length(self)
+        math::sequence_length::sequence_length(self)
     }
-    
-    fn shrink(self: Tensor<FP8x23W>, bias: Option<FP8x23W>, lambd: Option<FP8x23W>) -> Tensor<FP8x23W> {
-        math::shrink::shrink(self, bias, lambd) 
+
+    fn shrink(
+        self: Tensor<FP8x23W>, bias: Option<FP8x23W>, lambd: Option<FP8x23W>
+    ) -> Tensor<FP8x23W> {
+        math::shrink::shrink(self, bias, lambd)
     }
-    
+
     fn sequence_at(sequence: Array<Tensor<FP8x23W>>, position: Tensor<i32>) -> Tensor<FP8x23W> {
         math::sequence_at::sequence_at(sequence, position)
     }
-    
+
     fn sequence_construct(tensors: Array<Tensor<FP8x23W>>) -> Array<Tensor<FP8x23W>> {
         math::sequence_construct::sequence_construct(tensors)
     }
 
-  
+
     fn sequence_empty() -> Array<Tensor<FP8x23W>> {
         math::sequence_empty::sequence_empty::<FP8x23W>()
     }
@@ -400,13 +402,17 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn pow(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         math::pow::pow(self, other)
     }
-    
-    fn sequence_erase(sequence: Array<Tensor<FP8x23W>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23W>> {
+
+    fn sequence_erase(
+        sequence: Array<Tensor<FP8x23W>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP8x23W>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }
-    
-    fn sequence_insert(self: Array<Tensor<FP8x23W>>, tensor: @Tensor<FP8x23W>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23W>> {
-	math::sequence_insert::sequence_insert(self, tensor, position)
+
+    fn sequence_insert(
+        self: Array<Tensor<FP8x23W>>, tensor: @Tensor<FP8x23W>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP8x23W>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
     }
 }
 
