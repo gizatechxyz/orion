@@ -56,6 +56,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.min`](tensor.min.md) | Returns the minimum value in the tensor. |
 | [`tensor.max`](tensor.max.md) | Returns the maximum value in the tensor. |
 | [`tensor.reduce_sum`](tensor.reduce\_sum.md) | Reduces a tensor by summing its elements along a specified axis. |
+| [`tensor.reduce_prod`](tensor.reduce\_prod.md) | Reduces a tensor to its products along specified axis. |
 | [`tensor.argmax`](tensor.argmax.md) | Returns the index of the maximum value along the specified axis. |
 | [`tensor.argmin`](tensor.argmin.md) | Returns the index of the minimum value along the specified axis. |
 | [`tensor.cumsum`](tensor.cumsum.md) | Performs cumulative sum of the input elements along the given axis. |
