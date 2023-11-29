@@ -114,6 +114,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.binarizer`](tensor.binarizer.md) | Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value. |
 | [`tensor.array_feature_extractor`](tensor.array\_feature\_extractor.md) | Selects elements of the input tensor based on the indices passed applied to the last tensor axis. |
 | [`tensor.reduce_min`](tensor.reduce\_min.md) | Computes the min of the input tensor's elements along the provided axes. |
+| [`tensor.concat_from_sequence`](tensor.concat\_from\_sequence.md) | Concatenate a sequence of tensors into a single tensor. |
 
 ## Arithmetic Operations
 

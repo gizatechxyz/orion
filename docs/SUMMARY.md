@@ -114,6 +114,7 @@
     * [tensor.pow](framework/operators/tensor/tensor.pow.md)
     * [tensor.sequence\_erase](framework/operators/tensor/tensor.sequence\_erase.md)
     * [tensor.sequence\_insert](framework/operators/tensor/tensor.sequence\_insert.md)
+    * [tensor.concat\_from\_sequence](framework/operators/tensor/tensor.concat\_from\_sequence.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)
