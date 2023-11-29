@@ -14,9 +14,9 @@ fn concat_from_sequence<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T
 ) -> Tensor<T> {
 
     let new_axis: usize = match new_axis {
-        Option::Some(p) => {
-            assert(p == 0 || p == 1, 'new_axis must be 0 or 1');
-            p
+        Option::Some(val) => {
+            assert(val == 0 || val == 1, 'new_axis must be 0 or 1');
+            val
         },
         Option::None(_) => 0
     };
