@@ -1100,6 +1100,9 @@ trait FixedTrait<T, MAG> {
     fn sign(self: T) -> T;
 
     fn ZERO() -> T;
+    fn HALF() -> T;
     fn ONE() -> T;
     fn MAX() -> T;
+    fn NaN() -> T;
+    fn is_nan(self: T) -> bool;
 }
