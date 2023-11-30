@@ -42,3 +42,7 @@ fn bitwise_and(a: FP64x64, b: FP64x64) -> FP64x64 {
 fn bitwise_xor(a: FP64x64, b: FP64x64) -> FP64x64 {
     return FixedTrait::new(a.mag ^ b.mag, a.sign ^ b.sign);
 }
+
+fn bitwise_or(a: FP64x64, b: FP64x64) -> FP64x64 {
+    return FixedTrait::new(a.mag | b.mag, a.sign | b.sign);
+}

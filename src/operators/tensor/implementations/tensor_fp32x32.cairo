@@ -302,7 +302,20 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
             NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )
-    }    
+    }
+
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<FP32x32>, a_zero_point: @Tensor<FP32x32>, alpha: FP32x32
+    ) -> Tensor::<i8> {
+        quantization::qlinear_leakyrelu::qlinear_leakyrelu(
+            self,
+            a_scale,
+            a_zero_point,
+            alpha,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
 
     fn slice(
         self: @Tensor<FP32x32>,
@@ -359,6 +372,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn bitwise_xor(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::bitwise_xor::bitwise_xor(self, other)
     }
+    
+    fn bitwise_or(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::bitwise_or::bitwise_or(self, other)
+    }
 
     fn round(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::round::round(*self)
@@ -398,18 +415,26 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 
-    fn sequence_length(self: Array<Tensor<FP32x32>>) -> Tensor<u32> {
-	math::sequence_length::sequence_length(self)
+    fn gather_elements(
+        self: @Tensor<FP32x32>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP32x32> {
+        math::gather_elements::gather_elements(self, indices, axis)
     }
     
-    fn shrink(self: Tensor<FP32x32>, bias: Option<FP32x32>, lambd: Option<FP32x32>) -> Tensor<FP32x32> {
+    fn sequence_length(self: Array<Tensor<FP32x32>>) -> Tensor<u32> {
+        math::sequence_length::sequence_length(self)
+    }
+
+    fn shrink(
+        self: Tensor<FP32x32>, bias: Option<FP32x32>, lambd: Option<FP32x32>
+    ) -> Tensor<FP32x32> {
         math::shrink::shrink(self, bias, lambd)
     }
-    
+
     fn sequence_at(sequence: Array<Tensor<FP32x32>>, position: Tensor<i32>) -> Tensor<FP32x32> {
         math::sequence_at::sequence_at(sequence, position)
     }
-    
+
     fn sequence_construct(tensors: Array<Tensor<FP32x32>>) -> Array<Tensor<FP32x32>> {
         math::sequence_construct::sequence_construct(tensors)
     }
@@ -439,13 +464,25 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn pow(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::pow::pow(self, other)
     }
-    
-    fn sequence_erase(sequence: Array<Tensor<FP32x32>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP32x32>> {
+
+    fn sequence_erase(
+        sequence: Array<Tensor<FP32x32>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP32x32>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }
-    
-    fn sequence_insert(self: Array<Tensor<FP32x32>>, tensor: @Tensor<FP32x32>, position: Option<Tensor<i32>>) -> Array<Tensor<FP32x32>> {
-	math::sequence_insert::sequence_insert(self, tensor, position)
+
+    fn sequence_insert(
+        self: Array<Tensor<FP32x32>>, tensor: @Tensor<FP32x32>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP32x32>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
+    }
+
+    fn is_inf(self: @Tensor<FP32x32>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+        math::is_inf::is_inf(self, detect_negative, detect_positive)
+    }
+
+    fn is_nan(self: @Tensor<FP32x32>) -> Tensor<bool> {
+	math::is_nan::is_nan(self)
     }
 }
 
