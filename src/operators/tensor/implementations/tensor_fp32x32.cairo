@@ -412,10 +412,6 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Tensor<FP32x32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
-
-    fn sequence_construct(tensors: Array<Tensor<FP32x32>>) -> Array<Tensor<FP32x32>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
     
     fn sequence_length(self: Array<Tensor<FP32x32>>) -> Tensor<u32> {
         math::sequence_length::sequence_length(self)
