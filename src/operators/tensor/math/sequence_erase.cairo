@@ -7,12 +7,9 @@ use orion::numbers::NumberTrait;
 use orion::numbers::signed_integer::i32::i32;
 
 /// Cf: TensorTrait::sequence_erase docstring
-fn sequence_erase<
-    T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>
->(
+fn sequence_erase<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     sequence: Array<Tensor<T>>, position: Option<Tensor<i32>>
 ) -> Array<Tensor<T>> {
-
     let position: Tensor<i32> = match position {
         Option::Some(p) => p,
         Option::None(_) => {
@@ -29,7 +26,11 @@ fn sequence_erase<
     let is_negative: bool = position_value_i32.sign;
     let mut position_value: u32 = position_value_i32.mag;
 
-    assert((is_negative == false && position_value <= sequence.len() - 1) || (is_negative == true && position_value <= sequence.len()), 'Position out of bounds');
+    assert(
+        (is_negative == false && position_value <= sequence.len() - 1)
+            || (is_negative == true && position_value <= sequence.len()),
+        'Position out of bounds'
+    );
 
     if is_negative == true {
         position_value = sequence.len() - position_value;

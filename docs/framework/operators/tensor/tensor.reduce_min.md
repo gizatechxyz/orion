@@ -33,7 +33,7 @@ fn reduce_min_example() -> Tensor<u32> {
         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
     );
 
-    // We can call `reduce_mean` function as follows.
+    // We can call `reduce_min` function as follows.
     return tensor.reduce_min(axes: array![1].span(), 
         keepdims: Option::None(()), 
         noop_with_empty_axes:  Option::None(()));

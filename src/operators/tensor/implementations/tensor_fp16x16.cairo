@@ -61,6 +61,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::reduce_sum::reduce_sum(self, axis, keepdims)
     }
 
+    fn reduce_prod(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
+        math::reduce_prod::reduce_prod(self, axis, keepdims)
+    }
+
     fn argmax(
         self: @Tensor<FP16x16>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {
@@ -303,6 +307,19 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         )
     }
 
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<FP16x16>, a_zero_point: @Tensor<FP16x16>, alpha: FP16x16
+    ) -> Tensor::<i8> {
+        quantization::qlinear_leakyrelu::qlinear_leakyrelu(
+            self,
+            a_scale,
+            a_zero_point,
+            alpha,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn slice(
         self: @Tensor<FP16x16>,
         starts: Span<usize>,
@@ -355,6 +372,14 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::bitwise_and::bitwise_and(self, other)
     }
 
+    fn bitwise_xor(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::bitwise_xor::bitwise_xor(self, other)
+    }
+    
+    fn bitwise_or(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::bitwise_or::bitwise_or(self, other)
+    }
+
     fn round(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::round::round(*self)
     }
@@ -393,23 +418,29 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
-    fn sequence_length(self: Array<Tensor<FP16x16>>) -> Tensor<u32> {
-	math::sequence_length::sequence_length(self)
+    fn gather_elements(
+        self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP16x16> {
+        math::gather_elements::gather_elements(self, indices, axis)
     }
-    
-    fn shrink(self: Tensor<FP16x16>, bias: Option<FP16x16>, lambd: Option<FP16x16>) -> Tensor<FP16x16> {
+
+    fn sequence_length(self: Array<Tensor<FP16x16>>) -> Tensor<u32> {
+        math::sequence_length::sequence_length(self)
+    }
+
+    fn shrink(
+        self: Tensor<FP16x16>, bias: Option<FP16x16>, lambd: Option<FP16x16>
+    ) -> Tensor<FP16x16> {
         math::shrink::shrink(self, bias, lambd)
     }
-    
+
     fn sequence_at(sequence: Array<Tensor<FP16x16>>, position: Tensor<i32>) -> Tensor<FP16x16> {
         math::sequence_at::sequence_at(sequence, position)
     }
-    
+
     fn sequence_construct(tensors: Array<Tensor<FP16x16>>) -> Array<Tensor<FP16x16>> {
         math::sequence_construct::sequence_construct(tensors)
     }
-
-  
 
     fn sequence_empty() -> Array<Tensor<FP16x16>> {
         math::sequence_empty::sequence_empty::<FP16x16>()
@@ -436,13 +467,25 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn pow(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::pow::pow(self, other)
     }
-    
-    fn sequence_erase(sequence: Array<Tensor<FP16x16>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP16x16>> {
+
+    fn sequence_erase(
+        sequence: Array<Tensor<FP16x16>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP16x16>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }
-    
-    fn sequence_insert(self: Array<Tensor<FP16x16>>, tensor: @Tensor<FP16x16>, position: Option<Tensor<i32>>) -> Array<Tensor<FP16x16>> {
-	math::sequence_insert::sequence_insert(self, tensor, position)
+
+    fn sequence_insert(
+        self: Array<Tensor<FP16x16>>, tensor: @Tensor<FP16x16>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP16x16>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
+    }
+
+    fn is_inf(self: @Tensor<FP16x16>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+        math::is_inf::is_inf(self, detect_negative, detect_positive)
+    }
+
+    fn is_nan(self: @Tensor<FP16x16>) -> Tensor<bool> {
+	math::is_nan::is_nan(self)
     }
 
     fn concat_from_sequence(sequence: Array<Tensor<FP16x16>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP16x16> {
