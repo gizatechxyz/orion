@@ -1,5 +1,6 @@
 mod fixed_point;
 mod signed_integer;
+mod complex_number;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
