@@ -80,6 +80,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// qlinear_mul - Performs the element-wise multiplication of quantized Tensors.
 /// qlinear_matmul - Performs the product of two quantized i8 Tensors.
 /// qlinear_concat - Concatenate a list of tensors after dequantizing them with their respective scales and zero_points and returns the quantized result.
+/// qlinear_leakyrelu - Applies the Leaky Relu operator to a quantized Tensor
 /// gather - Gather entries of the axis dimension of data.
 /// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
 /// squeeze - Removes dimensions of size 1 from the shape of a tensor.
@@ -96,6 +97,11 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
+/// gather_elements - GatherElements is an indexing operation that produces its output by indexing into the input data tensor at index positions determined by elements of the indices tensor.
+/// reduce_min - Computes the min of the input tensor's elements along the provided axes.
+/// sequence_construct – Constructs a tensor sequence containing the input tensors.
+/// shrink – Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula.
+/// sequence_empty - Returns an empty tensor sequence.
 /// sequence_length - Returns the length of the input sequence.
 /// sequence_insert - Insert a tensor into a sequence.
 /// sequence_at - Outputs the tensor at the specified position in the input sequence.
@@ -109,7 +115,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// array_feature_extractor - Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
 /// reduce_min - Computes the min of the input tensor's elements along the provided axes.
 /// is_nan - Returns which elements of the input are NaN.
-/// 
+/// is_inf - Maps infinity to true and other values to false.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -3012,6 +3018,84 @@ trait TensorTrait<T> {
         y_zero_point: @Tensor<T>,
         axis: usize
     ) -> Tensor::<i8>;
+    /// # tensor.qlinear_leakyrelu
+    /// 
+    /// ```rust
+    ///     fn qlinear_leakyrelu(self: @Tensor<i8>, a_scale: @Tensor<T>, a_zero_point: @Tensor<T>, alpha: T) -> Tensor::<i8>;
+    /// ```
+    /// 
+    /// Applies the Leaky Relu operator to a quantized Tensor
+    ///
+    /// QLinar LeakyRelu takes as input a quantized Tensor, its scale and zero point and an scalar alpha, and produces one output data (a quantized Tensor)
+    /// where the function `f(x) = alpha * x for x < 0, f(x) = x for x >= 0`, is applied to the data tensor elementwise.
+    /// The quantization formula is y = saturate((x / y_scale) + y_zero_point).
+    /// Scale and zero point must have same shape and the same type. They must be either scalar (per tensor) or N-D tensor (per row for 'a' and per column for 'b'). 
+    /// Scalar refers to per tensor quantization whereas N-D refers to per row or per column quantization.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<i8>`) - The first tensor to be multiplied (a).
+    /// * `a_scale`(`@Tensor<T>`) - Scale for input `a`.
+    /// * `a_zero_point`(`@Tensor<T>`) - Zero point for input `a`.
+    /// * `alpha`(`T`) - The factor multiplied to negative elements.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<i8>`, containing result of the Leaky Relu.
+    ///
+    /// ## Type Constraints
+    ///
+    /// u32 tensor, not supported.
+    /// fp8x23wide tensor, not supported.
+    /// fp16x16wide tensor, not supported.
+    /// bool tensor, not supported.
+    ///  
+    /// ## Example
+    /// 
+    /// ```rust
+
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
+    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// 
+    /// 
+    /// fn qlinear_leakyrelu_example() -> Tensor<i8> {
+    ///     let a = TensorTrait::<
+    ///         i8
+    ///     >::new(
+    ///         shape: array![2, 3].span(),
+    ///         data: array![
+    ///             IntegerTrait::<i8>::new(10_u8, true),
+    ///             IntegerTrait::<i8>::new(10_u8, true),
+    ///             IntegerTrait::<i8>::new(10_u8, true),
+    ///             IntegerTrait::<i8>::new(10_u8, false),
+    ///             IntegerTrait::<i8>::new(10_u8, false),
+    ///             IntegerTrait::<i8>::new(10_u8, false)
+    ///         ]
+    ///             .span(),
+    ///     );
+    ///     
+    ///     let a_scale = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(327680, false)].span(),);
+    ///     let a_zero_point = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(131072, false)].span(),);
+    /// 
+    ///     let alpha = FixedTrait::<FP16x16>::new(655360, false);
+    /// 
+    ///     return = a
+    ///         .qlinear_leakyrelu(
+    ///             @a_scale, @a_zero_point, alpha
+    ///         );
+    /// }
+    /// 
+    /// >>> [[-118, -118, -118], [10, 10, 10]]
+    ///
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<T>, a_zero_point: @Tensor<T>, alpha: T
+    ) -> Tensor::<i8>;
     /// # tensor.slice
     ///
     /// ```rust 
@@ -3834,6 +3918,55 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn constant_of_shape(shape: Span<usize>, value: T) -> Tensor<T>;
+    /// # tensor.gather_elements
+    ///
+    /// ```rust 
+    ///    fn gather_elements(self: @Tensor<T>, indices: Tensor<T>, axis: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// GatherElements is an indexing operation that produces its output by indexing into the input data tensor at index positions determined by elements of the indices tensor.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `indices`(`Tensor<T>`) - Tensor of indices.
+    /// * `axis`(`Option<usize>`) - Axis to gather_elements on. Default: axis=0.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if index values are not within bounds [-s, s-1] along axis of size s.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` .
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn gather_elements_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), 
+    ///         data: array![[ 1, 2, 3],[4, 5, 6], [7, 8, 9]].span(), 
+    ///     );
+    ///     let indices = TensorTrait::<u32>::new(
+    ///         shape: array![1, 2, 0].span(), 
+    ///         data: array![2, 0, 0].span(), 
+    ///     );
+    /// 
+    ///     return tensor.gather_elements(
+    ///         indices: indices, 
+    ///         axis: Option::None(()), 
+    ///     );
+    /// }
+    /// >>> [[4. 8. 3.]
+    ///      [7. 2. 3.]]
+    /// ```
+    ///
+    fn gather_elements(self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<T>;
     /// # tensor.binarizer
     /// 
     /// ```rust
@@ -3902,12 +4035,6 @@ trait TensorTrait<T> {
     /// ## Returns
     ///
     /// A new `Tensor<T>` of the same shape as the input tensor with selected elements based on provided indices.
-    ///
-    /// ## Example
-    ///
-    /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
-    /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
     /// use orion::numbers::{i32, IntegerTrait};
     /// 
@@ -4213,7 +4340,9 @@ trait TensorTrait<T> {
     /// >>> [[1], [2], [3]]
     /// ```
     ///
-    fn sequence_insert(self: Array<Tensor<T>>, tensor: @Tensor<T>, position: Option<Tensor<i32>>) -> Array<Tensor<T>>;
+    fn sequence_insert(
+        self: Array<Tensor<T>>, tensor: @Tensor<T>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<T>>;
     /// ## tensor.sequence_at
     ///
     /// ```rust 
@@ -4309,7 +4438,9 @@ trait TensorTrait<T> {
     /// >>> [[0, 1, 2, 3], [8, 9, 10, 11]]
     /// ```
     ///
-    fn sequence_erase(sequence: Array<Tensor<T>>, position: Option<Tensor<i32>>) -> Array<Tensor<T>>;
+    fn sequence_erase(
+        sequence: Array<Tensor<T>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<T>>;
     /// #tensor.pow
     ///
     /// ```rust
@@ -4417,6 +4548,40 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn sequence_length(self: Array<Tensor<T>>) -> Tensor<u32>;
+    /// ## tensor.is_inf
+    ///
+    /// ```rust
+    ///    fn is_inf(self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool>;
+    /// ```
+    ///
+    /// Maps infinity to true and other values to false.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `detect_negative`(`Option<u8>`) - Optional Whether map negative infinity to true. Default to 1 so that negative infinity induces true.
+    /// * `detect_positive`(`Option<u8>`) - Optional Whether map positive infinity to true. Default to 1 so that positive infinity induces true.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<bool>` instance with entries set to true iff the input tensors corresponding element was infinity.
+    ///
+    /// ## Examples
+    ///
+    /// use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, U32Tensor};
+    ///
+    /// fn is_inf_example() -> Tensor<bool> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![6].span(), data: array![1, 0, NumberTrait::INF(), 8, NumberTrait::INF(), NumberTrait::INF()].span(),
+    ///     );
+    ///
+    ///     return tensor.is_inf(detect_negative: Option::None, detect_positive: Option::None);
+    /// }
+    /// >>> [false, false, true, false, true, true]
+    /// ```
+    ///
+    fn is_inf(self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool>;
     /// ## tensor.is_nan
     ///
     /// ```rust

@@ -283,7 +283,7 @@ impl BoolTensor of TensorTrait<bool> {
         y_scale: @Tensor<bool>,
         y_zero_point: @Tensor<bool>
     ) -> Tensor::<i8> {
-            panic(array!['not supported!'])
+        panic(array!['not supported!'])
     }
 
     fn qlinear_concat(
@@ -296,6 +296,12 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
     }
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<bool>, a_zero_point: @Tensor<bool>, alpha: bool,
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
 
     fn round(self: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
@@ -335,10 +341,14 @@ impl BoolTensor of TensorTrait<bool> {
         constant_of_shape(shape, value)
     }
 
-    fn sequence_length(self: Array<Tensor<bool>>) -> Tensor<u32> {
-	math::sequence_length::sequence_length(self)
+    fn gather_elements(self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
+        math::gather_elements::gather_elements(self, indices, axis)
     }
     
+    fn sequence_length(self: Array<Tensor<bool>>) -> Tensor<u32> {
+        math::sequence_length::sequence_length(self)
+    }
+
     fn sequence_at(sequence: Array<Tensor<bool>>, position: Tensor<i32>) -> Tensor<bool> {
         math::sequence_at::sequence_at(sequence, position)
     }
@@ -384,13 +394,21 @@ impl BoolTensor of TensorTrait<bool> {
     fn pow(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
-    
-    fn sequence_erase(sequence: Array<Tensor<bool>>, position: Option<Tensor<i32>>) -> Array<Tensor<bool>> {
+
+    fn sequence_erase(
+        sequence: Array<Tensor<bool>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<bool>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }
-    
-    fn sequence_insert(self: Array<Tensor<bool>>, tensor: @Tensor<bool>, position: Option<Tensor<i32>>) -> Array<Tensor<bool>> {
-	    math::sequence_insert::sequence_insert(self, tensor, position)
+
+    fn sequence_insert(
+        self: Array<Tensor<bool>>, tensor: @Tensor<bool>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<bool>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
+    }
+
+    fn is_inf(self: @Tensor<bool>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+        panic(array!['not supported!'])
     }
 
     fn is_nan(self: @Tensor<bool>) -> Tensor<bool> {

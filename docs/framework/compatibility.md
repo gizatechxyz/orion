@@ -60,6 +60,7 @@ You can see below the list of current supported ONNX Operators:
 |   [QLinearConcat](operators/tensor/tensor.qlinear\_concat.md)       | :white\_check\_mark: |
 |   [QlinearAdd](operators/tensor/tensor.qlinear\_add.md)             | :white\_check\_mark: |
 |   [QlinearMul](operators/tensor/tensor.qlinear\_mul.md)             | :white\_check\_mark: |
+|   [QLinearLeakyRelu](operators/tensor/tensor.qlinear\_leakyrelu.md) | :white\_check\_mark: |
 |            [Nonzero](operators/tensor/tensor.nonzero.md)            | :white\_check\_mark: |
 |            [Squeeze](operators/tensor/tensor.squeeze.md)            | :white\_check\_mark: |
 |          [Unsqueeze](operators/tensor/tensor.unsqueeze.md)          | :white\_check\_mark: |
@@ -85,6 +86,7 @@ You can see below the list of current supported ONNX Operators:
 |   [ConstantOfShape](operators/tensor/tensor.constant_of_shape.md)   | :white\_check\_mark: |
 |          [ReduceL1](operators/tensor/tensor.reduce\_l1.md)          | :white\_check\_mark: |
 |         [ReduceL2](operators/tensor/tensor.reduce\_l2.md)           | :white\_check\_mark: |
+|    [GatherElements](operators/tensor/tensor.gather/_elements.md)   | :white\_check\_mark: |
 |         [SequenceLength](operators/tensor/tensor.sequence\_length.md)   | :white\_check\_mark: |
 |        [SequenceAt](operators/tensor/tensor.sequence\_at.md)        | :white\_check\_mark: |
 | [SequenceConstruct](operators/tensor/tensor.sequence\_construct.md) | :white\_check\_mark: |
@@ -94,5 +96,6 @@ You can see below the list of current supported ONNX Operators:
 |    [SequenceErase](operators/tensor/tensor.sequence\_erase.md)      | :white\_check\_mark: |
 |         [SequenceInsert](operators/tensor/tensor.sequence\_insert.md)   | :white\_check\_mark: |
 |         [IsNaN](operators/tensor/tensor.is\_nan.md)                 | :white\_check\_mark: |
+|          [IsInf](operators/tensor/tensor.is\_inf.md)                | :white\_check\_mark: |
 
-Current Operators support: **83/156 (53%)**
+Current Operators support: **88/156 (56%)**

@@ -261,6 +261,12 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<FP8x23W>, a_zero_point: @Tensor<FP8x23W>, alpha: FP8x23W
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn slice(
         self: @Tensor<FP8x23W>,
         starts: Span<usize>,
@@ -352,23 +358,31 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn gather_elements(
+        self: @Tensor<FP8x23W>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP8x23W> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+
     fn sequence_length(self: Array<Tensor<FP8x23W>>) -> Tensor<u32> {
-	math::sequence_length::sequence_length(self)
+        math::sequence_length::sequence_length(self)
     }
-    
-    fn shrink(self: Tensor<FP8x23W>, bias: Option<FP8x23W>, lambd: Option<FP8x23W>) -> Tensor<FP8x23W> {
-        math::shrink::shrink(self, bias, lambd) 
+
+    fn shrink(
+        self: Tensor<FP8x23W>, bias: Option<FP8x23W>, lambd: Option<FP8x23W>
+    ) -> Tensor<FP8x23W> {
+        math::shrink::shrink(self, bias, lambd)
     }
-    
+
     fn sequence_at(sequence: Array<Tensor<FP8x23W>>, position: Tensor<i32>) -> Tensor<FP8x23W> {
         math::sequence_at::sequence_at(sequence, position)
     }
-    
+
     fn sequence_construct(tensors: Array<Tensor<FP8x23W>>) -> Array<Tensor<FP8x23W>> {
         math::sequence_construct::sequence_construct(tensors)
     }
 
-  
+
     fn sequence_empty() -> Array<Tensor<FP8x23W>> {
         math::sequence_empty::sequence_empty::<FP8x23W>()
     }
@@ -394,13 +408,21 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn pow(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         math::pow::pow(self, other)
     }
-    
-    fn sequence_erase(sequence: Array<Tensor<FP8x23W>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23W>> {
+
+    fn sequence_erase(
+        sequence: Array<Tensor<FP8x23W>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP8x23W>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }
-    
-    fn sequence_insert(self: Array<Tensor<FP8x23W>>, tensor: @Tensor<FP8x23W>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23W>> {
-	math::sequence_insert::sequence_insert(self, tensor, position)
+
+    fn sequence_insert(
+        self: Array<Tensor<FP8x23W>>, tensor: @Tensor<FP8x23W>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP8x23W>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
+    }
+
+    fn is_inf(self: @Tensor<FP8x23W>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+	math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
     fn is_nan(self: @Tensor<FP8x23W>) -> Tensor<bool> {
