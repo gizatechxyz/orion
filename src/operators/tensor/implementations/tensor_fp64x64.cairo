@@ -369,6 +369,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::bitwise_and::bitwise_and(self, other)
     }
 
+    fn bitwise_or(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::bitwise_or::bitwise_or(self, other)
+    }
+
     fn round(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
         math::round::round(*self)
     }

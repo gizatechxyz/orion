@@ -505,3 +505,8 @@ fn i16_sign(a: i16) -> i16 {
 fn i16_bitwise_and(a: i16, b: i16) -> i16 {
     IntegerTrait::<i16>::new(a.mag & b.mag, a.sign & b.sign)
 }
+
+fn i16_bitwise_or(a: i16, b: i16) -> i16 {
+    IntegerTrait::<i16>::new(a.mag | b.mag, a.sign | b.sign)
+}
+
