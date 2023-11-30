@@ -21,6 +21,23 @@ impl BoolTensor of TensorTrait<bool> {
         *at_tensor(self, indices)
     }
 
+    fn add(lhs: Tensor<bool>, rhs: Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn sub(lhs: Tensor<bool>, rhs: Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn mul(lhs: Tensor<bool>, rhs: Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn div(lhs: Tensor<bool>, rhs: Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+
     fn min_in_tensor(self: @Tensor<bool>) -> bool {
         panic(array!['not supported!'])
     }

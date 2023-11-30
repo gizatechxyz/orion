@@ -26,6 +26,22 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         *at_tensor(self, indices)
     }
 
+    fn add(lhs: Tensor<FP64x64>, rhs: Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::arithmetic::add(@lhs, @rhs)
+    }
+
+    fn sub(lhs: Tensor<FP64x64>, rhs: Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::arithmetic::sub(@lhs, @rhs)
+    }
+
+    fn mul(lhs: Tensor<FP64x64>, rhs: Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::arithmetic::mul(@lhs, @rhs)
+    }
+
+    fn div(lhs: Tensor<FP64x64>, rhs: Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::arithmetic::div(@lhs, @rhs)
+    }
+
     fn min_in_tensor(self: @Tensor<FP64x64>) -> FP64x64 {
         math::min_in_tensor::min_in_tensor::<FP64x64, u128>(*self.data)
     }

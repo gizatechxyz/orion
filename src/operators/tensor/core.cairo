@@ -258,6 +258,10 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn min_in_tensor(self: @Tensor<T>) -> T;
+    fn add(lhs: Tensor<T>, rhs: Tensor<T>) -> Tensor<T>;
+    fn sub(lhs: Tensor<T>, rhs: Tensor<T>) -> Tensor<T>;
+    fn mul(lhs: Tensor<T>, rhs: Tensor<T>) -> Tensor<T>;
+    fn div(lhs: Tensor<T>, rhs: Tensor<T>) -> Tensor<T>;
     /// # tensor.min
     ///
     /// ```rust 

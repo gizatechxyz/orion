@@ -26,6 +26,22 @@ impl I32Tensor of TensorTrait<i32> {
         *at_tensor(self, indices)
     }
 
+    fn add(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        math::arithmetic::add(@lhs, @rhs)
+    }
+
+    fn sub(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        math::arithmetic::sub(@lhs, @rhs)
+    }
+
+    fn mul(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        math::arithmetic::mul(@lhs, @rhs)
+    }
+
+    fn div(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        math::arithmetic::div(@lhs, @rhs)
+    }
+
     fn min_in_tensor(self: @Tensor<i32>) -> i32 {
         math::min_in_tensor::min_in_tensor::<i32, u32>(*self.data)
     }

@@ -25,6 +25,22 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         *at_tensor(self, indices)
     }
 
+    fn add(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::arithmetic::add(@lhs, @rhs)
+    }
+
+    fn sub(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::arithmetic::sub(@lhs, @rhs)
+    }
+
+    fn mul(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::arithmetic::mul(@lhs, @rhs)
+    }
+
+    fn div(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::arithmetic::div(@lhs, @rhs)
+    }
+
     fn min_in_tensor(self: @Tensor<FP8x23>) -> FP8x23 {
         math::min_in_tensor::min_in_tensor::<FP8x23, u32>(*self.data)
     }

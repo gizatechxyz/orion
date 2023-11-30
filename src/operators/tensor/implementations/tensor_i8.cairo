@@ -25,6 +25,22 @@ impl I8Tensor of TensorTrait<i8> {
         *at_tensor(self, indices)
     }
 
+    fn add(lhs: Tensor<i8>, rhs: Tensor<i8>) -> Tensor<i8> {
+        math::arithmetic::add(@lhs, @rhs)
+    }
+
+    fn sub(lhs: Tensor<i8>, rhs: Tensor<i8>) -> Tensor<i8> {
+        math::arithmetic::sub(@lhs, @rhs)
+    }
+
+    fn mul(lhs: Tensor<i8>, rhs: Tensor<i8>) -> Tensor<i8> {
+        math::arithmetic::mul(@lhs, @rhs)
+    }
+
+    fn div(lhs: Tensor<i8>, rhs: Tensor<i8>) -> Tensor<i8> {
+        math::arithmetic::div(@lhs, @rhs)
+    }
+
     fn min_in_tensor(self: @Tensor<i8>) -> i8 {
         math::min_in_tensor::min_in_tensor::<i8, u8>(*self.data)
     }

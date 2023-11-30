@@ -21,6 +21,22 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         constant_of_shape(shape, value)
     }
 
+    fn add(lhs: Tensor<FP16x16>, rhs: Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::arithmetic::add(@lhs, @rhs)
+    }
+
+    fn sub(lhs: Tensor<FP16x16>, rhs: Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::arithmetic::sub(@lhs, @rhs)
+    }
+
+    fn mul(lhs: Tensor<FP16x16>, rhs: Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::arithmetic::mul(@lhs, @rhs)
+    }
+
+    fn div(lhs: Tensor<FP16x16>, rhs: Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::arithmetic::div(@lhs, @rhs)
+    }
+
     fn at(self: @Tensor<FP16x16>, indices: Span<usize>) -> FP16x16 {
         *at_tensor(self, indices)
     }

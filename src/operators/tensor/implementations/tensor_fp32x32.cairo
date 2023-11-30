@@ -22,6 +22,22 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         constant_of_shape(shape, value)
     }
 
+    fn add(lhs: Tensor<FP32x32>, rhs: Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::arithmetic::add(@lhs, @rhs)
+    }
+
+    fn sub(lhs: Tensor<FP32x32>, rhs: Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::arithmetic::sub(@lhs, @rhs)
+    }
+
+    fn mul(lhs: Tensor<FP32x32>, rhs: Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::arithmetic::mul(@lhs, @rhs)
+    }
+
+    fn div(lhs: Tensor<FP32x32>, rhs: Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::arithmetic::div(@lhs, @rhs)
+    }
+
     fn at(self: @Tensor<FP32x32>, indices: Span<usize>) -> FP32x32 {
         *at_tensor(self, indices)
     }
