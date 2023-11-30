@@ -120,6 +120,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// concat_from_sequence - Concatenate a sequence of tensors into a single tensor.
 /// is_nan - Returns which elements of the input are NaN.
 /// is_inf - Maps infinity to true and other values to false.
+/// not - Computes the logical negation of all elements in the input tensor.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -4826,6 +4827,47 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn concat_from_sequence(sequence: Array<Tensor<T>>, axis: i32, new_axis: Option<usize>) -> Tensor<T>;
+    /// #tensor.not
+    /// 
+    /// ```rust
+    ///     fn not(self: @Tensor<bool>) -> Tensor<bool;
+    /// ```
+    /// 
+    /// Computes the negation of the elements in the bool type input tensor.
+    /// 
+    /// ## Args
+    /// 
+    /// * `self`(`@Tensor<bool>`) - The input tensor.
+    /// 
+    /// 
+    /// ## Returns
+    /// 
+    /// A new `Tensor<bool>` of the same shape as the input tensor with 
+    /// the negation of all elements in the input tensor.
+    /// 
+    /// ## Example
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
+    /// use orion::numbers::{i32, IntegerTrait};
+    /// 
+    /// fn not_example() -> Tensor<bool> {
+    ///     let tensor = TensorTrait::new(
+    ///         shape: array![3].span(),
+    ///         data: array![
+    ///             true, true, false
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     return tensor.not();
+    /// }
+    /// >>> [true, true, false]
+    /// ```
+    ///
+    fn not(self: @Tensor<T>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

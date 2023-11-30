@@ -418,6 +418,11 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> Tensor<FP64x64> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
+    
+    fn not(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        panic(array!['not supported!'])
+    }
+    
 
     fn gather_elements(
         self: @Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>

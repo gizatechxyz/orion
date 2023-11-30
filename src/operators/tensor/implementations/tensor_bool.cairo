@@ -264,6 +264,10 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn not(self: @Tensor<bool>) -> Tensor<bool> {
+        math::not::not(*self)
+    }
+
     fn qlinear_add(
         self: @Tensor<i8>,
         a_scale: @Tensor<bool>,
@@ -443,7 +447,7 @@ impl BoolTensorPartialEq of PartialEq<Tensor<bool>> {
     }
 }
 
-impl boolTryIntobool of TryInto<bool, bool> {
+impl BoolTryIntobool of TryInto<bool, bool> {
     fn try_into(self: bool) -> Option<bool> {
         Option::Some(self)
     }

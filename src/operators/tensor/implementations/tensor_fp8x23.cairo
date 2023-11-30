@@ -454,6 +454,11 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn array_feature_extractor(self: @Tensor<FP8x23>, indices: Tensor<usize>) -> Tensor<FP8x23> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
+    
+    fn not(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        panic(array!['not supported!'])
+    }
+    
 
     fn reduce_min(
         self: @Tensor<FP8x23>,

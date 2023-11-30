@@ -38,6 +38,7 @@ mod sign;
 mod and;
 mod neg;
 mod where;
+mod not;
 mod round;
 mod scatter;
 mod binarizer;
