@@ -43,6 +43,38 @@ impl i8Impl of IntegerTrait<i8, u8> {
     fn sign(self: i8) -> i8 {
         i8_sign(self)
     }
+
+    fn NaN() -> i8 {
+        return i8 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: i8) -> bool {
+        self == i8 { mag: 0, sign: true }
+    }
+
+    fn INF() -> i8 {
+        return i8 { mag: 255, sign: false };
+    }
+
+    fn POS_INF() -> i8 {
+        return i8 { mag: 255, sign: false };
+    }
+
+    fn NEG_INF() -> i8 {
+        return i8 { mag: 255, sign: true };
+    }
+
+    fn is_inf(self: i8) -> bool {
+        self.mag == 255
+    }
+
+    fn is_pos_inf(self: i8) -> bool {
+	self.is_inf() && !self.sign
+    }
+
+    fn is_neg_inf(self: i8) -> bool {
+	self.is_inf() && self.sign
+    }
 }
 
 // Implements the Into trait for i8.
@@ -549,4 +581,12 @@ fn i8_sign(a: i8) -> i8 {
 
 fn i8_bitwise_and(a: i8, b: i8) -> i8 {
     return IntegerTrait::<i8>::new(a.mag & b.mag, a.sign & b.sign);
+}
+
+fn i8_bitwise_xor(a: i8, b: i8) -> i8 {
+    return IntegerTrait::<i8>::new(a.mag ^ b.mag, a.sign ^ b.sign);
+}
+
+fn i8_bitwise_or(a: i8, b: i8) -> i8 {
+    return IntegerTrait::<i8>::new(a.mag | b.mag, a.sign | b.sign);
 }

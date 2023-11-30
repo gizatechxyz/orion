@@ -24,6 +24,8 @@ A new `Tensor<T>` with the same shape as the input tensor, containing the dequan
 ## Type Constraints
 
 u32 tensor, not supported.
+fp8x23wide tensor, not supported.
+fp16x16wide tensor, not supported.
 
 ## Examples
 
