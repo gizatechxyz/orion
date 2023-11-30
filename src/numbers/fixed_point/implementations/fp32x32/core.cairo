@@ -6,7 +6,7 @@ use traits::{TryInto, Into};
 
 use cubit::f64 as fp32x32;
 use cubit::f64::Fixed as FP32x32;
-use cubit::f64::ONE;
+use cubit::f64::{ONE, HALF};
 use cubit::f64::types::fixed;
 
 use orion::numbers::fixed_point::core::{FixedTrait};
@@ -18,6 +18,10 @@ const MAX: u64 = 9223372036854775808;
 impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     fn ZERO() -> FP32x32 {
         return FP32x32 { mag: 0, sign: false };
+    }
+
+    fn HALF() -> FP32x32 {
+        return FP32x32 { mag: HALF, sign: false };
     }
 
     fn ONE() -> FP32x32 {
@@ -173,6 +177,38 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     fn sign(self: FP32x32) -> FP32x32 {
         panic(array!['not supported!'])
     }
+
+    fn NaN() -> FP32x32 {
+        return FP32x32 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: FP32x32) -> bool {
+        self == FP32x32 { mag: 0, sign: true }
+    }
+
+    fn INF() -> FP32x32 {
+        return FP32x32 { mag: 4294967295, sign: false };
+    }
+
+    fn POS_INF() -> FP32x32 {
+        return FP32x32 { mag: 4294967295, sign: false };
+    }
+
+    fn NEG_INF() -> FP32x32 {
+        return FP32x32 { mag: 4294967295, sign: true };
+    }
+
+    fn is_inf(self: FP32x32) -> bool {
+        self.mag == 4294967295
+    }
+
+    fn is_pos_inf(self: FP32x32) -> bool {
+	self.is_inf() && !self.sign
+    }
+
+    fn is_neg_inf(self: FP32x32) -> bool {
+	self.is_inf() && self.sign
+    }
 }
 
 
@@ -246,17 +282,17 @@ impl FP32x32TryIntoI8 of TryInto<FP32x32, i8> {
     }
 }
 
-impl FP32x32PartialEq of PartialEq<FP32x32> {
-    #[inline(always)]
-    fn eq(lhs: @FP32x32, rhs: @FP32x32) -> bool {
-        return fp32x32::core::eq(lhs, rhs);
-    }
+// impl FP32x32PartialEq of PartialEq<FP32x32> {
+//     #[inline(always)]
+//     fn eq(lhs: @FP32x32, rhs: @FP32x32) -> bool {
+//         return fp32x32::core::eq(lhs, rhs);
+//     }
 
-    #[inline(always)]
-    fn ne(lhs: @FP32x32, rhs: @FP32x32) -> bool {
-        return fp32x32::core::ne(lhs, rhs);
-    }
-}
+//     #[inline(always)]
+//     fn ne(lhs: @FP32x32, rhs: @FP32x32) -> bool {
+//         return fp32x32::core::ne(lhs, rhs);
+//     }
+// }
 
 impl FP32x32Add of Add<FP32x32> {
     fn add(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {

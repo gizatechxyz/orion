@@ -37,6 +37,38 @@ impl i128Impl of IntegerTrait<i128, u128> {
     fn sign(self: i128) -> i128 {
         i128_sign(self)
     }
+
+    fn NaN() -> i128 {
+        return i128 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: i128) -> bool {
+        self == i128 { mag: 0, sign: true }
+    }
+
+    fn INF() -> i128 {
+        return i128 { mag: 340282366920938463463374607431768211455, sign: false };
+    }
+
+    fn POS_INF() -> i128 {
+        return i128 { mag: 340282366920938463463374607431768211455, sign: false };
+    }
+
+    fn NEG_INF() -> i128 {
+        return i128 { mag: 340282366920938463463374607431768211455, sign: true };
+    }
+
+    fn is_inf(self: i128) -> bool {
+        self.mag == 340282366920938463463374607431768211455
+    }
+
+    fn is_pos_inf(self: i128) -> bool {
+	self.is_inf() && !self.sign
+    }
+
+    fn is_neg_inf(self: i128) -> bool {
+	self.is_inf() && self.sign
+    }
 }
 
 // Implements the Into trait for i128.

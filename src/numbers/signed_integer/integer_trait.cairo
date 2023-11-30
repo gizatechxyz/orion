@@ -209,5 +209,14 @@ trait IntegerTrait<T, MAG> {
     /// ```
     /// 
     fn sign(self: T) -> T;
+
+    fn NaN() -> T;
+    fn is_nan(self: T) -> bool;
+    fn INF() -> T;
+    fn POS_INF() -> T;
+    fn NEG_INF() -> T;
+    fn is_inf(self: T) -> bool;
+    fn is_pos_inf(self: T) -> bool;
+    fn is_neg_inf(self: T) -> bool;
 }
 

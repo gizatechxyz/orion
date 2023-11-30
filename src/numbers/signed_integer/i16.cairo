@@ -37,6 +37,38 @@ impl i16Impl of IntegerTrait<i16, u16> {
     fn sign(self: i16) -> i16 {
         i16_sign(self)
     }
+
+    fn NaN() -> i16 {
+        return i16 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: i16) -> bool {
+        self == i16 { mag: 0, sign: true }
+    }
+
+    fn INF() -> i16 {
+        return i16 { mag: 65535, sign: false };
+    }
+
+    fn POS_INF() -> i16 {
+        return i16 { mag: 65535, sign: false };
+    }
+
+    fn NEG_INF() -> i16 {
+        return i16 { mag: 65535, sign: true };
+    }
+
+    fn is_inf(self: i16) -> bool {
+        self.mag == 65535
+    }
+
+    fn is_pos_inf(self: i16) -> bool {
+	self.is_inf() && !self.sign
+    }
+
+    fn is_neg_inf(self: i16) -> bool {
+	self.is_inf() && self.sign
+    }
 }
 
 // Implements the Into trait for i16.

@@ -40,6 +40,38 @@ impl i32Impl of IntegerTrait<i32, u32> {
     fn sign(self: i32) -> i32 {
         i32_sign(self)
     }
+
+    fn NaN() -> i32 {
+        return i32 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: i32) -> bool {
+        self == i32 { mag: 0, sign: true }
+    }
+
+    fn INF() -> i32 {
+        return i32 { mag: 4294967295, sign: false };
+    }
+
+    fn POS_INF() -> i32 {
+        return i32 { mag: 4294967295, sign: false };
+    }
+
+    fn NEG_INF() -> i32 {
+        return i32 { mag: 4294967295, sign: true };
+    }
+
+    fn is_inf(self: i32) -> bool {
+        self.mag == 4294967295
+    }
+
+    fn is_pos_inf(self: i32) -> bool {
+	self.is_inf() && !self.sign
+    }
+
+    fn is_neg_inf(self: i32) -> bool {
+	self.is_inf() && self.sign
+    }
 }
 
 // Implements the Into trait for i32.

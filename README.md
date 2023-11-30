@@ -23,7 +23,7 @@
 
 # Orion: An Open-source Framework for Validity and ZK ML ✨
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-22-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-25-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Orion is an open-source, community-driven framework dedicated to Provable Machine Learning. It provides essential components and a new ONNX runtime for building verifiable Machine Learning models using [STARKs](https://starkware.co/stark/).
@@ -61,7 +61,7 @@ See [LICENSE](https://github.com/franalgaba/onnx-cairo/blob/main/LICENSE/README.
 
 ## Contributors ✨
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+Thanks goes to these wonderful people:
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -99,6 +99,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://audits.quillhash.com/smart-contract-audit"><img src="https://avatars.githubusercontent.com/u/68496788?v=4?s=100" width="100px;" alt="Ephraim Chukwu"/><br /><sub><b>Ephraim Chukwu</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=Ephraim-nonso" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Bal7hazar"><img src="https://avatars.githubusercontent.com/u/97087040?v=4?s=100" width="100px;" alt="Bal7hazar"/><br /><sub><b>Bal7hazar</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/issues?q=author%3ABal7hazar" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://okhaimie.com"><img src="https://avatars.githubusercontent.com/u/57156589?v=4?s=100" width="100px;" alt="Tony Stark"/><br /><sub><b>Tony Stark</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=okhaimie-dev" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/HappyTomatoo"><img src="https://avatars.githubusercontent.com/u/143050661?v=4?s=100" width="100px;" alt="HappyTomatoo"/><br /><sub><b>HappyTomatoo</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/issues?q=author%3AHappyTomatoo" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://www.bilginkocak.com/"><img src="https://avatars.githubusercontent.com/u/30844607?v=4?s=100" width="100px;" alt="Bilgin Koçak"/><br /><sub><b>Bilgin Koçak</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=bilgin-kocak" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

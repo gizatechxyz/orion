@@ -37,6 +37,38 @@ impl i64Impl of IntegerTrait<i64, u64> {
     fn sign(self: i64) -> i64 {
         i64_sign(self)
     }
+
+    fn NaN() -> i64 {
+        return i64 { mag: 0, sign: true };
+    }
+
+    fn is_nan(self: i64) -> bool {
+        self == i64 { mag: 0, sign: true }
+    }
+
+    fn INF() -> i64 {
+        return i64 { mag: 18446744073709551615, sign: false };
+    }
+
+    fn POS_INF() -> i64 {
+        return i64 { mag: 18446744073709551615, sign: false };
+    }
+
+    fn NEG_INF() -> i64 {
+        return i64 { mag: 18446744073709551615, sign: true };
+    }
+
+    fn is_inf(self: i64) -> bool {
+        self.mag == 18446744073709551615
+    }
+
+    fn is_pos_inf(self: i64) -> bool {
+	self.is_inf() && !self.sign
+    }
+
+    fn is_neg_inf(self: i64) -> bool {
+	self.is_inf() && self.sign
+    }
 }
 
 // Implements the Into trait for i64.
