@@ -4,3 +4,4 @@ mod qlinear_matmul;
 mod qlinear_concat;
 mod qlinear_add;
 mod qlinear_mul;
+mod qlinear_leakyrelu;

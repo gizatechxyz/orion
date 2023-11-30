@@ -304,6 +304,19 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         )
     }
 
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<FP64x64>, a_zero_point: @Tensor<FP64x64>, alpha: FP64x64
+    ) -> Tensor::<i8> {
+        quantization::qlinear_leakyrelu::qlinear_leakyrelu(
+            self,
+            a_scale,
+            a_zero_point,
+            alpha,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn slice(
         self: @Tensor<FP64x64>,
         starts: Span<usize>,
@@ -401,21 +414,22 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     }
 
     fn sequence_length(self: Array<Tensor<FP64x64>>) -> Tensor<u32> {
-	math::sequence_length::sequence_length(self)
+        math::sequence_length::sequence_length(self)
     }
-    
-    fn shrink(self: Tensor<FP64x64>, bias: Option<FP64x64>, lambd: Option<FP64x64>) -> Tensor<FP64x64> {
-        math::shrink::shrink(self, bias, lambd) 
+
+    fn shrink(
+        self: Tensor<FP64x64>, bias: Option<FP64x64>, lambd: Option<FP64x64>
+    ) -> Tensor<FP64x64> {
+        math::shrink::shrink(self, bias, lambd)
     }
-    
+
     fn sequence_at(sequence: Array<Tensor<FP64x64>>, position: Tensor<i32>) -> Tensor<FP64x64> {
         math::sequence_at::sequence_at(sequence, position)
     }
-    
+
     fn sequence_construct(tensors: Array<Tensor<FP64x64>>) -> Array<Tensor<FP64x64>> {
         math::sequence_construct::sequence_construct(tensors)
     }
-
 
 
     fn sequence_empty() -> Array<Tensor<FP64x64>> {
@@ -443,13 +457,17 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn pow(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<FP64x64> {
         math::pow::pow(self, other)
     }
-    
-    fn sequence_erase(sequence: Array<Tensor<FP64x64>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP64x64>> {
+
+    fn sequence_erase(
+        sequence: Array<Tensor<FP64x64>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP64x64>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }
-    
-    fn sequence_insert(self: Array<Tensor<FP64x64>>, tensor: @Tensor<FP64x64>, position: Option<Tensor<i32>>) -> Array<Tensor<FP64x64>> {
-	math::sequence_insert::sequence_insert(self, tensor, position)
+
+    fn sequence_insert(
+        self: Array<Tensor<FP64x64>>, tensor: @Tensor<FP64x64>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP64x64>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
     }
 }
 

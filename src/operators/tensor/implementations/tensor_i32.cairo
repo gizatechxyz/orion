@@ -304,6 +304,18 @@ impl I32Tensor of TensorTrait<i32> {
         )
     }
 
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<i32>, a_zero_point: @Tensor<i32>, alpha: i32
+    ) -> Tensor::<i8> {
+        quantization::qlinear_leakyrelu::qlinear_leakyrelu(
+            self,
+            a_scale,
+            a_zero_point,
+            alpha,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
 
     fn slice(
         self: @Tensor<i32>,
@@ -398,21 +410,20 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn sequence_length(self: Array<Tensor<i32>>) -> Tensor<u32> {
-	math::sequence_length::sequence_length(self)
+        math::sequence_length::sequence_length(self)
     }
-    
+
     fn shrink(self: Tensor<i32>, bias: Option<i32>, lambd: Option<i32>) -> Tensor<i32> {
-        panic(array!['not supported!']) 
+        panic(array!['not supported!'])
     }
-    
+
     fn sequence_at(sequence: Array<Tensor<i32>>, position: Tensor<i32>) -> Tensor<i32> {
         math::sequence_at::sequence_at(sequence, position)
     }
-    
+
     fn sequence_construct(tensors: Array<Tensor<i32>>) -> Array<Tensor<i32>> {
         math::sequence_construct::sequence_construct(tensors)
     }
-
 
 
     fn sequence_empty() -> Array<Tensor<i32>> {
@@ -440,13 +451,17 @@ impl I32Tensor of TensorTrait<i32> {
     fn pow(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
-    
-    fn sequence_erase(sequence: Array<Tensor<i32>>, position: Option<Tensor<i32>>) -> Array<Tensor<i32>> {
+
+    fn sequence_erase(
+        sequence: Array<Tensor<i32>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<i32>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }
-    
-    fn sequence_insert(self: Array<Tensor<i32>>, tensor: @Tensor<i32>, position: Option<Tensor<i32>>) -> Array<Tensor<i32>> {
-	math::sequence_insert::sequence_insert(self, tensor, position)
+
+    fn sequence_insert(
+        self: Array<Tensor<i32>>, tensor: @Tensor<i32>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<i32>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
     }
 }
 

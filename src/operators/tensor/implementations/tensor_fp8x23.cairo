@@ -303,6 +303,20 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         )
     }
 
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<FP8x23>, a_zero_point: @Tensor<FP8x23>, alpha: FP8x23
+    ) -> Tensor::<i8> {
+        quantization::qlinear_leakyrelu::qlinear_leakyrelu(
+            self,
+            a_scale,
+            a_zero_point,
+            alpha,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
+
     fn slice(
         self: @Tensor<FP8x23>,
         starts: Span<usize>,
@@ -392,17 +406,17 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     }
 
     fn sequence_length(self: Array<Tensor<FP8x23>>) -> Tensor<u32> {
-	math::sequence_length::sequence_length(self)
+        math::sequence_length::sequence_length(self)
     }
-    
+
     fn shrink(self: Tensor<FP8x23>, bias: Option<FP8x23>, lambd: Option<FP8x23>) -> Tensor<FP8x23> {
-        math::shrink::shrink(self, bias, lambd) 
+        math::shrink::shrink(self, bias, lambd)
     }
-    
+
     fn sequence_at(sequence: Array<Tensor<FP8x23>>, position: Tensor<i32>) -> Tensor<FP8x23> {
         math::sequence_at::sequence_at(sequence, position)
     }
-    
+
     fn sequence_construct(tensors: Array<Tensor<FP8x23>>) -> Array<Tensor<FP8x23>> {
         math::sequence_construct::sequence_construct(tensors)
     }
@@ -441,13 +455,17 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn pow(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::pow::pow(self, other)
     }
-    
-    fn sequence_erase(sequence: Array<Tensor<FP8x23>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23>> {
+
+    fn sequence_erase(
+        sequence: Array<Tensor<FP8x23>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP8x23>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }
-    
-    fn sequence_insert(self: Array<Tensor<FP8x23>>, tensor: @Tensor<FP8x23>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23>> {
-	math::sequence_insert::sequence_insert(self, tensor, position)
+
+    fn sequence_insert(
+        self: Array<Tensor<FP8x23>>, tensor: @Tensor<FP8x23>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP8x23>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
     }
 }
 
