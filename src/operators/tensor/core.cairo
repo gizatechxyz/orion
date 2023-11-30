@@ -120,6 +120,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// concat_from_sequence - Concatenate a sequence of tensors into a single tensor.
 /// is_nan - Returns which elements of the input are NaN.
 /// is_inf - Maps infinity to true and other values to false.
+/// not - Computes the logical negation of all elements in the input tensor.
 trait TensorTrait<T> {
     /// # tensor.new
     ///

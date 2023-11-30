@@ -57,6 +57,10 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn reduce_prod(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
     fn argmax(
         self: @Tensor<bool>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {
@@ -277,6 +281,35 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<bool>,
+        a_zero_point: @Tensor<bool>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<bool>,
+        b_zero_point: @Tensor<bool>,
+        y_scale: @Tensor<bool>,
+        y_zero_point: @Tensor<bool>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<bool>>,
+        zero_points: Span<Tensor<bool>>,
+        y_scale: @Tensor<bool>,
+        y_zero_point: @Tensor<bool>,
+        axis: usize
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<bool>, a_zero_point: @Tensor<bool>, alpha: bool,
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
 
     fn round(self: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
@@ -300,6 +333,14 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn bitwise_xor(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+    
+    fn bitwise_or(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
     fn reduce_l1(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
@@ -312,9 +353,41 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-
     fn constant_of_shape(shape: Span<usize>, value: bool) -> Tensor<bool> {
         constant_of_shape(shape, value)
+    }
+
+    fn gather_elements(self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+    
+    fn sequence_length(self: Array<Tensor<bool>>) -> Tensor<u32> {
+        math::sequence_length::sequence_length(self)
+    }
+
+    fn sequence_at(sequence: Array<Tensor<bool>>, position: Tensor<i32>) -> Tensor<bool> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+
+    fn sequence_construct(tensors: Array<Tensor<bool>>) -> Array<Tensor<bool>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
+
+    fn shrink(self: Tensor<bool>, bias: Option<bool>, lambd: Option<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn sequence_empty() -> Array<Tensor<bool>> {
+        math::sequence_empty::sequence_empty::<bool>()
+    }
+
+    fn reduce_mean(
+        self: @Tensor<bool>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
     }
 
     fn binarizer(self: @Tensor<bool>, threshold: Option<bool>) -> Tensor<bool> {
@@ -325,6 +398,42 @@ impl BoolTensor of TensorTrait<bool> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
 
+    fn reduce_min(
+        self: @Tensor<bool>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn pow(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn sequence_erase(
+        sequence: Array<Tensor<bool>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<bool>> {
+        math::sequence_erase::sequence_erase(sequence, position)
+    }
+
+    fn sequence_insert(
+        self: Array<Tensor<bool>>, tensor: @Tensor<bool>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<bool>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
+    }
+
+    fn is_inf(self: @Tensor<bool>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn is_nan(self: @Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn concat_from_sequence(sequence: Array<Tensor<bool>>, axis: i32, new_axis: Option<usize>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

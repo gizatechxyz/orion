@@ -61,6 +61,10 @@ impl U32Tensor of TensorTrait<u32> {
         math::reduce_sum::reduce_sum(self, axis, keepdims)
     }
 
+    fn reduce_prod(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        math::reduce_prod::reduce_prod(self, axis, keepdims)
+    }
+
     fn argmax(
         self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {
@@ -218,6 +222,19 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_mul(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<u32>,
+        a_zero_point: @Tensor<u32>,
+        b: @Tensor<i8>,
+        b_scale: @Tensor<u32>,
+        b_zero_point: @Tensor<u32>,
+        y_scale: @Tensor<u32>,
+        y_zero_point: @Tensor<u32>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn qlinear_matmul(
         self: @Tensor<i8>,
         a_scale: @Tensor<u32>,
@@ -227,6 +244,23 @@ impl U32Tensor of TensorTrait<u32> {
         b_zero_point: @Tensor<u32>,
         y_scale: @Tensor<u32>,
         y_zero_point: @Tensor<u32>
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn qlinear_concat(
+        tensors: Span<Tensor<i8>>,
+        scales: Span<Tensor<u32>>,
+        zero_points: Span<Tensor<u32>>,
+        y_scale: @Tensor<u32>,
+        y_zero_point: @Tensor<u32>,
+        axis: usize,
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<u32>, a_zero_point: @Tensor<u32>, alpha: u32
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
     }
@@ -281,6 +315,14 @@ impl U32Tensor of TensorTrait<u32> {
         math::bitwise_and::bitwise_and(self, other)
     }
 
+    fn bitwise_xor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
+        math::bitwise_xor::bitwise_xor(self, other)
+    }
+    
+    fn bitwise_or(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
+        math::bitwise_or::bitwise_or(self, other)
+    }
+
     fn round(self: @Tensor<u32>) -> Tensor<u32> {
         math::round::round(*self)
     }
@@ -306,11 +348,11 @@ impl U32Tensor of TensorTrait<u32> {
     fn array_feature_extractor(self: @Tensor<u32>, indices: Tensor<usize>) -> Tensor<u32> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
-    
+
     fn binarizer(self: @Tensor<u32>, threshold: Option<u32>) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
-    
+
     fn reduce_sum_square(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
         math::reduce_sum_square::reduce_sum_square(self, axis, keepdims)
     }
@@ -321,6 +363,76 @@ impl U32Tensor of TensorTrait<u32> {
     
     fn not(self: @Tensor<u32>) -> Tensor<u32> {
         panic(array!['not supported!'])
+    }
+
+    fn gather_elements(self: @Tensor<u32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+
+    fn sequence_length(self: Array<Tensor<u32>>) -> Tensor<u32> {
+        math::sequence_length::sequence_length(self)
+    }
+
+    fn shrink(self: Tensor<u32>, bias: Option<u32>, lambd: Option<u32>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
+    fn sequence_at(sequence: Array<Tensor<u32>>, position: Tensor<i32>) -> Tensor<u32> {
+        math::sequence_at::sequence_at(sequence, position)
+    }
+
+    fn sequence_construct(tensors: Array<Tensor<u32>>) -> Array<Tensor<u32>> {
+        math::sequence_construct::sequence_construct(tensors)
+    }
+
+    fn sequence_empty() -> Array<Tensor<u32>> {
+        math::sequence_empty::sequence_empty::<u32>()
+    }
+
+    fn reduce_mean(
+        self: @Tensor<u32>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<u32> {
+        math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
+    }
+
+    fn reduce_min(
+        self: @Tensor<u32>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<u32> {
+        math::reduce_min::reduce_min(self, axes, keepdims, noop_with_empty_axes)
+    }
+
+    fn pow(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
+    fn sequence_erase(
+        sequence: Array<Tensor<u32>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<u32>> {
+        math::sequence_erase::sequence_erase(sequence, position)
+    }
+
+    fn sequence_insert(
+        self: Array<Tensor<u32>>, tensor: @Tensor<u32>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<u32>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
+    }
+
+    fn is_inf(self: @Tensor<u32>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+	math::is_inf::is_inf(self, detect_negative, detect_positive)
+    }
+
+    fn is_nan(self: @Tensor<u32>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn concat_from_sequence(sequence: Array<Tensor<u32>>, axis: i32, new_axis: Option<usize>) -> Tensor<u32> {
+        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 }
 

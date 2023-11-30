@@ -29,6 +29,10 @@ impl FP16x16Impl of FixedTrait<FP16x16, u32> {
         return FP16x16 { mag: 0, sign: false };
     }
 
+    fn HALF() -> FP16x16 {
+        return FP16x16 { mag: HALF, sign: false };
+    }
+
     fn ONE() -> FP16x16 {
         return FP16x16 { mag: ONE, sign: false };
     }
@@ -189,6 +193,30 @@ impl FP16x16Impl of FixedTrait<FP16x16, u32> {
 
     fn is_nan(self: FP16x16) -> bool {
         self == FP16x16 { mag: 0, sign: true }
+    }
+
+    fn INF() -> FP16x16 {
+        return FP16x16 { mag: 4294967295, sign: false };
+    }
+
+    fn POS_INF() -> FP16x16 {
+        return FP16x16 { mag: 4294967295, sign: false };
+    }
+
+    fn NEG_INF() -> FP16x16 {
+        return FP16x16 { mag: 4294967295, sign: true };
+    }
+
+    fn is_inf(self: FP16x16) -> bool {
+        self.mag == 4294967295
+    }
+
+    fn is_pos_inf(self: FP16x16) -> bool {
+	self.is_inf() && !self.sign
+    }
+
+    fn is_neg_inf(self: FP16x16) -> bool {
+	self.is_inf() && self.sign
     }
 }
 

@@ -17,7 +17,6 @@ fn binarizer<
 >(
     mut self: Tensor<T>, threshold: Option<T>
 ) -> Tensor<T> {
-
     let threshold: T = if threshold.is_some() {
         threshold.unwrap()
     } else {
@@ -35,9 +34,7 @@ fn binarizer<
                     binarized_data.append(NumberTrait::zero());
                 }
             },
-            Option::None(_) => {
-                break;
-            }
+            Option::None(_) => { break; }
         };
     };
 
