@@ -114,7 +114,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// binarizer - Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
 /// array_feature_extractor - Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
 /// reduce_min - Computes the min of the input tensor's elements along the provided axes.
-/// 
+/// is_inf - Maps infinity to true and other values to false.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -4547,6 +4547,40 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn sequence_length(self: Array<Tensor<T>>) -> Tensor<u32>;
+    /// ## tensor.is_inf
+    ///
+    /// ```rust
+    ///    fn is_inf(self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool>;
+    /// ```
+    ///
+    /// Maps infinity to true and other values to false.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `detect_negative`(`Option<u8>`) - Optional Whether map negative infinity to true. Default to 1 so that negative infinity induces true.
+    /// * `detect_positive`(`Option<u8>`) - Optional Whether map positive infinity to true. Default to 1 so that positive infinity induces true.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<bool>` instance with entries set to true iff the input tensors corresponding element was infinity.
+    ///
+    /// ## Examples
+    ///
+    /// use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, U32Tensor};
+    ///
+    /// fn is_inf_example() -> Tensor<bool> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![6].span(), data: array![1, 0, NumberTrait::INF(), 8, NumberTrait::INF(), NumberTrait::INF()].span(),
+    ///     );
+    ///
+    ///     return tensor.is_inf(detect_negative: Option::None, detect_positive: Option::None);
+    /// }
+    /// >>> [false, false, true, false, true, true]
+    /// ```
+    ///
+    fn is_inf(self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool>;
 }
 
 /// Cf: TensorTrait::new docstring

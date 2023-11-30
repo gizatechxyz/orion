@@ -55,3 +55,4 @@ mod reduce_mean;
 mod pow;
 mod sequence_erase;
 mod sequence_insert;
+mod is_inf;

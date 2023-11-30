@@ -467,6 +467,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     ) -> Array<Tensor<FP8x23>> {
         math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn is_inf(self: @Tensor<FP8x23>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+        math::is_inf::is_inf(self, detect_negative, detect_positive)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

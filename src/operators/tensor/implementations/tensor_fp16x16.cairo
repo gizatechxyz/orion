@@ -430,7 +430,6 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::sequence_construct::sequence_construct(tensors)
     }
 
-
     fn sequence_empty() -> Array<Tensor<FP16x16>> {
         math::sequence_empty::sequence_empty::<FP16x16>()
     }
@@ -467,6 +466,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         self: Array<Tensor<FP16x16>>, tensor: @Tensor<FP16x16>, position: Option<Tensor<i32>>
     ) -> Array<Tensor<FP16x16>> {
         math::sequence_insert::sequence_insert(self, tensor, position)
+    }
+
+    fn is_inf(self: @Tensor<FP16x16>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+        math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 }
 

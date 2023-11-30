@@ -406,6 +406,10 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Array<Tensor<u32>> {
         math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn is_inf(self: @Tensor<u32>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+	math::is_inf::is_inf(self, detect_negative, detect_positive)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

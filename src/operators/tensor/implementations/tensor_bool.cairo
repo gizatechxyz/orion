@@ -406,6 +406,10 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Array<Tensor<bool>> {
         math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn is_inf(self: @Tensor<bool>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.
