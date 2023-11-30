@@ -301,12 +301,12 @@ impl I8Tensor of TensorTrait<i8> {
             zero_points,
             y_scale,
             y_zero_point,
-            axis,            
+            axis,
             NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )
     }
-    
+
     fn qlinear_leakyrelu(
         self: @Tensor<i8>, a_scale: @Tensor<i8>, a_zero_point: @Tensor<i8>, alpha: i8
     ) -> Tensor::<i8> {
@@ -371,6 +371,14 @@ impl I8Tensor of TensorTrait<i8> {
         math::bitwise_and::bitwise_and(self, other)
     }
 
+    fn bitwise_xor(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
+        math::bitwise_xor::bitwise_xor(self, other)
+    }
+    
+    fn bitwise_or(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
+        math::bitwise_or::bitwise_or(self, other)
+    }
+
     fn round(self: @Tensor<i8>) -> Tensor<i8> {
         math::round::round(*self)
     }
@@ -409,22 +417,25 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
+    fn gather_elements(self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i8> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+
     fn sequence_length(self: Array<Tensor<i8>>) -> Tensor<u32> {
-	math::sequence_length::sequence_length(self)
+        math::sequence_length::sequence_length(self)
     }
-    
+
     fn shrink(self: Tensor<i8>, bias: Option<i8>, lambd: Option<i8>) -> Tensor<i8> {
-        panic(array!['not supported!']) 
+        panic(array!['not supported!'])
     }
-    
+
     fn sequence_at(sequence: Array<Tensor<i8>>, position: Tensor<i32>) -> Tensor<i8> {
         math::sequence_at::sequence_at(sequence, position)
     }
-    
+
     fn sequence_construct(tensors: Array<Tensor<i8>>) -> Array<Tensor<i8>> {
         math::sequence_construct::sequence_construct(tensors)
     }
-
 
 
     fn sequence_empty() -> Array<Tensor<i8>> {
@@ -452,13 +463,25 @@ impl I8Tensor of TensorTrait<i8> {
     fn pow(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
-    
-    fn sequence_erase(sequence: Array<Tensor<i8>>, position: Option<Tensor<i32>>) -> Array<Tensor<i8>> {
+
+    fn sequence_erase(
+        sequence: Array<Tensor<i8>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<i8>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }
-    
-    fn sequence_insert(self: Array<Tensor<i8>>, tensor: @Tensor<i8>, position: Option<Tensor<i32>>) -> Array<Tensor<i8>> {
-	math::sequence_insert::sequence_insert(self, tensor, position)
+
+    fn sequence_insert(
+        self: Array<Tensor<i8>>, tensor: @Tensor<i8>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<i8>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
+    }
+
+    fn is_inf(self: @Tensor<i8>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+	math::is_inf::is_inf(self, detect_negative, detect_positive)
+    }
+
+    fn is_nan(self: @Tensor<i8>) -> Tensor<bool> {
+        panic(array!['not supported!'])
     }
 }
 

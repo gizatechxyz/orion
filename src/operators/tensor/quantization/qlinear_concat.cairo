@@ -6,7 +6,9 @@ use orion::numbers::{NumberTrait};
 use orion::operators::tensor::quantization::dequantize_linear::dequantize_linear;
 use orion::operators::tensor::quantization::quantize_linear::quantize_linear;
 use orion::operators::tensor::{TensorTrait, Tensor};
-use orion::operators::tensor::math::concat::{validate_shapes, compute_output_size, concatenate_data};
+use orion::operators::tensor::math::concat::{
+    validate_shapes, compute_output_size, concatenate_data
+};
 
 fn qlinear_concat<
     T,
@@ -115,14 +117,21 @@ fn dequantize_tensors<
     impl TCopy: Copy<T>,
     impl QCopy: Copy<Q>,
     impl QDrop: Drop<Q>
-    //MAybe numberTRait
->(mut tensors: Span<Tensor<Q>>, scales: Span<Tensor<T>>, zero_points: Span<Tensor<T>>, min: T, max: T) -> Span<Tensor<T>> {
+//MAybe numberTRait
+>(
+    mut tensors: Span<Tensor<Q>>,
+    scales: Span<Tensor<T>>,
+    zero_points: Span<Tensor<T>>,
+    min: T,
+    max: T
+) -> Span<Tensor<T>> {
     let mut array = ArrayTrait::<Tensor<T>>::new();
     let mut i = 0;
     loop {
         match tensors.pop_front() {
             Option::Some(tensor) => {
-                array.append(dequantize_linear(@(*tensor), @(*scales.at(i)), @(*zero_points.at(i))));
+                array
+                    .append(dequantize_linear(@(*tensor), @(*scales.at(i)), @(*zero_points.at(i))));
             },
             Option::None(_) => { break; }
         };
@@ -130,58 +139,58 @@ fn dequantize_tensors<
     };
     return array.span();
 }
+/// # tensor.concat
+///
+/// ```rust 
+///    fn concat(tensors: Span<Tensor<T>>, axis: usize,  ) -> Tensor<T>;
+/// ```
+///
+/// Concatenate a list of tensors into a single tensor.
+///
+/// ## Args
+///
+/// * `tensors`(` Span<Tensor<T>>,`) - Array of the input tensors.
+/// * `axis`(`usize`) -  Axis to concat on.
+///
+/// ## Panics
+///
+/// * Panic if tensor length is not greater than 1.
+/// * Panics if dimension is not greater than axis.
+///
+/// ## Returns 
+///
+/// A new `Tensor<T>` concatenated tensor of the input tensors.
+///
+/// ## Example
+///
+/// ```rust
+/// use array::{ArrayTrait, SpanTrait};
+/// 
+/// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+/// 
+/// fn concat_example() -> Tensor<u32> {
+///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
+///     let tensor2 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
+///     let result = TensorTrait::concat(tensors: array![tensor1, tensor2].span(), axis: 0);
+///     return result;
+/// }
+/// >>> [[0. 1.]
+///      [2. 3.],
+///      [0. 1.]
+///      [2. 3.]]
+///
+///     result.shape
+/// >>> (4, 2)
+///
+///    let result = TensorTrait::concat(tensors: array![tensor1, tensor2].span(), axis: 1);
+///    return result;
+/// }
+/// >>> [[0. 1., 0., 1.]
+///      [2. 3., 2., 3.]]
+///
+///     result.shape
+/// >>> (2, 4 ) 
+/// ```
+///
+///fn concat(tensors: Span<Tensor<T>>, axis: usize,) -> Tensor<T>;
 
-    /// # tensor.concat
-    ///
-    /// ```rust 
-    ///    fn concat(tensors: Span<Tensor<T>>, axis: usize,  ) -> Tensor<T>;
-    /// ```
-    ///
-    /// Concatenate a list of tensors into a single tensor.
-    ///
-    /// ## Args
-    ///
-    /// * `tensors`(` Span<Tensor<T>>,`) - Array of the input tensors.
-    /// * `axis`(`usize`) -  Axis to concat on.
-    ///
-    /// ## Panics
-    ///
-    /// * Panic if tensor length is not greater than 1.
-    /// * Panics if dimension is not greater than axis.
-    ///
-    /// ## Returns 
-    ///
-    /// A new `Tensor<T>` concatenated tensor of the input tensors.
-    ///
-    /// ## Example
-    ///
-    /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
-    /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-    /// 
-    /// fn concat_example() -> Tensor<u32> {
-    ///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
-    ///     let tensor2 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
-    ///     let result = TensorTrait::concat(tensors: array![tensor1, tensor2].span(), axis: 0);
-    ///     return result;
-    /// }
-    /// >>> [[0. 1.]
-    ///      [2. 3.],
-    ///      [0. 1.]
-    ///      [2. 3.]]
-    ///
-    ///     result.shape
-    /// >>> (4, 2)
-    ///
-    ///    let result = TensorTrait::concat(tensors: array![tensor1, tensor2].span(), axis: 1);
-    ///    return result;
-    /// }
-    /// >>> [[0. 1., 0., 1.]
-    ///      [2. 3., 2., 3.]]
-    ///
-    ///     result.shape
-    /// >>> (2, 4 ) 
-    /// ```
-    ///
-    ///fn concat(tensors: Span<Tensor<T>>, axis: usize,) -> Tensor<T>;

@@ -56,7 +56,7 @@ fn qlinear_concat_test() {
 
     let tensor1_zero_point = TensorTrait::<
         FP16x16
-    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),); 
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
     let tensor2_zero_point = TensorTrait::<
         FP16x16
     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
@@ -71,8 +71,10 @@ fn qlinear_concat_test() {
         FP16x16
     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
 
-    let actual_output = TensorTrait::qlinear_concat(tensors, scales, zero_points, @y_scale, @y_zero_point, 0);
-    
+    let actual_output = TensorTrait::qlinear_concat(
+        tensors, scales, zero_points, @y_scale, @y_zero_point, 0
+    );
+
     assert((*actual_output.data[0]).into() == 3, '*result[0] == 3');
     assert((*actual_output.data[1]).into() == 6, '*result[1] == 6');
     assert((*actual_output.data[2]).into() == 9, '*result[2] == 9');
@@ -82,8 +84,7 @@ fn qlinear_concat_test() {
     assert((*actual_output.data[6]).into() == 22, '*result[6] == 22');
     assert((*actual_output.data[7]).into() == 30, '*result[7] == 30');
 }
- 
- 
+
 
 #[test]
 #[available_gas(200000000000)]
@@ -125,15 +126,18 @@ fn qlinear_concat_test_shape() {
             .span(),
     );
 
-
     let tensors = array![tensor1, tensor2, tensor3].span();
 
     let tensor1_scale = TensorTrait::<
         FP16x16
-    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(131072, false)].span(),);
+    >::new(
+        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(131072, false)].span(),
+    );
     let tensor2_scale = TensorTrait::<
         FP16x16
-    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(262144, false)].span(),);
+    >::new(
+        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(262144, false)].span(),
+    );
     let tensor3_scale = TensorTrait::<
         FP16x16
     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(65536, false)].span(),);
@@ -142,10 +146,10 @@ fn qlinear_concat_test_shape() {
 
     let tensor1_zero_point = TensorTrait::<
         FP16x16
-    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(65536, false)].span(),); 
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(65536, false)].span(),);
     let tensor2_zero_point = TensorTrait::<
         FP16x16
-    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(65536, false)].span(),); 
+    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(65536, false)].span(),);
     let tensor3_zero_point = TensorTrait::<
         FP16x16
     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(65536, false)].span(),);
@@ -160,13 +164,13 @@ fn qlinear_concat_test_shape() {
         FP16x16
     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
 
-    let actual_output = TensorTrait::qlinear_concat(tensors, scales, zero_points, @y_scale, @y_zero_point, 0);
+    let actual_output = TensorTrait::qlinear_concat(
+        tensors, scales, zero_points, @y_scale, @y_zero_point, 0
+    );
 
     assert((*actual_output.shape[0]).into() == 6, '*result.shape[0] == 6');
     assert((*actual_output.shape[1]).into() == 2, '*result.shape[1] == 2');
-
 }
- 
 
 
 #[test]
@@ -201,16 +205,22 @@ fn qlinear_concat_example_doc() {
 
     let tensor1_scale = TensorTrait::<
         FP16x16
-    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(131072, false)].span(),);
+    >::new(
+        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(131072, false)].span(),
+    );
     let tensor2_scale = TensorTrait::<
         FP16x16
-    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(262144, false)].span(),);
+    >::new(
+        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(262144, false)].span(),
+    );
 
     let scales = array![tensor1_scale, tensor2_scale].span();
 
     let tensor1_zero_point = TensorTrait::<
         FP16x16
-    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(327680, false)].span(),); 
+    >::new(
+        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(327680, false)].span(),
+    );
     let tensor2_zero_point = TensorTrait::<
         FP16x16
     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(0, false)].span(),);
@@ -219,14 +229,18 @@ fn qlinear_concat_example_doc() {
 
     let y_scale = TensorTrait::<
         FP16x16
-    >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(262144, false)].span(),);
+    >::new(
+        shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(262144, false)].span(),
+    );
 
     let y_zero_point = TensorTrait::<
         FP16x16
     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(65536, false)].span(),);
 
-    let actual_output = TensorTrait::qlinear_concat(tensors, scales, zero_points, @y_scale, @y_zero_point, 0);
-    
+    let actual_output = TensorTrait::qlinear_concat(
+        tensors, scales, zero_points, @y_scale, @y_zero_point, 0
+    );
+
     assert((*actual_output.data[0]).into() == 1, '*result[0] == 1');
     assert((*actual_output.data[1]).into() == 1, '*result[1] == 1');
     assert((*actual_output.data[2]).into() == 1, '*result[2] == 1');

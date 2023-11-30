@@ -96,26 +96,30 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.identity`](tensor.identity.md) | Return a Tensor with the same shape and contents as input. |
 | [`tensor.where`](tensor.where.md) | Return elements chosen from x or y depending on condition. |
 | [`tensor.bitwise_and`](tensor.bitwise\_and.md) | Computes the bitwise AND of two tensors element-wise. |
+| [`tensor.bitwise_xor`](tensor.bitwise\_xor.md) | Computes the bitwise XOR of two tensors element-wise. |
+| [`tensor.bitwise_or`](tensor.bitwise\_or.md) | Computes the bitwise OR of two tensors element-wise. |
 | [`tensor.round`](tensor.round.md) | Computes the round value of all elements in the input tensor. |
 | [`tensor.reduce_l1`](tensor.reduce\_l1.md) | Computes the L1 norm of the input tensor's elements along the provided axes. |
 | [`tensor.trilu`](tensor.trilu.md) | Returns the upper or lower triangular part of a tensor or a batch of 2D matrices. |
 | [`tensor.scatter`](tensor.scatter.md) | Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices. |
 | [`tensor.reduce_sum_square`](tensor.reduce\_sum\_square.md) | Computes the sum square of the input tensor's elements along the provided axes.  |
 | [`tensor.reduce_l2`](tensor.reduce\_l2.md) | Computes the L2 norm of the input tensor's elements along the provided axes. |
+| [`tensor.gather_elements`](tensor.gather\_elements.md) | GatherElements is an indexing operation that produces its output by indexing into the input data tensor at index positions determined by elements of the indices tensor. |
+| [`tensor.reduce_min`](tensor.reduce\_min.md) | Computes the min of the input tensor's elements along the provided axes. |
+| [`tensor.sequence_construct`](tensor.sequence\_construct.md) | Constructs a tensor sequence containing the input tensors. |
 | [`tensor.sequence_length`](tensor.sequence\_length.md) | Returns the length of the input sequence. |
-| [`tensor.shrink`](tensor.shrink.md) | Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula. |
-| [`tensor.sequence_empty`](tensor.sequence\_empty.md) | Returns an empty tensor sequence. |
 | [`tensor.sequence_insert`](tensor.sequence\_insert.md) | Insert a tensor into a sequence. |
 | [`tensor.sequence_at`](tensor.sequence\_at.md) | Outputs the tensor at the specified position in the input sequence. |
 | [`tensor.sequence_construct`](tensor.sequence\_construct.md) | Constructs a tensor sequence containing the input tensors. |
 | [`tensor.shrink`](tensor.shrink.md) | Shrinks the input tensor element-wise to the output tensor. |
 | [`tensor.reduce_mean`](tensor.reduce\_mean.md) | Computes the mean of the input tensor's elements along the provided axes. |
 | [`tensor.pow`](tensor.pow.md) | Pow takes input data (Tensor) and exponent Tensor, and produces one output data (Tensor) where the function f(x) = x^exponent, is applied to the data tensor elementwise. |
-| [`tensor.sequence_erase`](tensor.sequence\_erase.md) | Outputs the tensor sequence with the erased tensor at the specified position. |
 | [`tensor.sequence_empty`](tensor.sequence\_empty.md) | Returns an empty tensor sequence. |
 | [`tensor.binarizer`](tensor.binarizer.md) | Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value. |
 | [`tensor.array_feature_extractor`](tensor.array\_feature\_extractor.md) | Selects elements of the input tensor based on the indices passed applied to the last tensor axis. |
 | [`tensor.reduce_min`](tensor.reduce\_min.md) | Computes the min of the input tensor's elements along the provided axes. |
+| [`tensor.is_nan`](tensor.is\_nan.md) | Returns which elements of the input are NaN. |
+| [`tensor.is_inf`](tensor.is\_inf.md) | Maps infinity to true and other values to false. |
 
 ## Arithmetic Operations
 

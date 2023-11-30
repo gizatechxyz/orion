@@ -8,6 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Added 
 - Reduce Prod Operator
+- 
+## [Unreleased] - 2023-11-20
+
+## Added
+- Gather Elements Operator.
 
 ## [Unreleased] - 2023-11-06
 
