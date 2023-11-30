@@ -57,6 +57,10 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn reduce_prod(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
     fn argmax(
         self: @Tensor<bool>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {

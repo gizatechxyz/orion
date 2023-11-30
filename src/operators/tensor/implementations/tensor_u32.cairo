@@ -61,6 +61,10 @@ impl U32Tensor of TensorTrait<u32> {
         math::reduce_sum::reduce_sum(self, axis, keepdims)
     }
 
+    fn reduce_prod(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        math::reduce_prod::reduce_prod(self, axis, keepdims)
+    }
+
     fn argmax(
         self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<usize> {

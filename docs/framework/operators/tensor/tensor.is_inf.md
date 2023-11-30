@@ -20,8 +20,7 @@ A new `Tensor<bool>` instance with entries set to true iff the input tensors cor
 ## Examples
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
-
+use array::{ArrayTrait, SpanTrait};    
 use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, U32Tensor};
 
 fn is_inf_example() -> Tensor<bool> {

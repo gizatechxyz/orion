@@ -23,7 +23,6 @@ A new `Tensor<T>` of the same shape as the input tensor with selected elements b
 
 ```rust
 use array::{ArrayTrait, SpanTrait};
-
 use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
 use orion::numbers::{i32, IntegerTrait};
 

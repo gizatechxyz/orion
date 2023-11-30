@@ -52,6 +52,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// min - Returns the minimum value in the tensor.
 /// max - Returns the maximum value in the tensor.
 /// reduce_sum - Reduces a tensor by summing its elements along a specified axis.
+/// reduce_prod - Reduces a tensor to its products along specified axis.
 /// argmax - Returns the index of the maximum value along the specified axis.
 /// argmin - Returns the index of the minimum value along the specified axis.
 /// cumsum - Performs cumulative sum of the input elements along the given axis.
@@ -3744,7 +3745,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     ///
-    /// fn xor_example() -> Tensor<usize> {
+    /// fn and_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -3836,7 +3837,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     ///
-    /// fn and_example() -> Tensor<usize> {
+    /// fn xor_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -4129,6 +4130,11 @@ trait TensorTrait<T> {
     /// ## Returns
     ///
     /// A new `Tensor<T>` of the same shape as the input tensor with selected elements based on provided indices.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
     /// use orion::numbers::{i32, IntegerTrait};
     /// 
@@ -4155,55 +4161,6 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn array_feature_extractor(self: @Tensor<T>, indices: Tensor<usize>) -> Tensor<T>;
-    /// ## tensor.reduce_mean
-    ///
-    /// ```rust 
-    ///    fn reduce_mean(self: @Tensor<T>, axes: Option<Span<usize>>, keepdims: Option<bool>, noop_with_empty_axes: Option<bool>) -> Tensor<T>;
-    /// ```
-    ///
-    /// Computes the mean of the input tensor's elements along the provided axes.
-    ///
-    /// ## Args
-    ///
-    /// * `self`(`@Tensor<T>`) - The input tensor.
-    /// * `axes`(`Option<Span<usize>>`) - Optional input list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor if 'noop_with_empty_axes' is false, else act as an Identity op when 'noop_with_empty_axes' is true.
-    /// * `keepdims`(`Option<bool>`) - Keep the reduced dimension or not, default true means keep reduced dimension.
-    /// * `noop_with_empty_axes`(`Option<bool>`) - Defines behavior if 'axes' is empty. Default behavior with 'false' is to reduce all axes. When axes is empty and this attribute is set to true, input tensor will not be reduced,and the output tensor would be equivalent to input tensor.
-    ///
-    /// ## Panics 
-    /// 
-    /// * Panics if axis is not in the range of the input tensor's dimensions.
-    ///
-    /// ## Returns
-    ///
-    /// A new `Tensor<T>` instance with the specified axes reduced by meaning its elements.
-    ///
-    /// ## Examples
-    ///
-    /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
-    /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-    /// 
-    /// fn reduce_mean_example() -> Tensor<u32> {
-    ///     let tensor = TensorTrait::<u32>::new(
-    ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
-    ///     );
-    /// 
-    ///     // We can call `reduce_mean` function as follows.
-    ///     return tensor.reduce_mean(axes: array![1].span(), 
-    ///         keepdims: Option::None(()), 
-    ///         noop_with_empty_axes:  Option::None(()));
-    /// }
-    /// >>> [[1,2],[5,6]]
-    /// ```
-    ///
-    fn reduce_mean(
-        self: @Tensor<T>,
-        axes: Option<Span<usize>>,
-        keepdims: Option<bool>,
-        noop_with_empty_axes: Option<bool>
-    ) -> Tensor<T>;
     /// # tensor.sequence_empty
     ///
     /// ```rust
@@ -4329,6 +4286,55 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn sequence_construct(tensors: Array<Tensor<T>>) -> Array<Tensor<T>>;
+    /// ## tensor.reduce_mean
+    ///
+    /// ```rust 
+    ///    fn reduce_mean(self: @Tensor<T>, axes: Option<Span<usize>>, keepdims: Option<bool>, noop_with_empty_axes: Option<bool>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the mean of the input tensor's elements along the provided axes.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axes`(`Option<Span<usize>>`) - Optional input list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor if 'noop_with_empty_axes' is false, else act as an Identity op when 'noop_with_empty_axes' is true.
+    /// * `keepdims`(`Option<bool>`) - Keep the reduced dimension or not, default true means keep reduced dimension.
+    /// * `noop_with_empty_axes`(`Option<bool>`) - Defines behavior if 'axes' is empty. Default behavior with 'false' is to reduce all axes. When axes is empty and this attribute is set to true, input tensor will not be reduced,and the output tensor would be equivalent to input tensor.
+    ///
+    /// ## Panics 
+    /// 
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` instance with the specified axes reduced by meaning its elements.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn reduce_mean_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///     );
+    /// 
+    ///     // We can call `reduce_mean` function as follows.
+    ///     return tensor.reduce_mean(axes: array![1].span(), 
+    ///         keepdims: Option::None(()), 
+    ///         noop_with_empty_axes:  Option::None(()));
+    /// }
+    /// >>> [[1,2],[5,6]]
+    /// ```
+    ///
+    fn reduce_mean(
+        self: @Tensor<T>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<T>;
     /// ## tensor.reduce_min
     ///
     /// ```rust 
@@ -4364,7 +4370,7 @@ trait TensorTrait<T> {
     ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
     ///     );
     /// 
-    ///     // We can call `reduce_mean` function as follows.
+    ///     // We can call `reduce_min` function as follows.
     ///     return tensor.reduce_min(axes: array![1].span(), 
     ///         keepdims: Option::None(()), 
     ///         noop_with_empty_axes:  Option::None(()));
@@ -4642,6 +4648,48 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn sequence_length(self: Array<Tensor<T>>) -> Tensor<u32>;
+    /// ## tensor.reduce_prod
+    /// 
+    /// ```rust 
+    ///    fn reduce_prod(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
+    /// ```
+    /// 
+    /// Reduces a tensor by multiplying its elements along a specified axis.
+    /// 
+    /// ## Args
+    /// 
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The dimension to reduce.
+    /// * `keepdims`(`bool`) - If true, retains reduced dimensions with length 1.
+    /// 
+    /// ## Panics 
+    /// 
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    /// 
+    /// ## Returns
+    /// 
+    /// A new `Tensor<T>` instance with the specified axis reduced by multiplying its elements.
+    /// 
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn reduce_prod_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///     );
+    /// 
+    ///     // We can call `reduce_prod` function as follows.
+    ///     return tensor.reduce_prod(axis: 0, keepdims: false);
+    /// }
+    /// >>> [[0,5],[12,21]]
+    /// ```
+    ///
+    fn reduce_prod(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
+
     /// ## tensor.is_inf
     ///
     /// ```rust
@@ -4663,6 +4711,8 @@ trait TensorTrait<T> {
     ///
     /// ## Examples
     ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};    
     /// use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, U32Tensor};
     ///
     /// fn is_inf_example() -> Tensor<bool> {

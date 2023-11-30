@@ -56,6 +56,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.min`](tensor.min.md) | Returns the minimum value in the tensor. |
 | [`tensor.max`](tensor.max.md) | Returns the maximum value in the tensor. |
 | [`tensor.reduce_sum`](tensor.reduce\_sum.md) | Reduces a tensor by summing its elements along a specified axis. |
+| [`tensor.reduce_prod`](tensor.reduce\_prod.md) | Reduces a tensor to its products along specified axis. |
 | [`tensor.argmax`](tensor.argmax.md) | Returns the index of the maximum value along the specified axis. |
 | [`tensor.argmin`](tensor.argmin.md) | Returns the index of the minimum value along the specified axis. |
 | [`tensor.cumsum`](tensor.cumsum.md) | Performs cumulative sum of the input elements along the given axis. |
@@ -105,7 +106,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.reduce_l2`](tensor.reduce\_l2.md) | Computes the L2 norm of the input tensor's elements along the provided axes. |
 | [`tensor.gather_elements`](tensor.gather\_elements.md) | GatherElements is an indexing operation that produces its output by indexing into the input data tensor at index positions determined by elements of the indices tensor. |
 | [`tensor.reduce_min`](tensor.reduce\_min.md) | Computes the min of the input tensor's elements along the provided axes. |
-| [`tensor.sequence_construct`](tensor.sequence\_construct.md) | Constructs a tensor sequence containing the input tensors. |
+| [`tensor.sequence_empty`](tensor.sequence\_empty.md) | Returns an empty tensor sequence. |
 | [`tensor.sequence_length`](tensor.sequence\_length.md) | Returns the length of the input sequence. |
 | [`tensor.sequence_insert`](tensor.sequence\_insert.md) | Insert a tensor into a sequence. |
 | [`tensor.sequence_at`](tensor.sequence\_at.md) | Outputs the tensor at the specified position in the input sequence. |
