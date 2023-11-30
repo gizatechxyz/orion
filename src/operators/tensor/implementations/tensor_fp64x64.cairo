@@ -473,6 +473,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn is_inf(self: @Tensor<FP64x64>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
+
+    fn is_nan(self: @Tensor<FP64x64>) -> Tensor<bool> {
+	math::is_nan::is_nan(self)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

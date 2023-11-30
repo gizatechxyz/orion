@@ -95,6 +95,7 @@ You can see below the list of current supported ONNX Operators:
 |          [ReduceL2](operators/tensor/tensor.reduce\_l2.md)          | :white\_check\_mark: |
 |    [SequenceErase](operators/tensor/tensor.sequence\_erase.md)      | :white\_check\_mark: |
 |         [SequenceInsert](operators/tensor/tensor.sequence\_insert.md)   | :white\_check\_mark: |
+|         [IsNaN](operators/tensor/tensor.is\_nan.md)                 | :white\_check\_mark: |
 |          [IsInf](operators/tensor/tensor.is\_inf.md)                | :white\_check\_mark: |
 
 Current Operators support: **88/156 (56%)**

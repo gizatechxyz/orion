@@ -471,6 +471,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn is_inf(self: @Tensor<FP8x23>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
+
+    fn is_nan(self: @Tensor<FP8x23>) -> Tensor<bool> {
+	math::is_nan::is_nan(self)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

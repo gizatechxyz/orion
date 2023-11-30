@@ -471,6 +471,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn is_inf(self: @Tensor<FP16x16>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
+
+    fn is_nan(self: @Tensor<FP16x16>) -> Tensor<bool> {
+	math::is_nan::is_nan(self)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

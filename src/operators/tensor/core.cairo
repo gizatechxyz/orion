@@ -114,6 +114,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// binarizer - Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
 /// array_feature_extractor - Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
 /// reduce_min - Computes the min of the input tensor's elements along the provided axes.
+/// is_nan - Returns which elements of the input are NaN.
 /// is_inf - Maps infinity to true and other values to false.
 trait TensorTrait<T> {
     /// # tensor.new
@@ -4581,6 +4582,45 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn is_inf(self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool>;
+    /// ## tensor.is_nan
+    ///
+    /// ```rust
+    ///    fn is_nan(self: @Tensor<T>) -> Tensor<bool>;
+    /// ```
+    ///
+    /// Maps NaN to true and other values to false.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<bool>` instance with entries set to true iff the input tensors corresponding element was NaN.
+    ///
+    /// ## Examples
+    ///
+    /// use array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, FP8x23Tensor};
+    /// use orion::numbers::{FixedTrait, FP8x23};
+    ///
+    /// fn is_nan_example() -> Tensor<bool> {
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(4);
+    ///
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(FP8x23 { mag: 10066329, sign: true });
+    ///     data.append(FP8x23 { mag: 0, sign: false });
+    ///     data.append(FixedTrait::NaN());
+    ///     data.append(FP8x23 { mag: 23488102, sign: false });
+    ///     let tensor = TensorTrait::new(shape.span(), data.span())
+    ///
+    ///     return tensor.is_nan();
+    /// }
+    /// >>> [false, false, true, false]
+    /// ```
+    ///
+    fn is_nan(self: @Tensor<T>) -> Tensor<bool>;
 }
 
 /// Cf: TensorTrait::new docstring

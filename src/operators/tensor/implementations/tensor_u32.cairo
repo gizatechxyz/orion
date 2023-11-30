@@ -410,6 +410,10 @@ impl U32Tensor of TensorTrait<u32> {
     fn is_inf(self: @Tensor<u32>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
 	math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
+
+    fn is_nan(self: @Tensor<u32>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.
