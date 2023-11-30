@@ -407,6 +407,12 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn gather_elements(
+        self: @Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP64x64> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+
     fn sequence_length(self: Array<Tensor<FP64x64>>) -> Tensor<u32> {
         math::sequence_length::sequence_length(self)
     }

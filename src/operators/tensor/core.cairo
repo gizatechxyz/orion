@@ -97,6 +97,11 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
+/// gather_elements - GatherElements is an indexing operation that produces its output by indexing into the input data tensor at index positions determined by elements of the indices tensor.
+/// reduce_min - Computes the min of the input tensor's elements along the provided axes.
+/// sequence_construct – Constructs a tensor sequence containing the input tensors.
+/// shrink – Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula.
+/// sequence_empty - Returns an empty tensor sequence.
 /// sequence_length - Returns the length of the input sequence.
 /// sequence_insert - Insert a tensor into a sequence.
 /// sequence_at - Outputs the tensor at the specified position in the input sequence.
@@ -3912,6 +3917,55 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn constant_of_shape(shape: Span<usize>, value: T) -> Tensor<T>;
+    /// # tensor.gather_elements
+    ///
+    /// ```rust 
+    ///    fn gather_elements(self: @Tensor<T>, indices: Tensor<T>, axis: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// GatherElements is an indexing operation that produces its output by indexing into the input data tensor at index positions determined by elements of the indices tensor.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `indices`(`Tensor<T>`) - Tensor of indices.
+    /// * `axis`(`Option<usize>`) - Axis to gather_elements on. Default: axis=0.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if index values are not within bounds [-s, s-1] along axis of size s.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` .
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn gather_elements_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), 
+    ///         data: array![[ 1, 2, 3],[4, 5, 6], [7, 8, 9]].span(), 
+    ///     );
+    ///     let indices = TensorTrait::<u32>::new(
+    ///         shape: array![1, 2, 0].span(), 
+    ///         data: array![2, 0, 0].span(), 
+    ///     );
+    /// 
+    ///     return tensor.gather_elements(
+    ///         indices: indices, 
+    ///         axis: Option::None(()), 
+    ///     );
+    /// }
+    /// >>> [[4. 8. 3.]
+    ///      [7. 2. 3.]]
+    /// ```
+    ///
+    fn gather_elements(self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<T>;
     /// # tensor.binarizer
     /// 
     /// ```rust
@@ -3980,12 +4034,6 @@ trait TensorTrait<T> {
     /// ## Returns
     ///
     /// A new `Tensor<T>` of the same shape as the input tensor with selected elements based on provided indices.
-    ///
-    /// ## Example
-    ///
-    /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
-    /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
     /// use orion::numbers::{i32, IntegerTrait};
     /// 

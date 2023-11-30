@@ -105,6 +105,7 @@
     * [tensor.reduce\_sum\_square](framework/operators/tensor/tensor.reduce\_sum\_square.md)
     * [tensor.reduce\_l2](framework/operators/tensor/tensor.reduce\_l2.md)
     * [tensor.reduce\_l1](framework/operators/tensor/tensor.reduce\_l1.md)
+    * [tensor.gather\_elements](framework/operators/tensor/tensor.gather\_elements.md)
     * [tensor.sequence\_length](framework/operators/tensor/tensor.sequence\_length.md)
     * [tensor.sequence\_at](framework/operators/tensor/tensor.sequence\_at.md)
     * [tensor.reduce\_min](framework/operators/tensor/tensor.reduce\_min.md)

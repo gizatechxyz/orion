@@ -405,6 +405,10 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
+    fn gather_elements(self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i8> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+
     fn sequence_length(self: Array<Tensor<i8>>) -> Tensor<u32> {
         math::sequence_length::sequence_length(self)
     }

@@ -406,6 +406,12 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn gather_elements(
+        self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP16x16> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+
     fn sequence_length(self: Array<Tensor<FP16x16>>) -> Tensor<u32> {
         math::sequence_length::sequence_length(self)
     }

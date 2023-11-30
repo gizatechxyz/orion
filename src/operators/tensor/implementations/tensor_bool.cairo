@@ -341,6 +341,10 @@ impl BoolTensor of TensorTrait<bool> {
         constant_of_shape(shape, value)
     }
 
+    fn gather_elements(self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+    
     fn sequence_length(self: Array<Tensor<bool>>) -> Tensor<u32> {
         math::sequence_length::sequence_length(self)
     }

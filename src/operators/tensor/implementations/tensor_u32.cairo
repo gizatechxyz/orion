@@ -349,6 +349,10 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
+    fn gather_elements(self: @Tensor<u32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+
     fn sequence_length(self: Array<Tensor<u32>>) -> Tensor<u32> {
         math::sequence_length::sequence_length(self)
     }
@@ -364,7 +368,6 @@ impl U32Tensor of TensorTrait<u32> {
     fn sequence_construct(tensors: Array<Tensor<u32>>) -> Array<Tensor<u32>> {
         math::sequence_construct::sequence_construct(tensors)
     }
-
 
     fn sequence_empty() -> Array<Tensor<u32>> {
         math::sequence_empty::sequence_empty::<u32>()

@@ -405,6 +405,10 @@ impl I32Tensor of TensorTrait<i32> {
         panic(array!['not supported!'])
     }
 
+    fn gather_elements(self: @Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i32> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+
     fn sequence_length(self: Array<Tensor<i32>>) -> Tensor<u32> {
         math::sequence_length::sequence_length(self)
     }

@@ -358,6 +358,12 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
 
+    fn gather_elements(
+        self: @Tensor<FP8x23W>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP8x23W> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+
     fn sequence_length(self: Array<Tensor<FP8x23W>>) -> Tensor<u32> {
         math::sequence_length::sequence_length(self)
     }

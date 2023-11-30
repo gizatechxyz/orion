@@ -372,6 +372,12 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 
+    fn gather_elements(
+        self: @Tensor<FP16x16W>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP16x16W> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+
     fn sequence_length(self: Array<Tensor<FP16x16W>>) -> Tensor<u32> {
         math::sequence_length::sequence_length(self)
     }

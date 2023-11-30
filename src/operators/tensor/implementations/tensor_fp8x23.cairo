@@ -399,6 +399,12 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 
+    fn gather_elements(
+        self: @Tensor<FP8x23>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP8x23> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+
     fn sequence_length(self: Array<Tensor<FP8x23>>) -> Tensor<u32> {
         math::sequence_length::sequence_length(self)
     }
