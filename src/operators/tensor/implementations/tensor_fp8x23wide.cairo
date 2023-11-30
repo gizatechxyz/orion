@@ -440,6 +440,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn is_nan(self: @Tensor<FP8x23W>) -> Tensor<bool> {
 	math::is_nan::is_nan(self)
     }
+
+    fn concat_from_sequence(sequence: Array<Tensor<FP8x23W>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP8x23W> {
+        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

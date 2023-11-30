@@ -488,6 +488,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn is_nan(self: @Tensor<FP32x32>) -> Tensor<bool> {
 	math::is_nan::is_nan(self)
     }
+
+    fn concat_from_sequence(sequence: Array<Tensor<FP32x32>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP32x32> {
+        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

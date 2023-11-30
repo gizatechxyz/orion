@@ -117,6 +117,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// binarizer - Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
 /// array_feature_extractor - Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
 /// reduce_min - Computes the min of the input tensor's elements along the provided axes.
+/// concat_from_sequence - Concatenate a sequence of tensors into a single tensor.
 /// is_nan - Returns which elements of the input are NaN.
 /// is_inf - Maps infinity to true and other values to false.
 trait TensorTrait<T> {
@@ -4689,7 +4690,6 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn reduce_prod(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
-
     /// ## tensor.is_inf
     ///
     /// ```rust
@@ -4765,6 +4765,67 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn is_nan(self: @Tensor<T>) -> Tensor<bool>;
+    /// # tensor.concat_from_sequence
+    ///
+    /// ```rust 
+    ///    fn concat_from_sequence(sequence: Array<Tensor<T>>, axis: i32, new_axis: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Concatenate a sequence of tensors into a single tensor.
+    ///
+    /// ## Args
+    ///
+    /// * `sequence`(`Array<Tensor<T>>`) - The input sequence.
+    /// * `axis`(`i32`) -  Axis to concat on.
+    /// * `new_axis`(`Option<usize>`) -  Optionally added new axis.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if new_axis not 0 or 1 (if value provided).
+    /// * Panics if axis not in accepted ranges.
+    /// * Panics if sequence length is not greater than 1.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` concatenated tensor from the input tensor sequence.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn concat_example() -> Tensor<u32> {
+    ///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
+    ///     let tensor2 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
+    ///
+    ///     let mut sequence = ArrayTrait::new();
+    ///     sequence.append(tensor1);
+    ///     sequence.append(tensor2);
+    ///
+    ///     let result = TensorTrait::concat_from_sequence(sequence: sequence, axis: 0, new_axis: Option::Some(0));
+    ///     return result;
+    /// }
+    /// >>> [[0. 1.]
+    ///      [2. 3.],
+    ///      [0. 1.]
+    ///      [2. 3.]]
+    ///
+    ///     result.shape
+    /// >>> (4, 2)
+    ///
+    ///    let result = TensorTrait::concat_from_sequence(sequence: sequence, axis: 1, new_axis: Option::Some(0));
+    ///    return result;
+    /// }
+    /// >>> [[0. 1., 0., 1.]
+    ///      [2. 3., 2., 3.]]
+    ///
+    ///     result.shape
+    /// >>> (2, 4 ) 
+    /// ```
+    ///
+    fn concat_from_sequence(sequence: Array<Tensor<T>>, axis: i32, new_axis: Option<usize>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

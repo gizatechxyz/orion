@@ -483,6 +483,10 @@ impl I32Tensor of TensorTrait<i32> {
     fn is_nan(self: @Tensor<i32>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
+
+    fn concat_from_sequence(sequence: Array<Tensor<i32>>, axis: i32, new_axis: Option<usize>) -> Tensor<i32> {
+        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

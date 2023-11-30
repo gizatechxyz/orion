@@ -483,6 +483,10 @@ impl I8Tensor of TensorTrait<i8> {
     fn is_nan(self: @Tensor<i8>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
+
+    fn concat_from_sequence(sequence: Array<Tensor<i8>>, axis: i32, new_axis: Option<usize>) -> Tensor<i8> {
+        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

@@ -426,6 +426,10 @@ impl BoolTensor of TensorTrait<bool> {
     fn is_nan(self: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
+
+    fn concat_from_sequence(sequence: Array<Tensor<bool>>, axis: i32, new_axis: Option<usize>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.
