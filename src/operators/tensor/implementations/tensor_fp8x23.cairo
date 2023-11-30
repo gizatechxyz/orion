@@ -369,6 +369,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::bitwise_and::bitwise_and(self, other)
     }
 
+    fn bitwise_xor(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::bitwise_xor::bitwise_xor(self, other)
+    }
+    
     fn bitwise_or(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::bitwise_or::bitwise_or(self, other)
     }

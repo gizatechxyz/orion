@@ -76,6 +76,7 @@ You can see below the list of current supported ONNX Operators:
 |             [Where](operators/tensor/tensor.where.md)               | :white\_check\_mark: |
 |       [BitwiseAnd](operators/tensor/tensor.bitwise_and.md)          | :white\_check\_mark: |
 |       [BitwiseOr](operators/tensor/tensor.bitwise_or.md)            | :white\_check\_mark: |
+|        [BitwiseXor](operators/tensor/tensor.bitwise_xor.md)         | :white\_check\_mark: |
 |             [Round](operators/tensor/tensor.round.md)               | :white\_check\_mark: |
 |      [MaxInTensor](operators/tensor/tensor.max\_in\_tensor.md)      | :white\_check\_mark: |
 |                [Max](operators/tensor/tensor.max.md)                | :white\_check\_mark: |
@@ -99,4 +100,4 @@ You can see below the list of current supported ONNX Operators:
 |         [IsNaN](operators/tensor/tensor.is\_nan.md)                 | :white\_check\_mark: |
 |          [IsInf](operators/tensor/tensor.is\_inf.md)                | :white\_check\_mark: |
 
-Current Operators support: **88/156 (56%)**
+Current Operators support: **83/156 (53%)**

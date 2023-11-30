@@ -506,6 +506,10 @@ fn i64_bitwise_and(a: i64, b: i64) -> i64 {
     IntegerTrait::<i64>::new(a.mag & b.mag, a.sign & b.sign)
 }
 
+fn i64_bitwise_xor(a: i64, b: i64) -> i64 {
+    IntegerTrait::<i64>::new(a.mag ^ b.mag, a.sign ^ b.sign)
+}
+
 fn i64_bitwise_or(a: i64, b: i64) -> i64 {
     IntegerTrait::<i64>::new(a.mag | b.mag, a.sign | b.sign)
 }

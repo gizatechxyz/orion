@@ -98,6 +98,7 @@
     * [tensor.and](framework/operators/tensor/tensor.and.md)
     * [tensor.where](framework/operators/tensor/tensor.where.md)
     * [tensor.bitwise_and](framework/operators/tensor/tensor.bitwise_and.md)
+    * [tensor.bitwise_xor](framework/operators/tensor/tensor.bitwise_xor.md)
     * [tensor.bitwise_or](framework/operators/tensor/tensor.bitwise_or.md)
     * [tensor.round](framework/operators/tensor/tensor.round.md)
     * [tensor.scatter](framework/operators/tensor/tensor.scatter.md)

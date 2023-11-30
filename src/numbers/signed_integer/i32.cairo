@@ -538,6 +538,10 @@ fn i32_bitwise_and(a: i32, b: i32) -> i32 {
     IntegerTrait::<i32>::new(a.mag & b.mag, a.sign & b.sign)
 }
 
+fn i32_bitwise_xor(a: i32, b: i32) -> i32 {
+    IntegerTrait::<i32>::new(a.mag ^ b.mag, a.sign ^ b.sign)
+}
+
 fn i32_bitwise_or(a: i32, b: i32) -> i32 {
     IntegerTrait::<i32>::new(a.mag | b.mag, a.sign | b.sign)
 }

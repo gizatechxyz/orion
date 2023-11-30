@@ -583,6 +583,10 @@ fn i8_bitwise_and(a: i8, b: i8) -> i8 {
     return IntegerTrait::<i8>::new(a.mag & b.mag, a.sign & b.sign);
 }
 
+fn i8_bitwise_xor(a: i8, b: i8) -> i8 {
+    return IntegerTrait::<i8>::new(a.mag ^ b.mag, a.sign ^ b.sign);
+}
+
 fn i8_bitwise_or(a: i8, b: i8) -> i8 {
     return IntegerTrait::<i8>::new(a.mag | b.mag, a.sign | b.sign);
 }

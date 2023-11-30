@@ -367,6 +367,10 @@ impl I8Tensor of TensorTrait<i8> {
         math::bitwise_and::bitwise_and(self, other)
     }
 
+    fn bitwise_xor(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
+        math::bitwise_xor::bitwise_xor(self, other)
+    }
+    
     fn bitwise_or(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
         math::bitwise_or::bitwise_or(self, other)
     }

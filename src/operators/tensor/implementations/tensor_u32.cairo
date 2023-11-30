@@ -311,6 +311,10 @@ impl U32Tensor of TensorTrait<u32> {
         math::bitwise_and::bitwise_and(self, other)
     }
 
+    fn bitwise_xor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
+        math::bitwise_xor::bitwise_xor(self, other)
+    }
+    
     fn bitwise_or(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
         math::bitwise_or::bitwise_or(self, other)
     }
