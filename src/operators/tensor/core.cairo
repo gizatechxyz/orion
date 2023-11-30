@@ -3745,7 +3745,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     ///
-    /// fn xor_example() -> Tensor<usize> {
+    /// fn and_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -3837,7 +3837,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     ///
-    /// fn and_example() -> Tensor<usize> {
+    /// fn xor_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -4130,6 +4130,11 @@ trait TensorTrait<T> {
     /// ## Returns
     ///
     /// A new `Tensor<T>` of the same shape as the input tensor with selected elements based on provided indices.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
     /// use orion::numbers::{i32, IntegerTrait};
     /// 
@@ -4706,6 +4711,8 @@ trait TensorTrait<T> {
     ///
     /// ## Examples
     ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};    
     /// use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, U32Tensor};
     ///
     /// fn is_inf_example() -> Tensor<bool> {
