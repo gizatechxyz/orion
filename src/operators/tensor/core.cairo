@@ -3475,8 +3475,6 @@ trait TensorTrait<T> {
     ///
     /// ## Examples
     ///
-    /// Case 1: Compare tensors with same shape
-    ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
@@ -3484,37 +3482,16 @@ trait TensorTrait<T> {
     /// 
     /// fn and_example() -> Tensor<bool> {
     ///     let tensor_1 = TensorTrait::<bool>::new(
-    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///         shape: array![3, 3].span(), data: array![false, true, false, false, false, true, true, false, true, false, false, true].span(),
     ///     );
     /// 
     ///     let tensor_2 = TensorTrait::<bool>::new(
-    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 0, 1, 2, 0, 1, 2].span(),
+    ///         shape: array![3, 3].span(), data: array![false, false, true, true, false, true, false, true, false, true, false, true].span(),
     ///     );
     /// 
     ///     return tensor_1.and(@tensor_2);
     /// }
-    /// >>> [false, true, true, false, true, true, false, true, true]
-    /// ```
-    ///
-    /// Case 2: Compare tensors with different shapes
-    ///
-    /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
-    /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-    /// 
-    /// fn and_example() -> Tensor<bool> {
-    ///     let tensor_1 = TensorTrait::<u32>::new(
-    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
-    ///     );
-    /// 
-    ///     let tensor_2 = TensorTrait::<bool>::new(
-    ///         shape: array![1, 3].span(), data: array![0, 1, 2].span(),
-    ///     );
-    /// 
-    ///     return tensor_1.and(@tensor_2);
-    /// }
-    /// >>> [false, true, true, false, true, true, false, true, true]
+    /// >>> [false, false, false, false, false, true, false, false, false, false, false, true]
     /// ```
     ///
     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool>;
