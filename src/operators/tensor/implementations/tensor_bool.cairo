@@ -256,7 +256,7 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 

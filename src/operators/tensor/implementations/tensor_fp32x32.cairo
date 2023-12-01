@@ -11,7 +11,7 @@ use orion::operators::tensor::core::{
 use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP32x32, FP32x32Impl};
 use orion::numbers::fixed_point::implementations::fp32x32::core::ONE;
-use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
+use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor};
 
 impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn new(shape: Span<usize>, data: Span<FP32x32>) -> Tensor<FP32x32> {
@@ -373,7 +373,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         core::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<usize> {
+    fn and(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 

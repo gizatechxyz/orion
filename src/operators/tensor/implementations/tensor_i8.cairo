@@ -10,7 +10,7 @@ use orion::operators::tensor::core::{
 };
 use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait};
-use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
+use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_bool::BoolTensor};
 
 impl I8Tensor of TensorTrait<i8> {
     fn new(shape: Span<usize>, data: Span<i8>) -> Tensor<i8> {
@@ -371,7 +371,7 @@ impl I8Tensor of TensorTrait<i8> {
         core::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
+    fn and(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 
