@@ -315,7 +315,7 @@ impl U32Tensor of TensorTrait<u32> {
         core::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<bool> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 
@@ -334,7 +334,7 @@ impl U32Tensor of TensorTrait<u32> {
     fn bitwise_xor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
         math::bitwise_xor::bitwise_xor(self, other)
     }
-    
+
     fn bitwise_or(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<u32> {
         math::bitwise_or::bitwise_or(self, other)
     }
@@ -376,12 +376,14 @@ impl U32Tensor of TensorTrait<u32> {
     fn reduce_l2(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
-    
+
     fn not(self: @Tensor<u32>) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
 
-    fn gather_elements(self: @Tensor<u32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
+    fn gather_elements(
+        self: @Tensor<u32>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<u32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
@@ -439,15 +441,19 @@ impl U32Tensor of TensorTrait<u32> {
         math::sequence_insert::sequence_insert(self, tensor, position)
     }
 
-    fn is_inf(self: @Tensor<u32>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
-	math::is_inf::is_inf(self, detect_negative, detect_positive)
+    fn is_inf(
+        self: @Tensor<u32>, detect_negative: Option<u8>, detect_positive: Option<u8>
+    ) -> Tensor<bool> {
+        math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
     fn is_nan(self: @Tensor<u32>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
-    fn concat_from_sequence(sequence: Array<Tensor<u32>>, axis: i32, new_axis: Option<usize>) -> Tensor<u32> {
+    fn concat_from_sequence(
+        sequence: Array<Tensor<u32>>, axis: i32, new_axis: Option<usize>
+    ) -> Tensor<u32> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 }

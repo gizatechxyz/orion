@@ -373,7 +373,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         core::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<bool> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 

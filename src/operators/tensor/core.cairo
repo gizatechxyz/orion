@@ -3452,7 +3452,7 @@ trait TensorTrait<T> {
     /// #tensor.and
     ///
     /// ```rust
-    ///     fn and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<bool>;
+    ///     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool>;
     /// ```
     ///
     /// Computes the logical AND of two tensors element-wise.
@@ -3462,8 +3462,8 @@ trait TensorTrait<T> {
     ///
     /// ## Args
     ///
-    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
-    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    /// * `self`(`@Tensor<bool>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<bool>`) - The second tensor to be compared
     ///
     /// ## Panics
     ///
@@ -3483,11 +3483,11 @@ trait TensorTrait<T> {
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
     /// fn and_example() -> Tensor<bool> {
-    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///     let tensor_1 = TensorTrait::<bool>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
     /// 
-    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///     let tensor_2 = TensorTrait::<bool>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 0, 1, 2, 0, 1, 2].span(),
     ///     );
     /// 
@@ -3508,7 +3508,7 @@ trait TensorTrait<T> {
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
     /// 
-    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///     let tensor_2 = TensorTrait::<bool>::new(
     ///         shape: array![1, 3].span(), data: array![0, 1, 2].span(),
     ///     );
     /// 
@@ -3517,7 +3517,7 @@ trait TensorTrait<T> {
     /// >>> [false, true, true, false, true, true, false, true, true]
     /// ```
     ///
-    fn and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<bool>;
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool>;
     /// #tensor.where
     ///
     /// ```rust

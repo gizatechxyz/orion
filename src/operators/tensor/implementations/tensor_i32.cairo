@@ -371,7 +371,7 @@ impl I32Tensor of TensorTrait<i32> {
         core::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<bool> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 
