@@ -372,7 +372,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         core::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<bool> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 

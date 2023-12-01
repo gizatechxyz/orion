@@ -371,7 +371,7 @@ impl I8Tensor of TensorTrait<i8> {
         core::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<bool> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 

@@ -373,7 +373,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         core::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<bool> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 

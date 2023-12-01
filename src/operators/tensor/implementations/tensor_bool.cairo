@@ -257,7 +257,7 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
-        panic(array!['not supported!'])
+        math::and::and(self, other)
     }
 
     fn identity(self: @Tensor<bool>) -> Tensor<bool> {
