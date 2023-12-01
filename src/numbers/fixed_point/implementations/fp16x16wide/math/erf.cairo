@@ -1,16 +1,16 @@
 use core::traits::Into;
-use orion::numbers::fixed_point::implementations::fp16x16::core::{
-    ONE, FP16x16, FixedTrait
+use orion::numbers::fixed_point::implementations::fp16x16wide::core::{
+    ONE, FP16x16W, FixedTrait
 };
 
-const ERF_COMPUTATIONAL_ACCURACY: u32 = 100; 
-const ROUND_CHECK_NUMBER: u32 = 10;
+const ERF_COMPUTATIONAL_ACCURACY: u64 = 100; 
+const ROUND_CHECK_NUMBER: u64 = 10;
 // Values > MAX_ERF_NUMBER return 1
-const MAX_ERF_NUMBER: u32 = 229376;
+const MAX_ERF_NUMBER: u64 = 229376;
 // Values <= ERF_TRUNCATION_NUMBER -> two decimal places, and values > ERF_TRUNCATION_NUMBER -> one decimal place
-const ERF_TRUNCATION_NUMBER: u32 = 131072;
+const ERF_TRUNCATION_NUMBER: u64 = 131072;
 
-fn get_key(mag: u32, erf_computational_accuracy: u32, round_check_number: u32) -> u32{
+fn get_key(mag: u64, erf_computational_accuracy: u64, round_check_number: u64) -> u64{
     let mut round_number = mag*erf_computational_accuracy*ROUND_CHECK_NUMBER/ONE;
 	let rounded_off_value = match (round_check_number/2).into() {
 		0 => 1,
@@ -35,7 +35,7 @@ fn get_key(mag: u32, erf_computational_accuracy: u32, round_check_number: u32) -
     origin_number
 }
 
-fn get_different_accuracy_key(mag: u32) -> felt252{
+fn get_different_accuracy_key(mag: u64) -> felt252{
     if mag <= ERF_TRUNCATION_NUMBER{
         return get_key(mag, ERF_COMPUTATIONAL_ACCURACY, ROUND_CHECK_NUMBER).into();
     } else if mag <= MAX_ERF_NUMBER{
@@ -45,9 +45,9 @@ fn get_different_accuracy_key(mag: u32) -> felt252{
     }
 }
 
-fn get_lookup_table_values(key: felt252) -> u32{
+fn get_lookup_table_values(key: felt252) -> u64{
 	// Construct the erf lookup table
-    let mut erf_table: Felt252Dict<u32> = Default::default();
+    let mut erf_table: Felt252Dict<u64> = Default::default();
 	erf_table.insert(0, 0);
 	erf_table.insert(655, 739);
 	erf_table.insert(1311, 1479);
@@ -267,11 +267,11 @@ fn get_lookup_table_values(key: felt252) -> u32{
 	erf_table.get(key)
 }
 
-fn erf(x: FP16x16) -> FP16x16{
+fn erf(x: FP16x16W) -> FP16x16W{
     // Lookup
     // 1. if x.mag < 3.5 { lookup table }
     // 2. else{ return 1}
-    let mut erf_value: u32 = 0;
+    let mut erf_value: u64 = 0;
 
     if x.mag <= MAX_ERF_NUMBER {
         let round_number = get_different_accuracy_key(x.mag);
@@ -279,5 +279,5 @@ fn erf(x: FP16x16) -> FP16x16{
     } else {
         erf_value = ONE;
     }
-    FP16x16 { mag: erf_value, sign: x.sign }
+    FP16x16W { mag: erf_value, sign: x.sign }
 }

@@ -1,3 +1,3 @@
-mod fixed_point;
+mod fixed_point_test;
 mod signed_integer_test;
 
