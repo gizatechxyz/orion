@@ -3452,7 +3452,7 @@ trait TensorTrait<T> {
     /// #tensor.and
     ///
     /// ```rust
-    ///     fn and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<bool>;
     /// ```
     ///
     /// Computes the logical AND of two tensors element-wise.
@@ -3471,7 +3471,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    /// A new `Tensor<bool>` with the same shape as the broadcasted inputs.
     ///
     /// ## Examples
     ///
@@ -3482,7 +3482,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn and_example() -> Tensor<usize> {
+    /// fn and_example() -> Tensor<bool> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -3493,7 +3493,7 @@ trait TensorTrait<T> {
     /// 
     ///     return tensor_1.and(@tensor_2);
     /// }
-    /// >>> [0,1,1,0,1,1,0,1,1]
+    /// >>> [false, true, true, false, true, true, false, true, true]
     /// ```
     ///
     /// Case 2: Compare tensors with different shapes
@@ -3503,7 +3503,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn and_example() -> Tensor<usize> {
+    /// fn and_example() -> Tensor<bool> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -3514,10 +3514,10 @@ trait TensorTrait<T> {
     /// 
     ///     return tensor_1.and(@tensor_2);
     /// }
-    /// >>> [0,1,1,0,1,1,0,1,1]
+    /// >>> [false, true, true, false, true, true, false, true, true]
     /// ```
     ///
-    fn and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<bool>;
     /// #tensor.where
     ///
     /// ```rust
@@ -4730,7 +4730,9 @@ trait TensorTrait<T> {
     /// >>> [false, false, true, false, true, true]
     /// ```
     ///
-    fn is_inf(self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool>;
+    fn is_inf(
+        self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>
+    ) -> Tensor<bool>;
     /// ## tensor.is_nan
     ///
     /// ```rust
@@ -4830,7 +4832,9 @@ trait TensorTrait<T> {
     /// >>> (2, 4 ) 
     /// ```
     ///
-    fn concat_from_sequence(sequence: Array<Tensor<T>>, axis: i32, new_axis: Option<usize>) -> Tensor<T>;
+    fn concat_from_sequence(
+        sequence: Array<Tensor<T>>, axis: i32, new_axis: Option<usize>
+    ) -> Tensor<T>;
     /// #tensor.not
     /// 
     /// ```rust
