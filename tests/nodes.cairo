@@ -829,3 +829,10 @@ mod is_pos_inf_i32;
 mod is_neg_inf_i32;
 mod is_pos_inf_i8;
 mod is_neg_inf_i8;
+
+mod reduce_log_sum_fp8x23_export_do_not_keepdims;
+mod reduce_log_sum_fp8x23_export_keepdims;
+mod reduce_log_sum_fp8x23_export_negative_axes_keepdims;
+mod reduce_log_sum_fp16x16_export_do_not_keepdims;
+mod reduce_log_sum_fp16x16_export_keepdims;
+mod reduce_log_sum_fp16x16_export_negative_axes_keepdims;

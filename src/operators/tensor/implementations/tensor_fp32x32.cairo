@@ -513,6 +513,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn concat_from_sequence(sequence: Array<Tensor<FP32x32>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP32x32> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
+
+     fn reduce_log_sum(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
+        math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

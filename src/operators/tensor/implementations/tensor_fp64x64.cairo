@@ -514,6 +514,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn concat_from_sequence(sequence: Array<Tensor<FP64x64>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP64x64> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
+
+     fn reduce_log_sum(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

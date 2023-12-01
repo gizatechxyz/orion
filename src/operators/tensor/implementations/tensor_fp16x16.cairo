@@ -512,6 +512,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn concat_from_sequence(sequence: Array<Tensor<FP16x16>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP16x16> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
+
+     fn reduce_log_sum(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
+        math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.
