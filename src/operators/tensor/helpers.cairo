@@ -317,3 +317,61 @@ fn replace_index(mut shape: Span<usize>, index: usize, value: usize) -> Span<usi
     return output.span();
 }
 
+/// Compares two Spans of generic type T.
+///
+/// # Returns
+/// an i8 type containing:
+/// * 1 if the left operand is greater than the right,
+/// * 0 if the left operand is equal to the right,
+/// * -1 if the left operand is lower than the right,
+fn span_cmp<T, +Drop<T>, +Copy<T>, +PartialEq<T>, +PartialOrd<T>>(
+    lhs: Span<T>, rhs: Span<T>
+) -> i8 {
+    let mut rhs = rhs;
+    let mut lhs = lhs;
+    let mut ret: i8 = 0;
+    loop {
+        match lhs.pop_front() {
+            Option::Some(l) => {
+                match rhs.pop_front() {
+                    Option::Some(r) => { if l != r {
+                        ret = if *l > *r {
+                            1
+                        } else {
+                            -1
+                        };
+                        break;
+                    } },
+                    Option::None => {
+                        ret = 1;
+                        break;
+                    },
+                }
+            },
+            Option::None => {
+                ret = -1;
+                break;
+            }
+        };
+    };
+    ret
+}
+
+/// Implements PartiaLOrd for two spans of generic type T.
+impl SpanPartialOrd<T, +Drop<T>, +Copy<T>, +PartialEq<T>, +PartialOrd<T>> of PartialOrd<Span<T>> {
+    fn ge(lhs: Span<T>, rhs: Span<T>) -> bool {
+        span_cmp(lhs, rhs) >= 0
+    }
+
+    fn gt(lhs: Span<T>, rhs: Span<T>) -> bool {
+        span_cmp(lhs, rhs) > 0
+    }
+
+    fn le(lhs: Span<T>, rhs: Span<T>) -> bool {
+        span_cmp(lhs, rhs) <= 0
+    }
+
+    fn lt(lhs: Span<T>, rhs: Span<T>) -> bool {
+        span_cmp(lhs, rhs) < 0
+    }
+}

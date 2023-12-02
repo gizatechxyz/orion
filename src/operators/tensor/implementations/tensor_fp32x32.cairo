@@ -4,6 +4,7 @@ use option::OptionTrait;
 use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
+use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
@@ -438,6 +439,28 @@ impl TensorI8IntoTensorFP32x32 of Into<Tensor<i8>, Tensor<FP32x32>> {
     }
 }
 
+/// Implements partial ord for two `Tensor<FP32x32` using `PartialOrd` trait.
+impl FP8x23TensorPartialOrd of PartialOrd<Tensor<FP32x32>> {
+    #[inline(always)]
+    fn ge(lhs: Tensor<FP32x32>, rhs: Tensor<FP32x32>) -> bool {
+        return SpanPartialOrd::ge(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn gt(lhs: Tensor<FP32x32>, rhs: Tensor<FP32x32>) -> bool {
+        return SpanPartialOrd::gt(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn le(lhs: Tensor<FP32x32>, rhs: Tensor<FP32x32>) -> bool {
+        return SpanPartialOrd::le(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn lt(lhs: Tensor<FP32x32>, rhs: Tensor<FP32x32>) -> bool {
+        return SpanPartialOrd::lt(lhs.data, rhs.data);
+    }
+}
 
 // Internals
 

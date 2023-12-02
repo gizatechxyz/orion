@@ -4,6 +4,7 @@ use option::OptionTrait;
 use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
+use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
@@ -415,6 +416,29 @@ impl I8TensorPartialEq of PartialEq<Tensor<i8>> {
 
     fn ne(lhs: @Tensor<i8>, rhs: @Tensor<i8>) -> bool {
         !tensor_eq(*lhs, *rhs)
+    }
+}
+
+/// Implements partial ord for two `Tensor<i8` using `PartialOrd` trait.
+impl FP8x23TensorPartialOrd of PartialOrd<Tensor<i8>> {
+    #[inline(always)]
+    fn ge(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
+        return SpanPartialOrd::ge(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn gt(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
+        return SpanPartialOrd::gt(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn le(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
+        return SpanPartialOrd::le(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn lt(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
+        return SpanPartialOrd::lt(lhs.data, rhs.data);
     }
 }
 

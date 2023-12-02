@@ -1,9 +1,10 @@
-use array::ArrayTrait;
-use array::SpanTrait;
+use array::{ArrayTrait};
+use array::{SpanTrait, SpanPartialEq};
 use option::OptionTrait;
 use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
+use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
@@ -449,6 +450,28 @@ impl TensorI8IntoTensorFP8x23 of Into<Tensor<i8>, Tensor<FP8x23>> {
     }
 }
 
+/// Implements partial ord for two `Tensor<FP8x23` using `PartialOrd` trait.
+impl FP8x23TensorPartialOrd of PartialOrd<Tensor<FP8x23>> {
+    #[inline(always)]
+    fn ge(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> bool {
+        return SpanPartialOrd::ge(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn gt(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> bool {
+        return SpanPartialOrd::gt(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn le(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> bool {
+        return SpanPartialOrd::le(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn lt(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> bool {
+        return SpanPartialOrd::lt(lhs.data, rhs.data);
+    }
+}
 
 // Internals
 

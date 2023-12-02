@@ -4,6 +4,7 @@ use option::OptionTrait;
 use traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
+use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
@@ -413,6 +414,28 @@ impl U32TryIntoU32 of TryInto<u32, u32> {
     }
 }
 
+/// Implements partial ord for two `Tensor<FP16x16W` using `PartialOrd` trait.
+impl FP8x23TensorPartialOrd of PartialOrd<Tensor<FP16x16W>> {
+    #[inline(always)]
+    fn ge(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> bool {
+        return SpanPartialOrd::ge(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn gt(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> bool {
+        return SpanPartialOrd::gt(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn le(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> bool {
+        return SpanPartialOrd::le(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn lt(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> bool {
+        return SpanPartialOrd::lt(lhs.data, rhs.data);
+    }
+}
 
 // Internals
 const PRECISION: u64 = 589; // 0.009
