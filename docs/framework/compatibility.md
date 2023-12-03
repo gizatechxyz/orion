@@ -103,4 +103,4 @@ You can see below the list of current supported ONNX Operators:
 |                     [Not](operators/tensor/tensor.not.md)                     | :white\_check\_mark: |
 
 
-Current Operators support: **83/156 (53%)**
+Current Operators support: **95/156 (60%)**
