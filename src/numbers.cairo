@@ -1428,17 +1428,13 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
     }
 }
 
-use orion::numbers::signed_integer::i8 as i8_core;
-use orion::numbers::signed_integer::i8::i8;
-use orion::numbers::signed_integer::i8::{i8Add, i8Sub};
-
-impl I8Number of NumberTrait<i8, u8> {
-    fn new(mag: u8, sign: bool) -> i8 {
-        i8 { mag, sign }
+impl I8Number of NumberTrait<i8, i8> {
+    fn new(mag: i8, sign: bool) -> i8 {
+        mag
     }
 
-    fn new_unscaled(mag: u8, sign: bool) -> i8 {
-        i8 { mag, sign }
+    fn new_unscaled(mag: i8, sign: bool) -> i8 {
+        mag
     }
 
     fn from_felt(val: felt252) -> i8 {
@@ -1534,10 +1530,10 @@ impl I8Number of NumberTrait<i8, u8> {
     }
 
     fn zero() -> i8 {
-        i8 { mag: 0, sign: false }
+        0
     }
     fn is_zero(self: i8) -> bool {
-        i8_core::i8_eq(self, i8 { mag: 0, sign: false })
+       self == 0 
     }
 
     fn half() -> i8 {
@@ -1545,51 +1541,63 @@ impl I8Number of NumberTrait<i8, u8> {
     }
 
     fn one() -> i8 {
-        i8 { mag: 1, sign: false }
+        1
     }
 
     fn neg_one() -> i8 {
-        i8 { mag: 1, sign: true }
+        -1
     }
 
     fn is_one(self: i8) -> bool {
-        i8_core::i8_eq(self, i8 { mag: 1, sign: false })
+        self == 1
     }
 
     fn abs(self: i8) -> i8 {
-        i8_core::i8_abs(self)
+        if self >= 0 {
+            return self;
+        } else {
+            self * -1_i8
+        }
     }
 
     fn neg(self: i8) -> i8 {
-        i8_core::i8_neg(self)
+        self * -1_i8
     }
 
     fn min_value() -> i8 {
-        i8 { mag: 128, sign: true }
+        -127
     }
 
     fn max_value() -> i8 {
-        i8 { mag: 127, sign: false }
+       127 
     }
 
     fn min(self: i8, other: i8) -> i8 {
-        i8_core::i8_min(self, other)
+        if self < other {
+            return self;
+        } else {
+            other
+        }
     }
 
     fn max(self: i8, other: i8) -> i8 {
-        i8_core::i8_max(self, other)
+        if self > other {
+            return self;
+        } else {
+            other
+        }
     }
 
-    fn mag(self: i8) -> u8 {
-        self.mag
+    fn mag(self: i8) -> i8 {
+        self
     }
 
     fn is_neg(self: i8) -> bool {
-        self.sign
+        self < 0
     }
 
     fn xor(lhs: i8, rhs: i8) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) && lhs.mag != rhs.mag {
+        if (lhs == 0 || rhs == 0) && lhs != rhs {
             return true;
         } else {
             return false;
@@ -1597,7 +1605,7 @@ impl I8Number of NumberTrait<i8, u8> {
     }
 
     fn or(lhs: i8, rhs: i8) -> bool {
-        if (lhs.mag == 0 && rhs.mag == 0) {
+        if (lhs == 0 && rhs == 0) {
             return false;
         } else {
             return true;
@@ -1605,11 +1613,17 @@ impl I8Number of NumberTrait<i8, u8> {
     }
 
     fn sign(self: i8) -> i8 {
-        i8_core::i8_sign(self)
+        if self == 0 {
+            return 0_i8;
+        } else if self > 0 {
+            return 1_i8;
+        } else {
+            -1_i8
+        }
     }
 
     fn and(lhs: i8, rhs: i8) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) {
+        if (lhs == 0 || rhs == 0) {
             return false;
         } else {
             return true;
@@ -1617,7 +1631,7 @@ impl I8Number of NumberTrait<i8, u8> {
     }
 
     fn where(self: i8, x: i8, y: i8) -> i8 {
-        if self.mag == 0 {
+        if self == 0 {
             return y;
         } else {
             return x;
@@ -1625,47 +1639,47 @@ impl I8Number of NumberTrait<i8, u8> {
     }
 
     fn NaN() -> i8 {
-        IntegerTrait::NaN()
+        panic(array!['not supported!'])
     }
 
     fn is_nan(self: i8) -> bool {
-        IntegerTrait::is_nan(self)
+        panic(array!['not supported!'])
     }
 
     fn INF() -> i8 {
-        IntegerTrait::INF()
+        127
     }
 
     fn is_inf(self: i8) -> bool {
-        IntegerTrait::is_inf(self)
+        (self == 127 || self == -127)
     }
 
     fn is_pos_inf(self: i8) -> bool {
-        IntegerTrait::is_pos_inf(self)
+        self == 127
     }
 
     fn is_neg_inf(self: i8) -> bool {
-        IntegerTrait::is_neg_inf(self)
+       self == -127 
     }
 
     fn bitwise_and(lhs: i8, rhs: i8) -> i8 {
-        i8_core::i8_bitwise_and(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_xor(lhs: i8, rhs: i8) -> i8 {
-        i8_core::i8_bitwise_xor(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_or(lhs: i8, rhs: i8) -> i8 {
-        i8_core::i8_bitwise_or(lhs, rhs)
+        panic(array!['not supported!'])
     }
     
     fn add(lhs: i8, rhs: i8) -> i8 {
-        i8Add::add(lhs, rhs)
+        lhs + rhs
     }
 
     fn sub(lhs: i8, rhs: i8) -> i8 {
-        i8Sub::sub(lhs, rhs)
+        lhs - rhs
     }
 }
 
