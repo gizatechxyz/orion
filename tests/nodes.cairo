@@ -763,3 +763,5 @@ mod sequence_insert_fp8x23;
 mod sequence_insert_i32;
 mod sequence_insert_i8;
 mod sequence_insert_u32;
+mod erf_fp16x16;
+mod erf_fp8x23;
