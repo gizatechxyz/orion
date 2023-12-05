@@ -1938,17 +1938,13 @@ impl I16Number of NumberTrait<i16, i16> {
     }
 }
 
-use orion::numbers::signed_integer::i32 as i32_core;
-use orion::numbers::signed_integer::i32::i32;
-use orion::numbers::signed_integer::i32::{i32Add, i32Sub};
-
-impl i32Number of NumberTrait<i32, u32> {
-    fn new(mag: u32, sign: bool) -> i32 {
-        i32 { mag, sign }
+impl I32Number of NumberTrait<i32, i32> {
+    fn new(mag: i32, sign: bool) -> i32 {
+        mag
     }
 
-    fn new_unscaled(mag: u32, sign: bool) -> i32 {
-        i32 { mag, sign }
+    fn new_unscaled(mag: i32, sign: bool) -> i32 {
+        mag
     }
 
     fn from_felt(val: felt252) -> i32 {
@@ -2044,10 +2040,10 @@ impl i32Number of NumberTrait<i32, u32> {
     }
 
     fn zero() -> i32 {
-        i32 { mag: 0, sign: false }
+        0
     }
     fn is_zero(self: i32) -> bool {
-        i32_core::i32_eq(self, i32 { mag: 0, sign: false })
+       self == 0 
     }
 
     fn half() -> i32 {
@@ -2055,51 +2051,63 @@ impl i32Number of NumberTrait<i32, u32> {
     }
 
     fn one() -> i32 {
-        i32 { mag: 1, sign: false }
+        1
     }
 
     fn neg_one() -> i32 {
-        i32 { mag: 1, sign: true }
+        -1
     }
 
     fn is_one(self: i32) -> bool {
-        i32_core::i32_eq(self, i32 { mag: 1, sign: false })
+        self == 1
     }
 
     fn abs(self: i32) -> i32 {
-        i32_core::i32_abs(self)
+        if self >= 0 {
+            return self;
+        } else {
+            self * -1_i32
+        }
     }
 
     fn neg(self: i32) -> i32 {
-        i32_core::i32_neg(self)
+        self * -1_i32
     }
 
     fn min_value() -> i32 {
-        i32 { mag: 2147483648, sign: true }
+        -2147483647
     }
 
     fn max_value() -> i32 {
-        i32 { mag: 2147483647, sign: false }
+       2147483647 
     }
 
     fn min(self: i32, other: i32) -> i32 {
-        i32_core::i32_min(self, other)
+        if self < other {
+            return self;
+        } else {
+            other
+        }
     }
 
     fn max(self: i32, other: i32) -> i32 {
-        i32_core::i32_max(self, other)
+        if self > other {
+            return self;
+        } else {
+            other
+        }
     }
 
-    fn mag(self: i32) -> u32 {
-        self.mag
+    fn mag(self: i32) -> i32 {
+        self
     }
 
     fn is_neg(self: i32) -> bool {
-        self.sign
+        self < 0
     }
 
     fn xor(lhs: i32, rhs: i32) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) && lhs.mag != rhs.mag {
+        if (lhs == 0 || rhs == 0) && lhs != rhs {
             return true;
         } else {
             return false;
@@ -2107,7 +2115,7 @@ impl i32Number of NumberTrait<i32, u32> {
     }
 
     fn or(lhs: i32, rhs: i32) -> bool {
-        if (lhs.mag == 0 && rhs.mag == 0) {
+        if (lhs == 0 && rhs == 0) {
             return false;
         } else {
             return true;
@@ -2115,11 +2123,17 @@ impl i32Number of NumberTrait<i32, u32> {
     }
 
     fn sign(self: i32) -> i32 {
-        i32_core::i32_sign(self)
+        if self == 0 {
+            return 0_i32;
+        } else if self > 0 {
+            return 1_i32;
+        } else {
+            -1_i32
+        }
     }
 
     fn and(lhs: i32, rhs: i32) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) {
+        if (lhs == 0 || rhs == 0) {
             return false;
         } else {
             return true;
@@ -2127,7 +2141,7 @@ impl i32Number of NumberTrait<i32, u32> {
     }
 
     fn where(self: i32, x: i32, y: i32) -> i32 {
-        if self.mag == 0 {
+        if self == 0 {
             return y;
         } else {
             return x;
@@ -2135,47 +2149,47 @@ impl i32Number of NumberTrait<i32, u32> {
     }
 
     fn NaN() -> i32 {
-        IntegerTrait::NaN()
+        panic(array!['not supported!'])
     }
 
     fn is_nan(self: i32) -> bool {
-        IntegerTrait::is_nan(self)
+        panic(array!['not supported!'])
     }
 
     fn INF() -> i32 {
-        IntegerTrait::INF()
+       2147483647 
     }
 
     fn is_inf(self: i32) -> bool {
-        IntegerTrait::is_inf(self)
+        (self == 2147483647 || self == -2147483647)
     }
 
     fn is_pos_inf(self: i32) -> bool {
-        IntegerTrait::is_pos_inf(self)
+        self == 2147483647 
     }
 
     fn is_neg_inf(self: i32) -> bool {
-        IntegerTrait::is_neg_inf(self)
+       self == -2147483647 
     }
 
     fn bitwise_and(lhs: i32, rhs: i32) -> i32 {
-        i32_core::i32_bitwise_and(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_xor(lhs: i32, rhs: i32) -> i32 {
-        i32_core::i32_bitwise_xor(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_or(lhs: i32, rhs: i32) -> i32 {
-        i32_core::i32_bitwise_or(lhs, rhs)
+        panic(array!['not supported!'])
     }
     
     fn add(lhs: i32, rhs: i32) -> i32 {
-        i32Add::add(lhs, rhs)
+        lhs + rhs
     }
 
     fn sub(lhs: i32, rhs: i32) -> i32 {
-        i32Sub::sub(lhs, rhs)
+        lhs - rhs
     }
 }
 
