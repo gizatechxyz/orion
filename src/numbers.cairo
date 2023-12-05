@@ -2193,17 +2193,13 @@ impl I32Number of NumberTrait<i32, i32> {
     }
 }
 
-use orion::numbers::signed_integer::i64 as i64_core;
-use orion::numbers::signed_integer::i64::i64;
-use orion::numbers::signed_integer::i64::{i64Add, i64Sub};
-
-impl i64Number of NumberTrait<i64, u64> {
-    fn new(mag: u64, sign: bool) -> i64 {
-        i64 { mag, sign }
+impl I64Number of NumberTrait<i64, i64> {
+    fn new(mag: i64, sign: bool) -> i64 {
+        mag
     }
 
-    fn new_unscaled(mag: u64, sign: bool) -> i64 {
-        i64 { mag, sign }
+    fn new_unscaled(mag: i64, sign: bool) -> i64 {
+        mag
     }
 
     fn from_felt(val: felt252) -> i64 {
@@ -2299,10 +2295,10 @@ impl i64Number of NumberTrait<i64, u64> {
     }
 
     fn zero() -> i64 {
-        i64 { mag: 0, sign: false }
+        0
     }
     fn is_zero(self: i64) -> bool {
-        i64_core::i64_eq(self, i64 { mag: 0, sign: false })
+       self == 0 
     }
 
     fn half() -> i64 {
@@ -2310,51 +2306,63 @@ impl i64Number of NumberTrait<i64, u64> {
     }
 
     fn one() -> i64 {
-        i64 { mag: 1, sign: false }
+        1
     }
 
     fn neg_one() -> i64 {
-        i64 { mag: 1, sign: true }
+        -1
     }
 
     fn is_one(self: i64) -> bool {
-        i64_core::i64_eq(self, i64 { mag: 1, sign: false })
+        self == 1
     }
 
     fn abs(self: i64) -> i64 {
-        i64_core::i64_abs(self)
+        if self >= 0 {
+            return self;
+        } else {
+            self * -1_i64
+        }
     }
 
     fn neg(self: i64) -> i64 {
-        i64_core::i64_neg(self)
+        self * -1_i64
     }
 
     fn min_value() -> i64 {
-        i64 { mag: 9223372036854775808, sign: true }
+        -9223372036854775807
     }
 
     fn max_value() -> i64 {
-        i64 { mag: 9223372036854775807, sign: false }
+       9223372036854775807 
     }
 
     fn min(self: i64, other: i64) -> i64 {
-        i64_core::i64_min(self, other)
+        if self < other {
+            return self;
+        } else {
+            other
+        }
     }
 
     fn max(self: i64, other: i64) -> i64 {
-        i64_core::i64_max(self, other)
+        if self > other {
+            return self;
+        } else {
+            other
+        }
     }
 
-    fn mag(self: i64) -> u64 {
-        self.mag
+    fn mag(self: i64) -> i64 {
+        self
     }
 
     fn is_neg(self: i64) -> bool {
-        self.sign
+        self < 0
     }
 
     fn xor(lhs: i64, rhs: i64) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) && lhs.mag != rhs.mag {
+        if (lhs == 0 || rhs == 0) && lhs != rhs {
             return true;
         } else {
             return false;
@@ -2362,7 +2370,7 @@ impl i64Number of NumberTrait<i64, u64> {
     }
 
     fn or(lhs: i64, rhs: i64) -> bool {
-        if (lhs.mag == 0 && rhs.mag == 0) {
+        if (lhs == 0 && rhs == 0) {
             return false;
         } else {
             return true;
@@ -2370,11 +2378,17 @@ impl i64Number of NumberTrait<i64, u64> {
     }
 
     fn sign(self: i64) -> i64 {
-        i64_core::i64_sign(self)
+        if self == 0 {
+            return 0_i64;
+        } else if self > 0 {
+            return 1_i64;
+        } else {
+            -1_i64
+        }
     }
 
     fn and(lhs: i64, rhs: i64) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) {
+        if (lhs == 0 || rhs == 0) {
             return false;
         } else {
             return true;
@@ -2382,7 +2396,7 @@ impl i64Number of NumberTrait<i64, u64> {
     }
 
     fn where(self: i64, x: i64, y: i64) -> i64 {
-        if self.mag == 0 {
+        if self == 0 {
             return y;
         } else {
             return x;
@@ -2390,47 +2404,47 @@ impl i64Number of NumberTrait<i64, u64> {
     }
 
     fn NaN() -> i64 {
-        IntegerTrait::NaN()
+        panic(array!['not supported!'])
     }
 
     fn is_nan(self: i64) -> bool {
-        IntegerTrait::is_nan(self)
+        panic(array!['not supported!'])
     }
 
     fn INF() -> i64 {
-        IntegerTrait::INF()
+       9223372036854775807 
     }
 
     fn is_inf(self: i64) -> bool {
-        IntegerTrait::is_inf(self)
+        (self == 9223372036854775807 || self == -9223372036854775807)
     }
 
     fn is_pos_inf(self: i64) -> bool {
-        IntegerTrait::is_pos_inf(self)
+        self == 9223372036854775807 
     }
 
     fn is_neg_inf(self: i64) -> bool {
-        IntegerTrait::is_neg_inf(self)
+       self == -9223372036854775807 
     }
 
     fn bitwise_and(lhs: i64, rhs: i64) -> i64 {
-        i64_core::i64_bitwise_and(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_xor(lhs: i64, rhs: i64) -> i64 {
-        i64_core::i64_bitwise_xor(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_or(lhs: i64, rhs: i64) -> i64 {
-        i64_core::i64_bitwise_or(lhs, rhs)
+        panic(array!['not supported!'])
     }
     
     fn add(lhs: i64, rhs: i64) -> i64 {
-        i64Add::add(lhs, rhs)
+        lhs + rhs
     }
 
     fn sub(lhs: i64, rhs: i64) -> i64 {
-        i64Sub::sub(lhs, rhs)
+        lhs - rhs
     }
 }
 
