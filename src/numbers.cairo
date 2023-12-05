@@ -1683,17 +1683,13 @@ impl I8Number of NumberTrait<i8, i8> {
     }
 }
 
-use orion::numbers::signed_integer::i16 as i16_core;
-use orion::numbers::signed_integer::i16::i16;
-use orion::numbers::signed_integer::i16::{i16Add, i16Sub};
-
-impl i16Number of NumberTrait<i16, u16> {
-    fn new(mag: u16, sign: bool) -> i16 {
-        i16 { mag, sign }
+impl I16Number of NumberTrait<i16, i16> {
+    fn new(mag: i16, sign: bool) -> i16 {
+        mag
     }
 
-    fn new_unscaled(mag: u16, sign: bool) -> i16 {
-        i16 { mag, sign }
+    fn new_unscaled(mag: i16, sign: bool) -> i16 {
+        mag
     }
 
     fn from_felt(val: felt252) -> i16 {
@@ -1789,10 +1785,10 @@ impl i16Number of NumberTrait<i16, u16> {
     }
 
     fn zero() -> i16 {
-        i16 { mag: 0, sign: false }
+        0
     }
     fn is_zero(self: i16) -> bool {
-        i16_core::i16_eq(self, i16 { mag: 0, sign: false })
+       self == 0 
     }
 
     fn half() -> i16 {
@@ -1800,51 +1796,63 @@ impl i16Number of NumberTrait<i16, u16> {
     }
 
     fn one() -> i16 {
-        i16 { mag: 1, sign: false }
+        1
     }
 
     fn neg_one() -> i16 {
-        i16 { mag: 1, sign: true }
+        -1
     }
 
     fn is_one(self: i16) -> bool {
-        i16_core::i16_eq(self, i16 { mag: 1, sign: false })
+        self == 1
     }
 
     fn abs(self: i16) -> i16 {
-        i16_core::i16_abs(self)
+        if self >= 0 {
+            return self;
+        } else {
+            self * -1_i16
+        }
     }
 
     fn neg(self: i16) -> i16 {
-        i16_core::i16_neg(self)
+        self * -1_i16
     }
 
     fn min_value() -> i16 {
-        i16 { mag: 32768, sign: true }
+        -32767
     }
 
     fn max_value() -> i16 {
-        i16 { mag: 32767, sign: false }
+        32767
     }
 
     fn min(self: i16, other: i16) -> i16 {
-        i16_core::i16_min(self, other)
+        if self < other {
+            return self;
+        } else {
+            other
+        }
     }
 
     fn max(self: i16, other: i16) -> i16 {
-        i16_core::i16_max(self, other)
+        if self > other {
+            return self;
+        } else {
+            other
+        }
     }
 
-    fn mag(self: i16) -> u16 {
-        self.mag
+    fn mag(self: i16) -> i16 {
+        self
     }
 
     fn is_neg(self: i16) -> bool {
-        self.sign
+        self < 0
     }
 
     fn xor(lhs: i16, rhs: i16) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) && lhs.mag != rhs.mag {
+        if (lhs == 0 || rhs == 0) && lhs != rhs {
             return true;
         } else {
             return false;
@@ -1852,7 +1860,7 @@ impl i16Number of NumberTrait<i16, u16> {
     }
 
     fn or(lhs: i16, rhs: i16) -> bool {
-        if (lhs.mag == 0 && rhs.mag == 0) {
+        if (lhs == 0 && rhs == 0) {
             return false;
         } else {
             return true;
@@ -1860,11 +1868,17 @@ impl i16Number of NumberTrait<i16, u16> {
     }
 
     fn sign(self: i16) -> i16 {
-        i16_core::i16_sign(self)
+        if self == 0 {
+            return 0_i16;
+        } else if self > 0 {
+            return 1_i16;
+        } else {
+            -1_i16
+        }
     }
 
     fn and(lhs: i16, rhs: i16) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) {
+        if (lhs == 0 || rhs == 0) {
             return false;
         } else {
             return true;
@@ -1872,7 +1886,7 @@ impl i16Number of NumberTrait<i16, u16> {
     }
 
     fn where(self: i16, x: i16, y: i16) -> i16 {
-        if self.mag == 0 {
+        if self == 0 {
             return y;
         } else {
             return x;
@@ -1880,47 +1894,47 @@ impl i16Number of NumberTrait<i16, u16> {
     }
 
     fn NaN() -> i16 {
-        IntegerTrait::NaN()
+        panic(array!['not supported!'])
     }
 
     fn is_nan(self: i16) -> bool {
-        IntegerTrait::is_nan(self)
+        panic(array!['not supported!'])
     }
 
     fn INF() -> i16 {
-        IntegerTrait::INF()
+        32767
     }
 
     fn is_inf(self: i16) -> bool {
-        IntegerTrait::is_inf(self)
+        (self == 32767 || self == -32767)
     }
 
     fn is_pos_inf(self: i16) -> bool {
-        IntegerTrait::is_pos_inf(self)
+        self == 32767
     }
 
     fn is_neg_inf(self: i16) -> bool {
-        IntegerTrait::is_neg_inf(self)
+       self == -32767 
     }
 
     fn bitwise_and(lhs: i16, rhs: i16) -> i16 {
-        i16_core::i16_bitwise_and(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_xor(lhs: i16, rhs: i16) -> i16 {
-        i16_core::i16_bitwise_xor(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_or(lhs: i16, rhs: i16) -> i16 {
-        i16_core::i16_bitwise_or(lhs, rhs)
+        panic(array!['not supported!'])
     }
     
     fn add(lhs: i16, rhs: i16) -> i16 {
-        i16Add::add(lhs, rhs)
+        lhs + rhs
     }
 
     fn sub(lhs: i16, rhs: i16) -> i16 {
-        i16Sub::sub(lhs, rhs)
+        lhs - rhs
     }
 }
 
