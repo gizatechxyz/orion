@@ -443,6 +443,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn sequence_insert(self: Array<Tensor<FP32x32>>, tensor: @Tensor<FP32x32>, position: Option<Tensor<i32>>) -> Array<Tensor<FP32x32>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+    
+    fn erf(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::erf::erf(*self)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

@@ -444,6 +444,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn sequence_insert(self: Array<Tensor<FP16x16>>, tensor: @Tensor<FP16x16>, position: Option<Tensor<i32>>) -> Array<Tensor<FP16x16>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+    
+    fn erf(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::erf::erf(*self)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

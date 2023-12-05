@@ -9,6 +9,7 @@ use cubit::f128::types::Fixed as FP64x64;
 use cubit::f128::ONE_u128 as ONE;
 use cubit::f128::core::MAX_u128 as MAX;
 
+use orion::numbers::fixed_point::implementations::fp64x64::erf;
 use orion::numbers::fixed_point::core::{FixedTrait};
 use orion::numbers::fixed_point::utils;
 use orion::numbers::{i32, i8};
@@ -184,6 +185,10 @@ impl FP64x64Impl of FixedTrait<FP64x64, u128> {
 
     fn is_nan(self: FP64x64) -> bool {
         self == FP64x64 { mag: 0, sign: true }
+    }
+
+    fn erf(self: FP64x64) -> FP64x64 {
+        return erf::erf(self);
     }
 }
 

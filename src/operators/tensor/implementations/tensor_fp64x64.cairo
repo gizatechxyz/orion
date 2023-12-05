@@ -445,6 +445,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn sequence_insert(self: Array<Tensor<FP64x64>>, tensor: @Tensor<FP64x64>, position: Option<Tensor<i32>>) -> Array<Tensor<FP64x64>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+    
+    fn erf(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::erf::erf(*self)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

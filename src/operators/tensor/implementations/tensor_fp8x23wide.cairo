@@ -402,6 +402,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn sequence_insert(self: Array<Tensor<FP8x23W>>, tensor: @Tensor<FP8x23W>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23W>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn erf(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
+        math::erf::erf(*self)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

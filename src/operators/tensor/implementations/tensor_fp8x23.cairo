@@ -443,6 +443,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn sequence_insert(self: Array<Tensor<FP8x23>>, tensor: @Tensor<FP8x23>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn erf(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::erf::erf(*self)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

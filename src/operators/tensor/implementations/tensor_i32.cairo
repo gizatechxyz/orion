@@ -444,6 +444,10 @@ impl I32Tensor of TensorTrait<i32> {
     fn sequence_insert(self: Array<Tensor<i32>>, tensor: @Tensor<i32>, position: Option<Tensor<i32>>) -> Array<Tensor<i32>> {
 	math::sequence_insert::sequence_insert(self, tensor, position)
     }
+
+    fn erf(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.
