@@ -10,7 +10,7 @@ use orion::operators::tensor::core::{
 };
 use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i32, i8, NumberTrait};
-use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_i8::I8Tensor};
+use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_i8::I8Tensor, tensor_bool::BoolTensor};
 
 
 impl I32Tensor of TensorTrait<i32> {
@@ -24,6 +24,22 @@ impl I32Tensor of TensorTrait<i32> {
 
     fn at(self: @Tensor<i32>, indices: Span<usize>) -> i32 {
         *at_tensor(self, indices)
+    }
+
+    fn add(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        math::arithmetic::add(@lhs, @rhs)
+    }
+
+    fn sub(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        math::arithmetic::sub(@lhs, @rhs)
+    }
+
+    fn mul(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        math::arithmetic::mul(@lhs, @rhs)
+    }
+
+    fn div(lhs: Tensor<i32>, rhs: Tensor<i32>) -> Tensor<i32> {
+        math::arithmetic::div(@lhs, @rhs)
     }
 
     fn min_in_tensor(self: @Tensor<i32>) -> i32 {
@@ -60,6 +76,10 @@ impl I32Tensor of TensorTrait<i32> {
 
     fn reduce_sum(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         math::reduce_sum::reduce_sum(self, axis, keepdims)
+    }
+
+    fn reduce_prod(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
+        math::reduce_prod::reduce_prod(self, axis, keepdims)
     }
 
     fn argmax(
@@ -304,6 +324,18 @@ impl I32Tensor of TensorTrait<i32> {
         )
     }
 
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<i32>, a_zero_point: @Tensor<i32>, alpha: i32
+    ) -> Tensor::<i8> {
+        quantization::qlinear_leakyrelu::qlinear_leakyrelu(
+            self,
+            a_scale,
+            a_zero_point,
+            alpha,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
 
     fn slice(
         self: @Tensor<i32>,
@@ -339,7 +371,7 @@ impl I32Tensor of TensorTrait<i32> {
         core::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 
@@ -353,6 +385,14 @@ impl I32Tensor of TensorTrait<i32> {
 
     fn bitwise_and(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         math::bitwise_and::bitwise_and(self, other)
+    }
+
+    fn bitwise_xor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
+        math::bitwise_xor::bitwise_xor(self, other)
+    }
+    
+    fn bitwise_or(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
+        math::bitwise_or::bitwise_or(self, other)
     }
 
     fn round(self: @Tensor<i32>) -> Tensor<i32> {
@@ -390,25 +430,32 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn reduce_l2(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
+            panic(array!['not supported!'])
+    }
+    
+    fn not(self: @Tensor<i32>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
+    fn gather_elements(self: @Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i32> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+
     fn sequence_length(self: Array<Tensor<i32>>) -> Tensor<u32> {
-	math::sequence_length::sequence_length(self)
+        math::sequence_length::sequence_length(self)
     }
-    
+
     fn shrink(self: Tensor<i32>, bias: Option<i32>, lambd: Option<i32>) -> Tensor<i32> {
-        panic(array!['not supported!']) 
+        panic(array!['not supported!'])
     }
-    
+
     fn sequence_at(sequence: Array<Tensor<i32>>, position: Tensor<i32>) -> Tensor<i32> {
         math::sequence_at::sequence_at(sequence, position)
     }
-    
+
     fn sequence_construct(tensors: Array<Tensor<i32>>) -> Array<Tensor<i32>> {
         math::sequence_construct::sequence_construct(tensors)
     }
-
 
 
     fn sequence_empty() -> Array<Tensor<i32>> {
@@ -436,13 +483,29 @@ impl I32Tensor of TensorTrait<i32> {
     fn pow(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
-    
-    fn sequence_erase(sequence: Array<Tensor<i32>>, position: Option<Tensor<i32>>) -> Array<Tensor<i32>> {
+
+    fn sequence_erase(
+        sequence: Array<Tensor<i32>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<i32>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }
-    
-    fn sequence_insert(self: Array<Tensor<i32>>, tensor: @Tensor<i32>, position: Option<Tensor<i32>>) -> Array<Tensor<i32>> {
-	math::sequence_insert::sequence_insert(self, tensor, position)
+
+    fn sequence_insert(
+        self: Array<Tensor<i32>>, tensor: @Tensor<i32>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<i32>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
+    }
+
+    fn is_inf(self: @Tensor<i32>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+	math::is_inf::is_inf(self, detect_negative, detect_positive)
+    }
+
+    fn is_nan(self: @Tensor<i32>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn concat_from_sequence(sequence: Array<Tensor<i32>>, axis: i32, new_axis: Option<usize>) -> Tensor<i32> {
+        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
     fn erf(self: @Tensor<i32>) -> Tensor<i32> {

@@ -187,6 +187,30 @@ impl FP64x64Impl of FixedTrait<FP64x64, u128> {
         self == FP64x64 { mag: 0, sign: true }
     }
 
+    fn INF() -> FP64x64 {
+        return FP64x64 { mag: 4294967295, sign: false };
+    }
+
+    fn POS_INF() -> FP64x64 {
+        return FP64x64 { mag: 4294967295, sign: false };
+    }
+
+    fn NEG_INF() -> FP64x64 {
+        return FP64x64 { mag: 4294967295, sign: true };
+    }
+
+    fn is_inf(self: FP64x64) -> bool {
+        self.mag == 4294967295
+    }
+
+    fn is_pos_inf(self: FP64x64) -> bool {
+	self.is_inf() && !self.sign
+    }
+
+    fn is_neg_inf(self: FP64x64) -> bool {
+	self.is_inf() && self.sign
+    }
+
     fn erf(self: FP64x64) -> FP64x64 {
         return erf::erf(self);
     }

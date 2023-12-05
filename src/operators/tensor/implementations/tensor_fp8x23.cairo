@@ -10,7 +10,7 @@ use orion::operators::tensor::core::{
 };
 use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP8x23};
-use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
+use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor};
 
 impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn new(shape: Span<usize>, data: Span<FP8x23>) -> Tensor<FP8x23> {
@@ -23,6 +23,22 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
 
     fn at(self: @Tensor<FP8x23>, indices: Span<usize>) -> FP8x23 {
         *at_tensor(self, indices)
+    }
+
+    fn add(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::arithmetic::add(@lhs, @rhs)
+    }
+
+    fn sub(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::arithmetic::sub(@lhs, @rhs)
+    }
+
+    fn mul(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::arithmetic::mul(@lhs, @rhs)
+    }
+
+    fn div(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::arithmetic::div(@lhs, @rhs)
     }
 
     fn min_in_tensor(self: @Tensor<FP8x23>) -> FP8x23 {
@@ -59,6 +75,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
 
     fn reduce_sum(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
         math::reduce_sum::reduce_sum(self, axis, keepdims)
+    }
+
+    fn reduce_prod(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
+        math::reduce_prod::reduce_prod(self, axis, keepdims)
     }
 
     fn argmax(
@@ -303,6 +323,20 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         )
     }
 
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<FP8x23>, a_zero_point: @Tensor<FP8x23>, alpha: FP8x23
+    ) -> Tensor::<i8> {
+        quantization::qlinear_leakyrelu::qlinear_leakyrelu(
+            self,
+            a_scale,
+            a_zero_point,
+            alpha,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
+
     fn slice(
         self: @Tensor<FP8x23>,
         starts: Span<usize>,
@@ -339,7 +373,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         core::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<usize> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 
@@ -353,6 +387,14 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
 
     fn bitwise_and(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::bitwise_and::bitwise_and(self, other)
+    }
+
+    fn bitwise_xor(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::bitwise_xor::bitwise_xor(self, other)
+    }
+    
+    fn bitwise_or(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::bitwise_or::bitwise_or(self, other)
     }
 
     fn round(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
@@ -385,18 +427,24 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
 
+    fn gather_elements(
+        self: @Tensor<FP8x23>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP8x23> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
+
     fn sequence_length(self: Array<Tensor<FP8x23>>) -> Tensor<u32> {
-	math::sequence_length::sequence_length(self)
+        math::sequence_length::sequence_length(self)
     }
-    
+
     fn shrink(self: Tensor<FP8x23>, bias: Option<FP8x23>, lambd: Option<FP8x23>) -> Tensor<FP8x23> {
-        math::shrink::shrink(self, bias, lambd) 
+        math::shrink::shrink(self, bias, lambd)
     }
-    
+
     fn sequence_at(sequence: Array<Tensor<FP8x23>>, position: Tensor<i32>) -> Tensor<FP8x23> {
         math::sequence_at::sequence_at(sequence, position)
     }
-    
+
     fn sequence_construct(tensors: Array<Tensor<FP8x23>>) -> Array<Tensor<FP8x23>> {
         math::sequence_construct::sequence_construct(tensors)
     }
@@ -422,6 +470,11 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn array_feature_extractor(self: @Tensor<FP8x23>, indices: Tensor<usize>) -> Tensor<FP8x23> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
+    
+    fn not(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        panic(array!['not supported!'])
+    }
+    
 
     fn reduce_min(
         self: @Tensor<FP8x23>,
@@ -435,13 +488,29 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn pow(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::pow::pow(self, other)
     }
-    
-    fn sequence_erase(sequence: Array<Tensor<FP8x23>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23>> {
+
+    fn sequence_erase(
+        sequence: Array<Tensor<FP8x23>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP8x23>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }
-    
-    fn sequence_insert(self: Array<Tensor<FP8x23>>, tensor: @Tensor<FP8x23>, position: Option<Tensor<i32>>) -> Array<Tensor<FP8x23>> {
-	math::sequence_insert::sequence_insert(self, tensor, position)
+
+    fn sequence_insert(
+        self: Array<Tensor<FP8x23>>, tensor: @Tensor<FP8x23>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP8x23>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
+    }
+
+    fn is_inf(self: @Tensor<FP8x23>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+        math::is_inf::is_inf(self, detect_negative, detect_positive)
+    }
+
+    fn is_nan(self: @Tensor<FP8x23>) -> Tensor<bool> {
+	math::is_nan::is_nan(self)
+    }
+
+    fn concat_from_sequence(sequence: Array<Tensor<FP8x23>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP8x23> {
+        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
     fn erf(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {

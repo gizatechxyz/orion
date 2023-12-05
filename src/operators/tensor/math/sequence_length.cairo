@@ -9,8 +9,5 @@ fn sequence_length<T, impl TDrop: Drop<T>>(self: Array<Tensor<T>>) -> Tensor<u32
     let mut result = ArrayTrait::new();
     result.append(self.len());
 
-    Tensor::<u32> {
-	shape: shape.span(),
-	data: result.span(),
-    }
+    Tensor::<u32> { shape: shape.span(), data: result.span(), }
 }

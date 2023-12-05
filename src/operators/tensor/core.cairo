@@ -52,6 +52,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// min - Returns the minimum value in the tensor.
 /// max - Returns the maximum value in the tensor.
 /// reduce_sum - Reduces a tensor by summing its elements along a specified axis.
+/// reduce_prod - Reduces a tensor to its products along specified axis.
 /// argmax - Returns the index of the maximum value along the specified axis.
 /// argmin - Returns the index of the minimum value along the specified axis.
 /// cumsum - Performs cumulative sum of the input elements along the given axis.
@@ -80,6 +81,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// qlinear_mul - Performs the element-wise multiplication of quantized Tensors.
 /// qlinear_matmul - Performs the product of two quantized i8 Tensors.
 /// qlinear_concat - Concatenate a list of tensors after dequantizing them with their respective scales and zero_points and returns the quantized result.
+/// qlinear_leakyrelu - Applies the Leaky Relu operator to a quantized Tensor
 /// gather - Gather entries of the axis dimension of data.
 /// nonzero - Produces indices of the elements that are non-zero (in row-major order - by dimension).
 /// squeeze - Removes dimensions of size 1 from the shape of a tensor.
@@ -90,12 +92,19 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// identity - Return a Tensor with the same shape and contents as input.
 /// where - Return elements chosen from x or y depending on condition.
 /// bitwise_and - Computes the bitwise AND of two tensors element-wise.
+/// bitwise_xor - Computes the bitwise XOR of two tensors element-wise.
+/// bitwise_or - Computes the bitwise OR of two tensors element-wise.
 /// round - Computes the round value of all elements in the input tensor.
 /// reduce_l1 - Computes the L1 norm of the input tensor's elements along the provided axes.
 /// trilu - Returns the upper or lower triangular part of a tensor or a batch of 2D matrices.
 /// scatter - Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
 /// reduce_sum_square - Computes the sum square of the input tensor's elements along the provided axes. 
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
+/// gather_elements - GatherElements is an indexing operation that produces its output by indexing into the input data tensor at index positions determined by elements of the indices tensor.
+/// reduce_min - Computes the min of the input tensor's elements along the provided axes.
+/// sequence_construct – Constructs a tensor sequence containing the input tensors.
+/// shrink – Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula.
+/// sequence_empty - Returns an empty tensor sequence.
 /// sequence_length - Returns the length of the input sequence.
 /// sequence_insert - Insert a tensor into a sequence.
 /// sequence_at - Outputs the tensor at the specified position in the input sequence.
@@ -108,8 +117,11 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// binarizer - Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
 /// array_feature_extractor - Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
 /// reduce_min - Computes the min of the input tensor's elements along the provided axes.
+/// concat_from_sequence - Concatenate a sequence of tensors into a single tensor.
+/// is_nan - Returns which elements of the input are NaN.
+/// is_inf - Maps infinity to true and other values to false.
+/// not - Computes the logical negation of all elements in the input tensor.
 /// erf - Computes the error function of the given input tensor element-wise.
-/// 
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -247,6 +259,10 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn min_in_tensor(self: @Tensor<T>) -> T;
+    fn add(lhs: Tensor<T>, rhs: Tensor<T>) -> Tensor<T>;
+    fn sub(lhs: Tensor<T>, rhs: Tensor<T>) -> Tensor<T>;
+    fn mul(lhs: Tensor<T>, rhs: Tensor<T>) -> Tensor<T>;
+    fn div(lhs: Tensor<T>, rhs: Tensor<T>) -> Tensor<T>;
     /// # tensor.min
     ///
     /// ```rust 
@@ -3012,6 +3028,84 @@ trait TensorTrait<T> {
         y_zero_point: @Tensor<T>,
         axis: usize
     ) -> Tensor::<i8>;
+    /// # tensor.qlinear_leakyrelu
+    /// 
+    /// ```rust
+    ///     fn qlinear_leakyrelu(self: @Tensor<i8>, a_scale: @Tensor<T>, a_zero_point: @Tensor<T>, alpha: T) -> Tensor::<i8>;
+    /// ```
+    /// 
+    /// Applies the Leaky Relu operator to a quantized Tensor
+    ///
+    /// QLinar LeakyRelu takes as input a quantized Tensor, its scale and zero point and an scalar alpha, and produces one output data (a quantized Tensor)
+    /// where the function `f(x) = alpha * x for x < 0, f(x) = x for x >= 0`, is applied to the data tensor elementwise.
+    /// The quantization formula is y = saturate((x / y_scale) + y_zero_point).
+    /// Scale and zero point must have same shape and the same type. They must be either scalar (per tensor) or N-D tensor (per row for 'a' and per column for 'b'). 
+    /// Scalar refers to per tensor quantization whereas N-D refers to per row or per column quantization.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<i8>`) - The first tensor to be multiplied (a).
+    /// * `a_scale`(`@Tensor<T>`) - Scale for input `a`.
+    /// * `a_zero_point`(`@Tensor<T>`) - Zero point for input `a`.
+    /// * `alpha`(`T`) - The factor multiplied to negative elements.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<i8>`, containing result of the Leaky Relu.
+    ///
+    /// ## Type Constraints
+    ///
+    /// u32 tensor, not supported.
+    /// fp8x23wide tensor, not supported.
+    /// fp16x16wide tensor, not supported.
+    /// bool tensor, not supported.
+    ///  
+    /// ## Example
+    /// 
+    /// ```rust
+
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
+    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// 
+    /// 
+    /// fn qlinear_leakyrelu_example() -> Tensor<i8> {
+    ///     let a = TensorTrait::<
+    ///         i8
+    ///     >::new(
+    ///         shape: array![2, 3].span(),
+    ///         data: array![
+    ///             IntegerTrait::<i8>::new(10_u8, true),
+    ///             IntegerTrait::<i8>::new(10_u8, true),
+    ///             IntegerTrait::<i8>::new(10_u8, true),
+    ///             IntegerTrait::<i8>::new(10_u8, false),
+    ///             IntegerTrait::<i8>::new(10_u8, false),
+    ///             IntegerTrait::<i8>::new(10_u8, false)
+    ///         ]
+    ///             .span(),
+    ///     );
+    ///     
+    ///     let a_scale = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(327680, false)].span(),);
+    ///     let a_zero_point = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(shape: array![1].span(), data: array![FixedTrait::<FP16x16>::new(131072, false)].span(),);
+    /// 
+    ///     let alpha = FixedTrait::<FP16x16>::new(655360, false);
+    /// 
+    ///     return = a
+    ///         .qlinear_leakyrelu(
+    ///             @a_scale, @a_zero_point, alpha
+    ///         );
+    /// }
+    /// 
+    /// >>> [[-118, -118, -118], [10, 10, 10]]
+    ///
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>, a_scale: @Tensor<T>, a_zero_point: @Tensor<T>, alpha: T
+    ) -> Tensor::<i8>;
     /// # tensor.slice
     ///
     /// ```rust 
@@ -3359,7 +3453,7 @@ trait TensorTrait<T> {
     /// #tensor.and
     ///
     /// ```rust
-    ///     fn and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool>;
     /// ```
     ///
     /// Computes the logical AND of two tensors element-wise.
@@ -3369,8 +3463,8 @@ trait TensorTrait<T> {
     ///
     /// ## Args
     ///
-    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
-    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    /// * `self`(`@Tensor<bool>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<bool>`) - The second tensor to be compared
     ///
     /// ## Panics
     ///
@@ -3378,53 +3472,30 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    /// A new `Tensor<bool>` with the same shape as the broadcasted inputs.
     ///
     /// ## Examples
     ///
-    /// Case 1: Compare tensors with same shape
-    ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn and_example() -> Tensor<usize> {
-    ///     let tensor_1 = TensorTrait::<u32>::new(
-    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+    /// fn and_example() -> Tensor<bool> {
+    ///     let tensor_1 = TensorTrait::<bool>::new(
+    ///         shape: array![3, 3].span(), data: array![false, true, false, false, false, true, true, false, true, false, false, true].span(),
     ///     );
     /// 
-    ///     let tensor_2 = TensorTrait::<u32>::new(
-    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 0, 1, 2, 0, 1, 2].span(),
-    ///     );
-    /// 
-    ///     return tensor_1.and(@tensor_2);
-    /// }
-    /// >>> [0,1,1,0,1,1,0,1,1]
-    /// ```
-    ///
-    /// Case 2: Compare tensors with different shapes
-    ///
-    /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
-    /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-    /// 
-    /// fn and_example() -> Tensor<usize> {
-    ///     let tensor_1 = TensorTrait::<u32>::new(
-    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
-    ///     );
-    /// 
-    ///     let tensor_2 = TensorTrait::<u32>::new(
-    ///         shape: array![1, 3].span(), data: array![0, 1, 2].span(),
+    ///     let tensor_2 = TensorTrait::<bool>::new(
+    ///         shape: array![3, 3].span(), data: array![false, false, true, true, false, true, false, true, false, true, false, true].span(),
     ///     );
     /// 
     ///     return tensor_1.and(@tensor_2);
     /// }
-    /// >>> [0,1,1,0,1,1,0,1,1]
+    /// >>> [false, false, false, false, false, true, false, false, false, false, false, true]
     /// ```
     ///
-    fn and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool>;
     /// #tensor.where
     ///
     /// ```rust
@@ -3673,6 +3744,98 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn bitwise_and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
+    /// #tensor.bitwise_or
+    ///
+    /// ```rust
+    ///     fn bitwise_or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Computes the bitwise OR of two tensors element-wise.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` with the same shape as the broadcasted inputs.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    ///
+    /// fn or_example() -> Tensor<usize> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 0, 4, 5, 0, 6, 2].span(),
+    ///     );
+    /// 
+    ///     return tensor_1.bitwise_or(@tensor_2);
+    /// }
+    /// >>> [0,1,2,3,4,5,6,7,10]
+    /// ```
+    ///
+    fn bitwise_or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
+    /// #tensor.bitwise_xor
+    ///
+    /// ```rust
+    ///     fn bitwise_xor(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    /// ```
+    ///
+    /// Computes the bitwise XOR of two tensors element-wise.
+    /// The input tensors must have either:
+    /// * Exactly the same shape
+    /// * The same number of dimensions and the length of each dimension is either a common length or 1.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The first tensor to be compared
+    /// * `other`(`@Tensor<T>`) - The second tensor to be compared
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the shapes are not equal or broadcastable
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` with the same shape as the broadcasted inputs.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    ///
+    /// fn xor_example() -> Tensor<usize> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), data: array![0, 1, 2, 0, 4, 5, 0, 6, 2].span(),
+    ///     );
+    /// 
+    ///     return tensor_1.bitwise_xor(@tensor_2);
+    /// }
+    /// >>> [0,0,0,3,0,0,6,1,10]
+    /// ```
+    ///
+    fn bitwise_xor(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
     /// ## tensor.reduce_l1
     ///
     /// ```rust 
@@ -3834,6 +3997,55 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn constant_of_shape(shape: Span<usize>, value: T) -> Tensor<T>;
+    /// # tensor.gather_elements
+    ///
+    /// ```rust 
+    ///    fn gather_elements(self: @Tensor<T>, indices: Tensor<T>, axis: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// GatherElements is an indexing operation that produces its output by indexing into the input data tensor at index positions determined by elements of the indices tensor.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `indices`(`Tensor<T>`) - Tensor of indices.
+    /// * `axis`(`Option<usize>`) - Axis to gather_elements on. Default: axis=0.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if index values are not within bounds [-s, s-1] along axis of size s.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` .
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn gather_elements_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![3, 3].span(), 
+    ///         data: array![[ 1, 2, 3],[4, 5, 6], [7, 8, 9]].span(), 
+    ///     );
+    ///     let indices = TensorTrait::<u32>::new(
+    ///         shape: array![1, 2, 0].span(), 
+    ///         data: array![2, 0, 0].span(), 
+    ///     );
+    /// 
+    ///     return tensor.gather_elements(
+    ///         indices: indices, 
+    ///         axis: Option::None(()), 
+    ///     );
+    /// }
+    /// >>> [[4. 8. 3.]
+    ///      [7. 2. 3.]]
+    /// ```
+    ///
+    fn gather_elements(self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<T>;
     /// # tensor.binarizer
     /// 
     /// ```rust
@@ -3907,7 +4119,6 @@ trait TensorTrait<T> {
     ///
     /// ```rust
     /// use array::{ArrayTrait, SpanTrait};
-    /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
     /// use orion::numbers::{i32, IntegerTrait};
     /// 
@@ -3934,55 +4145,6 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn array_feature_extractor(self: @Tensor<T>, indices: Tensor<usize>) -> Tensor<T>;
-    /// ## tensor.reduce_mean
-    ///
-    /// ```rust 
-    ///    fn reduce_mean(self: @Tensor<T>, axes: Option<Span<usize>>, keepdims: Option<bool>, noop_with_empty_axes: Option<bool>) -> Tensor<T>;
-    /// ```
-    ///
-    /// Computes the mean of the input tensor's elements along the provided axes.
-    ///
-    /// ## Args
-    ///
-    /// * `self`(`@Tensor<T>`) - The input tensor.
-    /// * `axes`(`Option<Span<usize>>`) - Optional input list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor if 'noop_with_empty_axes' is false, else act as an Identity op when 'noop_with_empty_axes' is true.
-    /// * `keepdims`(`Option<bool>`) - Keep the reduced dimension or not, default true means keep reduced dimension.
-    /// * `noop_with_empty_axes`(`Option<bool>`) - Defines behavior if 'axes' is empty. Default behavior with 'false' is to reduce all axes. When axes is empty and this attribute is set to true, input tensor will not be reduced,and the output tensor would be equivalent to input tensor.
-    ///
-    /// ## Panics 
-    /// 
-    /// * Panics if axis is not in the range of the input tensor's dimensions.
-    ///
-    /// ## Returns
-    ///
-    /// A new `Tensor<T>` instance with the specified axes reduced by meaning its elements.
-    ///
-    /// ## Examples
-    ///
-    /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
-    /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-    /// 
-    /// fn reduce_mean_example() -> Tensor<u32> {
-    ///     let tensor = TensorTrait::<u32>::new(
-    ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
-    ///     );
-    /// 
-    ///     // We can call `reduce_mean` function as follows.
-    ///     return tensor.reduce_mean(axes: array![1].span(), 
-    ///         keepdims: Option::None(()), 
-    ///         noop_with_empty_axes:  Option::None(()));
-    /// }
-    /// >>> [[1,2],[5,6]]
-    /// ```
-    ///
-    fn reduce_mean(
-        self: @Tensor<T>,
-        axes: Option<Span<usize>>,
-        keepdims: Option<bool>,
-        noop_with_empty_axes: Option<bool>
-    ) -> Tensor<T>;
     /// # tensor.sequence_empty
     ///
     /// ```rust
@@ -4108,6 +4270,55 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn sequence_construct(tensors: Array<Tensor<T>>) -> Array<Tensor<T>>;
+    /// ## tensor.reduce_mean
+    ///
+    /// ```rust 
+    ///    fn reduce_mean(self: @Tensor<T>, axes: Option<Span<usize>>, keepdims: Option<bool>, noop_with_empty_axes: Option<bool>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the mean of the input tensor's elements along the provided axes.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axes`(`Option<Span<usize>>`) - Optional input list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor if 'noop_with_empty_axes' is false, else act as an Identity op when 'noop_with_empty_axes' is true.
+    /// * `keepdims`(`Option<bool>`) - Keep the reduced dimension or not, default true means keep reduced dimension.
+    /// * `noop_with_empty_axes`(`Option<bool>`) - Defines behavior if 'axes' is empty. Default behavior with 'false' is to reduce all axes. When axes is empty and this attribute is set to true, input tensor will not be reduced,and the output tensor would be equivalent to input tensor.
+    ///
+    /// ## Panics 
+    /// 
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` instance with the specified axes reduced by meaning its elements.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn reduce_mean_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///     );
+    /// 
+    ///     // We can call `reduce_mean` function as follows.
+    ///     return tensor.reduce_mean(axes: array![1].span(), 
+    ///         keepdims: Option::None(()), 
+    ///         noop_with_empty_axes:  Option::None(()));
+    /// }
+    /// >>> [[1,2],[5,6]]
+    /// ```
+    ///
+    fn reduce_mean(
+        self: @Tensor<T>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<T>;
     /// ## tensor.reduce_min
     ///
     /// ```rust 
@@ -4143,7 +4354,7 @@ trait TensorTrait<T> {
     ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
     ///     );
     /// 
-    ///     // We can call `reduce_mean` function as follows.
+    ///     // We can call `reduce_min` function as follows.
     ///     return tensor.reduce_min(axes: array![1].span(), 
     ///         keepdims: Option::None(()), 
     ///         noop_with_empty_axes:  Option::None(()));
@@ -4213,7 +4424,9 @@ trait TensorTrait<T> {
     /// >>> [[1], [2], [3]]
     /// ```
     ///
-    fn sequence_insert(self: Array<Tensor<T>>, tensor: @Tensor<T>, position: Option<Tensor<i32>>) -> Array<Tensor<T>>;
+    fn sequence_insert(
+        self: Array<Tensor<T>>, tensor: @Tensor<T>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<T>>;
     /// ## tensor.sequence_at
     ///
     /// ```rust 
@@ -4309,7 +4522,9 @@ trait TensorTrait<T> {
     /// >>> [[0, 1, 2, 3], [8, 9, 10, 11]]
     /// ```
     ///
-    fn sequence_erase(sequence: Array<Tensor<T>>, position: Option<Tensor<i32>>) -> Array<Tensor<T>>;
+    fn sequence_erase(
+        sequence: Array<Tensor<T>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<T>>;
     /// #tensor.pow
     ///
     /// ```rust
@@ -4417,6 +4632,228 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn sequence_length(self: Array<Tensor<T>>) -> Tensor<u32>;
+    /// ## tensor.reduce_prod
+    /// 
+    /// ```rust 
+    ///    fn reduce_prod(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
+    /// ```
+    /// 
+    /// Reduces a tensor by multiplying its elements along a specified axis.
+    /// 
+    /// ## Args
+    /// 
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The dimension to reduce.
+    /// * `keepdims`(`bool`) - If true, retains reduced dimensions with length 1.
+    /// 
+    /// ## Panics 
+    /// 
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    /// 
+    /// ## Returns
+    /// 
+    /// A new `Tensor<T>` instance with the specified axis reduced by multiplying its elements.
+    /// 
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn reduce_prod_example() -> Tensor<u32> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
+    ///     );
+    /// 
+    ///     // We can call `reduce_prod` function as follows.
+    ///     return tensor.reduce_prod(axis: 0, keepdims: false);
+    /// }
+    /// >>> [[0,5],[12,21]]
+    /// ```
+    ///
+    fn reduce_prod(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
+    /// ## tensor.is_inf
+    ///
+    /// ```rust
+    ///    fn is_inf(self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool>;
+    /// ```
+    ///
+    /// Maps infinity to true and other values to false.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `detect_negative`(`Option<u8>`) - Optional Whether map negative infinity to true. Default to 1 so that negative infinity induces true.
+    /// * `detect_positive`(`Option<u8>`) - Optional Whether map positive infinity to true. Default to 1 so that positive infinity induces true.
+    ///
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<bool>` instance with entries set to true iff the input tensors corresponding element was infinity.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};    
+    /// use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, U32Tensor};
+    ///
+    /// fn is_inf_example() -> Tensor<bool> {
+    ///     let tensor = TensorTrait::<u32>::new(
+    ///         shape: array![6].span(), data: array![1, 0, NumberTrait::INF(), 8, NumberTrait::INF(), NumberTrait::INF()].span(),
+    ///     );
+    ///
+    ///     return tensor.is_inf(detect_negative: Option::None, detect_positive: Option::None);
+    /// }
+    /// >>> [false, false, true, false, true, true]
+    /// ```
+    ///
+    fn is_inf(
+        self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>
+    ) -> Tensor<bool>;
+    /// ## tensor.is_nan
+    ///
+    /// ```rust
+    ///    fn is_nan(self: @Tensor<T>) -> Tensor<bool>;
+    /// ```
+    ///
+    /// Maps NaN to true and other values to false.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<bool>` instance with entries set to true iff the input tensors corresponding element was NaN.
+    ///
+    /// ## Examples
+    ///
+    /// use array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, FP8x23Tensor};
+    /// use orion::numbers::{FixedTrait, FP8x23};
+    ///
+    /// fn is_nan_example() -> Tensor<bool> {
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(4);
+    ///
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(FP8x23 { mag: 10066329, sign: true });
+    ///     data.append(FP8x23 { mag: 0, sign: false });
+    ///     data.append(FixedTrait::NaN());
+    ///     data.append(FP8x23 { mag: 23488102, sign: false });
+    ///     let tensor = TensorTrait::new(shape.span(), data.span())
+    ///
+    ///     return tensor.is_nan();
+    /// }
+    /// >>> [false, false, true, false]
+    /// ```
+    ///
+    fn is_nan(self: @Tensor<T>) -> Tensor<bool>;
+    /// # tensor.concat_from_sequence
+    ///
+    /// ```rust 
+    ///    fn concat_from_sequence(sequence: Array<Tensor<T>>, axis: i32, new_axis: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Concatenate a sequence of tensors into a single tensor.
+    ///
+    /// ## Args
+    ///
+    /// * `sequence`(`Array<Tensor<T>>`) - The input sequence.
+    /// * `axis`(`i32`) -  Axis to concat on.
+    /// * `new_axis`(`Option<usize>`) -  Optionally added new axis.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if new_axis not 0 or 1 (if value provided).
+    /// * Panics if axis not in accepted ranges.
+    /// * Panics if sequence length is not greater than 1.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` concatenated tensor from the input tensor sequence.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn concat_example() -> Tensor<u32> {
+    ///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
+    ///     let tensor2 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span(),);
+    ///
+    ///     let mut sequence = ArrayTrait::new();
+    ///     sequence.append(tensor1);
+    ///     sequence.append(tensor2);
+    ///
+    ///     let result = TensorTrait::concat_from_sequence(sequence: sequence, axis: 0, new_axis: Option::Some(0));
+    ///     return result;
+    /// }
+    /// >>> [[0. 1.]
+    ///      [2. 3.],
+    ///      [0. 1.]
+    ///      [2. 3.]]
+    ///
+    ///     result.shape
+    /// >>> (4, 2)
+    ///
+    ///    let result = TensorTrait::concat_from_sequence(sequence: sequence, axis: 1, new_axis: Option::Some(0));
+    ///    return result;
+    /// }
+    /// >>> [[0. 1., 0., 1.]
+    ///      [2. 3., 2., 3.]]
+    ///
+    ///     result.shape
+    /// >>> (2, 4 ) 
+    /// ```
+    ///
+    fn concat_from_sequence(
+        sequence: Array<Tensor<T>>, axis: i32, new_axis: Option<usize>
+    ) -> Tensor<T>;
+    /// #tensor.not
+    /// 
+    /// ```rust
+    ///     fn not(self: @Tensor<bool>) -> Tensor<bool;
+    /// ```
+    /// 
+    /// Computes the negation of the elements in the bool type input tensor.
+    /// 
+    /// ## Args
+    /// 
+    /// * `self`(`@Tensor<bool>`) - The input tensor.
+    /// 
+    /// 
+    /// ## Returns
+    /// 
+    /// A new `Tensor<bool>` of the same shape as the input tensor with 
+    /// the negation of all elements in the input tensor.
+    /// 
+    /// ## Example
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
+    /// use orion::numbers::{i32, IntegerTrait};
+    /// 
+    /// fn not_example() -> Tensor<bool> {
+    ///     let tensor = TensorTrait::new(
+    ///         shape: array![3].span(),
+    ///         data: array![
+    ///             true, true, false
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     return tensor.not();
+    /// }
+    /// >>> [true, true, false]
+    /// ```
+    ///
+    fn not(self: @Tensor<T>) -> Tensor<T>;
     /// ## tensor.erf
     ///
     /// ```rust 

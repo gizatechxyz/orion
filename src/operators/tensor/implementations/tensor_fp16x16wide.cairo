@@ -10,7 +10,7 @@ use orion::operators::tensor::core::{
 };
 use orion::operators::tensor::{math, linalg, quantization, core, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP16x16W};
-use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor};
+use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor};
 
 impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn new(shape: Span<usize>, data: Span<FP16x16W>) -> Tensor<FP16x16W> {
@@ -23,6 +23,22 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
 
     fn at(self: @Tensor<FP16x16W>, indices: Span<usize>) -> FP16x16W {
         *at_tensor(self, indices)
+    }
+
+    fn add(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::arithmetic::add(@lhs, @rhs)
+    }
+
+    fn sub(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::arithmetic::sub(@lhs, @rhs)
+    }
+
+    fn mul(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::arithmetic::mul(@lhs, @rhs)
+    }
+
+    fn div(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::arithmetic::div(@lhs, @rhs)
     }
 
     fn min_in_tensor(self: @Tensor<FP16x16W>) -> FP16x16W {
@@ -59,6 +75,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
 
     fn reduce_sum(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
         math::reduce_sum::reduce_sum(self, axis, keepdims)
+    }
+
+    fn reduce_prod(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
+        math::reduce_prod::reduce_prod(self, axis, keepdims)
     }
 
     fn argmax(
@@ -265,7 +285,16 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         axis: usize
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
-    }    
+    }
+
+    fn qlinear_leakyrelu(
+        self: @Tensor<i8>,
+        a_scale: @Tensor<FP16x16W>,
+        a_zero_point: @Tensor<FP16x16W>,
+        alpha: FP16x16W
+    ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
 
     fn slice(
         self: @Tensor<FP16x16W>,
@@ -305,7 +334,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         core::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<usize> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 
@@ -321,6 +350,14 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
 
     fn bitwise_and(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
         math::bitwise_and::bitwise_and(self, other)
+    }
+
+    fn bitwise_xor(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::bitwise_xor::bitwise_xor(self, other)
+    }
+    
+    fn bitwise_or(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::bitwise_or::bitwise_or(self, other)
     }
 
     fn round(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
@@ -362,19 +399,32 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn reduce_l2(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
+    
+    fn not(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        panic(array!['not supported!'])
+    }
+    
+
+    fn gather_elements(
+        self: @Tensor<FP16x16W>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP16x16W> {
+        math::gather_elements::gather_elements(self, indices, axis)
+    }
 
     fn sequence_length(self: Array<Tensor<FP16x16W>>) -> Tensor<u32> {
-	math::sequence_length::sequence_length(self) 
+        math::sequence_length::sequence_length(self)
     }
-    
-    fn shrink(self: Tensor<FP16x16W>, bias: Option<FP16x16W>, lambd: Option<FP16x16W>) -> Tensor<FP16x16W> {
-        math::shrink::shrink(self, bias, lambd) 
+
+    fn shrink(
+        self: Tensor<FP16x16W>, bias: Option<FP16x16W>, lambd: Option<FP16x16W>
+    ) -> Tensor<FP16x16W> {
+        math::shrink::shrink(self, bias, lambd)
     }
-    
+
     fn sequence_at(sequence: Array<Tensor<FP16x16W>>, position: Tensor<i32>) -> Tensor<FP16x16W> {
         math::sequence_at::sequence_at(sequence, position)
     }
-    
+
     fn sequence_construct(tensors: Array<Tensor<FP16x16W>>) -> Array<Tensor<FP16x16W>> {
         math::sequence_construct::sequence_construct(tensors)
     }
@@ -404,13 +454,29 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn pow(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
         math::pow::pow(self, other)
     }
-    
-    fn sequence_erase(sequence: Array<Tensor<FP16x16W>>, position: Option<Tensor<i32>>) -> Array<Tensor<FP16x16W>> {
+
+    fn sequence_erase(
+        sequence: Array<Tensor<FP16x16W>>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP16x16W>> {
         math::sequence_erase::sequence_erase(sequence, position)
     }
-    
-    fn sequence_insert(self: Array<Tensor<FP16x16W>>, tensor: @Tensor<FP16x16W>, position: Option<Tensor<i32>>) -> Array<Tensor<FP16x16W>> {
-	math::sequence_insert::sequence_insert(self, tensor, position)
+
+    fn sequence_insert(
+        self: Array<Tensor<FP16x16W>>, tensor: @Tensor<FP16x16W>, position: Option<Tensor<i32>>
+    ) -> Array<Tensor<FP16x16W>> {
+        math::sequence_insert::sequence_insert(self, tensor, position)
+    }
+
+    fn is_inf(self: @Tensor<FP16x16W>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+        math::is_inf::is_inf(self, detect_negative, detect_positive)
+    }
+
+    fn is_nan(self: @Tensor<FP16x16W>) -> Tensor<bool> {
+	math::is_nan::is_nan(self)
+    }
+
+    fn concat_from_sequence(sequence: Array<Tensor<FP16x16W>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP16x16W> {
+        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
     
     fn erf(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
