@@ -2448,6 +2448,41 @@ impl I64Number of NumberTrait<i64, i64> {
     }
 }
 
+impl I64Div of Div<i64> {
+    fn div(lhs: i64, rhs: i64) -> i64 {
+        assert(rhs != 0, 'divisor cannot be 0');
+        let mut lhs_positive = lhs;
+        let mut rhs_positive = rhs;
+        // making sure everything is positive
+        if lhs < 0 {
+            lhs_positive = lhs * -1;
+        }
+        if rhs < 0 {
+            rhs_positive = rhs * -1;
+        }
+        //felt252 plays role of a bridge for type casting
+        let lhs_felt: felt252 = lhs_positive.into();
+        let rhs_felt: felt252 = rhs_positive.into();
+        let lhs_u128: u128 = lhs_felt.try_into().unwrap();
+        let rhs_u128: u128 = rhs_felt.try_into().unwrap();
+        let mut result = lhs_u128 / rhs_u128; 
+        let felt_result: felt252 = result.into();
+        let signed_int_result: i64 = felt_result.try_into().unwrap();
+        if lhs * rhs < 0 {
+            signed_int_result * -1
+        } else {
+            signed_int_result
+        }
+    }
+}
+
+impl I64DivEq of DivEq<i64> {
+    #[inline(always)]
+    fn div_eq(ref self: i64, other: i64) {
+        self = Div::div(self, other);
+    }
+}
+
 impl I128Number of NumberTrait<i128, i128> {
     fn new(mag: i128, sign: bool) -> i128 {
         mag
