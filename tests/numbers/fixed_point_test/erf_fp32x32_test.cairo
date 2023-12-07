@@ -11,7 +11,7 @@ fn test_erf() {
     // 0.134
     let f2: FP32x32 = FP32x32 { mag: 575525618, sign: false };
     // 0.520
-    let f3: FP32x32 = FP32x32 { mag: 2233382994, sign: false };
+    let f3: FP32x32 = FP32x32 { mag: 2233382993, sign: false };
     // 2.0
     let f4: FP32x32 = FP32x32 { mag: 8589934592, sign: false };
     // 3.5
@@ -26,10 +26,10 @@ fn test_erf() {
     let f5_erf: FP32x32 = erf(f5);
     let f6_erf: FP32x32 = erf(f6);
     assert(f1_erf.mag == 3619372346, 'f1_erf it works!');
-    assert(f2_erf.mag == 626494488, 'f2_erf it works!');
+    assert(f2_erf.mag == 674082374, 'f2_erf it works!');
     assert(f3_erf.mag == 2310257026, 'f3_erf it works!');
     assert(f4_erf.mag == 4274876577, 'f4_erf it works!');
-    assert(f5_erf.mag == 4294964104, 'f5_erf it works!');
+    assert(f5_erf.mag == 4294967296, 'f5_erf it works!');
     assert(f6_erf.mag == 4294967296, 'f6_erf it works!');
 
 }

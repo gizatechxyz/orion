@@ -26,19 +26,11 @@ fn test_erf() {
     let f5_erf: FP8x23 = erf(f5);
     let f6_erf: FP8x23 = erf(f6);
 
-    assert(f1_erf.mag == 7069087, 'f1_erf it works!');
-    assert(f2_erf.mag == 1223622, 'f2_erf it works!');
-    // // 8-bit accuracy problem
-    //     // 0.52*2**23 = 4362076.16
-    //     // >>> 4362076
-    //     // 4362076*100/2**23 = 51.99999809265137
-    //     // >>> 51
-    //     // 51*2**23/100 = 4278190
-    //     // >>> 4278190 
-    //     // get_key(4278190) -> (4278190, 4439617)
-    assert(f3_erf.mag == 4439617, 'f3_erf it works!');
+    assert(f1_erf.mag == 7069086, 'f1_erf it works!');
+    assert(f2_erf.mag == 1316567, 'f2_erf it works!');
+    assert(f3_erf.mag == 4512220, 'f3_erf it works!');
     assert(f4_erf.mag == 8349368, 'f4_erf it works!');
-    assert(f5_erf.mag == 8388602, 'f5_erf it works!');
+    assert(f5_erf.mag == 8388608, 'f5_erf it works!');
     assert(f6_erf.mag == 8388608, 'f6_erf it works!');
 
 }

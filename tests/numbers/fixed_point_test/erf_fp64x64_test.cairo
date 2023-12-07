@@ -26,10 +26,10 @@ fn test_erf() {
     let f5_erf: FP64x64 = erf(f5);
     let f6_erf: FP64x64 = erf(f6);
     assert(f1_erf.mag == 15545085858255493120_u128, 'f1_erf it works!');
-    assert(f2_erf.mag == 2690773336144481280_u128, 'f2_erf it works!');
+    assert(f2_erf.mag == 2895161752038532608_u128, 'f2_erf it works!');
     assert(f3_erf.mag == 9922478374042292224_u128, 'f3_erf it works!');
     assert(f4_erf.mag == 18360455093669533696_u128, 'f4_erf it works!');
-    assert(f5_erf.mag == 18446730365964054528_u128, 'f5_erf it works!');
+    assert(f5_erf.mag == 18446744073709551616_u128, 'f5_erf it works!');
     assert(f6_erf.mag == 18446744073709551616_u128, 'f6_erf it works!');
 
 }

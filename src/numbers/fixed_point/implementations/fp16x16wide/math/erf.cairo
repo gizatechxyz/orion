@@ -10,261 +10,696 @@ const MAX_ERF_NUMBER: u64 = 229376;
 // Values <= ERF_TRUNCATION_NUMBER -> two decimal places, and values > ERF_TRUNCATION_NUMBER -> one decimal place
 const ERF_TRUNCATION_NUMBER: u64 = 131072;
 
-fn get_key(mag: u64, erf_computational_accuracy: u64, round_check_number: u64) -> u64{
-    let mut round_number = mag*erf_computational_accuracy*ROUND_CHECK_NUMBER/ONE;
-	let rounded_off_value = match (round_check_number/2).into() {
-		0 => 1,
-		_ => round_check_number/2,
-	};
-    if (round_number % round_check_number) >= rounded_off_value{
-        round_number = round_number/round_check_number+1;
-    } else {
-        round_number = round_number/round_check_number;
-    }
-
-	let mut origin_number = round_number*ONE;
-	let origin_rounded_off_value = match (erf_computational_accuracy/2).into() {
-		0 => 1,
-		_ => erf_computational_accuracy/2,
-	};
-	if (origin_number % erf_computational_accuracy) >= origin_rounded_off_value{
-        origin_number = origin_number/erf_computational_accuracy+1;
-    } else {
-        origin_number = origin_number/erf_computational_accuracy;
-    }
-    origin_number
-}
-
-fn get_different_accuracy_key(mag: u64) -> felt252{
-    if mag <= ERF_TRUNCATION_NUMBER{
-        return get_key(mag, ERF_COMPUTATIONAL_ACCURACY, ROUND_CHECK_NUMBER).into();
-    } else if mag <= MAX_ERF_NUMBER{
-        return get_key(mag, ROUND_CHECK_NUMBER, ROUND_CHECK_NUMBER).into();
-    } else{
-        panic(array!['erf::get_different_accuracy_key', 'Key > MAX_ERF_NUMBER,', 'it is not in the erf_dict ', mag.into()])
-    }
-}
-
-fn get_lookup_table_values(key: felt252) -> u64{
+fn get_lookup_table_values(x: u64) -> u64{
 	// Construct the erf lookup table
-    let mut erf_table: Felt252Dict<u64> = Default::default();
-	erf_table.insert(0, 0);
-	erf_table.insert(655, 739);
-	erf_table.insert(1311, 1479);
-	erf_table.insert(1966, 2218);
-	erf_table.insert(2621, 2956);
-	erf_table.insert(3277, 3694);
-	erf_table.insert(3932, 4432);
-	erf_table.insert(4588, 5168);
-	erf_table.insert(5243, 5903);
-	erf_table.insert(5898, 6638);
-	erf_table.insert(6554, 7370);
-	erf_table.insert(7209, 8102);
-	erf_table.insert(7864, 8832);
-	erf_table.insert(8520, 9560);
-	erf_table.insert(9175, 10286);
-	erf_table.insert(9830, 11010);
-	erf_table.insert(10486, 11732);
-	erf_table.insert(11141, 12451);
-	erf_table.insert(11796, 13169);
-	erf_table.insert(12452, 13883);
-	erf_table.insert(13107, 14595);
-	erf_table.insert(13763, 15304);
-	erf_table.insert(14418, 16010);
-	erf_table.insert(15073, 16713);
-	erf_table.insert(15729, 17413);
-	erf_table.insert(16384, 18109);
-	erf_table.insert(17039, 18802);
-	erf_table.insert(17695, 19492);
-	erf_table.insert(18350, 20177);
-	erf_table.insert(19005, 20859);
-	erf_table.insert(19661, 21537);
-	erf_table.insert(20316, 22211);
-	erf_table.insert(20972, 22880);
-	erf_table.insert(21627, 23546);
-	erf_table.insert(22282, 24207);
-	erf_table.insert(22938, 24863);
-	erf_table.insert(23593, 25515);
-	erf_table.insert(24248, 26162);
-	erf_table.insert(24904, 26805);
-	erf_table.insert(25559, 27442);
-	erf_table.insert(26214, 28075);
-	erf_table.insert(26870, 28703);
-	erf_table.insert(27525, 29325);
-	erf_table.insert(28180, 29943);
-	erf_table.insert(28836, 30555);
-	erf_table.insert(29491, 31161);
-	erf_table.insert(30147, 31762);
-	erf_table.insert(30802, 32358);
-	erf_table.insert(31457, 32948);
-	erf_table.insert(32113, 33533);
-	erf_table.insert(32768, 34111);
-	erf_table.insert(33423, 34685);
-	erf_table.insert(34079, 35252);
-	erf_table.insert(34734, 35813);
-	erf_table.insert(35389, 36368);
-	erf_table.insert(36045, 36918);
-	erf_table.insert(36700, 37461);
-	erf_table.insert(37356, 37999);
-	erf_table.insert(38011, 38530);
-	erf_table.insert(38666, 39055);
-	erf_table.insert(39322, 39574);
-	erf_table.insert(39977, 40087);
-	erf_table.insert(40632, 40594);
-	erf_table.insert(41288, 41094);
-	erf_table.insert(41943, 41588);
-	erf_table.insert(42598, 42076);
-	erf_table.insert(43254, 42558);
-	erf_table.insert(43909, 43033);
-	erf_table.insert(44564, 43502);
-	erf_table.insert(45220, 43964);
-	erf_table.insert(45875, 44420);
-	erf_table.insert(46531, 44870);
-	erf_table.insert(47186, 45314);
-	erf_table.insert(47841, 45751);
-	erf_table.insert(48497, 46182);
-	erf_table.insert(49152, 46606);
-	erf_table.insert(49807, 47024);
-	erf_table.insert(50463, 47436);
-	erf_table.insert(51118, 47842);
-	erf_table.insert(51773, 48241);
-	erf_table.insert(52429, 48634);
-	erf_table.insert(53084, 49021);
-	erf_table.insert(53740, 49402);
-	erf_table.insert(54395, 49776);
-	erf_table.insert(55050, 50144);
-	erf_table.insert(55706, 50507);
-	erf_table.insert(56361, 50863);
-	erf_table.insert(57016, 51212);
-	erf_table.insert(57672, 51556);
-	erf_table.insert(58327, 51894);
-	erf_table.insert(58982, 52226);
-	erf_table.insert(59638, 52552);
-	erf_table.insert(60293, 52872);
-	erf_table.insert(60948, 53187);
-	erf_table.insert(61604, 53495);
-	erf_table.insert(62259, 53798);
-	erf_table.insert(62915, 54095);
-	erf_table.insert(63570, 54386);
-	erf_table.insert(64225, 54672);
-	erf_table.insert(64881, 54952);
-	erf_table.insert(65536, 55227);
-	erf_table.insert(66191, 55497);
-	erf_table.insert(66847, 55761);
-	erf_table.insert(67502, 56019);
-	erf_table.insert(68157, 56272);
-	erf_table.insert(68813, 56521);
-	erf_table.insert(69468, 56764);
-	erf_table.insert(70124, 57001);
-	erf_table.insert(70779, 57234);
-	erf_table.insert(71434, 57462);
-	erf_table.insert(72090, 57685);
-	erf_table.insert(72745, 57903);
-	erf_table.insert(73400, 58117);
-	erf_table.insert(74056, 58325);
-	erf_table.insert(74711, 58529);
-	erf_table.insert(75366, 58728);
-	erf_table.insert(76022, 58923);
-	erf_table.insert(76677, 59113);
-	erf_table.insert(77332, 59299);
-	erf_table.insert(77988, 59481);
-	erf_table.insert(78643, 59658);
-	erf_table.insert(79299, 59831);
-	erf_table.insert(79954, 60000);
-	erf_table.insert(80609, 60165);
-	erf_table.insert(81265, 60326);
-	erf_table.insert(81920, 60483);
-	erf_table.insert(82575, 60636);
-	erf_table.insert(83231, 60786);
-	erf_table.insert(83886, 60931);
-	erf_table.insert(84541, 61073);
-	erf_table.insert(85197, 61211);
-	erf_table.insert(85852, 61346);
-	erf_table.insert(86508, 61477);
-	erf_table.insert(87163, 61605);
-	erf_table.insert(87818, 61729);
-	erf_table.insert(88474, 61850);
-	erf_table.insert(89129, 61968);
-	erf_table.insert(89784, 62083);
-	erf_table.insert(90440, 62195);
-	erf_table.insert(91095, 62303);
-	erf_table.insert(91750, 62409);
-	erf_table.insert(92406, 62512);
-	erf_table.insert(93061, 62612);
-	erf_table.insert(93716, 62709);
-	erf_table.insert(94372, 62803);
-	erf_table.insert(95027, 62895);
-	erf_table.insert(95683, 62984);
-	erf_table.insert(96338, 63070);
-	erf_table.insert(96993, 63154);
-	erf_table.insert(97649, 63236);
-	erf_table.insert(98304, 63315);
-	erf_table.insert(98959, 63391);
-	erf_table.insert(99615, 63466);
-	erf_table.insert(100270, 63538);
-	erf_table.insert(100925, 63608);
-	erf_table.insert(101581, 63676);
-	erf_table.insert(102236, 63742);
-	erf_table.insert(102892, 63806);
-	erf_table.insert(103547, 63868);
-	erf_table.insert(104202, 63928);
-	erf_table.insert(104858, 63986);
-	erf_table.insert(105513, 64042);
-	erf_table.insert(106168, 64097);
-	erf_table.insert(106824, 64149);
-	erf_table.insert(107479, 64200);
-	erf_table.insert(108134, 64250);
-	erf_table.insert(108790, 64298);
-	erf_table.insert(109445, 64344);
-	erf_table.insert(110100, 64389);
-	erf_table.insert(110756, 64432);
-	erf_table.insert(111411, 64474);
-	erf_table.insert(112067, 64514);
-	erf_table.insert(112722, 64553);
-	erf_table.insert(113377, 64591);
-	erf_table.insert(114033, 64627);
-	erf_table.insert(114688, 64663);
-	erf_table.insert(115343, 64697);
-	erf_table.insert(115999, 64729);
-	erf_table.insert(116654, 64761);
-	erf_table.insert(117309, 64792);
-	erf_table.insert(117965, 64821);
-	erf_table.insert(118620, 64849);
-	erf_table.insert(119276, 64877);
-	erf_table.insert(119931, 64903);
-	erf_table.insert(120586, 64929);
-	erf_table.insert(121242, 64953);
-	erf_table.insert(121897, 64977);
-	erf_table.insert(122552, 65000);
-	erf_table.insert(123208, 65022);
-	erf_table.insert(123863, 65043);
-	erf_table.insert(124518, 65064);
-	erf_table.insert(125174, 65083);
-	erf_table.insert(125829, 65102);
-	erf_table.insert(126484, 65120);
-	erf_table.insert(127140, 65138);
-	erf_table.insert(127795, 65155);
-	erf_table.insert(128451, 65171);
-	erf_table.insert(129106, 65186);
-	erf_table.insert(129761, 65201);
-	erf_table.insert(130417, 65216);
-	erf_table.insert(131072, 65229);
-	erf_table.insert(137626, 65341);
-	erf_table.insert(144179, 65414);
-	erf_table.insert(150733, 65461);
-	erf_table.insert(157286, 65491);
-	erf_table.insert(163840, 65509);
-	erf_table.insert(170394, 65521);
-	erf_table.insert(176947, 65527);
-	erf_table.insert(183501, 65531);
-	erf_table.insert(190054, 65533);
-	erf_table.insert(196608, 65535);
-	erf_table.insert(203162, 65535);
-	erf_table.insert(209715, 65536);
-	erf_table.insert(216269, 65536);
-	erf_table.insert(222822, 65536);
-	erf_table.insert(229376, 65536);
-	erf_table.get(key)
+	if x <= 5898 { 		
+		if x <= 0 { 
+			return 0; 
+		}
+		if x <= 655 { 
+			return 739; 
+		}
+		if x <= 1310 { 
+			return 1478; 
+		}
+		if x <= 1966 { 
+			return 2217; 
+		}
+		if x <= 2621 { 
+			return 2956; 
+		}
+		if x <= 3276 { 
+			return 3694; 
+		}
+		if x <= 3932 { 
+			return 4431; 
+		}
+		if x <= 4587 { 
+			return 5168; 
+		}
+		if x <= 5242 { 
+			return 5903; 
+		}
+		if x <= 5898 { 
+			return 6637; 
+		}
+	}
+	if x <= 12451 { 		
+		if x <= 6553 { 
+			return 7370; 
+		}
+		if x <= 7208 { 
+			return 8101; 
+		}
+		if x <= 7864 { 
+			return 8831; 
+		}
+		if x <= 8519 { 
+			return 9559; 
+		}
+		if x <= 9175 { 
+			return 10285; 
+		}
+		if x <= 9830 { 
+			return 11009; 
+		}
+		if x <= 10485 { 
+			return 11731; 
+		}
+		if x <= 11141 { 
+			return 12451; 
+		}
+		if x <= 11796 { 
+			return 13168; 
+		}
+		if x <= 12451 { 
+			return 13883; 
+		}
+	}
+	if x <= 19005 { 		
+		if x <= 13107 { 
+			return 14595; 
+		}
+		if x <= 13762 { 
+			return 15304; 
+		}
+		if x <= 14417 { 
+			return 16010; 
+		}
+		if x <= 15073 { 
+			return 16713; 
+		}
+		if x <= 15728 { 
+			return 17412; 
+		}
+		if x <= 16384 { 
+			return 18109; 
+		}
+		if x <= 17039 { 
+			return 18802; 
+		}
+		if x <= 17694 { 
+			return 19491; 
+		}
+		if x <= 18350 { 
+			return 20177; 
+		}
+		if x <= 19005 { 
+			return 20859; 
+		}
+	}
+	if x <= 25559 { 		
+		if x <= 19660 { 
+			return 21536; 
+		}
+		if x <= 20316 { 
+			return 22210; 
+		}
+		if x <= 20971 { 
+			return 22880; 
+		}
+		if x <= 21626 { 
+			return 23545; 
+		}
+		if x <= 22282 { 
+			return 24206; 
+		}
+		if x <= 22937 { 
+			return 24863; 
+		}
+		if x <= 23592 { 
+			return 25515; 
+		}
+		if x <= 24248 { 
+			return 26162; 
+		}
+		if x <= 24903 { 
+			return 26804; 
+		}
+		if x <= 25559 { 
+			return 27442; 
+		}
+	}
+	if x <= 32112 { 		
+		if x <= 26214 { 
+			return 28075; 
+		}
+		if x <= 26869 { 
+			return 28702; 
+		}
+		if x <= 27525 { 
+			return 29325; 
+		}
+		if x <= 28180 { 
+			return 29942; 
+		}
+		if x <= 28835 { 
+			return 30554; 
+		}
+		if x <= 29491 { 
+			return 31161; 
+		}
+		if x <= 30146 { 
+			return 31762; 
+		}
+		if x <= 30801 { 
+			return 32358; 
+		}
+		if x <= 31457 { 
+			return 32948; 
+		}
+		if x <= 32112 { 
+			return 33532; 
+		}
+	}
+	if x <= 38666 { 		
+		if x <= 32768 { 
+			return 34111; 
+		}
+		if x <= 33423 { 
+			return 34684; 
+		}
+		if x <= 34078 { 
+			return 35251; 
+		}
+		if x <= 34734 { 
+			return 35813; 
+		}
+		if x <= 35389 { 
+			return 36368; 
+		}
+		if x <= 36044 { 
+			return 36917; 
+		}
+		if x <= 36700 { 
+			return 37461; 
+		}
+		if x <= 37355 { 
+			return 37998; 
+		}
+		if x <= 38010 { 
+			return 38530; 
+		}
+		if x <= 38666 { 
+			return 39055; 
+		}
+	}
+	if x <= 45219 { 		
+		if x <= 39321 { 
+			return 39574; 
+		}
+		if x <= 39976 { 
+			return 40087; 
+		}
+		if x <= 40632 { 
+			return 40593; 
+		}
+		if x <= 41287 { 
+			return 41094; 
+		}
+		if x <= 41943 { 
+			return 41588; 
+		}
+		if x <= 42598 { 
+			return 42076; 
+		}
+		if x <= 43253 { 
+			return 42557; 
+		}
+		if x <= 43909 { 
+			return 43032; 
+		}
+		if x <= 44564 { 
+			return 43501; 
+		}
+		if x <= 45219 { 
+			return 43964; 
+		}
+	}
+	if x <= 51773 { 		
+		if x <= 45875 { 
+			return 44420; 
+		}
+		if x <= 46530 { 
+			return 44870; 
+		}
+		if x <= 47185 { 
+			return 45313; 
+		}
+		if x <= 47841 { 
+			return 45750; 
+		}
+		if x <= 48496 { 
+			return 46181; 
+		}
+		if x <= 49152 { 
+			return 46606; 
+		}
+		if x <= 49807 { 
+			return 47024; 
+		}
+		if x <= 50462 { 
+			return 47436; 
+		}
+		if x <= 51118 { 
+			return 47841; 
+		}
+		if x <= 51773 { 
+			return 48241; 
+		}
+	}
+	if x <= 58327 { 		
+		if x <= 52428 { 
+			return 48634; 
+		}
+		if x <= 53084 { 
+			return 49021; 
+		}
+		if x <= 53739 { 
+			return 49401; 
+		}
+		if x <= 54394 { 
+			return 49776; 
+		}
+		if x <= 55050 { 
+			return 50144; 
+		}
+		if x <= 55705 { 
+			return 50506; 
+		}
+		if x <= 56360 { 
+			return 50862; 
+		}
+		if x <= 57016 { 
+			return 51212; 
+		}
+		if x <= 57671 { 
+			return 51556; 
+		}
+		if x <= 58327 { 
+			return 51894; 
+		}
+	}
+	if x <= 64880 { 		
+		if x <= 58982 { 
+			return 52226; 
+		}
+		if x <= 59637 { 
+			return 52552; 
+		}
+		if x <= 60293 { 
+			return 52872; 
+		}
+		if x <= 60948 { 
+			return 53186; 
+		}
+		if x <= 61603 { 
+			return 53495; 
+		}
+		if x <= 62259 { 
+			return 53797; 
+		}
+		if x <= 62914 { 
+			return 54094; 
+		}
+		if x <= 63569 { 
+			return 54386; 
+		}
+		if x <= 64225 { 
+			return 54672; 
+		}
+		if x <= 64880 { 
+			return 54952; 
+		}
+	}
+	if x <= 71434 { 		
+		if x <= 65536 { 
+			return 55227; 
+		}
+		if x <= 66191 { 
+			return 55496; 
+		}
+		if x <= 66846 { 
+			return 55760; 
+		}
+		if x <= 67502 { 
+			return 56019; 
+		}
+		if x <= 68157 { 
+			return 56272; 
+		}
+		if x <= 68812 { 
+			return 56520; 
+		}
+		if x <= 69468 { 
+			return 56763; 
+		}
+		if x <= 70123 { 
+			return 57001; 
+		}
+		if x <= 70778 { 
+			return 57234; 
+		}
+		if x <= 71434 { 
+			return 57462; 
+		}
+	}
+	if x <= 77987 { 		
+		if x <= 72089 { 
+			return 57685; 
+		}
+		if x <= 72744 { 
+			return 57903; 
+		}
+		if x <= 73400 { 
+			return 58116; 
+		}
+		if x <= 74055 { 
+			return 58325; 
+		}
+		if x <= 74711 { 
+			return 58529; 
+		}
+		if x <= 75366 { 
+			return 58728; 
+		}
+		if x <= 76021 { 
+			return 58923; 
+		}
+		if x <= 76677 { 
+			return 59113; 
+		}
+		if x <= 77332 { 
+			return 59299; 
+		}
+		if x <= 77987 { 
+			return 59481; 
+		}
+	}
+	if x <= 84541 { 		
+		if x <= 78643 { 
+			return 59658; 
+		}
+		if x <= 79298 { 
+			return 59831; 
+		}
+		if x <= 79953 { 
+			return 60000; 
+		}
+		if x <= 80609 { 
+			return 60165; 
+		}
+		if x <= 81264 { 
+			return 60326; 
+		}
+		if x <= 81920 { 
+			return 60483; 
+		}
+		if x <= 82575 { 
+			return 60636; 
+		}
+		if x <= 83230 { 
+			return 60785; 
+		}
+		if x <= 83886 { 
+			return 60931; 
+		}
+		if x <= 84541 { 
+			return 61072; 
+		}
+	}
+	if x <= 91095 { 		
+		if x <= 85196 { 
+			return 61211; 
+		}
+		if x <= 85852 { 
+			return 61345; 
+		}
+		if x <= 86507 { 
+			return 61477; 
+		}
+		if x <= 87162 { 
+			return 61604; 
+		}
+		if x <= 87818 { 
+			return 61729; 
+		}
+		if x <= 88473 { 
+			return 61850; 
+		}
+		if x <= 89128 { 
+			return 61968; 
+		}
+		if x <= 89784 { 
+			return 62083; 
+		}
+		if x <= 90439 { 
+			return 62194; 
+		}
+		if x <= 91095 { 
+			return 62303; 
+		}
+	}
+	if x <= 97648 { 		
+		if x <= 91750 { 
+			return 62408; 
+		}
+		if x <= 92405 { 
+			return 62511; 
+		}
+		if x <= 93061 { 
+			return 62611; 
+		}
+		if x <= 93716 { 
+			return 62708; 
+		}
+		if x <= 94371 { 
+			return 62802; 
+		}
+		if x <= 95027 { 
+			return 62894; 
+		}
+		if x <= 95682 { 
+			return 62983; 
+		}
+		if x <= 96337 { 
+			return 63070; 
+		}
+		if x <= 96993 { 
+			return 63154; 
+		}
+		if x <= 97648 { 
+			return 63235; 
+		}
+	}
+	if x <= 104202 { 		
+		if x <= 98304 { 
+			return 63314; 
+		}
+		if x <= 98959 { 
+			return 63391; 
+		}
+		if x <= 99614 { 
+			return 63465; 
+		}
+		if x <= 100270 { 
+			return 63538; 
+		}
+		if x <= 100925 { 
+			return 63608; 
+		}
+		if x <= 101580 { 
+			return 63676; 
+		}
+		if x <= 102236 { 
+			return 63742; 
+		}
+		if x <= 102891 { 
+			return 63806; 
+		}
+		if x <= 103546 { 
+			return 63867; 
+		}
+		if x <= 104202 { 
+			return 63927; 
+		}
+	}
+	if x <= 110755 { 		
+		if x <= 104857 { 
+			return 63985; 
+		}
+		if x <= 105512 { 
+			return 64042; 
+		}
+		if x <= 106168 { 
+			return 64096; 
+		}
+		if x <= 106823 { 
+			return 64149; 
+		}
+		if x <= 107479 { 
+			return 64200; 
+		}
+		if x <= 108134 { 
+			return 64249; 
+		}
+		if x <= 108789 { 
+			return 64297; 
+		}
+		if x <= 109445 { 
+			return 64343; 
+		}
+		if x <= 110100 { 
+			return 64388; 
+		}
+		if x <= 110755 { 
+			return 64431; 
+		}
+	}
+	if x <= 117309 { 		
+		if x <= 111411 { 
+			return 64473; 
+		}
+		if x <= 112066 { 
+			return 64514; 
+		}
+		if x <= 112721 { 
+			return 64553; 
+		}
+		if x <= 113377 { 
+			return 64590; 
+		}
+		if x <= 114032 { 
+			return 64627; 
+		}
+		if x <= 114688 { 
+			return 64662; 
+		}
+		if x <= 115343 { 
+			return 64696; 
+		}
+		if x <= 115998 { 
+			return 64729; 
+		}
+		if x <= 116654 { 
+			return 64760; 
+		}
+		if x <= 117309 { 
+			return 64791; 
+		}
+	}
+	if x <= 123863 { 		
+		if x <= 117964 { 
+			return 64821; 
+		}
+		if x <= 118620 { 
+			return 64849; 
+		}
+		if x <= 119275 { 
+			return 64876; 
+		}
+		if x <= 119930 { 
+			return 64903; 
+		}
+		if x <= 120586 { 
+			return 64928; 
+		}
+		if x <= 121241 { 
+			return 64953; 
+		}
+		if x <= 121896 { 
+			return 64977; 
+		}
+		if x <= 122552 { 
+			return 64999; 
+		}
+		if x <= 123207 { 
+			return 65021; 
+		}
+		if x <= 123863 { 
+			return 65043; 
+		}
+	}
+	if x <= 130416 { 		
+		if x <= 124518 { 
+			return 65063; 
+		}
+		if x <= 125173 { 
+			return 65083; 
+		}
+		if x <= 125829 { 
+			return 65102; 
+		}
+		if x <= 126484 { 
+			return 65120; 
+		}
+		if x <= 127139 { 
+			return 65137; 
+		}
+		if x <= 127795 { 
+			return 65154; 
+		}
+		if x <= 128450 { 
+			return 65170; 
+		}
+		if x <= 129105 { 
+			return 65186; 
+		}
+		if x <= 129761 { 
+			return 65201; 
+		}
+		if x <= 130416 { 
+			return 65215; 
+		}
+	}
+	if x <= 222822 { 		
+		if x <= 131072 { 
+			return 65229; 
+		}
+		if x <= 137625 { 
+			return 65340; 
+		}
+		if x <= 144179 { 
+			return 65413; 
+		}
+		if x <= 150732 { 
+			return 65461; 
+		}
+		if x <= 157286 { 
+			return 65490; 
+		}
+		if x <= 163840 { 
+			return 65509; 
+		}
+		if x <= 170393 { 
+			return 65520; 
+		}
+		if x <= 176947 { 
+			return 65527; 
+		}
+		if x <= 183500 { 
+			return 65531; 
+		}
+		if x <= 190054 { 
+			return 65533; 
+		}
+		if x <= 196608 { 
+			return 65534; 
+		}
+		if x <= 203161 { 
+			return 65535; 
+		}
+		if x <= 209715 { 
+			return 65535; 
+		}
+		if x <= 216268 { 
+			return 65535; 
+		}
+		if x <= 222822 { 
+			return 65535; 
+		}
+	}
+	return ONE;
 }
 
 fn erf(x: FP16x16W) -> FP16x16W{
@@ -273,9 +708,8 @@ fn erf(x: FP16x16W) -> FP16x16W{
     // 2. else{ return 1}
     let mut erf_value: u64 = 0;
 
-    if x.mag <= MAX_ERF_NUMBER {
-        let round_number = get_different_accuracy_key(x.mag);
-        erf_value = get_lookup_table_values(round_number);
+    if x.mag < MAX_ERF_NUMBER {
+        erf_value = get_lookup_table_values(x.mag);
     } else {
         erf_value = ONE;
     }

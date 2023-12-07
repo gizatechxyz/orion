@@ -8,7 +8,7 @@ class Erf(RunAll):
 
     @staticmethod
     def erf_fp8x23():
-        x = np.random.uniform(-5, 5, (1, 5)).astype(np.float64)
+        x = np.asarray([0.12, -1.66, 3.4, 4.8, 2.7]).astype(np.float64).reshape(1,5)
         y = np.asarray([erf(value) for value in x[0]]).astype(np.float64).reshape(1,5)
 
         x = Tensor(Dtype.FP8x23, x.shape, to_fp(
@@ -22,7 +22,7 @@ class Erf(RunAll):
 
     @staticmethod
     def erf_fp16x16():
-        x = np.random.uniform(-5, 5, (1, 5)).astype(np.float64)
+        x = np.asarray([0.12, -1.66, 3.4, 4.8, 2.7]).astype(np.float64).reshape(1,5)
         y = np.asarray([erf(value) for value in x[0]]).astype(np.float64).reshape(1,5)
 
         x = Tensor(Dtype.FP16x16, x.shape, to_fp(
