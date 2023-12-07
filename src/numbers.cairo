@@ -1681,6 +1681,41 @@ impl I8Number of NumberTrait<i8, i8> {
     }
 }
 
+impl I8Div of Div<i8> {
+    fn div(lhs: i8, rhs: i8) -> i8 {
+        assert(rhs != 0, 'divisor cannot be 0');
+        let mut lhs_positive = lhs;
+        let mut rhs_positive = rhs;
+        // making sure everything is positive
+        if lhs < 0 {
+            lhs_positive = lhs * -1;
+        }
+        if rhs < 0 {
+            rhs_positive = rhs * -1;
+        }
+        //felt252 plays role of a bridge for type casting
+        let lhs_felt: felt252 = lhs_positive.into();
+        let rhs_felt: felt252 = rhs_positive.into();
+        let lhs_u128: u128 = lhs_felt.try_into().unwrap();
+        let rhs_u128: u128 = rhs_felt.try_into().unwrap();
+        let mut result = lhs_u128 / rhs_u128; 
+        let felt_result: felt252 = result.into();
+        let signed_int_result: i8 = felt_result.try_into().unwrap();
+        if lhs * rhs < 0 {
+            signed_int_result * -1
+        } else {
+            signed_int_result
+        }
+    }
+}
+
+impl I8DivEq of DivEq<i8> {
+    #[inline(always)]
+    fn div_eq(ref self: i8, other: i8) {
+        self = Div::div(self, other);
+    }
+}
+
 impl I16Number of NumberTrait<i16, i16> {
     fn new(mag: i16, sign: bool) -> i16 {
         mag
