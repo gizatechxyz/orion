@@ -17,15 +17,12 @@ fn optional_get_element<
     mut z: Tensor<T>, index: usize
 ) -> Tensor<T> {
     let mut data_result = ArrayTrait::<T>::new();
-    
+
     // use of match to get element within and out the array bound
     match z.data.get(index) {
-            Option::Some(item) => { data_result.append((*item.unbox())); },
-            Option::None(_) => {  
-           
-           }
-        };
- 
+        Option::Some(item) => { data_result.append((*item.unbox())); },
+        Option::None(_) => {}
+    };
 
     return TensorTrait::<T>::new(z.shape, data_result.span());
 }

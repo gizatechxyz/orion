@@ -212,11 +212,11 @@ impl FP16x16WImpl of FixedTrait<FP16x16W, u64> {
     }
 
     fn is_pos_inf(self: FP16x16W) -> bool {
-	self.is_inf() && !self.sign
+        self.is_inf() && !self.sign
     }
 
     fn is_neg_inf(self: FP16x16W) -> bool {
-	self.is_inf() && self.sign
+        self.is_inf() && self.sign
     }
 }
 

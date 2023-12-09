@@ -82,7 +82,9 @@ fn reduce_prod<
         let mut index: usize = 0;
         loop {
             let output_indices = unravel_index(index, output_shape);
-            let current_sum = accumulate_production::<T>(*self.data, *self.shape, output_indices, axis);
+            let current_sum = accumulate_production::<
+                T
+            >(*self.data, *self.shape, output_indices, axis);
 
             output_data.append(current_sum);
 

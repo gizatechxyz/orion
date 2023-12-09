@@ -63,11 +63,11 @@ impl i128Impl of IntegerTrait<i128, u128> {
     }
 
     fn is_pos_inf(self: i128) -> bool {
-	self.is_inf() && !self.sign
+        self.is_inf() && !self.sign
     }
 
     fn is_neg_inf(self: i128) -> bool {
-	self.is_inf() && self.sign
+        self.is_inf() && self.sign
     }
 }
 

@@ -10,7 +10,9 @@ use orion::operators::tensor::core::{
 };
 use orion::operators::tensor::{math, linalg, quantization, core as core_ops, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP8x23};
-use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor};
+use orion::operators::tensor::implementations::{
+    tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
+};
 
 impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn new(shape: Span<usize>, data: Span<FP8x23>) -> Tensor<FP8x23> {
@@ -392,7 +394,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn bitwise_xor(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::bitwise_xor::bitwise_xor(self, other)
     }
-    
+
     fn bitwise_or(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::bitwise_or::bitwise_or(self, other)
     }
@@ -470,11 +472,11 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn array_feature_extractor(self: @Tensor<FP8x23>, indices: Tensor<usize>) -> Tensor<FP8x23> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
-    
+
     fn not(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         panic(array!['not supported!'])
     }
-    
+
 
     fn reduce_min(
         self: @Tensor<FP8x23>,
@@ -501,15 +503,19 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::sequence_insert::sequence_insert(self, tensor, position)
     }
 
-    fn is_inf(self: @Tensor<FP8x23>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+    fn is_inf(
+        self: @Tensor<FP8x23>, detect_negative: Option<u8>, detect_positive: Option<u8>
+    ) -> Tensor<bool> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
     fn is_nan(self: @Tensor<FP8x23>) -> Tensor<bool> {
-	math::is_nan::is_nan(self)
+        math::is_nan::is_nan(self)
     }
 
-    fn concat_from_sequence(sequence: Array<Tensor<FP8x23>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP8x23> {
+    fn concat_from_sequence(
+        sequence: Array<Tensor<FP8x23>>, axis: i32, new_axis: Option<usize>
+    ) -> Tensor<FP8x23> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 }

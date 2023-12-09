@@ -203,11 +203,11 @@ impl FP64x64Impl of FixedTrait<FP64x64, u128> {
     }
 
     fn is_pos_inf(self: FP64x64) -> bool {
-	self.is_inf() && !self.sign
+        self.is_inf() && !self.sign
     }
 
     fn is_neg_inf(self: FP64x64) -> bool {
-	self.is_inf() && self.sign
+        self.is_inf() && self.sign
     }
 }
 

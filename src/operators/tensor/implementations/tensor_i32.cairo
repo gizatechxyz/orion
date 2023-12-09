@@ -10,7 +10,9 @@ use orion::operators::tensor::core::{
 };
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
 use orion::numbers::{i32, i8, NumberTrait};
-use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_i8::I8Tensor, tensor_bool::BoolTensor};
+use orion::operators::tensor::implementations::{
+    tensor_u32::U32Tensor, tensor_i8::I8Tensor, tensor_bool::BoolTensor
+};
 
 
 impl I32Tensor of TensorTrait<i32> {
@@ -390,7 +392,7 @@ impl I32Tensor of TensorTrait<i32> {
     fn bitwise_xor(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         math::bitwise_xor::bitwise_xor(self, other)
     }
-    
+
     fn bitwise_or(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         math::bitwise_or::bitwise_or(self, other)
     }
@@ -430,14 +432,16 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn reduce_l2(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
-            panic(array!['not supported!'])
+        panic(array!['not supported!'])
     }
-    
+
     fn not(self: @Tensor<i32>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
-    fn gather_elements(self: @Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i32> {
+    fn gather_elements(
+        self: @Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<i32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
@@ -496,15 +500,19 @@ impl I32Tensor of TensorTrait<i32> {
         math::sequence_insert::sequence_insert(self, tensor, position)
     }
 
-    fn is_inf(self: @Tensor<i32>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
-	math::is_inf::is_inf(self, detect_negative, detect_positive)
+    fn is_inf(
+        self: @Tensor<i32>, detect_negative: Option<u8>, detect_positive: Option<u8>
+    ) -> Tensor<bool> {
+        math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
     fn is_nan(self: @Tensor<i32>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
-    fn concat_from_sequence(sequence: Array<Tensor<i32>>, axis: i32, new_axis: Option<usize>) -> Tensor<i32> {
+    fn concat_from_sequence(
+        sequence: Array<Tensor<i32>>, axis: i32, new_axis: Option<usize>
+    ) -> Tensor<i32> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 }

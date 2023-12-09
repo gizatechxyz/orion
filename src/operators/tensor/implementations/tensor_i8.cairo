@@ -390,7 +390,7 @@ impl I8Tensor of TensorTrait<i8> {
     fn bitwise_xor(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
         math::bitwise_xor::bitwise_xor(self, other)
     }
-    
+
     fn bitwise_or(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
         math::bitwise_or::bitwise_or(self, other)
     }
@@ -430,14 +430,16 @@ impl I8Tensor of TensorTrait<i8> {
     }
 
     fn reduce_l2(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
-          panic(array!['not supported!'])
+        panic(array!['not supported!'])
     }
-    
+
     fn not(self: @Tensor<i8>) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
 
-    fn gather_elements(self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i8> {
+    fn gather_elements(
+        self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<i8> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
@@ -496,15 +498,19 @@ impl I8Tensor of TensorTrait<i8> {
         math::sequence_insert::sequence_insert(self, tensor, position)
     }
 
-    fn is_inf(self: @Tensor<i8>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
-	math::is_inf::is_inf(self, detect_negative, detect_positive)
+    fn is_inf(
+        self: @Tensor<i8>, detect_negative: Option<u8>, detect_positive: Option<u8>
+    ) -> Tensor<bool> {
+        math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
     fn is_nan(self: @Tensor<i8>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
-    fn concat_from_sequence(sequence: Array<Tensor<i8>>, axis: i32, new_axis: Option<usize>) -> Tensor<i8> {
+    fn concat_from_sequence(
+        sequence: Array<Tensor<i8>>, axis: i32, new_axis: Option<usize>
+    ) -> Tensor<i8> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 }

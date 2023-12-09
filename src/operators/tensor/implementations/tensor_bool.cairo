@@ -353,7 +353,7 @@ impl BoolTensor of TensorTrait<bool> {
     fn bitwise_xor(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
-    
+
     fn bitwise_or(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
@@ -374,10 +374,12 @@ impl BoolTensor of TensorTrait<bool> {
         constant_of_shape(shape, value)
     }
 
-    fn gather_elements(self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
+    fn gather_elements(
+        self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<bool> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
-    
+
     fn sequence_length(self: Array<Tensor<bool>>) -> Tensor<u32> {
         math::sequence_length::sequence_length(self)
     }
@@ -440,7 +442,9 @@ impl BoolTensor of TensorTrait<bool> {
         math::sequence_insert::sequence_insert(self, tensor, position)
     }
 
-    fn is_inf(self: @Tensor<bool>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+    fn is_inf(
+        self: @Tensor<bool>, detect_negative: Option<u8>, detect_positive: Option<u8>
+    ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
@@ -448,7 +452,9 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn concat_from_sequence(sequence: Array<Tensor<bool>>, axis: i32, new_axis: Option<usize>) -> Tensor<bool> {
+    fn concat_from_sequence(
+        sequence: Array<Tensor<bool>>, axis: i32, new_axis: Option<usize>
+    ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 }

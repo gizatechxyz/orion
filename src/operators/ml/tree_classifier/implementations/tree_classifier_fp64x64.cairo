@@ -1,4 +1,6 @@
-use orion::operators::ml::tree_classifier::core::{TreeClassifier, TreeClassifierTrait, predict, predict_proba};
+use orion::operators::ml::tree_classifier::core::{
+    TreeClassifier, TreeClassifierTrait, predict, predict_proba
+};
 use orion::operators::ml::tree_classifier::core;
 use orion::numbers::{FP64x64, FP64x64Impl};
 

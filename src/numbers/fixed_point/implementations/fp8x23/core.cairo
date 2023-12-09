@@ -212,11 +212,11 @@ impl FP8x23Impl of FixedTrait<FP8x23, u32> {
     }
 
     fn is_pos_inf(self: FP8x23) -> bool {
-	self.is_inf() && !self.sign
+        self.is_inf() && !self.sign
     }
 
     fn is_neg_inf(self: FP8x23) -> bool {
-	self.is_inf() && self.sign
+        self.is_inf() && self.sign
     }
 }
 

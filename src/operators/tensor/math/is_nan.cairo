@@ -14,14 +14,14 @@ fn is_nan<
     impl TTensor: TensorTrait<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
->(x: @Tensor<T>) -> Tensor<bool> {
+>(
+    x: @Tensor<T>
+) -> Tensor<bool> {
     let mut data_result = ArrayTrait::<bool>::new();
     let mut y: Span<T> = *x.data;
     loop {
         match y.pop_front() {
-            Option::Some(item) => {
-    	        data_result.append((*item).is_nan());
-    	    },
+            Option::Some(item) => { data_result.append((*item).is_nan()); },
             Option::None(_) => { break; }
         };
     };

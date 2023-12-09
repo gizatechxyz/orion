@@ -14,23 +14,29 @@ fn is_inf<
     impl TTensor: TensorTrait<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
->(x: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+>(
+    x: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>
+) -> Tensor<bool> {
     let neg_opt = match detect_negative {
-        Option::Some(val) => {
-	    if val == 0 { 0 } else { 1 }
-	},
-	Option::None => 1,
+        Option::Some(val) => { if val == 0 {
+            0
+        } else {
+            1
+        } },
+        Option::None => 1,
     };
 
     let pos_opt = match detect_positive {
-        Option::Some(val) => {
-	    if val == 0 { 0 } else { 1 }
-	},
-	Option::None => 1,
+        Option::Some(val) => { if val == 0 {
+            0
+        } else {
+            1
+        } },
+        Option::None => 1,
     };
 
     if neg_opt == 0 && pos_opt == 0 {
-	return TensorTrait::new(*x.shape, ArrayTrait::<bool>::new().span());
+        return TensorTrait::new(*x.shape, ArrayTrait::<bool>::new().span());
     }
 
     if neg_opt == 0 && pos_opt == 1 {
@@ -38,16 +44,14 @@ fn is_inf<
     }
 
     if neg_opt == 1 && pos_opt == 0 {
-	return is_neg_inf(x);
+        return is_neg_inf(x);
     }
 
     let mut data_result = ArrayTrait::<bool>::new();
     let mut y: Span<T> = *x.data;
     loop {
         match y.pop_front() {
-            Option::Some(item) => {
-    	        data_result.append((*item).is_inf());
-    	    },
+            Option::Some(item) => { data_result.append((*item).is_inf()); },
             Option::None(_) => { break; }
         };
     };
@@ -63,14 +67,14 @@ fn is_pos_inf<
     impl TTensor: TensorTrait<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
->(x: @Tensor<T>) -> Tensor<bool> {
+>(
+    x: @Tensor<T>
+) -> Tensor<bool> {
     let mut data_result = ArrayTrait::<bool>::new();
     let mut y: Span<T> = *x.data;
     loop {
         match y.pop_front() {
-            Option::Some(item) => {
-	    	data_result.append((*item).is_pos_inf());
-	    },
+            Option::Some(item) => { data_result.append((*item).is_pos_inf()); },
             Option::None(_) => { break; }
         };
     };
@@ -86,14 +90,14 @@ fn is_neg_inf<
     impl TTensor: TensorTrait<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
->(x: @Tensor<T>) -> Tensor<bool> {
+>(
+    x: @Tensor<T>
+) -> Tensor<bool> {
     let mut data_result = ArrayTrait::<bool>::new();
     let mut y: Span<T> = *x.data;
     loop {
         match y.pop_front() {
-            Option::Some(item) => {
-	    	data_result.append((*item).is_neg_inf());
-	    },
+            Option::Some(item) => { data_result.append((*item).is_neg_inf()); },
             Option::None(_) => { break; }
         };
     };
