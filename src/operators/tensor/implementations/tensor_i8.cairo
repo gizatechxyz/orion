@@ -9,7 +9,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, manipulation, core};
+use orion::operators::tensor::{math, linalg, quantization, ml, manipulation, core};
 use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_bool::BoolTensor};
 
