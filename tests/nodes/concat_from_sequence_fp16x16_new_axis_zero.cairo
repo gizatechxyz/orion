@@ -5,7 +5,7 @@ mod output_0;
 use orion::operators::tensor::{TensorTrait, Tensor};
 use orion::operators::tensor::FP16x16TensorPartialEq;
 use orion::operators::tensor::FP16x16Tensor;
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::utils::{assert_eq, assert_seq_eq};
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};
 

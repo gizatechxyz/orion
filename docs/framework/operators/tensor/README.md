@@ -137,7 +137,7 @@ Two tensors are “broadcastable” if the following rules hold:
 Element-wise add.
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor, U32TensorAdd};
 
 fn element_wise_add_example() -> Tensor<u32> {
@@ -158,7 +158,7 @@ fn element_wise_add_example() -> Tensor<u32> {
 Add two tensors of different shapes but compatible in broadcasting.
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor, U32TensorAdd};
 
 fn broadcasting_add_example() -> Tensor<u32> {

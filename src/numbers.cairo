@@ -975,7 +975,7 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
 use orion::numbers::fixed_point::implementations::fp64x64::core::{
     FP64x64Impl, FP64x64, FP64x64Add, FP64x64Sub
 };
-use orion::numbers::fixed_point::implementations::fp64x64::core as core_fp64x64;
+use orion::numbers::fixed_point::implementations::fp64x64::{core as core_fp64x64};
 use orion::numbers::fixed_point::implementations::fp64x64::comp as comp_fp64x64;
 use cubit::f128 as fp64x64;
 
@@ -1084,7 +1084,7 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
         FP64x64Impl::ZERO()
     }
     fn is_zero(self: FP64x64) -> bool {
-        fp64x64::core::eq(@self, @FP64x64Impl::ZERO())
+        fp64x64::ops::eq(@self, @FP64x64Impl::ZERO())
     }
 
     fn half() -> FP64x64 {
@@ -1104,11 +1104,11 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
     }
 
     fn abs(self: FP64x64) -> FP64x64 {
-        fp64x64::core::abs(self)
+        fp64x64::ops::abs(self)
     }
 
     fn neg(self: FP64x64) -> FP64x64 {
-        fp64x64::core::neg(self)
+        fp64x64::ops::neg(self)
     }
 
     fn min_value() -> FP64x64 {
@@ -1312,7 +1312,7 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
         FP32x32Impl::ZERO()
     }
     fn is_zero(self: FP32x32) -> bool {
-        fp32x32::core::eq(@self, @FP32x32Impl::ZERO())
+        fp32x32::ops::eq(@self, @FP32x32Impl::ZERO())
     }
 
     fn half() -> FP32x32 {
@@ -1332,11 +1332,11 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
     }
 
     fn abs(self: FP32x32) -> FP32x32 {
-        fp32x32::core::abs(self)
+        fp32x32::ops::abs(self)
     }
 
     fn neg(self: FP32x32) -> FP32x32 {
-        fp32x32::core::neg(self)
+        fp32x32::ops::neg(self)
     }
 
     fn min_value() -> FP32x32 {

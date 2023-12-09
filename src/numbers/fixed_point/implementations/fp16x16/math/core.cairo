@@ -1,8 +1,9 @@
 use core::debug::PrintTrait;
-use option::OptionTrait;
-use result::{ResultTrait, ResultTraitImpl};
-use traits::{Into, TryInto};
-use integer::{u32_safe_divmod, u32_as_non_zero, u32_wide_mul};
+use core::option::OptionTrait;
+use core::result::{ResultTrait, ResultTraitImpl};
+use core::traits::{Into, TryInto};
+use core::integer;
+use core::integer::{u32_safe_divmod, u32_as_non_zero, u32_wide_mul};
 
 use orion::numbers::fixed_point::implementations::fp16x16::core::{
     HALF, ONE, MAX, FP16x16, FP16x16Impl, FP16x16Add, FP16x16AddEq, FP16x16Sub, FP16x16Mul,

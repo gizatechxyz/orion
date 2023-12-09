@@ -1,5 +1,5 @@
-use array::SpanTrait;
-use option::OptionTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
 
 use orion::numbers::NumberTrait;
 

@@ -1,4 +1,4 @@
-use traits::Into;
+use core::traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 

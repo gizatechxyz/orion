@@ -17,7 +17,7 @@ A new `Tensor<T>` to copy input into.
 ## Example
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
 

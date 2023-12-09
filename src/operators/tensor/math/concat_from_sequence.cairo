@@ -1,7 +1,7 @@
 use core::clone::Clone;
-use array::{ArrayTrait, SpanTrait};
-use option::OptionTrait;
-use debug::PrintTrait;
+use core::array::{ArrayTrait, SpanTrait};
+use core::option::OptionTrait;
+use core::debug::PrintTrait;
 use core::traits::Into;
 
 use orion::operators::tensor::helpers::replace_index;

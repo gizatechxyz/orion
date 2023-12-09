@@ -1,6 +1,6 @@
 use core::option::OptionTrait;
 use core::traits::TryInto;
-use traits::Into;
+use core::traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::signed_integer::i8::i8;

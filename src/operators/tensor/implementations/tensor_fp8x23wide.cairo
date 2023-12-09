@@ -1,14 +1,14 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
-use traits::{TryInto, Into};
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
+use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core, ml};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP8x23W};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor};
 
@@ -294,7 +294,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<FP8x23W> {
-        core::slice::<FP8x23W>(self, starts, ends, axes, steps)
+        core_tensor::slice::<FP8x23W>(self, starts, ends, axes, steps)
     }
 
     fn gather(
@@ -304,15 +304,15 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     }
 
     fn nonzero(self: @Tensor<FP8x23W>) -> Tensor<usize> {
-        core::nonzero(self)
+        core_tensor::nonzero(self)
     }
 
     fn squeeze(self: @Tensor<FP8x23W>, axes: Option<Span<i32>>) -> Tensor<FP8x23W> {
-        core::squeeze(self, axes)
+        core_tensor::squeeze(self, axes)
     }
 
     fn unsqueeze(self: @Tensor<FP8x23W>, axes: Span<usize>) -> Tensor<FP8x23W> {
-        core::unsqueeze(self, axes)
+        core_tensor::unsqueeze(self, axes)
     }
 
     fn sign(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
@@ -320,7 +320,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     }
 
     fn clip(self: @Tensor<FP8x23W>, min: Option<FP8x23W>, max: Option<FP8x23W>) -> Tensor<FP8x23W> {
-        core::clip(self, min, max)
+        core_tensor::clip(self, min, max)
     }
 
     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
@@ -328,7 +328,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     }
 
     fn identity(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
-        core::identity(self)
+        core_tensor::identity(self)
     }
 
     fn where(self: @Tensor<FP8x23W>, x: @Tensor<FP8x23W>, y: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {

@@ -392,7 +392,7 @@ os.makedirs('src/generated', exist_ok=True)
 for tensor_name, tensor in tensors.items():
     with open(os.path.join('src', 'generated', f"{tensor_name}.cairo"), "w") as f:
         f.write(
-            "use array::ArrayTrait;\n" +
+            "use core::array::ArrayTrait;\n" +
             "use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};\n" +
             "use orion::numbers::i32;\n\n" +
             "\nfn {0}() -> Tensor<i32> ".format(tensor_name) + "{\n" +
@@ -431,7 +431,7 @@ We have just created a file called `lib.cairo`, which contains a module declarat
 Here is a file we generated: `fc1_bias.cairo`
 
 ```rust
-use array::ArrayTrait;
+use core::array::ArrayTrait;
 use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
 use orion::numbers::i32;
 

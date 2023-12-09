@@ -27,7 +27,7 @@ A new `Tensor<T>` slice of the input tensor.
 ## Example
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

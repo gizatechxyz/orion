@@ -21,7 +21,7 @@ A tensor sequence `Array<Tensor<T>>` containing the input tensors.
 ## Examples
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

@@ -1,14 +1,14 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
-use traits::{TryInto, Into};
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
+use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core, ml};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP16x16W};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor};
 
@@ -303,7 +303,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<FP16x16W> {
-        core::slice::<FP16x16W>(self, starts, ends, axes, steps)
+        core_tensor::slice::<FP16x16W>(self, starts, ends, axes, steps)
     }
 
     fn gather(
@@ -313,15 +313,15 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     }
 
     fn nonzero(self: @Tensor<FP16x16W>) -> Tensor<usize> {
-        core::nonzero(self)
+        core_tensor::nonzero(self)
     }
 
     fn squeeze(self: @Tensor<FP16x16W>, axes: Option<Span<i32>>) -> Tensor<FP16x16W> {
-        core::squeeze(self, axes)
+        core_tensor::squeeze(self, axes)
     }
 
     fn unsqueeze(self: @Tensor<FP16x16W>, axes: Span<usize>) -> Tensor<FP16x16W> {
-        core::unsqueeze(self, axes)
+        core_tensor::unsqueeze(self, axes)
     }
 
     fn sign(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
@@ -331,7 +331,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn clip(
         self: @Tensor<FP16x16W>, min: Option<FP16x16W>, max: Option<FP16x16W>
     ) -> Tensor<FP16x16W> {
-        core::clip(self, min, max)
+        core_tensor::clip(self, min, max)
     }
 
     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
@@ -339,7 +339,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     }
 
     fn identity(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
-        core::identity(self)
+        core_tensor::identity(self)
     }
 
     fn where(

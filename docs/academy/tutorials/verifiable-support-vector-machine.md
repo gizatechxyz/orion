@@ -196,7 +196,7 @@ def generate_cairo_files(data, name):
 
     with open(os.path.join('src', 'generated', f"{name}.cairo"), "w") as f:
         f.write(
-            "use array::ArrayTrait;\n" +
+            "use core::array::ArrayTrait;\n" +
             "use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor};\n" +
             "use orion::numbers::{FixedTrait, FP16x16, FP16x16Impl};\n" +
             "\n" + f"fn {name}() -> Tensor<FP16x16>" + "{\n\n" + 
@@ -237,7 +237,7 @@ mod helper;
 This will tell our compiler to include the separate modules listed above during the compilation of our code. We will be covering each module in detail in the following section, but let’s first review the generated folder files.
 
 ```rust
-use array::ArrayTrait;
+use core::array::ArrayTrait;
 use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor};
 use orion::numbers::{FixedTrait, FP16x16, FP16x16Impl};
 
@@ -449,9 +449,9 @@ fn pred(x: @Tensor<FP16x16>, w: @Tensor<FP16x16>) -> Tensor<FP16x16> {
 Finally, our `train.cairo` file implements model training using the functions described earlier and is executed as part of our model tests.
 
 ```rust
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 use traits::TryInto;
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{
     Tensor, TensorTrait, FP16x16Tensor, FP16x16TensorAdd, FP16x16TensorMul, FP16x16TensorSub,
     FP16x16TensorDiv
@@ -576,7 +576,7 @@ Now that we have implemented all the necessary functions for SVM, we can finally
 
 ```rust
 use traits::TryInto;
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{
     Tensor, TensorTrait, FP16x16Tensor, FP16x16TensorAdd, FP16x16TensorMul, FP16x16TensorSub,
     FP16x16TensorDiv
