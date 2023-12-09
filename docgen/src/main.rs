@@ -35,6 +35,14 @@ fn main() {
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 
+    // COMPLEX NUMBER DOC
+    let trait_path = "src/numbers/complex_number/complex_trait.cairo";
+    let doc_path = "docs/framework/numbers/complex-number";
+    let label = "complex";
+    let trait_name: &str = "ComplexTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
+
     // TREE REGRESSOR DOC
     let trait_path = "src/operators/ml/tree_regressor/core.cairo";
     let doc_path = "docs/framework/operators/machine-learning/tree-regressor";
@@ -56,6 +64,14 @@ fn main() {
     let doc_path = "docs/framework/operators/machine-learning/xgboost-regressor";
     let label = "xgboost";
     let trait_name: &str = "XGBoostRegressorTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
+
+    // TREE ENSEMBLE CLASSIFIER DOC
+    let trait_path = "src/operators/ml/tree_ensemble/tree_ensemble_classifier.cairo";
+    let doc_path = "docs/framework/operators/machine-learning/tree-ensemble-classifier";
+    let label = "tree_ensemble_classifier";
+    let trait_name: &str = "TreeEnsembleClassifierTrait";
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 }

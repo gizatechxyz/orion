@@ -56,6 +56,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.min`](tensor.min.md) | Returns the minimum value in the tensor. |
 | [`tensor.max`](tensor.max.md) | Returns the maximum value in the tensor. |
 | [`tensor.reduce_sum`](tensor.reduce\_sum.md) | Reduces a tensor by summing its elements along a specified axis. |
+| [`tensor.reduce_prod`](tensor.reduce\_prod.md) | Reduces a tensor to its products along specified axis. |
 | [`tensor.argmax`](tensor.argmax.md) | Returns the index of the maximum value along the specified axis. |
 | [`tensor.argmin`](tensor.argmin.md) | Returns the index of the minimum value along the specified axis. |
 | [`tensor.cumsum`](tensor.cumsum.md) | Performs cumulative sum of the input elements along the given axis. |
@@ -81,7 +82,10 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.quantize_linear`](tensor.quantize\_linear.md) | Quantizes a Tensor to i8 using linear quantization. |
 | [`tensor.dequantize_linear`](tensor.dequantize\_linear.md) | Dequantizes an i8 Tensor using linear dequantization. |
 | [`tensor.qlinear_add`](tensor.qlinear\_add.md) | Performs the sum of two quantized i8 Tensors. |
+| [`tensor.qlinear_mul`](tensor.qlinear\_mul.md) | Performs the element-wise multiplication of quantized Tensors. |
 | [`tensor.qlinear_matmul`](tensor.qlinear\_matmul.md) | Performs the product of two quantized i8 Tensors. |
+| [`tensor.qlinear_concat`](tensor.qlinear\_concat.md) | Concatenate a list of tensors after dequantizing them with their respective scales and zero_points and returns the quantized result. |
+| [`tensor.qlinear_leakyrelu`](tensor.qlinear\_leakyrelu.md) | Applies the Leaky Relu operator to a quantized Tensor |
 | [`tensor.gather`](tensor.gather.md) | Gather entries of the axis dimension of data. |
 | [`tensor.nonzero`](tensor.nonzero.md) | Produces indices of the elements that are non-zero (in row-major order - by dimension). |
 | [`tensor.squeeze`](tensor.squeeze.md) | Removes dimensions of size 1 from the shape of a tensor. |
@@ -92,12 +96,32 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.identity`](tensor.identity.md) | Return a Tensor with the same shape and contents as input. |
 | [`tensor.where`](tensor.where.md) | Return elements chosen from x or y depending on condition. |
 | [`tensor.bitwise_and`](tensor.bitwise\_and.md) | Computes the bitwise AND of two tensors element-wise. |
+| [`tensor.bitwise_xor`](tensor.bitwise\_xor.md) | Computes the bitwise XOR of two tensors element-wise. |
+| [`tensor.bitwise_or`](tensor.bitwise\_or.md) | Computes the bitwise OR of two tensors element-wise. |
 | [`tensor.round`](tensor.round.md) | Computes the round value of all elements in the input tensor. |
 | [`tensor.reduce_l1`](tensor.reduce\_l1.md) | Computes the L1 norm of the input tensor's elements along the provided axes. |
 | [`tensor.trilu`](tensor.trilu.md) | Returns the upper or lower triangular part of a tensor or a batch of 2D matrices. |
 | [`tensor.scatter`](tensor.scatter.md) | Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices. |
 | [`tensor.reduce_sum_square`](tensor.reduce\_sum\_square.md) | Computes the sum square of the input tensor's elements along the provided axes.  |
 | [`tensor.reduce_l2`](tensor.reduce\_l2.md) | Computes the L2 norm of the input tensor's elements along the provided axes. |
+| [`tensor.gather_elements`](tensor.gather\_elements.md) | GatherElements is an indexing operation that produces its output by indexing into the input data tensor at index positions determined by elements of the indices tensor. |
+| [`tensor.reduce_min`](tensor.reduce\_min.md) | Computes the min of the input tensor's elements along the provided axes. |
+| [`tensor.sequence_empty`](tensor.sequence\_empty.md) | Returns an empty tensor sequence. |
+| [`tensor.sequence_length`](tensor.sequence\_length.md) | Returns the length of the input sequence. |
+| [`tensor.sequence_insert`](tensor.sequence\_insert.md) | Insert a tensor into a sequence. |
+| [`tensor.sequence_at`](tensor.sequence\_at.md) | Outputs the tensor at the specified position in the input sequence. |
+| [`tensor.sequence_construct`](tensor.sequence\_construct.md) | Constructs a tensor sequence containing the input tensors. |
+| [`tensor.shrink`](tensor.shrink.md) | Shrinks the input tensor element-wise to the output tensor. |
+| [`tensor.reduce_mean`](tensor.reduce\_mean.md) | Computes the mean of the input tensor's elements along the provided axes. |
+| [`tensor.pow`](tensor.pow.md) | Pow takes input data (Tensor) and exponent Tensor, and produces one output data (Tensor) where the function f(x) = x^exponent, is applied to the data tensor elementwise. |
+| [`tensor.sequence_empty`](tensor.sequence\_empty.md) | Returns an empty tensor sequence. |
+| [`tensor.binarizer`](tensor.binarizer.md) | Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value. |
+| [`tensor.array_feature_extractor`](tensor.array\_feature\_extractor.md) | Selects elements of the input tensor based on the indices passed applied to the last tensor axis. |
+| [`tensor.reduce_min`](tensor.reduce\_min.md) | Computes the min of the input tensor's elements along the provided axes. |
+| [`tensor.concat_from_sequence`](tensor.concat\_from\_sequence.md) | Concatenate a sequence of tensors into a single tensor. |
+| [`tensor.is_nan`](tensor.is\_nan.md) | Returns which elements of the input are NaN. |
+| [`tensor.is_inf`](tensor.is\_inf.md) | Maps infinity to true and other values to false. |
+| [`tensor.not`](tensor.not.md) | Computes the logical negation of all elements in the input tensor. |
 
 ## Arithmetic Operations
 

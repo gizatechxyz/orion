@@ -76,7 +76,7 @@ class CairoTest(File):
         cls, name: str, arg_cnt: int, refs: list[str], func_sig: str, out_cnt: int = 1
     ) -> list[str]:
         """
-        Create a template for a Cairo test function.
+        Create a template for a Cairo test function which expects a tensor output.
 
         Args:
             name (str): Name of the test function.
@@ -108,6 +108,42 @@ class CairoTest(File):
             *[""],
             *[f"    assert_eq(y_{i}, z_{i});" for i in range(out_cnt)],
             *["}"],
+        ]
+
+    @classmethod
+    def sequence_template(cls, name: str, arg_cnt: int, refs: list[str], func_sig: str) -> list[str]:
+        """
+        Create a template for a Cairo test function which expects a tensor sequence.
+
+        Args:
+            name (str): Name of the test function.
+            arg_cnt (int): Number of arguments for the function.
+            refs (list[str]): List of references (modules) to be used in the function.
+            func_sig (str): The function signature.
+
+        Returns:
+            list[str]: A list of strings that together form the template of a Cairo test function.
+
+        This method generates a list of strings that form the template of a Cairo test function,
+        including module imports, function definition, and assertions.
+        """
+        return [
+            *[f"mod input_{i};" for i in range(arg_cnt)],
+            *[ "mod output_0;"],
+            *[ ""],
+            *[ ""],
+            *[f"use {ref};" for ref in refs],
+            *[ ""],
+            *[ "#[test]"],
+            *[ "#[available_gas(2000000000)]"],
+            *[f"fn test_{name}()"+" {"],
+            *[f"    let input_{i} = input_{i}::input_{i}();" for i in range(arg_cnt)],
+            *[ "    let z = output_0::output_0();"],
+            *[ ""],
+            *[f"    let y = {func_sig};"],
+            *[ ""],
+            *[ "    assert_seq_eq(y, z);"],
+            *[ "}"],
         ]
 
 

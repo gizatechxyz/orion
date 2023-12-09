@@ -375,3 +375,28 @@ impl SpanPartialOrd<T, +Drop<T>, +Copy<T>, +PartialEq<T>, +PartialOrd<T>> of Par
         span_cmp(lhs, rhs) < 0
     }
 }
+
+/// Creates a list of all axes of given shape
+/// 
+/// # Arguments
+///
+/// * `shape` - A span containing the input tensor's shape as usize elements.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * `Span<usize>` - A span containing the usize elements representing the axes.
+fn get_all_axes(shape: Span<usize>) -> Span<usize> {
+    let mut ret: Array<usize> = ArrayTrait::new();
+    let mut i: usize = 0;
+    let stop_i = shape.len() - 1;
+    loop {
+        ret.append(i);
+        if i == stop_i {
+            break ();
+        }
+        i += 1;
+    };
+    ret.span()
+}
