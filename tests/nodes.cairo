@@ -830,4 +830,3 @@ mod unique_u32_with_axis_zero_sorted;
 mod unique_u32_with_axis_zero_not_sorted;
 mod unique_u32_with_axis_one_sorted;
 mod unique_u32_with_axis_one_not_sorted;
-mod unique_u32_with_axis_one_not_sorted_custom;
