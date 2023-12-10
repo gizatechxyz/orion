@@ -1,4 +1,4 @@
-use array::SpanTrait;
+use core::array::SpanTrait;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{core::{Tensor, TensorTrait}, math::arithmetic::mul_by_scalar};

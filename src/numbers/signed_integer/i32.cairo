@@ -1,6 +1,6 @@
 use core::option::OptionTrait;
 use core::traits::TryInto;
-use traits::Into;
+use core::traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::signed_integer::i8::i8;
@@ -66,11 +66,11 @@ impl i32Impl of IntegerTrait<i32, u32> {
     }
 
     fn is_pos_inf(self: i32) -> bool {
-	self.is_inf() && !self.sign
+        self.is_inf() && !self.sign
     }
 
     fn is_neg_inf(self: i32) -> bool {
-	self.is_inf() && self.sign
+        self.is_inf() && self.sign
     }
 }
 

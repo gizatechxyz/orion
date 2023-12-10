@@ -1,12 +1,12 @@
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 
-use option::OptionTrait;
-use result::{ResultTrait, ResultTraitImpl};
-use traits::{TryInto, Into};
+use core::option::OptionTrait;
+use core::result::{ResultTrait, ResultTraitImpl};
+use core::traits::{TryInto, Into};
 
 use orion::numbers::signed_integer::{i32::i32, i8::i8};
 use orion::numbers::{fixed_point::core::FixedTrait, FP16x16};
-use orion::numbers::fixed_point::implementations::fp16x16wide::math::{core, trig, hyp};
+use orion::numbers::fixed_point::implementations::fp16x16wide::math::{core as core_math, trig, hyp};
 use orion::numbers::fixed_point::utils;
 
 /// A struct representing a fixed point number.
@@ -50,12 +50,12 @@ impl FP16x16WImpl of FixedTrait<FP16x16W, u64> {
     }
 
     fn from_felt(val: felt252) -> FP16x16W {
-        let mag = integer::u64_try_from_felt252(utils::felt_abs(val)).unwrap();
+        let mag = core::integer::u64_try_from_felt252(utils::felt_abs(val)).unwrap();
         return FixedTrait::new(mag, utils::felt_sign(val));
     }
 
     fn abs(self: FP16x16W) -> FP16x16W {
-        return core::abs(self);
+        return core_math::abs(self);
     }
 
     fn acos(self: FP16x16W) -> FP16x16W {
@@ -95,7 +95,7 @@ impl FP16x16WImpl of FixedTrait<FP16x16W, u64> {
     }
 
     fn ceil(self: FP16x16W) -> FP16x16W {
-        return core::ceil(self);
+        return core_math::ceil(self);
     }
 
     fn cos(self: FP16x16W) -> FP16x16W {
@@ -111,46 +111,46 @@ impl FP16x16WImpl of FixedTrait<FP16x16W, u64> {
     }
 
     fn floor(self: FP16x16W) -> FP16x16W {
-        return core::floor(self);
+        return core_math::floor(self);
     }
 
     // Calculates the natural exponent of x: e^x
     fn exp(self: FP16x16W) -> FP16x16W {
-        return core::exp(self);
+        return core_math::exp(self);
     }
 
     // Calculates the binary exponent of x: 2^x
     fn exp2(self: FP16x16W) -> FP16x16W {
-        return core::exp2(self);
+        return core_math::exp2(self);
     }
 
     // Calculates the natural logarithm of x: ln(x)
     // self must be greater than zero
     fn ln(self: FP16x16W) -> FP16x16W {
-        return core::ln(self);
+        return core_math::ln(self);
     }
 
     // Calculates the binary logarithm of x: log2(x)
     // self must be greather than zero
     fn log2(self: FP16x16W) -> FP16x16W {
-        return core::log2(self);
+        return core_math::log2(self);
     }
 
     // Calculates the base 10 log of x: log10(x)
     // self must be greater than zero
     fn log10(self: FP16x16W) -> FP16x16W {
-        return core::log10(self);
+        return core_math::log10(self);
     }
 
     // Calclates the value of x^y and checks for overflow before returning
     // self is a fixed point value
     // b is a fixed point value
     fn pow(self: FP16x16W, b: FP16x16W) -> FP16x16W {
-        return core::pow(self, b);
+        return core_math::pow(self, b);
     }
 
     fn round(self: FP16x16W) -> FP16x16W {
-        return core::round(self);
+        return core_math::round(self);
     }
 
     fn sin(self: FP16x16W) -> FP16x16W {
@@ -168,7 +168,7 @@ impl FP16x16WImpl of FixedTrait<FP16x16W, u64> {
     // Calculates the square root of a fixed point value
     // x must be positive
     fn sqrt(self: FP16x16W) -> FP16x16W {
-        return core::sqrt(self);
+        return core_math::sqrt(self);
     }
 
     fn tan(self: FP16x16W) -> FP16x16W {
@@ -184,7 +184,7 @@ impl FP16x16WImpl of FixedTrait<FP16x16W, u64> {
     }
 
     fn sign(self: FP16x16W) -> FP16x16W {
-        return core::sign(self);
+        return core_math::sign(self);
     }
 
     fn NaN() -> FP16x16W {
@@ -212,11 +212,11 @@ impl FP16x16WImpl of FixedTrait<FP16x16W, u64> {
     }
 
     fn is_pos_inf(self: FP16x16W) -> bool {
-	self.is_inf() && !self.sign
+        self.is_inf() && !self.sign
     }
 
     fn is_neg_inf(self: FP16x16W) -> bool {
-	self.is_inf() && self.sign
+        self.is_inf() && self.sign
     }
 }
 
@@ -327,18 +327,18 @@ impl FP16x16WTryIntoU8 of TryInto<FP16x16W, u8> {
 impl FP16x16WPartialEq of PartialEq<FP16x16W> {
     #[inline(always)]
     fn eq(lhs: @FP16x16W, rhs: @FP16x16W) -> bool {
-        return core::eq(lhs, rhs);
+        return core_math::eq(lhs, rhs);
     }
 
     #[inline(always)]
     fn ne(lhs: @FP16x16W, rhs: @FP16x16W) -> bool {
-        return core::ne(lhs, rhs);
+        return core_math::ne(lhs, rhs);
     }
 }
 
 impl FP16x16WAdd of Add<FP16x16W> {
     fn add(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
-        return core::add(lhs, rhs);
+        return core_math::add(lhs, rhs);
     }
 }
 
@@ -351,7 +351,7 @@ impl FP16x16WAddEq of AddEq<FP16x16W> {
 
 impl FP16x16WSub of Sub<FP16x16W> {
     fn sub(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
-        return core::sub(lhs, rhs);
+        return core_math::sub(lhs, rhs);
     }
 }
 
@@ -364,7 +364,7 @@ impl FP16x16WSubEq of SubEq<FP16x16W> {
 
 impl FP16x16WMul of Mul<FP16x16W> {
     fn mul(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
-        return core::mul(lhs, rhs);
+        return core_math::mul(lhs, rhs);
     }
 }
 
@@ -377,7 +377,7 @@ impl FP16x16WMulEq of MulEq<FP16x16W> {
 
 impl FP16x16WDiv of Div<FP16x16W> {
     fn div(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
-        return core::div(lhs, rhs);
+        return core_math::div(lhs, rhs);
     }
 }
 
@@ -391,36 +391,36 @@ impl FP16x16WDivEq of DivEq<FP16x16W> {
 impl FP16x16WPartialOrd of PartialOrd<FP16x16W> {
     #[inline(always)]
     fn ge(lhs: FP16x16W, rhs: FP16x16W) -> bool {
-        return core::ge(lhs, rhs);
+        return core_math::ge(lhs, rhs);
     }
 
     #[inline(always)]
     fn gt(lhs: FP16x16W, rhs: FP16x16W) -> bool {
-        return core::gt(lhs, rhs);
+        return core_math::gt(lhs, rhs);
     }
 
     #[inline(always)]
     fn le(lhs: FP16x16W, rhs: FP16x16W) -> bool {
-        return core::le(lhs, rhs);
+        return core_math::le(lhs, rhs);
     }
 
     #[inline(always)]
     fn lt(lhs: FP16x16W, rhs: FP16x16W) -> bool {
-        return core::lt(lhs, rhs);
+        return core_math::lt(lhs, rhs);
     }
 }
 
 impl FP16x16WNeg of Neg<FP16x16W> {
     #[inline(always)]
     fn neg(a: FP16x16W) -> FP16x16W {
-        return core::neg(a);
+        return core_math::neg(a);
     }
 }
 
 impl FP16x16WRem of Rem<FP16x16W> {
     #[inline(always)]
     fn rem(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
-        return core::rem(lhs, rhs);
+        return core_math::rem(lhs, rhs);
     }
 }
 

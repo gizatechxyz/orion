@@ -1,25 +1,20 @@
 use alexandria_data_structures::array_ext::SpanTraitExt;
-use array::ArrayTrait;
-use array::SpanTrait;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
 
 use core::traits::Into;
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 use core::traits::TryInto;
 use core::serde::Serde;
 use core::traits::Destruct;
-use option::OptionTrait;
+use core::option::OptionTrait;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::U32TensorPartialEq;
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 /// Cf: TensorTrait::gather docstring
-fn gather_elements<
-    T,
-    impl TTensorTrait: TensorTrait<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>,
->(
+fn gather_elements<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>,>(
     self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>
 ) -> Tensor<T> {
     let axis = match axis {
@@ -30,7 +25,7 @@ fn gather_elements<
 
     let data_rank = (*self.shape).len();
     let indices_rank = (indices.shape).len();
-    assert((data_rank == indices_rank ) & (indices_rank >= 1), 'must be same rank');
+    assert((data_rank == indices_rank) & (indices_rank >= 1), 'must be same rank');
 
     let axis_shape = *(*self.shape).at(axis);
     let ind_max = indices.data.max().unwrap();
@@ -39,7 +34,6 @@ fn gather_elements<
     let mut indices_shape = indices.shape;
     let mut data_shape = *self.shape;
     let mut data_shape_clone = data_shape.clone();
-
 
     let mut ind = 0;
     loop {
@@ -99,16 +93,18 @@ fn gather_elements<
     loop {
         match data_indices.pop_front() {
             Option::Some(val) => {
-                if (axis == 0){
-                    let value  = *val * inner_loop.into() + (i % inner_loop);
+                if (axis == 0) {
+                    let value = *val * inner_loop.into() + (i % inner_loop);
                     output_data.append(*self.data[value]);
                 }
-                if ((axis == indices_rank-1) & (axis != 0)) {
+                if ((axis == indices_rank - 1) & (axis != 0)) {
                     let value = *val + *outer_loop * (i / *outer_loop_index);
                     output_data.append(*self.data[value]);
                 }
-                if ((axis != indices_rank-1) & (axis != 0)) {
-                    let value = *val * (looper ) + (i % looper) + (multiplier  * (i / multiplier_index));
+                if ((axis != indices_rank - 1) & (axis != 0)) {
+                    let value = *val * (looper)
+                        + (i % looper)
+                        + (multiplier * (i / multiplier_index));
                     output_data.append(*self.data[value]);
                 }
                 i += 1;

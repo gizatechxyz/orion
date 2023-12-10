@@ -17,7 +17,7 @@ A new `Tensor<usize>` indices of the elements that are non-zero (in row-major or
 ## Example
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

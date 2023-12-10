@@ -8,20 +8,20 @@ use core::array::SpanTrait;
 use core::nullable::NullableTrait;
 use core::dict::Felt252DictTrait;
 use core::dict::Felt252DictEntryTrait;
-use nullable::{match_nullable, FromNullableResult};
+use core::nullable::{match_nullable, FromNullableResult};
 
 use orion::operators::tensor::{Tensor, TensorTrait};
 use orion::operators::ml::tree_ensemble::core::{TreeEnsemble, TreeEnsembleImpl, TreeEnsembleTrait};
 use orion::numbers::NumberTrait;
 use orion::utils::get_row;
 
-use alexandria_data_structures::merkle_tree::{pedersen::PedersenHasherImpl};
+use alexandria_merkle_tree::merkle_tree::{pedersen::PedersenHasherImpl};
 use alexandria_data_structures::array_ext::{SpanTraitExt};
 
 use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
 
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 
 #[derive(Destruct)]
 struct TreeEnsembleClassifier<T> {
@@ -408,7 +408,7 @@ impl TreeEnsembleClassifierImpl<
             POST_TRANSFORM::SOFTMAX => res.softmax(1),
             POST_TRANSFORM::LOGISTIC => res.sigmoid(),
             POST_TRANSFORM::SOFTMAXZERO => res.softmax_zero(1),
-            POST_TRANSFORM::PROBIT => panic_with_felt252('Probit not supported yet'),
+            POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
         };
 
         // Labels

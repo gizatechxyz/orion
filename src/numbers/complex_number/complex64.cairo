@@ -1,4 +1,4 @@
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 
 use orion::numbers::complex_number::complex_trait::ComplexTrait;
 use orion::numbers::{FP64x64, FP64x64Impl, FP32x32, FP32x32Impl, FixedTrait};

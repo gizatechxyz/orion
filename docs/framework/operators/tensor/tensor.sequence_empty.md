@@ -17,7 +17,7 @@ An empty `Array<Tensor<T>>` instance.
 Let's create a new empty sequence.
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{
     TensorTrait, // we import the trait

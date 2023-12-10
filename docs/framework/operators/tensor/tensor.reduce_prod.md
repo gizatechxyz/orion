@@ -23,7 +23,7 @@ A new `Tensor<T>` instance with the specified axis reduced by multiplying its el
 ## Examples
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

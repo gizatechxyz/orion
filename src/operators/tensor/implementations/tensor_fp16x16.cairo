@@ -1,16 +1,18 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
-use traits::{TryInto, Into};
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
+use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core, ml};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP16x16};
-use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor};
+use orion::operators::tensor::implementations::{
+    tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
+};
 
 impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn new(shape: Span<usize>, data: Span<FP16x16>) -> Tensor<FP16x16> {
@@ -343,7 +345,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<FP16x16> {
-        core::slice::<FP16x16>(self, starts, ends, axes, steps)
+        core_tensor::slice::<FP16x16>(self, starts, ends, axes, steps)
     }
 
     fn gather(
@@ -353,15 +355,15 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     }
 
     fn nonzero(self: @Tensor<FP16x16>) -> Tensor<usize> {
-        core::nonzero(self)
+        core_tensor::nonzero(self)
     }
 
     fn squeeze(self: @Tensor<FP16x16>, axes: Option<Span<i32>>) -> Tensor<FP16x16> {
-        core::squeeze(self, axes)
+        core_tensor::squeeze(self, axes)
     }
 
     fn unsqueeze(self: @Tensor<FP16x16>, axes: Span<usize>) -> Tensor<FP16x16> {
-        core::unsqueeze(self, axes)
+        core_tensor::unsqueeze(self, axes)
     }
 
     fn sign(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
@@ -369,7 +371,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     }
 
     fn clip(self: @Tensor<FP16x16>, min: Option<FP16x16>, max: Option<FP16x16>) -> Tensor<FP16x16> {
-        core::clip(self, min, max)
+        core_tensor::clip(self, min, max)
     }
 
     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
@@ -377,7 +379,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     }
 
     fn identity(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
-        core::identity(self)
+        core_tensor::identity(self)
     }
 
     fn where(self: @Tensor<FP16x16>, x: @Tensor<FP16x16>, y: @Tensor<FP16x16>) -> Tensor<FP16x16> {
@@ -391,7 +393,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn bitwise_xor(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::bitwise_xor::bitwise_xor(self, other)
     }
-    
+
     fn bitwise_or(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::bitwise_or::bitwise_or(self, other)
     }
@@ -433,11 +435,11 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
-    
+
     fn not(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         panic(array!['not supported!'])
     }
-    
+
 
     fn gather_elements(
         self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>
@@ -501,15 +503,19 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::sequence_insert::sequence_insert(self, tensor, position)
     }
 
-    fn is_inf(self: @Tensor<FP16x16>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+    fn is_inf(
+        self: @Tensor<FP16x16>, detect_negative: Option<u8>, detect_positive: Option<u8>
+    ) -> Tensor<bool> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
     fn is_nan(self: @Tensor<FP16x16>) -> Tensor<bool> {
-	math::is_nan::is_nan(self)
+        math::is_nan::is_nan(self)
     }
 
-    fn concat_from_sequence(sequence: Array<Tensor<FP16x16>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP16x16> {
+    fn concat_from_sequence(
+        sequence: Array<Tensor<FP16x16>>, axis: i32, new_axis: Option<usize>
+    ) -> Tensor<FP16x16> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 }

@@ -23,7 +23,7 @@ The tensor sequence `Array<Tensor<T>>` with the erased tensor at the specified p
 ## Examples
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor, I32Tensor};
 use orion::numbers::{i32, IntegerTrait};

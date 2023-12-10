@@ -2,8 +2,8 @@ use core::option::OptionTrait;
 use core::traits::TryInto;
 use core::traits::Into;
 
-use array::ArrayTrait;
-use array::SpanTrait;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::fixed_point::core::FixedTrait;

@@ -8,7 +8,7 @@ use orion::operators::tensor::U32Tensor;
 use orion::operators::tensor::FP8x23TensorPartialEq;
 use orion::operators::tensor::{TensorTrait, Tensor};
 use orion::operators::tensor::FP8x23Tensor;
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::U32TensorPartialEq;
 
 #[test]
