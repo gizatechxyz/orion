@@ -1,9 +1,9 @@
 use core::traits::Into;
 use core::traits::IndexView;
-use option::OptionTrait;
-use array::{SpanTrait, ArrayTrait};
+use core::option::OptionTrait;
+use core::array::{SpanTrait, ArrayTrait};
 
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 
 use alexandria_data_structures::array_ext::SpanTraitExt;
 use alexandria_sorting::merge_sort::merge;
