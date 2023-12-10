@@ -279,7 +279,7 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
     fn bitwise_or(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
         comp_fp8x23::bitwise_or(lhs, rhs)
     }
-    
+
     fn add(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
         FP8x23Add::add(lhs, rhs)
     }
@@ -506,7 +506,7 @@ impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
     fn bitwise_or(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
         comp_fp8x23wide::bitwise_or(lhs, rhs)
     }
-    
+
     fn add(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
         FP8x23WAdd::add(lhs, rhs)
     }
@@ -733,7 +733,7 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
     fn bitwise_or(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
         comp_fp16x16::bitwise_or(lhs, rhs)
     }
-    
+
     fn add(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
         FP16x16Add::add(lhs, rhs)
     }
@@ -960,7 +960,7 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
     fn bitwise_or(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
         comp_fp16x16wide::bitwise_or(lhs, rhs)
     }
-    
+
     fn add(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
         FP16x16WAdd::add(lhs, rhs)
     }
@@ -973,7 +973,7 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
 use orion::numbers::fixed_point::implementations::fp64x64::core::{
     FP64x64Impl, FP64x64, FP64x64Add, FP64x64Sub
 };
-use orion::numbers::fixed_point::implementations::fp64x64::core as core_fp64x64;
+use orion::numbers::fixed_point::implementations::fp64x64::{core as core_fp64x64};
 use orion::numbers::fixed_point::implementations::fp64x64::comp as comp_fp64x64;
 use cubit::f128 as fp64x64;
 
@@ -1082,7 +1082,7 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
         FP64x64Impl::ZERO()
     }
     fn is_zero(self: FP64x64) -> bool {
-        fp64x64::core::eq(@self, @FP64x64Impl::ZERO())
+        fp64x64::ops::eq(@self, @FP64x64Impl::ZERO())
     }
 
     fn half() -> FP64x64 {
@@ -1102,11 +1102,11 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
     }
 
     fn abs(self: FP64x64) -> FP64x64 {
-        fp64x64::core::abs(self)
+        fp64x64::ops::abs(self)
     }
 
     fn neg(self: FP64x64) -> FP64x64 {
-        fp64x64::core::neg(self)
+        fp64x64::ops::neg(self)
     }
 
     fn min_value() -> FP64x64 {
@@ -1188,7 +1188,7 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
     fn bitwise_or(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
         comp_fp64x64::bitwise_or(lhs, rhs)
     }
-    
+
     fn add(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
         FP64x64Add::add(lhs, rhs)
     }
@@ -1310,7 +1310,7 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
         FP32x32Impl::ZERO()
     }
     fn is_zero(self: FP32x32) -> bool {
-        fp32x32::core::eq(@self, @FP32x32Impl::ZERO())
+        fp32x32::ops::eq(@self, @FP32x32Impl::ZERO())
     }
 
     fn half() -> FP32x32 {
@@ -1330,11 +1330,11 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
     }
 
     fn abs(self: FP32x32) -> FP32x32 {
-        fp32x32::core::abs(self)
+        fp32x32::ops::abs(self)
     }
 
     fn neg(self: FP32x32) -> FP32x32 {
-        fp32x32::core::neg(self)
+        fp32x32::ops::neg(self)
     }
 
     fn min_value() -> FP32x32 {
@@ -1416,7 +1416,7 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
     fn bitwise_or(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
         comp_fp32x32::bitwise_or(lhs, rhs)
     }
-    
+
     fn add(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
         FP32x32Add::add(lhs, rhs)
     }
@@ -1671,7 +1671,7 @@ impl I8Number of NumberTrait<i8, i8> {
     fn bitwise_or(lhs: i8, rhs: i8) -> i8 {
         panic(array!['not supported!'])
     }
-    
+
     fn add(lhs: i8, rhs: i8) -> i8 {
         lhs + rhs
     }
@@ -1961,7 +1961,7 @@ impl I16Number of NumberTrait<i16, i16> {
     fn bitwise_or(lhs: i16, rhs: i16) -> i16 {
         panic(array!['not supported!'])
     }
-    
+
     fn add(lhs: i16, rhs: i16) -> i16 {
         lhs + rhs
     }
@@ -2251,7 +2251,7 @@ impl I32Number of NumberTrait<i32, i32> {
     fn bitwise_or(lhs: i32, rhs: i32) -> i32 {
         panic(array!['not supported!'])
     }
-    
+
     fn add(lhs: i32, rhs: i32) -> i32 {
         lhs + rhs
     }
@@ -2541,7 +2541,7 @@ impl I64Number of NumberTrait<i64, i64> {
     fn bitwise_or(lhs: i64, rhs: i64) -> i64 {
         panic(array!['not supported!'])
     }
-    
+
     fn add(lhs: i64, rhs: i64) -> i64 {
         lhs + rhs
     }
@@ -2831,7 +2831,7 @@ impl I128Number of NumberTrait<i128, i128> {
     fn bitwise_or(lhs: i128, rhs: i128) -> i128 {
         panic(array!['not supported!'])
     }
-    
+
     fn add(lhs: i128, rhs: i128) -> i128 {
         lhs + rhs
     }
@@ -3113,7 +3113,7 @@ impl u32Number of NumberTrait<u32, u32> {
     fn bitwise_or(lhs: u32, rhs: u32) -> u32 {
         lhs | rhs
     }
-    
+
     fn add(lhs: u32, rhs: u32) -> u32 {
         lhs + rhs
     }

@@ -4,7 +4,7 @@ use orion::numbers::NumberTrait;
 use orion::operators::tensor::{Tensor, TensorTrait, U32Tensor};
 use orion::utils::get_row;
 
-use alexandria_data_structures::merkle_tree::{pedersen::PedersenHasherImpl};
+use alexandria_merkle_tree::merkle_tree::{pedersen::PedersenHasherImpl};
 use alexandria_data_structures::array_ext::ArrayTraitExt;
 
 

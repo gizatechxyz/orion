@@ -27,7 +27,7 @@ A new `Tensor<T>` containing the element-wise maximum values
 Case 1: Process tensors with same shape
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
@@ -46,7 +46,7 @@ fn max_example() -> Tensor<u32> {
 Case 2: Process tensors with different shapes
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

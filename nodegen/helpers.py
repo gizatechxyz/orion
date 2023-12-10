@@ -186,7 +186,7 @@ def find_all_types(tensors: list[Tensor | Sequence]) -> list[Dtype]:
 
 trait_to_ref = {
     Trait.TENSOR: [
-        "array::{ArrayTrait, SpanTrait}",
+        "core::array::{ArrayTrait, SpanTrait}",
         "orion::operators::tensor::{TensorTrait, Tensor}",
     ],
     Trait.NN: [

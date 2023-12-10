@@ -1,5 +1,5 @@
-use debug::PrintTrait;
-use array::{ArrayTrait, SpanTrait};
+use core::debug::PrintTrait;
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor};
 use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};

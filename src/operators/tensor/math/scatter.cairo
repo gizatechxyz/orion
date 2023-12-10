@@ -1,18 +1,18 @@
 use alexandria_data_structures::array_ext::SpanTraitExt;
-use array::ArrayTrait;
-use array::SpanTrait;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
 
 use core::traits::Into;
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 use core::traits::TryInto;
 use core::serde::Serde;
 use core::traits::Destruct;
-use option::OptionTrait;
+use core::option::OptionTrait;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-use dict::Felt252DictTrait;
-use nullable::{nullable_from_box, match_nullable, FromNullableResult};
+use core::dict::Felt252DictTrait;
+use core::nullable::{nullable_from_box, match_nullable, FromNullableResult};
 /// Cf: TensorTrait::scatter docstring
 fn scatter<
     T,

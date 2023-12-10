@@ -1,8 +1,8 @@
 use core::debug::PrintTrait;
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
-use traits::TryInto;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
+use core::traits::TryInto;
 
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::helpers::check_compatibility;

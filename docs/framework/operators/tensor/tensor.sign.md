@@ -18,7 +18,7 @@ A new `Tensor<T>` of the same shape as the input tensor with The sign of the inp
 ## Example
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
 

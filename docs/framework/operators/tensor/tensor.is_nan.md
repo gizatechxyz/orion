@@ -16,7 +16,7 @@ A new `Tensor<bool>` instance with entries set to true iff the input tensors cor
 
 ## Examples
 
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, FP8x23Tensor};
 use orion::numbers::{FixedTrait, FP8x23};
 

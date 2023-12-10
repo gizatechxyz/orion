@@ -1,7 +1,7 @@
 use orion::numbers::complex_number::complex_trait::ComplexTrait;
 use orion::numbers::complex_number::complex64::{TWO, complex64};
 use orion::numbers::{FP64x64, FP64x64Impl, FixedTrait};
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 
 
 #[test]

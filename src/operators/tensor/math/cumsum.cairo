@@ -1,7 +1,7 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
-use debug::PrintTrait;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
+use core::debug::PrintTrait;
 
 use orion::operators::tensor::helpers::replace_index;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
