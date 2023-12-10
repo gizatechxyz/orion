@@ -37,7 +37,7 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
     /// use orion::operators::nn::{NNTrait, I32NN};
@@ -89,7 +89,7 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::operators::nn::{NNTrait, FP8x23NN};
@@ -143,7 +143,7 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
     /// use orion::operators::nn::{NNTrait, FP8x23NN};
@@ -202,7 +202,7 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
     /// use orion::operators::nn::{NNTrait, FP8x23NN};
@@ -255,7 +255,7 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
     /// use orion::operators::nn::{NNTrait, FP8x23NN};
@@ -308,7 +308,7 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
     /// use orion::operators::nn::{NNTrait, FP8x23NN};
@@ -359,7 +359,7 @@ trait NNTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
     /// use orion::operators::nn::{NNTrait, I32NN};
@@ -425,7 +425,7 @@ trait NNTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
     /// use orion::operators::nn::{NNTrait, FP8x23NN};
@@ -483,7 +483,7 @@ trait NNTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
     /// use orion::operators::nn::{NNTrait, FP8x23NN};
@@ -533,7 +533,7 @@ trait NNTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23};
     /// use orion::operators::nn::{NNTrait, FP8x23NN};

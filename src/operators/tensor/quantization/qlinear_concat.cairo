@@ -1,6 +1,6 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
 
 use orion::numbers::{NumberTrait};
 use orion::operators::tensor::quantization::dequantize_linear::dequantize_linear;
@@ -164,7 +164,7 @@ fn dequantize_tensors<
 /// ## Example
 ///
 /// ```rust
-/// use array::{ArrayTrait, SpanTrait};
+/// use core::array::{ArrayTrait, SpanTrait};
 /// 
 /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 /// 
@@ -193,4 +193,5 @@ fn dequantize_tensors<
 /// ```
 ///
 ///fn concat(tensors: Span<Tensor<T>>, axis: usize,) -> Tensor<T>;
+
 

@@ -1,7 +1,7 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
-use traits::{Into, TryInto};
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
+use core::traits::{Into, TryInto};
 
 use orion::numbers::NumberTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
@@ -30,8 +30,6 @@ fn exp<
 
     return TensorTrait::new(self.shape, result.span());
 }
-
-use debug::PrintTrait;
 
 /// Cf: TensorTrait::exp docstring
 fn exp_upcast<

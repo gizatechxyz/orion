@@ -1,4 +1,4 @@
-use traits::Into;
+use core::traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::signed_integer::i32::i32;
@@ -69,11 +69,11 @@ impl i8Impl of IntegerTrait<i8, u8> {
     }
 
     fn is_pos_inf(self: i8) -> bool {
-	self.is_inf() && !self.sign
+        self.is_inf() && !self.sign
     }
 
     fn is_neg_inf(self: i8) -> bool {
-	self.is_inf() && self.sign
+        self.is_inf() && self.sign
     }
 }
 

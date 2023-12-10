@@ -20,7 +20,7 @@ A new `Tensor<T>` instance.
 Let's create new u32 Tensor with constant 42.
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{
     TensorTrait, // we import the trait

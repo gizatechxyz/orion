@@ -1,9 +1,9 @@
 #[cfg(test)]
 mod fp8x23 {
-    use array::ArrayTrait;
-    use array::SpanTrait;
-    use traits::Into;
-    use debug::PrintTrait;
+    use core::array::ArrayTrait;
+    use core::array::SpanTrait;
+    use core::traits::Into;
+    use core::debug::PrintTrait;
 
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i8::i8};
     use orion::numbers::fixed_point::core::{FixedTrait};
@@ -145,10 +145,10 @@ mod fp8x23 {
 
 #[cfg(test)]
 mod fp16x16 {
-    use array::ArrayTrait;
-    use array::SpanTrait;
-    use traits::Into;
-    use debug::PrintTrait;
+    use core::array::ArrayTrait;
+    use core::array::SpanTrait;
+    use core::traits::Into;
+    use core::debug::PrintTrait;
 
 
     use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i8::i8};

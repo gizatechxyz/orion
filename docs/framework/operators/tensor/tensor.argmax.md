@@ -26,7 +26,7 @@ A new `Tensor<T>` instance containing the indices of the maximum values along th
 Case 1: argmax with default parameters
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
@@ -43,7 +43,7 @@ fn argmax_example() -> Tensor<usize> {
 Case 2: argmax with keepdims set to false
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
@@ -62,7 +62,7 @@ fn argmax_example() -> Tensor<usize> {
 Case 3: argmax with select_last_index set to true
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

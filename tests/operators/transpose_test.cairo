@@ -1,6 +1,6 @@
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 
 
 #[test]

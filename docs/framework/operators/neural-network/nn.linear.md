@@ -23,7 +23,7 @@ A `Tensor<T>` representing the result of the linear transformation.
 ## Examples
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
 use orion::operators::nn::{NNTrait, I32NN};

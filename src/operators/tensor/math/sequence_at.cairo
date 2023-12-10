@@ -1,5 +1,5 @@
-use array::{ArrayTrait, SpanTrait};
-use option::OptionTrait;
+use core::array::{ArrayTrait, SpanTrait};
+use core::option::OptionTrait;
 
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::NumberTrait;

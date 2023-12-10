@@ -47,8 +47,8 @@ fn atanh(a: FP16x16) -> FP16x16 {
 
 #[cfg(test)]
 mod tests {
-    use option::OptionTrait;
-    use traits::Into;
+    use core::option::OptionTrait;
+    use core::traits::Into;
 
     use orion::numbers::fixed_point::implementations::fp16x16::helpers::assert_precise;
 

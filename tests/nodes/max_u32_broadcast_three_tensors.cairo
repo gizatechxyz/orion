@@ -4,7 +4,7 @@ mod input_2;
 mod output_0;
 
 
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::TensorTrait;
 use orion::operators::tensor::U32Tensor;
 use orion::operators::tensor::U32TensorPartialEq;

@@ -24,7 +24,7 @@ A new `Tensor<T>` instance.
 Let's create new u32 Tensors.
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{
     TensorTrait, // we import the trait

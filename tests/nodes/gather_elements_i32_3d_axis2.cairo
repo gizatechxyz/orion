@@ -7,7 +7,7 @@ use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::tensor::U32Tensor;
 use orion::operators::tensor::I32Tensor;
 use orion::operators::tensor::{TensorTrait, Tensor};
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::I32TensorPartialEq;
 use orion::operators::tensor::U32TensorPartialEq;
 

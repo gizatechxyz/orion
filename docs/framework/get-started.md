@@ -3,7 +3,7 @@
 In this section, we will guide you to start using Orion successfully. We will help you install Cairo 1.0 and add Orion dependency in your project.
 
 {% hint style="info" %}
-Orion supports <mark style="color:orange;">**Cairo and Scarb v2.3.0**</mark>
+Orion supports <mark style="color:orange;">**Cairo and Scarb v2.4.0**</mark>
 {% endhint %}
 
 ## 📦 Installations
@@ -56,7 +56,7 @@ scarb build
 You can now use the `orion` in your files:
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
 use orion::operators::nn::{NNTrait, I32NN};

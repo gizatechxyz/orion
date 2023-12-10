@@ -1,7 +1,7 @@
 use core::debug::{PrintTrait};
-use array::ArrayTrait;
-use array::SpanTrait;
-use traits::Into;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::traits::Into;
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::i8};
 use orion::numbers::fixed_point::core::{FixedTrait};
