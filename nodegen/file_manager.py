@@ -72,7 +72,7 @@ class CairoTest(File):
         super().__init__(os.path.join(BASE_PATH, file))
 
     @classmethod
-    def template(
+    def base_template(
         cls, name: str, arg_cnt: int, refs: list[str], func_sig: str, out_cnt: int = 1
     ) -> list[str]:
         """
