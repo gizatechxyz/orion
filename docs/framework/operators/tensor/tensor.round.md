@@ -19,7 +19,7 @@ the round value of all elements in the input tensor.
 ## Example
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
 use orion::numbers::{FixedTrait, FP16x16};

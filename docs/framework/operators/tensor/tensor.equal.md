@@ -27,7 +27,7 @@ A new `Tensor<usize>` of booleans (1 if equal, 0 otherwise) with the same shape 
 Case 1: Compare tensors with same shape
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
@@ -49,7 +49,7 @@ fn eq_example() -> Tensor<usize> {
 Case 2: Compare tensors with different shapes
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

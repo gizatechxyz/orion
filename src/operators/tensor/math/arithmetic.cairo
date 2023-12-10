@@ -1,7 +1,7 @@
 use core::option::OptionTrait;
 use core::traits::TryInto;
-use array::ArrayTrait;
-use array::SpanTrait;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
 
 use orion::operators::tensor::helpers::broadcast_shape;
 

@@ -1,6 +1,6 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
 
 use alexandria_data_structures::array_ext::ArrayTraitExt;
 

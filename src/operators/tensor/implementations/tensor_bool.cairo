@@ -1,14 +1,14 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
-use traits::{TryInto, Into};
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
+use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     constant_of_shape, new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core, ml};
+use orion::operators::tensor::{math, linalg, quantization, core as core_ops, ml};
 use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
 
@@ -229,7 +229,7 @@ impl BoolTensor of TensorTrait<bool> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<bool> {
-        core::slice::<bool>(self, starts, ends, axes, steps)
+        core_ops::slice::<bool>(self, starts, ends, axes, steps)
     }
 
     fn gather(self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
@@ -261,7 +261,7 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn identity(self: @Tensor<bool>) -> Tensor<bool> {
-        core::identity(self)
+        core_ops::identity(self)
     }
 
     fn where(self: @Tensor<bool>, x: @Tensor<bool>, y: @Tensor<bool>) -> Tensor<bool> {
@@ -353,7 +353,7 @@ impl BoolTensor of TensorTrait<bool> {
     fn bitwise_xor(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
-    
+
     fn bitwise_or(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
@@ -374,10 +374,12 @@ impl BoolTensor of TensorTrait<bool> {
         constant_of_shape(shape, value)
     }
 
-    fn gather_elements(self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
+    fn gather_elements(
+        self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<bool> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
-    
+
     fn sequence_length(self: Array<Tensor<bool>>) -> Tensor<u32> {
         math::sequence_length::sequence_length(self)
     }
@@ -440,7 +442,9 @@ impl BoolTensor of TensorTrait<bool> {
         math::sequence_insert::sequence_insert(self, tensor, position)
     }
 
-    fn is_inf(self: @Tensor<bool>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+    fn is_inf(
+        self: @Tensor<bool>, detect_negative: Option<u8>, detect_positive: Option<u8>
+    ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
@@ -448,7 +452,9 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn concat_from_sequence(sequence: Array<Tensor<bool>>, axis: i32, new_axis: Option<usize>) -> Tensor<bool> {
+    fn concat_from_sequence(
+        sequence: Array<Tensor<bool>>, axis: i32, new_axis: Option<usize>
+    ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 

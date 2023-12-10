@@ -390,7 +390,7 @@ os.makedirs('src/generated', exist_ok=True)
 for tensor_name, tensor in tensors.items():
     with open(os.path.join('src', 'generated', f"{tensor_name}.cairo"), "w") as f:
         f.write(
-           <a data-footnote-ref href="#user-content-fn-1"> "use array::ArrayTrait;\n" +</a>
+           <a data-footnote-ref href="#user-content-fn-1"> "use core::array::ArrayTrait;\n" +</a>
             "use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};\n" +
             "use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;\n" +
             "use orion::numbers::fixed_point::core::FixedImpl;\n" +
@@ -432,7 +432,7 @@ We have just created a file called `lib.cairo`, which contains a module declarat
 Here is a file we generated: `fc1_bias.cairo`
 
 ```rust
-use array::ArrayTrait;
+use core::array::ArrayTrait;
 use orion::operators::tensor::core::{TensorTrait, Tensor, ExtraParams};
 use orion::operators::tensor::implementations::impl_tensor_i32::Tensor_i32;
 use orion::numbers::fixed_point::core::FixedImpl;

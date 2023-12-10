@@ -21,7 +21,7 @@ A `Tensor<T>` with the same shape as the input tensor.
 ## Examples
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
 use orion::operators::nn::{NNTrait, I32NN};

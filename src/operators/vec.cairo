@@ -1,7 +1,7 @@
 use core::box::BoxTrait;
 use core::traits::Into;
+use core::nullable::{Nullable, match_nullable, FromNullableResult, nullable_from_box};
 use alexandria_data_structures::vec::{VecTrait};
-use core::nullable::{Nullable, match_nullable, FromNullableResult};
 use orion::numbers::NumberTrait;
 
 struct NullableVec<T> {
@@ -44,7 +44,7 @@ impl NullableVecImpl<
 
     fn push(ref self: NullableVec<T>, value: T) -> () {
         self.items.insert(self.len.into(), nullable_from_box(BoxTrait::new(value)));
-        self.len = integer::u32_wrapping_add(self.len, 1_usize);
+        self.len = core::integer::u32_wrapping_add(self.len, 1_usize);
     }
 
     fn set(ref self: NullableVec<T>, index: usize, value: T) {

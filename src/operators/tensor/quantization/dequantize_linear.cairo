@@ -1,7 +1,7 @@
 use core::traits::Into;
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
 
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::helpers::check_compatibility;

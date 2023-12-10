@@ -23,7 +23,7 @@ The tensor `Tensor<T>` from the sequence at the specified position.
 ## Examples
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor, I32Tensor};
 use orion::numbers::{i32, IntegerTrait};

@@ -123,7 +123,7 @@ mod tests {
 
         assert(bitwise_xor(a, b) == c, 'bitwise_xor(a,b)')
     }
-    
+
     fn test_bitwise_or() {
         let a = FixedTrait::new(28835840, false); // 3.4375
         let b = FixedTrait::new(1639448576, true); // -60.5625

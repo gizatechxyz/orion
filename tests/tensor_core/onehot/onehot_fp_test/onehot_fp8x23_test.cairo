@@ -6,7 +6,7 @@ use orion::numbers::fixed_point::core::FixedTrait;
 
 #[cfg(test)]
 mod tensor_1D {
-    use array::{ArrayTrait, SpanTrait};
+    use core::array::{ArrayTrait, SpanTrait};
     use core::traits::Into;
     use orion::numbers::fixed_point::core::{FixedTrait};
     use orion::numbers::fixed_point::implementations::fp8x23::core::{FP8x23, FP8x23PartialEq};
@@ -16,10 +16,10 @@ mod tensor_1D {
         fp_tensor_1x3_helper, fp_tensor_2x2_helper, fp_tensor_3x2x2_neg_helper,
         fp_tensor_1x3_neg_helper, fp_tensor_2x2x2_helper
     };
-    use debug::PrintTrait;
+    use core::debug::PrintTrait;
     use core::clone::Clone;
     use core::option::OptionTrait;
-    use serde::Serde;
+    use core::serde::Serde;
 
     use orion::operators::tensor::core::{Tensor};
 

@@ -3,7 +3,7 @@ mod output_0;
 mod output_non_axes;
 mod output_negatives;
 
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::TensorTrait;
 use orion::operators::tensor::U32Tensor;
 use orion::operators::tensor::U32TensorPartialEq;

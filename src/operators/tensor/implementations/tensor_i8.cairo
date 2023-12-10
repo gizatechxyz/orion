@@ -1,7 +1,7 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
-use traits::{TryInto, Into};
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
+use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
@@ -9,7 +9,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, ml, manipulation, core};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
 use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_bool::BoolTensor};
 
@@ -345,7 +345,7 @@ impl I8Tensor of TensorTrait<i8> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<i8> {
-        core::slice::<i8>(self, starts, ends, axes, steps)
+        core_tensor::slice::<i8>(self, starts, ends, axes, steps)
     }
 
     fn gather(self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i8> {
@@ -353,15 +353,15 @@ impl I8Tensor of TensorTrait<i8> {
     }
 
     fn nonzero(self: @Tensor<i8>) -> Tensor<usize> {
-        core::nonzero(self)
+        core_tensor::nonzero(self)
     }
 
     fn squeeze(self: @Tensor<i8>, axes: Option<Span<i32>>) -> Tensor<i8> {
-        core::squeeze(self, axes)
+        core_tensor::squeeze(self, axes)
     }
 
     fn unsqueeze(self: @Tensor<i8>, axes: Span<usize>) -> Tensor<i8> {
-        core::unsqueeze(self, axes)
+        core_tensor::unsqueeze(self, axes)
     }
 
     fn sign(self: @Tensor<i8>) -> Tensor<i8> {
@@ -369,7 +369,7 @@ impl I8Tensor of TensorTrait<i8> {
     }
 
     fn clip(self: @Tensor<i8>, min: Option<i8>, max: Option<i8>) -> Tensor<i8> {
-        core::clip(self, min, max)
+        core_tensor::clip(self, min, max)
     }
 
     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
@@ -377,7 +377,7 @@ impl I8Tensor of TensorTrait<i8> {
     }
 
     fn identity(self: @Tensor<i8>) -> Tensor<i8> {
-        core::identity(self)
+        core_tensor::identity(self)
     }
 
     fn where(self: @Tensor<i8>, x: @Tensor<i8>, y: @Tensor<i8>) -> Tensor<i8> {
@@ -391,7 +391,7 @@ impl I8Tensor of TensorTrait<i8> {
     fn bitwise_xor(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
         math::bitwise_xor::bitwise_xor(self, other)
     }
-    
+
     fn bitwise_or(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i8> {
         math::bitwise_or::bitwise_or(self, other)
     }
@@ -431,14 +431,16 @@ impl I8Tensor of TensorTrait<i8> {
     }
 
     fn reduce_l2(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
-          panic(array!['not supported!'])
+        panic(array!['not supported!'])
     }
-    
+
     fn not(self: @Tensor<i8>) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
 
-    fn gather_elements(self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i8> {
+    fn gather_elements(
+        self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<i8> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
@@ -497,15 +499,19 @@ impl I8Tensor of TensorTrait<i8> {
         math::sequence_insert::sequence_insert(self, tensor, position)
     }
 
-    fn is_inf(self: @Tensor<i8>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
-	math::is_inf::is_inf(self, detect_negative, detect_positive)
+    fn is_inf(
+        self: @Tensor<i8>, detect_negative: Option<u8>, detect_positive: Option<u8>
+    ) -> Tensor<bool> {
+        math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
     fn is_nan(self: @Tensor<i8>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
-    fn concat_from_sequence(sequence: Array<Tensor<i8>>, axis: i32, new_axis: Option<usize>) -> Tensor<i8> {
+    fn concat_from_sequence(
+        sequence: Array<Tensor<i8>>, axis: i32, new_axis: Option<usize>
+    ) -> Tensor<i8> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
