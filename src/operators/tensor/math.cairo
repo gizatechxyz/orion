@@ -62,4 +62,5 @@ mod sequence_insert;
 mod concat_from_sequence;
 mod is_nan;
 mod is_inf;
+mod reduce_log_sum;
 mod erf;

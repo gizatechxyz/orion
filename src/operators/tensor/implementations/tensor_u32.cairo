@@ -457,6 +457,10 @@ impl U32Tensor of TensorTrait<u32> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
+    fn reduce_log_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+         panic(array!['not supported!'])
+    }
+    
     fn erf(self: @Tensor<u32>) -> Tensor<u32> {
         panic(array!['not supported!'])
     }

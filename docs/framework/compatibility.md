@@ -101,6 +101,7 @@ You can see below the list of current supported ONNX Operators:
 |                  [IsNaN](operators/tensor/tensor.is\_nan.md)                  | :white\_check\_mark: |
 |                  [IsInf](operators/tensor/tensor.is\_inf.md)                  | :white\_check\_mark: |
 |                     [Not](operators/tensor/tensor.not.md)                     | :white\_check\_mark: |
+|       [ReduceLogSum](operators/tensor/tensor.reduce\_log\_sum.md)             | :white\_check\_mark: |
 |       [Erf](operators/tensor/tensor.erf.md)                                   | :white\_check\_mark: |
 
 
