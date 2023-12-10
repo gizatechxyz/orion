@@ -27,7 +27,7 @@ A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcaste
 Case 1: Compare tensors with same shape
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
@@ -49,7 +49,7 @@ fn less_example() -> Tensor<usize> {
 Case 2: Compare tensors with different shapes
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

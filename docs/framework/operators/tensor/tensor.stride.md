@@ -16,7 +16,7 @@ A span of usize representing the stride for each dimension of the tensor.
 ## Examples
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

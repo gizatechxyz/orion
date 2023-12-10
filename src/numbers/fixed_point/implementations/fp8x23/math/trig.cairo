@@ -1,6 +1,6 @@
-use debug::PrintTrait;
-use integer::{u32_safe_divmod, u32_as_non_zero};
-use option::OptionTrait;
+use core::debug::PrintTrait;
+use core::integer::{u32_safe_divmod, u32_as_non_zero};
+use core::option::OptionTrait;
 
 use orion::numbers::fixed_point::implementations::fp8x23::math::lut;
 use orion::numbers::fixed_point::implementations::fp8x23::core::{
@@ -205,7 +205,7 @@ fn _sin_loop(a: FP8x23, i: u32, acc: FP8x23) -> FP8x23 {
 
 #[cfg(test)]
 mod tests {
-    use traits::Into;
+    use core::traits::Into;
 
     use orion::numbers::fixed_point::implementations::fp8x23::helpers::{
         assert_precise, assert_relative

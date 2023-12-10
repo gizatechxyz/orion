@@ -25,7 +25,7 @@ A new `Tensor<T>` concatenated tensor from the input tensor sequence.
 ## Example
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

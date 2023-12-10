@@ -47,8 +47,8 @@ fn atanh(a: FP8x23W) -> FP8x23W {
 
 #[cfg(test)]
 mod tests {
-    use option::OptionTrait;
-    use traits::Into;
+    use core::option::OptionTrait;
+    use core::traits::Into;
 
     use orion::numbers::fixed_point::implementations::fp8x23wide::helpers::assert_precise;
 

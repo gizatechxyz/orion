@@ -1,17 +1,19 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
-use traits::{TryInto, Into};
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
+use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core, ml};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP64x64, FP64x64Impl};
 use orion::numbers::fixed_point::implementations::fp64x64::core::ONE;
-use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor};
+use orion::operators::tensor::implementations::{
+    tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
+};
 
 impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn new(shape: Span<usize>, data: Span<FP64x64>) -> Tensor<FP64x64> {
@@ -344,7 +346,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<FP64x64> {
-        core::slice::<FP64x64>(self, starts, ends, axes, steps)
+        core_tensor::slice::<FP64x64>(self, starts, ends, axes, steps)
     }
 
     fn gather(
@@ -354,15 +356,15 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     }
 
     fn nonzero(self: @Tensor<FP64x64>) -> Tensor<usize> {
-        core::nonzero(self)
+        core_tensor::nonzero(self)
     }
 
     fn squeeze(self: @Tensor<FP64x64>, axes: Option<Span<i32>>) -> Tensor<FP64x64> {
-        core::squeeze(self, axes)
+        core_tensor::squeeze(self, axes)
     }
 
     fn unsqueeze(self: @Tensor<FP64x64>, axes: Span<usize>) -> Tensor<FP64x64> {
-        core::unsqueeze(self, axes)
+        core_tensor::unsqueeze(self, axes)
     }
 
     fn sign(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
@@ -370,7 +372,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     }
 
     fn clip(self: @Tensor<FP64x64>, min: Option<FP64x64>, max: Option<FP64x64>) -> Tensor<FP64x64> {
-        core::clip(self, min, max)
+        core_tensor::clip(self, min, max)
     }
 
     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
@@ -378,7 +380,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     }
 
     fn identity(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
-        core::identity(self)
+        core_tensor::identity(self)
     }
 
     fn where(self: @Tensor<FP64x64>, x: @Tensor<FP64x64>, y: @Tensor<FP64x64>) -> Tensor<FP64x64> {
@@ -392,7 +394,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn bitwise_xor(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<FP64x64> {
         math::bitwise_xor::bitwise_xor(self, other)
     }
-    
+
     fn bitwise_or(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<FP64x64> {
         math::bitwise_or::bitwise_or(self, other)
     }
@@ -434,11 +436,11 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> Tensor<FP64x64> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
-    
+
     fn not(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
         panic(array!['not supported!'])
     }
-    
+
 
     fn gather_elements(
         self: @Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>
@@ -503,15 +505,19 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::sequence_insert::sequence_insert(self, tensor, position)
     }
 
-    fn is_inf(self: @Tensor<FP64x64>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+    fn is_inf(
+        self: @Tensor<FP64x64>, detect_negative: Option<u8>, detect_positive: Option<u8>
+    ) -> Tensor<bool> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
     fn is_nan(self: @Tensor<FP64x64>) -> Tensor<bool> {
-	math::is_nan::is_nan(self)
+        math::is_nan::is_nan(self)
     }
 
-    fn concat_from_sequence(sequence: Array<Tensor<FP64x64>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP64x64> {
+    fn concat_from_sequence(
+        sequence: Array<Tensor<FP64x64>>, axis: i32, new_axis: Option<usize>
+    ) -> Tensor<FP64x64> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 }
@@ -584,12 +590,6 @@ impl FP64x64TensorPartialEq of PartialEq<Tensor<FP64x64>> {
 
     fn ne(lhs: @Tensor<FP64x64>, rhs: @Tensor<FP64x64>) -> bool {
         !tensor_eq(*lhs, *rhs)
-    }
-}
-
-impl U32TryIntoU128 of TryInto<u32, u128> {
-    fn try_into(self: u32) -> Option<u128> {
-        Option::Some(self.into())
     }
 }
 

@@ -1,4 +1,4 @@
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
 use orion::operators::tensor::BoolTensor;
 

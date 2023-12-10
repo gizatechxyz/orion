@@ -1,5 +1,5 @@
-use array::ArrayTrait;
-use array::SpanTrait;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
 use orion::numbers::fixed_point::core::{FixedTrait};
 use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
 use orion::operators::tensor::implementations::tensor_fp8x23::FP8x23Tensor;

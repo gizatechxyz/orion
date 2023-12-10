@@ -22,7 +22,7 @@ Constrain input and output types to fixed point numbers.
 ## Examples
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
 use orion::numbers::{FixedTrait, FP8x23};

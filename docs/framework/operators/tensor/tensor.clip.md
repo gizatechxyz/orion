@@ -19,7 +19,7 @@ Output `Tensor<T>` with clipped input elements.
 ## Example
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

@@ -1,7 +1,7 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
-use traits::Into;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
+use core::traits::Into;
 
 use orion::numbers::NumberTrait;
 use orion::numbers::fixed_point::core::FixedTrait;

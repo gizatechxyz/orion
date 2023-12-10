@@ -41,7 +41,7 @@ fn flatten_example() -> Tensor<u32> {
 Case 2: flatten with axis 1
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
@@ -58,7 +58,7 @@ fn flatten_example() -> Tensor<u32> {
 Case 3: flatten with axis 2
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
