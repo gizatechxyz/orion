@@ -1,6 +1,6 @@
-use array::{ArrayTrait, SpanTrait};
-use serde::Serde;
-use option::OptionTrait;
+use core::array::{ArrayTrait, SpanTrait};
+use core::serde::Serde;
+use core::option::OptionTrait;
 
 use alexandria_data_structures::array_ext::{SpanTraitExt};
 
@@ -149,7 +149,7 @@ trait TensorTrait<T> {
     /// Let's create new u32 Tensors.
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{
     ///     TensorTrait, // we import the trait
@@ -206,7 +206,7 @@ trait TensorTrait<T> {
     /// # Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -242,7 +242,7 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -292,7 +292,7 @@ trait TensorTrait<T> {
     /// Case 1: Process tensors with same shape
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -311,7 +311,7 @@ trait TensorTrait<T> {
     /// Case 2: Process tensors with different shapes
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -347,7 +347,7 @@ trait TensorTrait<T> {
     /// Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -392,7 +392,7 @@ trait TensorTrait<T> {
     /// Case 1: Process tensors with same shape
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -411,7 +411,7 @@ trait TensorTrait<T> {
     /// Case 2: Process tensors with different shapes
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -446,7 +446,7 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -486,7 +486,7 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -528,7 +528,7 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -570,7 +570,7 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -610,7 +610,7 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -651,7 +651,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -695,7 +695,7 @@ trait TensorTrait<T> {
     /// Case 1: argmax with default parameters
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -712,7 +712,7 @@ trait TensorTrait<T> {
     /// Case 2: argmax with keepdims set to false
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -731,7 +731,7 @@ trait TensorTrait<T> {
     /// Case 3: argmax with select_last_index set to true
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -778,7 +778,7 @@ trait TensorTrait<T> {
     /// Case 1: argmin with default parameters
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -796,7 +796,7 @@ trait TensorTrait<T> {
     /// Case 2: argmin with keepdims set to false
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -815,7 +815,7 @@ trait TensorTrait<T> {
     /// Case 3: argmin with select_last_index set to true
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -865,7 +865,7 @@ trait TensorTrait<T> {
     /// Case 1: Dot product of two vectors (1D \* 1D)
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -883,7 +883,7 @@ trait TensorTrait<T> {
     /// Case 2: Matrix multiplication (2D \* 2D)
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -905,7 +905,7 @@ trait TensorTrait<T> {
     /// Case 3: Matrix-Vector multiplication (2D x 1D)
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -949,7 +949,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
@@ -1000,7 +1000,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
@@ -1054,7 +1054,7 @@ trait TensorTrait<T> {
     /// Case 1: Compare tensors with same shape
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1076,7 +1076,7 @@ trait TensorTrait<T> {
     /// Case 2: Compare tensors with different shapes
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1123,7 +1123,7 @@ trait TensorTrait<T> {
     /// Case 1: Compare tensors with same shape
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1145,7 +1145,7 @@ trait TensorTrait<T> {
     /// Case 2: Compare tensors with different shapes
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1192,7 +1192,7 @@ trait TensorTrait<T> {
     /// Case 1: Compare tensors with same shape
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1214,7 +1214,7 @@ trait TensorTrait<T> {
     /// Case 2: Compare tensors with different shapes
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1261,7 +1261,7 @@ trait TensorTrait<T> {
     /// Case 1: Compare tensors with same shape
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1283,7 +1283,7 @@ trait TensorTrait<T> {
     /// Case 2: Compare tensors with different shapes
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1330,7 +1330,7 @@ trait TensorTrait<T> {
     /// Case 1: Compare tensors with same shape
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1352,7 +1352,7 @@ trait TensorTrait<T> {
     /// Case 2: Compare tensors with different shapes
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1391,7 +1391,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
     /// use orion::numbers::{i32, IntegerTrait};
@@ -1432,7 +1432,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
     /// use orion::numbers::{i32, IntegerTrait};
@@ -1477,7 +1477,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
@@ -1524,7 +1524,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
@@ -1573,7 +1573,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
@@ -1625,7 +1625,7 @@ trait TensorTrait<T> {
     /// Case 1: cumsum with default parameters
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1642,7 +1642,7 @@ trait TensorTrait<T> {
     /// Case 2: cumsum with exclusive = true
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1659,7 +1659,7 @@ trait TensorTrait<T> {
     /// Case 3: cumsum with exclusive = true and reverse = true
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1719,7 +1719,7 @@ trait TensorTrait<T> {
     /// Case 2: flatten with axis 1
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1736,7 +1736,7 @@ trait TensorTrait<T> {
     /// Case 3: flatten with axis 2
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -1777,7 +1777,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
@@ -1828,7 +1828,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
@@ -1879,7 +1879,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
@@ -1930,7 +1930,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
@@ -1981,7 +1981,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
@@ -2031,7 +2031,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
@@ -2080,7 +2080,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
@@ -2129,7 +2129,7 @@ trait TensorTrait<T> {
     /// Case 1: Compare tensors with same shape
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -2150,7 +2150,7 @@ trait TensorTrait<T> {
     /// Case 2: Compare tensors with different shapes
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -2198,7 +2198,7 @@ trait TensorTrait<T> {
     /// Case 1: Compare tensors with same shape
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -2219,7 +2219,7 @@ trait TensorTrait<T> {
     /// Case 2: Compare tensors with different shapes
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -2263,7 +2263,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
@@ -2313,7 +2313,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FP8x23, FixedTrait};
@@ -2365,7 +2365,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
@@ -2414,7 +2414,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -2474,7 +2474,7 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
     /// use orion::numbers::{i8, i32, IntegerTrait};
@@ -2544,7 +2544,7 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    ///  use array::{ArrayTrait, SpanTrait};
+    ///  use core::array::{ArrayTrait, SpanTrait};
     ///  
     ///  use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
     ///  use orion::numbers::{i8, i32, IntegerTrait};
@@ -2619,7 +2619,7 @@ trait TensorTrait<T> {
     /// ## Example
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
     /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
@@ -2732,7 +2732,7 @@ trait TensorTrait<T> {
     /// ## Example 
     ///
     ///
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
     /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
@@ -2851,7 +2851,7 @@ trait TensorTrait<T> {
     /// ## Example
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
     /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
@@ -2955,7 +2955,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     ///
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
     /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
@@ -3064,7 +3064,7 @@ trait TensorTrait<T> {
     /// 
     /// ```rust
 
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
     /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
@@ -3135,7 +3135,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -3182,7 +3182,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -3224,7 +3224,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -3275,7 +3275,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -3321,7 +3321,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -3359,7 +3359,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -3399,7 +3399,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// 
@@ -3434,7 +3434,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
     /// 
@@ -3477,7 +3477,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -3523,7 +3523,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     ///
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     ///
@@ -3567,7 +3567,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
     /// use orion::numbers::{FixedTrait, FP16x16};
@@ -3614,7 +3614,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -3682,7 +3682,7 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -3725,7 +3725,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     ///
@@ -3771,7 +3771,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     ///
@@ -3817,7 +3817,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     ///
@@ -3861,7 +3861,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -3979,7 +3979,7 @@ trait TensorTrait<T> {
     /// Let's create new u32 Tensor with constant 42.
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{
     ///     TensorTrait, // we import the trait
@@ -4022,7 +4022,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -4068,7 +4068,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
@@ -4118,7 +4118,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
     /// use orion::numbers::{i32, IntegerTrait};
     /// 
@@ -4164,7 +4164,7 @@ trait TensorTrait<T> {
     /// Let's create a new empty sequence.
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     ///
     /// use orion::operators::tensor::{
     ///     TensorTrait, // we import the trait
@@ -4206,7 +4206,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
@@ -4256,7 +4256,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     ///
@@ -4296,7 +4296,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -4345,7 +4345,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -4452,7 +4452,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor, I32Tensor};
     /// use orion::numbers::{i32, IntegerTrait};
@@ -4499,7 +4499,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor, I32Tensor};
     /// use orion::numbers::{i32, IntegerTrait};
@@ -4554,7 +4554,7 @@ trait TensorTrait<T> {
     /// Case 1: Compare tensors with same shape
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -4575,7 +4575,7 @@ trait TensorTrait<T> {
     /// Case 2: Compare tensors with different shapes
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -4657,7 +4657,7 @@ trait TensorTrait<T> {
     /// ## Examples
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -4695,7 +4695,7 @@ trait TensorTrait<T> {
     /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};    
+    /// use core::array::{ArrayTrait, SpanTrait};    
     /// use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, U32Tensor};
     ///
     /// fn is_inf_example() -> Tensor<bool> {
@@ -4729,7 +4729,7 @@ trait TensorTrait<T> {
     ///
     /// ## Examples
     ///
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     ///
@@ -4777,7 +4777,7 @@ trait TensorTrait<T> {
     /// ## Example
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
@@ -4834,7 +4834,7 @@ trait TensorTrait<T> {
     /// ## Example
     /// 
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
     /// use orion::numbers::{i32, IntegerTrait};

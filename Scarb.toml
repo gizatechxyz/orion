@@ -1,13 +1,17 @@
 [package]
 name = "orion"
-version = "0.1.7"
+version = "0.1.9"
+cairo-version = "2.4.0"
+edition = "2023_10"
 description = "ONNX Runtime in Cairo for verifiable ML inference using STARK"
 homepage = "https://github.com/gizatechxyz/orion"
 
 [dependencies]
-alexandria_data_structures = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "f37d73d" }
-alexandria_sorting = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "f37d73d" }
-cubit = { git = "https://github.com/influenceth/cubit.git", rev = "b459053" }
+alexandria_merkle_tree = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "01a7690" }
+alexandria_data_structures = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "01a7690" }
+alexandria_sorting = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "01a7690" }
+# TODO: update to https://github.com/influenceth/cubit & change rev
+cubit = { git = "https://github.com/akhercha/cubit.git", rev = "d3869a3" }
 
 [scripts]
 sierra = "cairo-compile . -r"

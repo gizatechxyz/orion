@@ -1,14 +1,14 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
-use traits::{TryInto, Into};
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
+use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core, ml};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
 use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_bool::BoolTensor};
 
@@ -288,7 +288,7 @@ impl U32Tensor of TensorTrait<u32> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<u32> {
-        core::slice::<u32>(self, starts, ends, axes, steps)
+        core_tensor::slice::<u32>(self, starts, ends, axes, steps)
     }
 
     fn gather(self: @Tensor<u32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
@@ -296,15 +296,15 @@ impl U32Tensor of TensorTrait<u32> {
     }
 
     fn nonzero(self: @Tensor<u32>) -> Tensor<usize> {
-        core::nonzero(self)
+        core_tensor::nonzero(self)
     }
 
     fn squeeze(self: @Tensor<u32>, axes: Option<Span<i32>>) -> Tensor<u32> {
-        core::squeeze(self, axes)
+        core_tensor::squeeze(self, axes)
     }
 
     fn unsqueeze(self: @Tensor<u32>, axes: Span<usize>) -> Tensor<u32> {
-        core::unsqueeze(self, axes)
+        core_tensor::unsqueeze(self, axes)
     }
 
     fn sign(self: @Tensor<u32>) -> Tensor<u32> {
@@ -312,7 +312,7 @@ impl U32Tensor of TensorTrait<u32> {
     }
 
     fn clip(self: @Tensor<u32>, min: Option<u32>, max: Option<u32>) -> Tensor<u32> {
-        core::clip(self, min, max)
+        core_tensor::clip(self, min, max)
     }
 
     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
@@ -320,7 +320,7 @@ impl U32Tensor of TensorTrait<u32> {
     }
 
     fn identity(self: @Tensor<u32>) -> Tensor<u32> {
-        core::identity(self)
+        core_tensor::identity(self)
     }
 
     fn where(self: @Tensor<u32>, x: @Tensor<u32>, y: @Tensor<u32>) -> Tensor<u32> {

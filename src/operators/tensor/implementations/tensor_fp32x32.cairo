@@ -1,17 +1,19 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
-use traits::{TryInto, Into};
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
+use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core, ml};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP32x32, FP32x32Impl};
 use orion::numbers::fixed_point::implementations::fp32x32::core::ONE;
-use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor};
+use orion::operators::tensor::implementations::{
+    tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
+};
 
 impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn new(shape: Span<usize>, data: Span<FP32x32>) -> Tensor<FP32x32> {
@@ -344,7 +346,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<FP32x32> {
-        core::slice::<FP32x32>(self, starts, ends, axes, steps)
+        core_tensor::slice::<FP32x32>(self, starts, ends, axes, steps)
     }
 
     fn gather(
@@ -354,15 +356,15 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     }
 
     fn nonzero(self: @Tensor<FP32x32>) -> Tensor<usize> {
-        core::nonzero(self)
+        core_tensor::nonzero(self)
     }
 
     fn squeeze(self: @Tensor<FP32x32>, axes: Option<Span<i32>>) -> Tensor<FP32x32> {
-        core::squeeze(self, axes)
+        core_tensor::squeeze(self, axes)
     }
 
     fn unsqueeze(self: @Tensor<FP32x32>, axes: Span<usize>) -> Tensor<FP32x32> {
-        core::unsqueeze(self, axes)
+        core_tensor::unsqueeze(self, axes)
     }
 
     fn sign(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
@@ -370,7 +372,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     }
 
     fn clip(self: @Tensor<FP32x32>, min: Option<FP32x32>, max: Option<FP32x32>) -> Tensor<FP32x32> {
-        core::clip(self, min, max)
+        core_tensor::clip(self, min, max)
     }
 
     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
@@ -378,7 +380,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     }
 
     fn identity(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
-        core::identity(self)
+        core_tensor::identity(self)
     }
 
     fn where(self: @Tensor<FP32x32>, x: @Tensor<FP32x32>, y: @Tensor<FP32x32>) -> Tensor<FP32x32> {
@@ -392,7 +394,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn bitwise_xor(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::bitwise_xor::bitwise_xor(self, other)
     }
-    
+
     fn bitwise_or(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::bitwise_or::bitwise_or(self, other)
     }
@@ -434,18 +436,18 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn reduce_l2(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
         math::reduce_l2::reduce_l2(self, axis, keepdims)
     }
-    
+
     fn not(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         panic(array!['not supported!'])
     }
-    
+
 
     fn gather_elements(
         self: @Tensor<FP32x32>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP32x32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
-    
+
     fn sequence_length(self: Array<Tensor<FP32x32>>) -> Tensor<u32> {
         math::sequence_length::sequence_length(self)
     }
@@ -502,15 +504,19 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::sequence_insert::sequence_insert(self, tensor, position)
     }
 
-    fn is_inf(self: @Tensor<FP32x32>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
+    fn is_inf(
+        self: @Tensor<FP32x32>, detect_negative: Option<u8>, detect_positive: Option<u8>
+    ) -> Tensor<bool> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
     fn is_nan(self: @Tensor<FP32x32>) -> Tensor<bool> {
-	math::is_nan::is_nan(self)
+        math::is_nan::is_nan(self)
     }
 
-    fn concat_from_sequence(sequence: Array<Tensor<FP32x32>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP32x32> {
+    fn concat_from_sequence(
+        sequence: Array<Tensor<FP32x32>>, axis: i32, new_axis: Option<usize>
+    ) -> Tensor<FP32x32> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
     
@@ -587,12 +593,6 @@ impl FP32x32TensorPartialEq of PartialEq<Tensor<FP32x32>> {
 
     fn ne(lhs: @Tensor<FP32x32>, rhs: @Tensor<FP32x32>) -> bool {
         !tensor_eq(*lhs, *rhs)
-    }
-}
-
-impl U32TryIntoU64 of TryInto<u32, u64> {
-    fn try_into(self: u32) -> Option<u64> {
-        Option::Some(self.into())
     }
 }
 

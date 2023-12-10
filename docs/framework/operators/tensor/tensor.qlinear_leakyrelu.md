@@ -34,7 +34,7 @@ bool tensor, not supported.
 
 ```rust
 
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
 use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};

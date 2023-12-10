@@ -22,7 +22,7 @@ A `Tensor<T>` instance with the axes reordered according to the given permutatio
 ## Examples
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

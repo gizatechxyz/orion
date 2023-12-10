@@ -1,16 +1,18 @@
-use array::ArrayTrait;
-use array::SpanTrait;
-use option::OptionTrait;
-use traits::{TryInto, Into};
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
+use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core, ml};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP8x23W};
-use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor};
+use orion::operators::tensor::implementations::{
+    tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
+};
 
 impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn new(shape: Span<usize>, data: Span<FP8x23W>) -> Tensor<FP8x23W> {
@@ -294,7 +296,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<FP8x23W> {
-        core::slice::<FP8x23W>(self, starts, ends, axes, steps)
+        core_tensor::slice::<FP8x23W>(self, starts, ends, axes, steps)
     }
 
     fn gather(
@@ -304,15 +306,15 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     }
 
     fn nonzero(self: @Tensor<FP8x23W>) -> Tensor<usize> {
-        core::nonzero(self)
+        core_tensor::nonzero(self)
     }
 
     fn squeeze(self: @Tensor<FP8x23W>, axes: Option<Span<i32>>) -> Tensor<FP8x23W> {
-        core::squeeze(self, axes)
+        core_tensor::squeeze(self, axes)
     }
 
     fn unsqueeze(self: @Tensor<FP8x23W>, axes: Span<usize>) -> Tensor<FP8x23W> {
-        core::unsqueeze(self, axes)
+        core_tensor::unsqueeze(self, axes)
     }
 
     fn sign(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
@@ -320,7 +322,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     }
 
     fn clip(self: @Tensor<FP8x23W>, min: Option<FP8x23W>, max: Option<FP8x23W>) -> Tensor<FP8x23W> {
-        core::clip(self, min, max)
+        core_tensor::clip(self, min, max)
     }
 
     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
@@ -328,7 +330,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     }
 
     fn identity(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
-        core::identity(self)
+        core_tensor::identity(self)
     }
 
     fn where(self: @Tensor<FP8x23W>, x: @Tensor<FP8x23W>, y: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
@@ -342,7 +344,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn bitwise_xor(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         math::bitwise_xor::bitwise_xor(self, other)
     }
-    
+
     fn bitwise_or(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         math::bitwise_or::bitwise_or(self, other)
     }
@@ -385,11 +387,11 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     ) -> Tensor<FP8x23W> {
         math::scatter::scatter(self, updates, indices, axis, reduction)
     }
-    
+
     fn not(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         panic(array!['not supported!'])
     }
-    
+
 
     fn gather_elements(
         self: @Tensor<FP8x23W>, indices: Tensor<usize>, axis: Option<usize>
@@ -454,15 +456,19 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::sequence_insert::sequence_insert(self, tensor, position)
     }
 
-    fn is_inf(self: @Tensor<FP8x23W>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool> {
-	math::is_inf::is_inf(self, detect_negative, detect_positive)
+    fn is_inf(
+        self: @Tensor<FP8x23W>, detect_negative: Option<u8>, detect_positive: Option<u8>
+    ) -> Tensor<bool> {
+        math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
     fn is_nan(self: @Tensor<FP8x23W>) -> Tensor<bool> {
-	math::is_nan::is_nan(self)
+        math::is_nan::is_nan(self)
     }
 
-    fn concat_from_sequence(sequence: Array<Tensor<FP8x23W>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP8x23W> {
+    fn concat_from_sequence(
+        sequence: Array<Tensor<FP8x23W>>, axis: i32, new_axis: Option<usize>
+    ) -> Tensor<FP8x23W> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 

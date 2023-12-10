@@ -1,7 +1,7 @@
 mod output_0;
 
 
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
 use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::tensor::I8Tensor;

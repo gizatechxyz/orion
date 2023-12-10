@@ -1,13 +1,13 @@
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 
-use option::OptionTrait;
-use result::{ResultTrait, ResultTraitImpl};
-use traits::{TryInto, Into};
+use core::option::OptionTrait;
+use core::result::{ResultTrait, ResultTraitImpl};
+use core::traits::{TryInto, Into};
 
 use cubit::f128 as fp64x64;
 use cubit::f128::types::Fixed as FP64x64;
 use cubit::f128::ONE_u128 as ONE;
-use cubit::f128::core::MAX_u128 as MAX;
+use cubit::f128::ops::MAX_u128 as MAX;
 
 use orion::numbers::fixed_point::implementations::fp64x64::erf;
 use orion::numbers::fixed_point::core::{FixedTrait};
@@ -42,12 +42,12 @@ impl FP64x64Impl of FixedTrait<FP64x64, u128> {
     }
 
     fn from_felt(val: felt252) -> FP64x64 {
-        let mag = integer::u128_try_from_felt252(utils::felt_abs(val)).unwrap();
+        let mag = core::integer::u128_try_from_felt252(utils::felt_abs(val)).unwrap();
         return FixedTrait::new(mag, utils::felt_sign(val));
     }
 
     fn abs(self: FP64x64) -> FP64x64 {
-        return fp64x64::core::abs(self);
+        return fp64x64::ops::abs(self);
     }
 
     fn acos(self: FP64x64) -> FP64x64 {
@@ -87,7 +87,7 @@ impl FP64x64Impl of FixedTrait<FP64x64, u128> {
     }
 
     fn ceil(self: FP64x64) -> FP64x64 {
-        return fp64x64::core::ceil(self);
+        return fp64x64::ops::ceil(self);
     }
 
     fn cos(self: FP64x64) -> FP64x64 {
@@ -103,46 +103,46 @@ impl FP64x64Impl of FixedTrait<FP64x64, u128> {
     }
 
     fn floor(self: FP64x64) -> FP64x64 {
-        return fp64x64::core::floor(self);
+        return fp64x64::ops::floor(self);
     }
 
     // Calculates the natural exponent of x: e^x
     fn exp(self: FP64x64) -> FP64x64 {
-        return fp64x64::core::exp(self);
+        return fp64x64::ops::exp(self);
     }
 
     // Calculates the binary exponent of x: 2^x
     fn exp2(self: FP64x64) -> FP64x64 {
-        return fp64x64::core::exp2(self);
+        return fp64x64::ops::exp2(self);
     }
 
     // Calculates the natural logarithm of x: ln(x)
     // self must be greater than zero
     fn ln(self: FP64x64) -> FP64x64 {
-        return fp64x64::core::ln(self);
+        return fp64x64::ops::ln(self);
     }
 
     // Calculates the binary logarithm of x: log2(x)
     // self must be greather than zero
     fn log2(self: FP64x64) -> FP64x64 {
-        return fp64x64::core::log2(self);
+        return fp64x64::ops::log2(self);
     }
 
     // Calculates the base 10 log of x: log10(x)
     // self must be greater than zero
     fn log10(self: FP64x64) -> FP64x64 {
-        return fp64x64::core::log10(self);
+        return fp64x64::ops::log10(self);
     }
 
     // Calclates the value of x^y and checks for overflow before returning
     // self is a fixed point value
     // b is a fixed point value
     fn pow(self: FP64x64, b: FP64x64) -> FP64x64 {
-        return fp64x64::core::pow(self, b);
+        return fp64x64::ops::pow(self, b);
     }
 
     fn round(self: FP64x64) -> FP64x64 {
-        return fp64x64::core::round(self);
+        return fp64x64::ops::round(self);
     }
 
     fn sin(self: FP64x64) -> FP64x64 {
@@ -160,7 +160,7 @@ impl FP64x64Impl of FixedTrait<FP64x64, u128> {
     // Calculates the square root of a fixed point value
     // x must be positive
     fn sqrt(self: FP64x64) -> FP64x64 {
-        return fp64x64::core::sqrt(self);
+        return fp64x64::ops::sqrt(self);
     }
 
     fn tan(self: FP64x64) -> FP64x64 {
@@ -204,11 +204,11 @@ impl FP64x64Impl of FixedTrait<FP64x64, u128> {
     }
 
     fn is_pos_inf(self: FP64x64) -> bool {
-	self.is_inf() && !self.sign
+        self.is_inf() && !self.sign
     }
 
     fn is_neg_inf(self: FP64x64) -> bool {
-	self.is_inf() && self.sign
+        self.is_inf() && self.sign
     }
 
     fn erf(self: FP64x64) -> FP64x64 {
@@ -290,100 +290,100 @@ impl FP64x64TryIntoI8 of TryInto<FP64x64, i8> {
 // impl FP64x64PartialEq of PartialEq<FP64x64> {
 //     #[inline(always)]
 //     fn eq(lhs: @FP64x64, rhs: @FP64x64) -> bool {
-//         return fp64x64::core::eq(lhs, rhs);
+//         return fp64x64::ops::eq(lhs, rhs);
 //     }
 
 //     #[inline(always)]
 //     fn ne(lhs: @FP64x64, rhs: @FP64x64) -> bool {
-//         return fp64x64::core::ne(lhs, rhs);
+//         return fp64x64::ops::ne(lhs, rhs);
 //     }
 // }
 
 impl FP64x64Add of Add<FP64x64> {
     fn add(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
-        return fp64x64::core::add(lhs, rhs);
+        return fp64x64::ops::add(lhs, rhs);
     }
 }
 
 impl FP64x64AddEq of AddEq<FP64x64> {
     #[inline(always)]
     fn add_eq(ref self: FP64x64, other: FP64x64) {
-        self = fp64x64::core::add(self, other);
+        self = fp64x64::ops::add(self, other);
     }
 }
 
 impl FP64x64Sub of Sub<FP64x64> {
     fn sub(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
-        return fp64x64::core::sub(lhs, rhs);
+        return fp64x64::ops::sub(lhs, rhs);
     }
 }
 
 impl FP64x64SubEq of SubEq<FP64x64> {
     #[inline(always)]
     fn sub_eq(ref self: FP64x64, other: FP64x64) {
-        self = fp64x64::core::sub(self, other);
+        self = fp64x64::ops::sub(self, other);
     }
 }
 
 impl FP64x64Mul of Mul<FP64x64> {
     fn mul(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
-        return fp64x64::core::mul(lhs, rhs);
+        return fp64x64::ops::mul(lhs, rhs);
     }
 }
 
 impl FP64x64MulEq of MulEq<FP64x64> {
     #[inline(always)]
     fn mul_eq(ref self: FP64x64, other: FP64x64) {
-        self = fp64x64::core::mul(self, other);
+        self = fp64x64::ops::mul(self, other);
     }
 }
 
 impl FP64x64Div of Div<FP64x64> {
     fn div(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
-        return fp64x64::core::div(lhs, rhs);
+        return fp64x64::ops::div(lhs, rhs);
     }
 }
 
 impl FP64x64DivEq of DivEq<FP64x64> {
     #[inline(always)]
     fn div_eq(ref self: FP64x64, other: FP64x64) {
-        self = fp64x64::core::div(self, other);
+        self = fp64x64::ops::div(self, other);
     }
 }
 
 impl FP64x64PartialOrd of PartialOrd<FP64x64> {
     #[inline(always)]
     fn ge(lhs: FP64x64, rhs: FP64x64) -> bool {
-        return fp64x64::core::ge(lhs, rhs);
+        return fp64x64::ops::ge(lhs, rhs);
     }
 
     #[inline(always)]
     fn gt(lhs: FP64x64, rhs: FP64x64) -> bool {
-        return fp64x64::core::gt(lhs, rhs);
+        return fp64x64::ops::gt(lhs, rhs);
     }
 
     #[inline(always)]
     fn le(lhs: FP64x64, rhs: FP64x64) -> bool {
-        return fp64x64::core::le(lhs, rhs);
+        return fp64x64::ops::le(lhs, rhs);
     }
 
     #[inline(always)]
     fn lt(lhs: FP64x64, rhs: FP64x64) -> bool {
-        return fp64x64::core::lt(lhs, rhs);
+        return fp64x64::ops::lt(lhs, rhs);
     }
 }
 
 impl FP64x64Neg of Neg<FP64x64> {
     #[inline(always)]
     fn neg(a: FP64x64) -> FP64x64 {
-        return fp64x64::core::neg(a);
+        return fp64x64::ops::neg(a);
     }
 }
 
 impl FP64x64Rem of Rem<FP64x64> {
     #[inline(always)]
     fn rem(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
-        return fp64x64::core::rem(lhs, rhs);
+        return fp64x64::ops::rem(lhs, rhs);
     }
 }
 

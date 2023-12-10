@@ -29,7 +29,7 @@ A new `Tensor<T>` resulting from the matrix multiplication.
 Case 1: Dot product of two vectors (1D \* 1D)
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
@@ -47,7 +47,7 @@ fn dot_product_example() -> Tensor<usize> {
 Case 2: Matrix multiplication (2D \* 2D)
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
@@ -69,7 +69,7 @@ fn matrix_mul_example() -> Tensor<usize> {
 Case 3: Matrix-Vector multiplication (2D x 1D)
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

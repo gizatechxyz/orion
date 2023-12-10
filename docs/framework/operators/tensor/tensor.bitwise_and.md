@@ -25,7 +25,7 @@ A new `Tensor<T>` with the same shape as the broadcasted inputs.
 ## Example
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
