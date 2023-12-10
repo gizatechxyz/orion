@@ -72,9 +72,7 @@ class CairoTest(File):
         super().__init__(os.path.join(BASE_PATH, file))
 
     @classmethod
-    def base_template(
-        cls, name: str, arg_cnt: int, refs: list[str], func_sig: str, out_cnt: int = 1
-    ) -> list[str]:
+    def base_template(cls, name: str, arg_cnt: int, refs: list[str], func_sig: str) -> list[str]:
         """
         Create a template for a Cairo test function which expects a tensor output.
 
@@ -83,7 +81,6 @@ class CairoTest(File):
             arg_cnt (int): Number of arguments for the function.
             refs (list[str]): List of references (modules) to be used in the function.
             func_sig (str): The function signature.
-            out_cnt (int): Number of outputs for the function. Defaults to 1.
 
         Returns:
             list[str]: A list of strings that together form the template of a Cairo test function.
@@ -93,21 +90,21 @@ class CairoTest(File):
         """
         return [
             *[f"mod input_{i};" for i in range(arg_cnt)],
-            *[f"mod output_{i};" for i in range(out_cnt)],
-            *[""],
-            *[""],
+            *[ "mod output_0;"],
+            *[ ""],
+            *[ ""],
             *[f"use {ref};" for ref in refs],
-            *[""],
-            *["#[test]"],
-            *["#[available_gas(2000000000)]"],
-            *[f"fn test_{name}()" + " {"],
+            *[ ""],
+            *[ "#[test]"],
+            *[ "#[available_gas(2000000000)]"],
+            *[f"fn test_{name}()"+" {"],
             *[f"    let input_{i} = input_{i}::input_{i}();" for i in range(arg_cnt)],
-            *[f"    let z_{i} = output_{i}::output_{i}();" for i in range(out_cnt)],
-            *[""],
-            *[f"    let ({', '.join(f'y_{i}' for i in range(out_cnt))}) = {func_sig};"],
-            *[""],
-            *[f"    assert_eq(y_{i}, z_{i});" for i in range(out_cnt)],
-            *["}"],
+            *[ "    let z = output_0::output_0();"],
+            *[ ""],
+            *[f"    let y = {func_sig};"],
+            *[ ""],
+            *[ "    assert_eq(y, z);"],
+            *[ "}"],
         ]
 
     @classmethod
@@ -152,9 +149,7 @@ class CairoData(File):
         super().__init__(os.path.join(BASE_PATH, file))
 
     @classmethod
-    def base_template(
-        cls, func: str, dtype: str, refs: list[str], data: list[str], shape: tuple
-    ) -> list[str]:
+    def base_template(cls, func: str, dtype: str, refs: list[str], data: list[str], shape: tuple) -> list[str]:
         """
         Create a base template for data representation in Cairo.
 
@@ -173,28 +168,21 @@ class CairoData(File):
         """
         template = [
             *[f"use {ref};" for ref in refs],
-            *[""],
-            *[f"fn {func}() -> Tensor<{dtype}>" + " {"],
-            *["    let mut shape = ArrayTrait::<usize>::new();"],
+            *[ ""],
+            *[f"fn {func}() -> Tensor<{dtype}>"+" {"],
+            *[ "    let mut shape = ArrayTrait::<usize>::new();"],
             *[f"    shape.append({s});" for s in shape],
-            *[""],
-            *["    let mut data = ArrayTrait::new();"],
+            *[ ""],
+            *[ "    let mut data = ArrayTrait::new();"],
             *[f"    data.append({d});" for d in data],
-            *["    TensorTrait::new(shape.span(), data.span())"],
-            *["}"],
+            *[ "    TensorTrait::new(shape.span(), data.span())"],
+            *[ "}"],
         ]
 
         return template
 
     @classmethod
-    def sequence_template(
-        cls,
-        func: str,
-        dtype: str,
-        refs: list[str],
-        data: list[list[str]],
-        shape: list[tuple],
-    ) -> list[str]:
+    def sequence_template(cls, func: str, dtype: str, refs: list[str], data: list[list[str]], shape: list[tuple]) -> list[str]:
         """
         Create a template for handling tensor sequences in Cairo.
 
@@ -211,34 +199,31 @@ class CairoData(File):
         This method generates a list of strings representing a function in Cairo for handling a sequence
         of tensors, each with its own data and shape.
         """
-
         def expand_sequence_init(s: list[tuple], d: list[list[str]]) -> list[str]:
             snippet = []
             for i in range(len(s)):
                 snippet += [
-                    *["    let mut shape = ArrayTrait::<usize>::new();"],
+                    *[ "    let mut shape = ArrayTrait::<usize>::new();"],
                     *[f"    shape.append({s});" for s in s[i]],
-                    *[""],
-                    *["    let mut data = ArrayTrait::new();"],
+                    *[ ""],
+                    *[ "    let mut data = ArrayTrait::new();"],
                     *[f"    data.append({d});" for d in d[i]],
-                    *[""],
-                    *[
-                        "    sequence.append(TensorTrait::new(shape.span(), data.span()));"
-                    ],
-                    *[""],
+                    *[ ""],
+                    *[ "    sequence.append(TensorTrait::new(shape.span(), data.span()));"],
+                    *[ ""],
                 ]
 
             return snippet
 
         template = [
             *[f"use {ref};" for ref in refs],
-            *[""],
-            *[f"fn {func}() -> Array<Tensor<{dtype}>>" + " {"],
-            *["    let mut sequence = ArrayTrait::new();"],
-            *[""],
+            *[ ""],
+            *[f"fn {func}() -> Array<Tensor<{dtype}>>"+" {"],
+            *[ "    let mut sequence = ArrayTrait::new();"],
+            *[ ""],
             *expand_sequence_init(shape, data),
-            *["    sequence"],
-            *["}"],
+            *[ "    sequence"],
+            *[ "}"],
         ]
 
         return template

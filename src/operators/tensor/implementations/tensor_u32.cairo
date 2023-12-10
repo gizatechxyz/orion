@@ -4,12 +4,11 @@ use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
 use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_bool::BoolTensor};
 
@@ -457,12 +456,6 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Tensor<u32> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
-
-    fn unique(
-        self: @Tensor<u32>, axis: Option<usize>, sorted: Option<bool>
-    ) -> (Tensor<u32>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
-        manipulation::unique::unique(self, axis, sorted)
-    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.
@@ -540,29 +533,6 @@ impl U32TensorPartialEq of PartialEq<Tensor<u32>> {
 impl U32TryIntoI8 of TryInto<u32, i8> {
     fn try_into(self: u32) -> Option<i8> {
         Option::Some(i8 { mag: self.try_into().unwrap(), sign: false })
-    }
-}
-
-/// Implements partial ord for two `Tensor<u32` using `PartialOrd` trait.
-impl FP8x23TensorPartialOrd of PartialOrd<Tensor<u32>> {
-    #[inline(always)]
-    fn ge(lhs: Tensor<u32>, rhs: Tensor<u32>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn gt(lhs: Tensor<u32>, rhs: Tensor<u32>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn le(lhs: Tensor<u32>, rhs: Tensor<u32>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn lt(lhs: Tensor<u32>, rhs: Tensor<u32>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
     }
 }
 

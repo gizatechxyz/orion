@@ -3,7 +3,6 @@ mod helpers;
 mod math;
 mod linalg;
 mod quantization;
-mod manipulation;
 mod implementations;
 mod ml;
 

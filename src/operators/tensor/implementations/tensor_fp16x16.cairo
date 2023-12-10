@@ -4,12 +4,11 @@ use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP16x16};
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
@@ -519,12 +518,6 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
-
-    fn unique(
-        self: @Tensor<FP16x16>, axis: Option<usize>, sorted: Option<bool>
-    ) -> (Tensor<FP16x16>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
-        manipulation::unique::unique(self, axis, sorted)
-    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.
@@ -604,28 +597,6 @@ impl TensorI8IntoTensorFP16x16 of Into<Tensor<i8>, Tensor<FP16x16>> {
     }
 }
 
-/// Implements partial ord for two `Tensor<FP16x16` using `PartialOrd` trait.
-impl FP8x23TensorPartialOrd of PartialOrd<Tensor<FP16x16>> {
-    #[inline(always)]
-    fn ge(lhs: Tensor<FP16x16>, rhs: Tensor<FP16x16>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn gt(lhs: Tensor<FP16x16>, rhs: Tensor<FP16x16>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn le(lhs: Tensor<FP16x16>, rhs: Tensor<FP16x16>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn lt(lhs: Tensor<FP16x16>, rhs: Tensor<FP16x16>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
-    }
-}
 
 // Internals
 const PRECISION: u32 = 589; // 0.009

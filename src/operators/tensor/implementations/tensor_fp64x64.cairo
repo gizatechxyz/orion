@@ -4,12 +4,11 @@ use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP64x64, FP64x64Impl};
 use orion::numbers::fixed_point::implementations::fp64x64::core::ONE;
 use orion::operators::tensor::implementations::{
@@ -521,12 +520,6 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> Tensor<FP64x64> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
-
-    fn unique(
-        self: @Tensor<FP64x64>, axis: Option<usize>, sorted: Option<bool>
-    ) -> (Tensor<FP64x64>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
-        manipulation::unique::unique(self, axis, sorted)
-    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.
@@ -612,28 +605,6 @@ impl TensorI8IntoTensorFP64x64 of Into<Tensor<i8>, Tensor<FP64x64>> {
     }
 }
 
-/// Implements partial ord for two `Tensor<FP64x64` using `PartialOrd` trait.
-impl FP8x23TensorPartialOrd of PartialOrd<Tensor<FP64x64>> {
-    #[inline(always)]
-    fn ge(lhs: Tensor<FP64x64>, rhs: Tensor<FP64x64>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn gt(lhs: Tensor<FP64x64>, rhs: Tensor<FP64x64>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn le(lhs: Tensor<FP64x64>, rhs: Tensor<FP64x64>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn lt(lhs: Tensor<FP64x64>, rhs: Tensor<FP64x64>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
-    }
-}
 
 // Internals
 
