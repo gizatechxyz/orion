@@ -22,9 +22,7 @@ fn erf<
 
     loop {
         match z.data.pop_front() {
-            Option::Some(item) => {
-                data_result.append((*item).erf());
-            },
+            Option::Some(item) => { data_result.append((*item).erf()); },
             Option::None(_) => { break; }
         };
     };

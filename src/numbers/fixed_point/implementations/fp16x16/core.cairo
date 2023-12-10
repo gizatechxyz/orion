@@ -6,7 +6,9 @@ use core::traits::{TryInto, Into};
 
 use orion::numbers::signed_integer::{i32::i32, i8::i8};
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::numbers::fixed_point::implementations::fp16x16::math::{core as core_math, trig, hyp, erf};
+use orion::numbers::fixed_point::implementations::fp16x16::math::{
+    core as core_math, trig, hyp, erf
+};
 use orion::numbers::fixed_point::utils;
 
 /// A struct representing a fixed point number.

@@ -520,11 +520,11 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
-     fn reduce_log_sum(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
+    fn reduce_log_sum(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
-     }
-     
-    
+    }
+
+
     fn erf(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::erf::erf(*self)
     }

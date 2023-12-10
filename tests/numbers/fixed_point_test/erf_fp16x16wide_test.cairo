@@ -1,7 +1,5 @@
 use orion::numbers::fixed_point::implementations::fp16x16wide::math::erf::erf;
-use orion::numbers::fixed_point::implementations::fp16x16wide::core::{
-    ONE, FP16x16W, FixedTrait
-};
+use orion::numbers::fixed_point::implementations::fp16x16wide::core::{ONE, FP16x16W, FixedTrait};
 use core::debug::PrintTrait;
 #[test]
 #[available_gas(1000000000)]
@@ -32,5 +30,4 @@ fn test_erf() {
     assert(f4_erf.mag == 65229, 'f4_erf it works!');
     assert(f5_erf.mag == 65536, 'f5_erf it works!');
     assert(f6_erf.mag == 65536, 'f6_erf it works!');
-
 }

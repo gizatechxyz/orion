@@ -519,7 +519,7 @@ impl I32Tensor of TensorTrait<i32> {
     fn reduce_log_sum(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
-    
+
     fn erf(self: @Tensor<i32>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }

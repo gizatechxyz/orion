@@ -458,9 +458,9 @@ impl U32Tensor of TensorTrait<u32> {
     }
 
     fn reduce_log_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
-         panic(array!['not supported!'])
+        panic(array!['not supported!'])
     }
-    
+
     fn erf(self: @Tensor<u32>) -> Tensor<u32> {
         panic(array!['not supported!'])
     }

@@ -484,7 +484,7 @@ mod where_i8;
 mod where_i8_broadcast;
 mod where_u32;
 mod where_u32_broadcast;
-mod not_bool; 
+mod not_bool;
 mod round_fp16x16;
 mod round_fp8x23;
 mod max_fp16x16_three_tensors;

@@ -1,7 +1,5 @@
 use orion::numbers::fixed_point::implementations::fp64x64::erf::erf;
-use orion::numbers::fixed_point::implementations::fp64x64::core::{
-    ONE, FP64x64, FixedTrait
-};
+use orion::numbers::fixed_point::implementations::fp64x64::core::{ONE, FP64x64, FixedTrait};
 use core::debug::PrintTrait;
 #[test]
 #[available_gas(1000000000)]
@@ -31,5 +29,4 @@ fn test_erf() {
     assert(f4_erf.mag == 18360455093669533696_u128, 'f4_erf it works!');
     assert(f5_erf.mag == 18446744073709551616_u128, 'f5_erf it works!');
     assert(f6_erf.mag == 18446744073709551616_u128, 'f6_erf it works!');
-
 }

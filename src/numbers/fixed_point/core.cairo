@@ -1130,7 +1130,7 @@ trait FixedTrait<T, MAG> {
     /// ``` 
     ///
     fn erf(self: T) -> T;
-    
+
     fn ZERO() -> T;
     fn HALF() -> T;
     fn ONE() -> T;

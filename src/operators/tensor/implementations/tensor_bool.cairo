@@ -457,7 +457,7 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
-    
+
     fn erf(self: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }

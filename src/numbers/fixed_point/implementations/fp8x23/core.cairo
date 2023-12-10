@@ -218,7 +218,7 @@ impl FP8x23Impl of FixedTrait<FP8x23, u32> {
     fn is_neg_inf(self: FP8x23) -> bool {
         self.is_inf() && self.sign
     }
-        
+
     fn erf(self: FP8x23) -> FP8x23 {
         return erf::erf(self);
     }
