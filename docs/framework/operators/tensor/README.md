@@ -122,6 +122,8 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.is_nan`](tensor.is\_nan.md) | Returns which elements of the input are NaN. |
 | [`tensor.is_inf`](tensor.is\_inf.md) | Maps infinity to true and other values to false. |
 | [`tensor.not`](tensor.not.md) | Computes the logical negation of all elements in the input tensor. |
+| [`tensor.reduce_log_sum`](tensor.reduce\_log\_sum.md) | Computes the log sum of the input tensor's elements along the provided axes.  |
+| [`tensor.erf`](tensor.erf.md) | Computes the error function of the given input tensor element-wise. |
 
 ## Arithmetic Operations
 

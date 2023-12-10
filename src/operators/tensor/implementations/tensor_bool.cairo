@@ -457,6 +457,14 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
+
+    fn erf(self: @Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn reduce_log_sum(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

@@ -15,7 +15,9 @@ fn test_concat_from_sequence_fp16x16_new_axis_zero() {
     let input_0 = input_0::input_0();
     let z = output_0::output_0();
 
-    let y = TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(0));
+    let y = TensorTrait::concat_from_sequence(
+        input_0, IntegerTrait::<i32>::new(1, false), Option::Some(0)
+    );
 
     assert_eq(y, z);
 }

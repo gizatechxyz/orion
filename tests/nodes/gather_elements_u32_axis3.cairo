@@ -16,7 +16,7 @@ fn test_gather_elements_u32_axis3() {
     let input_1 = input_1::input_1();
     let z = output_0::output_0();
 
-    let y = input_0.gather_elements(indices:input_1, axis:Option::Some(3));
+    let y = input_0.gather_elements(indices: input_1, axis: Option::Some(3));
 
     assert_eq(y, z);
 }

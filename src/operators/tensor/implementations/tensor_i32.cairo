@@ -515,6 +515,14 @@ impl I32Tensor of TensorTrait<i32> {
     ) -> Tensor<i32> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
+
+    fn reduce_log_sum(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
+    fn erf(self: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

@@ -471,6 +471,14 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     ) -> Tensor<FP8x23W> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
+
+    fn reduce_log_sum(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
+        math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+    fn erf(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
+        math::erf::erf(*self)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.
