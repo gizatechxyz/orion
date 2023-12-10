@@ -2,7 +2,7 @@ use orion::numbers::fixed_point::implementations::fp16x16::math::erf::erf;
 use orion::numbers::fixed_point::implementations::fp16x16::core::{
     ONE, FP16x16, FixedTrait
 };
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 #[test]
 #[available_gas(1000000000)]
 fn test_erf() {

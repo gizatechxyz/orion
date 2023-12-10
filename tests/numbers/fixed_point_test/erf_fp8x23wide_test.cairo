@@ -2,7 +2,7 @@ use orion::numbers::fixed_point::implementations::fp8x23wide::math::erf::erf;
 use orion::numbers::fixed_point::implementations::fp8x23wide::core::{
     ONE, FP8x23W, FixedTrait
 };
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 #[test]
 #[available_gas(1000000000)]
 fn test_erf() {

@@ -2,7 +2,7 @@ use orion::numbers::fixed_point::implementations::fp64x64::erf::erf;
 use orion::numbers::fixed_point::implementations::fp64x64::core::{
     ONE, FP64x64, FixedTrait
 };
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 #[test]
 #[available_gas(1000000000)]
 fn test_erf() {
