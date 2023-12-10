@@ -5,7 +5,7 @@ use core::option::OptionTrait;
 use alexandria_data_structures::array_ext::{SpanTraitExt};
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::{i8, i32, NumberTrait};
+use orion::numbers::{NumberTrait};
 
 #[derive(Copy, Drop)]
 struct Tensor<T> {
