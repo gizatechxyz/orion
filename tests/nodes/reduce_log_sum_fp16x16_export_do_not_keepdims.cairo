@@ -2,7 +2,7 @@ mod input_0;
 mod output_0;
 
 
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
 use orion::operators::tensor::FP8x23Tensor;
 use orion::operators::tensor::FP8x23TensorPartialEq;
