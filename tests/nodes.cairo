@@ -820,3 +820,5 @@ mod is_neg_inf_i32;
 mod is_pos_inf_i8;
 mod is_neg_inf_i8;
 mod and_bool;
+mod erf_fp16x16;
+mod erf_fp8x23;

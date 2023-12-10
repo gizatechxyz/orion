@@ -456,6 +456,10 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Tensor<u32> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
+
+    fn erf(self: @Tensor<u32>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

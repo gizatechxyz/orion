@@ -9,6 +9,7 @@ use cubit::f64::Fixed as FP32x32;
 use cubit::f64::{ONE, HALF};
 use cubit::f64::types::fixed;
 
+use orion::numbers::fixed_point::implementations::fp32x32::erf;
 use orion::numbers::fixed_point::core::{FixedTrait};
 use orion::numbers::fixed_point::utils;
 use orion::numbers::{i32, i8};
@@ -208,6 +209,10 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
 
     fn is_neg_inf(self: FP32x32) -> bool {
         self.is_inf() && self.sign
+    }
+
+    fn erf(self: FP32x32) -> FP32x32 {
+        return erf::erf(self);
     }
 }
 

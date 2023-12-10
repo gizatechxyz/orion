@@ -513,6 +513,10 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Tensor<i8> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
+
+    fn erf(self: @Tensor<i8>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

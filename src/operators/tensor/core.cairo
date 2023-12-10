@@ -121,6 +121,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// is_nan - Returns which elements of the input are NaN.
 /// is_inf - Maps infinity to true and other values to false.
 /// not - Computes the logical negation of all elements in the input tensor.
+/// erf - Computes the error function of the given input tensor element-wise.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -4853,6 +4854,56 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn not(self: @Tensor<T>) -> Tensor<T>;
+    /// ## tensor.erf
+    ///
+    /// ```rust 
+    ///    fn erf(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the mean of the input tensor's elements along the provided axes.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the the error function of the input tensor computed element-wise.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
+    /// use orion::numbers::{FixedTrait, FP16x16};
+    /// 
+    /// fn erf_example() -> Tensor<FP16x16> {
+    ///     // The erf inputs is [1.0, 0.134, 0.520, 2.0, 3.5, 5.164]
+    ///     let tensor = TensorTrait::<FP16x16>::new(
+    ///         shape: array![6].span(),
+    ///         data: array![
+    ///             FixedTrait::new_unscaled(65536, false),
+    ///             FixedTrait::new_unscaled(8832, false),
+    ///             FixedTrait::new_unscaled(34079, false),
+    ///             FixedTrait::new_unscaled(131072, false),
+    ///             FixedTrait::new_unscaled(229376, false),
+    ///             FixedTrait::new_unscaled(338428, false),
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     return tensor.erf();
+    /// }
+    /// >>> [55227,9560,35252,65229,65536,65536]
+    /// ```
+    ///
+    fn erf(self: @Tensor<T>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

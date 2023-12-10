@@ -123,6 +123,7 @@
     * [tensor.is\_nan](framework/operators/tensor/tensor.is\_nan.md)
     * [tensor.is_inf](framework/operators/tensor/tensor.is\_inf.md)
     * [tensor.not](framework/operators/tensor/tensor.not.md)
+    * [tensor.erf](framework/operators/tensor/tensor.erf.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)

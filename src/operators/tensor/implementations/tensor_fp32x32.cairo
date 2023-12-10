@@ -519,6 +519,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Tensor<FP32x32> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
+    
+    fn erf(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::erf::erf(*self)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

@@ -6,7 +6,7 @@ use core::traits::{TryInto, Into};
 
 use orion::numbers::signed_integer::{i32::i32, i8::i8};
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::numbers::fixed_point::implementations::fp16x16::math::{core as core_math, trig, hyp};
+use orion::numbers::fixed_point::implementations::fp16x16::math::{core as core_math, trig, hyp, erf};
 use orion::numbers::fixed_point::utils;
 
 /// A struct representing a fixed point number.
@@ -217,6 +217,10 @@ impl FP16x16Impl of FixedTrait<FP16x16, u32> {
 
     fn is_neg_inf(self: FP16x16) -> bool {
         self.is_inf() && self.sign
+    }
+
+    fn erf(self: FP16x16) -> FP16x16 {
+        return erf::erf(self);
     }
 }
 

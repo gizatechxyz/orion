@@ -520,6 +520,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> Tensor<FP64x64> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
+    
+    fn erf(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::erf::erf(*self)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

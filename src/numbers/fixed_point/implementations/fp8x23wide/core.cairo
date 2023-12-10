@@ -6,7 +6,7 @@ use core::traits::{TryInto, Into};
 
 use orion::numbers::signed_integer::{i32::i32, i8::i8};
 use orion::numbers::{fixed_point::core::{FixedTrait}, FP8x23};
-use orion::numbers::fixed_point::implementations::fp8x23wide::math::{core as core_math, trig, hyp};
+use orion::numbers::fixed_point::implementations::fp8x23wide::math::{core as core_math, trig, hyp, erf};
 use orion::numbers::fixed_point::utils;
 
 /// A struct representing a fixed point number.
@@ -217,6 +217,10 @@ impl FP8x23WImpl of FixedTrait<FP8x23W, u64> {
 
     fn is_neg_inf(self: FP8x23W) -> bool {
         self.is_inf() && self.sign
+    }
+     
+    fn erf(self: FP8x23W) -> FP8x23W {
+        return erf::erf(self);
     }
 }
 

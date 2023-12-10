@@ -518,6 +518,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
+    
+    fn erf(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::erf::erf(*self)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.
