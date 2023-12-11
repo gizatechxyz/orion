@@ -4,12 +4,11 @@ use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_ops, ml, manipulation};
+use orion::operators::tensor::{math, linalg, quantization, core as core_ops, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP8x23};
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
@@ -520,10 +519,12 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
-    fn unique(
-        self: @Tensor<FP8x23>, axis: Option<usize>, sorted: Option<bool>
-    ) -> (Tensor<FP8x23>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
-        manipulation::unique::unique(self, axis, sorted)
+    fn reduce_log_sum(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
+        math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+    fn erf(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::erf::erf(*self)
     }
 }
 
@@ -628,28 +629,6 @@ impl TensorI8IntoTensorFP8x23 of Into<Tensor<i8>, Tensor<FP8x23>> {
     }
 }
 
-/// Implements partial ord for two `Tensor<FP8x23` using `PartialOrd` trait.
-impl FP8x23TensorPartialOrd of PartialOrd<Tensor<FP8x23>> {
-    #[inline(always)]
-    fn ge(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn gt(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn le(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn lt(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
-    }
-}
 
 // Internals
 

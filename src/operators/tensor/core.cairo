@@ -2,7 +2,7 @@ use core::array::{ArrayTrait, SpanTrait};
 use core::serde::Serde;
 use core::option::OptionTrait;
 
-use alexandria_data_structures::array_ext::SpanTraitExt;
+use alexandria_data_structures::array_ext::{SpanTraitExt};
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
 use orion::numbers::{i8, i32, NumberTrait};
@@ -121,6 +121,8 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// is_nan - Returns which elements of the input are NaN.
 /// is_inf - Maps infinity to true and other values to false.
 /// not - Computes the logical negation of all elements in the input tensor.
+/// reduce_log_sum - Computes the log sum of the input tensor's elements along the provided axes. 
+/// erf - Computes the error function of the given input tensor element-wise.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -4853,89 +4855,103 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn not(self: @Tensor<T>) -> Tensor<T>;
-    /// # tensor.unique
+    /// ## tensor.reduce_log_sum
     ///
-    /// ```rust
-    ///     fn unique(self: @Tensor<T>, axis: Option<usize>, sorted: Option<bool>) -> (Tensor<T>, Tensor<i32>, Tensor<i32>, Tensor<i32>);
+    /// ```rust 
+    ///    fn reduce_log_sum(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
     /// ```
     ///
-    /// Identifies the unique elements or subtensors of a tensor, with an optional axis parameter for subtensor slicing.
-    /// This function returns a tuple containing the tensor of unique elements or subtensors, and optionally,
-    /// tensors for indices, inverse indices, and counts of unique elements.
-    /// * `axis`(`Option<i32>`) - Specifies the dimension along which to find unique subtensors. A None value means the unique
-    ///                           elements of the tensor will be returned in a flattened form. A negative value indicates
-    ///                           dimension counting from the end.
-    /// * `sorted`(`Option<bool>`) - Determines if the unique elements should be returned in ascending order. Defaults to true.
+    /// Computes the log sum of the input tensor's elements along the provided axes.
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The dimension to reduce.
+    /// * `keepdims`(`bool`) - If true, retains reduced dimensions with length 1.
+    ///
+    /// ## Panics 
+    /// 
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
     ///
     /// ## Returns
     ///
-    /// A tuple containing:
-    /// * A Tensor<T> with unique values or subtensors from self.
-    /// * A Tensor<i32> with the first occurrence indices of unique elements in self. If axis is given, it returns indices
-    ///   along that axis; otherwise, it refers to the flattened tensor.
-    /// * A Tensor<i32> mapping each element of self to its index in the unique tensor. If axis is specified, it maps to
-    ///   the subtensor index; otherwise, it maps to the unique flattened tensor.
-    /// * A Tensor<i32> for the counts of each unique element or subtensor in self.
+    /// A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
     ///
+    /// fn reduce_log_sum() -> Tensor<u32> {
     ///
-    /// ## Example
+    ///    let mut sizes = ArrayTrait::new();
+    ///    sizes.append(2);
+    ///    sizes.append(2);
+    ///    sizes.append(2);
     ///
-    /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    ///    let mut data = ArrayTrait::new();
+    ///    data.append(FixedTrait::new_unscaled(1, false));
+    ///    data.append(FixedTrait::new_unscaled(2, false));
+    ///    data.append(FixedTrait::new_unscaled(3, false));
+    ///    data.append(FixedTrait::new_unscaled(4, false));
+    ///    data.append(FixedTrait::new_unscaled(5, false));
+    ///    data.append(FixedTrait::new_unscaled(6, false));
+    ///    data.append(FixedTrait::new_unscaled(7, false));
+    ///    data.append(FixedTrait::new_unscaled(8, false));
+    ///
+    ///    let tensor = TensorTrait::<FP16x16>::new(sizes.span(), data.span());
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-    /// 
-    /// fn unique_flat_example() -> Tensor<u32> {
-    ///     let tensor = TensorTrait::<u32>::new(
-    ///         shape: array![1, 6].span(), 
-    ///         data: array![[2, 1, 1, 3, 4, 3]].span(), 
-    ///     );
-    ///
-    ///     return tensor.unique(
-    ///         axis: Option::None(())
-    ///         sorted: Option::Some(false) 
-    ///     );
+    ///     We can call `reduce_log_sum` function as follows.
+    ///     return tensor.reduce_log_sum(axis: 2, keepdims: false);
     /// }
-    /// >>> (
-    ///         [2, 1, 3, 4],
-    ///         [0, 1, 3, 4],
-    ///         [0, 1, 1, 2, 3, 2],
-    ///         [1, 2, 2, 1]
-    ///     )
+    /// >>> [[0x11938, 0x1f203], [0x265d9, 0x2b540]]
     /// ```
     ///
-    /// or
+    fn reduce_log_sum(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
+    /// ## tensor.erf
+    ///
+    /// ```rust 
+    ///    fn erf(self: @Tensor<T>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Computes the mean of the input tensor's elements along the provided axes.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` of the same shape as the input tensor with 
+    /// the the error function of the input tensor computed element-wise.
+    ///
+    /// ## Type Constraints
+    ///
+    /// Constrain input and output types to fixed point tensors.
+    ///
+    /// ## Examples
     ///
     /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
+    /// use core::array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-    ///
-    /// fn unique_axis_example() -> Tensor<u32> {
-    ///     let tensor = TensorTrait::<u32>::new(
-    ///         shape: array![3, 3].span(), 
-    ///         data: array![[ 1, 0, 0],
-    ///                      [ 1, 0, 0],
-    ///                      [ 2, 3, 4]].span(), 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
+    /// use orion::numbers::{FixedTrait, FP16x16};
+    /// 
+    /// fn erf_example() -> Tensor<FP16x16> {
+    ///     // The erf inputs is [1.0, 0.134, 0.520, 2.0, 3.5, 5.164]
+    ///     let tensor = TensorTrait::<FP16x16>::new(
+    ///         shape: array![6].span(),
+    ///         data: array![
+    ///             FixedTrait::new_unscaled(65536, false),
+    ///             FixedTrait::new_unscaled(8832, false),
+    ///             FixedTrait::new_unscaled(34079, false),
+    ///             FixedTrait::new_unscaled(131072, false),
+    ///             FixedTrait::new_unscaled(229376, false),
+    ///             FixedTrait::new_unscaled(338428, false),
+    ///         ]
+    ///             .span(),
     ///     );
-    ///
-    ///     return tensor.unique(
-    ///         axis: Option::Some(0)
-    ///         sorted: Option::Some(true) 
-    ///     );
+    /// 
+    ///     return tensor.erf();
     /// }
-    /// >>> (    
-    ///         [[ 1, 0, 0],
-    ///          [ 2, 3, 4]],
-    ///         [0, 2],
-    ///         [0, 0, 1],
-    ///         [2, 1]
-    ///     )
+    /// >>> [55227,9560,35252,65229,65536,65536]
     /// ```
-    /// 
-    fn unique(
-        self: @Tensor<T>, axis: Option<usize>, sorted: Option<bool>
-    ) -> (Tensor<T>, Tensor<i32>, Tensor<i32>, Tensor<i32>);
+    ///
+    fn erf(self: @Tensor<T>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

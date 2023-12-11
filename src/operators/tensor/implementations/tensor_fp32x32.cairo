@@ -4,12 +4,11 @@ use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
 use orion::numbers::{i8, i32, NumberTrait, FP32x32, FP32x32Impl};
 use orion::numbers::fixed_point::implementations::fp32x32::core::ONE;
 use orion::operators::tensor::implementations::{
@@ -521,10 +520,13 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
-    fn unique(
-        self: @Tensor<FP32x32>, axis: Option<usize>, sorted: Option<bool>
-    ) -> (Tensor<FP32x32>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
-        manipulation::unique::unique(self, axis, sorted)
+    fn reduce_log_sum(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
+        math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+
+    fn erf(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::erf::erf(*self)
     }
 }
 
@@ -611,28 +613,6 @@ impl TensorI8IntoTensorFP32x32 of Into<Tensor<i8>, Tensor<FP32x32>> {
     }
 }
 
-/// Implements partial ord for two `Tensor<FP32x32` using `PartialOrd` trait.
-impl FP8x23TensorPartialOrd of PartialOrd<Tensor<FP32x32>> {
-    #[inline(always)]
-    fn ge(lhs: Tensor<FP32x32>, rhs: Tensor<FP32x32>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn gt(lhs: Tensor<FP32x32>, rhs: Tensor<FP32x32>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn le(lhs: Tensor<FP32x32>, rhs: Tensor<FP32x32>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
-    }
-
-    #[inline(always)]
-    fn lt(lhs: Tensor<FP32x32>, rhs: Tensor<FP32x32>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
-    }
-}
 
 // Internals
 

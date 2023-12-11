@@ -1,5 +1,4 @@
 use core::traits::Into;
-use core::debug::PrintTrait;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::signed_integer::i32::i32;
@@ -233,14 +232,6 @@ impl I8IntoFP64x64 of Into<i8, FP64x64> {
 impl I8IntoFP32x32 of Into<i8, FP32x32> {
     fn into(self: i8) -> FP32x32 {
         i8_to_fp32x32(self)
-    }
-}
-
-// Implements the PrintTrait for i8
-impl I8PrintTrait of PrintTrait<i8> {
-    fn print(self: i8) {
-        let intermediate: felt252 = self.into();
-        intermediate.print();
     }
 }
 
