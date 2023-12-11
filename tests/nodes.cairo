@@ -830,8 +830,6 @@ mod erf_fp16x16;
 mod erf_fp8x23;
 mod unique_fp16x16_without_axis_sorted;
 mod unique_fp16x16_with_axis_zero_sorted;
-mod unique_u32_example;
-mod unique_u32_example_two;
 mod unique_u32_without_axis_sorted;
 mod unique_u32_without_axis_not_sorted;
 mod unique_u32_with_axis_zero_sorted;

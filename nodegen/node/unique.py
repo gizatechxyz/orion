@@ -37,58 +37,6 @@ def _unsort_outputs(
 class Unique(RunAll):
     @staticmethod
     def unique_u32():
-        def example(): # TODO: remove after impls
-            x = np.array([2, 1, 1, 3, 4, 3]).astype(np.uint32)
-            axis = None
-
-            unique_values, indices, inverse_indices, counts = np.unique(
-                x, axis=axis, return_index=True, return_inverse=True, return_counts=True
-            )
-
-            x = Tensor(Dtype.U32, x.shape, x.flatten())
-            unique_values = Tensor(
-                Dtype.U32, unique_values.shape, unique_values.flatten()
-            )
-            indices = Tensor(Dtype.I32, indices.shape, indices.flatten())
-            inverse_indices = Tensor(
-                Dtype.I32, inverse_indices.shape, inverse_indices.flatten()
-            )
-            counts = Tensor(Dtype.I32, counts.shape, counts.flatten())
-
-            name = "unique_u32_example"
-            make_test(
-                [x],
-                (unique_values, indices, inverse_indices, counts),
-                "input_0.unique(Option::None(()), Option::None(()))",
-                name,
-            )
-
-        def example_two(): # TODO: remove after impls
-            x = np.array([[1, 0, 0], [1, 0, 0], [2, 3, 4], [1, 0, 0]]).astype(np.uint32)
-            axis = 0
-
-            unique_values, indices, inverse_indices, counts = np.unique(
-                x, axis=axis, return_index=True, return_inverse=True, return_counts=True
-            )
-
-            x = Tensor(Dtype.U32, x.shape, x.flatten())
-            unique_values = Tensor(
-                Dtype.U32, unique_values.shape, unique_values.flatten()
-            )
-            indices = Tensor(Dtype.I32, indices.shape, indices.flatten())
-            inverse_indices = Tensor(
-                Dtype.I32, inverse_indices.shape, inverse_indices.flatten()
-            )
-            counts = Tensor(Dtype.I32, counts.shape, counts.flatten())
-
-            name = "unique_u32_example_two"
-            make_test(
-                [x],
-                (unique_values, indices, inverse_indices, counts),
-                "input_0.unique(Option::Some(0), Option::Some(true))",
-                name,
-            )
-
         def without_axis_sorted():
             x = np.random.randint(0, 5, (3, 3, 3)).astype(np.uint32)
             axis = None
@@ -254,8 +202,6 @@ class Unique(RunAll):
                 name,
             )
 
-        example()
-        example_two()
         without_axis_sorted()
         without_axis_not_sorted()
         with_axis_zero_sorted()
