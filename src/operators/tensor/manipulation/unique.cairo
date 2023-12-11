@@ -5,7 +5,7 @@ use core::array::{SpanTrait, ArrayTrait};
 
 use core::debug::PrintTrait;
 
-use alexandria_data_structures::array_ext::SpanTraitExt;
+use alexandria_data_structures::array_ext::{SpanTraitExt, ArrayTraitExt};
 use alexandria_sorting::merge_sort::merge;
 
 use orion::numbers::{i32, NumberTrait};
@@ -118,7 +118,7 @@ fn unique_along_axis<
     assert(axis < rank, 'axis out of dimensions');
 
     let all_tensors = as_tensors_array(t, axis);
-    let mut unique_tensors = get_unique_tensors(all_tensors.span());
+    let mut unique_tensors = all_tensors.unique();
     let mut unique_tensors_len = unique_tensors.len();
 
     let mut i = 0;
@@ -133,7 +133,7 @@ fn unique_along_axis<
         });
         i += 1;
     };
-    
+
     if (sorted) {
         unique_tensors = merge(unique_tensors);
     }
@@ -163,16 +163,12 @@ fn unique_along_axis<
     };
 
     let new_shape_span = new_shape.span();
-    let unique_elements = if (*t).shape == new_shape_span {
-        *t.data
-    } else {
-        flatten_array_of_tensors(unique_tensors, axis, new_shape_span)
-    };
+    let unique_elements = flatten_array_of_tensors(unique_tensors, axis, new_shape_span);
 
     return (unique_elements, new_shape_span, indices.span(), inverse_indices.span(), count.span());
 }
 
-/// Convert a Tensor to an array of tensors for a given axis.
+/// Convert a Tensor to an array of tensors along a given axis.
 fn as_tensors_array<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     tensor: @Tensor<T>, axis: usize
 ) -> Array<Tensor<T>> {
@@ -229,25 +225,6 @@ fn as_tensors_array<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
         idx += 1;
     };
     as_tensors
-}
-
-/// Returns from an array of tensors all the uniques tensors.
-fn get_unique_tensors<T, +Copy<T>, +Drop<T>, +PartialEq<T>, +PartialEq<Tensor<T>>>(
-    mut arr: Span<Tensor<T>>
-) -> Array<Tensor<T>> {
-    let mut uniques_tensors: Array<Tensor<T>> = array![];
-
-    loop {
-        match arr.pop_front() {
-            Option::Some(t) => {
-                if !uniques_tensors.span().contains(*t) {
-                    uniques_tensors.append(*t);
-                }
-            },
-            Option::None => { break; },
-        }
-    };
-    return uniques_tensors;
 }
 
 /// Flatten a given array of tensors into an Array<T>.

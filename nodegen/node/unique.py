@@ -272,9 +272,6 @@ class Unique(RunAll):
             unique_values, indices, inverse_indices, counts = np.unique(
                 x, axis=axis, return_index=True, return_inverse=True, return_counts=True
             )
-            unique_values, indices, inverse_indices, counts = _unsort_outputs(
-                x, axis, unique_values, indices, inverse_indices, counts
-            )
             unique_values = unique_values.astype(np.float16)
 
             x = Tensor(Dtype.FP16x16, x.shape, to_fp(x.flatten(), FixedImpl.FP16x16))
@@ -303,9 +300,6 @@ class Unique(RunAll):
 
             unique_values, indices, inverse_indices, counts = np.unique(
                 x, axis=axis, return_index=True, return_inverse=True, return_counts=True
-            )
-            unique_values, indices, inverse_indices, counts = _unsort_outputs(
-                x, axis, unique_values, indices, inverse_indices, counts
             )
             unique_values = unique_values.astype(np.float16)
 
