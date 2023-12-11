@@ -43,35 +43,19 @@ fn main() {
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 
-    // TREE REGRESSOR DOC
-    let trait_path = "src/operators/ml/tree_regressor/core.cairo";
-    let doc_path = "docs/framework/operators/machine-learning/tree-regressor";
-    let label = "tree";
-    let trait_name: &str = "TreeRegressorTrait";
-    doc_trait(trait_path, doc_path, label);
-    doc_functions(trait_path, doc_path, trait_name, label);
-
-    // TREE ClASSIFIER DOC
-    let trait_path = "src/operators/ml/tree_classifier/core.cairo";
-    let doc_path = "docs/framework/operators/machine-learning/tree-classifier";
-    let label = "tree";
-    let trait_name: &str = "TreeClassifierTrait";
-    doc_trait(trait_path, doc_path, label);
-    doc_functions(trait_path, doc_path, trait_name, label);
-
-    // XGBOOST REGRESSOR DOC
-    let trait_path = "src/operators/ml/xgboost_regressor/core.cairo";
-    let doc_path = "docs/framework/operators/machine-learning/xgboost-regressor";
-    let label = "xgboost";
-    let trait_name: &str = "XGBoostRegressorTrait";
-    doc_trait(trait_path, doc_path, label);
-    doc_functions(trait_path, doc_path, trait_name, label);
-
     // TREE ENSEMBLE CLASSIFIER DOC
     let trait_path = "src/operators/ml/tree_ensemble/tree_ensemble_classifier.cairo";
     let doc_path = "docs/framework/operators/machine-learning/tree-ensemble-classifier";
     let label = "tree_ensemble_classifier";
     let trait_name: &str = "TreeEnsembleClassifierTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
+
+    // TREE ENSEMBLE REGRESSOR DOC
+    let trait_path = "src/operators/ml/tree_ensemble/tree_ensemble_regressor.cairo";
+    let doc_path = "docs/framework/operators/machine-learning/tree-ensemble-regressor";
+    let label = "tree_ensemble_regressor";
+    let trait_name: &str = "TreeEnsembleRegressorTrait";
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 }
