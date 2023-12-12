@@ -87,6 +87,13 @@ impl i32Into of Into<i32, felt252> {
     }
 }
 
+// Implements the Into trait for u32 -> i32
+impl u32Intoi32 of Into<u32, i32> {
+    fn into(self: u32) -> i32 {
+        i32 { mag: self.into(), sign: false }
+    }
+}
+
 // Implements the Add trait for i32.
 impl i32Add of Add<i32> {
     fn add(lhs: i32, rhs: i32) -> i32 {

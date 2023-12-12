@@ -4,11 +4,12 @@ use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
+use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
 use orion::numbers::{i8, i32, NumberTrait, FP8x23W};
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
@@ -479,6 +480,12 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn erf(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
         math::erf::erf(*self)
     }
+
+    fn unique(
+        self: @Tensor<FP8x23W>, axis: Option<usize>, sorted: Option<bool>
+    ) -> (Tensor<FP8x23W>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
+        manipulation::unique::unique(self, axis, sorted)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.
@@ -579,6 +586,29 @@ impl FP8x23WTensorPartialEq of PartialEq<Tensor<FP8x23W>> {
 impl U32TryIntoU32 of TryInto<u64, u64> {
     fn try_into(self: u64) -> Option<u64> {
         Option::Some(self)
+    }
+}
+
+/// Implements partial ord for two `Tensor<FP8x23W>` using `PartialOrd` trait.
+impl FP8x23WTensorPartialOrd of PartialOrd<Tensor<FP8x23W>> {
+    #[inline(always)]
+    fn ge(lhs: Tensor<FP8x23W>, rhs: Tensor<FP8x23W>) -> bool {
+        return SpanPartialOrd::ge(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn gt(lhs: Tensor<FP8x23W>, rhs: Tensor<FP8x23W>) -> bool {
+        return SpanPartialOrd::gt(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn le(lhs: Tensor<FP8x23W>, rhs: Tensor<FP8x23W>) -> bool {
+        return SpanPartialOrd::le(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn lt(lhs: Tensor<FP8x23W>, rhs: Tensor<FP8x23W>) -> bool {
+        return SpanPartialOrd::lt(lhs.data, rhs.data);
     }
 }
 

@@ -4,11 +4,12 @@ use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
+use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
 use orion::numbers::{i8, i32, NumberTrait, FP16x16W};
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
@@ -489,9 +490,14 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }
 
-
     fn erf(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
         math::erf::erf(*self)
+    }
+
+    fn unique(
+        self: @Tensor<FP16x16W>, axis: Option<usize>, sorted: Option<bool>
+    ) -> (Tensor<FP16x16W>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
+        manipulation::unique::unique(self, axis, sorted)
     }
 }
 
@@ -569,6 +575,29 @@ impl FP16x16WTensorPartialEq of PartialEq<Tensor<FP16x16W>> {
 impl U32TryIntoU32 of TryInto<u32, u32> {
     fn try_into(self: u32) -> Option<u32> {
         Option::Some(self)
+    }
+}
+
+/// Implements partial ord for two `Tensor<FP16x16W>` using `PartialOrd` trait.
+impl FP16x16WTensorPartialOrd of PartialOrd<Tensor<FP16x16W>> {
+    #[inline(always)]
+    fn ge(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> bool {
+        return SpanPartialOrd::ge(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn gt(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> bool {
+        return SpanPartialOrd::gt(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn le(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> bool {
+        return SpanPartialOrd::le(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn lt(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> bool {
+        return SpanPartialOrd::lt(lhs.data, rhs.data);
     }
 }
 

@@ -2,6 +2,12 @@
 
 Learn how to use Orion with tutorials. We encourage you to contribute by sharing your own tutorial.
 
+## [Verifiable Principal Components Analysis](verifiable-principal-components-analysis.md)
+
+The Principal Component Analysis (PCA) method is an unsupervised learning algorithm that aims to reduce the dimensionality of a dataset consisting of a large number of interrelated variables, while at the same time preserving as much of the variation present in the original dataset as possible.
+
+_December 12, 2023 - Dataonchain_
+
 ## [Verifiable Support Vector Machine](verifiable-support-vector-machine.md)
 
 This tutorial will guide you through implementing your first fully verifiable support vector machine model in Cairo using the Orion framework.
