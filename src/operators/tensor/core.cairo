@@ -5248,12 +5248,12 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
                 match axes.pop_front() {
                     Option::Some(axis) => {
                         let mut reshape: Array<usize> = ArrayTrait::new();
-                        let mut index = 0_usize;
+                        let mut index = 0_i32;
                         let axis = if *axis < 0 {
-                            assert(*axis <= (*self.shape).len(), 'axis out of accepted range');
-                            (*self.shape).len() - *axis
+                            assert(*axis <= u32Toi32((*self.shape).len()), 'axis out of accepted range');
+                            u32Toi32((*self.shape).len()) - *axis
                         } else {
-                            assert(*axis < (*self.shape).len(), 'axis out of accepted range');
+                            assert(*axis < u32Toi32((*self.shape).len()), 'axis out of accepted range');
                             *axis
                         };
 
@@ -5414,4 +5414,10 @@ fn clip<
 /// Cf: TensorTrait::identity docstring
 fn identity<T>(self: @Tensor<T>) -> Tensor<T> {
     Tensor::<T> { shape: *self.shape, data: *self.data }
+}
+
+fn u32Toi32(number: u32) -> i32 {
+    let number_felt: felt252 = number.into();
+    let number_i32: i32 = number_felt.try_into().unwrap();
+    number_i32
 }
