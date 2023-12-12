@@ -4,11 +4,12 @@ use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
 use orion::numbers::fixed_point::core::FixedTrait;
+use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
 use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_bool::BoolTensor};
 
@@ -521,6 +522,12 @@ impl I8Tensor of TensorTrait<i8> {
     fn erf(self: @Tensor<i8>) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
+
+    fn unique(
+        self: @Tensor<i8>, axis: Option<usize>, sorted: Option<bool>
+    ) -> (Tensor<i8>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
+        manipulation::unique::unique(self, axis, sorted)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
@@ -591,6 +598,29 @@ impl I8TensorPartialEq of PartialEq<Tensor<i8>> {
 
     fn ne(lhs: @Tensor<i8>, rhs: @Tensor<i8>) -> bool {
         !tensor_eq(*lhs, *rhs)
+    }
+}
+
+/// Implements partial ord for two `Tensor<i8>` using `PartialOrd` trait.
+impl I8TensorPartialOrd of PartialOrd<Tensor<i8>> {
+    #[inline(always)]
+    fn ge(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
+        return SpanPartialOrd::ge(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn gt(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
+        return SpanPartialOrd::gt(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn le(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
+        return SpanPartialOrd::le(lhs.data, rhs.data);
+    }
+
+    #[inline(always)]
+    fn lt(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
+        return SpanPartialOrd::lt(lhs.data, rhs.data);
     }
 }
 

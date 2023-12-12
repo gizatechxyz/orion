@@ -125,6 +125,7 @@
     * [tensor.not](framework/operators/tensor/tensor.not.md)
     * [tensor.erf](framework/operators/tensor/tensor.erf.md)
     * [tensor.reduce_log_sum](framework/operators/tensor/tensor.reduce_log_sum.md)
+    * [tensor.unique](framework/operators/tensor/tensor.unique.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)
