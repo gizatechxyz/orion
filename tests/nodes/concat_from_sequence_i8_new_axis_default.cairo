@@ -15,7 +15,9 @@ fn test_concat_from_sequence_i8_new_axis_default() {
     let input_0 = input_0::input_0();
     let z = output_0::output_0();
 
-    let y = TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::None(()));
+    let y = TensorTrait::concat_from_sequence(
+        input_0, IntegerTrait::<i32>::new(1, false), Option::None(())
+    );
 
     assert_eq(y, z);
 }

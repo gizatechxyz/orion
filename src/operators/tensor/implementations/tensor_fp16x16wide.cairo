@@ -486,6 +486,14 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
+    fn reduce_log_sum(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
+        math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+    fn erf(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
+        math::erf::erf(*self)
+    }
+
     fn unique(
         self: @Tensor<FP16x16W>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<FP16x16W>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
@@ -570,8 +578,8 @@ impl U32TryIntoU32 of TryInto<u32, u32> {
     }
 }
 
-/// Implements partial ord for two `Tensor<FP16x16W` using `PartialOrd` trait.
-impl FP8x23TensorPartialOrd of PartialOrd<Tensor<FP16x16W>> {
+/// Implements partial ord for two `Tensor<FP16x16W>` using `PartialOrd` trait.
+impl FP16x16WTensorPartialOrd of PartialOrd<Tensor<FP16x16W>> {
     #[inline(always)]
     fn ge(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> bool {
         return SpanPartialOrd::ge(lhs.data, rhs.data);
@@ -592,6 +600,7 @@ impl FP8x23TensorPartialOrd of PartialOrd<Tensor<FP16x16W>> {
         return SpanPartialOrd::lt(lhs.data, rhs.data);
     }
 }
+
 
 // Internals
 const PRECISION: u64 = 589; // 0.009

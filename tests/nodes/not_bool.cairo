@@ -1,5 +1,5 @@
-mod input_0; 
-mod output_0; 
+mod input_0;
+mod output_0;
 
 
 use core::array::{ArrayTrait, SpanTrait};

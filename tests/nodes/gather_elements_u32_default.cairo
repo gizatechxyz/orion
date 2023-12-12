@@ -16,7 +16,7 @@ fn test_gather_elements_u32_default() {
     let input_1 = input_1::input_1();
     let z = output_0::output_0();
 
-    let y = input_0.gather_elements(indices:input_1, axis:Option::Some(0));
+    let y = input_0.gather_elements(indices: input_1, axis: Option::Some(0));
 
     assert_eq(y, z);
 }

@@ -458,6 +458,14 @@ impl U32Tensor of TensorTrait<u32> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
+    fn reduce_log_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
+    fn erf(self: @Tensor<u32>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
     fn unique(
         self: @Tensor<u32>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<u32>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
@@ -543,8 +551,8 @@ impl U32TryIntoI8 of TryInto<u32, i8> {
     }
 }
 
-/// Implements partial ord for two `Tensor<u32` using `PartialOrd` trait.
-impl FP8x23TensorPartialOrd of PartialOrd<Tensor<u32>> {
+/// Implements partial ord for two `Tensor<u32>` using `PartialOrd` trait.
+impl U32TensorPartialOrd of PartialOrd<Tensor<u32>> {
     #[inline(always)]
     fn ge(lhs: Tensor<u32>, rhs: Tensor<u32>) -> bool {
         return SpanPartialOrd::ge(lhs.data, rhs.data);

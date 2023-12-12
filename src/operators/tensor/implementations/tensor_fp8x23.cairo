@@ -520,6 +520,14 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
+    fn reduce_log_sum(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
+        math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+    fn erf(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::erf::erf(*self)
+    }
+
     fn unique(
         self: @Tensor<FP8x23>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<FP8x23>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
@@ -628,7 +636,7 @@ impl TensorI8IntoTensorFP8x23 of Into<Tensor<i8>, Tensor<FP8x23>> {
     }
 }
 
-/// Implements partial ord for two `Tensor<FP8x23` using `PartialOrd` trait.
+/// Implements partial ord for two `Tensor<FP8x23>` using `PartialOrd` trait.
 impl FP8x23TensorPartialOrd of PartialOrd<Tensor<FP8x23>> {
     #[inline(always)]
     fn ge(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> bool {

@@ -515,6 +515,14 @@ impl I8Tensor of TensorTrait<i8> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
+    fn reduce_log_sum(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn erf(self: @Tensor<i8>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn unique(
         self: @Tensor<i8>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<i8>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
@@ -593,8 +601,8 @@ impl I8TensorPartialEq of PartialEq<Tensor<i8>> {
     }
 }
 
-/// Implements partial ord for two `Tensor<i8` using `PartialOrd` trait.
-impl FP8x23TensorPartialOrd of PartialOrd<Tensor<i8>> {
+/// Implements partial ord for two `Tensor<i8>` using `PartialOrd` trait.
+impl I8TensorPartialOrd of PartialOrd<Tensor<i8>> {
     #[inline(always)]
     fn ge(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
         return SpanPartialOrd::ge(lhs.data, rhs.data);

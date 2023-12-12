@@ -520,6 +520,15 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
+    fn reduce_log_sum(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
+        math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+
+    fn erf(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::erf::erf(*self)
+    }
+
     fn unique(
         self: @Tensor<FP16x16>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<FP16x16>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
@@ -604,8 +613,8 @@ impl TensorI8IntoTensorFP16x16 of Into<Tensor<i8>, Tensor<FP16x16>> {
     }
 }
 
-/// Implements partial ord for two `Tensor<FP16x16` using `PartialOrd` trait.
-impl FP8x23TensorPartialOrd of PartialOrd<Tensor<FP16x16>> {
+/// Implements partial ord for two `Tensor<FP16x16>` using `PartialOrd` trait.
+impl FP16x16TensorPartialOrd of PartialOrd<Tensor<FP16x16>> {
     #[inline(always)]
     fn ge(lhs: Tensor<FP16x16>, rhs: Tensor<FP16x16>) -> bool {
         return SpanPartialOrd::ge(lhs.data, rhs.data);

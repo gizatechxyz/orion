@@ -5,7 +5,7 @@ use core::option::OptionTrait;
 use alexandria_data_structures::array_ext::ArrayTraitExt;
 
 use orion::utils::u32_max;
-use orion::operators::tensor::core::stride;
+use orion::operators::tensor::core::{stride, Tensor, TensorTrait};
 
 /// Calculates the number of elements in a tensor given its shape.
 ///
@@ -317,6 +317,128 @@ fn replace_index(mut shape: Span<usize>, index: usize, value: usize) -> Span<usi
     return output.span();
 }
 
+/// Creates a list of all axes of given shape
+/// 
+/// # Arguments
+///
+/// * `shape` - A span containing the input tensor's shape as usize elements.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * `Span<usize>` - A span containing the usize elements representing the axes.
+fn get_all_axes(shape: Span<usize>) -> Span<usize> {
+    let mut ret: Array<usize> = ArrayTrait::new();
+    let mut i: usize = 0;
+    let stop_i = shape.len() - 1;
+    loop {
+        ret.append(i);
+        if i == stop_i {
+            break ();
+        }
+        i += 1;
+    };
+    ret.span()
+}
+
+/// Flatten a given array of tensors into an Array<T>.
+fn flatten_array_of_tensors<T, +Copy<T>, +Drop<T>,>(
+    tensors: Array<Tensor<T>>, axis: usize, new_shape: Span<usize>
+) -> Span<T> {
+    let mut new_stride = stride(new_shape);
+
+    let mut flattened: Array<T> = array![];
+
+    let stride_lim: usize = *new_stride.at(axis);
+    let max_row = (*(*tensors.at(0).shape).at(0));
+    let mut row = 0;
+    loop {
+        if row >= max_row {
+            break;
+        }
+        let mut tensors_span = tensors.span();
+        loop {
+            let mut i = 0;
+            match tensors_span.pop_front() {
+                Option::Some(mut t) => {
+                    let mut data = *t.data;
+                    loop {
+                        if i >= stride_lim {
+                            break;
+                        }
+                        let idx = i + (row * stride_lim);
+                        flattened.append(*data.at(idx));
+                        i += 1;
+                    }
+                },
+                Option::None => { break; },
+            }
+        };
+        row += 1;
+    };
+    flattened.span()
+}
+
+/// Convert a Tensor to an array of tensors along a given axis.
+fn as_tensors_array<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
+    tensor: @Tensor<T>, axis: usize
+) -> Array<Tensor<T>> {
+    let shape = *tensor.shape;
+    let rank = shape.len();
+    let mut as_tensors: Array<Tensor<T>> = array![];
+
+    let mut axes: Array<usize> = array![];
+    let mut idx: usize = 0;
+    loop {
+        if idx >= rank {
+            break;
+        }
+        axes.append(idx);
+        idx += 1;
+    };
+
+    idx = 0;
+    let axis_len: usize = *shape.at(axis);
+    loop {
+        if idx >= axis_len {
+            break;
+        }
+        let mut starts: Array<usize> = array![];
+        let mut ends: Array<usize> = array![];
+        let mut i: usize = 0;
+        loop {
+            if i >= rank {
+                break;
+            }
+            starts.append(if i == axis {
+                idx
+            } else {
+                0
+            });
+            ends.append(if i == axis {
+                idx + 1
+            } else {
+                *shape.at(i)
+            });
+            i += 1;
+        };
+
+        let sub_tensor: Tensor<T> = tensor
+            .slice(
+                starts: starts.span(),
+                ends: ends.span(),
+                axes: Option::Some(axes.span()),
+                steps: Option::None(())
+            );
+
+        as_tensors.append(sub_tensor);
+
+        idx += 1;
+    };
+    as_tensors
+}
+
 /// Compares two Spans of generic type T.
 ///
 /// # Returns
@@ -374,29 +496,4 @@ impl SpanPartialOrd<T, +Drop<T>, +Copy<T>, +PartialEq<T>, +PartialOrd<T>> of Par
     fn lt(lhs: Span<T>, rhs: Span<T>) -> bool {
         span_cmp(lhs, rhs) < 0
     }
-}
-
-/// Creates a list of all axes of given shape
-/// 
-/// # Arguments
-///
-/// * `shape` - A span containing the input tensor's shape as usize elements.
-///
-/// # Panics
-/// * Panics if gas limit is exceeded during execution.
-///
-/// # Returns
-/// * `Span<usize>` - A span containing the usize elements representing the axes.
-fn get_all_axes(shape: Span<usize>) -> Span<usize> {
-    let mut ret: Array<usize> = ArrayTrait::new();
-    let mut i: usize = 0;
-    let stop_i = shape.len() - 1;
-    loop {
-        ret.append(i);
-        if i == stop_i {
-            break ();
-        }
-        i += 1;
-    };
-    ret.span()
 }

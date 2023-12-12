@@ -94,13 +94,15 @@ You can see below the list of current supported ONNX Operators:
 |      [SequenceConstruct](operators/tensor/tensor.sequence\_construct.md)      | :white\_check\_mark: |
 |                  [Shrink](operators/tensor/tensor.shrink.md)                  | :white\_check\_mark: |
 |          [SequenceEmpty](operators/tensor/tensor.sequence\_empty.md)          | :white\_check\_mark: |
+|               [ReduceL2](operators/tensor/tensor.reduce\_l2.md)               | :white\_check\_mark: |
 |          [SequenceErase](operators/tensor/tensor.sequence\_erase.md)          | :white\_check\_mark: |
 |         [SequenceInsert](operators/tensor/tensor.sequence\_insert.md)         | :white\_check\_mark: |
 |    [ConcatFromSequence](operators/tensor/tensor.concat\_from\_sequence.md)    | :white\_check\_mark: |
 |                  [IsNaN](operators/tensor/tensor.is\_nan.md)                  | :white\_check\_mark: |
 |                  [IsInf](operators/tensor/tensor.is\_inf.md)                  | :white\_check\_mark: |
 |                     [Not](operators/tensor/tensor.not.md)                     | :white\_check\_mark: |
-|                 [Unique](operators/tensor/tensor.unique.md)                   | :white\_check\_mark: |
+|       [ReduceLogSum](operators/tensor/tensor.reduce\_log\_sum.md)             | :white\_check\_mark: |
+|       [Erf](operators/tensor/tensor.erf.md)                                   | :white\_check\_mark: |
 
 
-Current Operators support: **95/156 (60%)**
+Current Operators support: **96/156 (62%)**

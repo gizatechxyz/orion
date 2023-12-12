@@ -5,12 +5,12 @@ mod output_2;
 mod output_3;
 
 
+use orion::operators::tensor::{TensorTrait, Tensor};
 use orion::operators::tensor::FP16x16TensorPartialEq;
 use orion::operators::tensor::I32Tensor;
-use array::{ArrayTrait, SpanTrait};
-use orion::operators::tensor::FP16x16Tensor;
 use orion::operators::tensor::I32TensorPartialEq;
-use orion::operators::tensor::{TensorTrait, Tensor};
+use orion::operators::tensor::FP16x16Tensor;
+use core::array::{ArrayTrait, SpanTrait};
 use orion::utils::{assert_eq, assert_seq_eq};
 
 #[test]

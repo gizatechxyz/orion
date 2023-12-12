@@ -5,11 +5,12 @@ use core::array::{SpanTrait, ArrayTrait};
 
 use core::debug::PrintTrait;
 
-use alexandria_data_structures::array_ext::SpanTraitExt;
+use alexandria_data_structures::array_ext::{SpanTraitExt, ArrayTraitExt};
 use alexandria_sorting::merge_sort::merge;
 
 use orion::numbers::{i32, NumberTrait};
 use orion::operators::tensor::core::{Tensor, TensorTrait, stride};
+use orion::operators::tensor::helpers::{as_tensors_array, flatten_array_of_tensors};
 
 
 /// Cf: TensorTrait::unique docstring
@@ -118,7 +119,7 @@ fn unique_along_axis<
     assert(axis < rank, 'axis out of dimensions');
 
     let all_tensors = as_tensors_array(t, axis);
-    let mut unique_tensors = get_unique_tensors(all_tensors.span());
+    let mut unique_tensors = all_tensors.unique();
     let mut unique_tensors_len = unique_tensors.len();
 
     let mut i = 0;
@@ -133,7 +134,7 @@ fn unique_along_axis<
         });
         i += 1;
     };
-    
+
     if (sorted) {
         unique_tensors = merge(unique_tensors);
     }
@@ -163,127 +164,7 @@ fn unique_along_axis<
     };
 
     let new_shape_span = new_shape.span();
-    let unique_elements = if (*t).shape == new_shape_span {
-        *t.data
-    } else {
-        flatten_array_of_tensors(unique_tensors, axis, new_shape_span)
-    };
+    let unique_elements = flatten_array_of_tensors(unique_tensors, axis, new_shape_span);
 
     return (unique_elements, new_shape_span, indices.span(), inverse_indices.span(), count.span());
-}
-
-/// Convert a Tensor to an array of tensors for a given axis.
-fn as_tensors_array<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
-    tensor: @Tensor<T>, axis: usize
-) -> Array<Tensor<T>> {
-    let shape = *tensor.shape;
-    let rank = shape.len();
-    let mut as_tensors: Array<Tensor<T>> = array![];
-
-    let mut axes: Array<usize> = array![];
-    let mut idx: usize = 0;
-    loop {
-        if idx >= rank {
-            break;
-        }
-        axes.append(idx);
-        idx += 1;
-    };
-
-    idx = 0;
-    let axis_len: usize = *shape.at(axis);
-    loop {
-        if idx >= axis_len {
-            break;
-        }
-        let mut starts: Array<usize> = array![];
-        let mut ends: Array<usize> = array![];
-        let mut i: usize = 0;
-        loop {
-            if i >= rank {
-                break;
-            }
-            starts.append(if i == axis {
-                idx
-            } else {
-                0
-            });
-            ends.append(if i == axis {
-                idx + 1
-            } else {
-                *shape.at(i)
-            });
-            i += 1;
-        };
-
-        let sub_tensor: Tensor<T> = tensor
-            .slice(
-                starts: starts.span(),
-                ends: ends.span(),
-                axes: Option::Some(axes.span()),
-                steps: Option::None(())
-            );
-
-        as_tensors.append(sub_tensor);
-
-        idx += 1;
-    };
-    as_tensors
-}
-
-/// Returns from an array of tensors all the uniques tensors.
-fn get_unique_tensors<T, +Copy<T>, +Drop<T>, +PartialEq<T>, +PartialEq<Tensor<T>>>(
-    mut arr: Span<Tensor<T>>
-) -> Array<Tensor<T>> {
-    let mut uniques_tensors: Array<Tensor<T>> = array![];
-
-    loop {
-        match arr.pop_front() {
-            Option::Some(t) => {
-                if !uniques_tensors.span().contains(*t) {
-                    uniques_tensors.append(*t);
-                }
-            },
-            Option::None => { break; },
-        }
-    };
-    return uniques_tensors;
-}
-
-/// Flatten a given array of tensors into an Array<T>.
-fn flatten_array_of_tensors<T, +Copy<T>, +Drop<T>,>(
-    tensors: Array<Tensor<T>>, axis: usize, new_shape: Span<usize>
-) -> Span<T> {
-    let mut new_stride = stride(new_shape);
-
-    let mut flattened: Array<T> = array![];
-
-    let stride_lim: usize = *new_stride.at(axis);
-    let max_row = (*(*tensors.at(0).shape).at(0));
-    let mut row = 0;
-    loop {
-        if row >= max_row {
-            break;
-        }
-        let mut tensors_span = tensors.span();
-        loop {
-            let mut i = 0;
-            match tensors_span.pop_front() {
-                Option::Some(mut t) => {
-                    let mut data = *t.data;
-                    loop {
-                        if i >= stride_lim {
-                            break;
-                        }
-                        let idx = i + (row * stride_lim);
-                        flattened.append(*data.at(idx));
-                        i += 1;
-                    }
-                },
-                Option::None => { break; },
-            }
-        };
-        row += 1;
-    };
-    flattened.span()
 }

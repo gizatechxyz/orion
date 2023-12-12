@@ -458,6 +458,14 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn erf(self: @Tensor<bool>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn reduce_log_sum(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
     fn unique(
         self: @Tensor<bool>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<bool>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {

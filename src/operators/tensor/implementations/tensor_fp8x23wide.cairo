@@ -473,6 +473,14 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
+    fn reduce_log_sum(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
+        math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+    fn erf(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
+        math::erf::erf(*self)
+    }
+
     fn unique(
         self: @Tensor<FP8x23W>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<FP8x23W>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
@@ -581,8 +589,8 @@ impl U32TryIntoU32 of TryInto<u64, u64> {
     }
 }
 
-/// Implements partial ord for two `Tensor<FP8x23W` using `PartialOrd` trait.
-impl FP8x23TensorPartialOrd of PartialOrd<Tensor<FP8x23W>> {
+/// Implements partial ord for two `Tensor<FP8x23W>` using `PartialOrd` trait.
+impl FP8x23WTensorPartialOrd of PartialOrd<Tensor<FP8x23W>> {
     #[inline(always)]
     fn ge(lhs: Tensor<FP8x23W>, rhs: Tensor<FP8x23W>) -> bool {
         return SpanPartialOrd::ge(lhs.data, rhs.data);

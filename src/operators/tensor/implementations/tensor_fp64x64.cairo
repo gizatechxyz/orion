@@ -522,6 +522,14 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
+    fn reduce_log_sum(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
+        math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+    fn erf(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::erf::erf(*self)
+    }
+
     fn unique(
         self: @Tensor<FP64x64>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<FP64x64>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
@@ -612,8 +620,8 @@ impl TensorI8IntoTensorFP64x64 of Into<Tensor<i8>, Tensor<FP64x64>> {
     }
 }
 
-/// Implements partial ord for two `Tensor<FP64x64` using `PartialOrd` trait.
-impl FP8x23TensorPartialOrd of PartialOrd<Tensor<FP64x64>> {
+/// Implements partial ord for two `Tensor<FP64x64>` using `PartialOrd` trait.
+impl FP64x64TensorPartialOrd of PartialOrd<Tensor<FP64x64>> {
     #[inline(always)]
     fn ge(lhs: Tensor<FP64x64>, rhs: Tensor<FP64x64>) -> bool {
         return SpanPartialOrd::ge(lhs.data, rhs.data);

@@ -18,7 +18,7 @@ fn test_gather_elements_i32_3d_axis2() {
     let input_1 = input_1::input_1();
     let z = output_0::output_0();
 
-    let y = input_0.gather_elements(indices:input_1, axis:Option::Some(2));
+    let y = input_0.gather_elements(indices: input_1, axis: Option::Some(2));
 
     assert_eq(y, z);
 }
