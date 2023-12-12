@@ -9,7 +9,7 @@ use orion::operators::tensor::core::{
     at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
-use orion::numbers::{i32, i8, NumberTrait};
+use orion::numbers::{NumberTrait};
 use orion::operators::tensor::implementations::{
     tensor_u32::U32Tensor, tensor_i8::I8Tensor, tensor_bool::BoolTensor
 };
