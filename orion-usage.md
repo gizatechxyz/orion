@@ -1,29 +1,11 @@
 # Orion Usage
 
-*Last Update: 12 nov. 2023*
+*Last Update: 12 dec. 2023*
 
 ## Contributors
 
-| Author        | # PRs |
-| ------------- | ----- |
-| raphaelDkhn   | 87    |
-| credence0x    | 21    |
-| franalgaba    | 14    |
-| hakymulla     | 12    |
-| Roee-87       | 8     |
-| chachaleo     | 6     |
-| 0x73e         | 5     |
-| Dl-Vv         | 4     |
-| dincerguner   | 4     |
-| CountryCousin | 3     |
-| TsBauer       | 2     |
-| richwarner    | 1     |
-| BemTG         | 1     |
-| Falco90       | 1     |
-| dbejarano820  | 1     |
-| omahs         | 1     |
-| moodysalem    | 1     |
-
+![alt text](docs/images/contributor.png)
+![alt text](docs/images/active-contributor.png)
 
 ## Tutorials
 
