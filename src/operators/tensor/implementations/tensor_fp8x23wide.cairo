@@ -465,6 +465,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn concat_from_sequence(sequence: Array<Tensor<FP8x23W>>, axis: i32, new_axis: Option<usize>) -> Tensor<FP8x23W> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
+
+    fn gather_nd(self: @Tensor<FP8x23W>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP8x23W> {
+        math::gather_nd::gather_nd(self, indices, batch_dims)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

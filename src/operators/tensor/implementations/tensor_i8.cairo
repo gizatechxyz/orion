@@ -507,6 +507,10 @@ impl I8Tensor of TensorTrait<i8> {
     fn concat_from_sequence(sequence: Array<Tensor<i8>>, axis: i32, new_axis: Option<usize>) -> Tensor<i8> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
+
+    fn gather_nd(self: @Tensor<i8>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<i8> {
+        math::gather_nd::gather_nd(self, indices, batch_dims)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

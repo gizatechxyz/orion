@@ -121,6 +121,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// is_nan - Returns which elements of the input are NaN.
 /// is_inf - Maps infinity to true and other values to false.
 /// not - Computes the logical negation of all elements in the input tensor.
+/// gather_nd
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -4853,6 +4854,8 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn not(self: @Tensor<T>) -> Tensor<T>;
+
+    fn gather_nd(self: @Tensor<T>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring
