@@ -1,5 +1,5 @@
-use array::ArrayTrait;
-use array::SpanTrait;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
 
 
 use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32};

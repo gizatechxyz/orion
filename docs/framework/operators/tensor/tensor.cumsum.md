@@ -26,7 +26,7 @@ A new `Tensor<T>` instance containing the cumulative sum of the input tensor's e
 Case 1: cumsum with default parameters
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
@@ -43,7 +43,7 @@ fn cumsum_example() -> Tensor<u32> {
 Case 2: cumsum with exclusive = true
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
@@ -60,7 +60,7 @@ fn cumsum_example() -> Tensor<u32> {
 Case 3: cumsum with exclusive = true and reverse = true
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

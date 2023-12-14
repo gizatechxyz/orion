@@ -1,5 +1,5 @@
-use array::ArrayTrait;
-use array::SpanTrait;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
 use orion::operators::tensor::U32Tensor;
 use orion::operators::tensor::{TensorTrait, Tensor};
 

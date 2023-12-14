@@ -123,6 +123,8 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.is_inf`](tensor.is\_inf.md) | Maps infinity to true and other values to false. |
 | [`tensor.not`](tensor.not.md) | Computes the logical negation of all elements in the input tensor. |
 | [`tensor.gather_nd`](tensor.gather\_nd.md) | Given data tensor of rank r >= 1, indices tensor of rank q >= 1, and batch_dims integer b, this operator gathers slices of data into an output tensor of rank q + r - indices_shape[-1] - 1 - b. |
+| [`tensor.reduce_log_sum`](tensor.reduce\_log\_sum.md) | Computes the log sum of the input tensor's elements along the provided axes.  |
+| [`tensor.erf`](tensor.erf.md) | Computes the error function of the given input tensor element-wise. |
 
 ## Arithmetic Operations
 
@@ -138,7 +140,7 @@ Two tensors are “broadcastable” if the following rules hold:
 Element-wise add.
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor, U32TensorAdd};
 
 fn element_wise_add_example() -> Tensor<u32> {
@@ -159,7 +161,7 @@ fn element_wise_add_example() -> Tensor<u32> {
 Add two tensors of different shapes but compatible in broadcasting.
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor, U32TensorAdd};
 
 fn broadcasting_add_example() -> Tensor<u32> {

@@ -7,7 +7,7 @@ use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::tensor::U32Tensor;
 use orion::operators::tensor::I32Tensor;
 use orion::operators::tensor::{TensorTrait, Tensor};
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::I32TensorPartialEq;
 use orion::operators::tensor::U32TensorPartialEq;
 
@@ -18,7 +18,7 @@ fn test_gather_elements_i32_3d_default() {
     let input_1 = input_1::input_1();
     let z = output_0::output_0();
 
-    let y = input_0.gather_elements(indices:input_1, axis:Option::Some(0));
+    let y = input_0.gather_elements(indices: input_1, axis: Option::Some(0));
 
     assert_eq(y, z);
 }

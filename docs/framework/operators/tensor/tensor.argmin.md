@@ -26,7 +26,7 @@ A new `Tensor<T>` instance containing the indices of the minimum values along th
 Case 1: argmin with default parameters
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
@@ -44,7 +44,7 @@ fn argmin_example() -> Tensor<usize> {
 Case 2: argmin with keepdims set to false
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
@@ -63,7 +63,7 @@ fn argmin_example() -> Tensor<usize> {
 Case 3: argmin with select_last_index set to true
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 

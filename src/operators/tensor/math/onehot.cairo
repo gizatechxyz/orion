@@ -1,12 +1,12 @@
-use array::ArrayTrait;
-use array::SpanTrait;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
 
 use core::traits::Into;
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 use core::traits::TryInto;
 use core::serde::Serde;
 use core::traits::Destruct;
-use option::OptionTrait;
+use core::option::OptionTrait;
 
 use orion::numbers::NumberTrait;
 use orion::numbers::fixed_point::core::FixedTrait;

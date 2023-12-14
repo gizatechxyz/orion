@@ -6,7 +6,7 @@ mod output_0;
 use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::tensor::U32Tensor;
 use orion::operators::tensor::{TensorTrait, Tensor};
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::U32TensorPartialEq;
 
 #[test]
@@ -16,7 +16,7 @@ fn test_gather_elements_u32_axis3() {
     let input_1 = input_1::input_1();
     let z = output_0::output_0();
 
-    let y = input_0.gather_elements(indices:input_1, axis:Option::Some(3));
+    let y = input_0.gather_elements(indices: input_1, axis: Option::Some(3));
 
     assert_eq(y, z);
 }

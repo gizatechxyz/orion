@@ -2,8 +2,8 @@
 
 #[cfg(test)]
 mod tensor_1D {
-    use array::ArrayTrait;
-    use array::SpanTrait;
+    use core::array::ArrayTrait;
+    use core::array::SpanTrait;
 
     use orion::operators::tensor::core::{unravel_index};
 
@@ -21,8 +21,8 @@ mod tensor_1D {
 
 #[cfg(test)]
 mod tensor_2D {
-    use array::ArrayTrait;
-    use array::SpanTrait;
+    use core::array::ArrayTrait;
+    use core::array::SpanTrait;
 
     use orion::operators::tensor::core::{unravel_index};
 
@@ -42,8 +42,8 @@ mod tensor_2D {
 
 #[cfg(test)]
 mod tensor_3D {
-    use array::ArrayTrait;
-    use array::SpanTrait;
+    use core::array::ArrayTrait;
+    use core::array::SpanTrait;
 
     use orion::operators::tensor::core::{unravel_index};
 

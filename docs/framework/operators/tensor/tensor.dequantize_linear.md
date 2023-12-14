@@ -30,7 +30,7 @@ fp16x16wide tensor, not supported.
 ## Examples
 
 ```rust
- use array::{ArrayTrait, SpanTrait};
+ use core::array::{ArrayTrait, SpanTrait};
  
  use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
  use orion::numbers::{i8, i32, IntegerTrait};

@@ -1,8 +1,9 @@
 use core::debug::PrintTrait;
-use option::OptionTrait;
-use result::{ResultTrait, ResultTraitImpl};
-use traits::{Into, TryInto};
-use integer::{u64_safe_divmod, u64_as_non_zero, u64_wide_mul};
+use core::option::OptionTrait;
+use core::result::{ResultTrait, ResultTraitImpl};
+use core::traits::{Into, TryInto};
+use core::integer;
+use core::integer::{u64_safe_divmod, u64_as_non_zero, u64_wide_mul};
 
 use orion::numbers::fixed_point::implementations::fp8x23wide::core::{
     HALF, ONE, MAX, FP8x23W, FP8x23WAdd, FP8x23WImpl, FP8x23WAddEq, FP8x23WSub, FP8x23WMul,

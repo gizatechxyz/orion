@@ -10,11 +10,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Added
 - Gather ND Operator.
 
+## [Unreleased] - 2023-12-01
+
+## Added 
+- Reduce LogSum Operator
+  
+## [Unreleased] - 2023-12-05
+
+## Added 
+- Erf Operator
+
 ## [Unreleased] - 2023-11-27
 
 ## Added 
 - Reduce Prod Operator
-- 
+
 ## [Unreleased] - 2023-11-20
 
 ## Added

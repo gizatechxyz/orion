@@ -4,6 +4,7 @@ mod math;
 mod linalg;
 mod quantization;
 mod implementations;
+mod manipulation;
 mod ml;
 
 use orion::operators::tensor::core::{Tensor, TensorSerde, TensorTrait};
@@ -36,7 +37,5 @@ use orion::operators::tensor::implementations::tensor_u32::{
     U32Tensor, U32TensorAdd, U32TensorSub, U32TensorMul, U32TensorDiv, U32TensorPartialEq
 };
 
-use orion::operators::tensor::implementations::tensor_bool::{
-    BoolTensor, BoolTensorPartialEq
-};
+use orion::operators::tensor::implementations::tensor_bool::{BoolTensor, BoolTensorPartialEq};
 

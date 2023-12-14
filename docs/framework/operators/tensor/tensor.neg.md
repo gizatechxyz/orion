@@ -19,7 +19,7 @@ the negation of all elements in the input tensor.
 ## Example
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
 use orion::numbers::{i32, IntegerTrait};
