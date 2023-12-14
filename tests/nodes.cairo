@@ -820,3 +820,17 @@
 // mod is_pos_inf_i8;
 // mod is_neg_inf_i8;
 // mod and_bool;
+mod gather_nd_fp16x16_3d_default;
+mod gather_nd_fp16x16_3d_batch_dims1;
+mod gather_nd_fp16x16_3d_batch_dims2;
+mod gather_nd_fp8x23_3d_default;
+mod gather_nd_fp8x23_3d_batch_dims1;
+mod gather_nd_fp8x23_3d_batch_dims2;
+mod gather_nd_i8_3d_default;
+mod gather_nd_i8_3d_batch_dims1;
+mod gather_nd_i32_3d_default;
+mod gather_nd_i32_3d_batch_dims1;
+mod gather_nd_i32_3d_batch_dims2;
+mod gather_nd_u32_default;
+mod gather_nd_u32_batch_dims1;
+mod gather_nd_u32_batch_dims2;

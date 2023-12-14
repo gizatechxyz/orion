@@ -13,7 +13,7 @@ use orion::numbers::NumberTrait;
 use orion::operators::tensor::U32TensorPartialEq;
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-/// Cf: TensorTrait::gather docstring
+/// Cf: TensorTrait::gather_nd docstring
 fn gather_nd<
     T,
     impl TTensorTrait: TensorTrait<T>,
@@ -85,7 +85,6 @@ fn gather_nd<
                     if (ind >= (batch_dims + *indices_shape_last)) {
                         output_shape.append(*val);
                     }
-                    // total_data_len *= *val;
                     ind += 1;
                 },
                 Option::None(_) => { break; }
@@ -95,6 +94,7 @@ fn gather_nd<
 
     let mut ind = 0;
     let mut multiple = 1;
+    let mut incrementer = 1;
     let mut data_shape_clone = data_shape.clone();
     loop {
         match data_shape_clone.pop_front() {
@@ -103,18 +103,7 @@ fn gather_nd<
                     multiple *= *val;
                     multiple_data_len.append(multiple);
                 }
-                ind += 1;
-            },
-            Option::None(_) => { break; }
-        };
-    };
 
-    let mut ind = 0;
-    let mut incrementer = 1;
-    let mut data_shape_clone = data_shape.clone();
-    loop {
-        match data_shape_clone.pop_front() {
-            Option::Some(val) => {
                 if (ind >= batch_dims + *indices_shape_last) {
                     incrementer *= *val;
                 }
@@ -123,7 +112,6 @@ fn gather_nd<
             Option::None(_) => { break; }
         };
     };
-
 
     let mut ind = 0;
     let mut indices_shape_clone = indices_shape.clone();
@@ -140,14 +128,10 @@ fn gather_nd<
         };
     };
 
-    let data_shape_last = data_shape.pop_back().unwrap();
-
     total_data_len = *multiple_data_len.at(multiple_data_len.len() - 1);
     let mut data_indices = indices.data;
     let mut ind = 0;
     let mut result = 0;
-    let mut outer_loop = 0;
-
     loop {
         match data_indices.pop_front() {
             Option::Some(val) => {
@@ -170,7 +154,6 @@ fn gather_nd<
         };
     };
 
-
     loop {
         match index_data.pop_front() {
             Option::Some(val) => {
@@ -181,8 +164,6 @@ fn gather_nd<
     };
 
     let mut output_tensor = TensorTrait::<T>::new(output_shape.span(), output_data.span());
-
-    // let mut output_tensor = TensorTrait::<T>::new(*self.shape, *self.data);
     return output_tensor;
 }
 
@@ -367,19 +348,19 @@ fn indices_333() -> Tensor<u32> {
 #[test]
 #[available_gas(20000000000)]
 fn test_gather_elements_default() {
-    let data = u32_tensor_3x3x3_helper();
-    let indices = indices_333();
+    let data = data();
+    let indices = indices();
 
-    let y = data.gather_nd(indices: indices,  batch_dims:Option::Some(1));
+    let y = data.gather_nd(indices: indices,  batch_dims:Option::Some(0));
     let mut output = y.data;
 
-    loop {
-        match output.pop_front() {
-            Option::Some(val) => {
-               (*val).print();
-            },
-            Option::None(_) => { break; }
-        };
-    };
+    // loop {
+    //     match output.pop_front() {
+    //         Option::Some(val) => {
+    //            (*val).print();
+    //         },
+    //         Option::None(_) => { break; }
+    //     };
+    // };
 
 }
