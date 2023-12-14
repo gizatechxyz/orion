@@ -1,13 +1,13 @@
 use alexandria_data_structures::array_ext::SpanTraitExt;
-use array::ArrayTrait;
-use array::SpanTrait;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::option::OptionTrait;
 
 use core::traits::Into;
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 use core::traits::TryInto;
 use core::serde::Serde;
 use core::traits::Destruct;
-use option::OptionTrait;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::U32TensorPartialEq;
