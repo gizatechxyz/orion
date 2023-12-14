@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 def gather_nd_impl(
     data: np.ndarray, indices: np.ndarray, batch_dims: int
@@ -49,7 +49,7 @@ def gather_nd_impl(
             output_data_buffer.append(reshaped_data[(batch_dim, *gather_index)])
     return np.asarray(output_data_buffer, dtype=data.dtype).reshape(output_shape)
 
-
+        
 class Gather_nd(RunAll):
 
     @staticmethod
