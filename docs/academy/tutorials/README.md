@@ -2,12 +2,6 @@
 
 Learn how to use Orion with tutorials. We encourage you to contribute by sharing your own tutorial.
 
-## [Verifiable Lagrange Interpolation](verifiable-Lagrange-interpolation.md)
-
-Lagrange interpolation is a mathematical technique used to approximate a function that passes through a given set of points. It takes an input set of data points and computes a polynomial that passes through all of them. 
-
-_December 14, 2023 chachaleo_ 
-
 
 ## [Verifiable Principal Components Analysis](verifiable-principal-components-analysis.md)
 
