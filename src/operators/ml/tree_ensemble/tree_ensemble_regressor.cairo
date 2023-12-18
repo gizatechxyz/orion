@@ -347,11 +347,11 @@ impl TreeEnsembleRegressorImpl<
 
         // Post Transform
         let mut new_scores = match self.post_transform {
-            POST_TRANSFORM::NONE => res,
-            POST_TRANSFORM::SOFTMAX => core::panic_with_felt252('SOFTMAX not implemented'),
-            POST_TRANSFORM::LOGISTIC => core::panic_with_felt252('LOGISTIC not implemented'),
-            POST_TRANSFORM::SOFTMAXZERO => core::panic_with_felt252('SOFTMAXZERO implemented'),
-            POST_TRANSFORM::PROBIT => core::panic_with_felt252('PROBIT not implemented'),
+            POST_TRANSFORM::NONE => res, // No action required
+            POST_TRANSFORM::SOFTMAX => res.softmax(1),
+            POST_TRANSFORM::LOGISTIC => res.sigmoid(),
+            POST_TRANSFORM::SOFTMAXZERO => res.softmax_zero(1),
+            POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
         };
 
         return res;
