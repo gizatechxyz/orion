@@ -22,11 +22,12 @@ Linear Regressor. Performs the generalized linear regression evaluation.
 ## Examples
 
 ```rust
-use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor, FP16x16TensorAdd};
+use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor, U32Tensor, FP16x16TensorAdd};
 use orion::operators::ml::linear::linear_regressor::{
     LinearRegressorTrait, POST_TRANSFORM, LinearRegressor
 };
 use orion::numbers::{FP16x16, FixedTrait};
+use orion::operators::nn::{NNTrait, FP16x16NN};
 
 fn example_linear_regressor() -> Tensor<FP16x16> {
 

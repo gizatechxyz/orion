@@ -12,6 +12,7 @@ use orion::operators::tensor::{I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, FP
 use orion::numbers::{FP32x32, FP32x32Impl, FixedTrait};
 
 use core::debug::PrintTrait;
+use orion::operators::nn::{NNTrait, FP16x16NN};
 
 #[derive(Destruct)]
 struct LinearRegressor<T> {
@@ -63,6 +64,7 @@ trait LinearRegressorTrait<T> {
     ///     LinearRegressorTrait, POST_TRANSFORM, LinearRegressor
     /// };
     /// use orion::numbers::{FP16x16, FixedTrait};
+    /// use orion::operators::nn::{NNTrait, FP16x16NN};
     /// 
     /// fn example_linear_regressor() -> Tensor<FP16x16> {
     /// 
@@ -185,6 +187,7 @@ impl LinearRegressorImpl<
     +Div<T>,
     +Mul<T>,
     +Add<Tensor<T>>,
+    +NNTrait<T>,
 > of LinearRegressorTrait<T> {
     fn predict(ref self: LinearRegressor<T>, X: Tensor<T>) -> Tensor<T> {
         let n: usize = self.coefficients.len() / self.target;
@@ -208,12 +211,14 @@ impl LinearRegressorImpl<
         };
 
         // Post Transform
-        let mut new_scores = match self.post_transform {
-            POST_TRANSFORM::NONE => {},
-            POST_TRANSFORM::SOFTMAX => core::panic_with_felt252('SOFTMAX not implemented'),
-            POST_TRANSFORM::LOGISTIC => core::panic_with_felt252('LOGISTIC not implemented'),
-            POST_TRANSFORM::SOFTMAXZERO => core::panic_with_felt252('SOFTMAXZERO implemented'),
-            POST_TRANSFORM::PROBIT => core::panic_with_felt252('PROBIT not implemented'),
+        let score = match self.post_transform {
+            POST_TRANSFORM::NONE => score, // No action required
+            POST_TRANSFORM::SOFTMAX => NNTrait::softmax(@score, 1),
+            POST_TRANSFORM::LOGISTIC => NNTrait::sigmoid(@score),
+            POST_TRANSFORM::SOFTMAXZERO => core::panic_with_felt252(
+                'Softmax_zero not supported yet'
+            ),
+            POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
         };
 
         score
