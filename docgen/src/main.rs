@@ -50,6 +50,14 @@ fn main() {
     let trait_name: &str = "TreeEnsembleClassifierTrait";
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
+
+    // TREE ENSEMBLE REGRESSOR DOC
+    let trait_path = "src/operators/ml/tree_ensemble/tree_ensemble_regressor.cairo";
+    let doc_path = "docs/framework/operators/machine-learning/tree-ensemble-regressor";
+    let label = "tree_ensemble_regressor";
+    let trait_name: &str = "TreeEnsembleRegressorTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
 }
 
 fn doc_trait(trait_path: &str, doc_path: &str, label: &str) {

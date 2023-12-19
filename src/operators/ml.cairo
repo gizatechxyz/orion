@@ -6,3 +6,7 @@ use orion::operators::ml::tree_ensemble::core::{
 use orion::operators::ml::tree_ensemble::tree_ensemble_classifier::{
     TreeEnsembleClassifier, TreeEnsembleClassifierImpl, TreeEnsembleClassifierTrait, POST_TRANSFORM
 };
+
+use orion::operators::ml::tree_ensemble::tree_ensemble_regressor::{
+    TreeEnsembleRegressor, TreeEnsembleRegressorImpl, TreeEnsembleRegressorTrait, AGGREGATE_FUNCTION
+};
