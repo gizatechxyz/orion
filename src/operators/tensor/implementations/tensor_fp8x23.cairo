@@ -520,6 +520,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
+    fn gather_nd(self: @Tensor<FP8x23>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP8x23> {
+        math::gather_nd::gather_nd(self, indices, batch_dims)
+    }
+    
     fn reduce_log_sum(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }
