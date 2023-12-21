@@ -2,6 +2,12 @@
 
 Learn how to use Orion with tutorials. We encourage you to contribute by sharing your own tutorial.
 
+## [Provable Multiple Linear Regression Solver: Forecasting AAVE's Lifetime Repayments](provable-mlr-forecasting-aaves-lifetime-repayments.md)
+
+For this particular tutorial, we will build a Multiple Linear Regression algorithm from scratch and use it to forecast the projected the 7-day lifetime repayments for AAVE's WETH Pool. Toward the end of the tutorial, we will convert the data & model to Cairo enabling us to make the entire Multiple Regression Solver as well as the AAVE's forecasts to be fully Provable and Verifiable.
+
+_December 21, 2023 - Bem Baraki_
+
 ## [Verifiable Principal Components Analysis](verifiable-principal-components-analysis.md)
 
 The Principal Component Analysis (PCA) method is an unsupervised learning algorithm that aims to reduce the dimensionality of a dataset consisting of a large number of interrelated variables, while at the same time preserving as much of the variation present in the original dataset as possible.

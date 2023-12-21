@@ -1,8 +1,3 @@
-
-//fn log2(self: T) -> T;
-
-//fn log10(self: T) -> T;
-
 # ComplexTrait::to_polar
 
 ```rust

@@ -1,6 +1,6 @@
 # MNIST Classification with Orion
 
-<figure><img src="../../.gitbook/assets/photo_2023-06-14_13-50-17.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/tutorial#1.png" alt=""><figcaption></figcaption></figure>
 
 Orion is a dedicated Cairo-based library designed specifically to build machine learning models for ValidityML. Its purpose is to facilitate verifiable inference. For better performance we will operate with an 8-bit quantized model. In this tutorial, you will be guided on how to train your model using Quantized Aware Training using MNIST dataset, how to convert your pre-trained model to Cairo 1, and how to perform inference with Orion.
 
@@ -537,7 +537,7 @@ fn fc1(i: Tensor<i32>, w: Tensor<i32>, b: Tensor<i32>) -> Tensor<i32> {
 
 #### Dense Layer 2
 
-In a similar way, we can build the second layer `fc2`, which contains a [Linear](../../framework/operators/neural-network/nn.linear.md) function and a [Softmax](../../framework/operators/neural-network/nn.softmax.md) from [NNTrait](../../framework/operators/neural-network/). We could convert the tensor to fixed point in order to perform softmax, but for this simple tutorial it's not necessary.&#x20;
+In a similar way, we can build the second layer `fc2`, which contains a [Linear](../../framework/operators/neural-network/nn.linear.md) function and a [Softmax](../../framework/operators/neural-network/nn.softmax.md) from [NNTrait](../../framework/operators/neural-network/). We could convert the tensor to fixed point in order to perform softmax, but for this simple tutorial it's not necessary.
 
 ```rust
 use orion::operators::tensor::core::Tensor;

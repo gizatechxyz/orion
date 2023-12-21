@@ -109,6 +109,7 @@
     * [tensor.reduce\_l1](framework/operators/tensor/tensor.reduce\_l1.md)
     * [tensor.reduce\_prod](framework/operators/tensor/tensor.reduce\_prod.md)
     * [tensor.gather\_elements](framework/operators/tensor/tensor.gather\_elements.md)
+    * [tensor.gather\_nd](framework/operators/tensor/tensor.gather\_nd.md)
     * [tensor.sequence\_length](framework/operators/tensor/tensor.sequence\_length.md)
     * [tensor.sequence\_at](framework/operators/tensor/tensor.sequence\_at.md)
     * [tensor.reduce\_min](framework/operators/tensor/tensor.reduce\_min.md)
@@ -155,3 +156,4 @@
   * [Verifiable Linear Regression Model](academy/tutorials/verifiable-linear-regression-model-in-orion.md)
   * [Verifiable Support Vector Machine](academy/tutorials/verifiable-support-vector-machine.md)
   * [Verifiable Principal Components Analysis](academy/tutorials/verifiable-principal-components-analysis.md)
+  * [Provable MLR: Forecasting AAVE's Lifetime Repayments](academy/tutorials/provable-mlr-forecasting-aaves-lifetime-repayments.md)

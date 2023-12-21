@@ -522,6 +522,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
+    fn gather_nd(self: @Tensor<FP64x64>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP64x64> {
+        math::gather_nd::gather_nd(self, indices, batch_dims)
+    }
+    
     fn reduce_log_sum(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }
