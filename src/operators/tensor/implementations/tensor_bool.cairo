@@ -471,6 +471,10 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> (Tensor<bool>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         panic(array!['not supported!'])
     }
+
+    fn gather_nd(self: @Tensor<bool>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<bool> {
+        math::gather_nd::gather_nd(self, indices, batch_dims)
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.
