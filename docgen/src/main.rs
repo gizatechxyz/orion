@@ -66,6 +66,14 @@ fn main() {
     let trait_name: &str = "LinearRegressorTrait";
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
+
+    // LINEAR REGRESSOR DOC
+    let trait_path = "src/operators/ml/linear/linear_classifier.cairo";
+    let doc_path = "docs/framework/operators/machine-learning/linear-classifier";
+    let label = "linear_classifier";
+    let trait_name: &str = "LinearClassifierTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
 }
 
 fn doc_trait(trait_path: &str, doc_path: &str, label: &str) {

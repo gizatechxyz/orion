@@ -142,7 +142,12 @@
   * [Machine Learning](framework/operators/machine-learning/README.md)
     * [Tree Ensemble Classifier](framework/operators/machine-learning/tree-ensemble-classifier/README.md)
       * [tree\_ensemble\_classifier.predict](framework/operators/machine-learning/tree-ensemble-classifier/tree\_ensemble\_classifier.predict.md)
-
+    * [Tree Ensemble Regressor](framework/operators/machine-learning/tree-ensemble-regressor/README.md)
+      * [tree\_ensemble\_regressor.predict](framework/operators/machine-learning/tree-ensemble-regressor/tree\_ensemble\_regressor.predict.md)
+    * [Linear Classifier](framework/operators/machine-learning/linear-classifier/README.md)
+      * [linear\_classifier.predict](framework/operators/machine-learning/linear-classifier/linear\_classifier.predict.md)
+    * [Linear Regressor](framework/operators/machine-learning/linear-regressor/README.md)
+      * [linear\_regressor.predict](framework/operators/machine-learning/linear-regressor/linear\_regressor.predict.md)
 ## 🏛 Hub
 
 * [Models](hub/algorithms.md)
