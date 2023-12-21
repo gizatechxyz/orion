@@ -4,7 +4,7 @@ Learn how to use Orion with tutorials. We encourage you to contribute by sharing
 
 ## [Provable Multiple Linear Regression Solver: Forecasting AAVE's Lifetime Repayments](provable-mlr-forecasting-aaves-lifetime-repayments.md)
 
-For this particular tutorial, we will build a Multiple Linear Regression algorithm from scratch and use it to forecast the projected the 7-day lifetime repayments for AAVE's WETH Pool. Toward the end of the tutorial, we will convert the data & model to Cairo enabling us to make the entire Multiple Regression Solver as well as the AAVE's forecasts to be fully Provable and Verifiable.
+For this particular tutorial, we will build a Closed-Form Multiple Linear Regression algorithm and use it to forecast AAVE's (WETH Pool) future projected Lifetime Repayments as a practical example. Towards the second half-end of the tutorial, we will convert the model to Cairo enabling us to make the entire MLR system as well as the forecasts fully provable & verifiable.
 
 _December 21, 2023 - Bem Baraki_
 

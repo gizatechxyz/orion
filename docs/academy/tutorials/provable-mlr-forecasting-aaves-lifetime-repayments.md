@@ -2,7 +2,7 @@
 
 <figure><img src="../../.gitbook/assets/tutorial#5 (1).png" alt=""><figcaption></figcaption></figure>
 
-For this particular tutorial, we will build a Closed-Form Multiple Linear Regression algorithm and use it to forecast AAVE's (WETH Pool) future projected Lifetime Repayments as a practical example. Towards the second half-end of the tutorial, we will convert the model to Cairo enabling us to make the entire MLR system as well as the forecasts to be fully Provable & Verifiable.
+For this particular tutorial, we will build a Closed-Form Multiple Linear Regression algorithm and use it to forecast AAVE's (WETH Pool) future projected Lifetime Repayments as a practical example. Towards the second half-end of the tutorial, we will convert the model to Cairo enabling us to make the entire MLR system as well as the forecasts fully provable & verifiable.
 
 ## Provability & Verifiability
 
