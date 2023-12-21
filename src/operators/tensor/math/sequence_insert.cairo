@@ -1,10 +1,9 @@
 use core::array::{ArrayTrait, SpanTrait};
 use core::option::OptionTrait;
 
-use orion::operators::tensor::core::{Tensor, TensorTrait};
+use orion::operators::tensor::core::{Tensor, TensorTrait, u32Toi32, i32Tou32};
 use orion::operators::tensor::I32Tensor;
 use orion::numbers::NumberTrait;
-use orion::numbers::signed_integer::i32::i32;
 
 /// Cf: TensorTrait::sequence_insert docstring
 fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
@@ -15,25 +14,24 @@ fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TD
         Option::None(_) => {
             let mut shape = ArrayTrait::<usize>::new();
             let mut data = ArrayTrait::<i32>::new();
-            data.append(i32 { mag: 1, sign: true });
+            data.append(-1_i32);
             TensorTrait::<i32>::new(shape.span(), data.span())
         },
     };
 
     assert(position.shape.len() == 0 && position.data.len() == 1, 'Position must be a scalar');
 
-    let position_value_i32: i32 = *position.data.at(0);
-    let is_negative: bool = position_value_i32.sign;
-    let mut position_value: u32 = position_value_i32.mag;
+    let mut position_value_i32: i32 = *position.data.at(0);
+    let is_negative: bool = position_value_i32 < 0;
 
     assert(
-        (is_negative == false && position_value <= self.len() - 1)
-            || (is_negative == true && position_value <= self.len()),
+        (is_negative == false && position_value_i32 <= u32Toi32(self.len() - 1))
+            || (is_negative == true && position_value_i32 <= u32Toi32(self.len())),
         'Position out of bounds'
     );
 
     if is_negative == true {
-        position_value = self.len() - position_value;
+        position_value_i32 = u32Toi32(self.len()) - position_value_i32;
     }
 
     let mut new_sequence = ArrayTrait::<Tensor<T>>::new();
@@ -42,13 +40,13 @@ fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TD
     loop {
         match self_copy.pop_front() {
             Option::Some(t) => {
-                if position_value == 0 && inserted == false {
+                if position_value_i32 == 0 && inserted == false {
                     new_sequence.append(*tensor);
                     inserted = true;
                 }
                 new_sequence.append(t);
                 if inserted == false {
-                    position_value -= 1;
+                    position_value_i32 -= 1;
                 }
             },
             Option::None(_) => { break; },

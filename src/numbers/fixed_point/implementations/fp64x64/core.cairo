@@ -11,7 +11,6 @@ use cubit::f128::ops::MAX_u128 as MAX;
 
 use orion::numbers::fixed_point::core::{FixedTrait};
 use orion::numbers::fixed_point::utils;
-use orion::numbers::{i32, i8};
 
 const HALF: u128 = 9223372036854775808_u128; // 2 ** 63
 
@@ -392,7 +391,15 @@ fn _i8_try_from_fp(x: FP64x64) -> Option<i8> {
     let unscaled_mag: Option<u8> = (x.mag / ONE).try_into();
 
     match unscaled_mag {
-        Option::Some(val) => Option::Some(i8 { mag: unscaled_mag.unwrap(), sign: x.sign }),
+        Option::Some(val) => {
+            let number_felt: felt252 = unscaled_mag.unwrap().into();
+            let mut number_i8: i8 = number_felt.try_into().unwrap();
+            if x.sign {
+                return Option::Some(number_i8 * -1_i8);
+            }
+            Option::Some(number_i8) 
+        },
+
         Option::None(_) => Option::None(())
     }
 }

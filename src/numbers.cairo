@@ -2,6 +2,10 @@ mod fixed_point;
 mod complex_number;
 
 use orion::numbers::fixed_point::core::FixedTrait;
+use orion::numbers::fixed_point::implementations::fp8x23::core::{ONE as ONE_fp8x23 };
+use orion::numbers::fixed_point::implementations::fp16x16::core::{ONE as ONE_fp16x16 };
+use orion::numbers::fixed_point::implementations::fp64x64::core::{ONE as ONE_fp64x64 };
+use orion::numbers::fixed_point::implementations::fp32x32::core::{ONE as ONE_fp32x32 };
 
 // Common methods from Fixed Point and Signed Integers.
 trait NumberTrait<T, MAG> {
@@ -1713,6 +1717,58 @@ impl I8DivEq of DivEq<i8> {
     #[inline(always)]
     fn div_eq(ref self: i8, other: i8) {
         self = Div::div(self, other);
+    }
+}
+
+impl I8IntoFP8x23 of Into<i8, FP8x23> {
+    fn into(self: i8) -> FP8x23 {
+        let number_sign: bool = self < 0;
+        let mut self_positive: i8 = self;
+        if number_sign {
+            self_positive = self_positive * -1_i8
+        }
+        let number_felt: felt252 = self_positive.into();
+        let number_u32: u32 = number_felt.try_into().unwrap();
+        FP8x23 {mag: number_u32 * ONE_fp8x23, sign: number_sign} 
+    }
+}
+
+impl I8IntoFP16x16 of Into<i8, FP16x16> {
+    fn into(self: i8) -> FP16x16 {
+        let number_sign: bool = self < 0;
+        let mut self_positive: i8 = self;
+        if number_sign {
+            self_positive = self_positive * -1_i8
+        }
+        let number_felt: felt252 = self_positive.into();
+        let number_u32: u32 = number_felt.try_into().unwrap();
+        FP16x16 {mag: number_u32 * ONE_fp16x16, sign: number_sign} 
+    }
+}
+
+impl I8IntoFP64x64 of Into<i8, FP64x64> {
+    fn into(self: i8) -> FP64x64 {
+        let number_sign: bool = self < 0;
+        let mut self_positive: i8 = self;
+        if number_sign {
+            self_positive = self_positive * -1_i8
+        }
+        let number_felt: felt252 = self_positive.into();
+        let number_u128: u128 = number_felt.try_into().unwrap();
+        FP64x64 {mag: number_u128 * ONE_fp64x64, sign: number_sign} 
+    }
+}
+
+impl I8IntoFP32x32 of Into<i8, FP32x32> {
+    fn into(self: i8) -> FP32x32 {
+        let number_sign: bool = self < 0;
+        let mut self_positive: i8 = self;
+        if number_sign {
+            self_positive = self_positive * -1_i8
+        }
+        let number_felt: felt252 = self_positive.into();
+        let number_u128: u64 = number_felt.try_into().unwrap();
+        FP32x32 {mag: number_u128 * ONE_fp32x32, sign: number_sign} 
     }
 }
 
