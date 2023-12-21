@@ -10,13 +10,13 @@ The key benefit of this Lightweight Multiple Linear Regression Solver lies in it
 
 ## Brief intro to MLR
 
-To give a brief overview of MLR, it is used to model the relationship between a single dependent variable denoted as y, and multiple independent variables, such as x1, x2, etc. This method extends the principles of simple linear regression by allowing us to incorporate multiple explanatory factors to predict y. The significant advantage lies in its capability to evaluate both individual and joint linear relationships between each feature and the target variable, providing a comprehensive understanding of how changes in predictors correspond to changes in the outcome.
+To give a brief overview of MLR, it is used to model the relationship between a single dependent variable denoted as `y`, and multiple independent variables, such as `x1`, `x2`, etc. This method extends the principles of simple linear regression by allowing us to incorporate multiple explanatory factors to predict y. The significant advantage lies in its capability to evaluate both individual and joint linear relationships between each feature and the target variable, providing a comprehensive understanding of how changes in predictors correspond to changes in the outcome.
 
 $$
 y = β0 + (β1 * x1) + (β2 * x2) + ... + (βn * xn) + e \quad \begin{align*} y & \text{= dependent variable} \\ x1,x2..xn & \text{= independent variables} \\ β0 & \text{= intercept } \\ β1,β2...βn & \text{= regression coefficients} \\ ε & \text{= error term} \\ \end{align*}
 $$
 
-The regression coefficients, illustrated by β0, β1...βn play a pivotal role in quantifying the impact of each feature variable on the dependent variable. It not only enables us to discern the individual impact (magnitude and direction) but also unveils how they collaboratively combine to shape outcomes.
+The regression coefficients, illustrated by `β0`, `β1`...`βn` play a pivotal role in quantifying the impact of each feature variable on the dependent variable. It not only enables us to discern the individual impact (magnitude and direction) but also unveils how they collaboratively combine to shape outcomes.
 
 In summary, when incorporating multiple factors into our model, we can improve the prediction & forecasting accuracy when compared to relying solely on a single predictor, as seen with simple regression. This enhancement can be mainly attributed to the fact that real-world outcomes being typically influenced by a myriad of factors. Therefore, leveraging multiple linear regression (MLR) serves as a foundational stepping stone to adeptly capture the intricate relationships between features and labels, ultimately guiding us in building accurate and highly interpretable models.
 
@@ -1070,7 +1070,7 @@ let mut rescale_forecasts = rescale_predictions(forecast_results, main_y_vals); 
 Our model will get tested under the `multiple_linear_regression_test()` function which will follow these steps:
 
 1. Data retrival: The function initiates by fetching the AAVE dataset's x and y values.
-2. Datset construction and normalization: A new Dataset object gets initialized by passing the x and y variables. It is then normalized using the built-in `normalize_dataset()` method.
+2. Dataset construction and normalization: A new Dataset object gets initialized by passing the x and y variables. It is then normalized using the built-in `normalize_dataset()` method.
 3. Model fitting: Using the `MultipleLinearRegression` function we fit the normalized dataset and compute the regression coefficients.
 4. Computing accuracy of the model: To calculate the accuracy we utilize the `predict` method to compute the dot product between the model's regression coefficients and the x values. We then compute the R-squared score to measure the accuracy of our model.
 5. Perform some testing: In the subsequent step we perform some checks to ensure that the tensor shape/dimension is correct. We also check the model's accuracy deviance to see if it's still within an acceptable range.
