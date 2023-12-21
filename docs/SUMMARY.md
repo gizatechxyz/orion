@@ -156,3 +156,4 @@
   * [Verifiable Linear Regression Model](academy/tutorials/verifiable-linear-regression-model-in-orion.md)
   * [Verifiable Support Vector Machine](academy/tutorials/verifiable-support-vector-machine.md)
   * [Verifiable Principal Components Analysis](academy/tutorials/verifiable-principal-components-analysis.md)
+  * [Provable MLR: Forecasting AAVE's Lifetime Repayments](academy/tutorials/provable-mlr-forecasting-aaves-lifetime-repayments.md)
