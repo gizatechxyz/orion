@@ -132,6 +132,7 @@
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)
     * [nn.sigmoid](framework/operators/neural-network/nn.sigmoid.md)
     * [nn.softmax](framework/operators/neural-network/nn.softmax.md)
+    * [nn.softmax_zero](framework/operators/neural-network/nn.softmax_zero.md)
     * [nn.logsoftmax](framework/operators/neural-network/nn.logsoftmax.md)
     * [nn.softsign](framework/operators/neural-network/nn.softsign.md)
     * [nn.softplus](framework/operators/neural-network/nn.softplus.md)

@@ -850,3 +850,5 @@ mod gather_nd_i8_3d_batch_dims1;
 mod gather_nd_u32_default;
 mod gather_nd_u32_batch_dims1;
 mod gather_nd_u32_batch_dims2;
+mod softmax_zero_fp16x16;
+mod softmax_zero_fp8x23;
