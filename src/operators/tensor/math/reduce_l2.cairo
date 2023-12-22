@@ -11,12 +11,11 @@ use orion::numbers::fixed_point::core::FixedTrait;
 fn square<
     T,
     MAG,
-    impl FTensorTrait: TensorTrait<T>,
-    impl FFixed: FixedTrait<T, MAG>,
-    impl FNumber: NumberTrait<T, MAG>,
+    impl TTensorTrait: TensorTrait<T>,
+    impl TNumber: NumberTrait<T, MAG>,
     impl TMul: Mul<T>,
-    impl FCopy: Copy<T>,
-    impl FDrop: Drop<T>,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>,
 >(
     self: @Tensor<T>
 ) -> Tensor<T> {
@@ -41,7 +40,6 @@ fn reduce_l2<
     T,
     MAG,
     impl TTensor: TensorTrait<T>,
-    impl FFixed: FixedTrait<T, MAG>,
     impl TNumber: NumberTrait<T, MAG>,
     impl TMul: Mul<T>,
     impl TCopy: Copy<T>,
@@ -53,3 +51,23 @@ fn reduce_l2<
     let tensor_square_sum = tensor_square.reduce_sum(axis: axis, keepdims: keepdims);
     return tensor_square_sum.sqrt();
 }
+
+fn reduce_l2_complex<
+    T,
+    MAG,
+    impl TTensor: TensorTrait<T>,
+    impl TNumber: NumberTrait<T, MAG>,
+    impl TMul: Mul<T>,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>,
+    impl TPrint: PrintTrait<T>
+>(
+    self: @Tensor<T>, axis: usize, keepdims: bool
+) -> Tensor<T> {
+    let mut tensor_square = square(@self.abs());
+
+    let mut tensor_square_sum = tensor_square.reduce_sum(axis: axis, keepdims: keepdims);
+
+    return tensor_square_sum.sqrt();
+}
+

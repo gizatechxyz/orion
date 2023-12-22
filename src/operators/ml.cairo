@@ -11,4 +11,6 @@ use orion::operators::ml::tree_ensemble::tree_ensemble_classifier::{
 use orion::operators::ml::tree_ensemble::tree_ensemble_regressor::{
     TreeEnsembleRegressor, TreeEnsembleRegressorImpl, TreeEnsembleRegressorTrait, AGGREGATE_FUNCTION
 };
-use orion::operators::ml::linear::linear_regressor::{LinearRegressorTrait, LinearRegressorImpl, LinearRegressor};
+use orion::operators::ml::linear::linear_regressor::{
+    LinearRegressorTrait, LinearRegressorImpl, LinearRegressor
+};
