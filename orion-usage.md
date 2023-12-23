@@ -46,14 +46,15 @@ Discover amazing ML apps and POCs made by the community with Orion!
 
 ## Hackathon Projects
 
-| Author                                              | Event                    | Title                                                                                                                                                      | Prizes             |
-| --------------------------------------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| manuj-mishra                                        | Lambda ZK week           | [ZK Differential Privacy](https://github.com/manuj-mishra/zkdiffpriv)                                                                                      | 🏅                  |
-| codingnirvana                                       | Lambda ZK week           | [Cairo Convolution ](https://github.com/gizatechxyz/orion/pull/160)                                                                                        |                    |
-| danilo, richie, falco                               | ETHGlobal                | [Cairo Einsum](https://x.com/danilowhk2/status/1683138159985545216?s=20)                                                                                   | 🥇 (Starknet track) |
-| 0xbyyou                                             | ETHToronto               | [Cairo Logistic Regression](https://x.com/gizatechxyz/status/1695016787698417770?s=20)                                                                     |                    |
-| ownerofjk, umburloko, coostendorp                   | ETHGlobal Ist.           | [Tic Tac Toe in PixeLAW with ML Bot](https://github.com/OwnerOfJK/TicTacToeAgent/tree/main)                                                                | 🥇 (Starknet track) |
-| John William Q. Embate, Plutarch Romiel Degollacion | STARKNET INFRA HACKATHON | [ZKML Solar PV Positioning Optimizer Module](https://taikai.network/starkware/hackathons/starknet-infra-hackathon/projects/clpnv5gav00d6x401lol9jaf8/idea) |                    |
+| Author                                                 | Event                    | Title                                                                                                                                                      | Prizes             |
+| ------------------------------------------------------ | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| manuj-mishra                                           | Lambda ZK week           | [ZK Differential Privacy](https://github.com/manuj-mishra/zkdiffpriv)                                                                                      | 🏅                  |
+| codingnirvana                                          | Lambda ZK week           | [Cairo Convolution ](https://github.com/gizatechxyz/orion/pull/160)                                                                                        |                    |
+| danilo, richie, falco                                  | ETHGlobal                | [Cairo Einsum](https://x.com/danilowhk2/status/1683138159985545216?s=20)                                                                                   | 🥇 (Starknet track) |
+| 0xbyyou                                                | ETHToronto               | [Cairo Logistic Regression](https://x.com/gizatechxyz/status/1695016787698417770?s=20)                                                                     |                    |
+| ownerofjk, umburloko, coostendorp                      | ETHGlobal Ist.           | [Tic Tac Toe in PixeLAW with ML Bot](https://github.com/OwnerOfJK/TicTacToeAgent/tree/main)                                                                | 🥇 (Starknet track) |
+| Vincent Owen, chachaleo, 0xhatsume, cwkang, Eason Chai | StarknetCC Istanbul      | [ML VIllage](https://github.com/ML-Village/ML-Village-Backend)                                                                                             | 🥈                  |
+| John William Q. Embate, Plutarch Romiel Degollacion    | STARKNET INFRA HACKATHON | [ZKML Solar PV Positioning Optimizer Module](https://taikai.network/starkware/hackathons/starknet-infra-hackathon/projects/clpnv5gav00d6x401lol9jaf8/idea) |                    |
 
 ## Use Cases 
 
