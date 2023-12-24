@@ -135,9 +135,9 @@ def get_data_statement(data: np.ndarray, dtype: Dtype) -> list[str]:
         case Dtype.U32:
             return [f"{int(x)}" for x in data.flatten()]
         case Dtype.I32:
-            return ["i32 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
+            return [f"{int(x)}" for x in data.flatten()]
         case Dtype.I8:
-            return ["i8 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
+            return [f"{int(x)}" for x in data.flatten()]
         case Dtype.FP8x23:
             return ["FP8x23 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
         case Dtype.FP16x16:
@@ -227,8 +227,8 @@ dtype_to_partial_eq = {
 
 dtype_to_numbers = {
     Dtype.U32: [],
-    Dtype.I32: ["orion::numbers::{IntegerTrait, i32}",],
-    Dtype.I8: ["orion::numbers::{IntegerTrait, i8}",],
+    Dtype.I32: [],
+    Dtype.I8: [],
     Dtype.FP8x23: ["orion::numbers::{FixedTrait, FP8x23}",],
     Dtype.FP16x16: ["orion::numbers::{FixedTrait, FP16x16}",],
     Dtype.BOOL: [],

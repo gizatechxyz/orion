@@ -5,7 +5,6 @@ mod fp8x23 {
     use core::traits::Into;
     use core::debug::PrintTrait;
 
-    use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::i8};
     use orion::numbers::fixed_point::core::{FixedTrait};
     use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     use orion::operators::tensor::I32Tensor;
@@ -143,7 +142,6 @@ mod fp16x16 {
     use core::traits::Into;
     use core::debug::PrintTrait;
 
-    use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::i8};
     use orion::numbers::fixed_point::core::{FixedTrait};
     use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
     use orion::operators::tensor::I32Tensor;
