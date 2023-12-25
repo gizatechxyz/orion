@@ -124,6 +124,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.not`](tensor.not.md) | Computes the logical negation of all elements in the input tensor. |
 | [`tensor.reduce_log_sum`](tensor.reduce\_log\_sum.md) | Computes the log sum of the input tensor's elements along the provided axes.  |
 | [`tensor.erf`](tensor.erf.md) | Computes the error function of the given input tensor element-wise. |
+| [`tensor.reduced_log_sum_exp`](tensor.reduced\_log\_sum\_exp.md) | Computes the log sum of the exponentials of the input tensor's elements along the provided axes. |
 
 ## Arithmetic Operations
 

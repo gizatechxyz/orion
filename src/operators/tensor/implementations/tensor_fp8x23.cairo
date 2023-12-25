@@ -524,6 +524,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }
 
+    fn reduce_log_sum_exp(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
+        math::reduce_log_sum_exp::reduce_log_sum_exp(self, axis, keepdims)
+    }
+
     fn erf(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::erf::erf(*self)
     }

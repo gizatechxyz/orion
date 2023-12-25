@@ -524,6 +524,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }
 
+    fn reduce_log_sum_exp(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
+        math::reduce_log_sum_exp::reduce_log_sum_exp(self, axis, keepdims)
+    }
+
 
     fn erf(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::erf::erf(*self)
