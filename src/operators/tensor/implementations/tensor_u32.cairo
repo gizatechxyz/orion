@@ -475,6 +475,10 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> (Tensor<u32>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         manipulation::unique::unique(self, axis, sorted)
     }
+
+    fn compress(self: @Tensor<u32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
+        math::compress::compress(self, indices, axis)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

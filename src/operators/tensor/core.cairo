@@ -5077,6 +5077,9 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn gather_nd(self: @Tensor<T>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<T>;
+
+    fn compress(self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<T>;
+
 }
 
 /// Cf: TensorTrait::new docstring

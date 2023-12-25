@@ -538,6 +538,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> (Tensor<FP32x32>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         manipulation::unique::unique(self, axis, sorted)
     }
+
+    fn compress(self: @Tensor<FP32x32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<FP32x32> {
+        math::compress::compress(self, indices, axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

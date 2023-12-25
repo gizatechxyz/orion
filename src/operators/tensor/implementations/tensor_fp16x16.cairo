@@ -537,6 +537,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> (Tensor<FP16x16>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         manipulation::unique::unique(self, axis, sorted)
     }
+
+    fn compress(self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<FP16x16> {
+        math::compress::compress(self, indices, axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

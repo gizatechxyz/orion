@@ -490,6 +490,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     ) -> (Tensor<FP8x23W>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         manipulation::unique::unique(self, axis, sorted)
     }
+
+    fn compress(self: @Tensor<FP8x23W>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<FP8x23W> {
+        math::compress::compress(self, indices, axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.
