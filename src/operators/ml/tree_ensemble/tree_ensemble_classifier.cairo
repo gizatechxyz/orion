@@ -270,7 +270,6 @@ impl TreeEnsembleClassifierImpl<
     fn predict(ref self: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Span<usize>, MutMatrix::<T>) {
         let leaves_index = self.ensemble.leave_index_tree(X);
         let n_classes = self.classlabels.len();
-        assert(n_classes > 1, 'binary class not supported yet');
         let mut res: MutMatrix<T> = MutMatrixImpl::new(*leaves_index.shape.at(0), n_classes);
 
         // Set base values
@@ -463,7 +462,7 @@ impl TreeEnsembleClassifierImpl<
                             break;
                         }
                         // Exchange
-                        let res_ele_0 = match res.get(i, 1) {
+                        let res_ele_0 = match new_res.get(i, 1) {
                             Option::Some(res_1) => {
                                 let value = NumberTrait::sub(NumberTrait::one(), res_1);
                                 new_res.set(i, 0, value);
@@ -482,7 +481,7 @@ impl TreeEnsembleClassifierImpl<
                             break;
                         }
                         // Exchange
-                        let res_ele_0 = match res.get(i, 1) {
+                        let res_ele_0 = match new_res.get(i, 1) {
                             Option::Some(res_1) => {
                                 new_res.set(i, 0, res_1.neg());
                             },
@@ -500,7 +499,7 @@ impl TreeEnsembleClassifierImpl<
                             break;
                         }
                         // Exchange
-                        let res_ele_0 = match res.get(i, 1) {
+                        let res_ele_0 = match new_res.get(i, 1) {
                             Option::Some(res_1) => {
                                 new_res.set(i, 0, res_1.neg());
                             },
@@ -518,7 +517,7 @@ impl TreeEnsembleClassifierImpl<
                             break;
                         }
                         // Exchange
-                        let res_ele_0 = match res.get(i, 1) {
+                        let res_ele_0 = match new_res.get(i, 1) {
                             Option::Some(res_1) => {
                                 new_res.set(i, 0, res_1.neg());
                             },
@@ -536,7 +535,7 @@ impl TreeEnsembleClassifierImpl<
                             break;
                         }
                         // Exchange
-                        let res_ele_0 = match res.get(i, 1) {
+                        let res_ele_0 = match new_res.get(i, 1) {
                             Option::Some(res_1) => {
                                 let value = NumberTrait::sub(NumberTrait::one(), res_1);
                                 new_res.set(i, 0, value);
