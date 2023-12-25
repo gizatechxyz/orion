@@ -476,8 +476,8 @@ impl U32Tensor of TensorTrait<u32> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
-    fn compress(self: @Tensor<u32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
-        math::compress::compress(self, indices, axis)
+    fn compress(self: @Tensor<u32>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
+        math::compress::compress(self, condition, axis)
     }
 }
 

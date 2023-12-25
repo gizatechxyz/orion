@@ -538,8 +538,8 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
-    fn compress(self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<FP16x16> {
-        math::compress::compress(self, indices, axis)
+    fn compress(self: @Tensor<FP16x16>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP16x16> {
+        math::compress::compress(self, condition, axis)
     }
 }
 

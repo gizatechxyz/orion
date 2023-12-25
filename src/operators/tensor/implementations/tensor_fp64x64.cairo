@@ -540,8 +540,8 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
-    fn compress(self: @Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<FP64x64> {
-        math::compress::compress(self, indices, axis)
+    fn compress(self: @Tensor<FP64x64>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP64x64> {
+        math::compress::compress(self, condition, axis)
     }
 }
 

@@ -538,8 +538,8 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
-    fn compress(self: @Tensor<FP8x23>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<FP8x23> {
-        math::compress::compress(self, indices, axis)
+    fn compress(self: @Tensor<FP8x23>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP8x23> {
+        math::compress::compress(self, condition, axis)
     }
 }
 

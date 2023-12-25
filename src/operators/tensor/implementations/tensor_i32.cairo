@@ -535,8 +535,8 @@ impl I32Tensor of TensorTrait<i32> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
-    fn compress(self: @Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i32> {
-        math::compress::compress(self, indices, axis)
+    fn compress(self: @Tensor<i32>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<i32> {
+        math::compress::compress(self, condition, axis)
     }
 }
 

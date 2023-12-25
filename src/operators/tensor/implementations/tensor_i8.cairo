@@ -533,8 +533,8 @@ impl I8Tensor of TensorTrait<i8> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
-    fn compress(self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i8> {
-        math::compress::compress(self, indices, axis)
+    fn compress(self: @Tensor<i8>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<i8> {
+        math::compress::compress(self, condition, axis)
     }
 }
 

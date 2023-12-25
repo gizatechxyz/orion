@@ -13,7 +13,7 @@ use orion::numbers::NumberTrait;
 use orion::operators::tensor::U32TensorPartialEq;
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-/// Cf: TensorTrait::gather_nd docstring
+/// Cf: TensorTrait::compare docstring
 fn compress<
     T,
     impl TTensorTrait: TensorTrait<T>,
@@ -32,12 +32,12 @@ fn compress<
     assert((data_rank >= 1 ), 'data rank must > 1');
     assert((condition_rank == 1), 'condition rank must be 1');
 
-   
     let mut data_shape = *self.shape;
     let mut condition_shape = condition.shape;
-    // let mut data_shape_clone = data_shape.clone();
-    // let mut condition_shape_clone = condition_shape.clone();
-    assert(*data_shape.at(axis) >= condition.data.len(), 'index out of bound');
+
+    if (axis != 999) {
+        assert(*data_shape.at(axis) >= condition.data.len(), 'index out of bound');
+    }
 
     let mut output_shape = ArrayTrait::new();
     let mut index_data = ArrayTrait::new();
@@ -61,179 +61,106 @@ fn compress<
         };
     };
 
-    let mut ind = 0;
-    let mut loop_breaker = 1;
-    let mut other_loop_breaker = 1;
-    let mut multiplier = 1;
+    if (axis == 999) {
+        output_shape.append(output);
 
-    let mut data_shape_clone = data_shape.clone();
-    loop {
-        match data_shape_clone.pop_front() {
-            Option::Some(val) => {
-                if (ind == axis) {
-                    output_shape.append(output);
-                }
-                else {
-                    output_shape.append(*val);
-                    if (ind > axis) {
-                        loop_breaker *= *val;
-                    }
-                    if (ind >= axis) {
-                        multiplier *= *val;
-                    }
-                    if (ind < axis) {
-                        other_loop_breaker *= *val;
-                    }
-                }
-                ind += 1;
-            },
-            Option::None(_) => { break; }
-        };
-    };
-
-    let mut ind = 0;
-    let mut inner_index: usize = 0;
-    let mut condition_data_clone = condition_data.clone();
-
-    loop {
-        if (ind == other_loop_breaker) {break;}
-
-        let mut condition_data_clone = condition_data.clone();
-
+        let mut total_shape = 1;
         loop {
-            match condition_data_clone.pop_front() {
-            Option::Some(val) => {
-                if (*val != 0){
-                    let result = inner_index * loop_breaker ;
-                    // + multiplier * ind
-                    // 'Start'.print();
-                    // (inner_index).print();
-                    // (loop_breaker).print();
-                    // (multiplier).print();
-                    // (ind).print();
-                    // (result).print();
-                    
-
-                    let mut data_ind:usize = result ;
-                    loop {
-                        if data_ind == result + loop_breaker { break; }
-                        index_data.append(data_ind);
-                        data_ind+=1;
-                    };
-                }
-            inner_index += 1;
-            },
-
-            Option::None(_) => { break; }
+            match data_shape.pop_front() {
+                Option::Some(val) => {
+                    total_shape *= *val;
+                },
+                Option::None(_) => { break; }
             };
         };
 
-        ind += 1;
-    };
-
-    loop {
-        match index_data.pop_front() {
-            Option::Some(val) => {
-               output_data.append(*self.data[val]);
-            },
-            Option::None(_) => { break; }
+        let mut ind = 0;
+        loop {
+            match condition_data.pop_front() {
+                Option::Some(val) => {
+                    if (ind == total_shape) {break; }
+                    if (*val != 0){
+                        output_data.append(*self.data[ind]);
+                    }
+                    ind += 1;
+                },
+                Option::None(_) => { break; }
+            };
         };
-    };
+    } else {
+        let mut ind = 0;
+        let mut loop_breaker = 1;
+        let mut other_loop_breaker = 1;
+        let mut multiplier = 1;
+
+        let mut data_shape_clone = data_shape.clone();
+        loop {
+            match data_shape_clone.pop_front() {
+                Option::Some(val) => {
+                    if (ind == axis) {
+                        output_shape.append(output);
+                    }
+                    else {
+                        output_shape.append(*val);
+                        if (ind > axis) {
+                            loop_breaker *= *val;
+                        }
+                        if (ind >= axis) {
+                            multiplier *= *val;
+                        }
+                        if (ind < axis) {
+                            other_loop_breaker *= *val;
+                        }
+                    }
+                    ind += 1;
+                },
+                Option::None(_) => { break; }
+            };
+        };
+
+        let mut ind = 0;
+        let mut ind_loop = 0;
+        
+        let mut inner_index: usize = 0;
+        let mut condition_data_clone = condition_data.clone();
+
+        loop {
+            if (ind == other_loop_breaker) {break;}
+            let mut condition_data_clone = condition_data.clone();
+             inner_index = *data_shape.at(axis) * ind;
+            loop {
+               
+                match condition_data_clone.pop_front() {
+                Option::Some(val) => {
+                    if (*val != 0){
+                        let result = inner_index * loop_breaker ;
+                    
+                        let mut data_ind:usize = result ;
+                        loop {
+                            if data_ind == result + loop_breaker { break; }
+                            index_data.append(data_ind);
+                            data_ind+=1;
+                        };
+                    }
+                inner_index += 1;
+                },
+                Option::None(_) => { break; }
+                };
+            };
+
+            ind += 1;
+        };
+
+        loop {
+            match index_data.pop_front() {
+                Option::Some(val) => {
+                output_data.append(*self.data[val]);
+                },
+                Option::None(_) => { break; }
+            };
+        }; 
+    }
 
     let mut output_tensor = TensorTrait::<T>::new(output_shape.span(), output_data.span());
     return output_tensor;
-}
-
-// Tests--------------------------------------------------------------------------------------------------------------
-
-use orion::utils::assert_eq;
-
-fn indices() -> Tensor<u32> {
-    let mut sizes = ArrayTrait::new();
-    sizes.append(3);
-
-    let mut data = ArrayTrait::new();
-    data.append(0);
-    data.append(1);
-    data.append(1);
-
-    let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
-    return tensor;
-
-}
-
-fn data() -> Tensor<u32> {
-    let mut sizes = ArrayTrait::new();
-    sizes.append(2);
-    sizes.append(2);
-
-    let mut data = ArrayTrait::new();
-    data.append(0);
-    data.append(1);
-    data.append(2);
-    data.append(3);
-
-    let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
-    return tensor;
-}
-
-fn data1() -> Tensor<u32> {
-    let mut sizes = ArrayTrait::new();
-    sizes.append(3);
-    sizes.append(3);
-    sizes.append(3);
-
-    let mut data = ArrayTrait::new();
-
-    data.append(1);
-    data.append(2);
-    data.append(3);
-    data.append(4);
-    data.append(5);
-    data.append(6);
-    data.append(7);
-    data.append(8);
-    data.append(9);
-    data.append(1);
-    data.append(2);
-    data.append(3);
-    data.append(4);
-    data.append(5);
-    data.append(6);
-    data.append(7);
-    data.append(8);
-    data.append(9);
-    data.append(1);
-    data.append(2);
-    data.append(3);
-    data.append(4);
-    data.append(5);
-    data.append(6);
-    data.append(7);
-    data.append(8);
-    data.append(9);
-
-    let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
-    return tensor;
-}
-
-#[test]
-#[available_gas(20000000000)]
-fn test_gather_elements_default() {
-    let data = data1();
-    let indices = indices();
-
-    let y = data.compress(indices: indices,  axis:Option::Some(0));
-    let mut output = y.data;
-
-    loop {
-        match output.pop_front() {
-            Option::Some(val) => {
-               (*val).print();
-
-            },
-            Option::None(_) => { break; }
-        };
-    };
-
 }
