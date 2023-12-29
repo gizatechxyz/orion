@@ -197,11 +197,11 @@ trait_to_ref = {
 
 
 dtype_to_tensor = {
-    Dtype.U32: ["orion::operators::tensor::{U32Tensor, U32TensorDiv}",],
-    Dtype.I32: ["orion::operators::tensor::{I32Tensor, I32TensorDiv}",],
-    Dtype.I8: ["orion::operators::tensor::{I8Tensor, I8TensorDiv}",],
-    Dtype.FP8x23: ["orion::operators::tensor::{FP8x23Tensor, FP8x23TensorDiv}",],
-    Dtype.FP16x16: ["orion::operators::tensor::{FP16x16Tensor, FP16x16TensorDiv}",],
+    Dtype.U32: ["orion::operators::tensor::{U32Tensor, U32TensorMul}",],
+    Dtype.I32: ["orion::operators::tensor::{I32Tensor, I32TensorMul}",],
+    Dtype.I8: ["orion::operators::tensor::{I8Tensor, I8TensorMul}",],
+    Dtype.FP8x23: ["orion::operators::tensor::{FP8x23Tensor, FP8x23TensorMul}",],
+    Dtype.FP16x16: ["orion::operators::tensor::{FP16x16Tensor, FP16x16TensorMul}",],
     Dtype.BOOL: ["orion::operators::tensor::BoolTensor",],
 }
 
