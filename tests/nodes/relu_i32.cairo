@@ -2,11 +2,11 @@ mod input_0;
 mod output_0;
 
 
-use orion::operators::nn::NNTrait;
-use orion::numbers::FixedTrait;
+use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::nn::I32NN;
+use orion::numbers::FixedTrait;
 use orion::operators::tensor::I32TensorPartialEq;
-use orion::utils::assert_eq;
+use orion::operators::nn::NNTrait;
 
 #[test]
 #[available_gas(2000000000)]
