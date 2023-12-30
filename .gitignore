@@ -7,4 +7,5 @@ __pycache__
 
 neural_network/.venv
 
+.vscode/
 Scarb.lock
