@@ -153,6 +153,7 @@ def get_data_statement_for_sequences(data: Sequence, dtype: Dtype) -> list[list[
 def get_all_test_refs(dtypes: list[Dtype], trait: Trait) -> list[str]:
     refs = []
     for dtype in dtypes:
+        refs += [*dtype_to_numbers[dtype]]
         refs += get_test_refs(dtype, trait)
 
     return list(set(refs))
