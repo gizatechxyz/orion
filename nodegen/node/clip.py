@@ -15,7 +15,7 @@ class Clip(RunAll):
 
             name = "clip_u32_2d"
             make_test(
-                [x], y, "input_0.clip(Option::Some(u32 { mag: 10, sign: false }), Option::Some(u32 { mag: 20, sign: false }))", name)
+                [x], y, "input_0.clip(Option::Some(10_u32), Option::Some(20_u32))", name)
 
         def clip_3D():
             x = np.random.randint(0, 255, (20, 10, 5)).astype(np.uint32)
@@ -26,7 +26,7 @@ class Clip(RunAll):
 
             name = "clip_u32_3d"
             make_test(
-                [x], y, "input_0.clip(Option::Some(u32 { mag: 10, sign: false }), Option::Some(u32 { mag: 20, sign: false }))", name)
+                [x], y, "input_0.clip(Option::Some(10_u32), Option::Some(20_u32))", name)
 
         clip_2D()
         clip_3D()
@@ -42,7 +42,7 @@ class Clip(RunAll):
 
             name = "clip_i32_2d"
             make_test(
-                [x], y, "input_0.clip(Option::Some(i32 { mag: 10, sign: true }), Option::Some(i32 { mag: 20, sign: false }))", name)
+                [x], y, "input_0.clip(Option::Some(10_i32), Option::Some(20_i32))", name)
 
         def clip_3D():
             x = np.random.randint(-127, 127, (20, 10, 5)).astype(np.int32)
@@ -53,7 +53,7 @@ class Clip(RunAll):
 
             name = "clip_i32_3d"
             make_test(
-                [x], y, "input_0.clip(Option::Some(i32 { mag: 10, sign: true }), Option::Some(i32 { mag: 20, sign: false }))", name)
+                [x], y, "input_0.clip(Option::Some(10_i32), Option::Some(20_i32))", name)
 
 
         clip_2D()
@@ -70,7 +70,7 @@ class Clip(RunAll):
 
             name = "clip_i8_2d"
             make_test(
-                [x], y, "input_0.clip(Option::Some(i8 { mag: 10, sign: true }), Option::Some(i8 { mag: 20, sign: false }))", name)
+                [x], y, "input_0.clip(Option::Some(10_i8), Option::Some(20_i8))", name)
 
         def clip_3D():
             x = np.random.randint(-127, 127, (20, 10, 5)).astype(np.int8)
@@ -81,7 +81,7 @@ class Clip(RunAll):
 
             name = "clip_i8_3d"
             make_test(
-                [x], y, "input_0.clip(Option::Some(i8 { mag: 10, sign: true }), Option::Some(i8 { mag: 20, sign: false }))", name)
+                [x], y, "input_0.clip(Option::Some(10_i8), Option::Some(20_i8))", name)
 
         clip_2D()
         clip_3D()
