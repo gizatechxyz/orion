@@ -40,7 +40,7 @@ class Is_inf(RunAll):
             output = Tensor(Dtype.BOOL, output.shape, output.flatten())
             
             name = "is_pos_inf_i32"
-            make_test([input_0], output, "TensorTrait::is_pos_inf(@input_0, Option::Some(0), Option::Some(1))", name)
+            make_test([input_0], output, "TensorTrait::is_inf(@input_0, Option::Some(0), Option::Some(1))", name)
 
         def negative():
             input_0 = np.array([-1, 0, INF, 8, -INF, INF], dtype=np.int32)
@@ -50,7 +50,7 @@ class Is_inf(RunAll):
             output = Tensor(Dtype.BOOL, output.shape, output.flatten())
             
             name = "is_neg_inf_i32"
-            make_test([input_0], output, "TensorTrait::is_neg_inf(@input_0, Option::Some(1), Optoin::Some(0))", name)
+            make_test([input_0], output, "TensorTrait::is_inf(@input_0, Option::Some(1), Option::Some(0))", name)
 
         default()
         positive()
@@ -76,7 +76,7 @@ class Is_inf(RunAll):
             output = Tensor(Dtype.BOOL, output.shape, output.flatten())
             
             name = "is_pos_inf_i8"
-            make_test([input_0], output, "TensorTrait::is_pos_inf(@input_0, Option::Some(0), Option::Some(1))", name)
+            make_test([input_0], output, "TensorTrait::is_inf(@input_0, Option::Some(0), Option::Some(1))", name)
 
         def negative():
             input_0 = np.array([-1, 0, INF, 8, -INF, INF], dtype=np.int32)
@@ -86,7 +86,7 @@ class Is_inf(RunAll):
             output = Tensor(Dtype.BOOL, output.shape, output.flatten())
             
             name = "is_neg_inf_i8"
-            make_test([input_0], output, "TensorTrait::is_neg_inf(@input_0, Option::Some(1), Option::Some(0))", name)
+            make_test([input_0], output, "TensorTrait::is_inf(@input_0, Option::Some(1), Option::Some(0))", name)
 
         default()
         positive()
@@ -95,7 +95,7 @@ class Is_inf(RunAll):
     @staticmethod
     def is_inf_fp8x23():
         def default():
-            input_0 = np.array([-1.2, 0, INF, 2.8, -INF, INF], dtype=np.float64)
+            input_0 = np.array([-1.2, 0, 1, 2.8, -1, 1], dtype=np.float64)
             output = np.array([False, False, True, False, True, True], dtype=bool)
 
             input_0 = Tensor(Dtype.FP8x23, input_0.shape, to_fp(
@@ -113,17 +113,17 @@ class Is_inf(RunAll):
             output = Tensor(Dtype.BOOL, output.shape, output.flatten())
             
             name = "is_pos_inf_fp8x23"
-            make_test([input_0], output, "TensorTrait::is_pos_inf(@input_0, Option::Some(0), Option::Some(1))", name)
+            make_test([input_0], output, "TensorTrait::is_inf(@input_0, Option::Some(0), Option::Some(1))", name)
 
         def negative():
-            input_0 = np.array([-1.2, 0, INF, 2.8, -INF, INF], dtype=np.float64)
+            input_0 = np.array([-1.2, 0, 1, 2.8, -1, 1], dtype=np.float64)
             output = np.array([False, False, False, False, True, False], dtype=bool)
 
             input_0 = Tensor(Dtype.FP8x23, input_0.shape, input_0.flatten())
             output = Tensor(Dtype.BOOL, output.shape, output.flatten())
             
             name = "is_neg_inf_fp8x23"
-            make_test([input_0], output, "TensorTrait::is_neg_inf(@input_0, Option::Some(1), Option::Some(0))", name)
+            make_test([input_0], output, "TensorTrait::is_inf(@input_0, Option::Some(1), Option::Some(0))", name)
 
         default()
         positive()
@@ -132,7 +132,7 @@ class Is_inf(RunAll):
     @staticmethod
     def is_inf_fp16x16():
         def default():
-            input_0 = np.array([-1.2, 0, INF, 2.8, -INF, INF], dtype=np.float64)
+            input_0 = np.array([-1.2, 0, 1, 2.8, -1, 1], dtype=np.float64)
             output = np.array([False, False, True, False, True, True], dtype=bool)
 
             input_0 = Tensor(Dtype.FP16x16, input_0.shape, to_fp(
@@ -150,17 +150,17 @@ class Is_inf(RunAll):
             output = Tensor(Dtype.BOOL, output.shape, output.flatten())
             
             name = "is_pos_inf_fp16x16"
-            make_test([input_0], output, "TensorTrait::is_pos_inf(@input_0, Option::Some(0), Option::Some(1))", name)
+            make_test([input_0], output, "TensorTrait::is_inf(@input_0, Option::Some(0), Option::Some(1))", name)
 
         def negative():
-            input_0 = np.array([-1.2, 0, INF, 2.8, -INF, INF], dtype=np.float64)
+            input_0 = np.array([-1.2, 0, 1, 2.8, -1, 1], dtype=np.float64)
             output = np.array([False, False, False, False, True, False], dtype=bool)
 
             input_0 = Tensor(Dtype.FP16x16, input_0.shape, input_0.flatten())
             output = Tensor(Dtype.BOOL, output.shape, output.flatten())
             
             name = "is_neg_inf_fp16x16"
-            make_test([input_0], output, "TensorTrait::is_neg_inf(@input_0, Option::Some(1), Option::Some(0))", name)
+            make_test([input_0], output, "TensorTrait::is_inf(@input_0, Option::Some(1), Option::Some(0))", name)
 
         default()
         positive()
