@@ -102,11 +102,6 @@ class Reduce_log_sum_exp(RunAll):
           x.flatten(), FixedImpl.FP16x16))  
       y = Tensor(Dtype.FP16x16, y.shape, to_fp(
           y.flatten(), FixedImpl.FP16x16))
-      
-      x = Tensor(Dtype.FP16x16, x.shape, to_fp(
-          x.flatten(), FixedImpl.FP16x16))
-      y = Tensor(Dtype.FP16x16, y.shape, to_fp(
-          y.flatten(), FixedImpl.FP16x16))
 
       name = "reduce_log_sum_exp_fp16x16_export_negative_axes_keepdims"
       make_test(

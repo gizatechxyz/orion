@@ -123,7 +123,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// not - Computes the logical negation of all elements in the input tensor.
 /// reduce_log_sum - Computes the log sum of the input tensor's elements along the provided axes. 
 /// erf - Computes the error function of the given input tensor element-wise.
-/// reduced_log_sum_exp - Computes the log sum of the exponentials of the input tensor's elements along the provided axes.
+/// reduce_log_sum_exp - Computes the log sum of the exponentials of the input tensor's elements along the provided axes.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
