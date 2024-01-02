@@ -2,10 +2,10 @@ mod input_0;
 mod output_0;
 
 
-use orion::operators::tensor::I32Tensor;
+use orion::operators::tensor::{I32Tensor, I32TensorSub};
+use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::tensor::{TensorTrait, Tensor};
 use core::array::{ArrayTrait, SpanTrait};
-use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::tensor::I32TensorPartialEq;
 
 #[test]

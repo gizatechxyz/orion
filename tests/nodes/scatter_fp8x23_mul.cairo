@@ -4,11 +4,13 @@ mod input_2;
 mod output_0;
 
 
-use core::array::{ArrayTrait, SpanTrait};
-use orion::operators::tensor::TensorTrait;
-use orion::operators::tensor::FP8x23Tensor;
+use orion::operators::tensor::{FP8x23Tensor, FP8x23TensorSub};
+use orion::operators::tensor::{TensorTrait, Tensor};
 use orion::operators::tensor::FP8x23TensorPartialEq;
-use orion::utils::assert_eq;
+use core::array::{ArrayTrait, SpanTrait};
+use orion::utils::{assert_eq, assert_seq_eq};
+use orion::operators::tensor::U32TensorPartialEq;
+use orion::operators::tensor::{U32Tensor, U32TensorSub};
 
 #[test]
 #[available_gas(2000000000)]
@@ -18,13 +20,7 @@ fn test_scatter_fp8x23_mul() {
     let input_2 = input_2::input_2();
     let z = output_0::output_0();
 
-    let y = input_0
-        .scatter(
-            updates: input_1,
-            indices: input_2,
-            axis: Option::Some(0),
-            reduction: Option::Some('mul')
-        );
+    let y = input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(0), reduction:Option::Some('mul'));
 
     assert_eq(y, z);
 }

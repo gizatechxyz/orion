@@ -820,3 +820,4 @@ mod is_neg_inf_i32;
 mod is_pos_inf_i8;
 mod is_neg_inf_i8;
 mod and_bool;
+mod and_bool_broadcast;

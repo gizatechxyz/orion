@@ -16,7 +16,7 @@ class And(RunAll):
             z = Tensor(Dtype.BOOL, z.shape, z.flatten())
 
             name = "and_bool"
-            make_test([x, y], z, "input_0.and(@input_1)", name)
+            make_test([x, y], z, "BoolTensor::and(@input_0, @input_1)", name)
 
         def broadcast():
             x = (np.random.randn(3, 4, 5) > 0).astype(bool)
@@ -28,7 +28,7 @@ class And(RunAll):
             z = Tensor(Dtype.BOOL, z.shape, z.flatten())
 
             name = "and_bool_broadcast"
-            make_test([x, y], z, "input_0.and(@input_1)", name)
+            make_test([x, y], z, "BoolTensor::and(@input_0, @input_1)", name)
 
         default()
         broadcast()
