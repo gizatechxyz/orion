@@ -12,9 +12,9 @@ use orion::operators::tensor::{TensorTrait, Tensor};
 #[available_gas(2000000000)]
 fn test_reduce_log_sum_fp16x16_export_do_not_keepdims() {
     let input_0 = input_0::input_0();
-    let z_0 = output_0::output_0();
+    let z = output_0::output_0();
 
-    let y_0 = input_0.reduce_log_sum(2, false);
+    let y = input_0.reduce_log_sum(2, false);
 
-    assert_eq(y_0, z_0);
+    assert_eq(y, z);
 }

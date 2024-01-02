@@ -7,7 +7,7 @@ use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
-
+    
 /// Cf: TensorTrait::reduce_log_sum_exp docstring
 fn reduce_log_sum_exp<
     T,
