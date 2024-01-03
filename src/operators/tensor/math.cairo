@@ -64,3 +64,4 @@ mod is_nan;
 mod is_inf;
 mod reduce_log_sum;
 mod erf;
+mod reduce_log_sum_exp; 

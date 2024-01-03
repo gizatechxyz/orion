@@ -524,7 +524,7 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn reduce_log_sum_exp(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
-        math::reduce_log_sum_exp::reduce_log_sum(self, axis, keepdims)
+        math::reduce_log_sum_exp::reduce_log_sum_exp(self, axis, keepdims)
     }
 
     fn erf(self: @Tensor<i32>) -> Tensor<i32> {
