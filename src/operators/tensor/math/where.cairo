@@ -1,6 +1,6 @@
-use array::ArrayTrait;
-use option::OptionTrait;
-use array::SpanTrait;
+use core::array::ArrayTrait;
+use core::option::OptionTrait;
+use core::array::SpanTrait;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index};

@@ -4,7 +4,7 @@ use orion::numbers::NumberTrait;
 use orion::operators::tensor::{Tensor, TensorTrait, U32Tensor};
 use orion::utils::get_row;
 
-use alexandria_data_structures::merkle_tree::{pedersen::PedersenHasherImpl};
+use alexandria_merkle_tree::merkle_tree::{pedersen::PedersenHasherImpl};
 use alexandria_data_structures::array_ext::ArrayTraitExt;
 
 
@@ -59,7 +59,7 @@ impl TreeEnsembleImpl<
                 NODE_MODES::LEAF => { break; },
             };
 
-            let x_value = *x.at(*(self.atts.nodes_missing_value_tracks_true).at(index));
+            let x_value = *x.at(*(self.atts.nodes_featureids).at(index));
             let r = if x_value.is_nan() {
                 *self.atts.nodes_missing_value_tracks_true.at(index) >= 1
             } else {

@@ -21,7 +21,7 @@ Scalar refers to per tensor quantization whereas N-D refers to per row or per co
 * `b`(`@Tensor<i8>`) - The second tensor to be multiplied
 * `b_scale`(`@Tensor<T>`) - Scale for input `b`.
 * `b_zero_point`(`@Tensor<T>`) - Zero point for input `b`.    
-* `y_scale`(`@Tensor<T>`) - Scale for outut.
+* `y_scale`(`@Tensor<T>`) - Scale for output.
 * `y_zero_point`(`@Tensor<T>`) - Zero point for output.   
 
 ## Returns
@@ -31,11 +31,13 @@ A new `Tensor<i8>`, containing the quantized result of the multiplication of the
 ## Type Constraints
 
 u32 tensor, not supported.
+fp8x23wide tensor, not supported.
+fp16x16wide tensor, not supported.
  
 ## Example
 
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
 use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};

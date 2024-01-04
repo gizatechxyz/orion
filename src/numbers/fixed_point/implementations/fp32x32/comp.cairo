@@ -38,3 +38,11 @@ fn where(a: FP32x32, b: FP32x32, c: FP32x32) -> FP32x32 {
 fn bitwise_and(a: FP32x32, b: FP32x32) -> FP32x32 {
     return FixedTrait::new(a.mag & b.mag, a.sign & b.sign);
 }
+
+fn bitwise_xor(a: FP32x32, b: FP32x32) -> FP32x32 {
+    return FixedTrait::new(a.mag ^ b.mag, a.sign ^ b.sign);
+}
+
+fn bitwise_or(a: FP32x32, b: FP32x32) -> FP32x32 {
+    return FixedTrait::new(a.mag | b.mag, a.sign | b.sign);
+}

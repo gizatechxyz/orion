@@ -1098,6 +1098,38 @@ trait FixedTrait<T, MAG> {
     /// ``` 
     ///
     fn sign(self: T) -> T;
+    /// # fp.erf
+    /// 
+    /// ```rust
+    /// fn erf(self: T) -> T;
+    /// ```
+    /// 
+    /// Returns the error function of the input fixed point number computed element-wise.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`T`) - The input fixed point
+    ///
+    /// ## Returns
+    ///
+    /// The error function of the input fixed point number computed element-wise.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
+    /// 
+    /// fn erf_fp_example() -> FP16x16 {
+    ///     // We instantiate fixed point here.
+    ///     let fp = FixedTrait::new(65536, false);
+    /// 
+    ///     // We can call `erf` function as follows.
+    ///     fp.erf()
+    /// }
+    /// >>> {mag: 55227, sign: false} // = -1
+    /// ``` 
+    ///
+    fn erf(self: T) -> T;
 
     fn ZERO() -> T;
     fn HALF() -> T;
@@ -1105,4 +1137,10 @@ trait FixedTrait<T, MAG> {
     fn MAX() -> T;
     fn NaN() -> T;
     fn is_nan(self: T) -> bool;
+    fn INF() -> T;
+    fn POS_INF() -> T;
+    fn NEG_INF() -> T;
+    fn is_inf(self: T) -> bool;
+    fn is_pos_inf(self: T) -> bool;
+    fn is_neg_inf(self: T) -> bool;
 }

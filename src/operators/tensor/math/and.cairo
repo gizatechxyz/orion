@@ -1,26 +1,17 @@
-use array::ArrayTrait;
-use option::OptionTrait;
-use array::SpanTrait;
+use core::array::ArrayTrait;
+use core::option::OptionTrait;
+use core::array::SpanTrait;
 
 use orion::numbers::NumberTrait;
-use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index};
+use orion::operators::tensor::{core::{Tensor, TensorTrait, unravel_index}, BoolTensor};
 use orion::operators::tensor::helpers::{
     broadcast_shape, broadcast_index_mapping, len_from_shape, check_compatibility
 };
 
 /// Cf: TensorTrait::and docstring
-fn and<
-    T,
-    MAG,
-    impl TNumber: NumberTrait<T, MAG>,
-    impl UsizeFTensor: TensorTrait<usize>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>
->(
-    y: @Tensor<T>, z: @Tensor<T>
-) -> Tensor<usize> {
+fn and(y: @Tensor<bool>, z: @Tensor<bool>) -> Tensor<bool> {
     let broadcasted_shape = broadcast_shape(*y.shape, *z.shape);
-    let mut result: Array<usize> = ArrayTrait::new();
+    let mut result: Array<bool> = ArrayTrait::new();
 
     let num_elements = len_from_shape(broadcasted_shape);
 
@@ -31,11 +22,7 @@ fn and<
         let indices_self = broadcast_index_mapping(*y.shape, indices_broadcasted);
         let indices_other = broadcast_index_mapping(*z.shape, indices_broadcasted);
 
-        if NumberTrait::and(*(*y.data)[indices_self], *(*z.data)[indices_other]) {
-            result.append(1);
-        } else {
-            result.append(0);
-        }
+        result.append(*(*y.data)[indices_self] && *(*z.data)[indices_other]);
 
         n += 1;
         if n == num_elements {

@@ -23,7 +23,7 @@
 
 # Orion: An Open-source Framework for Validity and ZK ML ✨
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-25-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-28-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Orion is an open-source, community-driven framework dedicated to Provable Machine Learning. It provides essential components and a new ONNX runtime for building verifiable Machine Learning models using [STARKs](https://starkware.co/stark/).
@@ -41,13 +41,13 @@ You can check our official docs [here](https://orion.gizatech.xyz/welcome/readme
 - 🏛 [Hub](https://orion.gizatech.xyz/v/develop/hub/algorithms): A curated collection of ML models and spaces built by the community using Orion framework.
 - 🎓 [Academy](https://orion.gizatech.xyz/v/develop/academy/tutorials): Resources and tutorials for learning how to build ValidityML models using Orion.
 
-## ✨ What's new?
-
-For a detailed list of changes, please refer to the [CHANGELOG](https://github.com/franalgaba/onnx-cairo/blob/main/docs/CHANGELOG.md) file.
-
 ## 💖 Join the community!
 
 Join the community and help build a safer and transparent AI in our [Discord](https://discord.gg/kvqVYbCpU3)!
+
+## 🚀 Orion Usage
+- For an insightful overview of impressive proof of concepts, models, and tutorials created by our community, please visit [Orion Usage](https://github.com/gizatechxyz/orion/blob/main/orion-usage.md).
+- Discover a currated list of tutorials and models developed using Orion in [Orion-Hub](https://github.com/gizatechxyz/Orion-Hub).
 
 ## ✍️ Authors & contributors
 
@@ -99,7 +99,10 @@ Thanks goes to these wonderful people:
       <td align="center" valign="top" width="14.28%"><a href="https://audits.quillhash.com/smart-contract-audit"><img src="https://avatars.githubusercontent.com/u/68496788?v=4?s=100" width="100px;" alt="Ephraim Chukwu"/><br /><sub><b>Ephraim Chukwu</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=Ephraim-nonso" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Bal7hazar"><img src="https://avatars.githubusercontent.com/u/97087040?v=4?s=100" width="100px;" alt="Bal7hazar"/><br /><sub><b>Bal7hazar</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/issues?q=author%3ABal7hazar" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://okhaimie.com"><img src="https://avatars.githubusercontent.com/u/57156589?v=4?s=100" width="100px;" alt="Tony Stark"/><br /><sub><b>Tony Stark</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=okhaimie-dev" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://medium.com/@mohajermahmoud3"><img src="https://avatars.githubusercontent.com/u/89094323?v=4?s=100" width="100px;" alt="Mahmoud Mohajer"/><br /><sub><b>Mahmoud Mohajer</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=MahmoudMohajer" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/HappyTomatoo"><img src="https://avatars.githubusercontent.com/u/143050661?v=4?s=100" width="100px;" alt="HappyTomatoo"/><br /><sub><b>HappyTomatoo</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/issues?q=author%3AHappyTomatoo" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://www.bilginkocak.com/"><img src="https://avatars.githubusercontent.com/u/30844607?v=4?s=100" width="100px;" alt="Bilgin Koçak"/><br /><sub><b>Bilgin Koçak</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=bilgin-kocak" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://t.me/notaihe"><img src="https://avatars.githubusercontent.com/u/22559023?v=4?s=100" width="100px;" alt="akhercha"/><br /><sub><b>akhercha</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=akhercha" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

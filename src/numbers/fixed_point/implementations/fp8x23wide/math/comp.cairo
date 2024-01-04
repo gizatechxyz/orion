@@ -56,11 +56,19 @@ fn bitwise_and(a: FP8x23W, b: FP8x23W) -> FP8x23W {
     return FixedTrait::new(a.mag & b.mag, a.sign & b.sign);
 }
 
+fn bitwise_xor(a: FP8x23W, b: FP8x23W) -> FP8x23W {
+    return FixedTrait::new(a.mag ^ b.mag, a.sign ^ b.sign);
+}
+
+fn bitwise_or(a: FP8x23W, b: FP8x23W) -> FP8x23W {
+    return FixedTrait::new(a.mag | b.mag, a.sign | b.sign);
+}
+
 // Tests --------------------------------------------------------------------------------------------------------------
 
 #[cfg(test)]
 mod tests {
-    use super::{FixedTrait, max, min, bitwise_and};
+    use super::{FixedTrait, max, min, bitwise_and, bitwise_xor, bitwise_or};
 
 
     #[test]
@@ -107,5 +115,21 @@ mod tests {
         let b = FixedTrait::new(1639448576, true); // -60.5625
 
         assert(bitwise_and(a, b) == a, 'bitwise_and(a,b)')
+    }
+
+    #[test]
+    fn test_bitwise_xor() {
+        let a = FixedTrait::new(28835840, false); // 3.4375
+        let b = FixedTrait::new(1639448576, true); // -60.5625
+        let c = FixedTrait::new(1610612736, true);
+
+        assert(bitwise_xor(a, b) == c, 'bitwise_xor(a,b)')
+    }
+
+    fn test_bitwise_or() {
+        let a = FixedTrait::new(28835840, false); // 3.4375
+        let b = FixedTrait::new(1639448576, true); // -60.5625
+
+        assert(bitwise_or(a, b) == b, 'bitwise_or(a,b)')
     }
 }

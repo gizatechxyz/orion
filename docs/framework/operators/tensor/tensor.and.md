@@ -1,7 +1,7 @@
 #tensor.and
 
 ```rust
-    fn and(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool>;
 ```
 
 Computes the logical AND of two tensors element-wise.
@@ -11,8 +11,8 @@ The input tensors must have either:
 
 ## Args
 
-* `self`(`@Tensor<T>`) - The first tensor to be compared
-* `other`(`@Tensor<T>`) - The second tensor to be compared
+* `self`(`@Tensor<bool>`) - The first tensor to be compared
+* `other`(`@Tensor<bool>`) - The second tensor to be compared
 
 ## Panics
 
@@ -20,48 +20,25 @@ The input tensors must have either:
 
 ## Returns
 
-A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+A new `Tensor<bool>` with the same shape as the broadcasted inputs.
 
 ## Examples
 
-Case 1: Compare tensors with same shape
-
 ```rust
-use array::{ArrayTrait, SpanTrait};
+use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-fn and_example() -> Tensor<usize> {
-    let tensor_1 = TensorTrait::<u32>::new(
-        shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
+fn and_example() -> Tensor<bool> {
+    let tensor_1 = TensorTrait::<bool>::new(
+        shape: array![3, 3].span(), data: array![false, true, false, false, false, true, true, false, true, false, false, true].span(),
     );
 
-    let tensor_2 = TensorTrait::<u32>::new(
-        shape: array![3, 3].span(), data: array![0, 1, 2, 0, 1, 2, 0, 1, 2].span(),
+    let tensor_2 = TensorTrait::<bool>::new(
+        shape: array![3, 3].span(), data: array![false, false, true, true, false, true, false, true, false, true, false, true].span(),
     );
 
     return tensor_1.and(@tensor_2);
 }
->>> [0,1,1,0,1,1,0,1,1]
-```
-
-Case 2: Compare tensors with different shapes
-
-```rust
-use array::{ArrayTrait, SpanTrait};
-
-use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-
-fn and_example() -> Tensor<usize> {
-    let tensor_1 = TensorTrait::<u32>::new(
-        shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
-    );
-
-    let tensor_2 = TensorTrait::<u32>::new(
-        shape: array![1, 3].span(), data: array![0, 1, 2].span(),
-    );
-
-    return tensor_1.and(@tensor_2);
-}
->>> [0,1,1,0,1,1,0,1,1]
+>>> [false, false, false, false, false, true, false, false, false, false, false, true]
 ```

@@ -1,6 +1,7 @@
 mod output_0;
 
 
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::FP8x23TensorPartialEq;
 use orion::operators::sequence::FP8x23Sequence;
 use orion::utils::{assert_eq, assert_seq_eq};

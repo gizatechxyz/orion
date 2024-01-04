@@ -1,4 +1,4 @@
-use traits::Into;
+use core::traits::Into;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 
@@ -44,6 +44,30 @@ impl i16Impl of IntegerTrait<i16, u16> {
 
     fn is_nan(self: i16) -> bool {
         self == i16 { mag: 0, sign: true }
+    }
+
+    fn INF() -> i16 {
+        return i16 { mag: 65535, sign: false };
+    }
+
+    fn POS_INF() -> i16 {
+        return i16 { mag: 65535, sign: false };
+    }
+
+    fn NEG_INF() -> i16 {
+        return i16 { mag: 65535, sign: true };
+    }
+
+    fn is_inf(self: i16) -> bool {
+        self.mag == 65535
+    }
+
+    fn is_pos_inf(self: i16) -> bool {
+        self.is_inf() && !self.sign
+    }
+
+    fn is_neg_inf(self: i16) -> bool {
+        self.is_inf() && self.sign
     }
 }
 
@@ -481,3 +505,12 @@ fn i16_sign(a: i16) -> i16 {
 fn i16_bitwise_and(a: i16, b: i16) -> i16 {
     IntegerTrait::<i16>::new(a.mag & b.mag, a.sign & b.sign)
 }
+
+fn i16_bitwise_xor(a: i16, b: i16) -> i16 {
+    IntegerTrait::<i16>::new(a.mag ^ b.mag, a.sign ^ b.sign)
+}
+
+fn i16_bitwise_or(a: i16, b: i16) -> i16 {
+    IntegerTrait::<i16>::new(a.mag | b.mag, a.sign | b.sign)
+}
+

@@ -1,5 +1,6 @@
 mod fixed_point;
 mod signed_integer;
+mod complex_number;
 
 use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
@@ -52,7 +53,13 @@ trait NumberTrait<T, MAG> {
     fn where(self: T, x: T, y: T) -> T;
     fn NaN() -> T;
     fn is_nan(self: T) -> bool;
+    fn INF() -> T;
+    fn is_inf(self: T) -> bool;
+    fn is_pos_inf(self: T) -> bool;
+    fn is_neg_inf(self: T) -> bool;
     fn bitwise_and(lhs: T, rhs: T) -> T;
+    fn bitwise_xor(lhs: T, rhs: T) -> T;
+    fn bitwise_or(lhs: T, rhs: T) -> T;
     fn add(lhs: T, rhs: T) -> T;
     fn sub(lhs: T, rhs: T) -> T;
 }
@@ -247,8 +254,32 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
         FP8x23Impl::is_nan(self)
     }
 
+    fn INF() -> FP8x23 {
+        FP8x23Impl::INF()
+    }
+
+    fn is_inf(self: FP8x23) -> bool {
+        FP8x23Impl::is_inf(self)
+    }
+
+    fn is_pos_inf(self: FP8x23) -> bool {
+        FP8x23Impl::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: FP8x23) -> bool {
+        FP8x23Impl::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
         comp_fp8x23::bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
+        comp_fp8x23::bitwise_xor(lhs, rhs)
+    }
+
+    fn bitwise_or(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
+        comp_fp8x23::bitwise_or(lhs, rhs)
     }
 
     fn add(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
@@ -450,8 +481,32 @@ impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
         FP8x23WImpl::is_nan(self)
     }
 
+    fn INF() -> FP8x23W {
+        FP8x23WImpl::INF()
+    }
+
+    fn is_inf(self: FP8x23W) -> bool {
+        FP8x23WImpl::is_inf(self)
+    }
+
+    fn is_pos_inf(self: FP8x23W) -> bool {
+        FP8x23WImpl::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: FP8x23W) -> bool {
+        FP8x23WImpl::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
         comp_fp8x23wide::bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
+        comp_fp8x23wide::bitwise_xor(lhs, rhs)
+    }
+
+    fn bitwise_or(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
+        comp_fp8x23wide::bitwise_or(lhs, rhs)
     }
 
     fn add(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
@@ -653,8 +708,32 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
         FP16x16Impl::is_nan(self)
     }
 
+    fn INF() -> FP16x16 {
+        FP16x16Impl::INF()
+    }
+
+    fn is_inf(self: FP16x16) -> bool {
+        FP16x16Impl::is_inf(self)
+    }
+
+    fn is_pos_inf(self: FP16x16) -> bool {
+        FP16x16Impl::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: FP16x16) -> bool {
+        FP16x16Impl::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
         comp_fp16x16::bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
+        comp_fp16x16::bitwise_xor(lhs, rhs)
+    }
+
+    fn bitwise_or(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
+        comp_fp16x16::bitwise_or(lhs, rhs)
     }
 
     fn add(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
@@ -856,8 +935,32 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
         FP16x16WImpl::is_nan(self)
     }
 
+    fn INF() -> FP16x16W {
+        FP16x16WImpl::INF()
+    }
+
+    fn is_inf(self: FP16x16W) -> bool {
+        FP16x16WImpl::is_inf(self)
+    }
+
+    fn is_pos_inf(self: FP16x16W) -> bool {
+        FP16x16WImpl::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: FP16x16W) -> bool {
+        FP16x16WImpl::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
         comp_fp16x16wide::bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
+        comp_fp16x16wide::bitwise_xor(lhs, rhs)
+    }
+
+    fn bitwise_or(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
+        comp_fp16x16wide::bitwise_or(lhs, rhs)
     }
 
     fn add(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
@@ -872,7 +975,7 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
 use orion::numbers::fixed_point::implementations::fp64x64::core::{
     FP64x64Impl, FP64x64, FP64x64Add, FP64x64Sub
 };
-use orion::numbers::fixed_point::implementations::fp64x64::core as core_fp64x64;
+use orion::numbers::fixed_point::implementations::fp64x64::{core as core_fp64x64};
 use orion::numbers::fixed_point::implementations::fp64x64::comp as comp_fp64x64;
 use cubit::f128 as fp64x64;
 
@@ -981,7 +1084,7 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
         FP64x64Impl::ZERO()
     }
     fn is_zero(self: FP64x64) -> bool {
-        fp64x64::core::eq(@self, @FP64x64Impl::ZERO())
+        fp64x64::ops::eq(@self, @FP64x64Impl::ZERO())
     }
 
     fn half() -> FP64x64 {
@@ -1001,11 +1104,11 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
     }
 
     fn abs(self: FP64x64) -> FP64x64 {
-        fp64x64::core::abs(self)
+        fp64x64::ops::abs(self)
     }
 
     fn neg(self: FP64x64) -> FP64x64 {
-        fp64x64::core::neg(self)
+        fp64x64::ops::neg(self)
     }
 
     fn min_value() -> FP64x64 {
@@ -1060,8 +1163,32 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
         FP64x64Impl::is_nan(self)
     }
 
+    fn INF() -> FP64x64 {
+        FP64x64Impl::INF()
+    }
+
+    fn is_inf(self: FP64x64) -> bool {
+        FP64x64Impl::is_inf(self)
+    }
+
+    fn is_pos_inf(self: FP64x64) -> bool {
+        FP64x64Impl::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: FP64x64) -> bool {
+        FP64x64Impl::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
         comp_fp64x64::bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
+        comp_fp64x64::bitwise_xor(lhs, rhs)
+    }
+
+    fn bitwise_or(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
+        comp_fp64x64::bitwise_or(lhs, rhs)
     }
 
     fn add(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
@@ -1185,7 +1312,7 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
         FP32x32Impl::ZERO()
     }
     fn is_zero(self: FP32x32) -> bool {
-        fp32x32::core::eq(@self, @FP32x32Impl::ZERO())
+        fp32x32::ops::eq(@self, @FP32x32Impl::ZERO())
     }
 
     fn half() -> FP32x32 {
@@ -1205,11 +1332,11 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
     }
 
     fn abs(self: FP32x32) -> FP32x32 {
-        fp32x32::core::abs(self)
+        fp32x32::ops::abs(self)
     }
 
     fn neg(self: FP32x32) -> FP32x32 {
-        fp32x32::core::neg(self)
+        fp32x32::ops::neg(self)
     }
 
     fn min_value() -> FP32x32 {
@@ -1264,8 +1391,32 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
         FP32x32Impl::is_nan(self)
     }
 
+    fn INF() -> FP32x32 {
+        FP32x32Impl::INF()
+    }
+
+    fn is_inf(self: FP32x32) -> bool {
+        FP32x32Impl::is_inf(self)
+    }
+
+    fn is_pos_inf(self: FP32x32) -> bool {
+        FP32x32Impl::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: FP32x32) -> bool {
+        FP32x32Impl::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
         comp_fp32x32::bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
+        comp_fp32x32::bitwise_xor(lhs, rhs)
+    }
+
+    fn bitwise_or(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
+        comp_fp32x32::bitwise_or(lhs, rhs)
     }
 
     fn add(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
@@ -1481,8 +1632,32 @@ impl I8Number of NumberTrait<i8, u8> {
         IntegerTrait::is_nan(self)
     }
 
+    fn INF() -> i8 {
+        IntegerTrait::INF()
+    }
+
+    fn is_inf(self: i8) -> bool {
+        IntegerTrait::is_inf(self)
+    }
+
+    fn is_pos_inf(self: i8) -> bool {
+        IntegerTrait::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: i8) -> bool {
+        IntegerTrait::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: i8, rhs: i8) -> i8 {
         i8_core::i8_bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: i8, rhs: i8) -> i8 {
+        i8_core::i8_bitwise_xor(lhs, rhs)
+    }
+
+    fn bitwise_or(lhs: i8, rhs: i8) -> i8 {
+        i8_core::i8_bitwise_or(lhs, rhs)
     }
 
     fn add(lhs: i8, rhs: i8) -> i8 {
@@ -1698,8 +1873,32 @@ impl i16Number of NumberTrait<i16, u16> {
         IntegerTrait::is_nan(self)
     }
 
+    fn INF() -> i16 {
+        IntegerTrait::INF()
+    }
+
+    fn is_inf(self: i16) -> bool {
+        IntegerTrait::is_inf(self)
+    }
+
+    fn is_pos_inf(self: i16) -> bool {
+        IntegerTrait::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: i16) -> bool {
+        IntegerTrait::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: i16, rhs: i16) -> i16 {
         i16_core::i16_bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: i16, rhs: i16) -> i16 {
+        i16_core::i16_bitwise_xor(lhs, rhs)
+    }
+
+    fn bitwise_or(lhs: i16, rhs: i16) -> i16 {
+        i16_core::i16_bitwise_or(lhs, rhs)
     }
 
     fn add(lhs: i16, rhs: i16) -> i16 {
@@ -1915,8 +2114,32 @@ impl i32Number of NumberTrait<i32, u32> {
         IntegerTrait::is_nan(self)
     }
 
+    fn INF() -> i32 {
+        IntegerTrait::INF()
+    }
+
+    fn is_inf(self: i32) -> bool {
+        IntegerTrait::is_inf(self)
+    }
+
+    fn is_pos_inf(self: i32) -> bool {
+        IntegerTrait::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: i32) -> bool {
+        IntegerTrait::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: i32, rhs: i32) -> i32 {
         i32_core::i32_bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: i32, rhs: i32) -> i32 {
+        i32_core::i32_bitwise_xor(lhs, rhs)
+    }
+
+    fn bitwise_or(lhs: i32, rhs: i32) -> i32 {
+        i32_core::i32_bitwise_or(lhs, rhs)
     }
 
     fn add(lhs: i32, rhs: i32) -> i32 {
@@ -2132,8 +2355,32 @@ impl i64Number of NumberTrait<i64, u64> {
         IntegerTrait::is_nan(self)
     }
 
+    fn INF() -> i64 {
+        IntegerTrait::INF()
+    }
+
+    fn is_inf(self: i64) -> bool {
+        IntegerTrait::is_inf(self)
+    }
+
+    fn is_pos_inf(self: i64) -> bool {
+        IntegerTrait::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: i64) -> bool {
+        IntegerTrait::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: i64, rhs: i64) -> i64 {
         i64_core::i64_bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: i64, rhs: i64) -> i64 {
+        i64_core::i64_bitwise_xor(lhs, rhs)
+    }
+
+    fn bitwise_or(lhs: i64, rhs: i64) -> i64 {
+        i64_core::i64_bitwise_or(lhs, rhs)
     }
 
     fn add(lhs: i64, rhs: i64) -> i64 {
@@ -2342,7 +2589,6 @@ impl i128Number of NumberTrait<i128, u128> {
         }
     }
 
-
     fn NaN() -> i128 {
         IntegerTrait::NaN()
     }
@@ -2351,8 +2597,32 @@ impl i128Number of NumberTrait<i128, u128> {
         IntegerTrait::is_nan(self)
     }
 
+    fn INF() -> i128 {
+        IntegerTrait::INF()
+    }
+
+    fn is_inf(self: i128) -> bool {
+        IntegerTrait::is_inf(self)
+    }
+
+    fn is_pos_inf(self: i128) -> bool {
+        IntegerTrait::is_pos_inf(self)
+    }
+
+    fn is_neg_inf(self: i128) -> bool {
+        IntegerTrait::is_neg_inf(self)
+    }
+
     fn bitwise_and(lhs: i128, rhs: i128) -> i128 {
         i128_core::i128_bitwise_and(lhs, rhs)
+    }
+
+    fn bitwise_xor(lhs: i128, rhs: i128) -> i128 {
+        i128_core::i128_bitwise_xor(lhs, rhs)
+    }
+
+    fn bitwise_or(lhs: i128, rhs: i128) -> i128 {
+        i128_core::i128_bitwise_or(lhs, rhs)
     }
 
     fn add(lhs: i128, rhs: i128) -> i128 {
@@ -2573,8 +2843,32 @@ impl u32Number of NumberTrait<u32, u32> {
         self == 4242424242
     }
 
+    fn INF() -> u32 {
+        4294967295
+    }
+
+    fn is_inf(self: u32) -> bool {
+        self == 4294967295
+    }
+
+    fn is_pos_inf(self: u32) -> bool {
+        self == 4294967295
+    }
+
+    fn is_neg_inf(self: u32) -> bool {
+        panic(array!['not supported!'])
+    }
+
     fn bitwise_and(lhs: u32, rhs: u32) -> u32 {
         lhs & rhs
+    }
+
+    fn bitwise_xor(lhs: u32, rhs: u32) -> u32 {
+        lhs ^ rhs
+    }
+
+    fn bitwise_or(lhs: u32, rhs: u32) -> u32 {
+        lhs | rhs
     }
 
     fn add(lhs: u32, rhs: u32) -> u32 {
@@ -2583,5 +2877,240 @@ impl u32Number of NumberTrait<u32, u32> {
 
     fn sub(lhs: u32, rhs: u32) -> u32 {
         lhs - rhs
+    }
+}
+
+
+use orion::numbers::complex_number::complex_trait::ComplexTrait;
+use orion::numbers::complex_number::complex64::{
+    Complex64Impl, complex64, Complex64Add, Complex64Sub
+};
+
+
+impl Complex64Number of NumberTrait<complex64, FP64x64> {
+    fn new(mag: FP64x64, sign: bool) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn new_unscaled(mag: FP64x64, sign: bool) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn from_felt(val: felt252) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn ceil(self: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn exp(self: complex64) -> complex64 {
+        Complex64Impl::exp(self)
+    }
+
+    fn exp2(self: complex64) -> complex64 {
+        Complex64Impl::exp2(self)
+    }
+
+    fn floor(self: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn ln(self: complex64) -> complex64 {
+        Complex64Impl::ln(self)
+    }
+
+    fn log2(self: complex64) -> complex64 {
+        Complex64Impl::log2(self)
+    }
+
+    fn log10(self: complex64) -> complex64 {
+        Complex64Impl::log10(self)
+    }
+
+    fn pow(self: complex64, b: complex64) -> complex64 {
+        Complex64Impl::pow(self, b)
+    }
+
+    fn round(self: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn sqrt(self: complex64) -> complex64 {
+        Complex64Impl::sqrt(self)
+    }
+
+    fn acos(self: complex64) -> complex64 {
+        Complex64Impl::acos(self)
+    }
+
+    fn asin(self: complex64) -> complex64 {
+        Complex64Impl::asin(self)
+    }
+
+    fn atan(self: complex64) -> complex64 {
+        Complex64Impl::atan(self)
+    }
+
+    fn cos(self: complex64) -> complex64 {
+        Complex64Impl::cos(self)
+    }
+
+    fn sin(self: complex64) -> complex64 {
+        Complex64Impl::sin(self)
+    }
+
+    fn tan(self: complex64) -> complex64 {
+        Complex64Impl::tan(self)
+    }
+
+    fn acosh(self: complex64) -> complex64 {
+        Complex64Impl::acosh(self)
+    }
+
+    fn asinh(self: complex64) -> complex64 {
+        Complex64Impl::asinh(self)
+    }
+
+    fn atanh(self: complex64) -> complex64 {
+        Complex64Impl::atanh(self)
+    }
+
+    fn cosh(self: complex64) -> complex64 {
+        Complex64Impl::cosh(self)
+    }
+
+    fn sinh(self: complex64) -> complex64 {
+        Complex64Impl::sinh(self)
+    }
+
+    fn tanh(self: complex64) -> complex64 {
+        Complex64Impl::tanh(self)
+    }
+
+    fn zero() -> complex64 {
+        Complex64Impl::zero()
+    }
+
+    fn is_zero(self: complex64) -> bool {
+        if self == Complex64Impl::zero() {
+            return true;
+        }
+        false
+    }
+
+    fn half() -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn one() -> complex64 {
+        Complex64Impl::one()
+    }
+
+    fn neg_one() -> complex64 {
+        Complex64Impl::new(FP64x64 { mag: core_fp64x64::ONE, sign: true }, FP64x64Impl::ZERO())
+    }
+
+    fn is_one(self: complex64) -> bool {
+        if self == Complex64Impl::one() {
+            return true;
+        }
+        false
+    }
+
+    fn abs(self: complex64) -> complex64 {
+        Complex64Impl::new(Complex64Impl::mag(self), FP64x64Impl::ZERO())
+    }
+
+    fn neg(self: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn min_value() -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn max_value() -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn min(self: complex64, other: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn max(self: complex64, other: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn mag(self: complex64) -> FP64x64 {
+        Complex64Impl::mag(self)
+    }
+
+    fn is_neg(self: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn xor(lhs: complex64, rhs: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn or(lhs: complex64, rhs: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn sign(self: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn and(lhs: complex64, rhs: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn where(self: complex64, x: complex64, y: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn NaN() -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn is_nan(self: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn INF() -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn is_inf(self: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn is_pos_inf(self: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn is_neg_inf(self: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn bitwise_and(lhs: complex64, rhs: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn bitwise_xor(lhs: complex64, rhs: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn bitwise_or(lhs: complex64, rhs: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn add(lhs: complex64, rhs: complex64) -> complex64 {
+        Complex64Add::add(lhs, rhs)
+    }
+
+    fn sub(lhs: complex64, rhs: complex64) -> complex64 {
+        Complex64Sub::sub(lhs, rhs)
     }
 }

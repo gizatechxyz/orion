@@ -1,14 +1,15 @@
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 
-use option::OptionTrait;
-use result::{ResultTrait, ResultTraitImpl};
-use traits::{TryInto, Into};
+use core::option::OptionTrait;
+use core::result::{ResultTrait, ResultTraitImpl};
+use core::traits::{TryInto, Into};
 
 use cubit::f64 as fp32x32;
 use cubit::f64::Fixed as FP32x32;
 use cubit::f64::{ONE, HALF};
 use cubit::f64::types::fixed;
 
+use orion::numbers::fixed_point::implementations::fp32x32::erf;
 use orion::numbers::fixed_point::core::{FixedTrait};
 use orion::numbers::fixed_point::utils;
 use orion::numbers::{i32, i8};
@@ -41,12 +42,12 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     }
 
     fn from_felt(val: felt252) -> FP32x32 {
-        let mag = integer::u64_try_from_felt252(utils::felt_abs(val)).unwrap();
+        let mag = core::integer::u64_try_from_felt252(utils::felt_abs(val)).unwrap();
         return FixedTrait::new(mag, utils::felt_sign(val));
     }
 
     fn abs(self: FP32x32) -> FP32x32 {
-        return fp32x32::core::abs(self);
+        return fp32x32::ops::abs(self);
     }
 
     fn acos(self: FP32x32) -> FP32x32 {
@@ -86,7 +87,7 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     }
 
     fn ceil(self: FP32x32) -> FP32x32 {
-        return fp32x32::core::ceil(self);
+        return fp32x32::ops::ceil(self);
     }
 
     fn cos(self: FP32x32) -> FP32x32 {
@@ -102,46 +103,46 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     }
 
     fn floor(self: FP32x32) -> FP32x32 {
-        return fp32x32::core::floor(self);
+        return fp32x32::ops::floor(self);
     }
 
     // Calculates the natural exponent of x: e^x
     fn exp(self: FP32x32) -> FP32x32 {
-        return fp32x32::core::exp(self);
+        return fp32x32::ops::exp(self);
     }
 
     // Calculates the binary exponent of x: 2^x
     fn exp2(self: FP32x32) -> FP32x32 {
-        return fp32x32::core::exp2(self);
+        return fp32x32::ops::exp2(self);
     }
 
     // Calculates the natural logarithm of x: ln(x)
     // self must be greater than zero
     fn ln(self: FP32x32) -> FP32x32 {
-        return fp32x32::core::ln(self);
+        return fp32x32::ops::ln(self);
     }
 
     // Calculates the binary logarithm of x: log2(x)
     // self must be greather than zero
     fn log2(self: FP32x32) -> FP32x32 {
-        return fp32x32::core::log2(self);
+        return fp32x32::ops::log2(self);
     }
 
     // Calculates the base 10 log of x: log10(x)
     // self must be greater than zero
     fn log10(self: FP32x32) -> FP32x32 {
-        return fp32x32::core::log10(self);
+        return fp32x32::ops::log10(self);
     }
 
     // Calclates the value of x^y and checks for overflow before returning
     // self is a fixed point value
     // b is a fixed point value
     fn pow(self: FP32x32, b: FP32x32) -> FP32x32 {
-        return fp32x32::core::pow(self, b);
+        return fp32x32::ops::pow(self, b);
     }
 
     fn round(self: FP32x32) -> FP32x32 {
-        return fp32x32::core::round(self);
+        return fp32x32::ops::round(self);
     }
 
     fn sin(self: FP32x32) -> FP32x32 {
@@ -159,7 +160,7 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     // Calculates the square root of a fixed point value
     // x must be positive
     fn sqrt(self: FP32x32) -> FP32x32 {
-        return fp32x32::core::sqrt(self);
+        return fp32x32::ops::sqrt(self);
     }
 
     fn tan(self: FP32x32) -> FP32x32 {
@@ -184,6 +185,34 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
 
     fn is_nan(self: FP32x32) -> bool {
         self == FP32x32 { mag: 0, sign: true }
+    }
+
+    fn INF() -> FP32x32 {
+        return FP32x32 { mag: 4294967295, sign: false };
+    }
+
+    fn POS_INF() -> FP32x32 {
+        return FP32x32 { mag: 4294967295, sign: false };
+    }
+
+    fn NEG_INF() -> FP32x32 {
+        return FP32x32 { mag: 4294967295, sign: true };
+    }
+
+    fn is_inf(self: FP32x32) -> bool {
+        self.mag == 4294967295
+    }
+
+    fn is_pos_inf(self: FP32x32) -> bool {
+        self.is_inf() && !self.sign
+    }
+
+    fn is_neg_inf(self: FP32x32) -> bool {
+        self.is_inf() && self.sign
+    }
+
+    fn erf(self: FP32x32) -> FP32x32 {
+        return erf::erf(self);
     }
 }
 
@@ -261,100 +290,100 @@ impl FP32x32TryIntoI8 of TryInto<FP32x32, i8> {
 // impl FP32x32PartialEq of PartialEq<FP32x32> {
 //     #[inline(always)]
 //     fn eq(lhs: @FP32x32, rhs: @FP32x32) -> bool {
-//         return fp32x32::core::eq(lhs, rhs);
+//         return fp32x32::ops::eq(lhs, rhs);
 //     }
 
 //     #[inline(always)]
 //     fn ne(lhs: @FP32x32, rhs: @FP32x32) -> bool {
-//         return fp32x32::core::ne(lhs, rhs);
+//         return fp32x32::ops::ne(lhs, rhs);
 //     }
 // }
 
 impl FP32x32Add of Add<FP32x32> {
     fn add(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
-        return fp32x32::core::add(lhs, rhs);
+        return fp32x32::ops::add(lhs, rhs);
     }
 }
 
 impl FP32x32AddEq of AddEq<FP32x32> {
     #[inline(always)]
     fn add_eq(ref self: FP32x32, other: FP32x32) {
-        self = fp32x32::core::add(self, other);
+        self = fp32x32::ops::add(self, other);
     }
 }
 
 impl FP32x32Sub of Sub<FP32x32> {
     fn sub(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
-        return fp32x32::core::sub(lhs, rhs);
+        return fp32x32::ops::sub(lhs, rhs);
     }
 }
 
 impl FP32x32SubEq of SubEq<FP32x32> {
     #[inline(always)]
     fn sub_eq(ref self: FP32x32, other: FP32x32) {
-        self = fp32x32::core::sub(self, other);
+        self = fp32x32::ops::sub(self, other);
     }
 }
 
 impl FP32x32Mul of Mul<FP32x32> {
     fn mul(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
-        return fp32x32::core::mul(lhs, rhs);
+        return fp32x32::ops::mul(lhs, rhs);
     }
 }
 
 impl FP32x32MulEq of MulEq<FP32x32> {
     #[inline(always)]
     fn mul_eq(ref self: FP32x32, other: FP32x32) {
-        self = fp32x32::core::mul(self, other);
+        self = fp32x32::ops::mul(self, other);
     }
 }
 
 impl FP32x32Div of Div<FP32x32> {
     fn div(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
-        return fp32x32::core::div(lhs, rhs);
+        return fp32x32::ops::div(lhs, rhs);
     }
 }
 
 impl FP32x32DivEq of DivEq<FP32x32> {
     #[inline(always)]
     fn div_eq(ref self: FP32x32, other: FP32x32) {
-        self = fp32x32::core::div(self, other);
+        self = fp32x32::ops::div(self, other);
     }
 }
 
 impl FP32x32PartialOrd of PartialOrd<FP32x32> {
     #[inline(always)]
     fn ge(lhs: FP32x32, rhs: FP32x32) -> bool {
-        return fp32x32::core::ge(lhs, rhs);
+        return fp32x32::ops::ge(lhs, rhs);
     }
 
     #[inline(always)]
     fn gt(lhs: FP32x32, rhs: FP32x32) -> bool {
-        return fp32x32::core::gt(lhs, rhs);
+        return fp32x32::ops::gt(lhs, rhs);
     }
 
     #[inline(always)]
     fn le(lhs: FP32x32, rhs: FP32x32) -> bool {
-        return fp32x32::core::le(lhs, rhs);
+        return fp32x32::ops::le(lhs, rhs);
     }
 
     #[inline(always)]
     fn lt(lhs: FP32x32, rhs: FP32x32) -> bool {
-        return fp32x32::core::lt(lhs, rhs);
+        return fp32x32::ops::lt(lhs, rhs);
     }
 }
 
 impl FP32x32Neg of Neg<FP32x32> {
     #[inline(always)]
     fn neg(a: FP32x32) -> FP32x32 {
-        return fp32x32::core::neg(a);
+        return fp32x32::ops::neg(a);
     }
 }
 
 impl FP32x32Rem of Rem<FP32x32> {
     #[inline(always)]
     fn rem(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
-        return fp32x32::core::rem(lhs, rhs);
+        return fp32x32::ops::rem(lhs, rhs);
     }
 }
 

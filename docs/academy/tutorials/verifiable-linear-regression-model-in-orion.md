@@ -1,6 +1,6 @@
 # Verifiable Linear Regression Model
 
-<figure><img src="../../.gitbook/assets/ORION_tutorial.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/tutorial#3.png" alt=""><figcaption></figcaption></figure>
 
 Orion is an open-source framework explicitly designed for the development of Provable Machine Learning models. It achieves this by providing a new ONNX runtime in Cairo to run STARK-provable ML programs.
 
@@ -164,7 +164,7 @@ def generate_cairo_files(data, name):
     os.makedirs('src/generated', exist_ok=True)
     with open(os.path.join('src', 'generated', f"{name}.cairo"), "w") as f:
             f.write(
-                "use array::ArrayTrait;\n" +
+                "use core::array::ArrayTrait;\n" +
                 "use orion::operators::tensor::{FP16x16Tensor, TensorTrait, Tensor};\n" +
                 "use orion::numbers::{FixedTrait, FP16x16, FP16x16Impl};\n"
                 "\nfn {0}() -> Tensor<FixedType>  ".format(name) + "{\n" +
@@ -200,7 +200,7 @@ mod lin_reg_func;
 This will tell our compiler to include the separate modules listed above during the compilation of our code. We will be covering each module in detail in the following section, but let’s first review the generated folder files.
 
 ```rust
-use array::ArrayTrait;
+use core::array::ArrayTrait;
 use orion::operators::tensor::{FP16x16Tensor, TensorTrait, Tensor};
 use orion::numbers::{FixedTrait, FP16x16, FP16x16Impl};
 
@@ -343,7 +343,7 @@ Calculating the y-intercept is fairly simple, we just need to substitute the cal
 Now that we have implemented all the necessary functions for the OLS method, we can finally test our linear regression model. We begin by creating a new separate test file named `test.cairo` and import all the necessary Orion libraries including our `X_values` and `y_values` found in the generated folder. We also import all the OLS functions from `lin_reg_func.cairo` file as we will be relying upon them to construct the regression model.
 
 ```rust
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 
 use verifiable_linear_regression::generated::X_values::X_values;
 use verifiable_linear_regression::generated::Y_values::Y_values;

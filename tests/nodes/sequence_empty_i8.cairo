@@ -3,6 +3,8 @@ mod output_0;
 
 use orion::operators::sequence::I8Sequence;
 use orion::operators::sequence::SequenceTrait;
+use core::array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::{TensorTrait, Tensor};
 use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::tensor::I8TensorPartialEq;
 use array::{ArrayTrait, SpanTrait};

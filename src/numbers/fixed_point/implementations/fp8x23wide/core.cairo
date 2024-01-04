@@ -1,12 +1,14 @@
-use debug::PrintTrait;
+use core::debug::PrintTrait;
 
-use option::OptionTrait;
-use result::{ResultTrait, ResultTraitImpl};
-use traits::{TryInto, Into};
+use core::option::OptionTrait;
+use core::result::{ResultTrait, ResultTraitImpl};
+use core::traits::{TryInto, Into};
 
 use orion::numbers::signed_integer::{i32::i32, i8::i8};
 use orion::numbers::{fixed_point::core::{FixedTrait}, FP8x23};
-use orion::numbers::fixed_point::implementations::fp8x23wide::math::{core, trig, hyp};
+use orion::numbers::fixed_point::implementations::fp8x23wide::math::{
+    core as core_math, trig, hyp, erf
+};
 use orion::numbers::fixed_point::utils;
 
 /// A struct representing a fixed point number.
@@ -50,12 +52,12 @@ impl FP8x23WImpl of FixedTrait<FP8x23W, u64> {
     }
 
     fn from_felt(val: felt252) -> FP8x23W {
-        let mag = integer::u64_try_from_felt252(utils::felt_abs(val)).unwrap();
+        let mag = core::integer::u64_try_from_felt252(utils::felt_abs(val)).unwrap();
         return FixedTrait::new(mag, utils::felt_sign(val));
     }
 
     fn abs(self: FP8x23W) -> FP8x23W {
-        return core::abs(self);
+        return core_math::abs(self);
     }
 
     fn acos(self: FP8x23W) -> FP8x23W {
@@ -95,7 +97,7 @@ impl FP8x23WImpl of FixedTrait<FP8x23W, u64> {
     }
 
     fn ceil(self: FP8x23W) -> FP8x23W {
-        return core::ceil(self);
+        return core_math::ceil(self);
     }
 
     fn cos(self: FP8x23W) -> FP8x23W {
@@ -111,46 +113,46 @@ impl FP8x23WImpl of FixedTrait<FP8x23W, u64> {
     }
 
     fn floor(self: FP8x23W) -> FP8x23W {
-        return core::floor(self);
+        return core_math::floor(self);
     }
 
     // Calculates the natural exponent of x: e^x
     fn exp(self: FP8x23W) -> FP8x23W {
-        return core::exp(self);
+        return core_math::exp(self);
     }
 
     // Calculates the binary exponent of x: 2^x
     fn exp2(self: FP8x23W) -> FP8x23W {
-        return core::exp2(self);
+        return core_math::exp2(self);
     }
 
     // Calculates the natural logarithm of x: ln(x)
     // self must be greater than zero
     fn ln(self: FP8x23W) -> FP8x23W {
-        return core::ln(self);
+        return core_math::ln(self);
     }
 
     // Calculates the binary logarithm of x: log2(x)
     // self must be greather than zero
     fn log2(self: FP8x23W) -> FP8x23W {
-        return core::log2(self);
+        return core_math::log2(self);
     }
 
     // Calculates the base 10 log of x: log10(x)
     // self must be greater than zero
     fn log10(self: FP8x23W) -> FP8x23W {
-        return core::log10(self);
+        return core_math::log10(self);
     }
 
     // Calclates the value of x^y and checks for overflow before returning
     // self is a fixed point value
     // b is a fixed point value
     fn pow(self: FP8x23W, b: FP8x23W) -> FP8x23W {
-        return core::pow(self, b);
+        return core_math::pow(self, b);
     }
 
     fn round(self: FP8x23W) -> FP8x23W {
-        return core::round(self);
+        return core_math::round(self);
     }
 
     fn sin(self: FP8x23W) -> FP8x23W {
@@ -168,7 +170,7 @@ impl FP8x23WImpl of FixedTrait<FP8x23W, u64> {
     // Calculates the square root of a fixed point value
     // x must be positive
     fn sqrt(self: FP8x23W) -> FP8x23W {
-        return core::sqrt(self);
+        return core_math::sqrt(self);
     }
 
     fn tan(self: FP8x23W) -> FP8x23W {
@@ -184,7 +186,7 @@ impl FP8x23WImpl of FixedTrait<FP8x23W, u64> {
     }
 
     fn sign(self: FP8x23W) -> FP8x23W {
-        return core::sign(self);
+        return core_math::sign(self);
     }
 
     fn NaN() -> FP8x23W {
@@ -193,6 +195,34 @@ impl FP8x23WImpl of FixedTrait<FP8x23W, u64> {
 
     fn is_nan(self: FP8x23W) -> bool {
         self == FP8x23W { mag: 0, sign: true }
+    }
+
+    fn INF() -> FP8x23W {
+        return FP8x23W { mag: 4294967295, sign: false };
+    }
+
+    fn POS_INF() -> FP8x23W {
+        return FP8x23W { mag: 4294967295, sign: false };
+    }
+
+    fn NEG_INF() -> FP8x23W {
+        return FP8x23W { mag: 4294967295, sign: true };
+    }
+
+    fn is_inf(self: FP8x23W) -> bool {
+        self.mag == 4294967295
+    }
+
+    fn is_pos_inf(self: FP8x23W) -> bool {
+        self.is_inf() && !self.sign
+    }
+
+    fn is_neg_inf(self: FP8x23W) -> bool {
+        self.is_inf() && self.sign
+    }
+
+    fn erf(self: FP8x23W) -> FP8x23W {
+        return erf::erf(self);
     }
 }
 
@@ -292,18 +322,18 @@ impl FP8x23WTryIntoI8 of TryInto<FP8x23W, i8> {
 impl FP8x23WPartialEq of PartialEq<FP8x23W> {
     #[inline(always)]
     fn eq(lhs: @FP8x23W, rhs: @FP8x23W) -> bool {
-        return core::eq(lhs, rhs);
+        return core_math::eq(lhs, rhs);
     }
 
     #[inline(always)]
     fn ne(lhs: @FP8x23W, rhs: @FP8x23W) -> bool {
-        return core::ne(lhs, rhs);
+        return core_math::ne(lhs, rhs);
     }
 }
 
 impl FP8x23WAdd of Add<FP8x23W> {
     fn add(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
-        return core::add(lhs, rhs);
+        return core_math::add(lhs, rhs);
     }
 }
 
@@ -316,7 +346,7 @@ impl FP8x23WAddEq of AddEq<FP8x23W> {
 
 impl FP8x23WSub of Sub<FP8x23W> {
     fn sub(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
-        return core::sub(lhs, rhs);
+        return core_math::sub(lhs, rhs);
     }
 }
 
@@ -329,7 +359,7 @@ impl FP8x23WSubEq of SubEq<FP8x23W> {
 
 impl FP8x23WMul of Mul<FP8x23W> {
     fn mul(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
-        return core::mul(lhs, rhs);
+        return core_math::mul(lhs, rhs);
     }
 }
 
@@ -342,7 +372,7 @@ impl FP8x23WMulEq of MulEq<FP8x23W> {
 
 impl FP8x23WDiv of Div<FP8x23W> {
     fn div(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
-        return core::div(lhs, rhs);
+        return core_math::div(lhs, rhs);
     }
 }
 
@@ -356,36 +386,36 @@ impl FP8x23WDivEq of DivEq<FP8x23W> {
 impl FP8x23WPartialOrd of PartialOrd<FP8x23W> {
     #[inline(always)]
     fn ge(lhs: FP8x23W, rhs: FP8x23W) -> bool {
-        return core::ge(lhs, rhs);
+        return core_math::ge(lhs, rhs);
     }
 
     #[inline(always)]
     fn gt(lhs: FP8x23W, rhs: FP8x23W) -> bool {
-        return core::gt(lhs, rhs);
+        return core_math::gt(lhs, rhs);
     }
 
     #[inline(always)]
     fn le(lhs: FP8x23W, rhs: FP8x23W) -> bool {
-        return core::le(lhs, rhs);
+        return core_math::le(lhs, rhs);
     }
 
     #[inline(always)]
     fn lt(lhs: FP8x23W, rhs: FP8x23W) -> bool {
-        return core::lt(lhs, rhs);
+        return core_math::lt(lhs, rhs);
     }
 }
 
 impl FP8x23WNeg of Neg<FP8x23W> {
     #[inline(always)]
     fn neg(a: FP8x23W) -> FP8x23W {
-        return core::neg(a);
+        return core_math::neg(a);
     }
 }
 
 impl FP8x23WRem of Rem<FP8x23W> {
     #[inline(always)]
     fn rem(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
-        return core::rem(lhs, rhs);
+        return core_math::rem(lhs, rhs);
     }
 }
 
