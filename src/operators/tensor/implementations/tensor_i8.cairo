@@ -456,15 +456,6 @@ impl I8Tensor of TensorTrait<i8> {
         math::sequence_at::sequence_at(sequence, position)
     }
 
-    fn sequence_construct(tensors: Array<Tensor<i8>>) -> Array<Tensor<i8>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
-
-    fn sequence_empty() -> Array<Tensor<i8>> {
-        math::sequence_empty::sequence_empty::<i8>()
-    }
-
     fn reduce_mean(
         self: @Tensor<i8>,
         axes: Option<Span<usize>>,

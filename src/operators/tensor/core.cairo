@@ -103,15 +103,12 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// gather_elements - GatherElements is an indexing operation that produces its output by indexing into the input data tensor at index positions determined by elements of the indices tensor.
 /// reduce_min - Computes the min of the input tensor's elements along the provided axes.
 /// shrink – Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula.
-/// sequence_empty - Returns an empty tensor sequence.
 /// sequence_length - Returns the length of the input sequence.
 /// sequence_insert - Insert a tensor into a sequence.
 /// sequence_at - Outputs the tensor at the specified position in the input sequence.
-/// sequence_construct - Constructs a tensor sequence containing the input tensors.
 /// reduce_mean - Computes the mean of the input tensor's elements along the provided axes.
 /// pow - Pow takes input data (Tensor) and exponent Tensor, and produces one output data (Tensor) where the function f(x) = x^exponent, is applied to the data tensor elementwise.
 /// sequence_erase – Outputs the tensor sequence with the erased tensor at the specified position.
-/// sequence_empty - Returns an empty tensor sequence.
 /// binarizer - Maps the values of a tensor element-wise to 0 or 1 based on the comparison against a threshold value.
 /// array_feature_extractor - Selects elements of the input tensor based on the indices passed applied to the last tensor axis.
 /// reduce_min - Computes the min of the input tensor's elements along the provided axes.
@@ -4145,92 +4142,6 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn array_feature_extractor(self: @Tensor<T>, indices: Tensor<usize>) -> Tensor<T>;
-    /// ## tensor.reduce_mean
-    ///
-    /// ```rust 
-    ///    fn reduce_mean(self: @Tensor<T>, axes: Option<Span<usize>>, keepdims: Option<bool>, noop_with_empty_axes: Option<bool>) -> Tensor<T>;
-    /// ```
-    ///
-    /// Computes the mean of the input tensor's elements along the provided axes.
-    ///
-    /// ## Args
-    ///
-    /// * `self`(`@Tensor<T>`) - The input tensor.
-    /// * `axes`(`Option<Span<usize>>`) - Optional input list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor if 'noop_with_empty_axes' is false, else act as an Identity op when 'noop_with_empty_axes' is true.
-    /// * `keepdims`(`Option<bool>`) - Keep the reduced dimension or not, default true means keep reduced dimension.
-    /// * `noop_with_empty_axes`(`Option<bool>`) - Defines behavior if 'axes' is empty. Default behavior with 'false' is to reduce all axes. When axes is empty and this attribute is set to true, input tensor will not be reduced,and the output tensor would be equivalent to input tensor.
-    ///
-    /// ## Panics 
-    /// 
-    /// * Panics if axis is not in the range of the input tensor's dimensions.
-    ///
-    /// ## Returns
-    ///
-    /// A new `Tensor<T>` instance with the specified axes reduced by meaning its elements.
-    ///
-    /// ## Examples
-    ///
-    /// ```rust
-    /// use array::{ArrayTrait, SpanTrait};
-    /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-    /// 
-    /// fn reduce_mean_example() -> Tensor<u32> {
-    ///     let tensor = TensorTrait::<u32>::new(
-    ///         shape: array![2, 2, 2].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7].span(),
-    ///     );
-    /// 
-    ///     // We can call `reduce_mean` function as follows.
-    ///     return tensor.reduce_mean(axes: array![1].span(), 
-    ///         keepdims: Option::None(()), 
-    ///         noop_with_empty_axes:  Option::None(()));
-    /// }
-    /// >>> [[1,2],[5,6]]
-    /// ```
-    ///
-    fn reduce_mean(
-        self: @Tensor<T>,
-        axes: Option<Span<usize>>,
-        keepdims: Option<bool>,
-        noop_with_empty_axes: Option<bool>
-    ) -> Tensor<T>;
-    /// # tensor.sequence_empty
-    ///
-    /// ```rust
-    ///    fn sequence_empty() -> Array<Tensor<T>>;
-    /// ```
-    ///
-    /// Returns an empty tensor sequence.
-    ///
-    /// ## Args
-    ///
-    /// ## Returns
-    ///
-    /// An empty `Array<Tensor<T>>` instance.
-    ///
-    /// ## Examples
-    ///
-    /// Let's create a new empty sequence.
-    ///
-    /// ```rust
-    /// use core::array::{ArrayTrait, SpanTrait};
-    ///
-    /// use orion::operators::tensor::{
-    ///     TensorTrait, // we import the trait
-    ///     Tensor, // we import the type
-    ///     U32Tensor // we import the implementation. 
-    /// };
-    ///
-    /// fn sequence_empty_example() -> Array<Tensor<u32>> {
-    ///     let sequence = TensorTrait::sequence_empty();
-    ///
-    ///     return sequence;
-    /// }
-    ///
-    /// >>> []
-    /// ```
-    ///
-    fn sequence_empty() -> Array<Tensor<T>>;
     /// # tensor.shrink
     /// 
     /// ```rust
@@ -4282,43 +4193,6 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn shrink(self: Tensor<T>, bias: Option<T>, lambd: Option<T>) -> Tensor<T>;
-    /// ## tensor.sequence_construct
-    ///
-    /// ```rust 
-    ///    fn sequence_construct(tensors: Array<Tensor<T>>) -> Array<Tensor<T>>;
-    /// ```
-    ///
-    /// Constructs a tensor sequence containing the input tensors.
-    ///
-    /// ## Args
-    ///
-    /// * `tensors`(`Array<Tensor<T>>`) - The array of input tensors.
-    ///
-    /// ## Panics 
-    /// 
-    /// * Panics if input tensor array is empty.
-    ///
-    /// ## Returns
-    ///
-    /// A tensor sequence `Array<Tensor<T>>` containing the input tensors.
-    ///
-    /// ## Examples
-    ///
-    /// ```rust
-    /// use core::array::{ArrayTrait, SpanTrait};
-    /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-    ///
-    /// fn sequence_construct_example() -> Array<Tensor<usize>> {
-    ///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span());
-    ///     let tensor2 = TensorTrait::new(shape: array![2, 2].span(), data: array![4, 5, 6, 7].span());
-    ///     let result = TensorTrait::sequence_construct(tensors: array![tensor1, tensor2]);
-    ///     return result;
-    /// }
-    /// >>> [[0, 1, 2, 3], [4, 5, 6, 7]]
-    /// ```
-    ///
-    fn sequence_construct(tensors: Array<Tensor<T>>) -> Array<Tensor<T>>;
     /// ## tensor.reduce_mean
     ///
     /// ```rust 

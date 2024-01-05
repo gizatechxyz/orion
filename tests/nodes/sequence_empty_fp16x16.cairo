@@ -6,7 +6,6 @@ use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::FP16x16TensorPartialEq;
 use orion::operators::sequence::SequenceTrait;
 use orion::utils::{assert_eq, assert_seq_eq};
-use array::{ArrayTrait, SpanTrait};
 
 #[test]
 #[available_gas(2000000000)]

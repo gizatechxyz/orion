@@ -6,7 +6,6 @@ use orion::operators::tensor::FP8x23TensorPartialEq;
 use orion::operators::sequence::FP8x23Sequence;
 use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::sequence::SequenceTrait;
-use array::{ArrayTrait, SpanTrait};
 
 #[test]
 #[available_gas(2000000000)]

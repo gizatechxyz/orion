@@ -7,10 +7,8 @@ use orion::operators::tensor::{TensorTrait, Tensor};
 use core::array::{ArrayTrait, SpanTrait};
 use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::tensor::I32TensorPartialEq;
-use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::sequence::I32Sequence;
 use orion::operators::sequence::SequenceTrait;
-use array::{ArrayTrait, SpanTrait};
 
 #[test]
 #[available_gas(2000000000)]

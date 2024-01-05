@@ -6,9 +6,7 @@ use orion::operators::tensor::FP16x16TensorPartialEq;
 use orion::operators::tensor::{TensorTrait, Tensor};
 use core::array::{ArrayTrait, SpanTrait};
 use orion::utils::{assert_eq, assert_seq_eq};
-use orion::operators::tensor::FP16x16TensorPartialEq;
 use orion::operators::sequence::SequenceTrait;
-use array::{ArrayTrait, SpanTrait};
 use orion::operators::sequence::FP16x16Sequence;
 
 #[test]

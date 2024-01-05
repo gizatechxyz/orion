@@ -388,10 +388,6 @@ impl BoolTensor of TensorTrait<bool> {
         math::sequence_at::sequence_at(sequence, position)
     }
 
-    fn sequence_construct(tensors: Array<Tensor<bool>>) -> Array<Tensor<bool>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
     fn shrink(self: Tensor<bool>, bias: Option<bool>, lambd: Option<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }

@@ -400,14 +400,6 @@ impl U32Tensor of TensorTrait<u32> {
         math::sequence_at::sequence_at(sequence, position)
     }
 
-    fn sequence_construct(tensors: Array<Tensor<u32>>) -> Array<Tensor<u32>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
-    fn sequence_empty() -> Array<Tensor<u32>> {
-        math::sequence_empty::sequence_empty::<u32>()
-    }
-
     fn reduce_mean(
         self: @Tensor<u32>,
         axes: Option<Span<usize>>,

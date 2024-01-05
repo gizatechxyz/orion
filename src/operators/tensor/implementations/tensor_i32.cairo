@@ -458,15 +458,6 @@ impl I32Tensor of TensorTrait<i32> {
         math::sequence_at::sequence_at(sequence, position)
     }
 
-    fn sequence_construct(tensors: Array<Tensor<i32>>) -> Array<Tensor<i32>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
-
-    fn sequence_empty() -> Array<Tensor<i32>> {
-        math::sequence_empty::sequence_empty::<i32>()
-    }
-
     fn reduce_mean(
         self: @Tensor<i32>,
         axes: Option<Span<usize>>,

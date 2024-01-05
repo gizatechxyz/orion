@@ -463,14 +463,6 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::sequence_at::sequence_at(sequence, position)
     }
 
-    fn sequence_construct(tensors: Array<Tensor<FP32x32>>) -> Array<Tensor<FP32x32>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
-    fn sequence_empty() -> Array<Tensor<FP32x32>> {
-        math::sequence_empty::sequence_empty::<FP32x32>()
-    }
-
     fn reduce_mean(
         self: @Tensor<FP32x32>,
         axes: Option<Span<usize>>,

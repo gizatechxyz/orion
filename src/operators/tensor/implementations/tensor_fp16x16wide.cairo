@@ -428,14 +428,6 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::sequence_at::sequence_at(sequence, position)
     }
 
-    fn sequence_construct(tensors: Array<Tensor<FP16x16W>>) -> Array<Tensor<FP16x16W>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
-    fn sequence_empty() -> Array<Tensor<FP16x16W>> {
-        math::sequence_empty::sequence_empty::<FP16x16W>()
-    }
-
     fn reduce_mean(
         self: @Tensor<FP16x16W>,
         axes: Option<Span<usize>>,

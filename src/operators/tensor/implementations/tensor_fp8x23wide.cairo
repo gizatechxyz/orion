@@ -414,15 +414,6 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::sequence_at::sequence_at(sequence, position)
     }
 
-    fn sequence_construct(tensors: Array<Tensor<FP8x23W>>) -> Array<Tensor<FP8x23W>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
-
-    fn sequence_empty() -> Array<Tensor<FP8x23W>> {
-        math::sequence_empty::sequence_empty::<FP8x23W>()
-    }
-
     fn reduce_mean(
         self: @Tensor<FP8x23W>,
         axes: Option<Span<usize>>,
