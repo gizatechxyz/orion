@@ -25,4 +25,8 @@ Orion supports currently these `Sequence` types.
 | --- | --- |
 | [`sequence.sequence_construct`](sequence.sequence\_construct.md) | Constructs a tensor sequence containing the input tensors. |
 | [`sequence.sequence_empty`](sequence.sequence\_empty.md) | Returns an empty tensor sequence. |
+| [`sequence.sequence_length`](sequence.sequence\_length.md) | Returns the length of the input sequence. |
+| [`sequence.sequence_insert`](sequence.sequence\_insert.md) | Insert a tensor into a sequence. |
+| [`sequence.sequence_at`](sequence.sequence\_at.md) | Outputs the tensor at the specified position in the input sequence. |
+| [`sequence.concat_from_sequence`](sequence.concat\_from\_sequence.md) | Concatenate a sequence of tensors into a single tensor. |
 
