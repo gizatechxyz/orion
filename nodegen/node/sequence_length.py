@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 
 scalar = lambda x: Tensor(Dtype.U32, (), np.array([x]).astype(np.uint32).flatten())
@@ -21,7 +21,7 @@ class Sequence_length(RunAll):
                 sequence.append(tensor)
 
             name = "sequence_length_u32"
-            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name)
+            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name, Trait.SEQUENCE)
 
         def broadcast():
             sequence = []
@@ -35,7 +35,7 @@ class Sequence_length(RunAll):
                 sequence.append(tensor)
 
             name = "sequence_length_u32_broadcast"
-            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name)
+            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name, Trait.SEQUENCE)
 
         default()
         broadcast()
@@ -54,7 +54,7 @@ class Sequence_length(RunAll):
                 sequence.append(tensor)
 
             name = "sequence_length_i32"
-            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name)
+            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name, Trait.SEQUENCE)
 
         def broadcast():
             sequence = []
@@ -68,7 +68,7 @@ class Sequence_length(RunAll):
                 sequence.append(tensor)
 
             name = "sequence_length_i32_broadcast"
-            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name)
+            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name, Trait.SEQUENCE)
 
         default()
         broadcast()
@@ -87,7 +87,7 @@ class Sequence_length(RunAll):
                 sequence.append(tensor)
 
             name = "sequence_length_i8"
-            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name)
+            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name, Trait.SEQUENCE)
 
         def broadcast():
             sequence = []
@@ -101,7 +101,7 @@ class Sequence_length(RunAll):
                 sequence.append(tensor)
 
             name = "sequence_length_i8_broadcast"
-            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name)
+            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name, Trait.SEQUENCE)
 
         default()
         broadcast()
@@ -120,7 +120,7 @@ class Sequence_length(RunAll):
                 sequence.append(tensor)
 
             name = "sequence_length_fp8x23"
-            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name)
+            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name, Trait.SEQUENCE)
 
         def broadcast():
             sequence = []
@@ -134,7 +134,7 @@ class Sequence_length(RunAll):
                 sequence.append(tensor)
 
             name = "sequence_length_fp8x23_broadcast"
-            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name)
+            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name, Trait.SEQUENCE)
 
         default()
         broadcast()
@@ -153,7 +153,7 @@ class Sequence_length(RunAll):
                 sequence.append(tensor)
 
             name = "sequence_length_fp16x16"
-            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name)
+            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name, Trait.SEQUENCE)
 
         def broadcast():
             sequence = []
@@ -167,7 +167,7 @@ class Sequence_length(RunAll):
                 sequence.append(tensor)
 
             name = "sequence_length_fp16x16_broadcast"
-            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name)
+            make_test([sequence], scalar(len(sequence)), "input_0.sequence_length()", name, Trait.SEQUENCE)
 
         default()
         broadcast()

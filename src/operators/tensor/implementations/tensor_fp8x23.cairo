@@ -436,16 +436,8 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
-    fn sequence_length(self: Array<Tensor<FP8x23>>) -> Tensor<u32> {
-        math::sequence_length::sequence_length(self)
-    }
-
     fn shrink(self: Tensor<FP8x23>, bias: Option<FP8x23>, lambd: Option<FP8x23>) -> Tensor<FP8x23> {
         math::shrink::shrink(self, bias, lambd)
-    }
-
-    fn sequence_at(sequence: Array<Tensor<FP8x23>>, position: Tensor<i32>) -> Tensor<FP8x23> {
-        math::sequence_at::sequence_at(sequence, position)
     }
 
     fn reduce_mean(
@@ -483,18 +475,6 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::pow::pow(self, other)
     }
 
-    fn sequence_erase(
-        sequence: Array<Tensor<FP8x23>>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<FP8x23>> {
-        math::sequence_erase::sequence_erase(sequence, position)
-    }
-
-    fn sequence_insert(
-        self: Array<Tensor<FP8x23>>, tensor: @Tensor<FP8x23>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<FP8x23>> {
-        math::sequence_insert::sequence_insert(self, tensor, position)
-    }
-
     fn is_inf(
         self: @Tensor<FP8x23>, detect_negative: Option<u8>, detect_positive: Option<u8>
     ) -> Tensor<bool> {
@@ -503,12 +483,6 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
 
     fn is_nan(self: @Tensor<FP8x23>) -> Tensor<bool> {
         math::is_nan::is_nan(self)
-    }
-
-    fn concat_from_sequence(
-        sequence: Array<Tensor<FP8x23>>, axis: i32, new_axis: Option<usize>
-    ) -> Tensor<FP8x23> {
-        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
     fn gather_nd(self: @Tensor<FP8x23>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP8x23> {

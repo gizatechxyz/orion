@@ -11,6 +11,8 @@ use orion::operators::tensor::FP8x23TensorPartialEq;
 use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
 use orion::operators::tensor::FP8x23Tensor;
+use orion::operators::sequence::FP8x23Sequence;
+use orion::operators::sequence::SequenceTrait;
 
 #[test]
 #[available_gas(2000000000)]
