@@ -5,7 +5,7 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::NumberTrait;
 use orion::numbers::signed_integer::i32::i32;
 
-/// Cf: TensorTrait::sequence_at docstring
+/// Cf: SequenceTrait::sequence_at docstring
 fn sequence_at<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     sequence: Array<Tensor<T>>, position: Tensor<i32>
 ) -> Tensor<T> {
