@@ -38,7 +38,6 @@ fn test_tree_ensemble_regressor_AVERAGE() {
     let mut res = TreeEnsembleRegressorTrait::predict(ref regressor, X);
 
     let check = @res.get(1, 0).unwrap().mag;
-    (*check).print();
 
     // ASSERT RES
     assert(
@@ -63,7 +62,6 @@ fn test_tree_ensemble_regressor_MIN() {
     let mut res = TreeEnsembleRegressorTrait::predict(ref regressor, X);
 
     let check = @res.get(1, 0).unwrap().mag;
-    (*check).print();
 
     // ASSERT RES
     assert(
@@ -88,7 +86,6 @@ fn test_tree_ensemble_regressor_MAX() {
     let mut res = TreeEnsembleRegressorTrait::predict(ref regressor, X);
 
     let check = @res.get(1, 0).unwrap().mag;
-    (*check).print();
 
     // ASSERT RES
     assert(
