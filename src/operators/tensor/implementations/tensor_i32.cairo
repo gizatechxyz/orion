@@ -485,7 +485,7 @@ impl I32Tensor of TensorTrait<i32> {
     fn gather_nd(self: @Tensor<i32>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<i32> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
-    
+
     fn reduce_log_sum(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         panic(array!['not supported!'])
     }

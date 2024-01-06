@@ -489,7 +489,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn gather_nd(self: @Tensor<FP16x16>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP16x16> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
-    
+
     fn reduce_log_sum(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }

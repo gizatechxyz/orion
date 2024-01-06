@@ -438,7 +438,9 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn gather_nd(self: @Tensor<bool>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<bool> {
+    fn gather_nd(
+        self: @Tensor<bool>, indices: Tensor<usize>, batch_dims: Option<usize>
+    ) -> Tensor<bool> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 }

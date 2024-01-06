@@ -490,7 +490,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn gather_nd(self: @Tensor<FP32x32>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP32x32> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
-    
+
     fn reduce_log_sum(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }

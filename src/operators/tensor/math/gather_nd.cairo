@@ -14,12 +14,7 @@ use orion::operators::tensor::U32TensorPartialEq;
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 /// Cf: TensorTrait::gather_nd docstring
-fn gather_nd<
-    T,
-    impl TTensorTrait: TensorTrait<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>,
->(
+fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>,>(
     self: @Tensor<T>, indices: Tensor<usize>, batch_dims: Option<usize>
 ) -> Tensor<T> {
     let batch_dims = match batch_dims {
@@ -29,19 +24,22 @@ fn gather_nd<
 
     let data_rank = (*self.shape).len();
     let indices_rank = (indices.shape).len();
-    assert((data_rank >= 1 ) & (indices_rank >= 1), 'rank must > 1');
-   
+    assert((data_rank >= 1) & (indices_rank >= 1), 'rank must > 1');
+
     let mut data_shape = *self.shape;
     let mut indices_shape = indices.shape;
     let mut data_shape_clone = data_shape.clone();
     let mut indices_shape_clone = indices_shape.clone();
 
     let indices_shape_last = indices_shape_clone.pop_back().unwrap();
-    assert((*indices_shape_last >= 1) & (*indices_shape_last <= data_rank-batch_dims), 'check indices');
+    assert(
+        (*indices_shape_last >= 1) & (*indices_shape_last <= data_rank - batch_dims),
+        'check indices'
+    );
 
     let mut batch_dims_shape = ArrayTrait::new();
     let mut output_shape = ArrayTrait::new();
-    let mut index_data =  ArrayTrait::new();
+    let mut index_data = ArrayTrait::new();
     let mut output_data = ArrayTrait::new();
 
     let mut batch_dims_size = batch_dims;
@@ -51,7 +49,7 @@ fn gather_nd<
     let mut ind = 0;
     loop {
         if (ind == batch_dims) {
-            break();
+            break ();
         }
         match indices_shape_clone.pop_front() {
             Option::Some(val) => {
@@ -65,17 +63,14 @@ fn gather_nd<
 
     loop {
         match indices_shape_clone.pop_front() {
-            Option::Some(val) => {
-                batch_dims_shape.append(*val);
-            },
+            Option::Some(val) => { batch_dims_shape.append(*val); },
             Option::None(_) => { break; }
         };
     };
 
     if (*indices_shape_last == data_rank - batch_dims) {
         output_shape = batch_dims_shape;
-    }
-    else {
+    } else {
         let mut ind = 0;
         let mut multiple = 1;
         output_shape = batch_dims_shape;
@@ -136,16 +131,18 @@ fn gather_nd<
         match data_indices.pop_front() {
             Option::Some(val) => {
                 let index = ind % *indices_shape_last;
-                let incr=  total_data_len * (ind / breaker);
+                let incr = total_data_len * (ind / breaker);
                 result += (*val * total_data_len / *multiple_data_len.at(index));
                 ind += 1;
 
-                if (index == *indices_shape_last-1) {
-                    let mut data_ind:usize = result ;
+                if (index == *indices_shape_last - 1) {
+                    let mut data_ind: usize = result;
                     loop {
-                        if data_ind == result + incrementer { break; }
+                        if data_ind == result + incrementer {
+                            break;
+                        }
                         index_data.append(data_ind + incr);
-                        data_ind+=1;
+                        data_ind += 1;
                     };
                     result = 0;
                 };
@@ -156,9 +153,7 @@ fn gather_nd<
 
     loop {
         match index_data.pop_front() {
-            Option::Some(val) => {
-               output_data.append(*self.data[val]);
-            },
+            Option::Some(val) => { output_data.append(*self.data[val]); },
             Option::None(_) => { break; }
         };
     };

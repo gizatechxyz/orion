@@ -483,7 +483,7 @@ impl I8Tensor of TensorTrait<i8> {
     fn gather_nd(self: @Tensor<i8>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<i8> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
-    
+
     fn reduce_log_sum(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
