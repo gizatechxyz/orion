@@ -1,6 +1,8 @@
 # Verifiable Principal Components Analysis
 
-<figure><img src="../../.gitbook/assets/ORION_tutorial.png" alt=""><figcaption></figcaption></figure>
+
+
+<figure><img src="../../.gitbook/assets/tutorial#5.png" alt=""><figcaption></figcaption></figure>
 
 ## **Verifiable Principal Components Analysis**
 
