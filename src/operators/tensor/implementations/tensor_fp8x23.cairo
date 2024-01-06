@@ -520,10 +520,12 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
-    fn gather_nd(self: @Tensor<FP8x23>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP8x23> {
+    fn gather_nd(
+        self: @Tensor<FP8x23>, indices: Tensor<usize>, batch_dims: Option<usize>
+    ) -> Tensor<FP8x23> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
-    
+
     fn reduce_log_sum(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }
@@ -536,6 +538,38 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         self: @Tensor<FP8x23>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<FP8x23>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         manipulation::unique::unique(self, axis, sorted)
+    }
+
+    fn resize(
+        self: @Tensor<FP8x23>,
+        roi: Option<Tensor<FP8x23>>,
+        scales: Option<Span<FP8x23>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<FP8x23>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<FP8x23>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<FP8x23> {
+        math::resize::resize(
+            self,
+            roi,
+            scales,
+            sizes,
+            antialias,
+            axes,
+            coordinate_transformation_mode,
+            cubic_coeff_a,
+            exclude_outside,
+            extrapolation_value,
+            keep_aspect_ratio_policy,
+            mode,
+            nearest_mode
+        )
     }
 }
 

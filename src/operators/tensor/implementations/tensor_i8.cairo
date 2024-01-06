@@ -515,10 +515,12 @@ impl I8Tensor of TensorTrait<i8> {
         math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
-    fn gather_nd(self: @Tensor<i8>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<i8> {
+    fn gather_nd(
+        self: @Tensor<i8>, indices: Tensor<usize>, batch_dims: Option<usize>
+    ) -> Tensor<i8> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
-    
+
     fn reduce_log_sum(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
@@ -531,6 +533,24 @@ impl I8Tensor of TensorTrait<i8> {
         self: @Tensor<i8>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<i8>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         manipulation::unique::unique(self, axis, sorted)
+    }
+
+    fn resize(
+        self: @Tensor<i8>,
+        roi: Option<Tensor<i8>>,
+        scales: Option<Span<i8>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<i8>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<i8>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<i8> {
+        panic(array!['not supported!'])
     }
 }
 
