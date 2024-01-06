@@ -19,6 +19,14 @@ fn main() {
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 
+    // SEQUENCE DOC
+    let trait_path = "src/operators/sequence/core.cairo";
+    let doc_path = "docs/framework/operators/sequence";
+    let label = "sequence";
+    let trait_name = "SequenceTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
+
     // FIXED POINT DOC
     let trait_path = "src/numbers/fixed_point/core.cairo";
     let doc_path = "docs/framework/numbers/fixed-point";
@@ -64,6 +72,14 @@ fn main() {
     let doc_path = "docs/framework/operators/machine-learning/linear-regressor";
     let label = "linear_regressor";
     let trait_name: &str = "LinearRegressorTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
+
+    // LINEAR REGRESSOR DOC
+    let trait_path = "src/operators/ml/linear/linear_classifier.cairo";
+    let doc_path = "docs/framework/operators/machine-learning/linear-classifier";
+    let label = "linear_classifier";
+    let trait_name: &str = "LinearClassifierTrait";
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 }

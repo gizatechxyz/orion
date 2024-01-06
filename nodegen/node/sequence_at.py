@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 
 scalar = lambda x: Tensor(Dtype.I32, (), np.array([x]).astype(np.int32).flatten())
@@ -23,7 +23,7 @@ class Sequence_at(RunAll):
             position = scalar(2)
 
             name = "sequence_at_u32_positive"
-            make_test([sequence, position], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[2], "SequenceTrait::sequence_at(input_0, input_1)", name, Trait.SEQUENCE)
 
         def negative_position():
             sequence = []
@@ -38,7 +38,7 @@ class Sequence_at(RunAll):
             position = scalar(-2)
 
             name = "sequence_at_u32_negative"
-            make_test([sequence, position], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[-2], "SequenceTrait::sequence_at(input_0, input_1)", name, Trait.SEQUENCE)
 
         positive_position()
         negative_position()
@@ -59,7 +59,7 @@ class Sequence_at(RunAll):
             position = scalar(2)
 
             name = "sequence_at_i32_positive"
-            make_test([sequence, position], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[2], "SequenceTrait::sequence_at(input_0, input_1)", name, Trait.SEQUENCE)
 
         def negative_position():
             sequence = []
@@ -74,7 +74,7 @@ class Sequence_at(RunAll):
             position = scalar(-2)
 
             name = "sequence_at_i32_negative"
-            make_test([sequence, position], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[-2], "SequenceTrait::sequence_at(input_0, input_1)", name, Trait.SEQUENCE)
 
         positive_position()
         negative_position()
@@ -95,7 +95,7 @@ class Sequence_at(RunAll):
             position = scalar(2)
 
             name = "sequence_at_i8_positive"
-            make_test([sequence, position], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[2], "SequenceTrait::sequence_at(input_0, input_1)", name, Trait.SEQUENCE)
 
         def negative_position():
             sequence = []
@@ -110,7 +110,7 @@ class Sequence_at(RunAll):
             position = scalar(-2)
 
             name = "sequence_at_i8_negative"
-            make_test([sequence, position], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[-2], "SequenceTrait::sequence_at(input_0, input_1)", name, Trait.SEQUENCE)
 
         positive_position()
         negative_position()
@@ -131,7 +131,7 @@ class Sequence_at(RunAll):
             position = scalar(2)
 
             name = "sequence_at_fp8x23_positive"
-            make_test([sequence, position], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[2], "SequenceTrait::sequence_at(input_0, input_1)", name, Trait.SEQUENCE)
 
         def negative_position():
             sequence = []
@@ -146,7 +146,7 @@ class Sequence_at(RunAll):
             position = scalar(-2)
 
             name = "sequence_at_fp8x23_negative"
-            make_test([sequence, position], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[-2], "SequenceTrait::sequence_at(input_0, input_1)", name, Trait.SEQUENCE)
 
         positive_position()
         negative_position()
@@ -167,7 +167,7 @@ class Sequence_at(RunAll):
             position = scalar(2)
 
             name = "sequence_at_fp16x16_positive"
-            make_test([sequence, position], sequence[2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[2], "SequenceTrait::sequence_at(input_0, input_1)", name, Trait.SEQUENCE)
 
         def negative_position():
             sequence = []
@@ -182,7 +182,7 @@ class Sequence_at(RunAll):
             position = scalar(-2)
 
             name = "sequence_at_fp16x16_negative"
-            make_test([sequence, position], sequence[-2], "TensorTrait::sequence_at(input_0, input_1)", name)
+            make_test([sequence, position], sequence[-2], "SequenceTrait::sequence_at(input_0, input_1)", name, Trait.SEQUENCE)
 
         positive_position()
         negative_position()
