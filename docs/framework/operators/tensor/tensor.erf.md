@@ -6,10 +6,6 @@
 
 Computes the mean of the input tensor's elements along the provided axes.
 
-## Args
-
-* `self`(`@Tensor<T>`) - The input tensor.
-
 ## Returns
 
 A new `Tensor<T>` of the same shape as the input tensor with 

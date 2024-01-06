@@ -20,12 +20,10 @@ fn bitwise_and<
 >(
     y: @Tensor<T>, z: @Tensor<T>
 ) -> Tensor<T> {
-    'check_compatibility'.print();
     let broadcasted_shape = broadcast_shape(*y.shape, *z.shape);
     let mut result: Array<T> = ArrayTrait::<T>::new();
 
     let num_elements = len_from_shape(broadcasted_shape);
-    'checked'.print();
 
     let mut n: usize = 0;
     loop {

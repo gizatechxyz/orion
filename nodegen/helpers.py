@@ -48,6 +48,7 @@ Sequence = List[Tensor]
 class Trait(Enum):
     TENSOR = 'TENSOR'
     NN = 'NN'
+    SEQUENCE = 'SEQUENCE'
 
 
 def make_test(inputs: list[Tensor | Sequence], output: Tensor | Sequence, func_sig: str, name: str, trait: Trait = Trait.TENSOR):
@@ -199,7 +200,13 @@ def get_test_refs(dtype: Dtype, trait: Trait) -> list[str]:
     if trait == Trait.NN and dtype == Dtype.BOOL:
         raise Exception("NN trait does not support bool dtype")
 
-    dtype_ref = dtype_to_nn[dtype] if trait == Trait.NN else dtype_to_tensor[dtype]
+    if trait == Trait.NN:
+        dtype_ref = dtype_to_nn[dtype]
+    elif trait == Trait.SEQUENCE:
+        dtype_ref = dtype_to_sequence[dtype]
+    else:
+        dtype_ref = dtype_to_tensor[dtype]
+
     refs = [
         *trait_to_ref[trait],
         *dtype_ref,
@@ -230,6 +237,10 @@ trait_to_ref = {
         "orion::numbers::FixedTrait",
         "orion::operators::nn::NNTrait",
     ],
+    Trait.SEQUENCE: [
+        "array::{ArrayTrait, SpanTrait}",
+        "orion::operators::sequence::SequenceTrait",
+    ],
 }
 
 
@@ -250,6 +261,15 @@ dtype_to_nn = {
     Dtype.I8: ["orion::operators::nn::I8NN",],
     Dtype.FP8x23: ["orion::operators::nn::FP8x23NN",],
     Dtype.FP16x16: ["orion::operators::nn::FP16x16NN",],
+}
+
+
+dtype_to_sequence = {
+    Dtype.U32: ["orion::operators::sequence::U32Sequence",],
+    Dtype.I32: ["orion::operators::sequence::I32Sequence",],
+    Dtype.I8: ["orion::operators::sequence::I8Sequence",],
+    Dtype.FP8x23: ["orion::operators::sequence::FP8x23Sequence",],
+    Dtype.FP16x16: ["orion::operators::sequence::FP16x16Sequence",],
 }
 
 

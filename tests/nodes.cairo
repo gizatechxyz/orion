@@ -851,3 +851,5 @@ mod gather_nd_u32_default;
 mod gather_nd_u32_batch_dims1;
 mod gather_nd_u32_batch_dims2;
 mod reduce_l2_complex64_axis_0;
+mod softmax_zero_fp16x16;
+mod softmax_zero_fp8x23;

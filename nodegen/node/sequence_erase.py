@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 
 scalar = lambda x: Tensor(Dtype.I32, (), np.array([x]).astype(np.int32).flatten())
@@ -26,7 +26,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(2)
 
             name = "sequence_erase_u32_positive"
-            make_test([sequence, position], output_sequence, "TensorTrait::sequence_erase(input_0, Option::Some(input_1))", name)
+            make_test([sequence, position], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::Some(input_1))", name, Trait.SEQUENCE)
 
         def negative_position():
             sequence = []
@@ -44,7 +44,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(-2)
 
             name = "sequence_erase_u32_negative"
-            make_test([sequence, position], output_sequence, "TensorTrait::sequence_erase(input_0, Option::Some(input_1))", name)
+            make_test([sequence, position], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::Some(input_1))", name, Trait.SEQUENCE)
 
         def empty_position():
             sequence = []
@@ -60,7 +60,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(-1)
 
             name = "sequence_erase_u32_empty"
-            make_test([sequence], output_sequence, "TensorTrait::sequence_erase(input_0, Option::None(()))", name)
+            make_test([sequence], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::None(()))", name, Trait.SEQUENCE)
 
         positive_position()
         negative_position()
@@ -85,7 +85,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(2)
 
             name = "sequence_erase_i32_positive"
-            make_test([sequence, position], output_sequence, "TensorTrait::sequence_erase(input_0, Option::Some(input_1))", name)
+            make_test([sequence, position], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::Some(input_1))", name, Trait.SEQUENCE)
 
         def negative_position():
             sequence = []
@@ -103,7 +103,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(-2)
 
             name = "sequence_erase_i32_negative"
-            make_test([sequence, position], output_sequence, "TensorTrait::sequence_erase(input_0, Option::Some(input_1))", name)
+            make_test([sequence, position], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::Some(input_1))", name, Trait.SEQUENCE)
 
         def empty_position():
             sequence = []
@@ -119,7 +119,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(-1)
 
             name = "sequence_erase_i32_empty"
-            make_test([sequence], output_sequence, "TensorTrait::sequence_erase(input_0, Option::None(()))", name)
+            make_test([sequence], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::None(()))", name, Trait.SEQUENCE)
 
         positive_position()
         negative_position()
@@ -144,7 +144,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(2)
 
             name = "sequence_erase_i8_positive"
-            make_test([sequence, position], output_sequence, "TensorTrait::sequence_erase(input_0, Option::Some(input_1))", name)
+            make_test([sequence, position], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::Some(input_1))", name, Trait.SEQUENCE)
 
         def negative_position():
             sequence = []
@@ -162,7 +162,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(-2)
 
             name = "sequence_erase_i8_negative"
-            make_test([sequence, position], output_sequence, "TensorTrait::sequence_erase(input_0, Option::Some(input_1))", name)
+            make_test([sequence, position], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::Some(input_1))", name, Trait.SEQUENCE)
 
         def empty_position():
             sequence = []
@@ -178,7 +178,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(-1)
 
             name = "sequence_erase_i8_empty"
-            make_test([sequence], output_sequence, "TensorTrait::sequence_erase(input_0, Option::None(()))", name)
+            make_test([sequence], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::None(()))", name, Trait.SEQUENCE)
 
         positive_position()
         negative_position()
@@ -203,7 +203,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(2)
 
             name = "sequence_erase_fp8x23_positive"
-            make_test([sequence, position], output_sequence, "TensorTrait::sequence_erase(input_0, Option::Some(input_1))", name)
+            make_test([sequence, position], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::Some(input_1))", name, Trait.SEQUENCE)
 
         def negative_position():
             sequence = []
@@ -221,7 +221,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(-2)
 
             name = "sequence_erase_fp8x23_negative"
-            make_test([sequence, position], output_sequence, "TensorTrait::sequence_erase(input_0, Option::Some(input_1))", name)
+            make_test([sequence, position], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::Some(input_1))", name, Trait.SEQUENCE)
 
         def empty_position():
             sequence = []
@@ -237,7 +237,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(-1)
 
             name = "sequence_erase_fp8x23_empty"
-            make_test([sequence], output_sequence, "TensorTrait::sequence_erase(input_0, Option::None(()))", name)
+            make_test([sequence], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::None(()))", name, Trait.SEQUENCE)
 
         positive_position()
         negative_position()
@@ -262,7 +262,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(2)
 
             name = "sequence_erase_fp16x16_positive"
-            make_test([sequence, position], output_sequence, "TensorTrait::sequence_erase(input_0, Option::Some(input_1))", name)
+            make_test([sequence, position], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::Some(input_1))", name, Trait.SEQUENCE)
 
         def negative_position():
             sequence = []
@@ -280,7 +280,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(-2)
 
             name = "sequence_erase_fp16x16_negative"
-            make_test([sequence, position], output_sequence, "TensorTrait::sequence_erase(input_0, Option::Some(input_1))", name)
+            make_test([sequence, position], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::Some(input_1))", name, Trait.SEQUENCE)
 
         def empty_position():
             sequence = []
@@ -296,7 +296,7 @@ class Sequence_erase(RunAll):
             output_sequence.pop(-1)
 
             name = "sequence_erase_fp16x16_empty"
-            make_test([sequence], output_sequence, "TensorTrait::sequence_erase(input_0, Option::None(()))", name)
+            make_test([sequence], output_sequence, "SequenceTrait::sequence_erase(input_0, Option::None(()))", name, Trait.SEQUENCE)
 
         positive_position()
         negative_position()

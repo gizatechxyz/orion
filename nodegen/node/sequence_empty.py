@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_test, Dtype, Tensor
+from ..helpers import make_test, Dtype, Tensor, Trait
 
 
 class Sequence_empty(RunAll):
@@ -14,8 +14,9 @@ class Sequence_empty(RunAll):
             make_test(
                 inputs=[],
                 output=[t],
-                func_sig="TensorTrait::sequence_empty()",
+                func_sig="SequenceTrait::sequence_empty()",
                 name="sequence_empty_u32",
+                trait=Trait.SEQUENCE
             )
 
         default()
@@ -29,8 +30,9 @@ class Sequence_empty(RunAll):
             make_test(
                 inputs=[],
                 output=[t],
-                func_sig="TensorTrait::sequence_empty()",
+                func_sig="SequenceTrait::sequence_empty()",
                 name="sequence_empty_i32",
+                trait=Trait.SEQUENCE
             )
 
         default()
@@ -44,8 +46,9 @@ class Sequence_empty(RunAll):
             make_test(
                 inputs=[],
                 output=[t],
-                func_sig="TensorTrait::sequence_empty()",
+                func_sig="SequenceTrait::sequence_empty()",
                 name="sequence_empty_i8",
+                trait=Trait.SEQUENCE
             )
 
         default()
@@ -59,8 +62,9 @@ class Sequence_empty(RunAll):
             make_test(
                 inputs=[],
                 output=[t],
-                func_sig="TensorTrait::sequence_empty()",
+                func_sig="SequenceTrait::sequence_empty()",
                 name="sequence_empty_fp8x23",
+                trait=Trait.SEQUENCE
             )
 
         default()
@@ -74,8 +78,9 @@ class Sequence_empty(RunAll):
             make_test(
                 inputs=[],
                 output=[t],
-                func_sig="TensorTrait::sequence_empty()",
+                func_sig="SequenceTrait::sequence_empty()",
                 name="sequence_empty_fp16x16",
+                trait=Trait.SEQUENCE
             )
 
         default()
