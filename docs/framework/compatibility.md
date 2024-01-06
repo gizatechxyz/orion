@@ -37,6 +37,7 @@ You can see below the list of current supported ONNX Operators:
 |      [ThresholdedRelu](operators/neural-network/nn.thresholded\_relu.md)      | :white\_check\_mark: |
 |               [Sigmoid](operators/neural-network/nn.sigmoid.md)               | :white\_check\_mark: |
 |               [Softmax](operators/neural-network/nn.softmax.md)               | :white\_check\_mark: |
+|           [Softmax_zero](operators/neural-network/nn.softmax_zero.md)         | :white\_check\_mark: |
 |            [LogSoftmax](operators/neural-network/nn.logsoftmax.md)            | :white\_check\_mark: |
 |              [Softsign](operators/neural-network/nn.softsign.md)              | :white\_check\_mark: |
 |              [Softplus](operators/neural-network/nn.softplus.md)              | :white\_check\_mark: |

@@ -2,6 +2,7 @@ mod relu;
 mod leaky_relu;
 mod sigmoid;
 mod softmax;
+mod softmax_zero;
 mod softsign;
 mod softplus;
 mod linear;
