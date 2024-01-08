@@ -27,6 +27,10 @@ impl FP16x16NN of NNTrait<FP16x16> {
         functional::softmax::softmaxWide::<FP16x16, u32, FP16x16W, u64>(tensor, axis)
     }
 
+    fn softmax_zero(tensor: @Tensor<FP16x16>, axis: usize) -> Tensor<FP16x16> {
+        functional::softmax_zero::softmaxWide_zero::<FP16x16, u32, FP16x16W, u64>(tensor, axis)
+    }
+
     fn logsoftmax(tensor: @Tensor<FP16x16>, axis: usize) -> Tensor<FP16x16> {
         functional::logsoftmax::logsoftmaxWide::<FP16x16, u32, FP16x16W, u64>(tensor, axis)
     }

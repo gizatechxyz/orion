@@ -400,27 +400,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
-    fn sequence_length(self: Array<Tensor<FP8x23W>>) -> Tensor<u32> {
-        math::sequence_length::sequence_length(self)
-    }
-
     fn shrink(
         self: Tensor<FP8x23W>, bias: Option<FP8x23W>, lambd: Option<FP8x23W>
     ) -> Tensor<FP8x23W> {
         math::shrink::shrink(self, bias, lambd)
-    }
-
-    fn sequence_at(sequence: Array<Tensor<FP8x23W>>, position: Tensor<i32>) -> Tensor<FP8x23W> {
-        math::sequence_at::sequence_at(sequence, position)
-    }
-
-    fn sequence_construct(tensors: Array<Tensor<FP8x23W>>) -> Array<Tensor<FP8x23W>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
-
-    fn sequence_empty() -> Array<Tensor<FP8x23W>> {
-        math::sequence_empty::sequence_empty::<FP8x23W>()
     }
 
     fn reduce_mean(
@@ -445,18 +428,6 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::pow::pow(self, other)
     }
 
-    fn sequence_erase(
-        sequence: Array<Tensor<FP8x23W>>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<FP8x23W>> {
-        math::sequence_erase::sequence_erase(sequence, position)
-    }
-
-    fn sequence_insert(
-        self: Array<Tensor<FP8x23W>>, tensor: @Tensor<FP8x23W>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<FP8x23W>> {
-        math::sequence_insert::sequence_insert(self, tensor, position)
-    }
-
     fn is_inf(
         self: @Tensor<FP8x23W>, detect_negative: Option<u8>, detect_positive: Option<u8>
     ) -> Tensor<bool> {
@@ -467,16 +438,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::is_nan::is_nan(self)
     }
 
-    fn concat_from_sequence(
-        sequence: Array<Tensor<FP8x23W>>, axis: i32, new_axis: Option<usize>
-    ) -> Tensor<FP8x23W> {
-        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
-    }
-
     fn gather_nd(self: @Tensor<FP8x23W>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP8x23W> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
-    
+
     fn reduce_log_sum(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }

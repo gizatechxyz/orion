@@ -3,7 +3,7 @@ use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
 
 
-/// Cf: TensorTrait::sequence_empty docstring
+/// Cf: SequenceTrait::sequence_empty docstring
 fn sequence_empty<T, impl TTensorTrait: TensorTrait<T>, impl TDrop: Drop<T>>() -> Array<Tensor<T>> {
     let mut sequence = ArrayTrait::new();
 

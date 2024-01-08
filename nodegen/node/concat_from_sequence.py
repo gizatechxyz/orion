@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl, Trait
 
 
 class Concat_from_sequence(RunAll):
@@ -25,7 +25,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.U32, concatenated_tensor.shape, concatenated_tensor.flatten())
 
             name = "concat_from_sequence_u32_new_axis_zero"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(0))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(0))", name, Trait.SEQUENCE)
 
         def new_axis_one():
             sequence = []
@@ -45,7 +45,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.U32, concatenated_tensor.shape, concatenated_tensor.flatten())
 
             name = "concat_from_sequence_u32_new_axis_one"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(1))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(1))", name, Trait.SEQUENCE)
 
         def new_axis_default():
             sequence = []
@@ -65,7 +65,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.U32, concatenated_tensor.shape, concatenated_tensor.flatten())
 
             name = "concat_from_sequence_u32_new_axis_default"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::None(()))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::None(()))", name, Trait.SEQUENCE)
 
         new_axis_zero()
         new_axis_one()
@@ -92,7 +92,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.I32, concatenated_tensor.shape, concatenated_tensor.flatten())
 
             name = "concat_from_sequence_i32_new_axis_zero"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(0))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(0))", name, Trait.SEQUENCE)
 
         def new_axis_one():
             sequence = []
@@ -112,7 +112,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.I32, concatenated_tensor.shape, concatenated_tensor.flatten())
 
             name = "concat_from_sequence_i32_new_axis_one"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(1))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(1))", name, Trait.SEQUENCE)
 
         def new_axis_default():
             sequence = []
@@ -132,7 +132,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.I32, concatenated_tensor.shape, concatenated_tensor.flatten())
 
             name = "concat_from_sequence_i32_new_axis_default"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::None(()))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::None(()))", name, Trait.SEQUENCE)
 
         new_axis_zero()
         new_axis_one()
@@ -159,7 +159,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.I8, concatenated_tensor.shape, concatenated_tensor.flatten())
 
             name = "concat_from_sequence_i8_new_axis_zero"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(0))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(0))", name, Trait.SEQUENCE)
 
         def new_axis_one():
             sequence = []
@@ -179,7 +179,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.I8, concatenated_tensor.shape, concatenated_tensor.flatten())
 
             name = "concat_from_sequence_i8_new_axis_one"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(1))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(1))", name, Trait.SEQUENCE)
 
         def new_axis_default():
             sequence = []
@@ -199,7 +199,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.I8, concatenated_tensor.shape, concatenated_tensor.flatten())
 
             name = "concat_from_sequence_i8_new_axis_default"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::None(()))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::None(()))", name, Trait.SEQUENCE)
 
         new_axis_zero()
         new_axis_one()
@@ -226,7 +226,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.FP8x23, concatenated_tensor.shape, to_fp(concatenated_tensor.flatten(), FixedImpl.FP8x23))
 
             name = "concat_from_sequence_fp8x23_new_axis_zero"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(0))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(0))", name, Trait.SEQUENCE)
 
         def new_axis_one():
             sequence = []
@@ -246,7 +246,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.FP8x23, concatenated_tensor.shape, to_fp(concatenated_tensor.flatten(), FixedImpl.FP8x23))
 
             name = "concat_from_sequence_fp8x23_new_axis_one"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(1))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(1))", name, Trait.SEQUENCE)
 
         def new_axis_default():
             sequence = []
@@ -266,7 +266,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.FP8x23, concatenated_tensor.shape, to_fp(concatenated_tensor.flatten(), FixedImpl.FP8x23))
 
             name = "concat_from_sequence_fp8x23_new_axis_default"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::None(()))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::None(()))", name, Trait.SEQUENCE)
 
         new_axis_zero()
         new_axis_one()
@@ -293,7 +293,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.FP16x16, concatenated_tensor.shape, to_fp(concatenated_tensor.flatten(), FixedImpl.FP16x16))
 
             name = "concat_from_sequence_fp16x16_new_axis_zero"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(0))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(0))", name, Trait.SEQUENCE)
 
         def new_axis_one():
             sequence = []
@@ -313,7 +313,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.FP16x16, concatenated_tensor.shape, to_fp(concatenated_tensor.flatten(), FixedImpl.FP16x16))
 
             name = "concat_from_sequence_fp16x16_new_axis_one"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(1))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::Some(1))", name, Trait.SEQUENCE)
 
         def new_axis_default():
             sequence = []
@@ -333,7 +333,7 @@ class Concat_from_sequence(RunAll):
             concatenated_tensor = Tensor(Dtype.FP16x16, concatenated_tensor.shape, to_fp(concatenated_tensor.flatten(), FixedImpl.FP16x16))
 
             name = "concat_from_sequence_fp16x16_new_axis_default"
-            make_test([sequence], concatenated_tensor, "TensorTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::None(()))", name)
+            make_test([sequence], concatenated_tensor, "SequenceTrait::concat_from_sequence(input_0, IntegerTrait::<i32>::new(1, false), Option::None(()))", name, Trait.SEQUENCE)
 
         new_axis_zero()
         new_axis_one()

@@ -449,26 +449,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
-    fn sequence_length(self: Array<Tensor<FP32x32>>) -> Tensor<u32> {
-        math::sequence_length::sequence_length(self)
-    }
-
     fn shrink(
         self: Tensor<FP32x32>, bias: Option<FP32x32>, lambd: Option<FP32x32>
     ) -> Tensor<FP32x32> {
         math::shrink::shrink(self, bias, lambd)
-    }
-
-    fn sequence_at(sequence: Array<Tensor<FP32x32>>, position: Tensor<i32>) -> Tensor<FP32x32> {
-        math::sequence_at::sequence_at(sequence, position)
-    }
-
-    fn sequence_construct(tensors: Array<Tensor<FP32x32>>) -> Array<Tensor<FP32x32>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
-    fn sequence_empty() -> Array<Tensor<FP32x32>> {
-        math::sequence_empty::sequence_empty::<FP32x32>()
     }
 
     fn reduce_mean(
@@ -493,18 +477,6 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::pow::pow(self, other)
     }
 
-    fn sequence_erase(
-        sequence: Array<Tensor<FP32x32>>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<FP32x32>> {
-        math::sequence_erase::sequence_erase(sequence, position)
-    }
-
-    fn sequence_insert(
-        self: Array<Tensor<FP32x32>>, tensor: @Tensor<FP32x32>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<FP32x32>> {
-        math::sequence_insert::sequence_insert(self, tensor, position)
-    }
-
     fn is_inf(
         self: @Tensor<FP32x32>, detect_negative: Option<u8>, detect_positive: Option<u8>
     ) -> Tensor<bool> {
@@ -515,16 +487,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::is_nan::is_nan(self)
     }
 
-    fn concat_from_sequence(
-        sequence: Array<Tensor<FP32x32>>, axis: i32, new_axis: Option<usize>
-    ) -> Tensor<FP32x32> {
-        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
-    }
-
     fn gather_nd(self: @Tensor<FP32x32>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP32x32> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
-    
+
     fn reduce_log_sum(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }

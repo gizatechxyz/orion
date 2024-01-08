@@ -27,6 +27,7 @@ Orion supports currently these `NN` types.
 | [`nn.leaky_relu`](nn.leaky\_relu.md) | Applies the leaky rectified linear unit (Leaky ReLU) activation function element-wise. |
 | [`nn.sigmoid`](nn.sigmoid.md) | Applies the Sigmoid function to an n-dimensional input tensor. |
 | [`nn.softmax`](nn.softmax.md) | Computes softmax activations. |
+| [`nn.softmax_zero`](nn.softmax\_zero.md) | Computes softmax zero. |
 | [`nn.logsoftmax`](nn.logsoftmax.md) | Applies the natural log to Softmax function to an n-dimensional input Tensor. |
 | [`nn.softsign`](nn.softsign.md) | Applies the Softsign function element-wise. |
 | [`nn.softplus`](nn.softplus.md) | Applies the Softplus function element-wise. |

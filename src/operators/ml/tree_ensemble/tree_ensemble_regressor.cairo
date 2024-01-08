@@ -434,7 +434,6 @@ fn compute_res_AVERAGE<
 ) {
     let n_trees_felt: felt252 = (n_trees * 65536).into();
     let n_trees: T = NumberTrait::from_felt(n_trees_felt);
-    n_trees_felt.print();
     loop {
         match t_index.pop_front() {
             Option::Some(its) => {

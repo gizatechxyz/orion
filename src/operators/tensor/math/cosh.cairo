@@ -12,10 +12,10 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 fn cosh<
     T,
     MAG,
-    impl FFixedTrait: FixedTrait<T, MAG>,
-    impl FTensor: TensorTrait<T>,
-    impl FCopy: Copy<T>,
-    impl FDrop: Drop<T>,
+    impl TNumberTrait: NumberTrait<T, MAG>,
+    impl TTensor: TensorTrait<T>,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>,
 >(
     mut self: Tensor<T>
 ) -> Tensor<T> {
