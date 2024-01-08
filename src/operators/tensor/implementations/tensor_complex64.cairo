@@ -472,7 +472,9 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
-    fn compress(self: @Tensor<complex64>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<complex64> {
+    fn compress(
+        self: @Tensor<complex64>, condition: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<complex64> {
         math::compress::compress(self, condition, axis)
     }
 }
