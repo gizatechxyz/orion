@@ -475,6 +475,10 @@ impl Complex64Tensor of TensorTrait<complex64> {
     fn compress(self: @Tensor<complex64>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<complex64> {
         math::compress::compress(self, condition, axis)
     }
+
+    fn reduce_log_sum_exp(self: @Tensor<complex64>, axis: usize, keepdims: bool) -> Tensor<complex64> {
+        math::reduce_log_sum_exp::reduce_log_sum_exp(self, axis, keepdims)
+    }
 }
 
 /// Implements addition for `Tensor<complex64>` using the `Add` trait.
