@@ -414,26 +414,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
-    fn sequence_length(self: Array<Tensor<FP16x16W>>) -> Tensor<u32> {
-        math::sequence_length::sequence_length(self)
-    }
-
     fn shrink(
         self: Tensor<FP16x16W>, bias: Option<FP16x16W>, lambd: Option<FP16x16W>
     ) -> Tensor<FP16x16W> {
         math::shrink::shrink(self, bias, lambd)
-    }
-
-    fn sequence_at(sequence: Array<Tensor<FP16x16W>>, position: Tensor<i32>) -> Tensor<FP16x16W> {
-        math::sequence_at::sequence_at(sequence, position)
-    }
-
-    fn sequence_construct(tensors: Array<Tensor<FP16x16W>>) -> Array<Tensor<FP16x16W>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
-    fn sequence_empty() -> Array<Tensor<FP16x16W>> {
-        math::sequence_empty::sequence_empty::<FP16x16W>()
     }
 
     fn reduce_mean(
@@ -458,18 +442,6 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::pow::pow(self, other)
     }
 
-    fn sequence_erase(
-        sequence: Array<Tensor<FP16x16W>>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<FP16x16W>> {
-        math::sequence_erase::sequence_erase(sequence, position)
-    }
-
-    fn sequence_insert(
-        self: Array<Tensor<FP16x16W>>, tensor: @Tensor<FP16x16W>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<FP16x16W>> {
-        math::sequence_insert::sequence_insert(self, tensor, position)
-    }
-
     fn is_inf(
         self: @Tensor<FP16x16W>, detect_negative: Option<u8>, detect_positive: Option<u8>
     ) -> Tensor<bool> {
@@ -480,10 +452,8 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::is_nan::is_nan(self)
     }
 
-    fn concat_from_sequence(
-        sequence: Array<Tensor<FP16x16W>>, axis: i32, new_axis: Option<usize>
-    ) -> Tensor<FP16x16W> {
-        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
+    fn gather_nd(self: @Tensor<FP16x16W>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP16x16W> {
+        math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 
     fn reduce_log_sum(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
@@ -502,6 +472,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         self: @Tensor<FP16x16W>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<FP16x16W>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         manipulation::unique::unique(self, axis, sorted)
+    }
+
+    fn compress(self: @Tensor<FP16x16W>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP16x16W> {
+        math::compress::compress(self, condition, axis)
     }
 }
 

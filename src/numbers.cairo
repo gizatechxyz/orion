@@ -2879,3 +2879,238 @@ impl u32Number of NumberTrait<u32, u32> {
         lhs - rhs
     }
 }
+
+
+use orion::numbers::complex_number::complex_trait::ComplexTrait;
+use orion::numbers::complex_number::complex64::{
+    Complex64Impl, complex64, Complex64Add, Complex64Sub
+};
+
+
+impl Complex64Number of NumberTrait<complex64, FP64x64> {
+    fn new(mag: FP64x64, sign: bool) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn new_unscaled(mag: FP64x64, sign: bool) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn from_felt(val: felt252) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn ceil(self: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn exp(self: complex64) -> complex64 {
+        Complex64Impl::exp(self)
+    }
+
+    fn exp2(self: complex64) -> complex64 {
+        Complex64Impl::exp2(self)
+    }
+
+    fn floor(self: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn ln(self: complex64) -> complex64 {
+        Complex64Impl::ln(self)
+    }
+
+    fn log2(self: complex64) -> complex64 {
+        Complex64Impl::log2(self)
+    }
+
+    fn log10(self: complex64) -> complex64 {
+        Complex64Impl::log10(self)
+    }
+
+    fn pow(self: complex64, b: complex64) -> complex64 {
+        Complex64Impl::pow(self, b)
+    }
+
+    fn round(self: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn sqrt(self: complex64) -> complex64 {
+        Complex64Impl::sqrt(self)
+    }
+
+    fn acos(self: complex64) -> complex64 {
+        Complex64Impl::acos(self)
+    }
+
+    fn asin(self: complex64) -> complex64 {
+        Complex64Impl::asin(self)
+    }
+
+    fn atan(self: complex64) -> complex64 {
+        Complex64Impl::atan(self)
+    }
+
+    fn cos(self: complex64) -> complex64 {
+        Complex64Impl::cos(self)
+    }
+
+    fn sin(self: complex64) -> complex64 {
+        Complex64Impl::sin(self)
+    }
+
+    fn tan(self: complex64) -> complex64 {
+        Complex64Impl::tan(self)
+    }
+
+    fn acosh(self: complex64) -> complex64 {
+        Complex64Impl::acosh(self)
+    }
+
+    fn asinh(self: complex64) -> complex64 {
+        Complex64Impl::asinh(self)
+    }
+
+    fn atanh(self: complex64) -> complex64 {
+        Complex64Impl::atanh(self)
+    }
+
+    fn cosh(self: complex64) -> complex64 {
+        Complex64Impl::cosh(self)
+    }
+
+    fn sinh(self: complex64) -> complex64 {
+        Complex64Impl::sinh(self)
+    }
+
+    fn tanh(self: complex64) -> complex64 {
+        Complex64Impl::tanh(self)
+    }
+
+    fn zero() -> complex64 {
+        Complex64Impl::zero()
+    }
+
+    fn is_zero(self: complex64) -> bool {
+        if self == Complex64Impl::zero() {
+            return true;
+        }
+        false
+    }
+
+    fn half() -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn one() -> complex64 {
+        Complex64Impl::one()
+    }
+
+    fn neg_one() -> complex64 {
+        Complex64Impl::new(FP64x64 { mag: core_fp64x64::ONE, sign: true }, FP64x64Impl::ZERO())
+    }
+
+    fn is_one(self: complex64) -> bool {
+        if self == Complex64Impl::one() {
+            return true;
+        }
+        false
+    }
+
+    fn abs(self: complex64) -> complex64 {
+        Complex64Impl::new(Complex64Impl::mag(self), FP64x64Impl::ZERO())
+    }
+
+    fn neg(self: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn min_value() -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn max_value() -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn min(self: complex64, other: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn max(self: complex64, other: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn mag(self: complex64) -> FP64x64 {
+        Complex64Impl::mag(self)
+    }
+
+    fn is_neg(self: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn xor(lhs: complex64, rhs: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn or(lhs: complex64, rhs: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn sign(self: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn and(lhs: complex64, rhs: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn where(self: complex64, x: complex64, y: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn NaN() -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn is_nan(self: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn INF() -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn is_inf(self: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn is_pos_inf(self: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn is_neg_inf(self: complex64) -> bool {
+        panic(array!['not supported!'])
+    }
+
+    fn bitwise_and(lhs: complex64, rhs: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn bitwise_xor(lhs: complex64, rhs: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn bitwise_or(lhs: complex64, rhs: complex64) -> complex64 {
+        panic(array!['not supported!'])
+    }
+
+    fn add(lhs: complex64, rhs: complex64) -> complex64 {
+        Complex64Add::add(lhs, rhs)
+    }
+
+    fn sub(lhs: complex64, rhs: complex64) -> complex64 {
+        Complex64Sub::sub(lhs, rhs)
+    }
+}

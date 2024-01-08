@@ -41,13 +41,13 @@ You can check our official docs [here](https://orion.gizatech.xyz/welcome/readme
 - 🏛 [Hub](https://orion.gizatech.xyz/v/develop/hub/algorithms): A curated collection of ML models and spaces built by the community using Orion framework.
 - 🎓 [Academy](https://orion.gizatech.xyz/v/develop/academy/tutorials): Resources and tutorials for learning how to build ValidityML models using Orion.
 
-## ✨ What's new?
-
-For a detailed list of changes, please refer to the [CHANGELOG](https://github.com/franalgaba/onnx-cairo/blob/main/docs/CHANGELOG.md) file.
-
 ## 💖 Join the community!
 
 Join the community and help build a safer and transparent AI in our [Discord](https://discord.gg/kvqVYbCpU3)!
+
+## 🚀 Orion Usage
+- For an insightful overview of impressive proof of concepts, models, and tutorials created by our community, please visit [Orion Usage](https://github.com/gizatechxyz/orion/blob/main/orion-usage.md).
+- Discover a currated list of tutorials and models developed using Orion in [Orion-Hub](https://github.com/gizatechxyz/Orion-Hub).
 
 ## ✍️ Authors & contributors
 

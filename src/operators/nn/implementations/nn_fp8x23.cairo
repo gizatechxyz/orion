@@ -25,6 +25,10 @@ impl FP8x23NN of NNTrait<FP8x23> {
         functional::softmax::softmaxWide::<FP8x23, u32, FP8x23W, u64>(tensor, axis)
     }
 
+    fn softmax_zero(tensor: @Tensor<FP8x23>, axis: usize) -> Tensor<FP8x23> {
+        functional::softmax_zero::softmaxWide_zero::<FP8x23, u32, FP8x23W, u64>(tensor, axis)
+    }
+
     fn logsoftmax(tensor: @Tensor<FP8x23>, axis: usize) -> Tensor<FP8x23> {
         functional::logsoftmax::logsoftmaxWide::<FP8x23, u32, FP8x23W, u64>(tensor, axis)
     }

@@ -20,6 +20,7 @@ const PI: u128 = 57952155664616982739;
 const HALF_PI: u128 = 28976077832308491370;
 const TWO: u128 = 36893488147419103232;
 const E: u128 = 50143449208471493718;
+const HALF: u128 = 9223372036854775808;
 
 impl Complex64Impl of ComplexTrait<complex64, FP64x64> {
     fn new(real: FP64x64, img: FP64x64) -> complex64 {
@@ -61,12 +62,23 @@ impl Complex64Impl of ComplexTrait<complex64, FP64x64> {
         complex64 { real, img }
     }
 
+    fn exp2(self: complex64) -> complex64 {
+        let two = complex64 { real: FP64x64Impl::new(TWO, false), img: FP64x64Impl::ZERO() };
+        two.pow(self)
+    }
+
+
     fn sqrt(self: complex64) -> complex64 {
         let x = self.real;
         let y = self.img;
         let two = FP64x64Impl::new(TWO, false);
         let real = (((x.pow(two) + y.pow(two)).sqrt() + x) / two).sqrt();
-        let img = (((x.pow(two) + y.pow(two)).sqrt() - x) / two).sqrt();
+        let img = if y == FP64x64Impl::ZERO() {
+            FP64x64Impl::ZERO()
+        } else {
+            (((x.pow(two) + y.pow(two)).sqrt() - x) / two).sqrt()
+        };
+
         let img = FP64x64Impl::new(img.mag, y.sign);
         complex64 { real, img }
     }
@@ -75,6 +87,18 @@ impl Complex64Impl of ComplexTrait<complex64, FP64x64> {
         let real = self.mag().ln();
         let img = self.arg();
         complex64 { real, img }
+    }
+
+    fn log2(self: complex64) -> complex64 {
+        let ln_2 = FP64x64Impl::new(12786309186476892720, false);
+        let ln = self.ln();
+        complex64 { real: (ln.real / ln_2), img: (ln.img / ln_2) }
+    }
+
+    fn log10(self: complex64) -> complex64 {
+        let ln_10 = FP64x64Impl::new(42475197399893398429, false);
+        let ln = self.ln();
+        complex64 { real: (ln.real / ln_10), img: (ln.img / ln_10) }
     }
 
     fn pow(self: complex64, b: complex64) -> complex64 {
@@ -106,6 +130,132 @@ impl Complex64Impl of ComplexTrait<complex64, FP64x64> {
         let real = A * B.cos();
         let img = A * B.sin();
         complex64 { real, img }
+    }
+
+    //cos(z) = cos(a+bi) = cos(a)cosh(b)-isin(a)sinh(b)
+    fn cos(self: complex64) -> complex64 {
+        let a = self.real;
+        let b = self.img;
+        complex64 {
+            real: FP64x64Impl::cos(a) * FP64x64Impl::cosh(b),
+            img: -FP64x64Impl::sin(a) * FP64x64Impl::sinh(b)
+        }
+    }
+
+
+    //sin(z) = sin(a+bi) = sin(a)cosh(b)+icos(a)sinh(b)
+    fn sin(self: complex64) -> complex64 {
+        let a = self.real;
+        let b = self.img;
+        complex64 {
+            real: FP64x64Impl::sin(a) * FP64x64Impl::cosh(b),
+            img: FP64x64Impl::cos(a) * FP64x64Impl::sinh(b)
+        }
+    }
+
+    //tan(z) = tan(a+bi) = sin(2a) / (cosh(2b) + cos(2a)) + i sinh(2b) / (cosh(2b) + cos(2a))
+    fn tan(self: complex64) -> complex64 {
+        let two = FP64x64Impl::new(TWO, false);
+        let a = self.real;
+        let b = self.img;
+        let den = FP64x64Impl::cosh(two * b) + FP64x64Impl::cos(two * a);
+        complex64 { real: FP64x64Impl::sin(two * a) / den, img: FP64x64Impl::sinh(two * b) / den }
+    }
+
+    //acos(z) = pi/2 + i ln (iz sqrt(1 - z**2))
+    fn acos(self: complex64) -> complex64 {
+        let pi = Complex64Impl::new(FP64x64Impl::new(PI, false), FP64x64Impl::ZERO());
+        let two = Complex64Impl::new(FP64x64Impl::new(TWO, false), FP64x64Impl::ZERO());
+        let i = Complex64Impl::new(FP64x64Impl::ZERO(), FP64x64Impl::ONE());
+        let one = Complex64Impl::new(FP64x64Impl::ONE(), FP64x64Impl::ZERO());
+        let acos = pi / two
+            + i * Complex64Impl::ln(i * self + Complex64Impl::sqrt(one - (self.pow(two))));
+
+        acos
+    }
+
+    //asin(z) = - i ln (iz sqrt(1 - z**2))
+    fn asin(self: complex64) -> complex64 {
+        let two = Complex64Impl::new(FP64x64Impl::new(TWO, false), FP64x64Impl::ZERO());
+        let i = Complex64Impl::new(FP64x64Impl::ZERO(), FP64x64Impl::ONE());
+        let one = Complex64Impl::new(FP64x64Impl::ONE(), FP64x64Impl::ZERO());
+        let asin = -i * Complex64Impl::ln(i * self + Complex64Impl::sqrt(one - (self.pow(two))));
+
+        asin
+    }
+
+
+    //atan(z) = 1/2 * i[ln (1 - iz) - ln(1 + iz)]
+    fn atan(self: complex64) -> complex64 {
+        let two = Complex64Impl::new(FP64x64Impl::new(TWO, false), FP64x64Impl::ZERO());
+        let i = Complex64Impl::new(FP64x64Impl::ZERO(), FP64x64Impl::ONE());
+        let one = Complex64Impl::new(FP64x64Impl::ONE(), FP64x64Impl::ZERO());
+        let atan = one
+            / two
+            * i
+            * (Complex64Impl::ln(one - i * self) - Complex64Impl::ln(one + i * self));
+
+        atan
+    }
+
+
+    //acosh(z) = ln (z + sqrt(z + 1) * sqrt(z - 1)) 
+    fn acosh(self: complex64) -> complex64 {
+        let one = Complex64Impl::new(FP64x64Impl::ONE(), FP64x64Impl::ZERO());
+        let acosh = Complex64Impl::ln(
+            self + Complex64Impl::sqrt(self + one) * Complex64Impl::sqrt(self - one)
+        );
+
+        acosh
+    }
+
+    //asinh(z) = ln (z + sqrt(z**2 + 1)) 
+    fn asinh(self: complex64) -> complex64 {
+        let one = Complex64Impl::new(FP64x64Impl::ONE(), FP64x64Impl::ZERO());
+        let two = Complex64Impl::new(FP64x64Impl::new(TWO, false), FP64x64Impl::ZERO());
+        let asinh = Complex64Impl::ln(self + Complex64Impl::sqrt(one + (self.pow(two))));
+
+        asinh
+    }
+
+
+    //atanh(z) = 1/2 * [ln (1 + z) - ln(1 - z)]
+    fn atanh(self: complex64) -> complex64 {
+        let two = Complex64Impl::new(FP64x64Impl::new(TWO, false), FP64x64Impl::ZERO());
+        let i = Complex64Impl::new(FP64x64Impl::ZERO(), FP64x64Impl::ONE());
+        let one = Complex64Impl::new(FP64x64Impl::ONE(), FP64x64Impl::ZERO());
+        let atanh = (Complex64Impl::ln(one + self) - Complex64Impl::ln(one - self)) / two;
+
+        atanh
+    }
+
+    //acos(z) = acos(a+bi) = cosh a * cos b + i sinh a * sin b
+    fn cosh(self: complex64) -> complex64 {
+        let a = self.real;
+        let b = self.img;
+        complex64 {
+            real: FP64x64Impl::cosh(a) * FP64x64Impl::cos(b),
+            img: FP64x64Impl::sinh(a) * FP64x64Impl::sin(b)
+        }
+    }
+
+    //sinh(z) = sin(a+bi) = sinh(a)cos(b)+icosh(a)sin(b)
+    fn sinh(self: complex64) -> complex64 {
+        let a = self.real;
+        let b = self.img;
+        complex64 {
+            real: FP64x64Impl::sinh(a) * FP64x64Impl::cos(b),
+            img: FP64x64Impl::cosh(a) * FP64x64Impl::sin(b)
+        }
+    }
+
+    //tanh(z) = tan(a+bi) = sin(2a) / (cosh(2a) + cos(2b)) + i sinh(2b) / (cosh(2a) + cos(2b))
+    fn tanh(self: complex64) -> complex64 {
+        let two = FP64x64Impl::new(TWO, false);
+        let a = self.real;
+        let b = self.img;
+        let den = FP64x64Impl::cosh(two * a) + FP64x64Impl::cos(two * b);
+        complex64 { real: FP64x64Impl::sinh(two * a) / den, img: FP64x64Impl::sin(two * b) / den }
     }
 
 
@@ -143,7 +293,7 @@ fn atan2(x: FP64x64, y: FP64x64) -> FP64x64 {
     }
 }
 
-impl complex64Print of PrintTrait<complex64> {
+impl Complex64Print of PrintTrait<complex64> {
     fn print(self: complex64) {
         self.real.print();
         '+'.print();
@@ -153,14 +303,14 @@ impl complex64Print of PrintTrait<complex64> {
 }
 
 // Implements the Add trait for complex64.
-impl complex64Add of Add<complex64> {
+impl Complex64Add of Add<complex64> {
     fn add(lhs: complex64, rhs: complex64) -> complex64 {
         complex64_add(lhs, rhs)
     }
 }
 
 // Implements the AddEq trait for complex64.
-impl complex64AddEq of AddEq<complex64> {
+impl Complex64AddEq of AddEq<complex64> {
     #[inline(always)]
     fn add_eq(ref self: complex64, other: complex64) {
         self = Add::add(self, other);
@@ -168,14 +318,14 @@ impl complex64AddEq of AddEq<complex64> {
 }
 
 // Implements the Sub trait for complex64.
-impl complex64Sub of Sub<complex64> {
+impl Complex64Sub of Sub<complex64> {
     fn sub(lhs: complex64, rhs: complex64) -> complex64 {
         complex64_sub(lhs, rhs)
     }
 }
 
 // Implements the SubEq trait for complex64.
-impl complex64SubEq of SubEq<complex64> {
+impl Complex64SubEq of SubEq<complex64> {
     #[inline(always)]
     fn sub_eq(ref self: complex64, other: complex64) {
         self = Sub::sub(self, other);
@@ -183,14 +333,14 @@ impl complex64SubEq of SubEq<complex64> {
 }
 
 // Implements the Mul trait for complex64.
-impl complex64Mul of Mul<complex64> {
+impl Complex64Mul of Mul<complex64> {
     fn mul(lhs: complex64, rhs: complex64) -> complex64 {
         complex64_mul(lhs, rhs)
     }
 }
 
 // Implements the MulEq trait for complex64.
-impl complex64MulEq of MulEq<complex64> {
+impl Complex64MulEq of MulEq<complex64> {
     #[inline(always)]
     fn mul_eq(ref self: complex64, other: complex64) {
         self = Mul::mul(self, other);
@@ -198,14 +348,14 @@ impl complex64MulEq of MulEq<complex64> {
 }
 
 // Implements the Div trait for complex64.
-impl complex64Div of Div<complex64> {
+impl Complex64Div of Div<complex64> {
     fn div(lhs: complex64, rhs: complex64) -> complex64 {
         complex64_div(lhs, rhs)
     }
 }
 
 // Implements the DivEq trait for complex64.
-impl complex64DivEq of DivEq<complex64> {
+impl Complex64DivEq of DivEq<complex64> {
     #[inline(always)]
     fn div_eq(ref self: complex64, other: complex64) {
         self = Div::div(self, other);
@@ -214,7 +364,7 @@ impl complex64DivEq of DivEq<complex64> {
 
 
 // Implements the PartialEq trait for complex64.
-impl complex64PartialEq of PartialEq<complex64> {
+impl Complex64PartialEq of PartialEq<complex64> {
     fn eq(lhs: @complex64, rhs: @complex64) -> bool {
         complex64_eq(*lhs, *rhs)
     }
@@ -225,7 +375,7 @@ impl complex64PartialEq of PartialEq<complex64> {
 }
 
 // Implements the Neg trait for complex64.
-impl i8Neg of Neg<complex64> {
+impl Complex64Neg of Neg<complex64> {
     fn neg(a: complex64) -> complex64 {
         complex64_neg(a)
     }

@@ -1,6 +1,6 @@
 # Implement new operators in Orion
 
-<figure><img src="../../.gitbook/assets/article_header_ORION.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/tutorial#2.png" alt=""><figcaption></figcaption></figure>
 
 The Orion Framework offers an open-source ONNX runtime implementation for Validity and ZK Machine Learning. Are you interested in contributing? We sincerely appreciate your interest. This is exactly how we'll build a robust and transparent AI ecosystem! In this tutorial, you'll learn how to contribute to the [Orion repository](https://github.com/gizatechxyz/orion) by implementing from scratch a new operator.
 

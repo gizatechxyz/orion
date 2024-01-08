@@ -1,10 +1,11 @@
 mod output_0;
 
 
+use orion::operators::sequence::I8Sequence;
+use orion::operators::sequence::SequenceTrait;
 use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
 use orion::utils::{assert_eq, assert_seq_eq};
-use orion::operators::tensor::I8Tensor;
 use orion::operators::tensor::I8TensorPartialEq;
 
 #[test]
@@ -12,7 +13,7 @@ use orion::operators::tensor::I8TensorPartialEq;
 fn test_sequence_empty_i8() {
     let z = output_0::output_0();
 
-    let y = TensorTrait::sequence_empty();
+    let y = SequenceTrait::sequence_empty();
 
     assert_seq_eq(y, z);
 }

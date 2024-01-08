@@ -37,6 +37,7 @@ You can see below the list of current supported ONNX Operators:
 |      [ThresholdedRelu](operators/neural-network/nn.thresholded\_relu.md)      | :white\_check\_mark: |
 |               [Sigmoid](operators/neural-network/nn.sigmoid.md)               | :white\_check\_mark: |
 |               [Softmax](operators/neural-network/nn.softmax.md)               | :white\_check\_mark: |
+|           [Softmax_zero](operators/neural-network/nn.softmax_zero.md)         | :white\_check\_mark: |
 |            [LogSoftmax](operators/neural-network/nn.logsoftmax.md)            | :white\_check\_mark: |
 |              [Softsign](operators/neural-network/nn.softsign.md)              | :white\_check\_mark: |
 |              [Softplus](operators/neural-network/nn.softplus.md)              | :white\_check\_mark: |
@@ -89,20 +90,21 @@ You can see below the list of current supported ONNX Operators:
 |               [ReduceL1](operators/tensor/tensor.reduce\_l1.md)               | :white\_check\_mark: |
 |               [ReduceL2](operators/tensor/tensor.reduce\_l2.md)               | :white\_check\_mark: |
 |         [GatherElements](operators/tensor/tensor.gather/_elements.md)         | :white\_check\_mark: |
-|         [SequenceLength](operators/tensor/tensor.sequence\_length.md)         | :white\_check\_mark: |
-|             [SequenceAt](operators/tensor/tensor.sequence\_at.md)             | :white\_check\_mark: |
-|      [SequenceConstruct](operators/tensor/tensor.sequence\_construct.md)      | :white\_check\_mark: |
+|       [SequenceLength](operators/sequence/sequence.sequence\_length.md)       | :white\_check\_mark: |
+|           [SequenceAt](operators/sequence/sequence.sequence\_at.md)           | :white\_check\_mark: |
+|    [SequenceConstruct](operators/sequence/sequence.sequence\_construct.md)    | :white\_check\_mark: |
 |                  [Shrink](operators/tensor/tensor.shrink.md)                  | :white\_check\_mark: |
-|          [SequenceEmpty](operators/tensor/tensor.sequence\_empty.md)          | :white\_check\_mark: |
+|        [SequenceEmpty](operators/sequence/sequence.sequence\_empty.md)        | :white\_check\_mark: |
 |               [ReduceL2](operators/tensor/tensor.reduce\_l2.md)               | :white\_check\_mark: |
-|          [SequenceErase](operators/tensor/tensor.sequence\_erase.md)          | :white\_check\_mark: |
-|         [SequenceInsert](operators/tensor/tensor.sequence\_insert.md)         | :white\_check\_mark: |
-|    [ConcatFromSequence](operators/tensor/tensor.concat\_from\_sequence.md)    | :white\_check\_mark: |
+|        [SequenceErase](operators/sequence/sequence.sequence\_erase.md)        | :white\_check\_mark: |
+|       [SequenceInsert](operators/sequence/sequence.sequence\_insert.md)       | :white\_check\_mark: |
+|  [ConcatFromSequence](operators/sequence/sequence.concat\_from\_sequence.md)  | :white\_check\_mark: |
 |                  [IsNaN](operators/tensor/tensor.is\_nan.md)                  | :white\_check\_mark: |
 |                  [IsInf](operators/tensor/tensor.is\_inf.md)                  | :white\_check\_mark: |
 |                     [Not](operators/tensor/tensor.not.md)                     | :white\_check\_mark: |
+|              [GatherND](operators/tensor/tensor.gather/_nd.md)                | :white\_check\_mark: |
 |       [ReduceLogSum](operators/tensor/tensor.reduce\_log\_sum.md)             | :white\_check\_mark: |
-|       [Erf](operators/tensor/tensor.erf.md)                                   | :white\_check\_mark: |
+|               [Erf](operators/tensor/tensor.erf.md)                           | :white\_check\_mark: |
+|        [Compress](operators/tensor/tensor.compress.md)                        | :white\_check\_mark: |
 
-
-Current Operators support: **96/156 (62%)**
+Current Operators support: **97/156 (62%)**
