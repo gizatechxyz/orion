@@ -471,6 +471,10 @@ impl Complex64Tensor of TensorTrait<complex64> {
     ) -> (Tensor<complex64>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         panic(array!['not supported!'])
     }
+
+    fn compress(self: @Tensor<complex64>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<complex64> {
+        math::compress::compress(self, condition, axis)
+    }
 }
 
 /// Implements addition for `Tensor<complex64>` using the `Add` trait.
