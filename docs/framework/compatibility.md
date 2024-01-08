@@ -37,7 +37,7 @@ You can see below the list of current supported ONNX Operators:
 |      [ThresholdedRelu](operators/neural-network/nn.thresholded\_relu.md)      | :white\_check\_mark: |
 |               [Sigmoid](operators/neural-network/nn.sigmoid.md)               | :white\_check\_mark: |
 |               [Softmax](operators/neural-network/nn.softmax.md)               | :white\_check\_mark: |
-|           [Softmax_zero](operators/neural-network/nn.softmax_zero.md)         | :white\_check\_mark: |
+|          [Softmax_zero](operators/neural-network/nn.softmax_zero.md)          | :white\_check\_mark: |
 |            [LogSoftmax](operators/neural-network/nn.logsoftmax.md)            | :white\_check\_mark: |
 |              [Softsign](operators/neural-network/nn.softsign.md)              | :white\_check\_mark: |
 |              [Softplus](operators/neural-network/nn.softplus.md)              | :white\_check\_mark: |
@@ -102,9 +102,10 @@ You can see below the list of current supported ONNX Operators:
 |                  [IsNaN](operators/tensor/tensor.is\_nan.md)                  | :white\_check\_mark: |
 |                  [IsInf](operators/tensor/tensor.is\_inf.md)                  | :white\_check\_mark: |
 |                     [Not](operators/tensor/tensor.not.md)                     | :white\_check\_mark: |
-|              [GatherND](operators/tensor/tensor.gather/_nd.md)                | :white\_check\_mark: |
-|       [ReduceLogSum](operators/tensor/tensor.reduce\_log\_sum.md)             | :white\_check\_mark: |
-|               [Erf](operators/tensor/tensor.erf.md)                           | :white\_check\_mark: |
-|        [Compress](operators/tensor/tensor.compress.md)                        | :white\_check\_mark: |
+|               [GatherND](operators/tensor/tensor.gather/_nd.md)               | :white\_check\_mark: |
+|          [ReduceLogSum](operators/tensor/tensor.reduce\_log\_sum.md)          | :white\_check\_mark: |
+|                     [Erf](operators/tensor/tensor.erf.md)                     | :white\_check\_mark: |
+|                [Compress](operators/tensor/tensor.compress.md)                | :white\_check\_mark: |
+|      [ReduceLogSumExp](operators/tensor/tensor.reduce\_log\_sum\_exp.md)      | :white\_check\_mark: |
 
 Current Operators support: **97/156 (62%)**

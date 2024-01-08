@@ -119,6 +119,7 @@
     * [tensor.not](framework/operators/tensor/tensor.not.md)
     * [tensor.erf](framework/operators/tensor/tensor.erf.md)
     * [tensor.reduce\_log\_sum](framework/operators/tensor/tensor.reduce\_log\_sum.md)
+    * [tensor.reduce\_log\_sum\_exp](framework/operators/tensor/tensor.reduce\_log\_sum\_exp.md)
     * [tensor.unique](framework/operators/tensor/tensor.unique.md)
     * [tensor.compress](framework/operators/tensor/tensor.compress.md)
   * [Neural Network](framework/operators/neural-network/README.md)
