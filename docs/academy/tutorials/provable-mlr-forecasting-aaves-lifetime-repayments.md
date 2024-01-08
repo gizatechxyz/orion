@@ -205,7 +205,7 @@ X_min = np.min(X_original, axis=0)
 X_max = np.max(X_original, axis=0)
 X_range = X_max - X_min
 df_forecast_data_normalized =    (df_forecast_data - X_min) / X_range
-# tranpose the matrix and add bias 
+# transpose the matrix and add bias 
 df_forecast_data_normalized_transposed= df_forecast_data_normalized.T
 df_forecast_data_normalized_transposed_with_bias = np.vstack((df_forecast_data_normalized_transposed, np.ones(df_forecast_data_normalized_transposed.shape[1])))
 #normalized forecasts 
@@ -913,7 +913,7 @@ fn normalize_user_x_inputs(
             shape: array![data_len].span(), data: x_range.span()
         );
 
-        // for normalizing 2D user inputed feature vals
+        // for normalizing 2D user inputted feature vals
         if x_inputs.shape.len() > 1 {
             let mut j: u32 = 0;
             loop {
@@ -1069,7 +1069,7 @@ let mut rescale_forecasts = rescale_predictions(forecast_results, main_y_vals); 
 
 Our model will get tested under the `multiple_linear_regression_test()` function which will follow these steps:
 
-1. Data retrival: The function initiates by fetching the AAVE dataset's x and y values.
+1. Data retrieval: The function initiates by fetching the AAVE dataset's x and y values.
 2. Dataset construction and normalization: A new Dataset object gets initialized by passing the x and y variables. It is then normalized using the built-in `normalize_dataset()` method.
 3. Model fitting: Using the `MultipleLinearRegression` function we fit the normalized dataset and compute the regression coefficients.
 4. Computing accuracy of the model: To calculate the accuracy we utilize the `predict` method to compute the dot product between the model's regression coefficients and the x values. We then compute the R-squared score to measure the accuracy of our model.
