@@ -443,6 +443,10 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Tensor<bool> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
+
+    fn compress(self: @Tensor<bool>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
+        math::compress::compress(self, condition, axis)
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

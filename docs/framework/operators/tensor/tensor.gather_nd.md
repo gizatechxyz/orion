@@ -33,7 +33,7 @@ fn gather_nd_example() -> Tensor<u32> {
 
     return tensor.gather_nd(
         indices: indices, 
-        axis: Option::None((0)), 
+        axis: Option::Some((0)), 
     );
 }
 >>> [[0, 1],

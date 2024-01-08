@@ -504,6 +504,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> (Tensor<FP64x64>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         manipulation::unique::unique(self, axis, sorted)
     }
+
+    fn compress(self: @Tensor<FP64x64>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP64x64> {
+        math::compress::compress(self, condition, axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.
