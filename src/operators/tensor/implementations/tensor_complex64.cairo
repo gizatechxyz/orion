@@ -419,27 +419,10 @@ impl Complex64Tensor of TensorTrait<complex64> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
-    fn sequence_length(self: Array<Tensor<complex64>>) -> Tensor<u32> {
-        math::sequence_length::sequence_length(self)
-    }
-
     fn shrink(
         self: Tensor<complex64>, bias: Option<complex64>, lambd: Option<complex64>
     ) -> Tensor<complex64> {
         panic(array!['not supported!'])
-    }
-
-    fn sequence_at(sequence: Array<Tensor<complex64>>, position: Tensor<i32>) -> Tensor<complex64> {
-        math::sequence_at::sequence_at(sequence, position)
-    }
-
-    fn sequence_construct(tensors: Array<Tensor<complex64>>) -> Array<Tensor<complex64>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
-
-    fn sequence_empty() -> Array<Tensor<complex64>> {
-        math::sequence_empty::sequence_empty::<complex64>()
     }
 
     fn reduce_mean(
@@ -464,18 +447,6 @@ impl Complex64Tensor of TensorTrait<complex64> {
         math::pow::pow(self, other)
     }
 
-    fn sequence_erase(
-        sequence: Array<Tensor<complex64>>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<complex64>> {
-        math::sequence_erase::sequence_erase(sequence, position)
-    }
-
-    fn sequence_insert(
-        self: Array<Tensor<complex64>>, tensor: @Tensor<complex64>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<complex64>> {
-        math::sequence_insert::sequence_insert(self, tensor, position)
-    }
-
     fn is_inf(
         self: @Tensor<complex64>, detect_negative: Option<u8>, detect_positive: Option<u8>
     ) -> Tensor<bool> {
@@ -484,12 +455,6 @@ impl Complex64Tensor of TensorTrait<complex64> {
 
     fn is_nan(self: @Tensor<complex64>) -> Tensor<bool> {
         panic(array!['not supported!'])
-    }
-
-    fn concat_from_sequence(
-        sequence: Array<Tensor<complex64>>, axis: i32, new_axis: Option<usize>
-    ) -> Tensor<complex64> {
-        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
 
     fn reduce_log_sum(self: @Tensor<complex64>, axis: usize, keepdims: bool) -> Tensor<complex64> {
