@@ -196,9 +196,7 @@ impl LinearClassifierImpl<
             POST_TRANSFORM::NONE => { scores },
             POST_TRANSFORM::SOFTMAX => { NNTrait::softmax(@scores, 1) },
             POST_TRANSFORM::LOGISTIC => { NNTrait::sigmoid(@scores) },
-            POST_TRANSFORM::SOFTMAXZERO => core::panic_with_felt252(
-                'Softmax_zero not supported yet'
-            ),
+            POST_TRANSFORM::SOFTMAXZERO => { NNTrait::softmax_zero(@scores, 1)},
             POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
         };
 
@@ -254,9 +252,19 @@ impl LinearClassifierImpl<
                         i += 1;
                     };
                 },
-                POST_TRANSFORM::SOFTMAXZERO => core::panic_with_felt252(
-                    'Softmax_zero not supported yet'
-                ),
+                POST_TRANSFORM::SOFTMAXZERO => {
+                    loop {
+                        if i == scores.data.len() {
+                            break;
+                        }
+                        if *scores.data.at(i) >= NumberTrait::half() {
+                            labels_list.append(*classlabels[0]);
+                        } else {
+                            labels_list.append(0);
+                        }
+                        i += 1;
+                    };
+            },
                 POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
             };
         }

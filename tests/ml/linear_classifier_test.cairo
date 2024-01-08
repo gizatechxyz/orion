@@ -57,6 +57,31 @@ fn test_linear_classifier_multi_softmax() {
     assert(*scores.data[8] == FP16x16 { mag: 57241, sign: false }, '*scores[8] == 0.87344');
 }
 
+#[test]
+#[available_gas(200000000000)]
+fn test_linear_classifier_multi_softmax_zero() {
+    let (mut classifier, X) = linear_classifier_helper(POST_TRANSFORM::SOFTMAXZERO);
+
+    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+
+    // ASSERT LABELS
+    assert(*labels[0] == 0, 'labels[0]');
+    assert(*labels[1] == 2, 'labels[1]');
+    assert(*labels[2] == 2, 'labels[2]');
+    assert(labels.len() == 3, 'len(labels)');
+
+    // ASSERT SCORES
+    assert(*scores.data[0] == FP16x16 { mag: 55879, sign: false }, '*scores[0] == 0.852656');
+    assert(*scores.data[1] == FP16x16 { mag: 602, sign: false }, '*scores[1] == 0.009192');
+    assert(*scores.data[2] == FP16x16 { mag: 9053, sign: false }, '*scores[2] == 0.138152');
+    assert(*scores.data[3] == FP16x16 { mag: 20888, sign: false }, '*scores[3] == 0.318722');
+    assert(*scores.data[4] == FP16x16 { mag: 3418, sign: false }, '*scores[4] == 0.05216');
+    assert(*scores.data[5] == FP16x16 { mag: 41229, sign: false }, '*scores[5] == 0.629118');
+    assert(*scores.data[6] == FP16x16 { mag: 2380, sign: false }, '*scores[6] == 0.036323');
+    assert(*scores.data[7] == FP16x16 { mag: 5914, sign: false }, '*scores[7] == 0.090237');
+    assert(*scores.data[8] == FP16x16 { mag: 57241, sign: false }, '*scores[8] == 0.87344');
+}
+
 
 #[test]
 #[available_gas(200000000000)]
@@ -141,6 +166,25 @@ fn test_linear_classifier_binary_softmax() {
 
 #[test]
 #[available_gas(200000000000)]
+fn test_linear_classifier_binary_softmax_zero() {
+    let (mut classifier, X) = linear_classifier_helper_binary(POST_TRANSFORM::SOFTMAXZERO);
+
+    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    // ASSERT LABELS
+    assert(*labels[0] == 1, 'labels[0]');
+    assert(*labels[1] == 1, 'labels[1]');
+    assert(labels.len() == 2, 'len(labels)');
+
+    // ASSERT SCORES
+    assert(*scores.data[0] == FP16x16 { mag: 0, sign: false }, '*scores[0] == 5.276517e-09');
+    assert(*scores.data[1] == FP16x16 { mag: 65535, sign: false }, '*scores[1] == 1.000000');
+    assert(*scores.data[2] == FP16x16 { mag: 0, sign: false }, '*scores[2] == 1.674492e-06');
+    assert(*scores.data[3] == FP16x16 { mag: 65535, sign: false }, '*scores[3] ==  9.999983e-01');
+
+}
+
+#[test]
+#[available_gas(200000000000)]
 fn test_linear_classifier_unary_none() {
     let (mut classifier, X) = linear_classifier_helper_unary(POST_TRANSFORM::NONE);
 
@@ -177,6 +221,23 @@ fn test_linear_classifier_unary_logistic() {
 #[available_gas(200000000000)]
 fn test_linear_classifier_unary_softmax() {
     let (mut classifier, X) = linear_classifier_helper_unary(POST_TRANSFORM::SOFTMAX);
+
+    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+
+    // ASSERT LABELS
+    assert(*labels[0] == 1, 'labels[0]');
+    assert(*labels[1] == 1, 'labels[1]');
+    assert(labels.len() == 2, 'len(labels)');
+
+    // ASSERT SCORES
+    assert(*scores.data[0] == FP16x16 { mag: 65536, sign: false }, '*scores[0] == 1');
+    assert(*scores.data[1] == FP16x16 { mag: 65536, sign: false }, '*scores[1] == 1');
+}
+
+#[test]
+#[available_gas(200000000000)]
+fn test_linear_classifier_unary_softmax_zero() {
+    let (mut classifier, X) = linear_classifier_helper_unary(POST_TRANSFORM::SOFTMAXZERO);
 
     let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
 
