@@ -2,6 +2,7 @@ use core::array::ArrayTrait;
 use core::array::SpanTrait;
 use core::option::OptionTrait;
 
+use orion::numbers::NumberTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 
@@ -9,10 +10,10 @@ use orion::operators::tensor::core::{Tensor, TensorTrait};
 fn asin<
     T,
     MAG,
-    impl FFixedTrait: FixedTrait<T, MAG>,
-    impl FTensor: TensorTrait<T>,
-    impl FCopy: Copy<T>,
-    impl FDrop: Drop<T>,
+    impl TNumberTrait: NumberTrait<T, MAG>,
+    impl TTensor: TensorTrait<T>,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>,
 >(
     mut self: Tensor<T>
 ) -> Tensor<T> {
