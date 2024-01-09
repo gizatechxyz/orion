@@ -21,14 +21,6 @@ Given data tensor of rank r >= 1, indices tensor of rank q >= 1, and batch_dims 
 ## Returns 
 
 A new `Tensor<T>` .
-
-## Example
-
-```rust
-use array::{ArrayTrait, SpanTrait};
-
-use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-
 fn gather_nd_example() -> Tensor<u32> {
     let tensor = TensorTrait::<u32>::new(
         shape: array![2, 2].span(), 
@@ -41,7 +33,7 @@ fn gather_nd_example() -> Tensor<u32> {
 
     return tensor.gather_nd(
         indices: indices, 
-        axis: Option::None((0)), 
+        axis: Option::Some((0)), 
     );
 }
 >>> [[0, 1],

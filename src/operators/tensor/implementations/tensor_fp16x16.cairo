@@ -448,26 +448,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
-    fn sequence_length(self: Array<Tensor<FP16x16>>) -> Tensor<u32> {
-        math::sequence_length::sequence_length(self)
-    }
-
     fn shrink(
         self: Tensor<FP16x16>, bias: Option<FP16x16>, lambd: Option<FP16x16>
     ) -> Tensor<FP16x16> {
         math::shrink::shrink(self, bias, lambd)
-    }
-
-    fn sequence_at(sequence: Array<Tensor<FP16x16>>, position: Tensor<i32>) -> Tensor<FP16x16> {
-        math::sequence_at::sequence_at(sequence, position)
-    }
-
-    fn sequence_construct(tensors: Array<Tensor<FP16x16>>) -> Array<Tensor<FP16x16>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
-    fn sequence_empty() -> Array<Tensor<FP16x16>> {
-        math::sequence_empty::sequence_empty::<FP16x16>()
     }
 
     fn reduce_mean(
@@ -490,18 +474,6 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
 
     fn pow(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::pow::pow(self, other)
-    }
-
-    fn sequence_erase(
-        sequence: Array<Tensor<FP16x16>>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<FP16x16>> {
-        math::sequence_erase::sequence_erase(sequence, position)
-    }
-
-    fn sequence_insert(
-        self: Array<Tensor<FP16x16>>, tensor: @Tensor<FP16x16>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<FP16x16>> {
-        math::sequence_insert::sequence_insert(self, tensor, position)
     }
 
     fn is_inf(
@@ -570,6 +542,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
             mode,
             nearest_mode
         )
+    }
+    
+    fn compress(self: @Tensor<FP16x16>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP16x16> {
+        math::compress::compress(self, condition, axis)
     }
 }
 

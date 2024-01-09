@@ -4,6 +4,7 @@ from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
 import numpy as np
 
 
+
 class Reduce_l2(RunAll):
     @staticmethod
     def reduce_l2_fp8x23():
@@ -107,4 +108,29 @@ class Reduce_l2(RunAll):
         
         reduce_l2_export_do_not_keepdims()
         reduce_l2_export_keepdims()
+        reduce_l2_axis_0()
+
+    @staticmethod
+    def reduce_l2_complex64():
+        
+
+
+        def reduce_l2_axis_0():
+            shape = [2, 3]
+            axes = np.array([0], dtype=np.int64)
+            keepdims = True
+            x = np.reshape(np.array([1.+2.j,  2.-1.j,  3.-3.j,  3.-2.j,  3.+5.j, 4.- 1.j]), shape)
+            y = np.sqrt(np.sum(a=np.square(abs(x)), axis=tuple(axes), keepdims=True))
+            print(to_fp(x.flatten(), FixedImpl.FP64x64))
+
+            x = Tensor(Dtype.COMPLEX64, x.shape, to_fp(
+            x.flatten(), FixedImpl.FP64x64))
+            
+            y = Tensor(Dtype.COMPLEX64, y.shape, to_fp(
+            y.flatten(), FixedImpl.FP64x64))
+
+            name = "reduce_l2_complex64_axis_0"
+            make_test(
+                [x], y, "input_0.reduce_l2(0, true)", name)
+
         reduce_l2_axis_0()

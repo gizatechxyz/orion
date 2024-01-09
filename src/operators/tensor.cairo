@@ -39,3 +39,7 @@ use orion::operators::tensor::implementations::tensor_u32::{
 
 use orion::operators::tensor::implementations::tensor_bool::{BoolTensor, BoolTensorPartialEq};
 
+use orion::operators::tensor::implementations::tensor_complex64::{
+    Complex64Tensor, Complex64TensorAdd, Complex64TensorSub, Complex64TensorMul, Complex64TensorDiv,
+    Complex64TensorPartialEq,
+};
