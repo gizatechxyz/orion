@@ -14,7 +14,7 @@ fn test_clip_i8_3d() {
     let input_0 = input_0::input_0();
     let z = output_0::output_0();
 
-    let y = input_0.clip(Option::Some(10_i8), Option::Some(20_i8));
+    let y = input_0.clip(Option::Some(-10_i8), Option::Some(20_i8));
 
     assert_eq(y, z);
 }

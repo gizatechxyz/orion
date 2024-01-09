@@ -9,6 +9,7 @@ use orion::operators::tensor::{TensorTrait, Tensor};
 use orion::operators::tensor::I32TensorPartialEq;
 
 #[test]
+#[should_panic]
 #[available_gas(2000000000)]
 fn test_sign_fail() {
     let input_0 = input_0::input_0();

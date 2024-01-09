@@ -14,7 +14,7 @@ fn test_clip_i32_2d() {
     let input_0 = input_0::input_0();
     let z = output_0::output_0();
 
-    let y = input_0.clip(Option::Some(10_i32), Option::Some(20_i32));
+    let y = input_0.clip(Option::Some(-10_i32), Option::Some(20_i32));
 
     assert_eq(y, z);
 }
