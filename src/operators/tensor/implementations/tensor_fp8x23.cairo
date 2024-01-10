@@ -537,6 +537,12 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     ) -> (Tensor<FP8x23>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         manipulation::unique::unique(self, axis, sorted)
     }
+
+    fn split(
+        self: @Tensor<FP8x23>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP8x23>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

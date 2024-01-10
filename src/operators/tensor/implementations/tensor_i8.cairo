@@ -532,6 +532,12 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> (Tensor<i8>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         manipulation::unique::unique(self, axis, sorted)
     }
+
+    fn split(
+        self: @Tensor<i8>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<i8>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

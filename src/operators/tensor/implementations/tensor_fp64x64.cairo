@@ -539,6 +539,12 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> (Tensor<FP64x64>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         manipulation::unique::unique(self, axis, sorted)
     }
+
+    fn split(
+        self: @Tensor<FP64x64>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP64x64>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

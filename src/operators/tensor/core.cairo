@@ -124,6 +124,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// gather_nd - Given data tensor of rank r >= 1, indices tensor of rank q >= 1, and batch_dims integer b, this operator gathers slices of data into an output tensor of rank q + r - indices_shape[-1] - 1 - b.
 /// reduce_log_sum - Computes the log sum of the input tensor's elements along the provided axes. 
 /// erf - Computes the error function of the given input tensor element-wise.
+/// split - Split a tensor into a list of tensors, along the specified ‘axis’. 
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -5077,6 +5078,56 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn gather_nd(self: @Tensor<T>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<T>;
+    /// # tensor.split
+    ///
+    /// ```rust 
+    ///    fn split(self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, split: Option<Tensor<usize>>
+    ///    ) -> Array<Tensor<T>>;
+    /// ```
+    ///
+    /// Split a tensor into a list of tensors, along the specified ‘axis’
+    ///
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The axis along which to split on.
+    /// * `num_outputs `(Option<usize>) - Number of outputs to split parts of the tensor into. 
+    /// * `split  `(Option<Tensor<usize>>) - Optional length of each output.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the 'axis' accepted range is not [-rank, rank-1] where r = rank(input).
+    /// * Panics if the 'split' values not >= 0. Sum of the values is not equal to the dim value at ‘axis’ specified.
+    /// * Panics if the input 'split' or the attribute 'num_outputs' both are specified or not.
+    ///
+    /// ## Returns
+    ///
+    /// One or more outputs forming list of tensors after splitting.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// use core::option::OptionTrait;
+    /// fn split_tensor_example() -> Array<Tensor<u32>> {
+    ///     let tensor: Tensor<u32> = TensorTrait::<u32>::new(
+    ///         shape: array![2,4].span(), 
+    ///         data: array![
+    ///             0, 1, 2, 3, 4, 5, 6, 7
+    ///             ].span(),
+    ///     );
+    ///     let num_outputs = Option::Some(2);
+    ///     // split = Option::Some(array![1, 1].span());
+    ///     let split_num: Option<Tensor<usize>> = Option::None(());
+    ///     // We can call `split` function as follows.
+    ///     return tensor.split(0, num_outputs, split_num);
+    /// }
+    /// >>> [[0,1],[4,5]]
+    ///     [[2,3],[6,7]]
+    /// ```
+    ///
+    fn split(self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<T>>;
 }
 
 /// Cf: TensorTrait::new docstring

@@ -537,6 +537,12 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> (Tensor<FP16x16>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         manipulation::unique::unique(self, axis, sorted)
     }
+
+    fn split(
+        self: @Tensor<FP16x16>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP16x16>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.
