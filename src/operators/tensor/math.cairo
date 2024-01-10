@@ -59,3 +59,4 @@ mod gather_nd;
 mod reduce_log_sum;
 mod erf;
 mod compress;
+mod layer_normalization;

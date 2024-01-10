@@ -117,6 +117,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.gather_nd`](tensor.gather\_nd.md) | Given data tensor of rank r >= 1, indices tensor of rank q >= 1, and batch_dims integer b, this operator gathers slices of data into an output tensor of rank q + r - indices_shape[-1] - 1 - b. |
 | [`tensor.reduce_log_sum`](tensor.reduce\_log\_sum.md) | Computes the log sum of the input tensor's elements along the provided axes.  |
 | [`tensor.erf`](tensor.erf.md) | Computes the error function of the given input tensor element-wise. |
+| [`tensor.layer_normalization`](tensor.layer\_normalization.md) | computes the layer normalization of the input tensor. |
 
 ## Arithmetic Operations
 

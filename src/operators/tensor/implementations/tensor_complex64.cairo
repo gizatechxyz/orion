@@ -472,8 +472,21 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
-    fn compress(self: @Tensor<complex64>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<complex64> {
+    fn compress(
+        self: @Tensor<complex64>, condition: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<complex64> {
         math::compress::compress(self, condition, axis)
+    }
+
+    fn layer_normalization(
+        self: @Tensor<complex64>,
+        scale: @Tensor<complex64>,
+        B: Option<@Tensor<complex64>>,
+        axis: Option<i32>,
+        epsilon: Option<complex64>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<complex64>, Tensor<complex64>, Tensor<complex64>) {
+        panic(array!['not supported!'])
     }
 }
 

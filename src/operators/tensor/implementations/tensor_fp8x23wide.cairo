@@ -438,7 +438,9 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::is_nan::is_nan(self)
     }
 
-    fn gather_nd(self: @Tensor<FP8x23W>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP8x23W> {
+    fn gather_nd(
+        self: @Tensor<FP8x23W>, indices: Tensor<usize>, batch_dims: Option<usize>
+    ) -> Tensor<FP8x23W> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 
@@ -456,8 +458,21 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
-    fn compress(self: @Tensor<FP8x23W>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP8x23W> {
+    fn compress(
+        self: @Tensor<FP8x23W>, condition: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP8x23W> {
         math::compress::compress(self, condition, axis)
+    }
+
+    fn layer_normalization(
+        self: @Tensor<FP8x23W>,
+        scale: @Tensor<FP8x23W>,
+        B: Option<@Tensor<FP8x23W>>,
+        axis: Option<i32>,
+        epsilon: Option<FP8x23W>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<FP8x23W>, Tensor<FP8x23W>, Tensor<FP8x23W>) {
+        math::layer_normalization::layer_normalization(self, scale, B, axis, epsilon, stash_type)
     }
 }
 

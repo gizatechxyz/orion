@@ -486,7 +486,9 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::is_nan::is_nan(self)
     }
 
-    fn gather_nd(self: @Tensor<FP16x16>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP16x16> {
+    fn gather_nd(
+        self: @Tensor<FP16x16>, indices: Tensor<usize>, batch_dims: Option<usize>
+    ) -> Tensor<FP16x16> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 
@@ -504,8 +506,21 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
-    fn compress(self: @Tensor<FP16x16>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP16x16> {
+    fn compress(
+        self: @Tensor<FP16x16>, condition: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP16x16> {
         math::compress::compress(self, condition, axis)
+    }
+
+    fn layer_normalization(
+        self: @Tensor<FP16x16>,
+        scale: @Tensor<FP16x16>,
+        B: Option<@Tensor<FP16x16>>,
+        axis: Option<i32>,
+        epsilon: Option<FP16x16>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<FP16x16>, Tensor<FP16x16>, Tensor<FP16x16>) {
+        math::layer_normalization::layer_normalization(self, scale, B, axis, epsilon, stash_type)
     }
 }
 

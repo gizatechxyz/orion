@@ -41,5 +41,4 @@ impl BoolSequence of SequenceTrait<bool> {
     ) -> Tensor<bool> {
         functional::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
-
 }
