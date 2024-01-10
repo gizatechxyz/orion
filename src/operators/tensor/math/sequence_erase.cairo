@@ -21,17 +21,18 @@ fn sequence_erase<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
 
     assert(position.shape.len() == 0 && position.data.len() == 1, 'Position must be a scalar');
 
-    let mut position_value_i32: i32 = *position.data.at(0);
+    let position_value_i32: i32 = *position.data.at(0);
     let is_negative: bool = position_value_i32 < 0;
+    let mut position_value: u32 = i32Tou32(position_value_i32);
 
     assert(
-        (is_negative == false && position_value_i32 <= u32Toi32(sequence.len() - 1))
-            || (is_negative == true && position_value_i32 <= u32Toi32(sequence.len())),
+        (is_negative == false && position_value <= sequence.len() - 1)
+            || (is_negative == true && position_value <= sequence.len()),
         'Position out of bounds'
     );
 
     if is_negative == true {
-        position_value_i32 = u32Toi32(sequence.len()) - position_value_i32;
+        position_value = sequence.len() - position_value;
     }
 
     let mut input_sequence_copy = sequence;
@@ -40,7 +41,7 @@ fn sequence_erase<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
     loop {
         match input_sequence_copy.pop_front() {
             Option::Some(input_sequence_value) => {
-                if u32Toi32(tensor_counter) == position_value_i32 {
+                if tensor_counter == position_value {
                     tensor_counter += 1;
                     continue;
                 }
@@ -54,3 +55,5 @@ fn sequence_erase<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
 
     return output_sequence;
 }
+
+

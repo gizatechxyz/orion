@@ -5423,7 +5423,12 @@ fn u32Toi32(number: u32) -> i32 {
 }
 
 fn i32Tou32(number: i32) -> u32 {
-    let number_felt: felt252 = number.into();
+    let number_sign: bool = number < 0;
+    let mut self_positive: i32 = number;
+    if number_sign {
+        self_positive = self_positive * -1_i32
+    }
+    let number_felt: felt252 = self_positive.into();
     let number_u32: u32 = number_felt.try_into().unwrap();
     number_u32
 }
