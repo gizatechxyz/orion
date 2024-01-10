@@ -475,6 +475,10 @@ impl Complex64Tensor of TensorTrait<complex64> {
     fn compress(self: @Tensor<complex64>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<complex64> {
         math::compress::compress(self, condition, axis)
     }
+
+    fn split(self: @Tensor<complex64>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>) -> Array<Tensor<complex64>> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<complex64>` using the `Add` trait.
