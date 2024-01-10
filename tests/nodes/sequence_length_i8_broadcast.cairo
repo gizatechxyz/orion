@@ -9,6 +9,8 @@ use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::U32Tensor;
 use orion::operators::tensor::I8TensorPartialEq;
 use orion::operators::tensor::I8Tensor;
+use orion::operators::sequence::I8Sequence;
+use orion::operators::sequence::SequenceTrait;
 
 #[test]
 #[available_gas(2000000000)]

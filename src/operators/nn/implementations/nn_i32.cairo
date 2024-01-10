@@ -19,6 +19,10 @@ impl I32NN of NNTrait<i32> {
         panic(array!['not supported!'])
     }
 
+    fn softmax_zero(tensor: @Tensor<i32>, axis: usize) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
     fn logsoftmax(tensor: @Tensor<i32>, axis: usize) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
