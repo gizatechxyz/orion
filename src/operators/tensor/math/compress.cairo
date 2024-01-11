@@ -14,12 +14,7 @@ use orion::operators::tensor::U32TensorPartialEq;
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 /// Cf: TensorTrait::compare docstring
-fn compress<
-    T,
-    impl TTensorTrait: TensorTrait<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>,
->(
+fn compress<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>,>(
     self: @Tensor<T>, condition: Tensor<usize>, axis: Option<usize>
 ) -> Tensor<T> {
     let axis = match axis {
@@ -29,7 +24,7 @@ fn compress<
 
     let data_rank = (*self.shape).len();
     let condition_rank = (condition.shape).len();
-    assert((data_rank >= 1 ), 'data rank must > 1');
+    assert((data_rank >= 1), 'data rank must > 1');
     assert((condition_rank == 1), 'condition rank must be 1');
 
     let mut data_shape = *self.shape;
@@ -67,9 +62,7 @@ fn compress<
         let mut total_shape = 1;
         loop {
             match data_shape.pop_front() {
-                Option::Some(val) => {
-                    total_shape *= *val;
-                },
+                Option::Some(val) => { total_shape *= *val; },
                 Option::None(_) => { break; }
             };
         };
@@ -78,8 +71,10 @@ fn compress<
         loop {
             match condition_data.pop_front() {
                 Option::Some(val) => {
-                    if (ind == total_shape) {break; }
-                    if (*val != 0){
+                    if (ind == total_shape) {
+                        break;
+                    }
+                    if (*val != 0) {
                         output_data.append(*self.data[ind]);
                     }
                     ind += 1;
@@ -99,8 +94,7 @@ fn compress<
                 Option::Some(val) => {
                     if (ind == axis) {
                         output_shape.append(output);
-                    }
-                    else {
+                    } else {
                         output_shape.append(*val);
                         if (ind > axis) {
                             loop_breaker *= *val;
@@ -120,31 +114,34 @@ fn compress<
 
         let mut ind = 0;
         let mut ind_loop = 0;
-        
+
         let mut inner_index: usize = 0;
         let mut condition_data_clone = condition_data.clone();
 
         loop {
-            if (ind == other_loop_breaker) {break;}
+            if (ind == other_loop_breaker) {
+                break;
+            }
             let mut condition_data_clone = condition_data.clone();
-             inner_index = *data_shape.at(axis) * ind;
+            inner_index = *data_shape.at(axis) * ind;
             loop {
-               
                 match condition_data_clone.pop_front() {
-                Option::Some(val) => {
-                    if (*val != 0){
-                        let result = inner_index * loop_breaker ;
-                    
-                        let mut data_ind:usize = result ;
-                        loop {
-                            if data_ind == result + loop_breaker { break; }
-                            index_data.append(data_ind);
-                            data_ind+=1;
-                        };
-                    }
-                inner_index += 1;
-                },
-                Option::None(_) => { break; }
+                    Option::Some(val) => {
+                        if (*val != 0) {
+                            let result = inner_index * loop_breaker;
+
+                            let mut data_ind: usize = result;
+                            loop {
+                                if data_ind == result + loop_breaker {
+                                    break;
+                                }
+                                index_data.append(data_ind);
+                                data_ind += 1;
+                            };
+                        }
+                        inner_index += 1;
+                    },
+                    Option::None(_) => { break; }
                 };
             };
 
@@ -153,12 +150,10 @@ fn compress<
 
         loop {
             match index_data.pop_front() {
-                Option::Some(val) => {
-                output_data.append(*self.data[val]);
-                },
+                Option::Some(val) => { output_data.append(*self.data[val]); },
                 Option::None(_) => { break; }
             };
-        }; 
+        };
     }
 
     let mut output_tensor = TensorTrait::<T>::new(output_shape.span(), output_data.span());

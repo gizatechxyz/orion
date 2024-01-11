@@ -424,7 +424,9 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
-    fn gather_nd(self: @Tensor<u32>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<u32> {
+    fn gather_nd(
+        self: @Tensor<u32>, indices: Tensor<usize>, batch_dims: Option<usize>
+    ) -> Tensor<u32> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 

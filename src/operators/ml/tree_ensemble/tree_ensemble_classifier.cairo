@@ -408,12 +408,8 @@ impl TreeEnsembleClassifierImpl<
         let mut class_id: usize = 0;
         // Get first class_id in class_ids
         match class_ids.pop_front() {
-                Option::Some(c_id) => {
-                    let mut class_id = *c_id;
-                },
-                Option::None(_) => { 
-                    let mut class_id: usize = 0;
-                }
+            Option::Some(c_id) => { let mut class_id = *c_id; },
+            Option::None(_) => { let mut class_id: usize = 0; }
         };
         loop {
             if i == self.class_ids.len() {
@@ -424,19 +420,17 @@ impl TreeEnsembleClassifierImpl<
                     if *c_id == class_id {
                         binary = true;
                         continue;
-                    }else{
+                    } else {
                         binary = false;
                         break;
                     }
-                    
                 },
                 Option::None(_) => { break; }
             };
-            
         };
 
         // Clone res
-        if binary{
+        if binary {
             let mut new_res: MutMatrix<T> = MutMatrixImpl::new(res.rows, res.cols);
             let mut i: usize = 0;
             loop {
@@ -445,14 +439,10 @@ impl TreeEnsembleClassifierImpl<
                 }
                 // Exchange
                 let res_ele_1 = match res.get(i, 0) {
-                    Option::Some(res_0) => {
-                        new_res.set(i, 1, res_0);
-                    },
-                    Option::None(_) => {
-                        new_res.set(i, 1, NumberTrait::zero());
-                    },
+                    Option::Some(res_0) => { new_res.set(i, 1, res_0); },
+                    Option::None(_) => { new_res.set(i, 1, NumberTrait::zero()); },
                 };
-                i+=1;
+                i += 1;
             };
             match self.post_transform {
                 POST_TRANSFORM::NONE => {
@@ -467,11 +457,9 @@ impl TreeEnsembleClassifierImpl<
                                 let value = NumberTrait::sub(NumberTrait::one(), res_1);
                                 new_res.set(i, 0, value);
                             },
-                            Option::None(_) => {
-                                new_res.set(i, 0, NumberTrait::zero());
-                            },
+                            Option::None(_) => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
-                        i+=1;
+                        i += 1;
                     };
                 },
                 POST_TRANSFORM::SOFTMAX => {
@@ -482,14 +470,10 @@ impl TreeEnsembleClassifierImpl<
                         }
                         // Exchange
                         let res_ele_0 = match new_res.get(i, 1) {
-                            Option::Some(res_1) => {
-                                new_res.set(i, 0, res_1.neg());
-                            },
-                            Option::None(_) => {
-                                new_res.set(i, 0, NumberTrait::zero());
-                            },
+                            Option::Some(res_1) => { new_res.set(i, 0, res_1.neg()); },
+                            Option::None(_) => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
-                        i+=1;
+                        i += 1;
                     };
                 },
                 POST_TRANSFORM::LOGISTIC => {
@@ -500,14 +484,10 @@ impl TreeEnsembleClassifierImpl<
                         }
                         // Exchange
                         let res_ele_0 = match new_res.get(i, 1) {
-                            Option::Some(res_1) => {
-                                new_res.set(i, 0, res_1.neg());
-                            },
-                            Option::None(_) => {
-                                new_res.set(i, 0, NumberTrait::zero());
-                            },
+                            Option::Some(res_1) => { new_res.set(i, 0, res_1.neg()); },
+                            Option::None(_) => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
-                        i+=1;
+                        i += 1;
                     };
                 },
                 POST_TRANSFORM::SOFTMAXZERO => {
@@ -518,14 +498,10 @@ impl TreeEnsembleClassifierImpl<
                         }
                         // Exchange
                         let res_ele_0 = match new_res.get(i, 1) {
-                            Option::Some(res_1) => {
-                                new_res.set(i, 0, res_1.neg());
-                            },
-                            Option::None(_) => {
-                                new_res.set(i, 0, NumberTrait::zero());
-                            },
+                            Option::Some(res_1) => { new_res.set(i, 0, res_1.neg()); },
+                            Option::None(_) => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
-                        i+=1;
+                        i += 1;
                     };
                 },
                 POST_TRANSFORM::PROBIT => {
@@ -540,17 +516,15 @@ impl TreeEnsembleClassifierImpl<
                                 let value = NumberTrait::sub(NumberTrait::one(), res_1);
                                 new_res.set(i, 0, value);
                             },
-                            Option::None(_) => {
-                                new_res.set(i, 0, NumberTrait::zero());
-                            },
+                            Option::None(_) => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
-                        i+=1;
+                        i += 1;
                     };
                 },
             };
             res = new_res;
         }
-        
+
         // Post Transform
         let mut new_scores = match self.post_transform {
             POST_TRANSFORM::NONE => res, // No action required
