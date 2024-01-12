@@ -215,9 +215,7 @@ impl LinearRegressorImpl<
             POST_TRANSFORM::NONE => score, // No action required
             POST_TRANSFORM::SOFTMAX => NNTrait::softmax(@score, 1),
             POST_TRANSFORM::LOGISTIC => NNTrait::sigmoid(@score),
-            POST_TRANSFORM::SOFTMAXZERO => core::panic_with_felt252(
-                'Softmax_zero not supported yet'
-            ),
+            POST_TRANSFORM::SOFTMAXZERO => NNTrait::softmax_zero(@score, 1),
             POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
         };
 
