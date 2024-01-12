@@ -25,6 +25,18 @@ fn transpose_test_values() {
     assert(result.data == array![0, 2, 4, 6, 1, 3, 5, 7].span(), 'wrong data');
 }
 
+#[test]
+#[available_gas(200000000000)]
+fn transpose_test_1D() {
+    let tensor = TensorTrait::<
+        u32
+    >::new(shape: array![4].span(), data: array![0, 1, 2, 3].span(),);
+
+    let result = tensor.transpose(axes: array![0].span());
+
+    assert(result.shape == array![4].span(), 'wrong shape');
+    assert(result.data == array![0, 1, 2, 3].span(), 'wrong data');
+}
 
 #[test]
 #[available_gas(200000000000)]

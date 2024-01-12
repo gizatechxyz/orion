@@ -23,7 +23,7 @@
 
 # Orion: An Open-source Framework for Validity and ZK ML ✨
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-28-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-29-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Orion is an open-source, community-driven framework dedicated to Provable Machine Learning. It provides essential components and a new ONNX runtime for building verifiable Machine Learning models using [STARKs](https://starkware.co/stark/).
@@ -103,6 +103,9 @@ Thanks goes to these wonderful people:
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/HappyTomatoo"><img src="https://avatars.githubusercontent.com/u/143050661?v=4?s=100" width="100px;" alt="HappyTomatoo"/><br /><sub><b>HappyTomatoo</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/issues?q=author%3AHappyTomatoo" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://www.bilginkocak.com/"><img src="https://avatars.githubusercontent.com/u/30844607?v=4?s=100" width="100px;" alt="Bilgin Koçak"/><br /><sub><b>Bilgin Koçak</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=bilgin-kocak" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://t.me/notaihe"><img src="https://avatars.githubusercontent.com/u/22559023?v=4?s=100" width="100px;" alt="akhercha"/><br /><sub><b>akhercha</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=akhercha" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Vid201"><img src="https://avatars.githubusercontent.com/u/38610409?v=4?s=100" width="100px;" alt="Vid Kersic"/><br /><sub><b>Vid Kersic</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=Vid201" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

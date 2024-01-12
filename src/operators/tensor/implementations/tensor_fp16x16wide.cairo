@@ -488,6 +488,30 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     ) -> (Tensor<FP16x16W>, Tensor<FP16x16W>, Tensor<FP16x16W>) {
         math::layer_normalization::layer_normalization(self, scale, B, axis, epsilon, stash_type)
     }
+
+    fn resize(
+        self: @Tensor<FP16x16W>,
+        roi: Option<Tensor<FP16x16W>>,
+        scales: Option<Span<FP16x16W>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<FP16x16W>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<FP16x16W>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<FP16x16W> {
+        panic(array!['not supported!'])
+    }
+
+    fn split(
+        self: @Tensor<FP16x16W>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP16x16W>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.
