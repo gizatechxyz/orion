@@ -533,6 +533,8 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
             mode,
             nearest_mode
         )
+    }
+    
     fn compress(self: @Tensor<FP8x23>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP8x23> {
         math::compress::compress(self, condition, axis)
     }

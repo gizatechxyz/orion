@@ -475,6 +475,26 @@ impl Complex64Tensor of TensorTrait<complex64> {
     fn compress(self: @Tensor<complex64>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<complex64> {
         math::compress::compress(self, condition, axis)
     }
+
+
+    fn resize(
+        self: @Tensor<complex64>,
+        roi: Option<Tensor<complex64>>,
+        scales: Option<Span<complex64>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<complex64>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<complex64>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<complex64> {
+         panic(array!['not supported!'])
+    }
+    
 }
 
 /// Implements addition for `Tensor<complex64>` using the `Add` trait.

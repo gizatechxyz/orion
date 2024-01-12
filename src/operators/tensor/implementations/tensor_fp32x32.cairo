@@ -487,12 +487,6 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::is_nan::is_nan(self)
     }
 
-    fn concat_from_sequence(
-        sequence: Array<Tensor<FP32x32>>, axis: i32, new_axis: Option<usize>
-    ) -> Tensor<FP32x32> {
-        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
-    }
-
     fn gather_nd(
         self: @Tensor<FP32x32>, indices: Tensor<usize>, batch_dims: Option<usize>
     ) -> Tensor<FP32x32> {

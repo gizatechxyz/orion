@@ -458,6 +458,8 @@ impl U32Tensor of TensorTrait<u32> {
         nearest_mode: Option<math::resize::NEAREST_MODE>,
     ) -> Tensor<u32> {
         panic(array!['not supported!'])
+    }
+    
     fn compress(self: @Tensor<u32>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
         math::compress::compress(self, condition, axis)
     }

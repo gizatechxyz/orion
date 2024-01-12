@@ -472,6 +472,8 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         nearest_mode: Option<math::resize::NEAREST_MODE>,
     ) -> Tensor<FP8x23W> {
         panic(array!['not supported!'])
+    }
+    
     fn compress(self: @Tensor<FP8x23W>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP8x23W> {
         math::compress::compress(self, condition, axis)
     }

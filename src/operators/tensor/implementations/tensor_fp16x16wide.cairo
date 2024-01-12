@@ -452,12 +452,6 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::is_nan::is_nan(self)
     }
 
-    fn concat_from_sequence(
-        sequence: Array<Tensor<FP16x16W>>, axis: i32, new_axis: Option<usize>
-    ) -> Tensor<FP16x16W> {
-        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
-    }
-
     fn gather_nd(
         self: @Tensor<FP16x16W>, indices: Tensor<usize>, batch_dims: Option<usize>
     ) -> Tensor<FP16x16W> {

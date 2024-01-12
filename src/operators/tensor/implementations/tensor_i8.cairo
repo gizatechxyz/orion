@@ -514,6 +514,8 @@ impl I8Tensor of TensorTrait<i8> {
         nearest_mode: Option<math::resize::NEAREST_MODE>,
     ) -> Tensor<i8> {
         panic(array!['not supported!'])
+    }
+    
     fn compress(self: @Tensor<i8>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<i8> {
         math::compress::compress(self, condition, axis)
     }
