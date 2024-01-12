@@ -75,11 +75,19 @@ fn main() {
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 
-    // LINEAR REGRESSOR DOC
+    // LINEAR CLASSIFIER DOC
     let trait_path = "src/operators/ml/linear/linear_classifier.cairo";
     let doc_path = "docs/framework/operators/machine-learning/linear-classifier";
     let label = "linear_classifier";
     let trait_name: &str = "LinearClassifierTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
+
+    // SVM REGRESSOR DOC
+    let trait_path = "src/operators/ml/svm/svm_regressor.cairo";
+    let doc_path = "docs/framework/operators/machine-learning/svm-regressor";
+    let label = "svm_regressor";
+    let trait_name: &str = "SVMRegressorTrait";
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 }

@@ -1,5 +1,6 @@
 mod tree_ensemble;
 mod linear;
+mod svm;
 
 use orion::operators::ml::tree_ensemble::core::{
     TreeEnsemble, TreeEnsembleAttributes, TreeEnsembleImpl, NODE_MODES
