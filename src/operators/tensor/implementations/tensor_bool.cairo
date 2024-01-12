@@ -444,6 +444,24 @@ impl BoolTensor of TensorTrait<bool> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 
+    fn resize(
+        self: @Tensor<bool>,
+        roi: Option<Tensor<bool>>,
+        scales: Option<Span<bool>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<bool>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<bool>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
     fn compress(self: @Tensor<bool>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
         math::compress::compress(self, condition, axis)
     }

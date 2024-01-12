@@ -442,6 +442,24 @@ impl U32Tensor of TensorTrait<u32> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn resize(
+        self: @Tensor<u32>,
+        roi: Option<Tensor<u32>>,
+        scales: Option<Span<u32>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<u32>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<u32>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+    
     fn compress(self: @Tensor<u32>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
         math::compress::compress(self, condition, axis)
     }

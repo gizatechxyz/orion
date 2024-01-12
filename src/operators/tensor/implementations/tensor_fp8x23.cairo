@@ -503,6 +503,38 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn resize(
+        self: @Tensor<FP8x23>,
+        roi: Option<Tensor<FP8x23>>,
+        scales: Option<Span<FP8x23>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<FP8x23>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<FP8x23>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<FP8x23> {
+        math::resize::resize(
+            self,
+            roi,
+            scales,
+            sizes,
+            antialias,
+            axes,
+            coordinate_transformation_mode,
+            cubic_coeff_a,
+            exclude_outside,
+            extrapolation_value,
+            keep_aspect_ratio_policy,
+            mode,
+            nearest_mode
+        )
+    }
+    
     fn compress(self: @Tensor<FP8x23>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP8x23> {
         math::compress::compress(self, condition, axis)
     }

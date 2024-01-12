@@ -58,4 +58,5 @@ mod is_inf;
 mod gather_nd;
 mod reduce_log_sum;
 mod erf;
+mod resize;
 mod compress;
