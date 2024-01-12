@@ -449,6 +449,39 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Tensor<bool> {
         math::compress::compress(self, condition, axis)
     }
+
+    fn layer_normalization(
+        self: @Tensor<bool>,
+        scale: @Tensor<bool>,
+        B: Option<@Tensor<bool>>,
+        axis: Option<i32>,
+        epsilon: Option<bool>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<bool>, Tensor<bool>, Tensor<bool>) {
+        panic(array!['not supported!'])
+    }
+    
+    fn resize(
+        self: @Tensor<bool>,
+        roi: Option<Tensor<bool>>,
+        scales: Option<Span<bool>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<bool>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<bool>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn split(self: @Tensor<bool>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>) -> Array<Tensor<bool>> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

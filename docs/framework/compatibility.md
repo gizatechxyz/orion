@@ -78,6 +78,7 @@ You can see below the list of current supported ONNX Operators:
 |             [BitwiseAnd](operators/tensor/tensor.bitwise_and.md)              | :white\_check\_mark: |
 |              [BitwiseOr](operators/tensor/tensor.bitwise_or.md)               | :white\_check\_mark: |
 |             [BitwiseXor](operators/tensor/tensor.bitwise_xor.md)              | :white\_check\_mark: |
+|                  [Resize](operators/tensor/tensor.resize.md)                  | :white\_check\_mark: |
 |                   [Round](operators/tensor/tensor.round.md)                   | :white\_check\_mark: |
 |           [MaxInTensor](operators/tensor/tensor.max\_in\_tensor.md)           | :white\_check\_mark: |
 |                     [Max](operators/tensor/tensor.max.md)                     | :white\_check\_mark: |
@@ -106,5 +107,6 @@ You can see below the list of current supported ONNX Operators:
 |       [ReduceLogSum](operators/tensor/tensor.reduce\_log\_sum.md)             | :white\_check\_mark: |
 |               [Erf](operators/tensor/tensor.erf.md)                           | :white\_check\_mark: |
 |        [Compress](operators/tensor/tensor.compress.md)                        | :white\_check\_mark: |
+|     [Layer_normalization](operators/tensor/tensor.layer_normalization.md)     | :white\_check\_mark: |
 
 Current Operators support: **97/156 (62%)**

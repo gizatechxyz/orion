@@ -98,6 +98,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.bitwise_and`](tensor.bitwise\_and.md) | Computes the bitwise AND of two tensors element-wise. |
 | [`tensor.bitwise_xor`](tensor.bitwise\_xor.md) | Computes the bitwise XOR of two tensors element-wise. |
 | [`tensor.bitwise_or`](tensor.bitwise\_or.md) | Computes the bitwise OR of two tensors element-wise. |
+| [`tensor.resize`](tensor.resize.md) | Resizes the input tensor. |
 | [`tensor.round`](tensor.round.md) | Computes the round value of all elements in the input tensor. |
 | [`tensor.reduce_l1`](tensor.reduce\_l1.md) | Computes the L1 norm of the input tensor's elements along the provided axes. |
 | [`tensor.trilu`](tensor.trilu.md) | Returns the upper or lower triangular part of a tensor or a batch of 2D matrices. |
@@ -117,6 +118,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.gather_nd`](tensor.gather\_nd.md) | Given data tensor of rank r >= 1, indices tensor of rank q >= 1, and batch_dims integer b, this operator gathers slices of data into an output tensor of rank q + r - indices_shape[-1] - 1 - b. |
 | [`tensor.reduce_log_sum`](tensor.reduce\_log\_sum.md) | Computes the log sum of the input tensor's elements along the provided axes.  |
 | [`tensor.erf`](tensor.erf.md) | Computes the error function of the given input tensor element-wise. |
+| [`tensor.layer_normalization`](tensor.layer\_normalization.md) | computes the layer normalization of the input tensor. |
 
 ## Arithmetic Operations
 

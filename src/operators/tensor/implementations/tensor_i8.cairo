@@ -500,8 +500,43 @@ impl I8Tensor of TensorTrait<i8> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn resize(
+        self: @Tensor<i8>,
+        roi: Option<Tensor<i8>>,
+        scales: Option<Span<i8>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<i8>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<i8>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+    
     fn compress(self: @Tensor<i8>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<i8> {
         math::compress::compress(self, condition, axis)
+    }
+
+    fn layer_normalization(
+        self: @Tensor<i8>,
+        scale: @Tensor<i8>,
+        B: Option<@Tensor<i8>>,
+        axis: Option<i32>,
+        epsilon: Option<i8>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<i8>, Tensor<i8>, Tensor<i8>) {
+        panic(array!['not supported!'])
+    }
+    
+    fn split(
+        self: @Tensor<i8>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<i8>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
     }
 }
 

@@ -11,7 +11,10 @@ use orion::numbers::NumberTrait;
 fn transpose<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     self: @Tensor<T>, axes: Span<usize>
 ) -> Tensor<T> {
-    assert((*self.shape).len() > 1, 'cannot transpose a 1D tensor');
+    if (*self.shape).len() == 1 {
+        return self.identity();
+    }
+
     assert(axes.len() == (*self.shape).len(), 'shape and axes length unequal');
 
     if (*self.shape).len() == 2 {
