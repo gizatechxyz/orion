@@ -8,6 +8,8 @@ use orion::operators::tensor::{TensorTrait, Tensor};
 use orion::operators::tensor::I32TensorPartialEq;
 use core::array::{ArrayTrait, SpanTrait};
 use orion::utils::{assert_eq, assert_seq_eq};
+use orion::operators::sequence::I32Sequence;
+use orion::operators::sequence::SequenceTrait;
 
 #[test]
 #[available_gas(2000000000)]
@@ -16,7 +18,7 @@ fn test_sequence_erase_i32_negative() {
     let input_1 = input_1::input_1();
     let z = output_0::output_0();
 
-    let y = TensorTrait::sequence_erase(input_0, Option::Some(input_1));
+    let y = SequenceTrait::sequence_erase(input_0, Option::Some(input_1));
 
     assert_seq_eq(y, z);
 }

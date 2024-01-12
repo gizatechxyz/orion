@@ -388,24 +388,8 @@ impl U32Tensor of TensorTrait<u32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
-    fn sequence_length(self: Array<Tensor<u32>>) -> Tensor<u32> {
-        math::sequence_length::sequence_length(self)
-    }
-
     fn shrink(self: Tensor<u32>, bias: Option<u32>, lambd: Option<u32>) -> Tensor<u32> {
         panic(array!['not supported!'])
-    }
-
-    fn sequence_at(sequence: Array<Tensor<u32>>, position: Tensor<i32>) -> Tensor<u32> {
-        math::sequence_at::sequence_at(sequence, position)
-    }
-
-    fn sequence_construct(tensors: Array<Tensor<u32>>) -> Array<Tensor<u32>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
-    fn sequence_empty() -> Array<Tensor<u32>> {
-        math::sequence_empty::sequence_empty::<u32>()
     }
 
     fn reduce_mean(
@@ -430,18 +414,6 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
-    fn sequence_erase(
-        sequence: Array<Tensor<u32>>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<u32>> {
-        math::sequence_erase::sequence_erase(sequence, position)
-    }
-
-    fn sequence_insert(
-        self: Array<Tensor<u32>>, tensor: @Tensor<u32>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<u32>> {
-        math::sequence_insert::sequence_insert(self, tensor, position)
-    }
-
     fn is_inf(
         self: @Tensor<u32>, detect_negative: Option<u8>, detect_positive: Option<u8>
     ) -> Tensor<bool> {
@@ -452,16 +424,12 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
-    fn concat_from_sequence(
-        sequence: Array<Tensor<u32>>, axis: i32, new_axis: Option<usize>
+    fn gather_nd(
+        self: @Tensor<u32>, indices: Tensor<usize>, batch_dims: Option<usize>
     ) -> Tensor<u32> {
-        math::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
-    }
-
-    fn gather_nd(self: @Tensor<u32>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<u32> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
-    
+
     fn reduce_log_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
@@ -474,6 +442,45 @@ impl U32Tensor of TensorTrait<u32> {
         self: @Tensor<u32>, axis: Option<usize>, sorted: Option<bool>
     ) -> (Tensor<u32>, Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         manipulation::unique::unique(self, axis, sorted)
+    }
+
+    fn resize(
+        self: @Tensor<u32>,
+        roi: Option<Tensor<u32>>,
+        scales: Option<Span<u32>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<u32>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<u32>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
+    fn compress(self: @Tensor<u32>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
+        math::compress::compress(self, condition, axis)
+    }
+
+    fn layer_normalization(
+        self: @Tensor<u32>,
+        scale: @Tensor<u32>,
+        B: Option<@Tensor<u32>>,
+        axis: Option<i32>,
+        epsilon: Option<u32>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<u32>, Tensor<u32>, Tensor<u32>) {
+        panic(array!['not supported!'])
+    }
+
+    fn split(
+        self: @Tensor<u32>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<u32>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
     }
 }
 

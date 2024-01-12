@@ -73,7 +73,12 @@ impl Complex64Impl of ComplexTrait<complex64, FP64x64> {
         let y = self.img;
         let two = FP64x64Impl::new(TWO, false);
         let real = (((x.pow(two) + y.pow(two)).sqrt() + x) / two).sqrt();
-        let img = (((x.pow(two) + y.pow(two)).sqrt() - x) / two).sqrt();
+        let img = if y == FP64x64Impl::ZERO() {
+            FP64x64Impl::ZERO()
+        } else {
+            (((x.pow(two) + y.pow(two)).sqrt() - x) / two).sqrt()
+        };
+
         let img = FP64x64Impl::new(img.mag, y.sign);
         complex64 { real, img }
     }

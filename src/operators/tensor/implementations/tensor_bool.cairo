@@ -380,24 +380,8 @@ impl BoolTensor of TensorTrait<bool> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
-    fn sequence_length(self: Array<Tensor<bool>>) -> Tensor<u32> {
-        math::sequence_length::sequence_length(self)
-    }
-
-    fn sequence_at(sequence: Array<Tensor<bool>>, position: Tensor<i32>) -> Tensor<bool> {
-        math::sequence_at::sequence_at(sequence, position)
-    }
-
-    fn sequence_construct(tensors: Array<Tensor<bool>>) -> Array<Tensor<bool>> {
-        math::sequence_construct::sequence_construct(tensors)
-    }
-
     fn shrink(self: Tensor<bool>, bias: Option<bool>, lambd: Option<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
-    }
-
-    fn sequence_empty() -> Array<Tensor<bool>> {
-        math::sequence_empty::sequence_empty::<bool>()
     }
 
     fn reduce_mean(
@@ -430,18 +414,6 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn sequence_erase(
-        sequence: Array<Tensor<bool>>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<bool>> {
-        math::sequence_erase::sequence_erase(sequence, position)
-    }
-
-    fn sequence_insert(
-        self: Array<Tensor<bool>>, tensor: @Tensor<bool>, position: Option<Tensor<i32>>
-    ) -> Array<Tensor<bool>> {
-        math::sequence_insert::sequence_insert(self, tensor, position)
-    }
-
     fn is_inf(
         self: @Tensor<bool>, detect_negative: Option<u8>, detect_positive: Option<u8>
     ) -> Tensor<bool> {
@@ -449,12 +421,6 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn is_nan(self: @Tensor<bool>) -> Tensor<bool> {
-        panic(array!['not supported!'])
-    }
-
-    fn concat_from_sequence(
-        sequence: Array<Tensor<bool>>, axis: i32, new_axis: Option<usize>
-    ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
@@ -472,8 +438,51 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn gather_nd(self: @Tensor<bool>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<bool> {
+    fn gather_nd(
+        self: @Tensor<bool>, indices: Tensor<usize>, batch_dims: Option<usize>
+    ) -> Tensor<bool> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
+    }
+
+    fn compress(
+        self: @Tensor<bool>, condition: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<bool> {
+        math::compress::compress(self, condition, axis)
+    }
+
+    fn layer_normalization(
+        self: @Tensor<bool>,
+        scale: @Tensor<bool>,
+        B: Option<@Tensor<bool>>,
+        axis: Option<i32>,
+        epsilon: Option<bool>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<bool>, Tensor<bool>, Tensor<bool>) {
+        panic(array!['not supported!'])
+    }
+
+    fn resize(
+        self: @Tensor<bool>,
+        roi: Option<Tensor<bool>>,
+        scales: Option<Span<bool>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<bool>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<bool>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn split(
+        self: @Tensor<bool>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<bool>> {
+        panic(array!['not supported!'])
     }
 }
 
