@@ -549,8 +549,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
             nearest_mode
         )
     }
-    
-    fn compress(self: @Tensor<FP64x64>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP64x64> {
+
+    fn compress(
+        self: @Tensor<FP64x64>, condition: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP64x64> {
         math::compress::compress(self, condition, axis)
     }
 

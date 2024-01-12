@@ -460,7 +460,7 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> (Tensor<bool>, Tensor<bool>, Tensor<bool>) {
         panic(array!['not supported!'])
     }
-    
+
     fn resize(
         self: @Tensor<bool>,
         roi: Option<Tensor<bool>>,
@@ -479,7 +479,9 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn split(self: @Tensor<bool>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>) -> Array<Tensor<bool>> {
+    fn split(
+        self: @Tensor<bool>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<bool>> {
         panic(array!['not supported!'])
     }
 }

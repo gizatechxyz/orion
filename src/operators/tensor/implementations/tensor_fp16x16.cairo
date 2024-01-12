@@ -516,7 +516,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> (Tensor<FP16x16>, Tensor<FP16x16>, Tensor<FP16x16>) {
         math::layer_normalization::layer_normalization(self, scale, B, axis, epsilon, stash_type)
     }
-    
+
     fn resize(
         self: @Tensor<FP16x16>,
         roi: Option<Tensor<FP16x16>>,
@@ -548,8 +548,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
             nearest_mode
         )
     }
-    
-    fn compress(self: @Tensor<FP16x16>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP16x16> {
+
+    fn compress(
+        self: @Tensor<FP16x16>, condition: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP16x16> {
         math::compress::compress(self, condition, axis)
     }
 

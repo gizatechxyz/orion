@@ -5175,7 +5175,8 @@ trait TensorTrait<T> {
     ///     [[2,3],[6,7]]
     /// ```
     ///
-    fn split(self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    fn split(
+        self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<T>>;
 }
 

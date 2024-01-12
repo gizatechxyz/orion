@@ -180,7 +180,6 @@ fn test_linear_classifier_binary_softmax_zero() {
     assert(*scores.data[1] == FP16x16 { mag: 65535, sign: false }, '*scores[1] == 1.000000');
     assert(*scores.data[2] == FP16x16 { mag: 0, sign: false }, '*scores[2] == 1.674492e-06');
     assert(*scores.data[3] == FP16x16 { mag: 65535, sign: false }, '*scores[3] ==  9.999983e-01');
-
 }
 
 #[test]

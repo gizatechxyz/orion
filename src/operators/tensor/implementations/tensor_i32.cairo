@@ -519,7 +519,7 @@ impl I32Tensor of TensorTrait<i32> {
     ) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
-    
+
     fn compress(self: @Tensor<i32>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<i32> {
         math::compress::compress(self, condition, axis)
     }
@@ -534,7 +534,7 @@ impl I32Tensor of TensorTrait<i32> {
     ) -> (Tensor<i32>, Tensor<i32>, Tensor<i32>) {
         panic(array!['not supported!'])
     }
-    
+
     fn split(
         self: @Tensor<i32>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<i32>> {

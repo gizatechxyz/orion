@@ -517,7 +517,7 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
-    
+
     fn compress(self: @Tensor<i8>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<i8> {
         math::compress::compress(self, condition, axis)
     }
@@ -532,7 +532,7 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> (Tensor<i8>, Tensor<i8>, Tensor<i8>) {
         panic(array!['not supported!'])
     }
-    
+
     fn split(
         self: @Tensor<i8>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<i8>> {

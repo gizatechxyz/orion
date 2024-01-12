@@ -488,8 +488,13 @@ impl Complex64Tensor of TensorTrait<complex64> {
     ) -> (Tensor<complex64>, Tensor<complex64>, Tensor<complex64>) {
         panic(array!['not supported!'])
     }
-    
-    fn split(self: @Tensor<complex64>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>) -> Array<Tensor<complex64>> {
+
+    fn split(
+        self: @Tensor<complex64>,
+        axis: usize,
+        num_outputs: Option<usize>,
+        spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<complex64>> {
         panic(array!['not supported!'])
     }
 
@@ -508,9 +513,8 @@ impl Complex64Tensor of TensorTrait<complex64> {
         mode: Option<math::resize::MODE>,
         nearest_mode: Option<math::resize::NEAREST_MODE>,
     ) -> Tensor<complex64> {
-         panic(array!['not supported!'])
+        panic(array!['not supported!'])
     }
-    
 }
 
 /// Implements addition for `Tensor<complex64>` using the `Add` trait.

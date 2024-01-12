@@ -28,9 +28,7 @@ fn transpose_test_values() {
 #[test]
 #[available_gas(200000000000)]
 fn transpose_test_1D() {
-    let tensor = TensorTrait::<
-        u32
-    >::new(shape: array![4].span(), data: array![0, 1, 2, 3].span(),);
+    let tensor = TensorTrait::<u32>::new(shape: array![4].span(), data: array![0, 1, 2, 3].span(),);
 
     let result = tensor.transpose(axes: array![0].span());
 
