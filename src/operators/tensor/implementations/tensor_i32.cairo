@@ -521,6 +521,12 @@ impl I32Tensor of TensorTrait<i32> {
     fn compress(self: @Tensor<i32>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<i32> {
         math::compress::compress(self, condition, axis)
     }
+
+    fn split(
+        self: @Tensor<i32>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<i32>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

@@ -476,6 +476,9 @@ impl Complex64Tensor of TensorTrait<complex64> {
         math::compress::compress(self, condition, axis)
     }
 
+    fn split(self: @Tensor<complex64>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>) -> Array<Tensor<complex64>> {
+        panic(array!['not supported!'])
+    }
 
     fn resize(
         self: @Tensor<complex64>,

@@ -542,6 +542,12 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn compress(self: @Tensor<FP32x32>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP32x32> {
         math::compress::compress(self, condition, axis)
     }
+
+    fn split(
+        self: @Tensor<FP32x32>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP32x32>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

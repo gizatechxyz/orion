@@ -477,6 +477,12 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn compress(self: @Tensor<FP8x23W>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP8x23W> {
         math::compress::compress(self, condition, axis)
     }
+
+    fn split(
+        self: @Tensor<FP8x23W>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP8x23W>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

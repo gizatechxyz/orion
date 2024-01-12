@@ -463,6 +463,12 @@ impl U32Tensor of TensorTrait<u32> {
     fn compress(self: @Tensor<u32>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
         math::compress::compress(self, condition, axis)
     }
+
+    fn split(
+        self: @Tensor<u32>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<u32>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

@@ -465,6 +465,10 @@ impl BoolTensor of TensorTrait<bool> {
     fn compress(self: @Tensor<bool>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
         math::compress::compress(self, condition, axis)
     }
+
+    fn split(self: @Tensor<bool>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>) -> Array<Tensor<bool>> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

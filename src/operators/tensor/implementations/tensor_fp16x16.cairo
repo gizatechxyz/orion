@@ -541,6 +541,12 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn compress(self: @Tensor<FP16x16>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP16x16> {
         math::compress::compress(self, condition, axis)
     }
+
+    fn split(
+        self: @Tensor<FP16x16>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP16x16>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.
