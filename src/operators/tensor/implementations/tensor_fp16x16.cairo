@@ -506,6 +506,17 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn layer_normalization(
+        self: @Tensor<FP16x16>,
+        scale: @Tensor<FP16x16>,
+        B: Option<@Tensor<FP16x16>>,
+        axis: Option<i32>,
+        epsilon: Option<FP16x16>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<FP16x16>, Tensor<FP16x16>, Tensor<FP16x16>) {
+        math::layer_normalization::layer_normalization(self, scale, B, axis, epsilon, stash_type)
+    }
+    
     fn resize(
         self: @Tensor<FP16x16>,
         roi: Option<Tensor<FP16x16>>,

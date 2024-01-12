@@ -507,6 +507,17 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn layer_normalization(
+        self: @Tensor<FP32x32>,
+        scale: @Tensor<FP32x32>,
+        B: Option<@Tensor<FP32x32>>,
+        axis: Option<i32>,
+        epsilon: Option<FP32x32>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<FP32x32>, Tensor<FP32x32>, Tensor<FP32x32>) {
+        math::layer_normalization::layer_normalization(self, scale, B, axis, epsilon, stash_type)
+    }
+
     fn resize(
         self: @Tensor<FP32x32>,
         roi: Option<Tensor<FP32x32>>,

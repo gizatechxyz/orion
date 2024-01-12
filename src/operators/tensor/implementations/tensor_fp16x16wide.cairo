@@ -472,6 +472,23 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn compress(
+        self: @Tensor<FP16x16W>, condition: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP16x16W> {
+        math::compress::compress(self, condition, axis)
+    }
+
+    fn layer_normalization(
+        self: @Tensor<FP16x16W>,
+        scale: @Tensor<FP16x16W>,
+        B: Option<@Tensor<FP16x16W>>,
+        axis: Option<i32>,
+        epsilon: Option<FP16x16W>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<FP16x16W>, Tensor<FP16x16W>, Tensor<FP16x16W>) {
+        math::layer_normalization::layer_normalization(self, scale, B, axis, epsilon, stash_type)
+    }
+
     fn resize(
         self: @Tensor<FP16x16W>,
         roi: Option<Tensor<FP16x16W>>,
@@ -488,10 +505,6 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         nearest_mode: Option<math::resize::NEAREST_MODE>,
     ) -> Tensor<FP16x16W> {
         panic(array!['not supported!'])
-    }
-    
-    fn compress(self: @Tensor<FP16x16W>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP16x16W> {
-        math::compress::compress(self, condition, axis)
     }
 
     fn split(

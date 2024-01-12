@@ -4,7 +4,7 @@
    fn predict(ref self: LinearClassifier<T>, X: Tensor<T>) -> Tensor<T>;
 ```
 
-Linear Regressor. Performs the linear classification.
+Linear Classifier. Performs the linear classification.
 
 ## Args
 
@@ -13,7 +13,7 @@ Linear Regressor. Performs the linear classification.
 
 ## Returns
 
-* Tensor<T> containing the generalized linear regression evaluation of the input X.
+* Tensor<T> containing the linear classification evaluation of the input X.
 
 ## Type Constraints
 

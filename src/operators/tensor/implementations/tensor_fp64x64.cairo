@@ -507,6 +507,17 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn layer_normalization(
+        self: @Tensor<FP64x64>,
+        scale: @Tensor<FP64x64>,
+        B: Option<@Tensor<FP64x64>>,
+        axis: Option<i32>,
+        epsilon: Option<FP64x64>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<FP64x64>, Tensor<FP64x64>, Tensor<FP64x64>) {
+        math::layer_normalization::layer_normalization(self, scale, B, axis, epsilon, stash_type)
+    }
+
     fn resize(
         self: @Tensor<FP64x64>,
         roi: Option<Tensor<FP64x64>>,

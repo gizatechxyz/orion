@@ -444,6 +444,23 @@ impl BoolTensor of TensorTrait<bool> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 
+    fn compress(
+        self: @Tensor<bool>, condition: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<bool> {
+        math::compress::compress(self, condition, axis)
+    }
+
+    fn layer_normalization(
+        self: @Tensor<bool>,
+        scale: @Tensor<bool>,
+        B: Option<@Tensor<bool>>,
+        axis: Option<i32>,
+        epsilon: Option<bool>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<bool>, Tensor<bool>, Tensor<bool>) {
+        panic(array!['not supported!'])
+    }
+    
     fn resize(
         self: @Tensor<bool>,
         roi: Option<Tensor<bool>>,
@@ -460,10 +477,6 @@ impl BoolTensor of TensorTrait<bool> {
         nearest_mode: Option<math::resize::NEAREST_MODE>,
     ) -> Tensor<bool> {
         panic(array!['not supported!'])
-    }
-
-    fn compress(self: @Tensor<bool>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
-        math::compress::compress(self, condition, axis)
     }
 
     fn split(self: @Tensor<bool>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>) -> Array<Tensor<bool>> {

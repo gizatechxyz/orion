@@ -19,4 +19,5 @@ Orion supports currently only fixed point data types for `LinearClassificationTr
 
 | function | description |
 | --- | --- |
-| [`linear_classifier.predict`](linear_classifier.predict.md) | Performs the linear classification evaluation. |
+| [`linear_classifier.predict`](linear_classifier.predict.md) | Performs the linear classification. |
+

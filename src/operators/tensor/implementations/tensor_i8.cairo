@@ -480,7 +480,9 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
-    fn gather_nd(self: @Tensor<i8>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<i8> {
+    fn gather_nd(
+        self: @Tensor<i8>, indices: Tensor<usize>, batch_dims: Option<usize>
+    ) -> Tensor<i8> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 
@@ -520,6 +522,17 @@ impl I8Tensor of TensorTrait<i8> {
         math::compress::compress(self, condition, axis)
     }
 
+    fn layer_normalization(
+        self: @Tensor<i8>,
+        scale: @Tensor<i8>,
+        B: Option<@Tensor<i8>>,
+        axis: Option<i32>,
+        epsilon: Option<i8>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<i8>, Tensor<i8>, Tensor<i8>) {
+        panic(array!['not supported!'])
+    }
+    
     fn split(
         self: @Tensor<i8>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<i8>> {

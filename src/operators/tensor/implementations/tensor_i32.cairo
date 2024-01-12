@@ -482,7 +482,9 @@ impl I32Tensor of TensorTrait<i32> {
         panic(array!['not supported!'])
     }
 
-    fn gather_nd(self: @Tensor<i32>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<i32> {
+    fn gather_nd(
+        self: @Tensor<i32>, indices: Tensor<usize>, batch_dims: Option<usize>
+    ) -> Tensor<i32> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 
@@ -522,6 +524,17 @@ impl I32Tensor of TensorTrait<i32> {
         math::compress::compress(self, condition, axis)
     }
 
+    fn layer_normalization(
+        self: @Tensor<i32>,
+        scale: @Tensor<i32>,
+        B: Option<@Tensor<i32>>,
+        axis: Option<i32>,
+        epsilon: Option<i32>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<i32>, Tensor<i32>, Tensor<i32>) {
+        panic(array!['not supported!'])
+    }
+    
     fn split(
         self: @Tensor<i32>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<i32>> {
