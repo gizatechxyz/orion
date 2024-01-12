@@ -486,7 +486,9 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::is_nan::is_nan(self)
     }
 
-    fn gather_nd(self: @Tensor<FP16x16>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP16x16> {
+    fn gather_nd(
+        self: @Tensor<FP16x16>, indices: Tensor<usize>, batch_dims: Option<usize>
+    ) -> Tensor<FP16x16> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 
@@ -504,6 +506,38 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn resize(
+        self: @Tensor<FP16x16>,
+        roi: Option<Tensor<FP16x16>>,
+        scales: Option<Span<FP16x16>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<FP16x16>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<FP16x16>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<FP16x16> {
+        math::resize::resize(
+            self,
+            roi,
+            scales,
+            sizes,
+            antialias,
+            axes,
+            coordinate_transformation_mode,
+            cubic_coeff_a,
+            exclude_outside,
+            extrapolation_value,
+            keep_aspect_ratio_policy,
+            mode,
+            nearest_mode
+        )
+    }
+    
     fn compress(self: @Tensor<FP16x16>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP16x16> {
         math::compress::compress(self, condition, axis)
     }
