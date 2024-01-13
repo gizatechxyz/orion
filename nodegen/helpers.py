@@ -227,9 +227,9 @@ dtype_to_partial_eq = {
 
 
 dtype_to_numbers = {
-    Dtype.U32: [],
-    Dtype.I32: [],
-    Dtype.I8: [],
+    Dtype.U32: ["orion::numbers::NumberTrait"],
+    Dtype.I32: ["orion::numbers::NumberTrait"],
+    Dtype.I8: ["orion::numbers::NumberTrait"],
     Dtype.FP8x23: ["orion::numbers::{FixedTrait, FP8x23}",],
     Dtype.FP16x16: ["orion::numbers::{FixedTrait, FP16x16}",],
     Dtype.BOOL: [],
