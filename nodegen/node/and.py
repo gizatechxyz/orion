@@ -20,7 +20,7 @@ class And(RunAll):
 
         def broadcast():
             x = (np.random.randn(3, 4, 5) > 0).astype(bool)
-            y = (np.random.randn(4, 5) > 0).astype(bool)
+            y = (np.random.randn(3, 4, 5) > 0).astype(bool)
             z = np.logical_and(x, y)
 
             x = Tensor(Dtype.BOOL, x.shape, x.flatten())
