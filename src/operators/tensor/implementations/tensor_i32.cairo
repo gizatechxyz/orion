@@ -224,8 +224,8 @@ impl I32Tensor of TensorTrait<i32> {
             self,
             y_scale,
             y_zero_point,
-            NumberTrait::new_unscaled(128, true),
-            NumberTrait::new_unscaled(127, false)
+            -127,
+            127
         )
     }
 

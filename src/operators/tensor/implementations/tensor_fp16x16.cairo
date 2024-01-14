@@ -222,7 +222,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
             self,
             y_scale,
             y_zero_point,
-            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, true),
             NumberTrait::new_unscaled(127, false)
         )
     }

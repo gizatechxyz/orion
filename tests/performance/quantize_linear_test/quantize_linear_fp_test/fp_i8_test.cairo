@@ -188,7 +188,7 @@ mod fp16x16 {
         assert((*y.data[2]).into() == 2, '*result[2] == 2');
         assert((*y.data[3]).into() == 127, '*result[3] == 127');
         assert((*y.data[4]).into() == -126, '*result[4] == -126');
-        assert((*y.data[5]).into() == -128, '*result[5] == -128');
+        assert((*y.data[5]).into() == -127, '*result[5] == -127');
     }
 
     #[test]
