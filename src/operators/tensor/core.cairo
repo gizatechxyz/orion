@@ -6,7 +6,7 @@ use alexandria_data_structures::array_ext::{SpanTraitExt};
 //::resize::{MODE, NEAREST_MODE, KEEP_ASPECT_RATIO_POLICY, TRANSFORMATION_MODE};
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::{NumberTrait};
+use orion::numbers::{NumberTrait, I32IntoU32, U32IntoI32};
 
 #[derive(Copy, Drop)]
 struct Tensor<T> {
@@ -5575,10 +5575,10 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
                         let mut reshape: Array<usize> = ArrayTrait::new();
                         let mut index = 0_i32;
                         let axis = if *axis < 0 {
-                            assert(*axis <= u32Toi32((*self.shape).len()), 'axis out of accepted range');
-                            u32Toi32((*self.shape).len()) - *axis
+                            assert(*axis <= (*self.shape).len().into(), 'axis out of accepted range');
+                            (*self.shape).len().into() - *axis
                         } else {
-                            assert(*axis < u32Toi32((*self.shape).len()), 'axis out of accepted range');
+                            assert(*axis < (*self.shape).len().into(), 'axis out of accepted range');
                             *axis
                         };
 
@@ -5739,21 +5739,4 @@ fn clip<
 /// Cf: TensorTrait::identity docstring
 fn identity<T>(self: @Tensor<T>) -> Tensor<T> {
     Tensor::<T> { shape: *self.shape, data: *self.data }
-}
-
-fn u32Toi32(number: u32) -> i32 {
-    let number_felt: felt252 = number.into();
-    let number_i32: i32 = number_felt.try_into().unwrap();
-    number_i32
-}
-
-fn i32Tou32(number: i32) -> u32 {
-    let number_sign: bool = number < 0;
-    let mut self_positive: i32 = number;
-    if number_sign {
-        self_positive = self_positive * -1_i32
-    }
-    let number_felt: felt252 = self_positive.into();
-    let number_u32: u32 = number_felt.try_into().unwrap();
-    number_u32
 }

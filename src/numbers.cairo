@@ -2352,6 +2352,19 @@ impl I32DivEq of DivEq<i32> {
     }
 }
 
+impl I32IntoU32 of Into<i32, u32> {
+    fn into(self: i32) -> u32 {
+        let number_sign: bool = number < 0;
+        let mut self_positive: i32 = number;
+        if number_sign {
+            self_positive = self_positive * -1_i32
+        }
+        let number_felt: felt252 = self_positive.into();
+        let number_u32: u32 = number_felt.try_into().unwrap();
+        number_u32
+    }
+}
+
 impl I64Number of NumberTrait<i64, i64> {
     fn new(mag: i64, sign: bool) -> i64 {
         mag
@@ -3411,5 +3424,13 @@ impl Complex64Number of NumberTrait<complex64, FP64x64> {
 
     fn sub(lhs: complex64, rhs: complex64) -> complex64 {
         Complex64Sub::sub(lhs, rhs)
+    }
+}
+
+impl U32IntoI32 of Into<u32, i32> {
+    fn into(self: u32) -> i32 {
+        let number_felt: felt252 = self.into();
+        let number_i32: i32 = number_felt.try_into().unwrap();
+        number_i32
     }
 }

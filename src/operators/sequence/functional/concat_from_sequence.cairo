@@ -5,8 +5,9 @@ use core::debug::PrintTrait;
 use core::traits::Into;
 
 use orion::operators::tensor::helpers::replace_index;
-use orion::operators::tensor::core::{Tensor, TensorTrait, u32Toi32, i32Tou32};
+use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::math::concat::concat;
+use orion::numbers::{NumberTrait, I32IntoU32};
 
 
 fn concat_from_sequence<
@@ -39,7 +40,7 @@ fn concat_without_new_axis<
     sequence: Array<Tensor<T>>, axis: i32, r: usize
 ) -> Tensor<T> {
     let axis_is_negative: bool = axis < 0;
-    let mut axis_value: u32 = i32Tou32(axis);
+    let mut axis_value: u32 = axis.into();
 
     /// assert in range [-r, r - 1]
     assert(
@@ -61,7 +62,7 @@ fn concat_with_new_axis<
     sequence: Array<Tensor<T>>, axis: i32, r: usize
 ) -> Tensor<T> {
     let axis_is_negative: bool = axis < 0;
-    let mut axis_value: u32 = i32Tou32(axis);
+    let mut axis_value: u32 = axis.into();
 
     /// assert in range [-r - 1, r]
     assert(

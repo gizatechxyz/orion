@@ -1,9 +1,9 @@
 use core::array::{ArrayTrait, SpanTrait};
 use core::option::OptionTrait;
 
-use orion::operators::tensor::core::{Tensor, TensorTrait, u32Toi32, i32Tou32};
+use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::I32Tensor;
-use orion::numbers::NumberTrait;
+use orion::numbers::{ NumberTrait, I32IntoU32};
 
 /// Cf: SequenceTrait::sequence_insert docstring
 fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
@@ -23,7 +23,7 @@ fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TD
 
     let position_value_i32: i32 = *position.data.at(0);
     let is_negative: bool = position_value_i32 < 0;
-    let mut position_value: u32 = i32Tou32(position_value_i32);
+    let mut position_value: u32 = position_value_i32.into();
 
     assert(
         (is_negative == false && position_value <= self.len() - 1)
