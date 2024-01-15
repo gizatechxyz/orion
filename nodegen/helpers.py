@@ -239,7 +239,7 @@ trait_to_ref = {
         "orion::operators::nn::NNTrait",
     ],
     Trait.SEQUENCE: [
-        "array::{ArrayTrait, SpanTrait}",
+        "core::array::{ArrayTrait, SpanTrait}",
         "orion::operators::sequence::SequenceTrait",
     ],
 }
