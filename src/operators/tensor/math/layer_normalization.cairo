@@ -3,13 +3,12 @@ use core::array::ArrayTrait;
 use core::array::SpanTrait;
 use core::option::OptionTrait;
 use core::traits::Into;
-use orion::numbers::NumberTrait;
+use orion::numbers::{ NumberTrait, I32IntoU32};
 use orion::operators::tensor::{
     TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, BoolTensor
 };
 use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
 use core::debug::PrintTrait;
-use orion::numbers::{i8, i32, IntegerTrait};
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
 
 
@@ -40,7 +39,7 @@ fn layer_normalization<
 
     let mut axis = match axis {
         Option::Some(axis) => axis,
-        Option::None => IntegerTrait::<i32>::new(1, true),
+        Option::None => -1,
     };
     let epsilon = match epsilon {
         Option::Some(epsilon) => epsilon,
@@ -52,10 +51,11 @@ fn layer_normalization<
         Option::None => 1,
     };
 
-    let axis = if axis < IntegerTrait::<i32>::new(0, false) {
-        X_rank - axis.mag
+    let axis: u32 = axis.into();
+    let axis = if axis < 0 {
+        X_rank - axis
     } else {
-        axis.mag
+        axis
     };
 
     let unsqueezed_rank = X_rank - axis;

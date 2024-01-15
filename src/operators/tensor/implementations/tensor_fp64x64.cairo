@@ -9,7 +9,7 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
 use orion::numbers::{NumberTrait, FP64x64, FP64x64Impl, I8IntoFP64x64};
 use orion::numbers::fixed_point::implementations::fp64x64::core::ONE;
 use orion::operators::tensor::implementations::{

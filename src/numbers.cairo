@@ -2354,8 +2354,8 @@ impl I32DivEq of DivEq<i32> {
 
 impl I32IntoU32 of Into<i32, u32> {
     fn into(self: i32) -> u32 {
-        let number_sign: bool = number < 0;
-        let mut self_positive: i32 = number;
+        let number_sign: bool = self < 0;
+        let mut self_positive: i32 = self;
         if number_sign {
             self_positive = self_positive * -1_i32
         }
