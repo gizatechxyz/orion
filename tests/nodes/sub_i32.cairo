@@ -3,11 +3,11 @@ mod input_1;
 mod output_0;
 
 
-use core::array::{ArrayTrait, SpanTrait};
-use orion::operators::tensor::TensorTrait;
 use orion::operators::tensor::{I32Tensor, I32TensorSub};
+use orion::utils::{assert_eq, assert_seq_eq};
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::I32TensorPartialEq;
-use orion::utils::assert_eq;
+use orion::operators::tensor::{TensorTrait, Tensor};
 
 #[test]
 #[available_gas(2000000000)]

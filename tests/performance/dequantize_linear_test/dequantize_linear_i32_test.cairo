@@ -3,7 +3,6 @@ use core::array::ArrayTrait;
 use core::array::SpanTrait;
 use core::traits::Into;
 
-use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::i8};
 use orion::numbers::fixed_point::core::{FixedTrait};
 use orion::operators::tensor::I8Tensor;
 use orion::operators::tensor::I32Tensor;
@@ -16,10 +15,10 @@ fn dequantize_linear() {
     let mut shape = ArrayTrait::<usize>::new();
     shape.append(4);
     let mut data = ArrayTrait::<i8>::new();
-    data.append(IntegerTrait::new(0, false));
-    data.append(IntegerTrait::new(3, false));
-    data.append(IntegerTrait::new(125, false));
-    data.append(IntegerTrait::new(127, false));
+    data.append(0);
+    data.append(3);
+    data.append(125);
+    data.append(127);
 
     let x = TensorTrait::new(shape.span(), data.span());
 
@@ -27,7 +26,7 @@ fn dequantize_linear() {
     let mut shape = ArrayTrait::<usize>::new();
     shape.append(1);
     let mut data = ArrayTrait::<i32>::new();
-    data.append(IntegerTrait::new(2, false));
+    data.append(2);
 
     let x_scale = TensorTrait::new(shape.span(), data.span());
 
@@ -35,7 +34,7 @@ fn dequantize_linear() {
     let mut shape = ArrayTrait::<usize>::new();
     shape.append(1);
     let mut data = ArrayTrait::<i32>::new();
-    data.append(IntegerTrait::new(0, false));
+    data.append(0);
 
     let x_zero_point = TensorTrait::new(shape.span(), data.span());
 
@@ -57,24 +56,24 @@ fn per_axis() {
     shape.append(3);
     shape.append(2);
     let mut data = ArrayTrait::<i8>::new();
-    data.append(IntegerTrait::new(3, false));
-    data.append(IntegerTrait::new(89, false));
-    data.append(IntegerTrait::new(34, false));
-    data.append(IntegerTrait::new(127, false));
-    data.append(IntegerTrait::new(74, false));
-    data.append(IntegerTrait::new(59, false));
-    data.append(IntegerTrait::new(5, false));
-    data.append(IntegerTrait::new(24, false));
-    data.append(IntegerTrait::new(24, false));
-    data.append(IntegerTrait::new(87, false));
-    data.append(IntegerTrait::new(32, false));
-    data.append(IntegerTrait::new(13, false));
-    data.append(IntegerTrait::new(127, false));
-    data.append(IntegerTrait::new(99, false));
-    data.append(IntegerTrait::new(4, false));
-    data.append(IntegerTrait::new(127, false));
-    data.append(IntegerTrait::new(121, false));
-    data.append(IntegerTrait::new(102, false));
+    data.append(3);
+    data.append(89);
+    data.append(34);
+    data.append(127);
+    data.append(74);
+    data.append(59);
+    data.append(5);
+    data.append(24);
+    data.append(24);
+    data.append(87);
+    data.append(32);
+    data.append(13);
+    data.append(127);
+    data.append(99);
+    data.append(4);
+    data.append(127);
+    data.append(121);
+    data.append(102);
 
     let x = TensorTrait::new(shape.span(), data.span());
 
@@ -85,9 +84,9 @@ fn per_axis() {
     shape.append(1);
     shape.append(1);
     let mut data = ArrayTrait::<i32>::new();
-    data.append(IntegerTrait::new(2, false));
-    data.append(IntegerTrait::new(4, false));
-    data.append(IntegerTrait::new(5, false));
+    data.append(2);
+    data.append(4);
+    data.append(5);
 
     let x_scale = TensorTrait::new(shape.span(), data.span());
 
@@ -98,9 +97,9 @@ fn per_axis() {
     shape.append(1);
     shape.append(1);
     let mut data = ArrayTrait::<i32>::new();
-    data.append(IntegerTrait::new(1, false));
-    data.append(IntegerTrait::new(2, false));
-    data.append(IntegerTrait::new(3, false));
+    data.append(1);
+    data.append(2);
+    data.append(3);
 
     let x_zero_point = TensorTrait::new(shape.span(), data.span());
 

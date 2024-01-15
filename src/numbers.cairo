@@ -1,9 +1,11 @@
 mod fixed_point;
-mod signed_integer;
 mod complex_number;
 
-use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
+use orion::numbers::fixed_point::implementations::fp8x23::core::{ONE as ONE_fp8x23 };
+use orion::numbers::fixed_point::implementations::fp16x16::core::{ONE as ONE_fp16x16 };
+use orion::numbers::fixed_point::implementations::fp64x64::core::{ONE as ONE_fp64x64 };
+use orion::numbers::fixed_point::implementations::fp32x32::core::{ONE as ONE_fp32x32 };
 
 // Common methods from Fixed Point and Signed Integers.
 trait NumberTrait<T, MAG> {
@@ -1428,17 +1430,13 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
     }
 }
 
-use orion::numbers::signed_integer::i8 as i8_core;
-use orion::numbers::signed_integer::i8::i8;
-use orion::numbers::signed_integer::i8::{i8Add, i8Sub};
-
-impl I8Number of NumberTrait<i8, u8> {
-    fn new(mag: u8, sign: bool) -> i8 {
-        i8 { mag, sign }
+impl I8Number of NumberTrait<i8, i8> {
+    fn new(mag: i8, sign: bool) -> i8 {
+        mag
     }
 
-    fn new_unscaled(mag: u8, sign: bool) -> i8 {
-        i8 { mag, sign }
+    fn new_unscaled(mag: i8, sign: bool) -> i8 {
+        mag
     }
 
     fn from_felt(val: felt252) -> i8 {
@@ -1534,10 +1532,10 @@ impl I8Number of NumberTrait<i8, u8> {
     }
 
     fn zero() -> i8 {
-        i8 { mag: 0, sign: false }
+        0
     }
     fn is_zero(self: i8) -> bool {
-        i8_core::i8_eq(self, i8 { mag: 0, sign: false })
+       self == 0 
     }
 
     fn half() -> i8 {
@@ -1545,51 +1543,63 @@ impl I8Number of NumberTrait<i8, u8> {
     }
 
     fn one() -> i8 {
-        i8 { mag: 1, sign: false }
+        1
     }
 
     fn neg_one() -> i8 {
-        i8 { mag: 1, sign: true }
+        -1
     }
 
     fn is_one(self: i8) -> bool {
-        i8_core::i8_eq(self, i8 { mag: 1, sign: false })
+        self == 1
     }
 
     fn abs(self: i8) -> i8 {
-        i8_core::i8_abs(self)
+        if self >= 0 {
+            return self;
+        } else {
+            self * -1_i8
+        }
     }
 
     fn neg(self: i8) -> i8 {
-        i8_core::i8_neg(self)
+        self * -1_i8
     }
 
     fn min_value() -> i8 {
-        i8 { mag: 128, sign: true }
+        -127
     }
 
     fn max_value() -> i8 {
-        i8 { mag: 127, sign: false }
+       127 
     }
 
     fn min(self: i8, other: i8) -> i8 {
-        i8_core::i8_min(self, other)
+        if self < other {
+            return self;
+        } else {
+            other
+        }
     }
 
     fn max(self: i8, other: i8) -> i8 {
-        i8_core::i8_max(self, other)
+        if self > other {
+            return self;
+        } else {
+            other
+        }
     }
 
-    fn mag(self: i8) -> u8 {
-        self.mag
+    fn mag(self: i8) -> i8 {
+        self
     }
 
     fn is_neg(self: i8) -> bool {
-        self.sign
+        self < 0
     }
 
     fn xor(lhs: i8, rhs: i8) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) && lhs.mag != rhs.mag {
+        if (lhs == 0 || rhs == 0) && lhs != rhs {
             return true;
         } else {
             return false;
@@ -1597,7 +1607,7 @@ impl I8Number of NumberTrait<i8, u8> {
     }
 
     fn or(lhs: i8, rhs: i8) -> bool {
-        if (lhs.mag == 0 && rhs.mag == 0) {
+        if (lhs == 0 && rhs == 0) {
             return false;
         } else {
             return true;
@@ -1605,11 +1615,17 @@ impl I8Number of NumberTrait<i8, u8> {
     }
 
     fn sign(self: i8) -> i8 {
-        i8_core::i8_sign(self)
+        if self == 0 {
+            return 0_i8;
+        } else if self > 0 {
+            return 1_i8;
+        } else {
+            -1_i8
+        }
     }
 
     fn and(lhs: i8, rhs: i8) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) {
+        if (lhs == 0 || rhs == 0) {
             return false;
         } else {
             return true;
@@ -1617,7 +1633,7 @@ impl I8Number of NumberTrait<i8, u8> {
     }
 
     fn where(self: i8, x: i8, y: i8) -> i8 {
-        if self.mag == 0 {
+        if self == 0 {
             return y;
         } else {
             return x;
@@ -1625,61 +1641,144 @@ impl I8Number of NumberTrait<i8, u8> {
     }
 
     fn NaN() -> i8 {
-        IntegerTrait::NaN()
+        panic(array!['not supported!'])
     }
 
     fn is_nan(self: i8) -> bool {
-        IntegerTrait::is_nan(self)
+        panic(array!['not supported!'])
     }
 
     fn INF() -> i8 {
-        IntegerTrait::INF()
+        127
     }
 
     fn is_inf(self: i8) -> bool {
-        IntegerTrait::is_inf(self)
+        (self == 127 || self == -127)
     }
 
     fn is_pos_inf(self: i8) -> bool {
-        IntegerTrait::is_pos_inf(self)
+        self == 127
     }
 
     fn is_neg_inf(self: i8) -> bool {
-        IntegerTrait::is_neg_inf(self)
+       self == -127 
     }
 
     fn bitwise_and(lhs: i8, rhs: i8) -> i8 {
-        i8_core::i8_bitwise_and(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_xor(lhs: i8, rhs: i8) -> i8 {
-        i8_core::i8_bitwise_xor(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_or(lhs: i8, rhs: i8) -> i8 {
-        i8_core::i8_bitwise_or(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn add(lhs: i8, rhs: i8) -> i8 {
-        i8Add::add(lhs, rhs)
+        lhs + rhs
     }
 
     fn sub(lhs: i8, rhs: i8) -> i8 {
-        i8Sub::sub(lhs, rhs)
+        lhs - rhs
     }
 }
 
-use orion::numbers::signed_integer::i16 as i16_core;
-use orion::numbers::signed_integer::i16::i16;
-use orion::numbers::signed_integer::i16::{i16Add, i16Sub};
+impl I8Div of Div<i8> {
+    fn div(lhs: i8, rhs: i8) -> i8 {
+        assert(rhs != 0, 'divisor cannot be 0');
+        let mut lhs_positive = lhs;
+        let mut rhs_positive = rhs;
+        // making sure everything is positive
+        if lhs < 0 {
+            lhs_positive = lhs * -1;
+        }
+        if rhs < 0 {
+            rhs_positive = rhs * -1;
+        }
+        //felt252 plays role of a bridge for type casting
+        let lhs_felt: felt252 = lhs_positive.into();
+        let rhs_felt: felt252 = rhs_positive.into();
+        let lhs_u128: u128 = lhs_felt.try_into().unwrap();
+        let rhs_u128: u128 = rhs_felt.try_into().unwrap();
+        let mut result = lhs_u128 / rhs_u128; 
+        let felt_result: felt252 = result.into();
+        let signed_int_result: i8 = felt_result.try_into().unwrap();
+        if lhs * rhs < 0 {
+            signed_int_result * -1
+        } else {
+            signed_int_result
+        }
+    }
+}
 
-impl i16Number of NumberTrait<i16, u16> {
-    fn new(mag: u16, sign: bool) -> i16 {
-        i16 { mag, sign }
+impl I8DivEq of DivEq<i8> {
+    #[inline(always)]
+    fn div_eq(ref self: i8, other: i8) {
+        self = Div::div(self, other);
+    }
+}
+
+impl I8IntoFP8x23 of Into<i8, FP8x23> {
+    fn into(self: i8) -> FP8x23 {
+        let number_sign: bool = self < 0;
+        let mut self_positive: i8 = self;
+        if number_sign {
+            self_positive = self_positive * -1_i8
+        }
+        let number_felt: felt252 = self_positive.into();
+        let number_u32: u32 = number_felt.try_into().unwrap();
+        FP8x23 {mag: number_u32 * ONE_fp8x23, sign: number_sign} 
+    }
+}
+
+impl I8IntoFP16x16 of Into<i8, FP16x16> {
+    fn into(self: i8) -> FP16x16 {
+        let number_sign: bool = self < 0;
+        let mut self_positive: i8 = self;
+        if number_sign {
+            self_positive = self_positive * -1_i8
+        }
+        let number_felt: felt252 = self_positive.into();
+        let number_u32: u32 = number_felt.try_into().unwrap();
+        FP16x16 {mag: number_u32 * ONE_fp16x16, sign: number_sign} 
+    }
+}
+
+impl I8IntoFP64x64 of Into<i8, FP64x64> {
+    fn into(self: i8) -> FP64x64 {
+        let number_sign: bool = self < 0;
+        let mut self_positive: i8 = self;
+        if number_sign {
+            self_positive = self_positive * -1_i8
+        }
+        let number_felt: felt252 = self_positive.into();
+        let number_u128: u128 = number_felt.try_into().unwrap();
+        FP64x64 {mag: number_u128 * ONE_fp64x64, sign: number_sign} 
+    }
+}
+
+impl I8IntoFP32x32 of Into<i8, FP32x32> {
+    fn into(self: i8) -> FP32x32 {
+        let number_sign: bool = self < 0;
+        let mut self_positive: i8 = self;
+        if number_sign {
+            self_positive = self_positive * -1_i8
+        }
+        let number_felt: felt252 = self_positive.into();
+        let number_u128: u64 = number_felt.try_into().unwrap();
+        FP32x32 {mag: number_u128 * ONE_fp32x32, sign: number_sign} 
+    }
+}
+
+impl I16Number of NumberTrait<i16, i16> {
+    fn new(mag: i16, sign: bool) -> i16 {
+        mag
     }
 
-    fn new_unscaled(mag: u16, sign: bool) -> i16 {
-        i16 { mag, sign }
+    fn new_unscaled(mag: i16, sign: bool) -> i16 {
+        mag
     }
 
     fn from_felt(val: felt252) -> i16 {
@@ -1775,10 +1874,10 @@ impl i16Number of NumberTrait<i16, u16> {
     }
 
     fn zero() -> i16 {
-        i16 { mag: 0, sign: false }
+        0
     }
     fn is_zero(self: i16) -> bool {
-        i16_core::i16_eq(self, i16 { mag: 0, sign: false })
+       self == 0 
     }
 
     fn half() -> i16 {
@@ -1786,51 +1885,63 @@ impl i16Number of NumberTrait<i16, u16> {
     }
 
     fn one() -> i16 {
-        i16 { mag: 1, sign: false }
+        1
     }
 
     fn neg_one() -> i16 {
-        i16 { mag: 1, sign: true }
+        -1
     }
 
     fn is_one(self: i16) -> bool {
-        i16_core::i16_eq(self, i16 { mag: 1, sign: false })
+        self == 1
     }
 
     fn abs(self: i16) -> i16 {
-        i16_core::i16_abs(self)
+        if self >= 0 {
+            return self;
+        } else {
+            self * -1_i16
+        }
     }
 
     fn neg(self: i16) -> i16 {
-        i16_core::i16_neg(self)
+        self * -1_i16
     }
 
     fn min_value() -> i16 {
-        i16 { mag: 32768, sign: true }
+        -32767
     }
 
     fn max_value() -> i16 {
-        i16 { mag: 32767, sign: false }
+        32767
     }
 
     fn min(self: i16, other: i16) -> i16 {
-        i16_core::i16_min(self, other)
+        if self < other {
+            return self;
+        } else {
+            other
+        }
     }
 
     fn max(self: i16, other: i16) -> i16 {
-        i16_core::i16_max(self, other)
+        if self > other {
+            return self;
+        } else {
+            other
+        }
     }
 
-    fn mag(self: i16) -> u16 {
-        self.mag
+    fn mag(self: i16) -> i16 {
+        self
     }
 
     fn is_neg(self: i16) -> bool {
-        self.sign
+        self < 0
     }
 
     fn xor(lhs: i16, rhs: i16) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) && lhs.mag != rhs.mag {
+        if (lhs == 0 || rhs == 0) && lhs != rhs {
             return true;
         } else {
             return false;
@@ -1838,7 +1949,7 @@ impl i16Number of NumberTrait<i16, u16> {
     }
 
     fn or(lhs: i16, rhs: i16) -> bool {
-        if (lhs.mag == 0 && rhs.mag == 0) {
+        if (lhs == 0 && rhs == 0) {
             return false;
         } else {
             return true;
@@ -1846,11 +1957,17 @@ impl i16Number of NumberTrait<i16, u16> {
     }
 
     fn sign(self: i16) -> i16 {
-        i16_core::i16_sign(self)
+        if self == 0 {
+            return 0_i16;
+        } else if self > 0 {
+            return 1_i16;
+        } else {
+            -1_i16
+        }
     }
 
     fn and(lhs: i16, rhs: i16) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) {
+        if (lhs == 0 || rhs == 0) {
             return false;
         } else {
             return true;
@@ -1858,7 +1975,7 @@ impl i16Number of NumberTrait<i16, u16> {
     }
 
     fn where(self: i16, x: i16, y: i16) -> i16 {
-        if self.mag == 0 {
+        if self == 0 {
             return y;
         } else {
             return x;
@@ -1866,61 +1983,92 @@ impl i16Number of NumberTrait<i16, u16> {
     }
 
     fn NaN() -> i16 {
-        IntegerTrait::NaN()
+        panic(array!['not supported!'])
     }
 
     fn is_nan(self: i16) -> bool {
-        IntegerTrait::is_nan(self)
+        panic(array!['not supported!'])
     }
 
     fn INF() -> i16 {
-        IntegerTrait::INF()
+        32767
     }
 
     fn is_inf(self: i16) -> bool {
-        IntegerTrait::is_inf(self)
+        (self == 32767 || self == -32767)
     }
 
     fn is_pos_inf(self: i16) -> bool {
-        IntegerTrait::is_pos_inf(self)
+        self == 32767
     }
 
     fn is_neg_inf(self: i16) -> bool {
-        IntegerTrait::is_neg_inf(self)
+       self == -32767 
     }
 
     fn bitwise_and(lhs: i16, rhs: i16) -> i16 {
-        i16_core::i16_bitwise_and(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_xor(lhs: i16, rhs: i16) -> i16 {
-        i16_core::i16_bitwise_xor(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_or(lhs: i16, rhs: i16) -> i16 {
-        i16_core::i16_bitwise_or(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn add(lhs: i16, rhs: i16) -> i16 {
-        i16Add::add(lhs, rhs)
+        lhs + rhs
     }
 
     fn sub(lhs: i16, rhs: i16) -> i16 {
-        i16Sub::sub(lhs, rhs)
+        lhs - rhs
     }
 }
 
-use orion::numbers::signed_integer::i32 as i32_core;
-use orion::numbers::signed_integer::i32::i32;
-use orion::numbers::signed_integer::i32::{i32Add, i32Sub};
+impl I16Div of Div<i16> {
+    fn div(lhs: i16, rhs: i16) -> i16 {
+        assert(rhs != 0, 'divisor cannot be 0');
+        let mut lhs_positive = lhs;
+        let mut rhs_positive = rhs;
+        // making sure everything is positive
+        if lhs < 0 {
+            lhs_positive = lhs * -1;
+        }
+        if rhs < 0 {
+            rhs_positive = rhs * -1;
+        }
+        //felt252 plays role of a bridge for type casting
+        let lhs_felt: felt252 = lhs_positive.into();
+        let rhs_felt: felt252 = rhs_positive.into();
+        let lhs_u128: u128 = lhs_felt.try_into().unwrap();
+        let rhs_u128: u128 = rhs_felt.try_into().unwrap();
+        let mut result = lhs_u128 / rhs_u128; 
+        let felt_result: felt252 = result.into();
+        let signed_int_result: i16 = felt_result.try_into().unwrap();
+        if lhs * rhs < 0 {
+            signed_int_result * -1
+        } else {
+            signed_int_result
+        }
+    }
+}
 
-impl i32Number of NumberTrait<i32, u32> {
-    fn new(mag: u32, sign: bool) -> i32 {
-        i32 { mag, sign }
+impl I16DivEq of DivEq<i16> {
+    #[inline(always)]
+    fn div_eq(ref self: i16, other: i16) {
+        self = Div::div(self, other);
+    }
+}
+
+impl I32Number of NumberTrait<i32, i32> {
+    fn new(mag: i32, sign: bool) -> i32 {
+        mag
     }
 
-    fn new_unscaled(mag: u32, sign: bool) -> i32 {
-        i32 { mag, sign }
+    fn new_unscaled(mag: i32, sign: bool) -> i32 {
+        mag
     }
 
     fn from_felt(val: felt252) -> i32 {
@@ -2016,10 +2164,10 @@ impl i32Number of NumberTrait<i32, u32> {
     }
 
     fn zero() -> i32 {
-        i32 { mag: 0, sign: false }
+        0
     }
     fn is_zero(self: i32) -> bool {
-        i32_core::i32_eq(self, i32 { mag: 0, sign: false })
+       self == 0 
     }
 
     fn half() -> i32 {
@@ -2027,51 +2175,63 @@ impl i32Number of NumberTrait<i32, u32> {
     }
 
     fn one() -> i32 {
-        i32 { mag: 1, sign: false }
+        1
     }
 
     fn neg_one() -> i32 {
-        i32 { mag: 1, sign: true }
+        -1
     }
 
     fn is_one(self: i32) -> bool {
-        i32_core::i32_eq(self, i32 { mag: 1, sign: false })
+        self == 1
     }
 
     fn abs(self: i32) -> i32 {
-        i32_core::i32_abs(self)
+        if self >= 0 {
+            return self;
+        } else {
+            self * -1_i32
+        }
     }
 
     fn neg(self: i32) -> i32 {
-        i32_core::i32_neg(self)
+        self * -1_i32
     }
 
     fn min_value() -> i32 {
-        i32 { mag: 2147483648, sign: true }
+        -2147483647
     }
 
     fn max_value() -> i32 {
-        i32 { mag: 2147483647, sign: false }
+       2147483647 
     }
 
     fn min(self: i32, other: i32) -> i32 {
-        i32_core::i32_min(self, other)
+        if self < other {
+            return self;
+        } else {
+            other
+        }
     }
 
     fn max(self: i32, other: i32) -> i32 {
-        i32_core::i32_max(self, other)
+        if self > other {
+            return self;
+        } else {
+            other
+        }
     }
 
-    fn mag(self: i32) -> u32 {
-        self.mag
+    fn mag(self: i32) -> i32 {
+        self
     }
 
     fn is_neg(self: i32) -> bool {
-        self.sign
+        self < 0
     }
 
     fn xor(lhs: i32, rhs: i32) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) && lhs.mag != rhs.mag {
+        if (lhs == 0 || rhs == 0) && lhs != rhs {
             return true;
         } else {
             return false;
@@ -2079,7 +2239,7 @@ impl i32Number of NumberTrait<i32, u32> {
     }
 
     fn or(lhs: i32, rhs: i32) -> bool {
-        if (lhs.mag == 0 && rhs.mag == 0) {
+        if (lhs == 0 && rhs == 0) {
             return false;
         } else {
             return true;
@@ -2087,11 +2247,17 @@ impl i32Number of NumberTrait<i32, u32> {
     }
 
     fn sign(self: i32) -> i32 {
-        i32_core::i32_sign(self)
+        if self == 0 {
+            return 0_i32;
+        } else if self > 0 {
+            return 1_i32;
+        } else {
+            -1_i32
+        }
     }
 
     fn and(lhs: i32, rhs: i32) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) {
+        if (lhs == 0 || rhs == 0) {
             return false;
         } else {
             return true;
@@ -2099,7 +2265,7 @@ impl i32Number of NumberTrait<i32, u32> {
     }
 
     fn where(self: i32, x: i32, y: i32) -> i32 {
-        if self.mag == 0 {
+        if self == 0 {
             return y;
         } else {
             return x;
@@ -2107,61 +2273,92 @@ impl i32Number of NumberTrait<i32, u32> {
     }
 
     fn NaN() -> i32 {
-        IntegerTrait::NaN()
+        panic(array!['not supported!'])
     }
 
     fn is_nan(self: i32) -> bool {
-        IntegerTrait::is_nan(self)
+        panic(array!['not supported!'])
     }
 
     fn INF() -> i32 {
-        IntegerTrait::INF()
+       2147483647 
     }
 
     fn is_inf(self: i32) -> bool {
-        IntegerTrait::is_inf(self)
+        (self == 2147483647 || self == -2147483647)
     }
 
     fn is_pos_inf(self: i32) -> bool {
-        IntegerTrait::is_pos_inf(self)
+        self == 2147483647 
     }
 
     fn is_neg_inf(self: i32) -> bool {
-        IntegerTrait::is_neg_inf(self)
+       self == -2147483647 
     }
 
     fn bitwise_and(lhs: i32, rhs: i32) -> i32 {
-        i32_core::i32_bitwise_and(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_xor(lhs: i32, rhs: i32) -> i32 {
-        i32_core::i32_bitwise_xor(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_or(lhs: i32, rhs: i32) -> i32 {
-        i32_core::i32_bitwise_or(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn add(lhs: i32, rhs: i32) -> i32 {
-        i32Add::add(lhs, rhs)
+        lhs + rhs
     }
 
     fn sub(lhs: i32, rhs: i32) -> i32 {
-        i32Sub::sub(lhs, rhs)
+        lhs - rhs
     }
 }
 
-use orion::numbers::signed_integer::i64 as i64_core;
-use orion::numbers::signed_integer::i64::i64;
-use orion::numbers::signed_integer::i64::{i64Add, i64Sub};
+impl I32Div of Div<i32> {
+    fn div(lhs: i32, rhs: i32) -> i32 {
+        assert(rhs != 0, 'divisor cannot be 0');
+        let mut lhs_positive = lhs;
+        let mut rhs_positive = rhs;
+        // making sure everything is positive
+        if lhs < 0 {
+            lhs_positive = lhs * -1;
+        }
+        if rhs < 0 {
+            rhs_positive = rhs * -1;
+        }
+        //felt252 plays role of a bridge for type casting
+        let lhs_felt: felt252 = lhs_positive.into();
+        let rhs_felt: felt252 = rhs_positive.into();
+        let lhs_u128: u128 = lhs_felt.try_into().unwrap();
+        let rhs_u128: u128 = rhs_felt.try_into().unwrap();
+        let mut result = lhs_u128 / rhs_u128; 
+        let felt_result: felt252 = result.into();
+        let signed_int_result: i32 = felt_result.try_into().unwrap();
+        if lhs * rhs < 0 {
+            signed_int_result * -1
+        } else {
+            signed_int_result
+        }
+    }
+}
 
-impl i64Number of NumberTrait<i64, u64> {
-    fn new(mag: u64, sign: bool) -> i64 {
-        i64 { mag, sign }
+impl I32DivEq of DivEq<i32> {
+    #[inline(always)]
+    fn div_eq(ref self: i32, other: i32) {
+        self = Div::div(self, other);
+    }
+}
+
+impl I64Number of NumberTrait<i64, i64> {
+    fn new(mag: i64, sign: bool) -> i64 {
+        mag
     }
 
-    fn new_unscaled(mag: u64, sign: bool) -> i64 {
-        i64 { mag, sign }
+    fn new_unscaled(mag: i64, sign: bool) -> i64 {
+        mag
     }
 
     fn from_felt(val: felt252) -> i64 {
@@ -2257,10 +2454,10 @@ impl i64Number of NumberTrait<i64, u64> {
     }
 
     fn zero() -> i64 {
-        i64 { mag: 0, sign: false }
+        0
     }
     fn is_zero(self: i64) -> bool {
-        i64_core::i64_eq(self, i64 { mag: 0, sign: false })
+       self == 0 
     }
 
     fn half() -> i64 {
@@ -2268,51 +2465,63 @@ impl i64Number of NumberTrait<i64, u64> {
     }
 
     fn one() -> i64 {
-        i64 { mag: 1, sign: false }
+        1
     }
 
     fn neg_one() -> i64 {
-        i64 { mag: 1, sign: true }
+        -1
     }
 
     fn is_one(self: i64) -> bool {
-        i64_core::i64_eq(self, i64 { mag: 1, sign: false })
+        self == 1
     }
 
     fn abs(self: i64) -> i64 {
-        i64_core::i64_abs(self)
+        if self >= 0 {
+            return self;
+        } else {
+            self * -1_i64
+        }
     }
 
     fn neg(self: i64) -> i64 {
-        i64_core::i64_neg(self)
+        self * -1_i64
     }
 
     fn min_value() -> i64 {
-        i64 { mag: 9223372036854775808, sign: true }
+        -9223372036854775807
     }
 
     fn max_value() -> i64 {
-        i64 { mag: 9223372036854775807, sign: false }
+       9223372036854775807 
     }
 
     fn min(self: i64, other: i64) -> i64 {
-        i64_core::i64_min(self, other)
+        if self < other {
+            return self;
+        } else {
+            other
+        }
     }
 
     fn max(self: i64, other: i64) -> i64 {
-        i64_core::i64_max(self, other)
+        if self > other {
+            return self;
+        } else {
+            other
+        }
     }
 
-    fn mag(self: i64) -> u64 {
-        self.mag
+    fn mag(self: i64) -> i64 {
+        self
     }
 
     fn is_neg(self: i64) -> bool {
-        self.sign
+        self < 0
     }
 
     fn xor(lhs: i64, rhs: i64) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) && lhs.mag != rhs.mag {
+        if (lhs == 0 || rhs == 0) && lhs != rhs {
             return true;
         } else {
             return false;
@@ -2320,7 +2529,7 @@ impl i64Number of NumberTrait<i64, u64> {
     }
 
     fn or(lhs: i64, rhs: i64) -> bool {
-        if (lhs.mag == 0 && rhs.mag == 0) {
+        if (lhs == 0 && rhs == 0) {
             return false;
         } else {
             return true;
@@ -2328,11 +2537,17 @@ impl i64Number of NumberTrait<i64, u64> {
     }
 
     fn sign(self: i64) -> i64 {
-        i64_core::i64_sign(self)
+        if self == 0 {
+            return 0_i64;
+        } else if self > 0 {
+            return 1_i64;
+        } else {
+            -1_i64
+        }
     }
 
     fn and(lhs: i64, rhs: i64) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) {
+        if (lhs == 0 || rhs == 0) {
             return false;
         } else {
             return true;
@@ -2340,7 +2555,7 @@ impl i64Number of NumberTrait<i64, u64> {
     }
 
     fn where(self: i64, x: i64, y: i64) -> i64 {
-        if self.mag == 0 {
+        if self == 0 {
             return y;
         } else {
             return x;
@@ -2348,61 +2563,92 @@ impl i64Number of NumberTrait<i64, u64> {
     }
 
     fn NaN() -> i64 {
-        IntegerTrait::NaN()
+        panic(array!['not supported!'])
     }
 
     fn is_nan(self: i64) -> bool {
-        IntegerTrait::is_nan(self)
+        panic(array!['not supported!'])
     }
 
     fn INF() -> i64 {
-        IntegerTrait::INF()
+       9223372036854775807 
     }
 
     fn is_inf(self: i64) -> bool {
-        IntegerTrait::is_inf(self)
+        (self == 9223372036854775807 || self == -9223372036854775807)
     }
 
     fn is_pos_inf(self: i64) -> bool {
-        IntegerTrait::is_pos_inf(self)
+        self == 9223372036854775807 
     }
 
     fn is_neg_inf(self: i64) -> bool {
-        IntegerTrait::is_neg_inf(self)
+       self == -9223372036854775807 
     }
 
     fn bitwise_and(lhs: i64, rhs: i64) -> i64 {
-        i64_core::i64_bitwise_and(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_xor(lhs: i64, rhs: i64) -> i64 {
-        i64_core::i64_bitwise_xor(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_or(lhs: i64, rhs: i64) -> i64 {
-        i64_core::i64_bitwise_or(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn add(lhs: i64, rhs: i64) -> i64 {
-        i64Add::add(lhs, rhs)
+        lhs + rhs
     }
 
     fn sub(lhs: i64, rhs: i64) -> i64 {
-        i64Sub::sub(lhs, rhs)
+        lhs - rhs
     }
 }
 
-use orion::numbers::signed_integer::i128 as i128_core;
-use orion::numbers::signed_integer::i128::i128;
-use orion::numbers::signed_integer::i128::{i128Add, i128Sub};
+impl I64Div of Div<i64> {
+    fn div(lhs: i64, rhs: i64) -> i64 {
+        assert(rhs != 0, 'divisor cannot be 0');
+        let mut lhs_positive = lhs;
+        let mut rhs_positive = rhs;
+        // making sure everything is positive
+        if lhs < 0 {
+            lhs_positive = lhs * -1;
+        }
+        if rhs < 0 {
+            rhs_positive = rhs * -1;
+        }
+        //felt252 plays role of a bridge for type casting
+        let lhs_felt: felt252 = lhs_positive.into();
+        let rhs_felt: felt252 = rhs_positive.into();
+        let lhs_u128: u128 = lhs_felt.try_into().unwrap();
+        let rhs_u128: u128 = rhs_felt.try_into().unwrap();
+        let mut result = lhs_u128 / rhs_u128; 
+        let felt_result: felt252 = result.into();
+        let signed_int_result: i64 = felt_result.try_into().unwrap();
+        if lhs * rhs < 0 {
+            signed_int_result * -1
+        } else {
+            signed_int_result
+        }
+    }
+}
 
-impl i128Number of NumberTrait<i128, u128> {
-    fn new(mag: u128, sign: bool) -> i128 {
-        i128 { mag, sign }
+impl I64DivEq of DivEq<i64> {
+    #[inline(always)]
+    fn div_eq(ref self: i64, other: i64) {
+        self = Div::div(self, other);
+    }
+}
+
+impl I128Number of NumberTrait<i128, i128> {
+    fn new(mag: i128, sign: bool) -> i128 {
+        mag
     }
 
-    fn new_unscaled(mag: u128, sign: bool) -> i128 {
-        i128 { mag, sign }
+    fn new_unscaled(mag: i128, sign: bool) -> i128 {
+        mag
     }
 
     fn from_felt(val: felt252) -> i128 {
@@ -2497,12 +2743,11 @@ impl i128Number of NumberTrait<i128, u128> {
         panic(array!['not supported!'])
     }
 
-
     fn zero() -> i128 {
-        i128 { mag: 0, sign: false }
+        0
     }
     fn is_zero(self: i128) -> bool {
-        i128_core::i128_eq(self, i128 { mag: 0, sign: false })
+       self == 0 
     }
 
     fn half() -> i128 {
@@ -2510,51 +2755,63 @@ impl i128Number of NumberTrait<i128, u128> {
     }
 
     fn one() -> i128 {
-        i128 { mag: 1, sign: false }
+        1
     }
 
     fn neg_one() -> i128 {
-        i128 { mag: 1, sign: true }
+        -1
     }
 
     fn is_one(self: i128) -> bool {
-        i128_core::i128_eq(self, i128 { mag: 1, sign: false })
+        self == 1
     }
 
     fn abs(self: i128) -> i128 {
-        i128_core::i128_abs(self)
+        if self >= 0 {
+            return self;
+        } else {
+            self * -1_i128
+        }
     }
 
     fn neg(self: i128) -> i128 {
-        i128_core::i128_neg(self)
+        self * -1_i128
     }
 
     fn min_value() -> i128 {
-        i128 { mag: 170141183460469231731687303715884105728, sign: true }
+        -170141183460469231731687303715884105727
     }
 
     fn max_value() -> i128 {
-        i128 { mag: 170141183460469231731687303715884105727, sign: false }
+       170141183460469231731687303715884105727 
     }
 
     fn min(self: i128, other: i128) -> i128 {
-        i128_core::i128_min(self, other)
+        if self < other {
+            return self;
+        } else {
+            other
+        }
     }
 
     fn max(self: i128, other: i128) -> i128 {
-        i128_core::i128_max(self, other)
+        if self > other {
+            return self;
+        } else {
+            other
+        }
     }
 
-    fn mag(self: i128) -> u128 {
-        self.mag
+    fn mag(self: i128) -> i128 {
+        self
     }
 
     fn is_neg(self: i128) -> bool {
-        self.sign
+        self < 0
     }
 
     fn xor(lhs: i128, rhs: i128) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) && lhs.mag != rhs.mag {
+        if (lhs == 0 || rhs == 0) && lhs != rhs {
             return true;
         } else {
             return false;
@@ -2562,7 +2819,7 @@ impl i128Number of NumberTrait<i128, u128> {
     }
 
     fn or(lhs: i128, rhs: i128) -> bool {
-        if (lhs.mag == 0 && rhs.mag == 0) {
+        if (lhs == 0 && rhs == 0) {
             return false;
         } else {
             return true;
@@ -2570,11 +2827,17 @@ impl i128Number of NumberTrait<i128, u128> {
     }
 
     fn sign(self: i128) -> i128 {
-        i128_core::i128_sign(self)
+        if self == 0 {
+            return 0_i128;
+        } else if self > 0 {
+            return 1_i128;
+        } else {
+            -1_i128
+        }
     }
 
     fn and(lhs: i128, rhs: i128) -> bool {
-        if (lhs.mag == 0 || rhs.mag == 0) {
+        if (lhs == 0 || rhs == 0) {
             return false;
         } else {
             return true;
@@ -2582,7 +2845,7 @@ impl i128Number of NumberTrait<i128, u128> {
     }
 
     fn where(self: i128, x: i128, y: i128) -> i128 {
-        if self.mag == 0 {
+        if self == 0 {
             return y;
         } else {
             return x;
@@ -2590,47 +2853,83 @@ impl i128Number of NumberTrait<i128, u128> {
     }
 
     fn NaN() -> i128 {
-        IntegerTrait::NaN()
+        panic(array!['not supported!'])
     }
 
     fn is_nan(self: i128) -> bool {
-        IntegerTrait::is_nan(self)
+        panic(array!['not supported!'])
     }
 
     fn INF() -> i128 {
-        IntegerTrait::INF()
+       170141183460469231731687303715884105727 
     }
 
     fn is_inf(self: i128) -> bool {
-        IntegerTrait::is_inf(self)
+        (self == 170141183460469231731687303715884105727 || self == -170141183460469231731687303715884105727)
     }
 
     fn is_pos_inf(self: i128) -> bool {
-        IntegerTrait::is_pos_inf(self)
+        self == 170141183460469231731687303715884105727 
     }
 
     fn is_neg_inf(self: i128) -> bool {
-        IntegerTrait::is_neg_inf(self)
+       self == -170141183460469231731687303715884105727 
     }
 
     fn bitwise_and(lhs: i128, rhs: i128) -> i128 {
-        i128_core::i128_bitwise_and(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_xor(lhs: i128, rhs: i128) -> i128 {
-        i128_core::i128_bitwise_xor(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn bitwise_or(lhs: i128, rhs: i128) -> i128 {
-        i128_core::i128_bitwise_or(lhs, rhs)
+        panic(array!['not supported!'])
     }
 
     fn add(lhs: i128, rhs: i128) -> i128 {
-        i128Add::add(lhs, rhs)
+        lhs + rhs
     }
 
     fn sub(lhs: i128, rhs: i128) -> i128 {
-        i128Sub::sub(lhs, rhs)
+        lhs - rhs
+    }
+}
+
+impl I128Div of Div<i128> {
+    fn div(lhs: i128, rhs: i128) -> i128 {
+        assert(rhs != 0, 'divisor cannot be 0');
+        let mut lhs_positive = lhs;
+        let mut rhs_positive = rhs;
+        // making sure everything is positive
+        if lhs < 0 {
+            lhs_positive = lhs * -1;
+        }
+        if rhs < 0 {
+            rhs_positive = rhs * -1;
+        }
+        //felt252 plays role of a bridge for type casting
+        let lhs_felt: felt252 = lhs_positive.into();
+        let rhs_felt: felt252 = rhs_positive.into();
+        let lhs_u128: u128 = lhs_felt.try_into().unwrap();
+        let rhs_u128: u128 = rhs_felt.try_into().unwrap();
+        let mut result = lhs_u128 / rhs_u128; 
+        let felt_result: felt252 = result.into();
+        let signed_int_result: i128 = felt_result.try_into().unwrap();
+        // assigning the sign and returning
+        if lhs * rhs < 0 {
+            signed_int_result * -1
+        } else {
+            signed_int_result
+        }
+    }
+}
+
+impl I128DivEq of DivEq<i128> {
+    #[inline(always)]
+    fn div_eq(ref self: i128, other: i128) {
+        self = Div::div(self, other);
     }
 }
 

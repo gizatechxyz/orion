@@ -166,9 +166,9 @@ def get_data_statement(data: np.ndarray, dtype: Dtype) -> list[str]:
         case Dtype.U32:
             return [f"{int(x)}" for x in data.flatten()]
         case Dtype.I32:
-            return ["i32 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
+            return [f"{int(x)}" for x in data.flatten()]
         case Dtype.I8:
-            return ["i8 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
+            return [f"{int(x)}" for x in data.flatten()]
         case Dtype.FP8x23:
             return ["FP8x23 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
         case Dtype.FP16x16:
@@ -191,6 +191,7 @@ def get_data_statement_for_sequences(data: Sequence, dtype: Dtype) -> list[list[
 def get_all_test_refs(dtypes: list[Dtype], trait: Trait) -> list[str]:
     refs = []
     for dtype in dtypes:
+        # refs += [*dtype_to_numbers[dtype]]
         refs += get_test_refs(dtype, trait)
 
     return list(set(refs))
@@ -245,11 +246,11 @@ trait_to_ref = {
 
 
 dtype_to_tensor = {
-    Dtype.U32: ["orion::operators::tensor::U32Tensor",],
-    Dtype.I32: ["orion::operators::tensor::I32Tensor",],
-    Dtype.I8: ["orion::operators::tensor::I8Tensor",],
-    Dtype.FP8x23: ["orion::operators::tensor::FP8x23Tensor",],
-    Dtype.FP16x16: ["orion::operators::tensor::FP16x16Tensor",],
+    Dtype.U32: ["orion::operators::tensor::{U32Tensor, U32TensorAdd}",],
+    Dtype.I32: ["orion::operators::tensor::{I32Tensor, I32TensorAdd}",],
+    Dtype.I8: ["orion::operators::tensor::{I8Tensor, I8TensorAdd}",],
+    Dtype.FP8x23: ["orion::operators::tensor::{FP8x23Tensor, FP8x23TensorAdd}",],
+    Dtype.FP16x16: ["orion::operators::tensor::{FP16x16Tensor, FP16x16TensorAdd}",],
     Dtype.BOOL: ["orion::operators::tensor::BoolTensor",],
     Dtype.COMPLEX64: ["orion::operators::tensor::Complex64Tensor",],
 }
@@ -285,9 +286,9 @@ dtype_to_partial_eq = {
 
 
 dtype_to_numbers = {
-    Dtype.U32: [],
-    Dtype.I32: ["orion::numbers::{IntegerTrait, i32}",],
-    Dtype.I8: ["orion::numbers::{IntegerTrait, i8}",],
+    Dtype.U32: ["orion::numbers::NumberTrait"],
+    Dtype.I32: ["orion::numbers::NumberTrait"],
+    Dtype.I8: ["orion::numbers::NumberTrait"],
     Dtype.FP8x23: ["orion::numbers::{FixedTrait, FP8x23}",],
     Dtype.FP16x16: ["orion::numbers::{FixedTrait, FP16x16}",],
     Dtype.BOOL: [],

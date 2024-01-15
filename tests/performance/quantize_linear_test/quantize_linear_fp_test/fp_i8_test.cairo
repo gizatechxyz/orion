@@ -5,7 +5,6 @@ mod fp8x23 {
     use core::traits::Into;
     use core::debug::PrintTrait;
 
-    use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::i8};
     use orion::numbers::fixed_point::core::{FixedTrait};
     use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23Impl;
     use orion::operators::tensor::I32Tensor;
@@ -143,7 +142,6 @@ mod fp16x16 {
     use core::traits::Into;
     use core::debug::PrintTrait;
 
-    use orion::numbers::signed_integer::{integer_trait::IntegerTrait, i32::i32, i8::i8};
     use orion::numbers::fixed_point::core::{FixedTrait};
     use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16Impl;
     use orion::operators::tensor::I32Tensor;
@@ -190,7 +188,7 @@ mod fp16x16 {
         assert((*y.data[2]).into() == 2, '*result[2] == 2');
         assert((*y.data[3]).into() == 127, '*result[3] == 127');
         assert((*y.data[4]).into() == -126, '*result[4] == -126');
-        assert((*y.data[5]).into() == -128, '*result[5] == -128');
+        assert((*y.data[5]).into() == -127, '*result[5] == -127');
     }
 
     #[test]
