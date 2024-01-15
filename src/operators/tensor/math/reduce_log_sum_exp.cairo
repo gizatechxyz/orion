@@ -25,16 +25,14 @@ fn reduce_log_sum_exp_wide<
     impl TTensor: TensorTrait<T>,
     impl WTensor: TensorTrait<W>,
     impl TFixed: FixedTrait<T, TMAG>,
-    impl WFixed: FixedTrait<W, WMAG>,
+    impl WFixed: FixedTrait<W, WMAG>
 >(
     self: @Tensor<T>, axis: usize, keepdims: bool
-) -> Tensor<T> {
+) -> Tensor<W> {
 
     let tensor_exp: Tensor<W> = exp_upcast(*self);
-    let tensor_exp_sum = tensor_exp.reduce_sum(axis, keepdims);
-    let tensor_exp_sum_log = tensor_exp_sum.log();
-
-    div_downcast(@tensor_exp, @tensor_exp_sum_log)
+    let tensor_exp_log_sum = tensor_exp.reduce_log_sum(axis, keepdims);
+    return tensor_exp_log_sum;
 }
 
     fn reduce_log_sum_exp<
@@ -51,8 +49,6 @@ fn reduce_log_sum_exp_wide<
     ) -> Tensor<T> {
 
     let tensor_exp = self.exp();
-    let tensor_exp_sum = tensor_exp. reduce_sum(axis: axis, keepdims: keepdims) ;
-    let tensor_exp_sum_log = tensor_exp_sum.log();
-
-    return tensor_exp_sum_log; 
+    let tensor_exp_log_sum = tensor_exp.reduce_log_sum(axis: axis, keepdims: keepdims);
+    return tensor_exp_log_sum;
 }

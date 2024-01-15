@@ -34,10 +34,10 @@ fn exp<
 /// Cf: TensorTrait::exp docstring
 fn exp_upcast<
     T,
-    MAG,
+    TMAG,
     W,
     WMAG,
-    impl TFixedTrait: FixedTrait<T, MAG>,
+    impl TFixedTrait: FixedTrait<T, TMAG>,
     impl TTensor: TensorTrait<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,

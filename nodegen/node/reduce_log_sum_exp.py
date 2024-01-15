@@ -7,10 +7,10 @@ class Reduce_log_sum_exp(RunAll):
   def reduce_log_sum_exp_fp8x23():
     def reduce_log_sum_exp_export_do_not_keepdims():
       shape = [3, 2, 2]
-      axes = np.array([2], dtype=np.int64)
+      axes = np.array([2], dtype=np.uint32)
       keepdims = False
-      x = np.reshape(np.arange(1, np.prod(shape) + 1, dtype=np.float32), shape).astype(np.int64)
-      y = np.log(np.sum(np.exp(x), axis=tuple(axes), keepdims=False))
+      x = np.reshape(np.arange(1, np.prod(shape) + 1, dtype=np.uint32), shape)
+      y = np.log(np.sum(np.exp(x), axis=tuple(axes), keepdims=False)).astype(np.uint32)
 
       x = Tensor(Dtype.FP8x23, x.shape, to_fp(
           x.flatten(), FixedImpl.FP8x23))
@@ -23,10 +23,10 @@ class Reduce_log_sum_exp(RunAll):
       
     def reduce_log_sum_exp_export_keepdims():
       shape = [3, 2, 2]
-      axes = np.array([2], dtype=np.int64)
+      axes = np.array([2], dtype=np.uint32)
       keepdims = True 
-      x = np.reshape(np.arange(1, np.prod(shape) + 1, dtype=np.float32), shape).astype(np.int64)
-      y = np.log(np.sum(np.exp(x), axis=tuple(axes), keepdims=True))
+      x = np.reshape(np.arange(1, np.prod(shape) + 1, dtype=np.uint32), shape)
+      y = np.log(np.sum(np.exp(x), axis=tuple(axes), keepdims=True)).astype(np.uint32)
 
       x = Tensor(Dtype.FP8x23, x.shape, to_fp(
           x.flatten(), FixedImpl.FP8x23))
@@ -39,10 +39,10 @@ class Reduce_log_sum_exp(RunAll):
 
     def reduce_log_sum_exp_axis_0():
       shape = [3, 2, 2]
-      axes = np.array([0], dtype=np.int64)
+      axes = np.array([0], dtype=np.uint32)
       keepdims = True
-      x = np.reshape(np.arange(1, np.prod(shape) + 1), shape).astype(np.int64)
-      y = np.log(np.sum(np.exp(x), axis=tuple(axes), keepdims=True))
+      x = np.reshape(np.arange(1, np.prod(shape) + 1), shape)
+      y = np.log(np.sum(np.exp(x), axis=tuple(axes), keepdims=True)).astype(np.uint32)
 
       x = Tensor(Dtype.FP8x23, x.shape, to_fp(
           x.flatten(), FixedImpl.FP8x23))
@@ -61,10 +61,10 @@ class Reduce_log_sum_exp(RunAll):
   def reduce_log_sum_exp_fp16x16():
     def reduce_log_sum_exp_export_do_not_keepdims():
       shape = [3, 2, 2]
-      axes = np.array([2], dtype=np.int64)
+      axes = np.array([2], dtype=np.uint32)
       keepdims = False
-      x = np.reshape(np.arange(1, np.prod(shape) + 1, dtype=np.float32), shape)
-      y = np.log(np.sum(np.exp(x), axis=tuple(axes), keepdims=False))
+      x = np.reshape(np.arange(1, np.prod(shape) + 1, dtype=np.uint32), shape)
+      y = np.log(np.sum(np.exp(x), axis=tuple(axes), keepdims=False)).astype(np.uint32)
 
       x = Tensor(Dtype.FP16x16, x.shape, to_fp(
           x.flatten(), FixedImpl.FP16x16))
@@ -77,10 +77,10 @@ class Reduce_log_sum_exp(RunAll):
       
     def reduce_log_sum_exp_export_keepdims():
       shape = [3, 2, 2]
-      axes = np.array([2], dtype=np.int64)
+      axes = np.array([2], dtype=np.uint32)
       keepdims = True
-      x = np.reshape(np.arange(1, np.prod(shape) + 1, dtype=np.float32), shape)
-      y = np.log(np.sum(np.exp(x), axis=tuple(axes), keepdims=True))
+      x = np.reshape(np.arange(1, np.prod(shape) + 1, dtype=np.uint32), shape)
+      y = np.log(np.sum(np.exp(x), axis=tuple(axes), keepdims=True)).astype(np.uint32)
 
       x = Tensor(Dtype.FP16x16, x.shape, to_fp(
           x.flatten(), FixedImpl.FP16x16))
@@ -93,10 +93,10 @@ class Reduce_log_sum_exp(RunAll):
       
     def reduce_log_sum_exp_axis_0():
       shape = [3, 2, 2]
-      axes = np.array([0], dtype=np.int64)
+      axes = np.array([0], dtype=np.uint32)
       keepdims = True
       x = np.reshape(np.arange(1, np.prod(shape) + 1), shape)
-      y = np.log(np.sum(np.exp(x), axis=tuple(axes), keepdims=True))
+      y = np.log(np.sum(np.exp(x), axis=tuple(axes), keepdims=True)).astype(np.uint32)
 
       x = Tensor(Dtype.FP16x16, x.shape, to_fp(
           x.flatten(), FixedImpl.FP16x16))  

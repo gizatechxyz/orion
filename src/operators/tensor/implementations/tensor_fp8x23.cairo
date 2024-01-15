@@ -500,7 +500,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     }
 
     fn reduce_log_sum_exp(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
-        math::reduce_log_sum_exp::reduce_log_sum_exp_wide::<FP8x23, u32, FP8x23W, u64>(self, axis, keepdims)
+        math::reduce_log_sum_exp::reduce_log_sum_exp_wide::<FP8x23, u32>(self, axis, keepdims)
     }
 
     fn erf(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {

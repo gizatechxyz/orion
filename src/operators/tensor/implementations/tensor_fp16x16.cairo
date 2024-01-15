@@ -15,12 +15,8 @@ use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
 };
 
-use orion::numbers::fixed_point::implementations::fp16x16wide::core::{
-    FP16x16WImpl, FP16x16WTryIntoFP16x16, FP16x16W, FP16x16IntoFP16x16W
-};
-use orion::operators::tensor::implementations::tensor_fp16x16wide::{
-    FP16x16WTensor, FP16x16WTensorDiv, FP16x16WTensorAdd
-};
+use orion::numbers::fixed_point::implementations::fp16x16wide::core::FP16x16W;
+
 
 impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn new(shape: Span<usize>, data: Span<FP16x16>) -> Tensor<FP16x16> {
@@ -502,7 +498,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     }
 
     fn reduce_log_sum_exp(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
-        math::reduce_log_sum_exp::reduce_log_sum_exp_wide::<FP16x16, u32, FP16x16W, u64>(self, axis, keepdims)
+        math::reduce_log_sum_exp::reduce_log_sum_exp_wide::<FP16x16, u32>(self, axis, keepdims)
     }
 
 

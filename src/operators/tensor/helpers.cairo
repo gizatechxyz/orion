@@ -52,7 +52,7 @@ fn check_shape<T>(shape: Span<usize>, data: Span<T>) {
 /// * Panics if the shapes are not compatible for broadcasting.
 fn check_compatibility(mut shape_1: Span<usize>, mut shape_2: Span<usize>) {
     assert(shape_1.len() == shape_2.len(), 'tensors shape must match');
-
+  
     loop {
         match shape_1.pop_front() {
             Option::Some(shape_1_val) => {

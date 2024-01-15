@@ -15,6 +15,9 @@ use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
 };
 
+use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
+
+
 impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn new(shape: Span<usize>, data: Span<FP8x23W>) -> Tensor<FP8x23W> {
         new_tensor(shape, data)
@@ -447,7 +450,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     }
 
     fn reduce_log_sum_exp(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
-        math::reduce_log_sum_exp::reduce_log_sum_exp(self, axis, keepdims)
+        math::reduce_log_sum_exp::reduce_log_sum_exp_wide::<FP8x23W, u64>(self, axis, keepdims)
     }
 
     fn erf(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
