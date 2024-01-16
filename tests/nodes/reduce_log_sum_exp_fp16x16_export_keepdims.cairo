@@ -12,7 +12,7 @@ use orion::operators::tensor::{TensorTrait, Tensor};
 #[available_gas(2000000000)]
 fn test_reduce_log_sum_exp_fp16x16_export_keepdims() {
     let input_0 = input_0::input_0();
-    let z_0 = output_0::output_0();
+    let z = output_0::output_0();
 
     let y = input_0.reduce_log_sum_exp(2, true);
 
