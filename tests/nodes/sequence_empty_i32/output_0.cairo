@@ -1,6 +1,7 @@
 use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
-use orion::operators::tensor::{I32Tensor, I32TensorSub};
+use orion::operators::tensor::{I32Tensor, I32TensorAdd};
+use orion::numbers::NumberTrait;
 
 fn output_0() -> Array<Tensor<i32>> {
     let mut sequence = ArrayTrait::new();

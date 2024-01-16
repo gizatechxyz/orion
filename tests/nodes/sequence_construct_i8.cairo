@@ -2,10 +2,10 @@ mod input_0;
 mod output_0;
 
 
-use orion::operators::tensor::{I8Tensor, I8TensorSub};
-use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::tensor::I8TensorPartialEq;
-use orion::operators::tensor::{TensorTrait, Tensor};
+use orion::utils::{assert_eq, assert_seq_eq};
+use orion::operators::sequence::I8Sequence;
+use orion::operators::sequence::SequenceTrait;
 use core::array::{ArrayTrait, SpanTrait};
 
 #[test]
