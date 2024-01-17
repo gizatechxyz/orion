@@ -123,6 +123,7 @@
     * [tensor.unique](framework/operators/tensor/tensor.unique.md)
     * [tensor.compress](framework/operators/tensor/tensor.compress.md)
     * [tensor.layer_normalization](framework/operators/tensor/tensor.layer_normalization.md)
+    * [tensor.scatter\_nd](framework/operators/tensor/tensor.scatter\_nd.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)

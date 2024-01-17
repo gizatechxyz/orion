@@ -19,6 +19,8 @@ Selects slices from an input tensor along a given axis where condition evaluates
 ## Returns 
 
 A new `Tensor<T>` .
+
+## Example
 fn compress_example() -> Tensor<u32> {
     let tensor = TensorTrait::<u32>::new(
         shape: array![3, 2].span(), 

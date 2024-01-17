@@ -21,6 +21,8 @@ Given data tensor of rank r >= 1, indices tensor of rank q >= 1, and batch_dims 
 ## Returns 
 
 A new `Tensor<T>` .
+
+## Example
 fn gather_nd_example() -> Tensor<u32> {
     let tensor = TensorTrait::<u32>::new(
         shape: array![2, 2].span(), 
