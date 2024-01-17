@@ -946,7 +946,6 @@ mod scatter_nd_fp8x23_3d_add;
 mod scatter_nd_fp8x23_3d_mul;
 mod scatter_nd_fp8x23_3d_max;
 mod scatter_nd_fp8x23_3d_min;
-mod gather_nd_u32_default;
 mod scatter_nd_u32_default;
 mod scatter_nd_u32_add;
 mod scatter_nd_u32_mul;
