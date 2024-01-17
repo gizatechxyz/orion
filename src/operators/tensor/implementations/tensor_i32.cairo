@@ -540,6 +540,15 @@ impl I32Tensor of TensorTrait<i32> {
     ) -> Array<Tensor<i32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn scatter_nd(
+        self: @Tensor<i32>,
+        updates: Tensor<i32>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<i32> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

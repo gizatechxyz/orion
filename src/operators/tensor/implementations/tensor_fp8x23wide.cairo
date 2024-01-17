@@ -498,6 +498,15 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     ) -> Array<Tensor<FP8x23W>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn scatter_nd(
+        self: @Tensor<FP8x23W>,
+        updates: Tensor<FP8x23W>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP8x23W> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

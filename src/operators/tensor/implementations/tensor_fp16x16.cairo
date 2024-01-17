@@ -560,6 +560,15 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Array<Tensor<FP16x16>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn scatter_nd(
+        self: @Tensor<FP16x16>,
+        updates: Tensor<FP16x16>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP16x16> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.
