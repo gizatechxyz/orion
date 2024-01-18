@@ -459,7 +459,9 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::is_nan::is_nan(self)
     }
 
-    fn gather_nd(self: @Tensor<FP16x16W>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP16x16W> {
+    fn gather_nd(
+        self: @Tensor<FP16x16W>, indices: Tensor<usize>, batch_dims: Option<usize>
+    ) -> Tensor<FP16x16W> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 
@@ -467,8 +469,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }
 
-    fn reduce_log_sum_exp(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
-        math::reduce_log_sum_exp::reduce_log_sum_exp_wide::<FP16x16W, u64>(self, axis, keepdims)
+    fn reduce_log_sum_exp(
+        self: @Tensor<FP16x16W>, axis: usize, keepdims: bool
+    ) -> Tensor<FP16x16W> {
+        panic(array!['not supported!'])
     }
 
     fn erf(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
@@ -481,7 +485,9 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
-    fn compress(self: @Tensor<FP16x16W>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP16x16W> {
+    fn compress(
+        self: @Tensor<FP16x16W>, condition: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP16x16W> {
         math::compress::compress(self, condition, axis)
     }
 }

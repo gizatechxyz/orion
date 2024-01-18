@@ -487,7 +487,9 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::is_nan::is_nan(self)
     }
 
-    fn gather_nd(self: @Tensor<FP64x64>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP64x64> {
+    fn gather_nd(
+        self: @Tensor<FP64x64>, indices: Tensor<usize>, batch_dims: Option<usize>
+    ) -> Tensor<FP64x64> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 
@@ -509,7 +511,9 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
-    fn compress(self: @Tensor<FP64x64>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP64x64> {
+    fn compress(
+        self: @Tensor<FP64x64>, condition: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP64x64> {
         math::compress::compress(self, condition, axis)
     }
 }

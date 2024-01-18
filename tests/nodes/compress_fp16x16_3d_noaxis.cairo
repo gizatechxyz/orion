@@ -18,7 +18,7 @@ fn test_compress_fp16x16_3d_noaxis() {
     let input_1 = input_1::input_1();
     let z_0 = output_0::output_0();
 
-    let y_0 = input_0.compress(condition:input_1, axis:Option::None(()));
+    let y_0 = input_0.compress(condition: input_1, axis: Option::None(()));
 
     assert_eq(y_0, z_0);
 }

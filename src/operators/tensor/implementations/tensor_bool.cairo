@@ -448,7 +448,9 @@ impl BoolTensor of TensorTrait<bool> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 
-    fn compress(self: @Tensor<bool>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
+    fn compress(
+        self: @Tensor<bool>, condition: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<bool> {
         math::compress::compress(self, condition, axis)
     }
 }

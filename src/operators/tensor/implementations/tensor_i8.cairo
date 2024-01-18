@@ -480,7 +480,9 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
-    fn gather_nd(self: @Tensor<i8>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<i8> {
+    fn gather_nd(
+        self: @Tensor<i8>, indices: Tensor<usize>, batch_dims: Option<usize>
+    ) -> Tensor<i8> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 

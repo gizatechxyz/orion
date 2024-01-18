@@ -836,12 +836,6 @@ mod unique_u32_with_axis_zero_sorted;
 mod unique_u32_with_axis_zero_not_sorted;
 mod unique_u32_with_axis_one_sorted;
 mod unique_u32_with_axis_one_not_sorted;
-mod reduce_log_sum_exp_fp16x16_export_do_not_keepdims;
-mod reduce_log_sum_exp_fp16x16_export_keepdims;
-mod reduce_log_sum_exp_fp16x16_export_negative_axes_keepdims;
-mod reduce_log_sum_exp_fp8x23_export_do_not_keepdims;
-mod reduce_log_sum_exp_fp8x23_export_keepdims;
-mod reduce_log_sum_exp_fp8x23_export_negative_axes_keepdims;
 mod gather_nd_fp16x16_3d_default;
 mod gather_nd_fp16x16_3d_batch_dims1;
 mod gather_nd_fp16x16_3d_batch_dims2;
@@ -875,3 +869,4 @@ mod compress_u32_3d_axis1;
 mod compress_u32_3d_axis2;
 mod compress_u32_3d_axis2_2;
 mod compress_u32_3d_axis3;
+

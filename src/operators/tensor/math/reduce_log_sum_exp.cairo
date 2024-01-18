@@ -29,25 +29,24 @@ fn reduce_log_sum_exp_wide<
 >(
     self: @Tensor<T>, axis: usize, keepdims: bool
 ) -> Tensor<W> {
-
     let tensor_exp: Tensor<W> = exp_upcast(*self);
     let tensor_exp_log_sum = tensor_exp.reduce_log_sum(axis, keepdims);
+
     return tensor_exp_log_sum;
 }
 
-    fn reduce_log_sum_exp<
-    T, 
+fn reduce_log_sum_exp<
+    T,
     MAG,
-    impl Tensor: TensorTrait<T>, 
-    impl TNumber: NumberTrait<T, MAG>, 
-    impl TMul: Mul<T>, 
-    impl TAddEq: AddEq<T>, 
-    impl TCopy: Copy<T>, 
+    impl Tensor: TensorTrait<T>,
+    impl TNumber: NumberTrait<T, MAG>,
+    impl TMul: Mul<T>,
+    impl TAddEq: AddEq<T>,
+    impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
-    >(
-        self: @Tensor<T>, axis: usize, keepdims: bool
-    ) -> Tensor<T> {
-
+>(
+    self: @Tensor<T>, axis: usize, keepdims: bool
+) -> Tensor<T> {
     let tensor_exp = self.exp();
     let tensor_exp_log_sum = tensor_exp.reduce_log_sum(axis: axis, keepdims: keepdims);
     return tensor_exp_log_sum;

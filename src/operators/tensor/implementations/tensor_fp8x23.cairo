@@ -491,7 +491,9 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::is_nan::is_nan(self)
     }
 
-    fn gather_nd(self: @Tensor<FP8x23>, indices: Tensor<usize>, batch_dims: Option<usize>) -> Tensor<FP8x23> {
+    fn gather_nd(
+        self: @Tensor<FP8x23>, indices: Tensor<usize>, batch_dims: Option<usize>
+    ) -> Tensor<FP8x23> {
         math::gather_nd::gather_nd(self, indices, batch_dims)
     }
 
@@ -500,7 +502,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     }
 
     fn reduce_log_sum_exp(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
-        math::reduce_log_sum_exp::reduce_log_sum_exp_wide::<FP8x23, u32>(self, axis, keepdims)
+        panic(array!['not supported!'])
     }
 
     fn erf(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
@@ -513,7 +515,9 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
-    fn compress(self: @Tensor<FP8x23>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<FP8x23> {
+    fn compress(
+        self: @Tensor<FP8x23>, condition: Tensor<usize>, axis: Option<usize>
+    ) -> Tensor<FP8x23> {
         math::compress::compress(self, condition, axis)
     }
 }

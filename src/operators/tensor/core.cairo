@@ -4638,7 +4638,7 @@ trait TensorTrait<T> {
     ///
     /// ``` 
 
-    fn reduce_log_sum_exp(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>; 
+    fn reduce_log_sum_exp(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
     /// ## tensor.erf
     ///
     /// ```rust 

@@ -43,5 +43,4 @@ impl FP8x23WSequence of SequenceTrait<FP8x23W> {
     ) -> Tensor<FP8x23W> {
         functional::concat_from_sequence::concat_from_sequence(sequence, axis, new_axis)
     }
-
 }
