@@ -90,6 +90,14 @@ fn main() {
     let trait_name: &str = "SVMRegressorTrait";
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
+
+    // SVM CLASSIFIER DOC
+    let trait_path = "src/operators/ml/svm/svm_classifier.cairo";
+    let doc_path = "docs/framework/operators/machine-learning/svm-classifier";
+    let label = "svm_classifier";
+    let trait_name: &str = "SVMClassifierTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
 }
 
 fn doc_trait(trait_path: &str, doc_path: &str, label: &str) {
