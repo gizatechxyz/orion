@@ -51,11 +51,11 @@ fn layer_normalization<
         Option::None => 1,
     };
 
-    let axis: u32 = axis.into();
+
     let axis = if axis < 0 {
-        X_rank - axis
+        X_rank - axis.into()
     } else {
-        axis
+        axis.into()
     };
 
     let unsqueezed_rank = X_rank - axis;
