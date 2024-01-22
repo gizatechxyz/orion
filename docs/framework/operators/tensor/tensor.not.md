@@ -22,7 +22,6 @@ the negation of all elements in the input tensor.
 use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
-use orion::numbers::{i32, IntegerTrait};
 
 fn not_example() -> Tensor<bool> {
     let tensor = TensorTrait::new(

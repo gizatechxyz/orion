@@ -33,7 +33,7 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-fn dot_product_example() -> Tensor<usize> {
+fn dot_product_example() -> Tensor<u32> {
     let tensor_1 = TensorTrait::<u32>::new(shape: array![3].span(), data: array![0, 1, 2].span(),);
 
     let tensor_2 = TensorTrait::<u32>::new(shape: array![3].span(), data: array![0, 1, 2].span(),);
@@ -51,7 +51,7 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-fn matrix_mul_example() -> Tensor<usize> {
+fn matrix_mul_example() -> Tensor<u32> {
     let tensor_1 = TensorTrait::<u32>::new(
         shape: array![2, 2].span(), data: array![244, 99, 109, 162].span()
     );
@@ -73,7 +73,7 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-fn matrix_vec_mul_example() -> Tensor<usize> {
+fn matrix_vec_mul_example() -> Tensor<u32> {
     let tensor_1 = TensorTrait::<u32>::new(
         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     );

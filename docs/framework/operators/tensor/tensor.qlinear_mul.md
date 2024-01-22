@@ -40,7 +40,7 @@ fp16x16wide tensor, not supported.
 use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 
 ```rust 
 #[test]
@@ -50,26 +50,14 @@ fn qlinear_mul_example() -> Tensor<i8>{
         i8
     >::new(
         shape: array![2, 3].span(),
-        data: array![
-            IntegerTrait::<i8>::new(21_u8, false),
-            IntegerTrait::<i8>::new(21_u8, false),
-            IntegerTrait::<i8>::new(21_u8, false),
-            IntegerTrait::<i8>::new(41_u8, false),
-            IntegerTrait::<i8>::new(41_u8, false),
-            IntegerTrait::<i8>::new(41_u8, false)
-        ]
+        data: array![21, 21, 21, 41, 41, 41]
             .span(),
     );
     let b = TensorTrait::<
         i8
     >::new(
         shape: array![1, 3].span(),
-        data: array![
-            IntegerTrait::<i8>::new(4_u8, false),
-            IntegerTrait::<i8>::new(8_u8, false),
-            IntegerTrait::<i8>::new(12_u8, false)
-        ]
-            .span(),
+        data: array![4, 8, 12].span(),
     );
 
     let a_scale = TensorTrait::<

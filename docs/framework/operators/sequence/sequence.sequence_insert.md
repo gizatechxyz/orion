@@ -19,6 +19,8 @@ Tensor sequence containing 'tensor' inserted into 'self' at 'position'.
 ## Examples
 
 Let's insert the tensor [2] into the sequence [[1], [3]] at position 1.
+
+```rust
 use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
 
 fn sequence_insert_example() -> Array<Tensor<u32>> {
@@ -43,7 +45,7 @@ fn sequence_insert_example() -> Array<Tensor<u32>> {
     // Prepare position
     let mut shape = ArrayTrait::<usize>::new();
     let mut data = ArrayTrait::<i32>::new();
-    data.append(i32 { mag: 1, sign: false });
+    data.append(1);
     let position = TensorTrait::<i32>::new(shape.span(), data.span())
 
     let sequence = self.sequence_insert(tensor, Option::Some(position));
