@@ -3,7 +3,6 @@ use core::array::SpanTrait;
 use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
-use orion::numbers::{ I8Div, I8DivEq };
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -11,7 +10,7 @@ use orion::operators::tensor::core::{
     at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
-use orion::numbers::{NumberTrait};
+use orion::numbers::{i8, i32, NumberTrait};
 use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_bool::BoolTensor};
 
 impl I8Tensor of TensorTrait<i8> {
@@ -44,7 +43,7 @@ impl I8Tensor of TensorTrait<i8> {
     }
 
     fn min_in_tensor(self: @Tensor<i8>) -> i8 {
-        math::min_in_tensor::min_in_tensor::<i8>(*self.data)
+        math::min_in_tensor::min_in_tensor::<i8, u8>(*self.data)
     }
 
     fn min(tensors: Span<Tensor<i8>>) -> Tensor<i8> {
@@ -222,7 +221,7 @@ impl I8Tensor of TensorTrait<i8> {
             self,
             y_scale,
             y_zero_point,
-            NumberTrait::new_unscaled(-127, true),
+            NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )
     }
@@ -252,7 +251,7 @@ impl I8Tensor of TensorTrait<i8> {
             b_zero_point,
             y_scale,
             y_zero_point,
-            NumberTrait::new_unscaled(-127, true),
+            NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )
     }
@@ -276,7 +275,7 @@ impl I8Tensor of TensorTrait<i8> {
             b_zero_point,
             y_scale,
             y_zero_point,
-            NumberTrait::new_unscaled(-127, true),
+            NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )
     }
@@ -300,7 +299,7 @@ impl I8Tensor of TensorTrait<i8> {
             b_zero_point,
             y_scale,
             y_zero_point,
-            NumberTrait::new_unscaled(-127, true),
+            NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )
     }
@@ -320,7 +319,7 @@ impl I8Tensor of TensorTrait<i8> {
             y_scale,
             y_zero_point,
             axis,
-            NumberTrait::new_unscaled(-127, true),
+            NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )
     }
@@ -333,7 +332,7 @@ impl I8Tensor of TensorTrait<i8> {
             a_scale,
             a_zero_point,
             alpha,
-            NumberTrait::new_unscaled(-127, true),
+            NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )
     }
@@ -538,6 +537,18 @@ impl I8Tensor of TensorTrait<i8> {
         self: @Tensor<i8>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<i8>> {
         manipulation::split::split(self, axis, num_outputs, spl)
+    }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<i8>
+    ) -> (Tensor::<i8>, Tensor::<i8>, Tensor<i8>){
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        ) 
     }
 }
 

@@ -10,7 +10,7 @@ use orion::operators::tensor::core::{
     at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
-use orion::numbers::{NumberTrait, FP8x23W};
+use orion::numbers::{i8, i32, NumberTrait, FP8x23W};
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
 };
@@ -497,6 +497,18 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         self: @Tensor<FP8x23W>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<FP8x23W>> {
         manipulation::split::split(self, axis, num_outputs, spl)
+    }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP8x23W>
+    ) -> (Tensor::<i8>, Tensor::<FP8x23W>, Tensor<FP8x23W>){
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        )   
     }
 }
 

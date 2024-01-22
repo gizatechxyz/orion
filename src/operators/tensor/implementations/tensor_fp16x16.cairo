@@ -10,7 +10,7 @@ use orion::operators::tensor::core::{
     at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
-use orion::numbers::{NumberTrait, FP16x16, I8IntoFP16x16};
+use orion::numbers::{i8, i32, NumberTrait, FP16x16};
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
 };
@@ -223,7 +223,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
             self,
             y_scale,
             y_zero_point,
-            NumberTrait::new_unscaled(127, true),
+            NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )
     }
@@ -559,6 +559,18 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         self: @Tensor<FP16x16>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<FP16x16>> {
         manipulation::split::split(self, axis, num_outputs, spl)
+    }
+
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP16x16>
+    ) -> (Tensor::<i8>, Tensor::<FP16x16>, Tensor<FP16x16>){
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        )   
     }
 }
 

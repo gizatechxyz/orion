@@ -10,7 +10,7 @@ use orion::operators::tensor::core::{
     at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
-use orion::numbers::{NumberTrait, FP32x32, FP32x32Impl, I8IntoFP32x32};
+use orion::numbers::{i8, i32, NumberTrait, FP32x32, FP32x32Impl};
 use orion::numbers::fixed_point::implementations::fp32x32::core::ONE;
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
@@ -561,6 +561,18 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Array<Tensor<FP32x32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP32x32>
+    ) -> (Tensor::<i8>, Tensor::<FP32x32>, Tensor<FP32x32>){
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        )   
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.
@@ -636,14 +648,10 @@ impl FP32x32TensorPartialEq of PartialEq<Tensor<FP32x32>> {
 
 impl FP32x32TryIntoI8 of TryInto<FP32x32, i8> {
     fn try_into(self: FP32x32) -> Option<i8> {
-        let number_felt: felt252 = (self.mag / ONE).into();
-        let number_i8: i8 = number_felt.try_into().unwrap();
-        if self.sign {
-            return Option::Some(number_i8 * -1_i8);
-        }
-        Option::Some(number_i8)
+        Option::Some(i8 { mag: (self.mag / ONE).try_into().unwrap(), sign: self.sign })
     }
 }
+
 impl TensorI8IntoTensorFP32x32 of Into<Tensor<i8>, Tensor<FP32x32>> {
     fn into(self: Tensor<i8>) -> Tensor<FP32x32> {
         tensor_i8_to_tensor_fp32x32(@self)

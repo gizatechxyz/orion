@@ -8,8 +8,8 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
-use orion::numbers::{NumberTrait, FP64x64, FP64x64Impl};
+use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml};
+use orion::numbers::{i8, i32, NumberTrait, FP64x64, FP64x64Impl};
 use orion::numbers::fixed_point::implementations::fp64x64::core::ONE;
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
@@ -513,6 +513,12 @@ impl Complex64Tensor of TensorTrait<complex64> {
         mode: Option<math::resize::MODE>,
         nearest_mode: Option<math::resize::NEAREST_MODE>,
     ) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<complex64>
+    ) -> (Tensor::<i8>, Tensor::<complex64>, Tensor<complex64>){
         panic(array!['not supported!'])
     }
 }

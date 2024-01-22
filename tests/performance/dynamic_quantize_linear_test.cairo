@@ -1,0 +1,2 @@
+mod dynamic_quantize_linear_fp_test;
+mod dynamic_quantize_linear_i32_test;
