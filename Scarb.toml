@@ -10,8 +10,7 @@ homepage = "https://github.com/gizatechxyz/orion"
 alexandria_merkle_tree = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "01a7690" }
 alexandria_data_structures = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "01a7690" }
 alexandria_sorting = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "01a7690" }
-# TODO: update to https://github.com/influenceth/cubit & change rev
-cubit = { git = "https://github.com/akhercha/cubit.git", rev = "d3869a3" }
+cubit = { git = "https://github.com/influenceth/cubit.git", rev = "6275608" }
 
 [scripts]
 sierra = "cairo-compile . -r"
