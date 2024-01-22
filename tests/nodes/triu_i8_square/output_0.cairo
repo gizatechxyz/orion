@@ -1,7 +1,6 @@
 use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
-use orion::operators::tensor::I8Tensor;
-use orion::numbers::{IntegerTrait, i8};
+use orion::operators::tensor::{I8Tensor, I8TensorAdd};
 
 fn output_0() -> Tensor<i8> {
     let mut shape = ArrayTrait::<usize>::new();
@@ -10,23 +9,23 @@ fn output_0() -> Tensor<i8> {
     shape.append(3);
 
     let mut data = ArrayTrait::new();
-    data.append(i8 { mag: 116, sign: false });
-    data.append(i8 { mag: 47, sign: false });
-    data.append(i8 { mag: 24, sign: true });
-    data.append(i8 { mag: 0, sign: false });
-    data.append(i8 { mag: 61, sign: true });
-    data.append(i8 { mag: 30, sign: true });
-    data.append(i8 { mag: 0, sign: false });
-    data.append(i8 { mag: 0, sign: false });
-    data.append(i8 { mag: 116, sign: false });
-    data.append(i8 { mag: 55, sign: true });
-    data.append(i8 { mag: 4, sign: true });
-    data.append(i8 { mag: 115, sign: false });
-    data.append(i8 { mag: 0, sign: false });
-    data.append(i8 { mag: 100, sign: false });
-    data.append(i8 { mag: 110, sign: true });
-    data.append(i8 { mag: 0, sign: false });
-    data.append(i8 { mag: 0, sign: false });
-    data.append(i8 { mag: 25, sign: true });
+    data.append(34);
+    data.append(32);
+    data.append(-105);
+    data.append(0);
+    data.append(36);
+    data.append(-12);
+    data.append(0);
+    data.append(0);
+    data.append(-119);
+    data.append(71);
+    data.append(48);
+    data.append(77);
+    data.append(0);
+    data.append(-19);
+    data.append(15);
+    data.append(0);
+    data.append(0);
+    data.append(30);
     TensorTrait::new(shape.span(), data.span())
 }

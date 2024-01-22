@@ -3,11 +3,11 @@ mod input_1;
 mod output_0;
 
 
-use core::array::{ArrayTrait, SpanTrait};
-use orion::operators::tensor::FP16x16Tensor;
-use orion::operators::tensor::{TensorTrait, Tensor};
 use orion::operators::tensor::FP16x16TensorPartialEq;
 use orion::utils::{assert_eq, assert_seq_eq};
+use core::array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::{TensorTrait, Tensor};
+use orion::operators::tensor::{FP16x16Tensor, FP16x16TensorSub};
 
 #[test]
 #[available_gas(2000000000)]

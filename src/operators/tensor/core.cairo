@@ -6,7 +6,7 @@ use alexandria_data_structures::array_ext::{SpanTraitExt};
 //::resize::{MODE, NEAREST_MODE, KEEP_ASPECT_RATIO_POLICY, TRANSFORMATION_MODE};
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::{i8, i32, NumberTrait};
+use orion::numbers::{NumberTrait, I32IntoU32, U32IntoI32};
 
 #[derive(Copy, Drop)]
 struct Tensor<T> {
@@ -5573,13 +5573,13 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
                 match axes.pop_front() {
                     Option::Some(axis) => {
                         let mut reshape: Array<usize> = ArrayTrait::new();
-                        let mut index = 0_usize;
-                        let axis = if *axis.sign {
-                            assert(*axis.mag <= (*self.shape).len(), 'axis out of accepted range');
-                            (*self.shape).len() - *axis.mag
+                        let mut index = 0_i32;
+                        let axis = if *axis < 0 {
+                            assert(*axis <= (*self.shape).len().into(), 'axis out of accepted range');
+                            (*self.shape).len().into() - *axis
                         } else {
-                            assert(*axis.mag < (*self.shape).len(), 'axis out of accepted range');
-                            *axis.mag
+                            assert(*axis < (*self.shape).len().into(), 'axis out of accepted range');
+                            *axis
                         };
 
                         loop {

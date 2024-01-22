@@ -15,7 +15,7 @@ mod tensor_1D {
         let mut indices = ArrayTrait::new();
         indices.append(1);
 
-        let result = tensor.at(indices.span()).mag;
+        let result = tensor.at(indices.span());
 
         assert(result == 1, 'result[2] = 1');
     }
@@ -40,7 +40,7 @@ mod tensor_2D {
         indices.append(1);
         indices.append(1);
 
-        let result = tensor.at(indices.span()).mag;
+        let result = tensor.at(indices.span());
 
         assert(result == 3, 'result[4] = 3');
     }
@@ -66,7 +66,7 @@ mod tensor_3D {
         indices.append(1);
         indices.append(1);
 
-        let result = tensor.at(indices.span()).mag;
+        let result = tensor.at(indices.span());
 
         assert(result == 3, 'result[3] = 3');
     }

@@ -1,8 +1,7 @@
 use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
-use orion::operators::tensor::FP8x23Tensor;
-use orion::numbers::FixedTrait;
-use orion::numbers::FP8x23;
+use orion::operators::tensor::{FP8x23Tensor, FP8x23TensorAdd};
+use orion::numbers::{FixedTrait, FP8x23};
 
 fn input_2() -> Tensor<FP8x23> {
     let mut shape = ArrayTrait::<usize>::new();

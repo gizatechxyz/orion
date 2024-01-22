@@ -1,7 +1,6 @@
 use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
-use orion::operators::tensor::I32Tensor;
-use orion::numbers::{IntegerTrait, i32};
+use orion::operators::tensor::{I32Tensor, I32TensorSub};
 
 fn output_0() -> Tensor<i32> {
     let mut shape = ArrayTrait::<usize>::new();
@@ -10,37 +9,37 @@ fn output_0() -> Tensor<i32> {
     shape.append(4);
 
     let mut data = ArrayTrait::new();
-    data.append(i32 { mag: 0, sign: false });
-    data.append(i32 { mag: 0, sign: false });
-    data.append(i32 { mag: 1, sign: false });
-    data.append(i32 { mag: 0, sign: false });
-    data.append(i32 { mag: 4, sign: false });
-    data.append(i32 { mag: 4, sign: false });
-    data.append(i32 { mag: 3, sign: false });
-    data.append(i32 { mag: 3, sign: false });
-    data.append(i32 { mag: 7, sign: false });
-    data.append(i32 { mag: 6, sign: false });
-    data.append(i32 { mag: 6, sign: false });
-    data.append(i32 { mag: 7, sign: false });
-    data.append(i32 { mag: 10, sign: false });
-    data.append(i32 { mag: 10, sign: false });
-    data.append(i32 { mag: 10, sign: false });
-    data.append(i32 { mag: 9, sign: false });
-    data.append(i32 { mag: 12, sign: false });
-    data.append(i32 { mag: 13, sign: false });
-    data.append(i32 { mag: 13, sign: false });
-    data.append(i32 { mag: 12, sign: false });
-    data.append(i32 { mag: 15, sign: false });
-    data.append(i32 { mag: 15, sign: false });
-    data.append(i32 { mag: 16, sign: false });
-    data.append(i32 { mag: 16, sign: false });
-    data.append(i32 { mag: 18, sign: false });
-    data.append(i32 { mag: 19, sign: false });
-    data.append(i32 { mag: 19, sign: false });
-    data.append(i32 { mag: 18, sign: false });
-    data.append(i32 { mag: 21, sign: false });
-    data.append(i32 { mag: 21, sign: false });
-    data.append(i32 { mag: 22, sign: false });
-    data.append(i32 { mag: 21, sign: false });
+    data.append(1);
+    data.append(0);
+    data.append(0);
+    data.append(0);
+    data.append(4);
+    data.append(4);
+    data.append(3);
+    data.append(3);
+    data.append(6);
+    data.append(7);
+    data.append(7);
+    data.append(6);
+    data.append(9);
+    data.append(10);
+    data.append(9);
+    data.append(9);
+    data.append(13);
+    data.append(12);
+    data.append(12);
+    data.append(13);
+    data.append(15);
+    data.append(16);
+    data.append(15);
+    data.append(16);
+    data.append(19);
+    data.append(19);
+    data.append(18);
+    data.append(18);
+    data.append(21);
+    data.append(22);
+    data.append(21);
+    data.append(21);
     TensorTrait::new(shape.span(), data.span())
 }
