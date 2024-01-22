@@ -4,7 +4,6 @@ mod output_0;
 
 
 use orion::operators::tensor::FP8x23TensorPartialEq;
-mod layer_normalization_3d_axis_negative_1_epsilon;
 use orion::operators::tensor::{U32Tensor, U32TensorAdd};
 use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::tensor::{FP8x23Tensor, FP8x23TensorAdd};
