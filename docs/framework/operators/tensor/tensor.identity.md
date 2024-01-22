@@ -19,10 +19,10 @@ A new `Tensor<T>` to copy input into.
 ```rust
 use core::array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
+use orion::operators::tensor::{TensorTrait, Tensor, i32Tensor};
 
-fn identity_example() -> Tensor<FP16x16> {
-    let tensor = TensorTrait::<FP16x16>::new(
+fn identity_example() -> Tensor<i32> {
+    let tensor = TensorTrait::<i32>::new(
         shape: array![2, 2].span(), 
         data: array![1, 2, 3, 4].span(), 
     );

@@ -27,14 +27,13 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
 use orion::operators::nn::{NNTrait, I32NN};
-use orion::numbers::{i32, IntegerTrait};
 
 fn linear_example() -> Tensor<i32> {
     // We instantiate inputs here.
     let inputs = TensorTrait::<i32>::new(
         shape: array![3].span(),
         data: array![
-            IntegerTrait::new(71, true), IntegerTrait::new(38, false), IntegerTrait::new(62, false),
+            -71, 38, 62,
         ]
             .span(),
     );
@@ -43,12 +42,12 @@ fn linear_example() -> Tensor<i32> {
     let weights = TensorTrait::<i32>::new(
         shape: array![2, 3].span(),
         data: array![
-            IntegerTrait::new(8, true),
-            IntegerTrait::new(64, false),
-            IntegerTrait::new(40, false),
-            IntegerTrait::new(33, true),
-            IntegerTrait::new(34, true),
-            IntegerTrait::new(20, true),
+            -8,
+            64,
+            40,
+            -33,
+            -34,
+            -20,
         ]
             .span(),
     );
@@ -56,7 +55,7 @@ fn linear_example() -> Tensor<i32> {
     // We instantiate bias here.
     let bias = TensorTrait::<i32>::new(
         shape: array![2].span(),
-        data: array![IntegerTrait::new(61, false), IntegerTrait::new(61, true),].span(),
+        data: array![61, -61].span(),
     );
 
     return NNTrait::linear(inputs, weights, bias);

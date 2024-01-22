@@ -22,13 +22,12 @@ the negation of all elements in the input tensor.
 use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
-use orion::numbers::{i32, IntegerTrait};
 
 fn neg_example() -> Tensor<i32> {
     let tensor = TensorTrait::new(
         shape: array![3].span(),
         data: array![
-            IntegerTrait::new(1, true), IntegerTrait::new(2, true), IntegerTrait::new(3, false)
+            -1, -2, 3
         ]
             .span(),
     );

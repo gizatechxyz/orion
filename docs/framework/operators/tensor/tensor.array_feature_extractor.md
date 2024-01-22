@@ -24,17 +24,15 @@ A new `Tensor<T>` of the same shape as the input tensor with selected elements b
 ```rust
 use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
-use orion::numbers::{i32, IntegerTrait};
 
 fn array_feature_extractor_example() -> Tensor<i32> {
     let input_tensor = TensorTrait::new(
         shape: array![3, 4].span(),
         data: array![
-            IntegerTrait::new(0, false), IntegerTrait::new(1, false), IntegerTrait::new(2, false), IntegerTrait::new(3, false),
-            IntegerTrait::new(4, false), IntegerTrait::new(5, false), IntegerTrait::new(6, false), IntegerTrait::new(7, false),
-            IntegerTrait::new(8, false), IntegerTrait::new(9, false), IntegerTrait::new(10, false), IntegerTrait::new(11, false)
-        ]
-            .span(),
+            0, 1, 2, 3,
+            4, 5, 6, 7,
+            8, 9, 10, 11
+        ].span(),
     );
     
     let indices = TensorTrait::<u32>::new(
