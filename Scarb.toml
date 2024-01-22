@@ -1,6 +1,6 @@
 [package]
 name = "orion"
-version = "0.2.0"
+version = "0.2.1"
 cairo-version = "2.4.0"
 edition = "2023_10"
 description = "ONNX Runtime in Cairo for verifiable ML inference using STARK"

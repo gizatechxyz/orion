@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 import numpy as np
 
 
@@ -18,7 +18,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "reduce_sum_square_fp8x23_export_do_not_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(2, false)", name)
             
@@ -33,7 +33,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "reduce_sum_square_fp8x23_export_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(2, true)", name)
             
@@ -48,7 +48,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "reduce_sum_square_fp8x23_export_negative_axes_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(0, true)", name)
 
@@ -70,7 +70,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "reduce_sum_square_fp16x16_export_do_not_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(2, false)", name)
             
@@ -85,7 +85,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "reduce_sum_square_fp16x16_export_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(2, true)", name)
             
@@ -100,7 +100,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "reduce_sum_square_fp16x16_export_negative_axes_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(0, true)", name)
 
@@ -122,7 +122,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "reduce_sum_square_i8_export_do_not_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(2, false)", name)
             
@@ -137,7 +137,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "reduce_sum_square_i8_export_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(2, true)", name)
             
@@ -152,7 +152,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "reduce_sum_square_i8_export_negative_axes_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(0, true)", name)
 
@@ -174,7 +174,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "reduce_sum_square_i32_export_do_not_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(2, false)", name)
             
@@ -189,7 +189,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "reduce_sum_square_i32_export_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(2, true)", name)
             
@@ -204,7 +204,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "reduce_sum_square_i32_export_negative_axes_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(0, true)", name)
 
@@ -226,7 +226,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "reduce_sum_square_u32_export_do_not_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(2, false)", name)
             
@@ -241,7 +241,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "reduce_sum_square_u32_export_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(2, true)", name)
             
@@ -256,7 +256,7 @@ class Reduce_sum_square(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "reduce_sum_square_u32_export_negative_axes_keepdims"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.reduce_sum_square(0, true)", name)
 

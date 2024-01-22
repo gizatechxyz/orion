@@ -5,8 +5,7 @@ use orion::operators::tensor::{
     TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, FP32x32Tensor
 };
 use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
-use orion::numbers::{NumberTrait, IntegerTrait};
-use orion::numbers::{i8, i32};
+use orion::numbers::{NumberTrait};
 
 
 #[test]
@@ -17,14 +16,14 @@ fn qlinearmatmul_2D_test() {
     >::new(
         shape: array![2, 4].span(),
         data: array![
-            IntegerTrait::<i8>::new(1_u8, false),
-            IntegerTrait::<i8>::new(2_u8, false),
-            IntegerTrait::<i8>::new(3_u8, false),
-            IntegerTrait::<i8>::new(4_u8, false),
-            IntegerTrait::<i8>::new(5_u8, false),
-            IntegerTrait::<i8>::new(6_u8, false),
-            IntegerTrait::<i8>::new(7_u8, false),
-            IntegerTrait::<i8>::new(8_u8, false)
+            1_i8,
+            2_i8,
+            3_i8,
+            4_i8,
+            5_i8,
+            6_i8,
+            7_i8,
+            8_i8
         ]
             .span(),
     );
@@ -33,18 +32,18 @@ fn qlinearmatmul_2D_test() {
     >::new(
         shape: array![4, 3].span(),
         data: array![
-            IntegerTrait::<i8>::new(2_u8, false),
-            IntegerTrait::<i8>::new(4_u8, false),
-            IntegerTrait::<i8>::new(6_u8, false),
-            IntegerTrait::<i8>::new(8_u8, false),
-            IntegerTrait::<i8>::new(10_u8, false),
-            IntegerTrait::<i8>::new(12_u8, false),
-            IntegerTrait::<i8>::new(14_u8, false),
-            IntegerTrait::<i8>::new(16_u8, false),
-            IntegerTrait::<i8>::new(18_u8, false),
-            IntegerTrait::<i8>::new(20_u8, false),
-            IntegerTrait::<i8>::new(22_u8, false),
-            IntegerTrait::<i8>::new(24_u8, false)
+            2_i8,
+            4_i8,
+            6_i8,
+            8_i8,
+            10_i8,
+            12_i8,
+            14_i8,
+            16_i8,
+            18_i8,
+            20_i8,
+            22_i8,
+            24_i8
         ]
             .span(),
     );
@@ -91,18 +90,18 @@ fn qlinearmatmul_3D_test() {
     >::new(
         shape: array![2, 2, 3].span(),
         data: array![
-            IntegerTrait::<i8>::new(1_u8, true),
-            IntegerTrait::<i8>::new(2_u8, true),
-            IntegerTrait::<i8>::new(2_u8, true),
-            IntegerTrait::<i8>::new(3_u8, true),
-            IntegerTrait::<i8>::new(4_u8, true),
-            IntegerTrait::<i8>::new(4_u8, true),
-            IntegerTrait::<i8>::new(5_u8, true),
-            IntegerTrait::<i8>::new(6_u8, true),
-            IntegerTrait::<i8>::new(6_u8, true),
-            IntegerTrait::<i8>::new(7_u8, true),
-            IntegerTrait::<i8>::new(8_u8, true),
-            IntegerTrait::<i8>::new(8_u8, true)
+            -1_i8,
+            -2_i8,
+            -2_i8,
+            -3_i8,
+            -4_i8,
+            -4_i8,
+            -5_i8,
+            -6_i8,
+            -6_i8,
+            -7_i8,
+            -8_i8,
+            -8_i8
         ]
             .span(),
     );
@@ -111,18 +110,18 @@ fn qlinearmatmul_3D_test() {
     >::new(
         shape: array![2, 3, 2].span(),
         data: array![
-            IntegerTrait::<i8>::new(2_u8, true),
-            IntegerTrait::<i8>::new(4_u8, true),
-            IntegerTrait::<i8>::new(6_u8, true),
-            IntegerTrait::<i8>::new(8_u8, true),
-            IntegerTrait::<i8>::new(10_u8, true),
-            IntegerTrait::<i8>::new(12_u8, true),
-            IntegerTrait::<i8>::new(2_u8, true),
-            IntegerTrait::<i8>::new(4_u8, true),
-            IntegerTrait::<i8>::new(6_u8, true),
-            IntegerTrait::<i8>::new(8_u8, true),
-            IntegerTrait::<i8>::new(10_u8, true),
-            IntegerTrait::<i8>::new(12_u8, true)
+            -2_i8,
+            -4_i8,
+            -6_i8,
+            -8_i8,
+            -10_i8,
+            -12_i8,
+            -2_i8,
+            -4_i8,
+            -6_i8,
+            -8_i8,
+            -10_i8,
+            -12_i8
         ]
             .span(),
     );
@@ -171,12 +170,12 @@ fn test_example_doc() {
     >::new(
         shape: array![2, 3].span(),
         data: array![
-            IntegerTrait::<i8>::new(3_u8, false),
-            IntegerTrait::<i8>::new(4_u8, false),
-            IntegerTrait::<i8>::new(5_u8, false),
-            IntegerTrait::<i8>::new(2_u8, false),
-            IntegerTrait::<i8>::new(4_u8, false),
-            IntegerTrait::<i8>::new(3_u8, false)
+            3_i8,
+            4_i8,
+            5_i8,
+            2_i8,
+            4_i8,
+            3_i8
         ]
             .span(),
     );
@@ -185,9 +184,9 @@ fn test_example_doc() {
     >::new(
         shape: array![3, 1].span(),
         data: array![
-            IntegerTrait::<i8>::new(4_u8, false),
-            IntegerTrait::<i8>::new(8_u8, false),
-            IntegerTrait::<i8>::new(4_u8, false)
+            4_i8,
+            8_i8,
+            4_i8
         ]
             .span(),
     );
@@ -230,7 +229,7 @@ fn test_example_doc() {
 fn print_span(mut span: Span<i8>) {
     loop {
         match span.pop_front() {
-            Option::Some(i) => { (*i.mag).print(); },
+            Option::Some(i) => { (*i).print(); },
             Option::None(_) => { break; }
         };
     };

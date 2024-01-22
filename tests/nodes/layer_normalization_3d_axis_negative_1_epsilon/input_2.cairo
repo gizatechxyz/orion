@@ -1,6 +1,6 @@
 use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
-use orion::operators::tensor::FP16x16Tensor;
+use orion::operators::tensor::{FP16x16Tensor, FP16x16TensorAdd};
 use orion::numbers::{FixedTrait, FP16x16};
 
 fn input_2() -> Tensor<FP16x16> {
@@ -8,10 +8,10 @@ fn input_2() -> Tensor<FP16x16> {
     shape.append(5);
 
     let mut data = ArrayTrait::new();
-    data.append(FP16x16 { mag: 41329, sign: true });
-    data.append(FP16x16 { mag: 41872, sign: true });
-    data.append(FP16x16 { mag: 18851, sign: true });
-    data.append(FP16x16 { mag: 38714, sign: true });
-    data.append(FP16x16 { mag: 67617, sign: true });
+    data.append(FP16x16 { mag: 55378, sign: false });
+    data.append(FP16x16 { mag: 119900, sign: false });
+    data.append(FP16x16 { mag: 48314, sign: true });
+    data.append(FP16x16 { mag: 9945, sign: false });
+    data.append(FP16x16 { mag: 75929, sign: false });
     TensorTrait::new(shape.span(), data.span())
 }

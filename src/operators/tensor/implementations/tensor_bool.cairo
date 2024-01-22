@@ -8,8 +8,8 @@ use orion::operators::tensor::core::{
     constant_of_shape, new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_ops, ml};
-use orion::numbers::{i8, i32, NumberTrait};
+use orion::operators::tensor::{math, linalg, quantization, core as core_ops, ml, manipulation};
+use orion::numbers::{NumberTrait};
 use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
 
 impl BoolTensor of TensorTrait<bool> {

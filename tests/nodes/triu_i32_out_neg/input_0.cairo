@@ -1,7 +1,6 @@
 use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
-use orion::operators::tensor::I32Tensor;
-use orion::numbers::{IntegerTrait, i32};
+use orion::operators::tensor::{I32Tensor, I32TensorAdd};
 
 fn input_0() -> Tensor<i32> {
     let mut shape = ArrayTrait::<usize>::new();
@@ -9,25 +8,25 @@ fn input_0() -> Tensor<i32> {
     shape.append(5);
 
     let mut data = ArrayTrait::new();
-    data.append(i32 { mag: 77, sign: true });
-    data.append(i32 { mag: 114, sign: false });
-    data.append(i32 { mag: 57, sign: false });
-    data.append(i32 { mag: 10, sign: false });
-    data.append(i32 { mag: 16, sign: false });
-    data.append(i32 { mag: 80, sign: false });
-    data.append(i32 { mag: 49, sign: true });
-    data.append(i32 { mag: 41, sign: false });
-    data.append(i32 { mag: 77, sign: true });
-    data.append(i32 { mag: 47, sign: false });
-    data.append(i32 { mag: 27, sign: true });
-    data.append(i32 { mag: 108, sign: false });
-    data.append(i32 { mag: 59, sign: false });
-    data.append(i32 { mag: 32, sign: false });
-    data.append(i32 { mag: 110, sign: true });
-    data.append(i32 { mag: 102, sign: false });
-    data.append(i32 { mag: 104, sign: false });
-    data.append(i32 { mag: 17, sign: true });
-    data.append(i32 { mag: 110, sign: true });
-    data.append(i32 { mag: 16, sign: true });
+    data.append(-59);
+    data.append(-115);
+    data.append(105);
+    data.append(-12);
+    data.append(34);
+    data.append(53);
+    data.append(103);
+    data.append(-104);
+    data.append(9);
+    data.append(-85);
+    data.append(82);
+    data.append(100);
+    data.append(-47);
+    data.append(39);
+    data.append(92);
+    data.append(32);
+    data.append(-117);
+    data.append(121);
+    data.append(-107);
+    data.append(-60);
     TensorTrait::new(shape.span(), data.span())
 }

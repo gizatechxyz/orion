@@ -32,31 +32,22 @@ u32 tensor, not supported.
 use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
-use orion::numbers::{i8, i32, IntegerTrait};
 
 fn quantize_linear_example() -> Tensor<i8> {
     // We instantiate a 1D Tensor here.
     let x = TensorTrait::<i32>::new(
         shape: array![6].span(),
-        data: array![
-            IntegerTrait::new(0, false),
-            IntegerTrait::new(2, false),
-            IntegerTrait::new(3, false),
-            IntegerTrait::new(1000, false),
-            IntegerTrait::new(254, true),
-            IntegerTrait::new(1000, true),
-        ]
-            .span(),
+        data: array![0, 2, 3, 1, -254,-1000].span(),
     );
 
     // We instantiate the y_scale here.
     let y_scale = TensorTrait::<i32>::new(
-        shape: array![1].span(), data: array![IntegerTrait::new(2, false)].span(),
+        shape: array![1].span(), data: array![2].span(),
     );
 
     // We instantiate the y_zero_point here.
     let y_zero_point = TensorTrait::<i32>::new(
-        shape: array![1].span(), data: array![IntegerTrait::new(1, false)].span(),
+        shape: array![1].span(), data: array![1].span(),
     );
 
     return x.quantize_linear(@y_scale, @y_zero_point);

@@ -16,7 +16,7 @@ class Mul(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "mul_u32"
-            make_test([x, y], z, "input_0.mul(@input_1)", name)
+            make_test([x, y], z, "input_0 * input_1", name)
 
         def broadcast():
             x = np.random.randint(3, 6, (3, 3, 3)).astype(np.uint32)
@@ -28,7 +28,7 @@ class Mul(RunAll):
             z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "mul_u32_broadcast"
-            make_test([x, y], z, "input_0.mul(@input_1)", name)
+            make_test([x, y], z, "input_0 * input_1", name)
 
         default()
         broadcast()
@@ -45,7 +45,7 @@ class Mul(RunAll):
             z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "mul_i32"
-            make_test([x, y], z, "input_0.mul(@input_1)", name)
+            make_test([x, y], z, "input_0 * input_1", name)
 
         def broadcast():
             x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.int32)
@@ -57,7 +57,7 @@ class Mul(RunAll):
             z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "mul_i32_broadcast"
-            make_test([x, y], z, "input_0.mul(@input_1)", name)
+            make_test([x, y], z, "input_0 * input_1", name)
 
         default()
         broadcast()
@@ -74,7 +74,7 @@ class Mul(RunAll):
             z = Tensor(Dtype.I8, z.shape, z.flatten())
 
             name = "mul_i8"
-            make_test([x, y], z, "input_0.mul(@input_1)", name)
+            make_test([x, y], z, "input_0 * input_1", name)
 
         def broadcast():
             x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.int8)
@@ -86,7 +86,7 @@ class Mul(RunAll):
             z = Tensor(Dtype.I8, z.shape, z.flatten())
 
             name = "mul_i8_broadcast"
-            make_test([x, y], z, "input_0.mul(@input_1)", name)
+            make_test([x, y], z, "input_0 * input_1", name)
 
         default()
         broadcast()
@@ -106,7 +106,7 @@ class Mul(RunAll):
                 z.flatten(), FixedImpl.FP8x23))
 
             name = "mul_fp8x23"
-            make_test([x, y], z, "input_0.mul(@input_1)", name)
+            make_test([x, y], z, "input_0 * input_1", name)
 
         def broadcast():
             x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.float64)
@@ -121,7 +121,7 @@ class Mul(RunAll):
                 z.flatten(), FixedImpl.FP8x23))
 
             name = "mul_fp8x23_broadcast"
-            make_test([x, y], z, "input_0.mul(@input_1)", name)
+            make_test([x, y], z, "input_0 * input_1", name)
 
         default()
         broadcast()
@@ -141,7 +141,7 @@ class Mul(RunAll):
                 z.flatten(), FixedImpl.FP16x16))
 
             name = "mul_fp16x16"
-            make_test([x, y], z, "input_0.mul(@input_1)", name)
+            make_test([x, y], z, "input_0 * input_1", name)
 
         def broadcast():
             x = np.random.randint(-3, 3, (3, 3, 3)).astype(np.float64)
@@ -156,7 +156,7 @@ class Mul(RunAll):
                 z.flatten(), FixedImpl.FP16x16))
 
             name = "mul_fp16x16_broadcast"
-            make_test([x, y], z, "input_0.mul(@input_1)", name)
+            make_test([x, y], z, "input_0 * input_1", name)
 
         default()
         broadcast()

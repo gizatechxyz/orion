@@ -15,7 +15,7 @@ class Squeeze(RunAll):
 
             name = "squeeze_i8"
             make_test(
-                [x], y, "input_0.squeeze(Option::Some(array![i32 { mag: 0, sign: false }, i32 { mag: 2, sign: false }].span()))", name)
+                [x], y, "input_0.squeeze(Option::Some(array![0_i32, 2_i32].span()))", name)
         squeeze()
 
     @staticmethod
@@ -29,7 +29,7 @@ class Squeeze(RunAll):
 
             name = "squeeze_i32"
             make_test(
-                [x], y, "input_0.squeeze(Option::Some(array![i32 { mag: 0, sign: false }, i32 { mag: 2, sign: false }].span()))", name)
+                [x], y, "input_0.squeeze(Option::Some(array![0_i32, 2_i32].span()))", name)
         squeeze()
 
     @staticmethod
@@ -43,7 +43,7 @@ class Squeeze(RunAll):
 
             name = "squeeze_u32"
             make_test(
-                [x], y, "input_0.squeeze(Option::Some(array![i32 { mag: 0, sign: false }, i32 { mag: 2, sign: false }].span()))", name)
+                [x], y, "input_0.squeeze(Option::Some(array![0_i32, 2_i32].span()))", name)
         squeeze()
     
     @staticmethod
@@ -59,7 +59,7 @@ class Squeeze(RunAll):
 
             name = "squeeze_fP16x16"
             make_test(
-                [x], y, "input_0.squeeze(Option::Some(array![i32 { mag: 0, sign: false }, i32 { mag: 2, sign: false }].span()))", name)
+                [x], y, "input_0.squeeze(Option::Some(array![0_i32, 2_i32].span()))", name)
         squeeze()
 
     @staticmethod
@@ -75,5 +75,5 @@ class Squeeze(RunAll):
 
             name = "squeeze_fP8x23"
             make_test(
-                [x], y, "input_0.squeeze(Option::Some(array![i32 { mag: 0, sign: false }, i32 { mag: 2, sign: false }].span()))", name)
+                [x], y, "input_0.squeeze(Option::Some(array![0_i32, 2_i32].span()))", name)
         squeeze()

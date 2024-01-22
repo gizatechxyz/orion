@@ -4,12 +4,12 @@ mod input_2;
 mod output_0;
 
 
-use orion::operators::tensor::FP8x23Tensor;
-use orion::utils::{assert_eq, assert_seq_eq};
-use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
+use orion::numbers::{FixedTrait, FP8x23};
+use core::array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::{FP8x23Tensor, FP8x23TensorAdd};
 use orion::operators::tensor::FP8x23TensorPartialEq;
-use orion::numbers::{IntegerTrait, i32, FixedTrait};
+use orion::utils::{assert_eq, assert_seq_eq};
 
 #[test]
 #[available_gas(2000000000)]
@@ -19,14 +19,7 @@ fn test_layer_normalization_4d_axis_negative_3() {
     let input_2 = input_2::input_2();
     let z_0 = output_0::output_0();
 
-    let (y_0, _, _) = input_0
-        .layer_normalization(
-            @input_1,
-            Option::Some(@input_2),
-            Option::Some(IntegerTrait::<i32>::new(3, true)),
-            Option::None,
-            Option::None
-        );
+    let (y_0, _, _) = input_0.layer_normalization(@input_1,Option::Some(@input_2),Option::Some(-3),Option::None,Option::None);
 
     assert_eq(y_0, z_0);
 }

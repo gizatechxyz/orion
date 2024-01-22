@@ -60,7 +60,6 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
 use orion::operators::nn::{NNTrait, I32NN};
-use orion::numbers::signed_integer::i32::{i32, IntegerTrait};
 
 fn relu_example() -> Tensor<i32> {
     let tensor = TensorTrait::<i32>::new(

@@ -19,6 +19,12 @@ Computes the sum square of the input tensor's elements along the provided axes.
 
 A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
 
+## Examples
+
+```rust
+use core::array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+
 fn reduce_sum_square_example() -> Tensor<u32> {
 
     let mut shape = ArrayTrait::<usize>::new();
