@@ -5198,7 +5198,7 @@ trait TensorTrait<T> {
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
     /// use orion::numbers::{u8, i32, IntegerTrait};
     /// 
-    /// fn dynamic_quantize_linear_example() -> (Tensor<u8>, Tensor<FP16x16>, Tensor<u8>) {
+    /// fn dynamic_quantize_linear_example() -> (Tensor<u32>, Tensor<FP16x16>, Tensor<FP16x16>) {
     ///     // We instantiate a 1D Tensor here.
     ///     let x = TensorTrait::<FP16x16>::new(
     ///         shape: array![6].span(),
@@ -5215,7 +5215,7 @@ trait TensorTrait<T> {
     /// 
     ///     return x.dynamic_quantize_linear();
     /// }
-    /// >>> [133, 233, 236, 255, -18, -0]
+    /// >>> ([133, 233, 236, 255, -18, -0], [0.02745], [128]
     /// ```
     ///
     fn dynamic_quantize_linear(
