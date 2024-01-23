@@ -118,6 +118,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// erf - Computes the error function of the given input tensor element-wise.
 /// layer_normalization - computes the layer normalization of the input tensor.
 /// split - Split a tensor into a list of tensors, along the specified ‘axis’. 
+/// dynamic_quantize_linear - Computes the Scale, Zero Point and FP32->8Bit conversion of FP32 Input data. 
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -2459,7 +2460,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<T>` with the same shape as the input tensor, containing the quantized values.
+    /// A new `Tensor<Q>` with the same shape as the input tensor, containing the quantized values.
     ///
     /// ## Type Constraints
     ///
@@ -2512,7 +2513,7 @@ trait TensorTrait<T> {
     ///
     /// ## Args
     ///
-    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `self`(`@Tensor<Q>`) - The input tensor.
     /// * `x_scale`(`@Tensor<T>`) - Scale for input `x`.
     /// * `x_zero_point`(`@Tensor<T>`) - Zero point for input `x`.
     ///
@@ -5117,7 +5118,7 @@ trait TensorTrait<T> {
     ///    fn split(self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, split: Option<Tensor<usize>>
     ///    ) -> Array<Tensor<T>>;
     /// ```
-    ///
+    /// ## Args
     /// Split a tensor into a list of tensors, along the specified ‘axis’
     ///
     ///
@@ -5162,6 +5163,64 @@ trait TensorTrait<T> {
     fn split(
         self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<T>>;
+    /// # tensor.dynamic_quantize_linear
+    /// 
+    /// ```rust
+    /// fn dynamic_quantize_linear(self: @Tensor<T>) -> (Tensor::<Q>, Tensor<T>, Tensor<T>);
+    /// ```
+    /// 
+    /// Quantizes a Tensor using dynamic linear quantization.
+    ///
+    /// The dynamic linear quantization operator. It consumes a high precision tensor 
+    /// to compute the low precision / quantized tensor dynamicly. 
+    /// Right now only uint8 is supported, it saturates to [0, 255].
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<Q>` with the same shape as the input tensor, containing the quantized values.
+    /// * `y_scale`(`@Tensor<T>`) - Scale for doing quantization to get `y`.
+    /// * `y_zero_point`(`@Tensor<T>`) - Zero point for doing quantization to get `y`.
+    ///
+    /// ## Type Constraints
+    ///
+    /// * `T` in (`Tensor<FP>`, `Tensor<i8>`, `Tensor<i32>`, `tensor<u32>`)
+    /// * `Q` in (`Tensor<i32>`)- Constrain `y` to 8-bit unsigned integer tensor.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
+    /// use orion::numbers::{u8, i32, IntegerTrait};
+    /// 
+    /// fn dynamic_quantize_linear_example() -> (Tensor<u8>, Tensor<FP16x16>, Tensor<u8>) {
+    ///     // We instantiate a 1D Tensor here.
+    ///     let x = TensorTrait::<FP16x16>::new(
+    ///         shape: array![6].span(),
+    ///         data: array![
+    ///             FP16x16 { mag: 10945, sign: false },
+    ///             FP16x16 { mag: 190054, sign: false },
+    ///             FP16x16 { mag: 196608, sign: false },
+    ///             FP16x16 { mag: 229376, sign: false },
+    ///             FP16x16 { mag: 196608, sign: true },
+    ///             FP16x16 { mag: 229376, sign: true },
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     return x.dynamic_quantize_linear();
+    /// }
+    /// >>> [133, 233, 236, 255, -18, -0]
+    /// ```
+    ///
+    fn dynamic_quantize_linear(
+        self: @Tensor<T>
+    ) -> (Tensor<u32>, Tensor<T>, Tensor<T>);
 }
 
 /// Cf: TensorTrait::new docstring

@@ -561,6 +561,18 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Array<Tensor<FP32x32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP32x32>
+    ) -> (Tensor::<u32>, Tensor::<FP32x32>, Tensor<FP32x32>){
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        )   
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.
@@ -644,6 +656,7 @@ impl FP32x32TryIntoI8 of TryInto<FP32x32, i8> {
         Option::Some(number_i8)
     }
 }
+
 impl TensorI8IntoTensorFP32x32 of Into<Tensor<i8>, Tensor<FP32x32>> {
     fn into(self: Tensor<i8>) -> Tensor<FP32x32> {
         tensor_i8_to_tensor_fp32x32(@self)
