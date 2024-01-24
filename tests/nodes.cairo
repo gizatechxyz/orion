@@ -936,3 +936,9 @@ mod split_fp16x16_2d_variable_parts;
 mod split_fp16x16_zero_size;
 mod split_fp16x16_1d_uneven;
 mod split_fp16x16_2d_uneven;
+mod depth_to_space_fp16x16;
+mod depth_to_space_fp8x23;
+mod depth_to_space_i32;
+mod depth_to_space_i8;
+mod depth_to_space_u32;
+
