@@ -498,6 +498,12 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     ) -> Array<Tensor<FP8x23W>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn reverse_sequence(
+        self: @Tensor<FP8x23W>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<FP8x23W> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

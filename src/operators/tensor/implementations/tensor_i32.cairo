@@ -541,6 +541,12 @@ impl I32Tensor of TensorTrait<i32> {
     ) -> Array<Tensor<i32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn reverse_sequence(
+        self: @Tensor<i32>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<i32> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

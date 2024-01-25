@@ -484,6 +484,12 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Array<Tensor<bool>> {
         panic(array!['not supported!'])
     }
+
+    fn reverse_sequence(
+        self: @Tensor<bool>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.
