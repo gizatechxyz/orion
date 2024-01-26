@@ -2,7 +2,7 @@ use core::array::ArrayTrait;
 use core::array::SpanTrait;
 use core::option::OptionTrait;
 
-use alexandria_data_structures::array_ext::ArrayTraitExt;
+use alexandria_data_structures::array_ext::{ArrayTraitExt, SpanTraitExt};
 
 use orion::utils::u32_max;
 use orion::operators::tensor::core::{stride, Tensor, TensorTrait};
@@ -51,6 +51,14 @@ fn check_shape<T>(shape: Span<usize>, data: Span<T>) {
 /// # Panics
 /// * Panics if the shapes are not compatible for broadcasting.
 fn check_compatibility(mut shape_1: Span<usize>, mut shape_2: Span<usize>) {
+
+    if shape_1.len() == 1 && shape_2.len() == 2 {
+        shape_1 = shape_1.concat(array![1].span())
+    }
+    if shape_2.len() == 1 && shape_1.len() == 2 {
+        shape_2 = shape_2.concat(array![1].span())
+    }
+
     assert(shape_1.len() == shape_2.len(), 'tensors shape must match');
 
     loop {
