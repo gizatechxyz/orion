@@ -1,5 +1,6 @@
 use alexandria_data_structures::array_ext::SpanTraitExt;
 use core::array::SpanTrait;
+use core::debug::PrintTrait;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{core::{Tensor, TensorTrait}, math::arithmetic::mul_by_scalar};
@@ -56,6 +57,17 @@ fn gemm<
             };
 
             let c = Tensor { shape: broadcast_c_shape, data: c.data };
+
+            let mut i = 0;
+            loop {
+                if i == c.shape.len() {
+                    break;
+                }
+
+                (*c.shape.at(i)).print();
+
+                i += 1;
+            };
 
             return mul_by_scalar(@A.matmul(@B), alpha) + mul_by_scalar(@c, beta);
         },
