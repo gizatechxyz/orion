@@ -50,24 +50,20 @@ fn gemm<
 
     match C {
         Option::Some(c) => {
-            let broadcast_c_shape = if c.shape.len() == 1 {
-                c.shape.concat(array![1].span())
-            } else {
-                c.shape
-            };
+            let broadcast_c_shape = c.shape.concat(array![1].span());
 
             let c = Tensor { shape: broadcast_c_shape, data: c.data };
 
-            let mut i = 0;
-            loop {
-                if i == c.shape.len() {
-                    break;
-                }
+            // let mut i = 0;
+            // loop {
+            //     if i == c.shape.len() {
+            //         break;
+            //     }
 
-                (*c.shape.at(i)).print();
+            //     (*c.shape.at(i)).print();
 
-                i += 1;
-            };
+            //     i += 1;
+            // };
 
             return mul_by_scalar(@A.matmul(@B), alpha) + mul_by_scalar(@c, beta);
         },
