@@ -1,3 +1,4 @@
+use core::clone::Clone;
 use core::array::ArrayTrait;
 use core::array::SpanTrait;
 use core::option::OptionTrait;
@@ -51,20 +52,22 @@ fn check_shape<T>(shape: Span<usize>, data: Span<T>) {
 /// # Panics
 /// * Panics if the shapes are not compatible for broadcasting.
 fn check_compatibility(mut shape_1: Span<usize>, mut shape_2: Span<usize>) {
+    let mut tmp_shape_1 = shape_1.clone();
+    let mut tmp_shape_2 = shape_2.clone();
 
     if shape_1.len() == 1 && shape_2.len() == 2 {
-        shape_1 = shape_1.concat(array![1].span())
+        tmp_shape_1.concat(array![1].span());
     }
     if shape_2.len() == 1 && shape_1.len() == 2 {
-        shape_2 = shape_2.concat(array![1].span())
+        tmp_shape_2.concat(array![1].span());
     }
 
-    assert(shape_1.len() == shape_2.len(), 'tensors shape must match');
+    assert(tmp_shape_1.len() == tmp_shape_1.len(), 'tensors shape must match');
 
     loop {
-        match shape_1.pop_front() {
+        match tmp_shape_1.pop_front() {
             Option::Some(shape_1_val) => {
-                let shape_2_val = *shape_2.pop_front().unwrap();
+                let shape_2_val = *tmp_shape_2.pop_front().unwrap();
 
                 assert(
                     *shape_1_val == shape_2_val || *shape_1_val == 1 || shape_2_val == 1,
