@@ -561,6 +561,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Array<Tensor<FP32x32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+    
+    fn optional(self: @Tensor<FP32x32>) -> Option<Tensor<FP32x32>>{
+        manipulation::optional::optional(self)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

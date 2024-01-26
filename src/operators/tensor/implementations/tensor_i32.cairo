@@ -541,6 +541,10 @@ impl I32Tensor of TensorTrait<i32> {
     ) -> Array<Tensor<i32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+    
+    fn optional(self: @Tensor<i32>) -> Option<Tensor<i32>>{
+        manipulation::optional::optional(self)  
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

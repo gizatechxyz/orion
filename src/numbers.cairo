@@ -1432,6 +1432,9 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
 
 impl I8Number of NumberTrait<i8, i8> {
     fn new(mag: i8, sign: bool) -> i8 {
+        if sign{
+            return -mag;
+        }
         mag
     }
 
@@ -1774,6 +1777,9 @@ impl I8IntoFP32x32 of Into<i8, FP32x32> {
 
 impl I16Number of NumberTrait<i16, i16> {
     fn new(mag: i16, sign: bool) -> i16 {
+        if sign{
+            return -mag;
+        }
         mag
     }
 
@@ -2064,6 +2070,9 @@ impl I16DivEq of DivEq<i16> {
 
 impl I32Number of NumberTrait<i32, i32> {
     fn new(mag: i32, sign: bool) -> i32 {
+        if sign{
+            return -mag;
+        }
         mag
     }
 
@@ -2367,6 +2376,9 @@ impl I32IntoU32 of Into<i32, u32> {
 
 impl I64Number of NumberTrait<i64, i64> {
     fn new(mag: i64, sign: bool) -> i64 {
+        if sign{
+            return -mag;
+        }
         mag
     }
 
@@ -2657,6 +2669,9 @@ impl I64DivEq of DivEq<i64> {
 
 impl I128Number of NumberTrait<i128, i128> {
     fn new(mag: i128, sign: bool) -> i128 {
+        if sign{
+            return -mag;
+        }
         mag
     }
 

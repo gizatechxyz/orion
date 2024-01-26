@@ -484,6 +484,11 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Array<Tensor<bool>> {
         panic(array!['not supported!'])
     }
+
+    fn optional(self: @Tensor<bool>) -> Option<Tensor<bool>>{
+        manipulation::optional::optional(self)
+    }
+
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.
