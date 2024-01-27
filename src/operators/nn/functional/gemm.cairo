@@ -1,6 +1,5 @@
 use alexandria_data_structures::array_ext::SpanTraitExt;
 use core::array::SpanTrait;
-use core::debug::PrintTrait;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{core::{Tensor, TensorTrait}, math::arithmetic::mul_by_scalar};
