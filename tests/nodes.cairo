@@ -943,3 +943,5 @@ mod conv_transpose_attributes;
 mod conv_transpose_autopad_same;
 mod conv_transpose_dilations;
 mod conv_transpose_pads;
+mod conv_transpose_group_2;
+mod conv_transpose_group_2_image_3;

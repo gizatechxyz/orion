@@ -393,7 +393,136 @@ fn conv_transpose<
             image_id += 1;
         };
     } else {
-        panic(array!['group > 1 not supported']);
+        
+        let mut output_array = ArrayTrait::new();
+
+        let mut i = 0;
+        let mut output_size = 1;
+        loop {
+            if i == output_shape.len() {
+                break;
+            }
+            output_size *= *output_shape.at(i);
+            i += 1;
+        };
+
+        // Computation of conv transposition per group
+        let mut group_id = 0;
+        loop {
+            if group_id == group {
+                break;
+            }
+            let mut group_X = ArrayTrait::new();
+            let mut group_W = ArrayTrait::new();
+
+            let mut image_id = 0;
+            loop {
+                if image_id == *(*X).shape.at(0) {
+                    break;
+                }
+                let start = image_id * n * C + (group_id * C / group) * n;
+                let end = image_id * n * C + ((group_id + 1) * C / group) * n;
+
+                let mut i = start;
+                loop {
+                    if i == end {
+                        break;
+                    }
+                    group_X.append(*(*X).data.at(i));
+
+                    i += 1;
+                };
+                image_id += 1;
+            };
+
+            let start = (group_id * C / group) * *(*W).shape.at(1) * kernel_size;
+            let end = (group_id + 1) * C / group * *(*W).shape.at(1) * kernel_size;
+            let mut i = start;
+            loop {
+                if i == end {
+                    break;
+                }
+                group_W.append(*(*W).data.at(i));
+                i += 1;
+            };
+
+            let mut shape_X = ArrayTrait::new();
+            shape_X.append(*(*X).shape.at(0));
+            shape_X.append(C / group);
+
+            let mut i = 2;
+            loop {
+                if i >= (*X).shape.len() {
+                    break;
+                }
+                shape_X.append(*(*X).shape.at(i));
+                i += 1;
+            };
+
+            let mut shape_W = ArrayTrait::new();
+            shape_W.append(C / group);
+
+            let mut i = 1;
+            loop {
+                if i >= (*W).shape.len() {
+                    break;
+                }
+                shape_W.append(*(*W).shape.at(i));
+                i += 1;
+            };
+
+            // group_X : N x (C / group) x X.shape[2:]
+            let group_X = TensorTrait::new(shape_X.span(), group_X.span());
+            // group_W : (C / group) x *(*W).shape.at(1) x W.shape[2:]
+            let group_W = TensorTrait::new(shape_W.span(), group_W.span());
+
+            // group output : N x (num_output_channels / group) x output_shape
+            let group_output = conv_transpose(
+                @group_X,
+                @group_W,
+                B,
+                Option::Some(auto_pad),
+                Option::Some(dilations),
+                Option::Some(1),
+                Option::Some(kernel_shape),
+                Option::Some(output_padding),
+                Option::Some(output_shape),
+                Option::Some(pads),
+                Option::Some(strides)
+            );
+
+            output_array.append(group_output.data);
+
+            group_id += 1;
+        };
+        let output_array = output_array.span();
+
+        // Sorting result per item of the batch
+        // output size : N (batch size) x num_output_channels x output_shape
+        let mut image_id = 0;
+        loop {
+            if image_id == *(*X).shape.at(0) {
+                break;
+            }
+            let mut group_id = 0;
+            loop {
+                if group_id == group {
+                    break;
+                }
+                let group_output = *output_array.at(group_id);
+                let mut i = image_id * output_size * (num_output_channels / group);
+
+                loop {
+                    if i == (image_id + 1) * output_size * (num_output_channels / group) {
+                        break;
+                    }
+                    final.append(*group_output.at(i));
+                    i += 1;
+                };
+                group_id += 1;
+            };
+            image_id += 1;
+        };
     }
     let mut shape = array![*(*X).shape.at(0), num_output_channels];
 
@@ -556,16 +685,6 @@ fn col2im_shape_check<T, +TensorTrait<T>, +Copy<T>, +Drop<T>,>(
 }
 
 
-fn rec_add_chars(ref arr: Array<u128>, str_len: felt252, str: u128) {
-    if str_len == 0 {
-        return;
-    }
-    let (str, char) = DivRem::div_rem(str, 256_u128.try_into().unwrap());
-    rec_add_chars(ref arr, str_len - 1, str);
-    if char != 0 {
-        arr.append(char);
-    }
-}
 
 fn get_indices(index: usize, shape: Span<usize>,) -> Array<usize> {
     let mut i = index;
@@ -612,22 +731,6 @@ fn is_out(ind: Span<usize>, shape: Span<usize>,) -> bool {
         n += 1;
     };
     return is_out;
-}
-
-
-fn rec_get_indices(ref arr: Array<usize>, mut i: usize, mut k: usize, shape: Span<usize>,) {
-    if k == 0 {
-        arr.append(i);
-        return;
-    }
-    let m = i % *shape.at(k);
-    i -= m;
-    i /= *shape.at(k);
-    k -= 1;
-    rec_get_indices(ref arr, i, k, shape);
-    if k != 0 {
-        arr.append(m);
-    }
 }
 
 

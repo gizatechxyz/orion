@@ -93,9 +93,36 @@ def conv_transpose(
                     res += B[c]
                 final[image_id, c, ...] = res[...]
     else:
-        raise NotImplementedError(
-                f"Implementation for group={group} > 1 is not available yet."
-        )
+        final = np.zeros((X.shape[0], num_output_channels ) + tuple(output_shape))
+
+        output_array = []
+
+        for group_id in range(group):
+            group_X = X[:, group_id * C // group : (group_id + 1) * C // group, ...]
+            group_W = W[group_id * num_output_channels // group : (group_id + 1) * num_output_channels // group, ...]
+
+            group_output = conv_transpose(
+                group_X,
+                group_W,
+                B=B,  
+                auto_pad=auto_pad,
+                dilations=dilations,
+                group=1, 
+                kernel_shape=kernel_shape,
+                output_padding=output_padding,
+                output_shape=output_shape,
+                pads=pads,
+                strides=strides,
+            )
+            group_output = np.array(group_output[0])
+
+            output_array.append(group_output)
+
+            
+        for image_id in range(X.shape[0]):
+            for group_id in range(group):
+                group_output = output_array[group_id]
+                final[image_id, group_id:(group_id+1), ...] = group_output[image_id, ...]
 
 
     return (final.astype(X.dtype),) 
@@ -493,8 +520,110 @@ class Conv_transpose(RunAll):
             [x, w], y, func_sig, name, Trait.NN)
         
 
+    @staticmethod
+    def export_convtranspose_group_2() -> None:
+        x = np.array(
+            [
+                [
+                    [
+                        [0.0, 1.0, 2.0], [3.0, 4.0, 5.0], [6.0, 7.0, 8.0]],
+                    [
+                        [9.0, 10.0, 11.0], [12.0, 13.0, 14.0], [15.0, 16.0, 17.0]]
+                ]
+            ]
+        ).astype(np.float32)
+        w =  np.array(
+            [
+                [
+                    [[1.0, 1.0, 1.0], [1.0, 1.0, 1.0], [1.0, 1.0, 1.0]], 
+                ], 
+                [
+                    [[1.0, 1.0, 1.0], [1.0, 1.0, 1.0], [1.0, 1.0, 1.0]], 
+                ]
+            ]
+        ).astype(np.float32)
 
+        y = conv_transpose(x, w, group=2)[0]
 
+        x = Tensor(Dtype.FP16x16, x.shape, to_fp(x.flatten(), FixedImpl.FP16x16))
+        w = Tensor(Dtype.FP16x16, w.shape, to_fp(w.flatten(), FixedImpl.FP16x16))
+        y = Tensor(Dtype.FP16x16, y.shape, to_fp(y.flatten(), FixedImpl.FP16x16))
 
+        name = "conv_transpose_group_2"
+        func_sig = "NNTrait::conv_transpose("
+        func_sig += "@input_0,"
+        func_sig += "@input_1,"
+        func_sig += "Option::None,"
+        func_sig += "Option::None," 
+        func_sig += "Option::None," 
+        func_sig += "Option::Some(2)," 
+        func_sig += "Option::None,"
+        func_sig += "Option::None,"
+        func_sig += "Option::None,"
+        func_sig += "Option::None,"
+        func_sig += "Option::None,)"
+        make_test(
+            [x, w], y, func_sig, name, Trait.NN)
+        
+    @staticmethod
+    def export_convtranspose_group_2_image_3() -> None:
+        x = np.array(
+            [
+                [
+                    [
+                        [0.0, 1.0, 2.0], [3.0, 4.0, 5.0], [6.0, 7.0, 8.0]],
+                    [
+                        [9.0, 10.0, 11.0], [12.0, 13.0, 14.0], [15.0, 16.0, 17.0]
+                    ]
+                ], 
+                [
+                    [
+                        [18.0, 19.0, 20.0], [21.0, 22.0, 23.0], [24.0, 25.0, 26.0]
+                    ],
+                    [
+                        [9.0, 10.0, 11.0], [12.0, 13.0, 14.0], [15.0, 16.0, 17.0]
+                    ]
+                ],   
+                [
+                    [
+                        [0.0, 1.0, 2.0], [3.0, 4.0, 5.0], [6.0, 7.0, 8.0]
+                    ],
+                    [
+                        [9.0, 10.0, 11.0], [12.0, 13.0, 14.0], [15.0, 16.0, 17.0]
+                    ]
+                ]
+            ]
+        ).astype(np.float32)
+        w =  np.array(
+            [
+                [
+                    [[1.0, 1.0, 1.0], [1.0, 1.0, 1.0], [1.0, 1.0, 1.0]], 
+                ], 
+                [
+                    [[1.0, 1.0, 1.0], [1.0, 1.0, 1.0], [1.0, 1.0, 1.0]], 
+                ]
+            ]
+        ).astype(np.float32)
 
+        y = conv_transpose(x, w, group=2)[0]
+
+        x = Tensor(Dtype.FP16x16, x.shape, to_fp(x.flatten(), FixedImpl.FP16x16))
+        w = Tensor(Dtype.FP16x16, w.shape, to_fp(w.flatten(), FixedImpl.FP16x16))
+        y = Tensor(Dtype.FP16x16, y.shape, to_fp(y.flatten(), FixedImpl.FP16x16))
+
+        name = "conv_transpose_group_2_image_3"
+        func_sig = "NNTrait::conv_transpose("
+        func_sig += "@input_0,"
+        func_sig += "@input_1,"
+        func_sig += "Option::None,"
+        func_sig += "Option::None," 
+        func_sig += "Option::None," 
+        func_sig += "Option::Some(2)," 
+        func_sig += "Option::None,"
+        func_sig += "Option::None,"
+        func_sig += "Option::None,"
+        func_sig += "Option::None,"
+        func_sig += "Option::None,)"
+        make_test(
+            [x, w], y, func_sig, name, Trait.NN)
 
