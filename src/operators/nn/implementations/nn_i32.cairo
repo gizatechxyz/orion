@@ -61,4 +61,32 @@ impl I32NN of NNTrait<i32> {
     ) -> Tensor<i32> {
         functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
     }
+
+    fn conv_transpose(
+        X: @Tensor<i32>,
+        W: @Tensor<i32>,
+        B: Option<@Tensor<i32>>,
+        auto_pad: Option<functional::conv_transpose::AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        output_padding: Option<Span<usize>>,
+        output_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<i32> {
+        functional::conv_transpose::conv_transpose(
+            X,
+            W,
+            B,
+            auto_pad,
+            dilations,
+            group,
+            kernel_shape,
+            output_padding,
+            output_shape,
+            pads,
+            strides
+        )
+    }
 }

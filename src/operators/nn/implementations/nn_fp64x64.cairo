@@ -66,4 +66,32 @@ impl FP64x64NN of NNTrait<FP64x64> {
     ) -> Tensor<FP64x64> {
         functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
     }
+
+    fn conv_transpose(
+        X: @Tensor<FP64x64>,
+        W: @Tensor<FP64x64>,
+        B: Option<@Tensor<FP64x64>>,
+        auto_pad: Option<functional::conv_transpose::AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        output_padding: Option<Span<usize>>,
+        output_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP64x64> {
+        functional::conv_transpose::conv_transpose(
+            X,
+            W,
+            B,
+            auto_pad,
+            dilations,
+            group,
+            kernel_shape,
+            output_padding,
+            output_shape,
+            pads,
+            strides
+        )
+    }
 }

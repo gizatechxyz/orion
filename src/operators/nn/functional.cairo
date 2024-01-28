@@ -10,3 +10,4 @@ mod logsoftmax;
 mod thresholded_relu;
 mod hard_sigmoid;
 mod gemm;
+mod conv_transpose;
