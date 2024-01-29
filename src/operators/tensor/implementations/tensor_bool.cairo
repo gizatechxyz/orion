@@ -488,7 +488,7 @@ impl BoolTensor of TensorTrait<bool> {
     fn reverse_sequence(
         self: @Tensor<bool>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
     ) -> Tensor<bool> {
-        panic(array!['not supported!'])
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
 }
 

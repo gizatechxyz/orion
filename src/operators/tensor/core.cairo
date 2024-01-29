@@ -5168,8 +5168,8 @@ trait TensorTrait<T> {
     /// # tensor.reverse_sequence
     ///
     /// ```rust
-    ///    fn reverse_sequence(self: @Array<Tensor<T>>, sequence_lens: @Tensor<i32>, batch_axis: Option<usize>, time_axis: Option<usize>) -> 
-    ///    Array<Tensor<T>>;
+    ///    fn reverse_sequence(self: @Tensor<T>, sequence_lens: @Tensor<i32>, batch_axis: Option<usize>, time_axis: Option<usize>) -> 
+    ///    Tensor<T>;
     /// ```
     ///
     /// Reverse batch of sequences having different lengths specified by sequence_lens.
@@ -5201,13 +5201,18 @@ trait TensorTrait<T> {
     ///             0, 1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16
     ///             ].span(),
     ///     );
-    ///     let sequence_lens = TensorTrait::<usize>::new(array![4,4].span(), array![1,2,3,4].span());
+    ///     let sequence_lens = TensorTrait::<usize>::new(array![4].span(), array![1,2,3,4].span());
     ///     let batch_axis = Option::Some(0);
     ///     let time_axis = Option::Some(1);
     ///     // We can call `split` function as follows.
     ///     return tensor.reverse_sequence(sequence_lens, batch_axis, time_axis);
     /// }
-    /// >>> [0,1,2,3,5,4,6,7,10,9,8,11,15,14,13,12] 
+    /// >>> [
+    ///         [0,1,2,3],
+    ///         [5,4,6,7],
+    ///         [10,9,8,11],
+    ///         [15,14,13,12]
+    ///     ] 
     /// ```
     ///
     fn reverse_sequence(

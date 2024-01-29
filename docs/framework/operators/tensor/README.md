@@ -120,6 +120,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.erf`](tensor.erf.md) | Computes the error function of the given input tensor element-wise. |
 | [`tensor.layer_normalization`](tensor.layer\_normalization.md) | computes the layer normalization of the input tensor. |
 | [`tensor.split`](tensor.split.md) | Split a tensor into a list of tensors, along the specified ‘axis’.  |
+| [`tensor.reverse_sequence`](tensor.reverse\_sequence.md) | Reverse batch of sequences having different lengths specified by sequence_lens. |
 
 ## Arithmetic Operations
 
