@@ -7,6 +7,7 @@ use core::debug::PrintTrait;
 use core::array::ArrayTrait;
 use core::option::OptionTrait;
 use orion::numbers::NumberTrait;
+use orion::numbers::fixed_point::implementations::fp16x16::math::core::{ceil, abs};
 use orion::operators::matrix::{MutMatrix, MutMatrixTrait, MutMatrixImpl};
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
 use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16, FP16x16Add, FP16x16Div, FP16x16Mul, FP16x16Sub, FP16x16Impl};
@@ -88,6 +89,9 @@ fn linalg_solve(ref X: MutMatrix<FP16x16>, ref y: MutMatrix<FP16x16>) -> MutMatr
             };
             y.set(max_row, 0, y_row);
             y.set(row, 0, y_max_row);
+
+            // Check for singularity
+            assert(X.get(row, row).unwrap().mag != 0, 'Singular matrix error');
 
             // Perform forward elimination
             i = row + 1;
@@ -174,8 +178,8 @@ fn main(){
     let mut y = MutMatrix { data: y_data, rows: 3, cols: 1};
 
     let mut S = linalg_solve(ref X, ref y);
-    test_matrix(ref S);
+    // test_matrix(ref S);
 
     // Solution is [2, 3, -1] in FP16x16 format!
-
+    
     }
