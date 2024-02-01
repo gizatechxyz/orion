@@ -482,6 +482,18 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Array<Tensor<u32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn range(start: u32, end: u32, step: u32) -> Tensor<u32> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: u32, periodic: Option<usize>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
+    fn hamming_window(size: u32, periodic: Option<usize>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

@@ -561,6 +561,18 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Array<Tensor<FP32x32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn range(start: FP32x32, end: FP32x32, step: FP32x32) -> Tensor<FP32x32> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: FP32x32, periodic: Option<usize>) -> Tensor<FP32x32> {
+        panic(array!['not supported!'])
+    }
+
+    fn hamming_window(size: FP32x32, periodic: Option<usize>) -> Tensor<FP32x32> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

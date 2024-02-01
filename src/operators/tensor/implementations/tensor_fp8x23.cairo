@@ -14,6 +14,7 @@ use orion::numbers::{NumberTrait, FP8x23, I8IntoFP8x23};
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
 };
+use orion::numbers::fixed_point::implementations::fp8x23::math::trig::PI;
 
 impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn new(shape: Span<usize>, data: Span<FP8x23>) -> Tensor<FP8x23> {
@@ -558,6 +559,18 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         self: @Tensor<FP8x23>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<FP8x23>> {
         manipulation::split::split(self, axis, num_outputs, spl)
+    }
+
+    fn range(start: FP8x23, end: FP8x23, step: FP8x23) -> Tensor<FP8x23> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: FP8x23, periodic: Option<usize>) -> Tensor<FP8x23> {
+        math::hann_window::hann_window(size, FP8x23 { mag: PI, sign: false }, periodic)
+    }
+
+    fn hamming_window(size: FP8x23, periodic: Option<usize>) -> Tensor<FP8x23> {
+        math::hamming_window::hamming_window(size, FP8x23 { mag: PI, sign: false }, periodic)
     }
 }
 

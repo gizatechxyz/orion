@@ -61,3 +61,6 @@ mod erf;
 mod layer_normalization;
 mod resize;
 mod compress;
+mod range;
+mod hann_window;
+mod hamming_window;

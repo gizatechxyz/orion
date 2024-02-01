@@ -484,6 +484,18 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Array<Tensor<bool>> {
         panic(array!['not supported!'])
     }
+
+    fn range(start: bool, end: bool, step: bool) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn hann_window(size: bool, periodic: Option<usize>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn hamming_window(size: bool, periodic: Option<usize>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

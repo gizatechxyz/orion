@@ -515,6 +515,18 @@ impl Complex64Tensor of TensorTrait<complex64> {
     ) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }
+
+    fn range(start: complex64, end: complex64, step: complex64) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+
+    fn hann_window(size: complex64, periodic: Option<usize>) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+
+    fn hamming_window(size: complex64, periodic: Option<usize>) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<complex64>` using the `Add` trait.

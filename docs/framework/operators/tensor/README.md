@@ -120,6 +120,9 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.erf`](tensor.erf.md) | Computes the error function of the given input tensor element-wise. |
 | [`tensor.layer_normalization`](tensor.layer\_normalization.md) | computes the layer normalization of the input tensor. |
 | [`tensor.split`](tensor.split.md) | Split a tensor into a list of tensors, along the specified ‘axis’.  |
+| [`tensor.range`](tensor.range.md) | Generate a tensor containing a sequence of numbers that begin at start and extends by increments of delta up to limit (exclusive). |
+| [`tensor.hann_window`](tensor.hann\_window.md) | Generates a Hann window as described in the paper https://ieeexplore.ieee.org/document/1455106. |
+| [`tensor.hamming_window`](tensor.hamming\_window.md) | Generates a Hamming window as described in the paper https://ieeexplore.ieee.org/document/1455106. |
 
 ## Arithmetic Operations
 
