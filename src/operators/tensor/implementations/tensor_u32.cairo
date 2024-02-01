@@ -482,6 +482,12 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Array<Tensor<u32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+    
+    fn split_to_sequence(
+        self: @Tensor<u32>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<u32>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

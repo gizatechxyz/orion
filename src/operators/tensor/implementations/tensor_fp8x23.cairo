@@ -559,6 +559,15 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     ) -> Array<Tensor<FP8x23>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn split_to_sequence(
+        self: @Tensor<FP8x23>, 
+        axis: usize, 
+        keepdims: usize, 
+        split: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP8x23>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

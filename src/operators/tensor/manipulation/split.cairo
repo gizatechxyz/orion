@@ -9,10 +9,6 @@ fn split<
     +Copy<T>,
     +Drop<T>,
     +TensorTrait<T>,
-    +PartialOrd<T>,
-    +PartialEq<T>,
-    +PartialEq<Tensor<T>>,
-    +PartialOrd<Tensor<T>>
 >(
     self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, split: Option<Tensor<usize>>
 ) -> Array<Tensor<T>> {
@@ -43,7 +39,7 @@ fn split<
 
 /// Subfunction split for tensors (wth num_outputs).
 /// Cf: TensorTrait::split docstring
-fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>, +PartialOrd<T>, +PartialEq<T>,>(
+fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     t: @Tensor<T>, mut axis: usize, num_outputs: usize
 ) -> Array<Tensor<T>> {
     let mut splited_t: Array<Tensor<T>> = array![];
@@ -130,7 +126,7 @@ fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>, +PartialOrd<T>, +Pa
 
 /// Subfunction split for tensors (wth split).
 /// Cf: TensorTrait::split docstring
-fn split_has_split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>, +PartialOrd<T>, +PartialEq<T>,>(
+fn split_has_split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     t: @Tensor<T>, axis: usize, split: Tensor<u32>
 ) -> Array<Tensor<T>> {
     let mut splited_t: Array<Tensor<T>> = array![];

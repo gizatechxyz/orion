@@ -560,6 +560,12 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Array<Tensor<FP16x16>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+    
+    fn split_to_sequence(
+        self: @Tensor<FP16x16>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP16x16>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.
