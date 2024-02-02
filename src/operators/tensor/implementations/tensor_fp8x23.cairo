@@ -572,6 +572,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn hamming_window(size: FP8x23, periodic: Option<usize>) -> Tensor<FP8x23> {
         math::hamming_window::hamming_window(size, FP8x23 { mag: PI, sign: false }, periodic)
     }
+
+    fn blackman_window(size: FP8x23, periodic: Option<usize>) -> Tensor<FP8x23> {
+        math::blackman_window::blackman_window(size, FP8x23 { mag: PI, sign: false }, periodic)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

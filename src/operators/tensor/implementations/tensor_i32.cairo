@@ -553,6 +553,10 @@ impl I32Tensor of TensorTrait<i32> {
     fn hamming_window(size: i32, periodic: Option<usize>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
+
+    fn blackman_window(size: i32, periodic: Option<usize>) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

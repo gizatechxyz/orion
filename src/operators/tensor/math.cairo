@@ -64,3 +64,4 @@ mod compress;
 mod range;
 mod hann_window;
 mod hamming_window;
+mod blackman_window;

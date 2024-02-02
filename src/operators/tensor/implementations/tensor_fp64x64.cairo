@@ -573,6 +573,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn hamming_window(size: FP64x64, periodic: Option<usize>) -> Tensor<FP64x64> {
         panic(array!['not supported!'])
     }
+
+    fn blackman_window(size: FP64x64, periodic: Option<usize>) -> Tensor<FP64x64> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

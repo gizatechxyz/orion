@@ -123,6 +123,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.range`](tensor.range.md) | Generate a tensor containing a sequence of numbers that begin at start and extends by increments of delta up to limit (exclusive). |
 | [`tensor.hann_window`](tensor.hann\_window.md) | Generates a Hann window as described in the paper https://ieeexplore.ieee.org/document/1455106. |
 | [`tensor.hamming_window`](tensor.hamming\_window.md) | Generates a Hamming window as described in the paper https://ieeexplore.ieee.org/document/1455106. |
+| [`tensor.blackman_window`](tensor.blackman\_window.md) | Generates a Blackman window as described in the paper https://ieeexplore.ieee.org/document/1455106. |
 
 ## Arithmetic Operations
 

@@ -496,6 +496,10 @@ impl BoolTensor of TensorTrait<bool> {
     fn hamming_window(size: bool, periodic: Option<usize>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
+
+    fn blackman_window(size: bool, periodic: Option<usize>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

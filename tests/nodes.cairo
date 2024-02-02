@@ -945,3 +945,5 @@ mod hann_window_fp8x23;
 mod hann_window_fp16x16;
 mod hamming_window_fp16x16;
 mod hamming_window_fp8x23;
+mod blackman_window_fp16x16;
+mod blackman_window_fp8x23;

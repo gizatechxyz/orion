@@ -551,6 +551,10 @@ impl I8Tensor of TensorTrait<i8> {
     fn hamming_window(size: i8, periodic: Option<usize>) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
+
+    fn blackman_window(size: i8, periodic: Option<usize>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

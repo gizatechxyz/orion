@@ -573,6 +573,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn hamming_window(size: FP16x16, periodic: Option<usize>) -> Tensor<FP16x16> {
         math::hamming_window::hamming_window(size, FP16x16 { mag: PI, sign: false }, periodic)
     }
+
+    fn blackman_window(size: FP16x16, periodic: Option<usize>) -> Tensor<FP16x16> {
+        math::blackman_window::blackman_window(size, FP16x16 { mag: PI, sign: false }, periodic)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

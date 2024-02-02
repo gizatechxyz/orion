@@ -1,10 +1,10 @@
-# tensor.hamming_window
+# tensor.blackman_window
 
 ```rust 
-   fn hamming_window(size: T, periodic: Option<usize>) -> Tensor<T>;
+   fn blackman_window(size: T, periodic: Option<usize>) -> Tensor<T>;
 ```
 
-Generates a Hamming window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+Generates a Blackman window as described in the paper https://ieeexplore.ieee.org/document/1455106.
 
 
 * `size`(`T`) - A scalar value indicating the length of the window.
@@ -12,7 +12,7 @@ Generates a Hamming window as described in the paper https://ieeexplore.ieee.org
 
 ## Returns
 
-A Hamming window with length: size. The output has the shape: [size].
+A Blackman window with length: size. The output has the shape: [size].
 
 ## Examples
 
@@ -25,8 +25,8 @@ use orion::utils::{assert_eq, assert_seq_eq};
 use orion::numbers::{FixedTrait, FP8x23};
 
 
-fn hamming_window_example() -> Tensor<FP8x23> {
-    return TensorTrait::hamming_window(FP8x23 { mag: 33554432, sign: false }, Option::Some(0));  // size: 4
+fn blackman_window_example() -> Tensor<FP8x23> {
+    return TensorTrait::blackman_window(FP8x23 { mag: 33554432, sign: false }, Option::Some(0));  // size: 4
 }
->>> [729444  6473817  6473817  729444]
+>>> [0  0.36  0.36  0]
 ```
