@@ -952,3 +952,4 @@ mod split_to_sequence_u32_1d_uneven;
 mod split_to_sequence_u32_2d_uneven;
 mod split_to_sequence_2d_scalar;
 mod split_to_sequence_2d_nokeepdims;
+mod split_to_sequence_1d_nokeepdims;
