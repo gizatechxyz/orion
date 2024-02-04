@@ -6,7 +6,7 @@ use alexandria_data_structures::array_ext::{SpanTraitExt};
 //::resize::{MODE, NEAREST_MODE, KEEP_ASPECT_RATIO_POLICY, TRANSFORMATION_MODE};
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::{i8, i32, NumberTrait};
+use orion::numbers::{NumberTrait, I32IntoU32, U32IntoI32};
 
 #[derive(Copy, Drop)]
 struct Tensor<T> {
@@ -867,7 +867,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn dot_product_example() -> Tensor<usize> {
+    /// fn dot_product_example() -> Tensor<u32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(shape: array![3].span(), data: array![0, 1, 2].span(),);
     /// 
     ///     let tensor_2 = TensorTrait::<u32>::new(shape: array![3].span(), data: array![0, 1, 2].span(),);
@@ -885,7 +885,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn matrix_mul_example() -> Tensor<usize> {
+    /// fn matrix_mul_example() -> Tensor<u32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![2, 2].span(), data: array![244, 99, 109, 162].span()
     ///     );
@@ -907,7 +907,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn matrix_vec_mul_example() -> Tensor<usize> {
+    /// fn matrix_vec_mul_example() -> Tensor<u32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -953,7 +953,7 @@ trait TensorTrait<T> {
     /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn exp_example() -> Tensor<FP8x23> {
-    ///     let tensor = TensorTrait::<u32>::new(
+    ///     let tensor = TensorTrait::<FP8x23>::new(
     ///         shape: array![2, 2].span(), 
     ///         data: array![
     ///                 FixedTrait::new_unscaled(0, false), 
@@ -1004,7 +1004,7 @@ trait TensorTrait<T> {
     /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn log_example() -> Tensor<FP8x23> {
-    ///     let tensor = TensorTrait::<u32>::new(
+    ///     let tensor = TensorTrait::<FP8x23>::new(
     ///         shape: array![2, 2].span(), 
     ///         data: array![
     ///                 FixedTrait::new_unscaled(0, false), 
@@ -1392,13 +1392,12 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
-    /// use orion::numbers::{i32, IntegerTrait};
     /// 
     /// fn abs_example() -> Tensor<i32> {
     ///     let tensor = TensorTrait::new(
     ///         shape: array![3].span(),
     ///         data: array![
-    ///             IntegerTrait::new(1, true), IntegerTrait::new(2, true), IntegerTrait::new(3, false)
+    ///             -1, -2, 3
     ///         ]
     ///             .span(),
     ///     );
@@ -1433,13 +1432,12 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
-    /// use orion::numbers::{i32, IntegerTrait};
     /// 
     /// fn neg_example() -> Tensor<i32> {
     ///     let tensor = TensorTrait::new(
     ///         shape: array![3].span(),
     ///         data: array![
-    ///             IntegerTrait::new(1, true), IntegerTrait::new(2, true), IntegerTrait::new(3, false)
+    ///             -1, -2, 3
     ///         ]
     ///             .span(),
     ///     );
@@ -2475,31 +2473,22 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
-    /// use orion::numbers::{i8, i32, IntegerTrait};
     /// 
     /// fn quantize_linear_example() -> Tensor<i8> {
     ///     // We instantiate a 1D Tensor here.
     ///     let x = TensorTrait::<i32>::new(
     ///         shape: array![6].span(),
-    ///         data: array![
-    ///             IntegerTrait::new(0, false),
-    ///             IntegerTrait::new(2, false),
-    ///             IntegerTrait::new(3, false),
-    ///             IntegerTrait::new(1000, false),
-    ///             IntegerTrait::new(254, true),
-    ///             IntegerTrait::new(1000, true),
-    ///         ]
-    ///             .span(),
+    ///         data: array![0, 2, 3, 1, -254,-1000].span(),
     ///     );
     /// 
     ///     // We instantiate the y_scale here.
     ///     let y_scale = TensorTrait::<i32>::new(
-    ///         shape: array![1].span(), data: array![IntegerTrait::new(2, false)].span(),
+    ///         shape: array![1].span(), data: array![2].span(),
     ///     );
     /// 
     ///     // We instantiate the y_zero_point here.
     ///     let y_zero_point = TensorTrait::<i32>::new(
-    ///         shape: array![1].span(), data: array![IntegerTrait::new(1, false)].span(),
+    ///         shape: array![1].span(), data: array![1].span(),
     ///     );
     /// 
     ///     return x.quantize_linear(@y_scale, @y_zero_point);
@@ -2545,29 +2534,22 @@ trait TensorTrait<T> {
     ///  use core::array::{ArrayTrait, SpanTrait};
     ///  
     ///  use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
-    ///  use orion::numbers::{i8, i32, IntegerTrait};
     ///  
     ///  fn dequantize_linear_example() -> Tensor<i32> {
     ///      // We instantiate a 1D Tensor here.
     ///      let x = TensorTrait::<i8>::new(
     ///          shape: array![4].span(),
-    ///          data: array![
-    ///              IntegerTrait::new(0, false),
-    ///              IntegerTrait::new(3, false),
-    ///              IntegerTrait::new(125, false),
-    ///              IntegerTrait::new(127, false),
-    ///          ]
-    ///              .span(),
+    ///          data: array![0, 3, 125, 127].span(),
     ///      );
     ///  
     ///      // We instantiate the x_scale here.
     ///      let x_scale = TensorTrait::<i32>::new(
-    ///          shape: array![1].span(), data: array![IntegerTrait::new(2, false)].span(),
+    ///          shape: array![1].span(), data: array![2].span(),
     ///      );
     ///  
     ///      // We instantiate the x_zero_point here.
     ///      let x_zero_point = TensorTrait::<i32>::new(
-    ///          shape: array![1].span(), data: array![IntegerTrait::new(0, false)].span(),
+    ///          shape: array![1].span(), data: array![0].span(),
     ///      );
     ///  
     ///      return x.dequantize_linear(@x_scale, @x_zero_point);
@@ -2620,7 +2602,7 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
     /// 
     /// 
     /// fn qlinear_add_example() -> Tensor<i8> {    
@@ -2628,28 +2610,13 @@ trait TensorTrait<T> {
     ///         i8
     ///     >::new(
     ///         shape: array![2, 3].span(),
-    ///         data: array![
-    ///             IntegerTrait::<i8>::new(6_u8, false),
-    ///             IntegerTrait::<i8>::new(6_u8, false),
-    ///             IntegerTrait::<i8>::new(6_u8, false),
-    ///             IntegerTrait::<i8>::new(11_u8, false),
-    ///             IntegerTrait::<i8>::new(11_u8, false),
-    ///             IntegerTrait::<i8>::new(11_u8, false)
-    ///         ]
-    ///             .span(),
+    ///         data: array![6, 6, 6, 11, 11, 11].span(),
     ///     );
     /// 
     ///     // As the operator supports broadcasting shapes [1, 3] and [2, 3] are compatible
-    ///     let b = TensorTrait::<
-    ///         i8
-    ///     >::new(
+    ///     let b = TensorTrait::<i8>::new(
     ///         shape: array![1, 3].span(),
-    ///         data: array![
-    ///             IntegerTrait::<i8>::new(40_u8, false),
-    ///             IntegerTrait::<i8>::new(40_u8, false),
-    ///             IntegerTrait::<i8>::new(40_u8, false)
-    ///         ]
-    ///             .span(),
+    ///         data: array![40, 40, 40].span(),
     ///     );
     /// 
     ///     let a_scale = TensorTrait::<
@@ -2733,7 +2700,7 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
     /// 
     /// ```rust 
     /// #[test]
@@ -2743,26 +2710,14 @@ trait TensorTrait<T> {
     ///         i8
     ///     >::new(
     ///         shape: array![2, 3].span(),
-    ///         data: array![
-    ///             IntegerTrait::<i8>::new(21_u8, false),
-    ///             IntegerTrait::<i8>::new(21_u8, false),
-    ///             IntegerTrait::<i8>::new(21_u8, false),
-    ///             IntegerTrait::<i8>::new(41_u8, false),
-    ///             IntegerTrait::<i8>::new(41_u8, false),
-    ///             IntegerTrait::<i8>::new(41_u8, false)
-    ///         ]
+    ///         data: array![21, 21, 21, 41, 41, 41]
     ///             .span(),
     ///     );
     ///     let b = TensorTrait::<
     ///         i8
     ///     >::new(
     ///         shape: array![1, 3].span(),
-    ///         data: array![
-    ///             IntegerTrait::<i8>::new(4_u8, false),
-    ///             IntegerTrait::<i8>::new(8_u8, false),
-    ///             IntegerTrait::<i8>::new(12_u8, false)
-    ///         ]
-    ///             .span(),
+    ///         data: array![4, 8, 12].span(),
     ///     );
     /// 
     ///     let a_scale = TensorTrait::<
@@ -2852,19 +2807,19 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
     /// fn qlinear_matmul_example() -> Tensor<i8> {    
     ///     let a = TensorTrait::<
     ///         i8
     ///     >::new(
     ///         shape: array![2, 3].span(),
     ///         data: array![
-    ///             IntegerTrait::<i8>::new(3_u8, false),
-    ///             IntegerTrait::<i8>::new(4_u8, false),
-    ///             IntegerTrait::<i8>::new(5_u8, false),
-    ///             IntegerTrait::<i8>::new(2_u8, false),
-    ///             IntegerTrait::<i8>::new(4_u8, false),
-    ///             IntegerTrait::<i8>::new(3_u8, false)
+    ///             3,
+    ///             4,
+    ///             5,
+    ///             2,
+    ///             4,
+    ///             3
     ///         ]
     ///             .span(),
     ///     );
@@ -2873,9 +2828,9 @@ trait TensorTrait<T> {
     ///     >::new(
     ///         shape: array![3, 1].span(),
     ///         data: array![
-    ///             IntegerTrait::<i8>::new(4_u8, false),
-    ///             IntegerTrait::<i8>::new(8_u8, false),
-    ///             IntegerTrait::<i8>::new(4_u8, false)
+    ///             4,
+    ///             8,
+    ///             4
     ///         ]
     ///             .span(),
     ///     );
@@ -2956,7 +2911,7 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     ///
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
     /// 
     /// fn qlinear_concat_example() -> Tensor<i8> {
     ///     let tensor1 = TensorTrait::<
@@ -2964,10 +2919,10 @@ trait TensorTrait<T> {
     ///     >::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
-    ///             IntegerTrait::<i8>::new(5_u8, false),
-    ///             IntegerTrait::<i8>::new(5_u8, false),
-    ///             IntegerTrait::<i8>::new(5_u8, false),
-    ///             IntegerTrait::<i8>::new(5_u8, false),
+    ///             5,
+    ///             5,
+    ///             5,
+    ///             5,
     ///         ]
     ///             .span(),
     ///     );
@@ -2976,10 +2931,10 @@ trait TensorTrait<T> {
     ///     >::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
-    ///             IntegerTrait::<i8>::new(1_u8, false),
-    ///             IntegerTrait::<i8>::new(1_u8, false),
-    ///             IntegerTrait::<i8>::new(1_u8, false),
-    ///             IntegerTrait::<i8>::new(1_u8, false),
+    ///             1,
+    ///             1,
+    ///             1,
+    ///             1,
     ///         ]
     ///             .span(),
     ///     );
@@ -3065,7 +3020,7 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
     /// 
     /// 
     /// fn qlinear_leakyrelu_example() -> Tensor<i8> {
@@ -3074,12 +3029,12 @@ trait TensorTrait<T> {
     ///     >::new(
     ///         shape: array![2, 3].span(),
     ///         data: array![
-    ///             IntegerTrait::<i8>::new(10_u8, true),
-    ///             IntegerTrait::<i8>::new(10_u8, true),
-    ///             IntegerTrait::<i8>::new(10_u8, true),
-    ///             IntegerTrait::<i8>::new(10_u8, false),
-    ///             IntegerTrait::<i8>::new(10_u8, false),
-    ///             IntegerTrait::<i8>::new(10_u8, false)
+    ///             -10,
+    ///             -10,
+    ///             -10,
+    ///             10,
+    ///             10,
+    ///             10
     ///         ]
     ///             .span(),
     ///     );
@@ -3399,10 +3354,10 @@ trait TensorTrait<T> {
     /// ```rust
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
     /// 
-    /// fn sign_example() -> Tensor<FP8x23> {
-    ///     let tensor = TensorTrait::<FP8x23>::new(
+    /// fn sign_example() -> Tensor<i32> {
+    ///     let tensor = TensorTrait::<i32>::new(
     ///         shape: array![11].span(), 
     ///         data: array![-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].span(), 
     ///     );
@@ -3434,10 +3389,10 @@ trait TensorTrait<T> {
     /// ```rust
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, i32Tensor};
     /// 
-    /// fn identity_example() -> Tensor<FP16x16> {
-    ///     let tensor = TensorTrait::<FP16x16>::new(
+    /// fn identity_example() -> Tensor<i32> {
+    ///     let tensor = TensorTrait::<i32>::new(
     ///         shape: array![2, 2].span(), 
     ///         data: array![1, 2, 3, 4].span(), 
     ///     );
@@ -3477,7 +3432,7 @@ trait TensorTrait<T> {
     /// ```rust
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
     /// 
     /// fn and_example() -> Tensor<bool> {
     ///     let tensor_1 = TensorTrait::<bool>::new(
@@ -4144,6 +4099,11 @@ trait TensorTrait<T> {
     /// ## Returns
     ///
     /// A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     ///
     /// fn reduce_l2_example() -> Tensor<u32> {
     ///
@@ -4184,6 +4144,12 @@ trait TensorTrait<T> {
     /// ## Returns
     ///
     /// A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     ///
     /// fn reduce_sum_square_example() -> Tensor<u32> {
     ///
@@ -4367,17 +4333,15 @@ trait TensorTrait<T> {
     /// ```rust
     /// use core::array::{ArrayTrait, SpanTrait};
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
-    /// use orion::numbers::{i32, IntegerTrait};
     /// 
     /// fn array_feature_extractor_example() -> Tensor<i32> {
     ///     let input_tensor = TensorTrait::new(
     ///         shape: array![3, 4].span(),
     ///         data: array![
-    ///             IntegerTrait::new(0, false), IntegerTrait::new(1, false), IntegerTrait::new(2, false), IntegerTrait::new(3, false),
-    ///             IntegerTrait::new(4, false), IntegerTrait::new(5, false), IntegerTrait::new(6, false), IntegerTrait::new(7, false),
-    ///             IntegerTrait::new(8, false), IntegerTrait::new(9, false), IntegerTrait::new(10, false), IntegerTrait::new(11, false)
-    ///         ]
-    ///             .span(),
+    ///             0, 1, 2, 3,
+    ///             4, 5, 6, 7,
+    ///             8, 9, 10, 11
+    ///         ].span(),
     ///     );
     ///     
     ///     let indices = TensorTrait::<u32>::new(
@@ -4705,8 +4669,9 @@ trait TensorTrait<T> {
     ///
     /// A new `Tensor<bool>` instance with entries set to true iff the input tensors corresponding element was NaN.
     ///
-    /// ## Examples
+    /// ## Example
     ///
+    /// ```rust
     /// use core::array::{ArrayTrait, SpanTrait};
     /// use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
@@ -4752,7 +4717,6 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
-    /// use orion::numbers::{i32, IntegerTrait};
     /// 
     /// fn not_example() -> Tensor<bool> {
     ///     let tensor = TensorTrait::new(
@@ -4789,8 +4753,15 @@ trait TensorTrait<T> {
     /// ## Returns
     ///
     /// A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
+    /// ## Examples
     ///
-    /// fn reduce_log_sum() -> Tensor<u32> {
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
+    /// use orion::numbers::{FixedTrait, FP16x16};
+    ///
+    /// fn reduce_log_sum() -> Tensor<FP16x16> {
     ///
     ///    let mut sizes = ArrayTrait::new();
     ///    sizes.append(2);
@@ -4965,11 +4936,15 @@ trait TensorTrait<T> {
     /// * Panics if If indices_shape[-1] > r-b.
     /// * Panics if first b dimensions of the shape of indices tensor and data tensor are not equal.
     ///
-    /// ## Returns 
-    ///
-    /// A new `Tensor<T>` .
-    ///
+    /// ## Returns
+    /// A new `Tensor<T>`.
+    /// 
     /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    ///
     /// fn gather_nd_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
     ///         shape: array![2, 2].span(), 
@@ -5015,6 +4990,11 @@ trait TensorTrait<T> {
     /// A new `Tensor<T>` .
     ///
     /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    ///
     /// fn compress_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
     ///         shape: array![3, 2].span(), 
@@ -5662,13 +5642,13 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
                 match axes.pop_front() {
                     Option::Some(axis) => {
                         let mut reshape: Array<usize> = ArrayTrait::new();
-                        let mut index = 0_usize;
-                        let axis = if *axis.sign {
-                            assert(*axis.mag <= (*self.shape).len(), 'axis out of accepted range');
-                            (*self.shape).len() - *axis.mag
+                        let mut index = 0_i32;
+                        let axis = if *axis < 0 {
+                            assert(*axis <= (*self.shape).len().into(), 'axis out of accepted range');
+                            (*self.shape).len().into() - *axis
                         } else {
-                            assert(*axis.mag < (*self.shape).len(), 'axis out of accepted range');
-                            *axis.mag
+                            assert(*axis < (*self.shape).len().into(), 'axis out of accepted range');
+                            *axis
                         };
 
                         loop {

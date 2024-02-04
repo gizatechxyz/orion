@@ -35,14 +35,6 @@ fn main() {
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 
-    // SIGNED INTEGER DOC
-    let trait_path = "src/numbers/signed_integer/integer_trait.cairo";
-    let doc_path = "docs/framework/numbers/signed-integer";
-    let label = "int";
-    let trait_name: &str = "IntegerTrait";
-    doc_trait(trait_path, doc_path, label);
-    doc_functions(trait_path, doc_path, trait_name, label);
-
     // COMPLEX NUMBER DOC
     let trait_path = "src/numbers/complex_number/complex_trait.cairo";
     let doc_path = "docs/framework/numbers/complex-number";

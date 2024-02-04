@@ -10,7 +10,7 @@ use orion::operators::tensor::core::{
     at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
-use orion::numbers::{i8, i32, NumberTrait, FP64x64, FP64x64Impl};
+use orion::numbers::{NumberTrait, FP64x64, FP64x64Impl, I8IntoFP64x64};
 use orion::numbers::fixed_point::implementations::fp64x64::core::ONE;
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
@@ -645,7 +645,12 @@ impl FP64x64TensorPartialEq of PartialEq<Tensor<FP64x64>> {
 
 impl FP64x64TryIntoI8 of TryInto<FP64x64, i8> {
     fn try_into(self: FP64x64) -> Option<i8> {
-        Option::Some(i8 { mag: (self.mag / ONE).try_into().unwrap(), sign: self.sign })
+        let number_felt: felt252 = (self.mag / ONE).into();
+        let number_i8: i8 = number_felt.try_into().unwrap();
+        if self.sign {
+            return Option::Some(number_i8 * -1_i8);
+        }
+        Option::Some(number_i8)
     }
 }
 

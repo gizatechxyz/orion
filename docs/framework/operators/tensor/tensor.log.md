@@ -30,7 +30,7 @@ use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
 use orion::numbers::{FP8x23, FixedTrait};
 
 fn log_example() -> Tensor<FP8x23> {
-    let tensor = TensorTrait::<u32>::new(
+    let tensor = TensorTrait::<FP8x23>::new(
         shape: array![2, 2].span(), 
         data: array![
                 FixedTrait::new_unscaled(0, false), 

@@ -36,7 +36,7 @@ A new `Tensor<i8>` concatenated quantized tensor of the dequantized input tensor
 use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 
 fn qlinear_concat_example() -> Tensor<i8> {
     let tensor1 = TensorTrait::<
@@ -44,10 +44,10 @@ fn qlinear_concat_example() -> Tensor<i8> {
     >::new(
         shape: array![2, 2].span(),
         data: array![
-            IntegerTrait::<i8>::new(5_u8, false),
-            IntegerTrait::<i8>::new(5_u8, false),
-            IntegerTrait::<i8>::new(5_u8, false),
-            IntegerTrait::<i8>::new(5_u8, false),
+            5,
+            5,
+            5,
+            5,
         ]
             .span(),
     );
@@ -56,10 +56,10 @@ fn qlinear_concat_example() -> Tensor<i8> {
     >::new(
         shape: array![2, 2].span(),
         data: array![
-            IntegerTrait::<i8>::new(1_u8, false),
-            IntegerTrait::<i8>::new(1_u8, false),
-            IntegerTrait::<i8>::new(1_u8, false),
-            IntegerTrait::<i8>::new(1_u8, false),
+            1,
+            1,
+            1,
+            1,
         ]
             .span(),
     );

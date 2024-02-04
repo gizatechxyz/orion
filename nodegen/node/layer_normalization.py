@@ -59,10 +59,10 @@ class Layer_normalization(RunAll):
 
             if axis < 0:
                 name = f"layer_normalization_4d_axis_negative_{-axis}"
-                func_sig = f"input_0.layer_normalization(@input_1,Option::Some(@input_2),Option::Some(IntegerTrait::<i32>::new({-axis}, true)),Option::None,Option::None)"
+                func_sig = f"input_0.layer_normalization(@input_1,Option::Some(@input_2),Option::Some({-axis}),Option::None,Option::None)"
             else:
                 name = f"layer_normalization_4d_axis{axis}"
-                func_sig = f"input_0.layer_normalization(@input_1,Option::Some(@input_2),Option::Some(IntegerTrait::<i32>::new({axis}, false)),Option::None,Option::None)"
+                func_sig = f"input_0.layer_normalization(@input_1,Option::Some(@input_2),Option::Some({axis}),Option::None,Option::None)"
 
 
             x = Tensor(Dtype.FP8x23, X.shape, to_fp(X.flatten(), FixedImpl.FP8x23))
@@ -107,10 +107,10 @@ class Layer_normalization(RunAll):
 
             if axis < 0:
                 name = f"layer_normalization_3d_axis_negative_{-axis}_epsilon"
-                func_sig = f"input_0.layer_normalization(@input_1,Option::Some(@input_2),Option::Some(IntegerTrait::<i32>::new({-axis}, true)),Option::Some(FixedTrait::new(6554, false)),Option::None)"
+                func_sig = f"input_0.layer_normalization(@input_1,Option::Some(@input_2),Option::Some({-axis}),Option::Some(FixedTrait::new(6554, false)),Option::None)"
             else:
                 name = f"layer_normalization_3d_axis{axis}_epsilon"
-                func_sig = f"input_0.layer_normalization(@input_1,Option::Some(@input_2),Option::Some(IntegerTrait::<i32>::new({axis}, false)),Option::Some(FixedTrait::new(6554, false)),Option::None)"
+                func_sig = f"input_0.layer_normalization(@input_1,Option::Some(@input_2),Option::Some({axis}),Option::Some(FixedTrait::new(6554, false)),Option::None)"
 
             x = Tensor(Dtype.FP16x16, X.shape, to_fp(X.flatten(), FixedImpl.FP16x16))
             w = Tensor(Dtype.FP16x16, W.shape, to_fp(W.flatten(), FixedImpl.FP16x16))

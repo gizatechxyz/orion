@@ -20,10 +20,10 @@ A new `Tensor<T>` of the same shape as the input tensor with The sign of the inp
 ```rust
 use core::array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
+use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
 
-fn sign_example() -> Tensor<FP8x23> {
-    let tensor = TensorTrait::<FP8x23>::new(
+fn sign_example() -> Tensor<i32> {
+    let tensor = TensorTrait::<i32>::new(
         shape: array![11].span(), 
         data: array![-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].span(), 
     );

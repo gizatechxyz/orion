@@ -18,8 +18,15 @@ Computes the log sum of the input tensor's elements along the provided axes.
 ## Returns
 
 A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
+## Examples
 
-fn reduce_log_sum() -> Tensor<u32> {
+```rust
+use core::array::{ArrayTrait, SpanTrait};
+
+use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
+use orion::numbers::{FixedTrait, FP16x16};
+
+fn reduce_log_sum() -> Tensor<FP16x16> {
 
    let mut sizes = ArrayTrait::new();
    sizes.append(2);

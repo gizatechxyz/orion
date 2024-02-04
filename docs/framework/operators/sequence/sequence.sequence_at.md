@@ -26,7 +26,6 @@ The tensor `Tensor<T>` from the sequence at the specified position.
 use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor, I32Tensor};
-use orion::numbers::{i32, IntegerTrait};
 
 fn sequence_at_example() -> Tensor<u32> {
     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span());

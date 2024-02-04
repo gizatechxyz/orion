@@ -10,7 +10,7 @@ use orion::operators::tensor::core::{
     at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
-use orion::numbers::{i8, i32, NumberTrait};
+use orion::numbers::{NumberTrait};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_bool::BoolTensor};
 
 impl U32Tensor of TensorTrait<u32> {
@@ -567,7 +567,9 @@ impl U32TensorPartialEq of PartialEq<Tensor<u32>> {
 
 impl U32TryIntoI8 of TryInto<u32, i8> {
     fn try_into(self: u32) -> Option<i8> {
-        Option::Some(i8 { mag: self.try_into().unwrap(), sign: false })
+        let number_felt: felt252 = self.into();
+        let number_i8: i8 = number_felt.try_into().unwrap();
+        Option::Some(number_i8)
     }
 }
 

@@ -458,7 +458,7 @@ fn fc1_bias() -> Tensor<i32> {
 
 #### Signed Integer in Orion
 
-In Cairo, there are no built-in signed integers. However, in the field of machine learning, they are very useful. So Orion introduced a full implementation of [Signed Integer](../../framework/numbers/signed-integer/). It is represented by a struct containing both the magnitude and its sign as a boolean.
+In Cairo, there are no built-in signed integers. However, in the field of machine learning, they are very useful. So Orion introduced a full implementation of [Signed Integer](broken-reference). It is represented by a struct containing both the magnitude and its sign as a boolean.
 
 The magnitude represents the absolute value of the number, and the sign indicates whether the number is positive or negative.
 

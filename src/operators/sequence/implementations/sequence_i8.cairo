@@ -3,9 +3,7 @@ use core::option::OptionTrait;
 use orion::operators::tensor::core::Tensor;
 use orion::operators::sequence::core::SequenceTrait;
 use orion::operators::sequence::functional;
-use orion::numbers::signed_integer::i8::i8;
 use orion::operators::tensor::implementations::tensor_i8::I8Tensor;
-use orion::numbers::signed_integer::i32::i32;
 use orion::operators::tensor::implementations::tensor_i32::I32Tensor;
 
 

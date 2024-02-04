@@ -18,6 +18,11 @@ Computes the L2 norm of the input tensor's elements along the provided axes.
 ## Returns
 
 A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
+## Examples
+
+```rust
+use core::array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
 fn reduce_l2_example() -> Tensor<u32> {
 

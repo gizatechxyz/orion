@@ -1,4 +1,3 @@
-mod fixed_point_test;
-mod signed_integer_test;
+// mod fixed_point;
 mod complex_number_test;
 

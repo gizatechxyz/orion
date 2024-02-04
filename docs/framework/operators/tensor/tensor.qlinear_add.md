@@ -40,7 +40,7 @@ fp16x16wide tensor, not supported.
 use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 
 
 fn qlinear_add_example() -> Tensor<i8> {    
@@ -48,28 +48,13 @@ fn qlinear_add_example() -> Tensor<i8> {
         i8
     >::new(
         shape: array![2, 3].span(),
-        data: array![
-            IntegerTrait::<i8>::new(6_u8, false),
-            IntegerTrait::<i8>::new(6_u8, false),
-            IntegerTrait::<i8>::new(6_u8, false),
-            IntegerTrait::<i8>::new(11_u8, false),
-            IntegerTrait::<i8>::new(11_u8, false),
-            IntegerTrait::<i8>::new(11_u8, false)
-        ]
-            .span(),
+        data: array![6, 6, 6, 11, 11, 11].span(),
     );
 
     // As the operator supports broadcasting shapes [1, 3] and [2, 3] are compatible
-    let b = TensorTrait::<
-        i8
-    >::new(
+    let b = TensorTrait::<i8>::new(
         shape: array![1, 3].span(),
-        data: array![
-            IntegerTrait::<i8>::new(40_u8, false),
-            IntegerTrait::<i8>::new(40_u8, false),
-            IntegerTrait::<i8>::new(40_u8, false)
-        ]
-            .span(),
+        data: array![40, 40, 40].span(),
     );
 
     let a_scale = TensorTrait::<

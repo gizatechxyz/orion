@@ -18,11 +18,15 @@ Given data tensor of rank r >= 1, indices tensor of rank q >= 1, and batch_dims 
 * Panics if If indices_shape[-1] > r-b.
 * Panics if first b dimensions of the shape of indices tensor and data tensor are not equal.
 
-## Returns 
-
-A new `Tensor<T>` .
+## Returns
+A new `Tensor<T>`.
 
 ## Example
+
+```rust
+use array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+
 fn gather_nd_example() -> Tensor<u32> {
     let tensor = TensorTrait::<u32>::new(
         shape: array![2, 2].span(), 

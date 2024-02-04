@@ -1,5 +1,4 @@
 use orion::operators::tensor::core::Tensor;
-use orion::numbers::signed_integer::i32::i32;
 
 /// Trait
 ///
@@ -146,6 +145,8 @@ trait SequenceTrait<T> {
     /// ## Examples
     ///
     /// Let's insert the tensor [2] into the sequence [[1], [3]] at position 1.
+    ///
+    /// ```rust
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
     ///
     /// fn sequence_insert_example() -> Array<Tensor<u32>> {
@@ -170,7 +171,7 @@ trait SequenceTrait<T> {
     ///     // Prepare position
     ///     let mut shape = ArrayTrait::<usize>::new();
     ///     let mut data = ArrayTrait::<i32>::new();
-    ///     data.append(i32 { mag: 1, sign: false });
+    ///     data.append(1);
     ///     let position = TensorTrait::<i32>::new(shape.span(), data.span())
     ///
     ///     let sequence = self.sequence_insert(tensor, Option::Some(position));
@@ -212,7 +213,6 @@ trait SequenceTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor, I32Tensor};
-    /// use orion::numbers::{i32, IntegerTrait};
     ///
     /// fn sequence_at_example() -> Tensor<u32> {
     ///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span());
@@ -259,7 +259,6 @@ trait SequenceTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor, I32Tensor};
-    /// use orion::numbers::{i32, IntegerTrait};
     ///
     /// fn sequence_erase_example() -> Tensor<u32> {
     ///     let tensor1 = TensorTrait::new(shape: array![2, 2].span(), data: array![0, 1, 2, 3].span());

@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 
 class Trilu(RunAll):
@@ -14,7 +14,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "tril_u32"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -26,7 +26,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "tril_u32_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -1)", name)
 
@@ -38,7 +38,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "tril_u32_one_row"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -50,7 +50,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "tril_u32_out_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -7)", name)
 
@@ -63,7 +63,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "tril_u32_out_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 6)", name)
 
@@ -76,7 +76,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "tril_u32_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 2)", name)
 
@@ -89,7 +89,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "tril_u32_square"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -102,7 +102,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "tril_u32_square_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -1)", name)
 
@@ -115,7 +115,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "tril_u32_zero"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 6)", name)
 
@@ -128,7 +128,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "triu_u32"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -140,7 +140,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "triu_u32_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -1)", name)
 
@@ -152,7 +152,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "triu_u32_one_row"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -164,7 +164,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "triu_u32_out_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -7)", name)
 
@@ -177,7 +177,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "triu_u32_out_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 6)", name)
 
@@ -190,7 +190,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "triu_u32_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 2)", name)
 
@@ -203,7 +203,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "triu_u32_square"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -216,7 +216,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "triu_u32_square_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -1)", name)
 
@@ -229,7 +229,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.U32, y.shape, y.flatten())
 
             name = "triu_u32_zero"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 6)", name)
 
@@ -263,7 +263,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "tril_i32"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -275,7 +275,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "tril_neg_i32"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -1)", name)
 
@@ -287,7 +287,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "tril_i32_one_row"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -299,7 +299,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "tril_i32_out_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -7)", name)
 
@@ -312,7 +312,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "tril_i32_out_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 6)", name)
 
@@ -325,7 +325,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "tril_i32_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 2)", name)
 
@@ -338,7 +338,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "tril_i32_square"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -351,7 +351,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "tril_i32_square_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -1)", name)
 
@@ -364,7 +364,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "tril_i32_zero"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 6)", name)
 
@@ -377,7 +377,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "triu_i32"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -389,7 +389,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "triu_i32_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -1)", name)
 
@@ -401,7 +401,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "triu_i32_one_row"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -413,7 +413,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "triu_i32_out_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -7)", name)
 
@@ -426,7 +426,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "triu_i32_out_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 6)", name)
 
@@ -439,7 +439,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "triu_i32_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 2)", name)
 
@@ -452,7 +452,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "triu_i32_square"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -465,7 +465,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "triu_i32_square_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -1)", name)
 
@@ -478,7 +478,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
             name = "triu_i32_zero"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 6)", name)
 
@@ -512,7 +512,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "tril_i8"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -524,7 +524,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "tril_i8_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -1)", name)
 
@@ -536,7 +536,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "tril_i8_one_row"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -548,7 +548,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "tril_i8_out_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -7)", name)
 
@@ -561,7 +561,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "tril_i8_out_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 6)", name)
 
@@ -574,7 +574,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "tril_i8_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 2)", name)
 
@@ -587,7 +587,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "tril_i8_square"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -600,7 +600,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "tril_i8_square_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -1)", name)
 
@@ -613,7 +613,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "tril_i8_zero"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 6)", name)
 
@@ -626,7 +626,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "triu_i8"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -638,7 +638,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "triu_i8_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -1)", name)
 
@@ -650,7 +650,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "triu_i8_one_row"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -662,7 +662,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "triu_i8_out_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -7)", name)
 
@@ -675,7 +675,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "triu_i8_out_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 6)", name)
 
@@ -688,7 +688,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "triu_i8_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 2)", name)
 
@@ -701,7 +701,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "triu_i8_square"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -714,7 +714,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "triu_i8_square_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -1)", name)
 
@@ -727,7 +727,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.I8, y.shape, y.flatten())
 
             name = "triu_i8_zero"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 6)", name)
 
@@ -761,7 +761,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "tril_fp8x23"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -773,7 +773,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "tril_fp8x23_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -1)", name)
 
@@ -785,7 +785,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "tril_fp8x23_one_row"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -797,7 +797,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "tril_fp8x23_out_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -7)", name)
 
@@ -810,7 +810,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "tril_fp8x23_out_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 6)", name)
 
@@ -823,7 +823,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "tril_fp8x23_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 2)", name)
 
@@ -836,7 +836,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "tril_fp8x23_square"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -849,7 +849,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "tril_fp8x23_square_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -1)", name)
 
@@ -862,7 +862,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "tril_fp8x23_zero"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 6)", name)
 
@@ -875,7 +875,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "triu_fp8x23"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -887,7 +887,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "triu_fp8x23_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -1)", name)
 
@@ -899,7 +899,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "triu_fp8x23_one_row"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -911,7 +911,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "triu_fp8x23_out_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -7)", name)
 
@@ -924,7 +924,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "triu_fp8x23_out_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 6)", name)
 
@@ -937,7 +937,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "triu_fp8x23_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 2)", name)
 
@@ -950,7 +950,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "triu_fp8x23_square"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -963,7 +963,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "triu_fp8x23_square_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -1)", name)
 
@@ -976,7 +976,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP8x23, y.shape, y.flatten())
 
             name = "triu_fp8x23_zero"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 6)", name)
 
@@ -1010,7 +1010,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "tril_fp16x16"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -1022,7 +1022,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "tril_fp16x16_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -1)", name)
 
@@ -1034,7 +1034,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "tril_fp16x16_one_row"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -1046,7 +1046,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "tril_fp16x16_out_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -7)", name)
 
@@ -1059,7 +1059,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "tril_fp16x16_out_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 6)", name)
 
@@ -1072,7 +1072,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "tril_fp16x16_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 2)", name)
 
@@ -1085,7 +1085,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "tril_fp16x16_square"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 0)", name)
 
@@ -1098,7 +1098,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "tril_fp16x16_square_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, -1)", name)
 
@@ -1111,7 +1111,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "tril_fp16x16_zero"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(false, 6)", name)
 
@@ -1124,7 +1124,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "triu_fp16x16"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -1136,7 +1136,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "triu_fp16x16_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -1)", name)
 
@@ -1148,7 +1148,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "triu_fp16x16_one_row"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -1160,7 +1160,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "triu_fp16x16_out_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -7)", name)
 
@@ -1173,7 +1173,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "triu_fp16x16_out_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 6)", name)
 
@@ -1186,7 +1186,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "triu_fp16x16_pos"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 2)", name)
 
@@ -1199,7 +1199,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "triu_fp16x16_square"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 0)", name)
 
@@ -1212,7 +1212,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "triu_fp16x16_square_neg"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, -1)", name)
 
@@ -1225,7 +1225,7 @@ class Trilu(RunAll):
             y = Tensor(Dtype.FP16x16, y.shape, y.flatten())
 
             name = "triu_fp16x16_zero"
-            make_node([x], [y], name)
+            
             make_test(
                 [x], y, "input_0.trilu(true, 6)", name)
 

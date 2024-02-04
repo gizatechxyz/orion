@@ -1,6 +1,6 @@
 import numpy as np
 from nodegen.node import RunAll
-from ..helpers import make_node, make_test, to_fp, Tensor, Dtype, FixedImpl
+from ..helpers import make_test, to_fp, Tensor, Dtype, FixedImpl
 
 
 class Array_feature_extractor(RunAll):
@@ -17,8 +17,7 @@ class Array_feature_extractor(RunAll):
             z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "array_feature_extractor_3D_i32"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1);", name)
+            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1)", name)
 
 
         def array_feature_extractor_fp8x23():
@@ -33,8 +32,8 @@ class Array_feature_extractor(RunAll):
                 z.flatten(), FixedImpl.FP8x23))
 
             name = "array_feature_extractor_3D_fp8x23"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1);", name)
+            
+            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1)", name)
 
         
         def array_feature_extractor_fp16x16():
@@ -49,8 +48,8 @@ class Array_feature_extractor(RunAll):
                 z.flatten(), FixedImpl.FP16x16))
 
             name = "array_feature_extractor_3D_fp16x16"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1);", name)
+            
+            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1)", name)
 
         array_feature_extractor_i32()
         array_feature_extractor_fp8x23()
@@ -69,8 +68,8 @@ class Array_feature_extractor(RunAll):
             z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "array_feature_extractor_2D_i32"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1);", name)
+            
+            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1)", name)
 
 
         def array_feature_extractor_fp8x23():
@@ -85,8 +84,8 @@ class Array_feature_extractor(RunAll):
                 z.flatten(), FixedImpl.FP8x23))
 
             name = "array_feature_extractor_2D_fp8x23"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1);", name)
+            
+            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1)", name)
 
         
         def array_feature_extractor_fp16x16():
@@ -101,8 +100,8 @@ class Array_feature_extractor(RunAll):
                 z.flatten(), FixedImpl.FP16x16))
 
             name = "array_feature_extractor_2D_fp16x16"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1);", name)
+            
+            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1)", name)
 
         array_feature_extractor_i32()
         array_feature_extractor_fp8x23()
@@ -121,8 +120,8 @@ class Array_feature_extractor(RunAll):
             z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "array_feature_extractor_1D_i32"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1);", name)
+            
+            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1)", name)
 
 
         def array_feature_extractor_fp8x23():
@@ -137,8 +136,8 @@ class Array_feature_extractor(RunAll):
                 z.flatten(), FixedImpl.FP8x23))
 
             name = "array_feature_extractor_1D_fp8x23"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1);", name)
+            
+            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1)", name)
 
         
         def array_feature_extractor_fp16x16():
@@ -153,8 +152,8 @@ class Array_feature_extractor(RunAll):
                 z.flatten(), FixedImpl.FP16x16))
 
             name = "array_feature_extractor_1D_fp16x16"
-            make_node([x, y], [z], name)
-            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1);", name)
+            
+            make_test([x, y], z, "TensorTrait::array_feature_extractor(@input_0, input_1)", name)
 
         array_feature_extractor_i32()
         array_feature_extractor_fp8x23()

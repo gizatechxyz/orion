@@ -1,7 +1,6 @@
 use core::option::OptionTrait;
 
 use orion::operators::tensor::core::Tensor;
-use orion::numbers::signed_integer::i32::i32;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::operators::tensor::implementations::tensor_i32::{I32Tensor, I32TensorAdd};

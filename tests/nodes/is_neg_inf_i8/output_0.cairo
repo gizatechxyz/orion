@@ -9,9 +9,9 @@ fn output_0() -> Tensor<bool> {
     let mut data = ArrayTrait::new();
     data.append(false);
     data.append(false);
-    data.append(true);
     data.append(false);
     data.append(false);
     data.append(true);
+    data.append(false);
     TensorTrait::new(shape.span(), data.span())
 }

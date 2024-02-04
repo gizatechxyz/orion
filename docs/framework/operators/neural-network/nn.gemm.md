@@ -1,4 +1,4 @@
-# NNTrait::gemm
+# nn.gemm
 
 ```rust
     fn gemm(
@@ -12,19 +12,18 @@
     ) -> Tensor<T>;
 ```
 
-Performs General Matrix multiplication: https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms#Level_3
+Performs General Matrix multiplication: [https://en.wikipedia.org/wiki/Basic\_Linear\_Algebra\_Subprograms#Level\_3](https://en.wikipedia.org/wiki/Basic\_Linear\_Algebra\_Subprograms#Level\_3)
 
 * A' = transpose(A) if transA else A
 * B' = transpose(B) if transB else B
 
-Compute `Y = alpha * A' * B' + beta * C`, where input tensor A has shape (M, K) or (K, M), input tensor B has shape (K, N) or (N, K), input tensor C is broadcastable to shape (M, N), and output tensor Y has shape (M, N).
-`A` will be transposed before doing the computation if attribute `transA` is `true`, same for `B` and `transB`.
+Compute `Y = alpha * A' * B' + beta * C`, where input tensor A has shape (M, K) or (K, M), input tensor B has shape (K, N) or (N, K), input tensor C is broadcastable to shape (M, N), and output tensor Y has shape (M, N). `A` will be transposed before doing the computation if attribute `transA` is `true`, same for `B` and `transB`.
 
 ## Args
 
 * `A`(`Tensor<T>`) - Input tensor A. The shape of `A` should be (M, K) if `transA` is `false`, or (K, M) if `transA` is `true`.
 * `B`(`Tensor<T>`) - Input tensor B. The shape of `B` should be (K, N) if `transB` is `false`, or (N, K) if `transB` is `true`.
-* `C`(`Option<Tensor<T>>`) - Optional input tensor C. The shape of C should be unidirectional broadcastable to (M, N). 
+* `C`(`Option<Tensor<T>>`) - Optional input tensor C. The shape of C should be unidirectional broadcastable to (M, N).
 * `alpha`(`Option<T>`) - Optional scalar multiplier for the product of input tensors `A * B`.
 * `beta`(`Option<T>`) - Optional scalar multiplier for input tensor `C`.
 * `transA`(`bool`) - Whether `A` should be transposed.
@@ -64,4 +63,4 @@ A `Tensor<T>` of shape (M, N).
       return y;
   } 
  >>> tensor of shape [3;5]
-````
+```
