@@ -3,6 +3,9 @@ use core::array::SpanTrait;
 use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
+use orion::operators::sequence::SequenceTrait;
+use orion::operators::sequence::implementations::sequence_fp8x23wide::FP8x23WSequence;
+
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -497,6 +500,12 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         self: @Tensor<FP8x23W>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<FP8x23W>> {
         manipulation::split::split(self, axis, num_outputs, spl)
+    }
+
+    fn split_to_sequence(
+        self: @Tensor<FP8x23W>, split: Option<Tensor<usize>>, axis:usize, keepdims:Option<bool>
+    ) -> Array<Tensor<FP8x23W>> {
+        manipulation::split_to_sequence::split_to_sequence(self, split, axis, keepdims)
     }
 }
 

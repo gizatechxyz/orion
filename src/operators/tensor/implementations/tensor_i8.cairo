@@ -3,6 +3,9 @@ use core::array::SpanTrait;
 use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
+use orion::operators::sequence::SequenceTrait;
+use orion::operators::sequence::implementations::sequence_i8::I8Sequence;
+
 use orion::numbers::{ I8Div, I8DivEq };
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
@@ -538,6 +541,12 @@ impl I8Tensor of TensorTrait<i8> {
         self: @Tensor<i8>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<i8>> {
         manipulation::split::split(self, axis, num_outputs, spl)
+    }
+
+    fn split_to_sequence(
+        self: @Tensor<i8>, split: Option<Tensor<usize>>, axis:usize, keepdims:Option<bool>
+    ) -> Array<Tensor<i8>> {
+        manipulation::split_to_sequence::split_to_sequence(self, split, axis, keepdims)
     }
 }
 

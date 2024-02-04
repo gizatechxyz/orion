@@ -3,6 +3,9 @@ use core::array::SpanTrait;
 use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
+use orion::operators::sequence::SequenceTrait;
+
+
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     constant_of_shape, new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
@@ -481,6 +484,12 @@ impl BoolTensor of TensorTrait<bool> {
 
     fn split(
         self: @Tensor<bool>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<bool>> {
+        panic(array!['not supported!'])
+    }
+
+    fn split_to_sequence(
+        self: @Tensor<bool>, split: Option<Tensor<usize>>, axis:usize, keepdims:Option<bool>
     ) -> Array<Tensor<bool>> {
         panic(array!['not supported!'])
     }

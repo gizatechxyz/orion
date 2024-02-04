@@ -3,6 +3,9 @@ use core::array::SpanTrait;
 use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
+use orion::operators::sequence::SequenceTrait;
+use orion::operators::sequence::implementations::sequence_fp64x64::FP64x64Sequence;
+
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -560,6 +563,12 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         self: @Tensor<FP64x64>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<FP64x64>> {
         manipulation::split::split(self, axis, num_outputs, spl)
+    }
+
+    fn split_to_sequence(
+        self: @Tensor<FP64x64>, split: Option<Tensor<usize>>, axis:usize, keepdims:Option<bool>
+    ) -> Array<Tensor<FP64x64>> {
+        manipulation::split_to_sequence::split_to_sequence(self, split, axis, keepdims)
     }
 }
 
