@@ -541,6 +541,10 @@ impl I32Tensor of TensorTrait<i32> {
     ) -> Array<Tensor<i32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn random_uniform_like(tensor: @Tensor<i32>, high: Option<i32>, low: Option<i32>, seed: Option<usize>) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

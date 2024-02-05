@@ -936,3 +936,5 @@ mod split_fp16x16_2d_variable_parts;
 mod split_fp16x16_zero_size;
 mod split_fp16x16_1d_uneven;
 mod split_fp16x16_2d_uneven;
+mod random_uniform_like_fp16x16;
+mod random_uniform_like_fp8x23;

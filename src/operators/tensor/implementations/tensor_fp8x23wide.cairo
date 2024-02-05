@@ -498,6 +498,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     ) -> Array<Tensor<FP8x23W>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn random_uniform_like(tensor: @Tensor<FP8x23W>, high: Option<FP8x23W>, low: Option<FP8x23W>, seed: Option<usize>) -> Tensor<FP8x23W> {
+        math::random_uniform_like::random_uniform_like(*tensor, high, low, seed)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

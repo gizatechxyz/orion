@@ -561,6 +561,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> Array<Tensor<FP64x64>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn random_uniform_like(tensor: @Tensor<FP64x64>, high: Option<FP64x64>, low: Option<FP64x64>, seed: Option<usize>) -> Tensor<FP64x64> {
+        math::random_uniform_like::random_uniform_like(*tensor, high, low, seed)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

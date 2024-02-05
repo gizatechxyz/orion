@@ -61,3 +61,4 @@ mod erf;
 mod layer_normalization;
 mod resize;
 mod compress;
+mod random_uniform_like;
