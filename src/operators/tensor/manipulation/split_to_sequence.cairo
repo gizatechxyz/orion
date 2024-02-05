@@ -5,11 +5,7 @@ use orion::operators::matrix::{MutMatrixTrait, MutMatrix, MutMatrixImpl};
 use orion::operators::sequence::SequenceTrait;
 
 
-
-
-
-
-
+/// Cf: TensorTrait::split_to_sequence docstring
 fn split_to_sequence<
     T,
     +Copy<T>,
@@ -108,33 +104,38 @@ self: @Tensor<T>, split: Option<Tensor<usize>>, axis:usize, keepdims:Option<bool
 
     loop {
     let mut i: usize = 0;
+    let mut ele: usize = 0;
     match split_length.pop_front() {
     Option::Some(item) => { 
             let mut spl: usize = item;
             sli.set(axis, 0, pos);
             pos += spl; 
             sli.set(axis, 1, pos);
+
+            if rank<2{
+                ele =axis
+            }
             
-            let end_ele_0 = match sli.get(1,0) {
+            let last_ele_0  = match sli.get(1,0) {
                         Option::Some(res) => {
                             res
                         },
                         Option::None(_) => {
-                            assert(false, 'Get end_ele_0 is failed');
+                            assert(false, 'Failed to fetch last_ele_0');
                             0
                         },
             };
-            let end_ele_1 = match sli.get(1, 1) {
+            let last_ele_1 = match sli.get(1, 1) {
                         Option::Some(res) => {
                             res
                         },
                         Option::None(_) => {
-                            assert(false, 'Get end_ele_0 is failed');
+                            assert(false, 'Failed to fetch last_ele_1');
                             0
                         },
             };
-            let starts: Span<usize> = array![sli.get(0,0).unwrap(),end_ele_0].span();
-            let ends: Span<usize> = array![ sli.get(0,1).unwrap(), end_ele_1].span();
+            let starts: Span<usize> = array![sli.get(0,0).unwrap(),last_ele_0].span();
+            let ends: Span<usize> = array![ sli.get(0,1).unwrap(), last_ele_1].span();
             let axes: Option<Span<usize>> = Option::None(());
             let steps: Option<Span<usize>> = Option::None(());
             let mut sub_t: Tensor<T> = self.slice(starts, ends, axes, steps);
