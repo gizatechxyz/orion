@@ -147,6 +147,7 @@
     * [tensor.unique](framework/operators/tensor/tensor.unique.md)
     * [tensor.compress](framework/operators/tensor/tensor.compress.md)
     * [tensor.layer\_normalization](framework/operators/tensor/tensor.layer\_normalization.md)
+    * [tensor.split\_to\_sequences](framework/operators/tensor/tensor.split\_to\_sequences.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)
