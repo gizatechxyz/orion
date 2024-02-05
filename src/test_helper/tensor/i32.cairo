@@ -93,7 +93,7 @@ fn i32_tensor_3x3_neg_helper() -> Tensor<i32> {
     sizes.append(3);
 
     let mut data = ArrayTrait::new();
-    
+
     data.append(0_i32);
     data.append(-1_i32);
     data.append(-2_i32);
@@ -338,7 +338,6 @@ fn i32_tensor_3x3x3_helper() -> Tensor<i32> {
     data.append(24_i32);
     data.append(25_i32);
     data.append(26_i32);
-    
 
     let tensor = TensorTrait::new(sizes.span(), data.span());
 

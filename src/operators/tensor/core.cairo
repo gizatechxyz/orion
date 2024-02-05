@@ -5559,10 +5559,14 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
                         let mut reshape: Array<usize> = ArrayTrait::new();
                         let mut index = 0_i32;
                         let axis = if *axis < 0 {
-                            assert(*axis <= (*self.shape).len().into(), 'axis out of accepted range');
+                            assert(
+                                *axis <= (*self.shape).len().into(), 'axis out of accepted range'
+                            );
                             (*self.shape).len().into() - *axis
                         } else {
-                            assert(*axis < (*self.shape).len().into(), 'axis out of accepted range');
+                            assert(
+                                *axis < (*self.shape).len().into(), 'axis out of accepted range'
+                            );
                             *axis
                         };
 
