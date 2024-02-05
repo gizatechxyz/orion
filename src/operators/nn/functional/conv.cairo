@@ -295,13 +295,9 @@ fn conv<
         new_w.set(*new_shape.at(0) * *new_w_strides.at(0) - 1, NumberTrait::zero());
 
         let mut indices = ArrayTrait::new();
-        //let mut indices_W = ArrayTrait::new();
 
         indices.append(arange(0, *new_shape.at(0), 1));
         indices.append(arange(0, *new_shape.at(1), 1));
-
-        //indices_W.append(arange(0, *(*W).shape.at(0), 1));
-        //indices_W.append(arange(0, *(*W).shape.at(1), 1));
 
         let mut i = 0;
         loop {
@@ -311,12 +307,10 @@ fn conv<
             let d = *dilations.at(i);
             let di = (*W).shape.len() - nd + i;
             indices.append(arange(0, *new_shape.at(di), d));
-            //indices_W.append(arange(0, *(*W).shape.at(di), 1));
             i += 1;
         };
 
         let set_of_all_indices = cartesian(indices.span());
-        //let set_of_all_indices_W = cartesian(indices_W.span());
 
         let mut new_w_arr = ArrayTrait::new();
 
