@@ -731,7 +731,7 @@ trait NNTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A `Tensor<T>` of shape (M, N).
+    /// A `Tensor<T>` that contains the result of the convolution transpose.
     ///
     /// ## Examples
     ///     

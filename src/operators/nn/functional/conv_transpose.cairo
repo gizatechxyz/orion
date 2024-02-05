@@ -393,7 +393,6 @@ fn conv_transpose<
             image_id += 1;
         };
     } else {
-        
         let mut output_array = ArrayTrait::new();
 
         let mut i = 0;
@@ -683,7 +682,6 @@ fn col2im_shape_check<T, +TensorTrait<T>, +Copy<T>, +Drop<T>,>(
 
     assert(input_length == block_size, 'input_length != block_size');
 }
-
 
 
 fn get_indices(index: usize, shape: Span<usize>,) -> Array<usize> {

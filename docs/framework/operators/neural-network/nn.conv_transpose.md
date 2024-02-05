@@ -34,7 +34,7 @@ The convolution transpose operator consumes an input tensor and a input weigth t
 
 ## Returns
 
-A `Tensor<T>` of shape (M, N).
+A `Tensor<T>` that contains the result of the convolution transpose.
 
 ## Examples
     
