@@ -70,4 +70,15 @@ impl FP8x23NN of NNTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
     }
+
+    fn col2im(
+        data: @Tensor<FP8x23>,
+        image_shape: Span<usize>,
+        block_shape: Span<usize>,
+        dilations: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP8x23> {
+        functional::col2im::col2im(data, image_shape, block_shape, dilations, pads, strides,)
+    }
 }

@@ -3,7 +3,7 @@ use core::option::OptionTrait;
 
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::I32Tensor;
-use orion::numbers::{ NumberTrait, I32IntoU32};
+use orion::numbers::{NumberTrait, I32IntoU32};
 
 /// Cf: SequenceTrait::sequence_erase docstring
 fn sequence_erase<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
@@ -55,5 +55,4 @@ fn sequence_erase<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
 
     return output_sequence;
 }
-
 

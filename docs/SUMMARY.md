@@ -160,6 +160,7 @@
     * [nn.hard\_sigmoid](framework/operators/neural-network/nn.hard\_sigmoid.md)
     * [nn.thresholded\_relu](framework/operators/neural-network/nn.thresholded\_relu.md)
     * [nn.gemm](framework/operators/neural-network/nn.gemm.md)
+    * [nn.col2im](framework/operators/neural-network/nn.col2im.md)
   * [Machine Learning](framework/operators/machine-learning/README.md)
     * [Tree Ensemble Classifier](framework/operators/machine-learning/tree-ensemble-classifier/README.md)
       * [tree\_ensemble\_classifier.predict](framework/operators/machine-learning/tree-ensemble-classifier/tree\_ensemble\_classifier.predict.md)

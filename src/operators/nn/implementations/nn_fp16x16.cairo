@@ -72,4 +72,15 @@ impl FP16x16NN of NNTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
     }
+
+    fn col2im(
+        data: @Tensor<FP16x16>,
+        image_shape: Span<usize>,
+        block_shape: Span<usize>,
+        dilations: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP16x16> {
+        functional::col2im::col2im(data, image_shape, block_shape, dilations, pads, strides,)
+    }
 }

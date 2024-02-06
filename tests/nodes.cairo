@@ -936,3 +936,8 @@ mod split_fp16x16_2d_variable_parts;
 mod split_fp16x16_zero_size;
 mod split_fp16x16_1d_uneven;
 mod split_fp16x16_2d_uneven;
+mod col2im;
+mod col2im_5D;
+mod col2im_dilations;
+mod col2im_pads;
+mod col2im_strides;
