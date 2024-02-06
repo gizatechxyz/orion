@@ -104,7 +104,7 @@ self: @Tensor<T>, split: Option<Tensor<usize>>, axis:usize, keepdims:Option<bool
 
     loop {
     let mut i: usize = 0;
-    let mut ele: usize = 0;
+    let mut ele: usize = 1;
     match split_length.pop_front() {
     Option::Some(item) => { 
             let mut spl: usize = item;
@@ -116,7 +116,7 @@ self: @Tensor<T>, split: Option<Tensor<usize>>, axis:usize, keepdims:Option<bool
                 ele =axis
             }
             
-            let last_ele_0  = match sli.get(1,0) {
+            let last_ele_0  = match sli.get(ele,0) {
                         Option::Some(res) => {
                             res
                         },
@@ -125,7 +125,7 @@ self: @Tensor<T>, split: Option<Tensor<usize>>, axis:usize, keepdims:Option<bool
                             0
                         },
             };
-            let last_ele_1 = match sli.get(1, 1) {
+            let last_ele_1 = match sli.get(ele, 1) {
                         Option::Some(res) => {
                             res
                         },
