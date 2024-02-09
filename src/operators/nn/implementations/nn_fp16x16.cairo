@@ -61,6 +61,14 @@ impl FP16x16NN of NNTrait<FP16x16> {
         functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
     }
 
+    fn depth_to_space(tensor: @Tensor<FP16x16>, blocksize: usize, mode: felt252) -> Tensor<FP16x16> {
+        functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
+    }
+    
+    fn space_to_depth(tensor: @Tensor<FP16x16>, blocksize: usize) -> Tensor<FP16x16> {
+        functional::space_to_depth::space_to_depth(*tensor, blocksize)
+    }
+
     fn gemm(
         A: Tensor<FP16x16>,
         B: Tensor<FP16x16>,
@@ -71,5 +79,47 @@ impl FP16x16NN of NNTrait<FP16x16> {
         transB: bool
     ) -> Tensor<FP16x16> {
         functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
+    }
+
+    fn conv_transpose(
+        X: @Tensor<FP16x16>,
+        W: @Tensor<FP16x16>,
+        B: Option<@Tensor<FP16x16>>,
+        auto_pad: Option<functional::conv_transpose::AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        output_padding: Option<Span<usize>>,
+        output_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP16x16> {
+        functional::conv_transpose::conv_transpose(
+            X,
+            W,
+            B,
+            auto_pad,
+            dilations,
+            group,
+            kernel_shape,
+            output_padding,
+            output_shape,
+            pads,
+            strides
+        )
+    }
+    
+    fn conv(
+        X: @Tensor<FP16x16>,
+        W: @Tensor<FP16x16>,
+        B: Option<Span<FP16x16>>,
+        auto_pad: Option<functional::conv::AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP16x16> {
+        functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
 }

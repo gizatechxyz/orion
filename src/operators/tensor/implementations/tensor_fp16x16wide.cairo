@@ -512,6 +512,32 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     ) -> Array<Tensor<FP16x16W>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+    
+    fn optional(self: @Tensor<FP16x16W>) -> Option<Tensor<FP16x16W>>{
+        manipulation::optional::optional(self)
+    }
+    
+
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP16x16W>
+    ) -> (Tensor::<u32>, Tensor::<FP16x16W>, Tensor<FP16x16W>){
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        )     
+    }
+    
+    fn scatter_nd(
+        self: @Tensor<FP16x16W>,
+        updates: Tensor<FP16x16W>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP16x16W> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.
