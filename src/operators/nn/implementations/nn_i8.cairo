@@ -53,6 +53,10 @@ impl I8NN of NNTrait<i8> {
     fn depth_to_space(tensor: @Tensor<i8>, blocksize: usize, mode: felt252) -> Tensor<i8> {
         functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
     }
+    
+    fn space_to_depth(tensor: @Tensor<i8>, blocksize: usize) -> Tensor<i8> {
+        functional::space_to_depth::space_to_depth(*tensor, blocksize)
+    }
 
     fn gemm(
         A: Tensor<i8>,
@@ -64,5 +68,19 @@ impl I8NN of NNTrait<i8> {
         transB: bool
     ) -> Tensor<i8> {
         functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
+    }
+
+    fn conv(
+        X: @Tensor<i8>,
+        W: @Tensor<i8>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<functional::conv::AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<i8> {
+        functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
 }

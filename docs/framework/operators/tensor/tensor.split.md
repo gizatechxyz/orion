@@ -4,7 +4,7 @@
    fn split(self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, split: Option<Tensor<usize>>
    ) -> Array<Tensor<T>>;
 ```
-
+## Args
 Split a tensor into a list of tensors, along the specified ‘axis’
 
 

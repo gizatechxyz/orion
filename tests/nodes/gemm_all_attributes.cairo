@@ -18,7 +18,15 @@ fn test_gemm_all_attributes() {
     let input_2 = input_2::input_2();
     let z = output_0::output_0();
 
-    let y = NNTrait::gemm(input_0, input_1, Option::Some(input_2), Option::Some(FixedTrait::new(16384, false)), Option::Some(FixedTrait::new(22938, false)), true, true);
+    let y = NNTrait::gemm(
+        input_0,
+        input_1,
+        Option::Some(input_2),
+        Option::Some(FixedTrait::new(16384, false)),
+        Option::Some(FixedTrait::new(22938, false)),
+        true,
+        true
+    );
 
     assert_eq(y, z);
 }

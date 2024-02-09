@@ -20,7 +20,7 @@ For (x / y_scale), it's rounding to the nearest even.
 
 ## Returns
 
-A new `Tensor<T>` with the same shape as the input tensor, containing the quantized values.
+A new `Tensor<Q>` with the same shape as the input tensor, containing the quantized values.
 
 ## Type Constraints
 

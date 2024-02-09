@@ -53,6 +53,10 @@ impl U32NN of NNTrait<u32> {
     fn depth_to_space(tensor: @Tensor<u32>, blocksize: usize, mode: felt252) -> Tensor<u32> {
         functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
     }
+    
+    fn space_to_depth(tensor: @Tensor<u32>, blocksize: usize) -> Tensor<u32> {
+        functional::space_to_depth::space_to_depth(*tensor, blocksize)
+    }
 
     fn gemm(
         A: Tensor<u32>,
@@ -64,5 +68,19 @@ impl U32NN of NNTrait<u32> {
         transB: bool
     ) -> Tensor<u32> {
         functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
+    }
+
+    fn conv(
+        X: @Tensor<u32>,
+        W: @Tensor<u32>,
+        B: Option<Span<u32>>,
+        auto_pad: Option<functional::conv::AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<u32> {
+        functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
 }
