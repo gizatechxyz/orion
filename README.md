@@ -106,6 +106,7 @@ Thanks goes to these wonderful people:
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Vid201"><img src="https://avatars.githubusercontent.com/u/38610409?v=4?s=100" width="100px;" alt="Vid Kersic"/><br /><sub><b>Vid Kersic</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=Vid201" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/tekkac"><img src="https://avatars.githubusercontent.com/u/98529704?v=4?s=100" width="100px;" alt="Trunks @ Carbonable"/><br /><sub><b>Trunks @ Carbonable</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=tekkac" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/canacechan"><img src="https://avatars.githubusercontent.com/u/127183619?v=4?s=100" width="100px;" alt="canacechan"/><br /><sub><b>canacechan</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=canacechan" title="Code">💻</a></td>
     </tr>
   </tbody>
