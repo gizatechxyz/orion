@@ -173,6 +173,8 @@
       * [linear\_regressor.predict](framework/operators/machine-learning/linear-regressor/linear\_regressor.predict.md)
     * [SVM Regressor](framework/operators/machine-learning/svm-regressor/README.md)
       * [svm\_regressor.predict](framework/operators/machine-learning/svm-regressor/svm\_regressor.predict.md)
+    * [SVM Classifier](framework/operators/machine-learning/svm-classifier/README.md)
+      * [svm\_classifier.predict](framework/operators/machine-learning/svm-classifier/svm\_classifier.predict.md)
     * [Sequence](framework/operators/sequence/README.md)
       * [sequence.sequence\_construct](framework/operators/sequence/sequence.sequence\_construct.md)
       * [sequence.sequence\_empty](framework/operators/sequence/sequence.sequence\_empty.md)

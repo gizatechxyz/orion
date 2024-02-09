@@ -685,7 +685,7 @@ impl FP64x64TensorPartialOrd of PartialOrd<Tensor<FP64x64>> {
 
 // Internals
 
-const PRECISION: u128 = 75497; // 0.009
+const PRECISION: u128 = 1660000000000000; // 9e-05
 
 fn relative_eq(lhs: @FP64x64, rhs: @FP64x64) -> bool {
     let diff = *lhs - *rhs;
