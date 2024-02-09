@@ -18,7 +18,7 @@ fn test_where_fp8x23() {
     let input_2 = input_2::input_2();
     let z = output_0::output_0();
 
-    let y = input_0.where(@input_1,@input_2);
+    let y = input_0.where(@input_1, @input_2);
 
     assert_eq(y, z);
 }

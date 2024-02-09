@@ -8,7 +8,9 @@ use orion::numbers::{NumberTrait, I32IntoU32, U32IntoI32};
 fn sequence_at<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     sequence: Array<Tensor<T>>, position: Tensor<i32>
 ) -> Tensor<T> {
-    assert(position.shape.len() == 0 && position.data.len().into() == 1, 'Position must be a scalar');
+    assert(
+        position.shape.len() == 0 && position.data.len().into() == 1, 'Position must be a scalar'
+    );
 
     let position_value_i32: i32 = *position.data.at(0);
     let is_negative: bool = position_value_i32 < 0;

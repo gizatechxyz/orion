@@ -70,4 +70,14 @@ impl FP8x23NN of NNTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
     }
+
+    fn grid_sample(
+        X: @Tensor<FP8x23>,
+        grid: @Tensor<FP8x23>,
+        align_corner: Option<usize>,
+        mode: Option<functional::grid_sample::MODE>,
+        padding_mode: Option<functional::grid_sample::PADDING_MODE>,
+    ) -> Tensor<FP8x23> {
+        functional::grid_sample::grid_sample(X, grid, align_corner, mode, padding_mode)
+    }
 }

@@ -43,6 +43,7 @@ You can see below the list of current supported ONNX Operators:
 |              [Softplus](operators/neural-network/nn.softplus.md)              | :white\_check\_mark: |
 |                [Linear](operators/neural-network/nn.linear.md)                | :white\_check\_mark: |
 |          [HardSigmoid](operators/neural-network/nn.hard\_sigmoid.md)          | :white\_check\_mark: |
+|           [GridSample](operators/neural-network/nn.grid\_sample_.md)          | :white\_check\_mark: |
 |                    [Sinh](operators/tensor/tensor.sinh.md)                    | :white\_check\_mark: |
 |                   [Asinh](operators/tensor/tensor.asinh.md)                   | :white\_check\_mark: |
 |                   [Atanh](operators/tensor/tensor.atanh.md)                   | :white\_check\_mark: |

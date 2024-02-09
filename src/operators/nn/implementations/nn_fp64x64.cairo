@@ -66,4 +66,14 @@ impl FP64x64NN of NNTrait<FP64x64> {
     ) -> Tensor<FP64x64> {
         functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
     }
+
+    fn grid_sample(
+        X: @Tensor<FP64x64>,
+        grid: @Tensor<FP64x64>,
+        align_corner: Option<usize>,
+        mode: Option<functional::grid_sample::MODE>,
+        padding_mode: Option<functional::grid_sample::PADDING_MODE>,
+    ) -> Tensor<FP64x64> {
+        functional::grid_sample::grid_sample(X, grid, align_corner, mode, padding_mode)
+    }
 }

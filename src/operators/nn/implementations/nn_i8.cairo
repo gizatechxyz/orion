@@ -61,4 +61,14 @@ impl I8NN of NNTrait<i8> {
     ) -> Tensor<i8> {
         functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
     }
+
+    fn grid_sample(
+        X: @Tensor<i8>,
+        grid: @Tensor<i8>,
+        align_corner: Option<usize>,
+        mode: Option<functional::grid_sample::MODE>,
+        padding_mode: Option<functional::grid_sample::PADDING_MODE>,
+    ) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
 }
