@@ -539,6 +539,25 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Array<Tensor<i8>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+    
+    fn optional(self: @Tensor<i8>) -> Option<Tensor<i8>>{
+        manipulation::optional::optional(self)
+    }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<i8>
+    ) -> (Tensor::<u32>, Tensor::<i8>, Tensor<i8>){
+        panic(array!['not supported!'])
+    }
+
+    fn scatter_nd(
+        self: @Tensor<i8>,
+        updates: Tensor<i8>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<i8> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

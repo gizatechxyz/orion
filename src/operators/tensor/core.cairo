@@ -118,6 +118,9 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// erf - Computes the error function of the given input tensor element-wise.
 /// layer_normalization - computes the layer normalization of the input tensor.
 /// split - Split a tensor into a list of tensors, along the specified ‘axis’. 
+/// optional - Constructs an optional-type value containing either an empty optional of a certain type specified by the attribute, or a non-empty value containing the input element.
+/// dynamic_quantize_linear - Computes the Scale, Zero Point and FP32->8Bit conversion of FP32 Input data. 
+/// scatter_nd - The output of the operation is produced by creating a copy of the input data, and then updating its value to values specified by updates at specific index positions specified by indices. Its output shape is the same as the shape of data
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -2459,7 +2462,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<T>` with the same shape as the input tensor, containing the quantized values.
+    /// A new `Tensor<Q>` with the same shape as the input tensor, containing the quantized values.
     ///
     /// ## Type Constraints
     ///
@@ -2512,7 +2515,7 @@ trait TensorTrait<T> {
     ///
     /// ## Args
     ///
-    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `self`(`@Tensor<Q>`) - The input tensor.
     /// * `x_scale`(`@Tensor<T>`) - Scale for input `x`.
     /// * `x_zero_point`(`@Tensor<T>`) - Zero point for input `x`.
     ///
@@ -5117,9 +5120,10 @@ trait TensorTrait<T> {
     ///    fn split(self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, split: Option<Tensor<usize>>
     ///    ) -> Array<Tensor<T>>;
     /// ```
-    ///
+    /// ## Args
     /// Split a tensor into a list of tensors, along the specified ‘axis’
     ///
+    /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
     /// * `axis`(`usize`) - The axis along which to split on.
@@ -5162,6 +5166,191 @@ trait TensorTrait<T> {
     fn split(
         self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<T>>;
+    /// # tensor.scatter_nd
+    ///
+    /// ```rust 
+    ///    fn scatter_nd(self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>,  reduction: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `updates`(`Tensor<T>`) - The updates tensor.
+    /// * `indices`(`Tensor<T>`) - Tensor of indices.
+    /// * `reduction`(`Option<usize>`) - Reduction operation. Default: reduction='none'.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if index values are not within bounds [-s, s-1] along axis of size s.
+    /// * Panics if indices last axis is greater than data rank.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` .
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn scatter_nd_example() -> Tensor<u32> {
+    ///    let tensor = TensorTrait::<u32>::new(
+    ///        shape: array![4, 4, 4].span(), 
+    ///        data: array![1, 2, 3, 4, 5, 6, 7, 8, 8, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6,
+    ///             7, 8, 8, 7, 6, 5, 4, 3, 2, 1, 8, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4,
+    ///             5, 6, 7, 8, 8, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7, 8].span()
+    ///    );
+    ///
+    ///    let updates = TensorTrait::<u32>::new(
+    ///        shape: array![2, 4, 4].span(), 
+    ///        data: array![5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 1, 1, 1, 1, 2, 2,
+    ///                    2, 2, 3, 3, 3, 3, 4, 4, 4, 4].span(), 
+    ///    );
+    ///
+    ///    let indices = TensorTrait::<u32>::new(
+    ///        shape: array![2, 1].span(), 
+    ///        data: array![0, 2].span(), 
+    ///    );
+    /// 
+    ///     return tensor.scatter_nd(
+    ///         updates: updates
+    ///         indices: indices, 
+    ///         reduction: Option::Some('add'), 
+    ///     );
+    /// }
+    /// >>> [[[ 6.,  7.,  8.,  9.],
+    ///        [11., 12., 13., 14.],
+    ///        [15., 14., 13., 12.],
+    ///        [12., 11., 10.,  9.]],
+    ///
+    ///    [[ 1.,  2.,  3.,  4.],
+    ///        [ 5.,  6.,  7.,  8.],
+    ///        [ 8.,  7.,  6.,  5.],
+    ///        [ 4.,  3.,  2.,  1.]],
+    ///
+    ///    [[ 9.,  8.,  7.,  6.],
+    ///        [ 6.,  5.,  4.,  3.],
+    ///        [ 4.,  5.,  6.,  7.],
+    ///        [ 9., 10., 11., 12.]],
+    ///
+    ///    [[ 8.,  7.,  6.,  5.],
+    ///        [ 4.,  3.,  2.,  1.],
+    ///        [ 1.,  2.,  3.,  4.],
+    ///        [ 5.,  6.,  7.,  8.]]]
+    /// ```
+    ///
+    fn scatter_nd(
+        self: @Tensor<T>,
+        updates: Tensor<T>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<T>;
+    /// # tensor.dynamic_quantize_linear
+    /// 
+    /// ```rust
+    /// fn dynamic_quantize_linear(self: @Tensor<T>) -> (Tensor::<Q>, Tensor<T>, Tensor<T>);
+    /// ```
+    /// 
+    /// Quantizes a Tensor using dynamic linear quantization.
+    ///
+    /// The dynamic linear quantization operator. It consumes a high precision tensor 
+    /// to compute the low precision / quantized tensor dynamicly. 
+    /// Right now only uint8 is supported, it saturates to [0, 255].
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<Q>` with the same shape as the input tensor, containing the quantized values.
+    /// * `y_scale`(`@Tensor<T>`) - Scale for doing quantization to get `y`.
+    /// * `y_zero_point`(`@Tensor<T>`) - Zero point for doing quantization to get `y`.
+    ///
+    /// ## Type Constraints
+    ///
+    /// * `T` in (`Tensor<FP>`, `Tensor<i8>`, `Tensor<i32>`, `tensor<u32>`)
+    /// * `Q` in (`Tensor<i32>`)- Constrain `y` to 8-bit unsigned integer tensor.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
+    /// use orion::numbers::{u8, i32, IntegerTrait};
+    /// 
+    /// fn dynamic_quantize_linear_example() -> (Tensor<u32>, Tensor<FP16x16>, Tensor<FP16x16>) {
+    ///     // We instantiate a 1D Tensor here.
+    ///     let x = TensorTrait::<FP16x16>::new(
+    ///         shape: array![6].span(),
+    ///         data: array![
+    ///             FP16x16 { mag: 10945, sign: false },
+    ///             FP16x16 { mag: 190054, sign: false },
+    ///             FP16x16 { mag: 196608, sign: false },
+    ///             FP16x16 { mag: 229376, sign: false },
+    ///             FP16x16 { mag: 196608, sign: true },
+    ///             FP16x16 { mag: 229376, sign: true },
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     return x.dynamic_quantize_linear();
+    /// }
+    /// >>> ([133, 233, 236, 255, -18, -0], [0.02745], [128]
+    /// ```
+    ///
+    fn dynamic_quantize_linear(
+        self: @Tensor<T>
+    ) -> (Tensor<u32>, Tensor<T>, Tensor<T>);
+    /// # tensor.optional
+    ///
+    /// ```rust 
+    ///    fn optional(self: @Tensor<T>) -> Option<Tensor<T>>;
+    /// ```
+    ///
+    /// Constructs an optional-type value containing either an empty optional of a certain 
+    /// type specified by the attribute, or a non-empty value containing the input element.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// The optional output enclosing the input element.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::option::OptionTrait;
+    /// fn optional_example() -> Option<Tensor<T>> {
+    ///     let a = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(
+    ///         shape: array![4, 2].span(),
+    ///         data: array![
+    ///            1_i8,
+    ///            2_i8,
+    ///            3_i8,
+    ///            4_i8,
+    ///            5_i8,
+    ///            6_i8,
+    ///            7_i8,
+    ///            8_i8
+    ///         ].span(),
+    ///     );
+    ///     a.optional()
+    /// }
+    /// >>> Option[Tensor[1,2,3,4,5,6,7,8]]
+    ///     
+    /// ```
+    ///
+    fn optional(self: @Tensor<T>) -> Option<Tensor<T>>;
 }
 
 /// Cf: TensorTrait::new docstring

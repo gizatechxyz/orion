@@ -5,7 +5,7 @@ use core::option::OptionTrait;
 use alexandria_data_structures::array_ext::ArrayTraitExt;
 
 use orion::utils::u32_max;
-use orion::operators::tensor::core::{stride, Tensor, TensorTrait};
+use orion::operators::tensor::{core::{Tensor, TensorTrait, stride}, BoolTensor};
 
 /// Calculates the number of elements in a tensor given its shape.
 ///
@@ -495,5 +495,61 @@ impl SpanPartialOrd<T, +Drop<T>, +Copy<T>, +PartialEq<T>, +PartialOrd<T>> of Par
 
     fn lt(lhs: Span<T>, rhs: Span<T>) -> bool {
         span_cmp(lhs, rhs) < 0
+    }
+}
+
+/// Returns true if (1) the input is an optional-type and contains an element, 
+/// or, (2) the input is a tensor type.
+/// If the input is not provided or is an empty optional-type, this op returns false.
+///
+/// # Arguments
+/// * `x` - The optional input.
+///
+/// # Returns
+/// * A scalar boolean tensor. 
+/// If true, it indicates that optional-type input contains an element. Otherwise, it is empty.
+fn optional_has_element<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
+    x: Option<Tensor<T>>
+) -> Tensor<bool> {
+    match x{
+        Option::Some(ele) => {
+            let mut shape = ArrayTrait::<usize>::new();
+            shape.append(1);
+            let mut data = ArrayTrait::<bool>::new();
+            data.append(true);
+            TensorTrait::new(shape.span(), data.span())
+        },
+        Option::None(_) => {
+            let mut shape = ArrayTrait::<usize>::new();
+            shape.append(1);
+            let mut data = ArrayTrait::<bool>::new();
+            data.append(false);
+            TensorTrait::new(shape.span(), data.span())
+        }
+    }
+}
+
+/// If the input is a tensor type, it returns the input.
+/// If the input is an optional type, it outputs the element in the input. 
+///
+/// # Arguments
+/// * `x` - The optional input.
+///
+/// # Panics
+/// * Panics if the input is an empty optional-type (i.e. does not have an element) 
+///   and the behavior is undefined in this case.
+///
+/// # Returns
+/// * Output element in the optional input.
+fn optional_get_element<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
+    x: Option<Tensor<T>>
+) -> Tensor<T> {
+    match x{
+        Option::Some(ele) => {
+            ele
+        },
+        Option::None(_) => {
+            panic(array!['The input is an empty', 'optional-type.'])
+        }
     }
 }
