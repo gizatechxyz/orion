@@ -6,6 +6,7 @@ use orion::numbers::{U32IntoI32, I32IntoU32, I32Div, I32Number};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor,};
 use orion::operators::vec::{NullableVec, NullableVecImpl};
 use orion::operators::tensor::core::{stride};
+use core::clone::Clone;
 
 use core::debug::PrintTrait;
 
@@ -39,6 +40,8 @@ fn conv<
     pads: Option<Span<usize>>,
     strides: Option<Span<usize>>,
 ) -> Tensor<T> {
+    let nd = (*X).shape.len() - 2;
+    
     assert((*X).shape.len() >= 3, 'X must have at least 3 dim');
     let dilations = match dilations {
         Option::Some(dilations) => dilations,
@@ -112,8 +115,11 @@ fn conv<
     };
 
     if group > 1 {
+        let sN = *(*X).shape.at(0);
+
         let mut res_b = ArrayTrait::new();
         let mut res_cv = ArrayTrait::new();
+
         let mut td = 0;
         let mg = *(*W).shape.at(0) / group;
         let dw = *(*W).shape.at(1);
@@ -144,7 +150,7 @@ fn conv<
 
         let mut b = 0;
         loop {
-            if b == *(*X).shape.at(0) {
+            if b == sN {
                 break;
             }
             let mut g = 0;
@@ -188,7 +194,7 @@ fn conv<
         let res_b = res_b.span();
         let res_cv = res_cv.span();
 
-        let mut final_shape = array![*(*X).shape.at(0), td];
+        let mut final_shape = array![sN, td];
 
         let mut cv = *res_cv.at(0);
 
@@ -269,7 +275,7 @@ fn conv<
     }
 
     // group == 1
-    if *dilations.at(0) != 1 || min(dilations) != max(dilations) {
+    if *dilations.at(0) != 1 || min(dilations.clone()) != max(dilations.clone()) {
         // computation of the dilated kernel
         let nd = dilations.len();
         let mut new_kernel_shape = ArrayTrait::new();
@@ -357,7 +363,7 @@ fn conv<
             let mut tail = ArrayTrait::new();
             let mut i = 0;
             loop {
-                if i == (*X).shape.len() - 2 {
+                if i == nd {
                     break;
                 }
                 let d = *(*X).shape.at(i);
@@ -378,7 +384,7 @@ fn conv<
             let mut tail = ArrayTrait::new();
             let mut i = 0;
             loop {
-                if i == (*X).shape.len() - 2 {
+                if i == nd {
                     break;
                 }
                 let d = *(*X).shape.at(i);
@@ -399,7 +405,7 @@ fn conv<
             let mut tail = ArrayTrait::new();
             let mut i = 0;
             loop {
-                if i == (*X).shape.len() - 2 {
+                if i == nd {
                     break;
                 }
                 let d = *(*X).shape.at(i);
@@ -1052,7 +1058,6 @@ fn conv<
     }
 
     // if (*X).shape.len() > 5
-    let nd = (*X).shape.len() - 2;
 
     let sN = *(*X).shape.at(0);
     let sC = *(*X).shape.at(1);
@@ -1403,41 +1408,41 @@ fn prod<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +Mul<
 }
 
 
-fn min(a: Span<usize>) -> usize {
+fn min(mut a: Span<usize>) -> usize {
     assert(a.len() > 0, 'span cannot be empty');
 
     let mut min = *a.at(0);
-    let mut i = 0;
     loop {
-        if i == a.len() {
-            break;
-        }
-        let item = *a.at(i);
-        if item < min {
-            min = item;
-        }
-        i += 1;
-    };
-    return min;
+        match a.pop_front() {
+            Option::Some(v) => {
+                if *v < min {
+                    min = *v;
+                };
+            },
+            Option::None => {
+                break min;
+            }
+        };
+    }
 }
 
 
-fn max(a: Span<usize>) -> usize {
+fn max(mut a: Span<usize>) -> usize {
     assert(a.len() > 0, 'span cannot be empty');
 
     let mut max = *a.at(0);
-    let mut i = 0;
     loop {
-        if i == a.len() {
-            break;
-        }
-        let item = *a.at(i);
-        if item > max {
-            max = item;
-        }
-        i += 1;
-    };
-    return max;
+        match a.pop_front() {
+            Option::Some(v) => {
+                if *v > max {
+                    max = *v;
+                };
+            },
+            Option::None => {
+                break max;
+            }
+        };
+    }
 }
 
 fn arange(start: usize, end: usize, step: usize) -> Span<usize> {
