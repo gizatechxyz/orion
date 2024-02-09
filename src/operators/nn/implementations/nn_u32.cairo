@@ -50,6 +50,10 @@ impl U32NN of NNTrait<u32> {
         panic(array!['not supported!'])
     }
 
+    fn space_to_depth(tensor: @Tensor<u32>, blocksize: usize) -> Tensor<u32> {
+        functional::space_to_depth::space_to_depth(*tensor, blocksize)
+    }
+
     fn gemm(
         A: Tensor<u32>,
         B: Tensor<u32>,

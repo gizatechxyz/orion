@@ -50,6 +50,10 @@ impl I8NN of NNTrait<i8> {
         panic(array!['not supported!'])
     }
 
+    fn space_to_depth(tensor: @Tensor<i8>, blocksize: usize) -> Tensor<i8> {
+        functional::space_to_depth::space_to_depth(*tensor, blocksize)
+    }
+
     fn gemm(
         A: Tensor<i8>,
         B: Tensor<i8>,

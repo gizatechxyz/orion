@@ -61,6 +61,10 @@ impl FP16x16NN of NNTrait<FP16x16> {
         functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
     }
 
+    fn space_to_depth(tensor: @Tensor<FP16x16>, blocksize: usize) -> Tensor<FP16x16> {
+        functional::space_to_depth::space_to_depth(*tensor, blocksize)
+    }
+
     fn gemm(
         A: Tensor<FP16x16>,
         B: Tensor<FP16x16>,

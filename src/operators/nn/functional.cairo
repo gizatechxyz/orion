@@ -10,4 +10,5 @@ mod logsoftmax;
 mod thresholded_relu;
 mod hard_sigmoid;
 mod gemm;
+mod space_to_depth;
 mod conv;
