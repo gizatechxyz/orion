@@ -561,6 +561,18 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> Array<Tensor<FP64x64>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP64x64>
+    ) -> (Tensor::<u32>, Tensor::<FP64x64>, Tensor<FP64x64>){
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        ) 
+    }
 
     fn scatter_nd(
         self: @Tensor<FP64x64>,

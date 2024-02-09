@@ -561,6 +561,18 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP16x16>
+    ) -> (Tensor::<u32>, Tensor::<FP16x16>, Tensor<FP16x16>){
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        )   
+    }
+    
     fn scatter_nd(
         self: @Tensor<FP16x16>,
         updates: Tensor<FP16x16>,

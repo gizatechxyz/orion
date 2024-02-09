@@ -484,6 +484,12 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Array<Tensor<bool>> {
         panic(array!['not supported!'])
     }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<bool>
+    ) -> (Tensor::<u32>, Tensor::<bool>, Tensor<bool>){
+            panic(array!['not supported!'])
+    }
 
     fn scatter_nd(
         self: @Tensor<bool>,

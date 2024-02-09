@@ -483,6 +483,12 @@ impl U32Tensor of TensorTrait<u32> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
+    fn dynamic_quantize_linear(
+        self: @Tensor<u32>
+    ) -> (Tensor::<u32>, Tensor::<u32>, Tensor<u32>){
+        panic(array!['not supported!']) 
+    }
+    
     fn scatter_nd(
         self: @Tensor<u32>,
         updates: Tensor<u32>,
