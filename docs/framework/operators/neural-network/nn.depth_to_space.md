@@ -21,34 +21,38 @@ A `Tensor<T>` of [N, C/(blocksize * blocksize), H * blocksize, W * blocksize].
 ```rust
 use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
-use orion::operators::tensor::I8Tensor;
-use orion::numbers::{IntegerTrait, i8};
+use orion::operators::tensor::{I8Tensor, I8TensorAdd};
+use orion::numbers::NumberTrait;
+use orion::operators::nn::NNTrait;
+use orion::operators::nn::I8NN;
+use orion::numbers::FixedTrait;
 
-fn relu_example() -> Tensor<i32> {
-       let mut shape = ArrayTrait::<usize>::new();
-       shape.append(1);
-       shape.append(4);
-       shape.append(2);
-       shape.append(2);
+fn depth_to_space_example() -> Tensor<i8> {
+    let mut shape = ArrayTrait::<usize>::new();
+    shape.append(1);
+    shape.append(4);
+    shape.append(2);
+    shape.append(2);
 
-       let mut data = ArrayTrait::new();
-       data.append(i8 { mag: 1, sign: false });
-       data.append(i8 { mag: 3, sign: true });
-       data.append(i8 { mag: 3, sign: true });
-       data.append(i8 { mag: 1, sign: false });
-       data.append(i8 { mag: 1, sign: true });
-       data.append(i8 { mag: 3, sign: true });
-       data.append(i8 { mag: 2, sign: true });
-       data.append(i8 { mag: 1, sign: true });
-       data.append(i8 { mag: 1, sign: true });
-       data.append(i8 { mag: 2, sign: false });
-       data.append(i8 { mag: 1, sign: true });
-       data.append(i8 { mag: 2, sign: true });
-       data.append(i8 { mag: 3, sign: true });
-       data.append(i8 { mag: 3, sign: true });
-       data.append(i8 { mag: 2, sign: false });
-       data.append(i8 { mag: 2, sign: false });
-       let tensor = TensorTrait::new(shape.span(), data.span());
+    let mut data = ArrayTrait::new();
+    data.append(-2);
+    data.append(0);
+    data.append(-1);
+    data.append(0);
+    data.append(0);
+    data.append(-3);
+    data.append(2);
+    data.append(1);
+    data.append(-2);
+    data.append(-2);
+    data.append(0);
+    data.append(-2);
+    data.append(-1);
+    data.append(-1);
+    data.append(2);
+    data.append(2);
+    let tensor = TensorTrait::new(shape.span(), data.span());
+    return NNTrait::depth_to_space(@tensor, 2, 'DCR');
 }
->>> [[[[1, 1, 3, 3], [1, 3, 2, 3], [3, 2, 1, 1], [1, 2, 2, 2]]]]
+>>> [[[[-2, 0, 0, -3], [-2, -1, -2, -1], [-1, 2, 0, 1], [0, 2, -2, 2]]]]
 ```

@@ -1,5 +1,5 @@
 
-# NNTrait::conv_transpose
+# NNTrait::conv
 
 ```rust
     conv(
@@ -43,7 +43,7 @@ use orion::numbers::FP16x16;
 use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor};
 
 
-fn example_conv_transpose() -> Tensor<FP16x16> {
+fn example_conv() -> Tensor<FP16x16> {
     let mut shape = ArrayTrait::<usize>::new();
     shape.append(1);
     shape.append(1);

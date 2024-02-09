@@ -7,6 +7,7 @@
 ## Args
 Split a tensor into a list of tensors, along the specified ‘axis’
 
+## Args
 
 * `self`(`@Tensor<T>`) - The input tensor.
 * `axis`(`usize`) - The axis along which to split on.
