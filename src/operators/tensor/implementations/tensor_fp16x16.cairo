@@ -572,6 +572,15 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
             NumberTrait::new_unscaled(1, false),
         )   
     }
+    
+    fn scatter_nd(
+        self: @Tensor<FP16x16>,
+        updates: Tensor<FP16x16>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP16x16> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

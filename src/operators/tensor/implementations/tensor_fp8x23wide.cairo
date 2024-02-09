@@ -508,7 +508,16 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
             NumberTrait::new_unscaled(255, false),
             NumberTrait::new_unscaled(0, false),
             NumberTrait::new_unscaled(1, false),
-        )   
+        )
+    }
+
+    fn scatter_nd(
+        self: @Tensor<FP8x23W>,
+        updates: Tensor<FP8x23W>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP8x23W> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 }
 

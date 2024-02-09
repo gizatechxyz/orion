@@ -20,7 +20,13 @@ fn test_scatter_i8_axis1_max() {
     let input_2 = input_2::input_2();
     let z = output_0::output_0();
 
-    let y = input_0.scatter(updates:input_1, indices:input_2, axis:Option::Some(1), reduction:Option::Some('max'));
+    let y = input_0
+        .scatter(
+            updates: input_1,
+            indices: input_2,
+            axis: Option::Some(1),
+            reduction: Option::Some('max')
+        );
 
     assert_eq(y, z);
 }

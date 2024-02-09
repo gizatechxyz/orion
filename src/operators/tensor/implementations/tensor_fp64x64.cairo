@@ -573,6 +573,15 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
             NumberTrait::new_unscaled(1, false),
         ) 
     }
+
+    fn scatter_nd(
+        self: @Tensor<FP64x64>,
+        updates: Tensor<FP64x64>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP64x64> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.
@@ -688,7 +697,7 @@ impl FP64x64TensorPartialOrd of PartialOrd<Tensor<FP64x64>> {
 
 // Internals
 
-const PRECISION: u128 = 75497; // 0.009
+const PRECISION: u128 = 1660000000000000; // 9e-05
 
 fn relative_eq(lhs: @FP64x64, rhs: @FP64x64) -> bool {
     let diff = *lhs - *rhs;

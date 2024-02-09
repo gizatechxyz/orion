@@ -3,7 +3,7 @@ use core::array::SpanTrait;
 use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
-use orion::numbers::{ I8Div, I8DivEq };
+use orion::numbers::{I8Div, I8DivEq};
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -544,6 +544,15 @@ impl I8Tensor of TensorTrait<i8> {
         self: @Tensor<i8>
     ) -> (Tensor::<u32>, Tensor::<i8>, Tensor<i8>){
         panic(array!['not supported!'])
+    }
+
+    fn scatter_nd(
+        self: @Tensor<i8>,
+        updates: Tensor<i8>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<i8> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 }
 

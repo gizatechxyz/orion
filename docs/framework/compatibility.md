@@ -43,6 +43,7 @@ You can see below the list of current supported ONNX Operators:
 |              [Softplus](operators/neural-network/nn.softplus.md)              | :white\_check\_mark: |
 |                [Linear](operators/neural-network/nn.linear.md)                | :white\_check\_mark: |
 |          [HardSigmoid](operators/neural-network/nn.hard\_sigmoid.md)          | :white\_check\_mark: |
+|                 [Conv](operators/neural-network/nn.conv.md)                   | :white\_check\_mark: |
 |                    [Sinh](operators/tensor/tensor.sinh.md)                    | :white\_check\_mark: |
 |                   [Asinh](operators/tensor/tensor.asinh.md)                   | :white\_check\_mark: |
 |                   [Atanh](operators/tensor/tensor.atanh.md)                   | :white\_check\_mark: |
@@ -108,5 +109,6 @@ You can see below the list of current supported ONNX Operators:
 |               [Erf](operators/tensor/tensor.erf.md)                           | :white\_check\_mark: |
 |        [Compress](operators/tensor/tensor.compress.md)                        | :white\_check\_mark: |
 |     [Layer_normalization](operators/tensor/tensor.layer_normalization.md)     | :white\_check\_mark: |
+|              [ScatterND](operators/tensor/tensor.scatter/_nd.md)              | :white\_check\_mark: |
 
-Current Operators support: **97/156 (62%)**
+Current Operators support: **98/156 (62%)**
