@@ -484,6 +484,15 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Array<Tensor<bool>> {
         panic(array!['not supported!'])
     }
+
+    fn scatter_nd(
+        self: @Tensor<bool>,
+        updates: Tensor<bool>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

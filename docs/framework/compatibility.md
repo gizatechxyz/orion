@@ -109,5 +109,6 @@ You can see below the list of current supported ONNX Operators:
 |               [Erf](operators/tensor/tensor.erf.md)                           | :white\_check\_mark: |
 |        [Compress](operators/tensor/tensor.compress.md)                        | :white\_check\_mark: |
 |     [Layer_normalization](operators/tensor/tensor.layer_normalization.md)     | :white\_check\_mark: |
+|              [ScatterND](operators/tensor/tensor.scatter/_nd.md)              | :white\_check\_mark: |
 
-Current Operators support: **97/156 (62%)**
+Current Operators support: **98/156 (62%)**

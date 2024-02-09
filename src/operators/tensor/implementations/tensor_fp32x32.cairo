@@ -561,6 +561,15 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Array<Tensor<FP32x32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn scatter_nd(
+        self: @Tensor<FP32x32>,
+        updates: Tensor<FP32x32>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP32x32> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

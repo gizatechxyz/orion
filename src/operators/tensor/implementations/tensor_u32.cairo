@@ -482,6 +482,15 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Array<Tensor<u32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn scatter_nd(
+        self: @Tensor<u32>,
+        updates: Tensor<u32>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<u32> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.
