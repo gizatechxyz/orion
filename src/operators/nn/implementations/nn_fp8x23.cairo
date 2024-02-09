@@ -74,4 +74,18 @@ impl FP8x23NN of NNTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
     }
+
+    fn conv(
+        X: @Tensor<FP8x23>,
+        W: @Tensor<FP8x23>,
+        B: Option<Span<FP8x23>>,
+        auto_pad: Option<functional::conv::AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP8x23> {
+        functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
 }
