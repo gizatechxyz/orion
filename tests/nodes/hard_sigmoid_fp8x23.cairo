@@ -14,7 +14,9 @@ fn test_hard_sigmoid_fp8x23() {
     let input_0 = input_0::input_0();
     let z = output_0::output_0();
 
-    let y = NNTrait::hard_sigmoid(@input_0, @FixedTrait::new(1677721, false), @FixedTrait::new(4194304, false));
+    let y = NNTrait::hard_sigmoid(
+        @input_0, @FixedTrait::new(1677721, false), @FixedTrait::new(4194304, false)
+    );
 
     assert_eq(y, z);
 }
