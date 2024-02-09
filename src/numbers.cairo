@@ -2,10 +2,10 @@ mod fixed_point;
 mod complex_number;
 
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::numbers::fixed_point::implementations::fp8x23::core::{ONE as ONE_fp8x23 };
-use orion::numbers::fixed_point::implementations::fp16x16::core::{ONE as ONE_fp16x16 };
-use orion::numbers::fixed_point::implementations::fp64x64::core::{ONE as ONE_fp64x64 };
-use orion::numbers::fixed_point::implementations::fp32x32::core::{ONE as ONE_fp32x32 };
+use orion::numbers::fixed_point::implementations::fp8x23::core::{ONE as ONE_fp8x23};
+use orion::numbers::fixed_point::implementations::fp16x16::core::{ONE as ONE_fp16x16};
+use orion::numbers::fixed_point::implementations::fp64x64::core::{ONE as ONE_fp64x64};
+use orion::numbers::fixed_point::implementations::fp32x32::core::{ONE as ONE_fp32x32};
 
 // Common methods from Fixed Point and Signed Integers.
 trait NumberTrait<T, MAG> {
@@ -1538,7 +1538,7 @@ impl I8Number of NumberTrait<i8, i8> {
         0
     }
     fn is_zero(self: i8) -> bool {
-       self == 0 
+        self == 0
     }
 
     fn half() -> i8 {
@@ -1574,7 +1574,7 @@ impl I8Number of NumberTrait<i8, i8> {
     }
 
     fn max_value() -> i8 {
-       127 
+        127
     }
 
     fn min(self: i8, other: i8) -> i8 {
@@ -1664,7 +1664,7 @@ impl I8Number of NumberTrait<i8, i8> {
     }
 
     fn is_neg_inf(self: i8) -> bool {
-       self == -127 
+        self == -127
     }
 
     fn bitwise_and(lhs: i8, rhs: i8) -> i8 {
@@ -1705,7 +1705,7 @@ impl I8Div of Div<i8> {
         let rhs_felt: felt252 = rhs_positive.into();
         let lhs_u128: u128 = lhs_felt.try_into().unwrap();
         let rhs_u128: u128 = rhs_felt.try_into().unwrap();
-        let mut result = lhs_u128 / rhs_u128; 
+        let mut result = lhs_u128 / rhs_u128;
         let felt_result: felt252 = result.into();
         let signed_int_result: i8 = felt_result.try_into().unwrap();
         if lhs * rhs < 0 {
@@ -1732,7 +1732,7 @@ impl I8IntoFP8x23 of Into<i8, FP8x23> {
         }
         let number_felt: felt252 = self_positive.into();
         let number_u32: u32 = number_felt.try_into().unwrap();
-        FP8x23 {mag: number_u32 * ONE_fp8x23, sign: number_sign} 
+        FP8x23 { mag: number_u32 * ONE_fp8x23, sign: number_sign }
     }
 }
 
@@ -1745,7 +1745,7 @@ impl I8IntoFP16x16 of Into<i8, FP16x16> {
         }
         let number_felt: felt252 = self_positive.into();
         let number_u32: u32 = number_felt.try_into().unwrap();
-        FP16x16 {mag: number_u32 * ONE_fp16x16, sign: number_sign} 
+        FP16x16 { mag: number_u32 * ONE_fp16x16, sign: number_sign }
     }
 }
 
@@ -1758,7 +1758,7 @@ impl I8IntoFP64x64 of Into<i8, FP64x64> {
         }
         let number_felt: felt252 = self_positive.into();
         let number_u128: u128 = number_felt.try_into().unwrap();
-        FP64x64 {mag: number_u128 * ONE_fp64x64, sign: number_sign} 
+        FP64x64 { mag: number_u128 * ONE_fp64x64, sign: number_sign }
     }
 }
 
@@ -1771,7 +1771,7 @@ impl I8IntoFP32x32 of Into<i8, FP32x32> {
         }
         let number_felt: felt252 = self_positive.into();
         let number_u128: u64 = number_felt.try_into().unwrap();
-        FP32x32 {mag: number_u128 * ONE_fp32x32, sign: number_sign} 
+        FP32x32 { mag: number_u128 * ONE_fp32x32, sign: number_sign }
     }
 }
 
@@ -1883,7 +1883,7 @@ impl I16Number of NumberTrait<i16, i16> {
         0
     }
     fn is_zero(self: i16) -> bool {
-       self == 0 
+        self == 0
     }
 
     fn half() -> i16 {
@@ -2009,7 +2009,7 @@ impl I16Number of NumberTrait<i16, i16> {
     }
 
     fn is_neg_inf(self: i16) -> bool {
-       self == -32767 
+        self == -32767
     }
 
     fn bitwise_and(lhs: i16, rhs: i16) -> i16 {
@@ -2050,7 +2050,7 @@ impl I16Div of Div<i16> {
         let rhs_felt: felt252 = rhs_positive.into();
         let lhs_u128: u128 = lhs_felt.try_into().unwrap();
         let rhs_u128: u128 = rhs_felt.try_into().unwrap();
-        let mut result = lhs_u128 / rhs_u128; 
+        let mut result = lhs_u128 / rhs_u128;
         let felt_result: felt252 = result.into();
         let signed_int_result: i16 = felt_result.try_into().unwrap();
         if lhs * rhs < 0 {
@@ -2176,7 +2176,7 @@ impl I32Number of NumberTrait<i32, i32> {
         0
     }
     fn is_zero(self: i32) -> bool {
-       self == 0 
+        self == 0
     }
 
     fn half() -> i32 {
@@ -2212,7 +2212,7 @@ impl I32Number of NumberTrait<i32, i32> {
     }
 
     fn max_value() -> i32 {
-       2147483647 
+        2147483647
     }
 
     fn min(self: i32, other: i32) -> i32 {
@@ -2290,7 +2290,7 @@ impl I32Number of NumberTrait<i32, i32> {
     }
 
     fn INF() -> i32 {
-       2147483647 
+        2147483647
     }
 
     fn is_inf(self: i32) -> bool {
@@ -2298,11 +2298,11 @@ impl I32Number of NumberTrait<i32, i32> {
     }
 
     fn is_pos_inf(self: i32) -> bool {
-        self == 2147483647 
+        self == 2147483647
     }
 
     fn is_neg_inf(self: i32) -> bool {
-       self == -2147483647 
+        self == -2147483647
     }
 
     fn bitwise_and(lhs: i32, rhs: i32) -> i32 {
@@ -2343,7 +2343,7 @@ impl I32Div of Div<i32> {
         let rhs_felt: felt252 = rhs_positive.into();
         let lhs_u128: u128 = lhs_felt.try_into().unwrap();
         let rhs_u128: u128 = rhs_felt.try_into().unwrap();
-        let mut result = lhs_u128 / rhs_u128; 
+        let mut result = lhs_u128 / rhs_u128;
         let felt_result: felt252 = result.into();
         let signed_int_result: i32 = felt_result.try_into().unwrap();
         if lhs * rhs < 0 {
@@ -2482,7 +2482,7 @@ impl I64Number of NumberTrait<i64, i64> {
         0
     }
     fn is_zero(self: i64) -> bool {
-       self == 0 
+        self == 0
     }
 
     fn half() -> i64 {
@@ -2518,7 +2518,7 @@ impl I64Number of NumberTrait<i64, i64> {
     }
 
     fn max_value() -> i64 {
-       9223372036854775807 
+        9223372036854775807
     }
 
     fn min(self: i64, other: i64) -> i64 {
@@ -2596,7 +2596,7 @@ impl I64Number of NumberTrait<i64, i64> {
     }
 
     fn INF() -> i64 {
-       9223372036854775807 
+        9223372036854775807
     }
 
     fn is_inf(self: i64) -> bool {
@@ -2604,11 +2604,11 @@ impl I64Number of NumberTrait<i64, i64> {
     }
 
     fn is_pos_inf(self: i64) -> bool {
-        self == 9223372036854775807 
+        self == 9223372036854775807
     }
 
     fn is_neg_inf(self: i64) -> bool {
-       self == -9223372036854775807 
+        self == -9223372036854775807
     }
 
     fn bitwise_and(lhs: i64, rhs: i64) -> i64 {
@@ -2649,7 +2649,7 @@ impl I64Div of Div<i64> {
         let rhs_felt: felt252 = rhs_positive.into();
         let lhs_u128: u128 = lhs_felt.try_into().unwrap();
         let rhs_u128: u128 = rhs_felt.try_into().unwrap();
-        let mut result = lhs_u128 / rhs_u128; 
+        let mut result = lhs_u128 / rhs_u128;
         let felt_result: felt252 = result.into();
         let signed_int_result: i64 = felt_result.try_into().unwrap();
         if lhs * rhs < 0 {
@@ -2775,7 +2775,7 @@ impl I128Number of NumberTrait<i128, i128> {
         0
     }
     fn is_zero(self: i128) -> bool {
-       self == 0 
+        self == 0
     }
 
     fn half() -> i128 {
@@ -2811,7 +2811,7 @@ impl I128Number of NumberTrait<i128, i128> {
     }
 
     fn max_value() -> i128 {
-       170141183460469231731687303715884105727 
+        170141183460469231731687303715884105727
     }
 
     fn min(self: i128, other: i128) -> i128 {
@@ -2889,19 +2889,20 @@ impl I128Number of NumberTrait<i128, i128> {
     }
 
     fn INF() -> i128 {
-       170141183460469231731687303715884105727 
+        170141183460469231731687303715884105727
     }
 
     fn is_inf(self: i128) -> bool {
-        (self == 170141183460469231731687303715884105727 || self == -170141183460469231731687303715884105727)
+        (self == 170141183460469231731687303715884105727
+            || self == -170141183460469231731687303715884105727)
     }
 
     fn is_pos_inf(self: i128) -> bool {
-        self == 170141183460469231731687303715884105727 
+        self == 170141183460469231731687303715884105727
     }
 
     fn is_neg_inf(self: i128) -> bool {
-       self == -170141183460469231731687303715884105727 
+        self == -170141183460469231731687303715884105727
     }
 
     fn bitwise_and(lhs: i128, rhs: i128) -> i128 {
@@ -2942,7 +2943,7 @@ impl I128Div of Div<i128> {
         let rhs_felt: felt252 = rhs_positive.into();
         let lhs_u128: u128 = lhs_felt.try_into().unwrap();
         let rhs_u128: u128 = rhs_felt.try_into().unwrap();
-        let mut result = lhs_u128 / rhs_u128; 
+        let mut result = lhs_u128 / rhs_u128;
         let felt_result: felt252 = result.into();
         let signed_int_result: i128 = felt_result.try_into().unwrap();
         // assigning the sign and returning

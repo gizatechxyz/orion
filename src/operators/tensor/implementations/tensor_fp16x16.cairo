@@ -564,6 +564,28 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn optional(self: @Tensor<FP16x16>) -> Option<Tensor<FP16x16>>{
         manipulation::optional::optional(self)
     }
+    
+
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP16x16>
+    ) -> (Tensor::<u32>, Tensor::<FP16x16>, Tensor<FP16x16>){
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        )   
+    }
+    
+    fn scatter_nd(
+        self: @Tensor<FP16x16>,
+        updates: Tensor<FP16x16>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP16x16> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

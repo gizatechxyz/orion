@@ -14,40 +14,14 @@ fn qlinearmul_test() {
         i8
     >::new(
         shape: array![4, 3].span(),
-        data: array![
-            1_i8,
-            2_i8,
-            3_i8,
-            4_i8,
-            5_i8,
-            6_i8,
-            7_i8,
-            8_i8,
-            9_i8,
-            10_i8,
-            11_i8,
-            12_i8
-        ]
+        data: array![1_i8, 2_i8, 3_i8, 4_i8, 5_i8, 6_i8, 7_i8, 8_i8, 9_i8, 10_i8, 11_i8, 12_i8]
             .span(),
     );
     let b = TensorTrait::<
         i8
     >::new(
         shape: array![4, 3].span(),
-        data: array![
-            2_i8,
-            4_i8,
-            6_i8,
-            8_i8,
-            10_i8,
-            12_i8,
-            14_i8,
-            16_i8,
-            18_i8,
-            20_i8,
-            22_i8,
-            24_i8
-        ]
+        data: array![2_i8, 4_i8, 6_i8, 8_i8, 10_i8, 12_i8, 14_i8, 16_i8, 18_i8, 20_i8, 22_i8, 24_i8]
             .span(),
     );
 
@@ -96,30 +70,11 @@ fn qlinear_mul_broadcast_test() {
         i8
     >::new(
         shape: array![2, 4].span(),
-        data: array![
-            1_i8,
-            2_i8,
-            3_i8,
-            4_i8,
-            5_i8,
-            6_i8,
-            7_i8,
-            8_i8
-        ]
-            .span(),
+        data: array![1_i8, 2_i8, 3_i8, 4_i8, 5_i8, 6_i8, 7_i8, 8_i8].span(),
     );
     let b = TensorTrait::<
         i8
-    >::new(
-        shape: array![1, 4].span(),
-        data: array![
-            2_i8,
-            4_i8,
-            6_i8,
-            8_i8,
-        ]
-            .span(),
-    );
+    >::new(shape: array![1, 4].span(), data: array![2_i8, 4_i8, 6_i8, 8_i8,].span(),);
 
     let a_scale = TensorTrait::<
         FP16x16
@@ -161,28 +116,11 @@ fn test_example_doc() {
     let a = TensorTrait::<
         i8
     >::new(
-        shape: array![2, 3].span(),
-        data: array![
-            21_i8,
-            21_i8,
-            21_i8,
-            41_i8,
-            41_i8,
-            41_i8
-        ]
-            .span(),
+        shape: array![2, 3].span(), data: array![21_i8, 21_i8, 21_i8, 41_i8, 41_i8, 41_i8].span(),
     );
     let b = TensorTrait::<
         i8
-    >::new(
-        shape: array![1, 3].span(),
-        data: array![
-            4_i8,
-            8_i8,
-            12_i8
-        ]
-            .span(),
-    );
+    >::new(shape: array![1, 3].span(), data: array![4_i8, 8_i8, 12_i8].span(),);
 
     let a_scale = TensorTrait::<
         FP16x16

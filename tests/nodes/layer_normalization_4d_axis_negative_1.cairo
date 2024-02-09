@@ -19,7 +19,10 @@ fn test_layer_normalization_4d_axis_negative_1() {
     let input_2 = input_2::input_2();
     let z_0 = output_0::output_0();
 
-    let (y_0, _, _) = input_0.layer_normalization(@input_1,Option::Some(@input_2),Option::Some(-1),Option::None,Option::None);
+    let (y_0, _, _) = input_0
+        .layer_normalization(
+            @input_1, Option::Some(@input_2), Option::Some(-1), Option::None, Option::None
+        );
 
     assert_eq(y_0, z_0);
 }
