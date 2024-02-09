@@ -35,5 +35,6 @@ Orion supports currently these `NN` types.
 | [`nn.hard_sigmoid`](nn.hard\_sigmoid.md) | Applies the Hard Sigmoid function to an n-dimensional input tensor. |
 | [`nn.thresholded_relu`](nn.thresholded\_relu.md) | Performs the thresholded relu activation function element-wise. |
 | [`nn.gemm`](nn.gemm.md) | Performs General Matrix multiplication. |
-| [`nn.conv_transpose`](nn.conv\_transpose.md) | Performs the convolution of the input data tensor and weigth tensor. |
+| [`nn.conv_transpose`](nn.conv\_transpose.md) | Performs the convolution transpose of the input data tensor and weigth tensor. |
+| [`nn.conv`](nn.conv.md) | Performs the convolution of the input data tensor and weigth tensor. |
 
