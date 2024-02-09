@@ -47,7 +47,7 @@ Join the community and help build a safer and transparent AI in our [Discord](ht
 
 ## 🚀 Orion Usage
 - For an insightful overview of impressive proof of concepts, models, and tutorials created by our community, please visit [Orion Usage](https://github.com/gizatechxyz/orion/blob/main/orion-usage.md).
-- Discover a currated list of tutorials and models developed using Orion in [Orion-Hub](https://github.com/gizatechxyz/Orion-Hub).
+- Discover a curated list of tutorials and models developed using Orion in [Orion-Hub](https://github.com/gizatechxyz/Orion-Hub).
 
 ## ✍️ Authors & contributors
 
