@@ -18,7 +18,9 @@ fn test_gemm_default_matrix_bias() {
     let input_2 = input_2::input_2();
     let z = output_0::output_0();
 
-    let y = NNTrait::gemm(input_0, input_1, Option::Some(input_2), Option::None(()), Option::None(()), false, false);
+    let y = NNTrait::gemm(
+        input_0, input_1, Option::Some(input_2), Option::None(()), Option::None(()), false, false
+    );
 
     assert_eq(y, z);
 }
