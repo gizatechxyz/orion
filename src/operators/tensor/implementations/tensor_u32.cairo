@@ -482,6 +482,10 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Array<Tensor<u32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+    
+    fn optional(self: @Tensor<u32>) -> Option<Tensor<u32>> {
+        manipulation::optional::optional(self)
+    }
 
     fn dynamic_quantize_linear(
         self: @Tensor<u32>

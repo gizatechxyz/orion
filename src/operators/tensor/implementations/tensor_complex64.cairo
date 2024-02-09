@@ -516,6 +516,10 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
+    fn optional(self: @Tensor<complex64>) -> Option<Tensor<complex64>>{
+        manipulation::optional::optional(self)
+    }
+    
     fn dynamic_quantize_linear(
         self: @Tensor<complex64>
     ) -> (Tensor::<u32>, Tensor::<complex64>, Tensor<complex64>) {

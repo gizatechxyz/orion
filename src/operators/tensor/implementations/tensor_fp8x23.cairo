@@ -560,6 +560,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
     
+    fn optional(self: @Tensor<FP8x23>) -> Option<Tensor<FP8x23>>{
+        manipulation::optional::optional(self)
+    }
+    
     fn dynamic_quantize_linear(
         self: @Tensor<FP8x23>
     ) -> (Tensor::<u32>, Tensor::<FP8x23>, Tensor<FP8x23>){

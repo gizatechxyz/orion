@@ -560,6 +560,11 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Array<Tensor<FP16x16>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+    
+    fn optional(self: @Tensor<FP16x16>) -> Option<Tensor<FP16x16>>{
+        manipulation::optional::optional(self)
+    }
+    
 
     fn dynamic_quantize_linear(
         self: @Tensor<FP16x16>

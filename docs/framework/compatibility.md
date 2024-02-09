@@ -113,5 +113,6 @@ You can see below the list of current supported ONNX Operators:
 |       [DequantizeLinear](operators/tensor/tensor.dequantize_linear.md)        | :white\_check\_mark: |
 |         [SpaceToDepth](operators/neural-network/nn.space_to_depth.md)         | :white\_check\_mark: |
 |         [DepthToSpace](operators/neural-network/nn.depth_to_space.md)         | :white\_check\_mark: |
+|                [Optional](operators/tensor/tensor.optional.md)                | :white\_check\_mark: |
 
 Current Operators support: **98/156 (62%)**

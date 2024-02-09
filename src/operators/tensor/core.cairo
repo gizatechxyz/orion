@@ -118,6 +118,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// erf - Computes the error function of the given input tensor element-wise.
 /// layer_normalization - computes the layer normalization of the input tensor.
 /// split - Split a tensor into a list of tensors, along the specified ‘axis’. 
+/// optional - Constructs an optional-type value containing either an empty optional of a certain type specified by the attribute, or a non-empty value containing the input element.
 /// dynamic_quantize_linear - Computes the Scale, Zero Point and FP32->8Bit conversion of FP32 Input data. 
 /// scatter_nd - The output of the operation is produced by creating a copy of the input data, and then updating its value to values specified by updates at specific index positions specified by indices. Its output shape is the same as the shape of data
 trait TensorTrait<T> {
@@ -5122,6 +5123,7 @@ trait TensorTrait<T> {
     /// ## Args
     /// Split a tensor into a list of tensors, along the specified ‘axis’
     ///
+    /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
     /// * `axis`(`usize`) - The axis along which to split on.
@@ -5305,6 +5307,50 @@ trait TensorTrait<T> {
     fn dynamic_quantize_linear(
         self: @Tensor<T>
     ) -> (Tensor<u32>, Tensor<T>, Tensor<T>);
+    /// # tensor.optional
+    ///
+    /// ```rust 
+    ///    fn optional(self: @Tensor<T>) -> Option<Tensor<T>>;
+    /// ```
+    ///
+    /// Constructs an optional-type value containing either an empty optional of a certain 
+    /// type specified by the attribute, or a non-empty value containing the input element.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// The optional output enclosing the input element.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::option::OptionTrait;
+    /// fn optional_example() -> Option<Tensor<T>> {
+    ///     let a = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(
+    ///         shape: array![4, 2].span(),
+    ///         data: array![
+    ///            1_i8,
+    ///            2_i8,
+    ///            3_i8,
+    ///            4_i8,
+    ///            5_i8,
+    ///            6_i8,
+    ///            7_i8,
+    ///            8_i8
+    ///         ].span(),
+    ///     );
+    ///     a.optional()
+    /// }
+    /// >>> Option[Tensor[1,2,3,4,5,6,7,8]]
+    ///     
+    /// ```
+    ///
+    fn optional(self: @Tensor<T>) -> Option<Tensor<T>>;
 }
 
 /// Cf: TensorTrait::new docstring

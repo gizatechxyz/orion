@@ -562,6 +562,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
     
+    fn optional(self: @Tensor<FP64x64>) -> Option<Tensor<FP64x64>>{
+        manipulation::optional::optional(self)
+    }
+    
     fn dynamic_quantize_linear(
         self: @Tensor<FP64x64>
     ) -> (Tensor::<u32>, Tensor::<FP64x64>, Tensor<FP64x64>){

@@ -535,7 +535,11 @@ impl I32Tensor of TensorTrait<i32> {
     ) -> Array<Tensor<i32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
-
+    
+    fn optional(self: @Tensor<i32>) -> Option<Tensor<i32>>{
+        manipulation::optional::optional(self)  
+    }
+    
     fn dynamic_quantize_linear(
         self: @Tensor<i32>
     ) -> (Tensor::<u32>, Tensor::<i32>, Tensor<i32>){

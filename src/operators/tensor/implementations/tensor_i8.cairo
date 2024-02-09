@@ -540,6 +540,10 @@ impl I8Tensor of TensorTrait<i8> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
     
+    fn optional(self: @Tensor<i8>) -> Option<Tensor<i8>>{
+        manipulation::optional::optional(self)
+    }
+    
     fn dynamic_quantize_linear(
         self: @Tensor<i8>
     ) -> (Tensor::<u32>, Tensor::<i8>, Tensor<i8>){

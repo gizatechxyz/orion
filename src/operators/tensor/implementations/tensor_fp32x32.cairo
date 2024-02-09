@@ -562,6 +562,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
     
+    fn optional(self: @Tensor<FP32x32>) -> Option<Tensor<FP32x32>>{
+        manipulation::optional::optional(self)
+    }
+    
     fn dynamic_quantize_linear(
         self: @Tensor<FP32x32>
     ) -> (Tensor::<u32>, Tensor::<FP32x32>, Tensor<FP32x32>){
@@ -574,7 +578,6 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         )   
     }
     
-
     fn scatter_nd(
         self: @Tensor<FP32x32>,
         updates: Tensor<FP32x32>,

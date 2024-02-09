@@ -484,6 +484,11 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Array<Tensor<bool>> {
         panic(array!['not supported!'])
     }
+
+    fn optional(self: @Tensor<bool>) -> Option<Tensor<bool>>{
+        manipulation::optional::optional(self)
+    }
+
     
     fn dynamic_quantize_linear(
         self: @Tensor<bool>
