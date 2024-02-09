@@ -55,6 +55,10 @@ impl FP32x32NN of NNTrait<FP32x32> {
         functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
     }
 
+    fn depth_to_space(tensor: @Tensor<FP32x32>, blocksize: usize, mode: felt252) -> Tensor<FP32x32> {
+        functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
+    }
+    
     fn space_to_depth(tensor: @Tensor<FP32x32>, blocksize: usize) -> Tensor<FP32x32> {
         functional::space_to_depth::space_to_depth(*tensor, blocksize)
     }

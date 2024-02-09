@@ -50,6 +50,10 @@ impl I8NN of NNTrait<i8> {
         panic(array!['not supported!'])
     }
 
+    fn depth_to_space(tensor: @Tensor<i8>, blocksize: usize, mode: felt252) -> Tensor<i8> {
+        functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
+    }
+    
     fn space_to_depth(tensor: @Tensor<i8>, blocksize: usize) -> Tensor<i8> {
         functional::space_to_depth::space_to_depth(*tensor, blocksize)
     }

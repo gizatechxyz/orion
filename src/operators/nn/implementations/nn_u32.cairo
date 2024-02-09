@@ -50,6 +50,10 @@ impl U32NN of NNTrait<u32> {
         panic(array!['not supported!'])
     }
 
+    fn depth_to_space(tensor: @Tensor<u32>, blocksize: usize, mode: felt252) -> Tensor<u32> {
+        functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
+    }
+    
     fn space_to_depth(tensor: @Tensor<u32>, blocksize: usize) -> Tensor<u32> {
         functional::space_to_depth::space_to_depth(*tensor, blocksize)
     }
