@@ -75,6 +75,16 @@ impl FP32x32NN of NNTrait<FP32x32> {
         functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
     }
 
+    fn grid_sample(
+        X: @Tensor<FP32x32>,
+        grid: @Tensor<FP32x32>,
+        align_corner: Option<usize>,
+        mode: Option<functional::grid_sample::MODE>,
+        padding_mode: Option<functional::grid_sample::PADDING_MODE>,
+    ) -> Tensor<FP32x32> {
+        functional::grid_sample::grid_sample(X, grid, align_corner, mode, padding_mode)
+    }
+    
     fn col2im(
         data: @Tensor<FP32x32>,
         image_shape: Span<usize>,

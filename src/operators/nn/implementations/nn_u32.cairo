@@ -70,6 +70,16 @@ impl U32NN of NNTrait<u32> {
         functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
     }
 
+    fn grid_sample(
+        X: @Tensor<u32>,
+        grid: @Tensor<u32>,
+        align_corner: Option<usize>,
+        mode: Option<functional::grid_sample::MODE>,
+        padding_mode: Option<functional::grid_sample::PADDING_MODE>,
+    ) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+    
     fn col2im(
         data: @Tensor<u32>,
         image_shape: Span<usize>,
