@@ -34,6 +34,46 @@ impl MutMatrixImpl<
         }
     }
 
+    /// Get the value at (row, col)
+    fn at(ref self: MutMatrix<T>, row: usize, col: usize) -> T {
+        return match self.get(row, col) {
+            Option::Some(val) => val,
+            Option::None => NumberTrait::zero(),
+        };
+    }
+
+    /// Performs the product between a m x n `MutMatrix<T>` and a n x 1 `NullableVec<T>`. 
+    /// Returns the resulta as a `NullableVec<T>`.
+    fn matrix_vector_product<+Mul<T>, +Add<T>, +Div<T>, +AddEq<T>>(
+        ref self: MutMatrix<T>, ref vec: NullableVec<T>
+    ) -> NullableVec<T> {
+        assert(self.cols == vec.len, 'wrong matrix shape for dot');
+        let m = self.rows;
+        let n = self.cols;
+
+        let mut result_vec = VecTrait::new();
+
+        let mut i = 0_usize;
+        loop {
+            if i == m {
+                break ();
+            }
+            let mut sum: T = NumberTrait::zero();
+            let mut k = 0_usize;
+            loop {
+                if k == n {
+                    break ();
+                }
+                sum += MutMatrixImpl::at(ref self, i, k) * VecTrait::at(ref vec, k);
+                k += 1;
+            };
+            VecTrait::set(ref result_vec, i, sum);
+
+            i += 1;
+        };
+        return result_vec;
+    }
+
     /// Set the value at (row, col)
     fn set(ref self: MutMatrix<T>, row: usize, col: usize, value: T) {
         if row < self.rows && col < self.cols {
@@ -341,3 +381,4 @@ impl MutMatrixImpl<
         result
     }
 }
+

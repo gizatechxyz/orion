@@ -55,6 +55,14 @@ impl FP32x32NN of NNTrait<FP32x32> {
         functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
     }
 
+    fn depth_to_space(tensor: @Tensor<FP32x32>, blocksize: usize, mode: felt252) -> Tensor<FP32x32> {
+        functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
+    }
+    
+    fn space_to_depth(tensor: @Tensor<FP32x32>, blocksize: usize) -> Tensor<FP32x32> {
+        functional::space_to_depth::space_to_depth(*tensor, blocksize)
+    }
+
     fn gemm(
         A: Tensor<FP32x32>,
         B: Tensor<FP32x32>,
@@ -75,5 +83,58 @@ impl FP32x32NN of NNTrait<FP32x32> {
         padding_mode: Option<functional::grid_sample::PADDING_MODE>,
     ) -> Tensor<FP32x32> {
         functional::grid_sample::grid_sample(X, grid, align_corner, mode, padding_mode)
+    }
+    
+    fn col2im(
+        data: @Tensor<FP32x32>,
+        image_shape: Span<usize>,
+        block_shape: Span<usize>,
+        dilations: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP32x32> {
+        functional::col2im::col2im(data, image_shape, block_shape, dilations, pads, strides,)
+    }
+    
+    fn conv_transpose(
+        X: @Tensor<FP32x32>,
+        W: @Tensor<FP32x32>,
+        B: Option<@Tensor<FP32x32>>,
+        auto_pad: Option<functional::conv_transpose::AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        output_padding: Option<Span<usize>>,
+        output_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP32x32> {
+        functional::conv_transpose::conv_transpose(
+            X,
+            W,
+            B,
+            auto_pad,
+            dilations,
+            group,
+            kernel_shape,
+            output_padding,
+            output_shape,
+            pads,
+            strides
+        )
+    }
+    
+    fn conv(
+        X: @Tensor<FP32x32>,
+        W: @Tensor<FP32x32>,
+        B: Option<Span<FP32x32>>,
+        auto_pad: Option<functional::conv::AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP32x32> {
+        functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
 }

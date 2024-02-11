@@ -539,6 +539,58 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Array<Tensor<i8>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn random_uniform_like(tensor: @Tensor<i8>, high: Option<i8>, low: Option<i8>, seed: Option<usize>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+    
+    fn range(start: i8, end: i8, step: i8) -> Tensor<i8> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: i8, periodic: Option<usize>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn hamming_window(size: i8, periodic: Option<usize>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn blackman_window(size: i8, periodic: Option<usize>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+    
+    
+    fn split_to_sequence(
+        self: @Tensor<i8>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<i8>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+
+    fn reverse_sequence(
+        self: @Tensor<i8>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<i8> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+    
+    fn optional(self: @Tensor<i8>) -> Option<Tensor<i8>>{
+        manipulation::optional::optional(self)
+    }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<i8>
+    ) -> (Tensor::<u32>, Tensor::<i8>, Tensor<i8>){
+        panic(array!['not supported!'])
+    }
+
+    fn scatter_nd(
+        self: @Tensor<i8>,
+        updates: Tensor<i8>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<i8> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
