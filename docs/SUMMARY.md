@@ -150,6 +150,7 @@
     * [tensor.scatter\_nd](framework/operators/tensor/tensor.scatter\_nd.md)
     * [tensor.dynamic_quantize_linear](framework/operators/tensor/tensor.dequantize_linear.md)
     * [tensor.optional](framework/operators/tensor/tensor.optional.md)
+    * [tensor.reverse_sequence](framework/operators/tensor/tensor.reverse_sequence.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)

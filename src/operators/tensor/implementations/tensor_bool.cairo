@@ -485,10 +485,15 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn reverse_sequence(
+        self: @Tensor<bool>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<bool> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+    
     fn optional(self: @Tensor<bool>) -> Option<Tensor<bool>>{
         manipulation::optional::optional(self)
     }
-
     
     fn dynamic_quantize_linear(
         self: @Tensor<bool>

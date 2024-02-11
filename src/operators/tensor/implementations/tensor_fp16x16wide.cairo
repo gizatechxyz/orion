@@ -512,6 +512,13 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     ) -> Array<Tensor<FP16x16W>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn reverse_sequence(
+        self: @Tensor<FP16x16W>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<FP16x16W> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+    
     
     fn optional(self: @Tensor<FP16x16W>) -> Option<Tensor<FP16x16W>>{
         manipulation::optional::optional(self)

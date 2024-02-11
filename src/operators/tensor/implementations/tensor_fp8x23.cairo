@@ -559,6 +559,12 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     ) -> Array<Tensor<FP8x23>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn reverse_sequence(
+        self: @Tensor<FP8x23>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<FP8x23> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
     
     fn optional(self: @Tensor<FP8x23>) -> Option<Tensor<FP8x23>>{
         manipulation::optional::optional(self)

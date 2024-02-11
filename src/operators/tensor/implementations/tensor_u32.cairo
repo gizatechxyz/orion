@@ -482,6 +482,12 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Array<Tensor<u32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn reverse_sequence(
+        self: @Tensor<u32>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<u32> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
     
     fn optional(self: @Tensor<u32>) -> Option<Tensor<u32>> {
         manipulation::optional::optional(self)

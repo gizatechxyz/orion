@@ -498,6 +498,12 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
+    fn reverse_sequence(
+        self: @Tensor<complex64>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<complex64> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+
     fn resize(
         self: @Tensor<complex64>,
         roi: Option<Tensor<complex64>>,

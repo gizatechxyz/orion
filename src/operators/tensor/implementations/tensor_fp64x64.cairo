@@ -561,6 +561,13 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> Array<Tensor<FP64x64>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn reverse_sequence(
+        self: @Tensor<FP64x64>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<FP64x64> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+    
     
     fn optional(self: @Tensor<FP64x64>) -> Option<Tensor<FP64x64>>{
         manipulation::optional::optional(self)
