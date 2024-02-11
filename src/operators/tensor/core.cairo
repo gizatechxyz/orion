@@ -118,10 +118,15 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// erf - Computes the error function of the given input tensor element-wise.
 /// layer_normalization - computes the layer normalization of the input tensor.
 /// split - Split a tensor into a list of tensors, along the specified ‘axis’. 
+/// split_to_sequence - Split a tensor into a sequence of tensors, along the specified ‘axis’.
 /// range - Generate a tensor containing a sequence of numbers that begin at start and extends by increments of delta up to limit (exclusive).
 /// hann_window - Generates a Hann window as described in the paper https://ieeexplore.ieee.org/document/1455106.
 /// hamming_window - Generates a Hamming window as described in the paper https://ieeexplore.ieee.org/document/1455106.
 /// blackman_window - Generates a Blackman window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+/// reverse_sequence - Reverse batch of sequences having different lengths specified by sequence_lens.
+/// optional - Constructs an optional-type value containing either an empty optional of a certain type specified by the attribute, or a non-empty value containing the input element.
+/// dynamic_quantize_linear - Computes the Scale, Zero Point and FP32->8Bit conversion of FP32 Input data. 
+/// scatter_nd - The output of the operation is produced by creating a copy of the input data, and then updating its value to values specified by updates at specific index positions specified by indices. Its output shape is the same as the shape of data
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -2463,7 +2468,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<T>` with the same shape as the input tensor, containing the quantized values.
+    /// A new `Tensor<Q>` with the same shape as the input tensor, containing the quantized values.
     ///
     /// ## Type Constraints
     ///
@@ -2516,7 +2521,7 @@ trait TensorTrait<T> {
     ///
     /// ## Args
     ///
-    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `self`(`@Tensor<Q>`) - The input tensor.
     /// * `x_scale`(`@Tensor<T>`) - Scale for input `x`.
     /// * `x_zero_point`(`@Tensor<T>`) - Zero point for input `x`.
     ///
@@ -5121,9 +5126,10 @@ trait TensorTrait<T> {
     ///    fn split(self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, split: Option<Tensor<usize>>
     ///    ) -> Array<Tensor<T>>;
     /// ```
-    ///
+    /// ## Args
     /// Split a tensor into a list of tensors, along the specified ‘axis’
     ///
+    /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
     /// * `axis`(`usize`) - The axis along which to split on.
@@ -5157,7 +5163,7 @@ trait TensorTrait<T> {
     ///     // split = Option::Some(array![1, 1].span());
     ///     let split_num: Option<Tensor<usize>> = Option::None(());
     ///     // We can call `split` function as follows.
-    ///     return tensor.split(0, num_outputs, split_num);
+    ///     return tensor.split(1, num_outputs, split_num);
     /// }
     /// >>> [[0,1],[4,5]]
     ///     [[2,3],[6,7]]
@@ -5165,6 +5171,298 @@ trait TensorTrait<T> {
     ///
     fn split(
         self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<T>>;
+    /// # tensor.reverse_sequence
+    ///
+    /// ```rust
+    ///    fn reverse_sequence(self: @Tensor<T>, sequence_lens: @Tensor<i32>, batch_axis: Option<usize>, time_axis: Option<usize>) -> 
+    ///    Tensor<T>;
+    /// ```
+    ///
+    /// Reverse batch of sequences having different lengths specified by sequence_lens.
+    ///
+    /// * `self`(`@Array<Tensor<T>>`) - Tensor of rank r >= 2.
+    /// * `sequence_lens`(`@Tensor<T>`) - Tensor specifying lengths of the sequences in a batch. It has shape [batch_size].
+    /// * `batch_axis`(`Option<usize>`) - (Optional) Specify which axis is batch axis. Must be one of 1 (default), or 0.
+    /// * `time_axis`(`Option<usize>`) - (Optional) Specify which axis is time axis. Must be one of 0 (default), or 1.
+    ///
+    /// ## Panics
+    /// 
+    /// * Panics if the 'batch_axis' == 'time_axis'.
+    /// * Panics if the 'batch_axis' and 'time_axis' are not 0 and 1.
+    /// * Panics if the 'sequence_len' exceeding the sequence range.
+    ///
+    /// ## Returns
+    ///
+    /// Tensor with same shape of input.
+    /// 
+    /// ## Example
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// use core::option::OptionTrait;
+    /// fn reverse_sequence_example() -> Tensor<u32> {
+    ///     let tensor: Tensor<u32> = TensorTrait::<u32>::new(
+    ///         shape: array![4,4].span(), 
+    ///         data: array![
+    ///             0, 1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16
+    ///             ].span(),
+    ///     );
+    ///     let sequence_lens = TensorTrait::<usize>::new(array![4].span(), array![1,2,3,4].span());
+    ///     let batch_axis = Option::Some(0);
+    ///     let time_axis = Option::Some(1);
+    ///     // We can call `split` function as follows.
+    ///     return tensor.reverse_sequence(sequence_lens, batch_axis, time_axis);
+    /// }
+    /// >>> [
+    ///         [0,1,2,3],
+    ///         [5,4,6,7],
+    ///         [10,9,8,11],
+    ///         [15,14,13,12]
+    ///     ] 
+    /// ```
+    ///
+    fn reverse_sequence(
+        self: @Tensor<T>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<T>;
+    /// # tensor.scatter_nd
+    ///
+    /// ```rust 
+    ///    fn scatter_nd(self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>,  reduction: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `updates`(`Tensor<T>`) - The updates tensor.
+    /// * `indices`(`Tensor<T>`) - Tensor of indices.
+    /// * `reduction`(`Option<usize>`) - Reduction operation. Default: reduction='none'.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if index values are not within bounds [-s, s-1] along axis of size s.
+    /// * Panics if indices last axis is greater than data rank.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` .
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn scatter_nd_example() -> Tensor<u32> {
+    ///    let tensor = TensorTrait::<u32>::new(
+    ///        shape: array![4, 4, 4].span(), 
+    ///        data: array![1, 2, 3, 4, 5, 6, 7, 8, 8, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6,
+    ///             7, 8, 8, 7, 6, 5, 4, 3, 2, 1, 8, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4,
+    ///             5, 6, 7, 8, 8, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7, 8].span()
+    ///    );
+    ///
+    ///    let updates = TensorTrait::<u32>::new(
+    ///        shape: array![2, 4, 4].span(), 
+    ///        data: array![5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 1, 1, 1, 1, 2, 2,
+    ///                    2, 2, 3, 3, 3, 3, 4, 4, 4, 4].span(), 
+    ///    );
+    ///
+    ///    let indices = TensorTrait::<u32>::new(
+    ///        shape: array![2, 1].span(), 
+    ///        data: array![0, 2].span(), 
+    ///    );
+    /// 
+    ///     return tensor.scatter_nd(
+    ///         updates: updates
+    ///         indices: indices, 
+    ///         reduction: Option::Some('add'), 
+    ///     );
+    /// }
+    /// >>> [[[ 6.,  7.,  8.,  9.],
+    ///        [11., 12., 13., 14.],
+    ///        [15., 14., 13., 12.],
+    ///        [12., 11., 10.,  9.]],
+    ///
+    ///    [[ 1.,  2.,  3.,  4.],
+    ///        [ 5.,  6.,  7.,  8.],
+    ///        [ 8.,  7.,  6.,  5.],
+    ///        [ 4.,  3.,  2.,  1.]],
+    ///
+    ///    [[ 9.,  8.,  7.,  6.],
+    ///        [ 6.,  5.,  4.,  3.],
+    ///        [ 4.,  5.,  6.,  7.],
+    ///        [ 9., 10., 11., 12.]],
+    ///
+    ///    [[ 8.,  7.,  6.,  5.],
+    ///        [ 4.,  3.,  2.,  1.],
+    ///        [ 1.,  2.,  3.,  4.],
+    ///        [ 5.,  6.,  7.,  8.]]]
+    /// ```
+    ///
+    fn scatter_nd(
+        self: @Tensor<T>,
+        updates: Tensor<T>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<T>;
+    /// # tensor.dynamic_quantize_linear
+    /// 
+    /// ```rust
+    /// fn dynamic_quantize_linear(self: @Tensor<T>) -> (Tensor::<Q>, Tensor<T>, Tensor<T>);
+    /// ```
+    /// 
+    /// Quantizes a Tensor using dynamic linear quantization.
+    ///
+    /// The dynamic linear quantization operator. It consumes a high precision tensor 
+    /// to compute the low precision / quantized tensor dynamicly. 
+    /// Right now only uint8 is supported, it saturates to [0, 255].
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<Q>` with the same shape as the input tensor, containing the quantized values.
+    /// * `y_scale`(`@Tensor<T>`) - Scale for doing quantization to get `y`.
+    /// * `y_zero_point`(`@Tensor<T>`) - Zero point for doing quantization to get `y`.
+    ///
+    /// ## Type Constraints
+    ///
+    /// * `T` in (`Tensor<FP>`, `Tensor<i8>`, `Tensor<i32>`, `tensor<u32>`)
+    /// * `Q` in (`Tensor<i32>`)- Constrain `y` to 8-bit unsigned integer tensor.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
+    /// use orion::numbers::{u8, i32, IntegerTrait};
+    /// 
+    /// fn dynamic_quantize_linear_example() -> (Tensor<u32>, Tensor<FP16x16>, Tensor<FP16x16>) {
+    ///     // We instantiate a 1D Tensor here.
+    ///     let x = TensorTrait::<FP16x16>::new(
+    ///         shape: array![6].span(),
+    ///         data: array![
+    ///             FP16x16 { mag: 10945, sign: false },
+    ///             FP16x16 { mag: 190054, sign: false },
+    ///             FP16x16 { mag: 196608, sign: false },
+    ///             FP16x16 { mag: 229376, sign: false },
+    ///             FP16x16 { mag: 196608, sign: true },
+    ///             FP16x16 { mag: 229376, sign: true },
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     return x.dynamic_quantize_linear();
+    /// }
+    /// >>> ([133, 233, 236, 255, -18, -0], [0.02745], [128]
+    /// ```
+    ///
+    fn dynamic_quantize_linear(
+        self: @Tensor<T>
+    ) -> (Tensor<u32>, Tensor<T>, Tensor<T>);
+    /// # tensor.optional
+    ///
+    /// ```rust 
+    ///    fn optional(self: @Tensor<T>) -> Option<Tensor<T>>;
+    /// ```
+    ///
+    /// Constructs an optional-type value containing either an empty optional of a certain 
+    /// type specified by the attribute, or a non-empty value containing the input element.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// The optional output enclosing the input element.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::option::OptionTrait;
+    /// fn optional_example() -> Option<Tensor<T>> {
+    ///     let a = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(
+    ///         shape: array![4, 2].span(),
+    ///         data: array![
+    ///            1_i8,
+    ///            2_i8,
+    ///            3_i8,
+    ///            4_i8,
+    ///            5_i8,
+    ///            6_i8,
+    ///            7_i8,
+    ///            8_i8
+    ///         ].span(),
+    ///     );
+    ///     a.optional()
+    /// }
+    /// >>> Option[Tensor[1,2,3,4,5,6,7,8]]
+    ///     
+    /// ```
+    ///
+    fn optional(self: @Tensor<T>) -> Option<Tensor<T>>;
+    /// # tensor.split_to_sequence
+    ///
+    /// ```rust 
+    ///    fn split_to_sequence(
+    ///        self: @Tensor<T>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ///    ) -> Array<Tensor<T>>;
+    /// ```
+    ///
+    /// Split a tensor into a sequence of tensors, along the specified ‘axis’
+    ///
+    ///
+    /// ## Args
+    /// * `self`(`@Tensor<T>`) - The input tensor to split.
+    /// * `axis`(`usize`) - The axis along which to split on.
+    /// * `keepdims  `(`usize`) - Keep the split dimension or not. If input ‘split’ is specified, this attribute is ignored.
+    /// * `split  `(`Option<Tensor<usize>>`) - Length of each output. It can be either a scalar(tensor of empty shape), or a 1-D tensor. All values must be >= 0.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the 'axis' accepted range is not [-rank, rank-1] where r = rank(input).
+    /// * Panics if the 'split' is not either a scalar (tensor of empty shape), or a 1-D tensor.
+    ///
+    /// ## Returns
+    ///
+    /// One or more outputs forming a sequence of tensors after splitting.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// use core::option::OptionTrait;
+    /// fn split_to_sequence_example() -> Array<Tensor<u32>> {
+    ///     let tensor: Tensor<u32> = TensorTrait::<u32>::new(
+    ///         shape: array![2,4].span(), 
+    ///         data: array![
+    ///             0, 1, 2, 3, 4, 5, 6, 7
+    ///             ].span(),
+    ///     );
+    ///     let num_outputs = Option::Some(2);
+    ///     // let split = Option::Some(TensorTrait::new(array![1].span(), array![2].span()));
+    ///     let split: Option<Tensor<usize>> = Option::Some(TensorTrait::new(array![2].span(), array![2, 2].span()));
+    ///     // We can call `split_to_sequence` function as follows.
+    ///     return tensor.split_to_sequence(1, 1, split);
+    /// }
+    /// >>> [
+    ///         [[0,1],[4,5]],
+    ///         [[2,3],[6,7]]
+    ///     ]
+    /// ```
+    ///
+    fn split_to_sequence(
+        self: @Tensor<T>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<T>>;
     /// # tensor.range
     ///
@@ -5700,10 +5998,14 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
                         let mut reshape: Array<usize> = ArrayTrait::new();
                         let mut index = 0_i32;
                         let axis = if *axis < 0 {
-                            assert(*axis <= (*self.shape).len().into(), 'axis out of accepted range');
+                            assert(
+                                *axis <= (*self.shape).len().into(), 'axis out of accepted range'
+                            );
                             (*self.shape).len().into() - *axis
                         } else {
-                            assert(*axis < (*self.shape).len().into(), 'axis out of accepted range');
+                            assert(
+                                *axis < (*self.shape).len().into(), 'axis out of accepted range'
+                            );
                             *axis
                         };
 

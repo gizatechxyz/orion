@@ -24,7 +24,7 @@ $$
 
 #### Generating the dataset
 
-In the following [notebook](https://github.com/gizatechxyz/orion\_tutorials/tree/main/verifiable\_linear\_regression\_model), we will create a synthetic dataset that will serve as the backbone throughout our tutorial.
+In the following [notebook](https://github.com/gizatechxyz/orion\_tutorials/tree/main/basic/verifiable\_linear\_regression\_model), we will create a synthetic dataset that will serve as the backbone throughout our tutorial.
 
 ```python
 import numpy as np
@@ -152,7 +152,7 @@ test = "scarb cairo-test -f linear_regression_test"
 
 ```
 
-#### Gerating the dataset in Cairo
+#### Generating the dataset in Cairo
 
 Now let’s generate the files required to begin our transition to Cairo. In our Jupyter Notebook, we will execute the code required to turn our synthetic dataset to fixed point values and represent our X and y values as Fixedpoint Tensors in Orion.
 

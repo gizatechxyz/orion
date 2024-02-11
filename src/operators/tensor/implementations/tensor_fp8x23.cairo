@@ -576,6 +576,46 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn blackman_window(size: FP8x23, periodic: Option<usize>) -> Tensor<FP8x23> {
         math::blackman_window::blackman_window(size, FP8x23 { mag: PI, sign: false }, periodic)
     }
+    
+    fn split_to_sequence(
+        self: @Tensor<FP8x23>, 
+        axis: usize, 
+        keepdims: usize, 
+        split: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP8x23>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+    
+    fn reverse_sequence(
+        self: @Tensor<FP8x23>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<FP8x23> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+    
+    fn optional(self: @Tensor<FP8x23>) -> Option<Tensor<FP8x23>>{
+        manipulation::optional::optional(self)
+    }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP8x23>
+    ) -> (Tensor::<u32>, Tensor::<FP8x23>, Tensor<FP8x23>){
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        ) 
+    }
+
+    fn scatter_nd(
+        self: @Tensor<FP8x23>,
+        updates: Tensor<FP8x23>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP8x23> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

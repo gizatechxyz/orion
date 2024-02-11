@@ -65,3 +65,4 @@ mod range;
 mod hann_window;
 mod hamming_window;
 mod blackman_window;
+mod scatter_nd;
