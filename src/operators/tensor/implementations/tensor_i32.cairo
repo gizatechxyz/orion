@@ -535,6 +535,22 @@ impl I32Tensor of TensorTrait<i32> {
     ) -> Array<Tensor<i32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn range(start: i32, end: i32, step: i32) -> Tensor<i32> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: i32, periodic: Option<usize>) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
+    fn hamming_window(size: i32, periodic: Option<usize>) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
+    fn blackman_window(size: i32, periodic: Option<usize>) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
     
     fn split_to_sequence(
         self: @Tensor<i32>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>

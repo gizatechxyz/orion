@@ -561,6 +561,22 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> Array<Tensor<FP64x64>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn range(start: FP64x64, end: FP64x64, step: FP64x64) -> Tensor<FP64x64> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: FP64x64, periodic: Option<usize>) -> Tensor<FP64x64> {
+        panic(array!['not supported!'])
+    }
+
+    fn hamming_window(size: FP64x64, periodic: Option<usize>) -> Tensor<FP64x64> {
+        panic(array!['not supported!'])
+    }
+
+    fn blackman_window(size: FP64x64, periodic: Option<usize>) -> Tensor<FP64x64> {
+        panic(array!['not supported!'])
+    }
     
     fn split_to_sequence(
         self: @Tensor<FP64x64>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>

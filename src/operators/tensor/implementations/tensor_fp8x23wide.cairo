@@ -14,6 +14,7 @@ use orion::numbers::{NumberTrait, FP8x23W};
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
 };
+use orion::numbers::fixed_point::implementations::fp8x23wide::math::trig::PI;
 
 impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn new(shape: Span<usize>, data: Span<FP8x23W>) -> Tensor<FP8x23W> {
@@ -499,6 +500,22 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
+    fn range(start: FP8x23W, end: FP8x23W, step: FP8x23W) -> Tensor<FP8x23W> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: FP8x23W, periodic: Option<usize>) -> Tensor<FP8x23W> {
+        math::hann_window::hann_window(size, FP8x23W { mag: PI, sign: false }, periodic)
+    }
+
+    fn hamming_window(size: FP8x23W, periodic: Option<usize>) -> Tensor<FP8x23W> {
+        math::hamming_window::hamming_window(size, FP8x23W { mag: PI, sign: false }, periodic)
+    }
+
+    fn blackman_window(size: FP8x23W, periodic: Option<usize>) -> Tensor<FP8x23W> {
+        math::blackman_window::blackman_window(size, FP8x23W { mag: PI, sign: false }, periodic)
+    }
+    
     fn split_to_sequence(
         self: @Tensor<FP8x23W>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<FP8x23W>> {

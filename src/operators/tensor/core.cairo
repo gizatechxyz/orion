@@ -118,6 +118,11 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// erf - Computes the error function of the given input tensor element-wise.
 /// layer_normalization - computes the layer normalization of the input tensor.
 /// split - Split a tensor into a list of tensors, along the specified ‘axis’. 
+/// split_to_sequence - Split a tensor into a sequence of tensors, along the specified ‘axis’.
+/// range - Generate a tensor containing a sequence of numbers that begin at start and extends by increments of delta up to limit (exclusive).
+/// hann_window - Generates a Hann window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+/// hamming_window - Generates a Hamming window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+/// blackman_window - Generates a Blackman window as described in the paper https://ieeexplore.ieee.org/document/1455106.
 /// reverse_sequence - Reverse batch of sequences having different lengths specified by sequence_lens.
 /// optional - Constructs an optional-type value containing either an empty optional of a certain type specified by the attribute, or a non-empty value containing the input element.
 /// dynamic_quantize_linear - Computes the Scale, Zero Point and FP32->8Bit conversion of FP32 Input data. 
@@ -5459,6 +5464,143 @@ trait TensorTrait<T> {
     fn split_to_sequence(
         self: @Tensor<T>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<T>>;
+    /// # tensor.range
+    ///
+    /// ```rust 
+    ///    fn range(start: T, end: T, step: T) -> Tensor<T>;
+    /// ```
+    ///
+    /// Generate a tensor containing a sequence of numbers that begin at start and extends by increments of delta up to limit (exclusive).
+    /// 
+    ///
+    /// * `start`(`T`) - First entry for the range of output values.
+    /// * `end`(`T`) - Exclusive upper limit for the range of output values.
+    /// * `step `(`T`) - Value to step by.
+    ///
+    /// ## Returns
+    ///
+    /// A 1-D tensor with same type as the inputs containing generated range of values.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::I32TensorPartialEq;
+    /// use orion::operators::tensor::{TensorTrait, Tensor};
+    /// use orion::operators::tensor::{I32Tensor, I32TensorAdd};
+    /// use orion::utils::{assert_eq, assert_seq_eq};
+    /// use orion::numbers::NumberTrait;
+    ///
+    ///
+    /// fn range_example() -> Tensor<i32> {
+    ///     return TensorTrait::range(21,2,-3);
+    /// }
+    /// >>> [21 18 15 12  9  6  3]
+    /// ```
+    /// 
+    fn range(start: T, end: T, step: T) -> Tensor<T>;
+    /// # tensor.hann_window
+    ///
+    /// ```rust 
+    ///    fn hann_window(size: T, periodic: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Generates a Hann window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+    /// 
+    ///
+    /// * `size`(`T`) - A scalar value indicating the length of the window.
+    /// * `periodic`(Option<usize>) - If 1, returns a window to be used as periodic function. If 0, return a symmetric window. When 'periodic' is specified, hann computes a window of length size + 1 and returns the first size points. The default value is 1.
+    ///
+    /// ## Returns
+    ///
+    /// A Hann window with length: size. The output has the shape: [size].
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::FP8x23TensorPartialEq;
+    /// use orion::operators::tensor::{FP8x23Tensor, FP8x23TensorAdd};
+    /// use orion::operators::tensor::{TensorTrait, Tensor};
+    /// use orion::utils::{assert_eq, assert_seq_eq};
+    /// use orion::numbers::{FixedTrait, FP8x23};
+    ///
+    ///
+    /// fn hann_window_example() -> Tensor<FP8x23> {
+    ///     return TensorTrait::hann_window(FP8x23 { mag: 33554432, sign: false }, Option::Some(0));  // size: 4
+    /// }
+    /// >>> [0  6291455  6291456  0]
+    /// ```
+    /// 
+    fn hann_window(size: T, periodic: Option<usize>) -> Tensor<T>;
+    /// # tensor.hamming_window
+    ///
+    /// ```rust 
+    ///    fn hamming_window(size: T, periodic: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Generates a Hamming window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+    /// 
+    ///
+    /// * `size`(`T`) - A scalar value indicating the length of the window.
+    /// * `periodic`(Option<usize>) - If 1, returns a window to be used as periodic function. If 0, return a symmetric window. When 'periodic' is specified, hann computes a window of length size + 1 and returns the first size points. The default value is 1.
+    ///
+    /// ## Returns
+    ///
+    /// A Hamming window with length: size. The output has the shape: [size].
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::FP8x23TensorPartialEq;
+    /// use orion::operators::tensor::{FP8x23Tensor, FP8x23TensorAdd};
+    /// use orion::operators::tensor::{TensorTrait, Tensor};
+    /// use orion::utils::{assert_eq, assert_seq_eq};
+    /// use orion::numbers::{FixedTrait, FP8x23};
+    ///
+    ///
+    /// fn hamming_window_example() -> Tensor<FP8x23> {
+    ///     return TensorTrait::hamming_window(FP8x23 { mag: 33554432, sign: false }, Option::Some(0));  // size: 4
+    /// }
+    /// >>> [729444  6473817  6473817  729444]
+    /// ```
+    /// 
+    fn hamming_window(size: T, periodic: Option<usize>) -> Tensor<T>;
+    /// # tensor.blackman_window
+    ///
+    /// ```rust 
+    ///    fn blackman_window(size: T, periodic: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Generates a Blackman window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+    /// 
+    ///
+    /// * `size`(`T`) - A scalar value indicating the length of the window.
+    /// * `periodic`(Option<usize>) - If 1, returns a window to be used as periodic function. If 0, return a symmetric window. When 'periodic' is specified, hann computes a window of length size + 1 and returns the first size points. The default value is 1.
+    ///
+    /// ## Returns
+    ///
+    /// A Blackman window with length: size. The output has the shape: [size].
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::FP8x23TensorPartialEq;
+    /// use orion::operators::tensor::{FP8x23Tensor, FP8x23TensorAdd};
+    /// use orion::operators::tensor::{TensorTrait, Tensor};
+    /// use orion::utils::{assert_eq, assert_seq_eq};
+    /// use orion::numbers::{FixedTrait, FP8x23};
+    ///
+    ///
+    /// fn blackman_window_example() -> Tensor<FP8x23> {
+    ///     return TensorTrait::blackman_window(FP8x23 { mag: 33554432, sign: false }, Option::Some(0));  // size: 4
+    /// }
+    /// >>> [0  0.36  0.36  0]
+    /// ```
+    /// 
+    fn blackman_window(size: T, periodic: Option<usize>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

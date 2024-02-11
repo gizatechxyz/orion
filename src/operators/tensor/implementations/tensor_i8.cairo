@@ -539,6 +539,23 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Array<Tensor<i8>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn range(start: i8, end: i8, step: i8) -> Tensor<i8> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: i8, periodic: Option<usize>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn hamming_window(size: i8, periodic: Option<usize>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn blackman_window(size: i8, periodic: Option<usize>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+    
     
     fn split_to_sequence(
         self: @Tensor<i8>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
