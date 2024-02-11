@@ -43,6 +43,7 @@ You can see below the list of current supported ONNX Operators:
 |              [Softplus](operators/neural-network/nn.softplus.md)              | :white\_check\_mark: |
 |                [Linear](operators/neural-network/nn.linear.md)                | :white\_check\_mark: |
 |          [HardSigmoid](operators/neural-network/nn.hard\_sigmoid.md)          | :white\_check\_mark: |
+|            [Col2im](operators/neural-network/nn.col2im\_sigmoid.md)           | :white\_check\_mark: |
 |       [ConvTranspose](operators/neural-network/nn.conv\_transpose_.md)        | :white\_check\_mark: |
 |                  [Conv](operators/neural-network/nn.conv.md)                  | :white\_check\_mark: |
 |                    [Sinh](operators/tensor/tensor.sinh.md)                    | :white\_check\_mark: |

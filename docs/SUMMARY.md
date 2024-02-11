@@ -170,6 +170,7 @@
     * [nn.hard\_sigmoid](framework/operators/neural-network/nn.hard\_sigmoid.md)
     * [nn.thresholded\_relu](framework/operators/neural-network/nn.thresholded\_relu.md)
     * [nn.gemm](framework/operators/neural-network/nn.gemm.md)
+    * [nn.col2im](framework/operators/neural-network/nn.col2im.md)
     * [nn.conv_transpose](framework/operators/neural-network/nn.conv\_transpose.md)
     * [nn.conv](framework/operators/neural-network/nn.conv.md)
     * [nn.depth_to_space](framework/operators/neural-network/nn.depth_to_space.md)
