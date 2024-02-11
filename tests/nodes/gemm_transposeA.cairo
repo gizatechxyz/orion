@@ -16,7 +16,9 @@ fn test_gemm_transposeA() {
     let input_1 = input_1::input_1();
     let z = output_0::output_0();
 
-    let y = NNTrait::gemm(input_0, input_1, Option::None(()), Option::None(()), Option::None(()), true, false);
+    let y = NNTrait::gemm(
+        input_0, input_1, Option::None(()), Option::None(()), Option::None(()), true, false
+    );
 
     assert_eq(y, z);
 }

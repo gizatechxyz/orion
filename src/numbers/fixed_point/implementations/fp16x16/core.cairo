@@ -436,9 +436,8 @@ fn _i8_try_from_fp(x: FP16x16) -> Option<i8> {
             if x.sign {
                 return Option::Some(number_i8 * -1_i8);
             }
-            Option::Some(number_i8) 
+            Option::Some(number_i8)
         },
-
         Option::None(_) => Option::None(())
     }
 }

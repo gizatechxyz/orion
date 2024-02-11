@@ -567,6 +567,31 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Tensor<FP32x32> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
+    
+    fn optional(self: @Tensor<FP32x32>) -> Option<Tensor<FP32x32>>{
+        manipulation::optional::optional(self)
+    }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP32x32>
+    ) -> (Tensor::<u32>, Tensor::<FP32x32>, Tensor<FP32x32>){
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        )   
+    }
+    
+    fn scatter_nd(
+        self: @Tensor<FP32x32>,
+        updates: Tensor<FP32x32>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP32x32> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.
@@ -650,6 +675,7 @@ impl FP32x32TryIntoI8 of TryInto<FP32x32, i8> {
         Option::Some(number_i8)
     }
 }
+
 impl TensorI8IntoTensorFP32x32 of Into<Tensor<i8>, Tensor<FP32x32>> {
     fn into(self: Tensor<i8>) -> Tensor<FP32x32> {
         tensor_i8_to_tensor_fp32x32(@self)

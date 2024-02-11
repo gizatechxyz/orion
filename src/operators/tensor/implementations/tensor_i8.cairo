@@ -3,7 +3,7 @@ use core::array::SpanTrait;
 use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
-use orion::numbers::{ I8Div, I8DivEq };
+use orion::numbers::{I8Div, I8DivEq};
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -544,6 +544,25 @@ impl I8Tensor of TensorTrait<i8> {
         self: @Tensor<i8>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
     ) -> Tensor<i8> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+    
+    fn optional(self: @Tensor<i8>) -> Option<Tensor<i8>>{
+        manipulation::optional::optional(self)
+    }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<i8>
+    ) -> (Tensor::<u32>, Tensor::<i8>, Tensor<i8>){
+        panic(array!['not supported!'])
+    }
+
+    fn scatter_nd(
+        self: @Tensor<i8>,
+        updates: Tensor<i8>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<i8> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 }
 

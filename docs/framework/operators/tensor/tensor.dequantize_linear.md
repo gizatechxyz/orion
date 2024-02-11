@@ -13,7 +13,7 @@ or a 1-D tensor for per-axis quantization.
 
 ## Args
 
-* `self`(`@Tensor<T>`) - The input tensor.
+* `self`(`@Tensor<Q>`) - The input tensor.
 * `x_scale`(`@Tensor<T>`) - Scale for input `x`.
 * `x_zero_point`(`@Tensor<T>`) - Zero point for input `x`.
 
