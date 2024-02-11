@@ -296,13 +296,13 @@ impl FP16x16WTryIntoU64 of TryInto<FP16x16W, u64> {
     }
 }
 
-impl FP16x16WTryIntoU32 of TryInto<FP16x16W, u64> {
-    fn try_into(self: FP16x16W) -> Option<u64> {
+impl FP16x16WTryIntoU32 of TryInto<FP16x16W, u32> {
+    fn try_into(self: FP16x16W) -> Option<u32> {
         if self.sign {
             return Option::None(());
         } else {
             // Unscale the magnitude and round down
-            return Option::Some(self.mag / ONE);
+            return (self.mag / ONE).try_into();
         }
     }
 }
@@ -451,7 +451,7 @@ fn _i8_try_from_fp(x: FP16x16W) -> Option<i8> {
             if x.sign {
                 return Option::Some(number_i8 * -1_i8);
             }
-            Option::Some(number_i8) 
+            Option::Some(number_i8)
         },
         Option::None(_) => Option::None(())
     }

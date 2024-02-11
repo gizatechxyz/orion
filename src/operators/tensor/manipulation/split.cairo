@@ -3,7 +3,7 @@ use core::array::{ArrayTrait, SpanTrait};
 use core::option::OptionTrait;
 use orion::operators::matrix::{MutMatrixTrait, MutMatrix, MutMatrixImpl};
 
-/// Cf: NNTrait::split docstring
+/// Cf: TensorTrait::split docstring
 fn split<
     T,
     +Copy<T>,

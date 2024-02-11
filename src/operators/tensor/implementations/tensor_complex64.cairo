@@ -498,6 +498,12 @@ impl Complex64Tensor of TensorTrait<complex64> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
+    fn reverse_sequence(
+        self: @Tensor<complex64>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<complex64> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+
     fn resize(
         self: @Tensor<complex64>,
         roi: Option<Tensor<complex64>>,
@@ -520,6 +526,25 @@ impl Complex64Tensor of TensorTrait<complex64> {
         self: @Tensor<complex64>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<complex64>> {
         manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+    
+    fn optional(self: @Tensor<complex64>) -> Option<Tensor<complex64>>{
+        manipulation::optional::optional(self)
+    }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<complex64>
+    ) -> (Tensor::<u32>, Tensor::<complex64>, Tensor<complex64>) {
+        panic(array!['not supported!'])
+    }
+
+    fn scatter_nd(
+        self: @Tensor<complex64>,
+        updates: Tensor<complex64>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<complex64> {
+        panic(array!['not supported!'])
     }
 }
 

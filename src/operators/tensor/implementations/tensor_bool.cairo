@@ -490,6 +490,31 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Array<Tensor<bool>> {
         manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
     }
+
+    fn reverse_sequence(
+        self: @Tensor<bool>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<bool> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+    
+    fn optional(self: @Tensor<bool>) -> Option<Tensor<bool>>{
+        manipulation::optional::optional(self)
+    }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<bool>
+    ) -> (Tensor::<u32>, Tensor::<bool>, Tensor<bool>){
+            panic(array!['not supported!'])
+    }
+
+    fn scatter_nd(
+        self: @Tensor<bool>,
+        updates: Tensor<bool>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

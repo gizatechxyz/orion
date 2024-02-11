@@ -3,7 +3,7 @@ use core::array::ArrayTrait;
 use core::array::SpanTrait;
 use core::option::OptionTrait;
 use core::traits::Into;
-use orion::numbers::{ NumberTrait, I32IntoU32};
+use orion::numbers::{NumberTrait, I32IntoU32};
 use orion::operators::tensor::{
     TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, BoolTensor
 };
@@ -50,7 +50,6 @@ fn layer_normalization<
         Option::Some(stash_type) => stash_type,
         Option::None => 1,
     };
-
 
     let axis = if axis < 0 {
         X_rank - axis.into()

@@ -302,7 +302,7 @@ version = "0.1.0"
 orion = { git = "https://github.com/gizatechxyz/orion.git", rev = "v0.1.7" }
 ```
 
-#### Gerating the dataset in Cairo
+#### Generating the dataset in Cairo
 
 Now let's generate the necessary files to begin our transition to Cairo. In our Jupyter Notebook, we will run the necessary code to convert our iris dataset obtained from sklearn.datasets into fixed point values and represent our X, and y values as fixed point tensors in Orion. For the purposes of the tutorial, we will work directly with the Xstd data obtained from python, so we will also convert these to fixed point values.
 
