@@ -16,7 +16,15 @@ fn test_gemm_alpha() {
     let input_1 = input_1::input_1();
     let z = output_0::output_0();
 
-    let y = NNTrait::gemm(input_0, input_1, Option::None(()), Option::Some(FixedTrait::new(32768, false)), Option::None(()), false, false);
+    let y = NNTrait::gemm(
+        input_0,
+        input_1,
+        Option::None(()),
+        Option::Some(FixedTrait::new(32768, false)),
+        Option::None(()),
+        false,
+        false
+    );
 
     assert_eq(y, z);
 }

@@ -565,6 +565,60 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn random_uniform_like(tensor: @Tensor<FP64x64>, high: Option<FP64x64>, low: Option<FP64x64>, seed: Option<usize>) -> Tensor<FP64x64> {
         math::random_uniform_like::random_uniform_like(*tensor, high, low, seed)
     }
+    
+    fn range(start: FP64x64, end: FP64x64, step: FP64x64) -> Tensor<FP64x64> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: FP64x64, periodic: Option<usize>) -> Tensor<FP64x64> {
+        panic(array!['not supported!'])
+    }
+
+    fn hamming_window(size: FP64x64, periodic: Option<usize>) -> Tensor<FP64x64> {
+        panic(array!['not supported!'])
+    }
+
+    fn blackman_window(size: FP64x64, periodic: Option<usize>) -> Tensor<FP64x64> {
+        panic(array!['not supported!'])
+    }
+    
+    fn split_to_sequence(
+        self: @Tensor<FP64x64>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP64x64>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+
+    fn reverse_sequence(
+        self: @Tensor<FP64x64>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<FP64x64> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+    
+    
+    fn optional(self: @Tensor<FP64x64>) -> Option<Tensor<FP64x64>>{
+        manipulation::optional::optional(self)
+    }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP64x64>
+    ) -> (Tensor::<u32>, Tensor::<FP64x64>, Tensor<FP64x64>){
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        ) 
+    }
+
+    fn scatter_nd(
+        self: @Tensor<FP64x64>,
+        updates: Tensor<FP64x64>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP64x64> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.
@@ -680,7 +734,7 @@ impl FP64x64TensorPartialOrd of PartialOrd<Tensor<FP64x64>> {
 
 // Internals
 
-const PRECISION: u128 = 75497; // 0.009
+const PRECISION: u128 = 1660000000000000; // 9e-05
 
 fn relative_eq(lhs: @FP64x64, rhs: @FP64x64) -> bool {
     let diff = *lhs - *rhs;

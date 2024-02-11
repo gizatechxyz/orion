@@ -19,7 +19,14 @@ fn test_layer_normalization_3d_axis1_epsilon() {
     let input_2 = input_2::input_2();
     let z_0 = output_0::output_0();
 
-    let (y_0, _, _) = input_0.layer_normalization(@input_1,Option::Some(@input_2),Option::Some(1),Option::Some(FixedTrait::new(6554, false)),Option::None);
+    let (y_0, _, _) = input_0
+        .layer_normalization(
+            @input_1,
+            Option::Some(@input_2),
+            Option::Some(1),
+            Option::Some(FixedTrait::new(6554, false)),
+            Option::None
+        );
 
     assert_eq(y_0, z_0);
 }

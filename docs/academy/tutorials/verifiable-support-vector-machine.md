@@ -3,7 +3,7 @@
 <figure><img src="../../.gitbook/assets/orion_banner_tutorial_#4.png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-Repository and Notebooks can be found [here](https://github.com/gizatechxyz/orion\_tutorials/tree/main/verifiable\_support\_vector\_machine).
+Repository and Notebooks can be found [here](https://github.com/gizatechxyz/orion_tutorials/tree/main/basic/verifiable_support_vector_machine).
 {% endhint %}
 
 The Support Vector Machines (SVM) model is a supervised learning technique used for classification and regression. It is employed to solve binary classification problems where it identifies the hyperplane that best divides a data set into classes. This hyperplane results from maximizing the margin between the two classes. By determining this optimal hyperplane, predictions can be made for new data points and understand how the input attributes influence classification.
@@ -177,7 +177,7 @@ version = "0.1.0"
 orion = { git = "https://github.com/gizatechxyz/orion.git", rev = "v0.1.0" }
 ```
 
-### Gerating the dataset in Cairo
+### Generating the dataset in Cairo
 
 Now let's generate the necessary files to begin our transition to Cairo. In our Jupyter Notebook, we'll run the necessary code to convert our dataset obtained with make\_blobs from Scikit-learn into fixed-point values and represent our X\_train, y\_train, X\_test, and y\_test values as fixed-point tensors in Orion.
 
