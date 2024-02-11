@@ -522,6 +522,10 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
+    fn random_uniform_like(tensor: @Tensor<complex64>, high: Option<complex64>, low: Option<complex64>, seed: Option<usize>) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+    
     fn range(start: complex64, end: complex64, step: complex64) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }

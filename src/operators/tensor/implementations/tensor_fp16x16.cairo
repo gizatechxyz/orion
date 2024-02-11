@@ -562,6 +562,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
+    fn random_uniform_like(tensor: @Tensor<FP16x16>, high: Option<FP16x16>, low: Option<FP16x16>, seed: Option<usize>) -> Tensor<FP16x16> {
+        math::random_uniform_like::random_uniform_like(*tensor, high, low, seed)
+    }
+    
     fn range(start: FP16x16, end: FP16x16, step: FP16x16) -> Tensor<FP16x16> {
         math::range::range(start, end, step)
     }

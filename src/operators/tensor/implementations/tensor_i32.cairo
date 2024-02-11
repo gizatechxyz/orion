@@ -536,6 +536,10 @@ impl I32Tensor of TensorTrait<i32> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
+    fn random_uniform_like(tensor: @Tensor<i32>, high: Option<i32>, low: Option<i32>, seed: Option<usize>) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+    
     fn range(start: i32, end: i32, step: i32) -> Tensor<i32> {
         math::range::range(start, end, step)
     }

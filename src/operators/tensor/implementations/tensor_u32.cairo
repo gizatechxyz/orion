@@ -483,6 +483,10 @@ impl U32Tensor of TensorTrait<u32> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
+    fn random_uniform_like(tensor: @Tensor<u32>, high: Option<u32>, low: Option<u32>, seed: Option<usize>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+    
     fn range(start: u32, end: u32, step: u32) -> Tensor<u32> {
         math::range::range(start, end, step)
     }

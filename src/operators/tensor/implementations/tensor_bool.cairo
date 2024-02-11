@@ -531,6 +531,10 @@ impl BoolTensor of TensorTrait<bool> {
     fn blackman_window(size: bool, periodic: Option<usize>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
+
+    fn random_uniform_like(tensor: @Tensor<bool>, high: Option<bool>, low: Option<bool>, seed: Option<usize>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

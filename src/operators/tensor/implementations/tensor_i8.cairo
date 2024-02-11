@@ -540,6 +540,10 @@ impl I8Tensor of TensorTrait<i8> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
+    fn random_uniform_like(tensor: @Tensor<i8>, high: Option<i8>, low: Option<i8>, seed: Option<usize>) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+    
     fn range(start: i8, end: i8, step: i8) -> Tensor<i8> {
         math::range::range(start, end, step)
     }

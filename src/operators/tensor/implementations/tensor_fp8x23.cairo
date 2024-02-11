@@ -561,6 +561,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
+    fn random_uniform_like(tensor: @Tensor<FP8x23>, high: Option<FP8x23>, low: Option<FP8x23>, seed: Option<usize>) -> Tensor<FP8x23> {
+        math::random_uniform_like::random_uniform_like(*tensor, high, low, seed)
+    }
+    
     fn range(start: FP8x23, end: FP8x23, step: FP8x23) -> Tensor<FP8x23> {
         math::range::range(start, end, step)
     }
