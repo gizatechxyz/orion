@@ -47,6 +47,27 @@ impl MutMatrixImpl<
         (self.rows, self.cols)
     }
 
+    /// Transposes the matrix
+    fn transpose(ref self: MutMatrix<T>) -> MutMatrix<T> {
+        let mut result = MutMatrixImpl::new(rows: self.cols, cols: self.rows);
+        let mut row = 0;
+        loop {
+            if row == self.rows {
+                break;
+            }
+            let mut col = 0;
+            loop {
+                if col == self.cols {
+                    break;
+                }
+                result.set(row, col, self.get(col, row));
+                col += 1;
+            };
+            row += 1;
+        };
+        return result;
+    }
+
     /// Returns the index of the maximum value along the specified axis
     fn argmax(ref self: MutMatrix<T>, axis: usize) -> Span<usize> {
         assert(axis < 2, 'Invalid axis');
