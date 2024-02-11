@@ -443,7 +443,7 @@ fn div_by_scalar(self: @Tensor<FP16x16>, divisor: u32) -> Tensor<FP16x16> {
             Option::Some(elem) => {
                 data_array.append(FixedTrait::new(*elem.mag / divisor, *elem.sign));
             },
-            Option::None(_) => {
+            Option::None => {
                 break TensorTrait::<FP16x16>::new((*self).shape, data_array.span());
             }
         };
@@ -457,7 +457,7 @@ fn div_by_fp(self: @Tensor<FP16x16>, divisor: FP16x16) -> Tensor<FP16x16> {
     loop {
         match data.pop_front() {
             Option::Some(elem) => { data_array.append(FP16x16Div::div(*elem, divisor)); },
-            Option::None(_) => {
+            Option::None => {
                 break TensorTrait::<FP16x16>::new((*self).shape, data_array.span());
             }
         };
@@ -618,7 +618,7 @@ fn extract_diagonal(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
                 Option::Some(elem) => { if x == y {
                     data_array.append(*elem);
                 }; },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
             y += 1;
         };
@@ -672,7 +672,7 @@ fn update_eigen_values(
                 y += 1;
                 index += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

@@ -166,7 +166,7 @@ fn print_span(mut span: Span<i8>) {
     loop {
         match span.pop_front() {
             Option::Some(i) => { (*i).print(); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 }

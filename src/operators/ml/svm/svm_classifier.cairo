@@ -678,7 +678,6 @@ fn compute_final_scores<
     has_proba: bool,
     classlabels: Span<usize>
 ) -> (usize, Tensor<T>) {
-    let mut max_weight = 0;
 
     let (max_class, max_weight) = if votes.len() > 0 {
         let max_class = argmax_span(votes);
@@ -726,7 +725,6 @@ fn write_scores<
 >(
     n_classes: usize, scores: Tensor<T>, post_transform: POST_TRANSFORM, add_second_class: usize
 ) -> Tensor<T> {
-    let mut write_additional_scores = 0;
 
     let new_scores = if n_classes >= 2 {
         let new_scores = match post_transform {
@@ -895,7 +893,6 @@ fn probablities<
                 *scores.at(index), *self.prob_a.at(index), *self.prob_b.at(index)
             );
 
-            let mut val2 = NumberTrait::max(val1, NumberTrait::zero()); // ONNX : max(val1, 1.0e-7)
             let mut val2 = NumberTrait::min(
                 val1, NumberTrait::one()
             ); // ONNX : min(val2, (1 - 1.0e-7))

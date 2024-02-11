@@ -19,7 +19,7 @@ fn compress<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
 ) -> Tensor<T> {
     let axis = match axis {
         Option::Some(val) => val,
-        Option::None(_) => 999
+        Option::None => 999
     };
 
     let data_rank = (*self.shape).len();
@@ -28,7 +28,6 @@ fn compress<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
     assert((condition_rank == 1), 'condition rank must be 1');
 
     let mut data_shape = *self.shape;
-    let mut condition_shape = condition.shape;
 
     if (axis != 999) {
         assert(*data_shape.at(axis) >= condition.data.len(), 'index out of bound');
@@ -38,7 +37,6 @@ fn compress<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
     let mut index_data = ArrayTrait::new();
     let mut output_data = ArrayTrait::new();
 
-    let mut data = *self.data;
     let mut condition_data = condition.data;
 
     let mut ind = 0;
@@ -52,7 +50,7 @@ fn compress<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
                 }
                 ind += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -63,7 +61,7 @@ fn compress<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
         loop {
             match data_shape.pop_front() {
                 Option::Some(val) => { total_shape *= *val; },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
 
@@ -79,7 +77,7 @@ fn compress<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
                     }
                     ind += 1;
                 },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
     } else {
@@ -108,15 +106,13 @@ fn compress<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
                     }
                     ind += 1;
                 },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
 
         let mut ind = 0;
-        let mut ind_loop = 0;
 
         let mut inner_index: usize = 0;
-        let mut condition_data_clone = condition_data.clone();
 
         loop {
             if (ind == other_loop_breaker) {
@@ -141,7 +137,7 @@ fn compress<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
                         }
                         inner_index += 1;
                     },
-                    Option::None(_) => { break; }
+                    Option::None => { break; }
                 };
             };
 
@@ -151,7 +147,7 @@ fn compress<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
         loop {
             match index_data.pop_front() {
                 Option::Some(val) => { output_data.append(*self.data[val]); },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
     }

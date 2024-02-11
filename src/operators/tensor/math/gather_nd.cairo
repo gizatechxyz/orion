@@ -19,7 +19,7 @@ fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
 ) -> Tensor<T> {
     let batch_dims = match batch_dims {
         Option::Some(val) => val,
-        Option::None(_) => 0
+        Option::None => 0
     };
 
     let data_rank = (*self.shape).len();
@@ -57,14 +57,14 @@ fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
                 batch_dims_shape.append(*val);
                 ind += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
     loop {
         match indices_shape_clone.pop_front() {
             Option::Some(val) => { batch_dims_shape.append(*val); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -72,7 +72,6 @@ fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
         output_shape = batch_dims_shape;
     } else {
         let mut ind = 0;
-        let mut multiple = 1;
         output_shape = batch_dims_shape;
         loop {
             match data_shape_clone.pop_front() {
@@ -82,7 +81,7 @@ fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
                     }
                     ind += 1;
                 },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
     }
@@ -104,7 +103,7 @@ fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
                 }
                 ind += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -119,7 +118,7 @@ fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
                 }
                 ind += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -147,14 +146,14 @@ fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
                     result = 0;
                 };
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
     loop {
         match index_data.pop_front() {
             Option::Some(val) => { output_data.append(*self.data[val]); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

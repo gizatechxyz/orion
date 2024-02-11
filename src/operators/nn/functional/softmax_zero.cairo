@@ -87,7 +87,7 @@ fn exp_zero<
                     result.append((*item).exp());
                 }
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -130,7 +130,7 @@ fn exp_upcast_zero<
                     result.append((TIntoW::into(*item)).exp());
                 }
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -176,10 +176,10 @@ fn reduce_sum_no_zero<
         let mut index: usize = 0;
         loop {
             let output_indices = unravel_index(index, output_shape);
-            let current_sum = accumulate_sum::<T>(*self.data, *self.shape, output_indices, axis);
+            let mut current_sum = accumulate_sum::<T>(*self.data, *self.shape, output_indices, axis);
 
             if current_sum == NumberTrait::zero() {
-                let current_sum: T = NumberTrait::one();
+                current_sum = NumberTrait::one();
             }
             output_data.append(current_sum);
 

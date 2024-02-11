@@ -32,12 +32,12 @@ fn scatter<
 ) -> Tensor<T> {
     let mut axis = match axis {
         Option::Some(val) => val,
-        Option::None(_) => 0
+        Option::None => 0
     };
 
     let reduction = match reduction {
         Option::Some(val) => val,
-        Option::None(_) => 'none'
+        Option::None => 'none'
     };
 
     let data_rank = (*self.shape).len();
@@ -65,9 +65,9 @@ fn scatter<
 
     let mut data_shape_copy = data_shape;
     let mut indices_shape_copy = indices_shape;
+    *data_shape_copy.pop_front().unwrap();
+    *indices_shape_copy.pop_front().unwrap();
 
-    let data_loop_first = *data_shape_copy.pop_front().unwrap();
-    let indices_loop_first = *indices_shape_copy.pop_front().unwrap();
 
     let mut indices_loop: usize = 1;
     let mut data_loop: usize = 1;
@@ -76,20 +76,18 @@ fn scatter<
         loop {
             match indices_shape_copy.pop_front() {
                 Option::Some(val) => {
-                    let d = *val;
                     indices_loop *= *val;
                 },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
 
         loop {
             match data_shape_copy.pop_front() {
                 Option::Some(val) => {
-                    let d = *val;
                     data_loop *= *val;
                 },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
     }
@@ -114,7 +112,6 @@ fn scatter<
     let mut shift = 0;
 
     loop {
-        let mut i: usize = 0;
         let mut result: usize = 0;
 
         match data_indices.pop_front() {
@@ -155,7 +152,7 @@ fn scatter<
                     loop {
                         match span.pop_front() {
                             Option::Some(val) => { arr.append(*val); },
-                            Option::None(_) => { break; }
+                            Option::None => { break; }
                         };
                     };
                     arr.append(total_count);
@@ -164,7 +161,7 @@ fn scatter<
                 }
                 total_count += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -199,7 +196,7 @@ fn scatter<
                             loop {
                                 match span.pop_front() {
                                     Option::Some(val) => { result += *data_updates[*val]; },
-                                    Option::None(_) => { break; }
+                                    Option::None => { break; }
                                 };
                             };
                             output_data.append(result);
@@ -209,7 +206,7 @@ fn scatter<
                             loop {
                                 match span.pop_front() {
                                     Option::Some(val) => { result *= *data_updates[*val]; },
-                                    Option::None(_) => { break; }
+                                    Option::None => { break; }
                                 };
                             };
                             output_data.append(result);
@@ -224,7 +221,7 @@ fn scatter<
                                             result = holder;
                                         }
                                     },
-                                    Option::None(_) => { break; }
+                                    Option::None => { break; }
                                 };
                             };
                             output_data.append(result);
@@ -239,7 +236,7 @@ fn scatter<
                                             result = holder;
                                         }
                                     },
-                                    Option::None(_) => { break; }
+                                    Option::None => { break; }
                                 };
                             };
                             output_data.append(result);
@@ -249,7 +246,7 @@ fn scatter<
 
                 i += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

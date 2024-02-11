@@ -52,7 +52,7 @@ fn is_inf<
     loop {
         match y.pop_front() {
             Option::Some(item) => { data_result.append((*item).is_inf()); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -75,7 +75,7 @@ fn is_pos_inf<
     loop {
         match y.pop_front() {
             Option::Some(item) => { data_result.append((*item).is_pos_inf()); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -98,7 +98,7 @@ fn is_neg_inf<
     loop {
         match y.pop_front() {
             Option::Some(item) => { data_result.append((*item).is_neg_inf()); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

@@ -885,7 +885,6 @@ fn cartesian(mut arrays: Span<Span<usize>>,) -> Span<Span<usize>> {
 
     let mut i = 0;
     let mut size_arrays = ArrayTrait::new();
-    let mut m = n;
     loop {
         if i == arrays.len() {
             break;

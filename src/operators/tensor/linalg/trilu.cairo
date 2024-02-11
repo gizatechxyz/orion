@@ -41,7 +41,7 @@ fn trilu<
                     i += 1;
                     output_size.append(*val);
                 },
-                Option::None(_) => { break (); }
+                Option::None => { break (); }
             }
         }
     }
@@ -79,7 +79,7 @@ fn trilu<
                                 NumberTrait::zero()
                             }
                         },
-                        Option::None(_) => { break (); }
+                        Option::None => { break (); }
                     };
 
                     output_data.append(result);

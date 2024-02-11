@@ -396,7 +396,7 @@ fn _i8_try_from_fp(x: FP32x32) -> Option<i8> {
     let unscaled_mag: Option<u8> = (x.mag / ONE).try_into();
 
     match unscaled_mag {
-        Option::Some(val) => {
+        Option::Some => {
             let number_felt: felt252 = unscaled_mag.unwrap().into();
             let mut number_i8: i8 = number_felt.try_into().unwrap();
             if x.sign {
@@ -404,6 +404,6 @@ fn _i8_try_from_fp(x: FP32x32) -> Option<i8> {
             }
             Option::Some(number_i8)
         },
-        Option::None(_) => Option::None(())
+        Option::None => Option::None(())
     }
 }

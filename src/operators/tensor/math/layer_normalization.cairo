@@ -35,7 +35,6 @@ fn layer_normalization<
     stash_type: Option<usize>,
 ) -> (Tensor<T>, Tensor<T>, Tensor<T>) {
     let X_rank = (*self).shape.len();
-    let X_shape = (*self).shape;
 
     let mut axis = match axis {
         Option::Some(axis) => axis,
@@ -44,11 +43,6 @@ fn layer_normalization<
     let epsilon = match epsilon {
         Option::Some(epsilon) => epsilon,
         Option::None => NumberTrait::zero(), // default of onnx is 1e-05 
-    };
-
-    let stash_type = match stash_type {
-        Option::Some(stash_type) => stash_type,
-        Option::None => 1,
     };
 
     let axis = if axis < 0 {

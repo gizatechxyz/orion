@@ -207,7 +207,7 @@ impl LinearRegressorImpl<
                 let intercepts = TensorTrait::new(shape.span(), intercepts);
                 score = TensorTrait::add(score, intercepts);
             },
-            Option::None(_) => {},
+            Option::None => {},
         };
 
         // Post Transform

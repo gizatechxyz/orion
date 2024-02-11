@@ -34,15 +34,15 @@ fn random_uniform_like<
     
     let mut seed: usize = match seed {
         Option::Some(seed) => seed,
-        Option::None(_) => NumberTrait::max_value(),
+        Option::None => NumberTrait::max_value(),
     };
     let mut high = match high {
         Option::Some(high) => high,
-        Option::None(_) => NumberTrait::one(),
+        Option::None => NumberTrait::one(),
     };
     let mut low = match low {
         Option::Some(low) => low,
-        Option::None(_) => NumberTrait::zero(),
+        Option::None => NumberTrait::zero(),
     };
     assert!(high > low, "high must be larger than low");
     let res = tensor_get_state(tensor,seed,high,low);
@@ -71,12 +71,6 @@ fn tensor_get_state<
     let mut data = ArrayTrait::new();
     let mut count = (tensor.data).len();
     let mut i = 0;
-    let one: T = NumberTrait::one();
-
-    let half: T = NumberTrait::half();
-    let two: T = one + one;
-    let three: T = two + one;
-    let max: T = NumberTrait::max_value();
 
     loop {
         if count == i {

@@ -22,7 +22,7 @@ fn is_nan<
     loop {
         match y.pop_front() {
             Option::Some(item) => { data_result.append((*item).is_nan()); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

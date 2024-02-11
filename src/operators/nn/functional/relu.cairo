@@ -28,7 +28,7 @@ fn relu<
                     data_result.append(*item);
                 };
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

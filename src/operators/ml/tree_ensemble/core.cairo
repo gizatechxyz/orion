@@ -112,7 +112,7 @@ impl TreeEnsembleImpl<
                                 TreeEnsembleImpl::<T>::leaf_index_tree(ref self, row_data, *tree_id)
                             )
                     },
-                    Option::None(_) => { break; }
+                    Option::None => { break; }
                 };
             };
             outputs.append_all(ref outs);

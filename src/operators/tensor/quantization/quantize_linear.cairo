@@ -78,7 +78,7 @@ fn quantize_element_wise<
                 let quantized = quantize(*item, y_scale, y_zero_point, min, max);
                 result_data.append(quantized);
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

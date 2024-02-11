@@ -34,7 +34,7 @@ fn binarizer<
                     binarized_data.append(NumberTrait::zero());
                 }
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

@@ -301,7 +301,7 @@ impl TreeEnsembleRegressorImpl<
                             );
                         t_index.append(target_index.get(key).deref());
                     },
-                    Option::None(_) => { break; }
+                    Option::None => { break; }
                 };
             };
             let mut t_index = t_index.span();
@@ -354,7 +354,7 @@ impl TreeEnsembleRegressorImpl<
             POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
         };
 
-        return res;
+        return new_scores;
     }
 }
 
@@ -387,7 +387,7 @@ fn compute_res_SUM<
                 loop {
                     match its.pop_front() {
                         Option::Some(it) => {
-                            let prev_val = match res.get(i, *self.target_ids[*it]) {
+                            match res.get(i, *self.target_ids[*it]) {
                                 Option::Some(val) => {
                                     res
                                         .set(
@@ -401,11 +401,11 @@ fn compute_res_SUM<
                                 },
                             };
                         },
-                        Option::None(_) => { break; }
+                        Option::None => { break; }
                     };
                 };
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 }
@@ -441,7 +441,7 @@ fn compute_res_AVERAGE<
                 loop {
                     match its.pop_front() {
                         Option::Some(it) => {
-                            let prev_val = match res.get(i, *self.target_ids[*it]) {
+                            match res.get(i, *self.target_ids[*it]) {
                                 Option::Some(val) => {
                                     res
                                         .set(
@@ -460,11 +460,11 @@ fn compute_res_AVERAGE<
                                 },
                             };
                         },
-                        Option::None(_) => { break; }
+                        Option::None => { break; }
                     };
                 };
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 }
@@ -505,7 +505,7 @@ fn compute_res_MIN<
                 loop {
                     match its.pop_front() {
                         Option::Some(it) => {
-                            let prev_val = match res.get(i, *self.target_ids[*it]) {
+                            match res.get(i, *self.target_ids[*it]) {
                                 Option::Some(val) => {
                                     res
                                         .set(
@@ -519,11 +519,11 @@ fn compute_res_MIN<
                                 },
                             };
                         },
-                        Option::None(_) => { break; }
+                        Option::None => { break; }
                     };
                 };
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 }
@@ -565,7 +565,7 @@ fn compute_res_MAX<
                 loop {
                     match its.pop_front() {
                         Option::Some(it) => {
-                            let prev_val = match res.get(i, *self.target_ids[*it]) {
+                            match res.get(i, *self.target_ids[*it]) {
                                 Option::Some(val) => {
                                     res
                                         .set(
@@ -579,11 +579,11 @@ fn compute_res_MAX<
                                 },
                             };
                         },
-                        Option::None(_) => { break; }
+                        Option::None => { break; }
                     };
                 };
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 }

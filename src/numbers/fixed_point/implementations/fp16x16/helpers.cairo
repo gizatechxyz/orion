@@ -12,7 +12,7 @@ const DEFAULT_PRECISION: u32 = 7; // 1e-4
 fn assert_precise(result: FP16x16, expected: felt252, msg: felt252, custom_precision: Option<u32>) {
     let precision = match custom_precision {
         Option::Some(val) => val,
-        Option::None(_) => DEFAULT_PRECISION,
+        Option::None => DEFAULT_PRECISION,
     };
 
     let diff = (result - FixedTrait::from_felt(expected)).mag;
@@ -28,7 +28,7 @@ fn assert_relative(
 ) {
     let precision = match custom_precision {
         Option::Some(val) => val,
-        Option::None(_) => DEFAULT_PRECISION,
+        Option::None => DEFAULT_PRECISION,
     };
 
     let diff = result - FixedTrait::from_felt(expected);

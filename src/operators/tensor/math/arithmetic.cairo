@@ -59,7 +59,7 @@ fn add_by_scalar<
     loop {
         match input_data.pop_front() {
             Option::Some(ele) => { data_result.append(*ele + val); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -161,7 +161,7 @@ fn sub_by_scalar<
     loop {
         match input_data.pop_front() {
             Option::Some(ele) => { data_result.append(*ele - val); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -263,7 +263,7 @@ fn mul_by_scalar<
     loop {
         match input_data.pop_front() {
             Option::Some(ele) => { data_result.append(*ele * val); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -365,7 +365,7 @@ fn div_by_scalar<
     loop {
         match input_data.pop_front() {
             Option::Some(ele) => { data_result.append(*ele / val); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

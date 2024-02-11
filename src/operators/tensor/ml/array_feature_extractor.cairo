@@ -30,8 +30,6 @@ fn process_1D_tensor<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl 
 ) -> Tensor<T> {
     let mut output_data = ArrayTrait::<T>::new();
 
-    let mut indices_counter: usize = 0;
-
     let mut indices_values: Span<usize> = indices.data;
     let self_len = *self.shape.at(0);
     loop {
@@ -41,7 +39,7 @@ fn process_1D_tensor<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl 
                 let mut current_data_value = *self.data.at(*current_indices_value);
                 output_data.append(current_data_value);
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -71,7 +69,7 @@ fn calculate_output_shape<
 
                 input_shape_counter += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -114,7 +112,7 @@ fn calculate_output_data<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, i
                     let mut current_data_value = *self.data.at(flat_index);
                     output_data.append(current_data_value);
                 },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
 

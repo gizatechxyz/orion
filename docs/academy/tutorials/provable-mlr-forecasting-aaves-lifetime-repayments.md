@@ -481,7 +481,7 @@ fn normalize_label_data(tensor_data: Tensor<FP16x16>) -> Tensor<FP16x16> {
                 normalized_array.append(diff / range);
                 i += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
     // convert normalized array values to tensor format
@@ -619,7 +619,7 @@ fn add_bias_term(x_feature: Tensor<FP16x16>, axis: u32) -> Tensor<FP16x16> {
                     result.append(*x_val);
                     j += 1;
                 },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
         result.append(FixedTrait::new(65536, false)); //65536=ONE in FP16x16, change accordingly  
@@ -855,7 +855,7 @@ fn calculate_r_score(Y_values: Tensor<FP16x16>, Y_pred_values: Tensor<FP16x16>) 
                 squared_mean_diff_vals.append(squared_mean_diff);
                 i += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         }
     };
 
