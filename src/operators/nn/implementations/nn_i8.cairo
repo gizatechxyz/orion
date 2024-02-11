@@ -50,6 +50,14 @@ impl I8NN of NNTrait<i8> {
         panic(array!['not supported!'])
     }
 
+    fn depth_to_space(tensor: @Tensor<i8>, blocksize: usize, mode: felt252) -> Tensor<i8> {
+        functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
+    }
+    
+    fn space_to_depth(tensor: @Tensor<i8>, blocksize: usize) -> Tensor<i8> {
+        functional::space_to_depth::space_to_depth(*tensor, blocksize)
+    }
+
     fn gemm(
         A: Tensor<i8>,
         B: Tensor<i8>,
@@ -60,5 +68,68 @@ impl I8NN of NNTrait<i8> {
         transB: bool
     ) -> Tensor<i8> {
         functional::gemm::gemm(A, B, C, alpha, beta, transA, transB)
+    }
+
+    fn grid_sample(
+        X: @Tensor<i8>,
+        grid: @Tensor<i8>,
+        align_corner: Option<usize>,
+        mode: Option<functional::grid_sample::MODE>,
+        padding_mode: Option<functional::grid_sample::PADDING_MODE>,
+    ) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+    
+    fn col2im(
+        data: @Tensor<i8>,
+        image_shape: Span<usize>,
+        block_shape: Span<usize>,
+        dilations: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<i8> {
+        functional::col2im::col2im(data, image_shape, block_shape, dilations, pads, strides,)
+    }
+    
+    fn conv_transpose(
+        X: @Tensor<i8>,
+        W: @Tensor<i8>,
+        B: Option<@Tensor<i8>>,
+        auto_pad: Option<functional::conv_transpose::AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        output_padding: Option<Span<usize>>,
+        output_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<i8> {
+        functional::conv_transpose::conv_transpose(
+            X,
+            W,
+            B,
+            auto_pad,
+            dilations,
+            group,
+            kernel_shape,
+            output_padding,
+            output_shape,
+            pads,
+            strides
+        )
+    }
+    
+    fn conv(
+        X: @Tensor<i8>,
+        W: @Tensor<i8>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<functional::conv::AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<i8> {
+        functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
 }

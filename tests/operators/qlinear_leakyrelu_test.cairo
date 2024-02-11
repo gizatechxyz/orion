@@ -12,15 +12,7 @@ fn qlinear_leakyrelu_test() {
         i8
     >::new(
         shape: array![2, 3].span(),
-        data: array![
-            -10_i8,
-            -10_i8,
-            -10_i8,
-            10_i8,
-            10_i8,
-            10_i8
-        ]
-            .span(),
+        data: array![-10_i8, -10_i8, -10_i8, 10_i8, 10_i8, 10_i8].span(),
     );
 
     let a_scale = TensorTrait::<

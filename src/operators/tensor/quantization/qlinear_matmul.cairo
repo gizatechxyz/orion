@@ -107,7 +107,7 @@ fn x_shape(ref x_data: Array<usize>, mut shape: Span<usize>, m: usize, n: usize)
         }
         match shape.pop_front() {
             Option::Some(elem) => { x_data.append(*elem); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
     x_data.append(m);
@@ -122,7 +122,7 @@ fn stride(mut shape: Span<usize>) -> usize {
     loop {
         match shape.pop_back() {
             Option::Some(i) => { accumulated *= *i; },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
     return accumulated;

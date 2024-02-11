@@ -23,7 +23,7 @@ fn atan<
     loop {
         match self.data.pop_front() {
             Option::Some(item) => { result.append((*item).atan()); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

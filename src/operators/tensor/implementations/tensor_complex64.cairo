@@ -495,7 +495,13 @@ impl Complex64Tensor of TensorTrait<complex64> {
         num_outputs: Option<usize>,
         spl: Option<Tensor<usize>>
     ) -> Array<Tensor<complex64>> {
-        panic(array!['not supported!'])
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
+
+    fn reverse_sequence(
+        self: @Tensor<complex64>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<complex64> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
 
     fn resize(
@@ -512,6 +518,51 @@ impl Complex64Tensor of TensorTrait<complex64> {
         keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
         mode: Option<math::resize::MODE>,
         nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+
+    fn random_uniform_like(tensor: @Tensor<complex64>, high: Option<complex64>, low: Option<complex64>, seed: Option<usize>) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+    
+    fn range(start: complex64, end: complex64, step: complex64) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+
+    fn hann_window(size: complex64, periodic: Option<usize>) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+
+    fn hamming_window(size: complex64, periodic: Option<usize>) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+
+    fn blackman_window(size: complex64, periodic: Option<usize>) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+    
+    fn split_to_sequence(
+        self: @Tensor<complex64>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<complex64>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+    
+    fn optional(self: @Tensor<complex64>) -> Option<Tensor<complex64>>{
+        manipulation::optional::optional(self)
+    }
+    
+    fn dynamic_quantize_linear(
+        self: @Tensor<complex64>
+    ) -> (Tensor::<u32>, Tensor::<complex64>, Tensor<complex64>) {
+        panic(array!['not supported!'])
+    }
+
+    fn scatter_nd(
+        self: @Tensor<complex64>,
+        updates: Tensor<complex64>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
     ) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }

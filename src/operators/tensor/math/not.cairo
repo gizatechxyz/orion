@@ -14,7 +14,7 @@ fn not(mut z: Tensor<bool>) -> Tensor<bool> {
     loop {
         match z.data.pop_front() {
             Option::Some(item) => { data_result.append((!*item)); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

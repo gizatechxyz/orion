@@ -3,7 +3,7 @@ use core::array::ArrayTrait;
 use core::array::SpanTrait;
 use core::option::OptionTrait;
 use core::traits::Into;
-use orion::numbers::{ NumberTrait, I32IntoU32};
+use orion::numbers::{NumberTrait, I32IntoU32};
 use orion::operators::tensor::{
     TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, BoolTensor
 };
@@ -35,7 +35,6 @@ fn layer_normalization<
     stash_type: Option<usize>,
 ) -> (Tensor<T>, Tensor<T>, Tensor<T>) {
     let X_rank = (*self).shape.len();
-    let X_shape = (*self).shape;
 
     let mut axis = match axis {
         Option::Some(axis) => axis,
@@ -45,12 +44,6 @@ fn layer_normalization<
         Option::Some(epsilon) => epsilon,
         Option::None => NumberTrait::zero(), // default of onnx is 1e-05 
     };
-
-    let stash_type = match stash_type {
-        Option::Some(stash_type) => stash_type,
-        Option::None => 1,
-    };
-
 
     let axis = if axis < 0 {
         X_rank - axis.into()

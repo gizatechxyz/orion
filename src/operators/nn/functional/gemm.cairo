@@ -59,6 +59,6 @@ fn gemm<
 
             return mul_by_scalar(@A.matmul(@B), alpha) + mul_by_scalar(@c, beta);
         },
-        Option::None(_) => { return mul_by_scalar(@A.matmul(@B), alpha); }
+        Option::None => { return mul_by_scalar(@A.matmul(@B), alpha); }
     }
 }

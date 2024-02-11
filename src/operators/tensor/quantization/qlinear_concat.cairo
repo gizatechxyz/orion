@@ -133,7 +133,7 @@ fn dequantize_tensors<
                 array
                     .append(dequantize_linear(@(*tensor), @(*scales.at(i)), @(*zero_points.at(i))));
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
         i += 1;
     };

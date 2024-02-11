@@ -3,25 +3,21 @@ use core::array::{ArrayTrait, SpanTrait};
 use core::option::OptionTrait;
 use orion::operators::matrix::{MutMatrixTrait, MutMatrix, MutMatrixImpl};
 
-/// Cf: NNTrait::split docstring
+/// Cf: TensorTrait::split docstring
 fn split<
     T,
     +Copy<T>,
     +Drop<T>,
     +TensorTrait<T>,
-    +PartialOrd<T>,
-    +PartialEq<T>,
-    +PartialEq<Tensor<T>>,
-    +PartialOrd<Tensor<T>>
 >(
     self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, split: Option<Tensor<usize>>
 ) -> Array<Tensor<T>> {
     let has_num_outputs = match num_outputs {
-        Option::Some(value) => { true },
+        Option::Some => { true },
         Option::None => false,
     };
     let has_split = match split {
-        Option::Some(value) => { true },
+        Option::Some => { true },
         Option::None => false,
     };
     assert(!(has_num_outputs && has_split), 'split or num_outputs not both.');
@@ -43,7 +39,7 @@ fn split<
 
 /// Subfunction split for tensors (wth num_outputs).
 /// Cf: TensorTrait::split docstring
-fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>, +PartialOrd<T>, +PartialEq<T>,>(
+fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     t: @Tensor<T>, mut axis: usize, num_outputs: usize
 ) -> Array<Tensor<T>> {
     let mut splited_t: Array<Tensor<T>> = array![];
@@ -77,7 +73,7 @@ fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>, +PartialOrd<T>, +Pa
             Option::Some(split_last_one) => {
                 split.append(split_last_one + *(*t).shape.at(axis) - div * (num_outputs - 1));
             },
-            Option::None(_) => { assert(false, 'split is none array'); }
+            Option::None => { assert(false, 'split is none array'); }
         }
     }
 
@@ -105,14 +101,14 @@ fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>, +PartialOrd<T>, +Pa
 
         let end_ele_0 = match sli.get(axis, 0) {
             Option::Some(res) => { res },
-            Option::None(_) => {
+            Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },
         };
         let end_ele_1 = match sli.get(axis, 1) {
             Option::Some(res) => { res },
-            Option::None(_) => {
+            Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },
@@ -130,7 +126,7 @@ fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>, +PartialOrd<T>, +Pa
 
 /// Subfunction split for tensors (wth split).
 /// Cf: TensorTrait::split docstring
-fn split_has_split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>, +PartialOrd<T>, +PartialEq<T>,>(
+fn split_has_split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     t: @Tensor<T>, axis: usize, split: Tensor<u32>
 ) -> Array<Tensor<T>> {
     let mut splited_t: Array<Tensor<T>> = array![];
@@ -158,14 +154,14 @@ fn split_has_split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>, +PartialOrd<T>, +Part
 
         let end_ele_0 = match sli.get(axis, 0) {
             Option::Some(res) => { res },
-            Option::None(_) => {
+            Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },
         };
         let end_ele_1 = match sli.get(axis, 1) {
             Option::Some(res) => { res },
-            Option::None(_) => {
+            Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },

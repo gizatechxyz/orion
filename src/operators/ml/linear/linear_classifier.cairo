@@ -170,12 +170,12 @@ impl LinearClassifierImpl<
                 let intercepts = TensorTrait::new(shape.span(), intercepts);
                 scores = TensorTrait::add(scores, intercepts);
             },
-            Option::None(_) => {},
+            Option::None => {},
         };
 
         let (n_classes, classlabels) = match self.classlabels {
             Option::Some(classlabels) => { (classlabels.len(), classlabels) },
-            Option::None(_) => { (0, ArrayTrait::<usize>::new().span()) },
+            Option::None => { (0, ArrayTrait::<usize>::new().span()) },
         };
         if *coefficients.shape.at(1) == 1 && n_classes == 2 {
             let mut new_scores = ArrayTrait::new();
@@ -186,7 +186,7 @@ impl LinearClassifierImpl<
                         new_scores.append(NumberTrait::neg(*item));
                         new_scores.append(*item);
                     },
-                    Option::None(_) => { break; },
+                    Option::None => { break; },
                 }
             };
             scores = TensorTrait::new(array![*scores.shape.at(0), 2].span(), new_scores.span());
@@ -207,7 +207,7 @@ impl LinearClassifierImpl<
             loop {
                 match labels.data.pop_front() {
                     Option::Some(i) => { labels_list.append(*classlabels[*i]); },
-                    Option::None(_) => { break; }
+                    Option::None => { break; }
                 };
             };
         } else {

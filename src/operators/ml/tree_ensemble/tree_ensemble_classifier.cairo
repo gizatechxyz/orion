@@ -361,7 +361,7 @@ impl TreeEnsembleClassifierImpl<
                             );
                         t_index.append(class_index.get(key).deref());
                     },
-                    Option::None(_) => { break; }
+                    Option::None => { break; }
                 };
             };
             let mut t_index = t_index.span();
@@ -372,7 +372,7 @@ impl TreeEnsembleClassifierImpl<
                         loop {
                             match its.pop_front() {
                                 Option::Some(it) => {
-                                    let prev_val = match res.get(i, *self.class_ids[*it]) {
+                                    match res.get(i, *self.class_ids[*it]) {
                                         Option::Some(val) => {
                                             res
                                                 .set(
@@ -391,11 +391,11 @@ impl TreeEnsembleClassifierImpl<
                                         },
                                     };
                                 },
-                                Option::None(_) => { break; }
+                                Option::None => { break; }
                             };
                         };
                     },
-                    Option::None(_) => { break; }
+                    Option::None => { break; }
                 };
             };
             i += 1;
@@ -408,8 +408,8 @@ impl TreeEnsembleClassifierImpl<
         let mut class_id: usize = 0;
         // Get first class_id in class_ids
         match class_ids.pop_front() {
-            Option::Some(c_id) => { let mut class_id = *c_id; },
-            Option::None(_) => { let mut class_id: usize = 0; }
+            Option::Some(c_id) => { class_id = *c_id; },
+            Option::None => { class_id = 0; }
         };
         loop {
             if i == self.class_ids.len() {
@@ -425,7 +425,7 @@ impl TreeEnsembleClassifierImpl<
                         break;
                     }
                 },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
 
@@ -438,9 +438,9 @@ impl TreeEnsembleClassifierImpl<
                     break;
                 }
                 // Exchange
-                let res_ele_1 = match res.get(i, 0) {
+                match res.get(i, 0) {
                     Option::Some(res_0) => { new_res.set(i, 1, res_0); },
-                    Option::None(_) => { new_res.set(i, 1, NumberTrait::zero()); },
+                    Option::None => { new_res.set(i, 1, NumberTrait::zero()); },
                 };
                 i += 1;
             };
@@ -452,12 +452,12 @@ impl TreeEnsembleClassifierImpl<
                             break;
                         }
                         // Exchange
-                        let res_ele_0 = match new_res.get(i, 1) {
+                        match new_res.get(i, 1) {
                             Option::Some(res_1) => {
                                 let value = NumberTrait::sub(NumberTrait::one(), res_1);
                                 new_res.set(i, 0, value);
                             },
-                            Option::None(_) => { new_res.set(i, 0, NumberTrait::zero()); },
+                            Option::None => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
                         i += 1;
                     };
@@ -469,9 +469,9 @@ impl TreeEnsembleClassifierImpl<
                             break;
                         }
                         // Exchange
-                        let res_ele_0 = match new_res.get(i, 1) {
+                        match new_res.get(i, 1) {
                             Option::Some(res_1) => { new_res.set(i, 0, res_1.neg()); },
-                            Option::None(_) => { new_res.set(i, 0, NumberTrait::zero()); },
+                            Option::None => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
                         i += 1;
                     };
@@ -483,9 +483,9 @@ impl TreeEnsembleClassifierImpl<
                             break;
                         }
                         // Exchange
-                        let res_ele_0 = match new_res.get(i, 1) {
+                        match new_res.get(i, 1) {
                             Option::Some(res_1) => { new_res.set(i, 0, res_1.neg()); },
-                            Option::None(_) => { new_res.set(i, 0, NumberTrait::zero()); },
+                            Option::None => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
                         i += 1;
                     };
@@ -497,9 +497,9 @@ impl TreeEnsembleClassifierImpl<
                             break;
                         }
                         // Exchange
-                        let res_ele_0 = match new_res.get(i, 1) {
+                        match new_res.get(i, 1) {
                             Option::Some(res_1) => { new_res.set(i, 0, res_1.neg()); },
-                            Option::None(_) => { new_res.set(i, 0, NumberTrait::zero()); },
+                            Option::None => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
                         i += 1;
                     };
@@ -511,12 +511,12 @@ impl TreeEnsembleClassifierImpl<
                             break;
                         }
                         // Exchange
-                        let res_ele_0 = match new_res.get(i, 1) {
+                        match new_res.get(i, 1) {
                             Option::Some(res_1) => {
                                 let value = NumberTrait::sub(NumberTrait::one(), res_1);
                                 new_res.set(i, 0, value);
                             },
-                            Option::None(_) => { new_res.set(i, 0, NumberTrait::zero()); },
+                            Option::None => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
                         i += 1;
                     };
@@ -541,7 +541,7 @@ impl TreeEnsembleClassifierImpl<
         loop {
             match labels.pop_front() {
                 Option::Some(i) => { labels_list.append(*self.classlabels[*i]); },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
 

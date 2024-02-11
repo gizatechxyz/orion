@@ -21,7 +21,7 @@ fn ceil<
     loop {
         match z.data.pop_front() {
             Option::Some(item) => { data_result.append((*item).ceil()); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

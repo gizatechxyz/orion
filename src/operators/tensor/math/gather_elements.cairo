@@ -19,7 +19,7 @@ fn gather_elements<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, im
 ) -> Tensor<T> {
     let axis = match axis {
         Option::Some(val) => val,
-        Option::None(_) => 0
+        Option::None => 0
     };
     assert(axis < (*self.shape).len(), 'axis out of dimensions');
 
@@ -44,7 +44,7 @@ fn gather_elements<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, im
                 }
                 ind += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -63,7 +63,7 @@ fn gather_elements<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, im
                 }
                 ind += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -84,7 +84,7 @@ fn gather_elements<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, im
                 }
                 ind += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -109,7 +109,7 @@ fn gather_elements<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, im
                 }
                 i += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

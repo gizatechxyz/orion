@@ -20,7 +20,7 @@ fn concat_from_sequence<
             assert(val == 0 || val == 1, 'new_axis must be 0 or 1');
             val
         },
-        Option::None(_) => 0
+        Option::None => 0
     };
 
     let first_tensor = *sequence.at(0);
@@ -86,7 +86,7 @@ fn concat_with_new_axis<
                 let mut reshaped_tensor = add_new_dimension(input_sequence_value, axis_value);
                 reshaped_sequence.append(reshaped_tensor);
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
     concat(reshaped_sequence.span(), axis_value)
@@ -110,7 +110,7 @@ fn add_new_dimension<
                 new_tensor_shape.append(*tensor_shape_value);
                 tensor_shape_counter += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
     if axis >= tensor.shape.len() {

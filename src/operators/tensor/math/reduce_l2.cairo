@@ -27,7 +27,7 @@ fn square<
                 let ele = *item;
                 output_data.append(ele * ele);
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

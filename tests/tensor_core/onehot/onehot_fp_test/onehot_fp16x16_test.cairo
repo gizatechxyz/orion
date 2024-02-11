@@ -155,7 +155,7 @@ mod tensor_1D {
         let depth = 3;
         let axis: Option<usize> = Option::Some(3);
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let _result = tensor.onehot(depth: depth, axis: axis, values: values.span());
     }
 
     #[test]
@@ -253,7 +253,7 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(3);
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let _result = tensor.onehot(depth: depth, axis: axis, values: values.span());
     }
 
     #[test]
@@ -384,7 +384,7 @@ mod tensor_1D {
         let depth = 4;
         let axis: Option<usize> = Option::Some(4);
 
-        let result = tensor.onehot(depth: depth, axis: axis, values: values.span());
+        let _result = tensor.onehot(depth: depth, axis: axis, values: values.span());
     }
 
     #[test]

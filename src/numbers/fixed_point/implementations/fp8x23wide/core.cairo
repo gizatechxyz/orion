@@ -256,7 +256,7 @@ impl FP8x23WTryIntoFP8x23 of TryInto<FP8x23W, FP8x23> {
     fn try_into(self: FP8x23W) -> Option<FP8x23> {
         match self.mag.try_into() {
             Option::Some(val) => { Option::Some(FP8x23 { mag: val, sign: self.sign }) },
-            Option::None(_) => { Option::None(()) }
+            Option::None => { Option::None(()) }
         }
     }
 }
@@ -283,6 +283,16 @@ impl FP8x23WTryIntoU64 of TryInto<FP8x23W, u64> {
     }
 }
 
+impl FP8x23WTryIntoU32 of TryInto<FP8x23W, u32> {
+    fn try_into(self: FP8x23W) -> Option<u32> {
+        if self.sign {
+            Option::None(())
+        } else {
+            // Unscale the magnitude and round down
+            return (self.mag / ONE).try_into();
+        }
+    }
+}
 
 impl FP8x23WTryIntoU16 of TryInto<FP8x23W, u16> {
     fn try_into(self: FP8x23W) -> Option<u16> {
@@ -433,14 +443,14 @@ fn _i8_try_from_fp(x: FP8x23W) -> Option<i8> {
     let unscaled_mag: Option<u8> = (x.mag / ONE).try_into();
 
     match unscaled_mag {
-        Option::Some(val) => {
+        Option::Some => {
             let number_felt: felt252 = unscaled_mag.unwrap().into();
             let mut number_i8: i8 = number_felt.try_into().unwrap();
             if x.sign {
                 return Option::Some(number_i8 * -1_i8);
             }
-            Option::Some(number_i8) 
+            Option::Some(number_i8)
         },
-        Option::None(_) => Option::None(())
+        Option::None => Option::None(())
     }
 }

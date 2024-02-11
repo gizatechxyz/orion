@@ -24,7 +24,7 @@ fn cosh<
     loop {
         match self.data.pop_front() {
             Option::Some(item) => { result.append((*item).cosh()); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
