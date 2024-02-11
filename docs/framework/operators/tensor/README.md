@@ -120,6 +120,16 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.erf`](tensor.erf.md) | Computes the error function of the given input tensor element-wise. |
 | [`tensor.layer_normalization`](tensor.layer\_normalization.md) | computes the layer normalization of the input tensor. |
 | [`tensor.split`](tensor.split.md) | Split a tensor into a list of tensors, along the specified ‘axis’.  |
+| [`tensor.random_uniform_like`](tensor.random\_uniform\_like.md) | RandomUniformLike generates a tensor with random values using a uniform distribution, matching the shape of the input tensor. |
+| [`tensor.split_to_sequence`](tensor.split\_to\_sequence.md) | Split a tensor into a sequence of tensors, along the specified ‘axis’. |
+| [`tensor.range`](tensor.range.md) | Generate a tensor containing a sequence of numbers that begin at start and extends by increments of delta up to limit (exclusive). |
+| [`tensor.hann_window`](tensor.hann\_window.md) | Generates a Hann window as described in the paper https://ieeexplore.ieee.org/document/1455106. |
+| [`tensor.hamming_window`](tensor.hamming\_window.md) | Generates a Hamming window as described in the paper https://ieeexplore.ieee.org/document/1455106. |
+| [`tensor.blackman_window`](tensor.blackman\_window.md) | Generates a Blackman window as described in the paper https://ieeexplore.ieee.org/document/1455106. |
+| [`tensor.reverse_sequence`](tensor.reverse\_sequence.md) | Reverse batch of sequences having different lengths specified by sequence_lens. |
+| [`tensor.optional`](tensor.optional.md) | Constructs an optional-type value containing either an empty optional of a certain type specified by the attribute, or a non-empty value containing the input element. |
+| [`tensor.dynamic_quantize_linear`](tensor.dynamic\_quantize\_linear.md) | Computes the Scale, Zero Point and FP32->8Bit conversion of FP32 Input data.  |
+| [`tensor.scatter_nd`](tensor.scatter\_nd.md) | The output of the operation is produced by creating a copy of the input data, and then updating its value to values specified by updates at specific index positions specified by indices. Its output shape is the same as the shape of data |
 
 ## Arithmetic Operations
 

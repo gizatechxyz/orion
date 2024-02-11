@@ -14,6 +14,7 @@ use orion::numbers::{NumberTrait, FP16x16W};
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
 };
+use orion::numbers::fixed_point::implementations::fp16x16wide::math::trig::PI;
 
 impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn new(shape: Span<usize>, data: Span<FP16x16W>) -> Tensor<FP16x16W> {
@@ -511,6 +512,65 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         self: @Tensor<FP16x16W>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<FP16x16W>> {
         manipulation::split::split(self, axis, num_outputs, spl)
+    }
+
+    fn random_uniform_like(tensor: @Tensor<FP16x16W>, high: Option<FP16x16W>, low: Option<FP16x16W>, seed: Option<usize>) -> Tensor<FP16x16W> {
+        math::random_uniform_like::random_uniform_like(*tensor, high, low, seed)
+    }
+    
+    fn range(start: FP16x16W, end: FP16x16W, step: FP16x16W) -> Tensor<FP16x16W> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: FP16x16W, periodic: Option<usize>) -> Tensor<FP16x16W> {
+        math::hann_window::hann_window(size, FP16x16W { mag: PI, sign: false }, periodic)
+    }
+
+    fn hamming_window(size: FP16x16W, periodic: Option<usize>) -> Tensor<FP16x16W> {
+        math::hamming_window::hamming_window(size, FP16x16W { mag: PI, sign: false }, periodic)
+    }
+
+    fn blackman_window(size: FP16x16W, periodic: Option<usize>) -> Tensor<FP16x16W> {
+        math::blackman_window::blackman_window(size, FP16x16W { mag: PI, sign: false }, periodic)
+    }
+    
+    fn split_to_sequence(
+        self: @Tensor<FP16x16W>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP16x16W>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+    
+    fn reverse_sequence(
+        self: @Tensor<FP16x16W>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<FP16x16W> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+    
+    
+    fn optional(self: @Tensor<FP16x16W>) -> Option<Tensor<FP16x16W>>{
+        manipulation::optional::optional(self)
+    }
+    
+
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP16x16W>
+    ) -> (Tensor::<u32>, Tensor::<FP16x16W>, Tensor<FP16x16W>){
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        )     
+    }
+    
+    fn scatter_nd(
+        self: @Tensor<FP16x16W>,
+        updates: Tensor<FP16x16W>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP16x16W> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 }
 

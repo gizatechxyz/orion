@@ -482,6 +482,58 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Array<Tensor<u32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+
+    fn random_uniform_like(tensor: @Tensor<u32>, high: Option<u32>, low: Option<u32>, seed: Option<usize>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+    
+    fn range(start: u32, end: u32, step: u32) -> Tensor<u32> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: u32, periodic: Option<usize>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
+    fn hamming_window(size: u32, periodic: Option<usize>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
+    fn blackman_window(size: u32, periodic: Option<usize>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+    
+    
+    fn split_to_sequence(
+        self: @Tensor<u32>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<u32>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+    
+    fn reverse_sequence(
+        self: @Tensor<u32>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+    ) -> Tensor<u32> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+    
+    fn optional(self: @Tensor<u32>) -> Option<Tensor<u32>> {
+        manipulation::optional::optional(self)
+    }
+
+    fn dynamic_quantize_linear(
+        self: @Tensor<u32>
+    ) -> (Tensor::<u32>, Tensor::<u32>, Tensor<u32>){
+        panic(array!['not supported!']) 
+    }
+    
+    fn scatter_nd(
+        self: @Tensor<u32>,
+        updates: Tensor<u32>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<u32> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.
