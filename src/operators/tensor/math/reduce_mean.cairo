@@ -51,7 +51,7 @@ fn reduce_mean<
                         Option::None => { break; }
                     };
                 };
-                let sorted_axes = bubble_sort::bubble_sort_elements(axes_arr).span();
+                let sorted_axes = bubble_sort::bubble_sort_elements(axes_arr, true).span();
                 sorted_axes
             }
         },

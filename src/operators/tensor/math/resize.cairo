@@ -1142,7 +1142,7 @@ fn get_neighbor_idxes<
         core::panic_with_felt252('MUST BE EVEN');
     }
 
-    idxes = bubble_sort::bubble_sort_elements(idxes);
+    idxes = bubble_sort::bubble_sort_elements(idxes, true);
 
     let mut shape = ArrayTrait::new();
     shape.append(n);
