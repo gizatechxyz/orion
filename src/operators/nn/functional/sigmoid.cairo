@@ -32,7 +32,7 @@ fn sigmoid<
                     / (NumberTrait::one() + (*item * NumberTrait::neg_one()).exp());
                 data_result.append(result);
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

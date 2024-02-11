@@ -13,7 +13,7 @@ fn split_to_sequence<
     self: @Tensor<T>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
 ) -> Array<Tensor<T>> {
     let has_split = match split {
-        Option::Some(value) => { true },
+        Option::Some => { true },
         Option::None => false,
     };
     let mut has_num_outputs = false;
@@ -121,7 +121,7 @@ fn split_num_outputs<
             Option::Some(split_last_one) => {
                 split.append(split_last_one + *(*t).shape.at(axis) - div * (num_outputs - 1));
             },
-            Option::None(_) => { assert(false, 'split is none array'); }
+            Option::None => { assert(false, 'split is none array'); }
         }
     }
 
@@ -149,14 +149,14 @@ fn split_num_outputs<
 
         let end_ele_0 = match sli.get(axis, 0) {
             Option::Some(res) => { res },
-            Option::None(_) => {
+            Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },
         };
         let end_ele_1 = match sli.get(axis, 1) {
             Option::Some(res) => { res },
-            Option::None(_) => {
+            Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },
@@ -207,14 +207,14 @@ fn split_has_split<
 
         let end_ele_0 = match sli.get(axis, 0) {
             Option::Some(res) => { res },
-            Option::None(_) => {
+            Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },
         };
         let end_ele_1 = match sli.get(axis, 1) {
             Option::Some(res) => { res },
-            Option::None(_) => {
+            Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },

@@ -145,7 +145,6 @@ fn col2im_naive_implementation<
 
     col2im_shape_check(data, image_shape, kernel_shape, dilations, pads, strides);
 
-    let data_col = data;
     let mut dim_col = ArrayTrait::new();
     let mut i = 0;
     loop {

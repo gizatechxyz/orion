@@ -21,7 +21,7 @@ fn acos<
     loop {
         match self.data.pop_front() {
             Option::Some(item) => { result.append((*item).acos()); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

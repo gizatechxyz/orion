@@ -13,11 +13,11 @@ fn split<
     self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, split: Option<Tensor<usize>>
 ) -> Array<Tensor<T>> {
     let has_num_outputs = match num_outputs {
-        Option::Some(value) => { true },
+        Option::Some => { true },
         Option::None => false,
     };
     let has_split = match split {
-        Option::Some(value) => { true },
+        Option::Some => { true },
         Option::None => false,
     };
     assert(!(has_num_outputs && has_split), 'split or num_outputs not both.');
@@ -73,7 +73,7 @@ fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
             Option::Some(split_last_one) => {
                 split.append(split_last_one + *(*t).shape.at(axis) - div * (num_outputs - 1));
             },
-            Option::None(_) => { assert(false, 'split is none array'); }
+            Option::None => { assert(false, 'split is none array'); }
         }
     }
 
@@ -101,14 +101,14 @@ fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
 
         let end_ele_0 = match sli.get(axis, 0) {
             Option::Some(res) => { res },
-            Option::None(_) => {
+            Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },
         };
         let end_ele_1 = match sli.get(axis, 1) {
             Option::Some(res) => { res },
-            Option::None(_) => {
+            Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },
@@ -154,14 +154,14 @@ fn split_has_split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
 
         let end_ele_0 = match sli.get(axis, 0) {
             Option::Some(res) => { res },
-            Option::None(_) => {
+            Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },
         };
         let end_ele_1 = match sli.get(axis, 1) {
             Option::Some(res) => { res },
-            Option::None(_) => {
+            Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },

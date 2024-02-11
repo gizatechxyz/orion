@@ -34,7 +34,7 @@ fn leaky_relu<
                     data_result.append(*item * *alpha);
                 };
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

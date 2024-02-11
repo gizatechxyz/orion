@@ -91,7 +91,7 @@ fn conv_transpose<
             strides.span()
         },
     };
-    let (pads, n_dims, output_shape) = match pads {
+    let (pads, _, output_shape) = match pads {
         Option::Some(pads) => {
             let n_dims = (*X).shape.len() - 2;
 
@@ -332,8 +332,6 @@ fn conv_transpose<
     let n = prod((*X).shape, 2);
     let k = C / group;
 
-    let w_reshaped = TensorTrait::new(array![group, k, m].span(), (*W).data);
-
     let mut final = ArrayTrait::new();
 
     if group == 1 {
@@ -560,7 +558,6 @@ fn col2im_naive_implementation<
 
     col2im_shape_check(data, image_shape, kernel_shape, dilations, pads, strides);
 
-    let data_col = data;
     let mut dim_col = ArrayTrait::new();
     let mut i = 0;
     loop {

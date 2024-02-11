@@ -44,7 +44,7 @@ fn reverse_sequence<
             Option::Some(ele) => {
                 data.append(*((*self).data).at(ele));
             },
-            Option::None(_) => {
+            Option::None => {
                 break;
             }
         }

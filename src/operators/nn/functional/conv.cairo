@@ -217,7 +217,6 @@ fn conv<
             if i == res_b.len() {
                 break;
             }
-            let b = *res_b.at(i);
             let cv = *res_cv.at(i);
 
             let mut n = 0;
@@ -295,7 +294,6 @@ fn conv<
         };
         let new_shape = new_shape.span();
         let new_w_strides = stride(new_shape);
-        let w_strides = stride((*W).shape);
 
         let mut new_w = NullableVecImpl::new();
         new_w.set(*new_shape.at(0) * *new_w_strides.at(0) - 1, NumberTrait::zero());
@@ -352,8 +350,6 @@ fn conv<
             prev = flatten_index;
             i += 1;
         };
-        let W = @TensorTrait::new(new_shape, new_w_arr.span());
-        let kernel_shape = new_kernel_shape;
     }
 
     let pads = match auto_pad {
@@ -1474,7 +1470,6 @@ fn cartesian(mut arrays: Span<Span<usize>>,) -> Span<Span<usize>> {
 
     let mut i = 0;
     let mut size_arrays = ArrayTrait::new();
-    let mut m = n;
     loop {
         if i == arrays.len() {
             break;

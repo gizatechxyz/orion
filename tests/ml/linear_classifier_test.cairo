@@ -259,8 +259,6 @@ fn linear_classifier_helper(
     let classlabels: Span<usize> = array![0, 1, 2].span();
     let classlabels = Option::Some(classlabels);
 
-    let classlabels_strings: Option<Span<FP16x16>> = Option::None;
-
     let coefficients: Span<FP16x16> = array![
         FP16x16 { mag: 38011, sign: true },
         FP16x16 { mag: 19005, sign: true },

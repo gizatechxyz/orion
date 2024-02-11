@@ -22,12 +22,12 @@ fn argmax<
 ) -> Tensor<usize> {
     let keepdims = match keepdims {
         Option::Some(val) => val,
-        Option::None(_) => true,
+        Option::None => true,
     };
 
     let select_last_index = match select_last_index {
         Option::Some(val) => val,
-        Option::None(_) => false,
+        Option::None => false,
     };
 
     assert(axis <= (*self.shape).len(), 'axis out of dimensions');
@@ -88,7 +88,7 @@ fn find_argmax_1D<
 
     let mut max = match input.data.pop_front() {
         Option::Some(item) => *item,
-        Option::None(_) => {
+        Option::None => {
             return TensorTrait::<
                 usize
             >::new(reduce_output_shape(input.shape, axis, keepdims), output_data.span());
@@ -111,7 +111,7 @@ fn find_argmax_1D<
                     }
                 };
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

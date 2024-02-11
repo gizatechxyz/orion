@@ -44,7 +44,7 @@ fn shrink<
                     data_result.append(NumberTrait::zero());
                 }
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

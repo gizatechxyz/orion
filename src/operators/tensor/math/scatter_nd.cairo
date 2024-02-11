@@ -32,12 +32,10 @@ fn scatter_nd<
    
     let reduction = match reduction {
         Option::Some(val) => val,
-        Option::None(_) => 'none'
+        Option::None => 'none'
     };
 
     let data_rank = (*self.shape).len();
-    let indices_rank = (indices.shape).len();
-    let updates_rank = (updates.shape).len();
     let mut data_shape = *self.shape;
     let mut indices_shape = indices.shape;
     let updates_shape = updates.shape;
@@ -56,7 +54,7 @@ fn scatter_nd<
     loop {
         match indices_shape.pop_front() {
             Option::Some(val) => { batch_dims_shape.append(*val);},
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -68,7 +66,7 @@ fn scatter_nd<
                     batch_dims_shape.append(*val);
                     }
                 },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -78,7 +76,7 @@ fn scatter_nd<
         Option::Some(val) => { 
             assert(val == *updates_shape[ind], 'must be same');
             },
-        Option::None(_) => { break; }
+        Option::None => { break; }
         };
     };
 
@@ -92,7 +90,7 @@ fn scatter_nd<
         loop {
             match data_shape_clone.pop_front() {
                 Option::Some(val) => { indexer *= *val;},
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         }
     }
@@ -105,7 +103,7 @@ fn scatter_nd<
                 updates_index_dict.insert((*val).into(), dict_ind);
                 dict_ind += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -118,7 +116,6 @@ fn scatter_nd<
         if (index == num){
             break;
         }
-        let updates_index = (index/indexer);
         let comp_index = updates_index_dict.get(index.into());
 
         if (comp_index == 0) {

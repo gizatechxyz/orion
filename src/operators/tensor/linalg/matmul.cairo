@@ -78,7 +78,7 @@ fn dot_product<
                 let element_product = *vec1_item * *vec2.pop_front().unwrap();
                 result += element_product;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -185,7 +185,7 @@ fn prepare_shape_for_matmul(mut shape: Span<usize>, is_first_tensor: bool) -> Sp
         loop {
             match shape.pop_front() {
                 Option::Some(item) => { shape_adjusted.append(*item); },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
 
@@ -197,7 +197,7 @@ fn prepare_shape_for_matmul(mut shape: Span<usize>, is_first_tensor: bool) -> Sp
         loop {
             match shape.pop_front() {
                 Option::Some(item) => { shape_adjusted.append(*item); },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
 

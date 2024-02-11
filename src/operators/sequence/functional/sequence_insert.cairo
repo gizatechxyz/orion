@@ -11,7 +11,7 @@ fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TD
 ) -> Array<Tensor<T>> {
     let position: Tensor<i32> = match position {
         Option::Some(p) => p,
-        Option::None(_) => {
+        Option::None => {
             let mut shape = ArrayTrait::<usize>::new();
             let mut data = ArrayTrait::<i32>::new();
             data.append(-1_i32);
@@ -50,7 +50,7 @@ fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TD
                     position_value -= 1;
                 }
             },
-            Option::None(_) => { break; },
+            Option::None => { break; },
         };
     };
 

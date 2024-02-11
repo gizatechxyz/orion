@@ -212,7 +212,7 @@ fn neg(a: FP8x23W) -> FP8x23W {
 // self is a FP8x23W point value
 // b is a FP8x23W point value
 fn pow(a: FP8x23W, b: FP8x23W) -> FP8x23W {
-    let (div, rem) = integer::u64_safe_divmod(b.mag, u64_as_non_zero(ONE));
+    let (_, rem) = integer::u64_safe_divmod(b.mag, u64_as_non_zero(ONE));
 
     // use the more performant integer pow when y is an int
     if (rem == 0) {
@@ -331,7 +331,7 @@ mod tests {
     #[should_panic]
     fn test_negative_try_into_u128() {
         let a = FixedTrait::<FP8x23W>::new_unscaled(1, true);
-        let a: u128 = a.try_into().unwrap();
+        let _a: u128 = a.try_into().unwrap();
     }
 
     #[test]

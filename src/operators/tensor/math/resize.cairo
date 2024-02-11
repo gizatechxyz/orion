@@ -428,7 +428,6 @@ fn interpolate_nd<
                 if i == scale_factors.len() {
                     break;
                 }
-                let scale: usize = (*scale_factors.at(i)).try_into().unwrap();
 
                 let item = *scale_factors.at(i)
                     * NumberTrait::new_unscaled((*(*(data).shape).at(i)).into(), false);
@@ -514,7 +513,6 @@ fn cartesian(mut arrays: Span<Span<usize>>,) -> Array<Array<usize>> {
 
     let mut i = 0;
     let mut size_arrays = ArrayTrait::new();
-    let mut m = n;
     loop {
         if i == arrays.len() {
             break;
@@ -775,7 +773,6 @@ fn get_row_n<T, +TensorTrait<T>, +Copy<T>, +Drop<T>,>(
     let mut output_data = ArrayTrait::new();
     let mut output_shape = ArrayTrait::new();
     let mut stride_output = 1;
-    let mut n: usize = 0;
 
     let mut i = 0;
     loop {
@@ -834,7 +831,7 @@ fn interpolate_1d_with_x<
 ) -> Tensor<T> {
     let coordinate_transformation_mode = match coordinate_transformation_mode {
         Option::Some(coordinate_transformation_mode) => coordinate_transformation_mode,
-        Option::None(_) => { TRANSFORMATION_MODE::HALF_PIXEL },
+        Option::None => { TRANSFORMATION_MODE::HALF_PIXEL },
     };
 
     let input_width = (*data).data.len();
@@ -886,7 +883,7 @@ fn interpolate_1d_with_x<
                     };
                     x_ori
                 },
-                Option::None(_) => { core::panic_with_felt252('roi cannot be None.') },
+                Option::None => { core::panic_with_felt252('roi cannot be None.') },
             };
             x_ori
         },
@@ -918,10 +915,10 @@ fn interpolate_1d_with_x<
     let mut coeffs = match mode {
         MODE::NEAREST => {
             let coeffs = match antialias {
-                Option::Some(antialias) => core::panic_with_felt252(
+                Option::Some => core::panic_with_felt252(
                     'antialias not for mode NEAREST'
                 ),
-                Option::None(_) => { nearest_coeffs(ratio, nearest_mode) },
+                Option::None => { nearest_coeffs(ratio, nearest_mode) },
             };
             coeffs
         },
@@ -935,16 +932,16 @@ fn interpolate_1d_with_x<
                     };
                     coeffs
                 },
-                Option::None(_) => { linear_coeffs(ratio) },
+                Option::None => { linear_coeffs(ratio) },
             };
             coeffs
         },
         MODE::CUBIC => {
             let coeffs = match antialias {
-                Option::Some(antialias) => {
+                Option::Some => {
                     cubic_coeffs_antialias(ratio, scale_factor, cubic_coeff_a)
                 },
-                Option::None(_) => { cubic_coeffs(ratio, cubic_coeff_a) },
+                Option::None => { cubic_coeffs(ratio, cubic_coeff_a) },
             };
             coeffs
         },
@@ -1092,7 +1089,7 @@ fn get_neighbor_idxes<
 >(
     mut x: T, n: usize, limit: usize,
 ) -> Tensor<usize> {
-    let pad_width: usize = NumberTrait::<
+    let _pad_width: usize = NumberTrait::<
         T
     >::ceil(
         NumberTrait::new_unscaled(n.into(), false)
@@ -1263,12 +1260,11 @@ fn cubic_coeffs<
     let three = two + NumberTrait::one();
     let four = three + NumberTrait::one();
     let five = four + NumberTrait::one();
-    let five = four + NumberTrait::one();
     let eigth = four + four;
 
     let A = match A {
         Option::Some(A) => A,
-        Option::None(_) => { NumberTrait::neg(three / four) },
+        Option::None => { NumberTrait::neg(three / four) },
     };
 
     let mut coeffs = ArrayTrait::new();
@@ -1314,9 +1310,6 @@ fn cubic_coeffs_antialias<
     let two = one + NumberTrait::one();
     let three = two + NumberTrait::one();
     let four = three + NumberTrait::one();
-    let five = four + NumberTrait::one();
-    let five = four + NumberTrait::one();
-    let eigth = four + four;
 
     let scale = NumberTrait::min(scale, NumberTrait::one());
 
@@ -1326,7 +1319,7 @@ fn cubic_coeffs_antialias<
 
     let A = match A {
         Option::Some(A) => A,
-        Option::None(_) => { NumberTrait::neg(three / four) },
+        Option::None => { NumberTrait::neg(three / four) },
     };
 
     let mut coeffs = ArrayTrait::new();
@@ -1418,7 +1411,7 @@ fn nearest_coeffs<
 ) -> Tensor<T> {
     let nearest_mode = match nearest_mode {
         Option::Some(nearest_mode) => { nearest_mode },
-        Option::None(_) => { NEAREST_MODE::ROUND_PREFER_FLOOR },
+        Option::None => { NEAREST_MODE::ROUND_PREFER_FLOOR },
     };
 
     let mut ret = ArrayTrait::new();

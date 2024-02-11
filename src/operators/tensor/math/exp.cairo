@@ -24,7 +24,7 @@ fn exp<
     loop {
         match self.data.pop_front() {
             Option::Some(item) => { result.append((*item).exp()); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -54,7 +54,7 @@ fn exp_upcast<
     loop {
         match self.data.pop_front() {
             Option::Some(item) => { result.append((TIntoW::into(*item)).exp()); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

@@ -22,7 +22,7 @@ fn sign<
     loop {
         match self.data.pop_front() {
             Option::Some(item) => { result.append((*item).sign()); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

@@ -33,7 +33,7 @@ fn reduce_min<
 ) -> Tensor<T> {
     let noop_with_empty_axes = match noop_with_empty_axes {
         Option::Some(noop_with_empty_axes) => noop_with_empty_axes,
-        Option::None(_) => { false },
+        Option::None => { false },
     };
     let axes = match axes {
         Option::Some(axes) => {
@@ -46,14 +46,14 @@ fn reduce_min<
                 loop {
                     match copy_axes.pop_front() {
                         Option::Some(axis) => { axes_arr.append(*axis); },
-                        Option::None(_) => { break; }
+                        Option::None => { break; }
                     };
                 };
                 let sorted_axes = bubble_sort::bubble_sort_elements(axes_arr).span();
                 sorted_axes
             }
         },
-        Option::None(_) => {
+        Option::None => {
             if (noop_with_empty_axes == true) {
                 return *self;
             }
@@ -62,7 +62,7 @@ fn reduce_min<
     };
     let keepdims = match keepdims {
         Option::Some(keepdims) => keepdims,
-        Option::None(_) => { true },
+        Option::None => { true },
     };
 
     let mut axis_c = 0;
@@ -97,7 +97,7 @@ fn reduce_min<
                 data = temp_data.span();
                 axis_c += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -107,7 +107,7 @@ fn reduce_min<
         loop {
             match axes_copy.pop_front() {
                 Option::Some(axis) => { shape = reduce_output_shape(shape, *axis, true); },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
         return TensorTrait::<T>::new(shape, data);
@@ -165,7 +165,7 @@ fn accumulate_min<
                 Option::Some(item) => { if (*item < min) {
                     min = *item;
                 } },
-                Option::None(_) => { break; }
+                Option::None => { break; }
             };
         };
     }

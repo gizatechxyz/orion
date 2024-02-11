@@ -363,7 +363,7 @@ fn accuracy(y: @Tensor<FP16x16>, z: @Tensor<FP16x16>) -> FP16x16 {
                     counter += 1;
                 };
             },
-            Option::None(_) => {
+            Option::None => {
                 break;
             }
         };
@@ -407,7 +407,7 @@ fn less(y: @Tensor<FP16x16>, z: @Tensor<FP16x16>) -> Tensor<FP16x16> {
 
                 smaller_index = (1 + smaller_index) % smaller_data.len();
             },
-            Option::None(_) => {
+            Option::None => {
                 break;
             }
         };
@@ -431,7 +431,7 @@ fn sign(z: @Tensor<FP16x16>) -> Tensor<FP16x16> {
                 };
                 data_result.append(result);
             },
-            Option::None(_) => {
+            Option::None => {
                 break;
             }
         };

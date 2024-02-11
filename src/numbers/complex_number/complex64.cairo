@@ -222,7 +222,6 @@ impl Complex64Impl of ComplexTrait<complex64, FP64x64> {
     //atanh(z) = 1/2 * [ln (1 + z) - ln(1 - z)]
     fn atanh(self: complex64) -> complex64 {
         let two = Complex64Impl::new(FP64x64Impl::new(TWO, false), FP64x64Impl::ZERO());
-        let i = Complex64Impl::new(FP64x64Impl::ZERO(), FP64x64Impl::ONE());
         let one = Complex64Impl::new(FP64x64Impl::ONE(), FP64x64Impl::ZERO());
         let atanh = (Complex64Impl::ln(one + self) - Complex64Impl::ln(one - self)) / two;
 
