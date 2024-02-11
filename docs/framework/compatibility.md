@@ -117,5 +117,9 @@ You can see below the list of current supported ONNX Operators:
 |                [Optional](operators/tensor/tensor.optional.md)                | :white\_check\_mark: |
 |        [ReverseSequence](operators/tensor/tensor.reverse_sequence.md)         | :white\_check\_mark: |
 |        [SplitToSequence](operators/tensor/tensor.split_to_sequence.md)        | :white\_check\_mark: |
+|                   [Range](operators/tensor/tensor.range.md)                   | :white\_check\_mark: |
+|          [HannWindow](operators/tensor/tensor.tensor.hann_window.md)          | :white\_check\_mark: |
+|       [HammingWindow](operators/tensor/tensor.tensor.hamming_window.md)       | :white\_check\_mark: |
+|      [BlackmanWindow](operators/tensor/tensor.tensor.blackman_window.md)      | :white\_check\_mark: |
 
 Current Operators support: **98/156 (62%)**
