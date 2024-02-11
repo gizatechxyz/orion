@@ -125,4 +125,4 @@ You can see below the list of current supported ONNX Operators:
 |      [BlackmanWindow](operators/tensor/tensor.tensor.blackman_window.md)      | :white\_check\_mark: |
 |      [RandomUniformLike](operators/tensor/tensor.tensor.random_uniform_like.md)      | :white\_check\_mark: |
 
-Current Operators support: **98/156 (75%)**
+Current Operators support: **117/156 (75%)**
