@@ -535,7 +535,13 @@ impl I32Tensor of TensorTrait<i32> {
     ) -> Array<Tensor<i32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
-
+    
+    fn split_to_sequence(
+        self: @Tensor<i32>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<i32>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+    
     fn reverse_sequence(
         self: @Tensor<i32>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
     ) -> Tensor<i32> {

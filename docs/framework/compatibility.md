@@ -116,6 +116,6 @@ You can see below the list of current supported ONNX Operators:
 |         [DepthToSpace](operators/neural-network/nn.depth_to_space.md)         | :white\_check\_mark: |
 |                [Optional](operators/tensor/tensor.optional.md)                | :white\_check\_mark: |
 |        [ReverseSequence](operators/tensor/tensor.reverse_sequence.md)         | :white\_check\_mark: |
-
+|        [SplitToSequence](operators/tensor/tensor.split_to_sequence.md)        | :white\_check\_mark: |
 
 Current Operators support: **98/156 (62%)**

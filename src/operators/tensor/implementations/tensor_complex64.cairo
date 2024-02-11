@@ -495,7 +495,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
         num_outputs: Option<usize>,
         spl: Option<Tensor<usize>>
     ) -> Array<Tensor<complex64>> {
-        panic(array!['not supported!'])
+        manipulation::split::split(self, axis, num_outputs, spl)
     }
 
     fn reverse_sequence(
@@ -522,6 +522,12 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
+    fn split_to_sequence(
+        self: @Tensor<complex64>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<complex64>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+    
     fn optional(self: @Tensor<complex64>) -> Option<Tensor<complex64>>{
         manipulation::optional::optional(self)
     }

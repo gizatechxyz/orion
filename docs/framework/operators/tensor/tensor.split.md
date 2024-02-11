@@ -41,7 +41,7 @@ fn split_tensor_example() -> Array<Tensor<u32>> {
     // split = Option::Some(array![1, 1].span());
     let split_num: Option<Tensor<usize>> = Option::None(());
     // We can call `split` function as follows.
-    return tensor.split(0, num_outputs, split_num);
+    return tensor.split(1, num_outputs, split_num);
 }
 >>> [[0,1],[4,5]]
     [[2,3],[6,7]]

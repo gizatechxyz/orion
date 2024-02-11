@@ -482,7 +482,13 @@ impl BoolTensor of TensorTrait<bool> {
     fn split(
         self: @Tensor<bool>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<bool>> {
-        panic(array!['not supported!'])
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
+
+    fn split_to_sequence(
+        self: @Tensor<bool>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<bool>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
     }
 
     fn reverse_sequence(

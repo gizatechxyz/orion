@@ -561,6 +561,12 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Array<Tensor<FP32x32>> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
+    
+    fn split_to_sequence(
+        self: @Tensor<FP32x32>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP32x32>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
 
     fn reverse_sequence(
         self: @Tensor<FP32x32>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>

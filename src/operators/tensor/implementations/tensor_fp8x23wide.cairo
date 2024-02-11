@@ -499,6 +499,12 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
+    fn split_to_sequence(
+        self: @Tensor<FP8x23W>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP8x23W>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+    
     fn reverse_sequence(
         self: @Tensor<FP8x23W>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
     ) -> Tensor<FP8x23W> {
