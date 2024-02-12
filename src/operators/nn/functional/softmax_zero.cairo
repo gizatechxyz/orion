@@ -176,7 +176,9 @@ fn reduce_sum_no_zero<
         let mut index: usize = 0;
         loop {
             let output_indices = unravel_index(index, output_shape);
-            let mut current_sum = accumulate_sum::<T>(*self.data, *self.shape, output_indices, axis);
+            let mut current_sum = accumulate_sum::<
+                T
+            >(*self.data, *self.shape, output_indices, axis);
 
             if current_sum == NumberTrait::zero() {
                 current_sum = NumberTrait::one();

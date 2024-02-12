@@ -35,8 +35,7 @@ fn depth_to_space<
         let reshaped = (tensor).reshape(target_shape: tmpshape.span());
         let transposed = reshaped.transpose(axes: array![0, 3, 4, 1, 5, 2].span());
         return transposed.reshape(target_shape: finalshape.span());
-    }
-    else {
+    } else {
         // assert mode == "CRD"
         let tmpshape = array![*b, *C / (blocksize * blocksize), blocksize, blocksize, *H, *W];
         let reshaped = (tensor).reshape(target_shape: tmpshape.span());

@@ -30,8 +30,9 @@ fn random_uniform_like<
     impl TAddEq: AddEq<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
->(tensor: Tensor<T>,  high: Option<T>, low: Option<T>, seed:Option<usize>) -> Tensor<T> {
-    
+>(
+    tensor: Tensor<T>, high: Option<T>, low: Option<T>, seed: Option<usize>
+) -> Tensor<T> {
     let mut seed: usize = match seed {
         Option::Some(seed) => seed,
         Option::None => NumberTrait::max_value(),
@@ -45,8 +46,8 @@ fn random_uniform_like<
         Option::None => NumberTrait::zero(),
     };
     assert!(high > low, "high must be larger than low");
-    let res = tensor_get_state(tensor,seed,high,low);
-    
+    let res = tensor_get_state(tensor, seed, high, low);
+
     return res;
 }
 
@@ -67,7 +68,9 @@ fn tensor_get_state<
     impl TAddEq: AddEq<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
->(tensor: Tensor<T>, mut seed: usize, high: T, low: T) -> Tensor<T> {
+>(
+    tensor: Tensor<T>, mut seed: usize, high: T, low: T
+) -> Tensor<T> {
     let mut data = ArrayTrait::new();
     let mut count = (tensor.data).len();
     let mut i = 0;
@@ -105,7 +108,9 @@ fn hash_random_range<
     impl TAddEq: AddEq<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
->(seed: usize, min: T, max: T) -> T {
+>(
+    seed: usize, min: T, max: T
+) -> T {
     let mut key = PedersenHasherImpl::new();
     let hash: felt252 = key.hash(seed.into(), 1);
     let a: u128 = 4294967295;

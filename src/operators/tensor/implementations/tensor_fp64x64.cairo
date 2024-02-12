@@ -562,10 +562,12 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
-    fn random_uniform_like(tensor: @Tensor<FP64x64>, high: Option<FP64x64>, low: Option<FP64x64>, seed: Option<usize>) -> Tensor<FP64x64> {
+    fn random_uniform_like(
+        tensor: @Tensor<FP64x64>, high: Option<FP64x64>, low: Option<FP64x64>, seed: Option<usize>
+    ) -> Tensor<FP64x64> {
         math::random_uniform_like::random_uniform_like(*tensor, high, low, seed)
     }
-    
+
     fn range(start: FP64x64, end: FP64x64, step: FP64x64) -> Tensor<FP64x64> {
         math::range::range(start, end, step)
     }
@@ -581,7 +583,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     fn blackman_window(size: FP64x64, periodic: Option<usize>) -> Tensor<FP64x64> {
         panic(array!['not supported!'])
     }
-    
+
     fn split_to_sequence(
         self: @Tensor<FP64x64>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<FP64x64>> {
@@ -589,26 +591,29 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     }
 
     fn reverse_sequence(
-        self: @Tensor<FP64x64>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+        self: @Tensor<FP64x64>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
     ) -> Tensor<FP64x64> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
-    
-    
-    fn optional(self: @Tensor<FP64x64>) -> Option<Tensor<FP64x64>>{
+
+
+    fn optional(self: @Tensor<FP64x64>) -> Option<Tensor<FP64x64>> {
         manipulation::optional::optional(self)
     }
-    
+
     fn dynamic_quantize_linear(
         self: @Tensor<FP64x64>
-    ) -> (Tensor::<u32>, Tensor::<FP64x64>, Tensor<FP64x64>){
+    ) -> (Tensor::<u32>, Tensor::<FP64x64>, Tensor<FP64x64>) {
         quantization::dynamic_quantize_linear::dynamic_quantize_linear(
             self,
             NumberTrait::new_unscaled(0, false),
             NumberTrait::new_unscaled(255, false),
             NumberTrait::new_unscaled(0, false),
             NumberTrait::new_unscaled(1, false),
-        ) 
+        )
     }
 
     fn scatter_nd(

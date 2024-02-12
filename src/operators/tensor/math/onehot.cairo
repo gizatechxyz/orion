@@ -104,7 +104,6 @@ fn onehot_encode<
             index += 1;
         };
 
-
         output_tensor = output_tensor.transpose(tranpose_axes.span());
     }
 

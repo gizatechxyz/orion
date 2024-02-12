@@ -42,17 +42,16 @@ fn dynamic_quantize_linear<
     let y_scale_value: T = (x_max - x_min) / (max - min);
     if x_max == x_min {
         y_scale_values.append(one);
-    }else{
+    } else {
         y_scale_values.append(y_scale_value);
     }
-    
-    
+
     let mut y_scale_tensor_shape = ArrayTrait::new();
     y_scale_tensor_shape.append(y_scale_values.len());
 
-    let y_scale = TensorTrait::<T>::new(
-        shape: y_scale_tensor_shape.span(), data: y_scale_values.span(),
-    );
+    let y_scale = TensorTrait::<
+        T
+    >::new(shape: y_scale_tensor_shape.span(), data: y_scale_values.span(),);
 
     // intermediate_zero_point = qmin - min(x)/y_scale
     let intermediate_zero_point: T = min - x_min / y_scale_value;
@@ -67,9 +66,9 @@ fn dynamic_quantize_linear<
 
     let mut y_zero_point_values = ArrayTrait::new();
     y_zero_point_values.append(y_zero_point_value);
-    let mut y_zero_point = TensorTrait::<T>::new(
-        shape: y_zero_point_tensor_shape.span(), data: y_zero_point_values.span(),
-    );
+    let mut y_zero_point = TensorTrait::<
+        T
+    >::new(shape: y_zero_point_tensor_shape.span(), data: y_zero_point_values.span(),);
     // y_zero_point = y_zero_point.round(); // tensor<FP> only supported!
 
     // y = saturate (round (x / y_scale) + y_zero_point)

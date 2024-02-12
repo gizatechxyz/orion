@@ -23,7 +23,9 @@ fn range<
     impl TAddEq: AddEq<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
->(mut start: T, end: T, step: T) -> Tensor<T> {
+>(
+    mut start: T, end: T, step: T
+) -> Tensor<T> {
     let mut result: Array<T> = ArrayTrait::<T>::new();
     let zero: T = NumberTrait::zero();
     loop {

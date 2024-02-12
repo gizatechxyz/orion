@@ -5224,7 +5224,10 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn reverse_sequence(
-        self: @Tensor<T>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+        self: @Tensor<T>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
     ) -> Tensor<T>;
     /// # tensor.scatter_nd
     ///
@@ -5304,10 +5307,7 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn scatter_nd(
-        self: @Tensor<T>,
-        updates: Tensor<T>,
-        indices: Tensor<usize>,
-        reduction: Option<usize>
+        self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>, reduction: Option<usize>
     ) -> Tensor<T>;
     /// # tensor.dynamic_quantize_linear
     /// 
@@ -5364,9 +5364,7 @@ trait TensorTrait<T> {
     /// >>> ([133, 233, 236, 255, -18, -0], [0.02745], [128]
     /// ```
     ///
-    fn dynamic_quantize_linear(
-        self: @Tensor<T>
-    ) -> (Tensor<u32>, Tensor<T>, Tensor<T>);
+    fn dynamic_quantize_linear(self: @Tensor<T>) -> (Tensor<u32>, Tensor<T>, Tensor<T>);
     /// # tensor.optional
     ///
     /// ```rust 
@@ -5664,7 +5662,9 @@ trait TensorTrait<T> {
     /// >>> [[[[7299130, 4884492]], [[2339070, 1559536]], [[3448557, 984617]], [[5745934, 3670947]], [[4665989, 3079292]], [[3375288, 948254]], [[3749966, 4911069]], [[1358829, 4368105]]]]
     /// ```
     ///
-    fn random_uniform_like(tensor: @Tensor<T>, high: Option<T>, low: Option<T>, seed: Option<usize>) -> Tensor<T>;
+    fn random_uniform_like(
+        tensor: @Tensor<T>, high: Option<T>, low: Option<T>, seed: Option<usize>
+    ) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

@@ -4,12 +4,7 @@ use core::option::OptionTrait;
 use orion::operators::matrix::{MutMatrixTrait, MutMatrix, MutMatrixImpl};
 
 /// Cf: TensorTrait::split docstring
-fn split<
-    T,
-    +Copy<T>,
-    +Drop<T>,
-    +TensorTrait<T>,
->(
+fn split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, split: Option<Tensor<usize>>
 ) -> Array<Tensor<T>> {
     let has_num_outputs = match num_outputs {

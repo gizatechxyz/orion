@@ -511,7 +511,7 @@ impl SpanPartialOrd<T, +Drop<T>, +Copy<T>, +PartialEq<T>, +PartialOrd<T>> of Par
 fn optional_has_element<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     x: Option<Tensor<T>>
 ) -> Tensor<bool> {
-    match x{
+    match x {
         Option::Some => {
             let mut shape = ArrayTrait::<usize>::new();
             shape.append(1);
@@ -544,12 +544,8 @@ fn optional_has_element<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
 fn optional_get_element<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     x: Option<Tensor<T>>
 ) -> Tensor<T> {
-    match x{
-        Option::Some(ele) => {
-            ele
-        },
-        Option::None => {
-            panic(array!['The input is an empty', 'optional-type.'])
-        }
+    match x {
+        Option::Some(ele) => { ele },
+        Option::None => { panic(array!['The input is an empty', 'optional-type.']) }
     }
 }

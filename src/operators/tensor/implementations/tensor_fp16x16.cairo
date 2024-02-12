@@ -562,10 +562,12 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
-    fn random_uniform_like(tensor: @Tensor<FP16x16>, high: Option<FP16x16>, low: Option<FP16x16>, seed: Option<usize>) -> Tensor<FP16x16> {
+    fn random_uniform_like(
+        tensor: @Tensor<FP16x16>, high: Option<FP16x16>, low: Option<FP16x16>, seed: Option<usize>
+    ) -> Tensor<FP16x16> {
         math::random_uniform_like::random_uniform_like(*tensor, high, low, seed)
     }
-    
+
     fn range(start: FP16x16, end: FP16x16, step: FP16x16) -> Tensor<FP16x16> {
         math::range::range(start, end, step)
     }
@@ -581,7 +583,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn blackman_window(size: FP16x16, periodic: Option<usize>) -> Tensor<FP16x16> {
         math::blackman_window::blackman_window(size, FP16x16 { mag: PI, sign: false }, periodic)
     }
-    
+
     fn split_to_sequence(
         self: @Tensor<FP16x16>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<FP16x16>> {
@@ -589,29 +591,32 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     }
 
     fn reverse_sequence(
-        self: @Tensor<FP16x16>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+        self: @Tensor<FP16x16>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
     ) -> Tensor<FP16x16> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
-    
-    
-    fn optional(self: @Tensor<FP16x16>) -> Option<Tensor<FP16x16>>{
+
+
+    fn optional(self: @Tensor<FP16x16>) -> Option<Tensor<FP16x16>> {
         manipulation::optional::optional(self)
     }
-    
+
 
     fn dynamic_quantize_linear(
         self: @Tensor<FP16x16>
-    ) -> (Tensor::<u32>, Tensor::<FP16x16>, Tensor<FP16x16>){
+    ) -> (Tensor::<u32>, Tensor::<FP16x16>, Tensor<FP16x16>) {
         quantization::dynamic_quantize_linear::dynamic_quantize_linear(
             self,
             NumberTrait::new_unscaled(0, false),
             NumberTrait::new_unscaled(255, false),
             NumberTrait::new_unscaled(0, false),
             NumberTrait::new_unscaled(1, false),
-        )   
+        )
     }
-    
+
     fn scatter_nd(
         self: @Tensor<FP16x16>,
         updates: Tensor<FP16x16>,

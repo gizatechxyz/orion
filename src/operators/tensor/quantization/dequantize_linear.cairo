@@ -45,7 +45,6 @@ fn dequantize_per_axis<
 >(
     x: @Tensor<T>, x_scale: @Tensor<T>, x_zero_point: @Tensor<T>
 ) -> Tensor::<T> {
-
     (*x - *x_zero_point) * *x_scale
 }
 
