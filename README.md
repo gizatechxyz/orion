@@ -57,7 +57,7 @@ For a full list of all authors and contributors, see [the contributors page](htt
 
 This project is licensed under the **MIT license**.
 
-See [LICENSE](https://github.com/franalgaba/onnx-cairo/blob/main/LICENSE/README.md) for more information.
+See [LICENSE](https://github.com/franalgaba/onnx-cairo/blob/main/LICENSE) for more information.
 
 ## Contributors ✨
 
