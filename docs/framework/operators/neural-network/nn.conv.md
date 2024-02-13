@@ -15,7 +15,7 @@
     ) -> Tensor<T>
 ```
 
-The convolution operator consumes an input tensor and a filter (input weigth tensor), and computes the output.
+The convolution operator consumes an input tensor and a filter (input weight tensor), and computes the output.
 
 ## Args
 
