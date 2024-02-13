@@ -869,4 +869,7 @@ mod compress_u32_3d_axis1;
 mod compress_u32_3d_axis2;
 mod compress_u32_3d_axis2_2;
 mod compress_u32_3d_axis3;
+mod reduce_log_sum_exp_fp32x32_export_do_not_keepdims;
+mod reduce_log_sum_exp_fp32x32_export_keepdims;
+mod reduce_log_sum_exp_fp32x32_export_negative_axes_keepdims;
 

@@ -10,30 +10,30 @@ use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::math::{exp::exp_upcast, arithmetic::div_downcast};
 
 /// Cf: TensorTrait::reduce_log_sum_exp docstring
-fn reduce_log_sum_exp_wide<
-    T,
-    TMAG,
-    W,
-    WMAG,
-    impl TIntoW: Into<T, W>,
-    impl WTryIntoT: TryInto<W, T>,
-    impl WCopy: Copy<W>,
-    impl WDrop: Drop<W>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>,
-    impl TDiv: Div<T>,
-    impl TTensor: TensorTrait<T>,
-    impl WTensor: TensorTrait<W>,
-    impl TFixed: FixedTrait<T, TMAG>,
-    impl WFixed: FixedTrait<W, WMAG>
->(
-    self: @Tensor<T>, axis: usize, keepdims: bool
-) -> Tensor<W> {
-    let tensor_exp: Tensor<W> = exp_upcast(*self);
-    let tensor_exp_log_sum = tensor_exp.reduce_log_sum(axis, keepdims);
+// fn reduce_log_sum_exp_wide<
+//     T,
+//     TMAG,
+//     W,
+//     WMAG,
+//     impl TIntoW: Into<T, W>,
+//     impl WTryIntoT: TryInto<W, T>,
+//     impl WCopy: Copy<W>,
+//     impl WDrop: Drop<W>,
+//     impl TCopy: Copy<T>,
+//     impl TDrop: Drop<T>,
+//     impl TDiv: Div<T>,
+//     impl TTensor: TensorTrait<T>,
+//     impl WTensor: TensorTrait<W>,
+//     impl TFixed: FixedTrait<T, TMAG>,
+//     impl WFixed: FixedTrait<W, WMAG>
+// >(
+//     self: @Tensor<T>, axis: usize, keepdims: bool
+// ) -> Tensor<W> {
+//     let tensor_exp: Tensor<W> = exp_upcast(*self);
+//     let tensor_exp_log_sum = tensor_exp.reduce_log_sum(axis, keepdims);
 
-    return tensor_exp_log_sum;
-}
+//     return tensor_exp_log_sum;
+// }
 
 fn reduce_log_sum_exp<
     T,
