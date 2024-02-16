@@ -1,6 +1,4 @@
-use core::debug::PrintTrait;
-use core::integer::{u32_safe_divmod, u32_as_non_zero};
-use core::option::OptionTrait;
+use core::integer;
 
 use orion::numbers::fixed_point::implementations::fp8x23::math::lut;
 use orion::numbers::fixed_point::implementations::fp8x23::core::{
@@ -9,7 +7,6 @@ use orion::numbers::fixed_point::implementations::fp8x23::core::{
 };
 
 // CONSTANTS
-
 const TWO_PI: u32 = 52707178;
 const PI: u32 = 26353589;
 const HALF_PI: u32 = 13176795;
@@ -48,7 +45,8 @@ fn asin(a: FP8x23) -> FP8x23 {
     }
 
     let div = (FixedTrait::ONE() - a * a).sqrt(); // will fail if a > 1
-    return atan(a / div);
+
+    atan(a / div)
 }
 
 fn asin_fast(a: FP8x23) -> FP8x23 {
@@ -57,7 +55,8 @@ fn asin_fast(a: FP8x23) -> FP8x23 {
     }
 
     let div = (FixedTrait::ONE() - a * a).sqrt(); // will fail if a > 1
-    return atan_fast(a / div);
+
+    atan_fast(a / div)
 }
 
 // Calculates arctan(a) (fixed point)
@@ -100,7 +99,7 @@ fn atan(a: FP8x23) -> FP8x23 {
         res = res - FixedTrait::new(HALF_PI, false);
     }
 
-    return FixedTrait::new(res.mag, a.sign);
+    FixedTrait::new(res.mag, a.sign)
 }
 
 fn atan_fast(a: FP8x23) -> FP8x23 {
@@ -134,31 +133,32 @@ fn atan_fast(a: FP8x23) -> FP8x23 {
         res = res - FixedTrait::<FP8x23>::new(HALF_PI, false);
     }
 
-    return FixedTrait::new(res.mag, a.sign);
+    FixedTrait::new(res.mag, a.sign)
 }
 
 // Calculates cos(a) with a in radians (fixed point)
 fn cos(a: FP8x23) -> FP8x23 {
-    return sin(FixedTrait::new(HALF_PI, false) - a);
+    sin(FixedTrait::new(HALF_PI, false) - a)
 }
 
 fn cos_fast(a: FP8x23) -> FP8x23 {
-    return sin_fast(FixedTrait::new(HALF_PI, false) - a);
+    sin_fast(FixedTrait::new(HALF_PI, false) - a)
 }
 
 fn sin(a: FP8x23) -> FP8x23 {
     let a1 = a.mag % TWO_PI;
-    let (whole_rem, partial_rem) = u32_safe_divmod(a1, u32_as_non_zero(PI));
+    let (whole_rem, partial_rem) = integer::u32_safe_divmod(a1, integer::u32_as_non_zero(PI));
     let a2 = FixedTrait::new(partial_rem, false);
     let partial_sign = whole_rem == 1;
 
     let loop_res = a2 * _sin_loop(a2, 7, FixedTrait::ONE());
-    return FixedTrait::new(loop_res.mag, a.sign ^ partial_sign && loop_res.mag != 0);
+
+    FixedTrait::new(loop_res.mag, a.sign ^ partial_sign && loop_res.mag != 0)
 }
 
 fn sin_fast(a: FP8x23) -> FP8x23 {
     let a1 = a.mag % TWO_PI;
-    let (whole_rem, mut partial_rem) = u32_safe_divmod(a1, u32_as_non_zero(PI));
+    let (whole_rem, mut partial_rem) = integer::u32_safe_divmod(a1, integer::u32_as_non_zero(PI));
     let partial_sign = whole_rem == 1;
 
     if partial_rem >= HALF_PI {
@@ -178,14 +178,16 @@ fn tan(a: FP8x23) -> FP8x23 {
     let sinx = sin(a);
     let cosx = cos(a);
     assert(cosx.mag != 0, 'tan undefined');
-    return sinx / cosx;
+
+    sinx / cosx
 }
 
 fn tan_fast(a: FP8x23) -> FP8x23 {
     let sinx = sin_fast(a);
     let cosx = cos_fast(a);
     assert(cosx.mag != 0, 'tan undefined');
-    return sinx / cosx;
+
+    sinx / cosx
 }
 
 // Helper function to calculate Taylor series for sin
@@ -198,15 +200,13 @@ fn _sin_loop(a: FP8x23, i: u32, acc: FP8x23) -> FP8x23 {
         return new_acc;
     }
 
-    return _sin_loop(a, i - 1, new_acc);
+    _sin_loop(a, i - 1, new_acc)
 }
 
 // Tests --------------------------------------------------------------------------------------------------------------
 
 #[cfg(test)]
 mod tests {
-    use core::traits::Into;
-
     use orion::numbers::fixed_point::implementations::fp8x23::helpers::{
         assert_precise, assert_relative
     };

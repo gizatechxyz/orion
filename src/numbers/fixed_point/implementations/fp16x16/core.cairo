@@ -1,9 +1,5 @@
 use core::debug::PrintTrait;
 
-use core::option::OptionTrait;
-use core::result::{ResultTrait, ResultTraitImpl};
-use core::traits::{TryInto, Into};
-
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::numbers::fixed_point::implementations::fp16x16::math::{
     core as core_math, trig, hyp, erf
@@ -18,12 +14,10 @@ struct FP16x16 {
 }
 
 // CONSTANTS
-
 const TWO: u32 = 131072; // 2 ** 17
 const ONE: u32 = 65536; // 2 ** 16
 const HALF: u32 = 32768; // 2 ** 15
 const MAX: u32 = 2147483648; // 2 ** 31
-
 
 impl FP16x16Impl of FixedTrait<FP16x16, u32> {
     fn ZERO() -> FP16x16 {

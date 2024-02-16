@@ -7,7 +7,7 @@ const HALF_PRIME: felt252 =
 // true = negative
 // false = positive
 fn felt_sign(a: felt252) -> bool {
-    return integer::u256_from_felt252(a) > integer::u256_from_felt252(HALF_PRIME);
+    integer::u256_from_felt252(a) > integer::u256_from_felt252(HALF_PRIME)
 }
 
 // Returns the absolute value of a signed `felt252`
