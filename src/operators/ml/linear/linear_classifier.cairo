@@ -7,7 +7,7 @@ use orion::numbers::NumberTrait;
 use orion::operators::tensor::{I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, FP16x16TensorAdd};
 use orion::numbers::{FP32x32, FP32x32Impl, FixedTrait};
 use orion::operators::nn::{NNTrait, FP16x16NN};
-
+use orion::operators::ml::POST_TRANSFORM;
 
 #[derive(Destruct)]
 struct LinearClassifier<T> {
@@ -16,16 +16,6 @@ struct LinearClassifier<T> {
     intercepts: Option<Span<T>>,
     multi_class: usize,
     post_transform: POST_TRANSFORM,
-}
-
-
-#[derive(Copy, Drop)]
-enum POST_TRANSFORM {
-    NONE,
-    SOFTMAX,
-    LOGISTIC,
-    SOFTMAXZERO,
-    PROBIT,
 }
 
 /// Trait

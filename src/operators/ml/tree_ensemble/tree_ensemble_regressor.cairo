@@ -21,6 +21,7 @@ use alexandria_data_structures::array_ext::{SpanTraitExt};
 
 use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
+use orion::operators::ml::POST_TRANSFORM;
 
 use core::debug::PrintTrait;
 
@@ -35,16 +36,6 @@ struct TreeEnsembleRegressor<T> {
     n_targets: usize,
     aggregate_function: AGGREGATE_FUNCTION,
     post_transform: POST_TRANSFORM,
-}
-
-
-#[derive(Copy, Drop)]
-enum POST_TRANSFORM {
-    NONE,
-    SOFTMAX,
-    LOGISTIC,
-    SOFTMAXZERO,
-    PROBIT,
 }
 
 #[derive(Copy, Drop)]

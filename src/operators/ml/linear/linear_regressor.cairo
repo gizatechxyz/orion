@@ -13,6 +13,7 @@ use orion::numbers::{FP32x32, FP32x32Impl, FixedTrait};
 
 use core::debug::PrintTrait;
 use orion::operators::nn::{NNTrait, FP16x16NN};
+use orion::operators::ml::POST_TRANSFORM;
 
 #[derive(Destruct)]
 struct LinearRegressor<T> {
@@ -22,14 +23,6 @@ struct LinearRegressor<T> {
     post_transform: POST_TRANSFORM,
 }
 
-#[derive(Copy, Drop)]
-enum POST_TRANSFORM {
-    NONE,
-    SOFTMAX,
-    LOGISTIC,
-    SOFTMAXZERO,
-    PROBIT,
-}
 
 /// Trait
 ///
