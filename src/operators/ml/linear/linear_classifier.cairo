@@ -132,7 +132,7 @@ trait LinearClassifierTrait<T> {
     ///     [0.036323, 0.090237, 0.87344]
     ///  ])
     /// ```
-    fn predict(ref self: LinearClassifier<T>, X: Tensor<T>) -> (Span<usize>, Tensor<T>);
+    fn predict(self: LinearClassifier<T>, X: Tensor<T>) -> (Span<usize>, Tensor<T>);
 }
 
 impl LinearClassifierImpl<
@@ -152,7 +152,7 @@ impl LinearClassifierImpl<
     +Add<Tensor<T>>,
     +NNTrait<T>
 > of LinearClassifierTrait<T> {
-    fn predict(ref self: LinearClassifier<T>, X: Tensor<T>) -> (Span<usize>, Tensor<T>) {
+    fn predict(self: LinearClassifier<T>, X: Tensor<T>) -> (Span<usize>, Tensor<T>) {
         let n: usize = self.coefficients.len() / *(X.shape).at(1);
         let mut shape = ArrayTrait::<usize>::new();
         shape.append(n);
