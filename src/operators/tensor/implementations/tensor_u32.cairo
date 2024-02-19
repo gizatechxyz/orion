@@ -534,6 +534,13 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Tensor<u32> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
+
+    fn center_crop_pad(
+        self: @Tensor<u32>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<u32> {
+        let zero = 0_u32;
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

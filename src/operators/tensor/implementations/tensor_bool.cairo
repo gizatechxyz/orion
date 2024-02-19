@@ -537,6 +537,13 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
+
+    fn center_crop_pad(
+        self: @Tensor<bool>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<bool> {
+        let zero = false;
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.
