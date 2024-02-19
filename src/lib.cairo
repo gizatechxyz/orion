@@ -182,7 +182,7 @@ fn mean(ref X: MutMatrix<FP16x16>, weights: Option<MutMatrix<FP16x16>>, axis: Op
         Option::Some(x) => {
             assert(weights.rows == X.rows & weights.cols == 1, 'Wrong shape weights');
         },
-    }
+    };
 
     // Vector average
     match axis {
@@ -281,9 +281,84 @@ fn mean(ref X: MutMatrix<FP16x16>, weights: Option<MutMatrix<FP16x16>>, axis: Op
     return result;
 }
 
-// fn cov(X: MutMatrix<FP16x16>, weights: MutMatrix<FP16x16>) -> MutMatrix<FP16x16> {
-//     0
-// }
+ fn covariance(X: MutMatrix<FP16x16>, weights: MutMatrix<FP16x16>) -> MutMatrix<FP16x16> {
+        // Assert weights are a row vector
+        assert(weights.rows == X.rows && weights.cols == 1, 'Wrong weights shape');
+        
+        // Get shape of array
+        let m = X.rows; // num rows
+        let n = X.cols; // num columns
+        let l = weights.rows; // length of weight vector
+        assert(m == l, 'Data/weight length mismatch');
+
+        // Transform weights vector into (l,l) diagonal matrix
+        let mut W = diagonalize(weights); // TODO - write this function
+
+        // Take dot product of W and X and center it
+        // X_weighted = np.dot(W, X), shape = (m,n)
+        let mut X_weighted = W.matmul(@X); // TODO - write this function
+
+        // mean_weighted = (np.dot(weights, X) / np.sum(weights)), shape = (n,1)
+        let mut X_mean = mean(X, W).
+
+        // let mut weights_T = weights.reshape(target_shape: array![1, *weights.shape.at(0)].span()); // TODO: write this function
+        // let mut weights_dot_X = weights_T.matmul(@X); 
+        // let mut weights_sum = *weights.reduce_sum(0, false).data.at(0);
+        // let mut mean_weighted_shape = ArrayTrait::<u32>::new();
+        // mean_weighted_shape.append(*weights_dot_X.shape.at(1));
+        // let mut mean_weighted_data = ArrayTrait::<FP16x16>::new();
+        // let mut i: u32 = 0;
+        // loop {
+        //     if i == *weights_dot_X.shape.at(1) {
+        //         break ();
+        //     }
+        //     mean_weighted_data.append(*weights_dot_X.data.at(i) / weights_sum);
+        //     i += 1;
+        // };
+
+        // let mean_weighted = TensorTrait::<FP16x16>::new(mean_weighted_shape.span(), mean_weighted_data.span(), Option::Some(extra));
+
+        // X_centered = X_weighted - mean_weighted, shape = (n,n)
+        let mut X_centered_shape = ArrayTrait::<u32>::new();
+        X_centered_shape.append(n);
+        X_centered_shape.append(n);
+        let mut X_centered_data = ArrayTrait::<FP16x16>::new();
+        let mut row: u32 = 0;
+        loop {
+            if row == n {
+                break ();
+            }
+            let mut row_i: u32 = 0;
+            loop {
+                if row_i == n {
+                    break ();
+                }
+                X_centered_data.append(*X_weighted.data.at(row_i) - *mean_weighted.data.at(row));
+                row_i += 1;
+            };
+            row += 1;
+        };
+        let X_centered = TensorTrait::<FP16x16>::new(X_centered_shape.span(), X_centered_data.span(), Option::Some(extra));
+
+        // Calculate covariance matrix
+        // covariance_matrix = centered_data.T.dot(centered_data) / (np.sum(weights) - 1)
+        let mut X_centered_T = X_centered.transpose(axes: array![1, 0].span());
+        let mut Cov_X_num =  X_centered_T.matmul(@X_centered);
+        let mut Cov_X_den = *weights.reduce_sum(0, false).data.at(0) - FixedTrait::new_unscaled(1, false);
+        let mut Cov_X_shape = Cov_X_num.shape;
+        let mut Cov_X_data = ArrayTrait::<FP16x16>::new();
+        i = 0;
+        loop {
+            if (i == *Cov_X_shape.at(0) * Cov_X_shape.len()) {
+                break ();
+            }
+            Cov_X_data.append(*Cov_X_num.data.at(i) / Cov_X_den);
+            i += 1;
+        };
+        
+        let Cov_X = TensorTrait::<FP16x16>::new(Cov_X_shape, Cov_X_data.span(), Option::Some(extra));
+        return Cov_X;
+    }
 
 // fn diag(X: MutMatrix<FP16x16>) -> MutMatrix<FP16x16> {
 //     0
