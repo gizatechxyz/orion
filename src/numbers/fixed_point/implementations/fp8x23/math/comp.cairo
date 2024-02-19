@@ -3,26 +3,26 @@ use orion::numbers::fixed_point::implementations::fp8x23::core::{
 };
 
 fn max(a: FP8x23, b: FP8x23) -> FP8x23 {
-    if (a >= b) {
-        return a;
+    if a >= b {
+        a
     } else {
-        return b;
+        b
     }
 }
 
 fn min(a: FP8x23, b: FP8x23) -> FP8x23 {
-    if (a <= b) {
-        return a;
+    if a <= b {
+        a
     } else {
-        return b;
+        b
     }
 }
 
 fn xor(a: FP8x23, b: FP8x23) -> bool {
     if (a == FixedTrait::new(0, false) || b == FixedTrait::new(0, false)) && (a != b) {
-        return true;
+        true
     } else {
-        return false;
+        false
     }
 }
 
@@ -30,9 +30,9 @@ fn or(a: FP8x23, b: FP8x23) -> bool {
     let zero = FixedTrait::new(0, false);
 
     if a == zero && b == zero {
-        return false;
+        false
     } else {
-        return true;
+        true
     }
 }
 
@@ -40,17 +40,17 @@ fn and(a: FP8x23, b: FP8x23) -> bool {
     let zero = FixedTrait::new(0, false);
 
     if a == zero || b == zero {
-        return false;
+        false
     } else {
-        return true;
+        true
     }
 }
 
 fn where(a: FP8x23, b: FP8x23, c: FP8x23) -> FP8x23 {
     if a == FixedTrait::new(0, false) {
-        return c;
+        c
     } else {
-        return b;
+        b
     }
 }
 

@@ -1,13 +1,8 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use orion::numbers::FP16x16;
-
-use orion::operators::tensor::{Tensor, TensorTrait};
+use orion::numbers::{FP16x16, FP32x32, FP32x32Impl, FixedTrait};
 use orion::numbers::NumberTrait;
-use orion::operators::tensor::{I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, FP16x16TensorAdd};
-use orion::numbers::{FP32x32, FP32x32Impl, FixedTrait};
 use orion::operators::nn::{NNTrait, FP16x16NN};
-
+use orion::operators::tensor::{I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, FP16x16TensorAdd};
+use orion::operators::tensor::{Tensor, TensorTrait};
 
 #[derive(Destruct)]
 struct LinearClassifier<T> {
@@ -17,7 +12,6 @@ struct LinearClassifier<T> {
     multi_class: usize,
     post_transform: POST_TRANSFORM,
 }
-
 
 #[derive(Copy, Drop)]
 enum POST_TRANSFORM {
@@ -154,7 +148,7 @@ impl LinearClassifierImpl<
 > of LinearClassifierTrait<T> {
     fn predict(ref self: LinearClassifier<T>, X: Tensor<T>) -> (Span<usize>, Tensor<T>) {
         let n: usize = self.coefficients.len() / *(X.shape).at(1);
-        let mut shape = ArrayTrait::<usize>::new();
+        let mut shape: Array<usize> = array![];
         shape.append(n);
         shape.append(*(X.shape).at(1));
 
@@ -178,7 +172,7 @@ impl LinearClassifierImpl<
             Option::None => { (0, ArrayTrait::<usize>::new().span()) },
         };
         if *coefficients.shape.at(1) == 1 && n_classes == 2 {
-            let mut new_scores = ArrayTrait::new();
+            let mut new_scores = array![];
 
             loop {
                 match scores.data.pop_front() {
@@ -189,6 +183,7 @@ impl LinearClassifierImpl<
                     Option::None => { break; },
                 }
             };
+
             scores = TensorTrait::new(array![*scores.shape.at(0), 2].span(), new_scores.span());
         }
         // Post Transform
@@ -201,7 +196,7 @@ impl LinearClassifierImpl<
         };
 
         // Labels
-        let mut labels_list = ArrayTrait::new();
+        let mut labels_list = array![];
         if *scores.shape.at(1) > 1 {
             let mut labels = scores.argmax(1, Option::None, Option::None);
             loop {
@@ -214,54 +209,46 @@ impl LinearClassifierImpl<
             let mut i = 0;
             match self.post_transform {
                 POST_TRANSFORM::NONE => {
-                    loop {
-                        if i == scores.data.len() {
-                            break;
-                        }
+                    while i != scores.data.len() {
                         if *scores.data.at(i) >= NumberTrait::zero() {
                             labels_list.append(*classlabels[0]);
                         } else {
                             labels_list.append(0);
                         }
+
                         i += 1;
                     };
                 },
                 POST_TRANSFORM::SOFTMAX => {
-                    loop {
-                        if i == scores.data.len() {
-                            break;
-                        }
+                    while i != scores.data.len() {
                         if *scores.data.at(i) >= NumberTrait::half() {
                             labels_list.append(*classlabels[0]);
                         } else {
                             labels_list.append(0);
                         }
+
                         i += 1;
                     };
                 },
                 POST_TRANSFORM::LOGISTIC => {
-                    loop {
-                        if i == scores.data.len() {
-                            break;
-                        }
+                    while i != scores.data.len() {
                         if *scores.data.at(i) >= NumberTrait::half() {
                             labels_list.append(*classlabels[0]);
                         } else {
                             labels_list.append(0);
                         }
+
                         i += 1;
                     };
                 },
                 POST_TRANSFORM::SOFTMAXZERO => {
-                    loop {
-                        if i == scores.data.len() {
-                            break;
-                        }
+                    while i != scores.data.len() {
                         if *scores.data.at(i) >= NumberTrait::half() {
                             labels_list.append(*classlabels[0]);
                         } else {
                             labels_list.append(0);
                         }
+
                         i += 1;
                     };
                 },
@@ -273,12 +260,11 @@ impl LinearClassifierImpl<
     }
 }
 
-
 fn max(a: usize, b: usize) -> usize {
     if a > b {
-        return a;
+        a
     } else {
-        return b;
+        b
     }
 }
 

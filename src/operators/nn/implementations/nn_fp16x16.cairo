@@ -1,5 +1,3 @@
-use core::option::OptionTrait;
-
 use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
@@ -61,10 +59,12 @@ impl FP16x16NN of NNTrait<FP16x16> {
         functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
     }
 
-    fn depth_to_space(tensor: @Tensor<FP16x16>, blocksize: usize, mode: felt252) -> Tensor<FP16x16> {
+    fn depth_to_space(
+        tensor: @Tensor<FP16x16>, blocksize: usize, mode: felt252
+    ) -> Tensor<FP16x16> {
         functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
     }
-    
+
     fn space_to_depth(tensor: @Tensor<FP16x16>, blocksize: usize) -> Tensor<FP16x16> {
         functional::space_to_depth::space_to_depth(*tensor, blocksize)
     }
@@ -90,7 +90,7 @@ impl FP16x16NN of NNTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         functional::grid_sample::grid_sample(X, grid, align_corner, mode, padding_mode)
     }
-    
+
     fn col2im(
         data: @Tensor<FP16x16>,
         image_shape: Span<usize>,
@@ -101,7 +101,7 @@ impl FP16x16NN of NNTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         functional::col2im::col2im(data, image_shape, block_shape, dilations, pads, strides,)
     }
-    
+
     fn conv_transpose(
         X: @Tensor<FP16x16>,
         W: @Tensor<FP16x16>,
@@ -129,7 +129,7 @@ impl FP16x16NN of NNTrait<FP16x16> {
             strides
         )
     }
-    
+
     fn conv(
         X: @Tensor<FP16x16>,
         W: @Tensor<FP16x16>,

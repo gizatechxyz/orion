@@ -22,9 +22,9 @@ fn add(a: FP8x23, b: FP8x23) -> FP8x23 {
     }
 
     if (a.mag > b.mag) {
-        return FixedTrait::new(a.mag - b.mag, a.sign);
+        FixedTrait::new(a.mag - b.mag, a.sign)
     } else {
-        return FixedTrait::new(b.mag - a.mag, b.sign);
+        FixedTrait::new(b.mag - a.mag, b.sign)
     }
 }
 
@@ -32,13 +32,13 @@ fn ceil(a: FP8x23) -> FP8x23 {
     let (div, rem) = integer::u32_safe_divmod(a.mag, integer::u32_as_non_zero(ONE));
 
     if rem == 0 {
-        return a;
+        a
     } else if !a.sign {
-        return FixedTrait::new_unscaled(div + 1, false);
+        FixedTrait::new_unscaled(div + 1, false)
     } else if div == 0 {
-        return FixedTrait::new_unscaled(0, false);
+        FixedTrait::new_unscaled(0, false)
     } else {
-        return FixedTrait::new_unscaled(div, true);
+        FixedTrait::new_unscaled(div, true)
     }
 }
 
@@ -83,9 +83,9 @@ fn exp2(a: FP8x23) -> FP8x23 {
     }
 
     if a.sign {
-        return FixedTrait::ONE() / res_u;
+        FixedTrait::ONE() / res_u
     } else {
-        return res_u;
+        res_u
     }
 }
 
@@ -97,35 +97,35 @@ fn floor(a: FP8x23) -> FP8x23 {
     let (div, rem) = integer::u32_safe_divmod(a.mag, integer::u32_as_non_zero(ONE));
 
     if rem == 0 {
-        return a;
+        a
     } else if !a.sign {
-        return FixedTrait::new_unscaled(div, false);
+        FixedTrait::new_unscaled(div, false)
     } else {
-        return FixedTrait::new_unscaled(div + 1, true);
+        FixedTrait::new_unscaled(div + 1, true)
     }
 }
 
 fn ge(a: FP8x23, b: FP8x23) -> bool {
     if a.sign != b.sign {
-        return !a.sign;
+        !a.sign
     } else {
-        return (a.mag == b.mag) || ((a.mag > b.mag) ^ a.sign);
+        (a.mag == b.mag) || ((a.mag > b.mag) ^ a.sign)
     }
 }
 
 fn gt(a: FP8x23, b: FP8x23) -> bool {
     if a.sign != b.sign {
-        return !a.sign;
+        !a.sign
     } else {
-        return (a.mag != b.mag) && ((a.mag > b.mag) ^ a.sign);
+        (a.mag != b.mag) && ((a.mag > b.mag) ^ a.sign)
     }
 }
 
 fn le(a: FP8x23, b: FP8x23) -> bool {
     if a.sign != b.sign {
-        return a.sign;
+        a.sign
     } else {
-        return (a.mag == b.mag) || ((a.mag < b.mag) ^ a.sign);
+        (a.mag == b.mag) || ((a.mag < b.mag) ^ a.sign)
     }
 }
 
@@ -152,7 +152,7 @@ fn log2(a: FP8x23) -> FP8x23 {
     let (msb, div) = lut::msb(whole);
 
     if a.mag == div * ONE {
-        return FixedTrait::new_unscaled(msb, false);
+        FixedTrait::new_unscaled(msb, false)
     } else {
         let norm = a / FixedTrait::new_unscaled(div, false);
         let r8 = FixedTrait::new(76243, true) * norm;
@@ -163,7 +163,8 @@ fn log2(a: FP8x23) -> FP8x23 {
         let r3 = (r4 + FixedTrait::new(77896489, false)) * norm;
         let r2 = (r3 + FixedTrait::new(83945943, true)) * norm;
         let r1 = (r2 + FixedTrait::new(68407458, false)) * norm;
-        return r1 + FixedTrait::new(28734280, true) + FixedTrait::new_unscaled(msb, false);
+
+        r1 + FixedTrait::new(28734280, true) + FixedTrait::new_unscaled(msb, false)
     }
 }
 
@@ -175,9 +176,9 @@ fn log10(a: FP8x23) -> FP8x23 {
 
 fn lt(a: FP8x23, b: FP8x23) -> bool {
     if a.sign != b.sign {
-        return a.sign;
+        a.sign
     } else {
-        return (a.mag != b.mag) && ((a.mag < b.mag) ^ a.sign);
+        (a.mag != b.mag) && ((a.mag < b.mag) ^ a.sign)
     }
 }
 
@@ -194,11 +195,11 @@ fn ne(a: @FP8x23, b: @FP8x23) -> bool {
 
 fn neg(a: FP8x23) -> FP8x23 {
     if a.mag == 0 {
-        return a;
+        a
     } else if !a.sign {
-        return FixedTrait::new(a.mag, !a.sign);
+        FixedTrait::new(a.mag, !a.sign)
     } else {
-        return FixedTrait::new(a.mag, false);
+        FixedTrait::new(a.mag, false)
     }
 }
 
@@ -255,9 +256,9 @@ fn round(a: FP8x23) -> FP8x23 {
     let (div, rem) = integer::u32_safe_divmod(a.mag, integer::u32_as_non_zero(ONE));
 
     if (HALF <= rem) {
-        return FixedTrait::new_unscaled(div + 1, a.sign);
+        FixedTrait::new_unscaled(div + 1, a.sign)
     } else {
-        return FixedTrait::new_unscaled(div, a.sign);
+        FixedTrait::new_unscaled(div, a.sign)
     }
 }
 

@@ -1,14 +1,7 @@
-use core::clone::Clone;
-use core::array::{ArrayTrait, SpanTrait};
-use core::option::OptionTrait;
-use core::debug::PrintTrait;
-use core::traits::Into;
-
 use orion::operators::tensor::helpers::replace_index;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::math::concat::concat;
 use orion::numbers::{NumberTrait, I32IntoU32};
-
 
 fn concat_from_sequence<
     T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>,
@@ -33,7 +26,6 @@ fn concat_from_sequence<
     }
 }
 
-
 fn concat_without_new_axis<
     T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>,
 >(
@@ -44,17 +36,16 @@ fn concat_without_new_axis<
 
     /// assert in range [-r, r - 1]
     assert(
-        (axis_is_negative == false && axis_value <= r - 1)
-            || (axis_is_negative == true && axis_value <= r),
+        (!axis_is_negative && axis_value <= r - 1) || (axis_is_negative && axis_value <= r),
         'Out of bounds for dimension'
     );
 
-    if axis_is_negative == true {
+    if axis_is_negative {
         axis_value = r - axis_value
     }
+
     concat(sequence.span(), axis_value)
 }
-
 
 fn concat_with_new_axis<
     T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>,
@@ -66,20 +57,20 @@ fn concat_with_new_axis<
 
     /// assert in range [-r - 1, r]
     assert(
-        (axis_is_negative == false && axis_value <= r)
-            || (axis_is_negative == true && axis_value <= r + 1),
+        (!axis_is_negative && axis_value <= r) || (axis_is_negative && axis_value <= r + 1),
         'Out of bounds for dimension'
     );
 
-    if axis_is_negative == true {
+    if axis_is_negative {
         if axis_value > r {
             axis_value = 0
         } else {
             axis_value = r - axis_value
         }
     }
+
     let mut input_sequence_copy = sequence;
-    let mut reshaped_sequence = ArrayTrait::<Tensor<T>>::new();
+    let mut reshaped_sequence: Array<Tensor<T>> = array![];
     loop {
         match input_sequence_copy.pop_front() {
             Option::Some(input_sequence_value) => {
@@ -89,6 +80,7 @@ fn concat_with_new_axis<
             Option::None => { break; }
         };
     };
+
     concat(reshaped_sequence.span(), axis_value)
 }
 
@@ -99,7 +91,7 @@ fn add_new_dimension<
     mut tensor: Tensor<T>, axis: usize
 ) -> Tensor<T> {
     let mut tensor_shape = tensor.shape;
-    let mut new_tensor_shape = ArrayTrait::<usize>::new();
+    let mut new_tensor_shape: Array<usize> = array![];
     let mut tensor_shape_counter: usize = 0;
     loop {
         match tensor_shape.pop_front() {
@@ -113,8 +105,10 @@ fn add_new_dimension<
             Option::None => { break; }
         };
     };
+
     if axis >= tensor.shape.len() {
         new_tensor_shape.append(1);
     }
+
     TensorTrait::<T>::new(new_tensor_shape.span(), tensor.data)
 }

@@ -14,7 +14,12 @@ fn test_reverse_sequence_u32_3x3_time() {
     let input_0 = input_0::input_0();
     let z_0 = output_0::output_0();
 
-    let y_0 = input_0.reverse_sequence(TensorTrait::<usize>::new(array![3].span(), array![1,3,3].span()), Option::Some(1), Option::Some(0));
+    let y_0 = input_0
+        .reverse_sequence(
+            TensorTrait::<usize>::new(array![3].span(), array![1, 3, 3].span()),
+            Option::Some(1),
+            Option::Some(0)
+        );
 
     assert_eq(y_0, z_0);
 }

@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::option::OptionTrait;
-use core::array::SpanTrait;
-use core::debug::PrintTrait;
-
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index};
 use orion::operators::tensor::helpers::{
@@ -21,12 +16,12 @@ fn bitwise_and<
     y: @Tensor<T>, z: @Tensor<T>
 ) -> Tensor<T> {
     let broadcasted_shape = broadcast_shape(*y.shape, *z.shape);
-    let mut result: Array<T> = ArrayTrait::<T>::new();
+    let mut result: Array<T> = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
-    loop {
+    while n != num_elements {
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*y.shape, indices_broadcasted);
@@ -40,10 +35,7 @@ fn bitwise_and<
         // result.append(res);
 
         n += 1;
-        if n == num_elements {
-            break ();
-        };
     };
 
-    return TensorTrait::<T>::new(broadcasted_shape, result.span());
+    TensorTrait::<T>::new(broadcasted_shape, result.span())
 }

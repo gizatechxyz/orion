@@ -1,18 +1,10 @@
-use core::array::ArrayTrait;
-use core::clone::Clone;
-use core::traits::Into;
-use core::array::SpanTrait;
-use core::dict::Felt252DictTrait;
-use core::dict::Felt252DictEntryTrait;
-use orion::numbers::FP16x16;
-
-use orion::operators::tensor::{Tensor, TensorTrait};
-use orion::numbers::NumberTrait;
-use orion::operators::tensor::{I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, FP16x16TensorAdd};
-use orion::numbers::{FP32x32, FP32x32Impl, FixedTrait};
-
 use core::debug::PrintTrait;
+
+use orion::numbers::{FP16x16, FP32x32, FP32x32Impl, FixedTrait};
+use orion::numbers::NumberTrait;
 use orion::operators::nn::{NNTrait, FP16x16NN};
+use orion::operators::tensor::{I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, FP16x16TensorAdd};
+use orion::operators::tensor::{Tensor, TensorTrait};
 
 #[derive(Destruct)]
 struct LinearRegressor<T> {
@@ -191,7 +183,7 @@ impl LinearRegressorImpl<
 > of LinearRegressorTrait<T> {
     fn predict(ref self: LinearRegressor<T>, X: Tensor<T>) -> Tensor<T> {
         let n: usize = self.coefficients.len() / self.target;
-        let mut shape = ArrayTrait::<usize>::new();
+        let mut shape: Array<usize> = array![];
         shape.append(self.target);
         shape.append(n);
         let mut coefficients = TensorTrait::new(shape.span(), self.coefficients);
@@ -201,7 +193,7 @@ impl LinearRegressorImpl<
 
         match self.intercepts {
             Option::Some(intercepts) => {
-                let mut shape = ArrayTrait::<usize>::new();
+                let mut shape: Array<usize> = array![];
                 shape.append(1);
                 shape.append(intercepts.len());
                 let intercepts = TensorTrait::new(shape.span(), intercepts);

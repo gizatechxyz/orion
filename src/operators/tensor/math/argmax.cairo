@@ -1,8 +1,3 @@
-use core::debug::PrintTrait;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
 use orion::numbers::NumberTrait;
@@ -36,7 +31,7 @@ fn argmax<
         return find_argmax_1D::<T>(*self, axis, true, select_last_index);
     }
 
-    let mut output_data = ArrayTrait::new();
+    let mut output_data: Array<u32> = array![];
 
     let output_shape = reduce_output_shape(*self.shape, axis, false);
     let output_data_len = len_from_shape(output_shape);
@@ -44,21 +39,16 @@ fn argmax<
     let MIN = NumberTrait::min_value();
 
     let mut index: usize = 0;
-    loop {
+    while index != output_data_len {
         let output_indices = unravel_index(index, output_shape);
         let current_argmax = find_argmax(self, output_indices, axis, 0, MIN, 0, select_last_index);
 
         output_data.append(current_argmax);
 
         index += 1;
-        if index == output_data_len {
-            break ();
-        };
     };
 
-    return TensorTrait::<
-        usize
-    >::new(reduce_output_shape(*self.shape, axis, keepdims), output_data.span());
+    TensorTrait::<usize>::new(reduce_output_shape(*self.shape, axis, keepdims), output_data.span())
 }
 
 /// Helper function that finds the index of the maximum value in a flat tensor.

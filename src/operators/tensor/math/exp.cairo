@@ -1,12 +1,6 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{Into, TryInto};
-
 use orion::numbers::NumberTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-
 
 /// Cf: TensorTrait::exp docstring
 fn exp<
@@ -19,7 +13,7 @@ fn exp<
 >(
     mut self: Tensor<T>
 ) -> Tensor<T> {
-    let mut result = ArrayTrait::new();
+    let mut result = array![];
 
     loop {
         match self.data.pop_front() {
@@ -28,7 +22,7 @@ fn exp<
         };
     };
 
-    return TensorTrait::new(self.shape, result.span());
+    TensorTrait::new(self.shape, result.span())
 }
 
 /// Cf: TensorTrait::exp docstring
@@ -49,7 +43,7 @@ fn exp_upcast<
 >(
     mut self: Tensor<T>
 ) -> Tensor<W> {
-    let mut result = ArrayTrait::new();
+    let mut result = array![];
 
     loop {
         match self.data.pop_front() {
@@ -58,5 +52,5 @@ fn exp_upcast<
         };
     };
 
-    return TensorTrait::new(self.shape, result.span());
+    TensorTrait::new(self.shape, result.span())
 }

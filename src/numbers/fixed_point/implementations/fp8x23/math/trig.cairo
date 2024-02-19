@@ -20,9 +20,9 @@ fn acos(a: FP8x23) -> FP8x23 {
     let asin_res = asin(asin_arg);
 
     if (a.sign) {
-        return FixedTrait::new(PI, false) - asin_res;
+        FixedTrait::new(PI, false) - asin_res
     } else {
-        return asin_res;
+        asin_res
     }
 }
 
@@ -31,9 +31,9 @@ fn acos_fast(a: FP8x23) -> FP8x23 {
     let asin_res = asin_fast(asin_arg);
 
     if (a.sign) {
-        return FixedTrait::new(PI, false) - asin_res;
+        FixedTrait::new(PI, false) - asin_res
     } else {
-        return asin_res;
+        asin_res
     }
 }
 
@@ -170,7 +170,7 @@ fn sin_fast(a: FP8x23) -> FP8x23 {
     let res = partial_step * (FixedTrait::new(high, false) - FixedTrait::new(low, false))
         + FixedTrait::<FP8x23>::new(low, false);
 
-    return FixedTrait::new(res.mag, a.sign ^ partial_sign && res.mag != 0);
+    FixedTrait::new(res.mag, a.sign ^ partial_sign && res.mag != 0)
 }
 
 // Calculates tan(a) with a in radians (fixed point)

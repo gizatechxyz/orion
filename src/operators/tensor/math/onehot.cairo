@@ -1,17 +1,6 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-
-use core::traits::Into;
-use core::debug::PrintTrait;
-use core::traits::TryInto;
-use core::serde::Serde;
-use core::traits::Destruct;
-use core::option::OptionTrait;
-
 use orion::numbers::NumberTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::{TensorTrait, Tensor};
-
 
 /// Cf: TensorTrait::onehot docstring
 fn onehot_encode<
@@ -40,8 +29,8 @@ fn onehot_encode<
 
     assert(((axis == 999) | (axis.into() <= rank)), 'axis out of dimensions');
 
-    let mut output_data = ArrayTrait::new();
-    let mut output_size = ArrayTrait::<u32>::new();
+    let mut output_data = array![];
+    let mut output_size: Array<usize> = array![];
 
     // New shape for output data
     loop {
@@ -65,10 +54,7 @@ fn onehot_encode<
                 }
 
                 let mut inner_index = 0;
-                loop {
-                    if inner_index == depth {
-                        break ();
-                    };
+                while inner_index != depth {
                     let ind = FixedTrait::<
                         T, MAG
                     >::new_unscaled(inner_index.try_into().unwrap(), false);
@@ -87,7 +73,7 @@ fn onehot_encode<
     };
 
     let mut output_tensor = TensorTrait::new(output_size.span(), output_data.span());
-    let mut tranpose_axes = ArrayTrait::new();
+    let mut tranpose_axes = array![];
     // Get New shape is axis is not last dimension
     if (axis != 999) & (axis.into() != rank) {
         let mut index: usize = 0;
@@ -104,11 +90,10 @@ fn onehot_encode<
             index += 1;
         };
 
-
         output_tensor = output_tensor.transpose(tranpose_axes.span());
     }
 
-    return output_tensor;
+    output_tensor
 }
 
 fn onehot<
@@ -127,16 +112,17 @@ fn onehot<
 ) -> Tensor<T> {
     assert(values.len() == 2, 'Wrong values dimensions');
 
-    let mut sizes = ArrayTrait::new();
+    let mut sizes = array![];
     sizes.append(2);
 
     let mut first = *values.pop_front().unwrap();
     let mut second = *values.pop_front().unwrap();
 
-    let mut data = ArrayTrait::new();
+    let mut data = array![];
     data.append(FixedTrait::<T, MAG>::new_unscaled(first.try_into().unwrap(), false));
     data.append(FixedTrait::<T, MAG>::new_unscaled(second.try_into().unwrap(), false));
 
     let values = TensorTrait::new(sizes.span(), data.span());
+
     onehot_encode(self, depth, axis, values)
 }

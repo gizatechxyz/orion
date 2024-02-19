@@ -14,7 +14,12 @@ fn test_reverse_sequence_different_dimensions_3x9_batch() {
     let input_0 = input_0::input_0();
     let z_0 = output_0::output_0();
 
-    let y_0 = input_0.reverse_sequence(TensorTrait::<usize>::new(array![3].span(), array![7,8,9].span()), Option::Some(0), Option::Some(1));
+    let y_0 = input_0
+        .reverse_sequence(
+            TensorTrait::<usize>::new(array![3].span(), array![7, 8, 9].span()),
+            Option::Some(0),
+            Option::Some(1)
+        );
 
     assert_eq(y_0, z_0);
 }

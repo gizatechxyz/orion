@@ -1,18 +1,10 @@
-use alexandria_data_structures::array_ext::SpanTraitExt;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
+use core::nullable::{nullable_from_box, match_nullable, FromNullableResult};
 
-use core::traits::Into;
-use core::debug::PrintTrait;
-use core::traits::TryInto;
-use core::serde::Serde;
-use core::traits::Destruct;
-use core::option::OptionTrait;
+use alexandria_data_structures::array_ext::SpanTraitExt;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-use core::dict::Felt252DictTrait;
-use core::nullable::{nullable_from_box, match_nullable, FromNullableResult};
+
 /// Cf: TensorTrait::scatter_nd docstring
 fn scatter_nd<
     T,
@@ -24,12 +16,8 @@ fn scatter_nd<
     impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
 >(
-    self: @Tensor<T>,
-    updates: Tensor<T>,
-    indices: Tensor<usize>,
-    reduction: Option<usize>
+    self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>, reduction: Option<usize>
 ) -> Tensor<T> {
-   
     let reduction = match reduction {
         Option::Some(val) => val,
         Option::None => 'none'
@@ -44,16 +32,16 @@ fn scatter_nd<
     assert(*indices_last_axis <= data_rank, 'must be <= data rank');
 
     let ind_max = indices.data.max().unwrap();
-    if (data_rank > 1){
+    if (data_rank > 1) {
         assert(ind_max < data_rank, 'index is out of bound');
     }
 
-    let mut batch_dims_shape = ArrayTrait::new();
+    let mut batch_dims_shape = array![];
     let mut ind: usize = 0;
 
     loop {
         match indices_shape.pop_front() {
-            Option::Some(val) => { batch_dims_shape.append(*val);},
+            Option::Some(val) => { batch_dims_shape.append(*val); },
             Option::None => { break; }
         };
     };
@@ -61,11 +49,11 @@ fn scatter_nd<
     let mut data_shape_clone = data_shape.clone();
     loop {
         match data_shape_clone.pop_front() {
-            Option::Some(val) => { 
+            Option::Some(val) => {
                 if (ind >= *indices_last_axis) {
                     batch_dims_shape.append(*val);
-                    }
-                },
+                }
+            },
             Option::None => { break; }
         };
     };
@@ -73,10 +61,8 @@ fn scatter_nd<
     let mut ind: usize = 0;
     loop {
         match batch_dims_shape.pop_front() {
-        Option::Some(val) => { 
-            assert(val == *updates_shape[ind], 'must be same');
-            },
-        Option::None => { break; }
+            Option::Some(val) => { assert(val == *updates_shape[ind], 'must be same'); },
+            Option::None => { break; }
         };
     };
 
@@ -89,7 +75,7 @@ fn scatter_nd<
     if data_rank >= 1 {
         loop {
             match data_shape_clone.pop_front() {
-                Option::Some(val) => { indexer *= *val;},
+                Option::Some(val) => { indexer *= *val; },
                 Option::None => { break; }
             };
         }
@@ -99,7 +85,7 @@ fn scatter_nd<
     let mut dict_ind: usize = 1;
     loop {
         match data_indices.pop_front() {
-            Option::Some(val) => { 
+            Option::Some(val) => {
                 updates_index_dict.insert((*val).into(), dict_ind);
                 dict_ind += 1;
             },
@@ -107,68 +93,62 @@ fn scatter_nd<
         };
     };
 
-    let mut output_data = ArrayTrait::<T>::new();
+    let mut output_data: Array<T> = array![];
     let mut data = *self.data;
     let mut index: usize = 0;
     let mut inner_index: usize = 0;
     let num = *data_shape_first.unwrap();
-    loop {
-        if (index == num){
-            break;
-        }
+    while index != num {
         let comp_index = updates_index_dict.get(index.into());
 
-        if (comp_index == 0) {
+        if comp_index == 0 {
             loop {
-                if (inner_index == indexer) { 
+                if (inner_index == indexer) {
                     inner_index = 0;
-                    break; 
+                    break;
                 }
                 let val = *data.at((index * indexer) + inner_index);
                 output_data.append(val);
                 inner_index += 1;
             };
-        }  
-        else {
+        } else {
             loop {
-                if (inner_index == indexer) { 
+                if (inner_index == indexer) {
                     inner_index = 0;
-                    break; 
+                    break;
                 }
-                if (reduction == 'none'){
-                    let val = data_updates.at(((comp_index-1) * indexer) + inner_index);
+                if (reduction == 'none') {
+                    let val = data_updates.at(((comp_index - 1) * indexer) + inner_index);
                     output_data.append(*val);
                 }
                 if (reduction == 'add') {
-                    let val = data_updates.at(((comp_index-1) * indexer) + inner_index);
+                    let val = data_updates.at(((comp_index - 1) * indexer) + inner_index);
                     let data_val = *data.at((index * indexer) + inner_index);
                     output_data.append(*val + data_val);
                 }
                 if (reduction == 'mul') {
-                    let val = data_updates.at(((comp_index-1) * indexer) + inner_index);
+                    let val = data_updates.at(((comp_index - 1) * indexer) + inner_index);
                     let data_val = *data.at((index * indexer) + inner_index);
                     output_data.append((*val) * data_val);
                 }
                 if (reduction == 'max') {
-                    let val = data_updates.at(((comp_index-1) * indexer) + inner_index);
+                    let val = data_updates.at(((comp_index - 1) * indexer) + inner_index);
                     let data_val = *data.at((index * indexer) + inner_index);
                     if (*val > data_val) {
                         output_data.append(*val);
-                    }
-                    else {
+                    } else {
                         output_data.append(data_val);
                     }
-                 }
+                }
                 if (reduction == 'min') {
-                    let val = data_updates.at(((comp_index-1) * indexer) + inner_index);
+                    let val = data_updates.at(((comp_index - 1) * indexer) + inner_index);
                     let data_val = *data.at((index * indexer) + inner_index);
                     if (*val > data_val) {
                         output_data.append(data_val);
-                    }
-                    else {
+                    } else {
                         output_data.append(*val);
                     }
-                 }
+                }
                 inner_index += 1;
             }
         }
@@ -176,6 +156,6 @@ fn scatter_nd<
     };
 
     let mut output_tensor = TensorTrait::<T>::new(*self.shape, output_data.span());
-    return output_tensor;
-
+    
+    output_tensor
 }

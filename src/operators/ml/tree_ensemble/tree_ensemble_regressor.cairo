@@ -1,28 +1,15 @@
-use core::array::ArrayTrait;
-use core::clone::Clone;
-use core::box::BoxTrait;
-use core::traits::Into;
-use core::option::OptionTrait;
-use orion::operators::matrix::MutMatrixTrait;
-use core::array::SpanTrait;
-use core::nullable::NullableTrait;
-use core::dict::Felt252DictTrait;
-use core::dict::Felt252DictEntryTrait;
+use core::debug::PrintTrait;
 use core::nullable::{match_nullable, FromNullableResult};
-
-
-use orion::operators::tensor::{Tensor, TensorTrait};
-use orion::operators::ml::tree_ensemble::core::{TreeEnsemble, TreeEnsembleImpl, TreeEnsembleTrait};
-use orion::numbers::NumberTrait;
-use orion::utils::get_row;
 
 use alexandria_merkle_tree::merkle_tree::{pedersen::PedersenHasherImpl};
 use alexandria_data_structures::array_ext::{SpanTraitExt};
 
-use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
+use orion::numbers::NumberTrait;
+use orion::operators::matrix::{MutMatrix, MutMatrixTrait, MutMatrixImpl};
+use orion::operators::ml::tree_ensemble::core::{TreeEnsemble, TreeEnsembleImpl, TreeEnsembleTrait};
+use orion::operators::tensor::{Tensor, TensorTrait};
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
-
-use core::debug::PrintTrait;
+use orion::utils::get_row;
 
 #[derive(Destruct)]
 struct TreeEnsembleRegressor<T> {
@@ -36,7 +23,6 @@ struct TreeEnsembleRegressor<T> {
     aggregate_function: AGGREGATE_FUNCTION,
     post_transform: POST_TRANSFORM,
 }
-
 
 #[derive(Copy, Drop)]
 enum POST_TRANSFORM {
@@ -258,11 +244,7 @@ impl TreeEnsembleRegressorImpl<
 
         let mut target_index: Felt252Dict<Nullable<Span<usize>>> = Default::default();
         let mut i: usize = 0;
-        loop {
-            if i == self.target_treeids.len() {
-                break;
-            }
-
+        while i != self.target_treeids.len() {
             let tid = *self.target_treeids[i];
             let nid = *self.target_nodeids[i];
 
@@ -283,11 +265,7 @@ impl TreeEnsembleRegressorImpl<
         };
 
         let mut i: usize = 0;
-        loop {
-            if i == res.rows {
-                break;
-            }
-
+        while i != res.rows {
             let mut indices = get_row(@leaves_index, i);
             let mut t_index: Array<Span<core::integer::u32>> = ArrayTrait::new();
             loop {
@@ -304,6 +282,7 @@ impl TreeEnsembleRegressorImpl<
                     Option::None => { break; }
                 };
             };
+
             let mut t_index = t_index.span();
 
             match self.aggregate_function {
@@ -314,6 +293,7 @@ impl TreeEnsembleRegressorImpl<
                 AGGREGATE_FUNCTION::MIN => { compute_res_MIN(ref self, ref res, ref t_index, i); },
                 AGGREGATE_FUNCTION::MAX => { compute_res_MAX(ref self, ref res, ref t_index, i); },
             };
+
             i += 1;
         };
 
@@ -321,17 +301,9 @@ impl TreeEnsembleRegressorImpl<
         if self.base_values.is_some() {
             let mut base_values = self.base_values.unwrap();
             let mut row: usize = 0;
-            loop {
-                if row == res.rows {
-                    break;
-                }
-
+            while row != res.rows {
                 let mut col: usize = 0;
-                loop {
-                    if col == res.cols {
-                        break;
-                    }
-
+                while col != res.cols {
                     let value = *base_values.pop_front().unwrap();
                     match res.get(row, col) {
                         Option::Some(val) => { res.set(row, col, val + value); },
@@ -354,10 +326,9 @@ impl TreeEnsembleRegressorImpl<
             POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
         };
 
-        return new_scores;
+        new_scores
     }
 }
-
 
 fn compute_res_SUM<
     T,
@@ -491,10 +462,7 @@ fn compute_res_MIN<
     i: usize
 ) {
     let mut j = 0;
-    loop {
-        if j == res.cols {
-            break;
-        }
+    while j != res.cols {
         res.set(i, j, NumberTrait::max_value());
         j += 1;
     };
@@ -528,7 +496,6 @@ fn compute_res_MIN<
     };
 }
 
-
 fn compute_res_MAX<
     T,
     MAG,
@@ -551,10 +518,7 @@ fn compute_res_MAX<
     i: usize
 ) {
     let mut j = 0;
-    loop {
-        if j == res.cols {
-            break;
-        }
+    while j != res.cols {
         res.set(i, j, NumberTrait::min_value());
         j += 1;
     };

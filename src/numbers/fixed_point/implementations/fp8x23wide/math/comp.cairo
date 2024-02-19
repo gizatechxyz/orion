@@ -3,7 +3,7 @@ use orion::numbers::fixed_point::implementations::fp8x23wide::core::{
 };
 
 fn max(a: FP8x23W, b: FP8x23W) -> FP8x23W {
-    if (a >= b) {
+    if a >= b {
         a
     } else {
         b
@@ -11,7 +11,7 @@ fn max(a: FP8x23W, b: FP8x23W) -> FP8x23W {
 }
 
 fn min(a: FP8x23W, b: FP8x23W) -> FP8x23W {
-    if (a <= b) {
+    if a <= b {
         a
     } else {
         b
