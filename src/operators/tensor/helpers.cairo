@@ -97,7 +97,15 @@ fn check_compatibility(mut shape_1: Span<usize>, mut shape_2: Span<usize>) {
 /// # Returns
 /// * A usize representing the index in the broadcasted tensor.
 fn broadcast_index_mapping(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
-    assert(shape.len() == indices.len(), 'shape/indices len must be equal');
+    if shape.len() == indices.len() {
+        broadcast_index_mapping_equal_shape(shape, indices)
+    } else {
+        broadcast_index_mapping_non_equal_shape(shape, indices)
+    }
+}
+
+
+fn broadcast_index_mapping_equal_shape(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
     let mut result = 0_usize;
     let mut stride = stride(shape);
 
@@ -116,6 +124,47 @@ fn broadcast_index_mapping(mut shape: Span<usize>, mut indices: Span<usize>) -> 
 
     return result;
 }
+
+fn broadcast_index_mapping_non_equal_shape(
+    mut shape: Span<usize>, mut indices: Span<usize>
+) -> usize {
+    let mut result = 0_usize;
+    let mut stride = stride(shape.clone());
+
+    // Calculate the offset to align indices with the rightmost dimensions of the shape
+    let mut offset = if shape.len() > indices.len() {
+        shape.len() - indices.len()
+    } else {
+        0
+    };
+
+    loop {
+        match shape.pop_back() {
+            Option::Some(_) => {
+                let stride_val = stride
+                    .pop_back()
+                    .unwrap_or(@1); // Default stride for non-existent dimensions is 1
+
+                // Calculate the index, using 0 for dimensions beyond the length of indices
+                let index_val = if offset > 0 {
+                    offset -= 1; // Decrement offset until we align indices with the shape
+                    0 // Use 0 for indices beyond the length of the indices span
+                } else {
+                    *indices
+                        .pop_back()
+                        .unwrap_or(@0) // Use actual index value or 0 if indices are exhausted
+                };
+
+                let index = index_val * *stride_val;
+                result += index;
+            },
+            Option::None => { break; }
+        };
+    };
+
+    result
+}
+
 
 /// Generates the output shape after reducing a tensor along a specified axis.
 ///
@@ -272,31 +321,16 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
     check_compatibility(shape1, shape2);
     let mut result: Array<usize> = ArrayTrait::new();
 
-    loop {
-        let mut dim1 = 1;
-        let mut dim2 = 1;
-
-        match shape1.pop_front() {
-            Option::Some(item) => { dim1 = *item; },
-            Option::None => { if shape1.len() == 0 && shape2.len() == 0 {
-                break ();
-            }; }
-        };
-
-        match shape2.pop_front() {
-            Option::Some(item) => { dim2 = *item; },
-            Option::None => { if shape1.len() == 0 && shape2.len() == 0 {
-                break ();
-            }; }
-        };
+    while !shape1.is_empty() || !shape2.is_empty() {
+        let dim1 = *shape1.pop_back().unwrap_or(@1);
+        let dim2 = *shape2.pop_back().unwrap_or(@1);
 
         let broadcasted_dim = u32_max(dim1, dim2);
         result.append(broadcasted_dim);
     };
 
-    return result.span();
+    return result.reverse().span();
 }
-
 
 /// Substitute a value in a shape at a given index
 /// 
