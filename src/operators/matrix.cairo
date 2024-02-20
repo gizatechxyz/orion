@@ -3,6 +3,8 @@ use core::option::OptionTrait;
 use orion::numbers::NumberTrait;
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
 use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16, FP16x16Add, FP16x16Div, FP16x16Mul, FP16x16Sub, FP16x16Impl};
+use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16Tensor;
+use orion::operators::tensor::{TensorTrait, Tensor};
 
 struct MutMatrix<T> {
     data: NullableVec<T>,
@@ -47,23 +49,92 @@ impl MutMatrixImpl<
         (self.rows, self.cols)
     }
 
-    /// Transposes the matrix
-    fn transpose(ref self: MutMatrix<T>) -> MutMatrix<T> {
-        let mut result = MutMatrixImpl::new(rows: self.cols, cols: self.rows);
-        let mut row = 0;
+    /// Returns the reshaped matrix
+    fn reshape(ref self: MutMatrix<T>, target_shape: Span<usize>) -> MutMatrix<T> {
+        let mut t = self.to_tensor();
+        let mut result = t.reshape(target_shape);
+        return result.from_tensor();
+    }
+
+    /// Returns the transposed matrix
+    fn transpose(ref self: MutMatrix<T>, axes: Span<usize>) -> MutMatrix<T> {
+        let mut t = self.to_tensor();
+        let mut result = t.transpose(axes);
+        return result.from_tensor();
+    }
+
+    /// Returns the sum
+    fn reduce_sum(ref self: MutMatrix<T>, axis: usize, keepdims: bool) -> MutMatrix<T> {
+        let mut t = self.to_tensor();
+        let mut result = t.reduce_sum(axis, keepdims);
+        return result.from_tensor();
+    }
+
+    /// Returns the matrix power
+    fn pow(ref self: MutMatrix<T>, ref other: MutMatrix<T>) -> MutMatrix<T> {
+        let mut t1 = self.to_tensor();
+        let mut t2 = other.to_tensor();
+        let mut result = t1.pow(@t2);
+        return result.from_tensor();
+    }
+
+    /// Returns the product of two matrices
+    fn matmul(ref self: MutMatrix<T>, ref other: MutMatrix<T>) -> MutMatrix<T> {
+        let mut t1 = self.to_tensor();
+        let mut t2 = other.to_tensor();
+        let mut result = t1.matmul(@t2);
+        return result.from_tensor();
+    }
+
+    /// Transforms a MutMatrix into a Tensor
+    fn to_tensor(ref self: MutMatrix<T>) -> Tensor<T> {
+        let mut result_shape = ArrayTrait::<u32>::new();
+        result_shape.append(self.rows);
+        result_shape.append(self.cols);
+
+        let mut result_data = ArrayTrait::<T>::new();
+
+        let mut i = 0;
         loop {
-            if row == self.rows {
+            if i == self.rows {
                 break;
             }
-            let mut col = 0;
+            let mut j = 0;
             loop {
-                if col == self.cols {
+                if j == self.cols {
                     break;
                 }
-                result.set(row, col, self.get(col, row));
-                col += 1;
+                result_data.append(self.get(i, j).unwrap());
+                j += 1;
             };
-            row += 1;
+            i += 1;
+        };
+
+        let result = TensorTrait::new(result_shape.span(), result_data.span());
+        return result;
+    }
+
+    /// Transforms a Tensor to a MutMatrix
+    fn from_tensor(ref self: Tensor<T>) -> MutMatrix<T> {
+        let mut result_rows = *self.shape.at(0);
+        let mut result_cols = *self.shape.at(1);
+        let mut result: MutMatrix = MutMatrixTrait::<T>::new(result_rows, result_cols);
+
+        let mut i = 0;
+        loop {
+            if i == result_rows {
+                break;
+            }
+            let mut j = 0;
+            loop {
+                if j == result_cols {
+                    break;
+                }
+                let mut val = self.at(array![i, j].span());
+                result.set(i, j, val);
+                j += 1;
+            };
+            i += 1;
         };
         return result;
     }

@@ -154,217 +154,281 @@ fn linalg_solve(ref X: MutMatrix<FP16x16>, ref y: MutMatrix<FP16x16>) -> MutMatr
         return S;
     }
 
-// fn weights(lambda_unscaled: u32, l: u32) -> MutMatrix<FP16x16> {
-//         let mut lambda = FixedTrait::<FP16x16>::new_unscaled(lambda_unscaled, false) / FixedTrait::<FP16x16>::new_unscaled(100, false); 
-//         let mut weights = MutMatrixImpl::new(l, 1);
-//         let mut i: u32 = 0;
-//         loop {
-//             if i == l {
-//                 break ();
-//             }
-//             let mut i_fp = FixedTrait::<FP16x16>::new_unscaled(i, false);
-//             let mut x = (FixedTrait::<FP16x16>::new_unscaled(1, false) - lambda) * (lambda.pow(i_fp));
-//             weights.set(i, 0, x);
-//             i += 1;
-//         };
+// fn exponential_weights(lambda_unscaled: u32, l: u32) -> MutMatrix<FP16x16> {
+//     let mut lambda = FixedTrait::<FP16x16>::new_unscaled(lambda_unscaled, false);
+//     lambda = lambda / FixedTrait::<FP16x16>::new_unscaled(100, false); 
+//     let mut weights = MutMatrixImpl::<FP16x16>::new(l, 1);
+//     let mut i = 0;
+//     loop {
+//         if i == l {
+//             break ();
+//         }
+//         let mut l_i = FixedTrait::<FP16x16>::new_unscaled(i, false);
+//         let mut w_i = (FixedTrait::<FP16x16>::new_unscaled(1, false) - lambda) * (lambda.pow(@l_i)); 
+//         weights.set(i, 0, w_i);
+//         i += 1;
+//     };
 
-//         return weights;
-//     }
+//     return weights;
+// }
 
-fn mean(ref X: MutMatrix<FP16x16>, weights: Option<MutMatrix<FP16x16>>, axis: Option<u32>) -> MutMatrix<FP16x16> {
+fn diagonalize(ref X: MutMatrix<FP16x16>) -> MutMatrix<FP16x16> {
+    assert(X.rows > 1 && X.cols == 1, 'X not row vector');
+
     let mut i = 0;
-    
-    // Assume by default that the weights are a column vector
-    match weights {
-        Option::None => {
-            let mut weights = MutMatrixImpl:new()
-        },
-        Option::Some(x) => {
-            assert(weights.rows == X.rows & weights.cols == 1, 'Wrong shape weights');
-        },
-    };
-
-    // Vector average
-    match axis {
-        Option::None => {
-            assert(X.rows == 1 || X.cols == 1, 'Wrong shape');
-
-            if X.cols == 1 & X.rows != 1 {
-                let mut X = X.transpose();
+    let mut result = MutMatrixImpl::<FP16x16>::new(X.rows, X.rows);
+    loop {
+        if i == X.rows {
+            break;
+        }
+        let mut j = 0;
+        loop {
+            if j == X.rows {
+                break;
             }
-
-            let mut result = MutMatrixImpl::new(1, 1);
-            let mut num = FixedTrait::new_unscaled(0, false);
-            let l = FixedTrait::new_unscaled(mag: X.data.len(), sign: false);
-            loop {
-                if i == X.rows {
-                    break;
-                }
-                if weights == Option::None {
-                    num += X.get(i, 0);
-                }
-                else {
-                    num += X.get(i, 0) * Option::Some(weights).get(i, 0);
-                }
-                i += 1;
-            };
-            result.set(0, 0, num / l);
-        },
-
-        // Matrix average along specified axis
-        Option::Some(x) => {
-            assert(axis == 0 || axis == 1, 'Wrong axis');
-            
-            // Average along rows
-            if axis == 0 {
-                let mut result = MutMatrixImpl::new(X.rows, 1);
-                let l = FixedTrait::new_unscaled(mag: X.data.len() / X.rows, sign: false);
-                loop {
-                    if i == X.rows {
-                        break;
-                    }
-                    let mut num = FixedTrait::new_unscaled(0, false);
-                    let mut j = 0;
-                    loop {
-                        if j == X.cols {
-                            break;
-                        }
-                        
-                        if weights == Option::None {
-                            num += X.get(i, j);
-                        }
-                        else {
-                            // Assert weights are a row vector
-                            num += X.get(i, j) * Option::Some(weights).get(j, 0); // Need to assert shape correctly 
-                        }
-
-                        j += 1;
-                    };
-                    result.set(i, 0, num / l);
-
-                    i += 1;
-                };
+            if i == j {
+                result.set(i, j, X.get(i, 0).unwrap());
             }
-
-            // Average along columns
             else {
-                let mut result = MutMatrixImpl::new(1, X.cols);
-                let l = FixedTrait::new_unscaled(mag: X.data.len() / X.cols, sign: false);
-                loop {
-                    if i == X.cols {
-                        break;
-                    }
-                    let mut num = FixedTrait::new_unscaled(0, false);
-                    let mut j = 0;
-                    loop {
-                        if j == X.rows {
-                            break;
-                        }
-                        
-                        if weights == Option::None {
-                            num += X.get(j, i);
-                        }
-                        else {
-                            num += X.get(j, i) * Option::Some(weights).get(j, 0); 
-                        }
-
-                        j += 1;
-                    };
-                    result.set(0, i, num / l);
-
-                    i += 1;
-                };
+                result.set(i, j, FixedTrait::<FP16x16>::new(0, false));
             }
-        },
-    }
-
+            j += 1;
+        };
+        i += 1;
+    };
     return result;
 }
 
- fn covariance(X: MutMatrix<FP16x16>, weights: MutMatrix<FP16x16>) -> MutMatrix<FP16x16> {
-        // Assert weights are a row vector
-        assert(weights.rows == X.rows && weights.cols == 1, 'Wrong weights shape');
-        
-        // Get shape of array
-        let m = X.rows; // num rows
-        let n = X.cols; // num columns
-        let l = weights.rows; // length of weight vector
-        assert(m == l, 'Data/weight length mismatch');
+fn mean(ref X: MutMatrix<FP16x16>) -> MutMatrix<FP16x16> {
+    // Simple average case for a vector
+    // Returns a matrix with shape (1,1)
 
-        // Transform weights vector into (l,l) diagonal matrix
-        let mut W = diagonalize(weights); // TODO - write this function
+    assert(X.cols == 1, 'Wrong shape');
 
-        // Take dot product of W and X and center it
-        // X_weighted = np.dot(W, X), shape = (m,n)
-        let mut X_weighted = W.matmul(@X); // TODO - write this function
+    let mut result = MutMatrixImpl::<FP16x16>::new(1, 1);
+    let mut num = FixedTrait::<FP16x16>::new_unscaled(0, false);
+    let mut i = 0;
 
-        // mean_weighted = (np.dot(weights, X) / np.sum(weights)), shape = (n,1)
-        let mut X_mean = mean(X, W).
+    let l = FixedTrait::<FP16x16>::new_unscaled(X.data.len(), false);
 
-        // let mut weights_T = weights.reshape(target_shape: array![1, *weights.shape.at(0)].span()); // TODO: write this function
-        // let mut weights_dot_X = weights_T.matmul(@X); 
-        // let mut weights_sum = *weights.reduce_sum(0, false).data.at(0);
-        // let mut mean_weighted_shape = ArrayTrait::<u32>::new();
-        // mean_weighted_shape.append(*weights_dot_X.shape.at(1));
-        // let mut mean_weighted_data = ArrayTrait::<FP16x16>::new();
-        // let mut i: u32 = 0;
-        // loop {
-        //     if i == *weights_dot_X.shape.at(1) {
-        //         break ();
-        //     }
-        //     mean_weighted_data.append(*weights_dot_X.data.at(i) / weights_sum);
-        //     i += 1;
-        // };
-
-        // let mean_weighted = TensorTrait::<FP16x16>::new(mean_weighted_shape.span(), mean_weighted_data.span(), Option::Some(extra));
-
-        // X_centered = X_weighted - mean_weighted, shape = (n,n)
-        let mut X_centered_shape = ArrayTrait::<u32>::new();
-        X_centered_shape.append(n);
-        X_centered_shape.append(n);
-        let mut X_centered_data = ArrayTrait::<FP16x16>::new();
-        let mut row: u32 = 0;
+    if X.rows == 1 {
+        result.set(0, 0, X.get(0, 0).unwrap());
+        return result;
+    }
+    else {
         loop {
-            if row == n {
-                break ();
+            if i == X.rows {
+                break;
             }
-            let mut row_i: u32 = 0;
-            loop {
-                if row_i == n {
-                    break ();
-                }
-                X_centered_data.append(*X_weighted.data.at(row_i) - *mean_weighted.data.at(row));
-                row_i += 1;
-            };
-            row += 1;
-        };
-        let X_centered = TensorTrait::<FP16x16>::new(X_centered_shape.span(), X_centered_data.span(), Option::Some(extra));
-
-        // Calculate covariance matrix
-        // covariance_matrix = centered_data.T.dot(centered_data) / (np.sum(weights) - 1)
-        let mut X_centered_T = X_centered.transpose(axes: array![1, 0].span());
-        let mut Cov_X_num =  X_centered_T.matmul(@X_centered);
-        let mut Cov_X_den = *weights.reduce_sum(0, false).data.at(0) - FixedTrait::new_unscaled(1, false);
-        let mut Cov_X_shape = Cov_X_num.shape;
-        let mut Cov_X_data = ArrayTrait::<FP16x16>::new();
-        i = 0;
-        loop {
-            if (i == *Cov_X_shape.at(0) * Cov_X_shape.len()) {
-                break ();
-            }
-            Cov_X_data.append(*Cov_X_num.data.at(i) / Cov_X_den);
+            num += X.get(i, 0).unwrap();
             i += 1;
         };
-        
-        let Cov_X = TensorTrait::<FP16x16>::new(Cov_X_shape, Cov_X_data.span(), Option::Some(extra));
-        return Cov_X;
+        result.set(0, 0, num / l);
+        return result;
+    }
+}
+
+fn mean_matrix(ref X: MutMatrix<FP16x16>, axis: u32) -> MutMatrix<FP16x16> {
+    // Simple average case for a matrix along specified axis
+    // Returns a matrix with shape (X.rows, 1) if axis == 0 or (1, X.cols) if axis == 1
+
+    assert(axis == 0 || axis == 1, 'Wrong axis');
+
+    // Average along rows
+    if axis == 0 {
+        let mut result = MutMatrixImpl::<FP16x16>::new(X.rows, 1);
+        let l = FixedTrait::<FP16x16>::new_unscaled(X.cols, false);
+        let mut row = 0;
+
+        loop {
+            if row == X.rows {
+                break;
+            } 
+            let mut row_num = FixedTrait::<FP16x16>::new_unscaled(0, false);
+            let mut col = 0;
+            loop {
+                if col == X.cols {
+                    break;
+                }
+                row_num += X.get(row, col).unwrap();
+                col += 1;
+            };
+            result.set(row, 0, row_num / l);
+            row += 1;
+        };
+
+        return result;
     }
 
-// fn diag(X: MutMatrix<FP16x16>) -> MutMatrix<FP16x16> {
-//     0
+    // Average along columns
+    else {
+        let mut result = MutMatrixImpl::<FP16x16>::new(1, X.cols);
+        let l = FixedTrait::<FP16x16>::new_unscaled(X.rows, false);
+        let mut col = 0;
+
+        loop {
+            if col == X.cols {
+                break;
+            } 
+            let mut col_num = FixedTrait::<FP16x16>::new_unscaled(0, false);
+            let mut row = 0;
+            loop {
+                if row == X.rows {
+                    break;
+                }
+                col_num += X.get(row, col).unwrap();
+                row += 1;
+            };
+            result.set(0, col, col_num / l);
+            col += 1;
+        };
+
+        return result;
+    }
+}
+
+fn mean_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>, axis: u32) -> MutMatrix<FP16x16> {
+    // Weighted average
+    // Returns a matrix with shape (X.rows, 1) if axis == 0 or (1, X.cols) if axis == 1
+
+    // Weight assertions
+    assert(weights.rows == X.rows, 'Weights shape mismatch');
+    assert(weights.cols == 1, 'Weights not row vector');
+
+    // Vector case
+    if X.rows == 1 || X.cols == 1 {
+    
+        let mut result = MutMatrixImpl::<FP16x16>::new(1, 1);
+        let mut num = FixedTrait::<FP16x16>::new_unscaled(0, false);
+        let mut i = 0;
+
+        let l = FixedTrait::<FP16x16>::new_unscaled(X.data.len(), false);
+        loop {
+            if i == X.rows {
+                break;
+            }
+            if X.rows != 1 {
+                num +=  X.get(i, 0).unwrap() * weights.get(i, 0).unwrap();
+            }
+            else {
+                result.set(0, 0, X.get(0, 0).unwrap());
+                break;
+            }
+            i += 1;
+        };
+        result.set(0, 0, num / l);
+        
+        return result;
+    }
+
+    // Matrix case
+    else {
+        assert(axis == 0 || axis == 1, 'Wrong axis');        
+
+        // Average along rows
+        if axis == 0 {
+
+            let mut result = MutMatrixImpl::<FP16x16>::new(X.rows, 1);
+            let l = FixedTrait::<FP16x16>::new_unscaled(X.cols, false);
+            let mut row = 0;
+
+            loop {
+                if row == X.rows {
+                    break;
+                }
+                let mut row_num = FixedTrait::<FP16x16>::new_unscaled(0, false);
+                let mut col = 0;
+                loop {
+                    if col == X.cols {
+                        break;
+                    }
+                    row_num += X.get(row, col).unwrap() * weights.get(col, 0).unwrap();
+                    col += 1;
+                };
+                result.set(row, 0, row_num / l);
+                row += 1;
+            };
+
+            return result;
+        }
+
+        // Average along columns
+        else {
+            let mut result = MutMatrixImpl::<FP16x16>::new(1, X.cols);
+            let l = FixedTrait::<FP16x16>::new_unscaled(X.rows, false);
+            let mut col = 0;
+
+            loop {
+                if col == X.cols {
+                    break;
+                }
+                let mut col_num = FixedTrait::<FP16x16>::new_unscaled(0, false);
+                let mut row = 0;
+                loop {
+                    if row == X.rows {
+                        break;
+                    }
+                    col_num += X.get(row, col).unwrap() * weights.get(row, 0).unwrap();
+                    row += 1;
+                };
+                result.set(0, col, col_num / l);
+                col += 1;
+            };
+
+            return result;
+        }
+    }
+}
+
+// fn covariance(X: MutMatrix<FP16x16>, weights: MutMatrix<FP16x16>) -> MutMatrix<FP16x16> {
+//     // Weight assertions
+//     assert(weights.rows == X.rows, 'Weights shape mismatch');
+//     assert(weights.cols == 1, 'Weights not row vector');
+    
+//     // Get shape of array
+//     // let m = X.rows; // num rows
+//     // let n = X.cols; // num columns
+//     // let l = weights.rows; // length of weight vector
+
+//     // Transform weights vector into (l,l) diagonal matrix
+//     let mut W = diagonalize(weights);
+
+//     // Take dot product of W and X and center it
+//     // X_weighted = np.dot(W, X), shape = (m,n)
+//     // let mut X_weighted = W.matmul(@X); // TODO - write this function
+
+//     // mean_weighted = (np.dot(weights, X) / np.sum(weights)), shape = (n,1)
+//     let mut X_mean = mean_weighted(X, W, 0)
+
+//     // let mut weights_T = weights.reshape(target_shape: array![1, *weights.shape.at(0)].span()); // TODO: write this function
+//     // let mut weights_dot_X = weights_T.matmul(@X); 
+//     // let mut weights_sum = *weights.reduce_sum(0, false).data.at(0);
+//     // let mut mean_weighted_shape = ArrayTrait::<u32>::new();
+//     // mean_weighted_shape.append(*weights_dot_X.shape.at(1));
+//     // let mut mean_weighted_data = ArrayTrait::<FP16x16>::new();
+//     // let mut i: u32 = 0;
+//     // loop {
+//     //     if i == *weights_dot_X.shape.at(1) {
+//     //         break ();
+//     //     }
+//     //     mean_weighted_data.append(*weights_dot_X.data.at(i) / weights_sum);
+//     //     i += 1;
+//     // };
+
+//     // let mean_weighted = TensorTrait::<FP16x16>::new(mean_weighted_shape.span(), mean_weighted_data.span(), Option::Some(extra));
+
+//     // X_centered = X_weighted - mean_weighted, shape = (n,n)
+
+//     // Calculate covariance matrix
+//     // covariance_matrix = centered_data.T.dot(centered_data) / (np.sum(weights) - 1)
+
+//     return Cov_X;
 // }
 
-fn main(){
+
+
+
+fn main() {
     
     let mut X_data = VecTrait::<NullableVec, FP16x16>::new();
     X_data.push(FP16x16 { mag: 131072, sign: false }); // 2
@@ -389,42 +453,71 @@ fn main(){
     // test_matrix(ref S);
     // Solution is [2, 3, -1] in FP16x16 format!
 
-    // Exp weights test
-    
+    let mut Y1_data = VecTrait::<NullableVec, FP16x16>::new();
+    Y1_data.push(FP16x16 { mag: 131072, sign: false }); // 2
+    Y1_data.push(FP16x16 { mag: 65536, sign: false }); // 1
+    Y1_data.push(FP16x16 { mag: 393216, sign: false }); // 6
+    let mut Y1 = MutMatrix { data: Y1_data, rows: 3, cols: 1};
+
+    let mut Y2_data = VecTrait::<NullableVec, FP16x16>::new();
+    Y2_data.push(FP16x16 { mag: 65536, sign: false }); // 1
+    Y2_data.push(FP16x16 { mag: 131072, sign: false }); // 2
+    Y2_data.push(FP16x16 { mag: 196608, sign: false }); // 3
+    Y2_data.push(FP16x16 { mag: 262144, sign: false }); // 4
+    Y2_data.push(FP16x16 { mag: 327680, sign: false }); // 5
+    Y2_data.push(FP16x16 { mag: 393216, sign: false }); // 6
+    Y2_data.push(FP16x16 { mag: 458752, sign: false }); // 7
+    Y2_data.push(FP16x16 { mag: 524288, sign: false }); // 8
+    Y2_data.push(FP16x16 { mag: 589824, sign: false }); // 9
+    let mut Y2 = MutMatrix { data: Y2_data, rows: 3, cols: 3};
+
     let mut weights_data = VecTrait::<NullableVec, FP16x16>::new();
-    weights_data.push(FP16x16 { mag: 22453, sign: false }); // ~0.34
-    weights_data.push(FP16x16 { mag: 16731, sign: false }); // ~0.26
-    weights_data.push(FP16x16 { mag: 26352, sign: false }); // ~0.40
+    weights_data.push(FP16x16 { mag: 13017, sign: false }); // 0.2
+    weights_data.push(FP16x16 { mag: 19661, sign: false }); // 0.3
+    weights_data.push(FP16x16 { mag: 32768, sign: false }); // 0.5
     let mut W = MutMatrix { data: weights_data, rows: 3, cols: 1};
-    let mut W_bad = MutMatrix { data: weights_data, rows: 1, cols: 3};
 
-    let mut Y_data = VecTrait::<NullableVec, FP16x16>::new();
-    Y_data.push(FP16x16 { mag: 131072, sign: false }); // 2
-    Y_data.push(FP16x16 { mag: 65536, sign: false }); // 1
-    Y_data.push(FP16x16 { mag: 393216, sign: false }); // 6
-    let mut Y = MutMatrix { data: Y_data, rows: 3, cols: 1};
+    // Mean tests
+    // let mut Y1_mean = mean(ref Y1);
+    // let mut Y2_mean_rows = mean_matrix(ref Y2, 0);
+    // let mut Y2_mean_cols = mean_matrix(ref Y2, 1);
+    // 'Y1_mean:'.print();
+    // test_matrix(ref Y1_mean);
+    // 'Y2_mean_rows:'.print();
+    // test_matrix(ref Y2_mean_rows);
+    // 'Y2_mean_cols:'.print();
+    // test_matrix(ref Y2_mean_cols);
+    
+    // let mut Y1_mean_weighted = mean_weighted(ref Y1, ref W, 0);
+    // let mut Y2_mean_weighted_rows = mean_weighted(ref Y2, ref W, 0);
+    // let mut Y2_mean_weighted_cols = mean_weighted(ref Y2, ref W, 1);
+    // 'Y1_mean_weighted:'.print();
+    // test_matrix(ref Y1_mean_weighted);
+    // 'Y2_mean_weighted_rows:'.print();
+    // test_matrix(ref Y2_mean_weighted_rows);
+    // 'Y2_mean_weighted_cols:'.print();
+    // test_matrix(ref Y2_mean_weighted_cols);
 
-    // Mean test (1D)
-    let Y_simple_avg = mean(ref Y, (), ()); // Should return 3_fp16x16
-    // let Y_weighted_avg = mean(ref Y, weights=Option(W));
-    // let Y_weighted_avg_bad = mean(ref Y, weights=Option(W_bad)); // should error out
-    // 'Y smpl avg:'.print();
-    // test_matrix(ref Y_simple_avg);
-    // 'Y wtd avg:'.print();
-    // test_matrix(ref Y_weighted_avg);
+    // let mut W_diag = diagonalize(ref W);
+    // test_matrix(ref W_diag);
 
-    // // Mean test (2D)
-    // let Y_simple_avg_axis_0 = mean(ref X, axis=Option(0));
-    // let Y_weighted_avg_axis_0 = mean(ref X, weights=Option(W), axis=Option(0));
-    // let Y_simple_avg_axis_1 = mean(ref X, axis=Option(1));
-    // let Y_weighted_avg_axis_1 = mean(ref X, weights=Option(W), axis=Option(1));
-    // 'Y smpl avg ax=0:'.print();
-    // test_matrix(ref Y_simple_avg_axis_0);
-    //  'Y wtd avg ax=0:'.print();
-    // test_matrix(ref Y_weighted_avg_axis_0);
-    // 'Y smpl avg ax=1:'.print();
-    // test_matrix(ref Y_simple_avg_axis_1);
-    //  'Y wtd avg ax=1:'.print();
-    // test_matrix(ref Y_weighted_avg_axis_1);
+    let mut Y3_data = VecTrait::<NullableVec, FP16x16>::new();
+    Y3_data.push(FP16x16 { mag: 65536, sign: false }); // 1
+    Y3_data.push(FP16x16 { mag: 131072, sign: false }); // 2
+    Y3_data.push(FP16x16 { mag: 196608, sign: false }); // 3
+    Y3_data.push(FP16x16 { mag: 262144, sign: false }); // 4
+    let mut Y3 = MutMatrix { data: Y3_data, rows: 2, cols: 2};
+
+    let mut Y4_data = VecTrait::<NullableVec, FP16x16>::new();
+    Y4_data.push(FP16x16 { mag: 65536, sign: false }); // 1
+    Y4_data.push(FP16x16 { mag: 131072, sign: false }); // 2
+    Y4_data.push(FP16x16 { mag: 196608, sign: false }); // 3
+    Y4_data.push(FP16x16 { mag: 262144, sign: false }); // 4
+    Y4_data.push(FP16x16 { mag: 327680, sign: false }); // 5
+    Y4_data.push(FP16x16 { mag: 393216, sign: false }); // 6
+    let mut Y4 = MutMatrix { data: Y4_data, rows: 2, cols: 3};
+
+    let mut Y3x4 = Y3.matmul(ref Y4);
+    test_matrix(ref Y3x4);
 
     }
