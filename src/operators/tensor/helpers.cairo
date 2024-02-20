@@ -51,19 +51,37 @@ fn check_shape<T>(shape: Span<usize>, data: Span<T>) {
 /// # Panics
 /// * Panics if the shapes are not compatible for broadcasting.
 fn check_compatibility(mut shape_1: Span<usize>, mut shape_2: Span<usize>) {
-    loop {
-        match shape_1.pop_front() {
-            Option::Some(shape_1_val) => {
-                let shape_2_val = *shape_2.pop_front().unwrap();
+    // Start from the last dimension by getting the length of each shape
+    let mut iter_1 = shape_1.len();
+    let mut iter_2 = shape_2.len();
 
-                assert(
-                    *shape_1_val == shape_2_val || *shape_1_val == 1 || shape_2_val == 1,
-                    'tensors shape must match'
-                );
-            },
-            Option::None => { break; }
+    // Iterate while there are dimensions left in either shape
+    while iter_1 > 0 || iter_2 > 0 {
+        // Get the current dimension for each shape, defaulting to 1 if we've run out of dimensions
+        let dim_1 = if iter_1 > 0 {
+            *shape_1[iter_1 - 1]
+        } else {
+            1
         };
-    };
+        let dim_2 = if iter_2 > 0 {
+            *shape_2[iter_2 - 1]
+        } else {
+            1
+        };
+
+        // Check the broadcasting rule for the current dimension
+        if dim_1 != dim_2 && dim_1 != 1 && dim_2 != 1 {
+            panic(array!['tensors shape must match']);
+        }
+
+        // Move to the next dimension
+        if iter_1 > 0 {
+            iter_1 -= 1;
+        }
+        if iter_2 > 0 {
+            iter_2 -= 1;
+        }
+    }
 }
 
 /// Computes the index in the broadcasted tensor corresponding to the given indices and shape.
