@@ -1,6 +1,7 @@
 mod tree_ensemble;
 mod linear;
 mod svm;
+mod normalizer;
 
 use orion::operators::ml::tree_ensemble::core::{
     TreeEnsemble, TreeEnsembleAttributes, TreeEnsembleImpl, NODE_MODES
@@ -20,3 +21,5 @@ use orion::operators::ml::linear::linear_regressor::{
 use orion::operators::ml::linear::linear_classifier::{
     LinearClassifierTrait, LinearClassifierImpl, LinearClassifier
 };
+
+use orion::operators::ml::normalizer::normalizer::{NormalizerTrait, NORM};

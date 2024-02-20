@@ -90,6 +90,14 @@ fn main() {
     let trait_name: &str = "SVMClassifierTrait";
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
+
+    // NORMALIZER DOC
+    let trait_path = "src/operators/ml/normalizer/normalizer.cairo";
+    let doc_path = "docs/framework/operators/machine-learning/normalizer";
+    let label = "normalizer";
+    let trait_name: &str = "NormalizerTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
 }
 
 fn doc_trait(trait_path: &str, doc_path: &str, label: &str) {
