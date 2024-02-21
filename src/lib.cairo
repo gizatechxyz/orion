@@ -11,6 +11,8 @@ use orion::numbers::fixed_point::implementations::fp16x16::math::core::{ceil, ab
 use orion::operators::matrix::{MutMatrix, MutMatrixTrait, MutMatrixImpl};
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
 use orion::numbers::fixed_point::implementations::fp16x16::core::{FixedTrait, FP16x16, FP16x16Add, FP16x16Div, FP16x16Mul, FP16x16Sub, FP16x16Impl};
+use orion::operators::tensor::{TensorTrait, Tensor};
+use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16Tensor;
 
 fn test_matrix(ref X: MutMatrix<FP16x16>) {
         // Print X by columns
@@ -430,52 +432,52 @@ fn mean_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>, axi
 
 fn main() {
     
-    let mut X_data = VecTrait::<NullableVec, FP16x16>::new();
-    X_data.push(FP16x16 { mag: 131072, sign: false }); // 2
-    X_data.push(FP16x16 { mag: 65536, sign: false }); // 1
-    X_data.push(FP16x16 { mag: 65536, sign: true }); // -1
-    X_data.push(FP16x16 { mag: 196608, sign: true }); // -3
-    X_data.push(FP16x16 { mag: 65536, sign: true }); // -1
-    X_data.push(FP16x16 { mag: 131072, sign: false }); // 2
-    X_data.push(FP16x16 { mag: 131072, sign: true }); // -2
-    X_data.push(FP16x16 { mag: 65536, sign: false }); // 1
-    X_data.push(FP16x16 { mag: 131072, sign: false }); // 1
-    let mut X = MutMatrix { data: X_data, rows: 3, cols: 3};
+    // let mut X_data = VecTrait::<NullableVec, FP16x16>::new();
+    // X_data.push(FP16x16 { mag: 131072, sign: false }); // 2
+    // X_data.push(FP16x16 { mag: 65536, sign: false }); // 1
+    // X_data.push(FP16x16 { mag: 65536, sign: true }); // -1
+    // X_data.push(FP16x16 { mag: 196608, sign: true }); // -3
+    // X_data.push(FP16x16 { mag: 65536, sign: true }); // -1
+    // X_data.push(FP16x16 { mag: 131072, sign: false }); // 2
+    // X_data.push(FP16x16 { mag: 131072, sign: true }); // -2
+    // X_data.push(FP16x16 { mag: 65536, sign: false }); // 1
+    // X_data.push(FP16x16 { mag: 131072, sign: false }); // 1
+    // let mut X = MutMatrix { data: X_data, rows: 3, cols: 3};
 
-    let mut y_data = VecTrait::<NullableVec, FP16x16>::new();
-    y_data.push(FP16x16 { mag: 524288, sign: false }); // 8
-    y_data.push(FP16x16 { mag: 720896, sign: true }); // -11
-    y_data.push(FP16x16 { mag: 196608, sign: true }); // -3
-    let mut y = MutMatrix { data: y_data, rows: 3, cols: 1};
+    // let mut y_data = VecTrait::<NullableVec, FP16x16>::new();
+    // y_data.push(FP16x16 { mag: 524288, sign: false }); // 8
+    // y_data.push(FP16x16 { mag: 720896, sign: true }); // -11
+    // y_data.push(FP16x16 { mag: 196608, sign: true }); // -3
+    // let mut y = MutMatrix { data: y_data, rows: 3, cols: 1};
 
     // Linalg test
     // let mut S = linalg_solve(ref X, ref y);
     // test_matrix(ref S);
     // Solution is [2, 3, -1] in FP16x16 format!
 
-    let mut Y1_data = VecTrait::<NullableVec, FP16x16>::new();
-    Y1_data.push(FP16x16 { mag: 131072, sign: false }); // 2
-    Y1_data.push(FP16x16 { mag: 65536, sign: false }); // 1
-    Y1_data.push(FP16x16 { mag: 393216, sign: false }); // 6
-    let mut Y1 = MutMatrix { data: Y1_data, rows: 3, cols: 1};
+    // let mut Y1_data = VecTrait::<NullableVec, FP16x16>::new();
+    // Y1_data.push(FP16x16 { mag: 131072, sign: false }); // 2
+    // Y1_data.push(FP16x16 { mag: 65536, sign: false }); // 1
+    // Y1_data.push(FP16x16 { mag: 393216, sign: false }); // 6
+    // let mut Y1 = MutMatrix { data: Y1_data, rows: 3, cols: 1};
 
-    let mut Y2_data = VecTrait::<NullableVec, FP16x16>::new();
-    Y2_data.push(FP16x16 { mag: 65536, sign: false }); // 1
-    Y2_data.push(FP16x16 { mag: 131072, sign: false }); // 2
-    Y2_data.push(FP16x16 { mag: 196608, sign: false }); // 3
-    Y2_data.push(FP16x16 { mag: 262144, sign: false }); // 4
-    Y2_data.push(FP16x16 { mag: 327680, sign: false }); // 5
-    Y2_data.push(FP16x16 { mag: 393216, sign: false }); // 6
-    Y2_data.push(FP16x16 { mag: 458752, sign: false }); // 7
-    Y2_data.push(FP16x16 { mag: 524288, sign: false }); // 8
-    Y2_data.push(FP16x16 { mag: 589824, sign: false }); // 9
-    let mut Y2 = MutMatrix { data: Y2_data, rows: 3, cols: 3};
+    // let mut Y2_data = VecTrait::<NullableVec, FP16x16>::new();
+    // Y2_data.push(FP16x16 { mag: 65536, sign: false }); // 1
+    // Y2_data.push(FP16x16 { mag: 131072, sign: false }); // 2
+    // Y2_data.push(FP16x16 { mag: 196608, sign: false }); // 3
+    // Y2_data.push(FP16x16 { mag: 262144, sign: false }); // 4
+    // Y2_data.push(FP16x16 { mag: 327680, sign: false }); // 5
+    // Y2_data.push(FP16x16 { mag: 393216, sign: false }); // 6
+    // Y2_data.push(FP16x16 { mag: 458752, sign: false }); // 7
+    // Y2_data.push(FP16x16 { mag: 524288, sign: false }); // 8
+    // Y2_data.push(FP16x16 { mag: 589824, sign: false }); // 9
+    // let mut Y2 = MutMatrix { data: Y2_data, rows: 3, cols: 3};
 
-    let mut weights_data = VecTrait::<NullableVec, FP16x16>::new();
-    weights_data.push(FP16x16 { mag: 13017, sign: false }); // 0.2
-    weights_data.push(FP16x16 { mag: 19661, sign: false }); // 0.3
-    weights_data.push(FP16x16 { mag: 32768, sign: false }); // 0.5
-    let mut W = MutMatrix { data: weights_data, rows: 3, cols: 1};
+    // let mut weights_data = VecTrait::<NullableVec, FP16x16>::new();
+    // weights_data.push(FP16x16 { mag: 13017, sign: false }); // 0.2
+    // weights_data.push(FP16x16 { mag: 19661, sign: false }); // 0.3
+    // weights_data.push(FP16x16 { mag: 32768, sign: false }); // 0.5
+    // let mut W = MutMatrix { data: weights_data, rows: 3, cols: 1};
 
     // Mean tests
     // let mut Y1_mean = mean(ref Y1);
@@ -501,23 +503,37 @@ fn main() {
     // let mut W_diag = diagonalize(ref W);
     // test_matrix(ref W_diag);
 
-    let mut Y3_data = VecTrait::<NullableVec, FP16x16>::new();
-    Y3_data.push(FP16x16 { mag: 65536, sign: false }); // 1
-    Y3_data.push(FP16x16 { mag: 131072, sign: false }); // 2
-    Y3_data.push(FP16x16 { mag: 196608, sign: false }); // 3
-    Y3_data.push(FP16x16 { mag: 262144, sign: false }); // 4
-    let mut Y3 = MutMatrix { data: Y3_data, rows: 2, cols: 2};
+    // let mut Y3_data = VecTrait::<NullableVec, FP16x16>::new();
+    // Y3_data.push(FP16x16 { mag: 65536, sign: false }); // 1
+    // Y3_data.push(FP16x16 { mag: 131072, sign: false }); // 2
+    // Y3_data.push(FP16x16 { mag: 196608, sign: false }); // 3
+    // Y3_data.push(FP16x16 { mag: 262144, sign: false }); // 4
+    // let mut Y3 = MutMatrix { data: Y3_data, rows: 2, cols: 2};
 
-    let mut Y4_data = VecTrait::<NullableVec, FP16x16>::new();
-    Y4_data.push(FP16x16 { mag: 65536, sign: false }); // 1
-    Y4_data.push(FP16x16 { mag: 131072, sign: false }); // 2
-    Y4_data.push(FP16x16 { mag: 196608, sign: false }); // 3
-    Y4_data.push(FP16x16 { mag: 262144, sign: false }); // 4
-    Y4_data.push(FP16x16 { mag: 327680, sign: false }); // 5
-    Y4_data.push(FP16x16 { mag: 393216, sign: false }); // 6
-    let mut Y4 = MutMatrix { data: Y4_data, rows: 2, cols: 3};
+    // let mut Y4_data = VecTrait::<NullableVec, FP16x16>::new();
+    // Y4_data.push(FP16x16 { mag: 65536, sign: false }); // 1
+    // Y4_data.push(FP16x16 { mag: 131072, sign: false }); // 2
+    // Y4_data.push(FP16x16 { mag: 196608, sign: false }); // 3
+    // Y4_data.push(FP16x16 { mag: 262144, sign: false }); // 4
+    // Y4_data.push(FP16x16 { mag: 327680, sign: false }); // 5
+    // Y4_data.push(FP16x16 { mag: 393216, sign: false }); // 6
+    // let mut Y4 = MutMatrix { data: Y4_data, rows: 2, cols: 3};
 
-    let mut Y3x4 = Y3.matmul(ref Y4);
-    test_matrix(ref Y3x4);
+    let mut X = MutMatrixImpl::<FP16x16>::new(2,2);
+    X.set(0, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
+    X.set(0, 1, FixedTrait::<FP16x16>::new_unscaled(2, false));
+    X.set(1, 0, FixedTrait::<FP16x16>::new_unscaled(3, false));
+    X.set(1, 1, FixedTrait::<FP16x16>::new_unscaled(4, false));
+
+    let mut Y = MutMatrixImpl::<FP16x16>::new(2,3);
+    Y.set(0, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
+    Y.set(0, 1, FixedTrait::<FP16x16>::new_unscaled(2, false));
+    Y.set(0, 2, FixedTrait::<FP16x16>::new_unscaled(3, false));
+    Y.set(1, 0, FixedTrait::<FP16x16>::new_unscaled(4, false));
+    Y.set(1, 1, FixedTrait::<FP16x16>::new_unscaled(5, false));
+    Y.set(1, 2, FixedTrait::<FP16x16>::new_unscaled(6, false));
+
+    let mut XY = X.matmul(ref Y);
+    test_matrix(ref XY);
 
     }

@@ -50,28 +50,28 @@ impl MutMatrixImpl<
     }
 
     /// Returns the reshaped matrix
-    fn reshape(ref self: MutMatrix<T>, target_shape: Span<usize>) -> MutMatrix<T> {
+    fn reshape<+TensorTrait<T>>(ref self: MutMatrix<T>, target_shape: Span<usize>) -> MutMatrix<T> {
         let mut t = self.to_tensor();
         let mut result = t.reshape(target_shape);
         return result.from_tensor();
     }
 
     /// Returns the transposed matrix
-    fn transpose(ref self: MutMatrix<T>, axes: Span<usize>) -> MutMatrix<T> {
+    fn transpose<+TensorTrait<T>>(ref self: MutMatrix<T>, axes: Span<usize>) -> MutMatrix<T> {
         let mut t = self.to_tensor();
         let mut result = t.transpose(axes);
         return result.from_tensor();
     }
 
     /// Returns the sum
-    fn reduce_sum(ref self: MutMatrix<T>, axis: usize, keepdims: bool) -> MutMatrix<T> {
+    fn reduce_sum<+TensorTrait<T>>(ref self: MutMatrix<T>, axis: usize, keepdims: bool) -> MutMatrix<T> {
         let mut t = self.to_tensor();
         let mut result = t.reduce_sum(axis, keepdims);
         return result.from_tensor();
     }
 
     /// Returns the matrix power
-    fn pow(ref self: MutMatrix<T>, ref other: MutMatrix<T>) -> MutMatrix<T> {
+    fn pow<+TensorTrait<T>>(ref self: MutMatrix<T>, ref other: MutMatrix<T>) -> MutMatrix<T> {
         let mut t1 = self.to_tensor();
         let mut t2 = other.to_tensor();
         let mut result = t1.pow(@t2);
@@ -79,7 +79,7 @@ impl MutMatrixImpl<
     }
 
     /// Returns the product of two matrices
-    fn matmul(ref self: MutMatrix<T>, ref other: MutMatrix<T>) -> MutMatrix<T> {
+    fn matmul<+TensorTrait<T>>(ref self: MutMatrix<T>, ref other: MutMatrix<T>) -> MutMatrix<T> {
         let mut t1 = self.to_tensor();
         let mut t2 = other.to_tensor();
         let mut result = t1.matmul(@t2);
@@ -87,7 +87,7 @@ impl MutMatrixImpl<
     }
 
     /// Transforms a MutMatrix into a Tensor
-    fn to_tensor(ref self: MutMatrix<T>) -> Tensor<T> {
+    fn to_tensor<+TensorTrait<T>>(ref self: MutMatrix<T>) -> Tensor<T> {
         let mut result_shape = ArrayTrait::<u32>::new();
         result_shape.append(self.rows);
         result_shape.append(self.cols);
@@ -110,12 +110,12 @@ impl MutMatrixImpl<
             i += 1;
         };
 
-        let result = TensorTrait::new(result_shape.span(), result_data.span());
+        let mut result = TensorTrait::new(result_shape.span(), result_data.span());
         return result;
     }
 
     /// Transforms a Tensor to a MutMatrix
-    fn from_tensor(ref self: Tensor<T>) -> MutMatrix<T> {
+    fn from_tensor<+TensorTrait<T>>(ref self: Tensor<T>) -> MutMatrix<T> {
         let mut result_rows = *self.shape.at(0);
         let mut result_cols = *self.shape.at(1);
         let mut result: MutMatrix = MutMatrixTrait::<T>::new(result_rows, result_cols);
