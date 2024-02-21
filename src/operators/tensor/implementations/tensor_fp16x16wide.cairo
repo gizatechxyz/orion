@@ -580,6 +580,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     ) -> Tensor<FP16x16W> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
+
+    fn label_encoder(self: @Tensor<FP16x16W>, default_list: Option<Span<FP16x16W>>, default_tensor: Option<Tensor<FP16x16W>>, keys: Option<Span<FP16x16W>>, keys_tensor: Option<Tensor<FP16x16W>>, values: Option<Span<FP16x16W>>, values_tensor: Option<Tensor<FP16x16W>>) -> Tensor<FP16x16W> {
+        ml::label_encoder::label_encoder(self, default_list, default_tensor, keys, keys_tensor, values, values_tensor)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.

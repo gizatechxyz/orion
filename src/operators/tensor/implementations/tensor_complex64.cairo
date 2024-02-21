@@ -574,6 +574,10 @@ impl Complex64Tensor of TensorTrait<complex64> {
     ) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }
+
+     fn label_encoder(self: @Tensor<complex64>, default_list: Option<Span<complex64>>, default_tensor: Option<Tensor<complex64>>, keys: Option<Span<complex64>>, keys_tensor: Option<Tensor<complex64>>, values: Option<Span<complex64>>, values_tensor: Option<Tensor<complex64>>) -> Tensor<complex64> {
+         panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<complex64>` using the `Add` trait.

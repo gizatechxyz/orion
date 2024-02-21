@@ -591,6 +591,10 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Tensor<i8> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
+
+   fn label_encoder(self: @Tensor<i8>, default_list: Option<Span<i8>>, default_tensor: Option<Tensor<i8>>, keys: Option<Span<i8>>, keys_tensor: Option<Tensor<i8>>, values: Option<Span<i8>>, values_tensor: Option<Tensor<i8>>) -> Tensor<i8> {
+        ml::label_encoder::label_encoder(self, default_list, default_tensor, keys, keys_tensor, values, values_tensor)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
