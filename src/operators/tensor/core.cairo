@@ -1,3 +1,4 @@
+use alexandria_data_structures::array_ext::ArrayTraitExt;
 use core::array::{ArrayTrait, SpanTrait};
 use core::serde::Serde;
 use core::option::OptionTrait;
@@ -5860,32 +5861,21 @@ fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
 
 /// Cf: TensorTrait::stride docstring
 fn stride(mut shape: Span<usize>) -> Span<usize> {
-    let shape_len = shape.len();
-    assert(shape_len > 0, 'shape cannot be empty');
-
-    let mut result: Array<usize> = ArrayTrait::new();
-    let mut accumulated: usize = 1;
-    let mut temp_result = ArrayTrait::new();
+    let mut strides = ArrayTrait::new();
+    let mut stride = 1;
     loop {
         match shape.pop_back() {
-            Option::Some(i) => {
-                temp_result.append(accumulated);
-                accumulated *= *i;
+            Option::Some(size) => {
+                strides.append(stride);
+                stride *= *size;
             },
             Option::None => { break; }
         };
     };
 
-    let mut temp_result = temp_result.span();
-    loop {
-        match temp_result.pop_back() {
-            Option::Some(val) => { result.append(*val); },
-            Option::None => { break; }
-        };
-    };
-
-    return result.span();
+    strides.reverse().span()
 }
+
 
 /// Cf: TensorTrait::reshape docstring
 fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {

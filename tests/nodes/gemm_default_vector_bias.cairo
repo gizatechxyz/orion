@@ -3,7 +3,6 @@ mod input_1;
 mod input_2;
 mod output_0;
 
-
 use orion::operators::nn::NNTrait;
 use orion::numbers::FixedTrait;
 use orion::utils::{assert_eq, assert_seq_eq};

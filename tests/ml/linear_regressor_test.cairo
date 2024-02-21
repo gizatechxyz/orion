@@ -40,7 +40,7 @@ fn test_linear_regressor() {
         coefficients, intercepts, target, post_transform
     };
 
-    let scores = LinearRegressorTrait::predict(ref regressor, X);
+    let scores = LinearRegressorTrait::predict(regressor, X);
 
     assert(*scores.data[0] == FP16x16 { mag: 17695, sign: true }, '*scores[0] == -0.27');
     assert(*scores.data[1] == FP16x16 { mag: 79299, sign: true }, '*scores[1] == -1.21');
@@ -84,7 +84,7 @@ fn test_linear_regressor_2() {
         coefficients, intercepts, target, post_transform
     };
 
-    let scores = LinearRegressorTrait::predict(ref regressor, X);
+    let scores = LinearRegressorTrait::predict(regressor, X);
 
     assert(*scores.data[0] == FP16x16 { mag: 17695, sign: true }, '*scores[0] == -0.27');
     assert(*scores.data[1] == FP16x16 { mag: 4588, sign: true }, '*scores[1] == -0.07');

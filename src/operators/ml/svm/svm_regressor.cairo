@@ -10,6 +10,7 @@ use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
 use core::debug::PrintTrait;
 use orion::operators::nn::{NNTrait, FP16x16NN};
 use orion::utils::get_row;
+use orion::operators::ml::POST_TRANSFORM;
 
 use orion::operators::ml::svm::core::{kernel_dot, KERNEL_TYPE};
 
@@ -23,15 +24,6 @@ struct SVMRegressor<T> {
     post_transform: POST_TRANSFORM,
     rho: Span<T>,
     support_vectors: Span<T>,
-}
-
-#[derive(Copy, Drop)]
-enum POST_TRANSFORM {
-    NONE,
-    SOFTMAX,
-    LOGISTIC,
-    SOFTMAXZERO,
-    PROBIT,
 }
 
 #[derive(Copy, Drop)]
