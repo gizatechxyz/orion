@@ -326,7 +326,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
         core_tensor::squeeze(self, axes)
     }
 
-    fn unsqueeze(self: @Tensor<complex64>, axes: Span<usize>) -> Tensor<complex64> {
+    fn unsqueeze(self: @Tensor<complex64>, axes: Span<i32>) -> Tensor<complex64> {
         core_tensor::unsqueeze(self, axes)
     }
 

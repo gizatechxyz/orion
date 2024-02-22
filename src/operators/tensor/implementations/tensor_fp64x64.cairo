@@ -364,7 +364,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         core_tensor::squeeze(self, axes)
     }
 
-    fn unsqueeze(self: @Tensor<FP64x64>, axes: Span<usize>) -> Tensor<FP64x64> {
+    fn unsqueeze(self: @Tensor<FP64x64>, axes: Span<i32>) -> Tensor<FP64x64> {
         core_tensor::unsqueeze(self, axes)
     }
 

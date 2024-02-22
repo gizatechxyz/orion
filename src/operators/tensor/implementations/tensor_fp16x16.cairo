@@ -364,7 +364,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         core_tensor::squeeze(self, axes)
     }
 
-    fn unsqueeze(self: @Tensor<FP16x16>, axes: Span<usize>) -> Tensor<FP16x16> {
+    fn unsqueeze(self: @Tensor<FP16x16>, axes: Span<i32>) -> Tensor<FP16x16> {
         core_tensor::unsqueeze(self, axes)
     }
 
