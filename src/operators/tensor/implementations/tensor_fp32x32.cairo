@@ -364,7 +364,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         core_tensor::squeeze(self, axes)
     }
 
-    fn unsqueeze(self: @Tensor<FP32x32>, axes: Span<i32>) -> Tensor<FP32x32> {
+    fn unsqueeze(self: @Tensor<FP32x32>, axes: Span<usize>) -> Tensor<FP32x32> {
         core_tensor::unsqueeze(self, axes)
     }
 

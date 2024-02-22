@@ -315,7 +315,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         core_tensor::squeeze(self, axes)
     }
 
-    fn unsqueeze(self: @Tensor<FP8x23W>, axes: Span<i32>) -> Tensor<FP8x23W> {
+    fn unsqueeze(self: @Tensor<FP8x23W>, axes: Span<usize>) -> Tensor<FP8x23W> {
         core_tensor::unsqueeze(self, axes)
     }
 

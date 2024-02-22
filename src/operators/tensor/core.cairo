@@ -3262,7 +3262,7 @@ trait TensorTrait<T> {
     ///        [7]]]]
     /// ```
     ///
-    fn unsqueeze(self: @Tensor<T>, axes: Span<i32>) -> Tensor<T>;
+    fn unsqueeze(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T>;
     /// # tensor.squeeze
     ///
     /// ```rust 
@@ -6105,13 +6105,13 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
     return Tensor::<T> { shape: target_shape, data: *self.data };
 }
 /// Cf: TensorTrait::unsqueeze docstring
-fn unsqueeze<T>(self: @Tensor<T>, axes: Span<i32>) -> Tensor<T> {
+fn unsqueeze<T>(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T> {
     let dedupped_array = axes.dedup();
     assert(dedupped_array.len() == axes.len(), 'Duplicated input axes');
 
     let mut self_shape_copy = *self.shape;
-    let mut i = 0;
-    let mut added_axes_count = 0;
+    let mut i: usize = 0;
+    let mut added_axes_count: usize = 0;
     let mut output_shape: Array<usize> = ArrayTrait::new();
     loop {
         if axes.contains(i + added_axes_count) {
@@ -6128,9 +6128,9 @@ fn unsqueeze<T>(self: @Tensor<T>, axes: Span<i32>) -> Tensor<T> {
         };
     };
 
-    let mut j = output_shape.len();
+    let mut j: usize = output_shape.len();
     loop {
-        if axes.contains(j.into()) {
+        if axes.contains(j) {
             output_shape.append(1);
         } else {
             break ();
