@@ -300,7 +300,7 @@ impl U32Tensor of TensorTrait<u32> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<u32>, axes: Option<Span<i32>>) -> Tensor<u32> {
+    fn squeeze(self: @Tensor<u32>, axes: Option<Span<usize>>) -> Tensor<u32> {
         core_tensor::squeeze(self, axes)
     }
 

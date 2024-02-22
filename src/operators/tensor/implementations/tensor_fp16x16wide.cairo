@@ -320,7 +320,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<FP16x16W>, axes: Option<Span<i32>>) -> Tensor<FP16x16W> {
+    fn squeeze(self: @Tensor<FP16x16W>, axes: Option<Span<usize>>) -> Tensor<FP16x16W> {
         core_tensor::squeeze(self, axes)
     }
 

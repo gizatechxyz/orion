@@ -360,7 +360,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<FP64x64>, axes: Option<Span<i32>>) -> Tensor<FP64x64> {
+    fn squeeze(self: @Tensor<FP64x64>, axes: Option<Span<usize>>) -> Tensor<FP64x64> {
         core_tensor::squeeze(self, axes)
     }
 

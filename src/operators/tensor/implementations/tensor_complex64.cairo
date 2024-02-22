@@ -322,7 +322,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<complex64>, axes: Option<Span<i32>>) -> Tensor<complex64> {
+    fn squeeze(self: @Tensor<complex64>, axes: Option<Span<usize>>) -> Tensor<complex64> {
         core_tensor::squeeze(self, axes)
     }
 

@@ -361,7 +361,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         core_ops::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<FP8x23>, axes: Option<Span<i32>>) -> Tensor<FP8x23> {
+    fn squeeze(self: @Tensor<FP8x23>, axes: Option<Span<usize>>) -> Tensor<FP8x23> {
         core_ops::squeeze(self, axes)
     }
 

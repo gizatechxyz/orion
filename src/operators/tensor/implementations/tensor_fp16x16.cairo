@@ -360,7 +360,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<FP16x16>, axes: Option<Span<i32>>) -> Tensor<FP16x16> {
+    fn squeeze(self: @Tensor<FP16x16>, axes: Option<Span<usize>>) -> Tensor<FP16x16> {
         core_tensor::squeeze(self, axes)
     }
 
