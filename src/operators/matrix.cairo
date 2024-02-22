@@ -5,6 +5,7 @@ use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
 use orion::numbers::fixed_point::implementations::fp16x16::core::{FP16x16, FP16x16Add, FP16x16Div, FP16x16Mul, FP16x16Sub, FP16x16Impl};
 use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16Tensor;
 use orion::operators::tensor::{TensorTrait, Tensor};
+use core::debug::PrintTrait;
 
 struct MutMatrix<T> {
     data: NullableVec<T>,
@@ -70,6 +71,13 @@ impl MutMatrixImpl<
         return result.from_tensor();
     }
 
+    // /// Returns the sum
+    // fn reduce_sum<+TensorTrait<T>>(ref self: MutMatrix<T>, axis: usize, keepdims: bool) -> Tensor<T> {
+    //     let mut t = self.to_tensor();
+    //     let mut result = t.reduce_sum(axis, keepdims);
+    //     return result;
+    // }
+
     /// Returns the matrix power
     fn pow<+TensorTrait<T>>(ref self: MutMatrix<T>, ref other: MutMatrix<T>) -> MutMatrix<T> {
         let mut t1 = self.to_tensor();
@@ -116,8 +124,15 @@ impl MutMatrixImpl<
 
     /// Transforms a Tensor to a MutMatrix
     fn from_tensor<+TensorTrait<T>>(ref self: Tensor<T>) -> MutMatrix<T> {
-        let mut result_rows = *self.shape.at(0);
-        let mut result_cols = *self.shape.at(1);
+        let dim = self.shape.len();
+        let result_rows = *self.shape.at(0);
+        let result_cols = if (dim == 1) {
+                1
+            }
+            else {
+                *self.shape.at(1)
+            };
+        
         let mut result: MutMatrix = MutMatrixTrait::<T>::new(result_rows, result_cols);
 
         let mut i = 0;
@@ -130,7 +145,12 @@ impl MutMatrixImpl<
                 if j == result_cols {
                     break;
                 }
-                let mut val = self.at(array![i, j].span());
+                let mut val = if (dim == 1) {
+                     self.at(array![i].span())
+                }
+                else {
+                     self.at(array![i, j].span())
+                };
                 result.set(i, j, val);
                 j += 1;
             };
