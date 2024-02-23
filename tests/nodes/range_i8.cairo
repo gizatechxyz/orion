@@ -13,7 +13,7 @@ use orion::numbers::NumberTrait;
 fn test_range_i8() {
     let z_0 = output_0::output_0();
 
-    let y_0 = TensorTrait::range(-1,25,3);
+    let y_0 = TensorTrait::range(-1, 25, 3);
 
     assert_eq(y_0, z_0);
 }

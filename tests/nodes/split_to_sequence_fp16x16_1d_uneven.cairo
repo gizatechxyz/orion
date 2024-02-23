@@ -14,7 +14,12 @@ fn test_split_to_sequence_fp16x16_1d_uneven() {
     let input_0 = input_0::input_0();
     let z = output_0::output_0();
 
-    let y = input_0.split_to_sequence(0, 1, Option::Some(TensorTrait::<u32>::new(shape: array![1].span(), data: array![4].span())));
+    let y = input_0
+        .split_to_sequence(
+            0,
+            1,
+            Option::Some(TensorTrait::<u32>::new(shape: array![1].span(), data: array![4].span()))
+        );
 
     assert_seq_eq(y, z);
 }

@@ -492,26 +492,26 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn reverse_sequence(
-        self: @Tensor<bool>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+        self: @Tensor<bool>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
     ) -> Tensor<bool> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
-    
-    fn optional(self: @Tensor<bool>) -> Option<Tensor<bool>>{
+
+    fn optional(self: @Tensor<bool>) -> Option<Tensor<bool>> {
         manipulation::optional::optional(self)
     }
-    
+
     fn dynamic_quantize_linear(
         self: @Tensor<bool>
-    ) -> (Tensor::<u32>, Tensor::<bool>, Tensor<bool>){
-            panic(array!['not supported!'])
+    ) -> (Tensor::<u32>, Tensor::<bool>, Tensor<bool>) {
+        panic(array!['not supported!'])
     }
 
     fn scatter_nd(
-        self: @Tensor<bool>,
-        updates: Tensor<bool>,
-        indices: Tensor<usize>,
-        reduction: Option<usize>
+        self: @Tensor<bool>, updates: Tensor<bool>, indices: Tensor<usize>, reduction: Option<usize>
     ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
@@ -532,7 +532,9 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn random_uniform_like(tensor: @Tensor<bool>, high: Option<bool>, low: Option<bool>, seed: Option<usize>) -> Tensor<bool> {
+    fn random_uniform_like(
+        tensor: @Tensor<bool>, high: Option<bool>, low: Option<bool>, seed: Option<usize>
+    ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 }

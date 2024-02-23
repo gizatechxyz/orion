@@ -277,12 +277,22 @@
       "profile": "https://github.com/tekkac",
       "contributions": [
         "doc"
-      ],
+      ]
     },
+    {
       "login": "canacechan",
       "name": "canacechan",
       "avatar_url": "https://avatars.githubusercontent.com/u/127183619?v=4",
       "profile": "https://github.com/canacechan",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "RajeshRk18",
+      "name": "Rajesh",
+      "avatar_url": "https://avatars.githubusercontent.com/u/87425610?v=4",
+      "profile": "https://github.com/RajeshRk18",
       "contributions": [
         "code"
       ]

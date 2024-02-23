@@ -500,10 +500,12 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
-    fn random_uniform_like(tensor: @Tensor<FP8x23W>, high: Option<FP8x23W>, low: Option<FP8x23W>, seed: Option<usize>) -> Tensor<FP8x23W> {
+    fn random_uniform_like(
+        tensor: @Tensor<FP8x23W>, high: Option<FP8x23W>, low: Option<FP8x23W>, seed: Option<usize>
+    ) -> Tensor<FP8x23W> {
         math::random_uniform_like::random_uniform_like(*tensor, high, low, seed)
     }
-    
+
     fn range(start: FP8x23W, end: FP8x23W, step: FP8x23W) -> Tensor<FP8x23W> {
         math::range::range(start, end, step)
     }
@@ -519,26 +521,29 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn blackman_window(size: FP8x23W, periodic: Option<usize>) -> Tensor<FP8x23W> {
         math::blackman_window::blackman_window(size, FP8x23W { mag: PI, sign: false }, periodic)
     }
-    
+
     fn split_to_sequence(
         self: @Tensor<FP8x23W>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<FP8x23W>> {
         manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
     }
-    
+
     fn reverse_sequence(
-        self: @Tensor<FP8x23W>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+        self: @Tensor<FP8x23W>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
     ) -> Tensor<FP8x23W> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
-    
-    fn optional(self: @Tensor<FP8x23W>) -> Option<Tensor<FP8x23W>>{
+
+    fn optional(self: @Tensor<FP8x23W>) -> Option<Tensor<FP8x23W>> {
         manipulation::optional::optional(self)
     }
-    
+
     fn dynamic_quantize_linear(
         self: @Tensor<FP8x23W>
-    ) -> (Tensor::<u32>, Tensor::<FP8x23W>, Tensor<FP8x23W>){
+    ) -> (Tensor::<u32>, Tensor::<FP8x23W>, Tensor<FP8x23W>) {
         quantization::dynamic_quantize_linear::dynamic_quantize_linear(
             self,
             NumberTrait::new_unscaled(0, false),

@@ -562,10 +562,12 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
-    fn random_uniform_like(tensor: @Tensor<FP32x32>, high: Option<FP32x32>, low: Option<FP32x32>, seed: Option<usize>) -> Tensor<FP32x32> {
+    fn random_uniform_like(
+        tensor: @Tensor<FP32x32>, high: Option<FP32x32>, low: Option<FP32x32>, seed: Option<usize>
+    ) -> Tensor<FP32x32> {
         math::random_uniform_like::random_uniform_like(*tensor, high, low, seed)
     }
-    
+
     fn range(start: FP32x32, end: FP32x32, step: FP32x32) -> Tensor<FP32x32> {
         math::range::range(start, end, step)
     }
@@ -581,7 +583,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn blackman_window(size: FP32x32, periodic: Option<usize>) -> Tensor<FP32x32> {
         panic(array!['not supported!'])
     }
-    
+
     fn split_to_sequence(
         self: @Tensor<FP32x32>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<FP32x32>> {
@@ -589,27 +591,30 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     }
 
     fn reverse_sequence(
-        self: @Tensor<FP32x32>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+        self: @Tensor<FP32x32>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
     ) -> Tensor<FP32x32> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
-    
-    fn optional(self: @Tensor<FP32x32>) -> Option<Tensor<FP32x32>>{
+
+    fn optional(self: @Tensor<FP32x32>) -> Option<Tensor<FP32x32>> {
         manipulation::optional::optional(self)
     }
-    
+
     fn dynamic_quantize_linear(
         self: @Tensor<FP32x32>
-    ) -> (Tensor::<u32>, Tensor::<FP32x32>, Tensor<FP32x32>){
+    ) -> (Tensor::<u32>, Tensor::<FP32x32>, Tensor<FP32x32>) {
         quantization::dynamic_quantize_linear::dynamic_quantize_linear(
             self,
             NumberTrait::new_unscaled(0, false),
             NumberTrait::new_unscaled(255, false),
             NumberTrait::new_unscaled(0, false),
             NumberTrait::new_unscaled(1, false),
-        )   
+        )
     }
-    
+
     fn scatter_nd(
         self: @Tensor<FP32x32>,
         updates: Tensor<FP32x32>,
