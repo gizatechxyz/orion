@@ -3300,7 +3300,7 @@ trait TensorTrait<T> {
     ///      [1 1]]
     /// ```
     ///
-    fn squeeze(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T>;
+    fn squeeze(self: @Tensor<T>, axes: Option<Span<u32>>) -> Tensor<T>;
     /// # tensor.clip
     ///
     /// ```rust 
@@ -6158,7 +6158,7 @@ fn nonzero<
 }
 
 /// Cf: TensorTrait::squeeze docstring
-fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
+fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<u32>>) -> Tensor<T> {
     let target_shape = match axes {
         Option::Some(mut axes) => {
             let mut axis_squeezed = 0;
@@ -6167,7 +6167,7 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
                 match axes.pop_front() {
                     Option::Some(axis) => {
                         let mut reshape: Array<usize> = ArrayTrait::new();
-                        let mut index = 0_i32;
+                        let mut index = 0;
                         let axis = if *axis < 0 {
                             assert(
                                 *axis <= (*self.shape).len().into(), 'axis out of accepted range'

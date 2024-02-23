@@ -240,7 +240,7 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn squeeze(self: @Tensor<bool>, axes: Option<Span<i32>>) -> Tensor<bool> {
+    fn squeeze(self: @Tensor<bool>, axes: Option<Span<usize>>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 

@@ -360,7 +360,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<FP32x32>, axes: Option<Span<i32>>) -> Tensor<FP32x32> {
+    fn squeeze(self: @Tensor<FP32x32>, axes: Option<Span<usize>>) -> Tensor<FP32x32> {
         core_tensor::squeeze(self, axes)
     }
 

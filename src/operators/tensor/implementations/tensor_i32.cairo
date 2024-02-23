@@ -353,7 +353,7 @@ impl I32Tensor of TensorTrait<i32> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<i32>, axes: Option<Span<i32>>) -> Tensor<i32> {
+    fn squeeze(self: @Tensor<i32>, axes: Option<Span<usize>>) -> Tensor<i32> {
         core_tensor::squeeze(self, axes)
     }
 

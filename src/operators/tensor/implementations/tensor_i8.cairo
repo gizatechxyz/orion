@@ -357,7 +357,7 @@ impl I8Tensor of TensorTrait<i8> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<i8>, axes: Option<Span<i32>>) -> Tensor<i8> {
+    fn squeeze(self: @Tensor<i8>, axes: Option<Span<usize>>) -> Tensor<i8> {
         core_tensor::squeeze(self, axes)
     }
 
