@@ -15,19 +15,19 @@ fn global_maxpool<
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
 >(
-    tensor: @Tensor<T>
+    X: @Tensor<T>
 ) -> Tensor<T> {
-    assert((*tensor).shape.len() == 4, 'Must be a 4D tensor');
+    assert((*X).shape.len() == 4, 'Must be a 4D tensor');
 
-    let mut data = (*tensor).data;
+    let mut data = (*X).data;
     let mut global_max_vals = ArrayTrait::new();
 
     let mut accum = 0;
 
-    let N = (*tensor).shape.at(0);
-    let C = (*tensor).shape.at(1);
-    let H = (*tensor).shape.at(2);
-    let W = (*tensor).shape.at(3);
+    let N = (*X).shape.at(0);
+    let C = (*X).shape.at(1);
+    let H = (*X).shape.at(2);
+    let W = (*X).shape.at(3);
 
     // height * width
     let mut area = *H * *W;

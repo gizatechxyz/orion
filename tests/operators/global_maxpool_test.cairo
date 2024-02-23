@@ -1,7 +1,7 @@
 use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 use core::debug::PrintTrait;
-use orion::operators::functional::global_maxpool;
+use orion::operators::tensor::math::global_maxpool::global_maxpool;
 #[test]
 #[available_gas(200000000000)]
 fn global_maxpool_test() {

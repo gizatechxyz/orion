@@ -39,4 +39,4 @@ Orion supports currently these `NN` types.
 | [`nn.col2im`](nn.col2im.md) | Rearranges column blocks back into a multidimensional image |
 | [`nn.conv_transpose`](nn.conv\_transpose.md) | Performs the convolution transpose of the input data tensor and weigth tensor. |
 | [`nn.conv`](nn.conv.md) | Performs the convolution of the input data tensor and weigth tensor. |
-
+| [`nn.global_maxpool`](nn.global_maxpool.md) | Computes the global maxpooling of the input tensor.
