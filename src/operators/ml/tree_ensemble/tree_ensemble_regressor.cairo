@@ -299,12 +299,18 @@ impl TreeEnsembleRegressorImpl<
             let mut t_index = t_index.span();
 
             match regressor.aggregate_function {
-                AGGREGATE_FUNCTION::SUM => { compute_res_SUM(ref regressor, ref res, ref t_index, i); },
+                AGGREGATE_FUNCTION::SUM => {
+                    compute_res_SUM(ref regressor, ref res, ref t_index, i);
+                },
                 AGGREGATE_FUNCTION::AVERAGE => {
                     compute_res_AVERAGE(ref regressor, ref res, ref t_index, n_trees, i);
                 },
-                AGGREGATE_FUNCTION::MIN => { compute_res_MIN(ref regressor, ref res, ref t_index, i); },
-                AGGREGATE_FUNCTION::MAX => { compute_res_MAX(ref regressor, ref res, ref t_index, i); },
+                AGGREGATE_FUNCTION::MIN => {
+                    compute_res_MIN(ref regressor, ref res, ref t_index, i);
+                },
+                AGGREGATE_FUNCTION::MAX => {
+                    compute_res_MAX(ref regressor, ref res, ref t_index, i);
+                },
             };
             i += 1;
         };

@@ -4,6 +4,7 @@ use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::operators::tensor::implementations::tensor_i32::{I32Tensor, I32TensorAdd};
+use orion::operators::nn::AUTO_PAD;
 
 impl I32NN of NNTrait<i32> {
     fn relu(tensor: @Tensor<i32>) -> Tensor<i32> {
@@ -131,5 +132,19 @@ impl I32NN of NNTrait<i32> {
         strides: Option<Span<usize>>,
     ) -> Tensor<i32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn max_pool(
+        X: @Tensor<i32>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        pads: Option<Span<usize>>,
+        storage_order: Option<usize>,
+        strides: Option<Span<usize>>,
+        output_len: usize,
+    ) -> (Tensor<i32>, Option<Tensor<i32>>) {
+        panic(array!['not supported!'])
     }
 }

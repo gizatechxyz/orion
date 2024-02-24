@@ -1,14 +1,14 @@
 # LinearRegressorTrait::predict
 
 ```rust 
-   fn predict(ref self: LinearRegressor<T>, X: Tensor<T>) -> Tensor<T>;
+   fn predict(regressor: LinearRegressor<T>, X: Tensor<T>) -> Tensor<T>;
 ```
 
 Linear Regressor. Performs the generalized linear regression evaluation.
 
 ## Args
 
-* `self`: LinearRegressor<T> - A LinearRegressor object.
+* `regressor`: LinearRegressor<T> - A LinearRegressor object.
 * `X`:  Input 2D tensor.
 
 ## Returns
@@ -68,7 +68,7 @@ fn example_linear_regressor() -> Tensor<FP16x16> {
         post_transform
     };
 
-    let scores = LinearRegressorTrait::predict(ref regressor, X);
+    let scores = LinearRegressorTrait::predict(regressor, X);
 
     scores
 }
@@ -120,7 +120,7 @@ fn example_linear_regressor_2() -> Tensor<FP16x16> {
         post_transform
     };
 
-    let scores = LinearRegressorTrait::predict(ref regressor, X);
+    let scores = LinearRegressorTrait::predict(regressor, X);
 
     scores
 }

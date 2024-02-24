@@ -1,6 +1,9 @@
 mod core;
 mod implementations;
 mod functional;
+mod common;
+
+use orion::operators::nn::common::{AUTO_PAD, POOLING_TYPE};
 
 use orion::operators::nn::core::NNTrait;
 

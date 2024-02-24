@@ -1,4 +1,3 @@
-
 # NNTrait::col2im
 
 ```rust
