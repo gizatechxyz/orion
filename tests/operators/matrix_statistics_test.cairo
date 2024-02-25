@@ -1,7 +1,7 @@
 // use core::option::OptionTrait;
 // use orion::numbers::fixed_point::implementations::fp16x16::core::{FixedTrait, FP16x16, FP16x16Add, FP16x16Div, FP16x16Mul, FP16x16Sub, FP16x16Impl};
 // use orion::operators::matrix::matrix::{MutMatrix, MutMatrixTrait, MutMatrixImpl};
-// use orion::operators::matrix::matrix_statistics::{exponential_weights, mean, mean_weighted, covariance, covariance_weighted};
+// use orion::operators::matrix::matrix_statistics::MatrixStatisticsTrait;
 
 // #[test]
 // #[available_gas(2000000000)]
@@ -23,8 +23,8 @@
 
 //     let mut X = MutMatrixTrait::<FP16x16>::new(3,1);
 //     X.set(0, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
-//     X.set(1, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
-//     X.set(2, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
+//     X.set(1, 0, FixedTrait::<FP16x16>::new_unscaled(2, false));
+//     X.set(2, 0, FixedTrait::<FP16x16>::new_unscaled(3, false));
 
 //     let mut mu_X = mean(ref X, 0);
 
