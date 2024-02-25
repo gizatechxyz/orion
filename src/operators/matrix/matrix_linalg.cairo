@@ -29,6 +29,7 @@ trait MatrixLinalgTrait<FP16x16> {
     /// X must be FP16x16 valued.
     ///
     /// ## Examples
+    ///
     /// let mut X = MutMatrixImpl::<FP16x16>::new(3, 1);
     /// X.set(0, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
     /// X.set(1, 0, FixedTrait::<FP16x16>::new_unscaled(2, false));
@@ -59,6 +60,7 @@ trait MatrixLinalgTrait<FP16x16> {
     /// X, y must be FP16x16 valued.
     ///
     /// ## Examples
+    ///
     /// let mut X = MutMatrixTrait::<FP16x16>::new(3, 3);
     /// X.set(0, 0, FixedTrait::<FP16x16>::new_unscaled(2, false));
     /// X.set(0, 1, FixedTrait::<FP16x16>::new_unscaled(1, false));
