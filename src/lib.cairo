@@ -200,35 +200,6 @@ fn diagonalize(ref X: MutMatrix<FP16x16>) -> MutMatrix<FP16x16> {
     return result;
 }
 
-fn mean(ref X: MutMatrix<FP16x16>) -> MutMatrix<FP16x16> {
-    // Simple average case for a vector
-    // Returns a matrix with shape (1,1)
-
-    assert(X.cols == 1, 'Wrong shape');
-
-    let mut result = MutMatrixImpl::<FP16x16>::new(1, 1);
-    let mut num = FixedTrait::<FP16x16>::new_unscaled(0, false);
-    let mut i = 0;
-
-    let l = FixedTrait::<FP16x16>::new_unscaled(X.data.len(), false);
-
-    if X.rows == 1 {
-        result.set(0, 0, X.get(0, 0).unwrap());
-        return result;
-    }
-    else {
-        loop {
-            if i == X.rows {
-                break;
-            }
-            num += X.get(i, 0).unwrap();
-            i += 1;
-        };
-        result.set(0, 0, num / l);
-        return result;
-    }
-}
-
 fn mean(ref X: MutMatrix<FP16x16>, axis: u32) -> MutMatrix<FP16x16> {
     // Simple average case for a matrix along specified axis
     // Returns a matrix with shape (X.rows, 1) if axis == 0 or (1, X.cols) if axis == 1
@@ -243,27 +214,33 @@ fn mean(ref X: MutMatrix<FP16x16>, axis: u32) -> MutMatrix<FP16x16> {
         let mut num = FixedTrait::<FP16x16>::new_unscaled(0, false);
         let mut i = 0;
 
-        let l = FixedTrait::<FP16x16>::new_unscaled(X.data.len(), false);
+        let den = FixedTrait::<FP16x16>::new_unscaled(X.data.len(), false);
 
-        if X.rows == 1 {
+        if X.cols == 1 && X.rows == 1 {
             result.set(0, 0, X.get(0, 0).unwrap());
             return result;
         }
         else {
+            let l = if (X.rows > 1) {
+                X.rows
+            }
+            else {
+                X.cols
+            };
             loop {
-                if i == X.rows {
+                if i == l {
                     break;
                 }
-                let mut num_i = if (X.cols == 1) {
+                let mut num_i = if (X.rows > 1) {
                     X.get(i, 0).unwrap()
                 }
                 else {
                     X.get(0, i).unwrap()
                 };
-                num += num_i
+                num += num_i;
                 i += 1;
             };
-            result.set(0, 0, num / l);
+            result.set(0, 0, num / den);
         }
 
         return result;
@@ -275,7 +252,7 @@ fn mean(ref X: MutMatrix<FP16x16>, axis: u32) -> MutMatrix<FP16x16> {
         // Average along rows
         if axis == 0 {
             let mut result = MutMatrixImpl::<FP16x16>::new(X.rows, 1);
-            let l = FixedTrait::<FP16x16>::new_unscaled(X.cols, false);
+            let den = FixedTrait::<FP16x16>::new_unscaled(X.cols, false);
             let mut row = 0;
 
             loop {
@@ -291,7 +268,7 @@ fn mean(ref X: MutMatrix<FP16x16>, axis: u32) -> MutMatrix<FP16x16> {
                     row_num += X.get(row, col).unwrap();
                     col += 1;
                 };
-                result.set(row, 0, row_num / l);
+                result.set(row, 0, row_num / den);
                 row += 1;
             };
 
@@ -301,7 +278,7 @@ fn mean(ref X: MutMatrix<FP16x16>, axis: u32) -> MutMatrix<FP16x16> {
         // Average along columns
         else {
             let mut result = MutMatrixImpl::<FP16x16>::new(1, X.cols);
-            let l = FixedTrait::<FP16x16>::new_unscaled(X.rows, false);
+            let den = FixedTrait::<FP16x16>::new_unscaled(X.rows, false);
             let mut col = 0;
 
             loop {
@@ -317,12 +294,12 @@ fn mean(ref X: MutMatrix<FP16x16>, axis: u32) -> MutMatrix<FP16x16> {
                     col_num += X.get(row, col).unwrap();
                     row += 1;
                 };
-                result.set(0, col, col_num / l);
+                result.set(0, col, col_num / den);
                 col += 1;
             };
-        }
         
-        return result;
+            return result;
+        }
     }
 }
 
@@ -331,31 +308,45 @@ fn mean_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>, axi
     // Returns a matrix with shape (X.rows, 1) if axis == 0 or (1, X.cols) if axis == 1
 
     // Weight assertions
-    assert(weights.rows == X.rows, 'Weights shape mismatch');
-    assert(weights.cols == 1, 'Weights not row vector');
+    if X.rows > 1 {
+        assert(weights.rows == X.rows && weights.cols == 1, 'Weights shape mismatch');
+    }
+    else {
+        assert(weights.cols == X.cols && weights.rows == 1, 'Weights shape mismatch');
+    }
 
     // Vector case
     if X.rows == 1 || X.cols == 1 {
+
+        assert(X.rows != X.cols, '1 element input');
     
         let mut result = MutMatrixImpl::<FP16x16>::new(1, 1);
         let mut num = FixedTrait::<FP16x16>::new_unscaled(0, false);
         let mut i = 0;
 
-        let l = FixedTrait::<FP16x16>::new_unscaled(X.data.len(), false);
-        loop {
-            if i == X.rows {
-                break;
-            }
-            if X.rows != 1 {
-                num +=  X.get(i, 0).unwrap() * weights.get(i, 0).unwrap();
+        let den = FixedTrait::<FP16x16>::new_unscaled(X.data.len(), false);
+        
+        let l = if (X.rows > 1) {
+                X.rows
             }
             else {
-                result.set(0, 0, X.get(0, 0).unwrap());
+                X.cols
+            };
+        
+        loop {
+            if i == l {
                 break;
             }
+            let mut num_i = if (X.rows > 1) {
+                X.get(i, 0).unwrap() * weights.get(i, 0).unwrap()
+            }
+            else {
+                X.get(0, i).unwrap() * weights.get(0, i).unwrap()
+            };
+            num += num_i;
             i += 1;
         };
-        result.set(0, 0, num / l);
+        result.set(0, 0, num / den);
         
         return result;
     }
@@ -368,7 +359,7 @@ fn mean_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>, axi
         if axis == 0 {
 
             let mut result = MutMatrixImpl::<FP16x16>::new(X.rows, 1);
-            let l = FixedTrait::<FP16x16>::new_unscaled(X.cols, false);
+            let den = FixedTrait::<FP16x16>::new_unscaled(X.cols, false);
             let mut row = 0;
 
             loop {
@@ -384,7 +375,7 @@ fn mean_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>, axi
                     row_num += X.get(row, col).unwrap() * weights.get(col, 0).unwrap();
                     col += 1;
                 };
-                result.set(row, 0, row_num / l);
+                result.set(row, 0, row_num / den);
                 row += 1;
             };
 
@@ -394,7 +385,7 @@ fn mean_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>, axi
         // Average along columns
         else {
             let mut result = MutMatrixImpl::<FP16x16>::new(1, X.cols);
-            let l = FixedTrait::<FP16x16>::new_unscaled(X.rows, false);
+            let den = FixedTrait::<FP16x16>::new_unscaled(X.rows, false);
             let mut col = 0;
 
             loop {
@@ -410,13 +401,49 @@ fn mean_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>, axi
                     col_num += X.get(row, col).unwrap() * weights.get(row, 0).unwrap();
                     row += 1;
                 };
-                result.set(0, col, col_num / l);
+                result.set(0, col, col_num / den);
                 col += 1;
             };
 
             return result;
         }
     }
+}
+
+fn covariance_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>) -> MutMatrix<FP16x16> {
+    assert(X.rows == weights.rows, 'Data/weight length mismatch');
+    
+    // Transform weights vector into (l,l) diagonal matrix
+    let mut W = diagonalize(ref weights);
+
+    // Take dot product of W and X and center it
+    // X_weighted = np.dot(W, X), shape = (m,n)
+    let mut X_weighted = W.matmul(ref X);
+
+    // mean_weighted = (np.dot(weights, X) / np.sum(weights)), shape = (n,1)
+    let mut mean_weighted_num = weights.matmul(ref X);
+    let mut mean_weighted_den = weights.reduce_sum(0, false);
+    // let mut mean_weighted = weights.matmul(ref X) / weights.reduce_sum(0, false); 
+    'w_max_x'.print();
+    test_matrix(ref mean_weighted_num);
+    'w_sum'.print();
+    test_matrix(ref mean_weighted_den);
+
+    return W;
+
+    // let mut mean_weighted = mean_weighted_num / mean_weighted_den;
+
+    // // X_centered = X_weighted - mean_weighted, shape = (n,n)
+    // let mut X_centered = X_weighted - mean_weighted;
+
+    // // covariance_matrix = centered_data.T.dot(centered_data) / (np.sum(weights) - 1)
+    // let mut X_centered_T: MutMatrix<FP16x16> = X_centered.transpose(array![0,1].span());
+    // let mut one = MutMatrixImpl::<FP16x16>::new(1,1);
+    // one.set(0, 0, FixedTrait::<FP16x16>::new_unscaled(1, false)); 
+    // let mut den = weights.reduce_sum(0, false) - one;
+    // let mut Cov_X = X_centered_T.matmul(ref X_centered) / den; 
+
+    // return Cov_X;
 }
 
 fn main() {
@@ -508,36 +535,28 @@ fn main() {
     // Y4_data.push(FP16x16 { mag: 393216, sign: false }); // 6
     // let mut Y4 = MutMatrix { data: Y4_data, rows: 2, cols: 3};
 
-    let mut X = MutMatrixImpl::<FP16x16>::new(1,3);
+    let mut X = MutMatrixImpl::<FP16x16>::new(3,1);
     X.set(0, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
-    X.set(0, 1, FixedTrait::<FP16x16>::new_unscaled(2, false));
-    X.set(0, 2, FixedTrait::<FP16x16>::new_unscaled(3, false));
+    X.set(1, 0, FixedTrait::<FP16x16>::new_unscaled(2, false));
+    X.set(2, 0, FixedTrait::<FP16x16>::new_unscaled(3, false));
+    X.set(0, 1, FixedTrait::<FP16x16>::new_unscaled(5, false));
+    X.set(1, 1, FixedTrait::<FP16x16>::new_unscaled(3, false));
+    X.set(2, 1, FixedTrait::<FP16x16>::new_unscaled(2, false));
+    X.set(0, 2, FixedTrait::<FP16x16>::new_unscaled(4, false));
+    X.set(1, 2, FixedTrait::<FP16x16>::new_unscaled(1, false));
+    X.set(2, 2, FixedTrait::<FP16x16>::new_unscaled(7, false));
 
-    let mut Y = MutMatrixImpl::<FP16x16>::new(1,3);
+    let mut Y = MutMatrixImpl::<FP16x16>::new(3,1);
     Y.set(0, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
-    Y.set(0, 1, FixedTrait::<FP16x16>::new_unscaled(2, false));
-    Y.set(0, 2, FixedTrait::<FP16x16>::new_unscaled(3, false));
+    Y.set(1, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
+    Y.set(2, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
     // Y.set(1, 1, FixedTrait::<FP16x16>::new_unscaled(4, false));
     // Y.set(2, 0, FixedTrait::<FP16x16>::new_unscaled(5, false));
     // Y.set(2, 1, FixedTrait::<FP16x16>::new_unscaled(6, false));
 
     // let mut Z = exponential_weights(97, 3);
-
-    let mut Y_T = Y.transpose(array![0,1].span());
-    let mut Z = X.matmul(ref Y_T);
     
-    test_matrix(ref Z);
-
-    // let result_rows = *Z.shape.at(0);
-    // let result_cols = if (Z.shape.len() != 1) {
-    //         *Z.shape.at(1)
-    //     }
-    //     else {
-    //         1
-    //     };
-    // result_rows.print();
-    // result_cols.print();
-    // let val = Z.at(array![0].span());
-    // val.print();
+    let mut sigma2 = covariance_weighted(ref X, ref Y);
+    // test_matrix(ref sigma2);
     
     }
