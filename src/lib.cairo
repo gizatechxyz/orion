@@ -359,7 +359,6 @@ fn mean_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>, axi
         if axis == 0 {
 
             let mut result = MutMatrixImpl::<FP16x16>::new(X.rows, 1);
-            let den = FixedTrait::<FP16x16>::new_unscaled(X.cols, false);
             let mut row = 0;
 
             loop {
@@ -375,7 +374,7 @@ fn mean_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>, axi
                     row_num += X.get(row, col).unwrap() * weights.get(col, 0).unwrap();
                     col += 1;
                 };
-                result.set(row, 0, row_num / den);
+                result.set(row, 0, row_num);
                 row += 1;
             };
 
@@ -385,7 +384,6 @@ fn mean_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>, axi
         // Average along columns
         else {
             let mut result = MutMatrixImpl::<FP16x16>::new(1, X.cols);
-            let den = FixedTrait::<FP16x16>::new_unscaled(X.rows, false);
             let mut col = 0;
 
             loop {
@@ -401,7 +399,7 @@ fn mean_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>, axi
                     col_num += X.get(row, col).unwrap() * weights.get(row, 0).unwrap();
                     row += 1;
                 };
-                result.set(0, col, col_num / den);
+                result.set(0, col, col_num);
                 col += 1;
             };
 
@@ -410,40 +408,106 @@ fn mean_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>, axi
     }
 }
 
-fn covariance_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>) -> MutMatrix<FP16x16> {
-    assert(X.rows == weights.rows, 'Data/weight length mismatch');
+fn covariance(ref X: MutMatrix<FP16x16>) -> MutMatrix<FP16x16> {
+    assert(X.rows > 1 && X.cols > 1, 'Not enough obs');
     
-    // Transform weights vector into (l,l) diagonal matrix
-    let mut W = diagonalize(ref weights);
+    let m = X.rows; // Num observations
+    let n = X.cols; // Num variables
+    let mut Cov_X = MutMatrixImpl::<FP16x16>::new(n, n);
+    let mut Mean_X = mean(ref X, 1);
 
-    // Take dot product of W and X and center it
-    // X_weighted = np.dot(W, X), shape = (m,n)
-    let mut X_weighted = W.matmul(ref X);
+    let mut i = 0;
+    loop {
+        if i == n {
+            break;
+        }
+        let mut j = 0;
+        loop {
+            if j == n {
+                break;
+            }
+            let mut k = 0;
+            let mut Cov_X_i_j = FixedTrait::<FP16x16>::new_unscaled(0, false);
+            loop {
+                if k == m {
+                    break;
+                }
+                Cov_X_i_j += ((X.get(k, i).unwrap() - Mean_X.get(0, i).unwrap()) * (X.get(k, j).unwrap() - Mean_X.get(0, j).unwrap()));       
+                k += 1;
+            };
+            Cov_X_i_j /= FixedTrait::<FP16x16>::new_unscaled(m - 1, false);
+            Cov_X.set(i, j, Cov_X_i_j);
+            Cov_X.set(j, i, Cov_X_i_j);
+            j += 1;
+        };
+        i += 1;
+    };
 
-    // mean_weighted = (np.dot(weights, X) / np.sum(weights)), shape = (n,1)
-    let mut mean_weighted_num = weights.matmul(ref X);
-    let mut mean_weighted_den = weights.reduce_sum(0, false);
-    // let mut mean_weighted = weights.matmul(ref X) / weights.reduce_sum(0, false); 
-    'w_max_x'.print();
-    test_matrix(ref mean_weighted_num);
-    'w_sum'.print();
-    test_matrix(ref mean_weighted_den);
+    return Cov_X;
+}
 
-    return W;
+fn covariance_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>) -> MutMatrix<FP16x16> {
+    assert(X.rows > 1 && X.cols > 1, 'Not enough obs');
+    assert(weights.rows == X.rows && weights.cols == 1, 'Weights shape mismatch');
 
-    // let mut mean_weighted = mean_weighted_num / mean_weighted_den;
+    // Normalize weights
+    let mut normalized_weights = MutMatrixImpl::<FP16x16>::new(weights.rows, 1);
+    let mut total_weight = weights.reduce_sum(0, false);
+    let mut i = 0;
+    loop {
+        if i == weights.rows {
+            break;
+        }
+        let w_i = weights.get(i, 0).unwrap();
+        normalized_weights.set(i, 0, w_i / total_weight.get(0, 0).unwrap());
+        i += 1;
+    };
 
-    // // X_centered = X_weighted - mean_weighted, shape = (n,n)
-    // let mut X_centered = X_weighted - mean_weighted;
+    let m = X.rows; // Num observations
+    let n = X.cols; // Num variables
+    let mut Cov_X = MutMatrixImpl::<FP16x16>::new(n, n);
+    let mut Mean_X = mean_weighted(ref X, ref weights, 1);
 
-    // // covariance_matrix = centered_data.T.dot(centered_data) / (np.sum(weights) - 1)
-    // let mut X_centered_T: MutMatrix<FP16x16> = X_centered.transpose(array![0,1].span());
-    // let mut one = MutMatrixImpl::<FP16x16>::new(1,1);
-    // one.set(0, 0, FixedTrait::<FP16x16>::new_unscaled(1, false)); 
-    // let mut den = weights.reduce_sum(0, false) - one;
-    // let mut Cov_X = X_centered_T.matmul(ref X_centered) / den; 
+    let mut adj_weight_sum = FixedTrait::<FP16x16>::new_unscaled(0, false);
+    i = 0;
+    loop {
+        if i == normalized_weights.rows {
+            break;
+        }
+        let mut w_i = normalized_weights.get(i, 0).unwrap();
+        adj_weight_sum += (w_i * w_i);
+        i += 1;
+    };
 
-    // return Cov_X;
+    i = 0;
+    loop {
+        if i == n {
+            break;
+        }
+        let mut j = 0;
+        loop {
+            if j == n {
+                break;
+            }
+            let mut k = 0;
+            let mut Cov_X_i_j = FixedTrait::<FP16x16>::new_unscaled(0, false);
+            loop {
+                if k == m {
+                    break;
+                }
+                Cov_X_i_j += (normalized_weights.get(k, 0).unwrap() * (X.get(k, i).unwrap() - Mean_X.get(0, i).unwrap()) * (X.get(k, j).unwrap() - Mean_X.get(0, j).unwrap()));       
+                k += 1;
+            };
+            let mut den = FixedTrait::<FP16x16>::new_unscaled(1, false) - adj_weight_sum;
+            Cov_X_i_j /= den;
+            Cov_X.set(i, j, Cov_X_i_j);
+            Cov_X.set(j, i, Cov_X_i_j);
+            j += 1;
+        };
+        i += 1;
+    };
+
+    return Cov_X;
 }
 
 fn main() {
@@ -535,28 +599,35 @@ fn main() {
     // Y4_data.push(FP16x16 { mag: 393216, sign: false }); // 6
     // let mut Y4 = MutMatrix { data: Y4_data, rows: 2, cols: 3};
 
-    let mut X = MutMatrixImpl::<FP16x16>::new(3,1);
-    X.set(0, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
-    X.set(1, 0, FixedTrait::<FP16x16>::new_unscaled(2, false));
-    X.set(2, 0, FixedTrait::<FP16x16>::new_unscaled(3, false));
-    X.set(0, 1, FixedTrait::<FP16x16>::new_unscaled(5, false));
-    X.set(1, 1, FixedTrait::<FP16x16>::new_unscaled(3, false));
-    X.set(2, 1, FixedTrait::<FP16x16>::new_unscaled(2, false));
-    X.set(0, 2, FixedTrait::<FP16x16>::new_unscaled(4, false));
-    X.set(1, 2, FixedTrait::<FP16x16>::new_unscaled(1, false));
-    X.set(2, 2, FixedTrait::<FP16x16>::new_unscaled(7, false));
-
-    let mut Y = MutMatrixImpl::<FP16x16>::new(3,1);
-    Y.set(0, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
-    Y.set(1, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
-    Y.set(2, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
+    // let mut Y = MutMatrixImpl::<FP16x16>::new(3,1);
+    // Y.set(0, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
+    // Y.set(1, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
+    // Y.set(2, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
     // Y.set(1, 1, FixedTrait::<FP16x16>::new_unscaled(4, false));
     // Y.set(2, 0, FixedTrait::<FP16x16>::new_unscaled(5, false));
     // Y.set(2, 1, FixedTrait::<FP16x16>::new_unscaled(6, false));
 
-    // let mut Z = exponential_weights(97, 3);
-    
-    let mut sigma2 = covariance_weighted(ref X, ref Y);
-    // test_matrix(ref sigma2);
+    let mut X = MutMatrixImpl::<FP16x16>::new(4,3);
+    X.set(0, 0, FixedTrait::<FP16x16>::new_unscaled(1, false));
+    X.set(1, 0, FixedTrait::<FP16x16>::new_unscaled(2, false));
+    X.set(2, 0, FixedTrait::<FP16x16>::new_unscaled(3, false));
+    X.set(3, 0, FixedTrait::<FP16x16>::new_unscaled(4, false));
+    X.set(0, 1, FixedTrait::<FP16x16>::new_unscaled(5, false));
+    X.set(1, 1, FixedTrait::<FP16x16>::new_unscaled(6, false));
+    X.set(2, 1, FixedTrait::<FP16x16>::new_unscaled(7, false));
+    X.set(3, 1, FixedTrait::<FP16x16>::new_unscaled(8, false));
+    X.set(0, 2, FixedTrait::<FP16x16>::new_unscaled(2, false));
+    X.set(1, 2, FixedTrait::<FP16x16>::new_unscaled(2, false));
+    X.set(2, 2, FixedTrait::<FP16x16>::new_unscaled(4, false));
+    X.set(3, 2, FixedTrait::<FP16x16>::new_unscaled(4, false));
+
+    let mut weights = MutMatrixImpl::<FP16x16>::new(4, 1);
+    weights.set(0, 0, FixedTrait::<FP16x16>::new(6554, false)); // 0.1
+    weights.set(1, 0, FixedTrait::<FP16x16>::new(13107, false)); // 0.2
+    weights.set(2, 0, FixedTrait::<FP16x16>::new(19661, false)); // 0.3
+    weights.set(3, 0, FixedTrait::<FP16x16>::new(26214, false)); // 0.4
+
+    let mut sigma2 = covariance_weighted(ref X, ref weights);
+    test_matrix(ref sigma2);
     
     }

@@ -71,13 +71,6 @@ impl MutMatrixImpl<
         return result.from_tensor();
     }
 
-    // /// Returns the sum
-    // fn reduce_sum<+TensorTrait<T>>(ref self: MutMatrix<T>, axis: usize, keepdims: bool) -> Tensor<T> {
-    //     let mut t = self.to_tensor();
-    //     let mut result = t.reduce_sum(axis, keepdims);
-    //     return result;
-    // }
-
     /// Returns the matrix power
     fn pow<+TensorTrait<T>>(ref self: MutMatrix<T>, ref other: MutMatrix<T>) -> MutMatrix<T> {
         let mut t1 = self.to_tensor();
