@@ -5,7 +5,7 @@ use orion::operators::ml::tree_ensemble::tree_ensemble_classifier::{
     TreeEnsembleClassifier, POST_TRANSFORM, TreeEnsembleClassifierTrait
 };
 use orion::operators::tensor::implementations::tensor_fp16x16::relative_eq;
-use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
+use orion::operators::matrix::matrix::{MutMatrix, MutMatrixImpl};
 
 #[test]
 #[available_gas(200000000000)]

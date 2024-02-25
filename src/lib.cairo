@@ -640,6 +640,4 @@ fn main() {
     // X.cols.print();
     // test_matrix(ref X);
 
-    'S_1 sign incorrect'.print();
-
     }

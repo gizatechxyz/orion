@@ -4,7 +4,7 @@ use orion::operators::ml::tree_ensemble::core::{NODE_MODES, TreeEnsembleAttribut
 use orion::operators::ml::tree_ensemble::tree_ensemble_regressor::{
     TreeEnsembleRegressor, POST_TRANSFORM, TreeEnsembleRegressorTrait, AGGREGATE_FUNCTION
 };
-use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
+use orion::operators::matrix::matrix::{MutMatrix, MutMatrixImpl};
 use orion::operators::tensor::implementations::tensor_fp16x16::relative_eq;
 use core::debug::PrintTrait;
 
