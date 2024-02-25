@@ -1,7 +1,7 @@
 use orion::operators::tensor::{Tensor, TensorTrait, U32Tensor};
 use core::array::{ArrayTrait, SpanTrait};
 use core::option::OptionTrait;
-use orion::operators::matrix::{MutMatrixTrait, MutMatrix, MutMatrixImpl};
+use orion::operators::matrix::matrix::{MutMatrixTrait, MutMatrix, MutMatrixImpl};
 
 /// Cf: NNTrait::split docstring
 fn split<

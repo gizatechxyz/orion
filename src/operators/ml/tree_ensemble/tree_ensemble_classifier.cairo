@@ -3,7 +3,7 @@ use core::clone::Clone;
 use core::box::BoxTrait;
 use core::traits::Into;
 use core::option::OptionTrait;
-use orion::operators::matrix::MutMatrixTrait;
+use orion::operators::matrix::matrix::MutMatrixTrait;
 use core::array::SpanTrait;
 use core::nullable::NullableTrait;
 use core::dict::Felt252DictTrait;
@@ -18,7 +18,7 @@ use orion::utils::get_row;
 use alexandria_merkle_tree::merkle_tree::{pedersen::PedersenHasherImpl};
 use alexandria_data_structures::array_ext::{SpanTraitExt};
 
-use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
+use orion::operators::matrix::matrix::{MutMatrix, MutMatrixImpl};
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
 
 use core::debug::PrintTrait;

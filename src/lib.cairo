@@ -8,7 +8,7 @@ use core::array::ArrayTrait;
 use core::option::OptionTrait;
 use orion::numbers::NumberTrait;
 use orion::numbers::fixed_point::implementations::fp16x16::math::core::{ceil, abs};
-use orion::operators::matrix::{MutMatrix, MutMatrixTrait, MutMatrixImpl};
+use orion::operators::matrix::matrix::{MutMatrix, MutMatrixTrait, MutMatrixImpl};
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
 use orion::numbers::fixed_point::implementations::fp16x16::core::{FixedTrait, FP16x16, FP16x16Add, FP16x16Div, FP16x16Mul, FP16x16Sub, FP16x16Impl};
 use orion::operators::tensor::{TensorTrait, Tensor};
@@ -512,27 +512,27 @@ fn covariance_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16
 
 fn main() {
     
-    // let mut X_data = VecTrait::<NullableVec, FP16x16>::new();
-    // X_data.push(FP16x16 { mag: 131072, sign: false }); // 2
-    // X_data.push(FP16x16 { mag: 65536, sign: false }); // 1
-    // X_data.push(FP16x16 { mag: 65536, sign: true }); // -1
-    // X_data.push(FP16x16 { mag: 196608, sign: true }); // -3
-    // X_data.push(FP16x16 { mag: 65536, sign: true }); // -1
-    // X_data.push(FP16x16 { mag: 131072, sign: false }); // 2
-    // X_data.push(FP16x16 { mag: 131072, sign: true }); // -2
-    // X_data.push(FP16x16 { mag: 65536, sign: false }); // 1
-    // X_data.push(FP16x16 { mag: 131072, sign: false }); // 1
-    // let mut X = MutMatrix { data: X_data, rows: 3, cols: 3};
+    let mut X_data = VecTrait::<NullableVec, FP16x16>::new();
+    X_data.push(FP16x16 { mag: 131072, sign: false }); // 2
+    X_data.push(FP16x16 { mag: 65536, sign: false }); // 1
+    X_data.push(FP16x16 { mag: 65536, sign: true }); // -1
+    X_data.push(FP16x16 { mag: 196608, sign: true }); // -3
+    X_data.push(FP16x16 { mag: 65536, sign: true }); // -1
+    X_data.push(FP16x16 { mag: 131072, sign: false }); // 2
+    X_data.push(FP16x16 { mag: 131072, sign: true }); // -2
+    X_data.push(FP16x16 { mag: 65536, sign: false }); // 1
+    X_data.push(FP16x16 { mag: 131072, sign: false }); // 1
+    let mut X = MutMatrix { data: X_data, rows: 3, cols: 3};
 
-    // let mut y_data = VecTrait::<NullableVec, FP16x16>::new();
-    // y_data.push(FP16x16 { mag: 524288, sign: false }); // 8
-    // y_data.push(FP16x16 { mag: 720896, sign: true }); // -11
-    // y_data.push(FP16x16 { mag: 196608, sign: true }); // -3
-    // let mut y = MutMatrix { data: y_data, rows: 3, cols: 1};
+    let mut y_data = VecTrait::<NullableVec, FP16x16>::new();
+    y_data.push(FP16x16 { mag: 524288, sign: false }); // 8
+    y_data.push(FP16x16 { mag: 720896, sign: true }); // -11
+    y_data.push(FP16x16 { mag: 196608, sign: true }); // -3
+    let mut y = MutMatrix { data: y_data, rows: 3, cols: 1};
 
     // Linalg test
-    // let mut S = linalg_solve(ref X, ref y);
-    // test_matrix(ref S);
+    let mut S = linalg_solve(ref X, ref y);
+    test_matrix(ref S);
     // Solution is [2, 3, -1] in FP16x16 format!
 
     // let mut Y1_data = VecTrait::<NullableVec, FP16x16>::new();
@@ -627,7 +627,19 @@ fn main() {
     weights.set(2, 0, FixedTrait::<FP16x16>::new(19661, false)); // 0.3
     weights.set(3, 0, FixedTrait::<FP16x16>::new(26214, false)); // 0.4
 
-    let mut sigma2 = covariance_weighted(ref X, ref weights);
-    test_matrix(ref sigma2);
+    // let mut mean_X = mean_weighted(ref X, ref weights, 1);
+    // let mut cov_X = covariance_weighted(ref X, ref weights);
+    // 'shape'.print();
+    // cov_X.rows.print();
+    // cov_X.cols.print();
+    // test_matrix(ref cov_X);
     
+    // let mut X = exponential_weights(97, 3);
+    // 'shape='.print();
+    // X.rows.print();
+    // X.cols.print();
+    // test_matrix(ref X);
+
+    'S_1 sign incorrect'.print();
+
     }
