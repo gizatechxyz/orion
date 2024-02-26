@@ -4,7 +4,7 @@ use orion::operators::matrix::matrix::{MutMatrix, MutMatrixTrait, MutMatrixImpl}
 use orion::operators::matrix::matrix_statistics::MatrixStatisticsTrait;
 
 #[test]
-#[available_gas(2000000000)]
+#[available_gas(200000000000)]
 fn exponential_weights_test() {
     let ERROR_THRESHOLD = FixedTrait::<FP16x16>::new_unscaled(100, false); // ~0.00153 error threshold
 
@@ -17,7 +17,7 @@ fn exponential_weights_test() {
 }
 
 #[test]
-#[available_gas(2000000000)]
+#[available_gas(200000000000)]
 fn mean_test_1D() {
     let ERROR_THRESHOLD = FixedTrait::<FP16x16>::new_unscaled(100, false); // ~0.00153 error threshold
 
@@ -28,12 +28,12 @@ fn mean_test_1D() {
 
     let mut mu_X = MatrixStatisticsTrait::<FP16x16>::mean(ref X, 0);
 
-    assert(mu_X.rows == 1 & mu_X.cols == 1, 'Shape incorrect');
+    assert(mu_X.rows == 1 && mu_X.cols == 1, 'Shape incorrect');
     assert(FixedTrait::abs(mu_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new_unscaled(2, false)) < ERROR_THRESHOLD, 'mean_X incorrect');
 }
 
 #[test]
-#[available_gas(2000000000)]
+#[available_gas(200000000000)]
 fn mean_test_2D_i() {
     let ERROR_THRESHOLD = FixedTrait::<FP16x16>::new_unscaled(100, false); // ~0.00153 error threshold
     
@@ -53,7 +53,7 @@ fn mean_test_2D_i() {
 
     let mut mu_X = MatrixStatisticsTrait::<FP16x16>::mean(ref X, 0);
 
-    assert(mu_X.rows == 4 & mu_X.cols == 1, 'Shape incorrect');
+    assert(mu_X.rows == 4 && mu_X.cols == 1, 'Shape incorrect');
     assert(FixedTrait::abs(mu_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new(174762, false)) < ERROR_THRESHOLD, 'mean_X_1 incorrect'); // ~2.67
     assert(FixedTrait::abs(mu_X.get(1, 0).unwrap() - FixedTrait::<FP16x16>::new(218453, false)) < ERROR_THRESHOLD, 'mean_X_2 incorrect'); // ~3.33
     assert(FixedTrait::abs(mu_X.get(2, 0).unwrap() - FixedTrait::<FP16x16>::new(305834, false)) < ERROR_THRESHOLD, 'mean_X_3 incorrect'); // ~4.67
@@ -61,7 +61,7 @@ fn mean_test_2D_i() {
 }
 
 #[test]
-#[available_gas(2000000000)]
+#[available_gas(200000000000)]
 fn mean_test_2D_ii() {
     let ERROR_THRESHOLD = FixedTrait::<FP16x16>::new_unscaled(100, false); // ~0.00153 error threshold
     
@@ -81,14 +81,14 @@ fn mean_test_2D_ii() {
 
     let mut mu_X = MatrixStatisticsTrait::<FP16x16>::mean(ref X, 1);
 
-    assert(mu_X.rows == 1 & mu_X.cols == 3, 'Shape incorrect');
+    assert(mu_X.rows == 1 && mu_X.cols == 3, 'Shape incorrect');
     assert(FixedTrait::abs(mu_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new(163840, false)) < ERROR_THRESHOLD, 'mean_X_1 incorrect'); // ~2.5
     assert(FixedTrait::abs(mu_X.get(1, 0).unwrap() - FixedTrait::<FP16x16>::new(425984, false)) < ERROR_THRESHOLD, 'mean_X_2 incorrect'); // ~6.5
     assert(FixedTrait::abs(mu_X.get(2, 0).unwrap() - FixedTrait::<FP16x16>::new(196608, false)) < ERROR_THRESHOLD, 'mean_X_3 incorrect'); // ~3
 }
 
 #[test]
-#[available_gas(2000000000)]
+#[available_gas(200000000000)]
 fn mean_weighted_test_i() {
     let ERROR_THRESHOLD = FixedTrait::<FP16x16>::new_unscaled(100, false); // ~0.00153 error threshold
     
@@ -113,7 +113,7 @@ fn mean_weighted_test_i() {
 
     let mut mu_X = MatrixStatisticsTrait::<FP16x16>::mean_weighted(ref X, ref weights, 0);
 
-    assert(mu_X.rows == 4 & mu_X.cols == 1, 'Shape incorrect');
+    assert(mu_X.rows == 4 && mu_X.cols == 1, 'Shape incorrect');
     assert(FixedTrait::abs(mu_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new(163839, false)) < ERROR_THRESHOLD, 'mean_X_1 incorrect'); // ~2.5
     assert(FixedTrait::abs(mu_X.get(1, 0).unwrap() - FixedTrait::<FP16x16>::new(183500, false)) < ERROR_THRESHOLD, 'mean_X_2 incorrect'); // ~2.8
     assert(FixedTrait::abs(mu_X.get(2, 0).unwrap() - FixedTrait::<FP16x16>::new(294911, false)) < ERROR_THRESHOLD, 'mean_X_3 incorrect'); // ~4.5
@@ -121,7 +121,7 @@ fn mean_weighted_test_i() {
 }
 
 #[test]
-#[available_gas(2000000000)]
+#[available_gas(200000000000)]
 fn mean_weighted_test_ii() {
     let ERROR_THRESHOLD = FixedTrait::<FP16x16>::new_unscaled(100, false); // ~0.00153 error threshold
     
@@ -147,14 +147,14 @@ fn mean_weighted_test_ii() {
 
     let mut mu_X = MatrixStatisticsTrait::<FP16x16>::mean_weighted(ref X, ref weights, 1);
 
-    assert(mu_X.rows == 1 & mu_X.cols == 3, 'Shape incorrect');
+    assert(mu_X.rows == 1 && mu_X.cols == 3, 'Shape incorrect');
     assert(FixedTrait::abs(mu_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new(196607, false)) < ERROR_THRESHOLD, 'mean_X_1 incorrect'); // ~3.0
     assert(FixedTrait::abs(mu_X.get(1, 0).unwrap() - FixedTrait::<FP16x16>::new(458751, false)) < ERROR_THRESHOLD, 'mean_X_2 incorrect'); // ~7.0
     assert(FixedTrait::abs(mu_X.get(2, 0).unwrap() - FixedTrait::<FP16x16>::new(222822, false)) < ERROR_THRESHOLD, 'mean_X_3 incorrect'); // ~3.4
 }
 
 #[test]
-#[available_gas(2000000000)]
+#[available_gas(200000000000)]
 fn covariance_test() {
     let ERROR_THRESHOLD = FixedTrait::<FP16x16>::new_unscaled(100, false); // ~0.00153 error threshold
     
@@ -174,7 +174,7 @@ fn covariance_test() {
 
     let mut sigma2_X = MatrixStatisticsTrait::<FP16x16>::covariance(ref X);
 
-    assert(sigma2_X.rows == 3 & sigma2_X.cols == 3, 'Shape incorrect');
+    assert(sigma2_X.rows == 3 && sigma2_X.cols == 3, 'Shape incorrect');
     assert(FixedTrait::abs(sigma2_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new(109226, false)) < ERROR_THRESHOLD, 'sigma2_X_11 incorrect'); // ~1.67
     assert(FixedTrait::abs(sigma2_X.get(1, 0).unwrap() - FixedTrait::<FP16x16>::new(109226, false)) < ERROR_THRESHOLD, 'sigma2_X_21 incorrect'); // ~1.67
     assert(FixedTrait::abs(sigma2_X.get(2, 0).unwrap() - FixedTrait::<FP16x16>::new(87381, false)) < ERROR_THRESHOLD, 'sigma2_X_31 incorrect'); // ~1.33
@@ -187,7 +187,7 @@ fn covariance_test() {
 }
 
 #[test]
-#[available_gas(2000000000)]
+#[available_gas(200000000000)]
 fn covariance_weighted_test() {
     let ERROR_THRESHOLD = FixedTrait::<FP16x16>::new_unscaled(100, false); // ~0.00153 error threshold
     
@@ -213,7 +213,7 @@ fn covariance_weighted_test() {
 
     let mut sigma2_X = MatrixStatisticsTrait::<FP16x16>::covariance_weighted(ref X, ref weights);
 
-    assert(sigma2_X.rows == 3 & sigma2_X.cols == 3, 'Shape incorrect');
+    assert(sigma2_X.rows == 3 && sigma2_X.cols == 3, 'Shape incorrect');
     assert(FixedTrait::abs(sigma2_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new(93613, false)) < ERROR_THRESHOLD, 'sigma2_X_11 incorrect'); // ~1.43
     assert(FixedTrait::abs(sigma2_X.get(1, 0).unwrap() - FixedTrait::<FP16x16>::new(93613, false)) < ERROR_THRESHOLD, 'sigma2_X_21 incorrect'); // ~1.43
     assert(FixedTrait::abs(sigma2_X.get(2, 0).unwrap() - FixedTrait::<FP16x16>::new(74889, false)) < ERROR_THRESHOLD, 'sigma2_X_31 incorrect'); // ~1.14

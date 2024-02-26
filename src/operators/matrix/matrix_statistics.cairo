@@ -9,7 +9,7 @@ use orion::operators::tensor::implementations::tensor_fp16x16::FP16x16Tensor;
 use orion::operators::matrix::matrix::{MutMatrix, MutMatrixTrait, MutMatrixImpl};
 
 /// Trait
-trait MatrixStatisticsTrait<FP16x16> {
+trait MatrixStatisticsTrait<T> {
     /// # MatrixStatisticsTrait::exponential_weights
     ///
     /// ```rust 
@@ -30,7 +30,7 @@ trait MatrixStatisticsTrait<FP16x16> {
     /// Output:
     /// [FP16x16 { mag: 1967, sign: false }, FP16x16 { mag: 1907, sign: false }, FP16x16 { mag: 1850, sign: false }]
     
-    fn exponential_weights(lambda_unscaled: u32, l: u32) -> MutMatrix<FP16x16> ;
+    fn exponential_weights(lambda_unscaled: u32, l: u32) -> MutMatrix<T> ;
     
     /// # MatrixStatisticsTrait::mean
     ///
@@ -80,7 +80,7 @@ trait MatrixStatisticsTrait<FP16x16> {
     /// mu1_X: [FP16x16 { mag: 174762, sign: false }, FP16x16 { mag: 218453, sign: false }, FP16x16 { mag: 305834, sign: false }, FP16x16 { mag: 349525, sign: false }]
     /// mu2_X: [FP16x16 { mag: 163840, sign: false }, FP16x16 { mag: 425984, sign: false }, FP16x16 { mag: 196608, sign: false }]
     
-    fn mean(ref X: MutMatrix<FP16x16>, axis: u32) -> MutMatrix<FP16x16>;
+    fn mean(ref X: MutMatrix<T>, axis: u32) -> MutMatrix<T>;
 
     /// # MatrixStatisticsTrait::mean_weighted
     ///
@@ -135,7 +135,7 @@ trait MatrixStatisticsTrait<FP16x16> {
     /// mu1_X: [FP16x16 { mag: 163839, sign: false }, FP16x16 { mag: 183500, sign: false }, FP16x16 { mag: 294911, sign: false }, FP16x16 { mag: 314572, sign: false }]
     /// mu2_X: [FP16x16 { mag: 196607, sign: false }, FP16x16 { mag: 458751, sign: false }, FP16x16 { mag: 222822, sign: false }]
     
-    fn mean_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>, axis: u32) -> MutMatrix<FP16x16>;
+    fn mean_weighted(ref X: MutMatrix<T>, ref weights: MutMatrix<T>, axis: u32) -> MutMatrix<T>;
 
     /// # MatrixStatisticsTrait::covariance
     ///
@@ -179,7 +179,7 @@ trait MatrixStatisticsTrait<FP16x16> {
     ///  [FP16x16 { mag: 109226, sign: false }, FP16x16 { mag: 109226, sign: false }, FixedTrait::<FP16x16>::new(87381, false)],
     ///  [FP16x16 { mag: 87381, sign: false }, FP16x16 { mag: 87381, sign: false }, FixedTrait::<FP16x16>::new(87381, false)]]
 
-    fn covariance(ref X: MutMatrix<FP16x16>) -> MutMatrix<FP16x16>;
+    fn covariance(ref X: MutMatrix<T>) -> MutMatrix<T>;
 
     /// # MatrixStatisticsTrait::covariance_weighted
     ///
@@ -230,26 +230,10 @@ trait MatrixStatisticsTrait<FP16x16> {
     ///  [FP16x16 { mag: 93613, sign: false }, FP16x16 { mag: 93613, sign: false }, FixedTrait::<FP16x16>::new(74889, false)],
     ///  [FP16x16 { mag: 74889, sign: false }, FP16x16 { mag: 74889, sign: false }, FixedTrait::<FP16x16>::new(78632, false)],]
 
-    fn covariance_weighted(ref X: MutMatrix<FP16x16>, ref weights: MutMatrix<FP16x16>) -> MutMatrix<FP16x16>;
+    fn covariance_weighted(ref X: MutMatrix<T>, ref weights: MutMatrix<T>) -> MutMatrix<T>;
 }
 
-impl MatrixStatisticsImpl<
-    FP16x16,
-    MAG, 
-    +Drop<FP16x16>, 
-    +Copy<FP16x16>, 
-    +NumberTrait<FP16x16, MAG>, 
-    +PartialOrd<FP16x16>, 
-    +FixedTrait<FP16x16, MAG>,
-    +MutMatrix<FP16x16>,
-    +Add<FP16x16>,
-    +AddEq<FP16x16>,
-    +Sub<FP16x16>, 
-    +SubEq<FP16x16>,
-    +Mul<FP16x16>,
-    +MulEq<FP16x16>,
-    +Div<FP16x16>,
-    +DivEq<FP16x16>> of MatrixStatisticsTrait<FP16x16> {
+impl MatrixStatisticsImpl of MatrixStatisticsTrait<FP16x16> {
     fn exponential_weights(lambda_unscaled: u32, l: u32) -> MutMatrix<FP16x16> {
         let lambda = FixedTrait::<FP16x16>::new_unscaled(lambda_unscaled, false) / FixedTrait::<FP16x16>::new_unscaled(100, false);
         let mut weights = MutMatrixImpl::<FP16x16>::new(l, 1);
@@ -481,7 +465,7 @@ impl MatrixStatisticsImpl<
         let m = X.rows; // Num observations
         let n = X.cols; // Num variables
         let mut Cov_X = MutMatrixImpl::<FP16x16>::new(n, n);
-        let mut Mean_X = mean(ref X, 1);
+        let mut Mean_X = MatrixStatisticsImpl::mean(ref X, 1);
 
         let mut i = 0;
         loop {
@@ -533,7 +517,7 @@ impl MatrixStatisticsImpl<
         let m = X.rows; // Num observations
         let n = X.cols; // Num variables
         let mut Cov_X = MutMatrixImpl::<FP16x16>::new(n, n);
-        let mut Mean_X = mean_weighted(ref X, ref weights, 1);
+        let mut Mean_X = MatrixStatisticsImpl::mean_weighted(ref X, ref weights, 1);
 
         let mut adj_weight_sum = FixedTrait::<FP16x16>::new_unscaled(0, false);
         i = 0;
