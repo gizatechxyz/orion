@@ -83,8 +83,8 @@ fn mean_test_2D_ii() {
 
     assert(mu_X.rows == 1 && mu_X.cols == 3, 'Shape incorrect');
     assert(FixedTrait::abs(mu_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new(163840, false)) < ERROR_THRESHOLD, 'mean_X_1 incorrect'); // ~2.5
-    assert(FixedTrait::abs(mu_X.get(1, 0).unwrap() - FixedTrait::<FP16x16>::new(425984, false)) < ERROR_THRESHOLD, 'mean_X_2 incorrect'); // ~6.5
-    assert(FixedTrait::abs(mu_X.get(2, 0).unwrap() - FixedTrait::<FP16x16>::new(196608, false)) < ERROR_THRESHOLD, 'mean_X_3 incorrect'); // ~3
+    assert(FixedTrait::abs(mu_X.get(0, 1).unwrap() - FixedTrait::<FP16x16>::new(425984, false)) < ERROR_THRESHOLD, 'mean_X_2 incorrect'); // ~6.5
+    assert(FixedTrait::abs(mu_X.get(0, 2).unwrap() - FixedTrait::<FP16x16>::new(196608, false)) < ERROR_THRESHOLD, 'mean_X_3 incorrect'); // ~3
 }
 
 #[test]
@@ -149,8 +149,8 @@ fn mean_weighted_test_ii() {
 
     assert(mu_X.rows == 1 && mu_X.cols == 3, 'Shape incorrect');
     assert(FixedTrait::abs(mu_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new(196607, false)) < ERROR_THRESHOLD, 'mean_X_1 incorrect'); // ~3.0
-    assert(FixedTrait::abs(mu_X.get(1, 0).unwrap() - FixedTrait::<FP16x16>::new(458751, false)) < ERROR_THRESHOLD, 'mean_X_2 incorrect'); // ~7.0
-    assert(FixedTrait::abs(mu_X.get(2, 0).unwrap() - FixedTrait::<FP16x16>::new(222822, false)) < ERROR_THRESHOLD, 'mean_X_3 incorrect'); // ~3.4
+    assert(FixedTrait::abs(mu_X.get(0, 1).unwrap() - FixedTrait::<FP16x16>::new(458751, false)) < ERROR_THRESHOLD, 'mean_X_2 incorrect'); // ~7.0
+    assert(FixedTrait::abs(mu_X.get(0, 2).unwrap() - FixedTrait::<FP16x16>::new(222822, false)) < ERROR_THRESHOLD, 'mean_X_3 incorrect'); // ~3.4
 }
 
 #[test]
@@ -178,12 +178,12 @@ fn covariance_test() {
     assert(FixedTrait::abs(sigma2_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new(109226, false)) < ERROR_THRESHOLD, 'sigma2_X_11 incorrect'); // ~1.67
     assert(FixedTrait::abs(sigma2_X.get(1, 0).unwrap() - FixedTrait::<FP16x16>::new(109226, false)) < ERROR_THRESHOLD, 'sigma2_X_21 incorrect'); // ~1.67
     assert(FixedTrait::abs(sigma2_X.get(2, 0).unwrap() - FixedTrait::<FP16x16>::new(87381, false)) < ERROR_THRESHOLD, 'sigma2_X_31 incorrect'); // ~1.33
-    assert(FixedTrait::abs(sigma2_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new(109226, false)) < ERROR_THRESHOLD, 'sigma2_X_12 incorrect'); // ~1.67
-    assert(FixedTrait::abs(sigma2_X.get(1, 0).unwrap() - FixedTrait::<FP16x16>::new(109226, false)) < ERROR_THRESHOLD, 'sigma2_X_22 incorrect'); // ~1.67
-    assert(FixedTrait::abs(sigma2_X.get(2, 0).unwrap() - FixedTrait::<FP16x16>::new(87381, false)) < ERROR_THRESHOLD, 'sigma2_X_32 incorrect'); // ~1.33
-    assert(FixedTrait::abs(sigma2_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new(87381, false)) < ERROR_THRESHOLD, 'sigma2_X_13 incorrect'); // ~1.33
-    assert(FixedTrait::abs(sigma2_X.get(1, 0).unwrap() - FixedTrait::<FP16x16>::new(87381, false)) < ERROR_THRESHOLD, 'sigma2_X_23 incorrect'); // ~1.33
-    assert(FixedTrait::abs(sigma2_X.get(2, 0).unwrap() - FixedTrait::<FP16x16>::new(87381, false)) < ERROR_THRESHOLD, 'sigma2_X_33 incorrect'); // ~1.33
+    assert(FixedTrait::abs(sigma2_X.get(0, 1).unwrap() - FixedTrait::<FP16x16>::new(109226, false)) < ERROR_THRESHOLD, 'sigma2_X_12 incorrect'); // ~1.67
+    assert(FixedTrait::abs(sigma2_X.get(1, 1).unwrap() - FixedTrait::<FP16x16>::new(109226, false)) < ERROR_THRESHOLD, 'sigma2_X_22 incorrect'); // ~1.67
+    assert(FixedTrait::abs(sigma2_X.get(2, 1).unwrap() - FixedTrait::<FP16x16>::new(87381, false)) < ERROR_THRESHOLD, 'sigma2_X_32 incorrect'); // ~1.33
+    assert(FixedTrait::abs(sigma2_X.get(0, 2).unwrap() - FixedTrait::<FP16x16>::new(87381, false)) < ERROR_THRESHOLD, 'sigma2_X_13 incorrect'); // ~1.33
+    assert(FixedTrait::abs(sigma2_X.get(1, 2).unwrap() - FixedTrait::<FP16x16>::new(87381, false)) < ERROR_THRESHOLD, 'sigma2_X_23 incorrect'); // ~1.33
+    assert(FixedTrait::abs(sigma2_X.get(2, 2).unwrap() - FixedTrait::<FP16x16>::new(87381, false)) < ERROR_THRESHOLD, 'sigma2_X_33 incorrect'); // ~1.33
 }
 
 #[test]
@@ -217,10 +217,10 @@ fn covariance_weighted_test() {
     assert(FixedTrait::abs(sigma2_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new(93613, false)) < ERROR_THRESHOLD, 'sigma2_X_11 incorrect'); // ~1.43
     assert(FixedTrait::abs(sigma2_X.get(1, 0).unwrap() - FixedTrait::<FP16x16>::new(93613, false)) < ERROR_THRESHOLD, 'sigma2_X_21 incorrect'); // ~1.43
     assert(FixedTrait::abs(sigma2_X.get(2, 0).unwrap() - FixedTrait::<FP16x16>::new(74889, false)) < ERROR_THRESHOLD, 'sigma2_X_31 incorrect'); // ~1.14
-    assert(FixedTrait::abs(sigma2_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new(93613, false)) < ERROR_THRESHOLD, 'sigma2_X_12 incorrect'); // ~1.43
-    assert(FixedTrait::abs(sigma2_X.get(1, 0).unwrap() - FixedTrait::<FP16x16>::new(93613, false)) < ERROR_THRESHOLD, 'sigma2_X_22 incorrect'); // ~1.43
-    assert(FixedTrait::abs(sigma2_X.get(2, 0).unwrap() - FixedTrait::<FP16x16>::new(74889, false)) < ERROR_THRESHOLD, 'sigma2_X_32 incorrect'); // ~1.14
-    assert(FixedTrait::abs(sigma2_X.get(0, 0).unwrap() - FixedTrait::<FP16x16>::new(74889, false)) < ERROR_THRESHOLD, 'sigma2_X_13 incorrect'); // ~1.14
-    assert(FixedTrait::abs(sigma2_X.get(1, 0).unwrap() - FixedTrait::<FP16x16>::new(74889, false)) < ERROR_THRESHOLD, 'sigma2_X_23 incorrect'); // ~1.14
-    assert(FixedTrait::abs(sigma2_X.get(2, 0).unwrap() - FixedTrait::<FP16x16>::new(78632, false)) < ERROR_THRESHOLD, 'sigma2_X_33 incorrect'); // ~1.20
+    assert(FixedTrait::abs(sigma2_X.get(0, 1).unwrap() - FixedTrait::<FP16x16>::new(93613, false)) < ERROR_THRESHOLD, 'sigma2_X_12 incorrect'); // ~1.43
+    assert(FixedTrait::abs(sigma2_X.get(1, 1).unwrap() - FixedTrait::<FP16x16>::new(93613, false)) < ERROR_THRESHOLD, 'sigma2_X_22 incorrect'); // ~1.43
+    assert(FixedTrait::abs(sigma2_X.get(2, 1).unwrap() - FixedTrait::<FP16x16>::new(74889, false)) < ERROR_THRESHOLD, 'sigma2_X_32 incorrect'); // ~1.14
+    assert(FixedTrait::abs(sigma2_X.get(0, 2).unwrap() - FixedTrait::<FP16x16>::new(74889, false)) < ERROR_THRESHOLD, 'sigma2_X_13 incorrect'); // ~1.14
+    assert(FixedTrait::abs(sigma2_X.get(1, 2).unwrap() - FixedTrait::<FP16x16>::new(74889, false)) < ERROR_THRESHOLD, 'sigma2_X_23 incorrect'); // ~1.14
+    assert(FixedTrait::abs(sigma2_X.get(2, 2).unwrap() - FixedTrait::<FP16x16>::new(78632, false)) < ERROR_THRESHOLD, 'sigma2_X_33 incorrect'); // ~1.20
 }

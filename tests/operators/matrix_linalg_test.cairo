@@ -21,8 +21,8 @@ fn matrix_linalg_test() {
 
     let mut Y = MutMatrixTrait::<FP16x16>::new(3, 1);
     Y.set(0, 0, FixedTrait::<FP16x16>::new_unscaled(8, false));
-    Y.set(0, 1, FixedTrait::<FP16x16>::new_unscaled(11, true));
-    Y.set(0, 2, FixedTrait::<FP16x16>::new_unscaled(3, true));
+    Y.set(1, 0, FixedTrait::<FP16x16>::new_unscaled(11, true));
+    Y.set(2, 0, FixedTrait::<FP16x16>::new_unscaled(3, true));
     
     let mut S = MatrixLinalgTrait::<FP16x16>::linalg_solve(ref X, ref Y);
     
