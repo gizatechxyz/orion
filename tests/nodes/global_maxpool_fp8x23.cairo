@@ -14,7 +14,7 @@ fn test_global_maxpool_fp8x23() {
     let input_0 = input_0::input_0();
     let z_0 = output_0::output_0();
 
-    let (y_0) = NNTrait::global_maxpool(@input_0);
+    let y_0 = NNTrait::global_maxpool(@input_0);
 
     assert_eq(y_0, z_0);
 }

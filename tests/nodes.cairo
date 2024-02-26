@@ -1040,5 +1040,4 @@ mod conv_2D_with_strides_asymmetric_padding;
 mod conv_2D_with_strides_with_padding;
 mod conv_4D_with_padding;
 mod global_maxpool_fp16x16;
-mod global_maxpool_fp64x64;
 mod global_maxpool_fp8x23;

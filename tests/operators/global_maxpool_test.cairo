@@ -1,7 +1,8 @@
 use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 use core::debug::PrintTrait;
-use orion::operators::tensor::math::global_maxpool::global_maxpool;
+use orion::operators::nn::core::NNTrait;
+use orion::numbers::NumberTrait;
 #[test]
 #[available_gas(200000000000)]
 fn global_maxpool_test() {
@@ -106,22 +107,16 @@ fn global_maxpool_test() {
     let a = TensorTrait::<u32>::new(array![2, 3, 4, 4].span(), data.span());
     let actual = global_maxpool(@a);
 
-    // shape test
-    assert(*actual.data.at(0) == 2, 'N must be 2');
-    assert(*actual.data.at(1) == 3, 'C must be 3');
-    assert(*actual.data.at(2) == 1, 'H must be 1');
-    assert(*actual.data.at(3) == 1, 'W must be 1');
-
     let expected = TensorTrait::<
         u32
     >::new(array![2, 3, 1, 1].span(), array![16, 32, 48, 64, 80, 96].span());
 
     let eq = actual.equal(@expected);
 
-    assert(*eq.data.at(0) == 1);
-    assert(*eq.data.at(1) == 1);
-    assert(*eq.data.at(2) == 1);
-    assert(*eq.data.at(3) == 1);
-    assert(*eq.data.at(4) == 1);
-    assert(*eq.data.at(5) == 1);
+    assert(*eq.data[0].into() == 1, 'result[0] == 1');
+    assert(*eq.data[1].into() == 1, 'result[1] == 1');
+    assert(*eq.data[2].into() == 1, 'result[2] == 1');
+    assert(*eq.data[3].into() == 1, 'result[3] == 1');
+    assert(*eq.data[4].into() == 1, 'result[4] == 1');
+    assert(*eq.data[5].into() == 1, 'result[5] == 1');
 }
