@@ -3,7 +3,7 @@ use core::option::OptionTrait;
 use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
-use orion::operators::tensor::implementations::tensor_i8::{I8Tensor, I8TensorAdd};
+use orion::operators::tensor::implementations::tensor_i8::{I8Tensor, I8TensorAdd, I8TensorMul};
 
 impl I8NN of NNTrait<i8> {
     fn relu(tensor: @Tensor<i8>) -> Tensor<i8> {
@@ -131,5 +131,21 @@ impl I8NN of NNTrait<i8> {
         strides: Option<Span<usize>>,
     ) -> Tensor<i8> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn deform_conv(
+        X: @Tensor<i8>,
+        W: @Tensor<i8>,
+        offset: @Tensor<i8>,
+        B: Option<Span<i8>>,
+        mask: Option<Tensor<i8>>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        offset_group: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<i8> {
+        panic(array!['not supported!'])
     }
 }

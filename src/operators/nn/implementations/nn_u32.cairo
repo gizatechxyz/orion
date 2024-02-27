@@ -3,7 +3,7 @@ use core::option::OptionTrait;
 use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
-use orion::operators::tensor::implementations::tensor_u32::{U32Tensor, U32TensorAdd};
+use orion::operators::tensor::implementations::tensor_u32::{U32Tensor, U32TensorAdd, U32TensorMul};
 
 impl U32NN of NNTrait<u32> {
     fn relu(tensor: @Tensor<u32>) -> Tensor<u32> {
@@ -131,5 +131,21 @@ impl U32NN of NNTrait<u32> {
         strides: Option<Span<usize>>,
     ) -> Tensor<u32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn deform_conv(
+        X: @Tensor<u32>,
+        W: @Tensor<u32>,
+        offset: @Tensor<u32>,
+        B: Option<Span<u32>>,
+        mask: Option<Tensor<u32>>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        offset_group: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<u32> {
+        panic(array!['not supported!'])
     }
 }

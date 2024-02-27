@@ -5,7 +5,7 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::numbers::fixed_point::implementations::fp32x32::core::{FP32x32, FP32x32Impl};
 use orion::operators::tensor::implementations::tensor_fp32x32::{
-    FP32x32Tensor, FP32x32TensorDiv, FP32x32TensorAdd
+    FP32x32Tensor, FP32x32TensorDiv, FP32x32TensorAdd, FP32x32TensorMul
 };
 
 impl FP32x32NN of NNTrait<FP32x32> {
@@ -138,5 +138,23 @@ impl FP32x32NN of NNTrait<FP32x32> {
         strides: Option<Span<usize>>,
     ) -> Tensor<FP32x32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn deform_conv(
+        X: @Tensor<FP32x32>,
+        W: @Tensor<FP32x32>,
+        offset: @Tensor<FP32x32>,
+        B: Option<Span<FP32x32>>,
+        mask: Option<Tensor<FP32x32>>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        offset_group: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP32x32> {
+        functional::deform_conv::deform_conv(
+            X, W, offset, B, mask, dilations, group, kernel_shape, offset_group, pads, strides,
+        )
     }
 }

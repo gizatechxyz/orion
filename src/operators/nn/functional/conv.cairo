@@ -18,6 +18,7 @@ enum AUTO_PAD {
     VALID
 }
 
+/// Cf: NNTrait::conv docstring
 fn conv<
     T,
     MAG,

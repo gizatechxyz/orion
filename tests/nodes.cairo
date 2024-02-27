@@ -1039,3 +1039,7 @@ mod conv_2D_with_autopad_same;
 mod conv_2D_with_strides_asymmetric_padding;
 mod conv_2D_with_strides_with_padding;
 mod conv_4D_with_padding;
+mod deform_conv_with_padding;
+mod deform_conv_with_mask_bias;
+mod deform_conv_with_multiple_offset_groups;
+mod deform_conv;
