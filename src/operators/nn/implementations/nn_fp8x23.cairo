@@ -11,8 +11,6 @@ use orion::numbers::fixed_point::implementations::fp8x23wide::core::{
     FP8x23WImpl, FP8x23WTryIntoFP8x23, FP8x23W, FP8x23IntoFP8x23W
 };
 use orion::operators::tensor::implementations::tensor_fp8x23wide::{FP8x23WTensor};
-use orion::numbers::I32IntoU32;
-use orion::operators::tensor::implementations::tensor_i32::I32Tensor;
 use orion::operators::nn::AUTO_PAD;
 
 impl FP8x23NN of NNTrait<FP8x23> {
@@ -155,7 +153,7 @@ impl FP8x23NN of NNTrait<FP8x23> {
         storage_order: Option<usize>,
         strides: Option<Span<usize>>,
         output_len: usize,
-    ) -> (Tensor<FP8x23>, Option<Tensor<i32>>) {
+    ) -> (Tensor<FP8x23>, Option<Tensor<usize>>) {
         functional::max_pool::max_pool(
             X,
             auto_pad,

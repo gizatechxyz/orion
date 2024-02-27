@@ -30,7 +30,6 @@ fn max_pool<
     +PartialEq<T>,
     +TryInto<T, usize>,
     +Into<usize, MAG>,
-    +Into<i32, MAG>,
     +Rem<T>,
     +Neg<T>,
     +SubEq<T>,
@@ -44,7 +43,7 @@ fn max_pool<
     storage_order: Option<usize>,
     strides: Option<Span<usize>>,
     output_len: usize,
-) -> (Tensor<T>, Option<Tensor<i32>>) {
+) -> (Tensor<T>, Option<Tensor<usize>>) {
     match dilations {
         Option::Some(dilations) => {
             if (min(dilations) != max(dilations) || min(dilations) != 1) {
@@ -173,7 +172,6 @@ fn max_pool_implementation<
     +PartialEq<T>,
     +TryInto<T, usize>,
     +Into<usize, MAG>,
-    +Into<i32, MAG>,
     +Rem<T>,
     +Neg<T>,
     +SubEq<T>,
@@ -187,7 +185,7 @@ fn max_pool_implementation<
     storage_order: Option<usize>,
     strides: Option<Span<usize>>,
     output_len: usize,
-) -> (Tensor<T>, Option<Tensor<i32>>) {
+) -> (Tensor<T>, Option<Tensor<usize>>) {
     assert((*X).shape.len() >= 3, 'X must have at least 3 dim');
     let n_dims = kernel_shape.len();
 
@@ -469,7 +467,7 @@ fn max_pool_1d<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>
     strides: Span<usize>,
     output_spatial_shape: Span<usize>,
     output_len: usize,
-) -> (Tensor<T>, Option<Tensor<i32>>) {
+) -> (Tensor<T>, Option<Tensor<usize>>) {
     let mut y_dims = ArrayTrait::new();
     y_dims.append_span(SpanTrait::slice((*X).shape, 0, 2));
     y_dims.append_span(output_spatial_shape);
@@ -523,14 +521,14 @@ fn max_pool_1d<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>
             };
 
             Y_data.append(Yh);
-            I_data.append((c * x_step).into() + h_index);
+            I_data.append((c * x_step) + h_index.into());
 
             ph += 1;
         };
         c += 1;
     };
     if output_len == 1 {
-        return (TensorTrait::new(y_dims.span(), Y_data.span()), Option::<Tensor<i32>>::None);
+        return (TensorTrait::new(y_dims.span(), Y_data.span()), Option::<Tensor<usize>>::None);
     }
     return (
         TensorTrait::new(y_dims.span(), Y_data.span()),
@@ -559,7 +557,7 @@ fn max_pool_2d<
     strides: Span<usize>,
     output_spatial_shape: Span<usize>,
     output_len: usize,
-) -> (Tensor<T>, Option<Tensor<i32>>) {
+) -> (Tensor<T>, Option<Tensor<usize>>) {
     let mut y_dims = ArrayTrait::new();
     y_dims.append_span(SpanTrait::slice((*X).shape, 0, 2));
     y_dims.append_span(output_spatial_shape);
@@ -651,9 +649,9 @@ fn max_pool_2d<
                 if Yh != NumberTrait::<T>::min_value() {
                     Y_data.append(Yh);
                     if storage_order == 0 {
-                        I_data.append((c * x_step).into() + h_index * W.into() + w_index);
+                        I_data.append((c * x_step) + h_index.into() * W + w_index.into());
                     } else {
-                        I_data.append((c * x_step).into() + h_index + w_index * H.into());
+                        I_data.append((c * x_step) + h_index.into() + w_index.into() * H);
                     }
                 }
                 pw += 1;
@@ -664,7 +662,7 @@ fn max_pool_2d<
     };
 
     if output_len == 1 {
-        return (TensorTrait::new(y_dims.span(), Y_data.span()), Option::<Tensor<i32>>::None);
+        return (TensorTrait::new(y_dims.span(), Y_data.span()), Option::<Tensor<usize>>::None);
     }
     return (
         TensorTrait::new(y_dims.span(), Y_data.span()),
@@ -693,7 +691,7 @@ fn max_pool_3d<
     strides: Span<usize>,
     output_spatial_shape: Span<usize>,
     output_len: usize,
-) -> (Tensor<T>, Option<Tensor<i32>>) {
+) -> (Tensor<T>, Option<Tensor<usize>>) {
     let mut y_dims = ArrayTrait::new();
     y_dims.append_span(SpanTrait::slice((*X).shape, 0, 2));
     y_dims.append_span(output_spatial_shape);
@@ -813,18 +811,18 @@ fn max_pool_3d<
                     if storage_order == 0 {
                         I_data
                             .append(
-                                (c * x_step).into()
-                                    + h_index * W.into() * D.into()
-                                    + w_index * D.into()
-                                    + d_index
+                                (c * x_step)
+                                    + h_index.into() * W * D
+                                    + w_index.into() * D
+                                    + d_index.into()
                             );
                     } else {
                         I_data
                             .append(
-                                (c * x_step).into()
-                                    + h_index
-                                    + w_index * H.into()
-                                    + d_index * H.into() * W.into()
+                                (c * x_step)
+                                    + h_index.into()
+                                    + w_index.into() * H
+                                    + d_index.into() * H * W
                             );
                     }
                     pd += 1;
@@ -837,7 +835,7 @@ fn max_pool_3d<
     };
 
     if output_len == 1 {
-        return (TensorTrait::new(y_dims.span(), Y_data.span()), Option::<Tensor<i32>>::None);
+        return (TensorTrait::new(y_dims.span(), Y_data.span()), Option::<Tensor<usize>>::None);
     }
     return (
         TensorTrait::new(y_dims.span(), Y_data.span()),
@@ -857,7 +855,7 @@ fn max_pool_nd<
     +PartialEq<T>,
     +PrintTrait<T>,
     +TryInto<T, usize>,
-    +Into<i32, MAG>,
+    +Into<usize, MAG>,
     +Div<T>
 >(
     X: @Tensor<T>,
@@ -870,7 +868,7 @@ fn max_pool_nd<
     strides: Span<usize>,
     output_spatial_shape: Span<usize>,
     output_len: usize,
-) -> (Tensor<T>, Option<Tensor<i32>>) {
+) -> (Tensor<T>, Option<Tensor<usize>>) {
     let nd = (*X).shape.len() - 2;
 
     let mut y_dims = ArrayTrait::new();
@@ -938,8 +936,10 @@ fn max_pool_nd<
                 nstart.append(ns);
                 nend.append(ns + *ks_n.at(n) * *dilation_n.at(n));
 
-                let a: T = NumberTrait::new_unscaled(((*nend.at(n) - ns)).into(), false);
-                let b: T = NumberTrait::new_unscaled((*dilation_n.at(n)).into(), false);
+                let a: T = NumberTrait::new_unscaled(
+                    (*kernel_shape.at(n) * *dilations.at(n)).into(), false
+                );
+                let b: T = NumberTrait::new_unscaled((*dilations.at(n)).into(), false);
                 nstep.append(NumberTrait::ceil(a / b).try_into().unwrap());
                 n += 1;
             };
@@ -1004,7 +1004,7 @@ fn max_pool_nd<
                     index += *n_index.at(n) * (*x_stride.at(2 + n)).into();
                     n += 1;
                 };
-                I_data.append((c * x_step).into() + index);
+                I_data.append((c * x_step) + index.into());
             } else {
                 let mut index = 0;
                 let mut n = nd;
@@ -1015,16 +1015,19 @@ fn max_pool_nd<
                     index += *n_index.at(n - 1) * (*i_stride_storage_order_1.at(nd - n)).into();
                     n -= 1;
                 };
-                I_data.append((c * x_step).into() + index);
+                I_data.append((c * x_step) + index.into());
             }
             p += 1;
         };
         c += 1;
     };
     if output_len == 1 {
-        return (TensorTrait::new(y_dims.span(), Y_data.span()), Option::<Tensor<i32>>::None);
+        return (TensorTrait::new(y_dims.span(), Y_data.span()), Option::<Tensor<usize>>::None);
     }
-    return (TensorTrait::new(y_dims.span(), Y_data.span()), Option::<Tensor<i32>>::None);
+    return (
+        TensorTrait::new(y_dims.span(), Y_data.span()),
+        Option::Some(TensorTrait::new(y_dims.span(), I_data.span()))
+    );
 }
 
 

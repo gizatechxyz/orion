@@ -4,7 +4,6 @@ use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::operators::tensor::implementations::tensor_i8::{I8Tensor, I8TensorAdd};
-use orion::operators::tensor::implementations::tensor_i32::I32Tensor;
 use orion::operators::nn::AUTO_PAD;
 
 impl I8NN of NNTrait<i8> {
@@ -145,7 +144,7 @@ impl I8NN of NNTrait<i8> {
         storage_order: Option<usize>,
         strides: Option<Span<usize>>,
         output_len: usize,
-    ) -> (Tensor<i8>, Option<Tensor<i32>>) {
+    ) -> (Tensor<i8>, Option<Tensor<usize>>) {
         panic(array!['not supported!'])
     }
 }

@@ -13,8 +13,6 @@ use orion::numbers::fixed_point::implementations::fp16x16wide::core::{
 use orion::operators::tensor::implementations::tensor_fp16x16wide::{
     FP16x16WTensor, FP16x16WTensorDiv, FP16x16WTensorAdd
 };
-use orion::numbers::I32IntoU32;
-use orion::operators::tensor::implementations::tensor_i32::I32Tensor;
 use orion::operators::nn::AUTO_PAD;
 
 impl FP16x16NN of NNTrait<FP16x16> {
@@ -159,7 +157,7 @@ impl FP16x16NN of NNTrait<FP16x16> {
         storage_order: Option<usize>,
         strides: Option<Span<usize>>,
         output_len: usize,
-    ) -> (Tensor<FP16x16>, Option<Tensor<i32>>) {
+    ) -> (Tensor<FP16x16>, Option<Tensor<usize>>) {
         functional::max_pool::max_pool(
             X,
             auto_pad,

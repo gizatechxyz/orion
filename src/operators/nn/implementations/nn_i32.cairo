@@ -144,7 +144,7 @@ impl I32NN of NNTrait<i32> {
         storage_order: Option<usize>,
         strides: Option<Span<usize>>,
         output_len: usize,
-    ) -> (Tensor<i32>, Option<Tensor<i32>>) {
+    ) -> (Tensor<i32>, Option<Tensor<usize>>) {
         panic(array!['not supported!'])
     }
 }

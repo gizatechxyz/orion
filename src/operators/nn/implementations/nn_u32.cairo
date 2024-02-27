@@ -4,7 +4,6 @@ use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::operators::tensor::implementations::tensor_u32::{U32Tensor, U32TensorAdd};
-use orion::operators::tensor::implementations::tensor_i32::I32Tensor;
 use orion::operators::nn::AUTO_PAD;
 
 impl U32NN of NNTrait<u32> {
@@ -145,7 +144,7 @@ impl U32NN of NNTrait<u32> {
         storage_order: Option<usize>,
         strides: Option<Span<usize>>,
         output_len: usize,
-    ) -> (Tensor<u32>, Option<Tensor<i32>>) {
+    ) -> (Tensor<u32>, Option<Tensor<usize>>) {
         panic(array!['not supported!'])
     }
 }

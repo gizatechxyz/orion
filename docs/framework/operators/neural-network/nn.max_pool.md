@@ -12,7 +12,7 @@
     storage_order: Option<usize>,
     strides: Option<Span<usize>>,
     output_len: usize,
-) -> (Tensor<T>, Option<Tensor<i32>>);
+) -> (Tensor<T>, Option<Tensor<usize>>);
 ```
 
 MaxPool consumes an input tensor X and applies max pooling across the tensor according to kernel sizes, stride sizes, and pad lengths. max pooling consisting of computing the max on all values of a subset of the input tensor according to the kernel size and downsampling the data into the output tensor Y for further processing. The output spatial shape is calculated differently depending on whether explicit padding is used, where pads is employed, or auto padding is used, where auto_pad is utilized.
@@ -32,7 +32,7 @@ MaxPool consumes an input tensor X and applies max pooling across the tensor acc
 ## Returns
 
 A `Tensor<T>` that contains the result of the max pool.
-A `Option<Tensor<i32>>` with the indices tensor from max pooling across the input tensor. The dimensions of indices are the same as output tensor. 
+A `Option<Tensor<usize>>` with the indices tensor from max pooling across the input tensor. The dimensions of indices are the same as output tensor. 
 ## Examples
     
 ```rust
@@ -43,7 +43,7 @@ use orion::numbers::FP16x16;
 use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor};
 
 
-fn example_max_pool() -> (Tensor<FP16x16>, Option<Tensor<i32>>) {
+fn example_max_pool() -> (Tensor<FP16x16>, Option<Tensor<usize>>) {
     let mut shape = ArrayTrait::<usize>::new();
    shape.append(1);
    shape.append(1);

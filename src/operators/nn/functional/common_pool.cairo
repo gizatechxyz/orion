@@ -11,7 +11,6 @@ use orion::numbers::{U32IntoI32, I32IntoU32, I32Div, I32Number};
 use orion::numbers::FP16x16;
 use orion::operators::nn::{AUTO_PAD, POOLING_TYPE};
 
-
 fn common_pool<
     T,
     MAG,
@@ -29,7 +28,6 @@ fn common_pool<
     +PartialEq<T>,
     +TryInto<T, usize>,
     +Into<usize, MAG>,
-    +Into<i32, MAG>,
     +Rem<T>,
     +Neg<T>,
     +SubEq<T>,
@@ -44,7 +42,7 @@ fn common_pool<
     pads: Option<Span<usize>>,
     strides: Option<Span<usize>>,
     p: usize,
-) -> (Tensor<T>, Option<Tensor<i32>>) {
+) -> (Tensor<T>, Option<Tensor<usize>>) {
     let padding_value: T = match pooling_type {
         POOLING_TYPE::AVG => {
             let padding_value = if count_include_pad == 0 {
@@ -188,7 +186,6 @@ fn pool<
     +PartialEq<T>,
     +TryInto<T, usize>,
     +Into<usize, MAG>,
-    +Into<i32, MAG>,
     +Rem<T>,
     +Neg<T>,
     +SubEq<T>,

@@ -7,8 +7,6 @@ use orion::numbers::fixed_point::implementations::fp64x64::core::{FP64x64, FP64x
 use orion::operators::tensor::implementations::tensor_fp64x64::{
     FP64x64Tensor, FP64x64TensorDiv, FP64x64TensorAdd
 };
-//use orion::numbers::I32IntoU64;
-use orion::operators::tensor::implementations::tensor_i32::I32Tensor;
 use orion::operators::nn::AUTO_PAD;
 
 impl FP64x64NN of NNTrait<FP64x64> {
@@ -153,8 +151,17 @@ impl FP64x64NN of NNTrait<FP64x64> {
         storage_order: Option<usize>,
         strides: Option<Span<usize>>,
         output_len: usize,
-    ) -> (Tensor<FP64x64>, Option<Tensor<i32>>) {
-        //functional::max_pool::max_pool(X, auto_pad, ceil_mode, dilations,kernel_shape, pads, storage_order, strides, output_len)
-        panic(array!['not supported!'])
+    ) -> (Tensor<FP64x64>, Option<Tensor<usize>>) {
+        functional::max_pool::max_pool(
+            X,
+            auto_pad,
+            ceil_mode,
+            dilations,
+            kernel_shape,
+            pads,
+            storage_order,
+            strides,
+            output_len
+        )
     }
 }
