@@ -1001,3 +1001,7 @@ mod argmax_negative_axis_keepdims;
 mod argmax_negative_axis_keepdims_select_last_index;
 mod argmax_no_keepdims;
 mod argmax_no_keepdims_select_last_index;
+mod deform_conv_with_padding;
+mod deform_conv_with_mask_bias;
+mod deform_conv_with_multiple_offset_groups;
+mod deform_conv;

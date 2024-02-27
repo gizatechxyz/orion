@@ -3,13 +3,13 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16;
 use orion::operators::tensor::implementations::tensor_fp16x16::{
-    FP16x16Tensor, FP16x16TensorDiv, FP16x16TensorAdd
+    FP16x16Tensor, FP16x16TensorDiv, FP16x16TensorAdd, FP16x16TensorMul
 };
 use orion::numbers::fixed_point::implementations::fp16x16wide::core::{
     FP16x16WImpl, FP16x16WTryIntoFP16x16, FP16x16W, FP16x16IntoFP16x16W
 };
 use orion::operators::tensor::implementations::tensor_fp16x16wide::{
-    FP16x16WTensor, FP16x16WTensorDiv, FP16x16WTensorAdd
+    FP16x16WTensor, FP16x16WTensorDiv, FP16x16WTensorAdd, FP16x16WTensorMul
 };
 use orion::operators::nn::AUTO_PAD;
 
@@ -166,6 +166,21 @@ impl FP16x16NN of NNTrait<FP16x16> {
             storage_order,
             strides,
             output_len
+    fn deform_conv(
+        X: @Tensor<FP16x16>,
+        W: @Tensor<FP16x16>,
+        offset: @Tensor<FP16x16>,
+        B: Option<Span<FP16x16>>,
+        mask: Option<Tensor<FP16x16>>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        offset_group: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP16x16> {
+        functional::deform_conv::deform_conv(
+            X, W, offset, B, mask, dilations, group, kernel_shape, offset_group, pads, strides,
         )
     }
 }
