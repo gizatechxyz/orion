@@ -981,7 +981,7 @@ class Max_pool(RunAll):
 
         x = Tensor(Dtype.FP16x16, x.shape, to_fp(x.flatten(), FixedImpl.FP16x16))
         y = Tensor(Dtype.FP16x16, y.shape, to_fp(y.flatten(), FixedImpl.FP16x16))
-        z = Tensor(Dtype.I32, z.shape, z.flatten())
+        z = Tensor(Dtype.U32, z.shape, z.flatten())
         
 
         name = "maxpool_2d_constraint_index"
@@ -994,7 +994,7 @@ class Max_pool(RunAll):
         func_sig += "Option::None,"
         func_sig += "Option::Some(1),"
         func_sig += "Option::Some(array![2, 2].span()),"
-        func_sig += "1)"
+        func_sig += "2)"
         make_test(
             [x], z, func_sig, name, Trait.NN)
         
