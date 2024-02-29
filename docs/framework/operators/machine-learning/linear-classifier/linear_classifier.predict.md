@@ -1,7 +1,7 @@
 # LinearClassifierTrait::predict
 
 ```rust 
-   fn predict(ref self: LinearClassifier<T>, X: Tensor<T>) -> Tensor<T>;
+   fn predict(classifier: LinearClassifier<T>, X: Tensor<T>) -> Tensor<T>;
 ```
 
 Linear Classifier. Performs the linear classification.
@@ -85,7 +85,7 @@ fn linear_classifier_helper(
 fn linear_classifier_multi_softmax() -> (Span<usize>, Tensor<FP16x16>) {
     let (mut classifier, X) = linear_classifier_helper(POST_TRANSFORM::SOFTMAX);
 
-    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = LinearClassifierTrait::predict(classifier, X);
 
     (labels, scores)
 }

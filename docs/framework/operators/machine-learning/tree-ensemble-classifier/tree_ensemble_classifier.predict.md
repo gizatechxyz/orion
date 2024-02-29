@@ -1,7 +1,7 @@
 # TreeEnsembleClassifier::predict
 
 ```rust 
-   fn predict(ref self: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Span<usize>, MutMatrix::<T>);
+   fn predict(classifier: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Span<usize>, MutMatrix::<T>);
 ```
 
 Tree Ensemble classifier. Returns the top class for each of N inputs.
@@ -185,7 +185,7 @@ fn tree_ensemble_classifier_helper(
 fn test_tree_ensemble_classifier_multi_pt_softmax() -> (Span<usize>, MutMatrix::<FP16x16>) {
     let (mut classifier, X) = tree_ensemble_classifier_helper(POST_TRANSFORM::SOFTMAX);
 
-    let (labels, scores) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
+    let (labels, scores) = TreeEnsembleClassifierTrait::predict(classifier, X);
     (labels, scores)
 }   
 
