@@ -199,6 +199,8 @@
       * [sequence.sequence\_erase](framework/operators/sequence/sequence.sequence\_erase.md)
       * [sequence.sequence\_insert](framework/operators/sequence/sequence.sequence\_insert.md)
       * [sequence.concat\_from\_sequence](framework/operators/sequence/sequence.concat\_from\_sequence.md)
+    * [Normalizer](framework/operators/machine-learning/normalizer/README.md)
+      * [normalize.predict](framework/operators/machine-learning/normalizer/normalizer.predict.md)
 
 ## 🏛 Hub
 
