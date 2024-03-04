@@ -156,6 +156,6 @@ fn scatter_nd<
     };
 
     let mut output_tensor = TensorTrait::<T>::new(*self.shape, output_data.span());
-    
+
     output_tensor
 }
