@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{TryInto, Into};
-
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -340,7 +335,6 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         )
     }
 
-
     fn slice(
         self: @Tensor<FP8x23>,
         starts: Span<usize>,
@@ -361,7 +355,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         core_ops::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<FP8x23>, axes: Option<Span<i32>>) -> Tensor<FP8x23> {
+    fn squeeze(self: @Tensor<FP8x23>, axes: Option<Span<usize>>) -> Tensor<FP8x23> {
         core_ops::squeeze(self, axes)
     }
 
@@ -462,7 +456,6 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         panic(array!['not supported!'])
     }
 
-
     fn reduce_min(
         self: @Tensor<FP8x23>,
         axes: Option<Span<usize>>,
@@ -494,6 +487,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
 
     fn reduce_log_sum(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+    fn reduce_log_sum_exp(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
+        panic(array!['not supported!'])
     }
 
     fn erf(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
@@ -622,6 +619,20 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
+
+    fn label_encoder(
+        self: @Tensor<FP8x23>,
+        default_list: Option<Span<FP8x23>>,
+        default_tensor: Option<Tensor<FP8x23>>,
+        keys: Option<Span<FP8x23>>,
+        keys_tensor: Option<Tensor<FP8x23>>,
+        values: Option<Span<FP8x23>>,
+        values_tensor: Option<Tensor<FP8x23>>
+    ) -> Tensor<FP8x23> {
+        ml::label_encoder::label_encoder(
+            self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
+        )
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.
@@ -729,27 +740,26 @@ impl TensorI8IntoTensorFP8x23 of Into<Tensor<i8>, Tensor<FP8x23>> {
 impl FP8x23TensorPartialOrd of PartialOrd<Tensor<FP8x23>> {
     #[inline(always)]
     fn ge(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
+        SpanPartialOrd::ge(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn gt(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
+        SpanPartialOrd::gt(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn le(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
+        SpanPartialOrd::le(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn lt(lhs: Tensor<FP8x23>, rhs: Tensor<FP8x23>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
+        SpanPartialOrd::lt(lhs.data, rhs.data)
     }
 }
 
 // Internals
-
 const PRECISION: u32 = 75497; // 0.009
 
 fn relative_eq(lhs: @FP8x23, rhs: @FP8x23) -> bool {
@@ -767,11 +777,7 @@ fn relative_eq(lhs: @FP8x23, rhs: @FP8x23) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP8x23>, mut rhs: Tensor<FP8x23>,) -> bool {
     let mut is_eq = true;
 
-    loop {
-        if lhs.shape.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.shape.len() != 0 && is_eq {
         is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
     };
 
@@ -779,28 +785,20 @@ fn tensor_eq(mut lhs: Tensor<FP8x23>, mut rhs: Tensor<FP8x23>,) -> bool {
         return false;
     }
 
-    loop {
-        if lhs.data.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.data.len() != 0 && is_eq {
         is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
     };
 
-    return is_eq;
+    is_eq
 }
 
 fn tensor_i8_to_tensor_fp8x23(x: @Tensor<i8>) -> Tensor<FP8x23> {
     let mut result_data = ArrayTrait::<FP8x23>::new();
     let mut data = *x.data;
 
-    loop {
+    while data.len() != 0 {
         result_data.append((*data.pop_front().unwrap()).into());
-
-        if data.len() == 0 {
-            break ();
-        };
     };
 
-    return TensorTrait::new(*x.shape, result_data.span());
+    TensorTrait::new(*x.shape, result_data.span())
 }

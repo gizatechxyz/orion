@@ -1,5 +1,4 @@
 use core::debug::PrintTrait;
-use core::traits::Into;
 
 use orion::numbers::fixed_point::implementations::fp16x16::core::{
     HALF, ONE, TWO, FP16x16, FP16x16Impl, FP16x16Sub, FP16x16Div, FixedTrait, FP16x16Print

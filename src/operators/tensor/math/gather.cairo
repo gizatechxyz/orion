@@ -1,13 +1,4 @@
 use alexandria_data_structures::array_ext::SpanTraitExt;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-
-use core::traits::Into;
-use core::debug::PrintTrait;
-use core::traits::TryInto;
-use core::serde::Serde;
-use core::traits::Destruct;
-use core::option::OptionTrait;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{TensorTrait, Tensor};
@@ -26,14 +17,14 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
     let ind_max = indices.data.max().unwrap();
     assert(ind_max < axis_shape, 'this index out of bounds');
 
-    let mut output_data = ArrayTrait::new();
-    let mut output_size = ArrayTrait::new();
+    let mut output_data = array![];
+    let mut output_size = array![];
     let mut self_shape = *self.shape;
     let mut i: usize = 0;
     loop {
         match self_shape.pop_front() {
             Option::Some(val) => {
-                if (i == axis) {
+                if i == axis {
                     let mut indices_shape = indices.shape;
                     loop {
                         match indices_shape.pop_front() {
@@ -44,6 +35,7 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
                 } else {
                     output_size.append(*val);
                 }
+
                 i += 1;
             },
             Option::None => { break; }
@@ -58,10 +50,11 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
     loop {
         match self_shape.pop_front() {
             Option::Some(val) => {
-                if (i == axis) {
+                if i == axis {
                     divisor /= *val;
                     break ();
                 };
+
                 outer_loop_break *= *val;
                 divisor /= *val;
                 i += 1;
@@ -86,25 +79,18 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
 
     let mut outer_loop: usize = 0;
     let axis_index = *self.shape[axis];
-    loop {
-        if outer_loop == outer_loop_break {
-            break;
-        }
-
+    while outer_loop != outer_loop_break {
         let mut data_indices = indices.data;
         loop {
             match data_indices.pop_front() {
                 Option::Some(indice) => {
                     let mut inner_loop = 0;
-                    loop {
-                        if inner_loop == break_loop {
-                            break;
-                        }
-
+                    while inner_loop != break_loop {
                         let new_val = inner_loop / divisor % axis_index;
                         if *indice == new_val {
                             output_data.append(*self.data[break_loop * outer_loop + inner_loop]);
                         }
+
                         inner_loop += 1;
                     }
                 },
@@ -117,5 +103,5 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
 
     let mut output_tensor = TensorTrait::<T>::new(output_size.span(), output_data.span());
 
-    return output_tensor;
+    output_tensor
 }

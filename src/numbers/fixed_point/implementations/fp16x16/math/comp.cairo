@@ -3,65 +3,65 @@ use orion::numbers::fixed_point::implementations::fp16x16::core::{
 };
 
 fn max(a: FP16x16, b: FP16x16) -> FP16x16 {
-    if (a >= b) {
-        return a;
+    if a >= b {
+        a
     } else {
-        return b;
+        b
     }
 }
 
 fn min(a: FP16x16, b: FP16x16) -> FP16x16 {
-    if (a <= b) {
-        return a;
+    if a <= b {
+        a
     } else {
-        return b;
+        b
     }
 }
 
 fn xor(a: FP16x16, b: FP16x16) -> bool {
     if (a == FixedTrait::new(0, false) || b == FixedTrait::new(0, false)) && (a != b) {
-        return true;
+        true
     } else {
-        return false;
+        false
     }
 }
 
 fn or(a: FP16x16, b: FP16x16) -> bool {
     let zero = FixedTrait::new(0, false);
     if a == zero && b == zero {
-        return false;
+        false
     } else {
-        return true;
+        true
     }
 }
 
 fn and(a: FP16x16, b: FP16x16) -> bool {
     let zero = FixedTrait::new(0, false);
     if a == zero || b == zero {
-        return false;
+        false
     } else {
-        return true;
+        true
     }
 }
 
 fn where(a: FP16x16, b: FP16x16, c: FP16x16) -> FP16x16 {
     if a == FixedTrait::new(0, false) {
-        return c;
+        c
     } else {
-        return b;
+        b
     }
 }
 
 fn bitwise_and(a: FP16x16, b: FP16x16) -> FP16x16 {
-    return FixedTrait::new(a.mag & b.mag, a.sign & b.sign);
+    FixedTrait::new(a.mag & b.mag, a.sign & b.sign)
 }
 
 fn bitwise_xor(a: FP16x16, b: FP16x16) -> FP16x16 {
-    return FixedTrait::new(a.mag ^ b.mag, a.sign ^ b.sign);
+    FixedTrait::new(a.mag ^ b.mag, a.sign ^ b.sign)
 }
 
 fn bitwise_or(a: FP16x16, b: FP16x16) -> FP16x16 {
-    return FixedTrait::new(a.mag | b.mag, a.sign | b.sign);
+    FixedTrait::new(a.mag | b.mag, a.sign | b.sign)
 }
 
 // Tests --------------------------------------------------------------------------------------------------------------
@@ -69,7 +69,6 @@ fn bitwise_or(a: FP16x16, b: FP16x16) -> FP16x16 {
 #[cfg(test)]
 mod tests {
     use super::{FixedTrait, max, min, bitwise_and, bitwise_xor, bitwise_or};
-
 
     #[test]
     fn test_max() {
@@ -127,6 +126,7 @@ mod tests {
         assert(bitwise_xor(a, b) == c, 'bitwise_xor(a,b)')
     }
 
+    #[test]
     fn test_bitwise_or() {
         let a = FixedTrait::new(225280, false); // 3.4375
         let b = FixedTrait::new(4160843776, true); // -2046.5625

@@ -10,6 +10,7 @@ use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
 use core::debug::PrintTrait;
 use orion::operators::nn::{NNTrait, FP16x16NN};
 use orion::utils::get_row;
+use orion::operators::ml::POST_TRANSFORM;
 
 use orion::operators::ml::svm::core::{kernel_dot, KERNEL_TYPE};
 
@@ -23,15 +24,6 @@ struct SVMRegressor<T> {
     post_transform: POST_TRANSFORM,
     rho: Span<T>,
     support_vectors: Span<T>,
-}
-
-#[derive(Copy, Drop)]
-enum POST_TRANSFORM {
-    NONE,
-    SOFTMAX,
-    LOGISTIC,
-    SOFTMAXZERO,
-    PROBIT,
 }
 
 #[derive(Copy, Drop)]
@@ -195,12 +187,9 @@ impl SVMRegressorImpl<
             (mode_, kernel_type_, sv)
         };
 
-        let mut z = ArrayTrait::new();
+        let mut z: Array<T> = array![];
         let mut n = 0;
-        loop {
-            if n == *X.shape.at(0) {
-                break;
-            }
+        while n != *X.shape.at(0) {
             let mut s = NumberTrait::zero();
             match mode_ {
                 MODE::SVM_LINEAR => {
@@ -211,15 +200,13 @@ impl SVMRegressorImpl<
                 MODE::SVM_SVC => {
                     let mut x_n = get_row(@X, n);
                     let mut j = 0;
-                    loop {
-                        if j == self.n_supports {
-                            break;
-                        }
+                    while j != self.n_supports {
                         let mut sv_j = get_row(@sv, j);
                         let d = kernel_dot(self.kernel_params, x_n, sv_j, kernel_type_);
                         s += *self.coefficients.at(j) * d;
                         j += 1;
                     };
+
                     s += *self.rho.at(0);
                 },
             }
@@ -233,11 +220,13 @@ impl SVMRegressorImpl<
             } else {
                 z.append(s);
             };
+
             n += 1;
         };
 
         // Post Transform
         let mut score = TensorTrait::new(array![*X.shape.at(0)].span(), z.span());
+
         score = match self.post_transform {
             POST_TRANSFORM::NONE => score,
             POST_TRANSFORM::SOFTMAX => NNTrait::softmax(@score, 1),
@@ -246,7 +235,7 @@ impl SVMRegressorImpl<
             POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
         };
 
-        return score;
+        score
     }
 }
 

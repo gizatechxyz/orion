@@ -11,7 +11,7 @@ use core::debug::PrintTrait;
 fn test_linear_classifier_multi_none() {
     let (mut classifier, X) = linear_classifier_helper(POST_TRANSFORM::NONE);
 
-    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = LinearClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 0, 'labels[0]');
@@ -37,7 +37,7 @@ fn test_linear_classifier_multi_none() {
 fn test_linear_classifier_multi_softmax() {
     let (mut classifier, X) = linear_classifier_helper(POST_TRANSFORM::SOFTMAX);
 
-    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = LinearClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 0, 'labels[0]');
@@ -62,7 +62,7 @@ fn test_linear_classifier_multi_softmax() {
 fn test_linear_classifier_multi_softmax_zero() {
     let (mut classifier, X) = linear_classifier_helper(POST_TRANSFORM::SOFTMAXZERO);
 
-    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = LinearClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 0, 'labels[0]');
@@ -88,7 +88,7 @@ fn test_linear_classifier_multi_softmax_zero() {
 fn test_linear_classifier_multi_logistic() {
     let (mut classifier, X) = linear_classifier_helper(POST_TRANSFORM::LOGISTIC);
 
-    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = LinearClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 0, 'labels[0] == 0');
@@ -113,7 +113,7 @@ fn test_linear_classifier_multi_logistic() {
 fn test_linear_classifier_binary_none() {
     let (mut classifier, X) = linear_classifier_helper_binary(POST_TRANSFORM::NONE);
 
-    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = LinearClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 1, 'labels[0]');
@@ -132,7 +132,7 @@ fn test_linear_classifier_binary_none() {
 fn test_linear_classifier_binary_logistic() {
     let (mut classifier, X) = linear_classifier_helper_binary(POST_TRANSFORM::LOGISTIC);
 
-    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = LinearClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 1, 'labels[0]');
@@ -151,7 +151,7 @@ fn test_linear_classifier_binary_logistic() {
 fn test_linear_classifier_binary_softmax() {
     let (mut classifier, X) = linear_classifier_helper_binary(POST_TRANSFORM::SOFTMAX);
 
-    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = LinearClassifierTrait::predict(classifier, X);
     // ASSERT LABELS
     assert(*labels[0] == 1, 'labels[0]');
     assert(*labels[1] == 1, 'labels[1]');
@@ -169,7 +169,7 @@ fn test_linear_classifier_binary_softmax() {
 fn test_linear_classifier_binary_softmax_zero() {
     let (mut classifier, X) = linear_classifier_helper_binary(POST_TRANSFORM::SOFTMAXZERO);
 
-    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = LinearClassifierTrait::predict(classifier, X);
     // ASSERT LABELS
     assert(*labels[0] == 1, 'labels[0]');
     assert(*labels[1] == 1, 'labels[1]');
@@ -187,7 +187,7 @@ fn test_linear_classifier_binary_softmax_zero() {
 fn test_linear_classifier_unary_none() {
     let (mut classifier, X) = linear_classifier_helper_unary(POST_TRANSFORM::NONE);
 
-    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = LinearClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 1, 'labels[0]');
@@ -204,7 +204,7 @@ fn test_linear_classifier_unary_none() {
 fn test_linear_classifier_unary_logistic() {
     let (mut classifier, X) = linear_classifier_helper_unary(POST_TRANSFORM::LOGISTIC);
 
-    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = LinearClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 1, 'labels[0]');
@@ -221,7 +221,7 @@ fn test_linear_classifier_unary_logistic() {
 fn test_linear_classifier_unary_softmax() {
     let (mut classifier, X) = linear_classifier_helper_unary(POST_TRANSFORM::SOFTMAX);
 
-    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = LinearClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 1, 'labels[0]');
@@ -238,7 +238,7 @@ fn test_linear_classifier_unary_softmax() {
 fn test_linear_classifier_unary_softmax_zero() {
     let (mut classifier, X) = linear_classifier_helper_unary(POST_TRANSFORM::SOFTMAXZERO);
 
-    let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = LinearClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 1, 'labels[0]');

@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
 use orion::numbers::{NumberTrait};
 use orion::operators::tensor::quantization::dequantize_linear::dequantize_linear;
 use orion::operators::tensor::quantization::quantize_linear::quantize_linear;
@@ -49,6 +45,6 @@ fn qlinear_mul<
 
     let mut x = (dequantized_a * dequantized_b).into();
 
-    return quantize_linear(@x, y_scale, y_zero_point, min, max);
+    quantize_linear(@x, y_scale, y_zero_point, min, max)
 }
 

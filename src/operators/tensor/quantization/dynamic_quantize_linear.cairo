@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::debug::PrintTrait;
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::quantization::dequantize_linear::dequantize_linear;
 use orion::operators::tensor::quantization::quantize_linear::quantize_linear;
@@ -46,7 +42,11 @@ fn dynamic_quantize_linear<
         y_scale_values.append(y_scale_value);
     }
 
+<<<<<<< HEAD
     let mut y_scale_tensor_shape = ArrayTrait::new();
+=======
+    let mut y_scale_tensor_shape: Array<u32> = array![];
+>>>>>>> main
     y_scale_tensor_shape.append(y_scale_values.len());
 
     let y_scale = TensorTrait::<
@@ -58,13 +58,13 @@ fn dynamic_quantize_linear<
 
     // y_zero_point = cast(round(saturate(itermediate_zero_point)))
     let mut y_zero_point_value: T = saturate(min, max, intermediate_zero_point);
-    let mut y_zero_point_values = ArrayTrait::new();
+    let mut y_zero_point_values: Array<T> = array![];
     y_zero_point_values.append(y_zero_point_value);
 
-    let mut y_zero_point_tensor_shape = ArrayTrait::new();
+    let mut y_zero_point_tensor_shape: Array<u32> = array![];
     y_zero_point_tensor_shape.append(y_zero_point_values.len());
 
-    let mut y_zero_point_values = ArrayTrait::new();
+    let mut y_zero_point_values: Array<T> = array![];
     y_zero_point_values.append(y_zero_point_value);
     let mut y_zero_point = TensorTrait::<
         T
@@ -73,5 +73,9 @@ fn dynamic_quantize_linear<
 
     // y = saturate (round (x / y_scale) + y_zero_point)
 
+<<<<<<< HEAD
     return (quantize_linear(x, @y_scale, @y_zero_point, min, max), y_scale, y_zero_point);
+=======
+    (quantize_linear(x, @y_scale, @y_zero_point, min, max), y_scale, y_zero_point)
+>>>>>>> main
 }

@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 
@@ -17,7 +13,7 @@ fn relu<
 >(
     mut z: Tensor<T>
 ) -> Tensor<T> {
-    let mut data_result = ArrayTrait::<T>::new();
+    let mut data_result: Array<T> = array![];
 
     loop {
         match z.data.pop_front() {
@@ -32,5 +28,5 @@ fn relu<
         };
     };
 
-    return TensorTrait::new(z.shape, data_result.span());
+    TensorTrait::new(z.shape, data_result.span())
 }

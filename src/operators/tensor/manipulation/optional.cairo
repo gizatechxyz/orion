@@ -1,4 +1,3 @@
-use core::option::OptionTrait;
 use orion::operators::tensor::{Tensor, TensorTrait};
 
 /// Cf: TensorTrait::optional docstring

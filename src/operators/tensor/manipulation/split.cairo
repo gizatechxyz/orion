@@ -1,6 +1,4 @@
 use orion::operators::tensor::{Tensor, TensorTrait, U32Tensor};
-use core::array::{ArrayTrait, SpanTrait};
-use core::option::OptionTrait;
 use orion::operators::matrix::{MutMatrixTrait, MutMatrix, MutMatrixImpl};
 
 /// Cf: TensorTrait::split docstring
@@ -8,11 +6,11 @@ fn split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, split: Option<Tensor<usize>>
 ) -> Array<Tensor<T>> {
     let has_num_outputs = match num_outputs {
-        Option::Some => { true },
+        Option::Some => true,
         Option::None => false,
     };
     let has_split = match split {
-        Option::Some => { true },
+        Option::Some => true,
         Option::None => false,
     };
     assert(!(has_num_outputs && has_split), 'split or num_outputs not both.');
@@ -29,6 +27,7 @@ fn split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     } else {
         splited_t = split_has_split(self, axis, split.unwrap());
     }
+
     splited_t
 }
 
@@ -47,23 +46,18 @@ fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     if (*(*t).shape.at(axis) % num_outputs == 0) {
         div = *(*t).shape.at(axis) / num_outputs;
         let mut i = 0;
-        loop {
-            if (i >= num_outputs) {
-                break;
-            }
+        while i != num_outputs {
             split.append(div);
             i += 1;
         };
     } else {
         div = *(*t).shape.at(axis) / num_outputs + 1;
         let mut i = 0;
-        loop {
-            if (i >= num_outputs) {
-                break;
-            }
+        while i != num_outputs {
             split.append(div);
             i += 1;
         };
+
         match split.pop_front() {
             Option::Some(split_last_one) => {
                 split.append(split_last_one + *(*t).shape.at(axis) - div * (num_outputs - 1));
@@ -75,34 +69,29 @@ fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     let mut sli: MutMatrix<usize> = MutMatrixImpl::new((*t).shape.len(), 2);
     let mut pos: usize = 0;
     let mut i = 0;
-    loop {
-        if (i >= (*t).shape.len()) {
-            break;
-        }
+    while i != (*t).shape.len() {
         let s: usize = *(*t).shape.at(i);
         sli.set(i, 0, 0);
         sli.set(i, 1, s);
         i += 1;
     };
+
     let mut i: usize = 0;
-    loop {
-        if (i >= split.len()) {
-            break;
-        }
+    while i != split.len() {
         let spl = *split.at(i);
         sli.set(axis, 0, pos);
         pos += spl;
         sli.set(axis, 1, pos);
 
         let end_ele_0 = match sli.get(axis, 0) {
-            Option::Some(res) => { res },
+            Option::Some(res) => res,
             Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },
         };
         let end_ele_1 = match sli.get(axis, 1) {
-            Option::Some(res) => { res },
+            Option::Some(res) => res,
             Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
@@ -116,6 +105,7 @@ fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
         splited_t.append(sub_t);
         i += 1;
     };
+
     splited_t
 }
 
@@ -128,34 +118,29 @@ fn split_has_split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     let mut sli: MutMatrix<usize> = MutMatrixImpl::new((*t).shape.len(), 2);
     let mut pos: usize = 0;
     let mut i = 0;
-    loop {
-        if (i >= (*t).shape.len()) {
-            break;
-        }
+    while i != (*t).shape.len() {
         let s: usize = *(*t).shape.at(i);
         sli.set(i, 0, 0);
         sli.set(i, 1, s);
         i += 1;
     };
+
     let mut i: usize = 0;
-    loop {
-        if (i >= split.data.len()) {
-            break;
-        }
+    while i != split.data.len() {
         let spl: usize = split.at(indices: array![i].span());
         sli.set(axis, 0, pos);
         pos += spl;
         sli.set(axis, 1, pos);
 
         let end_ele_0 = match sli.get(axis, 0) {
-            Option::Some(res) => { res },
+            Option::Some(res) => res,
             Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },
         };
         let end_ele_1 = match sli.get(axis, 1) {
-            Option::Some(res) => { res },
+            Option::Some(res) => res,
             Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
@@ -169,5 +154,6 @@ fn split_has_split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
         splited_t.append(sub_t);
         i += 1;
     };
+
     splited_t
 }

@@ -1,8 +1,3 @@
-use core::traits::Into;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::helpers::check_compatibility;
 use orion::utils::saturate;
@@ -31,6 +26,7 @@ fn dequantize_linear<
         check_compatibility(*x.shape, *x_scale.shape);
         check_compatibility(*x.shape, *x_zero_point.shape);
         check_compatibility(*x_scale.shape, *x_zero_point.shape);
+
         dequantize_per_axis(@(*x).into(), x_scale, x_zero_point)
     }
 }
@@ -62,7 +58,7 @@ fn dequantize_element_wise<
 >(
     mut x: Tensor::<Q>, x_scale: T, x_zero_point: T
 ) -> Tensor::<T> {
-    let mut result_data = ArrayTrait::<T>::new();
+    let mut result_data: Array<T> = array![];
 
     loop {
         match x.data.pop_front() {
@@ -74,7 +70,7 @@ fn dequantize_element_wise<
         };
     };
 
-    return TensorTrait::new(x.shape, result_data.span());
+    TensorTrait::new(x.shape, result_data.span())
 }
 
 fn dequantize<

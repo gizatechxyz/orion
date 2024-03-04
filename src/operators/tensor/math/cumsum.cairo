@@ -1,11 +1,6 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::debug::PrintTrait;
-
+use orion::numbers::NumberTrait;
 use orion::operators::tensor::helpers::replace_index;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
-use orion::numbers::NumberTrait;
 
 /// Cf: TensorTrait::cumsum docstring
 fn cumsum<
@@ -52,17 +47,14 @@ fn cumsum_forward<
 
     let data = *self.data;
 
-    let mut output_data = ArrayTrait::new();
+    let mut output_data = array![];
 
     let mut index: usize = 0;
 
-    loop {
-        if index == data.len() {
-            break ();
-        };
-
+    while index != data.len() {
         let current_indices = unravel_index(index, *self.shape);
         let axis_value = *current_indices[axis];
+
         if axis_value == 0 {
             if exclusive {
                 output_data.append(zero);
@@ -91,9 +83,8 @@ fn cumsum_forward<
         index += 1;
     };
 
-    return TensorTrait::<T>::new(*self.shape, output_data.span());
+    TensorTrait::<T>::new(*self.shape, output_data.span())
 }
-
 
 /// Cf: TensorTrait::cumsum docstring
 fn cumsum_reverse<
@@ -113,20 +104,15 @@ fn cumsum_reverse<
 
     assert(axis < (*self.shape).len(), 'axis out of dimensions');
     let data = *self.data;
-    let mut output_data = ArrayTrait::new();
+    let mut output_data = array![];
     let mut index: usize = 0;
-    loop {
-        if index == data.len() {
-            break ();
-        };
-
+    while index != data.len() {
         let current_indices = unravel_index(index, *self.shape);
         let mut axis_value = *current_indices[axis];
 
         if axis_value == 0 {
             // If the axis value is 0, we need to sum all the elements
             // in the axis.
-
             let mut sum = *(data)[index];
             if exclusive {
                 sum = zero;
@@ -144,6 +130,7 @@ fn cumsum_reverse<
                 let next_axis_element_index = ravel_index(*self.shape, next_axis_element_indices);
                 sum += *data[next_axis_element_index];
             };
+
             output_data.append(sum);
         } else {
             // If the axis value is not 0, we only need to do a subtraction
@@ -168,5 +155,5 @@ fn cumsum_reverse<
         index += 1;
     };
 
-    return TensorTrait::<T>::new(*self.shape, output_data.span());
+    TensorTrait::<T>::new(*self.shape, output_data.span())
 }

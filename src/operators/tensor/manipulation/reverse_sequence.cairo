@@ -1,4 +1,3 @@
-use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
 
 /// Cf: TensorTrait::reverse_sequence docstring
@@ -18,6 +17,7 @@ fn reverse_sequence<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl T
         },
         Option::None => 0,
     };
+
     let has_time_axis: usize = match time_axis {
         Option::Some(value) => {
             assert!((value != 0) || (value != 1), "time_axis must be one of 1 or 0.");
@@ -25,8 +25,9 @@ fn reverse_sequence<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl T
         },
         Option::None => 1,
     };
+
     assert!(has_batch_axis != has_time_axis, "batch_axis and time_axis cannot be equal");
-    assert!((*self.data).len() >= 2, "Tensor of rank r >= 2");
+    assert((*self.data).len() >= 2, 'Tensor of rank r >= 2');
     let control: bool = if has_batch_axis == 0 && has_time_axis == 1 {
         true
     } else {
@@ -48,7 +49,7 @@ fn reverse_sequence<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl T
 fn reverse_index(shape: Span<usize>, sequence_lens: Tensor<usize>, control: bool) -> Array<usize> {
     let x: usize = *shape.at(0);
     let y: usize = *shape.at(1);
-    let mut result = ArrayTrait::<usize>::new();
+    let mut result: Array<usize> = array![];
 
     if control {
         // [i, slice]
@@ -56,11 +57,15 @@ fn reverse_index(shape: Span<usize>, sequence_lens: Tensor<usize>, control: bool
             sequence_lens.data.len() <= x, "The length of sequence_lens cannot exceed batch_axis"
         );
         let mut i: usize = 0;
+<<<<<<< HEAD
         loop {
             if i >= x {
                 break;
             }
 
+=======
+        while i != x {
+>>>>>>> main
             let reverse: usize = (*sequence_lens.data.at(i));
             assert!(
                 reverse <= y && reverse >= 1,
@@ -72,18 +77,17 @@ fn reverse_index(shape: Span<usize>, sequence_lens: Tensor<usize>, control: bool
                     result.append(i * y + j);
                     break;
                 }
+
                 result.append(i * y + j);
                 j -= 1;
             };
             let current_index_len: usize = (i + 1) * y - 1;
             let mut j: usize = result.len();
-            loop {
-                if j > current_index_len {
-                    break;
-                }
+            while j != current_index_len + 1 {
                 result.append(j);
                 j += 1;
             };
+
             i += 1;
         };
     } else {
@@ -93,10 +97,7 @@ fn reverse_index(shape: Span<usize>, sequence_lens: Tensor<usize>, control: bool
         );
         let mut tmp = ArrayTrait::<usize>::new();
         let mut i: usize = 0;
-        loop {
-            if i > y - 1 {
-                break;
-            }
+        while i != y {
             let reverse: usize = *sequence_lens.data.at(i);
             assert!(
                 reverse <= x && reverse >= 1,
@@ -113,31 +114,33 @@ fn reverse_index(shape: Span<usize>, sequence_lens: Tensor<usize>, control: bool
                 j -= 1;
             };
             let mut j: usize = reverse;
-            loop {
-                if j > x - 1 {
-                    break;
-                }
+            while j != x {
                 tmp.append(j * y + i);
                 j += 1;
             };
+
             i += 1;
         };
+
         let tmp = tmp.span();
         let mut i: usize = 0;
+<<<<<<< HEAD
         loop {
             if i > x - 1 {
                 break;
             }
+=======
+        while i != x {
+>>>>>>> main
             let mut j: usize = 0;
-            loop {
-                if j > y - 1 {
-                    break;
-                }
+            while j != y {
                 result.append((*tmp.at(j * x + i)));
                 j += 1;
             };
+
             i += 1;
         };
     }
+
     result
 }
