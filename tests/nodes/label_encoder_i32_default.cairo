@@ -20,9 +20,15 @@ fn test_label_encoder_i32_default() {
     let input_3 = input_3::input_3();
     let z_0 = output_0::output_0();
 
-    let y_0 = input_0.label_encoder(default_list:Option::None, default_tensor: Option::Some(input_1), 
-                    keys:Option::None, keys_tensor: Option::Some(input_2),
-                    values: Option::None, values_tensor: Option::Some(input_3));
+    let y_0 = input_0
+        .label_encoder(
+            default_list: Option::None,
+            default_tensor: Option::Some(input_1),
+            keys: Option::None,
+            keys_tensor: Option::Some(input_2),
+            values: Option::None,
+            values_tensor: Option::Some(input_3)
+        );
 
     assert_eq(y_0, z_0);
 }

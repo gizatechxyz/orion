@@ -194,7 +194,6 @@ fn reduce_max_2D_axis_1<
         let max = max(SpanTrait::slice(X.data, i * C, C));
         new_data.append(max);
         i += 1;
-
     };
     return new_data.span();
 }

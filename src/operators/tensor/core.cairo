@@ -5841,9 +5841,13 @@ trait TensorTrait<T> {
     /// >>> [7, 9, 999, 7, 999, 999],
     /// ```
     ///
-    fn label_encoder(self: @Tensor<T>, default_list: Option<Span<T>>, 
-        default_tensor: Option<Tensor<T>>, keys: Option<Span<T>>, 
-        keys_tensor: Option<Tensor<T>>, values: Option<Span<T>>, 
+    fn label_encoder(
+        self: @Tensor<T>,
+        default_list: Option<Span<T>>,
+        default_tensor: Option<Tensor<T>>,
+        keys: Option<Span<T>>,
+        keys_tensor: Option<Tensor<T>>,
+        values: Option<Span<T>>,
         values_tensor: Option<Tensor<T>>
     ) -> Tensor<T>;
 }

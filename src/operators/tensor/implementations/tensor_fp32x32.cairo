@@ -622,8 +622,18 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 
-    fn label_encoder(self: @Tensor<FP32x32>, default_list: Option<Span<FP32x32>>, default_tensor: Option<Tensor<FP32x32>>, keys: Option<Span<FP32x32>>, keys_tensor: Option<Tensor<FP32x32>>, values: Option<Span<FP32x32>>, values_tensor: Option<Tensor<FP32x32>>) -> Tensor<FP32x32> {
-        ml::label_encoder::label_encoder(self, default_list, default_tensor, keys, keys_tensor, values, values_tensor)
+    fn label_encoder(
+        self: @Tensor<FP32x32>,
+        default_list: Option<Span<FP32x32>>,
+        default_tensor: Option<Tensor<FP32x32>>,
+        keys: Option<Span<FP32x32>>,
+        keys_tensor: Option<Tensor<FP32x32>>,
+        values: Option<Span<FP32x32>>,
+        values_tensor: Option<Tensor<FP32x32>>
+    ) -> Tensor<FP32x32> {
+        ml::label_encoder::label_encoder(
+            self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
+        )
     }
 }
 

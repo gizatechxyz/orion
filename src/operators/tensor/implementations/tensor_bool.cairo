@@ -536,8 +536,16 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn label_encoder(self: @Tensor<bool>, default_list: Option<Span<bool>>, default_tensor: Option<Tensor<bool>>, keys: Option<Span<bool>>, keys_tensor: Option<Tensor<bool>>, values: Option<Span<bool>>, values_tensor: Option<Tensor<bool>>) -> Tensor<bool> {
-         panic(array!['not supported!'])
+    fn label_encoder(
+        self: @Tensor<bool>,
+        default_list: Option<Span<bool>>,
+        default_tensor: Option<Tensor<bool>>,
+        keys: Option<Span<bool>>,
+        keys_tensor: Option<Tensor<bool>>,
+        values: Option<Span<bool>>,
+        values_tensor: Option<Tensor<bool>>
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
     }
 }
 

@@ -13,22 +13,20 @@ use core::traits::Into;
 use core::traits::TryInto;
 /// Cf: TensorTrait::label_encoder docstring
 fn label_encoder<
-    T,
-    +Drop<T>,
-    +Copy<T>,
-    +AddEq<T>,
-    +TensorTrait<T>,
-    +PartialOrd<T>,
-    +Into<T, felt252>,
+    T, +Drop<T>, +Copy<T>, +AddEq<T>, +TensorTrait<T>, +PartialOrd<T>, +Into<T, felt252>,
 >(
     // self: @Tensor<T>, default: T, keys: Array<T>, values: Array<T>
-    self: @Tensor<T>, default_list: Option<Span<T>>, default_tensor: Option<Tensor<T>>, keys: Option<Span<T>>, keys_tensor: Option<Tensor<T>>, values: Option<Span<T>>, values_tensor: Option<Tensor<T>>,
-
-) -> Tensor<T> 
-{
+    self: @Tensor<T>,
+    default_list: Option<Span<T>>,
+    default_tensor: Option<Tensor<T>>,
+    keys: Option<Span<T>>,
+    keys_tensor: Option<Tensor<T>>,
+    values: Option<Span<T>>,
+    values_tensor: Option<Tensor<T>>,
+) -> Tensor<T> {
     let mut default = match default_list {
         Option::Some(value) => value,
-        Option::None => { 
+        Option::None => {
             match default_tensor {
                 Option::Some(value) => value.data,
                 Option::None => { core::panic_with_felt252('None') },
@@ -37,30 +35,29 @@ fn label_encoder<
     };
 
     let default = match default.pop_front() {
-            Option::Some(value) => *value,
-            Option::None => { core::panic_with_felt252('None') }
+        Option::Some(value) => *value,
+        Option::None => { core::panic_with_felt252('None') }
     };
 
     let mut keys = match keys {
         Option::Some(value) => { value },
-        Option::None => { 
+        Option::None => {
             match keys_tensor {
                 Option::Some(value) => { value.data },
-                Option::None => { core::panic_with_felt252('None')  },
+                Option::None => { core::panic_with_felt252('None') },
             }
         }
     };
 
-     let mut values = match values {
+    let mut values = match values {
         Option::Some(value) => { value },
-        Option::None => { 
+        Option::None => {
             match values_tensor {
                 Option::Some(value) => { value.data },
-                Option::None => { core::panic_with_felt252('None')  },
+                Option::None => { core::panic_with_felt252('None') },
             }
         }
     };
-
 
     assert(keys.len() == values.len(), 'keys must be eq to values');
     let mut key_value_dict: Felt252Dict<Nullable<T>> = Default::default();
@@ -74,7 +71,7 @@ fn label_encoder<
         let value = match values.pop_front() {
             Option::Some(value) => value,
             Option::None => { break; }
-        }; 
+        };
 
         key_value_dict.insert((*key).into(), nullable_from_box(BoxTrait::new(*value)));
     };
@@ -87,8 +84,8 @@ fn label_encoder<
                 let res = key_value_dict.get(value.into());
 
                 let mut span = match match_nullable(res) {
-                        FromNullableResult::Null => default,
-                        FromNullableResult::NotNull(res) => res.unbox(),
+                    FromNullableResult::Null => default,
+                    FromNullableResult::NotNull(res) => res.unbox(),
                 };
                 output_data.append(span);
             },

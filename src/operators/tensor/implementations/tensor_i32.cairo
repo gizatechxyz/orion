@@ -586,8 +586,18 @@ impl I32Tensor of TensorTrait<i32> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 
-    fn label_encoder(self: @Tensor<i32>, default_list: Option<Span<i32>>, default_tensor: Option<Tensor<i32>>, keys: Option<Span<i32>>, keys_tensor: Option<Tensor<i32>>, values: Option<Span<i32>>, values_tensor: Option<Tensor<i32>>) -> Tensor<i32> {
-        ml::label_encoder::label_encoder(self, default_list, default_tensor, keys, keys_tensor, values, values_tensor)
+    fn label_encoder(
+        self: @Tensor<i32>,
+        default_list: Option<Span<i32>>,
+        default_tensor: Option<Tensor<i32>>,
+        keys: Option<Span<i32>>,
+        keys_tensor: Option<Tensor<i32>>,
+        values: Option<Span<i32>>,
+        values_tensor: Option<Tensor<i32>>
+    ) -> Tensor<i32> {
+        ml::label_encoder::label_encoder(
+            self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
+        )
     }
 }
 
