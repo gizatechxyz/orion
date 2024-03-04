@@ -1,4 +1,3 @@
-use core::traits::Into;
 use orion::numbers::fixed_point::implementations::fp8x23::core::{ONE, FP8x23, FixedTrait};
 use orion::numbers::fixed_point::implementations::fp8x23::math::lut::erf_lut;
 
@@ -21,5 +20,6 @@ fn erf(x: FP8x23) -> FP8x23 {
     } else {
         erf_value = ONE;
     }
+
     FP8x23 { mag: erf_value, sign: x.sign }
 }

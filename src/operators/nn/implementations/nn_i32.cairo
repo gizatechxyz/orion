@@ -1,5 +1,3 @@
-use core::option::OptionTrait;
-
 use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
@@ -53,7 +51,7 @@ impl I32NN of NNTrait<i32> {
     fn depth_to_space(tensor: @Tensor<i32>, blocksize: usize, mode: felt252) -> Tensor<i32> {
         functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
     }
-    
+
     fn space_to_depth(tensor: @Tensor<i32>, blocksize: usize) -> Tensor<i32> {
         functional::space_to_depth::space_to_depth(*tensor, blocksize)
     }
@@ -79,7 +77,7 @@ impl I32NN of NNTrait<i32> {
     ) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
-    
+
     fn col2im(
         data: @Tensor<i32>,
         image_shape: Span<usize>,
@@ -90,7 +88,7 @@ impl I32NN of NNTrait<i32> {
     ) -> Tensor<i32> {
         functional::col2im::col2im(data, image_shape, block_shape, dilations, pads, strides,)
     }
-    
+
     fn conv_transpose(
         X: @Tensor<i32>,
         W: @Tensor<i32>,
@@ -118,7 +116,7 @@ impl I32NN of NNTrait<i32> {
             strides
         )
     }
-    
+
     fn conv(
         X: @Tensor<i32>,
         W: @Tensor<i32>,

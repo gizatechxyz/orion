@@ -1,5 +1,3 @@
-use core::option::OptionTrait;
-
 use orion::operators::tensor::core::Tensor;
 use orion::operators::sequence::core::SequenceTrait;
 use orion::operators::sequence::functional;

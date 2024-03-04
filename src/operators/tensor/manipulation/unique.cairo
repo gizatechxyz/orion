@@ -1,10 +1,3 @@
-use core::traits::Into;
-use core::traits::IndexView;
-use core::option::OptionTrait;
-use core::array::{SpanTrait, ArrayTrait};
-
-use core::debug::PrintTrait;
-
 use alexandria_data_structures::array_ext::{SpanTraitExt, ArrayTraitExt};
 use alexandria_sorting::merge_sort::merge;
 
@@ -87,13 +80,7 @@ fn unique_flatten<T, +Copy<T>, +Drop<T>, +PartialOrd<T>, +PartialEq<T>,>(
         }
     };
 
-    return (
-        unique_elements.span(),
-        new_shape.span(),
-        indices.span(),
-        inverse_indices.span(),
-        count.span()
-    );
+    (unique_elements.span(), new_shape.span(), indices.span(), inverse_indices.span(), count.span())
 }
 
 /// Subfunction unique for tensors (wth axis).
@@ -123,10 +110,7 @@ fn unique_along_axis<
     let mut unique_tensors_len = unique_tensors.len();
 
     let mut i = 0;
-    loop {
-        if (i >= rank) {
-            break;
-        }
+    while i != rank {
         new_shape.append(if axis == i {
             unique_tensors_len
         } else {
@@ -166,5 +150,5 @@ fn unique_along_axis<
     let new_shape_span = new_shape.span();
     let unique_elements = flatten_array_of_tensors(unique_tensors, axis, new_shape_span);
 
-    return (unique_elements, new_shape_span, indices.span(), inverse_indices.span(), count.span());
+    (unique_elements, new_shape_span, indices.span(), inverse_indices.span(), count.span())
 }

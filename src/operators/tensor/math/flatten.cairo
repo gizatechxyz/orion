@@ -1,8 +1,4 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-
 
 /// Cf: TensorTrait::flatten docstring
 fn flatten<T, impl TTensorTrait: TensorTrait<T>>(self: @Tensor<T>, axis: usize) -> Tensor<T> {
@@ -27,5 +23,5 @@ fn flatten<T, impl TTensorTrait: TensorTrait<T>>(self: @Tensor<T>, axis: usize) 
 
     let new_shape_second_axis = (*self.data).len() / new_shape_first_axis;
 
-    return self.reshape(array![new_shape_first_axis, new_shape_second_axis].span());
+    self.reshape(array![new_shape_first_axis, new_shape_second_axis].span())
 }

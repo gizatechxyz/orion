@@ -1,5 +1,3 @@
-use core::array::SpanTrait;
-
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 
@@ -20,5 +18,5 @@ fn linear<
     let dot = weights.matmul(@z);
     let sum = dot + bias;
 
-    return sum;
+    sum
 }

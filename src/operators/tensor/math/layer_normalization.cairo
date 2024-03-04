@@ -1,16 +1,9 @@
-use core::traits::TryInto;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::Into;
 use orion::numbers::{NumberTrait, I32IntoU32};
+use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
 use orion::operators::tensor::{
     TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, BoolTensor
 };
-use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
-use core::debug::PrintTrait;
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
-
 
 /// Cf: TensorTrait::layer_normalization docstring
 fn layer_normalization<
@@ -52,20 +45,15 @@ fn layer_normalization<
     };
 
     let unsqueezed_rank = X_rank - axis;
-    let mut reduction_shape = ArrayTrait::new();
+    let mut reduction_shape = array![];
     let mut i = 0;
-    loop {
-        if i == axis {
-            break;
-        }
+    while i != axis {
         reduction_shape.append(*(*self).shape.at(i));
         i += 1;
     };
+
     let mut i = 0;
-    loop {
-        if i == unsqueezed_rank {
-            break;
-        }
+    while i != unsqueezed_rank {
         reduction_shape.append(1);
         i += 1;
     };
@@ -73,34 +61,32 @@ fn layer_normalization<
     let mut row_number = 1;
     let mut col_number = 1;
     let mut i = 0;
-    loop {
-        if i == X_rank {
-            break;
-        }
+    while i != X_rank {
         if i < axis {
             row_number *= *(*self).shape.at(i);
         } else {
             col_number *= *(*self).shape.at(i);
         }
+
         i += 1;
     };
 
-    let mut shape_matrix = ArrayTrait::new();
+    let mut shape_matrix = array![];
     shape_matrix.append(row_number);
     shape_matrix.append(col_number);
 
     // Shape [1, 1] to mutiply one element tensors with 2D matrices
-    let mut shape_one = ArrayTrait::new();
+    let mut shape_one = array![];
     shape_one.append(1);
     shape_one.append(1);
 
-    let mut col_number_tensor = ArrayTrait::new();
+    let mut col_number_tensor = array![];
     col_number_tensor.append(NumberTrait::new_unscaled(col_number.into(), false));
 
-    let mut epsilon_tensor = ArrayTrait::new();
+    let mut epsilon_tensor = array![];
     epsilon_tensor.append(epsilon);
 
-    let mut one_tensor = ArrayTrait::new();
+    let mut one_tensor = array![];
     one_tensor.append(NumberTrait::one());
 
     let x_mat = self.reshape(shape_matrix.span());
@@ -122,23 +108,19 @@ fn layer_normalization<
 
     let scale = if (*scale).shape.len() < (*self).shape.len() {
         // Append 1 in scale shape to make sure scale has a dimension compatible with Y for multiplication
-        let mut shape = ArrayTrait::new();
+        let mut shape = array![];
         let mut i = 0;
-        loop {
-            if i == (*self).shape.len() - (*scale).shape.len() {
-                break;
-            }
+        while i != (*self).shape.len() - (*scale).shape.len() {
             shape.append(1);
             i += 1;
         };
+
         let mut i = 0;
-        loop {
-            if i == (*scale).shape.len() {
-                break;
-            }
+        while i != (*scale).shape.len() {
             shape.append(*(*scale).shape.at(i));
             i += 1;
         };
+
         TensorTrait::new(shape.span(), (*scale).data)
     } else {
         *scale
@@ -150,23 +132,19 @@ fn layer_normalization<
         Option::Some(B) => {
             let B = if (*B).shape.len() < (*self).shape.len() {
                 // Append 1 in B shape to make sure scale has a dimension compatible with Y for multiplication
-                let mut shape = ArrayTrait::new();
+                let mut shape = array![];
                 let mut i = 0;
-                loop {
-                    if i == (*self).shape.len() - (*B).shape.len() {
-                        break;
-                    }
+                while i != (*self).shape.len() - (*B).shape.len() {
                     shape.append(1);
                     i += 1;
                 };
+
                 let mut i = 0;
-                loop {
-                    if i == (*B).shape.len() {
-                        break;
-                    }
+                while i != (*B).shape.len() {
                     shape.append(*(*B).shape.at(i));
                     i += 1;
                 };
+
                 TensorTrait::new(shape.span(), (*B).data)
             } else {
                 *B
@@ -179,6 +157,6 @@ fn layer_normalization<
     let X_mean = TensorTrait::new(reduction_shape.span(), x_mean.data);
     let X_inv_std_dev = TensorTrait::new(reduction_shape.span(), inv_std_dev.data);
 
-    return (Y, X_mean, X_inv_std_dev);
+    (Y, X_mean, X_inv_std_dev)
 }
 

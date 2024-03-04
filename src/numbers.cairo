@@ -1432,9 +1432,10 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
 
 impl I8Number of NumberTrait<i8, i8> {
     fn new(mag: i8, sign: bool) -> i8 {
-        if sign{
+        if sign {
             return -mag;
         }
+
         mag
     }
 
@@ -1559,7 +1560,7 @@ impl I8Number of NumberTrait<i8, i8> {
 
     fn abs(self: i8) -> i8 {
         if self >= 0 {
-            return self;
+            self
         } else {
             self * -1_i8
         }
@@ -1579,7 +1580,7 @@ impl I8Number of NumberTrait<i8, i8> {
 
     fn min(self: i8, other: i8) -> i8 {
         if self < other {
-            return self;
+            self
         } else {
             other
         }
@@ -1587,7 +1588,7 @@ impl I8Number of NumberTrait<i8, i8> {
 
     fn max(self: i8, other: i8) -> i8 {
         if self > other {
-            return self;
+            self
         } else {
             other
         }
@@ -1603,43 +1604,43 @@ impl I8Number of NumberTrait<i8, i8> {
 
     fn xor(lhs: i8, rhs: i8) -> bool {
         if (lhs == 0 || rhs == 0) && lhs != rhs {
-            return true;
+            true
         } else {
-            return false;
+            false
         }
     }
 
     fn or(lhs: i8, rhs: i8) -> bool {
-        if (lhs == 0 && rhs == 0) {
-            return false;
+        if lhs == 0 && rhs == 0 {
+            false
         } else {
-            return true;
+            true
         }
     }
 
     fn sign(self: i8) -> i8 {
         if self == 0 {
-            return 0_i8;
+            0_i8
         } else if self > 0 {
-            return 1_i8;
+            1_i8
         } else {
             -1_i8
         }
     }
 
     fn and(lhs: i8, rhs: i8) -> bool {
-        if (lhs == 0 || rhs == 0) {
-            return false;
+        if lhs == 0 || rhs == 0 {
+            false
         } else {
-            return true;
+            true
         }
     }
 
     fn where(self: i8, x: i8, y: i8) -> i8 {
         if self == 0 {
-            return y;
+            y
         } else {
-            return x;
+            x
         }
     }
 
@@ -1656,7 +1657,7 @@ impl I8Number of NumberTrait<i8, i8> {
     }
 
     fn is_inf(self: i8) -> bool {
-        (self == 127 || self == -127)
+        self == 127 || self == -127
     }
 
     fn is_pos_inf(self: i8) -> bool {
@@ -1691,8 +1692,10 @@ impl I8Number of NumberTrait<i8, i8> {
 impl I8Div of Div<i8> {
     fn div(lhs: i8, rhs: i8) -> i8 {
         assert(rhs != 0, 'divisor cannot be 0');
+
         let mut lhs_positive = lhs;
         let mut rhs_positive = rhs;
+
         // making sure everything is positive
         if lhs < 0 {
             lhs_positive = lhs * -1;
@@ -1700,6 +1703,7 @@ impl I8Div of Div<i8> {
         if rhs < 0 {
             rhs_positive = rhs * -1;
         }
+
         //felt252 plays role of a bridge for type casting
         let lhs_felt: felt252 = lhs_positive.into();
         let rhs_felt: felt252 = rhs_positive.into();
@@ -1708,6 +1712,7 @@ impl I8Div of Div<i8> {
         let mut result = lhs_u128 / rhs_u128;
         let felt_result: felt252 = result.into();
         let signed_int_result: i8 = felt_result.try_into().unwrap();
+
         if lhs * rhs < 0 {
             signed_int_result * -1
         } else {
@@ -1727,11 +1732,14 @@ impl I8IntoFP8x23 of Into<i8, FP8x23> {
     fn into(self: i8) -> FP8x23 {
         let number_sign: bool = self < 0;
         let mut self_positive: i8 = self;
+
         if number_sign {
             self_positive = self_positive * -1_i8
         }
+
         let number_felt: felt252 = self_positive.into();
         let number_u32: u32 = number_felt.try_into().unwrap();
+
         FP8x23 { mag: number_u32 * ONE_fp8x23, sign: number_sign }
     }
 }
@@ -1740,11 +1748,14 @@ impl I8IntoFP16x16 of Into<i8, FP16x16> {
     fn into(self: i8) -> FP16x16 {
         let number_sign: bool = self < 0;
         let mut self_positive: i8 = self;
+
         if number_sign {
             self_positive = self_positive * -1_i8
         }
+
         let number_felt: felt252 = self_positive.into();
         let number_u32: u32 = number_felt.try_into().unwrap();
+
         FP16x16 { mag: number_u32 * ONE_fp16x16, sign: number_sign }
     }
 }
@@ -1753,11 +1764,14 @@ impl I8IntoFP64x64 of Into<i8, FP64x64> {
     fn into(self: i8) -> FP64x64 {
         let number_sign: bool = self < 0;
         let mut self_positive: i8 = self;
+
         if number_sign {
             self_positive = self_positive * -1_i8
         }
+
         let number_felt: felt252 = self_positive.into();
         let number_u128: u128 = number_felt.try_into().unwrap();
+
         FP64x64 { mag: number_u128 * ONE_fp64x64, sign: number_sign }
     }
 }
@@ -1766,20 +1780,24 @@ impl I8IntoFP32x32 of Into<i8, FP32x32> {
     fn into(self: i8) -> FP32x32 {
         let number_sign: bool = self < 0;
         let mut self_positive: i8 = self;
+
         if number_sign {
             self_positive = self_positive * -1_i8
         }
+
         let number_felt: felt252 = self_positive.into();
         let number_u128: u64 = number_felt.try_into().unwrap();
+
         FP32x32 { mag: number_u128 * ONE_fp32x32, sign: number_sign }
     }
 }
 
 impl I16Number of NumberTrait<i16, i16> {
     fn new(mag: i16, sign: bool) -> i16 {
-        if sign{
+        if sign {
             return -mag;
         }
+
         mag
     }
 
@@ -1904,7 +1922,7 @@ impl I16Number of NumberTrait<i16, i16> {
 
     fn abs(self: i16) -> i16 {
         if self >= 0 {
-            return self;
+            self
         } else {
             self * -1_i16
         }
@@ -1924,7 +1942,7 @@ impl I16Number of NumberTrait<i16, i16> {
 
     fn min(self: i16, other: i16) -> i16 {
         if self < other {
-            return self;
+            self
         } else {
             other
         }
@@ -1932,7 +1950,7 @@ impl I16Number of NumberTrait<i16, i16> {
 
     fn max(self: i16, other: i16) -> i16 {
         if self > other {
-            return self;
+            self
         } else {
             other
         }
@@ -1948,43 +1966,43 @@ impl I16Number of NumberTrait<i16, i16> {
 
     fn xor(lhs: i16, rhs: i16) -> bool {
         if (lhs == 0 || rhs == 0) && lhs != rhs {
-            return true;
+            true
         } else {
-            return false;
+            false
         }
     }
 
     fn or(lhs: i16, rhs: i16) -> bool {
-        if (lhs == 0 && rhs == 0) {
-            return false;
+        if lhs == 0 && rhs == 0 {
+            false
         } else {
-            return true;
+            true
         }
     }
 
     fn sign(self: i16) -> i16 {
         if self == 0 {
-            return 0_i16;
+            0_i16
         } else if self > 0 {
-            return 1_i16;
+            1_i16
         } else {
             -1_i16
         }
     }
 
     fn and(lhs: i16, rhs: i16) -> bool {
-        if (lhs == 0 || rhs == 0) {
-            return false;
+        if lhs == 0 || rhs == 0 {
+            false
         } else {
-            return true;
+            true
         }
     }
 
     fn where(self: i16, x: i16, y: i16) -> i16 {
         if self == 0 {
-            return y;
+            y
         } else {
-            return x;
+            x
         }
     }
 
@@ -2001,7 +2019,7 @@ impl I16Number of NumberTrait<i16, i16> {
     }
 
     fn is_inf(self: i16) -> bool {
-        (self == 32767 || self == -32767)
+        self == 32767 || self == -32767
     }
 
     fn is_pos_inf(self: i16) -> bool {
@@ -2036,8 +2054,10 @@ impl I16Number of NumberTrait<i16, i16> {
 impl I16Div of Div<i16> {
     fn div(lhs: i16, rhs: i16) -> i16 {
         assert(rhs != 0, 'divisor cannot be 0');
+
         let mut lhs_positive = lhs;
         let mut rhs_positive = rhs;
+
         // making sure everything is positive
         if lhs < 0 {
             lhs_positive = lhs * -1;
@@ -2045,6 +2065,7 @@ impl I16Div of Div<i16> {
         if rhs < 0 {
             rhs_positive = rhs * -1;
         }
+
         //felt252 plays role of a bridge for type casting
         let lhs_felt: felt252 = lhs_positive.into();
         let rhs_felt: felt252 = rhs_positive.into();
@@ -2053,6 +2074,7 @@ impl I16Div of Div<i16> {
         let mut result = lhs_u128 / rhs_u128;
         let felt_result: felt252 = result.into();
         let signed_int_result: i16 = felt_result.try_into().unwrap();
+
         if lhs * rhs < 0 {
             signed_int_result * -1
         } else {
@@ -2070,9 +2092,10 @@ impl I16DivEq of DivEq<i16> {
 
 impl I32Number of NumberTrait<i32, i32> {
     fn new(mag: i32, sign: bool) -> i32 {
-        if sign{
+        if sign {
             return -mag;
         }
+
         mag
     }
 
@@ -2197,7 +2220,7 @@ impl I32Number of NumberTrait<i32, i32> {
 
     fn abs(self: i32) -> i32 {
         if self >= 0 {
-            return self;
+            self
         } else {
             self * -1_i32
         }
@@ -2217,7 +2240,7 @@ impl I32Number of NumberTrait<i32, i32> {
 
     fn min(self: i32, other: i32) -> i32 {
         if self < other {
-            return self;
+            self
         } else {
             other
         }
@@ -2225,7 +2248,7 @@ impl I32Number of NumberTrait<i32, i32> {
 
     fn max(self: i32, other: i32) -> i32 {
         if self > other {
-            return self;
+            self
         } else {
             other
         }
@@ -2241,43 +2264,43 @@ impl I32Number of NumberTrait<i32, i32> {
 
     fn xor(lhs: i32, rhs: i32) -> bool {
         if (lhs == 0 || rhs == 0) && lhs != rhs {
-            return true;
+            true
         } else {
-            return false;
+            false
         }
     }
 
     fn or(lhs: i32, rhs: i32) -> bool {
-        if (lhs == 0 && rhs == 0) {
-            return false;
+        if lhs == 0 && rhs == 0 {
+            false
         } else {
-            return true;
+            true
         }
     }
 
     fn sign(self: i32) -> i32 {
         if self == 0 {
-            return 0_i32;
+            0_i32
         } else if self > 0 {
-            return 1_i32;
+            1_i32
         } else {
             -1_i32
         }
     }
 
     fn and(lhs: i32, rhs: i32) -> bool {
-        if (lhs == 0 || rhs == 0) {
-            return false;
+        if lhs == 0 || rhs == 0 {
+            false
         } else {
-            return true;
+            true
         }
     }
 
     fn where(self: i32, x: i32, y: i32) -> i32 {
         if self == 0 {
-            return y;
+            y
         } else {
-            return x;
+            x
         }
     }
 
@@ -2294,7 +2317,7 @@ impl I32Number of NumberTrait<i32, i32> {
     }
 
     fn is_inf(self: i32) -> bool {
-        (self == 2147483647 || self == -2147483647)
+        self == 2147483647 || self == -2147483647
     }
 
     fn is_pos_inf(self: i32) -> bool {
@@ -2329,8 +2352,10 @@ impl I32Number of NumberTrait<i32, i32> {
 impl I32Div of Div<i32> {
     fn div(lhs: i32, rhs: i32) -> i32 {
         assert(rhs != 0, 'divisor cannot be 0');
+
         let mut lhs_positive = lhs;
         let mut rhs_positive = rhs;
+
         // making sure everything is positive
         if lhs < 0 {
             lhs_positive = lhs * -1;
@@ -2338,6 +2363,7 @@ impl I32Div of Div<i32> {
         if rhs < 0 {
             rhs_positive = rhs * -1;
         }
+
         //felt252 plays role of a bridge for type casting
         let lhs_felt: felt252 = lhs_positive.into();
         let rhs_felt: felt252 = rhs_positive.into();
@@ -2346,6 +2372,7 @@ impl I32Div of Div<i32> {
         let mut result = lhs_u128 / rhs_u128;
         let felt_result: felt252 = result.into();
         let signed_int_result: i32 = felt_result.try_into().unwrap();
+
         if lhs * rhs < 0 {
             signed_int_result * -1
         } else {
@@ -2365,20 +2392,24 @@ impl I32IntoU32 of Into<i32, u32> {
     fn into(self: i32) -> u32 {
         let number_sign: bool = self < 0;
         let mut self_positive: i32 = self;
+
         if number_sign {
             self_positive = self_positive * -1_i32
         }
+
         let number_felt: felt252 = self_positive.into();
         let number_u32: u32 = number_felt.try_into().unwrap();
+
         number_u32
     }
 }
 
 impl I64Number of NumberTrait<i64, i64> {
     fn new(mag: i64, sign: bool) -> i64 {
-        if sign{
+        if sign {
             return -mag;
         }
+
         mag
     }
 
@@ -2503,7 +2534,7 @@ impl I64Number of NumberTrait<i64, i64> {
 
     fn abs(self: i64) -> i64 {
         if self >= 0 {
-            return self;
+            self
         } else {
             self * -1_i64
         }
@@ -2523,7 +2554,7 @@ impl I64Number of NumberTrait<i64, i64> {
 
     fn min(self: i64, other: i64) -> i64 {
         if self < other {
-            return self;
+            self
         } else {
             other
         }
@@ -2531,7 +2562,7 @@ impl I64Number of NumberTrait<i64, i64> {
 
     fn max(self: i64, other: i64) -> i64 {
         if self > other {
-            return self;
+            self
         } else {
             other
         }
@@ -2547,43 +2578,43 @@ impl I64Number of NumberTrait<i64, i64> {
 
     fn xor(lhs: i64, rhs: i64) -> bool {
         if (lhs == 0 || rhs == 0) && lhs != rhs {
-            return true;
+            true
         } else {
-            return false;
+            false
         }
     }
 
     fn or(lhs: i64, rhs: i64) -> bool {
-        if (lhs == 0 && rhs == 0) {
-            return false;
+        if lhs == 0 && rhs == 0 {
+            false
         } else {
-            return true;
+            true
         }
     }
 
     fn sign(self: i64) -> i64 {
         if self == 0 {
-            return 0_i64;
+            0_i64
         } else if self > 0 {
-            return 1_i64;
+            1_i64
         } else {
             -1_i64
         }
     }
 
     fn and(lhs: i64, rhs: i64) -> bool {
-        if (lhs == 0 || rhs == 0) {
-            return false;
+        if lhs == 0 || rhs == 0 {
+            false
         } else {
-            return true;
+            true
         }
     }
 
     fn where(self: i64, x: i64, y: i64) -> i64 {
         if self == 0 {
-            return y;
+            y
         } else {
-            return x;
+            x
         }
     }
 
@@ -2600,7 +2631,7 @@ impl I64Number of NumberTrait<i64, i64> {
     }
 
     fn is_inf(self: i64) -> bool {
-        (self == 9223372036854775807 || self == -9223372036854775807)
+        self == 9223372036854775807 || self == -9223372036854775807
     }
 
     fn is_pos_inf(self: i64) -> bool {
@@ -2635,8 +2666,10 @@ impl I64Number of NumberTrait<i64, i64> {
 impl I64Div of Div<i64> {
     fn div(lhs: i64, rhs: i64) -> i64 {
         assert(rhs != 0, 'divisor cannot be 0');
+
         let mut lhs_positive = lhs;
         let mut rhs_positive = rhs;
+
         // making sure everything is positive
         if lhs < 0 {
             lhs_positive = lhs * -1;
@@ -2644,6 +2677,7 @@ impl I64Div of Div<i64> {
         if rhs < 0 {
             rhs_positive = rhs * -1;
         }
+
         //felt252 plays role of a bridge for type casting
         let lhs_felt: felt252 = lhs_positive.into();
         let rhs_felt: felt252 = rhs_positive.into();
@@ -2652,6 +2686,7 @@ impl I64Div of Div<i64> {
         let mut result = lhs_u128 / rhs_u128;
         let felt_result: felt252 = result.into();
         let signed_int_result: i64 = felt_result.try_into().unwrap();
+
         if lhs * rhs < 0 {
             signed_int_result * -1
         } else {
@@ -2669,9 +2704,10 @@ impl I64DivEq of DivEq<i64> {
 
 impl I128Number of NumberTrait<i128, i128> {
     fn new(mag: i128, sign: bool) -> i128 {
-        if sign{
+        if sign {
             return -mag;
         }
+
         mag
     }
 
@@ -2796,7 +2832,7 @@ impl I128Number of NumberTrait<i128, i128> {
 
     fn abs(self: i128) -> i128 {
         if self >= 0 {
-            return self;
+            self
         } else {
             self * -1_i128
         }
@@ -2816,7 +2852,7 @@ impl I128Number of NumberTrait<i128, i128> {
 
     fn min(self: i128, other: i128) -> i128 {
         if self < other {
-            return self;
+            self
         } else {
             other
         }
@@ -2824,7 +2860,7 @@ impl I128Number of NumberTrait<i128, i128> {
 
     fn max(self: i128, other: i128) -> i128 {
         if self > other {
-            return self;
+            self
         } else {
             other
         }
@@ -2840,43 +2876,43 @@ impl I128Number of NumberTrait<i128, i128> {
 
     fn xor(lhs: i128, rhs: i128) -> bool {
         if (lhs == 0 || rhs == 0) && lhs != rhs {
-            return true;
+            true
         } else {
-            return false;
+            false
         }
     }
 
     fn or(lhs: i128, rhs: i128) -> bool {
-        if (lhs == 0 && rhs == 0) {
-            return false;
+        if lhs == 0 && rhs == 0 {
+            false
         } else {
-            return true;
+            true
         }
     }
 
     fn sign(self: i128) -> i128 {
         if self == 0 {
-            return 0_i128;
+            0_i128
         } else if self > 0 {
-            return 1_i128;
+            1_i128
         } else {
             -1_i128
         }
     }
 
     fn and(lhs: i128, rhs: i128) -> bool {
-        if (lhs == 0 || rhs == 0) {
-            return false;
+        if lhs == 0 || rhs == 0 {
+            false
         } else {
-            return true;
+            true
         }
     }
 
     fn where(self: i128, x: i128, y: i128) -> i128 {
         if self == 0 {
-            return y;
+            y
         } else {
-            return x;
+            x
         }
     }
 
@@ -2893,8 +2929,8 @@ impl I128Number of NumberTrait<i128, i128> {
     }
 
     fn is_inf(self: i128) -> bool {
-        (self == 170141183460469231731687303715884105727
-            || self == -170141183460469231731687303715884105727)
+        self == 170141183460469231731687303715884105727
+            || self == -170141183460469231731687303715884105727
     }
 
     fn is_pos_inf(self: i128) -> bool {
@@ -2929,8 +2965,10 @@ impl I128Number of NumberTrait<i128, i128> {
 impl I128Div of Div<i128> {
     fn div(lhs: i128, rhs: i128) -> i128 {
         assert(rhs != 0, 'divisor cannot be 0');
+
         let mut lhs_positive = lhs;
         let mut rhs_positive = rhs;
+
         // making sure everything is positive
         if lhs < 0 {
             lhs_positive = lhs * -1;
@@ -2938,6 +2976,7 @@ impl I128Div of Div<i128> {
         if rhs < 0 {
             rhs_positive = rhs * -1;
         }
+
         //felt252 plays role of a bridge for type casting
         let lhs_felt: felt252 = lhs_positive.into();
         let rhs_felt: felt252 = rhs_positive.into();
@@ -2946,6 +2985,7 @@ impl I128Div of Div<i128> {
         let mut result = lhs_u128 / rhs_u128;
         let felt_result: felt252 = result.into();
         let signed_int_result: i128 = felt_result.try_into().unwrap();
+
         // assigning the sign and returning
         if lhs * rhs < 0 {
             signed_int_result * -1
@@ -3105,7 +3145,7 @@ impl u32Number of NumberTrait<u32, u32> {
 
     fn min(self: u32, other: u32) -> u32 {
         if self < other {
-            return self;
+            self
         } else {
             other
         }
@@ -3113,7 +3153,7 @@ impl u32Number of NumberTrait<u32, u32> {
 
     fn max(self: u32, other: u32) -> u32 {
         if self > other {
-            return self;
+            self
         } else {
             other
         }
@@ -3129,17 +3169,17 @@ impl u32Number of NumberTrait<u32, u32> {
 
     fn xor(lhs: u32, rhs: u32) -> bool {
         if (lhs == 0 || rhs == 0) && lhs != rhs {
-            return true;
+            true
         } else {
-            return false;
+            false
         }
     }
 
     fn or(lhs: u32, rhs: u32) -> bool {
-        if (lhs == 0 && rhs == 0) {
-            return false;
+        if lhs == 0 && rhs == 0 {
+            false
         } else {
-            return true;
+            true
         }
     }
 
@@ -3148,18 +3188,18 @@ impl u32Number of NumberTrait<u32, u32> {
     }
 
     fn and(lhs: u32, rhs: u32) -> bool {
-        if (lhs == 0 || rhs == 0) {
-            return false;
+        if lhs == 0 || rhs == 0 {
+            false
         } else {
-            return true;
+            true
         }
     }
 
     fn where(self: u32, x: u32, y: u32) -> u32 {
         if self == 0 {
-            return y;
+            y
         } else {
-            return x;
+            x
         }
     }
 
@@ -3324,6 +3364,7 @@ impl Complex64Number of NumberTrait<complex64, FP64x64> {
         if self == Complex64Impl::zero() {
             return true;
         }
+
         false
     }
 
@@ -3343,6 +3384,7 @@ impl Complex64Number of NumberTrait<complex64, FP64x64> {
         if self == Complex64Impl::one() {
             return true;
         }
+
         false
     }
 
@@ -3447,6 +3489,7 @@ impl U32IntoI32 of Into<u32, i32> {
     fn into(self: u32) -> i32 {
         let number_felt: felt252 = self.into();
         let number_i32: i32 = number_felt.try_into().unwrap();
+
         number_i32
     }
 }

@@ -111,6 +111,7 @@ You can see below the list of current supported ONNX Operators:
 |          [ReduceLogSum](operators/tensor/tensor.reduce\_log\_sum.md)          | :white\_check\_mark: |
 |                     [Erf](operators/tensor/tensor.erf.md)                     | :white\_check\_mark: |
 |                [Compress](operators/tensor/tensor.compress.md)                | :white\_check\_mark: |
+|      [ReduceLogSumExp](operators/tensor/tensor.reduce\_log\_sum\_exp.md)      | :white\_check\_mark: |
 |     [Layer_normalization](operators/tensor/tensor.layer_normalization.md)     | :white\_check\_mark: |
 |              [ScatterND](operators/tensor/tensor.scatter/_nd.md)              | :white\_check\_mark: |
 |       [DequantizeLinear](operators/tensor/tensor.dequantize_linear.md)        | :white\_check\_mark: |

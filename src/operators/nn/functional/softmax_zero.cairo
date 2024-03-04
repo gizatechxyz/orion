@@ -1,13 +1,8 @@
-use core::traits::Into;
-use core::option::OptionTrait;
-
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::numbers::NumberTrait;
-
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
 use orion::operators::tensor::math::{reduce_sum::accumulate_sum, arithmetic::div_downcast};
-
 
 /// Cf: NNTrait::softmax_zero docstring
 fn softmax_zero<
@@ -25,6 +20,7 @@ fn softmax_zero<
 ) -> Tensor<T> {
     let exp_tensor = exp_zero(*z);
     let sum_no_zero = reduce_sum_no_zero(@exp_tensor, axis, true);
+
     exp_tensor / sum_no_zero
 }
 
@@ -54,9 +50,9 @@ fn softmaxWide_zero<
 ) -> Tensor<T> {
     let exp_tensor: Tensor<W> = exp_upcast_zero(*z);
     let sum_no_zero = reduce_sum_no_zero(@exp_tensor, axis, true);
+
     div_downcast(@exp_tensor, @sum_no_zero)
 }
-
 
 /// Helper function that compute the exponential of a tensor except if the value of an entry is zero, the value remains zero.
 ///
@@ -76,7 +72,7 @@ fn exp_zero<
 >(
     mut z: Tensor<T>
 ) -> Tensor<T> {
-    let mut result = ArrayTrait::new();
+    let mut result: Array<T> = array![];
 
     loop {
         match z.data.pop_front() {
@@ -91,7 +87,7 @@ fn exp_zero<
         };
     };
 
-    return TensorTrait::new(z.shape, result.span());
+    TensorTrait::new(z.shape, result.span())
 }
 
 /// Helper function that compute the exponential of a tensor except if the value of an entry is zero, the value remains zero.
@@ -119,7 +115,7 @@ fn exp_upcast_zero<
 >(
     mut self: Tensor<T>
 ) -> Tensor<W> {
-    let mut result = ArrayTrait::new();
+    let mut result: Array<W> = array![];
 
     loop {
         match self.data.pop_front() {
@@ -134,9 +130,8 @@ fn exp_upcast_zero<
         };
     };
 
-    return TensorTrait::new(self.shape, result.span());
+    TensorTrait::new(self.shape, result.span())
 }
-
 
 /// Helper function that compute the reduce sum making sure no none zero value are in the output tensor.
 ///
@@ -158,42 +153,44 @@ fn reduce_sum_no_zero<
 >(
     self: @Tensor<T>, axis: usize, keepdims: bool
 ) -> Tensor<T> {
-    let mut output_data = ArrayTrait::new();
+    let mut output_data: Array<T> = array![];
 
     if (*self.shape).len() == 1 {
         assert(axis == 0, 'axis out of dimensions');
+
         let current_sum = accumulate_sum::<T>(*self.data, *self.shape, *self.shape, axis);
         output_data.append(current_sum);
 
-        let mut output_shape = ArrayTrait::new();
+        let mut output_shape: Array<usize> = array![];
         output_shape.append(1);
 
         return TensorTrait::new(output_shape.span(), output_data.span());
     } else {
         assert(axis <= (*self.shape).len(), 'axis out of dimensions');
+
         let output_shape = reduce_output_shape(*self.shape, axis, false);
         let output_data_len = len_from_shape(output_shape);
+
         let mut index: usize = 0;
-        loop {
+        while index != output_data_len {
             let output_indices = unravel_index(index, output_shape);
-            let mut current_sum = accumulate_sum::<T>(*self.data, *self.shape, output_indices, axis);
+            let mut current_sum = accumulate_sum::<
+                T
+            >(*self.data, *self.shape, output_indices, axis);
 
             if current_sum == NumberTrait::zero() {
                 current_sum = NumberTrait::one();
             }
-            output_data.append(current_sum);
 
+            output_data.append(current_sum);
             index += 1;
-            if index == output_data_len {
-                break ();
-            };
         };
 
         if keepdims {
             let output_shape = reduce_output_shape(*self.shape, axis, true);
-            return TensorTrait::<T>::new(output_shape, output_data.span());
+            TensorTrait::<T>::new(output_shape, output_data.span())
         } else {
-            return TensorTrait::<T>::new(output_shape, output_data.span());
+            TensorTrait::<T>::new(output_shape, output_data.span())
         }
     }
 }

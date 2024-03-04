@@ -689,5 +689,6 @@ fn erf_lut(x: u64) -> u64 {
             return 4294960759;
         }
     }
-    return ONE;
+
+    ONE
 }

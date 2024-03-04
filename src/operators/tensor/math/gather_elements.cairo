@@ -1,13 +1,4 @@
 use alexandria_data_structures::array_ext::SpanTraitExt;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-
-use core::traits::Into;
-use core::debug::PrintTrait;
-use core::traits::TryInto;
-use core::serde::Serde;
-use core::traits::Destruct;
-use core::option::OptionTrait;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::U32TensorPartialEq;
@@ -48,7 +39,7 @@ fn gather_elements<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, im
         };
     };
 
-    let mut output_data = ArrayTrait::new();
+    let mut output_data = array![];
 
     let mut outer_loop = data_shape_clone.at(axis);
     let mut inner_loop = 1;
@@ -61,6 +52,7 @@ fn gather_elements<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, im
                 if (ind >= axis) {
                     multiplier *= *val;
                 }
+
                 ind += 1;
             },
             Option::None => { break; }
@@ -82,6 +74,7 @@ fn gather_elements<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, im
                 if (ind >= axis) {
                     multiplier_index *= *val;
                 }
+
                 ind += 1;
             },
             Option::None => { break; }
@@ -97,16 +90,19 @@ fn gather_elements<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, im
                     let value = *val * inner_loop.into() + (i % inner_loop);
                     output_data.append(*self.data[value]);
                 }
+
                 if ((axis == indices_rank - 1) & (axis != 0)) {
                     let value = *val + *outer_loop * (i / *outer_loop_index);
                     output_data.append(*self.data[value]);
                 }
+
                 if ((axis != indices_rank - 1) & (axis != 0)) {
                     let value = *val * (looper)
                         + (i % looper)
                         + (multiplier * (i / multiplier_index));
                     output_data.append(*self.data[value]);
                 }
+
                 i += 1;
             },
             Option::None => { break; }
@@ -114,5 +110,6 @@ fn gather_elements<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, im
     };
 
     let mut output_tensor = TensorTrait::<T>::new(indices.shape, output_data.span());
-    return output_tensor;
+
+    output_tensor
 }

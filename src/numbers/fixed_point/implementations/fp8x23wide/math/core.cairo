@@ -1,9 +1,4 @@
-use core::debug::PrintTrait;
-use core::option::OptionTrait;
-use core::result::{ResultTrait, ResultTraitImpl};
-use core::traits::{Into, TryInto};
 use core::integer;
-use core::integer::{u64_safe_divmod, u64_as_non_zero, u64_wide_mul};
 
 use orion::numbers::fixed_point::implementations::fp8x23wide::core::{
     HALF, ONE, MAX, FP8x23W, FP8x23WAdd, FP8x23WImpl, FP8x23WAddEq, FP8x23WSub, FP8x23WMul,
@@ -13,9 +8,8 @@ use orion::numbers::fixed_point::implementations::fp8x23wide::core::{
 use orion::numbers::fixed_point::implementations::fp8x23wide::math::lut;
 
 // PUBLIC
-
 fn abs(a: FP8x23W) -> FP8x23W {
-    return FixedTrait::new(a.mag, false);
+    FixedTrait::new(a.mag, false)
 }
 
 fn add(a: FP8x23W, b: FP8x23W) -> FP8x23W {
@@ -35,7 +29,7 @@ fn add(a: FP8x23W, b: FP8x23W) -> FP8x23W {
 }
 
 fn ceil(a: FP8x23W) -> FP8x23W {
-    let (div, rem) = u64_safe_divmod(a.mag, u64_as_non_zero(ONE));
+    let (div, rem) = integer::u64_safe_divmod(a.mag, integer::u64_as_non_zero(ONE));
 
     if rem == 0 {
         return a;
@@ -53,16 +47,16 @@ fn div(a: FP8x23W, b: FP8x23W) -> FP8x23W {
     let res_u64 = a_u64 / b.mag.into();
 
     // Re-apply sign
-    return FixedTrait::new(res_u64.try_into().unwrap(), a.sign ^ b.sign);
+    FixedTrait::new(res_u64.try_into().unwrap(), a.sign ^ b.sign)
 }
 
 fn eq(a: @FP8x23W, b: @FP8x23W) -> bool {
-    return (*a.mag == *b.mag) && (*a.sign == *b.sign);
+    (*a.mag == *b.mag) && (*a.sign == *b.sign)
 }
 
 // Calculates the natural exponent of x: e^x
 fn exp(a: FP8x23W) -> FP8x23W {
-    return exp2(FixedTrait::new(12102203, false) * a); // log2(e) * 2^23 ≈ 12102203
+    exp2(FixedTrait::new(12102203, false) * a) // log2(e) * 2^23 ≈ 12102203
 }
 
 // Calculates the binary exponent of x: 2^x
@@ -71,7 +65,7 @@ fn exp2(a: FP8x23W) -> FP8x23W {
         return FixedTrait::ONE();
     }
 
-    let (int_part, frac_part) = integer::u64_safe_divmod(a.mag, u64_as_non_zero(ONE));
+    let (int_part, frac_part) = integer::u64_safe_divmod(a.mag, integer::u64_as_non_zero(ONE));
     let int_res = FixedTrait::new_unscaled(lut::exp2(int_part), false);
     let mut res_u = int_res;
 
@@ -88,19 +82,19 @@ fn exp2(a: FP8x23W) -> FP8x23W {
         res_u = res_u * (r1 + FixedTrait::ONE());
     }
 
-    if (a.sign == true) {
-        return FixedTrait::ONE() / res_u;
+    if a.sign {
+        FixedTrait::ONE() / res_u
     } else {
-        return res_u;
+        res_u
     }
 }
 
 fn exp2_int(exp: u64) -> FP8x23W {
-    return FixedTrait::new_unscaled(lut::exp2(exp), false);
+    FixedTrait::new_unscaled(lut::exp2(exp), false)
 }
 
 fn floor(a: FP8x23W) -> FP8x23W {
-    let (div, rem) = integer::u64_safe_divmod(a.mag, u64_as_non_zero(ONE));
+    let (div, rem) = integer::u64_safe_divmod(a.mag, integer::u64_as_non_zero(ONE));
 
     if rem == 0 {
         return a;
@@ -113,38 +107,38 @@ fn floor(a: FP8x23W) -> FP8x23W {
 
 fn ge(a: FP8x23W, b: FP8x23W) -> bool {
     if a.sign != b.sign {
-        return !a.sign;
+        !a.sign
     } else {
-        return (a.mag == b.mag) || ((a.mag > b.mag) ^ a.sign);
+        (a.mag == b.mag) || ((a.mag > b.mag) ^ a.sign)
     }
 }
 
 fn gt(a: FP8x23W, b: FP8x23W) -> bool {
     if a.sign != b.sign {
-        return !a.sign;
+        !a.sign
     } else {
-        return (a.mag != b.mag) && ((a.mag > b.mag) ^ a.sign);
+        (a.mag != b.mag) && ((a.mag > b.mag) ^ a.sign)
     }
 }
 
 fn le(a: FP8x23W, b: FP8x23W) -> bool {
     if a.sign != b.sign {
-        return a.sign;
+        a.sign
     } else {
-        return (a.mag == b.mag) || ((a.mag < b.mag) ^ a.sign);
+        (a.mag == b.mag) || ((a.mag < b.mag) ^ a.sign)
     }
 }
 
 // Calculates the natural logarithm of x: ln(x)
 // self must be greater than zero
 fn ln(a: FP8x23W) -> FP8x23W {
-    return FixedTrait::new(5814540, false) * log2(a); // ln(2) = 0.693...
+    FixedTrait::new(5814540, false) * log2(a) // ln(2) = 0.693...
 }
 
 // Calculates the binary logarithm of x: log2(x)
 // self must be greather than zero
 fn log2(a: FP8x23W) -> FP8x23W {
-    assert(a.sign == false, 'must be positive');
+    assert(!a.sign, 'must be positive');
 
     if (a.mag == ONE) {
         return FixedTrait::ZERO();
@@ -158,7 +152,7 @@ fn log2(a: FP8x23W) -> FP8x23W {
     let (msb, div) = lut::msb(whole);
 
     if a.mag == div * ONE {
-        return FixedTrait::new_unscaled(msb, false);
+        FixedTrait::new_unscaled(msb, false)
     } else {
         let norm = a / FixedTrait::new_unscaled(div, false);
         let r8 = FixedTrait::new(76243, true) * norm;
@@ -169,21 +163,22 @@ fn log2(a: FP8x23W) -> FP8x23W {
         let r3 = (r4 + FixedTrait::new(77896489, false)) * norm;
         let r2 = (r3 + FixedTrait::new(83945943, true)) * norm;
         let r1 = (r2 + FixedTrait::new(68407458, false)) * norm;
-        return r1 + FixedTrait::new(28734280, true) + FixedTrait::new_unscaled(msb, false);
+
+        r1 + FixedTrait::new(28734280, true) + FixedTrait::new_unscaled(msb, false)
     }
 }
 
 // Calculates the base 10 log of x: log10(x)
 // self must be greater than zero
 fn log10(a: FP8x23W) -> FP8x23W {
-    return FixedTrait::new(2525223, false) * log2(a); // log10(2) = 0.301...
+    FixedTrait::new(2525223, false) * log2(a) // log10(2) = 0.301...
 }
 
 fn lt(a: FP8x23W, b: FP8x23W) -> bool {
     if a.sign != b.sign {
-        return a.sign;
+        a.sign
     } else {
-        return (a.mag != b.mag) && ((a.mag < b.mag) ^ a.sign);
+        (a.mag != b.mag) && ((a.mag < b.mag) ^ a.sign)
     }
 }
 
@@ -191,20 +186,20 @@ fn mul(a: FP8x23W, b: FP8x23W) -> FP8x23W {
     let prod_u128 = integer::u64_wide_mul(a.mag, b.mag);
 
     // Re-apply sign
-    return FixedTrait::new((prod_u128 / ONE.into()).try_into().unwrap(), a.sign ^ b.sign);
+    FixedTrait::new((prod_u128 / ONE.into()).try_into().unwrap(), a.sign ^ b.sign)
 }
 
 fn ne(a: @FP8x23W, b: @FP8x23W) -> bool {
-    return (*a.mag != *b.mag) || (*a.sign != *b.sign);
+    (*a.mag != *b.mag) || (*a.sign != *b.sign)
 }
 
 fn neg(a: FP8x23W) -> FP8x23W {
     if a.mag == 0 {
-        return a;
+        a
     } else if !a.sign {
-        return FixedTrait::new(a.mag, !a.sign);
+        FixedTrait::new(a.mag, !a.sign)
     } else {
-        return FixedTrait::new(a.mag, false);
+        FixedTrait::new(a.mag, false)
     }
 }
 
@@ -212,7 +207,7 @@ fn neg(a: FP8x23W) -> FP8x23W {
 // self is a FP8x23W point value
 // b is a FP8x23W point value
 fn pow(a: FP8x23W, b: FP8x23W) -> FP8x23W {
-    let (_, rem) = integer::u64_safe_divmod(b.mag, u64_as_non_zero(ONE));
+    let (_, rem) = integer::u64_safe_divmod(b.mag, integer::u64_as_non_zero(ONE));
 
     // use the more performant integer pow when y is an int
     if (rem == 0) {
@@ -220,7 +215,7 @@ fn pow(a: FP8x23W, b: FP8x23W) -> FP8x23W {
     }
 
     // x^y = exp(y*ln(x)) for x > 0 will error for x < 0
-    return exp(b * ln(a));
+    exp(b * ln(a))
 }
 
 // Calclates the value of a^b and checks for overflow before returning
@@ -228,7 +223,7 @@ fn pow_int(a: FP8x23W, b: u64, sign: bool) -> FP8x23W {
     let mut x = a;
     let mut n = b;
 
-    if sign == true {
+    if sign {
         x = FixedTrait::ONE() / x;
     }
 
@@ -239,11 +234,7 @@ fn pow_int(a: FP8x23W, b: u64, sign: bool) -> FP8x23W {
     let mut y = FixedTrait::ONE();
     let two = integer::u64_as_non_zero(2);
 
-    loop {
-        if n <= 1 {
-            break;
-        }
-
+    while n > 1 {
         let (div, rem) = integer::u64_safe_divmod(n, two);
 
         if rem == 1 {
@@ -254,34 +245,35 @@ fn pow_int(a: FP8x23W, b: u64, sign: bool) -> FP8x23W {
         n = div;
     };
 
-    return x * y;
+    x * y
 }
 
 fn rem(a: FP8x23W, b: FP8x23W) -> FP8x23W {
-    return a - floor(a / b) * b;
+    a - floor(a / b) * b
 }
 
 fn round(a: FP8x23W) -> FP8x23W {
-    let (div, rem) = integer::u64_safe_divmod(a.mag, u64_as_non_zero(ONE));
+    let (div, rem) = integer::u64_safe_divmod(a.mag, integer::u64_as_non_zero(ONE));
 
     if (HALF <= rem) {
-        return FixedTrait::new_unscaled(div + 1, a.sign);
+        FixedTrait::new_unscaled(div + 1, a.sign)
     } else {
-        return FixedTrait::new_unscaled(div, a.sign);
+        FixedTrait::new_unscaled(div, a.sign)
     }
 }
 
 // Calculates the square root of a FP8x23W point value
 // x must be positive
 fn sqrt(a: FP8x23W) -> FP8x23W {
-    assert(a.sign == false, 'must be positive');
+    assert(!a.sign, 'must be positive');
 
     let root = integer::u64_sqrt(a.mag.into() * ONE.into());
-    return FixedTrait::new(root.into(), false);
+
+    FixedTrait::new(root.into(), false)
 }
 
 fn sub(a: FP8x23W, b: FP8x23W) -> FP8x23W {
-    return add(a, -b);
+    add(a, -b)
 }
 
 fn sign(a: FP8x23W) -> FP8x23W {
@@ -472,7 +464,7 @@ mod tests {
         let a = FixedTrait::new_unscaled(42, false);
         let b = FixedTrait::new_unscaled(42, false);
         let c = eq(@a, @b);
-        assert(c == true, 'invalid result');
+        assert(c, 'invalid result');
     }
 
     #[test]
@@ -480,7 +472,7 @@ mod tests {
         let a = FixedTrait::new_unscaled(42, false);
         let b = FixedTrait::new_unscaled(42, false);
         let c = ne(@a, @b);
-        assert(c == false, 'invalid result');
+        assert(!c, 'invalid result');
     }
 
     #[test]
@@ -554,12 +546,12 @@ mod tests {
         let c = FixedTrait::<FP8x23W>::new_unscaled(1, true);
 
         assert(a <= a, 'a <= a');
-        assert(a <= b == false, 'a <= b');
-        assert(a <= c == false, 'a <= c');
+        assert(!(a <= b), 'a <= b');
+        assert(!(a <= c), 'a <= c');
 
         assert(b <= a, 'b <= a');
         assert(b <= b, 'b <= b');
-        assert(b <= c == false, 'b <= c');
+        assert(!(b <= c), 'b <= c');
 
         assert(c <= a, 'c <= a');
         assert(c <= b, 'c <= b');
@@ -572,17 +564,17 @@ mod tests {
         let b = FixedTrait::new_unscaled(0, false);
         let c = FixedTrait::<FP8x23W>::new_unscaled(1, true);
 
-        assert(a < a == false, 'a < a');
-        assert(a < b == false, 'a < b');
-        assert(a < c == false, 'a < c');
+        assert(!(a < a), 'a < a');
+        assert(!(a < b), 'a < b');
+        assert(!(a < c), 'a < c');
 
         assert(b < a, 'b < a');
-        assert(b < b == false, 'b < b');
-        assert(b < c == false, 'b < c');
+        assert(!(b < b), 'b < b');
+        assert(!(b < c), 'b < c');
 
         assert(c < a, 'c < a');
         assert(c < b, 'c < b');
-        assert(c < c == false, 'c < c');
+        assert(!(c < c), 'c < c');
     }
 
     #[test]
@@ -595,12 +587,12 @@ mod tests {
         assert(a >= b, 'a >= b');
         assert(a >= c, 'a >= c');
 
-        assert(b >= a == false, 'b >= a');
+        assert(!(b >= a), 'b >= a');
         assert(b >= b, 'b >= b');
         assert(b >= c, 'b >= c');
 
-        assert(c >= a == false, 'c >= a');
-        assert(c >= b == false, 'c >= b');
+        assert(!(c >= a), 'c >= a');
+        assert(!(c >= b), 'c >= b');
         assert(c >= c, 'c >= c');
     }
 
@@ -610,17 +602,17 @@ mod tests {
         let b = FixedTrait::new_unscaled(0, false);
         let c = FixedTrait::<FP8x23W>::new_unscaled(1, true);
 
-        assert(a > a == false, 'a > a');
+        assert(!(a > a), 'a > a');
         assert(a > b, 'a > b');
         assert(a > c, 'a > c');
 
-        assert(b > a == false, 'b > a');
-        assert(b > b == false, 'b > b');
+        assert(!(b > a), 'b > a');
+        assert(!(b > b), 'b > b');
         assert(b > c, 'b > c');
 
-        assert(c > a == false, 'c > a');
-        assert(c > b == false, 'c > b');
-        assert(c > c == false, 'c > c');
+        assert(!(c > a), 'c > a');
+        assert(!(c > b), 'c > b');
+        assert(!(c > c), 'c > c');
     }
 
     #[test]
