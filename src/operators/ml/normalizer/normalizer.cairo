@@ -190,13 +190,11 @@ fn reduce_max_2D_axis_1<
     let C = *X.shape.at(1);
 
     let mut i = 0;
-    loop {
-        if i == N {
-            break;
-        }
+    while i != N {
         let max = max(SpanTrait::slice(X.data, i * C, C));
         new_data.append(max);
         i += 1;
+
     };
     return new_data.span();
 }
@@ -262,10 +260,7 @@ fn reduce_sum_2D_axis_1<
     let C = *X.shape.at(1);
 
     let mut i = 0;
-    loop {
-        if i == N {
-            break;
-        }
+    while i != N {
         let sum = sum(SpanTrait::slice(X.data, i * C, C));
         new_data.append(sum);
         i += 1;
