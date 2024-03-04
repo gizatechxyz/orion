@@ -1,18 +1,10 @@
-use alexandria_data_structures::array_ext::SpanTraitExt;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
+use core::nullable::{nullable_from_box, match_nullable, FromNullableResult};
 
-use core::traits::Into;
-use core::debug::PrintTrait;
-use core::traits::TryInto;
-use core::serde::Serde;
-use core::traits::Destruct;
-use core::option::OptionTrait;
+use alexandria_data_structures::array_ext::SpanTraitExt;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
-use core::dict::Felt252DictTrait;
-use core::nullable::{nullable_from_box, match_nullable, FromNullableResult};
+
 /// Cf: TensorTrait::scatter_nd docstring
 fn scatter_nd<
     T,
@@ -44,7 +36,7 @@ fn scatter_nd<
         assert(ind_max < data_rank, 'index is out of bound');
     }
 
-    let mut batch_dims_shape = ArrayTrait::new();
+    let mut batch_dims_shape = array![];
     let mut ind: usize = 0;
 
     loop {
@@ -101,18 +93,15 @@ fn scatter_nd<
         };
     };
 
-    let mut output_data = ArrayTrait::<T>::new();
+    let mut output_data: Array<T> = array![];
     let mut data = *self.data;
     let mut index: usize = 0;
     let mut inner_index: usize = 0;
     let num = *data_shape_first.unwrap();
-    loop {
-        if (index == num) {
-            break;
-        }
+    while index != num {
         let comp_index = updates_index_dict.get(index.into());
 
-        if (comp_index == 0) {
+        if comp_index == 0 {
             loop {
                 if (inner_index == indexer) {
                     inner_index = 0;
@@ -167,5 +156,6 @@ fn scatter_nd<
     };
 
     let mut output_tensor = TensorTrait::<T>::new(*self.shape, output_data.span());
-    return output_tensor;
+    
+    output_tensor
 }

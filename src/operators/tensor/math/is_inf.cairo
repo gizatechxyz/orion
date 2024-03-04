@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::option::OptionTrait;
-use core::array::SpanTrait;
-
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::tensor_bool::BoolTensor;
@@ -47,7 +43,7 @@ fn is_inf<
         return is_neg_inf(x);
     }
 
-    let mut data_result = ArrayTrait::<bool>::new();
+    let mut data_result: Array<bool> = array![];
     let mut y: Span<T> = *x.data;
     loop {
         match y.pop_front() {
@@ -56,7 +52,7 @@ fn is_inf<
         };
     };
 
-    return TensorTrait::new(*x.shape, data_result.span());
+    TensorTrait::new(*x.shape, data_result.span())
 }
 
 /// Cf: TensorTrait::is_pos_inf docstring
@@ -70,7 +66,7 @@ fn is_pos_inf<
 >(
     x: @Tensor<T>
 ) -> Tensor<bool> {
-    let mut data_result = ArrayTrait::<bool>::new();
+    let mut data_result: Array<bool> = array![];
     let mut y: Span<T> = *x.data;
     loop {
         match y.pop_front() {
@@ -79,7 +75,7 @@ fn is_pos_inf<
         };
     };
 
-    return TensorTrait::new(*x.shape, data_result.span());
+    TensorTrait::new(*x.shape, data_result.span())
 }
 
 /// Cf: TensorTrait::is_neg_inf docstring
@@ -93,7 +89,7 @@ fn is_neg_inf<
 >(
     x: @Tensor<T>
 ) -> Tensor<bool> {
-    let mut data_result = ArrayTrait::<bool>::new();
+    let mut data_result: Array<bool> = array![];
     let mut y: Span<T> = *x.data;
     loop {
         match y.pop_front() {
@@ -102,5 +98,5 @@ fn is_neg_inf<
         };
     };
 
-    return TensorTrait::new(*x.shape, data_result.span());
+    TensorTrait::new(*x.shape, data_result.span())
 }

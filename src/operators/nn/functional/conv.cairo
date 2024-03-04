@@ -1,14 +1,10 @@
-use core::traits::Into;
-use core::traits::IndexView;
-use core::array::ArrayTrait;
+use core::debug::PrintTrait;
+
 use orion::numbers::NumberTrait;
 use orion::numbers::{U32IntoI32, I32IntoU32, I32Div, I32Number};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor,};
 use orion::operators::vec::{NullableVec, NullableVecImpl};
 use orion::operators::tensor::core::{stride};
-use core::clone::Clone;
-
-use core::debug::PrintTrait;
 
 #[derive(Copy, Drop)]
 enum AUTO_PAD {
@@ -43,64 +39,57 @@ fn conv<
     let nd = (*X).shape.len() - 2;
 
     assert((*X).shape.len() >= 3, 'X must have at least 3 dim');
+
     let dilations = match dilations {
         Option::Some(dilations) => dilations,
         Option::None => {
-            let mut dilations = ArrayTrait::new();
+            let mut dilations: Array<usize> = array![];
             let mut i = 2;
-            loop {
-                if i >= (*X).shape.len() {
-                    break;
-                }
+            while i != (*X).shape.len() {
                 dilations.append(1);
                 i += 1;
             };
+
             dilations.span()
         },
     };
     let kernel_shape = match kernel_shape {
         Option::Some(kernel_shape) => kernel_shape,
         Option::None => {
-            let mut kernel_shape = ArrayTrait::new();
+            let mut kernel_shape: Array<usize> = array![];
             let mut i = 2;
-            loop {
-                if i >= (*W).shape.len() {
-                    break;
-                }
+            while i != (*W).shape.len() {
                 kernel_shape.append(*(*W).shape.at(i));
                 i += 1;
             };
+
             kernel_shape.span()
         },
     };
     let pads = match pads {
         Option::Some(pads) => pads,
         Option::None => {
-            let mut pads = ArrayTrait::new();
+            let mut pads: Array<usize> = array![];
             let mut i = 2;
-            loop {
-                if i >= (*X).shape.len() {
-                    break;
-                }
+            while i != (*X).shape.len() {
                 pads.append(0);
                 pads.append(0);
                 i += 1;
             };
+
             pads.span()
         },
     };
     let strides = match strides {
         Option::Some(strides) => strides,
         Option::None => {
-            let mut strides = ArrayTrait::new();
+            let mut strides: Array<usize> = array![];
             let mut i = 2;
-            loop {
-                if i >= (*X).shape.len() {
-                    break;
-                }
+            while i != (*X).shape.len() {
                 strides.append(1);
                 i += 1;
             };
+
             strides.span()
         },
     };
@@ -117,8 +106,8 @@ fn conv<
     if group > 1 {
         let sN = *(*X).shape.at(0);
 
-        let mut res_b = ArrayTrait::new();
-        let mut res_cv = ArrayTrait::new();
+        let mut res_b: Array<usize> = array![];
+        let mut res_cv = array![];
 
         let mut td = 0;
         let mg = *(*W).shape.at(0) / group;
@@ -127,37 +116,27 @@ fn conv<
         let X_stride = stride((*X).shape);
         let mut gx_shape = array![1, dw];
         let mut i = 2;
-        loop {
-            if i >= (*X).shape.len() {
-                break;
-            }
+        while i != (*X).shape.len() {
             gx_shape.append(*(*X).shape.at(i));
             i += 1;
         };
+
         let gx_shape = gx_shape.span();
 
         let W_stride = stride((*W).shape);
         let mut gw_shape = array![mg];
         let mut i = 1;
-        loop {
-            if i >= (*W).shape.len() {
-                break;
-            }
+        while i != (*W).shape.len() {
             gw_shape.append(*(*W).shape.at(i));
             i += 1;
         };
+
         let gw_shape = gw_shape.span();
 
         let mut b = 0;
-        loop {
-            if b == sN {
-                break;
-            }
+        while b != sN {
             let mut g = 0;
-            loop {
-                if g == group {
-                    break;
-                }
+            while g != group {
                 let gx = TensorTrait::new(
                     gx_shape,
                     SpanTrait::slice(
@@ -181,13 +160,16 @@ fn conv<
                     Option::Some(pads),
                     Option::Some(strides)
                 );
+
                 if b == 0 {
                     td += *cv.shape.at(1);
                 }
+
                 res_b.append(b);
                 res_cv.append(cv);
                 g += 1;
             };
+
             b += 1;
         };
 
@@ -199,61 +181,47 @@ fn conv<
         let mut cv = *res_cv.at(0);
 
         let mut i = 2;
-        loop {
-            if i == cv.shape.len() {
-                break;
-            }
+        while i != cv.shape.len() {
             final_shape.append(*cv.shape.at(i));
             i += 1;
         };
+
         let final_shape = final_shape.span();
 
-        let mut final = ArrayTrait::new();
+        let mut final: Array<T> = array![];
 
         let mut p = 0;
         let mut i = 0;
 
-        loop {
-            if i == res_b.len() {
-                break;
-            }
+        while i != res_b.len() {
             let cv = *res_cv.at(i);
 
             let mut n = 0;
-            loop {
-                if n == cv.data.len() {
-                    break;
-                }
+            while n != cv.data.len() {
                 final.append(*cv.data.at(n));
                 n += 1;
             };
+
             p += *cv.shape.at(1);
             if p >= td {
                 p = 0;
             }
+
             i += 1;
         };
+
         let final = final.span();
 
         let final = match B {
             Option::Some(B) => {
-                let mut final_b = ArrayTrait::new();
+                let mut final_b: Array<T> = array![];
                 let final_stride = stride(final_shape);
                 let mut i = 0;
-                loop {
-                    if i == *final_shape.at(0) {
-                        break;
-                    }
+                while i != *final_shape.at(0) {
                     let mut j = 0;
-                    loop {
-                        if j == B.len() {
-                            break;
-                        }
+                    while j != B.len() {
                         let mut k = 0;
-                        loop {
-                            if k == *final_stride.at(1) {
-                                break;
-                            }
+                        while k != *final_stride.at(1) {
                             final_b
                                 .append(
                                     *final.at(i * *final_stride.at(0) + j * *final_stride.at(1) + k)
@@ -261,10 +229,13 @@ fn conv<
                                 );
                             k += 1;
                         };
+
                         j += 1;
                     };
+
                     i += 1;
                 };
+
                 final_b.span()
             },
             Option::None => { final },
@@ -277,37 +248,32 @@ fn conv<
     if *dilations.at(0) != 1 || min(dilations.clone()) != max(dilations.clone()) {
         // computation of the dilated kernel
         let nd = dilations.len();
-        let mut new_kernel_shape = ArrayTrait::new();
-        let mut new_shape = ArrayTrait::new();
+        let mut new_kernel_shape: Array<usize> = array![];
+        let mut new_shape: Array<usize> = array![];
         new_shape.append_span(SpanTrait::slice((*W).shape, 0, (*W).shape.len() - nd));
 
         let mut i = 0;
-        loop {
-            if i == dilations.len() {
-                break;
-            }
+        while i != dilations.len() {
             let d = *dilations.at(i);
             let di = (*W).shape.len() - nd + i;
             new_shape.append(*(*W).shape.at(di) + (*(*W).shape.at(di) - 1) * (d - 1));
             new_kernel_shape.append(*kernel_shape.at(i) + (*kernel_shape.at(i) - 1) * (d - 1));
             i += 1;
         };
+
         let new_shape = new_shape.span();
         let new_w_strides = stride(new_shape);
 
         let mut new_w = NullableVecImpl::new();
         new_w.set(*new_shape.at(0) * *new_w_strides.at(0) - 1, NumberTrait::zero());
 
-        let mut indices = ArrayTrait::new();
+        let mut indices = array![];
 
         indices.append(arange(0, *new_shape.at(0), 1));
         indices.append(arange(0, *new_shape.at(1), 1));
 
         let mut i = 0;
-        loop {
-            if i == dilations.len() {
-                break;
-            }
+        while i != dilations.len() {
             let d = *dilations.at(i);
             let di = (*W).shape.len() - nd + i;
             indices.append(arange(0, *new_shape.at(di), d));
@@ -316,35 +282,28 @@ fn conv<
 
         let set_of_all_indices = cartesian(indices.span());
 
-        let mut new_w_arr = ArrayTrait::new();
+        let mut new_w_arr: Array<T> = array![];
 
         let mut i = 0;
         let mut prev = 0;
-        loop {
-            if i == (*W).data.len() {
-                break;
-            }
+        while i != (*W).data.len() {
             let nd_index = *set_of_all_indices.at(i);
             let mut flatten_index = 0;
             let mut j = 0;
-            loop {
-                if j == nd_index.len() {
-                    break;
-                }
+            while j != nd_index.len() {
                 flatten_index += *nd_index.at(j) * *new_w_strides.at(j);
                 j += 1;
             };
 
             if flatten_index > prev + 1 {
                 let mut j = prev + 1;
-                loop {
-                    if j == flatten_index {
-                        break;
-                    }
+                while j != flatten_index {
                     new_w_arr.append(NumberTrait::zero());
                 };
+
                 j += 1;
             }
+
             new_w_arr.append(*(*W).data.at(i));
             new_w.set(flatten_index, *(*W).data.at(i));
             prev = flatten_index;
@@ -355,13 +314,10 @@ fn conv<
     let pads = match auto_pad {
         AUTO_PAD::NOTSET => { pads },
         AUTO_PAD::SAME_UPPER => {
-            let mut head = ArrayTrait::new();
-            let mut tail = ArrayTrait::new();
+            let mut head: Array<usize> = array![];
+            let mut tail: Array<usize> = array![];
             let mut i = 0;
-            loop {
-                if i == nd {
-                    break;
-                }
+            while i != nd {
                 let d = *(*X).shape.at(i);
                 let target_size = (d + *strides.at(i) - 1) / *strides.at(i);
                 let pad_needed = (target_size - 1) * *strides.at(i) + *kernel_shape.at(i) - d;
@@ -371,18 +327,16 @@ fn conv<
                 tail.append(pad_tail);
                 i += 1;
             };
+
             head.append_span(tail.span());
             let pads = head.span();
             pads
         },
         AUTO_PAD::SAME_LOWER => {
-            let mut head = ArrayTrait::new();
-            let mut tail = ArrayTrait::new();
+            let mut head: Array<usize> = array![];
+            let mut tail: Array<usize> = array![];
             let mut i = 0;
-            loop {
-                if i == nd {
-                    break;
-                }
+            while i != nd {
                 let d = *(*X).shape.at(i);
                 let target_size = (d + *strides.at(i) - 1) / *strides.at(i);
                 let pad_needed = (target_size - 1) * *strides.at(i) + *kernel_shape.at(i) - d;
@@ -392,18 +346,16 @@ fn conv<
                 tail.append(pad_tail);
                 i += 1;
             };
+
             head.append_span(tail.span());
             let pads = head.span();
             pads
         },
         AUTO_PAD::VALID => {
-            let mut head = ArrayTrait::new();
-            let mut tail = ArrayTrait::new();
+            let mut head: Array<usize> = array![];
+            let mut tail: Array<usize> = array![];
             let mut i = 0;
-            loop {
-                if i == nd {
-                    break;
-                }
+            while i != nd {
                 let d = *(*X).shape.at(i);
                 let target_size = (d + *strides.at(i) - 1) / *strides.at(i);
                 let pad_needed = (target_size - 1) * *strides.at(i) + *kernel_shape.at(i) - d;
@@ -413,6 +365,7 @@ fn conv<
                 tail.append(pad_tail);
                 i += 1;
             };
+
             head.append_span(tail.span());
             let pads = head.span();
             pads
@@ -444,26 +397,19 @@ fn conv<
         match B {
             Option::Some(B) => {
                 let mut i = 0;
-                loop {
-                    if i == sN {
-                        break;
-                    }
+                while i != sN {
                     let mut j = 0;
-                    loop {
-                        if j == sM {
-                            break;
-                        }
+                    while j != sM {
                         let b_j = *B.at(j);
                         let mut k = 0;
-                        loop {
-                            if k == h_out {
-                                break;
-                            }
+                        while k != h_out {
                             res.set(i * *res_strides.at(0) + j * *res_strides.at(1) + k, b_j);
                             k += 1;
                         };
+
                         j += 1;
                     };
+
                     i += 1;
                 };
             },
@@ -471,27 +417,15 @@ fn conv<
         }
 
         let mut n = 0;
-        loop {
-            if n == sN {
-                break;
-            }
+        while n != sN {
             let mut nw = 0;
-            loop {
-                if nw == sM {
-                    break;
-                }
+            while nw != sM {
                 let mut c = 0;
-                loop {
-                    if c == sC {
-                        break;
-                    }
+                while c != sC {
                     let w = SpanTrait::slice((*W).data, nw * sC * kh + c * kh, kh);
 
                     let mut io = bh;
-                    loop {
-                        if io >= eh.into() {
-                            break;
-                        }
+                    while io < eh.into() {
                         let hr = (io - bh) / sth.into();
                         if hr < h_out.into() {
                             let i = io + (kh % 2).into();
@@ -510,11 +444,13 @@ fn conv<
                             } else {
                                 dot(img, w)
                             };
+
                             let hr = if hr < 0 {
                                 *res_strides.at(1) - hr.into()
                             } else {
                                 hr.into()
                             };
+
                             res
                                 .set(
                                     n * *res_strides.at(0) + nw * *res_strides.at(1) + hr,
@@ -522,23 +458,26 @@ fn conv<
                                         + s
                                 );
                         }
+
                         io += sth.into();
                     };
+
                     c += 1;
                 };
+
                 nw += 1;
             };
+
             n += 1;
         };
-        let mut res_data = ArrayTrait::new();
+
+        let mut res_data: Array<T> = array![];
         let mut i = 0;
-        loop {
-            if i == res.len() {
-                break;
-            }
+        while i != res.len() {
             res_data.append(res.at(i));
             i += 1;
         };
+
         return TensorTrait::new(res_shape, res_data.span());
     }
 
@@ -577,26 +516,14 @@ fn conv<
         match B {
             Option::Some(B) => {
                 let mut i = 0;
-                loop {
-                    if i == sN {
-                        break;
-                    }
+                while i != sN {
                     let mut j = 0;
-                    loop {
-                        if j == sM {
-                            break;
-                        }
+                    while j != sM {
                         let b_j = *B.at(j);
                         let mut k = 0;
-                        loop {
-                            if k == h_out {
-                                break;
-                            }
+                        while k != h_out {
                             let mut l = 0;
-                            loop {
-                                if l == w_out {
-                                    break;
-                                }
+                            while l != w_out {
                                 res
                                     .set(
                                         i * *res_strides.at(0)
@@ -607,10 +534,13 @@ fn conv<
                                     );
                                 l += 1;
                             };
+
                             k += 1;
                         };
+
                         j += 1;
                     };
+
                     i += 1;
                 };
             },
@@ -618,29 +548,17 @@ fn conv<
         }
 
         let mut n = 0;
-        loop {
-            if n == sN {
-                break;
-            }
+        while n != sN {
             let mut nw = 0;
-            loop {
-                if nw == sM {
-                    break;
-                }
+            while nw != sM {
                 let mut c = 0;
-                loop {
-                    if c == sC {
-                        break;
-                    }
+                while c != sC {
                     let w = SpanTrait::slice(
                         (*W).data, nw * (sC * kh * kw) + c * (kh * kw), kh * kw
                     );
 
                     let mut io = bh;
-                    loop {
-                        if io >= eh.into() {
-                            break;
-                        }
+                    while io < eh.into() {
                         let hr = (io - bh) / sth.into();
                         if hr < h_out.into() {
                             let i = io + (kh % 2).into();
@@ -648,22 +566,16 @@ fn conv<
                             let ih2 = I32Number::min(i + oh + kh.into(), sH.into()).into();
 
                             let mut jo = bw;
-                            loop {
-                                if jo >= ew.into() {
-                                    break;
-                                }
+                            while jo < ew.into() {
                                 let wr = (jo - bw) / stw.into();
                                 if wr < w_out.into() {
                                     let j = jo + (kw % 2).into();
                                     let iw1 = I32Number::max(0, j + ow).into();
                                     let iw2 = I32Number::min(j + ow + kw.into(), sW.into()).into();
 
-                                    let mut img = ArrayTrait::new();
+                                    let mut img: Array<T> = array![];
                                     let mut ihi = ih1;
-                                    loop {
-                                        if ihi == ih2 {
-                                            break;
-                                        }
+                                    while ihi != ih2 {
                                         img
                                             .append_span(
                                                 SpanTrait::slice(
@@ -677,6 +589,7 @@ fn conv<
                                             );
                                         ihi += 1;
                                     };
+
                                     let img = img.span();
 
                                     let s = if w.len() != img.len() {
@@ -688,18 +601,16 @@ fn conv<
                                         let jw2 = I32Number::min(sW.into() - (j + ow), kw.into())
                                             .into();
 
-                                        let mut w_ = ArrayTrait::new();
+                                        let mut w_: Array<T> = array![];
                                         let mut jhj = jh1;
-                                        loop {
-                                            if jhj == jh2 {
-                                                break;
-                                            }
+                                        while jhj != jh2 {
                                             w_
                                                 .append_span(
                                                     SpanTrait::slice(w, jhj * kw + jw1, jw2 - jw1)
                                                 );
                                             jhj += 1;
                                         };
+
                                         let w_ = w_.span();
 
                                         assert(w_.len() == img.len(), 'unexpected w and img len');
@@ -740,24 +651,26 @@ fn conv<
                                 jo += stw.into();
                             };
                         }
+
                         io += sth.into();
                     };
+
                     c += 1;
                 };
+
                 nw += 1;
             };
+
             n += 1;
         };
 
-        let mut res_data = ArrayTrait::new();
+        let mut res_data: Array<T> = array![];
         let mut i = 0;
-        loop {
-            if i == res.len() {
-                break;
-            }
+        while i != res.len() {
             res_data.append(res.at(i));
             i += 1;
         };
+
         return TensorTrait::new(res_shape, res_data.span());
     }
 
@@ -806,31 +719,16 @@ fn conv<
         match B {
             Option::Some(B) => {
                 let mut i = 0;
-                loop {
-                    if i == sN {
-                        break;
-                    }
+                while i != sN {
                     let mut j = 0;
-                    loop {
-                        if j == sM {
-                            break;
-                        }
+                    while j != sM {
                         let b_j = *B.at(j);
                         let mut k = 0;
-                        loop {
-                            if k == h_out {
-                                break;
-                            }
+                        while k != h_out {
                             let mut l = 0;
-                            loop {
-                                if l == w_out {
-                                    break;
-                                }
+                            while l != w_out {
                                 let mut m = 0;
-                                loop {
-                                    if m == z_out {
-                                        break;
-                                    }
+                                while m != z_out {
                                     res
                                         .set(
                                             i * *res_strides.at(0)
@@ -842,12 +740,16 @@ fn conv<
                                         );
                                     m += 1;
                                 };
+
                                 l += 1;
                             };
+
                             k += 1;
                         };
+
                         j += 1;
                     };
+
                     i += 1;
                 };
             },
@@ -855,29 +757,17 @@ fn conv<
         }
 
         let mut n = 0;
-        loop {
-            if n == sN {
-                break;
-            }
+        while n != sN {
             let mut nw = 0;
-            loop {
-                if nw == sM {
-                    break;
-                }
+            while nw != sM {
                 let mut c = 0;
-                loop {
-                    if c == sC {
-                        break;
-                    }
+                while c != sC {
                     let w = SpanTrait::slice(
                         (*W).data, nw * (sC * kh * kw * kz) + c * (kh * kw * kz), kh * kw * kz
                     );
 
                     let mut io = bh;
-                    loop {
-                        if io >= eh.into() {
-                            break;
-                        }
+                    while io < eh.into() {
                         let hr = (io - bh) / sth.into();
                         if hr < h_out.into() {
                             let i = io + (kh % 2).into();
@@ -885,10 +775,7 @@ fn conv<
                             let ih2 = I32Number::min(i + oh + kh.into(), sH.into()).into();
 
                             let mut jo = bw;
-                            loop {
-                                if jo >= ew.into() {
-                                    break;
-                                }
+                            while jo < ew.into() {
                                 let wr = (jo - bw) / stw.into();
                                 if wr < w_out.into() {
                                     let j = jo + (kw % 2).into();
@@ -896,10 +783,7 @@ fn conv<
                                     let iw2 = I32Number::min(j + ow + kw.into(), sW.into()).into();
 
                                     let mut zo = bz;
-                                    loop {
-                                        if zo >= ez.into() {
-                                            break;
-                                        }
+                                    while zo < ez.into() {
                                         let zr = (zo - bz) / stz.into();
                                         if zr < z_out.into() {
                                             let z = zo + (kz % 2).into();
@@ -907,17 +791,11 @@ fn conv<
                                             let iz2 = I32Number::min(z + oz + kz.into(), sW.into())
                                                 .into();
 
-                                            let mut img = ArrayTrait::new();
+                                            let mut img: Array<T> = array![];
                                             let mut ihi = ih1;
-                                            loop {
-                                                if ihi == ih2 {
-                                                    break;
-                                                }
+                                            while ihi != ih2 {
                                                 let mut iwi = iw1;
-                                                loop {
-                                                    if iwi == iw2 {
-                                                        break;
-                                                    }
+                                                while iwi != iw2 {
                                                     img
                                                         .append_span(
                                                             SpanTrait::slice(
@@ -932,8 +810,10 @@ fn conv<
                                                         );
                                                     iwi += 1;
                                                 };
+
                                                 ihi += 1;
                                             };
+
                                             let img = img.span();
 
                                             let s = if w.len() != img.len() {
@@ -955,17 +835,11 @@ fn conv<
                                                 )
                                                     .into();
 
-                                                let mut w_ = ArrayTrait::new();
+                                                let mut w_: Array<T> = array![];
                                                 let mut jhj = jh1;
-                                                loop {
-                                                    if jhj == jh2 {
-                                                        break;
-                                                    }
+                                                while jhj != jh2 {
                                                     let mut jwj = jw1;
-                                                    loop {
-                                                        if jwj == jw2 {
-                                                            break;
-                                                        }
+                                                    while jwj != jw2 {
                                                         w_
                                                             .append_span(
                                                                 SpanTrait::slice(
@@ -976,8 +850,10 @@ fn conv<
                                                             );
                                                         jwj += 1;
                                                     };
+
                                                     jhj += 1;
                                                 };
+
                                                 let w_ = w_.span();
 
                                                 assert(
@@ -1025,6 +901,7 @@ fn conv<
                                                         + s
                                                 );
                                         }
+
                                         zo += stz.into();
                                     };
                                 }
@@ -1032,24 +909,26 @@ fn conv<
                                 jo += stw.into();
                             };
                         }
+
                         io += sth.into();
                     };
+
                     c += 1;
                 };
+
                 nw += 1;
             };
+
             n += 1;
         };
 
-        let mut res_data = ArrayTrait::new();
+        let mut res_data: Array<T> = array![];
         let mut i = 0;
-        loop {
-            if i == res.len() {
-                break;
-            }
+        while i != res.len() {
             res_data.append(res.at(i));
             i += 1;
         };
+
         return TensorTrait::new(res_shape, res_data.span());
     }
 
@@ -1063,18 +942,15 @@ fn conv<
     let w_stride = stride((*W).shape);
     let x_stride = stride((*X).shape);
 
-    let mut shape_out = ArrayTrait::new();
-    let mut o_index = ArrayTrait::<i32>::new();
-    let mut b_index = ArrayTrait::<i32>::new();
-    let mut e_index = ArrayTrait::new();
+    let mut shape_out: Array<usize> = array![];
+    let mut o_index: Array<i32> = array![];
+    let mut b_index: Array<i32> = array![];
+    let mut e_index: Array<usize> = array![];
 
-    let mut range_len = ArrayTrait::new();
+    let mut range_len: Array<usize> = array![];
 
     let mut i = 0;
-    loop {
-        if i == nd {
-            break;
-        }
+    while i != nd {
         shape_out
             .append(
                 ((*(*X).shape.at(2 + i) - *kernel_shape.at(i) + *pads.at(i) + *pads.at(i + nd))
@@ -1109,26 +985,19 @@ fn conv<
     match B {
         Option::Some(B) => {
             let mut i = 0;
-            loop {
-                if i == sN {
-                    break;
-                }
+            while i != sN {
                 let mut j = 0;
-                loop {
-                    if j == sM {
-                        break;
-                    }
+                while j != sM {
                     let b_j = *B.at(j);
                     let mut k = 0;
-                    loop {
-                        if k == *res_strides.at(1) {
-                            break;
-                        }
+                    while k != *res_strides.at(1) {
                         res.set(i * *res_strides.at(0) + j * *res_strides.at(1) + k, b_j);
                         k += 1;
                     };
+
                     j += 1;
                 };
+
                 i += 1;
             };
         },
@@ -1136,37 +1005,22 @@ fn conv<
     }
 
     let mut n = 0;
-    loop {
-        if n == sN {
-            break;
-        }
+    while n != sN {
         let mut nw = 0;
-        loop {
-            if nw == sM {
-                break;
-            }
+        while nw != sM {
             let mut c = 0;
-            loop {
-                if c == sC {
-                    break;
-                }
+            while c != sC {
                 let w = SpanTrait::slice(
                     (*W).data, nw * *w_stride.at(0) + c * *w_stride.at(1), *w_stride.at(1)
                 );
                 let mut i = 0;
-                loop {
-                    if i == *range_len.at(0) * *range_stride.at(0) {
-                        break;
-                    }
-                    let mut io_index = ArrayTrait::<i32>::new();
-                    let mut r_index = ArrayTrait::<i32>::new();
+                while i != *range_len.at(0) * *range_stride.at(0) {
+                    let mut io_index: Array<i32> = array![];
+                    let mut r_index: Array<i32> = array![];
                     let mut flatten_index = i;
 
                     let mut nx = 0;
-                    loop {
-                        if nx == nd {
-                            break;
-                        }
+                    while nx != nd {
                         let (n_index, rem) = DivRem::div_rem(
                             flatten_index, (*range_stride.at(nx)).try_into().unwrap()
                         );
@@ -1179,16 +1033,13 @@ fn conv<
                     };
 
                     if r_index_check(r_index.span(), shape_out) {
-                        let mut indices = ArrayTrait::<i32>::new();
-                        let mut i1_index = ArrayTrait::new();
-                        let mut i2_index = ArrayTrait::new();
-                        let mut idiff_index = ArrayTrait::new();
+                        let mut indices: Array<i32> = array![];
+                        let mut i1_index: Array<usize> = array![];
+                        let mut i2_index: Array<usize> = array![];
+                        let mut idiff_index: Array<usize> = array![];
 
                         let mut nx = 0;
-                        loop {
-                            if nx == nd {
-                                break;
-                            }
+                        while nx != nd {
                             indices.append(*io_index.at(nx) + (*kernel_shape.at(nx) % 2).into());
                             i1_index
                                 .append(
@@ -1210,8 +1061,9 @@ fn conv<
                             }
                             nx += 1;
                         };
+
                         let i1_index = i1_index.span();
-                        let mut img = ArrayTrait::new();
+                        let mut img: Array<T> = array![];
 
                         let img = if nx == 1 {
                             let img = SpanTrait::slice(
@@ -1224,18 +1076,12 @@ fn conv<
                             let i_stride = stride(idiff_index.span());
 
                             let mut ii = 0;
-                            loop {
-                                if ii == *i_stride.at(0) * *idiff_index.at(0) {
-                                    break;
-                                }
+                            while ii != *i_stride.at(0) * *idiff_index.at(0) {
                                 let mut flatten_index = ii;
                                 let mut start = n * *x_stride.at(0) + c * *x_stride.at(1);
 
                                 let mut nx = 0;
-                                loop {
-                                    if nx == nd - 1 {
-                                        break;
-                                    }
+                                while nx != nd - 1 {
                                     let (ii_index, rem) = DivRem::div_rem(
                                         flatten_index, (*i_stride.at(nx)).try_into().unwrap()
                                     );
@@ -1244,6 +1090,7 @@ fn conv<
                                     start += (*i1_index.at(nx) + ii_index) * *x_stride.at(2 + nx);
                                     nx += 1;
                                 };
+
                                 img
                                     .append_span(
                                         SpanTrait::slice(
@@ -1254,19 +1101,17 @@ fn conv<
                                     );
                                 ii += 1;
                             };
+
                             img.span()
                         };
 
                         let s = if w.len() != img.len() {
-                            let mut j1_index = ArrayTrait::new();
-                            let mut j2_index = ArrayTrait::new();
-                            let mut jdiff_index = ArrayTrait::new();
+                            let mut j1_index: Array<usize> = array![];
+                            let mut j2_index: Array<usize> = array![];
+                            let mut jdiff_index: Array<usize> = array![];
 
                             let mut nx = 0;
-                            loop {
-                                if nx == nd {
-                                    break;
-                                }
+                            while nx != nd {
                                 j1_index
                                     .append(
                                         I32Number::max(0, -*indices.at(nx) - *o_index.at(nx)).into()
@@ -1286,9 +1131,10 @@ fn conv<
                                 }
                                 nx += 1;
                             };
+
                             let j1_index = j1_index.span();
 
-                            let mut w_ = ArrayTrait::new();
+                            let mut w_: Array<T> = array![];
 
                             let w_ = if nx == 1 {
                                 let w_ = SpanTrait::slice(
@@ -1301,18 +1147,12 @@ fn conv<
                                 let j_stride = stride(jdiff_index.span());
 
                                 let mut jj = 0;
-                                loop {
-                                    if jj == *j_stride.at(0) * *jdiff_index.at(0) {
-                                        break;
-                                    }
+                                while jj != *j_stride.at(0) * *jdiff_index.at(0) {
                                     let mut flatten_index = jj;
                                     let mut start = 0;
 
                                     let mut nx = 0;
-                                    loop {
-                                        if nx == nd - 1 {
-                                            break;
-                                        }
+                                    while nx != nd - 1 {
                                         let (jj_index, rem) = DivRem::div_rem(
                                             flatten_index, (*j_stride.at(nx)).try_into().unwrap()
                                         );
@@ -1331,8 +1171,10 @@ fn conv<
                                         );
                                     jj += 1;
                                 };
+
                                 w_.span()
                             };
+
                             dot(img, w_)
                         } else {
                             dot(img, w)
@@ -1341,37 +1183,35 @@ fn conv<
                         let mut res_index = n * *res_strides.at(0) + nw * *res_strides.at(1);
 
                         let mut nx = 0;
-                        loop {
-                            if nx == nd {
-                                break;
-                            }
+                        while nx != nd {
                             res_index += (*r_index.at(nx)).into() * *res_strides.at(2 + nx);
                             nx += 1;
                         };
 
                         res.set(res_index, res.at(res_index) + s);
                     };
+
                     i += 1
                 };
+
                 c += 1;
             };
+
             nw += 1;
         };
+
         n += 1;
     };
 
-    let mut res_data = ArrayTrait::new();
+    let mut res_data: Array<T> = array![];
     let mut i = 0;
-    loop {
-        if i == res.len() {
-            break;
-        }
+    while i != res.len() {
         res_data.append(res.at(i));
         i += 1;
     };
-    return TensorTrait::new(res_shape, res_data.span());
-}
 
+    TensorTrait::new(res_shape, res_data.span())
+}
 
 fn r_index_check(r_index: Span<i32>, shape_out: Span<usize>) -> bool {
     let mut i = 0;
@@ -1384,25 +1224,22 @@ fn r_index_check(r_index: Span<i32>, shape_out: Span<usize>) -> bool {
         }
         i += 1;
     };
-    return flag;
-}
 
+    flag
+}
 
 fn prod<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +Mul<T>,>(
     pA: Span<T>, start: usize
 ) -> T {
     let mut i = start;
     let mut prod = NumberTrait::one();
-    loop {
-        if i == pA.len() {
-            break;
-        }
+    while i != pA.len() {
         prod = prod * (*pA.at(i));
         i += 1;
     };
-    return prod;
-}
 
+    prod
+}
 
 fn min(mut a: Span<usize>) -> usize {
     assert(a.len() > 0, 'span cannot be empty');
@@ -1417,7 +1254,6 @@ fn min(mut a: Span<usize>) -> usize {
         };
     }
 }
-
 
 fn max(mut a: Span<usize>) -> usize {
     assert(a.len() > 0, 'span cannot be empty');
@@ -1436,16 +1272,14 @@ fn max(mut a: Span<usize>) -> usize {
 fn arange(start: usize, end: usize, step: usize) -> Span<usize> {
     assert((end - start) % step == 0, 'incompatible step value');
 
-    let mut arr = ArrayTrait::new();
+    let mut arr: Array<usize> = array![];
     let mut i = start;
-    loop {
-        if i >= end {
-            break;
-        }
+    while i < end {
         arr.append(i);
         i += step;
     };
-    return arr.span();
+
+    arr.span()
 }
 
 
@@ -1461,24 +1295,18 @@ fn cartesian(mut arrays: Span<Span<usize>>,) -> Span<Span<usize>> {
     };
 
     let mut i = 0;
-    let mut size_arrays = ArrayTrait::new();
-    loop {
-        if i == arrays.len() {
-            break;
-        }
+    let mut size_arrays: Array<usize> = array![];
+    while i != arrays.len() {
         size_arrays.append((*(arrays.at(i))).len());
-
         i += 1;
     };
+
     let size_arrays = size_arrays.span();
-    let mut output_arrays = ArrayTrait::<Array<usize>>::new();
+    let mut output_arrays = array![];
     let mut m = n;
 
     let mut i = 0;
-    loop {
-        if i == arrays.len() {
-            break;
-        }
+    while i != arrays.len() {
         m = m / (*(arrays.at(i))).len();
         let mut out = repeat(*(arrays.at(i)), m);
         out = repeat_2(out, size_arrays, i);
@@ -1486,74 +1314,58 @@ fn cartesian(mut arrays: Span<Span<usize>>,) -> Span<Span<usize>> {
         output_arrays.append(out);
         i += 1;
     };
+
     let output_arrays = output_arrays.span();
 
     let mut i = 0;
     let mut ret = ArrayTrait::new();
-    loop {
-        if i == n {
-            break;
-        }
+    while i != n {
         let mut j = 0;
-        let mut x = ArrayTrait::new();
-        loop {
-            if j == arrays.len() {
-                break;
-            }
-
+        let mut x: Array<usize> = array![];
+        while j != arrays.len() {
             x.append(*(output_arrays.at(j)).at(i));
             j += 1;
         };
+
         ret.append(x.span());
         i += 1;
     };
 
-    return ret.span();
+    ret.span()
 }
 
 fn repeat_2(mut array: Array<usize>, size_array: Span<usize>, index: usize) -> Array<usize> {
     let mut size = array.len();
     let mut i = 0;
-    loop {
-        if i == index {
-            break;
-        }
+    while i != index {
         let mut j = 1;
-        loop {
-            if j == *size_array.at(index - 1 - i) {
-                break;
-            }
+        while j != *size_array.at(index - 1 - i) {
             let mut k = 0;
-            loop {
-                if k == size {
-                    break;
-                }
+            while k != size {
                 array.append(*array.at(k));
                 k += 1;
             };
+
             j += 1;
         };
+
         size = size * *size_array.at(index - 1 - i);
         i += 1;
     };
+
     array
 }
 
 fn repeat(array: Span<usize>, m: usize,) -> Array<usize> {
-    let mut out = ArrayTrait::new();
+    let mut out: Array<usize> = array![];
     let mut j = 0;
-    loop {
-        if j == array.len() {
-            break;
-        }
+    while j != array.len() {
         let mut k = 0;
-        loop {
-            if k == m {
-                break;
-            }
+        while k != m {
             out.append(*array.at(j));
             k += 1;
         };
+
         j += 1;
     };
 
@@ -1567,13 +1379,10 @@ fn dot<
 ) -> T {
     let mut i = 0;
     let mut sum = NumberTrait::zero();
-    loop {
-        if i == a.len() {
-            break;
-        }
+    while i != a.len() {
         sum = sum + *a.at(i) * *b.at(i);
         i += 1;
     };
 
-    return sum;
+    sum
 }

@@ -1,17 +1,12 @@
-use core::traits::Into;
-use core::traits::TryInto;
-use orion::operators::tensor::core::{Tensor, TensorTrait};
-use core::option::OptionTrait;
+use core::integer;
+
+use alexandria_merkle_tree::merkle_tree::{pedersen::PedersenHasherImpl};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::numbers::NumberTrait;
-
+use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
 use orion::operators::tensor::math::{reduce_sum::accumulate_sum, arithmetic::div_downcast};
-use core::traits::PartialEq;
-use alexandria_merkle_tree::merkle_tree::{pedersen::PedersenHasherImpl};
-use core::integer::{u128s_from_felt252, U128sFromFelt252Result};
-use core::traits;
 
 /// Cf: TensorTrait::random_uniform_like docstring
 fn random_uniform_like<
@@ -48,9 +43,8 @@ fn random_uniform_like<
     assert!(high > low, "high must be larger than low");
     let res = tensor_get_state(tensor, seed, high, low);
 
-    return res;
+    res
 }
-
 
 fn tensor_get_state<
     T,
@@ -71,14 +65,11 @@ fn tensor_get_state<
 >(
     tensor: Tensor<T>, mut seed: usize, high: T, low: T
 ) -> Tensor<T> {
-    let mut data = ArrayTrait::new();
+    let mut data = array![];
     let mut count = (tensor.data).len();
     let mut i = 0;
 
-    loop {
-        if count == i {
-            break;
-        }
+    while count != i {
         let mut v = NumberTrait::one();
         v = hash_random_range(seed, low, high);
         let a: u64 = 1664525;
@@ -89,7 +80,8 @@ fn tensor_get_state<
         data.append(v);
         i += 1;
     };
-    return TensorTrait::new(tensor.shape, data.span());
+
+    TensorTrait::new(tensor.shape, data.span())
 }
 
 // High level random in a range
@@ -114,12 +106,13 @@ fn hash_random_range<
     let mut key = PedersenHasherImpl::new();
     let hash: felt252 = key.hash(seed.into(), 1);
     let a: u128 = 4294967295;
-    let b: u128 = match u128s_from_felt252(hash) {
-        U128sFromFelt252Result::Narrow(x) => x,
-        U128sFromFelt252Result::Wide((x, _)) => x,
+    let b: u128 = match integer::u128s_from_felt252(hash) {
+        integer::U128sFromFelt252Result::Narrow(x) => x,
+        integer::U128sFromFelt252Result::Wide((x, _)) => x,
     } % a;
     let c: felt252 = b.into();
     let rnd: T = NumberTrait::from_felt(c);
     let range = max - min + NumberTrait::one(); // + 1 to include max
+
     min + rnd % range
 }

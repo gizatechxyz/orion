@@ -1,13 +1,8 @@
-use core::traits::TryInto;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::traits::Into;
 use orion::numbers::NumberTrait;
+use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
 use orion::operators::tensor::{
     TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, BoolTensor
 };
-use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
-use core::debug::PrintTrait;
 use orion::utils::get_row;
 
 #[derive(Copy, Drop)]
@@ -17,7 +12,6 @@ enum KERNEL_TYPE {
     RBF,
     SIGMOID,
 }
-
 
 fn kernel_dot<
     T,
@@ -51,7 +45,8 @@ fn kernel_dot<
             NumberTrait::tanh(s)
         },
     };
-    return s;
+
+    s
 }
 
 
@@ -62,15 +57,12 @@ fn sv_dot<
 ) -> T {
     let mut i = 0;
     let mut sum = NumberTrait::zero();
-    loop {
-        if i == pA.len() {
-            break;
-        }
+    while i != pA.len() {
         sum = sum + *pA.at(i) * *pB.at(i);
         i += 1;
     };
 
-    return sum;
+    sum
 }
 
 fn squared_diff<
@@ -89,12 +81,10 @@ fn squared_diff<
 ) -> T {
     let mut i = 0;
     let mut sum = NumberTrait::zero();
-    loop {
-        if i == pA.len() {
-            break;
-        }
+    while i != pA.len() {
         sum = sum + (*pA.at(i) - *pB.at(i)).pow(NumberTrait::one() + NumberTrait::one());
         i += 1;
     };
-    return sum;
+
+    sum
 }

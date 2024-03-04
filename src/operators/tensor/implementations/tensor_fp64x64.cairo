@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{TryInto, Into};
-
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -442,7 +437,6 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         panic(array!['not supported!'])
     }
 
-
     fn gather_elements(
         self: @Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP64x64> {
@@ -603,7 +597,6 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
 
-
     fn optional(self: @Tensor<FP64x64>) -> Option<Tensor<FP64x64>> {
         manipulation::optional::optional(self)
     }
@@ -722,27 +715,26 @@ impl TensorI8IntoTensorFP64x64 of Into<Tensor<i8>, Tensor<FP64x64>> {
 impl FP64x64TensorPartialOrd of PartialOrd<Tensor<FP64x64>> {
     #[inline(always)]
     fn ge(lhs: Tensor<FP64x64>, rhs: Tensor<FP64x64>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
+        SpanPartialOrd::ge(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn gt(lhs: Tensor<FP64x64>, rhs: Tensor<FP64x64>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
+        SpanPartialOrd::gt(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn le(lhs: Tensor<FP64x64>, rhs: Tensor<FP64x64>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
+        SpanPartialOrd::le(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn lt(lhs: Tensor<FP64x64>, rhs: Tensor<FP64x64>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
+        SpanPartialOrd::lt(lhs.data, rhs.data)
     }
 }
 
 // Internals
-
 const PRECISION: u128 = 1660000000000000; // 9e-05
 
 fn relative_eq(lhs: @FP64x64, rhs: @FP64x64) -> bool {
@@ -760,11 +752,7 @@ fn relative_eq(lhs: @FP64x64, rhs: @FP64x64) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP64x64>, mut rhs: Tensor<FP64x64>,) -> bool {
     let mut is_eq = true;
 
-    loop {
-        if lhs.shape.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.shape.len() != 0 && is_eq {
         is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
     };
 
@@ -772,28 +760,20 @@ fn tensor_eq(mut lhs: Tensor<FP64x64>, mut rhs: Tensor<FP64x64>,) -> bool {
         return false;
     }
 
-    loop {
-        if lhs.data.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.shape.len() != 0 && is_eq {
         is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
     };
 
-    return is_eq;
+    is_eq
 }
 
 fn tensor_i8_to_tensor_fp64x64(x: @Tensor<i8>) -> Tensor<FP64x64> {
     let mut result_data = ArrayTrait::<FP64x64>::new();
     let mut data = *x.data;
 
-    loop {
+    while data.len() != 0 {
         result_data.append((*data.pop_front().unwrap()).into());
-
-        if data.len() == 0 {
-            break ();
-        };
     };
 
-    return TensorTrait::new(*x.shape, result_data.span());
+    TensorTrait::new(*x.shape, result_data.span())
 }

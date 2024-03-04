@@ -1,7 +1,6 @@
-use core::traits::Into;
-use orion::numbers::{FP32x32, FixedTrait};
 use cubit::f64::ONE;
 
+use orion::numbers::{FP32x32, FixedTrait};
 use orion::numbers::fixed_point::implementations::fp32x32::lut::erf_lut;
 
 const ERF_COMPUTATIONAL_ACCURACY: u64 = 100;
@@ -22,5 +21,6 @@ fn erf(x: FP32x32) -> FP32x32 {
     } else {
         erf_value = ONE;
     }
+
     FP32x32 { mag: erf_value, sign: x.sign }
 }

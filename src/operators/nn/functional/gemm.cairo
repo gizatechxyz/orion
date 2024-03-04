@@ -38,18 +38,18 @@ fn gemm<
         NumberTrait::one()
     };
 
-    if transA == true {
+    if transA {
         A = A.transpose(array![1, 0].span());
     }
 
-    if transB == true {
+    if transB {
         B = B.transpose(array![1, 0].span());
     }
 
     match C {
         Option::Some(c) => {
-            return mul_by_scalar(@A.matmul(@B), alpha) + mul_by_scalar(@c, beta);
+            mul_by_scalar(@A.matmul(@B), alpha) + mul_by_scalar(@c, beta)
         },
-        Option::None(_) => { return mul_by_scalar(@A.matmul(@B), alpha); }
+        Option::None(_) => { mul_by_scalar(@A.matmul(@B), alpha) }
     }
 }

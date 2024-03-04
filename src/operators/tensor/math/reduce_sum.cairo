@@ -1,11 +1,6 @@
-use core::option::OptionTrait;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
-
 
 /// Cf: TensorTrait::reduce_sum docstring
 fn reduce_sum<
@@ -19,14 +14,14 @@ fn reduce_sum<
 >(
     self: @Tensor<T>, axis: usize, keepdims: bool
 ) -> Tensor<T> {
-    let mut output_data = ArrayTrait::new();
+    let mut output_data: Array<T> = array![];
 
     if (*self.shape).len() == 1 {
         assert(axis == 0, 'axis out of dimensions');
         let current_sum = accumulate_sum::<T>(*self.data, *self.shape, *self.shape, axis);
         output_data.append(current_sum);
 
-        let mut output_shape = ArrayTrait::new();
+        let mut output_shape: Array<usize> = array![];
         output_shape.append(1);
 
         return TensorTrait::new(output_shape.span(), output_data.span());
@@ -35,23 +30,21 @@ fn reduce_sum<
         let output_shape = reduce_output_shape(*self.shape, axis, false);
         let output_data_len = len_from_shape(output_shape);
         let mut index: usize = 0;
-        loop {
+        while index != output_data_len {
             let output_indices = unravel_index(index, output_shape);
             let current_sum = accumulate_sum::<T>(*self.data, *self.shape, output_indices, axis);
 
             output_data.append(current_sum);
 
             index += 1;
-            if index == output_data_len {
-                break ();
-            };
         };
 
         if keepdims {
             let output_shape = reduce_output_shape(*self.shape, axis, true);
-            return TensorTrait::<T>::new(output_shape, output_data.span());
+
+            TensorTrait::<T>::new(output_shape, output_data.span())
         } else {
-            return TensorTrait::<T>::new(output_shape, output_data.span());
+            TensorTrait::<T>::new(output_shape, output_data.span())
         }
     }
 }

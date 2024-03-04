@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{TryInto, Into};
-
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     constant_of_shape, new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
@@ -36,7 +31,6 @@ impl BoolTensor of TensorTrait<bool> {
     fn div(lhs: Tensor<bool>, rhs: Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
-
 
     fn min_in_tensor(self: @Tensor<bool>) -> bool {
         panic(array!['not supported!'])
@@ -321,12 +315,12 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
     }
+
     fn qlinear_leakyrelu(
         self: @Tensor<i8>, a_scale: @Tensor<bool>, a_zero_point: @Tensor<bool>, alpha: bool,
     ) -> Tensor::<i8> {
         panic(array!['not supported!'])
     }
-
 
     fn round(self: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
@@ -561,15 +555,10 @@ impl BoolTryIntobool of TryInto<bool, bool> {
 }
 
 // Internals
-
 fn tensor_eq(mut lhs: Tensor<bool>, mut rhs: Tensor<bool>,) -> bool {
     let mut is_eq = true;
 
-    loop {
-        if lhs.shape.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.shape.len() != 0 && is_eq {
         is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
     };
 
@@ -577,13 +566,9 @@ fn tensor_eq(mut lhs: Tensor<bool>, mut rhs: Tensor<bool>,) -> bool {
         return false;
     }
 
-    loop {
-        if lhs.data.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.data.len() != 0 && is_eq {
         is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
     };
 
-    return is_eq;
+    is_eq
 }

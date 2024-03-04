@@ -1,11 +1,6 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::NumberTrait;
-
+use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 /// Cf: TensorTrait::erf docstring
 fn erf<
@@ -18,7 +13,7 @@ fn erf<
 >(
     mut z: Tensor<T>
 ) -> Tensor<T> {
-    let mut data_result = ArrayTrait::<T>::new();
+    let mut data_result: Array<T> = array![];
 
     loop {
         match z.data.pop_front() {
@@ -27,5 +22,5 @@ fn erf<
         };
     };
 
-    return TensorTrait::<T>::new(z.shape, data_result.span());
+    TensorTrait::<T>::new(z.shape, data_result.span())
 }

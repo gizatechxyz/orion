@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{TryInto, Into};
-
 use orion::numbers::{I8Div, I8DivEq};
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
@@ -338,7 +333,6 @@ impl I8Tensor of TensorTrait<i8> {
         )
     }
 
-
     fn slice(
         self: @Tensor<i8>,
         starts: Span<usize>,
@@ -566,7 +560,6 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
-
     fn split_to_sequence(
         self: @Tensor<i8>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<i8>> {
@@ -672,35 +665,30 @@ impl I8TensorPartialEq of PartialEq<Tensor<i8>> {
 impl I8TensorPartialOrd of PartialOrd<Tensor<i8>> {
     #[inline(always)]
     fn ge(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
+        SpanPartialOrd::ge(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn gt(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
+        SpanPartialOrd::gt(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn le(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
+        SpanPartialOrd::le(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn lt(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
+        SpanPartialOrd::lt(lhs.data, rhs.data)
     }
 }
 
 // Internals
-
 fn tensor_eq(mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,) -> bool {
     let mut is_eq = true;
 
-    loop {
-        if lhs.shape.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.shape.len() != 0 && is_eq {
         is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
     };
 
@@ -708,13 +696,9 @@ fn tensor_eq(mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,) -> bool {
         return false;
     }
 
-    loop {
-        if lhs.data.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.data.len() == 0 && !is_eq {
         is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
     };
 
-    return is_eq;
+    is_eq
 }

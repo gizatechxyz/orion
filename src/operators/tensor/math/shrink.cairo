@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 
@@ -29,7 +25,7 @@ fn shrink<
         NumberTrait::half()
     };
 
-    let mut data_result = ArrayTrait::<T>::new();
+    let mut data_result: Array<T> = array![];
 
     loop {
         match self.data.pop_front() {
@@ -48,5 +44,5 @@ fn shrink<
         };
     };
 
-    return TensorTrait::new(self.shape, data_result.span());
+    TensorTrait::new(self.shape, data_result.span())
 }

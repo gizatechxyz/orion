@@ -1,8 +1,6 @@
-use core::array::SpanTrait;
-
+use orion::numbers::fixed_point::core::FixedTrait;
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::math::{exp::exp_upcast, arithmetic::div_downcast};
 
 /// Cf: NNTrait::logsoftmax docstring
@@ -16,7 +14,7 @@ fn logsoftmax<
     let softmax = exp_tensor / sum;
     let logsoftmax = softmax.log();
 
-    return logsoftmax;
+    logsoftmax
 }
 
 /// Cf: NNTrait::logsoftmax docstring
@@ -42,5 +40,6 @@ fn logsoftmaxWide<
     let exp_tensor: Tensor<W> = exp_upcast(*z);
     let sum = exp_tensor.reduce_sum(axis, true);
     let softmax = div_downcast(@exp_tensor, @sum);
+
     softmax.log()
 }

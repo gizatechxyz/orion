@@ -194,7 +194,7 @@ impl LinearRegressorImpl<
 
         match regressor.intercepts {
             Option::Some(intercepts) => {
-                let mut shape = ArrayTrait::<usize>::new();
+                let mut shape: Array<usize> = array![];
                 shape.append(1);
                 shape.append(intercepts.len());
                 let intercepts = TensorTrait::new(shape.span(), intercepts);

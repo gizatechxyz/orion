@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{TryInto, Into};
-
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -415,7 +410,6 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         panic(array!['not supported!'])
     }
 
-
     fn gather_elements(
         self: @Tensor<FP16x16W>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP16x16W> {
@@ -567,11 +561,9 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
 
-
     fn optional(self: @Tensor<FP16x16W>) -> Option<Tensor<FP16x16W>> {
         manipulation::optional::optional(self)
     }
-
 
     fn dynamic_quantize_linear(
         self: @Tensor<FP16x16W>
@@ -676,25 +668,24 @@ impl U32TryIntoU32 of TryInto<u32, u32> {
 impl FP16x16WTensorPartialOrd of PartialOrd<Tensor<FP16x16W>> {
     #[inline(always)]
     fn ge(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
+        SpanPartialOrd::ge(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn gt(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
+        SpanPartialOrd::gt(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn le(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
+        SpanPartialOrd::le(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn lt(lhs: Tensor<FP16x16W>, rhs: Tensor<FP16x16W>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
+        SpanPartialOrd::lt(lhs.data, rhs.data)
     }
 }
-
 
 // Internals
 const PRECISION: u64 = 589; // 0.009
@@ -711,15 +702,10 @@ fn relative_eq(lhs: @FP16x16W, rhs: @FP16x16W) -> bool {
     rel_diff <= PRECISION
 }
 
-
 fn tensor_eq(mut lhs: Tensor<FP16x16W>, mut rhs: Tensor<FP16x16W>,) -> bool {
     let mut is_eq = true;
 
-    loop {
-        if lhs.shape.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.shape.len() != 0 && is_eq {
         is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
     };
 
@@ -727,14 +713,10 @@ fn tensor_eq(mut lhs: Tensor<FP16x16W>, mut rhs: Tensor<FP16x16W>,) -> bool {
         return false;
     }
 
-    loop {
-        if lhs.data.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.data.len() != 0 && is_eq {
         is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
     };
 
-    return is_eq;
+    is_eq
 }
 

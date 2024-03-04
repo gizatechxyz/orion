@@ -1,13 +1,6 @@
-use core::option::OptionTrait;
-use core::traits::TryInto;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-
-use orion::operators::tensor::helpers::broadcast_shape;
-
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index,};
-use orion::operators::tensor::helpers::{broadcast_index_mapping, len_from_shape,};
+use orion::operators::tensor::helpers::{broadcast_shape, broadcast_index_mapping, len_from_shape,};
 use orion::utils::saturate;
 
 fn add<
@@ -16,12 +9,12 @@ fn add<
     self: @Tensor<T>, other: @Tensor<T>
 ) -> Tensor<T> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
+    let mut result = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
-    loop {
+    while n != num_elements {
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -30,12 +23,9 @@ fn add<
         result.append(*(*self.data)[indices_self] + *(*other.data)[indices_other]);
 
         n += 1;
-        if n == num_elements {
-            break ();
-        };
     };
 
-    return TensorTrait::<T>::new(broadcasted_shape, result.span());
+    TensorTrait::<T>::new(broadcasted_shape, result.span())
 }
 
 fn add_by_scalar<
@@ -55,7 +45,7 @@ fn add_by_scalar<
     }
 
     let mut input_data = *self.data;
-    let mut data_result = ArrayTrait::<T>::new();
+    let mut data_result = array![];
     loop {
         match input_data.pop_front() {
             Option::Some(ele) => { data_result.append(*ele + val); },
@@ -63,7 +53,7 @@ fn add_by_scalar<
         };
     };
 
-    return TensorTrait::<T>::new(*self.shape, data_result.span());
+    TensorTrait::<T>::new(*self.shape, data_result.span())
 }
 
 fn saturated_add<
@@ -81,12 +71,12 @@ fn saturated_add<
     self: @Tensor<T>, other: @Tensor<T>, min_saturation: T, max_saturation: T
 ) -> Tensor<Q> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
+    let mut result = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
-    loop {
+    while n != num_elements {
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -104,12 +94,9 @@ fn saturated_add<
             );
 
         n += 1;
-        if n == num_elements {
-            break ();
-        };
     };
 
-    return TensorTrait::<Q>::new(broadcasted_shape, result.span());
+    TensorTrait::<Q>::new(broadcasted_shape, result.span())
 }
 
 fn sub<
@@ -118,12 +105,12 @@ fn sub<
     self: @Tensor<T>, other: @Tensor<T>
 ) -> Tensor<T> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
+    let mut result = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
-    loop {
+    while n != num_elements {
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -132,12 +119,9 @@ fn sub<
         result.append(*(*self.data)[indices_self] - *(*other.data)[indices_other]);
 
         n += 1;
-        if n == num_elements {
-            break ();
-        };
     };
 
-    return TensorTrait::<T>::new(broadcasted_shape, result.span());
+    TensorTrait::<T>::new(broadcasted_shape, result.span())
 }
 
 fn sub_by_scalar<
@@ -157,7 +141,7 @@ fn sub_by_scalar<
     }
 
     let mut input_data = *self.data;
-    let mut data_result = ArrayTrait::<T>::new();
+    let mut data_result = array![];
     loop {
         match input_data.pop_front() {
             Option::Some(ele) => { data_result.append(*ele - val); },
@@ -165,7 +149,7 @@ fn sub_by_scalar<
         };
     };
 
-    return TensorTrait::<T>::new(*self.shape, data_result.span());
+    TensorTrait::<T>::new(*self.shape, data_result.span())
 }
 
 fn saturated_sub<
@@ -183,12 +167,12 @@ fn saturated_sub<
     self: @Tensor<T>, other: @Tensor<T>, min_saturation: T, max_saturation: T
 ) -> Tensor<Q> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
+    let mut result = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
-    loop {
+    while n != num_elements {
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -206,12 +190,9 @@ fn saturated_sub<
             );
 
         n += 1;
-        if n == num_elements {
-            break ();
-        };
     };
 
-    return TensorTrait::<Q>::new(broadcasted_shape, result.span());
+    TensorTrait::<Q>::new(broadcasted_shape, result.span())
 }
 
 fn mul<
@@ -220,12 +201,12 @@ fn mul<
     self: @Tensor<T>, other: @Tensor<T>
 ) -> Tensor<T> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
+    let mut result = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
-    loop {
+    while n != num_elements {
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -234,12 +215,9 @@ fn mul<
         result.append(*(*self.data)[indices_self] * *(*other.data)[indices_other]);
 
         n += 1;
-        if n == num_elements {
-            break ();
-        };
     };
 
-    return TensorTrait::<T>::new(broadcasted_shape, result.span());
+    TensorTrait::<T>::new(broadcasted_shape, result.span())
 }
 
 fn mul_by_scalar<
@@ -259,7 +237,7 @@ fn mul_by_scalar<
     }
 
     let mut input_data = *self.data;
-    let mut data_result = ArrayTrait::<T>::new();
+    let mut data_result = array![];
     loop {
         match input_data.pop_front() {
             Option::Some(ele) => { data_result.append(*ele * val); },
@@ -267,7 +245,7 @@ fn mul_by_scalar<
         };
     };
 
-    return TensorTrait::<T>::new(*self.shape, data_result.span());
+    TensorTrait::<T>::new(*self.shape, data_result.span())
 }
 
 fn saturated_mul<
@@ -285,12 +263,12 @@ fn saturated_mul<
     self: @Tensor<T>, other: @Tensor<T>, min_saturation: T, max_saturation: T
 ) -> Tensor<Q> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
+    let mut result = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
-    loop {
+    while n != num_elements {
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -308,12 +286,9 @@ fn saturated_mul<
             );
 
         n += 1;
-        if n == num_elements {
-            break ();
-        };
     };
 
-    return TensorTrait::<Q>::new(broadcasted_shape, result.span());
+    TensorTrait::<Q>::new(broadcasted_shape, result.span())
 }
 
 fn div<
@@ -322,12 +297,12 @@ fn div<
     self: @Tensor<T>, other: @Tensor<T>
 ) -> Tensor<T> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
+    let mut result = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
-    loop {
+    while n != num_elements {
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -336,12 +311,9 @@ fn div<
         result.append(*(*self.data)[indices_self] / *(*other.data)[indices_other]);
 
         n += 1;
-        if n == num_elements {
-            break ();
-        };
     };
 
-    return TensorTrait::<T>::new(broadcasted_shape, result.span());
+    TensorTrait::<T>::new(broadcasted_shape, result.span())
 }
 
 fn div_by_scalar<
@@ -361,7 +333,7 @@ fn div_by_scalar<
     }
 
     let mut input_data = *self.data;
-    let mut data_result = ArrayTrait::<T>::new();
+    let mut data_result = array![];
     loop {
         match input_data.pop_front() {
             Option::Some(ele) => { data_result.append(*ele / val); },
@@ -369,7 +341,7 @@ fn div_by_scalar<
         };
     };
 
-    return TensorTrait::<T>::new(*self.shape, data_result.span());
+    TensorTrait::<T>::new(*self.shape, data_result.span())
 }
 
 fn saturated_div<
@@ -387,12 +359,12 @@ fn saturated_div<
     self: @Tensor<T>, other: @Tensor<T>, min_saturation: T, max_saturation: T
 ) -> Tensor<Q> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
+    let mut result = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
-    loop {
+    while n != num_elements {
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -410,12 +382,9 @@ fn saturated_div<
             );
 
         n += 1;
-        if n == num_elements {
-            break ();
-        };
     };
 
-    return TensorTrait::<Q>::new(broadcasted_shape, result.span());
+    TensorTrait::<Q>::new(broadcasted_shape, result.span())
 }
 
 fn div_downcast<
@@ -433,12 +402,12 @@ fn div_downcast<
     self: @Tensor<T>, other: @Tensor<T>
 ) -> Tensor<D> {
     let broadcasted_shape = broadcast_shape(*self.shape, *other.shape);
-    let mut result = ArrayTrait::new();
+    let mut result = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
-    loop {
+    while n != num_elements {
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*self.shape, indices_broadcasted);
@@ -451,10 +420,7 @@ fn div_downcast<
             );
 
         n += 1;
-        if n == num_elements {
-            break ();
-        };
     };
 
-    return TensorTrait::<D>::new(broadcasted_shape, result.span());
+    TensorTrait::<D>::new(broadcasted_shape, result.span())
 }

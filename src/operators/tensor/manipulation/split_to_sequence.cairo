@@ -1,6 +1,4 @@
 use orion::operators::tensor::{Tensor, TensorTrait, U32Tensor};
-use core::array::{ArrayTrait, SpanTrait};
-use core::option::OptionTrait;
 use orion::operators::matrix::{MutMatrixTrait, MutMatrix, MutMatrixImpl};
 
 /// Cf: NNTrait::split docstring
@@ -8,7 +6,7 @@ fn split_to_sequence<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     self: @Tensor<T>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
 ) -> Array<Tensor<T>> {
     let has_split = match split {
-        Option::Some => { true },
+        Option::Some => true,
         Option::None => false,
     };
     let mut has_num_outputs = false;
@@ -18,13 +16,11 @@ fn split_to_sequence<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
         let split_length = *(*self.shape).at(axis);
         let mut split_data: Array<usize> = array![];
         let mut i = 0;
-        loop {
-            if (i >= split_length) {
-                break;
-            }
+        while i != split_length {
             split_data.append(1);
             i += 1;
         };
+
         split_unwrap = TensorTrait::new(array![split_length].span(), split_data.span());
     } else if (split.unwrap().data.len() == 1 && *(split.unwrap().shape.at(0)) == 1) {
         // A scalar
@@ -46,28 +42,25 @@ fn split_to_sequence<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
         splited_t = split_has_split(self, axis, split_unwrap);
     }
 
-    if (keepdims == 0 && has_split == false) {
+    if (keepdims == 0 && !has_split) {
         let mut splited_t_temp: Array<Tensor<T>> = array![];
         let mut i = 0;
-        loop {
-            if (i >= splited_t.len()) {
-                break;
-            }
+        while i != splited_t.len() {
             let mut shape: Array<usize> = array![];
             let mut j = 0;
             let shape_in_splited: Span<usize> = *splited_t.at(i).shape;
-            loop {
-                if (j >= shape_in_splited.len()) {
-                    break;
-                }
+            while j != shape_in_splited.len() {
                 if (j != axis) {
                     shape.append(*shape_in_splited.at(j))
                 }
+
                 j += 1;
             };
+
             splited_t_temp.append(splited_t[i].reshape(shape.span()));
             i += 1;
         };
+
         return splited_t_temp;
     }
     splited_t
@@ -89,23 +82,18 @@ fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     if (*(*t).shape.at(axis) % num_outputs == 0) {
         div = *(*t).shape.at(axis) / num_outputs;
         let mut i = 0;
-        loop {
-            if (i >= num_outputs) {
-                break;
-            }
+        while i != num_outputs {
             split.append(div);
             i += 1;
         };
     } else {
         div = *(*t).shape.at(axis) / num_outputs + 1;
         let mut i = 0;
-        loop {
-            if (i >= num_outputs) {
-                break;
-            }
+        while i != num_outputs {
             split.append(div);
             i += 1;
         };
+
         match split.pop_front() {
             Option::Some(split_last_one) => {
                 split.append(split_last_one + *(*t).shape.at(axis) - div * (num_outputs - 1));
@@ -117,34 +105,29 @@ fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     let mut sli: MutMatrix<usize> = MutMatrixImpl::new((*t).shape.len(), 2);
     let mut pos: usize = 0;
     let mut i = 0;
-    loop {
-        if (i >= (*t).shape.len()) {
-            break;
-        }
+    while i != (*t).shape.len() {
         let s: usize = *(*t).shape.at(i);
         sli.set(i, 0, 0);
         sli.set(i, 1, s);
         i += 1;
     };
+
     let mut i: usize = 0;
-    loop {
-        if (i >= split.len()) {
-            break;
-        }
+    while i != split.len() {
         let spl = *split.at(i);
         sli.set(axis, 0, pos);
         pos += spl;
         sli.set(axis, 1, pos);
 
         let end_ele_0 = match sli.get(axis, 0) {
-            Option::Some(res) => { res },
+            Option::Some(res) => res,
             Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
             },
         };
         let end_ele_1 = match sli.get(axis, 1) {
-            Option::Some(res) => { res },
+            Option::Some(res) => res,
             Option::None => {
                 assert(false, 'Get end_ele_0 is failed');
                 0
@@ -158,6 +141,7 @@ fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
         splited_t.append(sub_t);
         i += 1;
     };
+
     splited_t
 }
 
@@ -170,20 +154,15 @@ fn split_has_split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     let mut sli: MutMatrix<usize> = MutMatrixImpl::new((*t).shape.len(), 2);
     let mut pos: usize = 0;
     let mut i = 0;
-    loop {
-        if (i >= (*t).shape.len()) {
-            break;
-        }
+    while i != (*t).shape.len() {
         let s: usize = *(*t).shape.at(i);
         sli.set(i, 0, 0);
         sli.set(i, 1, s);
         i += 1;
     };
+
     let mut i: usize = 0;
-    loop {
-        if (i >= split.data.len()) {
-            break;
-        }
+    while i != split.data.len() {
         let spl: usize = split.at(indices: array![i].span());
         sli.set(axis, 0, pos);
         pos += spl;
@@ -211,5 +190,6 @@ fn split_has_split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
         splited_t.append(sub_t);
         i += 1;
     };
+
     splited_t
 }

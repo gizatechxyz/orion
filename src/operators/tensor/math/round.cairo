@@ -1,11 +1,5 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::Into;
-
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-
 
 fn round<
     T,
@@ -17,7 +11,7 @@ fn round<
 >(
     mut self: Tensor<T>
 ) -> Tensor<T> {
-    let mut result = ArrayTrait::new();
+    let mut result: Array<T> = array![];
 
     loop {
         match self.data.pop_front() {

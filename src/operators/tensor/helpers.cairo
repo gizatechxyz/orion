@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
 use alexandria_data_structures::array_ext::ArrayTraitExt;
 
 use orion::utils::u32_max;
@@ -27,7 +23,7 @@ fn len_from_shape(mut shape: Span<usize>) -> usize {
         };
     };
 
-    return result;
+    result
 }
 
 /// Verifies if the shape and the data array of a tensor are compatible.
@@ -122,7 +118,7 @@ fn broadcast_index_mapping_equal_shape(mut shape: Span<usize>, mut indices: Span
         };
     };
 
-    return result;
+    result
 }
 
 fn broadcast_index_mapping_non_equal_shape(
@@ -182,7 +178,7 @@ fn broadcast_index_mapping_non_equal_shape(
 fn reduce_output_shape(mut input_shape: Span<usize>, axis: usize, keepdims: bool) -> Span<usize> {
     assert(axis < input_shape.len(), 'axis out of dimensions');
 
-    let mut output_shape = ArrayTrait::new();
+    let mut output_shape: Array<u32> = array![];
     let mut n: usize = 0;
 
     loop {
@@ -202,7 +198,7 @@ fn reduce_output_shape(mut input_shape: Span<usize>, axis: usize, keepdims: bool
         };
     };
 
-    return output_shape.span();
+    output_shape.span()
 }
 
 
@@ -223,7 +219,7 @@ fn permutation_output_shape(input_shape: Span<usize>, mut axes: Span<usize>) -> 
     let axes_len = axes.len();
     assert(input_shape.len() == axes_len, 'input_shape/indices len unequal');
 
-    let mut output_shape = ArrayTrait::new();
+    let mut output_shape: Array<u32> = array![];
 
     loop {
         match axes.pop_front() {
@@ -232,7 +228,7 @@ fn permutation_output_shape(input_shape: Span<usize>, mut axes: Span<usize>) -> 
         };
     };
 
-    return output_shape.span();
+    output_shape.span()
 }
 
 /// Combines output indices with the current index of the specified axis.
@@ -251,14 +247,10 @@ fn permutation_output_shape(input_shape: Span<usize>, mut axes: Span<usize>) -> 
 fn combine_indices(mut output_indices: Span<usize>, axis_index: usize, axis: usize) -> Span<usize> {
     assert(axis <= output_indices.len(), 'axis value is out of range');
 
-    let mut result = ArrayTrait::new();
+    let mut result: Array<u32> = array![];
     let mut n: usize = 0;
 
-    loop {
-        if n > output_indices.len() {
-            break ();
-        }
-
+    while n != output_indices.len() + 1 {
         if n == axis {
             result.append(axis_index);
         } else if n > axis {
@@ -270,7 +262,7 @@ fn combine_indices(mut output_indices: Span<usize>, axis_index: usize, axis: usi
         n += 1;
     };
 
-    return result.span();
+    result.span()
 }
 
 
@@ -302,7 +294,7 @@ fn find_axis(mut axes: Span<usize>, target_axis: usize) -> usize {
         };
     };
 
-    return axis;
+    axis
 }
 
 /// Computes the broadcasted shape of two tensors.
@@ -319,7 +311,7 @@ fn find_axis(mut axes: Span<usize>, target_axis: usize) -> usize {
 /// * A Span of usize representing the broadcasted shape.
 fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usize> {
     check_compatibility(shape1, shape2);
-    let mut result: Array<usize> = ArrayTrait::new();
+    let mut result: Array<usize> = array![];
 
     while !shape1.is_empty() || !shape2.is_empty() {
         let dim1 = *shape1.pop_back().unwrap_or(@1);
@@ -329,7 +321,7 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
         result.append(broadcasted_dim);
     };
 
-    return result.reverse().span();
+    result.reverse().span()
 }
 
 /// Substitute a value in a shape at a given index
@@ -347,7 +339,7 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
 /// # Returns
 /// * `Span<usize>` - The modified shape
 fn replace_index(mut shape: Span<usize>, index: usize, value: usize) -> Span<usize> {
-    let mut output = ArrayTrait::new();
+    let mut output: Array<u32> = array![];
     let mut i = 0;
 
     loop {
@@ -364,7 +356,7 @@ fn replace_index(mut shape: Span<usize>, index: usize, value: usize) -> Span<usi
         };
     };
 
-    return output.span();
+    output.span()
 }
 
 /// Creates a list of all axes of given shape
@@ -379,7 +371,7 @@ fn replace_index(mut shape: Span<usize>, index: usize, value: usize) -> Span<usi
 /// # Returns
 /// * `Span<usize>` - A span containing the usize elements representing the axes.
 fn get_all_axes(shape: Span<usize>) -> Span<usize> {
-    let mut ret: Array<usize> = ArrayTrait::new();
+    let mut ret: Array<usize> = array![];
     let mut i: usize = 0;
     let stop_i = shape.len() - 1;
     loop {
@@ -389,6 +381,7 @@ fn get_all_axes(shape: Span<usize>) -> Span<usize> {
         }
         i += 1;
     };
+
     ret.span()
 }
 
@@ -403,20 +396,14 @@ fn flatten_array_of_tensors<T, +Copy<T>, +Drop<T>,>(
     let stride_lim: usize = *new_stride.at(axis);
     let max_row = (*(*tensors.at(0).shape).at(0));
     let mut row = 0;
-    loop {
-        if row >= max_row {
-            break;
-        }
+    while row != max_row {
         let mut tensors_span = tensors.span();
         loop {
             let mut i = 0;
             match tensors_span.pop_front() {
                 Option::Some(mut t) => {
                     let mut data = *t.data;
-                    loop {
-                        if i >= stride_lim {
-                            break;
-                        }
+                    while i != stride_lim {
                         let idx = i + (row * stride_lim);
                         flattened.append(*data.at(idx));
                         i += 1;
@@ -425,8 +412,10 @@ fn flatten_array_of_tensors<T, +Copy<T>, +Drop<T>,>(
                 Option::None => { break; },
             }
         };
+
         row += 1;
     };
+
     flattened.span()
 }
 
@@ -440,27 +429,18 @@ fn as_tensors_array<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
 
     let mut axes: Array<usize> = array![];
     let mut idx: usize = 0;
-    loop {
-        if idx >= rank {
-            break;
-        }
+    while idx != rank {
         axes.append(idx);
         idx += 1;
     };
 
     idx = 0;
     let axis_len: usize = *shape.at(axis);
-    loop {
-        if idx >= axis_len {
-            break;
-        }
+    while idx != axis_len {
         let mut starts: Array<usize> = array![];
         let mut ends: Array<usize> = array![];
         let mut i: usize = 0;
-        loop {
-            if i >= rank {
-                break;
-            }
+        while i != rank {
             starts.append(if i == axis {
                 idx
             } else {
@@ -486,6 +466,7 @@ fn as_tensors_array<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
 
         idx += 1;
     };
+
     as_tensors
 }
 
@@ -526,6 +507,7 @@ fn span_cmp<T, +Drop<T>, +Copy<T>, +PartialEq<T>, +PartialOrd<T>>(
             }
         };
     };
+
     ret
 }
 
@@ -563,16 +545,16 @@ fn optional_has_element<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
 ) -> Tensor<bool> {
     match x {
         Option::Some => {
-            let mut shape = ArrayTrait::<usize>::new();
+            let mut shape: Array<usize> = array![];
             shape.append(1);
-            let mut data = ArrayTrait::<bool>::new();
+            let mut data: Array<bool> = array![];
             data.append(true);
             TensorTrait::new(shape.span(), data.span())
         },
         Option::None => {
-            let mut shape = ArrayTrait::<usize>::new();
+            let mut shape: Array<usize> = array![];
             shape.append(1);
-            let mut data = ArrayTrait::<bool>::new();
+            let mut data: Array<bool> = array![];
             data.append(false);
             TensorTrait::new(shape.span(), data.span())
         }

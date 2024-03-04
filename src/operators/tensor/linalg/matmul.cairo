@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 
@@ -32,6 +28,7 @@ fn matmul<
         let mut result_data = ArrayTrait::new();
         result_shape.append(1);
         result_data.append(dot);
+
         return TensorTrait::new(result_shape.span(), result_data.span());
     }
 
@@ -42,7 +39,7 @@ fn matmul<
 
     let result_shape = adjust_output_shape_after_matmul(result.shape, self_ndim, other_ndim);
 
-    return TensorTrait::new(result_shape, result.data);
+    TensorTrait::new(result_shape, result.data)
 }
 
 /// Computes the dot product of two 1-dimensional i32 tensors.
@@ -82,7 +79,7 @@ fn dot_product<
         };
     };
 
-    return result;
+    result
 }
 
 
@@ -116,30 +113,16 @@ fn matrix_multiply<
     let n = *mat1_shape[1];
     let p = *mat2_shape[1];
 
-    let mut result_data = ArrayTrait::new();
-    let mut result_shape = ArrayTrait::new();
-    result_shape.append(m);
-    result_shape.append(p);
+    let mut result_data: Array<T> = array![];
+    let mut result_shape: Array<usize> = array![m, p];
 
     let mut i = 0_usize;
-    loop {
-        if i == m {
-            break ();
-        }
-
+    while i != m {
         let mut j = 0_usize;
-        loop {
-            if j == p {
-                break ();
-            }
-
+        while j != p {
             let mut sum: T = NumberTrait::zero();
             let mut k = 0_usize;
-            loop {
-                if k == n {
-                    break ();
-                }
-
+            while k != n {
                 let mat1_index = i * n + k;
                 let mat2_index = k * p + j;
                 sum += *mat1[mat1_index] * *mat2[mat2_index];
@@ -154,7 +137,7 @@ fn matrix_multiply<
         i += 1;
     };
 
-    return TensorTrait::new(result_shape.span(), result_data.span());
+    TensorTrait::new(result_shape.span(), result_data.span())
 }
 
 /// Prepares the shape of a tensor for matrix multiplication.
@@ -196,7 +179,7 @@ fn prepare_shape_for_matmul(mut shape: Span<usize>, is_first_tensor: bool) -> Sp
 
         loop {
             match shape.pop_front() {
-                Option::Some(item) => { shape_adjusted.append(*item); },
+                Option::Some(item) => { shape_adjusted.append(*item) },
                 Option::None => { break; }
             };
         };
@@ -206,7 +189,7 @@ fn prepare_shape_for_matmul(mut shape: Span<usize>, is_first_tensor: bool) -> Sp
         return shape_adjusted.span();
     }
 
-    return shape;
+    shape
 }
 
 /// Adjusts the output shape of the matrix multiplication result based on the
@@ -237,5 +220,5 @@ fn adjust_output_shape_after_matmul(
         let _ = output_shape.pop_back().unwrap();
     }
 
-    return output_shape;
+    output_shape
 }
