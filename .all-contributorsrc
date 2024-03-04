@@ -287,6 +287,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Gakunt",
+      "name": "Kugo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/153402253?v=4",
+      "profile": "https://github.com/Gakunt",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
