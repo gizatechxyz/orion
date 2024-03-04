@@ -1042,3 +1042,8 @@ mod conv_2D_with_autopad_same;
 mod conv_2D_with_strides_asymmetric_padding;
 mod conv_2D_with_strides_with_padding;
 mod conv_4D_with_padding;
+mod label_encoder_fp16x16_3d_default;
+mod label_encoder_fp8x23_default;
+mod label_encoder_i8_default;
+mod label_encoder_i32_default;
+mod label_encoder_u32_default;

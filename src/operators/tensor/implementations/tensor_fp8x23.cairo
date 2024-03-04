@@ -619,6 +619,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
+
+    fn label_encoder(self: @Tensor<FP8x23>, default_list: Option<Span<FP8x23>>, default_tensor: Option<Tensor<FP8x23>>, keys: Option<Span<FP8x23>>, keys_tensor: Option<Tensor<FP8x23>>, values: Option<Span<FP8x23>>, values_tensor: Option<Tensor<FP8x23>>) -> Tensor<FP8x23> {
+        ml::label_encoder::label_encoder(self, default_list, default_tensor, keys, keys_tensor, values, values_tensor)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.
