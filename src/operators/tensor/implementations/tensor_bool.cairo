@@ -234,7 +234,7 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn squeeze(self: @Tensor<bool>, axes: Option<Span<i32>>) -> Tensor<bool> {
+    fn squeeze(self: @Tensor<bool>, axes: Option<Span<usize>>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
@@ -424,6 +424,10 @@ impl BoolTensor of TensorTrait<bool> {
 
     fn reduce_log_sum(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
         panic(array!['not supported!'])
+    }
+
+    fn reduce_log_sum_exp(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
+        panic(array!['not supported'])
     }
 
     fn unique(

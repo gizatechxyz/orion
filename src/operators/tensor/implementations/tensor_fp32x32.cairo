@@ -355,7 +355,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<FP32x32>, axes: Option<Span<i32>>) -> Tensor<FP32x32> {
+    fn squeeze(self: @Tensor<FP32x32>, axes: Option<Span<usize>>) -> Tensor<FP32x32> {
         core_tensor::squeeze(self, axes)
     }
 
@@ -489,6 +489,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
 
     fn reduce_log_sum(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+    fn reduce_log_sum_exp(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
+        math::reduce_log_sum_exp::reduce_log_sum_exp(self, axis, keepdims)
     }
 
     fn erf(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {

@@ -11,6 +11,9 @@ use orion::operators::tensor::implementations::{
 };
 use orion::numbers::fixed_point::implementations::fp16x16::math::trig::PI;
 
+use orion::numbers::fixed_point::implementations::fp16x16wide::core::FP16x16W;
+
+
 impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn new(shape: Span<usize>, data: Span<FP16x16>) -> Tensor<FP16x16> {
         new_tensor(shape, data)
@@ -355,7 +358,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<FP16x16>, axes: Option<Span<i32>>) -> Tensor<FP16x16> {
+    fn squeeze(self: @Tensor<FP16x16>, axes: Option<Span<usize>>) -> Tensor<FP16x16> {
         core_tensor::squeeze(self, axes)
     }
 
@@ -490,6 +493,11 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn reduce_log_sum(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }
+
+    fn reduce_log_sum_exp(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
+        panic(array!['not supported!'])
+    }
+
 
     fn erf(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::erf::erf(*self)

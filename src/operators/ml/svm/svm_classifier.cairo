@@ -10,6 +10,10 @@ use orion::operators::tensor::{
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
 use orion::utils::get_row;
 
+use orion::operators::ml::svm::core::{kernel_dot, KERNEL_TYPE};
+use orion::operators::ml::POST_TRANSFORM;
+
+
 #[derive(Copy, Drop, Destruct)]
 struct SVMClassifier<T> {
     classlabels: Span<usize>,
@@ -22,15 +26,6 @@ struct SVMClassifier<T> {
     rho: Span<T>,
     support_vectors: Span<T>,
     vectors_per_class: Option<Span<usize>>,
-}
-
-#[derive(Copy, Drop)]
-enum POST_TRANSFORM {
-    NONE,
-    SOFTMAX,
-    LOGISTIC,
-    SOFTMAXZERO,
-    PROBIT,
 }
 
 #[derive(Copy, Drop)]

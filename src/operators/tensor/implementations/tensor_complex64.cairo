@@ -316,7 +316,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<complex64>, axes: Option<Span<i32>>) -> Tensor<complex64> {
+    fn squeeze(self: @Tensor<complex64>, axes: Option<Span<usize>>) -> Tensor<complex64> {
         core_tensor::squeeze(self, axes)
     }
 
@@ -471,6 +471,12 @@ impl Complex64Tensor of TensorTrait<complex64> {
         math::compress::compress(self, condition, axis)
     }
 
+    fn reduce_log_sum_exp(
+        self: @Tensor<complex64>, axis: usize, keepdims: bool
+    ) -> Tensor<complex64> {
+        math::reduce_log_sum_exp::reduce_log_sum_exp(self, axis, keepdims)
+    }
+    
     fn layer_normalization(
         self: @Tensor<complex64>,
         scale: @Tensor<complex64>,

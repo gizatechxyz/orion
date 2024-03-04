@@ -3,8 +3,7 @@ use core::debug::PrintTrait;
 use orion::numbers::{FP16x16, FP32x32, FP32x32Impl, FixedTrait};
 use orion::numbers::NumberTrait;
 use orion::operators::nn::{NNTrait, FP16x16NN};
-use orion::operators::tensor::{I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, FP16x16TensorAdd};
-use orion::operators::tensor::{Tensor, TensorTrait};
+use orion::operators::ml::POST_TRANSFORM;
 
 #[derive(Destruct)]
 struct LinearRegressor<T> {
@@ -14,14 +13,6 @@ struct LinearRegressor<T> {
     post_transform: POST_TRANSFORM,
 }
 
-#[derive(Copy, Drop)]
-enum POST_TRANSFORM {
-    NONE,
-    SOFTMAX,
-    LOGISTIC,
-    SOFTMAXZERO,
-    PROBIT,
-}
 
 /// Trait
 ///
@@ -30,14 +21,14 @@ trait LinearRegressorTrait<T> {
     /// # LinearRegressorTrait::predict
     ///
     /// ```rust 
-    ///    fn predict(ref self: LinearRegressor<T>, X: Tensor<T>) -> Tensor<T>;
+    ///    fn predict(regressor: LinearRegressor<T>, X: Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Linear Regressor. Performs the generalized linear regression evaluation.
     /// 
     /// ## Args
     ///
-    /// * `self`: LinearRegressor<T> - A LinearRegressor object.
+    /// * `regressor`: LinearRegressor<T> - A LinearRegressor object.
     /// * `X`:  Input 2D tensor.
     ///
     /// ## Returns
@@ -97,7 +88,7 @@ trait LinearRegressorTrait<T> {
     ///         post_transform
     ///     };
     /// 
-    ///     let scores = LinearRegressorTrait::predict(ref regressor, X);
+    ///     let scores = LinearRegressorTrait::predict(regressor, X);
     /// 
     ///     scores
     /// }
@@ -149,7 +140,7 @@ trait LinearRegressorTrait<T> {
     ///         post_transform
     ///     };
     /// 
-    ///     let scores = LinearRegressorTrait::predict(ref regressor, X);
+    ///     let scores = LinearRegressorTrait::predict(regressor, X);
     /// 
     ///     scores
     /// }
@@ -160,7 +151,7 @@ trait LinearRegressorTrait<T> {
     ///
     ///
 
-    fn predict(ref self: LinearRegressor<T>, X: Tensor<T>) -> Tensor<T>;
+    fn predict(regressor: LinearRegressor<T>, X: Tensor<T>) -> Tensor<T>;
 }
 
 impl LinearRegressorImpl<
@@ -181,17 +172,17 @@ impl LinearRegressorImpl<
     +Add<Tensor<T>>,
     +NNTrait<T>,
 > of LinearRegressorTrait<T> {
-    fn predict(ref self: LinearRegressor<T>, X: Tensor<T>) -> Tensor<T> {
-        let n: usize = self.coefficients.len() / self.target;
-        let mut shape: Array<usize> = array![];
-        shape.append(self.target);
+    fn predict(regressor: LinearRegressor<T>, X: Tensor<T>) -> Tensor<T> {
+        let n: usize = regressor.coefficients.len() / regressor.target;
+        let mut shape = ArrayTrait::<usize>::new();
+        shape.append(regressor.target);
         shape.append(n);
-        let mut coefficients = TensorTrait::new(shape.span(), self.coefficients);
+        let mut coefficients = TensorTrait::new(shape.span(), regressor.coefficients);
 
         let coefficients = coefficients.transpose(array![1, 0].span());
         let mut score = X.matmul(@coefficients);
 
-        match self.intercepts {
+        match regressor.intercepts {
             Option::Some(intercepts) => {
                 let mut shape: Array<usize> = array![];
                 shape.append(1);
@@ -203,7 +194,7 @@ impl LinearRegressorImpl<
         };
 
         // Post Transform
-        let score = match self.post_transform {
+        let score = match regressor.post_transform {
             POST_TRANSFORM::NONE => score, // No action required
             POST_TRANSFORM::SOFTMAX => NNTrait::softmax(@score, 1),
             POST_TRANSFORM::LOGISTIC => NNTrait::sigmoid(@score),

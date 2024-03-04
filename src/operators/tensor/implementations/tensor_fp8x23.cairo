@@ -355,7 +355,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         core_ops::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<FP8x23>, axes: Option<Span<i32>>) -> Tensor<FP8x23> {
+    fn squeeze(self: @Tensor<FP8x23>, axes: Option<Span<usize>>) -> Tensor<FP8x23> {
         core_ops::squeeze(self, axes)
     }
 
@@ -487,6 +487,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
 
     fn reduce_log_sum(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+    fn reduce_log_sum_exp(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
+        panic(array!['not supported!'])
     }
 
     fn erf(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {

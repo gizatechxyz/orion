@@ -8,6 +8,7 @@ use orion::operators::tensor::{
     TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, BoolTensor
 };
 use orion::utils::get_row;
+use orion::operators::ml::POST_TRANSFORM;
 
 #[derive(Copy, Drop, Destruct)]
 struct SVMRegressor<T> {
@@ -19,15 +20,6 @@ struct SVMRegressor<T> {
     post_transform: POST_TRANSFORM,
     rho: Span<T>,
     support_vectors: Span<T>,
-}
-
-#[derive(Copy, Drop)]
-enum POST_TRANSFORM {
-    NONE,
-    SOFTMAX,
-    LOGISTIC,
-    SOFTMAXZERO,
-    PROBIT,
 }
 
 #[derive(Copy, Drop)]

@@ -1,7 +1,7 @@
 # TreeEnsembleRegressor::predict
 
 ```rust 
-   fn predict(ref self: TreeEnsembleRegressor<T>, X: Tensor<T>) -> (Span<usize>, MutMatrix::<T>);
+   fn predict(regressor: TreeEnsembleRegressor<T>, X: Tensor<T>) -> (Span<usize>, MutMatrix::<T>);
 ```
 
 Tree Ensemble regressor. Returns the regressed values for each input in N.
@@ -160,7 +160,7 @@ fn tree_ensemble_regressor_helper(
 
 fn test_tree_ensemble_regressor_SUM() -> MutMatrix::<FP16x16> {
     let (mut regressor, X) = tree_ensemble_regressor_helper(AGGREGATE_FUNCTION::SUM);
-    let mut res = TreeEnsembleRegressorTrait::predict(ref regressor, X);
+    let mut res = TreeEnsembleRegressorTrait::predict(regressor, X);
     res
 }
 >>> 

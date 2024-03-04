@@ -277,12 +277,31 @@
       "profile": "https://github.com/tekkac",
       "contributions": [
         "doc"
-      ],
+      ]
     },
+    {
       "login": "canacechan",
       "name": "canacechan",
       "avatar_url": "https://avatars.githubusercontent.com/u/127183619?v=4",
       "profile": "https://github.com/canacechan",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Gakunt",
+      "name": "Kugo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/153402253?v=4",
+      "profile": "https://github.com/Gakunt",
+      "contributions": [
+        "doc"
+      ]
+    },
+      {
+      "login": "FriendlyLifeguard",
+      "name": "Beeyoung",
+      "avatar_url": "https://avatars.githubusercontent.com/u/55970530?v=4",
+      "profile": "http://alankang.xyz",
       "contributions": [
         "code"
       ]

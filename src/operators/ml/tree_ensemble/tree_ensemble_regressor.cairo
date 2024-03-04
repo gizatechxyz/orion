@@ -10,6 +10,7 @@ use orion::operators::ml::tree_ensemble::core::{TreeEnsemble, TreeEnsembleImpl, 
 use orion::operators::tensor::{Tensor, TensorTrait};
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
 use orion::utils::get_row;
+use orion::operators::ml::POST_TRANSFORM;
 
 #[derive(Destruct)]
 struct TreeEnsembleRegressor<T> {
@@ -22,15 +23,6 @@ struct TreeEnsembleRegressor<T> {
     n_targets: usize,
     aggregate_function: AGGREGATE_FUNCTION,
     post_transform: POST_TRANSFORM,
-}
-
-#[derive(Copy, Drop)]
-enum POST_TRANSFORM {
-    NONE,
-    SOFTMAX,
-    LOGISTIC,
-    SOFTMAXZERO,
-    PROBIT,
 }
 
 #[derive(Copy, Drop)]
@@ -48,7 +40,7 @@ trait TreeEnsembleRegressorTrait<T> {
     /// # TreeEnsembleRegressor::predict
     ///
     /// ```rust 
-    ///    fn predict(ref self: TreeEnsembleRegressor<T>, X: Tensor<T>) -> (Span<usize>, MutMatrix::<T>);
+    ///    fn predict(regressor: TreeEnsembleRegressor<T>, X: Tensor<T>) -> (Span<usize>, MutMatrix::<T>);
     /// ```
     ///
     /// Tree Ensemble regressor. Returns the regressed values for each input in N.
@@ -207,7 +199,7 @@ trait TreeEnsembleRegressorTrait<T> {
     /// 
     /// fn test_tree_ensemble_regressor_SUM() -> MutMatrix::<FP16x16> {
     ///     let (mut regressor, X) = tree_ensemble_regressor_helper(AGGREGATE_FUNCTION::SUM);
-    ///     let mut res = TreeEnsembleRegressorTrait::predict(ref regressor, X);
+    ///     let mut res = TreeEnsembleRegressorTrait::predict(regressor, X);
     ///     res
     /// }
     /// >>> 
@@ -216,7 +208,7 @@ trait TreeEnsembleRegressorTrait<T> {
     ///
     /// ```
     ///
-    fn predict(ref self: TreeEnsembleRegressor<T>, X: Tensor<T>) -> MutMatrix::<T>;
+    fn predict(regressor: TreeEnsembleRegressor<T>, X: Tensor<T>) -> MutMatrix::<T>;
 }
 
 impl TreeEnsembleRegressorImpl<
@@ -235,12 +227,13 @@ impl TreeEnsembleRegressorImpl<
     +Div<T>,
     +Mul<T>,
 > of TreeEnsembleRegressorTrait<T> {
-    fn predict(ref self: TreeEnsembleRegressor<T>, X: Tensor<T>) -> MutMatrix::<T> {
-        let leaves_index = self.ensemble.leave_index_tree(X);
-        let n_targets = self.n_targets;
+    fn predict(regressor: TreeEnsembleRegressor<T>, X: Tensor<T>) -> MutMatrix::<T> {
+        let mut regressor = regressor;
+        let leaves_index = regressor.ensemble.leave_index_tree(X);
+        let n_targets = regressor.n_targets;
 
         let mut res: MutMatrix<T> = MutMatrixImpl::new(*leaves_index.shape.at(0), n_targets);
-        let n_trees = self.ensemble.tree_ids.len();
+        let n_trees = regressor.ensemble.tree_ids.len();
 
         let mut target_index: Felt252Dict<Nullable<Span<usize>>> = Default::default();
         let mut i: usize = 0;
@@ -274,8 +267,8 @@ impl TreeEnsembleRegressorImpl<
                         let mut key = PedersenHasherImpl::new();
                         let key: felt252 = key
                             .hash(
-                                (*self.ensemble.atts.nodes_treeids[*index]).into(),
-                                (*self.ensemble.atts.nodes_nodeids[*index]).into()
+                                (*regressor.ensemble.atts.nodes_treeids[*index]).into(),
+                                (*regressor.ensemble.atts.nodes_nodeids[*index]).into()
                             );
                         t_index.append(target_index.get(key).deref());
                     },
@@ -285,21 +278,21 @@ impl TreeEnsembleRegressorImpl<
 
             let mut t_index = t_index.span();
 
-            match self.aggregate_function {
-                AGGREGATE_FUNCTION::SUM => { compute_res_SUM(ref self, ref res, ref t_index, i); },
+            match regressor.aggregate_function {
+                AGGREGATE_FUNCTION::SUM => { compute_res_SUM(ref regressor, ref res, ref t_index, i); },
                 AGGREGATE_FUNCTION::AVERAGE => {
-                    compute_res_AVERAGE(ref self, ref res, ref t_index, n_trees, i);
+                    compute_res_AVERAGE(ref regressor, ref res, ref t_index, n_trees, i);
                 },
-                AGGREGATE_FUNCTION::MIN => { compute_res_MIN(ref self, ref res, ref t_index, i); },
-                AGGREGATE_FUNCTION::MAX => { compute_res_MAX(ref self, ref res, ref t_index, i); },
+                AGGREGATE_FUNCTION::MIN => { compute_res_MIN(ref regressor, ref res, ref t_index, i); },
+                AGGREGATE_FUNCTION::MAX => { compute_res_MAX(ref regressor, ref res, ref t_index, i); },
             };
 
             i += 1;
         };
 
         // Convention is to add base_values after aggregate function
-        if self.base_values.is_some() {
-            let mut base_values = self.base_values.unwrap();
+        if regressor.base_values.is_some() {
+            let mut base_values = regressor.base_values.unwrap();
             let mut row: usize = 0;
             while row != res.rows {
                 let mut col: usize = 0;
@@ -318,7 +311,7 @@ impl TreeEnsembleRegressorImpl<
         }
 
         // Post Transform
-        let mut new_scores = match self.post_transform {
+        let mut new_scores = match regressor.post_transform {
             POST_TRANSFORM::NONE => res, // No action required
             POST_TRANSFORM::SOFTMAX => res.softmax(1),
             POST_TRANSFORM::LOGISTIC => res.sigmoid(),
