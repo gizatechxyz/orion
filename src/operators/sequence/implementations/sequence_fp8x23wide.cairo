@@ -5,7 +5,6 @@ use orion::operators::sequence::core::SequenceTrait;
 use orion::operators::sequence::functional;
 use orion::numbers::fixed_point::implementations::fp8x23wide::core::FP8x23W;
 use orion::operators::tensor::implementations::tensor_fp8x23wide::FP8x23WTensor;
-use orion::numbers::signed_integer::i32::i32;
 use orion::operators::tensor::implementations::tensor_i32::I32Tensor;
 
 

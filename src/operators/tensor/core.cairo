@@ -1,11 +1,13 @@
+use alexandria_data_structures::array_ext::ArrayTraitExt;
 use core::array::{ArrayTrait, SpanTrait};
 use core::serde::Serde;
 use core::option::OptionTrait;
 
 use alexandria_data_structures::array_ext::{SpanTraitExt};
+//::resize::{MODE, NEAREST_MODE, KEEP_ASPECT_RATIO_POLICY, TRANSFORMATION_MODE};
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
-use orion::numbers::{i8, i32, NumberTrait};
+use orion::numbers::{NumberTrait, I32IntoU32, U32IntoI32};
 
 #[derive(Copy, Drop)]
 struct Tensor<T> {
@@ -94,6 +96,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// bitwise_and - Computes the bitwise AND of two tensors element-wise.
 /// bitwise_xor - Computes the bitwise XOR of two tensors element-wise.
 /// bitwise_or - Computes the bitwise OR of two tensors element-wise.
+/// resize - Resizes the input tensor.
 /// round - Computes the round value of all elements in the input tensor.
 /// reduce_l1 - Computes the L1 norm of the input tensor's elements along the provided axes.
 /// trilu - Returns the upper or lower triangular part of a tensor or a batch of 2D matrices.
@@ -115,6 +118,18 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// reduce_log_sum - Computes the log sum of the input tensor's elements along the provided axes. 
 /// erf - Computes the error function of the given input tensor element-wise.
 /// reduce_log_sum_exp - Computes the log sum of the exponentials of the input tensor's elements along the provided axes.
+/// layer_normalization - computes the layer normalization of the input tensor.
+/// split - Split a tensor into a list of tensors, along the specified ‘axis’. 
+/// random_uniform_like - RandomUniformLike generates a tensor with random values using a uniform distribution, matching the shape of the input tensor.
+/// split_to_sequence - Split a tensor into a sequence of tensors, along the specified ‘axis’.
+/// range - Generate a tensor containing a sequence of numbers that begin at start and extends by increments of delta up to limit (exclusive).
+/// hann_window - Generates a Hann window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+/// hamming_window - Generates a Hamming window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+/// blackman_window - Generates a Blackman window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+/// reverse_sequence - Reverse batch of sequences having different lengths specified by sequence_lens.
+/// optional - Constructs an optional-type value containing either an empty optional of a certain type specified by the attribute, or a non-empty value containing the input element.
+/// dynamic_quantize_linear - Computes the Scale, Zero Point and FP32->8Bit conversion of FP32 Input data. 
+/// scatter_nd - The output of the operation is produced by creating a copy of the input data, and then updating its value to values specified by updates at specific index positions specified by indices. Its output shape is the same as the shape of data
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -862,7 +877,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn dot_product_example() -> Tensor<usize> {
+    /// fn dot_product_example() -> Tensor<u32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(shape: array![3].span(), data: array![0, 1, 2].span(),);
     /// 
     ///     let tensor_2 = TensorTrait::<u32>::new(shape: array![3].span(), data: array![0, 1, 2].span(),);
@@ -880,7 +895,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn matrix_mul_example() -> Tensor<usize> {
+    /// fn matrix_mul_example() -> Tensor<u32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![2, 2].span(), data: array![244, 99, 109, 162].span()
     ///     );
@@ -902,7 +917,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn matrix_vec_mul_example() -> Tensor<usize> {
+    /// fn matrix_vec_mul_example() -> Tensor<u32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -948,7 +963,7 @@ trait TensorTrait<T> {
     /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn exp_example() -> Tensor<FP8x23> {
-    ///     let tensor = TensorTrait::<u32>::new(
+    ///     let tensor = TensorTrait::<FP8x23>::new(
     ///         shape: array![2, 2].span(), 
     ///         data: array![
     ///                 FixedTrait::new_unscaled(0, false), 
@@ -999,7 +1014,7 @@ trait TensorTrait<T> {
     /// use orion::numbers::{FP8x23, FixedTrait};
     /// 
     /// fn log_example() -> Tensor<FP8x23> {
-    ///     let tensor = TensorTrait::<u32>::new(
+    ///     let tensor = TensorTrait::<FP8x23>::new(
     ///         shape: array![2, 2].span(), 
     ///         data: array![
     ///                 FixedTrait::new_unscaled(0, false), 
@@ -1387,13 +1402,12 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
-    /// use orion::numbers::{i32, IntegerTrait};
     /// 
     /// fn abs_example() -> Tensor<i32> {
     ///     let tensor = TensorTrait::new(
     ///         shape: array![3].span(),
     ///         data: array![
-    ///             IntegerTrait::new(1, true), IntegerTrait::new(2, true), IntegerTrait::new(3, false)
+    ///             -1, -2, 3
     ///         ]
     ///             .span(),
     ///     );
@@ -1428,13 +1442,12 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
-    /// use orion::numbers::{i32, IntegerTrait};
     /// 
     /// fn neg_example() -> Tensor<i32> {
     ///     let tensor = TensorTrait::new(
     ///         shape: array![3].span(),
     ///         data: array![
-    ///             IntegerTrait::new(1, true), IntegerTrait::new(2, true), IntegerTrait::new(3, false)
+    ///             -1, -2, 3
     ///         ]
     ///             .span(),
     ///     );
@@ -2458,7 +2471,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<T>` with the same shape as the input tensor, containing the quantized values.
+    /// A new `Tensor<Q>` with the same shape as the input tensor, containing the quantized values.
     ///
     /// ## Type Constraints
     ///
@@ -2470,31 +2483,22 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
-    /// use orion::numbers::{i8, i32, IntegerTrait};
     /// 
     /// fn quantize_linear_example() -> Tensor<i8> {
     ///     // We instantiate a 1D Tensor here.
     ///     let x = TensorTrait::<i32>::new(
     ///         shape: array![6].span(),
-    ///         data: array![
-    ///             IntegerTrait::new(0, false),
-    ///             IntegerTrait::new(2, false),
-    ///             IntegerTrait::new(3, false),
-    ///             IntegerTrait::new(1000, false),
-    ///             IntegerTrait::new(254, true),
-    ///             IntegerTrait::new(1000, true),
-    ///         ]
-    ///             .span(),
+    ///         data: array![0, 2, 3, 1, -254,-1000].span(),
     ///     );
     /// 
     ///     // We instantiate the y_scale here.
     ///     let y_scale = TensorTrait::<i32>::new(
-    ///         shape: array![1].span(), data: array![IntegerTrait::new(2, false)].span(),
+    ///         shape: array![1].span(), data: array![2].span(),
     ///     );
     /// 
     ///     // We instantiate the y_zero_point here.
     ///     let y_zero_point = TensorTrait::<i32>::new(
-    ///         shape: array![1].span(), data: array![IntegerTrait::new(1, false)].span(),
+    ///         shape: array![1].span(), data: array![1].span(),
     ///     );
     /// 
     ///     return x.quantize_linear(@y_scale, @y_zero_point);
@@ -2520,7 +2524,7 @@ trait TensorTrait<T> {
     ///
     /// ## Args
     ///
-    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `self`(`@Tensor<Q>`) - The input tensor.
     /// * `x_scale`(`@Tensor<T>`) - Scale for input `x`.
     /// * `x_zero_point`(`@Tensor<T>`) - Zero point for input `x`.
     ///
@@ -2540,29 +2544,22 @@ trait TensorTrait<T> {
     ///  use core::array::{ArrayTrait, SpanTrait};
     ///  
     ///  use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
-    ///  use orion::numbers::{i8, i32, IntegerTrait};
     ///  
     ///  fn dequantize_linear_example() -> Tensor<i32> {
     ///      // We instantiate a 1D Tensor here.
     ///      let x = TensorTrait::<i8>::new(
     ///          shape: array![4].span(),
-    ///          data: array![
-    ///              IntegerTrait::new(0, false),
-    ///              IntegerTrait::new(3, false),
-    ///              IntegerTrait::new(125, false),
-    ///              IntegerTrait::new(127, false),
-    ///          ]
-    ///              .span(),
+    ///          data: array![0, 3, 125, 127].span(),
     ///      );
     ///  
     ///      // We instantiate the x_scale here.
     ///      let x_scale = TensorTrait::<i32>::new(
-    ///          shape: array![1].span(), data: array![IntegerTrait::new(2, false)].span(),
+    ///          shape: array![1].span(), data: array![2].span(),
     ///      );
     ///  
     ///      // We instantiate the x_zero_point here.
     ///      let x_zero_point = TensorTrait::<i32>::new(
-    ///          shape: array![1].span(), data: array![IntegerTrait::new(0, false)].span(),
+    ///          shape: array![1].span(), data: array![0].span(),
     ///      );
     ///  
     ///      return x.dequantize_linear(@x_scale, @x_zero_point);
@@ -2615,7 +2612,7 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
     /// 
     /// 
     /// fn qlinear_add_example() -> Tensor<i8> {    
@@ -2623,28 +2620,13 @@ trait TensorTrait<T> {
     ///         i8
     ///     >::new(
     ///         shape: array![2, 3].span(),
-    ///         data: array![
-    ///             IntegerTrait::<i8>::new(6_u8, false),
-    ///             IntegerTrait::<i8>::new(6_u8, false),
-    ///             IntegerTrait::<i8>::new(6_u8, false),
-    ///             IntegerTrait::<i8>::new(11_u8, false),
-    ///             IntegerTrait::<i8>::new(11_u8, false),
-    ///             IntegerTrait::<i8>::new(11_u8, false)
-    ///         ]
-    ///             .span(),
+    ///         data: array![6, 6, 6, 11, 11, 11].span(),
     ///     );
     /// 
     ///     // As the operator supports broadcasting shapes [1, 3] and [2, 3] are compatible
-    ///     let b = TensorTrait::<
-    ///         i8
-    ///     >::new(
+    ///     let b = TensorTrait::<i8>::new(
     ///         shape: array![1, 3].span(),
-    ///         data: array![
-    ///             IntegerTrait::<i8>::new(40_u8, false),
-    ///             IntegerTrait::<i8>::new(40_u8, false),
-    ///             IntegerTrait::<i8>::new(40_u8, false)
-    ///         ]
-    ///             .span(),
+    ///         data: array![40, 40, 40].span(),
     ///     );
     /// 
     ///     let a_scale = TensorTrait::<
@@ -2728,7 +2710,7 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
     /// 
     /// ```rust 
     /// #[test]
@@ -2738,26 +2720,14 @@ trait TensorTrait<T> {
     ///         i8
     ///     >::new(
     ///         shape: array![2, 3].span(),
-    ///         data: array![
-    ///             IntegerTrait::<i8>::new(21_u8, false),
-    ///             IntegerTrait::<i8>::new(21_u8, false),
-    ///             IntegerTrait::<i8>::new(21_u8, false),
-    ///             IntegerTrait::<i8>::new(41_u8, false),
-    ///             IntegerTrait::<i8>::new(41_u8, false),
-    ///             IntegerTrait::<i8>::new(41_u8, false)
-    ///         ]
+    ///         data: array![21, 21, 21, 41, 41, 41]
     ///             .span(),
     ///     );
     ///     let b = TensorTrait::<
     ///         i8
     ///     >::new(
     ///         shape: array![1, 3].span(),
-    ///         data: array![
-    ///             IntegerTrait::<i8>::new(4_u8, false),
-    ///             IntegerTrait::<i8>::new(8_u8, false),
-    ///             IntegerTrait::<i8>::new(12_u8, false)
-    ///         ]
-    ///             .span(),
+    ///         data: array![4, 8, 12].span(),
     ///     );
     /// 
     ///     let a_scale = TensorTrait::<
@@ -2847,19 +2817,19 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
     /// fn qlinear_matmul_example() -> Tensor<i8> {    
     ///     let a = TensorTrait::<
     ///         i8
     ///     >::new(
     ///         shape: array![2, 3].span(),
     ///         data: array![
-    ///             IntegerTrait::<i8>::new(3_u8, false),
-    ///             IntegerTrait::<i8>::new(4_u8, false),
-    ///             IntegerTrait::<i8>::new(5_u8, false),
-    ///             IntegerTrait::<i8>::new(2_u8, false),
-    ///             IntegerTrait::<i8>::new(4_u8, false),
-    ///             IntegerTrait::<i8>::new(3_u8, false)
+    ///             3,
+    ///             4,
+    ///             5,
+    ///             2,
+    ///             4,
+    ///             3
     ///         ]
     ///             .span(),
     ///     );
@@ -2868,9 +2838,9 @@ trait TensorTrait<T> {
     ///     >::new(
     ///         shape: array![3, 1].span(),
     ///         data: array![
-    ///             IntegerTrait::<i8>::new(4_u8, false),
-    ///             IntegerTrait::<i8>::new(8_u8, false),
-    ///             IntegerTrait::<i8>::new(4_u8, false)
+    ///             4,
+    ///             8,
+    ///             4
     ///         ]
     ///             .span(),
     ///     );
@@ -2951,7 +2921,7 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     ///
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
     /// 
     /// fn qlinear_concat_example() -> Tensor<i8> {
     ///     let tensor1 = TensorTrait::<
@@ -2959,10 +2929,10 @@ trait TensorTrait<T> {
     ///     >::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
-    ///             IntegerTrait::<i8>::new(5_u8, false),
-    ///             IntegerTrait::<i8>::new(5_u8, false),
-    ///             IntegerTrait::<i8>::new(5_u8, false),
-    ///             IntegerTrait::<i8>::new(5_u8, false),
+    ///             5,
+    ///             5,
+    ///             5,
+    ///             5,
     ///         ]
     ///             .span(),
     ///     );
@@ -2971,10 +2941,10 @@ trait TensorTrait<T> {
     ///     >::new(
     ///         shape: array![2, 2].span(),
     ///         data: array![
-    ///             IntegerTrait::<i8>::new(1_u8, false),
-    ///             IntegerTrait::<i8>::new(1_u8, false),
-    ///             IntegerTrait::<i8>::new(1_u8, false),
-    ///             IntegerTrait::<i8>::new(1_u8, false),
+    ///             1,
+    ///             1,
+    ///             1,
+    ///             1,
     ///         ]
     ///             .span(),
     ///     );
@@ -3060,7 +3030,7 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-    /// use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+    /// use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
     /// 
     /// 
     /// fn qlinear_leakyrelu_example() -> Tensor<i8> {
@@ -3069,12 +3039,12 @@ trait TensorTrait<T> {
     ///     >::new(
     ///         shape: array![2, 3].span(),
     ///         data: array![
-    ///             IntegerTrait::<i8>::new(10_u8, true),
-    ///             IntegerTrait::<i8>::new(10_u8, true),
-    ///             IntegerTrait::<i8>::new(10_u8, true),
-    ///             IntegerTrait::<i8>::new(10_u8, false),
-    ///             IntegerTrait::<i8>::new(10_u8, false),
-    ///             IntegerTrait::<i8>::new(10_u8, false)
+    ///             -10,
+    ///             -10,
+    ///             -10,
+    ///             10,
+    ///             10,
+    ///             10
     ///         ]
     ///             .span(),
     ///     );
@@ -3330,7 +3300,7 @@ trait TensorTrait<T> {
     ///      [1 1]]
     /// ```
     ///
-    fn squeeze(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T>;
+    fn squeeze(self: @Tensor<T>, axes: Option<Span<u32>>) -> Tensor<T>;
     /// # tensor.clip
     ///
     /// ```rust 
@@ -3394,10 +3364,10 @@ trait TensorTrait<T> {
     /// ```rust
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, FP8x23Tensor};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor};
     /// 
-    /// fn sign_example() -> Tensor<FP8x23> {
-    ///     let tensor = TensorTrait::<FP8x23>::new(
+    /// fn sign_example() -> Tensor<i32> {
+    ///     let tensor = TensorTrait::<i32>::new(
     ///         shape: array![11].span(), 
     ///         data: array![-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].span(), 
     ///     );
@@ -3429,10 +3399,10 @@ trait TensorTrait<T> {
     /// ```rust
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, i32Tensor};
     /// 
-    /// fn identity_example() -> Tensor<FP16x16> {
-    ///     let tensor = TensorTrait::<FP16x16>::new(
+    /// fn identity_example() -> Tensor<i32> {
+    ///     let tensor = TensorTrait::<i32>::new(
     ///         shape: array![2, 2].span(), 
     ///         data: array![1, 2, 3, 4].span(), 
     ///     );
@@ -3472,7 +3442,7 @@ trait TensorTrait<T> {
     /// ```rust
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
-    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
     /// 
     /// fn and_example() -> Tensor<bool> {
     ///     let tensor_1 = TensorTrait::<bool>::new(
@@ -3539,6 +3509,255 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn where(self: @Tensor<T>, x: @Tensor<T>, y: @Tensor<T>) -> Tensor<T>;
+    /// #tensor.resize
+    ///
+    /// ```rust
+    ///     fn resize(
+    ///         self: @Tensor<T>,
+    ///         roi: Option<Tensor<T>>,
+    ///         scales: Option<Span<T>>,
+    ///         sizes: Option<Span<usize>>,
+    ///         antialias: Option<usize>,
+    ///         axes: Option<Span<usize>>,
+    ///         coordinate_transformation_mode: Option<orion::operators::tensor::math::resize::TRANSFORMATION_MODE>,
+    ///         cubic_coeff_a: Option<T>,
+    ///         exclude_outside: Option<bool>,
+    ///         extrapolation_value: Option<T>,
+    ///         keep_aspect_ratio_policy: Option<orion::operators::tensor::math::resize::KEEP_ASPECT_RATIO_POLICY>,
+    ///         mode: Option<orion::operators::tensor::math::resize::MODE>,
+    ///         nearest_mode: Option<orion::operators::tensor::math::resize::NEAREST_MODE>,
+    ///     ) -> Tensor<T>;
+    /// ```
+    ///
+    /// Resizes the input tensor. In general, it calculates every value in the output tensor as a weighted average of neighborhood in the input tensor. 
+    /// 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `roi` (`Option<Tensor<T>>`) (optional) - 1-D tensor given as [start1, ..., startN, end1, ..., endN], where N is the rank of X or the length of axes, if provided. It only takes effect when coordinate_transformation_mode is "tf_crop_and_resize"
+    /// * `scales` (`Option<Tensor<T>>`) (optional) - The scale array along each dimension. It takes value greater than 0. If it's less than 1, it's sampling down, otherwise, it's upsampling. The number of elements of 'scales' should be the same as the rank of input 'X' or the length of 'axes', if provided. One and only one of 'scales' and 'sizes' MUST be specified.
+    /// * `sizes` (`Option<Tensor<usize>>`) (optional) - Target size of the output tensor. Its interpretation depends on the 'keep_aspect_ratio_policy' value. The number of elements of 'sizes' should be the same as the rank of input 'X', or the length of 'axes', if provided. One and only one of 'scales' and 'sizes' MUST be specified.  
+    /// * `antialias` (`Option<usize>`) (default is 0) - If set to 1, "linear" and "cubic" interpolation modes will use an antialiasing filter when downscaling. Antialiasing is achieved by stretching the resampling filter by a factor max(1, 1 / scale).
+    /// * `axes`(`Option<Span<usize>>`) - If provided, it specifies a subset of axes that 'roi', 'scales' and 'sizes' refer to. If not provided, all axes are assumed [0, 1, ..., r-1], where r = rank(data). 
+    /// * `coordinate_transformation_mode` (`Option<TRANSFORMATION_MODE>`) (default is half_pixel) - This attribute describes how to transform the coordinate in the resized tensor to the coordinate in the original tensor. 
+    /// * `cubic_coeff_a` (`Option<T>`) (default is -0.75) - The coefficient 'a' used in cubic interpolation.
+    /// * `exclude_outside` (`Option<bool>`) (default is false) - If set to true, the weight of sampling locations outside the tensor will be set to 0 and the weight will be renormalized so that their sum is 1.0. 
+    /// * `extrapolation_value` (`Option<T>`) (default is 0.0) - When coordinate_transformation_mode is "tf_crop_and_resize" and x_original is outside the range [0, length_original - 1], this value is used as the corresponding output value. 
+    /// * `keep_aspect_ratio_policy` (`Option<KEEP_ASPECT_RATIO_POLICY>`) (default is stretch) - This attribute describes how to interpret the `sizes` input with regard to keeping the original aspect ratio of the input, and it is not applicable when the `scales` input is used. 
+    /// * `mode` (`Option<MODE>`) (default is nearest) - Three interpolation modes: "nearest", "linear" and "cubic".
+    /// * `nearest_mode` (`Option<NEAREST_MODE>`) (default is round_prefer_floor) - Four modes: "round_prefer_floor" (as known as round half down), "round_prefer_ceil" (as known as round half up), "floor", "ceil". Only used by nearest interpolation. 
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if both scales and sizes are `Option::None`.
+    /// * Panics if roi is `Option::None` for the coordinate_transformation_mode `tf_crop_and_resize`.
+    /// * Panics if antialias is not `Option::None` for mode `nearest`.
+    ///
+    /// ## Returns
+    ///
+    /// A new resized `Tensor<T>` of the dimension given by output_dimension = floor(input_dimension * (roi_end - roi_start) * scale) is scale is specified, or output_size if size is specified (note that some value of the parameter `keep_aspect_ratio_policy` can change sizes and therefore the dimension of the output tensor) 
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor, FP16x16TensorPartialEq};
+    /// use orion::operators::tensor::math::resize::{
+    ///     MODE, NEAREST_MODE, KEEP_ASPECT_RATIO_POLICY, TRANSFORMATION_MODE
+    /// };
+    /// use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
+    /// use core::debug::PrintTrait;
+    /// 
+    /// fn example_resize_downsample_scales_linear() -> Tensor<FP16x16>{
+    ///     let mut data = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(
+    ///         shape: array![1, 1, 2, 4].span(),
+    ///         data: array![
+    ///             FixedTrait::<FP16x16>::new(65536, false),   //1
+    ///             FixedTrait::<FP16x16>::new(131072, false),  //2
+    ///             FixedTrait::<FP16x16>::new(196608, false),  //3
+    ///             FixedTrait::<FP16x16>::new(262144, false),  //4
+    ///             FixedTrait::<FP16x16>::new(327680, false),  //5
+    ///             FixedTrait::<FP16x16>::new(393216, false),  //6
+    ///             FixedTrait::<FP16x16>::new(458752, false),  //7
+    ///             FixedTrait::<FP16x16>::new(524288, false),  //8
+    ///         ]
+    ///             .span(),
+    ///     );
+    ///     let mut scales = array![
+    ///         FixedTrait::<FP16x16>::new(65536, false),  //1
+    ///         FixedTrait::<FP16x16>::new(65536, false),   
+    ///         FixedTrait::<FP16x16>::new(39322, false),  //0.6
+    ///         FixedTrait::<FP16x16>::new(39322, false)
+    ///     ]
+    ///         .span();
+    /// 
+    ///     let scales = Option::Some(scales);
+    /// 
+    ///     return data.resize(
+    ///         Option::None,
+    ///         scales,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::Some(MODE::LINEAR),
+    ///         Option::None,
+    ///     );
+    /// 
+    /// }
+    /// >>> [[[[2.6666665 4.3333331]]]]
+    /// 
+    /// 
+    /// 
+    /// fn example_resize_tf_crop_and_resize_extrapolation_value() -> Tensor<FP16x16> {
+    ///     let mut data = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(
+    ///         shape: array![1, 1, 4, 4].span(),
+    ///         data: array![
+    ///             FixedTrait::<FP16x16>::new(65536, false),
+    ///             FixedTrait::<FP16x16>::new(131072, false),
+    ///             FixedTrait::<FP16x16>::new(196608, false),
+    ///             FixedTrait::<FP16x16>::new(262144, false),
+    ///             FixedTrait::<FP16x16>::new(327680, false),
+    ///             FixedTrait::<FP16x16>::new(393216, false),
+    ///             FixedTrait::<FP16x16>::new(458752, false),
+    ///             FixedTrait::<FP16x16>::new(524288, false),
+    ///             FixedTrait::<FP16x16>::new(589824, false),
+    ///             FixedTrait::<FP16x16>::new(655360, false),
+    ///             FixedTrait::<FP16x16>::new(720896, false),
+    ///             FixedTrait::<FP16x16>::new(786432, false),
+    ///             FixedTrait::<FP16x16>::new(851968, false),
+    ///             FixedTrait::<FP16x16>::new(917504, false),
+    ///             FixedTrait::<FP16x16>::new(983040, false),
+    ///             FixedTrait::<FP16x16>::new(1048576, false),
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     let mut roi = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(
+    ///         shape: array![8].span(),
+    ///         data: array![
+    ///             FixedTrait::<FP16x16>::new(0, false),
+    ///             FixedTrait::<FP16x16>::new(0, false),
+    ///             FixedTrait::<FP16x16>::new(26214, false),
+    ///             FixedTrait::<FP16x16>::new(39322, false),
+    ///             FixedTrait::<FP16x16>::new(65536, false),
+    ///             FixedTrait::<FP16x16>::new(65536, false),
+    ///             FixedTrait::<FP16x16>::new(78643, false),
+    ///             FixedTrait::<FP16x16>::new(111411, false),
+    ///         ]
+    ///             .span(),
+    ///     );
+    ///     let roi = Option::Some(roi);
+    /// 
+    ///     let mut sizes = array![1, 1, 3, 3].span();
+    ///     let sizes = Option::Some(sizes);
+    /// 
+    ///     let extrapolation_value = Option::Some(FixedTrait::<FP16x16>::new(655360, false));
+    /// 
+    ///     return data.resize(
+    ///         roi,
+    ///         Option::None,
+    ///         sizes,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::Some(TRANSFORMATION_MODE::TF_CROP_AND_RESIZE),
+    ///         Option::None,
+    ///         Option::None,
+    ///         extrapolation_value,
+    ///         Option::None,
+    ///         Option::Some(MODE::LINEAR),
+    ///         Option::None,
+    ///     );
+    /// 
+    /// }
+    /// >>> [[[[ 7.6000004 10.        10.       ]
+    ///     [12.400001  10.        10.       ]
+    ///     [10.        10.        10.       ]]]]
+    /// 
+    /// 
+    /// 
+    /// fn example_resize_downsample_sizes_cubic_antialias() -> Tensor<FP16x16> {
+    ///     let mut data = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(
+    ///         shape: array![1, 1, 4, 4].span(),
+    ///         data: array![
+    ///             FixedTrait::<FP16x16>::new(65536, false),
+    ///             FixedTrait::<FP16x16>::new(131072, false),
+    ///             FixedTrait::<FP16x16>::new(196608, false),
+    ///             FixedTrait::<FP16x16>::new(262144, false),
+    ///             FixedTrait::<FP16x16>::new(327680, false),
+    ///             FixedTrait::<FP16x16>::new(393216, false),
+    ///             FixedTrait::<FP16x16>::new(458752, false),
+    ///             FixedTrait::<FP16x16>::new(524288, false),
+    ///             FixedTrait::<FP16x16>::new(589824, false),
+    ///             FixedTrait::<FP16x16>::new(655360, false),
+    ///             FixedTrait::<FP16x16>::new(720896, false),
+    ///             FixedTrait::<FP16x16>::new(786432, false),
+    ///             FixedTrait::<FP16x16>::new(851968, false),
+    ///             FixedTrait::<FP16x16>::new(917504, false),
+    ///             FixedTrait::<FP16x16>::new(983040, false),
+    ///             FixedTrait::<FP16x16>::new(1048576, false),
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     let antialias = Option::Some(1);
+    /// 
+    ///     let mut sizes = array![1, 1, 3, 3].span();
+    ///     let sizes = Option::Some(sizes);
+    /// 
+    ///     return data.resize(
+    ///         Option::None,
+    ///         Option::None,
+    ///         sizes,
+    ///         antialias,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::Some(MODE::CUBIC),
+    ///         Option::None,
+    ///     );
+    /// }
+    /// 
+    /// >>> [[[[ 1.7750092  3.1200073  4.4650054]
+    ///     [ 7.1550016  8.5        9.844998 ]
+    ///     [12.534994  13.8799925 15.224991 ]]]]
+    /// 
+    /// ```
+    ///
+    fn resize(
+        self: @Tensor<T>,
+        roi: Option<Tensor<T>>,
+        scales: Option<Span<T>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<
+            orion::operators::tensor::math::resize::TRANSFORMATION_MODE
+        >,
+        cubic_coeff_a: Option<T>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<T>,
+        keep_aspect_ratio_policy: Option<
+            orion::operators::tensor::math::resize::KEEP_ASPECT_RATIO_POLICY
+        >,
+        mode: Option<orion::operators::tensor::math::resize::MODE>,
+        nearest_mode: Option<orion::operators::tensor::math::resize::NEAREST_MODE>,
+    ) -> Tensor<T>;
     /// #tensor.round
     ///
     /// ```rust
@@ -3890,6 +4109,11 @@ trait TensorTrait<T> {
     /// ## Returns
     ///
     /// A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     ///
     /// fn reduce_l2_example() -> Tensor<u32> {
     ///
@@ -3930,6 +4154,12 @@ trait TensorTrait<T> {
     /// ## Returns
     ///
     /// A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     ///
     /// fn reduce_sum_square_example() -> Tensor<u32> {
     ///
@@ -4113,17 +4343,15 @@ trait TensorTrait<T> {
     /// ```rust
     /// use core::array::{ArrayTrait, SpanTrait};
     /// use orion::operators::tensor::{TensorTrait, Tensor, I32Tensor, U32Tensor};
-    /// use orion::numbers::{i32, IntegerTrait};
     /// 
     /// fn array_feature_extractor_example() -> Tensor<i32> {
     ///     let input_tensor = TensorTrait::new(
     ///         shape: array![3, 4].span(),
     ///         data: array![
-    ///             IntegerTrait::new(0, false), IntegerTrait::new(1, false), IntegerTrait::new(2, false), IntegerTrait::new(3, false),
-    ///             IntegerTrait::new(4, false), IntegerTrait::new(5, false), IntegerTrait::new(6, false), IntegerTrait::new(7, false),
-    ///             IntegerTrait::new(8, false), IntegerTrait::new(9, false), IntegerTrait::new(10, false), IntegerTrait::new(11, false)
-    ///         ]
-    ///             .span(),
+    ///             0, 1, 2, 3,
+    ///             4, 5, 6, 7,
+    ///             8, 9, 10, 11
+    ///         ].span(),
     ///     );
     ///     
     ///     let indices = TensorTrait::<u32>::new(
@@ -4451,8 +4679,9 @@ trait TensorTrait<T> {
     ///
     /// A new `Tensor<bool>` instance with entries set to true iff the input tensors corresponding element was NaN.
     ///
-    /// ## Examples
+    /// ## Example
     ///
+    /// ```rust
     /// use core::array::{ArrayTrait, SpanTrait};
     /// use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
@@ -4498,7 +4727,6 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
-    /// use orion::numbers::{i32, IntegerTrait};
     /// 
     /// fn not_example() -> Tensor<bool> {
     ///     let tensor = TensorTrait::new(
@@ -4535,8 +4763,15 @@ trait TensorTrait<T> {
     /// ## Returns
     ///
     /// A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
+    /// ## Examples
     ///
-    /// fn reduce_log_sum() -> Tensor<u32> {
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, FP16x16Tensor};
+    /// use orion::numbers::{FixedTrait, FP16x16};
+    ///
+    /// fn reduce_log_sum() -> Tensor<FP16x16> {
     ///
     ///    let mut sizes = ArrayTrait::new();
     ///    sizes.append(2);
@@ -4773,9 +5008,15 @@ trait TensorTrait<T> {
     /// * Panics if If indices_shape[-1] > r-b.
     /// * Panics if first b dimensions of the shape of indices tensor and data tensor are not equal.
     ///
-    /// ## Returns 
+    /// ## Returns
+    /// A new `Tensor<T>`.
+    /// 
+    /// ## Example
     ///
-    /// A new `Tensor<T>` .
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    ///
     /// fn gather_nd_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
     ///         shape: array![2, 2].span(), 
@@ -4819,6 +5060,13 @@ trait TensorTrait<T> {
     /// ## Returns 
     ///
     /// A new `Tensor<T>` .
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    ///
     /// fn compress_example() -> Tensor<u32> {
     ///     let tensor = TensorTrait::<u32>::new(
     ///         shape: array![3, 2].span(), 
@@ -4839,6 +5087,648 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn compress(self: @Tensor<T>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<T>;
+    /// # tensor.layer_normalization
+    ///
+    /// ```rust 
+    ///    fn layer_normalization(
+    ///     self: @Tensor<T>,
+    ///     scale: @Tensor<T>,
+    ///     B: Option<@Tensor<T>>,
+    ///     axis: Option<i32>,
+    ///     epsilon: Option<T>,
+    ///     stash_type: Option<usize>,
+    /// ) -> (Tensor<T>, Tensor<T>, Tensor<T>);
+    /// ```
+    ///
+    /// Layer normalization of the input, in two stages.
+    /// The first stage is standardization, which makes the normalized elements have zero mean and unit variances.
+    /// The second stage then scales and shifts the outcome of the first stage 
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `scale`(`@Tensor<T>,`) - Scale tensor.
+    /// * `B`(`Option<@Tensor<T>>`) - Bias tensor. 
+    /// * `axis`(`Option<i32>`) (default is -1) - The first normalization dimension. If rank(X) is r, axis' allowed range is [-r, r). Negative value means counting dimensions from the back.
+    /// * `epsilon`(`Option<T>`) (default is 0) - The epsilon value to use to avoid division by zero.
+    /// * `stash_type`(`Option<usize>`) - Precise the computation precision - unused the precision is defined by the type of the tensor.
+    /// ## Panics
+    ///
+    /// * Panics if condition rank is not equal to 1.
+    ///
+    /// ## Returns 
+    ///
+    /// A new normalized tensor`Tensor<T>`.
+    /// A tensor containing the mean `Tensor<T>`.
+    /// A tensor containing the inverse standard deviation `Tensor<T>`.
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use orion::operators::tensor::{TensorTrait, Tensor};
+    /// use orion::operators::tensor::FP16x16TensorPartialEq;
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::FP16x16Tensor;
+    /// use orion::numbers::{FixedTrait, FP16x16};
+    /// 
+    /// fn layer_normalization_example() -> (Tensor<FP16x16>, Tensor<FP16x16>, Tensor<FP16x16>) {
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(3);
+    ///     shape.append(4);
+    /// 
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(FP16x16 { mag: 41143, sign: true });
+    ///     data.append(FP16x16 { mag: 51803, sign: false });
+    ///     data.append(FP16x16 { mag: 113556, sign: false });
+    ///     data.append(FP16x16 { mag: 64774, sign: false });
+    ///     data.append(FP16x16 { mag: 866, sign: false });
+    ///     data.append(FP16x16 { mag: 698, sign: true });
+    ///     data.append(FP16x16 { mag: 106500, sign: false });
+    ///     data.append(FP16x16 { mag: 98929, sign: false });
+    ///     data.append(FP16x16 { mag: 7551, sign: false });
+    ///     data.append(FP16x16 { mag: 30689, sign: true });
+    ///     data.append(FP16x16 { mag: 38325, sign: false });
+    ///     data.append(FP16x16 { mag: 48164, sign: false });
+    ///     let X = TensorTrait::new(shape.span(), data.span());
+    /// 
+    ///     let shape = ArrayTrait::<usize>::new();
+    ///     shape.append(4);
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(FP16x16 { mag: 49855, sign: false });
+    ///     data.append(FP16x16 { mag: 150787, sign: false });
+    ///     data.append(FP16x16 { mag: 83498, sign: true });
+    ///     data.append(FP16x16 { mag: 30346, sign: false });
+    ///     let scale = TensorTrait::new(shape.span(), data.span());
+    /// 
+    ///      
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(4);
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(FP16x16 { mag: 54864, sign: true });
+    ///     data.append(FP16x16 { mag: 50952, sign: false });
+    ///     data.append(FP16x16 { mag: 8870, sign: true });
+    ///     data.append(FP16x16 { mag: 23216, sign: true });
+    ///     let bias = TensorTrait::new(shape.span(), data.span());
+    /// 
+    ///     return X.layer_normalization(@scale,Option::Some(@bias),Option::None,Option::None,Option::None);
+    /// }
+    /// >>> [[-0.48926553  1.0185822  -0.02138367 -0.39223218]
+    ///      [-0.7945549   0.99696046  0.04332176 -0.412645  ]
+    ///      [-0.5664707   0.7491956  -0.7896356  -0.5320859 ]]
+    /// 
+    /// ``` 
+    ///
+    fn layer_normalization(
+        self: @Tensor<T>,
+        scale: @Tensor<T>,
+        B: Option<@Tensor<T>>,
+        axis: Option<i32>,
+        epsilon: Option<T>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<T>, Tensor<T>, Tensor<T>);
+    /// # tensor.split
+    ///
+    /// ```rust 
+    ///    fn split(self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, split: Option<Tensor<usize>>
+    ///    ) -> Array<Tensor<T>>;
+    /// ```
+    /// ## Args
+    /// Split a tensor into a list of tensors, along the specified ‘axis’
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `axis`(`usize`) - The axis along which to split on.
+    /// * `num_outputs `(Option<usize>) - Number of outputs to split parts of the tensor into. 
+    /// * `split  `(Option<Tensor<usize>>) - Optional length of each output.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the 'axis' accepted range is not [-rank, rank-1] where r = rank(input).
+    /// * Panics if the 'split' values not >= 0. Sum of the values is not equal to the dim value at ‘axis’ specified.
+    /// * Panics if the input 'split' or the attribute 'num_outputs' both are specified or not.
+    ///
+    /// ## Returns
+    ///
+    /// One or more outputs forming list of tensors after splitting.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// use core::option::OptionTrait;
+    /// fn split_tensor_example() -> Array<Tensor<u32>> {
+    ///     let tensor: Tensor<u32> = TensorTrait::<u32>::new(
+    ///         shape: array![2,4].span(), 
+    ///         data: array![
+    ///             0, 1, 2, 3, 4, 5, 6, 7
+    ///             ].span(),
+    ///     );
+    ///     let num_outputs = Option::Some(2);
+    ///     // split = Option::Some(array![1, 1].span());
+    ///     let split_num: Option<Tensor<usize>> = Option::None(());
+    ///     // We can call `split` function as follows.
+    ///     return tensor.split(1, num_outputs, split_num);
+    /// }
+    /// >>> [[0,1],[4,5]]
+    ///     [[2,3],[6,7]]
+    /// ```
+    ///
+    fn split(
+        self: @Tensor<T>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<T>>;
+    /// # tensor.reverse_sequence
+    ///
+    /// ```rust
+    ///    fn reverse_sequence(self: @Tensor<T>, sequence_lens: @Tensor<i32>, batch_axis: Option<usize>, time_axis: Option<usize>) -> 
+    ///    Tensor<T>;
+    /// ```
+    ///
+    /// Reverse batch of sequences having different lengths specified by sequence_lens.
+    ///
+    /// * `self`(`@Array<Tensor<T>>`) - Tensor of rank r >= 2.
+    /// * `sequence_lens`(`@Tensor<T>`) - Tensor specifying lengths of the sequences in a batch. It has shape [batch_size].
+    /// * `batch_axis`(`Option<usize>`) - (Optional) Specify which axis is batch axis. Must be one of 1 (default), or 0.
+    /// * `time_axis`(`Option<usize>`) - (Optional) Specify which axis is time axis. Must be one of 0 (default), or 1.
+    ///
+    /// ## Panics
+    /// 
+    /// * Panics if the 'batch_axis' == 'time_axis'.
+    /// * Panics if the 'batch_axis' and 'time_axis' are not 0 and 1.
+    /// * Panics if the 'sequence_len' exceeding the sequence range.
+    ///
+    /// ## Returns
+    ///
+    /// Tensor with same shape of input.
+    /// 
+    /// ## Example
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// use core::option::OptionTrait;
+    /// fn reverse_sequence_example() -> Tensor<u32> {
+    ///     let tensor: Tensor<u32> = TensorTrait::<u32>::new(
+    ///         shape: array![4,4].span(), 
+    ///         data: array![
+    ///             0, 1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16
+    ///             ].span(),
+    ///     );
+    ///     let sequence_lens = TensorTrait::<usize>::new(array![4].span(), array![1,2,3,4].span());
+    ///     let batch_axis = Option::Some(0);
+    ///     let time_axis = Option::Some(1);
+    ///     // We can call `split` function as follows.
+    ///     return tensor.reverse_sequence(sequence_lens, batch_axis, time_axis);
+    /// }
+    /// >>> [
+    ///         [0,1,2,3],
+    ///         [5,4,6,7],
+    ///         [10,9,8,11],
+    ///         [15,14,13,12]
+    ///     ] 
+    /// ```
+    ///
+    fn reverse_sequence(
+        self: @Tensor<T>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
+    ) -> Tensor<T>;
+    /// # tensor.scatter_nd
+    ///
+    /// ```rust 
+    ///    fn scatter_nd(self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>,  reduction: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Produces a copy of input data, and updates value to values specified by updates at specific index positions specified by indices.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `updates`(`Tensor<T>`) - The updates tensor.
+    /// * `indices`(`Tensor<T>`) - Tensor of indices.
+    /// * `reduction`(`Option<usize>`) - Reduction operation. Default: reduction='none'.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if index values are not within bounds [-s, s-1] along axis of size s.
+    /// * Panics if indices last axis is greater than data rank.
+    ///
+    /// ## Returns 
+    ///
+    /// A new `Tensor<T>` .
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn scatter_nd_example() -> Tensor<u32> {
+    ///    let tensor = TensorTrait::<u32>::new(
+    ///        shape: array![4, 4, 4].span(), 
+    ///        data: array![1, 2, 3, 4, 5, 6, 7, 8, 8, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6,
+    ///             7, 8, 8, 7, 6, 5, 4, 3, 2, 1, 8, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4,
+    ///             5, 6, 7, 8, 8, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7, 8].span()
+    ///    );
+    ///
+    ///    let updates = TensorTrait::<u32>::new(
+    ///        shape: array![2, 4, 4].span(), 
+    ///        data: array![5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 1, 1, 1, 1, 2, 2,
+    ///                    2, 2, 3, 3, 3, 3, 4, 4, 4, 4].span(), 
+    ///    );
+    ///
+    ///    let indices = TensorTrait::<u32>::new(
+    ///        shape: array![2, 1].span(), 
+    ///        data: array![0, 2].span(), 
+    ///    );
+    /// 
+    ///     return tensor.scatter_nd(
+    ///         updates: updates
+    ///         indices: indices, 
+    ///         reduction: Option::Some('add'), 
+    ///     );
+    /// }
+    /// >>> [[[ 6.,  7.,  8.,  9.],
+    ///        [11., 12., 13., 14.],
+    ///        [15., 14., 13., 12.],
+    ///        [12., 11., 10.,  9.]],
+    ///
+    ///    [[ 1.,  2.,  3.,  4.],
+    ///        [ 5.,  6.,  7.,  8.],
+    ///        [ 8.,  7.,  6.,  5.],
+    ///        [ 4.,  3.,  2.,  1.]],
+    ///
+    ///    [[ 9.,  8.,  7.,  6.],
+    ///        [ 6.,  5.,  4.,  3.],
+    ///        [ 4.,  5.,  6.,  7.],
+    ///        [ 9., 10., 11., 12.]],
+    ///
+    ///    [[ 8.,  7.,  6.,  5.],
+    ///        [ 4.,  3.,  2.,  1.],
+    ///        [ 1.,  2.,  3.,  4.],
+    ///        [ 5.,  6.,  7.,  8.]]]
+    /// ```
+    ///
+    fn scatter_nd(
+        self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>, reduction: Option<usize>
+    ) -> Tensor<T>;
+    /// # tensor.dynamic_quantize_linear
+    /// 
+    /// ```rust
+    /// fn dynamic_quantize_linear(self: @Tensor<T>) -> (Tensor::<Q>, Tensor<T>, Tensor<T>);
+    /// ```
+    /// 
+    /// Quantizes a Tensor using dynamic linear quantization.
+    ///
+    /// The dynamic linear quantization operator. It consumes a high precision tensor 
+    /// to compute the low precision / quantized tensor dynamicly. 
+    /// Right now only uint8 is supported, it saturates to [0, 255].
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<Q>` with the same shape as the input tensor, containing the quantized values.
+    /// * `y_scale`(`@Tensor<T>`) - Scale for doing quantization to get `y`.
+    /// * `y_zero_point`(`@Tensor<T>`) - Zero point for doing quantization to get `y`.
+    ///
+    /// ## Type Constraints
+    ///
+    /// * `T` in (`Tensor<FP>`, `Tensor<i8>`, `Tensor<i32>`, `tensor<u32>`)
+    /// * `Q` in (`Tensor<i32>`)- Constrain `y` to 8-bit unsigned integer tensor.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
+    /// use orion::numbers::{u8, i32, IntegerTrait};
+    /// 
+    /// fn dynamic_quantize_linear_example() -> (Tensor<u32>, Tensor<FP16x16>, Tensor<FP16x16>) {
+    ///     // We instantiate a 1D Tensor here.
+    ///     let x = TensorTrait::<FP16x16>::new(
+    ///         shape: array![6].span(),
+    ///         data: array![
+    ///             FP16x16 { mag: 10945, sign: false },
+    ///             FP16x16 { mag: 190054, sign: false },
+    ///             FP16x16 { mag: 196608, sign: false },
+    ///             FP16x16 { mag: 229376, sign: false },
+    ///             FP16x16 { mag: 196608, sign: true },
+    ///             FP16x16 { mag: 229376, sign: true },
+    ///         ]
+    ///             .span(),
+    ///     );
+    /// 
+    ///     return x.dynamic_quantize_linear();
+    /// }
+    /// >>> ([133, 233, 236, 255, -18, -0], [0.02745], [128]
+    /// ```
+    ///
+    fn dynamic_quantize_linear(self: @Tensor<T>) -> (Tensor<u32>, Tensor<T>, Tensor<T>);
+    /// # tensor.optional
+    ///
+    /// ```rust 
+    ///    fn optional(self: @Tensor<T>) -> Option<Tensor<T>>;
+    /// ```
+    ///
+    /// Constructs an optional-type value containing either an empty optional of a certain 
+    /// type specified by the attribute, or a non-empty value containing the input element.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    ///
+    /// ## Returns
+    ///
+    /// The optional output enclosing the input element.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::option::OptionTrait;
+    /// fn optional_example() -> Option<Tensor<T>> {
+    ///     let a = TensorTrait::<
+    ///         FP16x16
+    ///     >::new(
+    ///         shape: array![4, 2].span(),
+    ///         data: array![
+    ///            1_i8,
+    ///            2_i8,
+    ///            3_i8,
+    ///            4_i8,
+    ///            5_i8,
+    ///            6_i8,
+    ///            7_i8,
+    ///            8_i8
+    ///         ].span(),
+    ///     );
+    ///     a.optional()
+    /// }
+    /// >>> Option[Tensor[1,2,3,4,5,6,7,8]]
+    ///     
+    /// ```
+    ///
+    fn optional(self: @Tensor<T>) -> Option<Tensor<T>>;
+    /// # tensor.split_to_sequence
+    ///
+    /// ```rust 
+    ///    fn split_to_sequence(
+    ///        self: @Tensor<T>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ///    ) -> Array<Tensor<T>>;
+    /// ```
+    ///
+    /// Split a tensor into a sequence of tensors, along the specified ‘axis’
+    ///
+    ///
+    /// ## Args
+    /// * `self`(`@Tensor<T>`) - The input tensor to split.
+    /// * `axis`(`usize`) - The axis along which to split on.
+    /// * `keepdims  `(`usize`) - Keep the split dimension or not. If input ‘split’ is specified, this attribute is ignored.
+    /// * `split  `(`Option<Tensor<usize>>`) - Length of each output. It can be either a scalar(tensor of empty shape), or a 1-D tensor. All values must be >= 0.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the 'axis' accepted range is not [-rank, rank-1] where r = rank(input).
+    /// * Panics if the 'split' is not either a scalar (tensor of empty shape), or a 1-D tensor.
+    ///
+    /// ## Returns
+    ///
+    /// One or more outputs forming a sequence of tensors after splitting.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// use core::option::OptionTrait;
+    /// fn split_to_sequence_example() -> Array<Tensor<u32>> {
+    ///     let tensor: Tensor<u32> = TensorTrait::<u32>::new(
+    ///         shape: array![2,4].span(), 
+    ///         data: array![
+    ///             0, 1, 2, 3, 4, 5, 6, 7
+    ///             ].span(),
+    ///     );
+    ///     let num_outputs = Option::Some(2);
+    ///     // let split = Option::Some(TensorTrait::new(array![1].span(), array![2].span()));
+    ///     let split: Option<Tensor<usize>> = Option::Some(TensorTrait::new(array![2].span(), array![2, 2].span()));
+    ///     // We can call `split_to_sequence` function as follows.
+    ///     return tensor.split_to_sequence(1, 1, split);
+    /// }
+    /// >>> [
+    ///         [[0,1],[4,5]],
+    ///         [[2,3],[6,7]]
+    ///     ]
+    /// ```
+    ///
+    fn split_to_sequence(
+        self: @Tensor<T>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<T>>;
+    /// # tensor.range
+    ///
+    /// ```rust 
+    ///    fn range(start: T, end: T, step: T) -> Tensor<T>;
+    /// ```
+    ///
+    /// Generate a tensor containing a sequence of numbers that begin at start and extends by increments of delta up to limit (exclusive).
+    /// 
+    ///
+    /// * `start`(`T`) - First entry for the range of output values.
+    /// * `end`(`T`) - Exclusive upper limit for the range of output values.
+    /// * `step `(`T`) - Value to step by.
+    ///
+    /// ## Returns
+    ///
+    /// A 1-D tensor with same type as the inputs containing generated range of values.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::I32TensorPartialEq;
+    /// use orion::operators::tensor::{TensorTrait, Tensor};
+    /// use orion::operators::tensor::{I32Tensor, I32TensorAdd};
+    /// use orion::utils::{assert_eq, assert_seq_eq};
+    /// use orion::numbers::NumberTrait;
+    ///
+    ///
+    /// fn range_example() -> Tensor<i32> {
+    ///     return TensorTrait::range(21,2,-3);
+    /// }
+    /// >>> [21 18 15 12  9  6  3]
+    /// ```
+    /// 
+    fn range(start: T, end: T, step: T) -> Tensor<T>;
+    /// # tensor.hann_window
+    ///
+    /// ```rust 
+    ///    fn hann_window(size: T, periodic: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Generates a Hann window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+    /// 
+    ///
+    /// * `size`(`T`) - A scalar value indicating the length of the window.
+    /// * `periodic`(Option<usize>) - If 1, returns a window to be used as periodic function. If 0, return a symmetric window. When 'periodic' is specified, hann computes a window of length size + 1 and returns the first size points. The default value is 1.
+    ///
+    /// ## Returns
+    ///
+    /// A Hann window with length: size. The output has the shape: [size].
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::FP8x23TensorPartialEq;
+    /// use orion::operators::tensor::{FP8x23Tensor, FP8x23TensorAdd};
+    /// use orion::operators::tensor::{TensorTrait, Tensor};
+    /// use orion::utils::{assert_eq, assert_seq_eq};
+    /// use orion::numbers::{FixedTrait, FP8x23};
+    ///
+    ///
+    /// fn hann_window_example() -> Tensor<FP8x23> {
+    ///     return TensorTrait::hann_window(FP8x23 { mag: 33554432, sign: false }, Option::Some(0));  // size: 4
+    /// }
+    /// >>> [0  6291455  6291456  0]
+    /// ```
+    /// 
+    fn hann_window(size: T, periodic: Option<usize>) -> Tensor<T>;
+    /// # tensor.hamming_window
+    ///
+    /// ```rust 
+    ///    fn hamming_window(size: T, periodic: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Generates a Hamming window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+    /// 
+    ///
+    /// * `size`(`T`) - A scalar value indicating the length of the window.
+    /// * `periodic`(Option<usize>) - If 1, returns a window to be used as periodic function. If 0, return a symmetric window. When 'periodic' is specified, hann computes a window of length size + 1 and returns the first size points. The default value is 1.
+    ///
+    /// ## Returns
+    ///
+    /// A Hamming window with length: size. The output has the shape: [size].
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::FP8x23TensorPartialEq;
+    /// use orion::operators::tensor::{FP8x23Tensor, FP8x23TensorAdd};
+    /// use orion::operators::tensor::{TensorTrait, Tensor};
+    /// use orion::utils::{assert_eq, assert_seq_eq};
+    /// use orion::numbers::{FixedTrait, FP8x23};
+    ///
+    ///
+    /// fn hamming_window_example() -> Tensor<FP8x23> {
+    ///     return TensorTrait::hamming_window(FP8x23 { mag: 33554432, sign: false }, Option::Some(0));  // size: 4
+    /// }
+    /// >>> [729444  6473817  6473817  729444]
+    /// ```
+    /// 
+    fn hamming_window(size: T, periodic: Option<usize>) -> Tensor<T>;
+    /// # tensor.blackman_window
+    ///
+    /// ```rust 
+    ///    fn blackman_window(size: T, periodic: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Generates a Blackman window as described in the paper https://ieeexplore.ieee.org/document/1455106.
+    /// 
+    ///
+    /// * `size`(`T`) - A scalar value indicating the length of the window.
+    /// * `periodic`(Option<usize>) - If 1, returns a window to be used as periodic function. If 0, return a symmetric window. When 'periodic' is specified, hann computes a window of length size + 1 and returns the first size points. The default value is 1.
+    ///
+    /// ## Returns
+    ///
+    /// A Blackman window with length: size. The output has the shape: [size].
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::FP8x23TensorPartialEq;
+    /// use orion::operators::tensor::{FP8x23Tensor, FP8x23TensorAdd};
+    /// use orion::operators::tensor::{TensorTrait, Tensor};
+    /// use orion::utils::{assert_eq, assert_seq_eq};
+    /// use orion::numbers::{FixedTrait, FP8x23};
+    ///
+    ///
+    /// fn blackman_window_example() -> Tensor<FP8x23> {
+    ///     return TensorTrait::blackman_window(FP8x23 { mag: 33554432, sign: false }, Option::Some(0));  // size: 4
+    /// }
+    /// >>> [0  0.36  0.36  0]
+    /// ```
+    /// 
+    fn blackman_window(size: T, periodic: Option<usize>) -> Tensor<T>;
+    /// # TensorTrait::random_uniform_like
+    /// 
+    /// ```rust
+    ///         fn random_uniform_like(tensor: @Tensor<T>, high: Option<T>, low: Option<T>, seed: Option<usize>) -> Tensor<T>;
+    /// ```
+    ///
+    /// RandomUniformLike generates a tensor with random values using a uniform distribution, matching the shape of the input tensor.
+    ///
+    /// This operation creates a new tensor with the same shape as the input tensor, where each element is initialized with a random value sampled from a uniform distribution.
+    ///
+    /// ## Args
+    ///
+    /// * `tensor`(`@Tensor<T>`) - The input tensor of [N,C,H,W], where N is the batch axis, C is the channel or depth, H is the height and W is the width.
+    /// * `high`(Option<T>) - An optional parameter specifying the upper bound (exclusive) of the uniform distribution. If not provided, defaults to 1.0.
+    /// * `low`(Option<T>) - An optional parameter specifying the lower bound (inclusive) of the uniform distribution. If not provided, defaults to 0.0.
+    /// * `seed`(Option<usize>) - An optional parameter specifying the seed for the random number generator. If not provided, a random seed will be used.
+    ///
+    /// ## Returns
+    /// 
+    /// * A `Tensor<T>` with the same shape as the input tensor, filled with random values from a uniform distribution within the specified range.
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use orion::operators::tensor::{FP8x23Tensor, FP8x23TensorAdd};
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor};
+    /// use orion::utils::{assert_eq, assert_seq_eq};
+    /// use orion::operators::tensor::FP8x23TensorPartialEq;
+    /// use orion::numbers::{FixedTrait, FP8x23};
+    ///
+    ///
+    /// fn example() -> Tensor<FP8x23> {
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(1);
+    ///     shape.append(8);
+    ///     shape.append(1);
+    ///     shape.append(2);
+    ///
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(FP8x23 { mag: 70016, sign: true });
+    ///     data.append(FP8x23 { mag: 57536, sign: false });
+    ///     data.append(FP8x23 { mag: 116032, sign: false });
+    ///     data.append(FP8x23 { mag: 162944, sign: true });
+    ///     data.append(FP8x23 { mag: 43360, sign: false });
+    ///     data.append(FP8x23 { mag: 128960, sign: false });
+    ///     data.append(FP8x23 { mag: 151808, sign: true });
+    ///     data.append(FP8x23 { mag: 28368, sign: false });
+    ///     data.append(FP8x23 { mag: 21024, sign: false });
+    ///     data.append(FP8x23 { mag: 24992, sign: false });
+    ///     data.append(FP8x23 { mag: 125120, sign: true });
+    ///     data.append(FP8x23 { mag: 79168, sign: true });
+    ///     data.append(FP8x23 { mag: 136960, sign: true });
+    ///     data.append(FP8x23 { mag: 10104, sign: true });
+    ///     data.append(FP8x23 { mag: 136704, sign: false });
+    ///     data.append(FP8x23 { mag: 184960, sign: true });
+    ///     let tensor = TensorTrait::new(shape.span(), data.span());
+    ///     return TensorTrait::random_uniform_like(@tensor, Option::Some(FP8x23 { mag: 83886080, sign: false }),Option::Some(FP8x23 { mag: 8388608, sign: false }), Option::Some(354145));
+    /// }
+    /// >>> [[[[7299130, 4884492]], [[2339070, 1559536]], [[3448557, 984617]], [[5745934, 3670947]], [[4665989, 3079292]], [[3375288, 948254]], [[3749966, 4911069]], [[1358829, 4368105]]]]
+    /// ```
+    ///
+    fn random_uniform_like(
+        tensor: @Tensor<T>, high: Option<T>, low: Option<T>, seed: Option<usize>
+    ) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring
@@ -4883,7 +5773,7 @@ fn ravel_index(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
 
                 stride *= *i;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -4908,7 +5798,7 @@ fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
 
                 result.append(coord);
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -4917,32 +5807,21 @@ fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
 
 /// Cf: TensorTrait::stride docstring
 fn stride(mut shape: Span<usize>) -> Span<usize> {
-    let shape_len = shape.len();
-    assert(shape_len > 0, 'shape cannot be empty');
-
-    let mut result: Array<usize> = ArrayTrait::new();
-    let mut accumulated: usize = 1;
-    let mut temp_result = ArrayTrait::new();
+    let mut strides = ArrayTrait::new();
+    let mut stride = 1;
     loop {
         match shape.pop_back() {
-            Option::Some(i) => {
-                temp_result.append(accumulated);
-                accumulated *= *i;
+            Option::Some(size) => {
+                strides.append(stride);
+                stride *= *size;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
-    let mut temp_result = temp_result.span();
-    loop {
-        match temp_result.pop_back() {
-            Option::Some(val) => { result.append(*val); },
-            Option::None(_) => { break; }
-        };
-    };
-
-    return result.span();
+    strides.reverse().span()
 }
+
 
 /// Cf: TensorTrait::reshape docstring
 fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
@@ -4994,7 +5873,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
 ) -> Tensor<T> {
     let axes = match axes {
         Option::Some(axes) => axes,
-        Option::None(_) => {
+        Option::None => {
             let mut ret: Array<usize> = ArrayTrait::new();
             let mut i: usize = 0;
             let stop_i = starts.len() - 1;
@@ -5010,7 +5889,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
     };
     let steps = match steps {
         Option::Some(steps) => steps,
-        Option::None(_) => {
+        Option::None => {
             let mut ret: Array<usize> = ArrayTrait::new();
             let mut i: usize = 0;
             let stop_i = starts.len() - 1;
@@ -5041,7 +5920,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
             Option::Some(ele) => {
                 let (axis_index, is_found) = match axes.index_of(i) {
                     Option::Some(axis_index) => (axis_index, true),
-                    Option::None(_) => (0, false),
+                    Option::None => (0, false),
                 };
 
                 let mut processed_params = (0, 0, 0, 0);
@@ -5089,7 +5968,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
 
                 i += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -5113,7 +5992,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
                 let mut steps = processed_steps.span();
                 loop {
                     match shape.pop_front() {
-                        Option::Some(item) => {
+                        Option::Some => {
                             let start = *starts.pop_front().unwrap();
                             let end = *ends.pop_front().unwrap();
                             let step = *steps.pop_front().unwrap();
@@ -5130,7 +6009,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
                                 break ();
                             }
                         },
-                        Option::None(_) => { break; }
+                        Option::None => { break; }
                     };
                 };
 
@@ -5140,7 +6019,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
 
                 j += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -5173,17 +6052,17 @@ fn nonzero<
                     let mut self_shape_copy = *self.shape;
                     loop {
                         match self_shape_copy.pop_front() {
-                            Option::Some(val) => {
+                            Option::Some => {
                                 indexes_of_dimensions.append(*indices.at(i));
                                 i += 1;
                             },
-                            Option::None(_) => { break (); }
+                            Option::None => { break (); }
                         };
                     };
                 }
                 j += 1;
             },
-            Option::None(_) => { break (); }
+            Option::None => { break (); }
         };
     };
 
@@ -5202,7 +6081,7 @@ fn nonzero<
 
     loop {
         match self_shape_copy.pop_front() {
-            Option::Some(val) => {
+            Option::Some => {
                 let mut k: usize = 0;
 
                 loop {
@@ -5215,7 +6094,7 @@ fn nonzero<
                 };
                 i += 1;
             },
-            Option::None(_) => { break (); }
+            Option::None => { break (); }
         };
     };
 
@@ -5225,7 +6104,7 @@ fn nonzero<
 }
 
 /// Cf: TensorTrait::squeeze docstring
-fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
+fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<u32>>) -> Tensor<T> {
     let target_shape = match axes {
         Option::Some(mut axes) => {
             let mut axis_squeezed = 0;
@@ -5234,13 +6113,17 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
                 match axes.pop_front() {
                     Option::Some(axis) => {
                         let mut reshape: Array<usize> = ArrayTrait::new();
-                        let mut index = 0_usize;
-                        let axis = if *axis.sign {
-                            assert(*axis.mag <= (*self.shape).len(), 'axis out of accepted range');
-                            (*self.shape).len() - *axis.mag
+                        let mut index = 0;
+                        let axis = if *axis < 0 {
+                            assert(
+                                *axis <= (*self.shape).len().into(), 'axis out of accepted range'
+                            );
+                            (*self.shape).len().into() - *axis
                         } else {
-                            assert(*axis.mag < (*self.shape).len(), 'axis out of accepted range');
-                            *axis.mag
+                            assert(
+                                *axis < (*self.shape).len().into(), 'axis out of accepted range'
+                            );
+                            *axis
                         };
 
                         loop {
@@ -5258,17 +6141,17 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
                                         reshape.append(*shape);
                                     }
                                 },
-                                Option::None(_) => { break; },
+                                Option::None => { break; },
                             };
                             index += 1;
                         };
                         shape = reshape.span();
                     },
-                    Option::None(_) => { break shape; },
+                    Option::None => { break shape; },
                 };
             }
         },
-        Option::None(_) => {
+        Option::None => {
             let mut reshape: Array<usize> = ArrayTrait::new();
             let mut shape = *self.shape;
             loop {
@@ -5276,7 +6159,7 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
                     Option::Some(shape) => { if *shape != 1 {
                         reshape.append(*shape);
                     } },
-                    Option::None(_) => { break reshape.span(); },
+                    Option::None => { break reshape.span(); },
                 };
             }
         },
@@ -5303,7 +6186,7 @@ fn unsqueeze<T>(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T> {
                     output_shape.append(*val);
                     i += 1;
                 },
-                Option::None(_) => { break (); }
+                Option::None => { break (); }
             };
         };
     };
@@ -5348,7 +6231,7 @@ fn sign<
                 };
                 sign_data_array.append(sign_data);
             },
-            Option::None(_) => {
+            Option::None => {
                 break Tensor::<T> { shape: *self.shape, data: sign_data_array.span() };
             }
         };
@@ -5369,11 +6252,11 @@ fn clip<
 ) -> Tensor<T> {
     let min = match min {
         Option::Some(min) => min,
-        Option::None(_) => { NumberTrait::min_value() },
+        Option::None => { NumberTrait::min_value() },
     };
     let max = match max {
         Option::Some(max) => max,
-        Option::None(_) => { NumberTrait::max_value() },
+        Option::None => { NumberTrait::max_value() },
     };
 
     let mut return_data: Array<T> = ArrayTrait::new();
@@ -5390,7 +6273,7 @@ fn clip<
                     return_data.append(*val);
                 }
             },
-            Option::None(_) => { break (); }
+            Option::None => { break (); }
         };
     };
 

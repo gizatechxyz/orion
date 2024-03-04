@@ -10,7 +10,7 @@ use orion::operators::tensor::core::{
     at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
-use orion::numbers::{i8, i32, NumberTrait, FP32x32, FP32x32Impl};
+use orion::numbers::{NumberTrait, FP32x32, FP32x32Impl, I8IntoFP32x32};
 use orion::numbers::fixed_point::implementations::fp32x32::core::ONE;
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
@@ -360,7 +360,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<FP32x32>, axes: Option<Span<i32>>) -> Tensor<FP32x32> {
+    fn squeeze(self: @Tensor<FP32x32>, axes: Option<Span<usize>>) -> Tensor<FP32x32> {
         core_tensor::squeeze(self, axes)
     }
 
@@ -511,10 +511,121 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn layer_normalization(
+        self: @Tensor<FP32x32>,
+        scale: @Tensor<FP32x32>,
+        B: Option<@Tensor<FP32x32>>,
+        axis: Option<i32>,
+        epsilon: Option<FP32x32>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<FP32x32>, Tensor<FP32x32>, Tensor<FP32x32>) {
+        math::layer_normalization::layer_normalization(self, scale, B, axis, epsilon, stash_type)
+    }
+
+    fn resize(
+        self: @Tensor<FP32x32>,
+        roi: Option<Tensor<FP32x32>>,
+        scales: Option<Span<FP32x32>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<FP32x32>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<FP32x32>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<FP32x32> {
+        math::resize::resize(
+            self,
+            roi,
+            scales,
+            sizes,
+            antialias,
+            axes,
+            coordinate_transformation_mode,
+            cubic_coeff_a,
+            exclude_outside,
+            extrapolation_value,
+            keep_aspect_ratio_policy,
+            mode,
+            nearest_mode
+        )
+    }
+
     fn compress(
         self: @Tensor<FP32x32>, condition: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP32x32> {
         math::compress::compress(self, condition, axis)
+    }
+
+    fn split(
+        self: @Tensor<FP32x32>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP32x32>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
+
+    fn random_uniform_like(
+        tensor: @Tensor<FP32x32>, high: Option<FP32x32>, low: Option<FP32x32>, seed: Option<usize>
+    ) -> Tensor<FP32x32> {
+        math::random_uniform_like::random_uniform_like(*tensor, high, low, seed)
+    }
+
+    fn range(start: FP32x32, end: FP32x32, step: FP32x32) -> Tensor<FP32x32> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: FP32x32, periodic: Option<usize>) -> Tensor<FP32x32> {
+        panic(array!['not supported!'])
+    }
+
+    fn hamming_window(size: FP32x32, periodic: Option<usize>) -> Tensor<FP32x32> {
+        panic(array!['not supported!'])
+    }
+
+    fn blackman_window(size: FP32x32, periodic: Option<usize>) -> Tensor<FP32x32> {
+        panic(array!['not supported!'])
+    }
+
+    fn split_to_sequence(
+        self: @Tensor<FP32x32>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP32x32>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+
+    fn reverse_sequence(
+        self: @Tensor<FP32x32>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
+    ) -> Tensor<FP32x32> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+
+    fn optional(self: @Tensor<FP32x32>) -> Option<Tensor<FP32x32>> {
+        manipulation::optional::optional(self)
+    }
+
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP32x32>
+    ) -> (Tensor::<u32>, Tensor::<FP32x32>, Tensor<FP32x32>) {
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        )
+    }
+
+    fn scatter_nd(
+        self: @Tensor<FP32x32>,
+        updates: Tensor<FP32x32>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP32x32> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 }
 
@@ -591,7 +702,12 @@ impl FP32x32TensorPartialEq of PartialEq<Tensor<FP32x32>> {
 
 impl FP32x32TryIntoI8 of TryInto<FP32x32, i8> {
     fn try_into(self: FP32x32) -> Option<i8> {
-        Option::Some(i8 { mag: (self.mag / ONE).try_into().unwrap(), sign: self.sign })
+        let number_felt: felt252 = (self.mag / ONE).into();
+        let number_i8: i8 = number_felt.try_into().unwrap();
+        if self.sign {
+            return Option::Some(number_i8 * -1_i8);
+        }
+        Option::Some(number_i8)
     }
 }
 

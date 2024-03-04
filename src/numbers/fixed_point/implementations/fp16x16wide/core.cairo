@@ -4,7 +4,6 @@ use core::option::OptionTrait;
 use core::result::{ResultTrait, ResultTraitImpl};
 use core::traits::{TryInto, Into};
 
-use orion::numbers::signed_integer::{i32::i32, i8::i8};
 use orion::numbers::{fixed_point::core::FixedTrait, FP16x16};
 use orion::numbers::fixed_point::implementations::fp16x16wide::math::{
     core as core_math, trig, hyp, erf
@@ -263,7 +262,7 @@ impl FP16x16WTryIntoFP16x16 of TryInto<FP16x16W, FP16x16> {
     fn try_into(self: FP16x16W) -> Option<FP16x16> {
         match self.mag.try_into() {
             Option::Some(val) => { Option::Some(FP16x16 { mag: val, sign: self.sign }) },
-            Option::None(_) => { Option::None(()) }
+            Option::None => { Option::None(()) }
         }
     }
 }
@@ -297,13 +296,13 @@ impl FP16x16WTryIntoU64 of TryInto<FP16x16W, u64> {
     }
 }
 
-impl FP16x16WTryIntoU32 of TryInto<FP16x16W, u64> {
-    fn try_into(self: FP16x16W) -> Option<u64> {
+impl FP16x16WTryIntoU32 of TryInto<FP16x16W, u32> {
+    fn try_into(self: FP16x16W) -> Option<u32> {
         if self.sign {
             return Option::None(());
         } else {
             // Unscale the magnitude and round down
-            return Option::Some(self.mag / ONE);
+            return (self.mag / ONE).try_into();
         }
     }
 }
@@ -434,14 +433,26 @@ impl FP16x16WRem of Rem<FP16x16W> {
 /// INTERNAL
 
 fn _i32_into_fp(x: FP16x16W) -> i32 {
-    i32 { mag: (x.mag / ONE).try_into().unwrap(), sign: x.sign }
+    let number_felt: felt252 = (x.mag / ONE).into();
+    let number_i32: i32 = number_felt.try_into().unwrap();
+    if x.sign {
+        return number_i32 * -1_i32;
+    }
+    number_i32
 }
 
 fn _i8_try_from_fp(x: FP16x16W) -> Option<i8> {
     let unscaled_mag: Option<u8> = (x.mag / ONE).try_into();
 
     match unscaled_mag {
-        Option::Some(val) => Option::Some(i8 { mag: unscaled_mag.unwrap(), sign: x.sign }),
-        Option::None(_) => Option::None(())
+        Option::Some => {
+            let number_felt: felt252 = unscaled_mag.unwrap().into();
+            let mut number_i8: i8 = number_felt.try_into().unwrap();
+            if x.sign {
+                return Option::Some(number_i8 * -1_i8);
+            }
+            Option::Some(number_i8)
+        },
+        Option::None => Option::None(())
     }
 }

@@ -40,19 +40,19 @@ fp16x16wide tensor, not supported.
 use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 fn qlinear_matmul_example() -> Tensor<i8> {    
     let a = TensorTrait::<
         i8
     >::new(
         shape: array![2, 3].span(),
         data: array![
-            IntegerTrait::<i8>::new(3_u8, false),
-            IntegerTrait::<i8>::new(4_u8, false),
-            IntegerTrait::<i8>::new(5_u8, false),
-            IntegerTrait::<i8>::new(2_u8, false),
-            IntegerTrait::<i8>::new(4_u8, false),
-            IntegerTrait::<i8>::new(3_u8, false)
+            3,
+            4,
+            5,
+            2,
+            4,
+            3
         ]
             .span(),
     );
@@ -61,9 +61,9 @@ fn qlinear_matmul_example() -> Tensor<i8> {
     >::new(
         shape: array![3, 1].span(),
         data: array![
-            IntegerTrait::<i8>::new(4_u8, false),
-            IntegerTrait::<i8>::new(8_u8, false),
-            IntegerTrait::<i8>::new(4_u8, false)
+            4,
+            8,
+            4
         ]
             .span(),
     );

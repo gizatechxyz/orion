@@ -37,7 +37,7 @@ bool tensor, not supported.
 use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, FP16x16Tensor};
-use orion::numbers::{i8, FP16x16, FP16x16Impl, IntegerTrait, FixedTrait};
+use orion::numbers::{FP16x16, FP16x16Impl, FixedTrait};
 
 
 fn qlinear_leakyrelu_example() -> Tensor<i8> {
@@ -46,12 +46,12 @@ fn qlinear_leakyrelu_example() -> Tensor<i8> {
     >::new(
         shape: array![2, 3].span(),
         data: array![
-            IntegerTrait::<i8>::new(10_u8, true),
-            IntegerTrait::<i8>::new(10_u8, true),
-            IntegerTrait::<i8>::new(10_u8, true),
-            IntegerTrait::<i8>::new(10_u8, false),
-            IntegerTrait::<i8>::new(10_u8, false),
-            IntegerTrait::<i8>::new(10_u8, false)
+            -10,
+            -10,
+            -10,
+            10,
+            10,
+            10
         ]
             .span(),
     );

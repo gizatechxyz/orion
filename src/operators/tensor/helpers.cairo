@@ -5,7 +5,7 @@ use core::option::OptionTrait;
 use alexandria_data_structures::array_ext::ArrayTraitExt;
 
 use orion::utils::u32_max;
-use orion::operators::tensor::core::{stride, Tensor, TensorTrait};
+use orion::operators::tensor::{core::{Tensor, TensorTrait, stride}, BoolTensor};
 
 /// Calculates the number of elements in a tensor given its shape.
 ///
@@ -23,7 +23,7 @@ fn len_from_shape(mut shape: Span<usize>) -> usize {
     loop {
         match shape.pop_front() {
             Option::Some(item) => { result *= *item; },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -51,21 +51,37 @@ fn check_shape<T>(shape: Span<usize>, data: Span<T>) {
 /// # Panics
 /// * Panics if the shapes are not compatible for broadcasting.
 fn check_compatibility(mut shape_1: Span<usize>, mut shape_2: Span<usize>) {
-    assert(shape_1.len() == shape_2.len(), 'tensors shape must match');
+    // Start from the last dimension by getting the length of each shape
+    let mut iter_1 = shape_1.len();
+    let mut iter_2 = shape_2.len();
 
-    loop {
-        match shape_1.pop_front() {
-            Option::Some(shape_1_val) => {
-                let shape_2_val = *shape_2.pop_front().unwrap();
-
-                assert(
-                    *shape_1_val == shape_2_val || *shape_1_val == 1 || shape_2_val == 1,
-                    'tensors shape must match'
-                );
-            },
-            Option::None(_) => { break; }
+    // Iterate while there are dimensions left in either shape
+    while iter_1 > 0 || iter_2 > 0 {
+        // Get the current dimension for each shape, defaulting to 1 if we've run out of dimensions
+        let dim_1 = if iter_1 > 0 {
+            *shape_1[iter_1 - 1]
+        } else {
+            1
         };
-    };
+        let dim_2 = if iter_2 > 0 {
+            *shape_2[iter_2 - 1]
+        } else {
+            1
+        };
+
+        // Check the broadcasting rule for the current dimension
+        if dim_1 != dim_2 && dim_1 != 1 && dim_2 != 1 {
+            panic(array!['tensors shape must match']);
+        }
+
+        // Move to the next dimension
+        if iter_1 > 0 {
+            iter_1 -= 1;
+        }
+        if iter_2 > 0 {
+            iter_2 -= 1;
+        }
+    }
 }
 
 /// Computes the index in the broadcasted tensor corresponding to the given indices and shape.
@@ -81,7 +97,15 @@ fn check_compatibility(mut shape_1: Span<usize>, mut shape_2: Span<usize>) {
 /// # Returns
 /// * A usize representing the index in the broadcasted tensor.
 fn broadcast_index_mapping(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
-    assert(shape.len() == indices.len(), 'shape/indices len must be equal');
+    if shape.len() == indices.len() {
+        broadcast_index_mapping_equal_shape(shape, indices)
+    } else {
+        broadcast_index_mapping_non_equal_shape(shape, indices)
+    }
+}
+
+
+fn broadcast_index_mapping_equal_shape(mut shape: Span<usize>, mut indices: Span<usize>) -> usize {
     let mut result = 0_usize;
     let mut stride = stride(shape);
 
@@ -94,12 +118,53 @@ fn broadcast_index_mapping(mut shape: Span<usize>, mut indices: Span<usize>) -> 
                 let index = (indices_val % *shape_val) * stride_val;
                 result += index;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
     return result;
 }
+
+fn broadcast_index_mapping_non_equal_shape(
+    mut shape: Span<usize>, mut indices: Span<usize>
+) -> usize {
+    let mut result = 0_usize;
+    let mut stride = stride(shape.clone());
+
+    // Calculate the offset to align indices with the rightmost dimensions of the shape
+    let mut offset = if shape.len() > indices.len() {
+        shape.len() - indices.len()
+    } else {
+        0
+    };
+
+    loop {
+        match shape.pop_back() {
+            Option::Some(_) => {
+                let stride_val = stride
+                    .pop_back()
+                    .unwrap_or(@1); // Default stride for non-existent dimensions is 1
+
+                // Calculate the index, using 0 for dimensions beyond the length of indices
+                let index_val = if offset > 0 {
+                    offset -= 1; // Decrement offset until we align indices with the shape
+                    0 // Use 0 for indices beyond the length of the indices span
+                } else {
+                    *indices
+                        .pop_back()
+                        .unwrap_or(@0) // Use actual index value or 0 if indices are exhausted
+                };
+
+                let index = index_val * *stride_val;
+                result += index;
+            },
+            Option::None => { break; }
+        };
+    };
+
+    result
+}
+
 
 /// Generates the output shape after reducing a tensor along a specified axis.
 ///
@@ -133,7 +198,7 @@ fn reduce_output_shape(mut input_shape: Span<usize>, axis: usize, keepdims: bool
 
                 n += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -163,7 +228,7 @@ fn permutation_output_shape(input_shape: Span<usize>, mut axes: Span<usize>) -> 
     loop {
         match axes.pop_front() {
             Option::Some(item) => { output_shape.append(*input_shape[*item]); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -233,7 +298,7 @@ fn find_axis(mut axes: Span<usize>, target_axis: usize) -> usize {
                 }
                 axis += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -256,31 +321,16 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
     check_compatibility(shape1, shape2);
     let mut result: Array<usize> = ArrayTrait::new();
 
-    loop {
-        let mut dim1 = 1;
-        let mut dim2 = 1;
-
-        match shape1.pop_front() {
-            Option::Some(item) => { dim1 = *item; },
-            Option::None(_) => { if shape1.len() == 0 && shape2.len() == 0 {
-                break ();
-            }; }
-        };
-
-        match shape2.pop_front() {
-            Option::Some(item) => { dim2 = *item; },
-            Option::None(_) => { if shape1.len() == 0 && shape2.len() == 0 {
-                break ();
-            }; }
-        };
+    while !shape1.is_empty() || !shape2.is_empty() {
+        let dim1 = *shape1.pop_back().unwrap_or(@1);
+        let dim2 = *shape2.pop_back().unwrap_or(@1);
 
         let broadcasted_dim = u32_max(dim1, dim2);
         result.append(broadcasted_dim);
     };
 
-    return result.span();
+    return result.reverse().span();
 }
-
 
 /// Substitute a value in a shape at a given index
 /// 
@@ -310,7 +360,7 @@ fn replace_index(mut shape: Span<usize>, index: usize, value: usize) -> Span<usi
                 };
                 i += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -495,5 +545,57 @@ impl SpanPartialOrd<T, +Drop<T>, +Copy<T>, +PartialEq<T>, +PartialOrd<T>> of Par
 
     fn lt(lhs: Span<T>, rhs: Span<T>) -> bool {
         span_cmp(lhs, rhs) < 0
+    }
+}
+
+/// Returns true if (1) the input is an optional-type and contains an element, 
+/// or, (2) the input is a tensor type.
+/// If the input is not provided or is an empty optional-type, this op returns false.
+///
+/// # Arguments
+/// * `x` - The optional input.
+///
+/// # Returns
+/// * A scalar boolean tensor. 
+/// If true, it indicates that optional-type input contains an element. Otherwise, it is empty.
+fn optional_has_element<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
+    x: Option<Tensor<T>>
+) -> Tensor<bool> {
+    match x {
+        Option::Some => {
+            let mut shape = ArrayTrait::<usize>::new();
+            shape.append(1);
+            let mut data = ArrayTrait::<bool>::new();
+            data.append(true);
+            TensorTrait::new(shape.span(), data.span())
+        },
+        Option::None => {
+            let mut shape = ArrayTrait::<usize>::new();
+            shape.append(1);
+            let mut data = ArrayTrait::<bool>::new();
+            data.append(false);
+            TensorTrait::new(shape.span(), data.span())
+        }
+    }
+}
+
+/// If the input is a tensor type, it returns the input.
+/// If the input is an optional type, it outputs the element in the input. 
+///
+/// # Arguments
+/// * `x` - The optional input.
+///
+/// # Panics
+/// * Panics if the input is an empty optional-type (i.e. does not have an element) 
+///   and the behavior is undefined in this case.
+///
+/// # Returns
+/// * Output element in the optional input.
+fn optional_get_element<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
+    x: Option<Tensor<T>>
+) -> Tensor<T> {
+    match x {
+        Option::Some(ele) => { ele },
+        Option::None => { panic(array!['The input is an empty', 'optional-type.']) }
     }
 }

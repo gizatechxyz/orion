@@ -3,8 +3,7 @@ use core::option::OptionTrait;
 
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::I32Tensor;
-use orion::numbers::NumberTrait;
-use orion::numbers::signed_integer::i32::i32;
+use orion::numbers::{NumberTrait, I32IntoU32};
 
 /// Cf: SequenceTrait::sequence_insert docstring
 fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
@@ -12,10 +11,10 @@ fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TD
 ) -> Array<Tensor<T>> {
     let position: Tensor<i32> = match position {
         Option::Some(p) => p,
-        Option::None(_) => {
+        Option::None => {
             let mut shape = ArrayTrait::<usize>::new();
             let mut data = ArrayTrait::<i32>::new();
-            data.append(i32 { mag: 1, sign: true });
+            data.append(-1_i32);
             TensorTrait::<i32>::new(shape.span(), data.span())
         },
     };
@@ -23,8 +22,8 @@ fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TD
     assert(position.shape.len() == 0 && position.data.len() == 1, 'Position must be a scalar');
 
     let position_value_i32: i32 = *position.data.at(0);
-    let is_negative: bool = position_value_i32.sign;
-    let mut position_value: u32 = position_value_i32.mag;
+    let is_negative: bool = position_value_i32 < 0;
+    let mut position_value: u32 = position_value_i32.into();
 
     assert(
         (is_negative == false && position_value <= self.len() - 1)
@@ -51,7 +50,7 @@ fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TD
                     position_value -= 1;
                 }
             },
-            Option::None(_) => { break; },
+            Option::None => { break; },
         };
     };
 

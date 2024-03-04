@@ -18,7 +18,7 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
 ) -> Tensor<T> {
     let axis = match axis {
         Option::Some(val) => val,
-        Option::None(_) => 0
+        Option::None => 0
     };
     assert(axis < (*self.shape).len(), 'axis out of dimensions');
 
@@ -38,7 +38,7 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
                     loop {
                         match indices_shape.pop_front() {
                             Option::Some(item) => { output_size.append(*item); },
-                            Option::None(_) => { break; }
+                            Option::None => { break; }
                         };
                     };
                 } else {
@@ -46,7 +46,7 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
                 }
                 i += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -66,7 +66,7 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
                 divisor /= *val;
                 i += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -80,7 +80,7 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
                 }
                 break_loop *= *val;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -108,7 +108,7 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
                         inner_loop += 1;
                     }
                 },
-                Option::None(_) => { break; },
+                Option::None => { break; },
             };
         };
 

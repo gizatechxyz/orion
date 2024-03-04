@@ -5,9 +5,9 @@ use core::debug::PrintTrait;
 use core::traits::Into;
 
 use orion::operators::tensor::helpers::replace_index;
-use orion::operators::tensor::{TensorTrait, Tensor};
-use orion::numbers::signed_integer::i32::i32;
+use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::math::concat::concat;
+use orion::numbers::{NumberTrait, I32IntoU32};
 
 
 fn concat_from_sequence<
@@ -20,7 +20,7 @@ fn concat_from_sequence<
             assert(val == 0 || val == 1, 'new_axis must be 0 or 1');
             val
         },
-        Option::None(_) => 0
+        Option::None => 0
     };
 
     let first_tensor = *sequence.at(0);
@@ -39,8 +39,8 @@ fn concat_without_new_axis<
 >(
     sequence: Array<Tensor<T>>, axis: i32, r: usize
 ) -> Tensor<T> {
-    let axis_is_negative: bool = axis.sign;
-    let mut axis_value: u32 = axis.mag;
+    let axis_is_negative: bool = axis < 0;
+    let mut axis_value: u32 = axis.into();
 
     /// assert in range [-r, r - 1]
     assert(
@@ -61,8 +61,8 @@ fn concat_with_new_axis<
 >(
     sequence: Array<Tensor<T>>, axis: i32, r: usize
 ) -> Tensor<T> {
-    let axis_is_negative: bool = axis.sign;
-    let mut axis_value: u32 = axis.mag;
+    let axis_is_negative: bool = axis < 0;
+    let mut axis_value: u32 = axis.into();
 
     /// assert in range [-r - 1, r]
     assert(
@@ -86,7 +86,7 @@ fn concat_with_new_axis<
                 let mut reshaped_tensor = add_new_dimension(input_sequence_value, axis_value);
                 reshaped_sequence.append(reshaped_tensor);
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
     concat(reshaped_sequence.span(), axis_value)
@@ -110,7 +110,7 @@ fn add_new_dimension<
                 new_tensor_shape.append(*tensor_shape_value);
                 tensor_shape_counter += 1;
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
     if axis >= tensor.shape.len() {

@@ -14,7 +14,7 @@ fn assert_precise(
 ) {
     let precision = match custom_precision {
         Option::Some(val) => val,
-        Option::None(_) => DEFAULT_PRECISION,
+        Option::None => DEFAULT_PRECISION,
     };
 
     let diff = (result - FixedTrait::from_felt(expected)).mag;
@@ -30,7 +30,7 @@ fn assert_relative(
 ) {
     let precision = match custom_precision {
         Option::Some(val) => val,
-        Option::None(_) => DEFAULT_PRECISION,
+        Option::None => DEFAULT_PRECISION,
     };
 
     let diff = result - FixedTrait::from_felt(expected);

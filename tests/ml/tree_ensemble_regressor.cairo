@@ -13,7 +13,7 @@ use core::debug::PrintTrait;
 fn test_tree_ensemble_regressor_SUM() {
     let (mut regressor, X) = tree_ensemble_regressor_helper(AGGREGATE_FUNCTION::SUM);
 
-    let mut res = TreeEnsembleRegressorTrait::predict(ref regressor, X);
+    let mut res = TreeEnsembleRegressorTrait::predict(regressor, X);
 
     // ASSERT RES
     assert(
@@ -35,9 +35,7 @@ fn test_tree_ensemble_regressor_SUM() {
 fn test_tree_ensemble_regressor_AVERAGE() {
     let (mut regressor, X) = tree_ensemble_regressor_helper(AGGREGATE_FUNCTION::AVERAGE);
 
-    let mut res = TreeEnsembleRegressorTrait::predict(ref regressor, X);
-
-    let check = @res.get(1, 0).unwrap().mag;
+    let mut res = TreeEnsembleRegressorTrait::predict(regressor, X);
 
     // ASSERT RES
     assert(
@@ -59,9 +57,7 @@ fn test_tree_ensemble_regressor_AVERAGE() {
 fn test_tree_ensemble_regressor_MIN() {
     let (mut regressor, X) = tree_ensemble_regressor_helper(AGGREGATE_FUNCTION::MIN);
 
-    let mut res = TreeEnsembleRegressorTrait::predict(ref regressor, X);
-
-    let check = @res.get(1, 0).unwrap().mag;
+    let mut res = TreeEnsembleRegressorTrait::predict(regressor, X);
 
     // ASSERT RES
     assert(
@@ -83,9 +79,7 @@ fn test_tree_ensemble_regressor_MIN() {
 fn test_tree_ensemble_regressor_MAX() {
     let (mut regressor, X) = tree_ensemble_regressor_helper(AGGREGATE_FUNCTION::MAX);
 
-    let mut res = TreeEnsembleRegressorTrait::predict(ref regressor, X);
-
-    let check = @res.get(1, 0).unwrap().mag;
+    let mut res = TreeEnsembleRegressorTrait::predict(regressor, X);
 
     // ASSERT RES
     assert(

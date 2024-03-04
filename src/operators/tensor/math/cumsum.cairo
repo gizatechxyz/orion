@@ -23,7 +23,7 @@ fn cumsum<
 ) -> Tensor<T> {
     let reverse = match reverse {
         Option::Some(val) => val,
-        Option::None(_) => false
+        Option::None => false
     };
 
     if reverse {
@@ -45,7 +45,7 @@ fn cumsum_forward<
 ) -> Tensor<T> {
     let exclusive = match exclusive {
         Option::Some(val) => val,
-        Option::None(_) => false,
+        Option::None => false,
     };
 
     assert(axis < (*self.shape).len(), 'axis out of dimensions');
@@ -108,7 +108,7 @@ fn cumsum_reverse<
 ) -> Tensor<T> {
     let exclusive = match exclusive {
         Option::Some(val) => val,
-        Option::None(_) => false,
+        Option::None => false,
     };
 
     assert(axis < (*self.shape).len(), 'axis out of dimensions');
@@ -153,7 +153,6 @@ fn cumsum_reverse<
             let previous_axis_element_index = ravel_index(
                 *self.shape, previous_axis_element_indices
             );
-            let mut z = *(data)[previous_axis_element_index];
 
             if exclusive {
                 output_data.append(*output_data[previous_axis_element_index] - *(data)[index]);

@@ -37,7 +37,6 @@ fn qlinear_leakyrelu<
     let mut dequantized_a = dequantize_linear(@(*a), a_scale, a_zero_point);
 
     let mut result_data = ArrayTrait::<T>::new();
-    let mut i = 0;
     loop {
         match dequantized_a.data.pop_front() {
             Option::Some(elem) => {
@@ -47,7 +46,7 @@ fn qlinear_leakyrelu<
                     result_data.append(*elem);
                 }
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

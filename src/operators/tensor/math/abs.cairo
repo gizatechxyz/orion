@@ -20,7 +20,7 @@ fn abs<
     loop {
         match z.data.pop_front() {
             Option::Some(item) => { data_result.append((*item).abs()); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

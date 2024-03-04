@@ -8,8 +8,8 @@ use orion::operators::tensor::core::{
     constant_of_shape, new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_ops, ml};
-use orion::numbers::{i8, i32, NumberTrait};
+use orion::operators::tensor::{math, linalg, quantization, core as core_ops, ml, manipulation};
+use orion::numbers::{NumberTrait};
 use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
 
 impl BoolTensor of TensorTrait<bool> {
@@ -240,7 +240,7 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn squeeze(self: @Tensor<bool>, axes: Option<Span<i32>>) -> Tensor<bool> {
+    fn squeeze(self: @Tensor<bool>, axes: Option<Span<usize>>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
@@ -452,6 +452,94 @@ impl BoolTensor of TensorTrait<bool> {
         self: @Tensor<bool>, condition: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<bool> {
         math::compress::compress(self, condition, axis)
+    }
+
+    fn layer_normalization(
+        self: @Tensor<bool>,
+        scale: @Tensor<bool>,
+        B: Option<@Tensor<bool>>,
+        axis: Option<i32>,
+        epsilon: Option<bool>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<bool>, Tensor<bool>, Tensor<bool>) {
+        panic(array!['not supported!'])
+    }
+
+    fn resize(
+        self: @Tensor<bool>,
+        roi: Option<Tensor<bool>>,
+        scales: Option<Span<bool>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<bool>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<bool>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn split(
+        self: @Tensor<bool>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<bool>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
+
+    fn split_to_sequence(
+        self: @Tensor<bool>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<bool>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+
+    fn reverse_sequence(
+        self: @Tensor<bool>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
+    ) -> Tensor<bool> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+
+    fn optional(self: @Tensor<bool>) -> Option<Tensor<bool>> {
+        manipulation::optional::optional(self)
+    }
+
+    fn dynamic_quantize_linear(
+        self: @Tensor<bool>
+    ) -> (Tensor::<u32>, Tensor::<bool>, Tensor<bool>) {
+        panic(array!['not supported!'])
+    }
+
+    fn scatter_nd(
+        self: @Tensor<bool>, updates: Tensor<bool>, indices: Tensor<usize>, reduction: Option<usize>
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn range(start: bool, end: bool, step: bool) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn hann_window(size: bool, periodic: Option<usize>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn hamming_window(size: bool, periodic: Option<usize>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn blackman_window(size: bool, periodic: Option<usize>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn random_uniform_like(
+        tensor: @Tensor<bool>, high: Option<bool>, low: Option<bool>, seed: Option<usize>
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
     }
 }
 

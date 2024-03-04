@@ -24,7 +24,7 @@ fn max_in_tensor<
                     max_value = check_max;
                 }
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

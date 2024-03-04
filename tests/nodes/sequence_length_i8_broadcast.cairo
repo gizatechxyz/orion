@@ -2,15 +2,13 @@ mod input_0;
 mod output_0;
 
 
-use orion::operators::tensor::{TensorTrait, Tensor};
-use orion::operators::tensor::U32TensorPartialEq;
 use orion::utils::{assert_eq, assert_seq_eq};
-use core::array::{ArrayTrait, SpanTrait};
-use orion::operators::tensor::U32Tensor;
+use orion::operators::tensor::U32TensorPartialEq;
+use orion::operators::sequence::U32Sequence;
 use orion::operators::tensor::I8TensorPartialEq;
-use orion::operators::tensor::I8Tensor;
-use orion::operators::sequence::I8Sequence;
+use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::sequence::SequenceTrait;
+use orion::operators::sequence::I8Sequence;
 
 #[test]
 #[available_gas(2000000000)]

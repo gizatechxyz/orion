@@ -1,13 +1,9 @@
 use core::debug::PrintTrait;
 use core::array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{
-    TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, FP32x32Tensor
-};
+use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor};
 use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
-use orion::numbers::{IntegerTrait};
-use orion::numbers::{i8, i32};
-
+use orion::numbers::{NumberTrait};
 
 #[test]
 #[available_gas(200000000000)]
@@ -16,15 +12,7 @@ fn qlinear_leakyrelu_test() {
         i8
     >::new(
         shape: array![2, 3].span(),
-        data: array![
-            IntegerTrait::<i8>::new(10_u8, true),
-            IntegerTrait::<i8>::new(10_u8, true),
-            IntegerTrait::<i8>::new(10_u8, true),
-            IntegerTrait::<i8>::new(10_u8, false),
-            IntegerTrait::<i8>::new(10_u8, false),
-            IntegerTrait::<i8>::new(10_u8, false)
-        ]
-            .span(),
+        data: array![-10_i8, -10_i8, -10_i8, 10_i8, 10_i8, 10_i8].span(),
     );
 
     let a_scale = TensorTrait::<

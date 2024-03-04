@@ -8,7 +8,7 @@ use core::debug::PrintTrait;
 use alexandria_data_structures::array_ext::{SpanTraitExt, ArrayTraitExt};
 use alexandria_sorting::merge_sort::merge;
 
-use orion::numbers::{i32, NumberTrait};
+use orion::numbers::{NumberTrait, U32IntoI32};
 use orion::operators::tensor::core::{Tensor, TensorTrait, stride};
 use orion::operators::tensor::helpers::{as_tensors_array, flatten_array_of_tensors};
 

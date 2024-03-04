@@ -236,9 +236,9 @@ fn test_exp() {
         FixedTrait::new(73786976294838206464, false), FixedTrait::new(774763251095801167872, false)
     ); // 4 + 42i
 
-    let z = ComplexTrait::exp(a);
+    let _z = ComplexTrait::exp(a);
 
-    let z_expected: complex64 = ComplexTrait::new(
+    let _z_expected: complex64 = ComplexTrait::new(
         FixedTrait::new(402848450095324460000, true), FixedTrait::new(923082101320478400000, true)
     );
 }

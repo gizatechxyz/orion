@@ -13,7 +13,7 @@ or a 1-D tensor for per-axis quantization.
 
 ## Args
 
-* `self`(`@Tensor<T>`) - The input tensor.
+* `self`(`@Tensor<Q>`) - The input tensor.
 * `x_scale`(`@Tensor<T>`) - Scale for input `x`.
 * `x_zero_point`(`@Tensor<T>`) - Zero point for input `x`.
 
@@ -33,29 +33,22 @@ fp16x16wide tensor, not supported.
  use core::array::{ArrayTrait, SpanTrait};
  
  use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor};
- use orion::numbers::{i8, i32, IntegerTrait};
  
  fn dequantize_linear_example() -> Tensor<i32> {
      // We instantiate a 1D Tensor here.
      let x = TensorTrait::<i8>::new(
          shape: array![4].span(),
-         data: array![
-             IntegerTrait::new(0, false),
-             IntegerTrait::new(3, false),
-             IntegerTrait::new(125, false),
-             IntegerTrait::new(127, false),
-         ]
-             .span(),
+         data: array![0, 3, 125, 127].span(),
      );
  
      // We instantiate the x_scale here.
      let x_scale = TensorTrait::<i32>::new(
-         shape: array![1].span(), data: array![IntegerTrait::new(2, false)].span(),
+         shape: array![1].span(), data: array![2].span(),
      );
  
      // We instantiate the x_zero_point here.
      let x_zero_point = TensorTrait::<i32>::new(
-         shape: array![1].span(), data: array![IntegerTrait::new(0, false)].span(),
+         shape: array![1].span(), data: array![0].span(),
      );
  
      return x.dequantize_linear(@x_scale, @x_zero_point);

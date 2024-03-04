@@ -5,7 +5,6 @@ use core::debug::PrintTrait;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
-use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
 
 
@@ -29,7 +28,7 @@ fn square<
                 let ele = *item;
                 output_data.append(ele * ele);
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

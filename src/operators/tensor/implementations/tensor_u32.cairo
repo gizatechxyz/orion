@@ -10,7 +10,7 @@ use orion::operators::tensor::core::{
     at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
-use orion::numbers::{i8, i32, NumberTrait};
+use orion::numbers::{NumberTrait};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_bool::BoolTensor};
 
 impl U32Tensor of TensorTrait<u32> {
@@ -300,7 +300,7 @@ impl U32Tensor of TensorTrait<u32> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<u32>, axes: Option<Span<i32>>) -> Tensor<u32> {
+    fn squeeze(self: @Tensor<u32>, axes: Option<Span<usize>>) -> Tensor<u32> {
         core_tensor::squeeze(self, axes)
     }
 
@@ -448,8 +448,95 @@ impl U32Tensor of TensorTrait<u32> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn resize(
+        self: @Tensor<u32>,
+        roi: Option<Tensor<u32>>,
+        scales: Option<Span<u32>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<u32>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<u32>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
     fn compress(self: @Tensor<u32>, condition: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
         math::compress::compress(self, condition, axis)
+    }
+
+    fn layer_normalization(
+        self: @Tensor<u32>,
+        scale: @Tensor<u32>,
+        B: Option<@Tensor<u32>>,
+        axis: Option<i32>,
+        epsilon: Option<u32>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<u32>, Tensor<u32>, Tensor<u32>) {
+        panic(array!['not supported!'])
+    }
+
+    fn split(
+        self: @Tensor<u32>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<u32>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
+
+    fn random_uniform_like(
+        tensor: @Tensor<u32>, high: Option<u32>, low: Option<u32>, seed: Option<usize>
+    ) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
+    fn range(start: u32, end: u32, step: u32) -> Tensor<u32> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: u32, periodic: Option<usize>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
+    fn hamming_window(size: u32, periodic: Option<usize>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
+    fn blackman_window(size: u32, periodic: Option<usize>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
+
+    fn split_to_sequence(
+        self: @Tensor<u32>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<u32>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+
+    fn reverse_sequence(
+        self: @Tensor<u32>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
+    ) -> Tensor<u32> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+
+    fn optional(self: @Tensor<u32>) -> Option<Tensor<u32>> {
+        manipulation::optional::optional(self)
+    }
+
+    fn dynamic_quantize_linear(self: @Tensor<u32>) -> (Tensor::<u32>, Tensor::<u32>, Tensor<u32>) {
+        panic(array!['not supported!'])
+    }
+
+    fn scatter_nd(
+        self: @Tensor<u32>, updates: Tensor<u32>, indices: Tensor<usize>, reduction: Option<usize>
+    ) -> Tensor<u32> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 }
 
@@ -527,7 +614,9 @@ impl U32TensorPartialEq of PartialEq<Tensor<u32>> {
 
 impl U32TryIntoI8 of TryInto<u32, i8> {
     fn try_into(self: u32) -> Option<i8> {
-        Option::Some(i8 { mag: self.try_into().unwrap(), sign: false })
+        let number_felt: felt252 = self.into();
+        let number_i8: i8 = number_felt.try_into().unwrap();
+        Option::Some(number_i8)
     }
 }
 

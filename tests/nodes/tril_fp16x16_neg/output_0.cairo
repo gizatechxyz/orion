@@ -1,8 +1,7 @@
 use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
-use orion::operators::tensor::FP16x16Tensor;
-use orion::numbers::FixedTrait;
-use orion::numbers::FP16x16;
+use orion::operators::tensor::{FP16x16Tensor, FP16x16TensorAdd};
+use orion::numbers::{FixedTrait, FP16x16};
 
 fn output_0() -> Tensor<FP16x16> {
     let mut shape = ArrayTrait::<usize>::new();
@@ -15,19 +14,19 @@ fn output_0() -> Tensor<FP16x16> {
     data.append(FP16x16 { mag: 0, sign: false });
     data.append(FP16x16 { mag: 0, sign: false });
     data.append(FP16x16 { mag: 0, sign: false });
-    data.append(FP16x16 { mag: 131072, sign: true });
+    data.append(FP16x16 { mag: 7405568, sign: true });
     data.append(FP16x16 { mag: 0, sign: false });
     data.append(FP16x16 { mag: 0, sign: false });
     data.append(FP16x16 { mag: 0, sign: false });
     data.append(FP16x16 { mag: 0, sign: false });
-    data.append(FP16x16 { mag: 458752, sign: false });
-    data.append(FP16x16 { mag: 6881280, sign: false });
+    data.append(FP16x16 { mag: 2359296, sign: true });
+    data.append(FP16x16 { mag: 1572864, sign: false });
     data.append(FP16x16 { mag: 0, sign: false });
     data.append(FP16x16 { mag: 0, sign: false });
     data.append(FP16x16 { mag: 0, sign: false });
-    data.append(FP16x16 { mag: 589824, sign: true });
-    data.append(FP16x16 { mag: 4259840, sign: true });
-    data.append(FP16x16 { mag: 2686976, sign: true });
+    data.append(FP16x16 { mag: 5177344, sign: true });
+    data.append(FP16x16 { mag: 65536, sign: false });
+    data.append(FP16x16 { mag: 3670016, sign: true });
     data.append(FP16x16 { mag: 0, sign: false });
     data.append(FP16x16 { mag: 0, sign: false });
     TensorTrait::new(shape.span(), data.span())

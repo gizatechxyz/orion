@@ -10,10 +10,11 @@ use orion::operators::tensor::core::{
     at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
-use orion::numbers::{i8, i32, NumberTrait, FP8x23W};
+use orion::numbers::{NumberTrait, FP8x23W};
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
 };
+use orion::numbers::fixed_point::implementations::fp8x23wide::math::trig::PI;
 
 use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
 
@@ -313,7 +314,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<FP8x23W>, axes: Option<Span<i32>>) -> Tensor<FP8x23W> {
+    fn squeeze(self: @Tensor<FP8x23W>, axes: Option<Span<usize>>) -> Tensor<FP8x23W> {
         core_tensor::squeeze(self, axes)
     }
 
@@ -465,10 +466,107 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn layer_normalization(
+        self: @Tensor<FP8x23W>,
+        scale: @Tensor<FP8x23W>,
+        B: Option<@Tensor<FP8x23W>>,
+        axis: Option<i32>,
+        epsilon: Option<FP8x23W>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<FP8x23W>, Tensor<FP8x23W>, Tensor<FP8x23W>) {
+        math::layer_normalization::layer_normalization(self, scale, B, axis, epsilon, stash_type)
+    }
+
+    fn resize(
+        self: @Tensor<FP8x23W>,
+        roi: Option<Tensor<FP8x23W>>,
+        scales: Option<Span<FP8x23W>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<FP8x23W>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<FP8x23W>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<FP8x23W> {
+        panic(array!['not supported!'])
+    }
+
     fn compress(
         self: @Tensor<FP8x23W>, condition: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP8x23W> {
         math::compress::compress(self, condition, axis)
+    }
+
+    fn split(
+        self: @Tensor<FP8x23W>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP8x23W>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
+
+    fn random_uniform_like(
+        tensor: @Tensor<FP8x23W>, high: Option<FP8x23W>, low: Option<FP8x23W>, seed: Option<usize>
+    ) -> Tensor<FP8x23W> {
+        math::random_uniform_like::random_uniform_like(*tensor, high, low, seed)
+    }
+
+    fn range(start: FP8x23W, end: FP8x23W, step: FP8x23W) -> Tensor<FP8x23W> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: FP8x23W, periodic: Option<usize>) -> Tensor<FP8x23W> {
+        math::hann_window::hann_window(size, FP8x23W { mag: PI, sign: false }, periodic)
+    }
+
+    fn hamming_window(size: FP8x23W, periodic: Option<usize>) -> Tensor<FP8x23W> {
+        math::hamming_window::hamming_window(size, FP8x23W { mag: PI, sign: false }, periodic)
+    }
+
+    fn blackman_window(size: FP8x23W, periodic: Option<usize>) -> Tensor<FP8x23W> {
+        math::blackman_window::blackman_window(size, FP8x23W { mag: PI, sign: false }, periodic)
+    }
+
+    fn split_to_sequence(
+        self: @Tensor<FP8x23W>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP8x23W>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+
+    fn reverse_sequence(
+        self: @Tensor<FP8x23W>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
+    ) -> Tensor<FP8x23W> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+
+    fn optional(self: @Tensor<FP8x23W>) -> Option<Tensor<FP8x23W>> {
+        manipulation::optional::optional(self)
+    }
+
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP8x23W>
+    ) -> (Tensor::<u32>, Tensor::<FP8x23W>, Tensor<FP8x23W>) {
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        )
+    }
+
+    fn scatter_nd(
+        self: @Tensor<FP8x23W>,
+        updates: Tensor<FP8x23W>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP8x23W> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 }
 

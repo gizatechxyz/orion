@@ -43,6 +43,10 @@ You can see below the list of current supported ONNX Operators:
 |              [Softplus](operators/neural-network/nn.softplus.md)              | :white\_check\_mark: |
 |                [Linear](operators/neural-network/nn.linear.md)                | :white\_check\_mark: |
 |          [HardSigmoid](operators/neural-network/nn.hard\_sigmoid.md)          | :white\_check\_mark: |
+|           [GridSample](operators/neural-network/nn.grid\_sample_.md)          | :white\_check\_mark: |
+|            [Col2im](operators/neural-network/nn.col2im\_sigmoid.md)           | :white\_check\_mark: |
+|       [ConvTranspose](operators/neural-network/nn.conv\_transpose_.md)        | :white\_check\_mark: |
+|                  [Conv](operators/neural-network/nn.conv.md)                  | :white\_check\_mark: |
 |                    [Sinh](operators/tensor/tensor.sinh.md)                    | :white\_check\_mark: |
 |                   [Asinh](operators/tensor/tensor.asinh.md)                   | :white\_check\_mark: |
 |                   [Atanh](operators/tensor/tensor.atanh.md)                   | :white\_check\_mark: |
@@ -78,6 +82,7 @@ You can see below the list of current supported ONNX Operators:
 |             [BitwiseAnd](operators/tensor/tensor.bitwise_and.md)              | :white\_check\_mark: |
 |              [BitwiseOr](operators/tensor/tensor.bitwise_or.md)               | :white\_check\_mark: |
 |             [BitwiseXor](operators/tensor/tensor.bitwise_xor.md)              | :white\_check\_mark: |
+|                  [Resize](operators/tensor/tensor.resize.md)                  | :white\_check\_mark: |
 |                   [Round](operators/tensor/tensor.round.md)                   | :white\_check\_mark: |
 |           [MaxInTensor](operators/tensor/tensor.max\_in\_tensor.md)           | :white\_check\_mark: |
 |                     [Max](operators/tensor/tensor.max.md)                     | :white\_check\_mark: |
@@ -107,5 +112,18 @@ You can see below the list of current supported ONNX Operators:
 |                     [Erf](operators/tensor/tensor.erf.md)                     | :white\_check\_mark: |
 |                [Compress](operators/tensor/tensor.compress.md)                | :white\_check\_mark: |
 |      [ReduceLogSumExp](operators/tensor/tensor.reduce\_log\_sum\_exp.md)      | :white\_check\_mark: |
+|     [Layer_normalization](operators/tensor/tensor.layer_normalization.md)     | :white\_check\_mark: |
+|              [ScatterND](operators/tensor/tensor.scatter/_nd.md)              | :white\_check\_mark: |
+|       [DequantizeLinear](operators/tensor/tensor.dequantize_linear.md)        | :white\_check\_mark: |
+|         [SpaceToDepth](operators/neural-network/nn.space_to_depth.md)         | :white\_check\_mark: |
+|         [DepthToSpace](operators/neural-network/nn.depth_to_space.md)         | :white\_check\_mark: |
+|                [Optional](operators/tensor/tensor.optional.md)                | :white\_check\_mark: |
+|        [ReverseSequence](operators/tensor/tensor.reverse_sequence.md)         | :white\_check\_mark: |
+|        [SplitToSequence](operators/tensor/tensor.split_to_sequence.md)        | :white\_check\_mark: |
+|                   [Range](operators/tensor/tensor.range.md)                   | :white\_check\_mark: |
+|          [HannWindow](operators/tensor/tensor.tensor.hann_window.md)          | :white\_check\_mark: |
+|       [HammingWindow](operators/tensor/tensor.tensor.hamming_window.md)       | :white\_check\_mark: |
+|      [BlackmanWindow](operators/tensor/tensor.tensor.blackman_window.md)      | :white\_check\_mark: |
+|      [RandomUniformLike](operators/tensor/tensor.tensor.random_uniform_like.md)      | :white\_check\_mark: |
 
-Current Operators support: **97/156 (62%)**
+Current Operators support: **117/156 (75%)**

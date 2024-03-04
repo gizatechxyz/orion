@@ -27,7 +27,7 @@ A new `Tensor<bool>` with the same shape as the broadcasted inputs.
 ```rust
 use core::array::{ArrayTrait, SpanTrait};
 
-use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
 
 fn and_example() -> Tensor<bool> {
     let tensor_1 = TensorTrait::<bool>::new(

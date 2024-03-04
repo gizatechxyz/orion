@@ -35,14 +35,6 @@ fn main() {
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 
-    // SIGNED INTEGER DOC
-    let trait_path = "src/numbers/signed_integer/integer_trait.cairo";
-    let doc_path = "docs/framework/numbers/signed-integer";
-    let label = "int";
-    let trait_name: &str = "IntegerTrait";
-    doc_trait(trait_path, doc_path, label);
-    doc_functions(trait_path, doc_path, trait_name, label);
-
     // COMPLEX NUMBER DOC
     let trait_path = "src/numbers/complex_number/complex_trait.cairo";
     let doc_path = "docs/framework/numbers/complex-number";
@@ -75,11 +67,27 @@ fn main() {
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 
-    // LINEAR REGRESSOR DOC
+    // LINEAR CLASSIFIER DOC
     let trait_path = "src/operators/ml/linear/linear_classifier.cairo";
     let doc_path = "docs/framework/operators/machine-learning/linear-classifier";
     let label = "linear_classifier";
     let trait_name: &str = "LinearClassifierTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
+
+    // SVM REGRESSOR DOC
+    let trait_path = "src/operators/ml/svm/svm_regressor.cairo";
+    let doc_path = "docs/framework/operators/machine-learning/svm-regressor";
+    let label = "svm_regressor";
+    let trait_name: &str = "SVMRegressorTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
+
+    // SVM CLASSIFIER DOC
+    let trait_path = "src/operators/ml/svm/svm_classifier.cairo";
+    let doc_path = "docs/framework/operators/machine-learning/svm-classifier";
+    let label = "svm_classifier";
+    let trait_name: &str = "SVMClassifierTrait";
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 }

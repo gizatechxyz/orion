@@ -10,10 +10,11 @@ use orion::operators::tensor::core::{
     at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
-use orion::numbers::{i8, i32, NumberTrait, FP16x16};
+use orion::numbers::{NumberTrait, FP16x16, I8IntoFP16x16};
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
 };
+use orion::numbers::fixed_point::implementations::fp16x16::math::trig::PI;
 
 use orion::numbers::fixed_point::implementations::fp16x16wide::core::FP16x16W;
 
@@ -226,7 +227,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
             self,
             y_scale,
             y_zero_point,
-            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, true),
             NumberTrait::new_unscaled(127, false)
         )
     }
@@ -362,7 +363,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<FP16x16>, axes: Option<Span<i32>>) -> Tensor<FP16x16> {
+    fn squeeze(self: @Tensor<FP16x16>, axes: Option<Span<usize>>) -> Tensor<FP16x16> {
         core_tensor::squeeze(self, axes)
     }
 
@@ -514,10 +515,123 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn layer_normalization(
+        self: @Tensor<FP16x16>,
+        scale: @Tensor<FP16x16>,
+        B: Option<@Tensor<FP16x16>>,
+        axis: Option<i32>,
+        epsilon: Option<FP16x16>,
+        stash_type: Option<usize>,
+    ) -> (Tensor<FP16x16>, Tensor<FP16x16>, Tensor<FP16x16>) {
+        math::layer_normalization::layer_normalization(self, scale, B, axis, epsilon, stash_type)
+    }
+
+    fn resize(
+        self: @Tensor<FP16x16>,
+        roi: Option<Tensor<FP16x16>>,
+        scales: Option<Span<FP16x16>>,
+        sizes: Option<Span<usize>>,
+        antialias: Option<usize>,
+        axes: Option<Span<usize>>,
+        coordinate_transformation_mode: Option<math::resize::TRANSFORMATION_MODE>,
+        cubic_coeff_a: Option<FP16x16>,
+        exclude_outside: Option<bool>,
+        extrapolation_value: Option<FP16x16>,
+        keep_aspect_ratio_policy: Option<math::resize::KEEP_ASPECT_RATIO_POLICY>,
+        mode: Option<math::resize::MODE>,
+        nearest_mode: Option<math::resize::NEAREST_MODE>,
+    ) -> Tensor<FP16x16> {
+        math::resize::resize(
+            self,
+            roi,
+            scales,
+            sizes,
+            antialias,
+            axes,
+            coordinate_transformation_mode,
+            cubic_coeff_a,
+            exclude_outside,
+            extrapolation_value,
+            keep_aspect_ratio_policy,
+            mode,
+            nearest_mode
+        )
+    }
+
     fn compress(
         self: @Tensor<FP16x16>, condition: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP16x16> {
         math::compress::compress(self, condition, axis)
+    }
+
+    fn split(
+        self: @Tensor<FP16x16>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP16x16>> {
+        manipulation::split::split(self, axis, num_outputs, spl)
+    }
+
+    fn random_uniform_like(
+        tensor: @Tensor<FP16x16>, high: Option<FP16x16>, low: Option<FP16x16>, seed: Option<usize>
+    ) -> Tensor<FP16x16> {
+        math::random_uniform_like::random_uniform_like(*tensor, high, low, seed)
+    }
+
+    fn range(start: FP16x16, end: FP16x16, step: FP16x16) -> Tensor<FP16x16> {
+        math::range::range(start, end, step)
+    }
+
+    fn hann_window(size: FP16x16, periodic: Option<usize>) -> Tensor<FP16x16> {
+        math::hann_window::hann_window(size, FP16x16 { mag: PI, sign: false }, periodic)
+    }
+
+    fn hamming_window(size: FP16x16, periodic: Option<usize>) -> Tensor<FP16x16> {
+        math::hamming_window::hamming_window(size, FP16x16 { mag: PI, sign: false }, periodic)
+    }
+
+    fn blackman_window(size: FP16x16, periodic: Option<usize>) -> Tensor<FP16x16> {
+        math::blackman_window::blackman_window(size, FP16x16 { mag: PI, sign: false }, periodic)
+    }
+
+    fn split_to_sequence(
+        self: @Tensor<FP16x16>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
+    ) -> Array<Tensor<FP16x16>> {
+        manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
+    }
+
+    fn reverse_sequence(
+        self: @Tensor<FP16x16>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
+    ) -> Tensor<FP16x16> {
+        manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
+    }
+
+
+    fn optional(self: @Tensor<FP16x16>) -> Option<Tensor<FP16x16>> {
+        manipulation::optional::optional(self)
+    }
+
+
+    fn dynamic_quantize_linear(
+        self: @Tensor<FP16x16>
+    ) -> (Tensor::<u32>, Tensor::<FP16x16>, Tensor<FP16x16>) {
+        quantization::dynamic_quantize_linear::dynamic_quantize_linear(
+            self,
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(255, false),
+            NumberTrait::new_unscaled(0, false),
+            NumberTrait::new_unscaled(1, false),
+        )
+    }
+
+    fn scatter_nd(
+        self: @Tensor<FP16x16>,
+        updates: Tensor<FP16x16>,
+        indices: Tensor<usize>,
+        reduction: Option<usize>
+    ) -> Tensor<FP16x16> {
+        math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 }
 

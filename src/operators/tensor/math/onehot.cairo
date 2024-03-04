@@ -35,12 +35,10 @@ fn onehot_encode<
     // using 999 to denote -1, innermost dimension
     let axis = match axis {
         Option::Some(val) => val,
-        Option::None(_) => 999
+        Option::None => 999
     };
 
     assert(((axis == 999) | (axis.into() <= rank)), 'axis out of dimensions');
-
-    let tensor_len: usize = data.len();
 
     let mut output_data = ArrayTrait::new();
     let mut output_size = ArrayTrait::<u32>::new();
@@ -49,7 +47,7 @@ fn onehot_encode<
     loop {
         match shape.pop_front() {
             Option::Some(size) => { output_size.append(*size); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
     output_size.append(depth.into());
@@ -84,7 +82,7 @@ fn onehot_encode<
                     inner_index += 1;
                 };
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 
@@ -105,8 +103,6 @@ fn onehot_encode<
             tranpose_axes.append(index.into());
             index += 1;
         };
-
-        let mut index: usize = 0;
 
         output_tensor = output_tensor.transpose(tranpose_axes.span());
     }

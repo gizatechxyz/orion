@@ -20,7 +20,7 @@ fn neg<
     loop {
         match z.data.pop_front() {
             Option::Some(item) => { data_result.append((*item).neg()); },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

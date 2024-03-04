@@ -45,8 +45,6 @@ fn dequantize_per_axis<
 >(
     x: @Tensor<T>, x_scale: @Tensor<T>, x_zero_point: @Tensor<T>
 ) -> Tensor::<T> {
-    let mut result_data = ArrayTrait::<T>::new();
-
     (*x - *x_zero_point) * *x_scale
 }
 
@@ -72,7 +70,7 @@ fn dequantize_element_wise<
                 let dequantized = dequantize(*item, x_scale, x_zero_point);
                 result_data.append(dequantized);
             },
-            Option::None(_) => { break; }
+            Option::None => { break; }
         };
     };
 

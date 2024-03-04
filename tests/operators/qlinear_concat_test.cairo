@@ -3,13 +3,12 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor};
 use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
-use orion::numbers::{NumberTrait, IntegerTrait};
-use orion::numbers::{i8, i32};
+use orion::numbers::{NumberTrait};
 fn print_span(mut span: Span<i8>) {
     loop {
         match span.pop_front() {
-            Option::Some(i) => { (*i.mag).print(); },
-            Option::None(_) => { break; }
+            Option::Some(i) => { (*i).print(); },
+            Option::None => { break; }
         };
     };
 }
@@ -20,28 +19,10 @@ fn print_span(mut span: Span<i8>) {
 fn qlinear_concat_test() {
     let tensor1 = TensorTrait::<
         i8
-    >::new(
-        shape: array![2, 2].span(),
-        data: array![
-            IntegerTrait::<i8>::new(10_u8, false),
-            IntegerTrait::<i8>::new(20_u8, false),
-            IntegerTrait::<i8>::new(30_u8, false),
-            IntegerTrait::<i8>::new(40_u8, false),
-        ]
-            .span(),
-    );
+    >::new(shape: array![2, 2].span(), data: array![10_i8, 20_i8, 30_i8, 40_i8,].span(),);
     let tensor2 = TensorTrait::<
         i8
-    >::new(
-        shape: array![2, 2].span(),
-        data: array![
-            IntegerTrait::<i8>::new(20_u8, false),
-            IntegerTrait::<i8>::new(40_u8, false),
-            IntegerTrait::<i8>::new(60_u8, false),
-            IntegerTrait::<i8>::new(80_u8, false),
-        ]
-            .span(),
-    );
+    >::new(shape: array![2, 2].span(), data: array![20_i8, 40_i8, 60_i8, 80_i8,].span(),);
 
     let tensors = array![tensor1, tensor2].span();
 
@@ -91,40 +72,13 @@ fn qlinear_concat_test() {
 fn qlinear_concat_test_shape() {
     let tensor1 = TensorTrait::<
         i8
-    >::new(
-        shape: array![2, 2].span(),
-        data: array![
-            IntegerTrait::<i8>::new(2_u8, false),
-            IntegerTrait::<i8>::new(2_u8, false),
-            IntegerTrait::<i8>::new(2_u8, false),
-            IntegerTrait::<i8>::new(2_u8, false),
-        ]
-            .span(),
-    );
+    >::new(shape: array![2, 2].span(), data: array![2_i8, 2_i8, 2_i8, 2_i8,].span(),);
     let tensor2 = TensorTrait::<
         i8
-    >::new(
-        shape: array![2, 2].span(),
-        data: array![
-            IntegerTrait::<i8>::new(8_u8, false),
-            IntegerTrait::<i8>::new(8_u8, false),
-            IntegerTrait::<i8>::new(8_u8, false),
-            IntegerTrait::<i8>::new(8_u8, false),
-        ]
-            .span(),
-    );
+    >::new(shape: array![2, 2].span(), data: array![8_i8, 8_i8, 8_i8, 8_i8,].span(),);
     let tensor3 = TensorTrait::<
         i8
-    >::new(
-        shape: array![2, 2].span(),
-        data: array![
-            IntegerTrait::<i8>::new(10_u8, false),
-            IntegerTrait::<i8>::new(10_u8, false),
-            IntegerTrait::<i8>::new(10_u8, false),
-            IntegerTrait::<i8>::new(10_u8, false),
-        ]
-            .span(),
-    );
+    >::new(shape: array![2, 2].span(), data: array![10_i8, 10_i8, 10_i8, 10_i8,].span(),);
 
     let tensors = array![tensor1, tensor2, tensor3].span();
 
@@ -178,28 +132,10 @@ fn qlinear_concat_test_shape() {
 fn qlinear_concat_example_doc() {
     let tensor1 = TensorTrait::<
         i8
-    >::new(
-        shape: array![2, 2].span(),
-        data: array![
-            IntegerTrait::<i8>::new(5_u8, false),
-            IntegerTrait::<i8>::new(5_u8, false),
-            IntegerTrait::<i8>::new(5_u8, false),
-            IntegerTrait::<i8>::new(5_u8, false),
-        ]
-            .span(),
-    );
+    >::new(shape: array![2, 2].span(), data: array![5_i8, 5_i8, 5_i8, 5_i8,].span(),);
     let tensor2 = TensorTrait::<
         i8
-    >::new(
-        shape: array![2, 2].span(),
-        data: array![
-            IntegerTrait::<i8>::new(1_u8, false),
-            IntegerTrait::<i8>::new(1_u8, false),
-            IntegerTrait::<i8>::new(1_u8, false),
-            IntegerTrait::<i8>::new(1_u8, false),
-        ]
-            .span(),
-    );
+    >::new(shape: array![2, 2].span(), data: array![1_i8, 1_i8, 1_i8, 1_i8,].span(),);
 
     let tensors = array![tensor1, tensor2].span();
 
