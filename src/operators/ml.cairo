@@ -1,6 +1,7 @@
 mod tree_ensemble;
 mod linear;
 mod svm;
+mod normalizer;
 
 use orion::operators::ml::tree_ensemble::core::{
     TreeEnsemble, TreeEnsembleAttributes, TreeEnsembleImpl, NODE_MODES
@@ -21,6 +22,7 @@ use orion::operators::ml::linear::linear_classifier::{
     LinearClassifierTrait, LinearClassifierImpl, LinearClassifier
 };
 
+use orion::operators::ml::normalizer::normalizer::{NormalizerTrait, NORM};
 
 #[derive(Copy, Drop)]
 enum POST_TRANSFORM {
