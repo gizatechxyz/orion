@@ -194,10 +194,7 @@ fn max_pool_implementation<
         Option::None => {
             let mut pads = ArrayTrait::new();
             let mut i = 0;
-            loop {
-                if i == n_dims {
-                    break;
-                }
+            while i != n_dims {
                 pads.append(0);
                 pads.append(0);
                 i += 1;
@@ -210,10 +207,7 @@ fn max_pool_implementation<
         Option::None => {
             let mut dilations = ArrayTrait::new();
             let mut i = 0;
-            loop {
-                if i == n_dims {
-                    break;
-                }
+            while i != n_dims {
                 dilations.append(1);
                 i += 1;
             };
@@ -225,10 +219,7 @@ fn max_pool_implementation<
         Option::None => {
             let mut strides = ArrayTrait::new();
             let mut i = 0;
-            loop {
-                if i == n_dims {
-                    break;
-                }
+            while i != n_dims {
                 strides.append(1);
                 i += 1;
             };
@@ -256,10 +247,7 @@ fn max_pool_implementation<
     let output_spatial_shape = if ceil_mode == 1 {
         let mut output_spatial_shape = ArrayTrait::<usize>::new();
         let mut i = 0;
-        loop {
-            if i == input_spatial_shape.len() {
-                break;
-            }
+        while i != input_spatial_shape.len() {
             let oss: T = NumberTrait::ceil(
                 (NumberTrait::new_unscaled(
                     (*input_spatial_shape.at(i) + *pads.at(i) + *pads.at(i + n_dims)).into(), false
@@ -286,10 +274,7 @@ fn max_pool_implementation<
     } else {
         let mut output_spatial_shape = ArrayTrait::<usize>::new();
         let mut i = 0;
-        loop {
-            if i == input_spatial_shape.len() {
-                break;
-            }
+        while i != input_spatial_shape.len() {
             let oss: T = NumberTrait::floor(
                 (NumberTrait::new_unscaled(
                     (*input_spatial_shape.at(i) + *pads.at(i) + *pads.at(i + n_dims)).into(), false
@@ -315,10 +300,7 @@ fn max_pool_implementation<
             let mut pads = ArrayTrait::new();
 
             let mut i = 0;
-            loop {
-                if i == input_spatial_shape.len() {
-                    break;
-                }
+            while i != input_spatial_shape.len() {
                 let oss: T = NumberTrait::ceil(
                     NumberTrait::new_unscaled((*input_spatial_shape.at(i)).into(), false)
                         / NumberTrait::new_unscaled((*strides.at(i)).into(), false)
@@ -347,10 +329,7 @@ fn max_pool_implementation<
             let mut pads = ArrayTrait::new();
 
             let mut i = 0;
-            loop {
-                if i == input_spatial_shape.len() {
-                    break;
-                }
+            while i != input_spatial_shape.len() {
 
                 let oss: T = NumberTrait::floor(
                     NumberTrait::new_unscaled((*input_spatial_shape.at(i)).into(), false)
@@ -376,10 +355,7 @@ fn max_pool_implementation<
         AUTO_PAD::VALID => {
             let mut output_spatial_shape = ArrayTrait::<usize>::new();
             let mut i = 0;
-            loop {
-                if i == input_spatial_shape.len() {
-                    break;
-                }
+            while i != input_spatial_shape.len() {
                 let oss: T = NumberTrait::ceil(
                     (NumberTrait::new_unscaled((*input_spatial_shape.at(i)).into(), false)
                         - NumberTrait::new_unscaled(
@@ -489,17 +465,11 @@ fn max_pool_1d<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>
     let mut I_data = ArrayTrait::new();
 
     let mut c = 0;
-    loop {
-        if c == total_channels {
-            break;
-        }
+    while c != total_channels {
         let x_d = c * x_step;
 
         let mut ph = 0;
-        loop {
-            if ph == y_step {
-                break;
-            }
+        while ph != y_step {
             let hstart = I32Number::new((ph).into(), false) * stride_h - pad_h;
             let hend = hstart + ks_h * dilation_h;
 
@@ -507,10 +477,7 @@ fn max_pool_1d<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>
             let mut Yh: T = NumberTrait::min_value();
 
             let mut h = hstart;
-            loop {
-                if h >= hend {
-                    break;
-                }
+            while h != hend {
                 if h >= 0 && h < x_step.into() {
                     if *(*X).data.at(x_d + h.into()) > Yh {
                         h_index = h.into();
@@ -592,25 +559,16 @@ fn max_pool_2d<
     let X_len = (*X).data.len();
 
     let mut c = 0;
-    loop {
-        if c == total_channels {
-            break;
-        }
+    while c != total_channels {
         let x_d = c * x_step;
 
         let mut ph = 0;
-        loop {
-            if ph == pooled_H {
-                break;
-            }
+        while ph != pooled_H {
             let hstart = I32Number::new((ph).into(), false) * stride_h - pad_h;
             let hend = hstart + ks_h * dilation_h;
 
             let mut pw = 0;
-            loop {
-                if pw == pooled_W {
-                    break;
-                }
+            while pw != pooled_W {
                 let wstart = I32Number::new((pw).into(), false) * stride_w - pad_w;
                 let wend = wstart + ks_w * dilation_w;
 
@@ -620,16 +578,10 @@ fn max_pool_2d<
                 let mut Yh: T = NumberTrait::min_value();
 
                 let mut h = hstart;
-                loop {
-                    if h >= hend {
-                        break;
-                    }
+                while h != hend {
                     if h >= 0 && h < H.into() {
                         let mut w = wstart;
-                        loop {
-                            if w >= wend {
-                                break;
-                            }
+                        while w != wend {
                             if w >= 0 && w < W.into() {
                                 let input_index = h * W.into() + w;
                                 if input_index >= 0 && input_index < X_len.into() {
@@ -732,33 +684,22 @@ fn max_pool_3d<
     let X_len = (*X).data.len();
 
     let mut c = 0;
-    loop {
-        if c == total_channels {
-            break;
-        }
+
+    while c != total_channels {
         let x_d = c * x_step;
 
         let mut ph = 0;
-        loop {
-            if ph == pooled_H {
-                break;
-            }
+        while ph != pooled_H {
             let hstart = I32Number::new((ph).into(), false) * stride_h - pad_h;
             let hend = hstart + ks_h * dilation_h;
 
             let mut pw = 0;
-            loop {
-                if pw == pooled_W {
-                    break;
-                }
+            while pw != pooled_W {
                 let wstart = I32Number::new((pw).into(), false) * stride_w - pad_w;
                 let wend = wstart + ks_w * dilation_w;
 
                 let mut pd = 0;
-                loop {
-                    if pd == pooled_D {
-                        break;
-                    }
+                while pd != pooled_D {
                     let dstart = I32Number::new((pd).into(), false) * stride_d - pad_d;
                     let dend = dstart + ks_d * dilation_d;
 
@@ -769,22 +710,13 @@ fn max_pool_3d<
                     let mut Yh: T = NumberTrait::min_value();
 
                     let mut h = hstart;
-                    let mut Yh = loop {
-                        if h >= hend {
-                            break Yh;
-                        }
+                    while h != hend {
                         if h >= 0 && h < H.into() {
                             let mut w = wstart;
-                            loop {
-                                if w >= wend {
-                                    break Yh;
-                                }
+                            while w != wend {
                                 if w >= 0 && w < W.into() {
                                     let mut d = dstart;
-                                    loop {
-                                        if d >= dend {
-                                            break;
-                                        }
+                                    while d != dend {
                                         if d >= 0 && d < D.into() {
                                             let input_index = h * W.into() * D.into()
                                                 + w * D.into()
@@ -904,17 +836,11 @@ fn max_pool_nd<
     let X_len = (*X).data.len();
 
     let mut c = 0;
-    loop {
-        if c == total_channels {
-            break;
-        }
+    while c != total_channels {
         let x_d = c * x_step;
 
         let mut p = 0;
-        loop {
-            if p == y_step {
-                break;
-            }
+        while p != y_step {
 
             let mut flatten_index = p;
 
@@ -923,10 +849,7 @@ fn max_pool_nd<
             let mut nstep = ArrayTrait::<usize>::new();
 
             let mut n = 0;
-            loop {
-                if n == nd {
-                    break;
-                }
+            while n != nd {
                 let (pn, rem) = DivRem::div_rem(
                     flatten_index, (*y_stride.at(2 + n)).try_into().unwrap()
                 );
@@ -953,20 +876,14 @@ fn max_pool_nd<
             let mut Yh: T = NumberTrait::min_value();
 
             let mut i = 0;
-            let Yh = loop {
-                if i == max_iter {
-                    break Yh;
-                }
+            while i != max_iter {
                 let mut flatten_index = i;
                 let mut is_outside = false;
                 let mut i_index = ArrayTrait::new();
                 let mut input_index = I32Number::zero();
 
                 let mut n = 0;
-                loop {
-                    if n == nd {
-                        break Yh;
-                    }
+                while n != nd {
                     let (item, rem) = DivRem::div_rem(
                         flatten_index, (*nstride.at(n)).try_into().unwrap()
                     );
@@ -997,10 +914,7 @@ fn max_pool_nd<
             if storage_order == 0 {
                 let mut index = 0;
                 let mut n = 0;
-                loop {
-                    if n == nd {
-                        break;
-                    }
+                while n != nd {
                     index += *n_index.at(n) * (*x_stride.at(2 + n)).into();
                     n += 1;
                 };
@@ -1008,10 +922,7 @@ fn max_pool_nd<
             } else {
                 let mut index = 0;
                 let mut n = nd;
-                loop {
-                    if n == 0 {
-                        break;
-                    }
+                while n != 0 {
                     index += *n_index.at(n - 1) * (*i_stride_storage_order_1.at(nd - n)).into();
                     n -= 1;
                 };
