@@ -131,6 +131,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.optional`](tensor.optional.md) | Constructs an optional-type value containing either an empty optional of a certain type specified by the attribute, or a non-empty value containing the input element. |
 | [`tensor.dynamic_quantize_linear`](tensor.dynamic\_quantize\_linear.md) | Computes the Scale, Zero Point and FP32->8Bit conversion of FP32 Input data.  |
 | [`tensor.scatter_nd`](tensor.scatter\_nd.md) | The output of the operation is produced by creating a copy of the input data, and then updating its value to values specified by updates at specific index positions specified by indices. Its output shape is the same as the shape of data |
+| [`tensor.label_encoder`](tensor.label\_encoder.md) | Maps each element in the input tensor to another value. |
 
 ## Arithmetic Operations
 

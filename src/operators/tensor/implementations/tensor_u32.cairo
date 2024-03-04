@@ -532,6 +532,10 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Tensor<u32> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
+
+    fn label_encoder(self: @Tensor<u32>, default_list: Option<Span<u32>>, default_tensor: Option<Tensor<u32>>, keys: Option<Span<u32>>, keys_tensor: Option<Tensor<u32>>, values: Option<Span<u32>>, values_tensor: Option<Tensor<u32>>) -> Tensor<u32> {
+        ml::label_encoder::label_encoder(self, default_list, default_tensor, keys, keys_tensor, values, values_tensor)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

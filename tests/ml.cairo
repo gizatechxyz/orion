@@ -4,4 +4,4 @@ mod linear_regressor_test;
 mod linear_classifier_test;
 mod svm_regressor_test;
 mod svm_classifier_test;
-
+mod normalizer_test;
