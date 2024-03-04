@@ -491,6 +491,10 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
+    fn reduce_log_sum_exp(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
+        panic(array!['not supported'])
+    }
+
     fn erf(self: @Tensor<i8>) -> Tensor<i8> {
         panic(array!['not supported!'])
     }

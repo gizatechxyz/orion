@@ -3,6 +3,12 @@ use core::array::SpanTrait;
 use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
+use orion::numbers::fixed_point::implementations::fp8x23wide::core::{
+    FP8x23WImpl, FP8x23WTryIntoFP8x23, FP8x23W, FP8x23IntoFP8x23W
+};
+
+use orion::operators::tensor::implementations::tensor_fp8x23wide::{FP8x23WTensor};
+
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -494,6 +500,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
 
     fn reduce_log_sum(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+    fn reduce_log_sum_exp(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
+        panic(array!['not supported!'])
     }
 
     fn erf(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {

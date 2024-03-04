@@ -497,6 +497,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }
 
+    fn reduce_log_sum_exp(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
+        math::reduce_log_sum_exp::reduce_log_sum_exp(self, axis, keepdims)
+    }
+
     fn erf(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::erf::erf(*self)
     }

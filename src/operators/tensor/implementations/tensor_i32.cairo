@@ -82,6 +82,7 @@ impl I32Tensor of TensorTrait<i32> {
         math::reduce_sum::reduce_sum(self, axis, keepdims)
     }
 
+
     fn reduce_prod(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         math::reduce_prod::reduce_prod(self, axis, keepdims)
     }
@@ -484,6 +485,10 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn reduce_log_sum(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
+    fn reduce_log_sum_exp(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
