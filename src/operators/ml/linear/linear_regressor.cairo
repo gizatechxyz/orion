@@ -1,7 +1,17 @@
-use core::debug::PrintTrait;
+use core::array::ArrayTrait;
+use core::clone::Clone;
+use core::traits::Into;
+use core::array::SpanTrait;
+use core::dict::Felt252DictTrait;
+use core::dict::Felt252DictEntryTrait;
+use orion::numbers::FP16x16;
 
-use orion::numbers::{FP16x16, FP32x32, FP32x32Impl, FixedTrait};
+use orion::operators::tensor::{Tensor, TensorTrait};
 use orion::numbers::NumberTrait;
+use orion::operators::tensor::{I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, FP16x16TensorAdd};
+use orion::numbers::{FP32x32, FP32x32Impl, FixedTrait};
+
+use core::debug::PrintTrait;
 use orion::operators::nn::{NNTrait, FP16x16NN};
 use orion::operators::ml::POST_TRANSFORM;
 

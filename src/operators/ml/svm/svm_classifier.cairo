@@ -1,13 +1,16 @@
+use core::array::ArrayTrait;
 use orion::numbers::NumberTrait;
-use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FP64x64, FP64x64Impl, FixedTrait};
-use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
-use orion::operators::ml::svm::core::{kernel_dot, KERNEL_TYPE};
-use orion::operators::nn::{NNTrait, FP16x16NN, FP64x64NN};
-use orion::operators::tensor::implementations::tensor_fp64x64::{FP64x64Tensor};
 use orion::operators::tensor::{
     TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, BoolTensor
 };
+use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
+
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
+use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
+
+use orion::numbers::{FP64x64, FP64x64Impl};
+use orion::operators::tensor::implementations::tensor_fp64x64::{FP64x64Tensor};
+use orion::operators::nn::{NNTrait, FP16x16NN, FP64x64NN};
 use orion::utils::get_row;
 
 use orion::operators::ml::svm::core::{kernel_dot, KERNEL_TYPE};
@@ -33,6 +36,7 @@ enum MODE {
     SVM_LINEAR,
     SVM_SVC,
 }
+
 
 ///
 /// predict - Returns the top class for each of N inputs.

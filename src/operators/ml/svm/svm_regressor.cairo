@@ -1,14 +1,18 @@
-use core::debug::PrintTrait;
-
+use core::traits::TryInto;
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use core::traits::Into;
 use orion::numbers::NumberTrait;
-use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
-use orion::operators::ml::svm::core::{kernel_dot, KERNEL_TYPE};
-use orion::operators::nn::{NNTrait, FP16x16NN};
 use orion::operators::tensor::{
     TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, BoolTensor
 };
+use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
+use core::debug::PrintTrait;
+use orion::operators::nn::{NNTrait, FP16x16NN};
 use orion::utils::get_row;
 use orion::operators::ml::POST_TRANSFORM;
+
+use orion::operators::ml::svm::core::{kernel_dot, KERNEL_TYPE};
 
 #[derive(Copy, Drop, Destruct)]
 struct SVMRegressor<T> {

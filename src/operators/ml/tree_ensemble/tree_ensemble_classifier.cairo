@@ -1,13 +1,28 @@
-use core::debug::PrintTrait;
+use core::array::ArrayTrait;
+use core::clone::Clone;
+use core::box::BoxTrait;
+use core::traits::Into;
+use core::option::OptionTrait;
+use orion::operators::matrix::MutMatrixTrait;
+use core::array::SpanTrait;
+use core::nullable::NullableTrait;
+use core::dict::Felt252DictTrait;
+use core::dict::Felt252DictEntryTrait;
 use core::nullable::{match_nullable, FromNullableResult};
+
+use orion::operators::tensor::{Tensor, TensorTrait};
+use orion::operators::ml::tree_ensemble::core::{TreeEnsemble, TreeEnsembleImpl, TreeEnsembleTrait};
+use orion::numbers::NumberTrait;
+use orion::utils::get_row;
 
 use alexandria_merkle_tree::merkle_tree::{pedersen::PedersenHasherImpl};
 use alexandria_data_structures::array_ext::{SpanTraitExt};
 
-use orion::numbers::NumberTrait;
-use orion::operators::matrix::{MutMatrix, MutMatrixTrait, MutMatrixImpl};
+use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
 use orion::operators::ml::POST_TRANSFORM;
+
+use core::debug::PrintTrait;
 
 #[derive(Destruct)]
 struct TreeEnsembleClassifier<T> {
@@ -254,9 +269,17 @@ impl TreeEnsembleClassifierImpl<
         if classifier.base_values.is_some() {
             let mut base_values = classifier.base_values.unwrap();
             let mut row: usize = 0;
-            while row != res.rows {
+            loop {
+                if row == res.rows {
+                    break;
+                }
+
                 let mut col: usize = 0;
-                while col != res.cols {
+                loop {
+                    if col == res.cols {
+                        break;
+                    }
+
                     let value = *base_values.pop_front().unwrap();
                     res.set(row, col, value);
 
@@ -267,9 +290,17 @@ impl TreeEnsembleClassifierImpl<
             }
         } else {
             let mut row: usize = 0;
-            while row != res.rows {
+            loop {
+                if row == res.rows {
+                    break;
+                }
+
                 let mut col: usize = 0;
-                while col != res.cols {
+                loop {
+                    if col == res.cols {
+                        break;
+                    }
+
                     res.set(row, col, NumberTrait::zero());
 
                     col += 1
@@ -281,9 +312,13 @@ impl TreeEnsembleClassifierImpl<
 
         let mut class_index: Felt252Dict<Nullable<Span<usize>>> = Default::default();
         let mut i: usize = 0;
-        while i != self.class_treeids.len() {
-            let tid = *self.class_treeids[i];
-            let nid = *self.class_nodeids[i];
+        loop {
+            if i == classifier.class_treeids.len() {
+                break;
+            }
+
+            let tid = *classifier.class_treeids[i];
+            let nid = *classifier.class_nodeids[i];
 
             let mut key = PedersenHasherImpl::new();
             let key: felt252 = key.hash(tid.into(), nid.into());
@@ -300,9 +335,12 @@ impl TreeEnsembleClassifierImpl<
 
             i += 1;
         };
-
         let mut i: usize = 0;
-        while i != res.rows {
+        loop {
+            if i == res.rows {
+                break;
+            }
+
             let mut indices = get_row(@leaves_index, i);
             let mut t_index: Array<Span<core::integer::u32>> = ArrayTrait::new();
             loop {
@@ -353,7 +391,6 @@ impl TreeEnsembleClassifierImpl<
                     Option::None => { break; }
                 };
             };
-
             i += 1;
         };
 
@@ -367,8 +404,10 @@ impl TreeEnsembleClassifierImpl<
             Option::Some(c_id) => { class_id = *c_id; },
             Option::None => { class_id = 0; }
         };
-
-        while i != self.class_ids.len() {
+        loop {
+            if i == classifier.class_ids.len() {
+                break;
+            }
             match class_ids.pop_front() {
                 Option::Some(c_id) => {
                     if *c_id == class_id {
@@ -387,19 +426,24 @@ impl TreeEnsembleClassifierImpl<
         if binary {
             let mut new_res: MutMatrix<T> = MutMatrixImpl::new(res.rows, res.cols);
             let mut i: usize = 0;
-            while i != res.rows {
+            loop {
+                if i == res.rows {
+                    break;
+                }
                 // Exchange
                 match res.get(i, 0) {
                     Option::Some(res_0) => { new_res.set(i, 1, res_0); },
                     Option::None => { new_res.set(i, 1, NumberTrait::zero()); },
                 };
-
                 i += 1;
             };
             match classifier.post_transform {
                 POST_TRANSFORM::NONE => {
                     let mut i: usize = 0;
-                    while i != res.rows {
+                    loop {
+                        if i == res.rows {
+                            break;
+                        }
                         // Exchange
                         match new_res.get(i, 1) {
                             Option::Some(res_1) => {
@@ -408,49 +452,57 @@ impl TreeEnsembleClassifierImpl<
                             },
                             Option::None => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
-
                         i += 1;
                     };
                 },
                 POST_TRANSFORM::SOFTMAX => {
                     let mut i: usize = 0;
-                    while i != res.rows {
+                    loop {
+                        if i == res.rows {
+                            break;
+                        }
                         // Exchange
                         match new_res.get(i, 1) {
                             Option::Some(res_1) => { new_res.set(i, 0, res_1.neg()); },
                             Option::None => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
-
                         i += 1;
                     };
                 },
                 POST_TRANSFORM::LOGISTIC => {
                     let mut i: usize = 0;
-                    while i != res.rows {
+                    loop {
+                        if i == res.rows {
+                            break;
+                        }
                         // Exchange
                         match new_res.get(i, 1) {
                             Option::Some(res_1) => { new_res.set(i, 0, res_1.neg()); },
                             Option::None => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
-
                         i += 1;
                     };
                 },
                 POST_TRANSFORM::SOFTMAXZERO => {
                     let mut i: usize = 0;
-                    while i != res.rows {
+                    loop {
+                        if i == res.rows {
+                            break;
+                        }
                         // Exchange
                         match new_res.get(i, 1) {
                             Option::Some(res_1) => { new_res.set(i, 0, res_1.neg()); },
                             Option::None => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
-
                         i += 1;
                     };
                 },
                 POST_TRANSFORM::PROBIT => {
                     let mut i: usize = 0;
-                    while i != res.rows {
+                    loop {
+                        if i == res.rows {
+                            break;
+                        }
                         // Exchange
                         match new_res.get(i, 1) {
                             Option::Some(res_1) => {
@@ -459,12 +511,10 @@ impl TreeEnsembleClassifierImpl<
                             },
                             Option::None => { new_res.set(i, 0, NumberTrait::zero()); },
                         };
-
                         i += 1;
                     };
                 },
             };
-
             res = new_res;
         }
 
@@ -480,7 +530,7 @@ impl TreeEnsembleClassifierImpl<
         // Labels
         let mut labels = new_scores.argmax(1);
 
-        let mut labels_list: Array<usize> = array![];
+        let mut labels_list = ArrayTrait::new();
         loop {
             match labels.pop_front() {
                 Option::Some(i) => { labels_list.append(*classifier.classlabels[*i]); },
@@ -488,7 +538,6 @@ impl TreeEnsembleClassifierImpl<
             };
         };
 
-        (labels_list.span(), new_scores)
+        return (labels_list.span(), new_scores);
     }
 }
-

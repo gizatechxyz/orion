@@ -1,5 +1,11 @@
-use orion::numbers::{FP16x16, FP32x32, FP32x32Impl, FixedTrait};
+use core::array::ArrayTrait;
+use core::array::SpanTrait;
+use orion::numbers::FP16x16;
+
+use orion::operators::tensor::{Tensor, TensorTrait};
 use orion::numbers::NumberTrait;
+use orion::operators::tensor::{I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, FP16x16TensorAdd};
+use orion::numbers::{FP32x32, FP32x32Impl, FixedTrait};
 use orion::operators::nn::{NNTrait, FP16x16NN};
 use orion::operators::ml::POST_TRANSFORM;
 
@@ -199,48 +205,56 @@ impl LinearClassifierImpl<
             let mut i = 0;
             match classifier.post_transform {
                 POST_TRANSFORM::NONE => {
-                    while i != scores.data.len() {
-                        if *scores.data.at(i) >= NumberTrait::zero() {
-                            labels_list.append(*classlabels[0]);
-                        } else {
-                            labels_list.append(0);
-                        }
+                    while i != scores
+                        .data
+                        .len() {
+                            if *scores.data.at(i) >= NumberTrait::zero() {
+                                labels_list.append(*classlabels[0]);
+                            } else {
+                                labels_list.append(0);
+                            }
 
-                        i += 1;
-                    };
+                            i += 1;
+                        };
                 },
                 POST_TRANSFORM::SOFTMAX => {
-                    while i != scores.data.len() {
-                        if *scores.data.at(i) >= NumberTrait::half() {
-                            labels_list.append(*classlabels[0]);
-                        } else {
-                            labels_list.append(0);
-                        }
+                    while i != scores
+                        .data
+                        .len() {
+                            if *scores.data.at(i) >= NumberTrait::half() {
+                                labels_list.append(*classlabels[0]);
+                            } else {
+                                labels_list.append(0);
+                            }
 
-                        i += 1;
-                    };
+                            i += 1;
+                        };
                 },
                 POST_TRANSFORM::LOGISTIC => {
-                    while i != scores.data.len() {
-                        if *scores.data.at(i) >= NumberTrait::half() {
-                            labels_list.append(*classlabels[0]);
-                        } else {
-                            labels_list.append(0);
-                        }
+                    while i != scores
+                        .data
+                        .len() {
+                            if *scores.data.at(i) >= NumberTrait::half() {
+                                labels_list.append(*classlabels[0]);
+                            } else {
+                                labels_list.append(0);
+                            }
 
-                        i += 1;
-                    };
+                            i += 1;
+                        };
                 },
                 POST_TRANSFORM::SOFTMAXZERO => {
-                    while i != scores.data.len() {
-                        if *scores.data.at(i) >= NumberTrait::half() {
-                            labels_list.append(*classlabels[0]);
-                        } else {
-                            labels_list.append(0);
-                        }
+                    while i != scores
+                        .data
+                        .len() {
+                            if *scores.data.at(i) >= NumberTrait::half() {
+                                labels_list.append(*classlabels[0]);
+                            } else {
+                                labels_list.append(0);
+                            }
 
-                        i += 1;
-                    };
+                            i += 1;
+                        };
                 },
                 POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
             };
@@ -257,4 +271,3 @@ fn max(a: usize, b: usize) -> usize {
         b
     }
 }
-
