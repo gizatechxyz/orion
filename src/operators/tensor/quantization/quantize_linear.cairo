@@ -1,9 +1,3 @@
-use core::debug::PrintTrait;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::TryInto;
-
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::helpers::check_compatibility;
 use orion::operators::tensor::math::arithmetic::saturated_add;
@@ -33,6 +27,7 @@ fn quantize_linear<
         check_compatibility(*x.shape, *y_scale.shape);
         check_compatibility(*x.shape, *y_zero_point.shape);
         check_compatibility(*y_scale.shape, *y_zero_point.shape);
+
         quantize_per_axis(x, y_scale, y_zero_point, min, max)
     }
 }
@@ -70,7 +65,7 @@ fn quantize_element_wise<
 >(
     mut x: Tensor::<T>, y_scale: T, y_zero_point: T, min: T, max: T
 ) -> Tensor::<Q> {
-    let mut result_data = ArrayTrait::<Q>::new();
+    let mut result_data: Array<Q> = array![];
 
     loop {
         match x.data.pop_front() {
@@ -82,7 +77,7 @@ fn quantize_element_wise<
         };
     };
 
-    return TensorTrait::new(x.shape, result_data.span());
+    TensorTrait::new(x.shape, result_data.span())
 }
 
 fn quantize<

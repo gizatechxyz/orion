@@ -58,6 +58,7 @@ mod is_inf;
 mod gather_nd;
 mod reduce_log_sum;
 mod erf;
+mod reduce_log_sum_exp;
 mod layer_normalization;
 mod resize;
 mod compress;

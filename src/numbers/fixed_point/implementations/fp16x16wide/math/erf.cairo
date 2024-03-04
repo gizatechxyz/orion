@@ -1,7 +1,5 @@
-use core::traits::Into;
 use orion::numbers::fixed_point::implementations::fp16x16wide::core::{ONE, FP16x16W, FixedTrait};
 use orion::numbers::fixed_point::implementations::fp16x16wide::math::lut::erf_lut;
-
 
 const ERF_COMPUTATIONAL_ACCURACY: u64 = 100;
 const ROUND_CHECK_NUMBER: u64 = 10;
@@ -21,5 +19,6 @@ fn erf(x: FP16x16W) -> FP16x16W {
     } else {
         erf_value = ONE;
     }
+
     FP16x16W { mag: erf_value, sign: x.sign }
 }

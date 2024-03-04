@@ -1,6 +1,3 @@
-use core::array::{ArrayTrait, SpanTrait};
-use core::option::OptionTrait;
-
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::I32Tensor;
 use orion::numbers::{NumberTrait, I32IntoU32};
@@ -12,9 +9,10 @@ fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TD
     let position: Tensor<i32> = match position {
         Option::Some(p) => p,
         Option::None => {
-            let mut shape = ArrayTrait::<usize>::new();
-            let mut data = ArrayTrait::<i32>::new();
+            let mut shape: Array<usize> = array![];
+            let mut data: Array<i32> = array![];
             data.append(-1_i32);
+
             TensorTrait::<i32>::new(shape.span(), data.span())
         },
     };
@@ -26,16 +24,16 @@ fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TD
     let mut position_value: u32 = position_value_i32.into();
 
     assert(
-        (is_negative == false && position_value <= self.len() - 1)
-            || (is_negative == true && position_value <= self.len()),
+        (!is_negative && position_value <= self.len() - 1)
+            || (is_negative && position_value <= self.len()),
         'Position out of bounds'
     );
 
-    if is_negative == true {
+    if is_negative {
         position_value = self.len() - position_value;
     }
 
-    let mut new_sequence = ArrayTrait::<Tensor<T>>::new();
+    let mut new_sequence: Array<Tensor<T>> = array![];
     let mut inserted = false;
     let mut self_copy = self;
     loop {
@@ -46,7 +44,7 @@ fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TD
                     inserted = true;
                 }
                 new_sequence.append(t);
-                if inserted == false {
+                if !inserted {
                     position_value -= 1;
                 }
             },
@@ -54,5 +52,5 @@ fn sequence_insert<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TD
         };
     };
 
-    return new_sequence;
+    new_sequence
 }

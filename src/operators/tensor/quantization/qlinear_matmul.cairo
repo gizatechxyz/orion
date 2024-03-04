@@ -1,12 +1,7 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
 use orion::numbers::{NumberTrait};
 use orion::operators::tensor::quantization::dequantize_linear::dequantize_linear;
 use orion::operators::tensor::quantization::quantize_linear::quantize_linear;
 use orion::operators::tensor::{TensorTrait, Tensor};
-
 
 /// Cf: TensorTrait::qlinear_matmul docstring
 fn qlinear_matmul<
@@ -65,8 +60,8 @@ fn qlinear_matmul<
     assert(a_ndim == b_ndim, 'dim missmatch');
     let mut dequantized_a = dequantize_linear(@(*a), a_scale, a_zero_point);
     let mut dequantized_b = dequantize_linear(@(*b), b_scale, b_zero_point);
-    let mut x_shape = ArrayTrait::<usize>::new();
-    let mut x_data = ArrayTrait::<T>::new();
+    let mut x_shape: Array<usize> = array![];
+    let mut x_data: Array<T> = array![];
 
     assert(a_shape[a_ndim - 1] == b_shape[b_ndim - 2], 'incompatible dim for matmul');
 
@@ -74,20 +69,16 @@ fn qlinear_matmul<
     let k = *a_shape[a_ndim - 1];
     let n = *b_shape[b_ndim - 1];
 
-    let mut a_shape_reduced = ArrayTrait::<usize>::new();
+    let mut a_shape_reduced: Array<usize> = array![];
     a_shape_reduced.append(m);
     a_shape_reduced.append(k);
 
-    let mut b_shape_reduced = ArrayTrait::<usize>::new();
+    let mut b_shape_reduced: Array<usize> = array![];
     b_shape_reduced.append(k);
     b_shape_reduced.append(n);
 
     let mut i = 0;
-    loop {
-        if i == stride(a_shape) / (m * k) {
-            break;
-        };
-
+    while i != stride(a_shape) / (m * k) {
         result_updates(
             @subtensor(@dequantized_a, i * (m * k), a_shape_reduced.span()),
             @subtensor(@dequantized_b, i * (k * n), b_shape_reduced.span()),
@@ -95,21 +86,21 @@ fn qlinear_matmul<
         );
         i += 1;
     };
+
     x_shape(ref x_shape, a_shape, m, n);
     let x = TensorTrait::new(x_shape.span(), x_data.span());
-    return quantize_linear(@x, y_scale, y_zero_point, min, max);
+
+    quantize_linear(@x, y_scale, y_zero_point, min, max)
 }
 
 fn x_shape(ref x_data: Array<usize>, mut shape: Span<usize>, m: usize, n: usize) {
-    loop {
-        if shape.len() == 2 {
-            break;
-        }
+    while shape.len() != 2 {
         match shape.pop_front() {
             Option::Some(elem) => { x_data.append(*elem); },
             Option::None => { break; }
         };
     };
+
     x_data.append(m);
     x_data.append(n);
 }
@@ -125,7 +116,8 @@ fn stride(mut shape: Span<usize>) -> usize {
             Option::None => { break; }
         };
     };
-    return accumulated;
+
+    accumulated
 }
 
 fn subtensor<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
@@ -135,14 +127,12 @@ fn subtensor<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: D
     let mut stride = stride(shape);
     let mut i = 0;
 
-    loop {
-        if i == stride {
-            break;
-        }
+    while i != stride {
         data.append(*x.data[start + i]);
         i += 1;
     };
-    return TensorTrait::new(shape, data.span());
+
+    TensorTrait::new(shape, data.span())
 }
 
 
@@ -165,29 +155,17 @@ fn result_updates<
     let mat1 = *mat1.data;
     let mat2 = *mat2.data;
 
-    let mut result_shape = ArrayTrait::new();
+    let mut result_shape: Array<usize> = array![];
     result_shape.append(m);
     result_shape.append(p);
 
     let mut i = 0_usize;
-    loop {
-        if i == m {
-            break ();
-        }
-
+    while i != m {
         let mut j = 0_usize;
-        loop {
-            if j == p {
-                break ();
-            }
-
+        while j != p {
             let mut sum: T = NumberTrait::zero();
             let mut k = 0_usize;
-            loop {
-                if k == n {
-                    break ();
-                }
-
+            while k != n {
                 let mat1_index = i * n + k;
                 let mat2_index = k * p + j;
                 sum += *mat1[mat1_index] * *mat2[mat2_index];

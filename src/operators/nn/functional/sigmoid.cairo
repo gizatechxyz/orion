@@ -1,12 +1,6 @@
-use core::traits::Into;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
-
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::NumberTrait;
+use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 /// Cf: NNTrait::sigmoid docstring
 fn sigmoid<
@@ -23,7 +17,7 @@ fn sigmoid<
 >(
     mut z: Tensor<T>
 ) -> Tensor<T> {
-    let mut data_result = ArrayTrait::<T>::new();
+    let mut data_result: Array<T> = array![];
 
     loop {
         match z.data.pop_front() {
@@ -36,6 +30,6 @@ fn sigmoid<
         };
     };
 
-    return TensorTrait::new(z.shape, data_result.span());
+    TensorTrait::new(z.shape, data_result.span())
 }
 

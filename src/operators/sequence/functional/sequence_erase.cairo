@@ -1,6 +1,3 @@
-use core::array::{ArrayTrait, SpanTrait};
-use core::option::OptionTrait;
-
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::I32Tensor;
 use orion::numbers::{NumberTrait, I32IntoU32};
@@ -12,9 +9,10 @@ fn sequence_erase<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
     let position: Tensor<i32> = match position {
         Option::Some(p) => p,
         Option::None => {
-            let mut shape = ArrayTrait::<usize>::new();
-            let mut data = ArrayTrait::<i32>::new();
+            let mut shape: Array<usize> = array![];
+            let mut data: Array<i32> = array![];
             data.append(-1_i32);
+
             TensorTrait::<i32>::new(shape.span(), data.span())
         }
     };
@@ -26,17 +24,17 @@ fn sequence_erase<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
     let mut position_value: u32 = position_value_i32.into();
 
     assert(
-        (is_negative == false && position_value <= sequence.len() - 1)
-            || (is_negative == true && position_value <= sequence.len()),
+        (!is_negative && position_value <= sequence.len() - 1)
+            || (is_negative && position_value <= sequence.len()),
         'Position out of bounds'
     );
 
-    if is_negative == true {
+    if is_negative {
         position_value = sequence.len() - position_value;
     }
 
     let mut input_sequence_copy = sequence;
-    let mut output_sequence = ArrayTrait::<Tensor<T>>::new();
+    let mut output_sequence: Array<Tensor<T>> = array![];
     let mut tensor_counter: usize = 0;
     loop {
         match input_sequence_copy.pop_front() {
@@ -45,14 +43,14 @@ fn sequence_erase<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
                     tensor_counter += 1;
                     continue;
                 }
-                output_sequence.append(input_sequence_value);
 
+                output_sequence.append(input_sequence_value);
                 tensor_counter += 1;
             },
             Option::None => { break; }
         };
     };
 
-    return output_sequence;
+    output_sequence
 }
 

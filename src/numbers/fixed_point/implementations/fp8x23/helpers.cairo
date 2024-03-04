@@ -1,5 +1,4 @@
 use core::debug::PrintTrait;
-use core::traits::Into;
 
 use orion::numbers::fixed_point::implementations::fp8x23::core::{
     HALF, ONE, TWO, FP8x23, FP8x23Sub, FP8x23Div, FixedTrait, FP8x23Print

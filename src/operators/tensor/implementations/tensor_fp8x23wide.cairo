@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{TryInto, Into};
-
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -15,6 +10,9 @@ use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
 };
 use orion::numbers::fixed_point::implementations::fp8x23wide::math::trig::PI;
+
+use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
+
 
 impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn new(shape: Span<usize>, data: Span<FP8x23W>) -> Tensor<FP8x23W> {
@@ -311,7 +309,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<FP8x23W>, axes: Option<Span<i32>>) -> Tensor<FP8x23W> {
+    fn squeeze(self: @Tensor<FP8x23W>, axes: Option<Span<usize>>) -> Tensor<FP8x23W> {
         core_tensor::squeeze(self, axes)
     }
 
@@ -394,7 +392,6 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         panic(array!['not supported!'])
     }
 
-
     fn gather_elements(
         self: @Tensor<FP8x23W>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP8x23W> {
@@ -447,6 +444,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
 
     fn reduce_log_sum(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+    fn reduce_log_sum_exp(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
+        panic(array!['not supported!'])
     }
 
     fn erf(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
@@ -668,27 +669,26 @@ impl U32TryIntoU32 of TryInto<u64, u64> {
 impl FP8x23WTensorPartialOrd of PartialOrd<Tensor<FP8x23W>> {
     #[inline(always)]
     fn ge(lhs: Tensor<FP8x23W>, rhs: Tensor<FP8x23W>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
+        SpanPartialOrd::ge(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn gt(lhs: Tensor<FP8x23W>, rhs: Tensor<FP8x23W>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
+        SpanPartialOrd::gt(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn le(lhs: Tensor<FP8x23W>, rhs: Tensor<FP8x23W>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
+        SpanPartialOrd::le(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn lt(lhs: Tensor<FP8x23W>, rhs: Tensor<FP8x23W>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
+        SpanPartialOrd::lt(lhs.data, rhs.data)
     }
 }
 
 // Internals
-
 const PRECISION: u64 = 75497; // 0.009
 
 fn relative_eq(lhs: @FP8x23W, rhs: @FP8x23W) -> bool {
@@ -706,11 +706,7 @@ fn relative_eq(lhs: @FP8x23W, rhs: @FP8x23W) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP8x23W>, mut rhs: Tensor<FP8x23W>,) -> bool {
     let mut is_eq = true;
 
-    loop {
-        if lhs.shape.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.shape.len() != 0 && is_eq {
         is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
     };
 
@@ -718,14 +714,10 @@ fn tensor_eq(mut lhs: Tensor<FP8x23W>, mut rhs: Tensor<FP8x23W>,) -> bool {
         return false;
     }
 
-    loop {
-        if lhs.data.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.data.len() != 0 && is_eq {
         is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
     };
 
-    return is_eq;
+    is_eq
 }
 

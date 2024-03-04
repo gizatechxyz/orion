@@ -1,48 +1,47 @@
-use orion::numbers::{FP32x32, FixedTrait};
-use orion::numbers::FP32x32Impl;
+use orion::numbers::{FP32x32, FP32x32Impl, FixedTrait};
 
 fn xor(a: FP32x32, b: FP32x32) -> bool {
     if (a == FixedTrait::new(0, false) || b == FixedTrait::new(0, false)) && (a != b) {
-        return true;
+        true
     } else {
-        return false;
+        false
     }
 }
 
 fn or(a: FP32x32, b: FP32x32) -> bool {
     let zero = FixedTrait::new(0, false);
     if a == zero && b == zero {
-        return false;
+        false
     } else {
-        return true;
+        true
     }
 }
 
 fn and(a: FP32x32, b: FP32x32) -> bool {
     let zero = FixedTrait::new(0, false);
     if a == zero || b == zero {
-        return false;
+        false
     } else {
-        return true;
+        true
     }
 }
 
 fn where(a: FP32x32, b: FP32x32, c: FP32x32) -> FP32x32 {
     if a == FixedTrait::new(0, false) {
-        return c;
+        c
     } else {
-        return b;
+        b
     }
 }
 
 fn bitwise_and(a: FP32x32, b: FP32x32) -> FP32x32 {
-    return FixedTrait::new(a.mag & b.mag, a.sign & b.sign);
+    FixedTrait::new(a.mag & b.mag, a.sign & b.sign)
 }
 
 fn bitwise_xor(a: FP32x32, b: FP32x32) -> FP32x32 {
-    return FixedTrait::new(a.mag ^ b.mag, a.sign ^ b.sign);
+    FixedTrait::new(a.mag ^ b.mag, a.sign ^ b.sign)
 }
 
 fn bitwise_or(a: FP32x32, b: FP32x32) -> FP32x32 {
-    return FixedTrait::new(a.mag | b.mag, a.sign | b.sign);
+    FixedTrait::new(a.mag | b.mag, a.sign | b.sign)
 }

@@ -1,8 +1,7 @@
 use orion::numbers::NumberTrait;
+use orion::operators::tensor::core::{stride};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor,};
 use orion::operators::vec::{NullableVec, NullableVecImpl};
-use orion::operators::tensor::core::{stride};
-
 
 fn col2im<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Add<T>, +Mul<T>,>(
     data: @Tensor<T>,
@@ -15,15 +14,13 @@ fn col2im<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Ad
     let dilations = match dilations {
         Option::Some(dilations) => dilations,
         Option::None => {
-            let mut dilations = ArrayTrait::new();
+            let mut dilations: Array<usize> = array![];
             let mut i = 0;
-            loop {
-                if i == image_shape.len() {
-                    break;
-                }
+            while i != image_shape.len() {
                 dilations.append(1);
                 i += 1;
             };
+
             dilations.span()
         },
     };
@@ -31,31 +28,27 @@ fn col2im<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Ad
     let pads = match pads {
         Option::Some(pads) => pads,
         Option::None => {
-            let mut pads = ArrayTrait::new();
+            let mut pads: Array<usize> = array![];
             let mut i = 0;
-            loop {
-                if i == image_shape.len() {
-                    break;
-                }
+            while i != image_shape.len() {
                 pads.append(0);
                 pads.append(0);
                 i += 1;
             };
+
             pads.span()
         },
     };
     let strides = match strides {
         Option::Some(strides) => strides,
         Option::None => {
-            let mut strides = ArrayTrait::new();
+            let mut strides: Array<usize> = array![];
             let mut i = 0;
-            loop {
-                if i == image_shape.len() {
-                    break;
-                }
+            while i != image_shape.len() {
                 strides.append(1);
                 i += 1;
             };
+
             strides.span()
         },
     };
@@ -65,28 +58,20 @@ fn col2im<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Ad
 
     let mut new_shape = array![*(*data).shape.at(0), C, bl];
     let mut i = 2;
-    loop {
-        if i == (*data).shape.len() {
-            break;
-        }
+    while i != (*data).shape.len() {
         new_shape.append(*(*data).shape.at(i));
         i += 1;
     };
+
     let data = data.reshape(new_shape.span());
 
-    let mut res = ArrayTrait::new();
+    let mut res: Array<T> = array![];
     let data_stride = stride(data.shape);
 
     let mut n = 0;
-    loop {
-        if n == *data.shape.at(0) {
-            break;
-        }
+    while n != *data.shape.at(0) {
         let mut c = 0;
-        loop {
-            if c == *data.shape.at(1) {
-                break;
-            }
+        while c != *data.shape.at(1) {
             let data_n_c = TensorTrait::new(
                 SpanTrait::slice(data.shape, 2, data.shape.len() - 2),
                 SpanTrait::slice(
@@ -97,29 +82,25 @@ fn col2im<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Ad
                 @data_n_c, image_shape, block_shape, dilations, pads, strides
             );
             let mut i = 0;
-            loop {
-                if i == out.len() {
-                    break;
-                }
+            while i != out.len() {
                 res.append(out.at(i));
                 i += 1;
             };
+
             c += 1;
         };
+
         n += 1;
     };
 
     let mut new_shape = array![*data.shape.at(0), *data.shape.at(1)];
     let mut i = 0;
-    loop {
-        if i == image_shape.len() {
-            break;
-        }
+    while i != image_shape.len() {
         new_shape.append(*image_shape.at(i));
         i += 1;
     };
 
-    return TensorTrait::new(new_shape.span(), res.span());
+    TensorTrait::new(new_shape.span(), res.span())
 }
 
 fn get_image<T, +Drop<T>, +Copy<T>>(self: @Tensor<T>, row: usize) -> Span<T> {
@@ -145,12 +126,9 @@ fn col2im_naive_implementation<
 
     col2im_shape_check(data, image_shape, kernel_shape, dilations, pads, strides);
 
-    let mut dim_col = ArrayTrait::new();
+    let mut dim_col: Array<usize> = array![];
     let mut i = 0;
-    loop {
-        if i == n_dims {
-            break;
-        }
+    while i != n_dims {
         dim_col
             .append(
                 (*image_shape.at(i)
@@ -162,6 +140,7 @@ fn col2im_naive_implementation<
 
         i += 1;
     };
+
     let dim_col = dim_col.span();
 
     let stride_img = stride(image_shape);
@@ -172,24 +151,15 @@ fn col2im_naive_implementation<
     let kernel_size = prod(kernel_shape, 0);
     let col_size = prod(dim_col, 0);
     let mut c_col = 0;
-    loop {
-        if c_col == kernel_size {
-            break;
-        }
+    while c_col != kernel_size {
         let offset = get_indices(c_col, kernel_shape).span();
 
         let mut col = 0;
-        loop {
-            if col == col_size {
-                break;
-            }
+        while col != col_size {
             let ind_col = get_indices(col, dim_col).span();
-            let mut ind_im = ArrayTrait::new();
+            let mut ind_im: Array<usize> = array![];
             let mut i = 0;
-            loop {
-                if i == n_dims {
-                    break;
-                }
+            while i != n_dims {
                 if (*ind_col.at(i) * *strides.at(i) + *offset.at(i) * *dilations.at(i)) < *pads
                     .at(i) {
                     let neg_index = *pads.at(i)
@@ -206,25 +176,26 @@ fn col2im_naive_implementation<
 
                 i += 1;
             };
+
             let ind_im = ind_im.span();
             if !is_out(ind_im, image_shape) {
                 let mut index = 0;
                 let mut i = 0;
-                loop {
-                    if i == image_shape.len() {
-                        break;
-                    }
+                while i != image_shape.len() {
                     index += *stride_img.at(i) * *ind_im.at(i);
                     i += 1;
                 };
+
                 data_im.set(index, data_im.at(index) + *(*data).data.at(c_col * col_size + col));
             }
+
             col += 1;
         };
+
         c_col += 1;
     };
 
-    return data_im;
+    data_im
 }
 
 fn col2im_shape_check<T, +TensorTrait<T>, +Copy<T>, +Drop<T>,>(
@@ -243,13 +214,10 @@ fn col2im_shape_check<T, +TensorTrait<T>, +Copy<T>, +Drop<T>,>(
 
     let input_length = *(*X).shape.at(1);
     let n_dims = output_shape.len();
-    let mut n_blocks = ArrayTrait::new();
+    let mut n_blocks: Array<usize> = array![];
 
     let mut i = 0;
-    loop {
-        if i == n_dims {
-            break;
-        }
+    while i != n_dims {
         n_blocks
             .append(
                 (*output_shape.at(i)
@@ -267,15 +235,11 @@ fn col2im_shape_check<T, +TensorTrait<T>, +Copy<T>, +Drop<T>,>(
     assert(input_length == block_size, 'input_length != block_size');
 }
 
-
 fn get_indices(index: usize, shape: Span<usize>,) -> Array<usize> {
     let mut i = index;
-    let mut res = ArrayTrait::new();
+    let mut res: Array<usize> = array![];
     let mut k = shape.len() - 1;
-    loop {
-        if k == 0 {
-            break;
-        }
+    while k != 0 {
         let m = i % *shape.at(k);
         res.append(m);
         i -= m;
@@ -283,17 +247,15 @@ fn get_indices(index: usize, shape: Span<usize>,) -> Array<usize> {
         k -= 1;
     };
 
-    let mut new_res = ArrayTrait::new();
+    let mut new_res: Array<usize> = array![];
     new_res.append(i);
     let mut i = shape.len() - 1;
-    loop {
-        if i == 0 {
-            break;
-        }
+    while i != 0 {
         new_res.append(*res.at(i - 1));
         i -= 1;
     };
-    return new_res;
+
+    new_res
 }
 
 fn is_out(ind: Span<usize>, shape: Span<usize>,) -> bool {
@@ -312,7 +274,8 @@ fn is_out(ind: Span<usize>, shape: Span<usize>,) -> bool {
         }
         n += 1;
     };
-    return is_out;
+
+    is_out
 }
 
 fn prod<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +Mul<T>,>(
@@ -320,12 +283,10 @@ fn prod<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +Mul<
 ) -> T {
     let mut i = start;
     let mut prod = NumberTrait::one();
-    loop {
-        if i == pA.len() {
-            break;
-        }
+    while i != pA.len() {
         prod = prod * (*pA.at(i));
         i += 1;
     };
-    return prod;
+
+    prod
 }

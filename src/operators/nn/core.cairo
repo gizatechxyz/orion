@@ -16,8 +16,8 @@ use orion::operators::tensor::core::Tensor;
 /// gemm - Performs General Matrix multiplication.
 /// grid_sample - Computes the grid sample of the input tensor and input grid.
 /// col2im - Rearranges column blocks back into a multidimensional image
-/// conv_transpose - Performs the convolution transpose of the input data tensor and weigth tensor.
-/// conv - Performs the convolution of the input data tensor and weigth tensor.
+/// conv_transpose - Performs the convolution transpose of the input data tensor and weight tensor.
+/// conv - Performs the convolution of the input data tensor and weight tensor.
 trait NNTrait<T> {
     /// # NNTrait::relu
     ///
@@ -834,7 +834,7 @@ trait NNTrait<T> {
     ///     ) -> Tensor<T>
     /// ```
     /// 
-    /// The convolution operator consumes an input tensor and a filter (input weigth tensor), and computes the output.
+    /// The convolution operator consumes an input tensor and a filter (input weight tensor), and computes the output.
     ///
     /// ## Args
     ///
@@ -971,7 +971,7 @@ trait NNTrait<T> {
     /// ) -> Tensor<T>
     /// ```
     /// 
-    /// The convolution transpose operator consumes an input tensor and a input weigth tensor, and computes the output.
+    /// The convolution transpose operator consumes an input tensor and a input weight tensor, and computes the output.
     ///
     /// ## Args
     ///

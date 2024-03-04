@@ -1,12 +1,6 @@
-use core::traits::Into;
-use core::array::ArrayTrait;
-use core::option::OptionTrait;
-use core::array::SpanTrait;
-
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::NumberTrait;
-
+use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 /// Cf: NNTrait::leaky_relu docstring
 fn leaky_relu<
@@ -23,7 +17,7 @@ fn leaky_relu<
 ) -> Tensor<T> {
     assert(*alpha < NumberTrait::one(), 'alpha must be less than 1');
 
-    let mut data_result = ArrayTrait::<T>::new();
+    let mut data_result: Array<T> = array![];
 
     loop {
         match z.data.pop_front() {
@@ -38,5 +32,5 @@ fn leaky_relu<
         };
     };
 
-    return TensorTrait::new(z.shape, data_result.span());
+    TensorTrait::new(z.shape, data_result.span())
 }

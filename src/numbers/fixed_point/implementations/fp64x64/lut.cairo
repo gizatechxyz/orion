@@ -689,5 +689,6 @@ fn erf_lut(x: u128) -> u128 {
             return 18446715997887504384;
         }
     }
-    return ONE;
+
+    ONE
 }
