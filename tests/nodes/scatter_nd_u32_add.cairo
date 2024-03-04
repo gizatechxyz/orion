@@ -18,7 +18,8 @@ fn test_scatter_nd_u32_add() {
     let input_2 = input_2::input_2();
     let z_0 = output_0::output_0();
 
-    let y_0 = input_0.scatter_nd(updates:input_1, indices:input_2, reduction:Option::Some('add'));
+    let y_0 = input_0
+        .scatter_nd(updates: input_1, indices: input_2, reduction: Option::Some('add'));
 
     assert_eq(y_0, z_0);
 }

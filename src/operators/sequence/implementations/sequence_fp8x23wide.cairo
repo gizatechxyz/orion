@@ -1,12 +1,9 @@
-use core::option::OptionTrait;
-
 use orion::operators::tensor::core::Tensor;
 use orion::operators::sequence::core::SequenceTrait;
 use orion::operators::sequence::functional;
 use orion::numbers::fixed_point::implementations::fp8x23wide::core::FP8x23W;
 use orion::operators::tensor::implementations::tensor_fp8x23wide::FP8x23WTensor;
 use orion::operators::tensor::implementations::tensor_i32::I32Tensor;
-
 
 impl FP8x23WSequence of SequenceTrait<FP8x23W> {
     fn sequence_construct(tensors: Array<Tensor<FP8x23W>>) -> Array<Tensor<FP8x23W>> {

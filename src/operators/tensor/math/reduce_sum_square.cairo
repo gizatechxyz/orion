@@ -1,12 +1,6 @@
-use core::option::OptionTrait;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::debug::PrintTrait;
-
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::numbers::fixed_point::core::FixedTrait;
-
 
 fn square<
     T,
@@ -20,7 +14,7 @@ fn square<
     self: @Tensor<T>
 ) -> Tensor<T> {
     let mut data = *self.data;
-    let mut output_data = ArrayTrait::new();
+    let mut output_data = array![];
 
     loop {
         match data.pop_front() {
@@ -33,7 +27,8 @@ fn square<
     };
 
     let tensor_square = TensorTrait::new(*self.shape, output_data.span());
-    return tensor_square;
+
+    tensor_square
 }
 
 /// Cf: TensorTrait::reduce_sum_square docstring
@@ -51,5 +46,6 @@ fn reduce_sum_square<
 ) -> Tensor<T> {
     let tensor_square = square(self);
     let tensor_square_sum = tensor_square.reduce_sum(axis: axis, keepdims: keepdims);
-    return tensor_square_sum;
+
+    tensor_square_sum
 }

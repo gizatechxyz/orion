@@ -1,12 +1,6 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::Into;
-
 use orion::numbers::NumberTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-
 
 fn sqrt<
     T,
@@ -18,7 +12,7 @@ fn sqrt<
 >(
     mut self: Tensor<T>
 ) -> Tensor<T> {
-    let mut result = ArrayTrait::new();
+    let mut result: Array<T> = array![];
 
     loop {
         match self.data.pop_front() {
@@ -27,5 +21,5 @@ fn sqrt<
         };
     };
 
-    return TensorTrait::new(self.shape, result.span());
+    TensorTrait::new(self.shape, result.span())
 }

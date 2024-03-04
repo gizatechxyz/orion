@@ -19,11 +19,11 @@ mod fp8x23 {
         shape.append(6);
         let mut data = ArrayTrait::<FP8x23>::new();
         data.append(FixedTrait::new(0, false));
-        data.append(FixedTrait::new(587203, false));    // 0.07
-        data.append(FixedTrait::new(838861, false));    // 0.1
-        data.append(FixedTrait::new(1677722, false));   // 0.2
-        data.append(FixedTrait::new(4194304, false));   // 0.5
-        data.append(FixedTrait::new(7549747, false));   // 0.9
+        data.append(FixedTrait::new(587203, false)); // 0.07
+        data.append(FixedTrait::new(838861, false)); // 0.1
+        data.append(FixedTrait::new(1677722, false)); // 0.2
+        data.append(FixedTrait::new(4194304, false)); // 0.5
+        data.append(FixedTrait::new(7549747, false)); // 0.9
 
         let x = TensorTrait::new(shape.span(), data.span());
 
@@ -61,12 +61,12 @@ mod fp16x16 {
         let mut shape = ArrayTrait::<usize>::new();
         shape.append(6);
         let mut data = ArrayTrait::<FP16x16>::new();
-        data.append(FixedTrait::new(10945, false));     // 0.167
-        data.append(FixedTrait::new(190054, false));    // 2.9
-        data.append(FixedTrait::new_unscaled(3, false));   // 3.0
-        data.append(FixedTrait::new(229376, false));  // 3.5
-        data.append(FixedTrait::new_unscaled(3, true));  // -3.0
-        data.append(FixedTrait::new(229376, true));  // -3.5
+        data.append(FixedTrait::new(10945, false)); // 0.167
+        data.append(FixedTrait::new(190054, false)); // 2.9
+        data.append(FixedTrait::new_unscaled(3, false)); // 3.0
+        data.append(FixedTrait::new(229376, false)); // 3.5
+        data.append(FixedTrait::new_unscaled(3, true)); // -3.0
+        data.append(FixedTrait::new(229376, true)); // -3.5
 
         let x = TensorTrait::new(shape.span(), data.span());
 

@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
 use orion::numbers::{NumberTrait};
 use orion::operators::tensor::quantization::dequantize_linear::dequantize_linear;
 use orion::operators::tensor::quantization::quantize_linear::quantize_linear;
@@ -36,7 +32,7 @@ fn qlinear_leakyrelu<
 ) -> Tensor<Q> {
     let mut dequantized_a = dequantize_linear(@(*a), a_scale, a_zero_point);
 
-    let mut result_data = ArrayTrait::<T>::new();
+    let mut result_data: Array<T> = array![];
     loop {
         match dequantized_a.data.pop_front() {
             Option::Some(elem) => {
@@ -50,7 +46,7 @@ fn qlinear_leakyrelu<
         };
     };
 
-    return quantize_linear(
+    quantize_linear(
         @TensorTrait::new(dequantized_a.shape, result_data.span()), a_scale, a_zero_point, min, max
-    );
+    )
 }

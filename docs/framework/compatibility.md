@@ -88,7 +88,7 @@ You can see below the list of current supported ONNX Operators:
 |                     [Max](operators/tensor/tensor.max.md)                     | :white\_check\_mark: |
 |       [ReduceSumSquare](operators/tensor/tensor.reduce\_sum\_square.md)       | :white\_check\_mark: |
 |                   [Trilu](operators/tensor/tensor.trilu.md)                   | :white\_check\_mark: |
-|                  [Scatter](operators/tensor/scatter.max.md)                   | :white\_check\_mark: |
+|                  [Scatter](operators/tensor/tensor.scatter.md)                   | :white\_check\_mark: |
 | [ArrayFeatureExtractor](operators/tensor/tensor.array\_feature\_extractor.md) | :white\_check\_mark: |
 |               [Binarizer](operators/tensor/tensor.binarizer.md)               | :white\_check\_mark: |
 |        [ConstantOfShape](operators/tensor/tensor.constant_of_shape.md)        | :white\_check\_mark: |
@@ -111,6 +111,7 @@ You can see below the list of current supported ONNX Operators:
 |          [ReduceLogSum](operators/tensor/tensor.reduce\_log\_sum.md)          | :white\_check\_mark: |
 |                     [Erf](operators/tensor/tensor.erf.md)                     | :white\_check\_mark: |
 |                [Compress](operators/tensor/tensor.compress.md)                | :white\_check\_mark: |
+|      [ReduceLogSumExp](operators/tensor/tensor.reduce\_log\_sum\_exp.md)      | :white\_check\_mark: |
 |     [Layer_normalization](operators/tensor/tensor.layer_normalization.md)     | :white\_check\_mark: |
 |              [ScatterND](operators/tensor/tensor.scatter/_nd.md)              | :white\_check\_mark: |
 |       [DequantizeLinear](operators/tensor/tensor.dequantize_linear.md)        | :white\_check\_mark: |
@@ -124,5 +125,6 @@ You can see below the list of current supported ONNX Operators:
 |       [HammingWindow](operators/tensor/tensor.tensor.hamming_window.md)       | :white\_check\_mark: |
 |      [BlackmanWindow](operators/tensor/tensor.tensor.blackman_window.md)      | :white\_check\_mark: |
 |      [RandomUniformLike](operators/tensor/tensor.tensor.random_uniform_like.md)      | :white\_check\_mark: |
+|           [LabelEncoder](operators/tensor/tensor.label_encoder.md)            | :white\_check\_mark: |
 
-Current Operators support: **117/156 (75%)**
+Current Operators support: **118/156 (75%)**

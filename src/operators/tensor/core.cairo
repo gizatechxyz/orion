@@ -1,3 +1,4 @@
+use alexandria_data_structures::array_ext::ArrayTraitExt;
 use core::array::{ArrayTrait, SpanTrait};
 use core::serde::Serde;
 use core::option::OptionTrait;
@@ -116,6 +117,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// gather_nd - Given data tensor of rank r >= 1, indices tensor of rank q >= 1, and batch_dims integer b, this operator gathers slices of data into an output tensor of rank q + r - indices_shape[-1] - 1 - b.
 /// reduce_log_sum - Computes the log sum of the input tensor's elements along the provided axes. 
 /// erf - Computes the error function of the given input tensor element-wise.
+/// reduce_log_sum_exp - Computes the log sum of the exponentials of the input tensor's elements along the provided axes.
 /// layer_normalization - computes the layer normalization of the input tensor.
 /// split - Split a tensor into a list of tensors, along the specified ‘axis’. 
 /// random_uniform_like - RandomUniformLike generates a tensor with random values using a uniform distribution, matching the shape of the input tensor.
@@ -128,6 +130,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// optional - Constructs an optional-type value containing either an empty optional of a certain type specified by the attribute, or a non-empty value containing the input element.
 /// dynamic_quantize_linear - Computes the Scale, Zero Point and FP32->8Bit conversion of FP32 Input data. 
 /// scatter_nd - The output of the operation is produced by creating a copy of the input data, and then updating its value to values specified by updates at specific index positions specified by indices. Its output shape is the same as the shape of data
+/// label_encoder - Maps each element in the input tensor to another value.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -275,7 +278,7 @@ trait TensorTrait<T> {
     ///    fn min(tensors: Span<Tensor<T>>) -> Tensor<T>;
     /// ```
     ///
-    /// Returns the element-wise minumum values from a list of input tensors
+    /// Returns the element-wise minimum values from a list of input tensors
     /// The input tensors must have either:
     /// * Exactly the same shape
     /// * The same number of dimensions and the length of each dimension is either a common length or 1.
@@ -2578,7 +2581,7 @@ trait TensorTrait<T> {
     ///
     /// It consumes two quantized input tensors, their scales and zero points, scale and zero point of output, and computes the quantized output. 
     /// The quantization formula is y = saturate((x / y_scale) + y_zero_point).
-    /// It perfoms the addition of the two vectors once dequantized, then return the quantization of the result of the addition.
+    /// It performs the addition of the two vectors once dequantized, then return the quantization of the result of the addition.
     /// The broadcasting is supported
     /// Scale and zero point must have same shape and the same type. They must be either scalar (per tensor) or N-D tensor (per row for 'a' and per column for 'b'). 
     /// Scalar refers to per tensor quantization whereas N-D refers to per row or per column quantization.
@@ -2676,7 +2679,7 @@ trait TensorTrait<T> {
     ///
     /// It consumes two quantized input tensors, their scales and zero points, scale and zero point of output, and computes the quantized output. 
     /// The quantization formula is y = saturate((x / y_scale) + y_zero_point).
-    /// It perfoms the element-wise multiplication of the two vectors once dequantized, then return the quantization of the result of the multiplication.
+    /// It performs the element-wise multiplication of the two vectors once dequantized, then return the quantization of the result of the multiplication.
     /// The broadcasting is supported
     /// Scale and zero point must have same shape and the same type. They must be either scalar (per tensor) or N-D tensor (per row for 'a' and per column for 'b'). 
     /// Scalar refers to per tensor quantization whereas N-D refers to per row or per column quantization.
@@ -2783,7 +2786,7 @@ trait TensorTrait<T> {
     ///
     /// It consumes two quantized input tensors, their scales and zero points, scale and zero point of output, and computes the quantized output. 
     /// The quantization formula is y = saturate((x / y_scale) + y_zero_point).
-    /// It perfoms the multiplication of the two vectors once dequantized. If either argument is N-D, N > 2, it is treated as a stack of matrices residing in the last two indexes.
+    /// It performs the multiplication of the two vectors once dequantized. If either argument is N-D, N > 2, it is treated as a stack of matrices residing in the last two indexes.
     /// Then return the quantization of the result of the multiplication.
     /// Scale and zero point must have same shape and the same type. They must be either scalar (per tensor) or N-D tensor (per row for 'a' and per column for 'b'). 
     /// Scalar refers to per tensor quantization whereas N-D refers to per row or per column quantization.
@@ -3298,7 +3301,7 @@ trait TensorTrait<T> {
     ///      [1 1]]
     /// ```
     ///
-    fn squeeze(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T>;
+    fn squeeze(self: @Tensor<T>, axes: Option<Span<u32>>) -> Tensor<T>;
     /// # tensor.clip
     ///
     /// ```rust 
@@ -4795,6 +4798,68 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn reduce_log_sum(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
+    /// ## tensor.reduce_log_sum_exp 
+    ///
+    /// ```rust 
+    ///    fn reduce_log_sum_exp(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>; 
+    /// ```
+    ///
+    /// Computes the log sum of the exponentials of the input tensor's elements along the provided axes. 
+    /// 
+    /// ## Args 
+    /// * 'self'(`@Tensor<T>`) - The input tensor.
+    /// * 'axis'(`usize`) - The dimension to reduce.
+    /// * 'keepdims'(`bool`) - If true, retains reduced dimensions with length 1.
+    ///
+    /// ## Panics 
+    ///
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// ## Returns 
+    ///
+    /// Returns a new `Tensor<T>` instance with the specified axis reduced by summing its elements.
+    ///
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor};
+    /// use orion::operators::tensor::FP32x32Tensor;
+    /// use orion::numbers::{FixedTrait, FP32x32};
+    ///
+    /// fn reduce_log_sum_exp() -> Tensor<FP32x32> {
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(3);
+    ///     shape.append(2);
+    ///     shape.append(2);
+    ///
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(FP32x32 { mag: 4294967296, sign: false });
+    ///     data.append(FP32x32 { mag: 8589934592, sign: false });
+    ///     data.append(FP32x32 { mag: 12884901888, sign: false });
+    ///     data.append(FP32x32 { mag: 17179869184, sign: false });
+    ///     data.append(FP32x32 { mag: 21474836480, sign: false });
+    ///     data.append(FP32x32 { mag: 25769803776, sign: false });
+    ///     data.append(FP32x32 { mag: 30064771072, sign: false });
+    ///     data.append(FP32x32 { mag: 34359738368, sign: false });
+    ///     data.append(FP32x32 { mag: 38654705664, sign: false });
+    ///     data.append(FP32x32 { mag: 42949672960, sign: false });
+    ///     data.append(FP32x32 { mag: 47244640256, sign: false });
+    ///     data.append(FP32x32 { mag: 51539607552, sign: false });
+    ///     TensorTrait::new(shape.span(), data.span())
+    ///
+    ///     let tensor = TensorTrait::<FP32x32>::new(shape.span(), data.span());
+    ///
+    ///     return tensor.reduce_log_sum_exp(axis: 2, keepdims: false);
+    ///
+    ///  }   
+    ///  
+    ///    
+    /// >>> [[9215828, 16323477, 20115004], [22716772, 24699744, 26302432]]
+    /// ``` 
+    ///
+    fn reduce_log_sum_exp(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
     /// ## tensor.erf
     ///
     /// ```rust 
@@ -5224,7 +5289,10 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn reverse_sequence(
-        self: @Tensor<T>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+        self: @Tensor<T>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
     ) -> Tensor<T>;
     /// # tensor.scatter_nd
     ///
@@ -5304,10 +5372,7 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn scatter_nd(
-        self: @Tensor<T>,
-        updates: Tensor<T>,
-        indices: Tensor<usize>,
-        reduction: Option<usize>
+        self: @Tensor<T>, updates: Tensor<T>, indices: Tensor<usize>, reduction: Option<usize>
     ) -> Tensor<T>;
     /// # tensor.dynamic_quantize_linear
     /// 
@@ -5364,9 +5429,7 @@ trait TensorTrait<T> {
     /// >>> ([133, 233, 236, 255, -18, -0], [0.02745], [128]
     /// ```
     ///
-    fn dynamic_quantize_linear(
-        self: @Tensor<T>
-    ) -> (Tensor<u32>, Tensor<T>, Tensor<T>);
+    fn dynamic_quantize_linear(self: @Tensor<T>) -> (Tensor<u32>, Tensor<T>, Tensor<T>);
     /// # tensor.optional
     ///
     /// ```rust 
@@ -5664,7 +5727,129 @@ trait TensorTrait<T> {
     /// >>> [[[[7299130, 4884492]], [[2339070, 1559536]], [[3448557, 984617]], [[5745934, 3670947]], [[4665989, 3079292]], [[3375288, 948254]], [[3749966, 4911069]], [[1358829, 4368105]]]]
     /// ```
     ///
-    fn random_uniform_like(tensor: @Tensor<T>, high: Option<T>, low: Option<T>, seed: Option<usize>) -> Tensor<T>;
+    fn random_uniform_like(
+        tensor: @Tensor<T>, high: Option<T>, low: Option<T>, seed: Option<usize>
+    ) -> Tensor<T>;
+    /// # tensor.label_encoder
+    /// 
+    /// ```rust
+    /// fn label_encoder(self: @Tensor<T>, default_list: Option<Span<T>>, default_tensor: Option<Tensor<T>>, keys: Option<Span<T>>, keys_tensor: Option<Tensor<T>>, values: Option<Span<T>>, values_tensor: Option<Tensor<T>>) -> Tensor<T>;
+    /// ```
+    /// 
+    /// Maps each element in the input tensor to another value.
+    ///
+    /// The mapping is determined by the two parallel attributes, 'keys_' and 'values_' attribute. 
+    /// The i-th value in the specified 'keys_' attribute would be mapped to the i-th value in the specified 'values_' attribute.
+    ///  It implies that input's element type and the element type of the specified 'keys_' should be identical while the output type is identical to the specified 'values_' attribute.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `default_list`(`Option<Span<T>>`) - The default span.
+    /// * `default_tensor`(`Option<Tensor<T>>`) - The default tensor.
+    /// * `keys`(`Option<Span<T>>`) - The keys span.
+    /// * `keys_tensor`(`Option<Tensor<T>>`) - The keys tensor.
+    /// * `values`(` Option<Span<T>>`) - The values span.
+    /// * `values_tensor`(`Option<Tensor<T>>`) - The values tensor.
+    ///
+    /// One and only one of 'default_*'s should be set
+    /// One and only one of 'keys*'s should be set
+    ///  One and only one of 'values*'s should be set.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the len/shape of keys and values are not the same.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` which maps each element in the input tensor to another value..
+    ///
+    /// ## Type Constraints
+    ///
+    /// * `T` in (`Tensor<FP>`, `Tensor<i8>`, `Tensor<i32>`, `tensor<u32>,`)
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::U32Tensor;
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn label_encoder_example() -> Tensor<T>,  {
+    ///    fn data() -> Tensor<u32> {
+    ///        let mut sizes = ArrayTrait::new();
+    ///        sizes.append(2);
+    ///        sizes.append(3);
+    ///        let mut data = ArrayTrait::new();
+    ///        data.append(1);
+    ///        data.append(2);
+    ///        data.append(3);
+    ///        data.append(1);
+    ///        data.append(4);
+    ///        data.append(5);
+    ///
+    ///        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
+    ///        return tensor;
+    ///    }
+    ///
+    ///    fn keys() -> Tensor<u32> {
+    ///        let mut sizes = ArrayTrait::new();
+    ///        sizes.append(3);
+    ///        sizes.append(1);
+    ///
+    ///        let mut data = ArrayTrait::new();
+    ///        data.append(1);
+    ///        data.append(2);
+    ///        data.append(1);
+    ///
+    ///        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
+    ///        return tensor;
+    ///    }
+    ///
+    ///    fn values() -> Tensor<u32> {
+    ///        let mut sizes = ArrayTrait::new();
+    ///        sizes.append(3);
+    ///        sizes.append(1);
+    ///
+    ///        let mut data = ArrayTrait::new();
+    ///        data.append(8);
+    ///        data.append(9);
+    ///        data.append(7);
+    ///
+    ///        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
+    ///        return tensor;
+    ///    }
+    ///
+    ///    fn default() -> Tensor<u32> {
+    ///        let mut sizes = ArrayTrait::new();
+    ///        sizes.append(1);
+    ///
+    ///        let mut data = ArrayTrait::new();
+    ///        data.append(999);
+    ///
+    ///        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
+    ///        return tensor;
+    ///    }
+    ///
+    ///    let data = data();
+    ///    let keys = keys();
+    ///    let values = values();
+    ///    let default = default();
+    ///    return data.label_encoder(default_list: Option::None, default_tensor: Option::Some(default),
+    ///         keys: Option::None, keys_tensor: Option::Some(keys),  
+    ///         values: Option::None, values_tensor: Option::Some(values));
+    /// >>> [7, 9, 999, 7, 999, 999],
+    /// ```
+    ///
+    fn label_encoder(
+        self: @Tensor<T>,
+        default_list: Option<Span<T>>,
+        default_tensor: Option<Tensor<T>>,
+        keys: Option<Span<T>>,
+        keys_tensor: Option<Tensor<T>>,
+        values: Option<Span<T>>,
+        values_tensor: Option<Tensor<T>>
+    ) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring
@@ -5743,32 +5928,21 @@ fn unravel_index(index: usize, mut shape: Span<usize>) -> Span<usize> {
 
 /// Cf: TensorTrait::stride docstring
 fn stride(mut shape: Span<usize>) -> Span<usize> {
-    let shape_len = shape.len();
-    assert(shape_len > 0, 'shape cannot be empty');
-
-    let mut result: Array<usize> = ArrayTrait::new();
-    let mut accumulated: usize = 1;
-    let mut temp_result = ArrayTrait::new();
+    let mut strides = ArrayTrait::new();
+    let mut stride = 1;
     loop {
         match shape.pop_back() {
-            Option::Some(i) => {
-                temp_result.append(accumulated);
-                accumulated *= *i;
+            Option::Some(size) => {
+                strides.append(stride);
+                stride *= *size;
             },
             Option::None => { break; }
         };
     };
 
-    let mut temp_result = temp_result.span();
-    loop {
-        match temp_result.pop_back() {
-            Option::Some(val) => { result.append(*val); },
-            Option::None => { break; }
-        };
-    };
-
-    return result.span();
+    strides.reverse().span()
 }
+
 
 /// Cf: TensorTrait::reshape docstring
 fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
@@ -6051,7 +6225,7 @@ fn nonzero<
 }
 
 /// Cf: TensorTrait::squeeze docstring
-fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
+fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<u32>>) -> Tensor<T> {
     let target_shape = match axes {
         Option::Some(mut axes) => {
             let mut axis_squeezed = 0;
@@ -6060,7 +6234,7 @@ fn squeeze<T>(self: @Tensor<T>, axes: Option<Span<i32>>) -> Tensor<T> {
                 match axes.pop_front() {
                     Option::Some(axis) => {
                         let mut reshape: Array<usize> = ArrayTrait::new();
-                        let mut index = 0_i32;
+                        let mut index = 0;
                         let axis = if *axis < 0 {
                             assert(
                                 *axis <= (*self.shape).len().into(), 'axis out of accepted range'

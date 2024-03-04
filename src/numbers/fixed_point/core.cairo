@@ -33,6 +33,7 @@
 /// sinh - Returns the value of the hyperbolic sine of the fixed point number.
 /// tanh - Returns the value of the hyperbolic tangent of the fixed point number.
 /// sign - Returns the element-wise indication of the sign of the input fixed point number.
+/// erf - Returns the error function of the input fixed point number computed element-wise.
 /// 
 trait FixedTrait<T, MAG> {
     /// # FixedTrait::new

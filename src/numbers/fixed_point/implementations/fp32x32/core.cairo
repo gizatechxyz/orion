@@ -1,177 +1,174 @@
 use core::debug::PrintTrait;
 
-use core::option::OptionTrait;
-use core::result::{ResultTrait, ResultTraitImpl};
-use core::traits::{TryInto, Into};
-
 use cubit::f64 as fp32x32;
 use cubit::f64::Fixed as FP32x32;
 use cubit::f64::{ONE, HALF};
 use cubit::f64::types::fixed;
 
-use orion::numbers::fixed_point::implementations::fp32x32::erf;
 use orion::numbers::fixed_point::core::{FixedTrait};
+use orion::numbers::fixed_point::implementations::fp32x32::erf;
 use orion::numbers::fixed_point::utils;
 
 const MAX: u64 = 9223372036854775808;
 
 impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     fn ZERO() -> FP32x32 {
-        return FP32x32 { mag: 0, sign: false };
+        FP32x32 { mag: 0, sign: false }
     }
 
     fn HALF() -> FP32x32 {
-        return FP32x32 { mag: HALF, sign: false };
+        FP32x32 { mag: HALF, sign: false }
     }
 
     fn ONE() -> FP32x32 {
-        return FP32x32 { mag: ONE, sign: false };
+        FP32x32 { mag: ONE, sign: false }
     }
 
     fn MAX() -> FP32x32 {
-        return FP32x32 { mag: MAX, sign: false };
+        FP32x32 { mag: MAX, sign: false }
     }
 
     fn new(mag: u64, sign: bool) -> FP32x32 {
-        return FP32x32 { mag: mag, sign: sign };
+        FP32x32 { mag: mag, sign: sign }
     }
 
     fn new_unscaled(mag: u64, sign: bool) -> FP32x32 {
-        return FP32x32 { mag: mag * ONE, sign: sign };
+        FP32x32 { mag: mag * ONE, sign: sign }
     }
 
     fn from_felt(val: felt252) -> FP32x32 {
         let mag = core::integer::u64_try_from_felt252(utils::felt_abs(val)).unwrap();
-        return FixedTrait::new(mag, utils::felt_sign(val));
+
+        FixedTrait::new(mag, utils::felt_sign(val))
     }
 
     fn abs(self: FP32x32) -> FP32x32 {
-        return fp32x32::ops::abs(self);
+        fp32x32::ops::abs(self)
     }
 
     fn acos(self: FP32x32) -> FP32x32 {
-        return fp32x32::trig::acos_fast(self);
+        fp32x32::trig::acos_fast(self)
     }
 
     fn acos_fast(self: FP32x32) -> FP32x32 {
-        return fp32x32::trig::acos_fast(self);
+        fp32x32::trig::acos_fast(self)
     }
 
     fn acosh(self: FP32x32) -> FP32x32 {
-        return fp32x32::hyp::acosh(self);
+        fp32x32::hyp::acosh(self)
     }
 
     fn asin(self: FP32x32) -> FP32x32 {
-        return fp32x32::trig::asin_fast(self);
+        fp32x32::trig::asin_fast(self)
     }
 
     fn asin_fast(self: FP32x32) -> FP32x32 {
-        return fp32x32::trig::asin_fast(self);
+        fp32x32::trig::asin_fast(self)
     }
 
     fn asinh(self: FP32x32) -> FP32x32 {
-        return fp32x32::hyp::asinh(self);
+        fp32x32::hyp::asinh(self)
     }
 
     fn atan(self: FP32x32) -> FP32x32 {
-        return fp32x32::trig::atan_fast(self);
+        fp32x32::trig::atan_fast(self)
     }
 
     fn atan_fast(self: FP32x32) -> FP32x32 {
-        return fp32x32::trig::atan_fast(self);
+        fp32x32::trig::atan_fast(self)
     }
 
     fn atanh(self: FP32x32) -> FP32x32 {
-        return fp32x32::hyp::atanh(self);
+        fp32x32::hyp::atanh(self)
     }
 
     fn ceil(self: FP32x32) -> FP32x32 {
-        return fp32x32::ops::ceil(self);
+        fp32x32::ops::ceil(self)
     }
 
     fn cos(self: FP32x32) -> FP32x32 {
-        return fp32x32::trig::cos_fast(self);
+        fp32x32::trig::cos_fast(self)
     }
 
     fn cos_fast(self: FP32x32) -> FP32x32 {
-        return fp32x32::trig::cos_fast(self);
+        fp32x32::trig::cos_fast(self)
     }
 
     fn cosh(self: FP32x32) -> FP32x32 {
-        return fp32x32::hyp::cosh(self);
+        fp32x32::hyp::cosh(self)
     }
 
     fn floor(self: FP32x32) -> FP32x32 {
-        return fp32x32::ops::floor(self);
+        fp32x32::ops::floor(self)
     }
 
     // Calculates the natural exponent of x: e^x
     fn exp(self: FP32x32) -> FP32x32 {
-        return fp32x32::ops::exp(self);
+        fp32x32::ops::exp(self)
     }
 
     // Calculates the binary exponent of x: 2^x
     fn exp2(self: FP32x32) -> FP32x32 {
-        return fp32x32::ops::exp2(self);
+        fp32x32::ops::exp2(self)
     }
 
     // Calculates the natural logarithm of x: ln(x)
     // self must be greater than zero
     fn ln(self: FP32x32) -> FP32x32 {
-        return fp32x32::ops::ln(self);
+        fp32x32::ops::ln(self)
     }
 
     // Calculates the binary logarithm of x: log2(x)
     // self must be greather than zero
     fn log2(self: FP32x32) -> FP32x32 {
-        return fp32x32::ops::log2(self);
+        fp32x32::ops::log2(self)
     }
 
     // Calculates the base 10 log of x: log10(x)
     // self must be greater than zero
     fn log10(self: FP32x32) -> FP32x32 {
-        return fp32x32::ops::log10(self);
+        fp32x32::ops::log10(self)
     }
 
     // Calclates the value of x^y and checks for overflow before returning
     // self is a fixed point value
     // b is a fixed point value
     fn pow(self: FP32x32, b: FP32x32) -> FP32x32 {
-        return fp32x32::ops::pow(self, b);
+        fp32x32::ops::pow(self, b)
     }
 
     fn round(self: FP32x32) -> FP32x32 {
-        return fp32x32::ops::round(self);
+        fp32x32::ops::round(self)
     }
 
     fn sin(self: FP32x32) -> FP32x32 {
-        return fp32x32::trig::sin_fast(self);
+        fp32x32::trig::sin_fast(self)
     }
 
     fn sin_fast(self: FP32x32) -> FP32x32 {
-        return fp32x32::trig::sin_fast(self);
+        fp32x32::trig::sin_fast(self)
     }
 
     fn sinh(self: FP32x32) -> FP32x32 {
-        return fp32x32::hyp::sinh(self);
+        fp32x32::hyp::sinh(self)
     }
 
     // Calculates the square root of a fixed point value
     // x must be positive
     fn sqrt(self: FP32x32) -> FP32x32 {
-        return fp32x32::ops::sqrt(self);
+        fp32x32::ops::sqrt(self)
     }
 
     fn tan(self: FP32x32) -> FP32x32 {
-        return fp32x32::trig::tan_fast(self);
+        fp32x32::trig::tan_fast(self)
     }
 
     fn tan_fast(self: FP32x32) -> FP32x32 {
-        return fp32x32::trig::tan_fast(self);
+        fp32x32::trig::tan_fast(self)
     }
 
     fn tanh(self: FP32x32) -> FP32x32 {
-        return fp32x32::hyp::tanh(self);
+        fp32x32::hyp::tanh(self)
     }
 
     fn sign(self: FP32x32) -> FP32x32 {
@@ -179,7 +176,7 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     }
 
     fn NaN() -> FP32x32 {
-        return FP32x32 { mag: 0, sign: true };
+        FP32x32 { mag: 0, sign: true }
     }
 
     fn is_nan(self: FP32x32) -> bool {
@@ -187,15 +184,15 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     }
 
     fn INF() -> FP32x32 {
-        return FP32x32 { mag: 4294967295, sign: false };
+        FP32x32 { mag: 4294967295, sign: false }
     }
 
     fn POS_INF() -> FP32x32 {
-        return FP32x32 { mag: 4294967295, sign: false };
+        FP32x32 { mag: 4294967295, sign: false }
     }
 
     fn NEG_INF() -> FP32x32 {
-        return FP32x32 { mag: 4294967295, sign: true };
+        FP32x32 { mag: 4294967295, sign: true }
     }
 
     fn is_inf(self: FP32x32) -> bool {
@@ -211,10 +208,9 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     }
 
     fn erf(self: FP32x32) -> FP32x32 {
-        return erf::erf(self);
+        erf::erf(self)
     }
 }
-
 
 impl FP32x32Print of PrintTrait<FP32x32> {
     fn print(self: FP32x32) {
@@ -229,9 +225,9 @@ impl FP32x32IntoFelt252 of Into<FP32x32, felt252> {
         let mag_felt = self.mag.into();
 
         if self.sign {
-            return mag_felt * -1;
+            mag_felt * -1
         } else {
-            return mag_felt * 1;
+            mag_felt * 1
         }
     }
 }
@@ -239,10 +235,10 @@ impl FP32x32IntoFelt252 of Into<FP32x32, felt252> {
 impl FP32x32TryIntoU64 of TryInto<FP32x32, u64> {
     fn try_into(self: FP32x32) -> Option<u64> {
         if self.sign {
-            return Option::None(());
+            Option::None(())
         } else {
             // Unscale the magnitude and round down
-            return Option::Some((self.mag / ONE).into());
+            Option::Some((self.mag / ONE).into())
         }
     }
 }
@@ -253,7 +249,7 @@ impl FP32x32TryIntoU16 of TryInto<FP32x32, u16> {
             Option::None(())
         } else {
             // Unscale the magnitude and round down
-            return (self.mag / ONE).try_into();
+            (self.mag / ONE).try_into()
         }
     }
 }
@@ -264,7 +260,7 @@ impl FP32x32TryIntoU32 of TryInto<FP32x32, u32> {
             Option::None(())
         } else {
             // Unscale the magnitude and round down
-            return (self.mag / ONE).try_into();
+            (self.mag / ONE).try_into()
         }
     }
 }
@@ -275,7 +271,7 @@ impl FP32x32TryIntoU8 of TryInto<FP32x32, u8> {
             Option::None(())
         } else {
             // Unscale the magnitude and round down
-            return (self.mag / ONE).try_into();
+            (self.mag / ONE).try_into()
         }
     }
 }
@@ -300,7 +296,7 @@ impl FP32x32TryIntoI8 of TryInto<FP32x32, i8> {
 
 impl FP32x32Add of Add<FP32x32> {
     fn add(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
-        return fp32x32::ops::add(lhs, rhs);
+        fp32x32::ops::add(lhs, rhs)
     }
 }
 
@@ -313,7 +309,7 @@ impl FP32x32AddEq of AddEq<FP32x32> {
 
 impl FP32x32Sub of Sub<FP32x32> {
     fn sub(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
-        return fp32x32::ops::sub(lhs, rhs);
+        fp32x32::ops::sub(lhs, rhs)
     }
 }
 
@@ -326,7 +322,7 @@ impl FP32x32SubEq of SubEq<FP32x32> {
 
 impl FP32x32Mul of Mul<FP32x32> {
     fn mul(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
-        return fp32x32::ops::mul(lhs, rhs);
+        fp32x32::ops::mul(lhs, rhs)
     }
 }
 
@@ -339,7 +335,7 @@ impl FP32x32MulEq of MulEq<FP32x32> {
 
 impl FP32x32Div of Div<FP32x32> {
     fn div(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
-        return fp32x32::ops::div(lhs, rhs);
+        fp32x32::ops::div(lhs, rhs)
     }
 }
 
@@ -353,45 +349,44 @@ impl FP32x32DivEq of DivEq<FP32x32> {
 impl FP32x32PartialOrd of PartialOrd<FP32x32> {
     #[inline(always)]
     fn ge(lhs: FP32x32, rhs: FP32x32) -> bool {
-        return fp32x32::ops::ge(lhs, rhs);
+        fp32x32::ops::ge(lhs, rhs)
     }
 
     #[inline(always)]
     fn gt(lhs: FP32x32, rhs: FP32x32) -> bool {
-        return fp32x32::ops::gt(lhs, rhs);
+        fp32x32::ops::gt(lhs, rhs)
     }
 
     #[inline(always)]
     fn le(lhs: FP32x32, rhs: FP32x32) -> bool {
-        return fp32x32::ops::le(lhs, rhs);
+        fp32x32::ops::le(lhs, rhs)
     }
 
     #[inline(always)]
     fn lt(lhs: FP32x32, rhs: FP32x32) -> bool {
-        return fp32x32::ops::lt(lhs, rhs);
+        fp32x32::ops::lt(lhs, rhs)
     }
 }
 
 impl FP32x32Neg of Neg<FP32x32> {
     #[inline(always)]
     fn neg(a: FP32x32) -> FP32x32 {
-        return fp32x32::ops::neg(a);
+        fp32x32::ops::neg(a)
     }
 }
 
 impl FP32x32Rem of Rem<FP32x32> {
     #[inline(always)]
     fn rem(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
-        return fp32x32::ops::rem(lhs, rhs);
+        fp32x32::ops::rem(lhs, rhs)
     }
 }
 
 fn eq(a: @FP32x32, b: @FP32x32) -> bool {
-    return (*a.mag == *b.mag) && (*a.sign == *b.sign);
+    (*a.mag == *b.mag) && (*a.sign == *b.sign)
 }
 
 /// INTERNAL
-
 fn _i8_try_from_fp(x: FP32x32) -> Option<i8> {
     let unscaled_mag: Option<u8> = (x.mag / ONE).try_into();
 

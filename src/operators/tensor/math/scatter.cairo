@@ -1,18 +1,10 @@
 use alexandria_data_structures::array_ext::SpanTraitExt;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-
-use core::traits::Into;
-use core::debug::PrintTrait;
-use core::traits::TryInto;
-use core::serde::Serde;
-use core::traits::Destruct;
-use core::option::OptionTrait;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 use core::dict::Felt252DictTrait;
 use core::nullable::{nullable_from_box, match_nullable, FromNullableResult};
+
 /// Cf: TensorTrait::scatter docstring
 fn scatter<
     T,
@@ -57,7 +49,7 @@ fn scatter<
         'shape must be same'
     );
 
-    let mut output_data = ArrayTrait::new();
+    let mut output_data = array![];
     let mut data_indices = indices.data;
     let mut data_updates = updates.data;
     let mut indices_updates: Felt252Dict<usize> = Default::default();
@@ -68,25 +60,20 @@ fn scatter<
     *data_shape_copy.pop_front().unwrap();
     *indices_shape_copy.pop_front().unwrap();
 
-
     let mut indices_loop: usize = 1;
     let mut data_loop: usize = 1;
 
     if (axis == 0) {
         loop {
             match indices_shape_copy.pop_front() {
-                Option::Some(val) => {
-                    indices_loop *= *val;
-                },
+                Option::Some(val) => { indices_loop *= *val; },
                 Option::None => { break; }
             };
         };
 
         loop {
             match data_shape_copy.pop_front() {
-                Option::Some(val) => {
-                    data_loop *= *val;
-                },
+                Option::Some(val) => { data_loop *= *val; },
                 Option::None => { break; }
             };
         };
@@ -140,7 +127,7 @@ fn scatter<
                 if (reduction == 'none') {
                     indices_updates.insert(result.into(), value.into());
                 } else {
-                    let mut arr = ArrayTrait::new();
+                    let mut arr = array![];
 
                     let val = indices_updates_reduction.get(result.into());
                     let mut a = ArrayTrait::new();
@@ -155,10 +142,12 @@ fn scatter<
                             Option::None => { break; }
                         };
                     };
+
                     arr.append(total_count);
                     indices_updates_reduction
                         .insert(result.into(), nullable_from_box(BoxTrait::new(arr.span())));
                 }
+
                 total_count += 1;
             },
             Option::None => { break; }
@@ -180,7 +169,7 @@ fn scatter<
                     }
                 } else {
                     let value = indices_updates_reduction.get(i.into());
-                    let mut a = ArrayTrait::new();
+                    let mut a = array![];
                     let mut span = match match_nullable(value) {
                         FromNullableResult::Null(()) => a.span(),
                         FromNullableResult::NotNull(value) => value.unbox(),
@@ -199,6 +188,7 @@ fn scatter<
                                     Option::None => { break; }
                                 };
                             };
+
                             output_data.append(result);
                         }
 
@@ -209,6 +199,7 @@ fn scatter<
                                     Option::None => { break; }
                                 };
                             };
+
                             output_data.append(result);
                         }
 
@@ -224,6 +215,7 @@ fn scatter<
                                     Option::None => { break; }
                                 };
                             };
+
                             output_data.append(result);
                         }
 
@@ -239,6 +231,7 @@ fn scatter<
                                     Option::None => { break; }
                                 };
                             };
+
                             output_data.append(result);
                         }
                     }
@@ -252,9 +245,9 @@ fn scatter<
 
     let mut output_tensor = TensorTrait::<T>::new(*self.shape, output_data.span());
 
-    if (transpose == true) {
+    if transpose {
         output_tensor = output_tensor.transpose(axes: array![0, 2, 1].span())
     }
 
-    return output_tensor;
+    output_tensor
 }

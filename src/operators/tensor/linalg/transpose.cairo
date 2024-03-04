@@ -1,6 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-
 use orion::operators::tensor::core::{
     new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape
 };
@@ -24,25 +21,18 @@ fn transpose<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: D
     let output_shape = permutation_output_shape(*self.shape, axes);
     let output_data_len = len_from_shape(output_shape);
 
-    let mut output_data = ArrayTrait::new();
+    let mut output_data: Array<T> = array![];
 
     let mut output_index: usize = 0;
-    loop {
-        if output_index == output_data_len {
-            break ();
-        }
-
+    while output_index != output_data_len {
         let output_indices = unravel_index(output_index, output_shape);
-        let mut input_indices = ArrayTrait::new();
+        let mut input_indices: Array<u32> = array![];
 
         let mut output_axis: usize = 0;
-        loop {
-            if output_axis == axes.len() {
-                break ();
-            }
-
+        while output_axis != axes.len() {
             let input_axis = find_axis(axes, output_axis);
             input_indices.append(*output_indices[input_axis]);
+
             output_axis += 1;
         };
 
@@ -52,39 +42,32 @@ fn transpose<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: D
         output_index += 1;
     };
 
-    return TensorTrait::new(output_shape, output_data.span());
+    TensorTrait::new(output_shape, output_data.span())
 }
-
 
 fn transpose2D<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     self: @Tensor<T>
 ) -> Tensor<T> {
     assert((*self.shape).len() == 2, 'transpose a 2D tensor');
 
-    let mut output_data = ArrayTrait::new();
-    let mut output_shape = ArrayTrait::new();
+    let mut output_data: Array<T> = array![];
 
     let n = *self.shape[0];
     let m = *self.shape[1];
 
-    output_shape.append(m);
-    output_shape.append(n);
+    let mut output_shape: Array<u32> = array![m, n];
 
     let mut j: usize = 0;
-    loop {
-        if j == m {
-            break ();
-        }
+    while j != m {
         let mut i = 0;
-        loop {
-            if i == n {
-                break ();
-            }
+        while i != n {
             output_data.append(*(*self.data)[i * m + j]);
+
             i += 1;
         };
+
         j += 1;
     };
 
-    return TensorTrait::new(output_shape.span(), output_data.span());
+    TensorTrait::new(output_shape.span(), output_data.span())
 }

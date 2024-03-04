@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::option::OptionTrait;
-use core::array::SpanTrait;
-
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::NumberTrait;
 
@@ -23,7 +19,7 @@ fn binarizer<
         NumberTrait::zero()
     };
 
-    let mut binarized_data = ArrayTrait::<T>::new();
+    let mut binarized_data: Array<T> = array![];
 
     loop {
         match self.data.pop_front() {
@@ -38,5 +34,5 @@ fn binarizer<
         };
     };
 
-    return TensorTrait::new(self.shape, binarized_data.span());
+    TensorTrait::new(self.shape, binarized_data.span())
 }

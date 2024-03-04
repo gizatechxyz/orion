@@ -1,6 +1,3 @@
-use core::array::{ArrayTrait, SpanTrait};
-use core::option::OptionTrait;
-
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::{NumberTrait, I32IntoU32, U32IntoI32};
 
@@ -17,15 +14,16 @@ fn sequence_at<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
     let position_value: u32 = position_value_i32.into();
 
     assert(
-        (is_negative == false && position_value <= sequence.len() - 1)
-            || (is_negative == true && position_value <= sequence.len()),
+        (!is_negative && position_value <= sequence.len() - 1)
+            || (is_negative && position_value <= sequence.len()),
         'Position out of bounds'
     );
 
-    if is_negative == false {
-        return *sequence.at(position_value);
+    if !is_negative {
+        *sequence.at(position_value)
     } else {
         let normalized_position_value = sequence.len() - position_value;
-        return *sequence.at(normalized_position_value);
+
+        *sequence.at(normalized_position_value)
     }
 }

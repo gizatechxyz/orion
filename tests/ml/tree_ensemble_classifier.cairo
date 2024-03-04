@@ -12,7 +12,7 @@ use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
 fn test_tree_ensemble_classifier_multi_pt_none() {
     let (mut classifier, X) = tree_ensemble_classifier_helper(POST_TRANSFORM::NONE);
 
-    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 0, 'labels[0]');
@@ -64,7 +64,7 @@ fn test_tree_ensemble_classifier_multi_pt_none() {
 fn test_tree_ensemble_classifier_multi_pt_softmax() {
     let (mut classifier, X) = tree_ensemble_classifier_helper(POST_TRANSFORM::SOFTMAX);
 
-    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 0, 'labels[0]');
@@ -116,7 +116,7 @@ fn test_tree_ensemble_classifier_multi_pt_softmax() {
 fn test_tree_ensemble_classifier_multi_pt_softmax_zero() {
     let (mut classifier, X) = tree_ensemble_classifier_helper(POST_TRANSFORM::SOFTMAXZERO);
 
-    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 0, 'labels[0] == 0');
@@ -169,7 +169,7 @@ fn test_tree_ensemble_classifier_multi_pt_softmax_zero() {
 fn test_tree_ensemble_classifier_multi_pt_logistic() {
     let (mut classifier, X) = tree_ensemble_classifier_helper(POST_TRANSFORM::LOGISTIC);
 
-    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 0, 'labels[0] == 0');
@@ -221,7 +221,7 @@ fn test_tree_ensemble_classifier_multi_pt_logistic() {
 fn test_tree_ensemble_classifier_binary_none() {
     let (mut classifier, X) = tree_ensemble_classifier_binary_class_helper(POST_TRANSFORM::NONE);
 
-    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 1, 'labels[0]');
@@ -245,7 +245,7 @@ fn test_tree_ensemble_classifier_binary_logistic() {
         POST_TRANSFORM::LOGISTIC
     );
 
-    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 1, 'labels[0]');
@@ -267,7 +267,7 @@ fn test_tree_ensemble_classifier_binary_logistic() {
 fn test_tree_ensemble_classifier_binary_softmax() {
     let (mut classifier, X) = tree_ensemble_classifier_binary_class_helper(POST_TRANSFORM::SOFTMAX);
 
-    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 1, 'labels[0]');
@@ -291,7 +291,7 @@ fn test_tree_ensemble_classifier_binary_softmax_zero() {
         POST_TRANSFORM::SOFTMAXZERO
     );
 
-    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
+    let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(classifier, X);
 
     // ASSERT LABELS
     assert(*labels[0] == 1, 'labels[0]');
@@ -313,7 +313,7 @@ fn test_tree_ensemble_classifier_binary_softmax_zero() {
 // fn test_tree_ensemble_classifier_binary_probit() {
 //     let (mut classifier, X) = tree_ensemble_classifier_binary_class_helper(POST_TRANSFORM::PROBIT);
 
-//     let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(ref classifier, X);
+//     let (labels, mut scores) = TreeEnsembleClassifierTrait::predict(classifier, X);
 
 //     // ASSERT LABELS
 //     assert(*labels[0] == 1, 'labels[0]');

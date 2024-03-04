@@ -16,7 +16,7 @@
 ) -> Tensor<T>
 ```
 
-The convolution transpose operator consumes an input tensor and a input weigth tensor, and computes the output.
+The convolution transpose operator consumes an input tensor and a input weight tensor, and computes the output.
 
 ## Args
 
