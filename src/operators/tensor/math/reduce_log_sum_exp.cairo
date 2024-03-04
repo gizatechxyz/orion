@@ -5,7 +5,6 @@ use core::debug::PrintTrait;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
-use orion::numbers::signed_integer::integer_trait::IntegerTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::math::{exp::exp_upcast, arithmetic::div_downcast};
 
