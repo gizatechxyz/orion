@@ -4,7 +4,7 @@
    fn min(tensors: Span<Tensor<T>>) -> Tensor<T>;
 ```
 
-Returns the element-wise minumum values from a list of input tensors
+Returns the element-wise minimum values from a list of input tensors
 The input tensors must have either:
 * Exactly the same shape
 * The same number of dimensions and the length of each dimension is either a common length or 1.
