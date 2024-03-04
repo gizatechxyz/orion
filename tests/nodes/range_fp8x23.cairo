@@ -13,7 +13,11 @@ use orion::numbers::{FixedTrait, FP8x23};
 fn test_range_fp8x23() {
     let z_0 = output_0::output_0();
 
-    let y_0 = TensorTrait::range(FP8x23 { mag: 8388608, sign: false },FP8x23 { mag: 41943040, sign: false },FP8x23 { mag: 2516582, sign: false });
+    let y_0 = TensorTrait::range(
+        FP8x23 { mag: 8388608, sign: false },
+        FP8x23 { mag: 41943040, sign: false },
+        FP8x23 { mag: 2516582, sign: false }
+    );
 
     assert_eq(y_0, z_0);
 }

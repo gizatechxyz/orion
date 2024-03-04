@@ -322,7 +322,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<complex64>, axes: Option<Span<i32>>) -> Tensor<complex64> {
+    fn squeeze(self: @Tensor<complex64>, axes: Option<Span<usize>>) -> Tensor<complex64> {
         core_tensor::squeeze(self, axes)
     }
 
@@ -478,6 +478,12 @@ impl Complex64Tensor of TensorTrait<complex64> {
         math::compress::compress(self, condition, axis)
     }
 
+    fn reduce_log_sum_exp(
+        self: @Tensor<complex64>, axis: usize, keepdims: bool
+    ) -> Tensor<complex64> {
+        math::reduce_log_sum_exp::reduce_log_sum_exp(self, axis, keepdims)
+    }
+    
     fn layer_normalization(
         self: @Tensor<complex64>,
         scale: @Tensor<complex64>,
@@ -499,7 +505,10 @@ impl Complex64Tensor of TensorTrait<complex64> {
     }
 
     fn reverse_sequence(
-        self: @Tensor<complex64>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+        self: @Tensor<complex64>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
     ) -> Tensor<complex64> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
@@ -522,10 +531,15 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
-    fn random_uniform_like(tensor: @Tensor<complex64>, high: Option<complex64>, low: Option<complex64>, seed: Option<usize>) -> Tensor<complex64> {
+    fn random_uniform_like(
+        tensor: @Tensor<complex64>,
+        high: Option<complex64>,
+        low: Option<complex64>,
+        seed: Option<usize>
+    ) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }
-    
+
     fn range(start: complex64, end: complex64, step: complex64) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }
@@ -541,17 +555,17 @@ impl Complex64Tensor of TensorTrait<complex64> {
     fn blackman_window(size: complex64, periodic: Option<usize>) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }
-    
+
     fn split_to_sequence(
         self: @Tensor<complex64>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<complex64>> {
         manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
     }
-    
-    fn optional(self: @Tensor<complex64>) -> Option<Tensor<complex64>>{
+
+    fn optional(self: @Tensor<complex64>) -> Option<Tensor<complex64>> {
         manipulation::optional::optional(self)
     }
-    
+
     fn dynamic_quantize_linear(
         self: @Tensor<complex64>
     ) -> (Tensor::<u32>, Tensor::<complex64>, Tensor<complex64>) {

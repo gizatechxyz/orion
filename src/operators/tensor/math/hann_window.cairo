@@ -25,7 +25,9 @@ fn hann_window<
     impl TAddEq: AddEq<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
->(size: T, PI: T, periodic: Option<usize>) -> Tensor<T> {
+>(
+    size: T, PI: T, periodic: Option<usize>
+) -> Tensor<T> {
     let start: T = NumberTrait::zero();
     let one_step: T = NumberTrait::one();
     let ni = TensorTrait::range(start, size, one_step);

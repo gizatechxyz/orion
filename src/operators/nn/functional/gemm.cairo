@@ -1,4 +1,3 @@
-use alexandria_data_structures::array_ext::SpanTraitExt;
 use core::array::SpanTrait;
 
 use orion::numbers::NumberTrait;
@@ -49,16 +48,8 @@ fn gemm<
 
     match C {
         Option::Some(c) => {
-            let broadcast_c_shape = if c.shape.len() == 1 {
-                array![1].span().concat(c.shape)
-            } else {
-                c.shape
-            };
-
-            let c = Tensor { shape: broadcast_c_shape, data: c.data };
-
             return mul_by_scalar(@A.matmul(@B), alpha) + mul_by_scalar(@c, beta);
         },
-        Option::None => { return mul_by_scalar(@A.matmul(@B), alpha); }
+        Option::None(_) => { return mul_by_scalar(@A.matmul(@B), alpha); }
     }
 }

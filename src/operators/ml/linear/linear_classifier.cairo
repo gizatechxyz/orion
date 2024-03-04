@@ -7,7 +7,7 @@ use orion::numbers::NumberTrait;
 use orion::operators::tensor::{I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, FP16x16TensorAdd};
 use orion::numbers::{FP32x32, FP32x32Impl, FixedTrait};
 use orion::operators::nn::{NNTrait, FP16x16NN};
-
+use orion::operators::ml::POST_TRANSFORM;
 
 #[derive(Destruct)]
 struct LinearClassifier<T> {
@@ -18,16 +18,6 @@ struct LinearClassifier<T> {
     post_transform: POST_TRANSFORM,
 }
 
-
-#[derive(Copy, Drop)]
-enum POST_TRANSFORM {
-    NONE,
-    SOFTMAX,
-    LOGISTIC,
-    SOFTMAXZERO,
-    PROBIT,
-}
-
 /// Trait
 ///
 /// predict - Performs the linear classification.
@@ -35,7 +25,7 @@ trait LinearClassifierTrait<T> {
     /// # LinearClassifierTrait::predict
     ///
     /// ```rust 
-    ///    fn predict(ref self: LinearClassifier<T>, X: Tensor<T>) -> Tensor<T>;
+    ///    fn predict(classifier: LinearClassifier<T>, X: Tensor<T>) -> Tensor<T>;
     /// ```
     ///
     /// Linear Classifier. Performs the linear classification.
@@ -119,7 +109,7 @@ trait LinearClassifierTrait<T> {
     /// fn linear_classifier_multi_softmax() -> (Span<usize>, Tensor<FP16x16>) {
     ///     let (mut classifier, X) = linear_classifier_helper(POST_TRANSFORM::SOFTMAX);
     /// 
-    ///     let (labels, mut scores) = LinearClassifierTrait::predict(ref classifier, X);
+    ///     let (labels, mut scores) = LinearClassifierTrait::predict(classifier, X);
     /// 
     ///     (labels, scores)
     /// }
@@ -132,7 +122,7 @@ trait LinearClassifierTrait<T> {
     ///     [0.036323, 0.090237, 0.87344]
     ///  ])
     /// ```
-    fn predict(ref self: LinearClassifier<T>, X: Tensor<T>) -> (Span<usize>, Tensor<T>);
+    fn predict(classifier: LinearClassifier<T>, X: Tensor<T>) -> (Span<usize>, Tensor<T>);
 }
 
 impl LinearClassifierImpl<
@@ -152,17 +142,17 @@ impl LinearClassifierImpl<
     +Add<Tensor<T>>,
     +NNTrait<T>
 > of LinearClassifierTrait<T> {
-    fn predict(ref self: LinearClassifier<T>, X: Tensor<T>) -> (Span<usize>, Tensor<T>) {
-        let n: usize = self.coefficients.len() / *(X.shape).at(1);
+    fn predict(classifier: LinearClassifier<T>, X: Tensor<T>) -> (Span<usize>, Tensor<T>) {
+        let n: usize = classifier.coefficients.len() / *(X.shape).at(1);
         let mut shape = ArrayTrait::<usize>::new();
         shape.append(n);
         shape.append(*(X.shape).at(1));
 
-        let mut coefficients = TensorTrait::new(shape.span(), self.coefficients);
+        let mut coefficients = TensorTrait::new(shape.span(), classifier.coefficients);
         let coefficients = coefficients.transpose(array![1, 0].span());
 
         let mut scores = X.matmul(@coefficients);
-        match self.intercepts {
+        match classifier.intercepts {
             Option::Some(intercepts) => {
                 let mut shape = ArrayTrait::<usize>::new();
                 shape.append(1);
@@ -173,7 +163,7 @@ impl LinearClassifierImpl<
             Option::None => {},
         };
 
-        let (n_classes, classlabels) = match self.classlabels {
+        let (n_classes, classlabels) = match classifier.classlabels {
             Option::Some(classlabels) => { (classlabels.len(), classlabels) },
             Option::None => { (0, ArrayTrait::<usize>::new().span()) },
         };
@@ -192,7 +182,7 @@ impl LinearClassifierImpl<
             scores = TensorTrait::new(array![*scores.shape.at(0), 2].span(), new_scores.span());
         }
         // Post Transform
-        scores = match self.post_transform {
+        scores = match classifier.post_transform {
             POST_TRANSFORM::NONE => { scores },
             POST_TRANSFORM::SOFTMAX => { NNTrait::softmax(@scores, 1) },
             POST_TRANSFORM::LOGISTIC => { NNTrait::sigmoid(@scores) },
@@ -212,7 +202,7 @@ impl LinearClassifierImpl<
             };
         } else {
             let mut i = 0;
-            match self.post_transform {
+            match classifier.post_transform {
                 POST_TRANSFORM::NONE => {
                     loop {
                         if i == scores.data.len() {

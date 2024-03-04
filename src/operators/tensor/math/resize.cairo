@@ -915,9 +915,7 @@ fn interpolate_1d_with_x<
     let mut coeffs = match mode {
         MODE::NEAREST => {
             let coeffs = match antialias {
-                Option::Some => core::panic_with_felt252(
-                    'antialias not for mode NEAREST'
-                ),
+                Option::Some => core::panic_with_felt252('antialias not for mode NEAREST'),
                 Option::None => { nearest_coeffs(ratio, nearest_mode) },
             };
             coeffs
@@ -938,9 +936,7 @@ fn interpolate_1d_with_x<
         },
         MODE::CUBIC => {
             let coeffs = match antialias {
-                Option::Some => {
-                    cubic_coeffs_antialias(ratio, scale_factor, cubic_coeff_a)
-                },
+                Option::Some => { cubic_coeffs_antialias(ratio, scale_factor, cubic_coeff_a) },
                 Option::None => { cubic_coeffs(ratio, cubic_coeff_a) },
             };
             coeffs

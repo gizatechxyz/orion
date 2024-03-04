@@ -62,7 +62,7 @@ impl FP8x23NN of NNTrait<FP8x23> {
     fn depth_to_space(tensor: @Tensor<FP8x23>, blocksize: usize, mode: felt252) -> Tensor<FP8x23> {
         functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
     }
-    
+
     fn space_to_depth(tensor: @Tensor<FP8x23>, blocksize: usize) -> Tensor<FP8x23> {
         functional::space_to_depth::space_to_depth(*tensor, blocksize)
     }
@@ -88,7 +88,7 @@ impl FP8x23NN of NNTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         functional::grid_sample::grid_sample(X, grid, align_corner, mode, padding_mode)
     }
-    
+
     fn col2im(
         data: @Tensor<FP8x23>,
         image_shape: Span<usize>,
@@ -99,7 +99,7 @@ impl FP8x23NN of NNTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         functional::col2im::col2im(data, image_shape, block_shape, dilations, pads, strides,)
     }
-    
+
     fn conv_transpose(
         X: @Tensor<FP8x23>,
         W: @Tensor<FP8x23>,
@@ -127,7 +127,7 @@ impl FP8x23NN of NNTrait<FP8x23> {
             strides
         )
     }
-    
+
     fn conv(
         X: @Tensor<FP8x23>,
         W: @Tensor<FP8x23>,

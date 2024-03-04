@@ -68,25 +68,20 @@ fn scatter<
     *data_shape_copy.pop_front().unwrap();
     *indices_shape_copy.pop_front().unwrap();
 
-
     let mut indices_loop: usize = 1;
     let mut data_loop: usize = 1;
 
     if (axis == 0) {
         loop {
             match indices_shape_copy.pop_front() {
-                Option::Some(val) => {
-                    indices_loop *= *val;
-                },
+                Option::Some(val) => { indices_loop *= *val; },
                 Option::None => { break; }
             };
         };
 
         loop {
             match data_shape_copy.pop_front() {
-                Option::Some(val) => {
-                    data_loop *= *val;
-                },
+                Option::Some(val) => { data_loop *= *val; },
                 Option::None => { break; }
             };
         };

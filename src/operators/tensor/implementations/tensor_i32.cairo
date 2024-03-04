@@ -82,6 +82,7 @@ impl I32Tensor of TensorTrait<i32> {
         math::reduce_sum::reduce_sum(self, axis, keepdims)
     }
 
+
     fn reduce_prod(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         math::reduce_prod::reduce_prod(self, axis, keepdims)
     }
@@ -353,7 +354,7 @@ impl I32Tensor of TensorTrait<i32> {
         core_tensor::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<i32>, axes: Option<Span<i32>>) -> Tensor<i32> {
+    fn squeeze(self: @Tensor<i32>, axes: Option<Span<usize>>) -> Tensor<i32> {
         core_tensor::squeeze(self, axes)
     }
 
@@ -487,6 +488,10 @@ impl I32Tensor of TensorTrait<i32> {
         panic(array!['not supported!'])
     }
 
+    fn reduce_log_sum_exp(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
     fn erf(self: @Tensor<i32>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
@@ -536,10 +541,12 @@ impl I32Tensor of TensorTrait<i32> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
-    fn random_uniform_like(tensor: @Tensor<i32>, high: Option<i32>, low: Option<i32>, seed: Option<usize>) -> Tensor<i32> {
+    fn random_uniform_like(
+        tensor: @Tensor<i32>, high: Option<i32>, low: Option<i32>, seed: Option<usize>
+    ) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
-    
+
     fn range(start: i32, end: i32, step: i32) -> Tensor<i32> {
         math::range::range(start, end, step)
     }
@@ -555,35 +562,33 @@ impl I32Tensor of TensorTrait<i32> {
     fn blackman_window(size: i32, periodic: Option<usize>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
-    
+
     fn split_to_sequence(
         self: @Tensor<i32>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<i32>> {
         manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
     }
-    
+
     fn reverse_sequence(
-        self: @Tensor<i32>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+        self: @Tensor<i32>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
     ) -> Tensor<i32> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
-    
-    
-    fn optional(self: @Tensor<i32>) -> Option<Tensor<i32>>{
-        manipulation::optional::optional(self)  
+
+
+    fn optional(self: @Tensor<i32>) -> Option<Tensor<i32>> {
+        manipulation::optional::optional(self)
     }
-    
-    fn dynamic_quantize_linear(
-        self: @Tensor<i32>
-    ) -> (Tensor::<u32>, Tensor::<i32>, Tensor<i32>){
+
+    fn dynamic_quantize_linear(self: @Tensor<i32>) -> (Tensor::<u32>, Tensor::<i32>, Tensor<i32>) {
         panic(array!['not supported!'])
     }
-    
+
     fn scatter_nd(
-        self: @Tensor<i32>,
-        updates: Tensor<i32>,
-        indices: Tensor<usize>,
-        reduction: Option<usize>
+        self: @Tensor<i32>, updates: Tensor<i32>, indices: Tensor<usize>, reduction: Option<usize>
     ) -> Tensor<i32> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }

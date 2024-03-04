@@ -1,7 +1,7 @@
 import numpy as np
 from nodegen.node import RunAll
 from ..helpers import  make_test, to_fp, Tensor, Dtype, FixedImpl
-import numpy as np
+
 
 
 class Reduce_log_sum(RunAll):

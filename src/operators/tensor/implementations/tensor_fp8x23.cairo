@@ -3,6 +3,12 @@ use core::array::SpanTrait;
 use core::option::OptionTrait;
 use core::traits::{TryInto, Into};
 
+use orion::numbers::fixed_point::implementations::fp8x23wide::core::{
+    FP8x23WImpl, FP8x23WTryIntoFP8x23, FP8x23W, FP8x23IntoFP8x23W
+};
+
+use orion::operators::tensor::implementations::tensor_fp8x23wide::{FP8x23WTensor};
+
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -361,7 +367,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         core_ops::nonzero(self)
     }
 
-    fn squeeze(self: @Tensor<FP8x23>, axes: Option<Span<i32>>) -> Tensor<FP8x23> {
+    fn squeeze(self: @Tensor<FP8x23>, axes: Option<Span<usize>>) -> Tensor<FP8x23> {
         core_ops::squeeze(self, axes)
     }
 
@@ -496,6 +502,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }
 
+    fn reduce_log_sum_exp(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
+        panic(array!['not supported!'])
+    }
+
     fn erf(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::erf::erf(*self)
     }
@@ -561,10 +571,12 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         manipulation::split::split(self, axis, num_outputs, spl)
     }
 
-    fn random_uniform_like(tensor: @Tensor<FP8x23>, high: Option<FP8x23>, low: Option<FP8x23>, seed: Option<usize>) -> Tensor<FP8x23> {
+    fn random_uniform_like(
+        tensor: @Tensor<FP8x23>, high: Option<FP8x23>, low: Option<FP8x23>, seed: Option<usize>
+    ) -> Tensor<FP8x23> {
         math::random_uniform_like::random_uniform_like(*tensor, high, low, seed)
     }
-    
+
     fn range(start: FP8x23, end: FP8x23, step: FP8x23) -> Tensor<FP8x23> {
         math::range::range(start, end, step)
     }
@@ -580,36 +592,36 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn blackman_window(size: FP8x23, periodic: Option<usize>) -> Tensor<FP8x23> {
         math::blackman_window::blackman_window(size, FP8x23 { mag: PI, sign: false }, periodic)
     }
-    
+
     fn split_to_sequence(
-        self: @Tensor<FP8x23>, 
-        axis: usize, 
-        keepdims: usize, 
-        split: Option<Tensor<usize>>
+        self: @Tensor<FP8x23>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<FP8x23>> {
         manipulation::split_to_sequence::split_to_sequence(self, axis, keepdims, split)
     }
-    
+
     fn reverse_sequence(
-        self: @Tensor<FP8x23>, sequence_lens: Tensor<usize>, batch_axis: Option<usize>, time_axis: Option<usize>
+        self: @Tensor<FP8x23>,
+        sequence_lens: Tensor<usize>,
+        batch_axis: Option<usize>,
+        time_axis: Option<usize>
     ) -> Tensor<FP8x23> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
-    
-    fn optional(self: @Tensor<FP8x23>) -> Option<Tensor<FP8x23>>{
+
+    fn optional(self: @Tensor<FP8x23>) -> Option<Tensor<FP8x23>> {
         manipulation::optional::optional(self)
     }
-    
+
     fn dynamic_quantize_linear(
         self: @Tensor<FP8x23>
-    ) -> (Tensor::<u32>, Tensor::<FP8x23>, Tensor<FP8x23>){
+    ) -> (Tensor::<u32>, Tensor::<FP8x23>, Tensor<FP8x23>) {
         quantization::dynamic_quantize_linear::dynamic_quantize_linear(
             self,
             NumberTrait::new_unscaled(0, false),
             NumberTrait::new_unscaled(255, false),
             NumberTrait::new_unscaled(0, false),
             NumberTrait::new_unscaled(1, false),
-        ) 
+        )
     }
 
     fn scatter_nd(

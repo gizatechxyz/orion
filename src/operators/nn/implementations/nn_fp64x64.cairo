@@ -55,10 +55,12 @@ impl FP64x64NN of NNTrait<FP64x64> {
         functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
     }
 
-    fn depth_to_space(tensor: @Tensor<FP64x64>, blocksize: usize, mode: felt252) -> Tensor<FP64x64> {
+    fn depth_to_space(
+        tensor: @Tensor<FP64x64>, blocksize: usize, mode: felt252
+    ) -> Tensor<FP64x64> {
         functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
     }
-    
+
     fn space_to_depth(tensor: @Tensor<FP64x64>, blocksize: usize) -> Tensor<FP64x64> {
         functional::space_to_depth::space_to_depth(*tensor, blocksize)
     }
@@ -84,7 +86,7 @@ impl FP64x64NN of NNTrait<FP64x64> {
     ) -> Tensor<FP64x64> {
         functional::grid_sample::grid_sample(X, grid, align_corner, mode, padding_mode)
     }
-    
+
     fn col2im(
         data: @Tensor<FP64x64>,
         image_shape: Span<usize>,
@@ -95,7 +97,7 @@ impl FP64x64NN of NNTrait<FP64x64> {
     ) -> Tensor<FP64x64> {
         functional::col2im::col2im(data, image_shape, block_shape, dilations, pads, strides,)
     }
-    
+
     fn conv_transpose(
         X: @Tensor<FP64x64>,
         W: @Tensor<FP64x64>,
@@ -123,7 +125,7 @@ impl FP64x64NN of NNTrait<FP64x64> {
             strides
         )
     }
-    
+
     fn conv(
         X: @Tensor<FP64x64>,
         W: @Tensor<FP64x64>,

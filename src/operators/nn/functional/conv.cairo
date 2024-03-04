@@ -41,7 +41,7 @@ fn conv<
     strides: Option<Span<usize>>,
 ) -> Tensor<T> {
     let nd = (*X).shape.len() - 2;
-    
+
     assert((*X).shape.len() >= 3, 'X must have at least 3 dim');
     let dilations = match dilations {
         Option::Some(dilations) => dilations,
@@ -1410,14 +1410,10 @@ fn min(mut a: Span<usize>) -> usize {
     let mut min = *a.at(0);
     loop {
         match a.pop_front() {
-            Option::Some(v) => {
-                if *v < min {
-                    min = *v;
-                };
-            },
-            Option::None => {
-                break min;
-            }
+            Option::Some(v) => { if *v < min {
+                min = *v;
+            }; },
+            Option::None => { break min; }
         };
     }
 }
@@ -1429,14 +1425,10 @@ fn max(mut a: Span<usize>) -> usize {
     let mut max = *a.at(0);
     loop {
         match a.pop_front() {
-            Option::Some(v) => {
-                if *v > max {
-                    max = *v;
-                };
-            },
-            Option::None => {
-                break max;
-            }
+            Option::Some(v) => { if *v > max {
+                max = *v;
+            }; },
+            Option::None => { break max; }
         };
     }
 }

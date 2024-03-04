@@ -53,7 +53,7 @@ impl I8NN of NNTrait<i8> {
     fn depth_to_space(tensor: @Tensor<i8>, blocksize: usize, mode: felt252) -> Tensor<i8> {
         functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
     }
-    
+
     fn space_to_depth(tensor: @Tensor<i8>, blocksize: usize) -> Tensor<i8> {
         functional::space_to_depth::space_to_depth(*tensor, blocksize)
     }
@@ -79,7 +79,7 @@ impl I8NN of NNTrait<i8> {
     ) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
-    
+
     fn col2im(
         data: @Tensor<i8>,
         image_shape: Span<usize>,
@@ -90,7 +90,7 @@ impl I8NN of NNTrait<i8> {
     ) -> Tensor<i8> {
         functional::col2im::col2im(data, image_shape, block_shape, dilations, pads, strides,)
     }
-    
+
     fn conv_transpose(
         X: @Tensor<i8>,
         W: @Tensor<i8>,
@@ -118,7 +118,7 @@ impl I8NN of NNTrait<i8> {
             strides
         )
     }
-    
+
     fn conv(
         X: @Tensor<i8>,
         W: @Tensor<i8>,

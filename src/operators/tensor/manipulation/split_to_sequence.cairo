@@ -4,12 +4,7 @@ use core::option::OptionTrait;
 use orion::operators::matrix::{MutMatrixTrait, MutMatrix, MutMatrixImpl};
 
 /// Cf: NNTrait::split docstring
-fn split_to_sequence<
-    T,
-    +Copy<T>,
-    +Drop<T>,
-    +TensorTrait<T>,
->(
+fn split_to_sequence<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     self: @Tensor<T>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
 ) -> Array<Tensor<T>> {
     let has_split = match split {
@@ -19,26 +14,25 @@ fn split_to_sequence<
     let mut has_num_outputs = false;
     let mut split_unwrap: Tensor<usize> = TensorTrait::new(array![1].span(), array![1].span());
 
-    if (!has_split){
+    if (!has_split) {
         let split_length = *(*self.shape).at(axis);
         let mut split_data: Array<usize> = array![];
         let mut i = 0;
-        loop{
+        loop {
             if (i >= split_length) {
                 break;
-            } 
+            }
             split_data.append(1);
-            i += 1; 
+            i += 1;
         };
         split_unwrap = TensorTrait::new(array![split_length].span(), split_data.span());
-    }else if (split.unwrap().data.len() == 1 && *(split.unwrap().shape.at(0)) == 1) {
+    } else if (split.unwrap().data.len() == 1 && *(split.unwrap().shape.at(0)) == 1) {
         // A scalar
         has_num_outputs = true;
         split_unwrap = split.unwrap();
-    }else{
+    } else {
         split_unwrap = split.unwrap();
     }
-    
 
     let mut splited_t: Array<Tensor<T>> = array![];
 
@@ -52,27 +46,27 @@ fn split_to_sequence<
         splited_t = split_has_split(self, axis, split_unwrap);
     }
 
-    if (keepdims==0 && has_split==false) {
+    if (keepdims == 0 && has_split == false) {
         let mut splited_t_temp: Array<Tensor<T>> = array![];
         let mut i = 0;
-        loop{
+        loop {
             if (i >= splited_t.len()) {
                 break;
             }
             let mut shape: Array<usize> = array![];
             let mut j = 0;
             let shape_in_splited: Span<usize> = *splited_t.at(i).shape;
-            loop{
-                if ( j >= shape_in_splited.len()) {
+            loop {
+                if (j >= shape_in_splited.len()) {
                     break;
                 }
-                if (j!=axis) {
-                    shape.append(*shape_in_splited.at(j)) 
+                if (j != axis) {
+                    shape.append(*shape_in_splited.at(j))
                 }
-                j += 1; 
+                j += 1;
             };
             splited_t_temp.append(splited_t[i].reshape(shape.span()));
-            i += 1; 
+            i += 1;
         };
         return splited_t_temp;
     }
@@ -82,12 +76,7 @@ fn split_to_sequence<
 
 /// Subfunction split for tensors (wth num_outputs).
 /// Cf: TensorTrait::split docstring
-fn split_num_outputs<
-    T, 
-    +Copy<T>, 
-    +Drop<T>, 
-    +TensorTrait<T>, 
->(
+fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     t: @Tensor<T>, mut axis: usize, num_outputs: usize
 ) -> Array<Tensor<T>> {
     let mut splited_t: Array<Tensor<T>> = array![];
@@ -174,12 +163,7 @@ fn split_num_outputs<
 
 /// Subfunction split for tensors (wth split).
 /// Cf: TensorTrait::split docstring
-fn split_has_split<
-    T, 
-    +Copy<T>, 
-    +Drop<T>, 
-    +TensorTrait<T>, 
->(
+fn split_has_split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     t: @Tensor<T>, axis: usize, split: Tensor<u32>
 ) -> Array<Tensor<T>> {
     let mut splited_t: Array<Tensor<T>> = array![];

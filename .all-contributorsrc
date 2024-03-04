@@ -296,6 +296,15 @@
       "contributions": [
         "doc"
       ]
+    },
+      {
+      "login": "FriendlyLifeguard",
+      "name": "Beeyoung",
+      "avatar_url": "https://avatars.githubusercontent.com/u/55970530?v=4",
+      "profile": "http://alankang.xyz",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

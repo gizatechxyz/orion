@@ -15,11 +15,11 @@ class Squeeze(RunAll):
 
             name = "squeeze_i8"
             make_test(
-                [x], y, "input_0.squeeze(Option::Some(array![0_i32, 2_i32].span()))", name)
+                [x], y, "input_0.squeeze(Option::Some(array![0, 2].span()))", name)
         squeeze()
 
     @staticmethod
-    def squeeze_i32():
+    def squeeze():
         def squeeze():
             x = np.ones((1, 2, 1, 2, 1), dtype=np.int32)
             y = np.ones((2, 2, 1), dtype=np.int32)
@@ -27,9 +27,9 @@ class Squeeze(RunAll):
             x = Tensor(Dtype.I32, x.shape, x.flatten())
             y = Tensor(Dtype.I32, y.shape, y.flatten())
 
-            name = "squeeze_i32"
+            name = "squeeze"
             make_test(
-                [x], y, "input_0.squeeze(Option::Some(array![0_i32, 2_i32].span()))", name)
+                [x], y, "input_0.squeeze(Option::Some(array![0, 2].span()))", name)
         squeeze()
 
     @staticmethod
@@ -43,7 +43,7 @@ class Squeeze(RunAll):
 
             name = "squeeze_u32"
             make_test(
-                [x], y, "input_0.squeeze(Option::Some(array![0_i32, 2_i32].span()))", name)
+                [x], y, "input_0.squeeze(Option::Some(array![0, 2].span()))", name)
         squeeze()
     
     @staticmethod
@@ -59,7 +59,7 @@ class Squeeze(RunAll):
 
             name = "squeeze_fP16x16"
             make_test(
-                [x], y, "input_0.squeeze(Option::Some(array![0_i32, 2_i32].span()))", name)
+                [x], y, "input_0.squeeze(Option::Some(array![0, 2].span()))", name)
         squeeze()
 
     @staticmethod
@@ -75,5 +75,5 @@ class Squeeze(RunAll):
 
             name = "squeeze_fP8x23"
             make_test(
-                [x], y, "input_0.squeeze(Option::Some(array![0_i32, 2_i32].span()))", name)
+                [x], y, "input_0.squeeze(Option::Some(array![0, 2].span()))", name)
         squeeze()

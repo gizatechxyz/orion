@@ -57,7 +57,7 @@ For a full list of all authors and contributors, see [the contributors page](htt
 
 This project is licensed under the **MIT license**.
 
-See [LICENSE](https://github.com/franalgaba/onnx-cairo/blob/main/LICENSE/README.md) for more information.
+See [LICENSE](https://github.com/franalgaba/onnx-cairo/blob/main/LICENSE) for more information.
 
 ## Contributors ✨
 
@@ -109,6 +109,7 @@ Thanks goes to these wonderful people:
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/tekkac"><img src="https://avatars.githubusercontent.com/u/98529704?v=4?s=100" width="100px;" alt="Trunks @ Carbonable"/><br /><sub><b>Trunks @ Carbonable</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=tekkac" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/canacechan"><img src="https://avatars.githubusercontent.com/u/127183619?v=4?s=100" width="100px;" alt="canacechan"/><br /><sub><b>canacechan</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=canacechan" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Gakunt"><img src="https://avatars.githubusercontent.com/u/153402253?v=4?s=100" width="100px;" alt="Kugo"/><br /><sub><b>Kugo</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=Gakunt" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://alankang.xyz"><img src="https://avatars.githubusercontent.com/u/55970530?v=4?s=100" width="100px;" alt="Beeyoung"/><br /><sub><b>Beeyoung</b></sub></a><br /><a href="https://github.com/gizatechxyz/orion/commits?author=FriendlyLifeguard" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
