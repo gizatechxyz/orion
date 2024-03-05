@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{TryInto, Into};
-
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -434,6 +429,10 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
+    fn reduce_log_sum_exp(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
     fn erf(self: @Tensor<u32>) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
@@ -505,7 +504,6 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
-
     fn split_to_sequence(
         self: @Tensor<u32>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<u32>> {
@@ -540,6 +538,20 @@ impl U32Tensor of TensorTrait<u32> {
     ) -> Tensor<u32> {
         let zero = 0_u32;
         manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+    
+    fn label_encoder(
+        self: @Tensor<u32>,
+        default_list: Option<Span<u32>>,
+        default_tensor: Option<Tensor<u32>>,
+        keys: Option<Span<u32>>,
+        keys_tensor: Option<Tensor<u32>>,
+        values: Option<Span<u32>>,
+        values_tensor: Option<Tensor<u32>>
+    ) -> Tensor<u32> {
+        ml::label_encoder::label_encoder(
+            self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
+        )
     }
 }
 
@@ -627,22 +639,22 @@ impl U32TryIntoI8 of TryInto<u32, i8> {
 impl U32TensorPartialOrd of PartialOrd<Tensor<u32>> {
     #[inline(always)]
     fn ge(lhs: Tensor<u32>, rhs: Tensor<u32>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
+        SpanPartialOrd::ge(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn gt(lhs: Tensor<u32>, rhs: Tensor<u32>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
+        SpanPartialOrd::gt(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn le(lhs: Tensor<u32>, rhs: Tensor<u32>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
+        SpanPartialOrd::le(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn lt(lhs: Tensor<u32>, rhs: Tensor<u32>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
+        SpanPartialOrd::lt(lhs.data, rhs.data)
     }
 }
 
@@ -651,11 +663,7 @@ impl U32TensorPartialOrd of PartialOrd<Tensor<u32>> {
 fn tensor_eq(mut lhs: Tensor<u32>, mut rhs: Tensor<u32>,) -> bool {
     let mut is_eq = true;
 
-    loop {
-        if lhs.shape.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.shape.len() != 0 && is_eq {
         is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
     };
 
@@ -663,13 +671,9 @@ fn tensor_eq(mut lhs: Tensor<u32>, mut rhs: Tensor<u32>,) -> bool {
         return false;
     }
 
-    loop {
-        if lhs.data.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.data.len() != 0 && is_eq {
         is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
     };
 
-    return is_eq;
+    is_eq
 }

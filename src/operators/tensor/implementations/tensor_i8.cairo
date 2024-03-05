@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{TryInto, Into};
-
 use orion::numbers::{I8Div, I8DivEq};
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
@@ -338,7 +333,6 @@ impl I8Tensor of TensorTrait<i8> {
         )
     }
 
-
     fn slice(
         self: @Tensor<i8>,
         starts: Span<usize>,
@@ -491,6 +485,10 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
+    fn reduce_log_sum_exp(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
+        panic(array!['not supported'])
+    }
+
     fn erf(self: @Tensor<i8>) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
@@ -562,7 +560,6 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
-
     fn split_to_sequence(
         self: @Tensor<i8>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<i8>> {
@@ -597,6 +594,20 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Tensor<i8> {
         let zero = 0_i8;
         manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+
+    fn label_encoder(
+        self: @Tensor<i8>,
+        default_list: Option<Span<i8>>,
+        default_tensor: Option<Tensor<i8>>,
+        keys: Option<Span<i8>>,
+        keys_tensor: Option<Tensor<i8>>,
+        values: Option<Span<i8>>,
+        values_tensor: Option<Tensor<i8>>
+    ) -> Tensor<i8> {
+        ml::label_encoder::label_encoder(
+            self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
+        )
     }
 }
 
@@ -675,35 +686,30 @@ impl I8TensorPartialEq of PartialEq<Tensor<i8>> {
 impl I8TensorPartialOrd of PartialOrd<Tensor<i8>> {
     #[inline(always)]
     fn ge(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
+        SpanPartialOrd::ge(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn gt(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
+        SpanPartialOrd::gt(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn le(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
+        SpanPartialOrd::le(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn lt(lhs: Tensor<i8>, rhs: Tensor<i8>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
+        SpanPartialOrd::lt(lhs.data, rhs.data)
     }
 }
 
 // Internals
-
 fn tensor_eq(mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,) -> bool {
     let mut is_eq = true;
 
-    loop {
-        if lhs.shape.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.shape.len() != 0 && is_eq {
         is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
     };
 
@@ -711,13 +717,9 @@ fn tensor_eq(mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,) -> bool {
         return false;
     }
 
-    loop {
-        if lhs.data.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.data.len() == 0 && !is_eq {
         is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
     };
 
-    return is_eq;
+    is_eq
 }

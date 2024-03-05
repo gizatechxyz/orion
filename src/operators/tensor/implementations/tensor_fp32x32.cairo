@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{TryInto, Into};
-
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -442,7 +437,6 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         panic(array!['not supported!'])
     }
 
-
     fn gather_elements(
         self: @Tensor<FP32x32>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP32x32> {
@@ -495,6 +489,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
 
     fn reduce_log_sum(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+    fn reduce_log_sum_exp(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
+        math::reduce_log_sum_exp::reduce_log_sum_exp(self, axis, keepdims)
     }
 
     fn erf(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
@@ -630,6 +628,20 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         let zero = NumberTrait::<FP32x32>::zero();
         manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
     }
+    
+    fn label_encoder(
+        self: @Tensor<FP32x32>,
+        default_list: Option<Span<FP32x32>>,
+        default_tensor: Option<Tensor<FP32x32>>,
+        keys: Option<Span<FP32x32>>,
+        keys_tensor: Option<Tensor<FP32x32>>,
+        values: Option<Span<FP32x32>>,
+        values_tensor: Option<Tensor<FP32x32>>
+    ) -> Tensor<FP32x32> {
+        ml::label_encoder::label_encoder(
+            self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
+        )
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.
@@ -743,9 +755,7 @@ impl FP32x32TensorPartialOrd of PartialOrd<Tensor<FP32x32>> {
     }
 }
 
-
 // Internals
-
 const PRECISION: u64 = 75497; // 0.009
 
 fn relative_eq(lhs: @FP32x32, rhs: @FP32x32) -> bool {
@@ -763,11 +773,7 @@ fn relative_eq(lhs: @FP32x32, rhs: @FP32x32) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP32x32>, mut rhs: Tensor<FP32x32>,) -> bool {
     let mut is_eq = true;
 
-    loop {
-        if lhs.shape.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.shape.len() != 0 && is_eq {
         is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
     };
 
@@ -775,28 +781,20 @@ fn tensor_eq(mut lhs: Tensor<FP32x32>, mut rhs: Tensor<FP32x32>,) -> bool {
         return false;
     }
 
-    loop {
-        if lhs.data.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.data.len() != 0 && is_eq {
         is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
     };
 
-    return is_eq;
+    is_eq
 }
 
 fn tensor_i8_to_tensor_fp32x32(x: @Tensor<i8>) -> Tensor<FP32x32> {
     let mut result_data = ArrayTrait::<FP32x32>::new();
     let mut data = *x.data;
 
-    loop {
+    while data.len() != 0 {
         result_data.append((*data.pop_front().unwrap()).into());
-
-        if data.len() == 0 {
-            break ();
-        };
     };
 
-    return TensorTrait::new(*x.shape, result_data.span());
+    TensorTrait::new(*x.shape, result_data.span())
 }

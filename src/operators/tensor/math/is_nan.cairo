@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::option::OptionTrait;
-use core::array::SpanTrait;
-
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::implementations::tensor_bool::BoolTensor;
@@ -17,7 +13,7 @@ fn is_nan<
 >(
     x: @Tensor<T>
 ) -> Tensor<bool> {
-    let mut data_result = ArrayTrait::<bool>::new();
+    let mut data_result: Array<bool> = array![];
     let mut y: Span<T> = *x.data;
     loop {
         match y.pop_front() {
@@ -26,5 +22,5 @@ fn is_nan<
         };
     };
 
-    return TensorTrait::new(*x.shape, data_result.span());
+    TensorTrait::new(*x.shape, data_result.span())
 }

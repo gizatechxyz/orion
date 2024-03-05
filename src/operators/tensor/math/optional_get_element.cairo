@@ -1,9 +1,5 @@
-use core::array::ArrayTrait;
-use option::OptionTrait;
-use core::array::SpanTrait;
-
-use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::NumberTrait;
+use orion::operators::tensor::core::{Tensor, TensorTrait};
 
 /// Cf: TensorTrait::optional_get_element docstring
 fn optional_get_element<
@@ -16,7 +12,7 @@ fn optional_get_element<
 >(
     mut z: Tensor<T>, index: usize
 ) -> Tensor<T> {
-    let mut data_result = ArrayTrait::<T>::new();
+    let mut data_result: Array<T> = array![];
 
     // use of match to get element within and out the array bound
     match z.data.get(index) {
@@ -24,5 +20,5 @@ fn optional_get_element<
         Option::None => {}
     };
 
-    return TensorTrait::<T>::new(z.shape, data_result.span());
+    TensorTrait::<T>::new(z.shape, data_result.span())
 }

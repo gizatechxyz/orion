@@ -1,12 +1,5 @@
-use core::clone::Clone;
-use core::array::{ArrayTrait, SpanTrait};
-use core::option::OptionTrait;
-use core::debug::PrintTrait;
-use core::traits::Into;
-
 use orion::operators::tensor::helpers::replace_index;
 use orion::operators::tensor::{TensorTrait, Tensor};
-
 
 fn concat<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>,>(
     mut tensors: Span<Tensor<T>>, axis: usize
@@ -59,7 +52,7 @@ fn validate_shapes<T>(mut tensors: Span<Tensor<T>>, mut base_shape: Span<usize>,
 fn compute_output_size<T>(
     mut base_shape: Span<usize>, mut tensors: Span<Tensor<T>>, axis: usize
 ) -> Array<u32> {
-    let mut output_size = ArrayTrait::<u32>::new();
+    let mut output_size: Array<usize> = array![];
 
     let mut axis_size = 0;
     loop {
@@ -90,16 +83,12 @@ fn compute_output_size<T>(
 fn concatenate_data<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>,>(
     mut tensors: Span<Tensor<T>>, axis: usize, base_shape: Span<usize>
 ) -> Array<T> {
-    let mut output_data = ArrayTrait::<T>::new();
+    let mut output_data: Array<T> = array![];
 
     let total_loops = product_upto(base_shape, axis);
 
     let mut outer_loop_index = 0;
-    loop {
-        if outer_loop_index == total_loops {
-            break;
-        }
-
+    while outer_loop_index != total_loops {
         let mut tensors_copy = tensors;
         loop {
             match tensors_copy.pop_front() {
@@ -107,11 +96,7 @@ fn concatenate_data<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>,>(
                     let slice_len = (*tensor.data).len() / total_loops;
 
                     let mut inner_index = 0;
-                    loop {
-                        if inner_index == slice_len {
-                            break;
-                        }
-
+                    while inner_index != slice_len {
                         output_data
                             .append(*(*tensor.data).at(slice_len * outer_loop_index + inner_index));
                         inner_index += 1;

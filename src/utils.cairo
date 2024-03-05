@@ -1,8 +1,3 @@
-use core::traits::TryInto;
-use core::option::OptionTrait;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-
 use orion::operators::tensor::{Tensor, TensorTrait};
 
 fn u32_max(a: u32, b: u32) -> u32 {
@@ -37,10 +32,7 @@ fn assert_seq_eq<T, impl TPartialEq: PartialEq<T>, impl TCopy: Copy<T>, impl TDr
     assert(lhs.len() == rhs.len(), 'should be equal');
 
     let mut i = 0;
-    loop {
-        if i >= lhs.len() {
-            break;
-        }
+    while i != lhs.len() {
         assert_eq(lhs[i], rhs[i]);
         i += 1;
     }

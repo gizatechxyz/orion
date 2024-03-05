@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{TryInto, Into};
-
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -15,6 +10,9 @@ use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
 };
 use orion::numbers::fixed_point::implementations::fp16x16::math::trig::PI;
+
+use orion::numbers::fixed_point::implementations::fp16x16wide::core::FP16x16W;
+
 
 impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn new(shape: Span<usize>, data: Span<FP16x16>) -> Tensor<FP16x16> {
@@ -442,7 +440,6 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         panic(array!['not supported!'])
     }
 
-
     fn gather_elements(
         self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<FP16x16> {
@@ -496,6 +493,11 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     fn reduce_log_sum(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }
+
+    fn reduce_log_sum_exp(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
+        panic(array!['not supported!'])
+    }
+
 
     fn erf(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::erf::erf(*self)
@@ -599,11 +601,9 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
 
-
     fn optional(self: @Tensor<FP16x16>) -> Option<Tensor<FP16x16>> {
         manipulation::optional::optional(self)
     }
-
 
     fn dynamic_quantize_linear(
         self: @Tensor<FP16x16>
@@ -631,6 +631,20 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         let zero = NumberTrait::<FP16x16>::zero();
         manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+
+    fn label_encoder(
+        self: @Tensor<FP16x16>,
+        default_list: Option<Span<FP16x16>>,
+        default_tensor: Option<Tensor<FP16x16>>,
+        keys: Option<Span<FP16x16>>,
+        keys_tensor: Option<Tensor<FP16x16>>,
+        values: Option<Span<FP16x16>>,
+        values_tensor: Option<Tensor<FP16x16>>
+    ) -> Tensor<FP16x16> {
+        ml::label_encoder::label_encoder(
+            self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
+        )
     }
 }
 
@@ -715,22 +729,22 @@ impl TensorI8IntoTensorFP16x16 of Into<Tensor<i8>, Tensor<FP16x16>> {
 impl FP16x16TensorPartialOrd of PartialOrd<Tensor<FP16x16>> {
     #[inline(always)]
     fn ge(lhs: Tensor<FP16x16>, rhs: Tensor<FP16x16>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
+        SpanPartialOrd::ge(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn gt(lhs: Tensor<FP16x16>, rhs: Tensor<FP16x16>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
+        SpanPartialOrd::gt(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn le(lhs: Tensor<FP16x16>, rhs: Tensor<FP16x16>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
+        SpanPartialOrd::le(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn lt(lhs: Tensor<FP16x16>, rhs: Tensor<FP16x16>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
+        SpanPartialOrd::lt(lhs.data, rhs.data)
     }
 }
 
@@ -753,11 +767,7 @@ fn relative_eq(lhs: @FP16x16, rhs: @FP16x16) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP16x16>, mut rhs: Tensor<FP16x16>,) -> bool {
     let mut is_eq = true;
 
-    loop {
-        if lhs.shape.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.shape.len() != 0 && is_eq {
         is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
     };
 
@@ -765,28 +775,20 @@ fn tensor_eq(mut lhs: Tensor<FP16x16>, mut rhs: Tensor<FP16x16>,) -> bool {
         return false;
     }
 
-    loop {
-        if lhs.data.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.data.len() != 0 && is_eq {
         is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
     };
 
-    return is_eq;
+    is_eq
 }
 
 fn tensor_i8_to_tensor_fp16x16(x: @Tensor<i8>) -> Tensor<FP16x16> {
     let mut result_data = ArrayTrait::<FP16x16>::new();
     let mut data = *x.data;
 
-    loop {
+    while data.len() != 0 {
         result_data.append((*data.pop_front().unwrap()).into());
-
-        if data.len() == 0 {
-            break ();
-        };
     };
 
-    return TensorTrait::new(*x.shape, result_data.span());
+    TensorTrait::new(*x.shape, result_data.span())
 }

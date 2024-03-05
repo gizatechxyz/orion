@@ -1,12 +1,6 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::Into;
-
 use orion::numbers::NumberTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-
 
 /// Cf: TensorTrait::log docstring
 fn log<
@@ -19,7 +13,7 @@ fn log<
 >(
     mut self: Tensor<T>
 ) -> Tensor<T> {
-    let mut result = ArrayTrait::new();
+    let mut result = array![];
 
     loop {
         match self.data.pop_front() {
@@ -28,5 +22,5 @@ fn log<
         };
     };
 
-    return TensorTrait::<T>::new(self.shape, result.span());
+    TensorTrait::<T>::new(self.shape, result.span())
 }

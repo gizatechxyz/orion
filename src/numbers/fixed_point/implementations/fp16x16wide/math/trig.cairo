@@ -1,6 +1,4 @@
-use core::debug::PrintTrait;
-use core::integer::{u64_safe_divmod, u64_as_non_zero};
-use core::option::OptionTrait;
+use core::integer;
 
 use orion::numbers::fixed_point::implementations::fp16x16wide::math::lut;
 use orion::numbers::fixed_point::implementations::fp16x16wide::core::{
@@ -9,7 +7,6 @@ use orion::numbers::fixed_point::implementations::fp16x16wide::core::{
 };
 
 // CONSTANTS
-
 const TWO_PI: u64 = 411775;
 const PI: u64 = 205887;
 const HALF_PI: u64 = 102944;
@@ -22,10 +19,10 @@ fn acos(a: FP16x16W) -> FP16x16W {
     let asin_arg = (FixedTrait::ONE() - a * a).sqrt(); // will fail if a > 1
     let asin_res = asin(asin_arg);
 
-    if (a.sign) {
-        return FixedTrait::new(PI, false) - asin_res;
+    if a.sign {
+        FixedTrait::new(PI, false) - asin_res
     } else {
-        return asin_res;
+        asin_res
     }
 }
 
@@ -33,10 +30,10 @@ fn acos_fast(a: FP16x16W) -> FP16x16W {
     let asin_arg = (FixedTrait::ONE() - a * a).sqrt(); // will fail if a > 1
     let asin_res = asin_fast(asin_arg);
 
-    if (a.sign) {
-        return FixedTrait::new(PI, false) - asin_res;
+    if a.sign {
+        FixedTrait::new(PI, false) - asin_res
     } else {
-        return asin_res;
+        asin_res
     }
 }
 
@@ -48,7 +45,8 @@ fn asin(a: FP16x16W) -> FP16x16W {
     }
 
     let div = (FixedTrait::ONE() - a * a).sqrt(); // will fail if a > 1
-    return atan(a / div);
+
+    atan(a / div)
 }
 
 fn asin_fast(a: FP16x16W) -> FP16x16W {
@@ -57,7 +55,8 @@ fn asin_fast(a: FP16x16W) -> FP16x16W {
     }
 
     let div = (FixedTrait::ONE() - a * a).sqrt(); // will fail if a > 1
-    return atan_fast(a / div);
+
+    atan_fast(a / div)
 }
 
 // Calculates arctan(a) (fixed point)
@@ -100,9 +99,8 @@ fn atan(a: FP16x16W) -> FP16x16W {
         res = res - FixedTrait::new(HALF_PI, false);
     }
 
-    return FixedTrait::new(res.mag, a.sign);
+    FixedTrait::new(res.mag, a.sign)
 }
-
 
 fn atan_fast(a: FP16x16W) -> FP16x16W {
     let mut at = a.abs();
@@ -135,31 +133,32 @@ fn atan_fast(a: FP16x16W) -> FP16x16W {
         res = res - FixedTrait::<FP16x16W>::new(HALF_PI, false);
     }
 
-    return FixedTrait::new(res.mag, a.sign);
+    FixedTrait::new(res.mag, a.sign)
 }
 
 // Calculates cos(a) with a in radians (fixed point)
 fn cos(a: FP16x16W) -> FP16x16W {
-    return sin(FixedTrait::new(HALF_PI, false) - a);
+    sin(FixedTrait::new(HALF_PI, false) - a)
 }
 
 fn cos_fast(a: FP16x16W) -> FP16x16W {
-    return sin_fast(FixedTrait::new(HALF_PI, false) - a);
+    sin_fast(FixedTrait::new(HALF_PI, false) - a)
 }
 
 fn sin(a: FP16x16W) -> FP16x16W {
     let a1 = a.mag % TWO_PI;
-    let (whole_rem, partial_rem) = u64_safe_divmod(a1, u64_as_non_zero(PI));
+    let (whole_rem, partial_rem) = integer::u64_safe_divmod(a1, integer::u64_as_non_zero(PI));
     let a2 = FixedTrait::new(partial_rem, false);
     let partial_sign = whole_rem == 1;
 
     let loop_res = a2 * _sin_loop(a2, 7, FixedTrait::ONE());
-    return FixedTrait::new(loop_res.mag, a.sign ^ partial_sign && loop_res.mag != 0);
+
+    FixedTrait::new(loop_res.mag, a.sign ^ partial_sign && loop_res.mag != 0)
 }
 
 fn sin_fast(a: FP16x16W) -> FP16x16W {
     let a1 = a.mag % TWO_PI;
-    let (whole_rem, mut partial_rem) = u64_safe_divmod(a1, u64_as_non_zero(PI));
+    let (whole_rem, mut partial_rem) = integer::u64_safe_divmod(a1, integer::u64_as_non_zero(PI));
     let partial_sign = whole_rem == 1;
 
     if partial_rem >= HALF_PI {
@@ -171,7 +170,7 @@ fn sin_fast(a: FP16x16W) -> FP16x16W {
     let res = partial_step * (FixedTrait::new(high, false) - FixedTrait::new(low, false))
         + FixedTrait::<FP16x16W>::new(low, false);
 
-    return FixedTrait::new(res.mag, a.sign ^ partial_sign && res.mag != 0);
+    FixedTrait::new(res.mag, a.sign ^ partial_sign && res.mag != 0)
 }
 
 // Calculates tan(a) with a in radians (fixed point)
@@ -179,14 +178,16 @@ fn tan(a: FP16x16W) -> FP16x16W {
     let sinx = sin(a);
     let cosx = cos(a);
     assert(cosx.mag != 0, 'tan undefined');
-    return sinx / cosx;
+
+    sinx / cosx
 }
 
 fn tan_fast(a: FP16x16W) -> FP16x16W {
     let sinx = sin_fast(a);
     let cosx = cos_fast(a);
     assert(cosx.mag != 0, 'tan undefined');
-    return sinx / cosx;
+
+    sinx / cosx
 }
 
 // Helper function to calculate Taylor series for sin
@@ -199,15 +200,13 @@ fn _sin_loop(a: FP16x16W, i: u64, acc: FP16x16W) -> FP16x16W {
         return new_acc;
     }
 
-    return _sin_loop(a, i - 1, new_acc);
+    _sin_loop(a, i - 1, new_acc)
 }
 
 // Tests --------------------------------------------------------------------------------------------------------------
 
 #[cfg(test)]
 mod tests {
-    use core::traits::Into;
-
     use orion::numbers::fixed_point::implementations::fp16x16wide::helpers::{
         assert_precise, assert_relative
     };

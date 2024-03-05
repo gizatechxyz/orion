@@ -8,7 +8,7 @@ Multiplies quantized Tensors
 
 It consumes two quantized input tensors, their scales and zero points, scale and zero point of output, and computes the quantized output. 
 The quantization formula is y = saturate((x / y_scale) + y_zero_point).
-It perfoms the multiplication of the two vectors once dequantized. If either argument is N-D, N > 2, it is treated as a stack of matrices residing in the last two indexes.
+It performs the multiplication of the two vectors once dequantized. If either argument is N-D, N > 2, it is treated as a stack of matrices residing in the last two indexes.
 Then return the quantization of the result of the multiplication.
 Scale and zero point must have same shape and the same type. They must be either scalar (per tensor) or N-D tensor (per row for 'a' and per column for 'b'). 
 Scalar refers to per tensor quantization whereas N-D refers to per row or per column quantization.

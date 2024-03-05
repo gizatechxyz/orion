@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
 use orion::numbers::{NumberTrait};
 use orion::operators::tensor::quantization::dequantize_linear::dequantize_linear;
 use orion::operators::tensor::quantization::quantize_linear::quantize_linear;
@@ -50,7 +46,7 @@ fn qlinear_concat<
     //let mut x = TensorTrait::concat(tensors: array![dequantized_a, dequantized_b].span(), axis: axis);
     let mut x = concat_dequantize(tensors, scales, zero_points, axis, min, max);
 
-    return quantize_linear(@x, y_scale, y_zero_point, min, max);
+    quantize_linear(@x, y_scale, y_zero_point, min, max)
 }
 
 
@@ -125,7 +121,7 @@ fn dequantize_tensors<
     min: T,
     max: T
 ) -> Span<Tensor<T>> {
-    let mut array = ArrayTrait::<Tensor<T>>::new();
+    let mut array: Array<Tensor<T>> = array![];
     let mut i = 0;
     loop {
         match tensors.pop_front() {
@@ -135,9 +131,11 @@ fn dequantize_tensors<
             },
             Option::None => { break; }
         };
+
         i += 1;
     };
-    return array.span();
+
+    array.span()
 }
 /// # tensor.concat
 ///

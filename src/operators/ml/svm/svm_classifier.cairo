@@ -240,7 +240,6 @@ trait SVMClassifierTrait<T> {
     fn predict(ref self: SVMClassifier<T>, X: Tensor<T>) -> (Span<usize>, Tensor<T>);
 }
 
-
 impl SVMClassifierImpl<
     T,
     MAG,
@@ -262,19 +261,17 @@ impl SVMClassifierImpl<
     fn predict(ref self: SVMClassifier<T>, X: Tensor<T>) -> (Span<usize>, Tensor<T>) {
         let mut vector_count_ = 0;
         let class_count_ = max(self.classlabels.len(), 1);
-        let mut starting_vector_ = ArrayTrait::new();
+        let mut starting_vector_: Array<usize> = array![];
 
         let (vectors_per_class_, starting_vector_) = match self.vectors_per_class {
             Option::Some(vectors_per_class) => {
                 let mut i = 0;
-                loop {
-                    if i == vectors_per_class.len() {
-                        break;
-                    }
+                while i != vectors_per_class.len() {
                     starting_vector_.append(vector_count_);
                     vector_count_ += *vectors_per_class.at(i);
                     i += 1;
                 };
+
                 (vectors_per_class, starting_vector_.span())
             },
             Option::None => { (array![].span(), array![].span()) },
@@ -310,22 +307,17 @@ impl SVMClassifierImpl<
         // SVM
         let (res, votes) = match mode {
             MODE::SVM_LINEAR => {
-                let mut res = ArrayTrait::new();
+                let mut res: Array<T> = array![];
                 let mut n = 0;
-                loop {
-                    if n == *X.shape.at(0) {
-                        break;
-                    }
+                while n != *X.shape.at(0) {
                     let mut x_n = get_row(@X, n);
                     let scores = run_linear(ref self, x_n, coefs, class_count_, kernel_type_);
                     let mut i = 0;
-                    loop {
-                        if i == scores.len() {
-                            break;
-                        }
+                    while i != scores.len() {
                         res.append(*scores.at(i));
                         i += 1;
                     };
+
                     n += 1;
                 };
 
@@ -335,13 +327,10 @@ impl SVMClassifierImpl<
                 )
             },
             MODE::SVM_SVC => {
-                let mut res = ArrayTrait::new();
-                let mut votes = ArrayTrait::new();
+                let mut res: Array<T> = array![];
+                let mut votes: Array<T> = array![];
                 let mut n = 0;
-                loop {
-                    if n == *X.shape.at(0) {
-                        break;
-                    }
+                while n != *X.shape.at(0) {
                     let mut x_n = get_row(@X, n);
                     let (scores, mut vote) = run_svm(
                         ref self,
@@ -355,21 +344,17 @@ impl SVMClassifierImpl<
                         vectors_per_class_
                     );
                     let mut i = 0;
-                    loop {
-                        if i == scores.len() {
-                            break;
-                        }
+                    while i != scores.len() {
                         res.append(*scores.at(i));
                         i += 1;
                     };
+
                     let mut i = 0;
-                    loop {
-                        if i == vote.len() {
-                            break;
-                        }
+                    while i != vote.len() {
                         votes.append(vote.at(i));
                         i += 1;
                     };
+
                     n += 1;
                 };
 
@@ -390,20 +375,14 @@ impl SVMClassifierImpl<
             MODE::SVM_LINEAR => { (res, false) },
             MODE::SVM_SVC => {
                 let (scores, has_proba) = if self.prob_a.len() > 0 {
-                    let mut scores = ArrayTrait::new();
+                    let mut scores: Array<T> = array![];
                     let mut n = 0;
-                    loop {
-                        if n == *res.shape.at(0) {
-                            break;
-                        }
+                    while n != *res.shape.at(0) {
                         let res_n = get_row(@res, n);
                         let mut s = probablities(ref self, res_n, class_count_);
 
                         let mut i = 0;
-                        loop {
-                            if i == s.len() {
-                                break;
-                            }
+                        while i != s.len() {
                             scores.append(s.at(i));
                             i += 1;
                         };
@@ -420,19 +399,17 @@ impl SVMClassifierImpl<
                 } else {
                     (res, false)
                 };
+
                 (scores, has_proba)
             },
         };
 
         // Finalization 
-        let mut labels = ArrayTrait::new();
-        let mut final_scores = ArrayTrait::new();
+        let mut labels: Array<usize> = array![];
+        let mut final_scores: Array<T> = array![];
 
         let mut n = 0;
-        loop {
-            if n == *scores.shape.at(0) {
-                break;
-            }
+        while n != *scores.shape.at(0) {
             let mut scores_n = get_row(@scores, n);
             match votes {
                 Option::Some(votes) => {
@@ -445,14 +422,13 @@ impl SVMClassifierImpl<
                         has_proba,
                         self.classlabels
                     );
+
                     let mut i = 0;
-                    loop {
-                        if i == new_scores.data.len() {
-                            break;
-                        }
+                    while i != new_scores.data.len() {
                         final_scores.append(*new_scores.data.at(i));
                         i += 1;
                     };
+
                     labels.append(label);
                 },
                 Option::None => {
@@ -464,32 +440,31 @@ impl SVMClassifierImpl<
                         has_proba,
                         self.classlabels
                     );
+
                     let mut i = 0;
-                    loop {
-                        if i == new_scores.data.len() {
-                            break;
-                        }
+                    while i != new_scores.data.len() {
                         final_scores.append(*new_scores.data.at(i));
                         i += 1;
                     };
+
                     labels.append(label);
                 },
             }
+
             n += 1;
         };
+
         let labels = labels.span();
 
         // Labels
         if self.classlabels.len() > 0 {
-            let mut class_labels = ArrayTrait::new();
+            let mut class_labels: Array<usize> = array![];
             let mut i = 0;
-            loop {
-                if i == labels.len() {
-                    break;
-                }
+            while i != labels.len() {
                 class_labels.append(*self.classlabels.at(*labels.at(i)));
                 i += 1;
             };
+
             return (
                 class_labels.span(),
                 TensorTrait::new(
@@ -498,16 +473,16 @@ impl SVMClassifierImpl<
                 )
             );
         }
-        return (
+
+        (
             labels,
             TensorTrait::new(
                 array![*X.shape.at(0), final_scores.len() / *X.shape.at(0)].span(),
                 final_scores.span()
             )
-        );
+        )
     }
 }
-
 
 fn run_svm<
     T,
@@ -534,13 +509,10 @@ fn run_svm<
     vectors_per_class_: Span<usize>
 ) -> (Array<T>, NullableVec<T>) {
     let mut evals = 0;
-    let mut kernels = ArrayTrait::new();
+    let mut kernels: Array<T> = array![];
 
     let mut j = 0;
-    loop {
-        if j == vector_count_ {
-            break;
-        }
+    while j != vector_count_ {
         let sv_j = get_row(@sv, j);
         kernels.append(kernel_dot(self.kernel_params, X, sv_j, kernel));
         j += 1;
@@ -548,25 +520,17 @@ fn run_svm<
 
     let kernels = kernels.span();
 
-    let mut scores = ArrayTrait::new();
-
+    let mut scores: Array<T> = array![];
     let mut votes = VecTrait::new();
     VecTrait::set(ref votes, class_count_ - 1, NumberTrait::zero());
 
     let mut i = 0;
-    loop {
-        if i == class_count_ {
-            break;
-        }
-
+    while i != class_count_ {
         let si_i = *starting_vector_.at(i);
         let class_i_sc = *vectors_per_class_.at(i);
 
         let mut j = i + 1;
-        loop {
-            if j == class_count_ {
-                break;
-            }
+        while j != class_count_ {
             let si_j = *starting_vector_.at(j);
             let class_j_sc = *vectors_per_class_.at(j);
 
@@ -596,12 +560,15 @@ fn run_svm<
             } else {
                 VecTrait::set(ref votes, j, VecTrait::at(ref votes, j) + NumberTrait::one());
             }
+
             evals += 1;
             j += 1;
         };
+
         i += 1;
     };
-    return (scores, votes);
+
+    (scores, votes)
 }
 
 fn run_linear<
@@ -623,14 +590,10 @@ fn run_linear<
     class_count_: usize,
     kernel: KERNEL_TYPE
 ) -> Array<T> {
-    let mut scores = ArrayTrait::new();
+    let mut scores: Array<T> = array![];
 
     let mut j = 0;
-    loop {
-        if j == class_count_ {
-            break;
-        }
-
+    while j != class_count_ {
         let coefs_j = get_row(@coefs, j);
 
         let d = kernel_dot(self.kernel_params, X, coefs_j, kernel);
@@ -640,9 +603,9 @@ fn run_linear<
         scores.append(score);
         j += 1;
     };
-    return scores;
-}
 
+    scores
+}
 
 fn compute_final_scores<
     T,
@@ -697,7 +660,7 @@ fn compute_final_scores<
         write_additional_scores
     );
 
-    return (label, new_scores);
+    (label, new_scores)
 }
 
 fn write_scores<
@@ -738,6 +701,7 @@ fn write_scores<
                 } else {
                     TensorTrait::new(array![1].span(), array![*scores.data.at(0)].span())
                 };
+
                 scores
             },
             POST_TRANSFORM::SOFTMAX => {
@@ -757,6 +721,7 @@ fn write_scores<
                 } else {
                     TensorTrait::new(array![1].span(), array![*scores.data.at(0)].span())
                 };
+
                 scores
             },
             POST_TRANSFORM::LOGISTIC => {
@@ -775,6 +740,7 @@ fn write_scores<
                 } else {
                     TensorTrait::new(array![1].span(), array![*scores.data.at(0)].span())
                 };
+
                 scores
             },
             POST_TRANSFORM::SOFTMAXZERO => {
@@ -794,13 +760,15 @@ fn write_scores<
                 } else {
                     TensorTrait::new(array![1].span(), array![*scores.data.at(0)].span())
                 };
+
                 scores
             },
             POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not applicable here.'),
         };
         new_scores
     };
-    return new_scores;
+
+    new_scores
 }
 
 fn set_score_svm<
@@ -823,29 +791,29 @@ fn set_score_svm<
                 return (*classlabels.at(1), write_additional_scores);
             };
         };
+
         return (*classlabels.at(maxclass), write_additional_scores);
     }
     if max_weight >= NumberTrait::zero() {
         return (posclass, write_additional_scores);
     };
-    return (negclass, write_additional_scores);
+
+    (negclass, write_additional_scores)
 }
 
 fn argmax_span<T, +Drop<T>, +Copy<T>, +PartialOrd<T>,>(span: Span<T>) -> usize {
     let mut max = 0;
     let mut i = 0;
-    loop {
-        if i == span.len() {
-            break;
-        }
+    while i != span.len() {
         if *span.at(i) > *span.at(max) {
             max = i;
         }
+
         i += 1;
     };
-    return max;
-}
 
+    max
+}
 
 fn probablities<
     T,
@@ -868,15 +836,9 @@ fn probablities<
     let mut probsp2: MutMatrix<T> = MutMatrixImpl::new(class_count_, class_count_);
     let mut index = 0;
     let mut i = 0;
-    loop {
-        if i == class_count_ {
-            break;
-        }
+    while i != class_count_ {
         let mut j = i + 1;
-        loop {
-            if j == class_count_ {
-                break;
-            }
+        while j != class_count_ {
             let val1 = sigmoid_probability(
                 *scores.at(index), *self.prob_a.at(index), *self.prob_b.at(index)
             );
@@ -884,15 +846,18 @@ fn probablities<
             let mut val2 = NumberTrait::min(
                 val1, NumberTrait::one()
             ); // ONNX : min(val2, (1 - 1.0e-7))
+
             probsp2.set(i, j, val2);
             probsp2.set(j, i, NumberTrait::one() - val2);
 
             j += 1;
             index += 1;
         };
+
         i += 1;
     };
-    return multiclass_probability(class_count_, ref probsp2);
+
+    multiclass_probability(class_count_, ref probsp2)
 }
 
 fn multiclass_probability<
@@ -925,85 +890,64 @@ fn multiclass_probability<
     let eps = (NumberTrait::half() / NumberTrait::new_unscaled(a.into(), false)) / k_fp;
     let mut t = 0;
 
-    loop {
-        if t == k {
-            break;
-        }
+    while t != k {
         VecTrait::set(ref P, t, NumberTrait::one() / k_fp);
 
         let mut i = 0;
         let mut acc1 = NumberTrait::zero();
-        loop {
-            if i == t {
-                break;
-            }
+        while i != t {
             let r_i = MutMatrixImpl::at(ref R, i, t);
             acc1 += r_i * r_i;
             i += 1;
         };
+
         MutMatrixImpl::set(ref Q, t, t, acc1);
 
         let mut i = 0;
-        loop {
-            if i == t {
-                break;
-            }
+        while i != t {
             MutMatrixImpl::set(ref Q, t, i, MutMatrixImpl::at(ref Q, i, t));
             i += 1;
         };
 
         let mut i = t + 1;
         let mut acc2 = NumberTrait::zero();
-        loop {
-            if i == k {
-                break;
-            }
+        while i != k {
             let r_i = MutMatrixImpl::at(ref R, i, t);
             acc2 += r_i * r_i;
             i += 1;
         };
+
         MutMatrixImpl::set(ref Q, t, t, acc1 + acc2);
 
         let mut i = t + 1;
         let mut acc = NumberTrait::zero();
-        loop {
-            if i == k {
-                break;
-            }
+        while i != k {
             acc += -MutMatrixImpl::at(ref R, i, t) * MutMatrixImpl::at(ref R, t, i);
             i += 1;
         };
 
         let mut i = t + 1;
-        loop {
-            if i == k {
-                break;
-            }
+        while i != k {
             MutMatrixImpl::set(ref Q, t, i, acc);
             i += 1;
         };
+
         t += 1;
     };
 
     let mut i = 0;
-    loop {
-        if i == max_iter {
-            break;
-        }
-
+    while i != max_iter {
         let mut Qp = MutMatrixImpl::matrix_vector_product(ref Q, ref P);
         let mut pQp = dot(ref P, ref Qp);
 
         let mut max_error = NumberTrait::zero();
         let mut t = 0;
-        loop {
-            if t == k {
-                break;
-            }
+        while t != k {
             let error = NumberTrait::abs(Qp.at(t) - pQp);
             if error > max_error {
                 max_error = error;
             }
+
             t += 1;
         };
 
@@ -1012,11 +956,7 @@ fn multiclass_probability<
         }
 
         let mut t = 0;
-        loop {
-            if t == k {
-                break;
-            }
-
+        while t != k {
             let diff = (-VecTrait::at(ref Qp, t) + pQp) / MutMatrixImpl::at(ref Q, t, t);
             VecTrait::set(ref P, t, VecTrait::at(ref P, t) + diff);
 
@@ -1033,9 +973,11 @@ fn multiclass_probability<
 
             t += 1;
         };
+
         i += 1;
     };
-    return P;
+
+    P
 }
 
 /// Computation of the matrix Qb in the multiclass_probability computation
@@ -1059,10 +1001,7 @@ fn Qp_computation<
     let m = Qp.len;
 
     let mut i = 0_usize;
-    loop {
-        if i == m {
-            break ();
-        }
+    while i != m {
         let elem = (VecTrait::at(ref Qp, i) + diff * MutMatrixImpl::at(ref Q, t, i))
             / (NumberTrait::one() + diff);
 
@@ -1070,7 +1009,6 @@ fn Qp_computation<
         i += 1;
     };
 }
-
 
 fn sigmoid_probability<
     T,
@@ -1098,14 +1036,14 @@ fn sigmoid_probability<
         v
     };
 
-    return NumberTrait::one() - v;
+    NumberTrait::one() - v
 }
-
 
 fn max(a: usize, b: usize) -> usize {
     if a > b {
         return a;
     };
+
     b
 }
 
@@ -1113,18 +1051,16 @@ fn min<T, +Copy<T>, +Drop<T>, +PartialOrd<T>,>(a: Span<T>) -> T {
     let mut min = *a.at(0);
 
     let mut i = 0;
-    loop {
-        if i == a.len() {
-            break;
-        }
+    while i != a.len() {
         if min > *a.at(i) {
             min = *a.at(i);
         }
+
         i += 1;
     };
-    return min;
-}
 
+    min
+}
 
 fn dot_start_end<
     T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +Add<T>, +TensorTrait<T>, +AddEq<T>, +Mul<T>,
@@ -1134,18 +1070,14 @@ fn dot_start_end<
     let mut sum = NumberTrait::zero();
     let mut index_a = a_start;
     let mut index_b = b_start;
-    loop {
-        if index_a == a_end || index_b == b_end {
-            break;
-        }
+    while index_a != a_end && index_b != b_end {
         sum = sum + *pA.at(index_a) * *pB.at(index_b);
         index_a += 1;
         index_b += 1;
     };
 
-    return sum;
+    sum
 }
-
 
 fn sv_dot<
     T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +Add<T>, +TensorTrait<T>, +AddEq<T>, +Mul<T>,
@@ -1154,15 +1086,12 @@ fn sv_dot<
 ) -> T {
     let mut i = 0;
     let mut sum = NumberTrait::zero();
-    loop {
-        if i == pA.len() {
-            break;
-        }
+    while i != pA.len() {
         sum = sum + *pA.at(i) * *pB.at(i);
         i += 1;
     };
 
-    return sum;
+    sum
 }
 
 fn squared_diff<
@@ -1181,14 +1110,12 @@ fn squared_diff<
 ) -> T {
     let mut i = 0;
     let mut sum = NumberTrait::zero();
-    loop {
-        if i == pA.len() {
-            break;
-        }
+    while i != pA.len() {
         sum = sum + (*pA.at(i) - *pB.at(i)).pow(NumberTrait::one() + NumberTrait::one());
         i += 1;
     };
-    return sum;
+
+    sum
 }
 
 fn dot<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +Mul<T>, +AddEq<T>, +Add<T>, +Div<T>>(
@@ -1198,14 +1125,12 @@ fn dot<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +Mul<T>, +AddEq<T>, +Ad
     let n = self.len;
     let mut sum: T = NumberTrait::zero();
     let mut i = 0_usize;
-    loop {
-        if i == n {
-            break ();
-        }
+    while i != n {
         sum += self.at(i) * vec.at(i);
         i += 1;
     };
-    return sum;
+
+    sum
 }
 
 fn div_element_wise<T, MAG, +Mul<T>, +Add<T>, +Div<T>, +NumberTrait<T, MAG>, +Drop<T>, +Copy<T>>(
@@ -1214,10 +1139,7 @@ fn div_element_wise<T, MAG, +Mul<T>, +Add<T>, +Div<T>, +NumberTrait<T, MAG>, +Dr
     let m = self.len;
 
     let mut i = 0_usize;
-    loop {
-        if i == m {
-            break ();
-        }
+    while i != m {
         VecTrait::set(ref self, i, VecTrait::at(ref self, i) / elem);
         i += 1;
     };

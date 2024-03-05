@@ -8,7 +8,7 @@ Performs the element-wise multiplication of quantized Tensors
 
 It consumes two quantized input tensors, their scales and zero points, scale and zero point of output, and computes the quantized output. 
 The quantization formula is y = saturate((x / y_scale) + y_zero_point).
-It perfoms the element-wise multiplication of the two vectors once dequantized, then return the quantization of the result of the multiplication.
+It performs the element-wise multiplication of the two vectors once dequantized, then return the quantization of the result of the multiplication.
 The broadcasting is supported
 Scale and zero point must have same shape and the same type. They must be either scalar (per tensor) or N-D tensor (per row for 'a' and per column for 'b'). 
 Scalar refers to per tensor quantization whereas N-D refers to per row or per column quantization.

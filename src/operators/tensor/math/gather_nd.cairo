@@ -1,13 +1,4 @@
 use alexandria_data_structures::array_ext::SpanTraitExt;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
-use core::traits::Into;
-use core::debug::PrintTrait;
-use core::traits::TryInto;
-use core::serde::Serde;
-use core::traits::Destruct;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::U32TensorPartialEq;
@@ -37,20 +28,17 @@ fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
         'check indices'
     );
 
-    let mut batch_dims_shape = ArrayTrait::new();
-    let mut output_shape = ArrayTrait::new();
-    let mut index_data = ArrayTrait::new();
-    let mut output_data = ArrayTrait::new();
+    let mut batch_dims_shape = array![];
+    let mut output_shape = array![];
+    let mut index_data = array![];
+    let mut output_data = array![];
 
     let mut batch_dims_size = batch_dims;
     let mut total_data_len = 1;
-    let mut multiple_data_len = ArrayTrait::new();
+    let mut multiple_data_len = array![];
 
     let mut ind = 0;
-    loop {
-        if (ind == batch_dims) {
-            break ();
-        }
+    while ind != batch_dims {
         match indices_shape_clone.pop_front() {
             Option::Some(val) => {
                 batch_dims_size *= *val;
@@ -79,6 +67,7 @@ fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
                     if (ind >= (batch_dims + *indices_shape_last)) {
                         output_shape.append(*val);
                     }
+
                     ind += 1;
                 },
                 Option::None => { break; }
@@ -101,6 +90,7 @@ fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
                 if (ind >= batch_dims + *indices_shape_last) {
                     incrementer *= *val;
                 }
+
                 ind += 1;
             },
             Option::None => { break; }
@@ -116,6 +106,7 @@ fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
                 if (ind >= batch_dims) {
                     breaker *= *val;
                 }
+
                 ind += 1;
             },
             Option::None => { break; }
@@ -136,13 +127,11 @@ fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
 
                 if (index == *indices_shape_last - 1) {
                     let mut data_ind: usize = result;
-                    loop {
-                        if data_ind == result + incrementer {
-                            break;
-                        }
+                    while data_ind != result + incrementer {
                         index_data.append(data_ind + incr);
                         data_ind += 1;
                     };
+
                     result = 0;
                 };
             },
@@ -158,5 +147,6 @@ fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
     };
 
     let mut output_tensor = TensorTrait::<T>::new(output_shape.span(), output_data.span());
-    return output_tensor;
+
+    output_tensor
 }

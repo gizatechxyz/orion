@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::option::OptionTrait;
-use core::array::SpanTrait;
-
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::NumberTrait;
 
@@ -16,7 +12,7 @@ fn abs<
 >(
     mut z: Tensor<T>
 ) -> Tensor<T> {
-    let mut data_result = ArrayTrait::<T>::new();
+    let mut data_result: Array<T> = array![];
     loop {
         match z.data.pop_front() {
             Option::Some(item) => { data_result.append((*item).abs()); },
@@ -24,5 +20,5 @@ fn abs<
         };
     };
 
-    return TensorTrait::<T>::new(z.shape, data_result.span());
+    TensorTrait::<T>::new(z.shape, data_result.span())
 }

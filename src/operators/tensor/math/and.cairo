@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::option::OptionTrait;
-use core::array::SpanTrait;
-
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{core::{Tensor, TensorTrait, unravel_index}, BoolTensor};
 use orion::operators::tensor::helpers::{
@@ -11,12 +7,12 @@ use orion::operators::tensor::helpers::{
 /// Cf: TensorTrait::and docstring
 fn and(y: @Tensor<bool>, z: @Tensor<bool>) -> Tensor<bool> {
     let broadcasted_shape = broadcast_shape(*y.shape, *z.shape);
-    let mut result: Array<bool> = ArrayTrait::new();
+    let mut result: Array<bool> = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
-    loop {
+    while n != num_elements {
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*y.shape, indices_broadcasted);
@@ -25,10 +21,7 @@ fn and(y: @Tensor<bool>, z: @Tensor<bool>) -> Tensor<bool> {
         result.append(*(*y.data)[indices_self] && *(*z.data)[indices_other]);
 
         n += 1;
-        if n == num_elements {
-            break ();
-        };
     };
 
-    return TensorTrait::new(broadcasted_shape, result.span());
+    TensorTrait::new(broadcasted_shape, result.span())
 }

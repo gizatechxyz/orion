@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::option::OptionTrait;
-use core::array::SpanTrait;
-
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::numbers::NumberTrait;
 
@@ -21,14 +17,14 @@ fn array_feature_extractor<
 
     let output_data = calculate_output_data::<T>(self, indices, total_elements);
 
-    return TensorTrait::new(output_shape.span(), output_data.span());
+    TensorTrait::new(output_shape.span(), output_data.span())
 }
 
 
 fn process_1D_tensor<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     self: Tensor<T>, indices: Tensor<usize>
 ) -> Tensor<T> {
-    let mut output_data = ArrayTrait::<T>::new();
+    let mut output_data: Array<T> = array![];
 
     let mut indices_values: Span<usize> = indices.data;
     let self_len = *self.shape.at(0);
@@ -43,7 +39,7 @@ fn process_1D_tensor<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl 
         };
     };
 
-    return TensorTrait::new(indices.shape, output_data.span());
+    TensorTrait::new(indices.shape, output_data.span())
 }
 
 
@@ -53,7 +49,7 @@ fn calculate_output_shape<
     input_shape: Span<usize>, indices: Tensor<usize>
 ) -> (Array<usize>, usize) {
     let mut total_elements: usize = 1;
-    let mut output_shape: Array<usize> = ArrayTrait::new();
+    let mut output_shape: Array<usize> = array![];
 
     let mut input_shape_copy = input_shape;
     let mut input_shape_counter: usize = 0;
@@ -75,7 +71,7 @@ fn calculate_output_shape<
 
     output_shape.append(indices.data.len());
 
-    return (output_shape, total_elements);
+    (output_shape, total_elements)
 }
 
 
@@ -84,18 +80,14 @@ fn calculate_output_data<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, i
 ) -> Array<T> {
     let last_tensor_axis: usize = *self.shape.at(self.shape.len() - 1);
 
-    let mut output_data = ArrayTrait::<T>::new();
+    let mut output_data: Array<T> = array![];
 
     let strides: Span<usize> = TensorTrait::stride(@self);
 
     let mut element_counter: usize = 0;
     let mut stride_l2 = *strides.at(strides.len() - 2);
     let mut stride_l1 = *strides.at(strides.len() - 1);
-    loop {
-        if element_counter > total_elements - 1 {
-            break;
-        }
-
+    while element_counter != total_elements {
         let mut base_index = if strides.len() > 1 {
             element_counter * stride_l2
         } else {
@@ -119,5 +111,5 @@ fn calculate_output_data<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, i
         element_counter += 1;
     };
 
-    return output_data;
+    output_data
 }

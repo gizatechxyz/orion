@@ -1,7 +1,3 @@
-use core::array::ArrayTrait;
-use core::option::OptionTrait;
-use core::array::SpanTrait;
-
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index};
 use orion::operators::tensor::helpers::{
@@ -20,12 +16,12 @@ fn or<
     y: @Tensor<T>, z: @Tensor<T>
 ) -> Tensor<usize> {
     let broadcasted_shape = broadcast_shape(*y.shape, *z.shape);
-    let mut result: Array<usize> = ArrayTrait::new();
+    let mut result: Array<usize> = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 
     let mut n: usize = 0;
-    loop {
+    while n != num_elements {
         let indices_broadcasted = unravel_index(n, broadcasted_shape);
 
         let indices_self = broadcast_index_mapping(*y.shape, indices_broadcasted);
@@ -38,10 +34,7 @@ fn or<
         }
 
         n += 1;
-        if n == num_elements {
-            break ();
-        };
     };
 
-    return TensorTrait::new(broadcasted_shape, result.span());
+    TensorTrait::new(broadcasted_shape, result.span())
 }

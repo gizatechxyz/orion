@@ -1,6 +1,3 @@
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
 use orion::numbers::NumberTrait;
 
 /// Cf: TensorTrait::min_in_tensor docstring
@@ -28,5 +25,5 @@ fn min_in_tensor<
         };
     };
 
-    return min_value;
+    min_value
 }

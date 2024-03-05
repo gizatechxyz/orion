@@ -3,65 +3,67 @@ use orion::numbers::fixed_point::implementations::fp8x23::core::{
 };
 
 fn max(a: FP8x23, b: FP8x23) -> FP8x23 {
-    if (a >= b) {
-        return a;
+    if a >= b {
+        a
     } else {
-        return b;
+        b
     }
 }
 
 fn min(a: FP8x23, b: FP8x23) -> FP8x23 {
-    if (a <= b) {
-        return a;
+    if a <= b {
+        a
     } else {
-        return b;
+        b
     }
 }
 
 fn xor(a: FP8x23, b: FP8x23) -> bool {
     if (a == FixedTrait::new(0, false) || b == FixedTrait::new(0, false)) && (a != b) {
-        return true;
+        true
     } else {
-        return false;
+        false
     }
 }
 
 fn or(a: FP8x23, b: FP8x23) -> bool {
     let zero = FixedTrait::new(0, false);
+
     if a == zero && b == zero {
-        return false;
+        false
     } else {
-        return true;
+        true
     }
 }
 
 fn and(a: FP8x23, b: FP8x23) -> bool {
     let zero = FixedTrait::new(0, false);
+
     if a == zero || b == zero {
-        return false;
+        false
     } else {
-        return true;
+        true
     }
 }
 
 fn where(a: FP8x23, b: FP8x23, c: FP8x23) -> FP8x23 {
     if a == FixedTrait::new(0, false) {
-        return c;
+        c
     } else {
-        return b;
+        b
     }
 }
 
 fn bitwise_and(a: FP8x23, b: FP8x23) -> FP8x23 {
-    return FixedTrait::new(a.mag & b.mag, a.sign & b.sign);
+    FixedTrait::new(a.mag & b.mag, a.sign & b.sign)
 }
 
 fn bitwise_xor(a: FP8x23, b: FP8x23) -> FP8x23 {
-    return FixedTrait::new(a.mag ^ b.mag, a.sign ^ b.sign);
+    FixedTrait::new(a.mag ^ b.mag, a.sign ^ b.sign)
 }
 
 fn bitwise_or(a: FP8x23, b: FP8x23) -> FP8x23 {
-    return FixedTrait::new(a.mag | b.mag, a.sign | b.sign);
+    FixedTrait::new(a.mag | b.mag, a.sign | b.sign)
 }
 
 // Tests --------------------------------------------------------------------------------------------------------------
@@ -107,6 +109,7 @@ mod tests {
         assert(min(c, b) == c, 'min(c, b)');
         assert(min(c, c) == c, 'min(c, c)');
     }
+
     #[test]
     fn test_bitwise_and() {
         let a = FixedTrait::new(28835840, false); // 3.4375
@@ -124,6 +127,7 @@ mod tests {
         assert(bitwise_xor(a, b) == c, 'bitwise_xor(a,b)')
     }
 
+    #[test]
     fn test_bitwise_or() {
         let a = FixedTrait::new(28835840, false); // 3.4375
         let b = FixedTrait::new(1639448576, true); // -60.5625

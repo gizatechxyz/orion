@@ -1,7 +1,7 @@
 use orion::numbers::NumberTrait;
+use orion::operators::tensor::core::{stride};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor,};
 use orion::operators::vec::{NullableVec, NullableVecImpl};
-use orion::operators::tensor::core::{stride};
 
 #[derive(Copy, Drop)]
 enum AUTO_PAD {
@@ -33,61 +33,53 @@ fn conv_transpose<
     let dilations = match dilations {
         Option::Some(dilations) => dilations,
         Option::None => {
-            let mut dilations = ArrayTrait::new();
+            let mut dilations: Array<usize> = array![];
             let mut i = 2;
-            loop {
-                if i >= (*X).shape.len() {
-                    break;
-                }
+            while i != (*X).shape.len() {
                 dilations.append(1);
                 i += 1;
             };
+
             dilations.span()
         },
     };
     let kernel_shape = match kernel_shape {
         Option::Some(kernel_shape) => kernel_shape,
         Option::None => {
-            let mut kernel_shape = ArrayTrait::new();
+            let mut kernel_shape: Array<usize> = array![];
             let mut i = 2;
-            loop {
-                if i >= (*W).shape.len() {
-                    break;
-                }
+            while i != (*W).shape.len() {
                 kernel_shape.append(*(*W).shape.at(i));
                 i += 1;
             };
+
             kernel_shape.span()
         },
     };
     let output_padding = match output_padding {
         Option::Some(output_padding) => output_padding,
         Option::None => {
-            let mut output_padding = ArrayTrait::new();
+            let mut output_padding: Array<usize> = array![];
             let mut i = 2;
-            loop {
-                if i >= (*X).shape.len() {
-                    break;
-                }
+            while i != (*X).shape.len() {
                 output_padding.append(0);
                 output_padding.append(0);
                 i += 1;
             };
+
             output_padding.span()
         },
     };
     let strides = match strides {
         Option::Some(strides) => strides,
         Option::None => {
-            let mut strides = ArrayTrait::new();
+            let mut strides: Array<usize> = array![];
             let mut i = 2;
-            loop {
-                if i >= (*X).shape.len() {
-                    break;
-                }
+            while i != (*X).shape.len() {
                 strides.append(1);
                 i += 1;
             };
+
             strides.span()
         },
     };
@@ -98,12 +90,9 @@ fn conv_transpose<
             let output_shape = match output_shape {
                 Option::Some(output_shape) => output_shape,
                 Option::None => {
-                    let mut output_shape = ArrayTrait::new();
+                    let mut output_shape: Array<usize> = array![];
                     let mut i = 0;
-                    loop {
-                        if i == n_dims {
-                            break;
-                        }
+                    while i != n_dims {
                         output_shape
                             .append(
                                 (*(*X).shape.at(i + 2) - 1) * *strides.at(i)
@@ -113,23 +102,23 @@ fn conv_transpose<
                             );
                         i += 1;
                     };
+
                     output_shape.span()
                 },
             };
+
             (pads, n_dims, output_shape)
         },
         Option::None => {
             let (pads, n_dims, output_shape) = match auto_pad {
                 AUTO_PAD::NOTSET => {
-                    let mut pads = ArrayTrait::new();
+                    let mut pads: Array<usize> = array![];
                     let mut i = 0;
-                    loop {
-                        if i == strides.len() * 2 {
-                            break;
-                        }
+                    while i != strides.len() * 2 {
                         pads.append(0);
                         i += 1;
                     };
+
                     let pads = pads.span();
 
                     let n_dims = (*X).shape.len() - 2;
@@ -137,13 +126,9 @@ fn conv_transpose<
                     let output_shape = match output_shape {
                         Option::Some(output_shape) => output_shape,
                         Option::None => {
-                            let mut output_shape = ArrayTrait::new();
+                            let mut output_shape: Array<usize> = array![];
                             let mut i = 0;
-                            loop {
-                                if i == n_dims {
-                                    break;
-                                }
-
+                            while i != n_dims {
                                 output_shape
                                     .append(
                                         (*(*X).shape.at(i + 2) - 1) * *strides.at(i)
@@ -153,6 +138,7 @@ fn conv_transpose<
                                     );
                                 i += 1;
                             };
+
                             output_shape.span()
                         },
                     };
@@ -163,25 +149,20 @@ fn conv_transpose<
                     let output_shape = match output_shape {
                         Option::Some(output_shape) => output_shape,
                         Option::None => {
-                            let mut output_shape = ArrayTrait::new();
+                            let mut output_shape: Array<usize> = array![];
                             let mut i = 0;
-                            loop {
-                                if i == strides.len() {
-                                    break;
-                                }
+                            while i != strides.len() {
                                 output_shape.append(*(*X).shape.at(i + 2) * *strides.at(i));
                                 i += 1;
                             };
+
                             output_shape.span()
                         },
                     };
-                    let mut total_padding = ArrayTrait::new();
+                    let mut total_padding: Array<usize> = array![];
 
                     let mut i = 0;
-                    loop {
-                        if i == output_shape.len() {
-                            break;
-                        }
+                    while i != output_shape.len() {
                         total_padding
                             .append(
                                 (*(*X).shape.at(i + 2) - 1) * *strides.at(i)
@@ -191,51 +172,43 @@ fn conv_transpose<
                             );
                         i += 1;
                     };
+
                     let total_padding = total_padding.span();
 
-                    let mut pads = ArrayTrait::new();
+                    let mut pads: Array<usize> = array![];
 
                     let mut i = 0;
-                    loop {
-                        if i == output_shape.len() {
-                            break;
-                        }
+                    while i != output_shape.len() {
                         pads.append(*total_padding.at(i) / 2);
                         i += 1;
                     };
+
                     let mut i = 0;
-                    loop {
-                        if i == output_shape.len() {
-                            break;
-                        }
+                    while i != output_shape.len() {
                         pads.append(*total_padding.at(i) - (*total_padding.at(i) / 2));
                         i += 1;
                     };
+
                     (pads.span(), pads.len() / 2, output_shape)
                 },
                 AUTO_PAD::SAME_LOWER => {
                     let output_shape = match output_shape {
                         Option::Some(output_shape) => output_shape,
                         Option::None => {
-                            let mut output_shape = ArrayTrait::new();
+                            let mut output_shape: Array<usize> = array![];
                             let mut i = 0;
-                            loop {
-                                if i == strides.len() {
-                                    break;
-                                }
+                            while i != strides.len() {
                                 output_shape.append(*(*X).shape.at(i + 2) * *strides.at(i));
                                 i += 1;
                             };
+
                             output_shape.span()
                         },
                     };
-                    let mut total_padding = ArrayTrait::new();
+                    let mut total_padding: Array<usize> = array![];
 
                     let mut i = 0;
-                    loop {
-                        if i == output_shape.len() {
-                            break;
-                        }
+                    while i != output_shape.len() {
                         total_padding
                             .append(
                                 (*(*X).shape.at(i + 2) - 1) * *strides.at(i)
@@ -245,50 +218,42 @@ fn conv_transpose<
                             );
                         i += 1;
                     };
+
                     let total_padding = total_padding.span();
 
-                    let mut pads = ArrayTrait::new();
+                    let mut pads: Array<usize> = array![];
 
                     let mut i = 0;
-                    loop {
-                        if i == output_shape.len() {
-                            break;
-                        }
+                    while i != output_shape.len() {
                         pads.append(*total_padding.at(i) - *total_padding.at(i) / 2);
                         i += 1;
                     };
+
                     let mut i = 0;
-                    loop {
-                        if i == output_shape.len() {
-                            break;
-                        }
+                    while i != output_shape.len() {
                         pads.append(*total_padding.at(i) / 2);
                         i += 1;
                     };
+
                     (pads.span(), pads.len() / 2, output_shape)
                 },
                 AUTO_PAD::VALID => {
-                    let mut pads = ArrayTrait::new();
+                    let mut pads: Array<usize> = array![];
                     let mut i = 0;
-                    loop {
-                        if i == strides.len() * 2 {
-                            break;
-                        }
+                    while i != strides.len() * 2 {
                         pads.append(0);
                         i += 1;
                     };
+
                     let pads = pads.span();
 
                     let n_dims = (*X).shape.len() - 2;
                     let output_shape = match output_shape {
                         Option::Some(output_shape) => output_shape,
                         Option::None => {
-                            let mut output_shape = ArrayTrait::new();
+                            let mut output_shape: Array<usize> = array![];
                             let mut i = 0;
-                            loop {
-                                if i == n_dims {
-                                    break;
-                                }
+                            while i != n_dims {
                                 output_shape
                                     .append(
                                         (*(*X).shape.at(i + 2) - 1) * *strides.at(i)
@@ -298,12 +263,15 @@ fn conv_transpose<
                                     );
                                 i += 1;
                             };
+
                             output_shape.span()
                         },
                     };
+
                     (pads, n_dims, output_shape)
                 },
             };
+
             (pads, n_dims, output_shape)
         },
     };
@@ -312,15 +280,13 @@ fn conv_transpose<
         Option::None => { 1 },
     };
 
-    let mut kernel_shape = ArrayTrait::new();
+    let mut kernel_shape: Array<usize> = array![];
     let mut i = 2;
-    loop {
-        if i >= (*W).shape.len() {
-            break;
-        }
+    while i != (*W).shape.len() {
         kernel_shape.append(*(*W).shape.at(i));
         i += 1;
     };
+
     let kernel_shape = kernel_shape.span();
     let kernel_size = prod(kernel_shape, 0);
 
@@ -332,14 +298,11 @@ fn conv_transpose<
     let n = prod((*X).shape, 2);
     let k = C / group;
 
-    let mut final = ArrayTrait::new();
+    let mut final: Array<T> = array![];
 
     if group == 1 {
         let mut image_id = 0;
-        loop {
-            if image_id == *(*X).shape.at(0) {
-                break;
-            }
+        while image_id != *(*X).shape.at(0) {
             let w_t = TensorTrait::new(array![k, m].span(), (*W).data)
                 .transpose(array![1, 0].span());
 
@@ -349,10 +312,7 @@ fn conv_transpose<
             let gemmc = gemm
                 .reshape(array![num_output_channels, m / num_output_channels, n].span());
             let mut c = 0;
-            loop {
-                if c == num_output_channels {
-                    break;
-                }
+            while c != num_output_channels {
                 let gemmc_c = TensorTrait::new(
                     array![m / num_output_channels, n].span(),
                     SpanTrait::slice(
@@ -367,103 +327,78 @@ fn conv_transpose<
                 match B {
                     Option::Some(B) => {
                         let mut i = 0;
-                        loop {
-                            if i == res.len() {
-                                break;
-                            }
+                        while i != res.len() {
                             res.set(i, res.at(i) + *(*B).data.at(c));
                             i += 1;
                         };
                     },
                     Option::None => {},
                 }
+
                 c += 1;
 
                 let mut i = 0;
-                loop {
-                    if i == res.len() {
-                        break;
-                    }
+                while i != res.len() {
                     final.append(res.at(i));
                     i += 1;
                 };
             };
+
             image_id += 1;
         };
     } else {
-        let mut output_array = ArrayTrait::new();
+        let mut output_array: Array<Span<T>> = array![];
 
         let mut i = 0;
         let mut output_size = 1;
-        loop {
-            if i == output_shape.len() {
-                break;
-            }
+        while i != output_shape.len() {
             output_size *= *output_shape.at(i);
             i += 1;
         };
 
         // Computation of conv transposition per group
         let mut group_id = 0;
-        loop {
-            if group_id == group {
-                break;
-            }
-            let mut group_X = ArrayTrait::new();
-            let mut group_W = ArrayTrait::new();
+        while group_id != group {
+            let mut group_X: Array<T> = array![];
+            let mut group_W: Array<T> = array![];
 
             let mut image_id = 0;
-            loop {
-                if image_id == *(*X).shape.at(0) {
-                    break;
-                }
+            while image_id != *(*X).shape.at(0) {
                 let start = image_id * n * C + (group_id * C / group) * n;
                 let end = image_id * n * C + ((group_id + 1) * C / group) * n;
 
                 let mut i = start;
-                loop {
-                    if i == end {
-                        break;
-                    }
+                while i != end {
                     group_X.append(*(*X).data.at(i));
-
                     i += 1;
                 };
+
                 image_id += 1;
             };
 
             let start = (group_id * C / group) * *(*W).shape.at(1) * kernel_size;
             let end = (group_id + 1) * C / group * *(*W).shape.at(1) * kernel_size;
             let mut i = start;
-            loop {
-                if i == end {
-                    break;
-                }
+            while i != end {
                 group_W.append(*(*W).data.at(i));
                 i += 1;
             };
 
-            let mut shape_X = ArrayTrait::new();
+            let mut shape_X: Array<usize> = array![];
             shape_X.append(*(*X).shape.at(0));
             shape_X.append(C / group);
 
             let mut i = 2;
-            loop {
-                if i >= (*X).shape.len() {
-                    break;
-                }
+            while i != (*X).shape.len() {
                 shape_X.append(*(*X).shape.at(i));
                 i += 1;
             };
 
-            let mut shape_W = ArrayTrait::new();
+            let mut shape_W: Array<usize> = array![];
             shape_W.append(C / group);
 
             let mut i = 1;
-            loop {
-                if i >= (*W).shape.len() {
-                    break;
-                }
+            while i != (*W).shape.len() {
                 shape_W.append(*(*W).shape.at(i));
                 i += 1;
             };
@@ -492,47 +427,39 @@ fn conv_transpose<
 
             group_id += 1;
         };
+
         let output_array = output_array.span();
 
         // Sorting result per item of the batch
         // output size : N (batch size) x num_output_channels x output_shape
         let mut image_id = 0;
-        loop {
-            if image_id == *(*X).shape.at(0) {
-                break;
-            }
+        while image_id != *(*X).shape.at(0) {
             let mut group_id = 0;
-            loop {
-                if group_id == group {
-                    break;
-                }
+            while group_id != group {
                 let group_output = *output_array.at(group_id);
                 let mut i = image_id * output_size * (num_output_channels / group);
 
-                loop {
-                    if i == (image_id + 1) * output_size * (num_output_channels / group) {
-                        break;
-                    }
+                while i != (image_id + 1) * output_size * (num_output_channels / group) {
                     final.append(*group_output.at(i));
                     i += 1;
                 };
+
                 group_id += 1;
             };
+
             image_id += 1;
         };
     }
+
     let mut shape = array![*(*X).shape.at(0), num_output_channels];
 
     let mut i = 0;
-    loop {
-        if i == output_shape.len() {
-            break;
-        }
+    while i != output_shape.len() {
         shape.append(*output_shape.at(i));
         i += 1;
     };
 
-    return TensorTrait::new(shape.span(), final.span());
+    TensorTrait::new(shape.span(), final.span())
 }
 
 fn get_image<T, +Drop<T>, +Copy<T>>(self: @Tensor<T>, row: usize) -> Span<T> {
@@ -558,12 +485,9 @@ fn col2im_naive_implementation<
 
     col2im_shape_check(data, image_shape, kernel_shape, dilations, pads, strides);
 
-    let mut dim_col = ArrayTrait::new();
+    let mut dim_col: Array<usize> = array![];
     let mut i = 0;
-    loop {
-        if i == n_dims {
-            break;
-        }
+    while i != n_dims {
         dim_col
             .append(
                 (*image_shape.at(i)
@@ -575,6 +499,7 @@ fn col2im_naive_implementation<
 
         i += 1;
     };
+
     let dim_col = dim_col.span();
 
     let stride_img = stride(image_shape);
@@ -585,24 +510,15 @@ fn col2im_naive_implementation<
     let kernel_size = prod(kernel_shape, 0);
     let col_size = prod(dim_col, 0);
     let mut c_col = 0;
-    loop {
-        if c_col == kernel_size {
-            break;
-        }
+    while c_col != kernel_size {
         let offset = get_indices(c_col, kernel_shape).span();
 
         let mut col = 0;
-        loop {
-            if col == col_size {
-                break;
-            }
+        while col != col_size {
             let ind_col = get_indices(col, dim_col).span();
-            let mut ind_im = ArrayTrait::new();
+            let mut ind_im: Array<usize> = array![];
             let mut i = 0;
-            loop {
-                if i == n_dims {
-                    break;
-                }
+            while i != n_dims {
                 if (*ind_col.at(i) * *strides.at(i) + *offset.at(i) * *dilations.at(i)) < *pads
                     .at(i) {
                     let neg_index = *pads.at(i)
@@ -619,25 +535,26 @@ fn col2im_naive_implementation<
 
                 i += 1;
             };
+
             let ind_im = ind_im.span();
             if !is_out(ind_im, image_shape) {
                 let mut index = 0;
                 let mut i = 0;
-                loop {
-                    if i == image_shape.len() {
-                        break;
-                    }
+                while i != image_shape.len() {
                     index += *stride_img.at(i) * *ind_im.at(i);
                     i += 1;
                 };
+
                 data_im.set(index, data_im.at(index) + *(*data).data.at(c_col * col_size + col));
             }
+
             col += 1;
         };
+
         c_col += 1;
     };
 
-    return data_im;
+    data_im
 }
 
 fn col2im_shape_check<T, +TensorTrait<T>, +Copy<T>, +Drop<T>,>(
@@ -656,13 +573,10 @@ fn col2im_shape_check<T, +TensorTrait<T>, +Copy<T>, +Drop<T>,>(
 
     let input_length = *(*X).shape.at(1);
     let n_dims = output_shape.len();
-    let mut n_blocks = ArrayTrait::new();
+    let mut n_blocks: Array<usize> = array![];
 
     let mut i = 0;
-    loop {
-        if i == n_dims {
-            break;
-        }
+    while i != n_dims {
         n_blocks
             .append(
                 (*output_shape.at(i)
@@ -683,12 +597,9 @@ fn col2im_shape_check<T, +TensorTrait<T>, +Copy<T>, +Drop<T>,>(
 
 fn get_indices(index: usize, shape: Span<usize>,) -> Array<usize> {
     let mut i = index;
-    let mut res = ArrayTrait::new();
+    let mut res: Array<usize> = array![];
     let mut k = shape.len() - 1;
-    loop {
-        if k == 0 {
-            break;
-        }
+    while k != 0 {
         let m = i % *shape.at(k);
         res.append(m);
         i -= m;
@@ -696,17 +607,15 @@ fn get_indices(index: usize, shape: Span<usize>,) -> Array<usize> {
         k -= 1;
     };
 
-    let mut new_res = ArrayTrait::new();
+    let mut new_res: Array<usize> = array![];
     new_res.append(i);
     let mut i = shape.len() - 1;
-    loop {
-        if i == 0 {
-            break;
-        }
+    while i != 0 {
         new_res.append(*res.at(i - 1));
         i -= 1;
     };
-    return new_res;
+
+    new_res
 }
 
 fn is_out(ind: Span<usize>, shape: Span<usize>,) -> bool {
@@ -725,22 +634,20 @@ fn is_out(ind: Span<usize>, shape: Span<usize>,) -> bool {
         }
         n += 1;
     };
-    return is_out;
-}
 
+    is_out
+}
 
 fn prod<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +Mul<T>,>(
     pA: Span<T>, start: usize
 ) -> T {
     let mut i = start;
     let mut prod = NumberTrait::one();
-    loop {
-        if i == pA.len() {
-            break;
-        }
+    while i != pA.len() {
         prod = prod * (*pA.at(i));
         i += 1;
     };
-    return prod;
+
+    prod
 }
 

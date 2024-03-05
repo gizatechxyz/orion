@@ -240,7 +240,9 @@ trait TreeEnsembleClassifierTrait<T> {
     ///   ])      
     /// ```
     ///
-    fn predict(classifier: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Span<usize>, MutMatrix::<T>);
+    fn predict(
+        classifier: TreeEnsembleClassifier<T>, X: Tensor<T>
+    ) -> (Span<usize>, MutMatrix::<T>);
 }
 
 impl TreeEnsembleClassifierImpl<
@@ -259,7 +261,9 @@ impl TreeEnsembleClassifierImpl<
     +Div<T>,
     +Mul<T>
 > of TreeEnsembleClassifierTrait<T> {
-    fn predict(classifier: TreeEnsembleClassifier<T>, X: Tensor<T>) -> (Span<usize>, MutMatrix::<T>) {
+    fn predict(
+        classifier: TreeEnsembleClassifier<T>, X: Tensor<T>
+    ) -> (Span<usize>, MutMatrix::<T>) {
         let mut classifier = classifier;
         let leaves_index = classifier.ensemble.leave_index_tree(X);
         let n_classes = classifier.classlabels.len();
@@ -541,4 +545,3 @@ impl TreeEnsembleClassifierImpl<
         return (labels_list.span(), new_scores);
     }
 }
-
