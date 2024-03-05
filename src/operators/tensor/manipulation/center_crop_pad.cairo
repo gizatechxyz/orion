@@ -36,10 +36,8 @@ fn center_crop_pad<
         Option::None => {
             let mut axes: Array<usize> = ArrayTrait::new();
             let mut i: usize = 0;
-            loop {
-                if i > input_rank - 1 {
-                    break ();
-                }
+
+            while i < input_rank{
                 axes.append(i);
                 i += 1;
             };
@@ -55,10 +53,8 @@ fn center_crop_pad<
             Option::Some(dim) => {
                 let mut temp: Array<usize> = ArrayTrait::new();
                 let mut i: usize = 0;
-                loop {
-                    if i > *dim - 1 {
-                        break ();
-                    }
+
+                while i < *dim{
                     temp.append(i);
                     i += 1;
                 };
@@ -193,10 +189,8 @@ fn tensor_crop<
     let mut count = 1;
     let mut shape: Array<usize> = ArrayTrait::new();
     let mut i: usize = 0;
-    loop {
-        if i > input_data_shape_copy.len() - 1 {
-            break ();
-        }
+
+    while i < input_data_shape_copy.len(){
         shape.append(*input_data_shape_copy.at(i));
         i += 1;
     };
@@ -213,13 +207,11 @@ fn tensor_crop<
                 let mut arr_list: Array<Array<T>> = make_array_from_dim(res, count);
                 res = ArrayTrait::<T>::new().span();
                 let mut j: usize = 0;
-                loop {
-                    if j > slice_len - 1 {
-                        break ();
-                    }
+
+                while j < slice_len{
                     res = res.concat(arr_list.at(*slice.at(j)).span());
                     j += 1;
-                }
+                };
             }
             break ();
         }
@@ -233,10 +225,8 @@ fn tensor_crop<
                     Option::Some(mut arr) => {
                         let mut arr = make_array_from_dim(arr.span(), count);
                         let mut j: usize = 0;
-                        loop {
-                            if j > slice_len - 1 {
-                                break ();
-                            }
+
+                        while j < slice_len{
                             res = res.concat(arr.at(*slice.at(j)).span());
                             j += 1;
                         };
@@ -257,14 +247,9 @@ fn make_zero_array<
     +Copy<T>
 >(size: usize, zero: T) -> Span<T> {
     let mut res: Array<T> = ArrayTrait::new();
-    if size == 0 {
-        return res.span();
-    }
     let mut i: usize = 0;
-    loop {
-        if i > size - 1 {
-            break ();
-        }
+
+    while i < size{
         res.append(zero.clone());
         i += 1;
     };
@@ -274,10 +259,8 @@ fn make_zero_array<
 fn slice(start: usize, end: usize) -> Array<usize> {
     let mut index: Array<usize> = ArrayTrait::new();
     let mut i: usize = start;
-    loop {
-        if i > end - 1 {
-            break;
-        }
+
+    while i < end{
         index.append(i);
         i += 1;
     };
@@ -293,10 +276,8 @@ fn array_cover(ref arr: Array<Array<usize>>, index: usize, data: Array<usize>) {
 
     let mut arr_len: usize = arr.len();
     let mut i: usize = 0;
-    loop {
-        if i > arr_len - 1 {
-            break ();
-        }
+
+    while i < arr_len{
         let temp = arr.pop_front().unwrap();
         if i == index {
             arr.append(data.clone());
@@ -316,11 +297,8 @@ fn usize_cover(ref arr: Array<usize>, index: usize, data: usize) {
 
     let mut arr_len: usize = arr.len();
     let mut i: usize = 0;
-    loop {
-        if i > arr_len - 1 {
-            break ();
-        }
 
+    while i < arr_len{
         let temp = arr.pop_front().unwrap();
         if i == index {
             arr.append(data.clone());
@@ -337,10 +315,8 @@ fn make_array_from_dim<T, +Drop<T>, +Copy<T>>(input_data: Span<T>, dim: usize) -
 
     let mut res = ArrayTrait::<Array<T>>::new();
     let mut i: usize = 0;
-    loop {
-        if i > row - 1 {
-            break ();
-        }
+
+    while i < row{
         let mut temp: Array<T> = ArrayTrait::new();
         let mut j: usize = 0;
         loop {
