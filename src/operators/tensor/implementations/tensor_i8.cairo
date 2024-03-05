@@ -560,10 +560,6 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
     fn split_to_sequence(
         self: @Tensor<i8>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<i8>> {

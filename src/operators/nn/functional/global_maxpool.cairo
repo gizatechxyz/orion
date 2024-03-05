@@ -39,7 +39,7 @@ fn global_maxpool<
             match data.pop_front() {
                 Option::Some(data) => {
                     if accum % area == 0 {
-                        break ();
+                        break;
                     } else {
                         sub_tensor.append(*data);
                         accum += 1;

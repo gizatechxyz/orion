@@ -42,11 +42,7 @@ fn dynamic_quantize_linear<
         y_scale_values.append(y_scale_value);
     }
 
-<<<<<<< HEAD
-    let mut y_scale_tensor_shape = ArrayTrait::new();
-=======
     let mut y_scale_tensor_shape: Array<u32> = array![];
->>>>>>> main
     y_scale_tensor_shape.append(y_scale_values.len());
 
     let y_scale = TensorTrait::<
@@ -73,9 +69,5 @@ fn dynamic_quantize_linear<
 
     // y = saturate (round (x / y_scale) + y_zero_point)
 
-<<<<<<< HEAD
-    return (quantize_linear(x, @y_scale, @y_zero_point, min, max), y_scale, y_zero_point);
-=======
     (quantize_linear(x, @y_scale, @y_zero_point, min, max), y_scale, y_zero_point)
->>>>>>> main
 }

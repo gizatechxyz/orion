@@ -57,15 +57,7 @@ fn reverse_index(shape: Span<usize>, sequence_lens: Tensor<usize>, control: bool
             sequence_lens.data.len() <= x, "The length of sequence_lens cannot exceed batch_axis"
         );
         let mut i: usize = 0;
-<<<<<<< HEAD
-        loop {
-            if i >= x {
-                break;
-            }
-
-=======
         while i != x {
->>>>>>> main
             let reverse: usize = (*sequence_lens.data.at(i));
             assert!(
                 reverse <= y && reverse >= 1,
@@ -124,14 +116,7 @@ fn reverse_index(shape: Span<usize>, sequence_lens: Tensor<usize>, control: bool
 
         let tmp = tmp.span();
         let mut i: usize = 0;
-<<<<<<< HEAD
-        loop {
-            if i > x - 1 {
-                break;
-            }
-=======
         while i != x {
->>>>>>> main
             let mut j: usize = 0;
             while j != y {
                 result.append((*tmp.at(j * x + i)));

@@ -572,10 +572,6 @@ impl I32Tensor of TensorTrait<i32> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
     fn optional(self: @Tensor<i32>) -> Option<Tensor<i32>> {
         manipulation::optional::optional(self)
     }

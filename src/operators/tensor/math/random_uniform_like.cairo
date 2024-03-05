@@ -42,12 +42,6 @@ fn random_uniform_like<
     };
     assert!(high > low, "high must be larger than low");
     let res = tensor_get_state(tensor, seed, high, low);
-<<<<<<< HEAD
-
-    return res;
-}
-=======
->>>>>>> main
 
     res
 }
@@ -71,11 +65,7 @@ fn tensor_get_state<
 >(
     tensor: Tensor<T>, mut seed: usize, high: T, low: T
 ) -> Tensor<T> {
-<<<<<<< HEAD
-    let mut data = ArrayTrait::new();
-=======
     let mut data = array![];
->>>>>>> main
     let mut count = (tensor.data).len();
     let mut i = 0;
 

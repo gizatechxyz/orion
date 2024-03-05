@@ -16,11 +16,7 @@ fn range<
 >(
     mut start: T, end: T, step: T
 ) -> Tensor<T> {
-<<<<<<< HEAD
-    let mut result: Array<T> = ArrayTrait::<T>::new();
-=======
     let mut result: Array<T> = array![];
->>>>>>> main
     let zero: T = NumberTrait::zero();
     while !(step >= zero && start >= end) && !(step <= zero && start <= end) {
         let v = start;

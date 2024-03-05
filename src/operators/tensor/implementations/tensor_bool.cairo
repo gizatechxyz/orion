@@ -533,8 +533,6 @@ impl BoolTensor of TensorTrait<bool> {
     fn random_uniform_like(
         tensor: @Tensor<bool>, high: Option<bool>, low: Option<bool>, seed: Option<usize>
     ) -> Tensor<bool> {
-<<<<<<< HEAD
-=======
         panic(array!['not supported!'])
     }
 
@@ -547,7 +545,6 @@ impl BoolTensor of TensorTrait<bool> {
         values: Option<Span<bool>>,
         values_tensor: Option<Tensor<bool>>
     ) -> Tensor<bool> {
->>>>>>> main
         panic(array!['not supported!'])
     }
 }

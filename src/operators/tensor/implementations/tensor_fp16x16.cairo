@@ -601,17 +601,9 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
 
-<<<<<<< HEAD
-
     fn optional(self: @Tensor<FP16x16>) -> Option<Tensor<FP16x16>> {
         manipulation::optional::optional(self)
     }
-
-=======
-    fn optional(self: @Tensor<FP16x16>) -> Option<Tensor<FP16x16>> {
-        manipulation::optional::optional(self)
-    }
->>>>>>> main
 
     fn dynamic_quantize_linear(
         self: @Tensor<FP16x16>

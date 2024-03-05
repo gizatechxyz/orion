@@ -98,14 +98,7 @@ fn scatter_nd<
     let mut index: usize = 0;
     let mut inner_index: usize = 0;
     let num = *data_shape_first.unwrap();
-<<<<<<< HEAD
-    loop {
-        if (index == num) {
-            break;
-        }
-=======
     while index != num {
->>>>>>> main
         let comp_index = updates_index_dict.get(index.into());
 
         if comp_index == 0 {
@@ -163,10 +156,6 @@ fn scatter_nd<
     };
 
     let mut output_tensor = TensorTrait::<T>::new(*self.shape, output_data.span());
-<<<<<<< HEAD
-    return output_tensor;
-=======
 
     output_tensor
->>>>>>> main
 }

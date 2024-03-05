@@ -16,14 +16,7 @@ fn split_to_sequence<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
         let split_length = *(*self.shape).at(axis);
         let mut split_data: Array<usize> = array![];
         let mut i = 0;
-<<<<<<< HEAD
-        loop {
-            if (i >= split_length) {
-                break;
-            }
-=======
         while i != split_length {
->>>>>>> main
             split_data.append(1);
             i += 1;
         };
@@ -49,25 +42,6 @@ fn split_to_sequence<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
         splited_t = split_has_split(self, axis, split_unwrap);
     }
 
-<<<<<<< HEAD
-    if (keepdims == 0 && has_split == false) {
-        let mut splited_t_temp: Array<Tensor<T>> = array![];
-        let mut i = 0;
-        loop {
-            if (i >= splited_t.len()) {
-                break;
-            }
-            let mut shape: Array<usize> = array![];
-            let mut j = 0;
-            let shape_in_splited: Span<usize> = *splited_t.at(i).shape;
-            loop {
-                if (j >= shape_in_splited.len()) {
-                    break;
-                }
-                if (j != axis) {
-                    shape.append(*shape_in_splited.at(j))
-                }
-=======
     if (keepdims == 0 && !has_split) {
         let mut splited_t_temp: Array<Tensor<T>> = array![];
         let mut i = 0;
@@ -80,7 +54,6 @@ fn split_to_sequence<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
                     shape.append(*shape_in_splited.at(j))
                 }
 
->>>>>>> main
                 j += 1;
             };
 

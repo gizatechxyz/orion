@@ -125,10 +125,7 @@ You can see below the list of current supported ONNX Operators:
 |       [HammingWindow](operators/tensor/tensor.tensor.hamming_window.md)       | :white\_check\_mark: |
 |      [BlackmanWindow](operators/tensor/tensor.tensor.blackman_window.md)      | :white\_check\_mark: |
 |      [RandomUniformLike](operators/tensor/tensor.tensor.random_uniform_like.md)      | :white\_check\_mark: |
-<<<<<<< HEAD
 |     [GlobalMaxpool](operators/neural-network/nn.global_maxpool.md)            | :white\_check\_mark: |
-=======
 |           [LabelEncoder](operators/tensor/tensor.label_encoder.md)            | :white\_check\_mark: |
->>>>>>> main
 
 Current Operators support: **118/156 (75%)**

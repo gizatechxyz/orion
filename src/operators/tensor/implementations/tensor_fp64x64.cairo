@@ -597,10 +597,6 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
     fn optional(self: @Tensor<FP64x64>) -> Option<Tensor<FP64x64>> {
         manipulation::optional::optional(self)
     }

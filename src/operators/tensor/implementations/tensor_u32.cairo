@@ -504,10 +504,6 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
     fn split_to_sequence(
         self: @Tensor<u32>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<u32>> {
