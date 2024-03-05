@@ -624,6 +624,13 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> Tensor<FP64x64> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
+
+    fn center_crop_pad(
+        self: @Tensor<FP64x64>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<FP64x64> {
+        let zero = NumberTrait::<FP64x64>::zero();
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

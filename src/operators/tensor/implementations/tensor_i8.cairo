@@ -591,6 +591,13 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Tensor<i8> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
+
+    fn center_crop_pad(
+        self: @Tensor<i8>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<i8> {
+        let zero = 0_i8;
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

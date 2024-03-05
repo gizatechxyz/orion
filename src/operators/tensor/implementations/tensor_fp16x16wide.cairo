@@ -580,6 +580,13 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     ) -> Tensor<FP16x16W> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
+
+    fn center_crop_pad(
+        self: @Tensor<FP16x16W>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<FP16x16W> {
+        let zero = NumberTrait::<FP16x16W>::zero();
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.
