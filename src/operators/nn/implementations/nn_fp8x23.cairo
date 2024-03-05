@@ -139,4 +139,8 @@ impl FP8x23NN of NNTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
+
+    fn global_maxpool(X: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        functional::global_maxpool::global_maxpool(X)
+    }
 }

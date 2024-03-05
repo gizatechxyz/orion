@@ -143,4 +143,8 @@ impl FP16x16NN of NNTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
+
+    fn global_maxpool(X: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        functional::global_maxpool::global_maxpool(X)
+    }
 }

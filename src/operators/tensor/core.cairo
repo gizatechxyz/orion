@@ -5727,9 +5727,7 @@ trait TensorTrait<T> {
     /// >>> [[[[7299130, 4884492]], [[2339070, 1559536]], [[3448557, 984617]], [[5745934, 3670947]], [[4665989, 3079292]], [[3375288, 948254]], [[3749966, 4911069]], [[1358829, 4368105]]]]
     /// ```
     ///
-    fn random_uniform_like(
-        tensor: @Tensor<T>, high: Option<T>, low: Option<T>, seed: Option<usize>
-    ) -> Tensor<T>;
+    fn random_uniform_like(tensor: @Tensor<T>, high: Option<T>, low: Option<T>, seed: Option<usize>) -> Tensor<T>;
     /// # tensor.label_encoder
     /// 
     /// ```rust

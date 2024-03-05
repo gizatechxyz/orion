@@ -137,4 +137,8 @@ impl FP32x32NN of NNTrait<FP32x32> {
     ) -> Tensor<FP32x32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
+
+    fn global_maxpool(X: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        functional::global_maxpool::global_maxpool(X)
+    }
 }

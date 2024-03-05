@@ -173,6 +173,7 @@
     * [nn.thresholded\_relu](framework/operators/neural-network/nn.thresholded\_relu.md)
     * [nn.gemm](framework/operators/neural-network/nn.gemm.md)
     * [nn.grid\_sample](framework/operators/neural-network/nn.grid\_sample.md)
+    * [nn.global_maxpool](framework/operators/neural-network/nn.global_maxpool.md)
     * [nn.col2im](framework/operators/neural-network/nn.col2im.md)
     * [nn.conv_transpose](framework/operators/neural-network/nn.conv\_transpose.md)
     * [nn.conv](framework/operators/neural-network/nn.conv.md)

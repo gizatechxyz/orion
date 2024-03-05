@@ -130,4 +130,8 @@ impl U32NN of NNTrait<u32> {
     ) -> Tensor<u32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
+
+    fn global_maxpool(X: @Tensor<u32>) -> Tensor<u32> {
+        functional::global_maxpool::global_maxpool(X)
+    }
 }
