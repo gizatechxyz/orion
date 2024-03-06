@@ -2,6 +2,7 @@ use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::operators::tensor::implementations::tensor_i8::{I8Tensor, I8TensorAdd};
+use orion::operators::nn::AUTO_PAD;
 
 impl I8NN of NNTrait<i8> {
     fn relu(tensor: @Tensor<i8>) -> Tensor<i8> {
@@ -121,7 +122,7 @@ impl I8NN of NNTrait<i8> {
         X: @Tensor<i8>,
         W: @Tensor<i8>,
         B: Option<Span<i8>>,
-        auto_pad: Option<functional::conv::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,

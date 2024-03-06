@@ -1,30 +1,14 @@
-use core::debug::PrintTrait;
-
 use orion::numbers::NumberTrait;
 use orion::numbers::{U32IntoI32, I32IntoU32, I32Div, I32Number};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor,};
 use orion::operators::vec::{NullableVec, NullableVecImpl};
 use orion::operators::tensor::core::{stride};
 
-#[derive(Copy, Drop)]
-enum AUTO_PAD {
-    NOTSET,
-    SAME_UPPER,
-    SAME_LOWER,
-    VALID
-}
+use orion::operators::nn::AUTO_PAD;
+
 
 fn conv<
-    T,
-    MAG,
-    +TensorTrait<T>,
-    +NumberTrait<T, MAG>,
-    +Copy<T>,
-    +Drop<T>,
-    +Add<T>,
-    +Mul<T>,
-    +AddEq<T>,
-    +PrintTrait<T>,
+    T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Add<T>, +Mul<T>, +AddEq<T>,
 >(
     X: @Tensor<T>,
     W: @Tensor<T>,

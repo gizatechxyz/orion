@@ -6,3 +6,4 @@ mod qlinear_concat;
 mod qlinear_add;
 mod qlinear_mul;
 mod qlinear_leakyrelu;
+mod qlinear_conv;

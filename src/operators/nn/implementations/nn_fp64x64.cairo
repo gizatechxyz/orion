@@ -5,6 +5,7 @@ use orion::numbers::fixed_point::implementations::fp64x64::core::{FP64x64, FP64x
 use orion::operators::tensor::implementations::tensor_fp64x64::{
     FP64x64Tensor, FP64x64TensorDiv, FP64x64TensorAdd
 };
+use orion::operators::nn::AUTO_PAD;
 
 impl FP64x64NN of NNTrait<FP64x64> {
     fn relu(tensor: @Tensor<FP64x64>) -> Tensor<FP64x64> {
@@ -128,7 +129,7 @@ impl FP64x64NN of NNTrait<FP64x64> {
         X: @Tensor<FP64x64>,
         W: @Tensor<FP64x64>,
         B: Option<Span<FP64x64>>,
-        auto_pad: Option<functional::conv::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,

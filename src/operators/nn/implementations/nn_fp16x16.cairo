@@ -11,6 +11,7 @@ use orion::numbers::fixed_point::implementations::fp16x16wide::core::{
 use orion::operators::tensor::implementations::tensor_fp16x16wide::{
     FP16x16WTensor, FP16x16WTensorDiv, FP16x16WTensorAdd
 };
+use orion::operators::nn::AUTO_PAD;
 
 impl FP16x16NN of NNTrait<FP16x16> {
     fn relu(tensor: @Tensor<FP16x16>) -> Tensor<FP16x16> {
@@ -134,7 +135,7 @@ impl FP16x16NN of NNTrait<FP16x16> {
         X: @Tensor<FP16x16>,
         W: @Tensor<FP16x16>,
         B: Option<Span<FP16x16>>,
-        auto_pad: Option<functional::conv::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,
