@@ -2,6 +2,7 @@ use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::operators::tensor::implementations::tensor_u32::{U32Tensor, U32TensorAdd};
+use orion::operators::nn::AUTO_PAD;
 
 impl U32NN of NNTrait<u32> {
     fn relu(tensor: @Tensor<u32>) -> Tensor<u32> {
@@ -121,7 +122,7 @@ impl U32NN of NNTrait<u32> {
         X: @Tensor<u32>,
         W: @Tensor<u32>,
         B: Option<Span<u32>>,
-        auto_pad: Option<functional::conv::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,

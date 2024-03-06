@@ -113,6 +113,7 @@
     * [tensor.qlinear\_matmul](framework/operators/tensor/tensor.qlinear\_matmul.md)
     * [tensor.qlinear\_concat](framework/operators/tensor/tensor.qlinear\_concat.md)
     * [tensor.qlinear\_leakyrelu](framework/operators/tensor/tensor.qlinear\_leakyrelu.md)
+    * [tensor.qlinear\_conv](framework/operators/tensor/tensor.qlinear\_conv.md)
     * [tensor.nonzero](framework/operators/tensor/tensor.nonzero.md)
     * [tensor.squeeze](framework/operators/tensor/tensor.squeeze.md)
     * [tensor.unsqueeze](framework/operators/tensor/tensor.unsqueeze.md)

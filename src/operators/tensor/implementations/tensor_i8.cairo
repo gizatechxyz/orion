@@ -8,6 +8,8 @@ use orion::operators::tensor::core::{
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
 use orion::numbers::{NumberTrait};
 use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_bool::BoolTensor};
+use orion::operators::nn::AUTO_PAD;
+use orion::operators::nn::implementations::nn_i8::I8NN;
 
 impl I8Tensor of TensorTrait<i8> {
     fn new(shape: Span<usize>, data: Span<i8>) -> Tensor<i8> {
@@ -329,6 +331,44 @@ impl I8Tensor of TensorTrait<i8> {
             a_zero_point,
             alpha,
             NumberTrait::new_unscaled(-127, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
+    fn qlinear_conv(
+        self: @Tensor<i8>,
+        X_scale: @Tensor<i8>,
+        X_zero_point: @Tensor<i8>,
+        W: @Tensor<i8>,
+        W_scale: @Tensor<i8>,
+        W_zero_point: @Tensor<i8>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        y_scale: @Tensor<i8>,
+        y_zero_point: @Tensor<i8>,
+    ) -> Tensor<i8> {
+        quantization::qlinear_conv::qlinear_conv(
+            self,
+            X_scale,
+            X_zero_point,
+            W,
+            W_scale,
+            W_zero_point,
+            B,
+            auto_pad,
+            dilations,
+            group,
+            kernel_shape,
+            pads,
+            strides,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(127, true),
             NumberTrait::new_unscaled(127, false)
         )
     }

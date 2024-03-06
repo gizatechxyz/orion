@@ -12,6 +12,8 @@ use orion::operators::tensor::implementations::{
 use orion::numbers::fixed_point::implementations::fp16x16::math::trig::PI;
 
 use orion::numbers::fixed_point::implementations::fp16x16wide::core::FP16x16W;
+use orion::operators::nn::AUTO_PAD;
+use orion::operators::nn::implementations::nn_fp16x16::FP16x16NN;
 
 
 impl FP16x16Tensor of TensorTrait<FP16x16> {
@@ -333,6 +335,44 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
             a_scale,
             a_zero_point,
             alpha,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
+    fn qlinear_conv(
+        self: @Tensor<i8>,
+        X_scale: @Tensor<FP16x16>,
+        X_zero_point: @Tensor<FP16x16>,
+        W: @Tensor<i8>,
+        W_scale: @Tensor<FP16x16>,
+        W_zero_point: @Tensor<FP16x16>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        y_scale: @Tensor<FP16x16>,
+        y_zero_point: @Tensor<FP16x16>,
+    ) -> Tensor<i8> {
+        quantization::qlinear_conv::qlinear_conv(
+            self,
+            X_scale,
+            X_zero_point,
+            W,
+            W_scale,
+            W_zero_point,
+            B,
+            auto_pad,
+            dilations,
+            group,
+            kernel_shape,
+            pads,
+            strides,
+            y_scale,
+            y_zero_point,
             NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )
