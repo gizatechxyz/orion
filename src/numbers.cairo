@@ -64,6 +64,7 @@ trait NumberTrait<T, MAG> {
     fn bitwise_or(lhs: T, rhs: T) -> T;
     fn add(lhs: T, rhs: T) -> T;
     fn sub(lhs: T, rhs: T) -> T;
+    fn bitwise_not(self: T) -> T;
 }
 
 use orion::numbers::fixed_point::implementations::fp8x23::core::{
@@ -290,6 +291,10 @@ impl FP8x23Number of NumberTrait<FP8x23, u32> {
 
     fn sub(lhs: FP8x23, rhs: FP8x23) -> FP8x23 {
         FP8x23Sub::sub(lhs, rhs)
+    }
+
+    fn bitwise_not(self: FP8x23) -> FP8x23 {
+        core_fp8x23::bitwise_not(self)
     }
 }
 
@@ -518,6 +523,10 @@ impl FP8x23WNumber of NumberTrait<FP8x23W, u64> {
     fn sub(lhs: FP8x23W, rhs: FP8x23W) -> FP8x23W {
         FP8x23WSub::sub(lhs, rhs)
     }
+
+    fn bitwise_not(self: FP8x23W) -> FP8x23W {
+        core_fp8x23wide::bitwise_not(self)
+    }
 }
 
 use orion::numbers::fixed_point::implementations::fp16x16::core::{
@@ -745,6 +754,10 @@ impl FP16x16Number of NumberTrait<FP16x16, u32> {
     fn sub(lhs: FP16x16, rhs: FP16x16) -> FP16x16 {
         FP16x16Sub::sub(lhs, rhs)
     }
+
+    fn bitwise_not(self: FP16x16) -> FP16x16 {
+        core_fp16x16::bitwise_not(self)
+    }
 }
 
 use orion::numbers::fixed_point::implementations::fp16x16wide::core::{
@@ -971,6 +984,10 @@ impl FP16x16WNumber of NumberTrait<FP16x16W, u64> {
 
     fn sub(lhs: FP16x16W, rhs: FP16x16W) -> FP16x16W {
         FP16x16WSub::sub(lhs, rhs)
+    }
+
+    fn bitwise_not(self: FP16x16W) -> FP16x16W {
+        core_fp16x16wide::bitwise_not(self)
     }
 }
 
@@ -1200,6 +1217,10 @@ impl FP64x64Number of NumberTrait<FP64x64, u128> {
     fn sub(lhs: FP64x64, rhs: FP64x64) -> FP64x64 {
         FP64x64Sub::sub(lhs, rhs)
     }
+
+    fn bitwise_not(self: FP64x64) -> FP64x64 {
+        FP64x64Impl::bitwise_not(self)
+    }
 }
 
 use orion::numbers::fixed_point::implementations::fp32x32::core::{
@@ -1427,6 +1448,10 @@ impl FP32x32Number of NumberTrait<FP32x32, u64> {
 
     fn sub(lhs: FP32x32, rhs: FP32x32) -> FP32x32 {
         FP32x32Sub::sub(lhs, rhs)
+    }
+
+    fn bitwise_not(self: FP32x32) -> FP32x32 {
+        FP32x32Impl::bitwise_not(self)
     }
 }
 
@@ -1686,6 +1711,10 @@ impl I8Number of NumberTrait<i8, i8> {
 
     fn sub(lhs: i8, rhs: i8) -> i8 {
         lhs - rhs
+    }
+
+    fn bitwise_not(self: i8) -> i8 {
+        panic(array!['not supported!'])
     }
 }
 
@@ -2049,6 +2078,10 @@ impl I16Number of NumberTrait<i16, i16> {
     fn sub(lhs: i16, rhs: i16) -> i16 {
         lhs - rhs
     }
+
+    fn bitwise_not(self: i16) -> i16 {
+        panic(array!['not supported!'])
+    }
 }
 
 impl I16Div of Div<i16> {
@@ -2346,6 +2379,10 @@ impl I32Number of NumberTrait<i32, i32> {
 
     fn sub(lhs: i32, rhs: i32) -> i32 {
         lhs - rhs
+    }
+
+    fn bitwise_not(self: i32) -> i32 {
+        panic(array!['not supported!'])
     }
 }
 
@@ -2661,6 +2698,10 @@ impl I64Number of NumberTrait<i64, i64> {
     fn sub(lhs: i64, rhs: i64) -> i64 {
         lhs - rhs
     }
+
+    fn bitwise_not(self: i64) -> i64 {
+        panic(array!['not supported!'])
+    }
 }
 
 impl I64Div of Div<i64> {
@@ -2960,6 +3001,10 @@ impl I128Number of NumberTrait<i128, i128> {
     fn sub(lhs: i128, rhs: i128) -> i128 {
         lhs - rhs
     }
+
+    fn bitwise_not(self: i128) -> i128 {
+        panic(array!['not supported!'])
+    }
 }
 
 impl I128Div of Div<i128> {
@@ -3246,6 +3291,10 @@ impl u32Number of NumberTrait<u32, u32> {
     fn sub(lhs: u32, rhs: u32) -> u32 {
         lhs - rhs
     }
+
+    fn bitwise_not(self: u32) -> u32 {
+        ~self
+    }
 }
 
 
@@ -3482,6 +3531,10 @@ impl Complex64Number of NumberTrait<complex64, FP64x64> {
 
     fn sub(lhs: complex64, rhs: complex64) -> complex64 {
         Complex64Sub::sub(lhs, rhs)
+    }
+
+    fn bitwise_not(self: complex64) -> complex64 {
+        panic(array!['not supported!'])
     }
 }
 

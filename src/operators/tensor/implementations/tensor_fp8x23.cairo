@@ -395,6 +395,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::bitwise_or::bitwise_or(self, other)
     }
 
+    fn bitwise_not(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        math::bitwise_not::bitwise_not(self)
+    }
+
     fn round(self: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         math::round::round(*self)
     }
