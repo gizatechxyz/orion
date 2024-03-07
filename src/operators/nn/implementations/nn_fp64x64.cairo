@@ -5,6 +5,7 @@ use orion::numbers::fixed_point::implementations::fp64x64::core::{FP64x64, FP64x
 use orion::operators::tensor::implementations::tensor_fp64x64::{
     FP64x64Tensor, FP64x64TensorDiv, FP64x64TensorAdd
 };
+use orion::operators::nn::{AUTO_PAD, MODE, PADDING_MODE};
 
 impl FP64x64NN of NNTrait<FP64x64> {
     fn relu(tensor: @Tensor<FP64x64>) -> Tensor<FP64x64> {
@@ -79,8 +80,8 @@ impl FP64x64NN of NNTrait<FP64x64> {
         X: @Tensor<FP64x64>,
         grid: @Tensor<FP64x64>,
         align_corner: Option<usize>,
-        mode: Option<functional::grid_sample::MODE>,
-        padding_mode: Option<functional::grid_sample::PADDING_MODE>,
+        mode: Option<MODE>,
+        padding_mode: Option<PADDING_MODE>,
     ) -> Tensor<FP64x64> {
         functional::grid_sample::grid_sample(X, grid, align_corner, mode, padding_mode)
     }

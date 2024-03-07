@@ -1,4 +1,5 @@
 use orion::operators::tensor::core::Tensor;
+use orion::operators::nn::{AUTO_PAD, MODE, PADDING_MODE};
 
 /// Trait
 ///
@@ -946,7 +947,7 @@ trait NNTrait<T> {
         X: @Tensor<T>,
         W: @Tensor<T>,
         B: Option<Span<T>>,
-        auto_pad: Option<orion::operators::nn::functional::conv::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,
@@ -1086,7 +1087,7 @@ trait NNTrait<T> {
         X: @Tensor<T>,
         W: @Tensor<T>,
         B: Option<@Tensor<T>>,
-        auto_pad: Option<orion::operators::nn::functional::conv_transpose::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,
@@ -1301,7 +1302,7 @@ trait NNTrait<T> {
         X: @Tensor<T>,
         grid: @Tensor<T>,
         align_corner: Option<usize>,
-        mode: Option<orion::operators::nn::functional::grid_sample::MODE>,
-        padding_mode: Option<orion::operators::nn::functional::grid_sample::PADDING_MODE>,
+        mode: Option<MODE>,
+        padding_mode: Option<PADDING_MODE>,
     ) -> Tensor<T>;
 }
