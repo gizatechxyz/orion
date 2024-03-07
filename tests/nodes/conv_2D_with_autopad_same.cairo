@@ -9,7 +9,7 @@ use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::tensor::FP16x16TensorPartialEq;
 use orion::operators::nn::FP16x16NN;
 
-use orion::operators::nn::functional::conv::AUTO_PAD;
+use orion::operators::nn::AUTO_PAD;
 
 #[test]
 #[available_gas(2000000000)]

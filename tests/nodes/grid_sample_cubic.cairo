@@ -8,7 +8,7 @@ use orion::numbers::FixedTrait;
 use orion::operators::tensor::FP16x16TensorPartialEq;
 use orion::utils::{assert_eq, assert_seq_eq};
 use orion::operators::nn::NNTrait;
-use orion::operators::nn::functional::grid_sample::MODE;
+use orion::operators::nn::{MODE};
 
 #[test]
 #[available_gas(2000000000)]

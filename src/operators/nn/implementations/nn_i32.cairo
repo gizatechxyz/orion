@@ -2,6 +2,7 @@ use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::operators::tensor::implementations::tensor_i32::{I32Tensor, I32TensorAdd};
+use orion::operators::nn::{AUTO_PAD, MODE, PADDING_MODE};
 
 impl I32NN of NNTrait<i32> {
     fn relu(tensor: @Tensor<i32>) -> Tensor<i32> {
@@ -72,8 +73,8 @@ impl I32NN of NNTrait<i32> {
         X: @Tensor<i32>,
         grid: @Tensor<i32>,
         align_corner: Option<usize>,
-        mode: Option<functional::grid_sample::MODE>,
-        padding_mode: Option<functional::grid_sample::PADDING_MODE>,
+        mode: Option<MODE>,
+        padding_mode: Option<PADDING_MODE>,
     ) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
