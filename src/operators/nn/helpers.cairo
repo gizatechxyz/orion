@@ -173,12 +173,12 @@ fn prod<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +MulE
 /// # Returns
 /// * `prod` - `T`, result of the product.
 fn prod_on_subset<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +Mul<T>,>(
-    pA: Span<T>, start: usize
+    a: Span<T>, start: usize
 ) -> T {
     let mut i = start;
     let mut prod = NumberTrait::one();
-    while i != pA.len() {
-        prod = prod * (*pA.at(i));
+    while i != a.len() {
+        prod = prod * (*a.at(i));
         i += 1;
     };
 
