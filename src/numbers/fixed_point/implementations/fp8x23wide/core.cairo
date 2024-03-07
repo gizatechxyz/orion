@@ -217,6 +217,10 @@ impl FP8x23WImpl of FixedTrait<FP8x23W, u64> {
     fn erf(self: FP8x23W) -> FP8x23W {
         erf::erf(self)
     }
+
+    fn bitwise_not(self: FP8x23W) -> FP8x23W {
+        FP8x23W { mag: ~self.mag, sign: !self.sign }
+    }
 }
 
 

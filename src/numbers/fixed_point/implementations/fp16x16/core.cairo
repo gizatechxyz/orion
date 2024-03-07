@@ -218,6 +218,10 @@ impl FP16x16Impl of FixedTrait<FP16x16, u32> {
     fn erf(self: FP16x16) -> FP16x16 {
         erf::erf(self)
     }
+
+    fn bitwise_not(self: FP16x16) -> FP16x16 {
+        FP16x16 { mag: ~self.mag, sign: !self.sign }
+    }
 }
 
 

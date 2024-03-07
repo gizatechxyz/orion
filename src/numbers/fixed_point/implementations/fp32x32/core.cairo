@@ -210,6 +210,10 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     fn erf(self: FP32x32) -> FP32x32 {
         erf::erf(self)
     }
+
+    fn bitwise_not(self: FP32x32) -> FP32x32 {
+        FP32x32 { mag: ~self.mag, sign: !self.sign }
+    }
 }
 
 impl FP32x32Print of PrintTrait<FP32x32> {
