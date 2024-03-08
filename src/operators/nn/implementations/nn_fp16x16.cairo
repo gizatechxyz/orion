@@ -143,4 +143,19 @@ impl FP16x16NN of NNTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
+
+    fn conv_integer(
+        X: @Tensor<FP16x16>,
+        W: @Tensor<FP16x16>,
+        X_zero_point: Option<@Tensor<FP16x16>>,
+        W_zero_point: Option<@Tensor<FP16x16>>,
+        auto_pad: Option<functional::conv::AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<usize> {
+        panic(array!['not supported!'])
+    }
 }

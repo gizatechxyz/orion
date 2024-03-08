@@ -11,6 +11,7 @@ enum AUTO_PAD {
     VALID
 }
 
+/// Cf: NNTrait::conv_transpose docstring
 fn conv_transpose<
     T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Add<T>, +Mul<T>,
 >(
