@@ -1,7 +1,11 @@
 use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
-use orion::operators::tensor::implementations::tensor_i8::{I8Tensor, I8TensorAdd};
+use orion::operators::tensor::implementations::tensor_i8::{
+    I8Tensor, I8TensorAdd, I8TensorMul, I8TensorSub, I8TensorDiv
+};
+use orion::numbers::{I8Div};
+use orion::operators::tensor::implementations::tensor_i8::{I8TensorTryIntoU32Tensor};
 
 impl I8NN of NNTrait<i8> {
     fn relu(tensor: @Tensor<i8>) -> Tensor<i8> {
@@ -129,5 +133,31 @@ impl I8NN of NNTrait<i8> {
         strides: Option<Span<usize>>,
     ) -> Tensor<i8> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn conv_integer(
+        X: @Tensor<i8>,
+        W: @Tensor<i8>,
+        X_zero_point: Option<@Tensor<i8>>,
+        W_zero_point: Option<@Tensor<i8>>,
+        auto_pad: Option<functional::conv::AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<usize> {
+        functional::conv_integer::conv_integer(
+            X,
+            W,
+            X_zero_point,
+            W_zero_point,
+            auto_pad,
+            dilations,
+            group,
+            kernel_shape,
+            pads,
+            strides,
+        )
     }
 }

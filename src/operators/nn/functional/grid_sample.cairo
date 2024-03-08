@@ -20,6 +20,7 @@ enum PADDING_MODE {
     REFLECTION,
 }
 
+/// Cf: NNTrait::grid_sample docstring
 fn grid_sample<
     T,
     MAG,

@@ -3,6 +3,7 @@ use orion::operators::tensor::core::{stride};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor,};
 use orion::operators::vec::{NullableVec, NullableVecImpl};
 
+/// Cf: NNTrait::col2im docstring
 fn col2im<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Add<T>, +Mul<T>,>(
     data: @Tensor<T>,
     image_shape: Span<usize>,

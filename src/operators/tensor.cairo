@@ -30,7 +30,7 @@ use orion::operators::tensor::implementations::tensor_i8::{
 
 use orion::operators::tensor::implementations::tensor_i32::{
     I32Tensor, I32TensorAdd, I32TensorSub, I32TensorMul, I32TensorDiv, I32TensorPartialEq,
-    TensorI8IntoTensorI32
+    I8TensorIntoI32Tensor
 };
 
 use orion::operators::tensor::implementations::tensor_u32::{
