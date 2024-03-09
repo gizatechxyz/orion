@@ -75,8 +75,8 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP16x16W>, target_shape: Span<usize>) -> Tensor<FP16x16W> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<FP16x16W>, target_shape: Span<usize>, allowzero: Option<usize>) -> Tensor<FP16x16W> {
+        reshape(self, target_shape, allowzero)
     }
 
     fn reduce_sum(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {

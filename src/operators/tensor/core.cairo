@@ -2,7 +2,6 @@ use alexandria_data_structures::array_ext::ArrayTraitExt;
 use core::array::{ArrayTrait, SpanTrait};
 use core::serde::Serde;
 use core::option::OptionTrait;
-
 use alexandria_data_structures::array_ext::{SpanTraitExt};
 //::resize::{MODE, NEAREST_MODE, KEEP_ASPECT_RATIO_POLICY, TRANSFORMATION_MODE};
 
@@ -558,7 +557,7 @@ trait TensorTrait<T> {
     /// # tensor.reshape
     ///
     /// ```rust 
-    ///    fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
+    ///    fn reshape(self: @Tensor<T>, target_shape: Span<usize>, allowzero: Option<usize>) -> Tensor<T>;
     /// ```
     ///
     /// Returns a new tensor with the specified target shape and the same data as the input tensor.
@@ -567,6 +566,7 @@ trait TensorTrait<T> {
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
     /// * `target_shape`(Span<usize>) - A span containing the target shape of the tensor.
+    /// * `allowzero`(Option<usize>) - (Optional) By default, when any value in the 'shape' input is equal to zero the corresponding dimension value is copied from the input tensor dynamically. allowzero=1 indicates that if any value in the 'shape' input is set to zero, the zero value is honored.
     ///
     /// ## Panics
     ///
@@ -589,12 +589,12 @@ trait TensorTrait<T> {
     ///     );
     /// 
     ///     // We can call `reshape` function as follows.
-    ///     return tensor.reshape(target_shape: array![2, 4].span());
+    ///     return tensor.reshape(target_shape: array![2, 4].span(), allowzero: Option::None);
     /// }
     /// >>> [[0,1,2,3], [4,5,6,7]]
     /// ```
     ///
-    fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
+    fn reshape(self: @Tensor<T>, target_shape: Span<usize>, allowzero: Option<usize>) -> Tensor<T>;
     /// # tensor.transpose
     ///
     /// ```rust 
@@ -5945,8 +5945,41 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
 
 
 /// Cf: TensorTrait::reshape docstring
-fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
-    new_tensor(target_shape, *self.data)
+fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>, allowzero: Option<usize>) -> Tensor<T> {
+    let mut data_shape = *self.shape;
+    let mut target_shape = target_shape;
+    let mut output_shape = array![];
+
+    let mut allowzero = match allowzero {
+        Option::Some(value) => {
+            assert(value > 1, '0 or 1');
+            value
+            },
+        Option::None =>  0 
+    };
+    
+    if allowzero == 0 {
+        let mut ind: usize = 0;
+        loop {
+            match target_shape.pop_front() {
+                Option::Some(val) => { 
+                    if *val == 0 {
+                        output_shape.append(*data_shape.at(ind)); 
+                    } else {
+                        output_shape.append(*val); 
+                    }
+                },
+                Option::None => { break; }
+            };
+            ind += 1;
+        };
+
+        new_tensor(output_shape.span(), *self.data)
+    }
+    else {
+        new_tensor(target_shape, *self.data)
+    }
+    
 }
 
 /// Cf: TensorTrait::at docstring

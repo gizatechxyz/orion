@@ -89,7 +89,7 @@ fn layer_normalization<
     let mut one_tensor = array![];
     one_tensor.append(NumberTrait::one());
 
-    let x_mat = self.reshape(shape_matrix.span());
+    let x_mat = self.reshape(shape_matrix.span(), Option::None);
     let x_mean = x_mat.reduce_sum(1, true)
         / TensorTrait::new(shape_one.span(), col_number_tensor.span());
 
@@ -126,7 +126,7 @@ fn layer_normalization<
         *scale
     };
 
-    let Y = y_mat.reshape((*self).shape) * scale;
+    let Y = y_mat.reshape((*self).shape, Option::None) * scale;
 
     let Y = match B {
         Option::Some(B) => {

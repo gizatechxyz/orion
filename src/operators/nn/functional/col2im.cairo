@@ -63,7 +63,7 @@ fn col2im<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Ad
         i += 1;
     };
 
-    let data = data.reshape(new_shape.span());
+    let data = data.reshape(new_shape.span(), Option::None);
 
     let mut res: Array<T> = array![];
     let data_stride = stride(data.shape);

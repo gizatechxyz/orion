@@ -23,5 +23,5 @@ fn flatten<T, impl TTensorTrait: TensorTrait<T>>(self: @Tensor<T>, axis: usize) 
 
     let new_shape_second_axis = (*self.data).len() / new_shape_first_axis;
 
-    self.reshape(array![new_shape_first_axis, new_shape_second_axis].span())
+    self.reshape(array![new_shape_first_axis, new_shape_second_axis].span(), Option::None)
 }

@@ -310,7 +310,7 @@ fn conv_transpose<
             let gemm = w_t.matmul(@TensorTrait::new(array![k, n].span(), image));
 
             let gemmc = gemm
-                .reshape(array![num_output_channels, m / num_output_channels, n].span());
+                .reshape(array![num_output_channels, m / num_output_channels, n].span(), Option::None);
             let mut c = 0;
             while c != num_output_channels {
                 let gemmc_c = TensorTrait::new(

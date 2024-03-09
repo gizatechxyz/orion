@@ -68,8 +68,8 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP64x64>, target_shape: Span<usize>) -> Tensor<FP64x64> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<FP64x64>, target_shape: Span<usize>, allowzero: Option<usize>) -> Tensor<FP64x64> {
+        reshape(self, target_shape, allowzero)
     }
 
     fn reduce_sum(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
