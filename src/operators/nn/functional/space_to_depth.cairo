@@ -25,9 +25,9 @@ fn space_to_depth<
     let H = (tensor.shape).at(2);
     let W = (tensor.shape).at(3);
     let tmpshape = array![*b, *C, *H / blocksize, blocksize, *W / blocksize, blocksize];
-    let reshaped = (tensor).reshape(target_shape: tmpshape.span());
+    let reshaped = (tensor).reshape(target_shape: tmpshape.span(), allowzero: Option::None);
     let transposed = reshaped.transpose(axes: array![0, 3, 5, 1, 2, 4].span());
     let finalshape = array![*b, *C * blocksize * blocksize, *H / blocksize, *W / blocksize];
 
-    transposed.reshape(target_shape: finalshape.span())
+    transposed.reshape(target_shape: finalshape.span(), allowzero: Option::None)
 }

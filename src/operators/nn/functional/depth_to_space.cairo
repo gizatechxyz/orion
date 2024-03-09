@@ -28,16 +28,16 @@ fn depth_to_space<
 
     if mode == 'DCR' {
         let tmpshape = array![*b, blocksize, blocksize, *C / (blocksize * blocksize), *H, *W];
-        let reshaped = (tensor).reshape(target_shape: tmpshape.span());
+        let reshaped = (tensor).reshape(target_shape: tmpshape.span(), allowzero: Option::None);
         let transposed = reshaped.transpose(axes: array![0, 3, 4, 1, 5, 2].span());
 
-        transposed.reshape(target_shape: finalshape.span())
+        transposed.reshape(target_shape: finalshape.span(), allowzero: Option::None)
     } else {
         // assert mode == "CRD"
         let tmpshape = array![*b, *C / (blocksize * blocksize), blocksize, blocksize, *H, *W];
-        let reshaped = (tensor).reshape(target_shape: tmpshape.span());
+        let reshaped = (tensor).reshape(target_shape: tmpshape.span(), allowzero: Option::None);
         let transposed = reshaped.transpose(axes: array![0, 1, 4, 2, 5, 3].span());
 
-        transposed.reshape(target_shape: finalshape.span())
+        transposed.reshape(target_shape: finalshape.span(), allowzero: Option::None)
     }
 }

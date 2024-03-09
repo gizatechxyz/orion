@@ -66,8 +66,8 @@ impl I8Tensor of TensorTrait<i8> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<i8>, target_shape: Span<usize>) -> Tensor<i8> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<i8>, target_shape: Span<usize>, allowzero: Option<usize>) -> Tensor<i8> {
+        reshape(self, target_shape, allowzero)
     }
 
     fn reduce_sum(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {

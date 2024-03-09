@@ -57,7 +57,7 @@ fn split_to_sequence<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
                 j += 1;
             };
 
-            splited_t_temp.append(splited_t[i].reshape(shape.span()));
+            splited_t_temp.append(splited_t[i].reshape(shape.span(), Option::None));
             i += 1;
         };
 

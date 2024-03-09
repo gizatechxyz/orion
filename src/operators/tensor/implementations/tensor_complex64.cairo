@@ -69,8 +69,8 @@ impl Complex64Tensor of TensorTrait<complex64> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<complex64>, target_shape: Span<usize>) -> Tensor<complex64> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<complex64>, target_shape: Span<usize>, allowzero: Option<usize>) -> Tensor<complex64> {
+        reshape(self, target_shape, allowzero)
     }
 
     fn reduce_sum(self: @Tensor<complex64>, axis: usize, keepdims: bool) -> Tensor<complex64> {
