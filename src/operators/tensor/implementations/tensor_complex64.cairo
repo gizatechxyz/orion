@@ -585,6 +585,10 @@ impl Complex64Tensor of TensorTrait<complex64> {
     ) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }
+
+    fn eye_like(self: @Tensor<complex64>, k: Option<i32>) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<complex64>` using the `Add` trait.
