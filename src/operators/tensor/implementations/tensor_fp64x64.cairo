@@ -635,6 +635,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn eye_like(self: @Tensor<FP64x64>, k: Option<i32>) -> Tensor<FP64x64> {
+        math::eye_like::eye_like(self, k)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

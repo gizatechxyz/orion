@@ -599,6 +599,10 @@ impl I32Tensor of TensorTrait<i32> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn eye_like(self: @Tensor<i32>, k: Option<i32>) -> Tensor<i32> {
+        math::eye_like::eye_like(self, k)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.
