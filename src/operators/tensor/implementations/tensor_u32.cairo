@@ -546,6 +546,12 @@ impl U32Tensor of TensorTrait<u32> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn bit_shift(
+        tensor1: @Tensor<u32>, tensor2: @Tensor<u32>, direction: felt252
+    ) -> Tensor<u32> {
+        math::bit_shift::bit_shift(tensor1, tensor2, direction)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

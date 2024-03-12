@@ -599,6 +599,12 @@ impl I32Tensor of TensorTrait<i32> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn bit_shift(
+        tensor1: @Tensor<i32>, tensor2: @Tensor<i32>, direction: felt252
+    ) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

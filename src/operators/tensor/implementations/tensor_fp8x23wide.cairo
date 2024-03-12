@@ -576,6 +576,12 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn bit_shift(
+        tensor1: @Tensor<FP8x23W>, tensor2: @Tensor<FP8x23W>, direction: felt252
+    ) -> Tensor<FP8x23W> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

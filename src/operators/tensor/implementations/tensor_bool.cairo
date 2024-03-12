@@ -547,6 +547,12 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
+
+    fn bit_shift(
+        tensor1: @Tensor<bool>, tensor2: @Tensor<bool>, direction: felt252
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

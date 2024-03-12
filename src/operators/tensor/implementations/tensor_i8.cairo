@@ -602,6 +602,12 @@ impl I8Tensor of TensorTrait<i8> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn bit_shift(
+        tensor1: @Tensor<i8>, tensor2: @Tensor<i8>, direction: felt252
+    ) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

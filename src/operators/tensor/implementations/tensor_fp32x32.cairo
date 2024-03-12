@@ -635,6 +635,12 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn bit_shift(
+        tensor1: @Tensor<FP32x32>, tensor2: @Tensor<FP32x32>, direction: felt252
+    ) -> Tensor<FP32x32> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.
