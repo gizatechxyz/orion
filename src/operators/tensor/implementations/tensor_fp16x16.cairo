@@ -639,6 +639,12 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn bit_shift(
+        tensor1: @Tensor<FP16x16>, tensor2: @Tensor<FP16x16>, direction: felt252
+    ) -> Tensor<FP16x16> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

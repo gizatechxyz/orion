@@ -635,6 +635,12 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn bit_shift(
+        tensor1: @Tensor<FP64x64>, tensor2: @Tensor<FP64x64>, direction: felt252
+    ) -> Tensor<FP64x64> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.
