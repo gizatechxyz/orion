@@ -1047,3 +1047,10 @@ mod label_encoder_fp8x23_default;
 mod label_encoder_i8_default;
 mod label_encoder_i32_default;
 mod label_encoder_u32_default;
+mod global_average_pool_fp16x16_2D;
+mod global_average_pool_fp16x16_3D;
+mod global_average_pool_fp16x16_4D;
+mod global_average_pool_fp8x23_2D;
+mod global_average_pool_fp8x23_3D;
+mod global_average_pool_fp8x23_4D;
+

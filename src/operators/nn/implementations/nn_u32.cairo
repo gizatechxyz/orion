@@ -130,4 +130,8 @@ impl U32NN of NNTrait<u32> {
     ) -> Tensor<u32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
+
+    fn global_average_pool(tensor: @Tensor<u32>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
 }
