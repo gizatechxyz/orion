@@ -39,5 +39,5 @@ Orion supports currently these `NN` types.
 | [`nn.col2im`](nn.col2im.md) | Rearranges column blocks back into a multidimensional image |
 | [`nn.conv_transpose`](nn.conv\_transpose.md) | Performs the convolution transpose of the input data tensor and weight tensor. |
 | [`nn.conv`](nn.conv.md) | Performs the convolution of the input data tensor and weight tensor. |
-| [`nn.global_average_pool`](nn.global\_average\_pool.md) | GlobalAveragePool consumes an input tensor X and applies average pooling across the values in the same channel. |
+| [`nn.lrn`](nn.lrn.md) | Local Response Normalization proposed in the AlexNet paper. It normalizes over local input regions. The local region is defined across the channels.  |
 

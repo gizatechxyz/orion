@@ -16,4 +16,4 @@ mod conv_transpose;
 mod depth_to_space;
 mod space_to_depth;
 mod conv;
-mod global_average_pool;
+mod lrn;

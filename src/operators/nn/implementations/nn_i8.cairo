@@ -131,7 +131,7 @@ impl I8NN of NNTrait<i8> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
 
-    fn global_average_pool(tensor: @Tensor<i8>) -> Tensor<i8> {
+    fn lrn(tensor: @Tensor<i8>, size: usize, alpha: Option<i8>, beta: Option<i8>, bias: Option<i8>) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
 }

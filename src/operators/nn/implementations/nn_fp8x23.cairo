@@ -140,7 +140,7 @@ impl FP8x23NN of NNTrait<FP8x23> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
 
-    fn global_average_pool(tensor: @Tensor<FP8x23>) -> Tensor<FP8x23> {
-        functional::global_average_pool::global_average_pool(*tensor)
+    fn lrn(tensor: @Tensor<FP8x23>, size: usize, alpha: Option<FP8x23>, beta: Option<FP8x23>, bias: Option<FP8x23>) -> Tensor<FP8x23> {
+        functional::lrn::lrn(*tensor, size, alpha, beta, bias)
     }
 }
