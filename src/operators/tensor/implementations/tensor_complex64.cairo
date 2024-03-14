@@ -585,6 +585,12 @@ impl Complex64Tensor of TensorTrait<complex64> {
     ) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }
+    
+    fn mel_weight_matrix(
+        num_mel_bins: usize, dft_length: usize, sample_rate: usize, lower_edge_hertz: complex64, upper_edge_hertz: complex64
+    ) -> Tensor<complex64>{
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<complex64>` using the `Add` trait.

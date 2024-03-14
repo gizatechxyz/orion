@@ -576,6 +576,12 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+    
+    fn mel_weight_matrix(
+        num_mel_bins: usize, dft_length: usize, sample_rate: usize, lower_edge_hertz: FP8x23W, upper_edge_hertz: FP8x23W
+    ) -> Tensor<FP8x23W>{
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

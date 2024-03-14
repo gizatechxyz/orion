@@ -639,6 +639,12 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn mel_weight_matrix(
+        num_mel_bins: usize, dft_length: usize, sample_rate: usize, lower_edge_hertz: FP16x16, upper_edge_hertz: FP16x16
+    ) -> Tensor<FP16x16>{
+        math::mel_weight_matrix::mel_weight_matrix(num_mel_bins, dft_length, sample_rate, lower_edge_hertz, upper_edge_hertz)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

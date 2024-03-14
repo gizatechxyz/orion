@@ -546,6 +546,13 @@ impl U32Tensor of TensorTrait<u32> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+    
+    fn mel_weight_matrix(
+        num_mel_bins: usize, dft_length: usize, sample_rate: usize, lower_edge_hertz: u32, upper_edge_hertz: u32
+    ) -> Tensor<u32>{
+        // Blocking at the 'log10' operator
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

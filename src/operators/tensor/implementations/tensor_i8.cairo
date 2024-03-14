@@ -602,6 +602,12 @@ impl I8Tensor of TensorTrait<i8> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+    
+    fn mel_weight_matrix(
+        num_mel_bins: usize, dft_length: usize, sample_rate: usize, lower_edge_hertz: i8, upper_edge_hertz: i8
+    ) -> Tensor<i8>{
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

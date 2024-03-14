@@ -635,6 +635,12 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+    
+    fn mel_weight_matrix(
+        num_mel_bins: usize, dft_length: usize, sample_rate: usize, lower_edge_hertz: FP64x64, upper_edge_hertz: FP64x64
+    ) -> Tensor<FP64x64>{
+        math::mel_weight_matrix::mel_weight_matrix(num_mel_bins, dft_length, sample_rate, lower_edge_hertz, upper_edge_hertz)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.
