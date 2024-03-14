@@ -547,6 +547,12 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
+
+    fn mel_weight_matrix(
+        num_mel_bins: usize, dft_length: usize, sample_rate: usize, lower_edge_hertz: bool, upper_edge_hertz: bool
+    ) -> Tensor<bool>{
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.
