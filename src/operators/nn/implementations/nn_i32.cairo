@@ -130,4 +130,8 @@ impl I32NN of NNTrait<i32> {
     ) -> Tensor<i32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
+
+    fn lrn(tensor: @Tensor<i32>, size: usize, alpha: Option<i32>, beta: Option<i32>, bias: Option<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
 }
