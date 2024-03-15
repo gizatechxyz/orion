@@ -602,6 +602,10 @@ impl I8Tensor of TensorTrait<i8> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn det(self: @Tensor<i8>) -> Tensor<i8> {
+        math::det::det(*self)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

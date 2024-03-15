@@ -131,6 +131,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// dynamic_quantize_linear - Computes the Scale, Zero Point and FP32->8Bit conversion of FP32 Input data. 
 /// scatter_nd - The output of the operation is produced by creating a copy of the input data, and then updating its value to values specified by updates at specific index positions specified by indices. Its output shape is the same as the shape of data
 /// label_encoder - Maps each element in the input tensor to another value.
+/// det - Det calculates determinant of a square matrix or batches of square matrices. 
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -5850,6 +5851,63 @@ trait TensorTrait<T> {
         values: Option<Span<T>>,
         values_tensor: Option<Tensor<T>>
     ) -> Tensor<T>;
+    /// # TensorTrait::det
+    ///
+    /// ```rust
+    ///         fn det(tensor: @Tensor<T>) -> T;
+    /// ```
+    ///
+    /// Det calculates determinant of a square matrix or batches of square matrices. Det takes one input tensor of shape [*, M, M], where * is zero or more batch dimensions, and the inner-most 2 dimensions form square matrices. The output is a tensor of shape [*], containing the determinants of all input submatrices.
+    ///
+    /// ## Args
+    ///
+    /// * `tensor`(`@Tensor<T>`) - The input tensor of shape [*, M, M].
+    ///
+    /// ## Returns
+    ///
+    /// * The output is a tensor of shape [*]
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use orion::operators::tensor::{I32Tensor, I32TensorAdd};
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor};
+    /// use orion::utils::{assert_eq, assert_seq_eq};
+    /// use orion::operators::tensor::I32TensorPartialEq;
+    /// 
+    /// fn example() -> Tensor<i32> {
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(2);
+    ///     shape.append(3);
+    ///     shape.append(3);
+    /// 
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(1);
+    ///     data.append(2);
+    ///     data.append(3);
+    ///     data.append(4);
+    ///     data.append(5);
+    ///     data.append(6);
+    ///     data.append(7);
+    ///     data.append(8);
+    ///     data.append(9);
+    ///     data.append(2);
+    ///     data.append(2);
+    ///     data.append(3);
+    ///     data.append(4);
+    ///     data.append(5);
+    ///     data.append(6);
+    ///     data.append(7);
+    ///     data.append(8);
+    ///     data.append(9);
+    ///     let input_0 = TensorTrait::new(shape.span(), data.span());
+    /// 
+    ///     return input_0.det();
+    /// }
+    /// >>> [0, -3]
+    /// ```
+    fn det(self: @Tensor<T>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring
