@@ -4560,11 +4560,12 @@ trait TensorTrait<T> {
     /// >>> [[2,3],[6,7]]
     /// ```
     ///
-
-
-
-
-
+    fn reduce_max(
+        self: @Tensor<T>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<T>;
     /// #tensor.pow
     ///
     /// ```rust
