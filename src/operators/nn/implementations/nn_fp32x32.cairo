@@ -137,4 +137,8 @@ impl FP32x32NN of NNTrait<FP32x32> {
     ) -> Tensor<FP32x32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
+
+    fn mish(tensor: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        functional::mish::mish(*tensor)
+    }
 }

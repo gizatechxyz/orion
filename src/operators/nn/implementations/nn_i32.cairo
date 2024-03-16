@@ -130,4 +130,8 @@ impl I32NN of NNTrait<i32> {
     ) -> Tensor<i32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
+
+    fn mish(tensor: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
 }
