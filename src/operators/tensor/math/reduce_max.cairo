@@ -29,7 +29,7 @@ fn reduce_max<
             if (axes.len() == 0) {
                 get_all_axes(*self.shape)
             } else {
-                assert(axes.len() == axes.unique().len(), "duplicated axis.");
+                assert(axes.len() == axes.unique().len(), 'duplicated axis.');
                 let mut axes_arr:
                 Array<usize> = array![];
                 let mut copy_axes = axes;
@@ -46,7 +46,7 @@ fn reduce_max<
         },
         Option::None => {
             if noop_with_empty_axes {
-                return self;
+                return *self;
             }
             get_all_axes(*self.shape)
         },
