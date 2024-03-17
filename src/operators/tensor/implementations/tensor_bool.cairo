@@ -395,6 +395,15 @@ impl BoolTensor of TensorTrait<bool> {
         ml::array_feature_extractor::array_feature_extractor(*self, indices)
     }
 
+    fn reduce_max(
+        self: @Tensor<bool>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
     fn reduce_min(
         self: @Tensor<bool>,
         axes: Option<Span<usize>>,

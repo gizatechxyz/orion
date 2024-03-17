@@ -428,6 +428,15 @@ impl Complex64Tensor of TensorTrait<complex64> {
         math::reduce_mean::reduce_mean(self, axes, keepdims, noop_with_empty_axes)
     }
 
+    fn reduce_max(
+        self: @Tensor<complex64>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+
     fn reduce_min(
         self: @Tensor<complex64>,
         axes: Option<Span<usize>>,

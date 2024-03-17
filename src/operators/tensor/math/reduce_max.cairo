@@ -3,7 +3,7 @@ use alexandria_data_structures::array_ext::{SpanTraitExt};
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
-use orion::operation::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices, get_all_axes};
+use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices, get_all_axes};
 
 /// Cf: TensorTrait::reduce_max docstring
 fn reduce_max<
@@ -19,10 +19,10 @@ fn reduce_max<
     axes: Option<Span<usize>>,
     keepdims: Option<bool>,
     noop_with_empty_axes: Option<bool>
-) -> @Tensor<T> {
+) -> Tensor<T> {
     let noop_with_empty_axes = match noop_with_empty_axes {
-        Some(noop_with_empty_axes) => noop_with_empty_axes,
-        None => false
+        Option::Some(noop_with_empty_axes) => noop_with_empty_axes,
+        Option::None => false
     };
     let axes = match axes {
         Option::Some(axes) => {
@@ -46,7 +46,7 @@ fn reduce_max<
         },
         Option::None => {
             if noop_with_empty_axes {
-                return *self;
+                return self;
             }
             get_all_axes(*self.shape)
         },
