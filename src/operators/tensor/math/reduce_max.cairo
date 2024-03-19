@@ -3,14 +3,16 @@ use alexandria_data_structures::array_ext::{SpanTraitExt};
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
-use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices, get_all_axes};
+use orion::operators::tensor::helpers::{
+    reduce_output_shape, len_from_shape, combine_indices, get_all_axes
+};
 
 /// Cf: TensorTrait::reduce_max docstring
 fn reduce_max<
     T,
     MAG,
     impl TTensor: TensorTrait<T>,
-    impl TNumber: NumberTrait<T, MAG>, 
+    impl TNumber: NumberTrait<T, MAG>,
     impl TPartialOrd: PartialOrd<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
@@ -30,13 +32,11 @@ fn reduce_max<
                 get_all_axes(*self.shape)
             } else {
                 assert(axes.len() == axes.unique().len(), 'duplicated axis.');
-                let mut axes_arr:
-                Array<usize> = array![];
+                let mut axes_arr: Array<usize> = array![];
                 let mut copy_axes = axes;
                 loop {
                     match copy_axes.pop_front() {
-                    Option::Some(axis) => {
-                        axes_arr.append(*axis); },
+                        Option::Some(axis) => { axes_arr.append(*axis); },
                         Option::None => { break; }
                     };
                 };
@@ -90,21 +90,20 @@ fn reduce_max<
             Option::None => { break; }
         };
     };
-            
+
     let mut axes_copy = axes;
     if keepdims {
         shape = *self.shape;
         loop {
             match axes_copy.pop_front() {
-                Option::Some(axis) => {
-                    shape = reduce_output_shape(shape, *axis, true); },
-                    Option::None => { break; }
+                Option::Some(axis) => { shape = reduce_output_shape(shape, *axis, true); },
+                Option::None => { break; }
             };
         };
 
         TensorTrait::<T>::new(shape, data)
     } else {
-        TensorTrait::<T>::new(shape,data)
+        TensorTrait::<T>::new(shape, data)
     }
 }
 

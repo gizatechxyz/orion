@@ -14,9 +14,9 @@ fn test_mse() {
         .span();
 
     let prediction = FixedTrait::<FP16x16>::new_unscaled(5, false);
-    let expected_mse = FixedTrait::<FP16x16>::new_unscaled(
-        5, false
-    ); // MSE = [(2-5)^2 + (4-5)^2 + (6-5)^2 + (8-5)^2] / 4 = 5
+    let expected_mse = FixedTrait::<
+        FP16x16
+    >::new_unscaled(5, false); // MSE = [(2-5)^2 + (4-5)^2 + (6-5)^2 + (8-5)^2] / 4 = 5
 
     let computed_mse = mse(y, prediction);
     assert(computed_mse == expected_mse, 'Failed mse');
