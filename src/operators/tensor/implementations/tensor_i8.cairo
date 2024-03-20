@@ -602,6 +602,10 @@ impl I8Tensor of TensorTrait<i8> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn expand(self: @Tensor<i8>, shape: Tensor<usize>,) -> Tensor<i8> {
+        manipulation::expand::expand(self, shape)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

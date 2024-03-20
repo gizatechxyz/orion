@@ -599,6 +599,10 @@ impl I32Tensor of TensorTrait<i32> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn expand(self: @Tensor<i32>, shape: Tensor<usize>,) -> Tensor<i32> {
+        manipulation::expand::expand(self, shape)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

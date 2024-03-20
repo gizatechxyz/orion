@@ -599,6 +599,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn expand(self: @Tensor<FP16x16W>, shape: Tensor<usize>,) -> Tensor<FP16x16W> {
+        manipulation::expand::expand(self, shape)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.

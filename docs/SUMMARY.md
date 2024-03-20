@@ -159,6 +159,7 @@
     * [tensor.blackman_window](framework/operators/tensor/tensor.blackman_window.md)
     * [tensor.random_uniform_like](framework/operators/tensor/tensor.random_uniform_like.md)
     * [tensor.label_encoder](framework/operators/tensor/tensor.label_encoder.md)
+    * [tensor.expand](framework/operators/tensor/tensor.expand.md)
   * [Neural Network](framework/operators/neural-network/README.md)
     * [nn.relu](framework/operators/neural-network/nn.relu.md)
     * [nn.leaky\_relu](framework/operators/neural-network/nn.leaky\_relu.md)

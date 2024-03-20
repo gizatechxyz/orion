@@ -124,7 +124,9 @@ You can see below the list of current supported ONNX Operators:
 |          [HannWindow](operators/tensor/tensor.tensor.hann_window.md)          | :white\_check\_mark: |
 |       [HammingWindow](operators/tensor/tensor.tensor.hamming_window.md)       | :white\_check\_mark: |
 |      [BlackmanWindow](operators/tensor/tensor.tensor.blackman_window.md)      | :white\_check\_mark: |
-|      [RandomUniformLike](operators/tensor/tensor.tensor.random_uniform_like.md)      | :white\_check\_mark: |
+|   [RandomUniformLike](operators/tensor/tensor.tensor.random_uniform_like.md)  | :white\_check\_mark: |
 |           [LabelEncoder](operators/tensor/tensor.label_encoder.md)            | :white\_check\_mark: |
+|                 [Expand](operators/tensor/tensor.expand.md)                   | :white\_check\_mark: |
+
 
 Current Operators support: **118/156 (75%)**

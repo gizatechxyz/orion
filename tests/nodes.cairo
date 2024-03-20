@@ -1047,3 +1047,5 @@ mod label_encoder_fp8x23_default;
 mod label_encoder_i8_default;
 mod label_encoder_i32_default;
 mod label_encoder_u32_default;
+mod expand_with_broadcast;
+mod expand_without_broadcast;

@@ -547,6 +547,10 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
+
+    fn expand(self: @Tensor<bool>, shape: Tensor<usize>,) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.
