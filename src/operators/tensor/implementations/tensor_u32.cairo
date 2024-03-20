@@ -69,8 +69,14 @@ impl U32Tensor of TensorTrait<u32> {
         reshape(self, target_shape)
     }
 
-    fn reduce_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<u32>, axes: Option<Span<usize>>, keepdims: bool, noop_with_empty_axes: bool
+    ) -> Tensor<u32> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
+    }
+
+    fn reduce_sum_single_axis(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        math::reduce_sum::reduce_sum_single_axis(self, axis, keepdims)
     }
 
     fn reduce_prod(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
@@ -656,17 +662,19 @@ impl U32TensorPartialOrd of PartialOrd<Tensor<u32>> {
 fn tensor_eq(mut lhs: Tensor<u32>, mut rhs: Tensor<u32>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0 && is_eq {
-        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() != 0 && is_eq {
-        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
-    };
+    while lhs.data.len() != 0
+        && is_eq {
+            is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+        };
 
     is_eq
 }

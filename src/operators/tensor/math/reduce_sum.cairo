@@ -1,9 +1,65 @@
+use core::array::SpanTrait;
+use core::option::OptionTrait;
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
 
-/// Cf: TensorTrait::reduce_sum docstring
+
 fn reduce_sum<
+    T,
+    MAG,
+    impl TTensor: TensorTrait<T>,
+    impl TNumber: NumberTrait<T, MAG>,
+    impl TAddEq: AddEq<T>,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>
+>(
+    self: @Tensor<T>, axes: Option<Span<usize>>, keepdims: bool, noop_with_empty_axes: bool
+) -> Tensor<T> {
+    // Handle case when no reduction is needed
+    if noop_with_empty_axes && (axes.is_none() || axes.unwrap().is_empty()) {
+        return *self;
+    }
+
+    let reducer_len = if let Option::Some(axes) = axes {
+        axes.len()
+    } else {
+        (*self.shape).len()
+    };
+    let mut result_tensor = *self;
+    let mut axis_index = 0;
+    while axis_index < reducer_len {
+        let axis = if let Option::Some(axes) = axes {
+            *axes.at(axis_index)
+        } else {
+            axis_index
+        };
+
+        result_tensor =
+            {
+                let mut output_data: Array<T> = array![];
+                let output_shape = reduce_output_shape(result_tensor.shape, axis, keepdims);
+                let output_data_len = len_from_shape(output_shape);
+                let mut index: usize = 0;
+
+                while index != output_data_len {
+                    let output_indices = unravel_index(index, output_shape);
+                    let current_sum = accumulate_sum::<
+                        T
+                    >(result_tensor.data, result_tensor.shape, output_indices, axis);
+                    output_data.append(current_sum);
+                    index += 1;
+                };
+                TensorTrait::<T>::new(output_shape, output_data.span())
+            };
+
+        axis_index += 1;
+    };
+
+    result_tensor
+}
+
+fn reduce_sum_single_axis<
     T,
     MAG,
     impl TTensor: TensorTrait<T>,
@@ -101,3 +157,4 @@ fn accumulate_sum<
 
     return acc;
 }
+
