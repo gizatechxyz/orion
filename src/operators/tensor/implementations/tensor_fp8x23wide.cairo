@@ -576,6 +576,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn expand(self: @Tensor<FP8x23W>, shape: Tensor<usize>,) -> Tensor<FP8x23W> {
+        manipulation::expand::expand(self, shape)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

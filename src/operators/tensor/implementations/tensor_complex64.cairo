@@ -585,6 +585,10 @@ impl Complex64Tensor of TensorTrait<complex64> {
     ) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }
+
+    fn expand(self: @Tensor<complex64>, shape: Tensor<usize>,) -> Tensor<complex64> {
+        manipulation::expand::expand(self, shape)
+    }
 }
 
 /// Implements addition for `Tensor<complex64>` using the `Add` trait.

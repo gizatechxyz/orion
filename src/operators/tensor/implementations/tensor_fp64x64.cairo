@@ -635,6 +635,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn expand(self: @Tensor<FP64x64>, shape: Tensor<usize>,) -> Tensor<FP64x64> {
+        manipulation::expand::expand(self, shape)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.
