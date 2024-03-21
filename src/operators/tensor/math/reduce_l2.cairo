@@ -3,6 +3,7 @@ use core::debug::PrintTrait;
 use orion::numbers::NumberTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
+use orion::operators::tensor::math::reduce_sum_single_axis::reduce_sum_single_axis;
 
 fn square<
     T,
@@ -40,13 +41,14 @@ fn reduce_l2<
     impl TTensor: TensorTrait<T>,
     impl TNumber: NumberTrait<T, MAG>,
     impl TMul: Mul<T>,
+    impl TAddEq: AddEq<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
 >(
     self: @Tensor<T>, axis: usize, keepdims: bool
 ) -> Tensor<T> {
     let tensor_square = square(self);
-    let tensor_square_sum = tensor_square.reduce_sum(axis: axis, keepdims: keepdims);
+    let tensor_square_sum = reduce_sum_single_axis(@tensor_square, axis: axis, keepdims: keepdims);
 
     tensor_square_sum.sqrt()
 }
@@ -57,6 +59,7 @@ fn reduce_l2_complex<
     impl TTensor: TensorTrait<T>,
     impl TNumber: NumberTrait<T, MAG>,
     impl TMul: Mul<T>,
+    impl TAddEq: AddEq<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
     impl TPrint: PrintTrait<T>
@@ -64,7 +67,9 @@ fn reduce_l2_complex<
     self: @Tensor<T>, axis: usize, keepdims: bool
 ) -> Tensor<T> {
     let mut tensor_square = square(@self.abs());
-    let mut tensor_square_sum = tensor_square.reduce_sum(axis: axis, keepdims: keepdims);
+    let mut tensor_square_sum = reduce_sum_single_axis(
+        @tensor_square, axis: axis, keepdims: keepdims
+    );
 
     tensor_square_sum.sqrt()
 }

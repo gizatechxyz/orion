@@ -4,6 +4,7 @@ use orion::operators::tensor::{
     TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, BoolTensor
 };
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
+use orion::operators::tensor::math::reduce_sum_single_axis::reduce_sum_single_axis;
 
 /// Cf: TensorTrait::layer_normalization docstring
 fn layer_normalization<
@@ -12,6 +13,7 @@ fn layer_normalization<
     +TensorTrait<T>,
     +NumberTrait<T, MAG>,
     +PartialEq<T>,
+    +AddEq<T>,
     +Copy<T>,
     +Drop<T>,
     +Div<Tensor<T>>,
@@ -90,13 +92,13 @@ fn layer_normalization<
     one_tensor.append(NumberTrait::one());
 
     let x_mat = self.reshape(shape_matrix.span());
-    let x_mean = x_mat.reduce_sum(1, true)
+    let x_mean = reduce_sum_single_axis(@x_mat, 1, true)
         / TensorTrait::new(shape_one.span(), col_number_tensor.span());
 
     let x_diff = x_mat - x_mean;
     let x_squared_diff = x_diff * x_diff;
 
-    let variance = x_squared_diff.reduce_sum(1, true)
+    let variance = reduce_sum_single_axis(@x_squared_diff, 1, true)
         / TensorTrait::new(shape_one.span(), col_number_tensor.span());
     let variance_eps = variance + TensorTrait::new(shape_one.span(), epsilon_tensor.span());
 
