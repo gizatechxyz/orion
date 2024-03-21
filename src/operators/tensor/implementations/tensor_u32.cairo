@@ -114,7 +114,7 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
-    fn equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<bool> {
+    fn equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         math::equal::equal(self, other)
     }
 
@@ -126,7 +126,7 @@ impl U32Tensor of TensorTrait<u32> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<bool> {
+    fn less(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         math::less::less(self, other)
     }
 
@@ -320,7 +320,7 @@ impl U32Tensor of TensorTrait<u32> {
         core_tensor::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         math::and::and(self, other)
     }
 
@@ -420,11 +420,11 @@ impl U32Tensor of TensorTrait<u32> {
 
     fn is_inf(
         self: @Tensor<u32>, detect_negative: Option<u8>, detect_positive: Option<u8>
-    ) -> Tensor<bool> {
+    ) -> Tensor<usize> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
-    fn is_nan(self: @Tensor<u32>) -> Tensor<bool> {
+    fn is_nan(self: @Tensor<u32>) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
 

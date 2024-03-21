@@ -1085,7 +1085,7 @@ trait TensorTrait<T> {
     /// #tensor.equal
     ///
     /// ```rust
-    ///     fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<bool>;
+    ///     fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// ```
     ///
     /// Check if two tensors are equal element-wise.
@@ -1150,7 +1150,7 @@ trait TensorTrait<T> {
     /// >>> [true,true,true,false,false,false,false,false,false]
     /// ```
     ///
-    fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<bool>;
+    fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// #tensor.greater
     ///
     /// ```rust
@@ -1344,7 +1344,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn less_example() -> Tensor<bool> {
+    /// fn less_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1357,7 +1357,7 @@ trait TensorTrait<T> {
     /// >>> [false,false,false,false,false,false,false,true,true]
     /// ```
     ///
-    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<bool>;
+    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
     /// #tensor.less_equal
     ///
     /// ```rust
@@ -3465,7 +3465,7 @@ trait TensorTrait<T> {
     /// #tensor.and
     ///
     /// ```rust
-    ///     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool>;
+    ///     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize>;
     /// ```
     ///
     /// Computes the logical AND of two tensors element-wise.
@@ -3493,7 +3493,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
     /// 
-    /// fn and_example() -> Tensor<bool> {
+    /// fn and_example() -> Tensor<usize> {
     ///     let tensor_1 = TensorTrait::<bool>::new(
     ///         shape: array![3, 3].span(), data: array![false, true, false, false, false, true, true, false, true, false, false, true].span(),
     ///     );
@@ -3507,7 +3507,7 @@ trait TensorTrait<T> {
     /// >>> [false, false, false, false, false, true, false, false, false, false, false, true]
     /// ```
     ///
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool>;
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize>;
     /// #tensor.where
     ///
     /// ```rust
@@ -4677,7 +4677,7 @@ trait TensorTrait<T> {
     /// ## tensor.is_inf
     ///
     /// ```rust
-    ///    fn is_inf(self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool>;
+    ///    fn is_inf(self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<usize>;
     /// ```
     ///
     /// Maps infinity to true and other values to false.
@@ -4699,7 +4699,7 @@ trait TensorTrait<T> {
     /// use core::array::{ArrayTrait, SpanTrait};    
     /// use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, U32Tensor};
     ///
-    /// fn is_inf_example() -> Tensor<bool> {
+    /// fn is_inf_example() -> Tensor<usize> {
     ///     let tensor = TensorTrait::<u32>::new(
     ///         shape: array![6].span(), data: array![1, 0, NumberTrait::INF(), 8, NumberTrait::INF(), NumberTrait::INF()].span(),
     ///     );
@@ -4711,11 +4711,11 @@ trait TensorTrait<T> {
     ///
     fn is_inf(
         self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>
-    ) -> Tensor<bool>;
+    ) -> Tensor<usize>;
     /// ## tensor.is_nan
     ///
     /// ```rust
-    ///    fn is_nan(self: @Tensor<T>) -> Tensor<bool>;
+    ///    fn is_nan(self: @Tensor<T>) -> Tensor<usize>;
     /// ```
     ///
     /// Maps NaN to true and other values to false.
@@ -4735,7 +4735,7 @@ trait TensorTrait<T> {
     /// use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, FP8x23Tensor};
     /// use orion::numbers::{FixedTrait, FP8x23};
     ///
-    /// fn is_nan_example() -> Tensor<bool> {
+    /// fn is_nan_example() -> Tensor<usize> {
     ///     let mut shape = ArrayTrait::<usize>::new();
     ///     shape.append(4);
     ///
@@ -4751,7 +4751,7 @@ trait TensorTrait<T> {
     /// >>> [false, false, true, false]
     /// ```
     ///
-    fn is_nan(self: @Tensor<T>) -> Tensor<bool>;
+    fn is_nan(self: @Tensor<T>) -> Tensor<usize>;
     /// #tensor.not
     /// 
     /// ```rust
@@ -4777,7 +4777,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
     /// 
-    /// fn not_example() -> Tensor<bool> {
+    /// fn not_example() -> Tensor<usize> {
     ///     let tensor = TensorTrait::new(
     ///         shape: array![3].span(),
     ///         data: array![

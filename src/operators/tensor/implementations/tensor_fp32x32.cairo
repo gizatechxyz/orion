@@ -120,7 +120,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::log::log(*self)
     }
 
-    fn equal(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<bool> {
+    fn equal(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<usize> {
         math::equal::equal(self, other)
     }
 
@@ -132,7 +132,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<bool> {
+    fn less(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<usize> {
         math::less::less(self, other)
     }
 
@@ -383,7 +383,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         core_tensor::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         math::and::and(self, other)
     }
 
@@ -485,11 +485,11 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
 
     fn is_inf(
         self: @Tensor<FP32x32>, detect_negative: Option<u8>, detect_positive: Option<u8>
-    ) -> Tensor<bool> {
+    ) -> Tensor<usize> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
-    fn is_nan(self: @Tensor<FP32x32>) -> Tensor<bool> {
+    fn is_nan(self: @Tensor<FP32x32>) -> Tensor<usize> {
         math::is_nan::is_nan(self)
     }
 

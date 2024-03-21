@@ -121,7 +121,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::log::log(*self)
     }
 
-    fn equal(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<bool> {
+    fn equal(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<usize> {
         math::equal::equal(self, other)
     }
 
@@ -133,7 +133,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<bool> {
+    fn less(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<usize> {
         math::less::less(self, other)
     }
 
@@ -384,7 +384,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         core_ops::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         math::and::and(self, other)
     }
 
@@ -484,11 +484,11 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
 
     fn is_inf(
         self: @Tensor<FP8x23>, detect_negative: Option<u8>, detect_positive: Option<u8>
-    ) -> Tensor<bool> {
+    ) -> Tensor<usize> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
-    fn is_nan(self: @Tensor<FP8x23>) -> Tensor<bool> {
+    fn is_nan(self: @Tensor<FP8x23>) -> Tensor<usize> {
         math::is_nan::is_nan(self)
     }
 

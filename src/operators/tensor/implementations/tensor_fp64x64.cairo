@@ -119,7 +119,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::log::log(*self)
     }
 
-    fn equal(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<bool> {
+    fn equal(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<usize> {
         math::equal::equal(self, other)
     }
 
@@ -131,7 +131,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<bool> {
+    fn less(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<usize> {
         math::less::less(self, other)
     }
 
@@ -382,7 +382,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         core_tensor::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         math::and::and(self, other)
     }
 
@@ -484,11 +484,11 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
 
     fn is_inf(
         self: @Tensor<FP64x64>, detect_negative: Option<u8>, detect_positive: Option<u8>
-    ) -> Tensor<bool> {
+    ) -> Tensor<usize> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
-    fn is_nan(self: @Tensor<FP64x64>) -> Tensor<bool> {
+    fn is_nan(self: @Tensor<FP64x64>) -> Tensor<usize> {
         math::is_nan::is_nan(self)
     }
 

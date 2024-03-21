@@ -1,4 +1,4 @@
-use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index};
+use orion::operators::tensor::{core::{Tensor, TensorTrait, unravel_index}, U32Tensor};
 use orion::operators::tensor::helpers::{
     broadcast_shape, broadcast_index_mapping, len_from_shape, check_compatibility
 };
@@ -12,9 +12,9 @@ fn equal<
     impl TDrop: Drop<T>
 >(
     y: @Tensor<T>, z: @Tensor<T>
-) -> Tensor<bool> {
+) -> Tensor<usize> {
     let broadcasted_shape = broadcast_shape(*y.shape, *z.shape);
-    let mut result: Array<bool> = array![];
+    let mut result: Array<usize> = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 
@@ -26,9 +26,9 @@ fn equal<
         let indices_other = broadcast_index_mapping(*z.shape, indices_broadcasted);
 
         if *(*y.data)[indices_self] == *(*z.data)[indices_other] {
-            result.append(true);
+            result.append(1);
         } else {
-            result.append(false);
+            result.append(0);
         }
 
         n += 1;

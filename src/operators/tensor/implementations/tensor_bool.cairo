@@ -109,7 +109,7 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+    fn equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         math::equal::equal(self, other)
     }
 
@@ -121,7 +121,7 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn less(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+    fn less(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
 
@@ -259,7 +259,7 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         math::and::and(self, other)
     }
 
@@ -419,11 +419,11 @@ impl BoolTensor of TensorTrait<bool> {
 
     fn is_inf(
         self: @Tensor<bool>, detect_negative: Option<u8>, detect_positive: Option<u8>
-    ) -> Tensor<bool> {
+    ) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
 
-    fn is_nan(self: @Tensor<bool>) -> Tensor<bool> {
+    fn is_nan(self: @Tensor<bool>) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
 

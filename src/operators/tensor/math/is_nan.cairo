@@ -1,6 +1,6 @@
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::operators::tensor::implementations::tensor_bool::BoolTensor;
+use orion::operators::tensor::U32Tensor;
 
 /// Cf: TensorTrait::is_nan docstring
 fn is_nan<
@@ -12,12 +12,18 @@ fn is_nan<
     impl TDrop: Drop<T>
 >(
     x: @Tensor<T>
-) -> Tensor<bool> {
-    let mut data_result: Array<bool> = array![];
+) -> Tensor<usize> {
+    let mut data_result: Array<usize> = array![];
     let mut y: Span<T> = *x.data;
     loop {
         match y.pop_front() {
-            Option::Some(item) => { data_result.append((*item).is_nan()); },
+            Option::Some(item) => {
+                if (*item).is_nan() {
+                    data_result.append(1);
+                } else {
+                    data_result.append(0);
+                }
+            },
             Option::None => { break; }
         };
     };

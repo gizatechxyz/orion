@@ -132,7 +132,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::log::log(*self)
     }
 
-    fn equal(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<bool> {
+    fn equal(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<usize> {
         math::equal::equal(self, other)
     }
 
@@ -144,7 +144,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<bool> {
+    fn less(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<usize> {
         math::less::less(self, other)
     }
 
@@ -351,7 +351,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         core_tensor::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         math::and::and(self, other)
     }
 
@@ -457,11 +457,11 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
 
     fn is_inf(
         self: @Tensor<FP16x16W>, detect_negative: Option<u8>, detect_positive: Option<u8>
-    ) -> Tensor<bool> {
+    ) -> Tensor<usize> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
-    fn is_nan(self: @Tensor<FP16x16W>) -> Tensor<bool> {
+    fn is_nan(self: @Tensor<FP16x16W>) -> Tensor<usize> {
         math::is_nan::is_nan(self)
     }
 

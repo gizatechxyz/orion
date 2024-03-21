@@ -115,7 +115,7 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
-    fn equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<bool> {
+    fn equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         math::equal::equal(self, other)
     }
 
@@ -127,7 +127,7 @@ impl I8Tensor of TensorTrait<i8> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<bool> {
+    fn less(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         math::less::less(self, other)
     }
 
@@ -376,7 +376,7 @@ impl I8Tensor of TensorTrait<i8> {
         core_tensor::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         math::and::and(self, other)
     }
 
@@ -476,11 +476,11 @@ impl I8Tensor of TensorTrait<i8> {
 
     fn is_inf(
         self: @Tensor<i8>, detect_negative: Option<u8>, detect_positive: Option<u8>
-    ) -> Tensor<bool> {
+    ) -> Tensor<usize> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
-    fn is_nan(self: @Tensor<i8>) -> Tensor<bool> {
+    fn is_nan(self: @Tensor<i8>) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
 

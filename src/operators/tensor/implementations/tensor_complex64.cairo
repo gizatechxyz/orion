@@ -128,7 +128,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
         math::log::log(*self)
     }
 
-    fn equal(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<bool> {
+    fn equal(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<usize> {
         math::equal::equal(self, other)
     }
 
@@ -140,7 +140,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
-    fn less(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<bool> {
+    fn less(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
 
@@ -347,7 +347,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         math::and::and(self, other)
     }
 
@@ -456,11 +456,11 @@ impl Complex64Tensor of TensorTrait<complex64> {
 
     fn is_inf(
         self: @Tensor<complex64>, detect_negative: Option<u8>, detect_positive: Option<u8>
-    ) -> Tensor<bool> {
+    ) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
 
-    fn is_nan(self: @Tensor<complex64>) -> Tensor<bool> {
+    fn is_nan(self: @Tensor<complex64>) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
 
