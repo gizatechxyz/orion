@@ -68,7 +68,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP64x64>, target_shape: Span<usize>) -> Tensor<FP64x64> {
+    fn reshape(self: @Tensor<FP64x64>, target_shape: Span<i32>) -> Tensor<FP64x64> {
         reshape(self, target_shape)
     }
 

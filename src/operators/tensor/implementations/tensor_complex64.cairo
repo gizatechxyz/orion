@@ -69,7 +69,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<complex64>, target_shape: Span<usize>) -> Tensor<complex64> {
+    fn reshape(self: @Tensor<complex64>, target_shape: Span<i32>) -> Tensor<complex64> {
         reshape(self, target_shape)
     }
 

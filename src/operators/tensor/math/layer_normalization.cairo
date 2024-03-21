@@ -1,3 +1,5 @@
+use core::option::OptionTrait;
+use core::array::SpanTrait;
 use orion::numbers::{NumberTrait, I32IntoU32};
 use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
 use orion::operators::tensor::{
@@ -74,8 +76,8 @@ fn layer_normalization<
     };
 
     let mut shape_matrix = array![];
-    shape_matrix.append(row_number);
-    shape_matrix.append(col_number);
+    shape_matrix.append(row_number.try_into().unwrap());
+    shape_matrix.append(col_number.try_into().unwrap());
 
     // Shape [1, 1] to mutiply one element tensors with 2D matrices
     let mut shape_one = array![];
@@ -128,7 +130,17 @@ fn layer_normalization<
         *scale
     };
 
-    let Y = y_mat.reshape((*self).shape) * scale;
+    let mut target_shape: Array<i32> = array![];
+    let mut i = 0;
+    while i < (*self)
+        .shape
+        .len() {
+            target_shape.append((*(*self).shape.at(i)).try_into().unwrap());
+
+            i += 1;
+        };
+
+    let Y = y_mat.reshape(target_shape.span()) * scale;
 
     let Y = match B {
         Option::Some(B) => {

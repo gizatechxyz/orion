@@ -68,7 +68,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP8x23>, target_shape: Span<usize>) -> Tensor<FP8x23> {
+    fn reshape(self: @Tensor<FP8x23>, target_shape: Span<i32>) -> Tensor<FP8x23> {
         reshape(self, target_shape)
     }
 

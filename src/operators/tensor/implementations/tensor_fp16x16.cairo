@@ -71,7 +71,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP16x16>, target_shape: Span<usize>) -> Tensor<FP16x16> {
+    fn reshape(self: @Tensor<FP16x16>, target_shape: Span<i32>) -> Tensor<FP16x16> {
         reshape(self, target_shape)
     }
 
