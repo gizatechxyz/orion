@@ -120,6 +120,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.erf`](tensor.erf.md) | Computes the error function of the given input tensor element-wise. |
 | [`tensor.reduce_log_sum_exp`](tensor.reduce\_log\_sum\_exp.md) | Computes the log sum of the exponentials of the input tensor's elements along the provided axes. |
 | [`tensor.layer_normalization`](tensor.layer\_normalization.md) | computes the layer normalization of the input tensor. |
+| [`tensor.group_normalization`](tensor.group\_normalization.md) | computes the group normalization of the input tensor. |
 | [`tensor.split`](tensor.split.md) | Split a tensor into a list of tensors, along the specified ‘axis’.  |
 | [`tensor.random_uniform_like`](tensor.random\_uniform\_like.md) | RandomUniformLike generates a tensor with random values using a uniform distribution, matching the shape of the input tensor. |
 | [`tensor.split_to_sequence`](tensor.split\_to\_sequence.md) | Split a tensor into a sequence of tensors, along the specified ‘axis’. |
