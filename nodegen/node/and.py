@@ -13,7 +13,7 @@ class And(RunAll):
 
             x = Tensor(Dtype.BOOL, x.shape, x.flatten())
             y = Tensor(Dtype.BOOL, y.shape, y.flatten())
-            z = Tensor(Dtype.BOOL, z.shape, z.flatten())
+            z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "and_bool"
             make_test([x, y], z, "BoolTensor::and(@input_0, @input_1)", name)
@@ -25,7 +25,7 @@ class And(RunAll):
 
             x = Tensor(Dtype.BOOL, x.shape, x.flatten())
             y = Tensor(Dtype.BOOL, y.shape, y.flatten())
-            z = Tensor(Dtype.BOOL, z.shape, z.flatten())
+            z = Tensor(Dtype.U32, z.shape, z.flatten())
 
             name = "and_bool_broadcast"
             make_test([x, y], z, "BoolTensor::and(@input_0, @input_1)", name)
