@@ -113,6 +113,7 @@ You can see below the list of current supported ONNX Operators:
 |                [Compress](operators/tensor/tensor.compress.md)                | :white\_check\_mark: |
 |      [ReduceLogSumExp](operators/tensor/tensor.reduce\_log\_sum\_exp.md)      | :white\_check\_mark: |
 |     [Layer_normalization](operators/tensor/tensor.layer_normalization.md)     | :white\_check\_mark: |
+|     [Group_normalization](operators/tensor/tensor.group_normalization.md)     | :white\_check\_mark: |
 |              [ScatterND](operators/tensor/tensor.scatter/_nd.md)              | :white\_check\_mark: |
 |       [DequantizeLinear](operators/tensor/tensor.dequantize_linear.md)        | :white\_check\_mark: |
 |         [SpaceToDepth](operators/neural-network/nn.space_to_depth.md)         | :white\_check\_mark: |
@@ -127,4 +128,4 @@ You can see below the list of current supported ONNX Operators:
 |      [RandomUniformLike](operators/tensor/tensor.tensor.random_uniform_like.md)      | :white\_check\_mark: |
 |           [LabelEncoder](operators/tensor/tensor.label_encoder.md)            | :white\_check\_mark: |
 
-Current Operators support: **118/156 (75%)**
+Current Operators support: **119/156 (76%)**
