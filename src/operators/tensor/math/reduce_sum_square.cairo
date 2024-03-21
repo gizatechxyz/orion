@@ -1,7 +1,7 @@
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::numbers::fixed_point::core::FixedTrait;
-use orion::operators::tensor::math::reduce_sum::reduce_sum_single_axis;
+use orion::operators::tensor::math::reduce_sum_single_axis::reduce_sum_single_axis;
 
 fn square<
     T,

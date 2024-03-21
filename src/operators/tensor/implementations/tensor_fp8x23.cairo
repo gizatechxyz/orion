@@ -73,7 +73,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     }
 
     fn reduce_sum(
-        self: @Tensor<FP8x23>, axes: Option<Span<usize>>, keepdims: bool, noop_with_empty_axes: bool
+        self: @Tensor<FP8x23>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
     ) -> Tensor<FP8x23> {
         math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
@@ -82,7 +85,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn reduce_sum_single_axis(
         self: @Tensor<FP8x23>, axis: usize, keepdims: bool
     ) -> Tensor<FP8x23> {
-        math::reduce_sum::reduce_sum_single_axis(self, axis, keepdims)
+        math::reduce_sum_single_axis::reduce_sum_single_axis(self, axis, keepdims)
     }
 
 

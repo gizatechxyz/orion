@@ -75,8 +75,8 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn reduce_sum(
         self: @Tensor<FP32x32>,
         axes: Option<Span<usize>>,
-        keepdims: bool,
-        noop_with_empty_axes: bool
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
     ) -> Tensor<FP32x32> {
         math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
@@ -85,7 +85,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     fn reduce_sum_single_axis(
         self: @Tensor<FP32x32>, axis: usize, keepdims: bool
     ) -> Tensor<FP32x32> {
-        math::reduce_sum::reduce_sum_single_axis(self, axis, keepdims)
+        math::reduce_sum_single_axis::reduce_sum_single_axis(self, axis, keepdims)
     }
 
     fn reduce_prod(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {

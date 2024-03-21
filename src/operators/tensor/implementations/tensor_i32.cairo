@@ -73,13 +73,16 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn reduce_sum(
-        self: @Tensor<i32>, axes: Option<Span<usize>>, keepdims: bool, noop_with_empty_axes: bool
+        self: @Tensor<i32>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
     ) -> Tensor<i32> {
         math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
     fn reduce_sum_single_axis(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
-        math::reduce_sum::reduce_sum_single_axis(self, axis, keepdims)
+        math::reduce_sum_single_axis::reduce_sum_single_axis(self, axis, keepdims)
     }
 
     fn reduce_prod(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {

@@ -82,8 +82,8 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn reduce_sum(
         self: @Tensor<FP16x16W>,
         axes: Option<Span<usize>>,
-        keepdims: bool,
-        noop_with_empty_axes: bool
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
     ) -> Tensor<FP16x16W> {
         math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
@@ -91,7 +91,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     fn reduce_sum_single_axis(
         self: @Tensor<FP16x16W>, axis: usize, keepdims: bool
     ) -> Tensor<FP16x16W> {
-        math::reduce_sum::reduce_sum_single_axis(self, axis, keepdims)
+        math::reduce_sum_single_axis::reduce_sum_single_axis(self, axis, keepdims)
     }
 
     fn reduce_prod(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {

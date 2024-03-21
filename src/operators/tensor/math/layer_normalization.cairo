@@ -4,7 +4,7 @@ use orion::operators::tensor::{
     TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, BoolTensor
 };
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
-use orion::operators::tensor::math::reduce_sum::reduce_sum_single_axis;
+use orion::operators::tensor::math::reduce_sum_single_axis::reduce_sum_single_axis;
 
 /// Cf: TensorTrait::layer_normalization docstring
 fn layer_normalization<

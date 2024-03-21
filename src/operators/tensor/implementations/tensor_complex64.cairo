@@ -76,8 +76,8 @@ impl Complex64Tensor of TensorTrait<complex64> {
     fn reduce_sum(
         self: @Tensor<complex64>,
         axes: Option<Span<usize>>,
-        keepdims: bool,
-        noop_with_empty_axes: bool
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
     ) -> Tensor<complex64> {
         math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
@@ -86,7 +86,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
     fn reduce_sum_single_axis(
         self: @Tensor<complex64>, axis: usize, keepdims: bool
     ) -> Tensor<complex64> {
-        math::reduce_sum::reduce_sum_single_axis(self, axis, keepdims)
+        math::reduce_sum_single_axis::reduce_sum_single_axis(self, axis, keepdims)
     }
 
 

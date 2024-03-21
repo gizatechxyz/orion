@@ -65,7 +65,10 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn reduce_sum(
-        self: @Tensor<bool>, axes: Option<Span<usize>>, keepdims: bool, noop_with_empty_axes: bool
+        self: @Tensor<bool>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
     ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }

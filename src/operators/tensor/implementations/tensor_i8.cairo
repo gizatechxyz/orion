@@ -71,15 +71,16 @@ impl I8Tensor of TensorTrait<i8> {
     }
 
     fn reduce_sum(
-        self: @Tensor<i8>, axes: Option<Span<usize>>, keepdims: bool, noop_with_empty_axes: bool
+        self: @Tensor<i8>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
     ) -> Tensor<i8> {
         math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
-    fn reduce_sum_single_axis(
-        self: @Tensor<i8>, axis: usize, keepdims: bool
-    ) -> Tensor<i8> {
-        math::reduce_sum::reduce_sum_single_axis(self, axis, keepdims)
+    fn reduce_sum_single_axis(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
+        math::reduce_sum_single_axis::reduce_sum_single_axis(self, axis, keepdims)
     }
 
     fn reduce_prod(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
