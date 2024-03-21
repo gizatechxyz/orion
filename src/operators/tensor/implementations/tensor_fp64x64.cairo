@@ -119,7 +119,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::log::log(*self)
     }
 
-    fn equal(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<usize> {
+    fn equal(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<bool> {
         math::equal::equal(self, other)
     }
 

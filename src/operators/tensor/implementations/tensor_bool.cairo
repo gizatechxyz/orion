@@ -109,7 +109,7 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::equal::equal(self, other)
     }
 

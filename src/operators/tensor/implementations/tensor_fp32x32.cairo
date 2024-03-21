@@ -120,7 +120,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::log::log(*self)
     }
 
-    fn equal(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<usize> {
+    fn equal(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<bool> {
         math::equal::equal(self, other)
     }
 

@@ -121,7 +121,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::log::log(*self)
     }
 
-    fn equal(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<usize> {
+    fn equal(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<bool> {
         math::equal::equal(self, other)
     }
 

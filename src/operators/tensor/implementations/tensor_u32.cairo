@@ -114,7 +114,7 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
-    fn equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+    fn equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<bool> {
         math::equal::equal(self, other)
     }
 

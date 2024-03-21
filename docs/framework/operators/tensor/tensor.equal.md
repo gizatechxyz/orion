@@ -1,7 +1,7 @@
 #tensor.equal
 
 ```rust
-    fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<bool>;
 ```
 
 Check if two tensors are equal element-wise.
@@ -20,7 +20,7 @@ The input tensors must have either:
 
 ## Returns
 
-A new `Tensor<usize>` of booleans (1 if equal, 0 otherwise) with the same shape as the broadcasted inputs.
+A new `Tensor<bool>` of booleans (1 if equal, 0 otherwise) with the same shape as the broadcasted inputs.
 
 ## Examples
 
@@ -43,7 +43,7 @@ fn eq_example() -> Tensor<usize> {
     // We can call `equal` function as follows.
     return tensor_1.equal(@tensor_2);
 }
->>> [1,1,1,1,1,0,0,0]
+>>> [true,true,true,true,true,false,false,false]
 ```
 
 Case 2: Compare tensors with different shapes
@@ -63,5 +63,5 @@ fn eq_example() -> Tensor<usize> {
     // We can call `equal` function as follows.
     return tensor_1.equal(@tensor_2);
 }
->>> [1,1,1,0,0,0,0,0,0]
+>>> [true,true,true,false,false,false,false,false,false]
 ```

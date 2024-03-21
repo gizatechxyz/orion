@@ -122,7 +122,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::log::log(*self)
     }
 
-    fn equal(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
+    fn equal(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<bool> {
         math::equal::equal(self, other)
     }
 

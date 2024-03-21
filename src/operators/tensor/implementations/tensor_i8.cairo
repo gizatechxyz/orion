@@ -115,7 +115,7 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
-    fn equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
+    fn equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<bool> {
         math::equal::equal(self, other)
     }
 

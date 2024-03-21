@@ -53,7 +53,7 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-fn less_example() -> Tensor<usize> {
+fn less_example() -> Tensor<bool> {
     let tensor_1 = TensorTrait::<u32>::new(
         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     );
@@ -63,5 +63,5 @@ fn less_example() -> Tensor<usize> {
     // We can call `less` function as follows.
     return tensor_1.less(@tensor_2);
 }
->>> [0,0,0,0,0,0,0,1,1]
+>>> [false,false,false,false,false,false,false,true,true]
 ```

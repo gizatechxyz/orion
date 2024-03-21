@@ -128,7 +128,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
         math::log::log(*self)
     }
 
-    fn equal(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<usize> {
+    fn equal(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<bool> {
         math::equal::equal(self, other)
     }
 

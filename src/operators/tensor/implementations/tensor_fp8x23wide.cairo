@@ -124,7 +124,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::log::log(*self)
     }
 
-    fn equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
+    fn equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<bool> {
         math::equal::equal(self, other)
     }
 
