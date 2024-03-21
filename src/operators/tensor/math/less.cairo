@@ -6,15 +6,15 @@ use orion::operators::tensor::helpers::{
 /// Cf: TensorTrait::less docstring
 fn less<
     T,
-    impl UsizeFTensor: TensorTrait<usize>,
+    impl BoolTensor: TensorTrait<bool>,
     impl TPartialOrd: PartialOrd<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
 >(
     y: @Tensor<T>, z: @Tensor<T>
-) -> Tensor<usize> {
+) -> Tensor<bool> {
     let broadcasted_shape = broadcast_shape(*y.shape, *z.shape);
-    let mut result: Array<usize> = array![];
+    let mut result: Array<bool> = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 
@@ -26,9 +26,9 @@ fn less<
         let indices_other = broadcast_index_mapping(*z.shape, indices_broadcasted);
 
         if *(*y.data)[indices_self] < *(*z.data)[indices_other] {
-            result.append(1);
+            result.append(true);
         } else {
-            result.append(0);
+            result.append(false);
         }
 
         n += 1;

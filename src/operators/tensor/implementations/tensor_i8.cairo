@@ -127,7 +127,7 @@ impl I8Tensor of TensorTrait<i8> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
+    fn less(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<bool> {
         math::less::less(self, other)
     }
 
