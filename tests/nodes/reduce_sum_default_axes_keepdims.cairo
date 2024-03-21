@@ -10,11 +10,11 @@ use core::array::{ArrayTrait, SpanTrait};
 
 #[test]
 #[available_gas(2000000000)]
-fn test_reduce_sum_keep_dims() {
+fn test_reduce_sum_default_axes_keepdims() {
     let input_0 = input_0::input_0();
     let z_0 = output_0::output_0();
 
-    let y_0 = input_0.reduce_sum(Option::Some(array![1].span()), Option::Some(true), Option::None);
+    let y_0 = input_0.reduce_sum(Option::Some(array![].span()), Option::Some(true), Option::None);
 
     assert_eq(y_0, z_0);
 }

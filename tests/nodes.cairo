@@ -1048,3 +1048,6 @@
 // mod reduce_sum_single_axis_u32_2D_keepdims;
 // mod reduce_sum_single_axis_u32_2D_axis_1;
 mod reduce_sum_keep_dims;
+mod reduce_sum_no_keep_dims;
+mod reduce_sum_default_axes_keepdims;
+mod reduce_sum_empty_axes_input_noop;
