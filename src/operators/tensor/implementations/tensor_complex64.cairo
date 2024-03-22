@@ -301,7 +301,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
     }
 
     fn gather(
-        self: @Tensor<complex64>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<complex64>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<complex64> {
         math::gather::gather(self, indices, axis)
     }

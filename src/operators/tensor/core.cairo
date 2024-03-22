@@ -3166,7 +3166,7 @@ trait TensorTrait<T> {
     /// # tensor.gather
     ///
     /// ```rust 
-    ///    fn gather(self: @Tensor<T>, indices: Tensor<T>, axis: Option<usize>) -> Tensor<T>;
+    ///    fn gather(self: @Tensor<T>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<T>;
     /// ```
     ///
     /// Gather entries of the axis dimension of data.
@@ -3174,8 +3174,8 @@ trait TensorTrait<T> {
     /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
-    /// * `indices`(`Tensor<T>`) - Tensor of indices.
-    /// * `axis`(`Option<usize>`) - Axis to gather on. Default: axis=0.
+    /// * `indices`(`Tensor<i32>`) - Tensor of indices.
+    /// * `axis`(`Option<i32>`) - Axis to gather on. Default: axis=0.
     ///
     /// ## Panics
     ///
@@ -3197,7 +3197,7 @@ trait TensorTrait<T> {
     ///         shape: array![2, 3].span(), 
     ///         data: array![[ 1, 2, 3],[4, 5, 6]].span(), 
     ///     );
-    ///     let indices = TensorTrait::<u32>::new(
+    ///     let indices = TensorTrait::<i32>::new(
     ///         shape: array![1, 1].span(), 
     ///         data: array![1, 0].span(), 
     ///     );
@@ -3211,7 +3211,7 @@ trait TensorTrait<T> {
     ///      [1. 2. 3.]]
     /// ```
     ///
-    fn gather(self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<T>;
+    fn gather(self: @Tensor<T>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<T>;
     /// # tensor.unsqueeze
     ///
     /// ```rust 
