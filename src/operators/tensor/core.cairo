@@ -1309,7 +1309,7 @@ trait TensorTrait<T> {
     /// >>> [0,0,0,0,0,0,0,1,1]
     /// ```
     ///
-    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<bool>;
     /// #tensor.less_equal
     ///
     /// ```rust

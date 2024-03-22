@@ -123,7 +123,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
+    fn less(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<bool> {
         math::less::less(self, other)
     }
 

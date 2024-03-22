@@ -112,7 +112,7 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn less(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn less(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 

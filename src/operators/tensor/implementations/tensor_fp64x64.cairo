@@ -120,7 +120,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<usize> {
+    fn less(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<bool> {
         math::less::less(self, other)
     }
 
