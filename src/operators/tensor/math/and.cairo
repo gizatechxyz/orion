@@ -1,13 +1,13 @@
 use orion::numbers::NumberTrait;
-use orion::operators::tensor::{core::{Tensor, TensorTrait, unravel_index}, BoolTensor, U32Tensor};
+use orion::operators::tensor::{core::{Tensor, TensorTrait, unravel_index}, BoolTensor, I32Tensor};
 use orion::operators::tensor::helpers::{
     broadcast_shape, broadcast_index_mapping, len_from_shape, check_compatibility
 };
 
 /// Cf: TensorTrait::and docstring
-fn and(y: @Tensor<bool>, z: @Tensor<bool>) -> Tensor<usize> {
+fn and(y: @Tensor<bool>, z: @Tensor<bool>) -> Tensor<i32> {
     let broadcasted_shape = broadcast_shape(*y.shape, *z.shape);
-    let mut result: Array<usize> = array![];
+    let mut result: Array<i32> = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 

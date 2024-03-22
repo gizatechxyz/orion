@@ -1,4 +1,4 @@
-use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index};
+use orion::operators::tensor::{core::{Tensor, TensorTrait, unravel_index}, I32Tensor};
 use orion::operators::tensor::helpers::{
     broadcast_shape, broadcast_index_mapping, len_from_shape, check_compatibility
 };
@@ -6,15 +6,14 @@ use orion::operators::tensor::helpers::{
 /// Cf: TensorTrait::greater_equal docstring
 fn greater_equal<
     T,
-    impl UsizeFTensor: TensorTrait<usize>,
     impl TPartialOrd: PartialOrd<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
 >(
     y: @Tensor<T>, z: @Tensor<T>
-) -> Tensor<usize> {
+) -> Tensor<i32> {
     let broadcasted_shape = broadcast_shape(*y.shape, *z.shape);
-    let mut result: Array<usize> = array![];
+    let mut result: Array<i32> = array![];
 
     let num_elements = len_from_shape(broadcasted_shape);
 

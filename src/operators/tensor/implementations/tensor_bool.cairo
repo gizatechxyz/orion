@@ -109,23 +109,23 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
         math::equal::equal(self, other)
     }
 
-    fn greater(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn greater(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
-    fn greater_equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn greater_equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
-    fn less(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn less(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
-    fn less_equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
@@ -187,11 +187,11 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn xor(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn xor(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
-    fn or(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn or(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
@@ -259,7 +259,7 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
         math::and::and(self, other)
     }
 
