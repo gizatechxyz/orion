@@ -6032,6 +6032,7 @@ fn reshape<T, +Copy<Tensor<T>>>(self: @Tensor<T>, target_shape: Span<i32>) -> Te
             },
             Option::None => { break; }
         };
+        i+=1;
     };
 
     let mut target_shape_clone = target_shape.clone();
@@ -6043,6 +6044,9 @@ fn reshape<T, +Copy<Tensor<T>>>(self: @Tensor<T>, target_shape: Span<i32>) -> Te
                 if *dim == -1 {
                     inferred_shape.append(total_elements / elements_so_far) // Inferred dimension
                 } else if *dim == 0 {
+                    if i >= (*self.shape).len() {
+                        panic!("Dimension out of bounds for using original dimension value");
+                    }
                     inferred_shape.append(*(*self).shape.at(i)) // Dimension unchanged from original
                 } else {
                     inferred_shape.append((*dim).try_into().unwrap())
@@ -6050,6 +6054,7 @@ fn reshape<T, +Copy<Tensor<T>>>(self: @Tensor<T>, target_shape: Span<i32>) -> Te
             },
             Option::None => { break; }
         }
+        i+=1;
     };
 
     new_tensor(inferred_shape.span(), *self.data)
