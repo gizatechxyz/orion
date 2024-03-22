@@ -1,7 +1,7 @@
 #tensor.less
 
 ```rust
-    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
 ```
 
 Check if each element of the first tensor is less than the corresponding element of the second tensor.
@@ -31,7 +31,7 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-fn less_example() -> Tensor<usize> {
+fn less_example() -> Tensor<i32> {
     let tensor_1 = TensorTrait::<u32>::new(
         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     );
@@ -53,7 +53,7 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-fn less_example() -> Tensor<usize> {
+fn less_example() -> Tensor<i32> {
     let tensor_1 = TensorTrait::<u32>::new(
         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     );

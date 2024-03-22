@@ -1,7 +1,7 @@
 #tensor.and
 
 ```rust
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize>;
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32>;
 ```
 
 Computes the logical AND of two tensors element-wise.
@@ -20,7 +20,7 @@ The input tensors must have either:
 
 ## Returns
 
-A new `Tensor<bool>` with the same shape as the broadcasted inputs.
+A new `Tensor<i32>` with the same shape as the broadcasted inputs.
 
 ## Examples
 
@@ -29,7 +29,7 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
 
-fn and_example() -> Tensor<usize> {
+fn and_example() -> Tensor<i32> {
     let tensor_1 = TensorTrait::<bool>::new(
         shape: array![3, 3].span(), data: array![false, true, false, false, false, true, true, false, true, false, false, true].span(),
     );

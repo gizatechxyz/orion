@@ -1,7 +1,7 @@
 #tensor.xor
 
 ```rust
-    fn xor(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn xor(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
 ```
 
 Computes the logical XOR of two tensors element-wise.
@@ -20,7 +20,7 @@ The input tensors must have either:
 
 ## Returns
 
-A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+A new `Tensor<i32>` (0 or 1) with the same shape as the broadcasted inputs.
 
 ## Examples
 
@@ -31,7 +31,7 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-fn xor_example() -> Tensor<usize> {
+fn xor_example() -> Tensor<i32> {
     let tensor_1 = TensorTrait::<u32>::new(
         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     );
@@ -52,7 +52,7 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-fn xor_example() -> Tensor<usize> {
+fn xor_example() -> Tensor<i32> {
     let tensor_1 = TensorTrait::<u32>::new(
         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     );
