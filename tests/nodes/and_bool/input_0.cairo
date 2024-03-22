@@ -8,15 +8,15 @@ fn input_0() -> Tensor<bool> {
     shape.append(4);
 
     let mut data = ArrayTrait::new();
-    data.append(false);
-    data.append(true);
     data.append(true);
     data.append(false);
     data.append(false);
-    data.append(true);
     data.append(false);
     data.append(true);
     data.append(false);
+    data.append(true);
+    data.append(true);
+    data.append(true);
     data.append(false);
     data.append(false);
     data.append(false);
