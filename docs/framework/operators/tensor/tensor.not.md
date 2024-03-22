@@ -23,7 +23,7 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
 
-fn not_example() -> Tensor<bool> {
+fn not_example() -> Tensor<usize> {
     let tensor = TensorTrait::new(
         shape: array![3].span(),
         data: array![

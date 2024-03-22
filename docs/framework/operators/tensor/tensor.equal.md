@@ -1,7 +1,7 @@
 #tensor.equal
 
 ```rust
-    fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<bool>;
+    fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
 ```
 
 Check if two tensors are equal element-wise.
