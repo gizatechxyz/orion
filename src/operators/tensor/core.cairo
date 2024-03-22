@@ -559,7 +559,7 @@ trait TensorTrait<T> {
     /// # tensor.reshape
     ///
     /// ```rust 
-    ///    fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
+    ///    fn reshape(self: @Tensor<T>, target_shape: Span<i32>) -> Tensor<T>;
     /// ```
     ///
     /// Returns a new tensor with the specified target shape and the same data as the input tensor.
@@ -567,7 +567,7 @@ trait TensorTrait<T> {
     /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
-    /// * `target_shape`(Span<usize>) - A span containing the target shape of the tensor.
+    /// * `target_shape`(Span<i32>) - A span containing the target shape of the tensor.
     ///
     /// ## Panics
     ///
@@ -595,7 +595,7 @@ trait TensorTrait<T> {
     /// >>> [[0,1,2,3], [4,5,6,7]]
     /// ```
     ///
-    fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
+    fn reshape(self: @Tensor<T>, target_shape: Span<i32>) -> Tensor<T>;
     /// # tensor.transpose
     ///
     /// ```rust 
@@ -5993,8 +5993,71 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
 
 
 /// Cf: TensorTrait::reshape docstring
-fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
-    new_tensor(target_shape, *self.data)
+fn reshape<T, +Copy<Tensor<T>>>(self: @Tensor<T>, target_shape: Span<i32>) -> Tensor<T> {
+    // Calculate the total number of elements in the original tensor
+    let mut total_elements = 1;
+    let mut shape = *self.shape;
+    loop {
+        match shape.pop_front() {
+            Option::Some(val) => total_elements *= *val,
+            Option::None => { break; }
+        };
+    };
+
+    // Calculate 'elements_so_far' and find 'inferred_index'
+    let mut elements_so_far = 1;
+    let mut inferred_index = Option::None;
+    let mut target_shape_clone = target_shape.clone();
+    let mut i: usize = 0;
+    loop {
+        match target_shape_clone.pop_front() {
+            Option::Some(dim) => {
+                if *dim == -1 {
+                    if inferred_index.is_none() {
+                        inferred_index = Option::Some(i);
+                    } else {
+                        panic!("Only one dimension can be inferred");
+                    }
+                } else if *dim == 0 {
+                    if i >= (*self.shape).len() {
+                        panic!("Dimension out of bounds for using original dimension value");
+                    }
+                    elements_so_far *= *(*self).shape.at(i);
+                } else {
+                    if *dim < -1 {
+                        panic!("Invalid dimension size");
+                    }
+                    elements_so_far *= (*dim).try_into().unwrap();
+                };
+            },
+            Option::None => { break; }
+        };
+        i+=1;
+    };
+
+    let mut target_shape_clone = target_shape.clone();
+    let mut inferred_shape = ArrayTrait::<u32>::new();
+    let mut i: usize = 0;
+    loop {
+        match target_shape_clone.pop_front() {
+            Option::Some(dim) => {
+                if *dim == -1 {
+                    inferred_shape.append(total_elements / elements_so_far) // Inferred dimension
+                } else if *dim == 0 {
+                    if i >= (*self.shape).len() {
+                        panic!("Dimension out of bounds for using original dimension value");
+                    }
+                    inferred_shape.append(*(*self).shape.at(i)) // Dimension unchanged from original
+                } else {
+                    inferred_shape.append((*dim).try_into().unwrap())
+                };
+            },
+            Option::None => { break; }
+        }
+        i+=1;
+    };
+
+    new_tensor(inferred_shape.span(), *self.data)
 }
 
 /// Cf: TensorTrait::at docstring

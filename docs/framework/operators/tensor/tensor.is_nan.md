@@ -1,7 +1,7 @@
 ## tensor.is_nan
 
 ```rust
-   fn is_nan(self: @Tensor<T>) -> Tensor<bool>;
+   fn is_nan(self: @Tensor<T>) -> Tensor<usize>;
 ```
 
 Maps NaN to true and other values to false.
@@ -21,7 +21,7 @@ use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, FP8x23Tensor};
 use orion::numbers::{FixedTrait, FP8x23};
 
-fn is_nan_example() -> Tensor<bool> {
+fn is_nan_example() -> Tensor<usize> {
     let mut shape = ArrayTrait::<usize>::new();
     shape.append(4);
 

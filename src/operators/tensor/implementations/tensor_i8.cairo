@@ -66,7 +66,7 @@ impl I8Tensor of TensorTrait<i8> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<i8>, target_shape: Span<usize>) -> Tensor<i8> {
+    fn reshape(self: @Tensor<i8>, target_shape: Span<i32>) -> Tensor<i8> {
         reshape(self, target_shape)
     }
 
