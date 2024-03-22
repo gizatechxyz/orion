@@ -124,23 +124,23 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::log::log(*self)
     }
 
-    fn equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
+    fn equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
         math::equal::equal(self, other)
     }
 
-    fn greater(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
+    fn greater(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
         math::greater::greater(self, other)
     }
 
-    fn greater_equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
+    fn greater_equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
+    fn less(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -202,11 +202,11 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::atan::atan(*self)
     }
 
-    fn xor(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
+    fn xor(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
         math::xor::xor(self, other)
     }
 
-    fn or(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
+    fn or(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
         math::or::or(self, other)
     }
 
@@ -338,7 +338,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         core_tensor::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
         math::and::and(self, other)
     }
 

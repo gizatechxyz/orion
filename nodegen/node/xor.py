@@ -14,7 +14,7 @@ class Xor(RunAll):
 
             x = Tensor(Dtype.U32, x.shape, x.flatten())
             y = Tensor(Dtype.U32, y.shape, y.flatten())
-            z = Tensor(Dtype.U32, z.shape, z.flatten())
+            z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "xor_u32"
             make_test([x, y], z, "input_0.xor(@input_1)", name)
@@ -26,7 +26,7 @@ class Xor(RunAll):
 
             x = Tensor(Dtype.U32, x.shape, x.flatten())
             y = Tensor(Dtype.U32, y.shape, y.flatten())
-            z = Tensor(Dtype.U32, z.shape, z.flatten())
+            z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "xor_u32_broadcast"
             make_test([x, y], z, "input_0.xor(@input_1)", name)
@@ -43,7 +43,7 @@ class Xor(RunAll):
 
             x = Tensor(Dtype.I32, x.shape, x.flatten())
             y = Tensor(Dtype.I32, y.shape, y.flatten())
-            z = Tensor(Dtype.U32, z.shape, z.flatten())
+            z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "xor_i32"
             make_test([x, y], z, "input_0.xor(@input_1)", name)
@@ -55,7 +55,7 @@ class Xor(RunAll):
 
             x = Tensor(Dtype.I32, x.shape, x.flatten())
             y = Tensor(Dtype.I32, y.shape, y.flatten())
-            z = Tensor(Dtype.U32, z.shape, z.flatten())
+            z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "xor_i32_broadcast"
             make_test([x, y], z, "input_0.xor(@input_1)", name)
@@ -72,7 +72,7 @@ class Xor(RunAll):
 
             x = Tensor(Dtype.I8, x.shape, x.flatten())
             y = Tensor(Dtype.I8, y.shape, y.flatten())
-            z = Tensor(Dtype.U32, z.shape, z.flatten())
+            z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "xor_i8"
             make_test([x, y], z, "input_0.xor(@input_1)", name)
@@ -84,7 +84,7 @@ class Xor(RunAll):
 
             x = Tensor(Dtype.I8, x.shape, x.flatten())
             y = Tensor(Dtype.I8, y.shape, y.flatten())
-            z = Tensor(Dtype.U32, z.shape, z.flatten())
+            z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "xor_i8_broadcast"
             make_test([x, y], z, "input_0.xor(@input_1)", name)
@@ -103,7 +103,7 @@ class Xor(RunAll):
                 x.flatten(), FixedImpl.FP8x23))
             y = Tensor(Dtype.FP8x23, y.shape,  to_fp(
                 y.flatten(), FixedImpl.FP8x23))
-            z = Tensor(Dtype.U32, z.shape, z.flatten())
+            z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "xor_fp8x23"
             make_test([x, y], z, "input_0.xor(@input_1)", name)
@@ -117,7 +117,7 @@ class Xor(RunAll):
                 x.flatten(), FixedImpl.FP8x23))
             y = Tensor(Dtype.FP8x23, y.shape,  to_fp(
                 y.flatten(), FixedImpl.FP8x23))
-            z = Tensor(Dtype.U32, z.shape, z.flatten())
+            z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "xor_fp8x23_broadcast"
             make_test([x, y], z, "input_0.xor(@input_1)", name)
@@ -136,7 +136,7 @@ class Xor(RunAll):
                 x.flatten(), FixedImpl.FP16x16))
             y = Tensor(Dtype.FP16x16, y.shape,  to_fp(
                 y.flatten(), FixedImpl.FP16x16))
-            z = Tensor(Dtype.U32, z.shape, z.flatten())
+            z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "xor_fp16x16"
             make_test([x, y], z, "input_0.xor(@input_1)", name)
@@ -150,7 +150,7 @@ class Xor(RunAll):
                 x.flatten(), FixedImpl.FP16x16))
             y = Tensor(Dtype.FP16x16, y.shape,  to_fp(
                 y.flatten(), FixedImpl.FP16x16))
-            z = Tensor(Dtype.U32, z.shape, z.flatten())
+            z = Tensor(Dtype.I32, z.shape, z.flatten())
 
             name = "xor_fp16x16_broadcast"
             make_test([x, y], z, "input_0.xor(@input_1)", name)

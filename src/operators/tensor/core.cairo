@@ -1085,7 +1085,7 @@ trait TensorTrait<T> {
     /// #tensor.equal
     ///
     /// ```rust
-    ///     fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// ```
     ///
     /// Check if two tensors are equal element-wise.
@@ -1104,7 +1104,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<bool>` of booleans (1 if equal, 0 otherwise) with the same shape as the broadcasted inputs.
+    /// A new `Tensor<i32>` (1 if equal, 0 otherwise) with the same shape as the broadcasted inputs.
     ///
     /// ## Examples
     ///
@@ -1115,7 +1115,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn eq_example() -> Tensor<usize> {
+    /// fn eq_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1137,7 +1137,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn eq_example() -> Tensor<usize> {
+    /// fn eq_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1150,11 +1150,11 @@ trait TensorTrait<T> {
     /// >>> [true,true,true,false,false,false,false,false,false]
     /// ```
     ///
-    fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// #tensor.greater
     ///
     /// ```rust
-    ///     fn greater(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn greater(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// ```
     ///
     /// Check if each element of the first tensor is greater than the corresponding element of the second tensor.
@@ -1173,7 +1173,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    /// A new `Tensor<i32>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
     ///
     /// ## Examples
     ///
@@ -1184,7 +1184,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn greater_example() -> Tensor<usize> {
+    /// fn greater_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1206,7 +1206,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn greater_example() -> Tensor<usize> {
+    /// fn greater_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1219,11 +1219,11 @@ trait TensorTrait<T> {
     /// >>> [0,0,0,1,1,1,1,1,1]
     /// ```
     ///
-    fn greater(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn greater(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// #tensor.greater_equal
     ///
     /// ```rust
-    ///     fn greater_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn greater_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// ```
     ///
     /// Check if each element of the first tensor is greater than or equal to the corresponding element of the second tensor.
@@ -1253,7 +1253,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn greater_equal_example() -> Tensor<usize> {
+    /// fn greater_equal_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1275,7 +1275,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn greater_equal_example() -> Tensor<usize> {
+    /// fn greater_equal_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1288,11 +1288,11 @@ trait TensorTrait<T> {
     /// >>> [1,1,1,1,1,1,0,0,0]
     /// ```
     ///
-    fn greater_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn greater_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// #tensor.less
     ///
     /// ```rust
-    ///     fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// ```
     ///
     /// Check if each element of the first tensor is less than the corresponding element of the second tensor.
@@ -1322,7 +1322,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn less_example() -> Tensor<usize> {
+    /// fn less_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1344,7 +1344,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn less_example() -> Tensor<usize> {
+    /// fn less_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1357,11 +1357,11 @@ trait TensorTrait<T> {
     /// >>> [false,false,false,false,false,false,false,true,true]
     /// ```
     ///
-    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// #tensor.less_equal
     ///
     /// ```rust
-    ///     fn less_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn less_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// ```
     ///
     /// Check if each element of the first tensor is less than or equal to the corresponding element of the second tensor.
@@ -1391,7 +1391,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn less_equal_example() -> Tensor<usize> {
+    /// fn less_equal_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1413,7 +1413,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn less_equal_example() -> Tensor<usize> {
+    /// fn less_equal_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1426,7 +1426,7 @@ trait TensorTrait<T> {
     /// >>> [1,1,1,0,0,0,1,1,1]
     /// ```
     ///
-    fn less_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn less_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// #tensor.abs
     ///
     /// ```rust
@@ -2158,7 +2158,7 @@ trait TensorTrait<T> {
     /// #tensor.or
     ///
     /// ```rust
-    ///     fn or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// ```
     ///
     /// Computes the logical OR of two tensors element-wise.
@@ -2177,7 +2177,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    /// A new `Tensor<i32>` (0 or 1) with the same shape as the broadcasted inputs.
     ///
     /// ## Examples
     ///
@@ -2188,7 +2188,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn or_example() -> Tensor<usize> {
+    /// fn or_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -2209,7 +2209,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn or_example() -> Tensor<usize> {
+    /// fn or_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -2223,11 +2223,11 @@ trait TensorTrait<T> {
     /// >>> [0,1,1,1,1,1,1,1,1]
     /// ```
     ///
-    fn or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn or(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// #tensor.xor
     ///
     /// ```rust
-    ///     fn xor(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn xor(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// ```
     ///
     /// Computes the logical XOR of two tensors element-wise.
@@ -2246,7 +2246,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    /// A new `Tensor<i32>` (0 or 1) with the same shape as the broadcasted inputs.
     ///
     /// ## Examples
     ///
@@ -2257,7 +2257,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn xor_example() -> Tensor<usize> {
+    /// fn xor_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -2278,7 +2278,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn xor_example() -> Tensor<usize> {
+    /// fn xor_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -2292,7 +2292,7 @@ trait TensorTrait<T> {
     /// >>> [0,0,0,1,0,0,1,0,0]
     /// ```
     ///
-    fn xor(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn xor(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// #tensor.acos
     ///
     /// ```rust
@@ -3465,7 +3465,7 @@ trait TensorTrait<T> {
     /// #tensor.and
     ///
     /// ```rust
-    ///     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize>;
+    ///     fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32>;
     /// ```
     ///
     /// Computes the logical AND of two tensors element-wise.
@@ -3484,7 +3484,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<bool>` with the same shape as the broadcasted inputs.
+    /// A new `Tensor<i32>` with the same shape as the broadcasted inputs.
     ///
     /// ## Examples
     ///
@@ -3493,7 +3493,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
     /// 
-    /// fn and_example() -> Tensor<usize> {
+    /// fn and_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<bool>::new(
     ///         shape: array![3, 3].span(), data: array![false, true, false, false, false, true, true, false, true, false, false, true].span(),
     ///     );
@@ -3507,7 +3507,7 @@ trait TensorTrait<T> {
     /// >>> [false, false, false, false, false, true, false, false, false, false, false, true]
     /// ```
     ///
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize>;
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32>;
     /// #tensor.where
     ///
     /// ```rust
@@ -4755,7 +4755,7 @@ trait TensorTrait<T> {
     /// #tensor.not
     /// 
     /// ```rust
-    ///     fn not(self: @Tensor<bool>) -> Tensor<bool;
+    ///     fn not(self: @Tensor<bool>) -> Tensor<bool>;
     /// ```
     /// 
     /// Computes the negation of the elements in the bool type input tensor.
@@ -4777,7 +4777,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
     /// 
-    /// fn not_example() -> Tensor<usize> {
+    /// fn not_example() -> Tensor<bool> {
     ///     let tensor = TensorTrait::new(
     ///         shape: array![3].span(),
     ///         data: array![

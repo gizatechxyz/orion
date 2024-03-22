@@ -1,7 +1,7 @@
 #tensor.not
 
 ```rust
-    fn not(self: @Tensor<bool>) -> Tensor<bool;
+    fn not(self: @Tensor<bool>) -> Tensor<bool>;
 ```
 
 Computes the negation of the elements in the bool type input tensor.
@@ -23,7 +23,7 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, BoolTensor};
 
-fn not_example() -> Tensor<usize> {
+fn not_example() -> Tensor<bool> {
     let tensor = TensorTrait::new(
         shape: array![3].span(),
         data: array![
