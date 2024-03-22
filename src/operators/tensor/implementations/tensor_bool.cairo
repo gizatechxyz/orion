@@ -60,8 +60,8 @@ impl BoolTensor of TensorTrait<bool> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<bool>, target_shape: Span<usize>) -> Tensor<bool> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<bool>, target_shape: Span<i32>, allowzero: bool) -> Tensor<bool> {
+        reshape(self, target_shape, allowzero)
     }
 
     fn reduce_sum(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {

@@ -65,8 +65,8 @@ impl U32Tensor of TensorTrait<u32> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<u32>, target_shape: Span<usize>) -> Tensor<u32> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<u32>, target_shape: Span<i32>, allowzero: bool) -> Tensor<u32> {
+        reshape(self, target_shape, allowzero)
     }
 
     fn reduce_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {

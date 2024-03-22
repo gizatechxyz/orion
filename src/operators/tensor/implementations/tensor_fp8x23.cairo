@@ -68,8 +68,8 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP8x23>, target_shape: Span<usize>) -> Tensor<FP8x23> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<FP8x23>, target_shape: Span<i32>, allowzero: bool) -> Tensor<FP8x23> {
+        reshape(self, target_shape, allowzero)
     }
 
     fn reduce_sum(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
