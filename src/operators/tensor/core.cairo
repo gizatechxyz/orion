@@ -594,7 +594,7 @@ trait TensorTrait<T> {
     /// >>> [[0,1,2,3], [4,5,6,7]]
     /// ```
     ///
-    fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
+    fn reshape(self: @Tensor<T>, target_shape: Span<i32>, allowzero: bool) -> Tensor<T>;
     /// # tensor.transpose
     ///
     /// ```rust 
@@ -5945,8 +5945,83 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
 
 
 /// Cf: TensorTrait::reshape docstring
-fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
-    new_tensor(target_shape, *self.data)
+fn reshape<T, +Copy<Tensor<T>>>(
+    self: @Tensor<T>, target_shape: Span<i32>, allowzero: bool
+) -> Tensor<T> {
+    // Calculate the total number of elements in the original tensor
+    let mut total_elements = 1;
+    let mut shape = *self.shape;
+    loop {
+        match shape.pop_front() {
+            Option::Some(val) => total_elements *= *val,
+            Option::None => { break; }
+        };
+    };
+
+    // Calculate 'elements_so_far' and find 'inferred_index'
+    let mut elements_so_far = 1;
+    let mut inferred_index = Option::None;
+    let mut target_shape_clone = target_shape.clone();
+    let mut i: usize = 0;
+    loop {
+        match target_shape_clone.pop_front() {
+            Option::Some(dim) => {
+                if *dim == -1 {
+                    if inferred_index.is_none() {
+                        inferred_index = Option::Some(i);
+                    } else {
+                        panic!("Only one dimension can be inferred");
+                    }
+                } else if *dim == 0 && allowzero == false {
+                    // When allowzero is not set, copy the dimension size from the original tensor
+                    if i >= (*self.shape).len() {
+                        panic!("Dimension out of bounds for using original dimension value");
+                    }
+                    elements_so_far *= *(*self).shape.at(i);
+                } else if *dim >= 0 {
+                    elements_so_far *= (*dim).try_into().unwrap();
+                } else {
+                    panic!("Invalid dimension size");
+                };
+            },
+            Option::None => { break; }
+        };
+        i += 1;
+    };
+
+    let mut target_shape_clone = target_shape.clone();
+    let mut inferred_shape = ArrayTrait::<u32>::new();
+    i = 0; // Reset the index for the next loop
+    loop {
+        match target_shape_clone.pop_front() {
+            Option::Some(dim) => {
+                if *dim == -1 {
+                    inferred_shape.append(total_elements / elements_so_far) // Inferred dimension
+                } else if *dim == 0 {
+                    if allowzero == true {
+                        inferred_shape
+                            .append(
+                                0
+                            ) // Explicitly set the dimension to zero when allowzero is enabled
+                    } else if i < (*self.shape).len() {
+                        inferred_shape
+                            .append(
+                                *(*self).shape.at(i)
+                            ) // Dimension unchanged from original when allowzero is not enabled
+                    } else {
+                        panic!("Dimension out of bounds for using original dimension value");
+                    }
+                } else {
+                    inferred_shape
+                        .append((*dim).try_into().unwrap()) // Directly specified dimension
+                };
+            },
+            Option::None => { break; }
+        }
+        i += 1;
+    };
+
+    new_tensor(inferred_shape.span(), *self.data)
 }
 
 /// Cf: TensorTrait::at docstring
