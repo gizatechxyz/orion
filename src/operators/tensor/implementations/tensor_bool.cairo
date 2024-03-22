@@ -226,7 +226,7 @@ impl BoolTensor of TensorTrait<bool> {
         core_ops::slice::<bool>(self, starts, ends, axes, steps)
     }
 
-    fn gather(self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
+    fn gather(self: @Tensor<bool>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<bool> {
         math::gather::gather(self, indices, axis)
     }
 

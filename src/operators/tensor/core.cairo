@@ -3211,7 +3211,7 @@ trait TensorTrait<T> {
     ///      [1. 2. 3.]]
     /// ```
     ///
-    fn gather(self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<T>;
+    fn gather(self: @Tensor<T>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<T>;
     /// # tensor.unsqueeze
     ///
     /// ```rust 

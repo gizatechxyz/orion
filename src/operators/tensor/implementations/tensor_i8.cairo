@@ -343,7 +343,7 @@ impl I8Tensor of TensorTrait<i8> {
         core_tensor::slice::<i8>(self, starts, ends, axes, steps)
     }
 
-    fn gather(self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i8> {
+    fn gather(self: @Tensor<i8>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<i8> {
         math::gather::gather(self, indices, axis)
     }
 

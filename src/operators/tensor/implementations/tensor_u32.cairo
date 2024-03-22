@@ -287,7 +287,7 @@ impl U32Tensor of TensorTrait<u32> {
         core_tensor::slice::<u32>(self, starts, ends, axes, steps)
     }
 
-    fn gather(self: @Tensor<u32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
+    fn gather(self: @Tensor<u32>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<u32> {
         math::gather::gather(self, indices, axis)
     }
 
