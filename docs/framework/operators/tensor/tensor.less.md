@@ -1,7 +1,7 @@
 #tensor.less
 
 ```rust
-    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<bool>;
 ```
 
 Check if each element of the first tensor is less than the corresponding element of the second tensor.
@@ -20,7 +20,7 @@ The input tensors must have either:
 
 ## Returns
 
-A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+A new `Tensor<bool>` of booleans with the same shape as the broadcasted inputs.
 
 ## Examples
 
@@ -43,7 +43,7 @@ fn less_example() -> Tensor<usize> {
     // We can call `less` function as follows.
     return tensor_1.less(@tensor_2);
 }
->>> [0,0,0,0,0,0,1,0,0]
+>>> [false,false,false,false,false,false,true,false,false]
 ```
 
 Case 2: Compare tensors with different shapes
@@ -63,5 +63,5 @@ fn less_example() -> Tensor<usize> {
     // We can call `less` function as follows.
     return tensor_1.less(@tensor_2);
 }
->>> [0,0,0,0,0,0,0,1,1]
+>>> [false,false,false,false,false,false,false,true,true]
 ```

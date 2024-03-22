@@ -123,7 +123,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
+    fn less(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<bool> {
         math::less::less(self, other)
     }
 
