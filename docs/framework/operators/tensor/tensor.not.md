@@ -1,7 +1,7 @@
 #tensor.not
 
 ```rust
-    fn not(self: @Tensor<bool>) -> Tensor<bool>;
+    fn not(self: @Tensor<bool>) -> Tensor<bool;
 ```
 
 Computes the negation of the elements in the bool type input tensor.

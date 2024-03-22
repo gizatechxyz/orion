@@ -1,6 +1,6 @@
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
-use orion::operators::tensor::U32Tensor;
+use orion::operators::tensor::implementations::tensor_bool::BoolTensor;
 
 /// Cf: TensorTrait::is_inf docstring
 fn is_inf<
@@ -12,7 +12,7 @@ fn is_inf<
     impl TDrop: Drop<T>
 >(
     x: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>
-) -> Tensor<usize> {
+) -> Tensor<bool> {
     let neg_opt = match detect_negative {
         Option::Some(val) => { if val == 0 {
             0
@@ -32,7 +32,7 @@ fn is_inf<
     };
 
     if neg_opt == 0 && pos_opt == 0 {
-        return TensorTrait::new(*x.shape, ArrayTrait::<usize>::new().span());
+        return TensorTrait::new(*x.shape, ArrayTrait::<bool>::new().span());
     }
 
     if neg_opt == 0 && pos_opt == 1 {
@@ -43,17 +43,11 @@ fn is_inf<
         return is_neg_inf(x);
     }
 
-    let mut data_result: Array<usize> = array![];
+    let mut data_result: Array<bool> = array![];
     let mut y: Span<T> = *x.data;
     loop {
         match y.pop_front() {
-            Option::Some(item) => {
-                if (*item).is_inf() {
-                    data_result.append(1);
-                } else {
-                    data_result.append(0);
-                }
-            },
+            Option::Some(item) => { data_result.append((*item).is_inf()); },
             Option::None => { break; }
         };
     };
@@ -71,18 +65,12 @@ fn is_pos_inf<
     impl TDrop: Drop<T>
 >(
     x: @Tensor<T>
-) -> Tensor<usize> {
-    let mut data_result: Array<usize> = array![];
+) -> Tensor<bool> {
+    let mut data_result: Array<bool> = array![];
     let mut y: Span<T> = *x.data;
     loop {
         match y.pop_front() {
-            Option::Some(item) => {
-                if (*item).is_pos_inf() {
-                    data_result.append(1);
-                } else {
-                    data_result.append(0);
-                }
-            },
+            Option::Some(item) => { data_result.append((*item).is_pos_inf()); },
             Option::None => { break; }
         };
     };
@@ -100,18 +88,12 @@ fn is_neg_inf<
     impl TDrop: Drop<T>
 >(
     x: @Tensor<T>
-) -> Tensor<usize> {
-    let mut data_result: Array<usize> = array![];
+) -> Tensor<bool> {
+    let mut data_result: Array<bool> = array![];
     let mut y: Span<T> = *x.data;
     loop {
         match y.pop_front() {
-            Option::Some(item) => {
-                if (*item).is_neg_inf() {
-                    data_result.append(1);
-                } else {
-                    data_result.append(0);
-                }
-            },
+            Option::Some(item) => { data_result.append((*item).is_neg_inf()); },
             Option::None => { break; }
         };
     };

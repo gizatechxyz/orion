@@ -1,7 +1,7 @@
 # tensor.reshape
 
 ```rust 
-   fn reshape(self: @Tensor<T>, target_shape: Span<i32>) -> Tensor<T>;
+   fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
 ```
 
 Returns a new tensor with the specified target shape and the same data as the input tensor.
@@ -9,7 +9,7 @@ Returns a new tensor with the specified target shape and the same data as the in
 ## Args
 
 * `self`(`@Tensor<T>`) - The input tensor.
-* `target_shape`(Span<i32>) - A span containing the target shape of the tensor.
+* `target_shape`(Span<usize>) - A span containing the target shape of the tensor.
 
 ## Panics
 

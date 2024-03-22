@@ -71,23 +71,12 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP16x16>, target_shape: Span<i32>) -> Tensor<FP16x16> {
+    fn reshape(self: @Tensor<FP16x16>, target_shape: Span<usize>) -> Tensor<FP16x16> {
         reshape(self, target_shape)
     }
 
-    fn reduce_sum(
-        self: @Tensor<FP16x16>,
-        axes: Option<Span<usize>>,
-        keepdims: Option<bool>,
-        noop_with_empty_axes: Option<bool>
-    ) -> Tensor<FP16x16> {
-        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
-    }
-
-    fn reduce_sum_single_axis(
-        self: @Tensor<FP16x16>, axis: usize, keepdims: bool
-    ) -> Tensor<FP16x16> {
-        math::reduce_sum_single_axis::reduce_sum_single_axis(self, axis, keepdims)
+    fn reduce_sum(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
+        math::reduce_sum::reduce_sum(self, axis, keepdims)
     }
 
     fn reduce_prod(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
@@ -122,23 +111,23 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::log::log(*self)
     }
 
-    fn equal(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<i32> {
+    fn equal(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
         math::equal::equal(self, other)
     }
 
-    fn greater(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<i32> {
+    fn greater(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
         math::greater::greater(self, other)
     }
 
-    fn greater_equal(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<i32> {
+    fn greater_equal(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<i32> {
+    fn less(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<i32> {
+    fn less_equal(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -200,11 +189,11 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::atan::atan(*self)
     }
 
-    fn xor(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<i32> {
+    fn xor(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
         math::xor::xor(self, other)
     }
 
-    fn or(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<i32> {
+    fn or(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
         math::or::or(self, other)
     }
 
@@ -385,7 +374,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         core_tensor::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 
@@ -487,11 +476,11 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
 
     fn is_inf(
         self: @Tensor<FP16x16>, detect_negative: Option<u8>, detect_positive: Option<u8>
-    ) -> Tensor<usize> {
+    ) -> Tensor<bool> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
-    fn is_nan(self: @Tensor<FP16x16>) -> Tensor<usize> {
+    fn is_nan(self: @Tensor<FP16x16>) -> Tensor<bool> {
         math::is_nan::is_nan(self)
     }
 
@@ -771,19 +760,17 @@ fn relative_eq(lhs: @FP16x16, rhs: @FP16x16) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP16x16>, mut rhs: Tensor<FP16x16>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0
-        && is_eq {
-            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-        };
+    while lhs.shape.len() != 0 && is_eq {
+        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+    };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() != 0
-        && is_eq {
-            is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
-        };
+    while lhs.data.len() != 0 && is_eq {
+        is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+    };
 
     is_eq
 }

@@ -60,20 +60,11 @@ impl BoolTensor of TensorTrait<bool> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<bool>, target_shape: Span<i32>) -> Tensor<bool> {
+    fn reshape(self: @Tensor<bool>, target_shape: Span<usize>) -> Tensor<bool> {
         reshape(self, target_shape)
     }
 
-    fn reduce_sum(
-        self: @Tensor<bool>,
-        axes: Option<Span<usize>>,
-        keepdims: Option<bool>,
-        noop_with_empty_axes: Option<bool>
-    ) -> Tensor<bool> {
-        panic(array!['not supported!'])
-    }
-
-    fn reduce_sum_single_axis(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
+    fn reduce_sum(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
@@ -109,23 +100,23 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
+    fn equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         math::equal::equal(self, other)
     }
 
-    fn greater(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
+    fn greater(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
 
-    fn greater_equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
+    fn greater_equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
 
-    fn less(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
+    fn less(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
 
-    fn less_equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
+    fn less_equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
 
@@ -187,11 +178,11 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn xor(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
+    fn xor(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
 
-    fn or(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
+    fn or(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
 
@@ -259,7 +250,7 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 
@@ -419,11 +410,11 @@ impl BoolTensor of TensorTrait<bool> {
 
     fn is_inf(
         self: @Tensor<bool>, detect_negative: Option<u8>, detect_positive: Option<u8>
-    ) -> Tensor<usize> {
+    ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
-    fn is_nan(self: @Tensor<bool>) -> Tensor<usize> {
+    fn is_nan(self: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
@@ -579,19 +570,17 @@ impl BoolTryIntobool of TryInto<bool, bool> {
 fn tensor_eq(mut lhs: Tensor<bool>, mut rhs: Tensor<bool>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0
-        && is_eq {
-            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-        };
+    while lhs.shape.len() != 0 && is_eq {
+        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+    };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() != 0
-        && is_eq {
-            is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
-        };
+    while lhs.data.len() != 0 && is_eq {
+        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+    };
 
     is_eq
 }

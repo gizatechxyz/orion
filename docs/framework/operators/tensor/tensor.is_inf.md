@@ -1,7 +1,7 @@
 ## tensor.is_inf
 
 ```rust
-   fn is_inf(self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<usize>;
+   fn is_inf(self: @Tensor<T>, detect_negative: Option<u8>, detect_positive: Option<u8>) -> Tensor<bool>;
 ```
 
 Maps infinity to true and other values to false.
@@ -23,7 +23,7 @@ A new `Tensor<bool>` instance with entries set to true iff the input tensors cor
 use core::array::{ArrayTrait, SpanTrait};    
 use orion::operators::tensor::{BoolTensor, TensorTrait, Tensor, U32Tensor};
 
-fn is_inf_example() -> Tensor<usize> {
+fn is_inf_example() -> Tensor<bool> {
     let tensor = TensorTrait::<u32>::new(
         shape: array![6].span(), data: array![1, 0, NumberTrait::INF(), 8, NumberTrait::INF(), NumberTrait::INF()].span(),
     );

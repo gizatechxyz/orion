@@ -61,13 +61,11 @@ fn conv_transpose<
         Option::None => {
             let mut output_padding: Array<usize> = array![];
             let mut i = 2;
-            while i != (*X)
-                .shape
-                .len() {
-                    output_padding.append(0);
-                    output_padding.append(0);
-                    i += 1;
-                };
+            while i != (*X).shape.len() {
+                output_padding.append(0);
+                output_padding.append(0);
+                i += 1;
+            };
 
             output_padding.span()
         },
@@ -153,11 +151,10 @@ fn conv_transpose<
                         Option::None => {
                             let mut output_shape: Array<usize> = array![];
                             let mut i = 0;
-                            while i != strides
-                                .len() {
-                                    output_shape.append(*(*X).shape.at(i + 2) * *strides.at(i));
-                                    i += 1;
-                                };
+                            while i != strides.len() {
+                                output_shape.append(*(*X).shape.at(i + 2) * *strides.at(i));
+                                i += 1;
+                            };
 
                             output_shape.span()
                         },
@@ -165,17 +162,16 @@ fn conv_transpose<
                     let mut total_padding: Array<usize> = array![];
 
                     let mut i = 0;
-                    while i != output_shape
-                        .len() {
-                            total_padding
-                                .append(
-                                    (*(*X).shape.at(i + 2) - 1) * *strides.at(i)
-                                        + *output_padding.at(i)
-                                        + ((*kernel_shape.at(i) - 1) * *dilations.at(i) + 1)
-                                        - *output_shape.at(i)
-                                );
-                            i += 1;
-                        };
+                    while i != output_shape.len() {
+                        total_padding
+                            .append(
+                                (*(*X).shape.at(i + 2) - 1) * *strides.at(i)
+                                    + *output_padding.at(i)
+                                    + ((*kernel_shape.at(i) - 1) * *dilations.at(i) + 1)
+                                    - *output_shape.at(i)
+                            );
+                        i += 1;
+                    };
 
                     let total_padding = total_padding.span();
 
@@ -188,11 +184,10 @@ fn conv_transpose<
                     };
 
                     let mut i = 0;
-                    while i != output_shape
-                        .len() {
-                            pads.append(*total_padding.at(i) - (*total_padding.at(i) / 2));
-                            i += 1;
-                        };
+                    while i != output_shape.len() {
+                        pads.append(*total_padding.at(i) - (*total_padding.at(i) / 2));
+                        i += 1;
+                    };
 
                     (pads.span(), pads.len() / 2, output_shape)
                 },
@@ -202,11 +197,10 @@ fn conv_transpose<
                         Option::None => {
                             let mut output_shape: Array<usize> = array![];
                             let mut i = 0;
-                            while i != strides
-                                .len() {
-                                    output_shape.append(*(*X).shape.at(i + 2) * *strides.at(i));
-                                    i += 1;
-                                };
+                            while i != strides.len() {
+                                output_shape.append(*(*X).shape.at(i + 2) * *strides.at(i));
+                                i += 1;
+                            };
 
                             output_shape.span()
                         },
@@ -214,28 +208,26 @@ fn conv_transpose<
                     let mut total_padding: Array<usize> = array![];
 
                     let mut i = 0;
-                    while i != output_shape
-                        .len() {
-                            total_padding
-                                .append(
-                                    (*(*X).shape.at(i + 2) - 1) * *strides.at(i)
-                                        + *output_padding.at(i)
-                                        + ((*kernel_shape.at(i) - 1) * *dilations.at(i) + 1)
-                                        - *output_shape.at(i)
-                                );
-                            i += 1;
-                        };
+                    while i != output_shape.len() {
+                        total_padding
+                            .append(
+                                (*(*X).shape.at(i + 2) - 1) * *strides.at(i)
+                                    + *output_padding.at(i)
+                                    + ((*kernel_shape.at(i) - 1) * *dilations.at(i) + 1)
+                                    - *output_shape.at(i)
+                            );
+                        i += 1;
+                    };
 
                     let total_padding = total_padding.span();
 
                     let mut pads: Array<usize> = array![];
 
                     let mut i = 0;
-                    while i != output_shape
-                        .len() {
-                            pads.append(*total_padding.at(i) - *total_padding.at(i) / 2);
-                            i += 1;
-                        };
+                    while i != output_shape.len() {
+                        pads.append(*total_padding.at(i) - *total_padding.at(i) / 2);
+                        i += 1;
+                    };
 
                     let mut i = 0;
                     while i != output_shape.len() {
@@ -310,62 +302,50 @@ fn conv_transpose<
 
     if group == 1 {
         let mut image_id = 0;
-        while image_id != *(*X)
-            .shape
-            .at(0) {
-                let w_t = TensorTrait::new(array![k, m].span(), (*W).data)
-                    .transpose(array![1, 0].span());
+        while image_id != *(*X).shape.at(0) {
+            let w_t = TensorTrait::new(array![k, m].span(), (*W).data)
+                .transpose(array![1, 0].span());
 
-                let image = SpanTrait::slice((*X).data, image_id * k * n, k * n);
-                let gemm = w_t.matmul(@TensorTrait::new(array![k, n].span(), image));
+            let image = SpanTrait::slice((*X).data, image_id * k * n, k * n);
+            let gemm = w_t.matmul(@TensorTrait::new(array![k, n].span(), image));
 
-                let gemmc = gemm
-                    .reshape(
-                        array![
-                            num_output_channels.try_into().unwrap(),
-                            (m / num_output_channels).try_into().unwrap(),
-                            n.try_into().unwrap()
-                        ]
-                            .span()
-                    );
-                let mut c = 0;
-                while c != num_output_channels {
-                    let gemmc_c = TensorTrait::new(
-                        array![m / num_output_channels, n].span(),
-                        SpanTrait::slice(
-                            gemmc.data,
-                            (m / num_output_channels) * n * c,
-                            (m / num_output_channels) * n
-                        )
-                    );
+            let gemmc = gemm
+                .reshape(array![num_output_channels, m / num_output_channels, n].span());
+            let mut c = 0;
+            while c != num_output_channels {
+                let gemmc_c = TensorTrait::new(
+                    array![m / num_output_channels, n].span(),
+                    SpanTrait::slice(
+                        gemmc.data, (m / num_output_channels) * n * c, (m / num_output_channels) * n
+                    )
+                );
 
-                    let mut res = col2im_naive_implementation(
-                        @gemmc_c, output_shape, kernel_shape, dilations, pads, strides
-                    );
+                let mut res = col2im_naive_implementation(
+                    @gemmc_c, output_shape, kernel_shape, dilations, pads, strides
+                );
 
-                    match B {
-                        Option::Some(B) => {
-                            let mut i = 0;
-                            while i != res
-                                .len() {
-                                    res.set(i, res.at(i) + *(*B).data.at(c));
-                                    i += 1;
-                                };
-                        },
-                        Option::None => {},
-                    }
+                match B {
+                    Option::Some(B) => {
+                        let mut i = 0;
+                        while i != res.len() {
+                            res.set(i, res.at(i) + *(*B).data.at(c));
+                            i += 1;
+                        };
+                    },
+                    Option::None => {},
+                }
 
-                    c += 1;
+                c += 1;
 
-                    let mut i = 0;
-                    while i != res.len() {
-                        final.append(res.at(i));
-                        i += 1;
-                    };
+                let mut i = 0;
+                while i != res.len() {
+                    final.append(res.at(i));
+                    i += 1;
                 };
-
-                image_id += 1;
             };
+
+            image_id += 1;
+        };
     } else {
         let mut output_array: Array<Span<T>> = array![];
 
@@ -383,20 +363,18 @@ fn conv_transpose<
             let mut group_W: Array<T> = array![];
 
             let mut image_id = 0;
-            while image_id != *(*X)
-                .shape
-                .at(0) {
-                    let start = image_id * n * C + (group_id * C / group) * n;
-                    let end = image_id * n * C + ((group_id + 1) * C / group) * n;
+            while image_id != *(*X).shape.at(0) {
+                let start = image_id * n * C + (group_id * C / group) * n;
+                let end = image_id * n * C + ((group_id + 1) * C / group) * n;
 
-                    let mut i = start;
-                    while i != end {
-                        group_X.append(*(*X).data.at(i));
-                        i += 1;
-                    };
-
-                    image_id += 1;
+                let mut i = start;
+                while i != end {
+                    group_X.append(*(*X).data.at(i));
+                    i += 1;
                 };
+
+                image_id += 1;
+            };
 
             let start = (group_id * C / group) * *(*W).shape.at(1) * kernel_size;
             let end = (group_id + 1) * C / group * *(*W).shape.at(1) * kernel_size;
@@ -455,26 +433,22 @@ fn conv_transpose<
         // Sorting result per item of the batch
         // output size : N (batch size) x num_output_channels x output_shape
         let mut image_id = 0;
-        while image_id != *(*X)
-            .shape
-            .at(0) {
-                let mut group_id = 0;
-                while group_id != group {
-                    let group_output = *output_array.at(group_id);
-                    let mut i = image_id * output_size * (num_output_channels / group);
+        while image_id != *(*X).shape.at(0) {
+            let mut group_id = 0;
+            while group_id != group {
+                let group_output = *output_array.at(group_id);
+                let mut i = image_id * output_size * (num_output_channels / group);
 
-                    while i != (image_id + 1)
-                        * output_size
-                        * (num_output_channels / group) {
-                            final.append(*group_output.at(i));
-                            i += 1;
-                        };
-
-                    group_id += 1;
+                while i != (image_id + 1) * output_size * (num_output_channels / group) {
+                    final.append(*group_output.at(i));
+                    i += 1;
                 };
 
-                image_id += 1;
+                group_id += 1;
             };
+
+            image_id += 1;
+        };
     }
 
     let mut shape = array![*(*X).shape.at(0), num_output_channels];

@@ -1,4 +1,3 @@
-use core::option::OptionTrait;
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
@@ -21,28 +20,14 @@ fn space_to_depth<
 ) -> Tensor<T> {
     assert((tensor.shape).len() == 4, 'Unexpected shape 4.');
 
-    let blocksize_i32: i32 = blocksize.try_into().unwrap();
-
-    let b: i32 = (*(tensor.shape).at(0)).try_into().unwrap();
-    let C: i32 = (*(tensor.shape).at(1)).try_into().unwrap();
-    let H: u32 = (*(tensor.shape).at(2));
-    let W: u32 = (*(tensor.shape).at(3));
-    let tmpshape = array![
-        b,
-        C,
-        (H / blocksize).try_into().unwrap(),
-        blocksize_i32,
-        (W / blocksize).try_into().unwrap(),
-        blocksize_i32
-    ];
+    let b = (tensor.shape).at(0);
+    let C = (tensor.shape).at(1);
+    let H = (tensor.shape).at(2);
+    let W = (tensor.shape).at(3);
+    let tmpshape = array![*b, *C, *H / blocksize, blocksize, *W / blocksize, blocksize];
     let reshaped = (tensor).reshape(target_shape: tmpshape.span());
     let transposed = reshaped.transpose(axes: array![0, 3, 5, 1, 2, 4].span());
-    let finalshape = array![
-        b,
-        C * blocksize_i32 * blocksize_i32,
-        (H / blocksize).try_into().unwrap(),
-        (W / blocksize).try_into().unwrap()
-    ];
+    let finalshape = array![*b, *C * blocksize * blocksize, *H / blocksize, *W / blocksize];
 
     transposed.reshape(target_shape: finalshape.span())
 }

@@ -71,26 +71,13 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP8x23W>, target_shape: Span<i32>) -> Tensor<FP8x23W> {
+    fn reshape(self: @Tensor<FP8x23W>, target_shape: Span<usize>) -> Tensor<FP8x23W> {
         reshape(self, target_shape)
     }
 
-    fn reduce_sum(
-        self: @Tensor<FP8x23W>,
-        axes: Option<Span<usize>>,
-        keepdims: Option<bool>,
-        noop_with_empty_axes: Option<bool>
-    ) -> Tensor<FP8x23W> {
-        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
+    fn reduce_sum(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
+        math::reduce_sum::reduce_sum(self, axis, keepdims)
     }
-
-
-    fn reduce_sum_single_axis(
-        self: @Tensor<FP8x23W>, axis: usize, keepdims: bool
-    ) -> Tensor<FP8x23W> {
-        math::reduce_sum_single_axis::reduce_sum_single_axis(self, axis, keepdims)
-    }
-
 
     fn reduce_prod(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
         math::reduce_prod::reduce_prod(self, axis, keepdims)
@@ -124,23 +111,23 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::log::log(*self)
     }
 
-    fn equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
+    fn equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
         math::equal::equal(self, other)
     }
 
-    fn greater(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
+    fn greater(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
         math::greater::greater(self, other)
     }
 
-    fn greater_equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
+    fn greater_equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
+    fn less(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
+    fn less_equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -202,11 +189,11 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::atan::atan(*self)
     }
 
-    fn xor(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
+    fn xor(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
         math::xor::xor(self, other)
     }
 
-    fn or(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
+    fn or(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
         math::or::or(self, other)
     }
 
@@ -338,7 +325,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         core_tensor::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 
@@ -441,11 +428,11 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
 
     fn is_inf(
         self: @Tensor<FP8x23W>, detect_negative: Option<u8>, detect_positive: Option<u8>
-    ) -> Tensor<usize> {
+    ) -> Tensor<bool> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
-    fn is_nan(self: @Tensor<FP8x23W>) -> Tensor<usize> {
+    fn is_nan(self: @Tensor<FP8x23W>) -> Tensor<bool> {
         math::is_nan::is_nan(self)
     }
 
@@ -733,19 +720,17 @@ fn relative_eq(lhs: @FP8x23W, rhs: @FP8x23W) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP8x23W>, mut rhs: Tensor<FP8x23W>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0
-        && is_eq {
-            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-        };
+    while lhs.shape.len() != 0 && is_eq {
+        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+    };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() != 0
-        && is_eq {
-            is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
-        };
+    while lhs.data.len() != 0 && is_eq {
+        is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+    };
 
     is_eq
 }

@@ -65,21 +65,12 @@ impl U32Tensor of TensorTrait<u32> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<u32>, target_shape: Span<i32>) -> Tensor<u32> {
+    fn reshape(self: @Tensor<u32>, target_shape: Span<usize>) -> Tensor<u32> {
         reshape(self, target_shape)
     }
 
-    fn reduce_sum(
-        self: @Tensor<u32>,
-        axes: Option<Span<usize>>,
-        keepdims: Option<bool>,
-        noop_with_empty_axes: Option<bool>
-    ) -> Tensor<u32> {
-        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
-    }
-
-    fn reduce_sum_single_axis(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
-        math::reduce_sum_single_axis::reduce_sum_single_axis(self, axis, keepdims)
+    fn reduce_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        math::reduce_sum::reduce_sum(self, axis, keepdims)
     }
 
     fn reduce_prod(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
@@ -114,23 +105,23 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
-    fn equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<i32> {
+    fn equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         math::equal::equal(self, other)
     }
 
-    fn greater(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<i32> {
+    fn greater(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         math::greater::greater(self, other)
     }
 
-    fn greater_equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<i32> {
+    fn greater_equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<i32> {
+    fn less(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<i32> {
+    fn less_equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -192,11 +183,11 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
-    fn xor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<i32> {
+    fn xor(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         math::xor::xor(self, other)
     }
 
-    fn or(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<i32> {
+    fn or(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
         math::or::or(self, other)
     }
 
@@ -320,7 +311,7 @@ impl U32Tensor of TensorTrait<u32> {
         core_tensor::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 
@@ -420,11 +411,11 @@ impl U32Tensor of TensorTrait<u32> {
 
     fn is_inf(
         self: @Tensor<u32>, detect_negative: Option<u8>, detect_positive: Option<u8>
-    ) -> Tensor<usize> {
+    ) -> Tensor<bool> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
-    fn is_nan(self: @Tensor<u32>) -> Tensor<usize> {
+    fn is_nan(self: @Tensor<u32>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
@@ -665,19 +656,17 @@ impl U32TensorPartialOrd of PartialOrd<Tensor<u32>> {
 fn tensor_eq(mut lhs: Tensor<u32>, mut rhs: Tensor<u32>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0
-        && is_eq {
-            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-        };
+    while lhs.shape.len() != 0 && is_eq {
+        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+    };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() != 0
-        && is_eq {
-            is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
-        };
+    while lhs.data.len() != 0 && is_eq {
+        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+    };
 
     is_eq
 }

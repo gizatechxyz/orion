@@ -66,21 +66,12 @@ impl I8Tensor of TensorTrait<i8> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<i8>, target_shape: Span<i32>) -> Tensor<i8> {
+    fn reshape(self: @Tensor<i8>, target_shape: Span<usize>) -> Tensor<i8> {
         reshape(self, target_shape)
     }
 
-    fn reduce_sum(
-        self: @Tensor<i8>,
-        axes: Option<Span<usize>>,
-        keepdims: Option<bool>,
-        noop_with_empty_axes: Option<bool>
-    ) -> Tensor<i8> {
-        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
-    }
-
-    fn reduce_sum_single_axis(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
-        math::reduce_sum_single_axis::reduce_sum_single_axis(self, axis, keepdims)
+    fn reduce_sum(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
+        math::reduce_sum::reduce_sum(self, axis, keepdims)
     }
 
     fn reduce_prod(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
@@ -115,23 +106,23 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
-    fn equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i32> {
+    fn equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         math::equal::equal(self, other)
     }
 
-    fn greater(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i32> {
+    fn greater(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         math::greater::greater(self, other)
     }
 
-    fn greater_equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i32> {
+    fn greater_equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i32> {
+    fn less(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i32> {
+    fn less_equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -193,11 +184,11 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
-    fn xor(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i32> {
+    fn xor(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         math::xor::xor(self, other)
     }
 
-    fn or(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i32> {
+    fn or(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
         math::or::or(self, other)
     }
 
@@ -376,7 +367,7 @@ impl I8Tensor of TensorTrait<i8> {
         core_tensor::clip(self, min, max)
     }
 
-    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
+    fn and(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         math::and::and(self, other)
     }
 
@@ -476,11 +467,11 @@ impl I8Tensor of TensorTrait<i8> {
 
     fn is_inf(
         self: @Tensor<i8>, detect_negative: Option<u8>, detect_positive: Option<u8>
-    ) -> Tensor<usize> {
+    ) -> Tensor<bool> {
         math::is_inf::is_inf(self, detect_negative, detect_positive)
     }
 
-    fn is_nan(self: @Tensor<i8>) -> Tensor<usize> {
+    fn is_nan(self: @Tensor<i8>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
@@ -711,19 +702,17 @@ impl I8TensorPartialOrd of PartialOrd<Tensor<i8>> {
 fn tensor_eq(mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0
-        && is_eq {
-            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-        };
+    while lhs.shape.len() != 0 && is_eq {
+        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+    };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() == 0
-        && !is_eq {
-            is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
-        };
+    while lhs.data.len() == 0 && !is_eq {
+        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+    };
 
     is_eq
 }

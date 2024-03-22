@@ -8,17 +8,17 @@ fn input_1() -> Tensor<bool> {
     shape.append(4);
 
     let mut data = ArrayTrait::new();
-    data.append(true);
     data.append(false);
     data.append(false);
     data.append(true);
-    data.append(true);
     data.append(false);
     data.append(true);
     data.append(false);
     data.append(false);
     data.append(false);
     data.append(false);
+    data.append(true);
+    data.append(true);
     data.append(true);
     TensorTrait::new(shape.span(), data.span())
 }

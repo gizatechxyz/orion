@@ -20,32 +20,21 @@ fn depth_to_space<
 ) -> Tensor<T> {
     assert((tensor.shape).len() == 4, 'Unexpected shape 4.');
 
-    let blocksize_i32: i32 = blocksize.try_into().unwrap();
-
-    let b: i32 = (*(tensor.shape).at(0)).try_into().unwrap();
-    let C: u32 = (*(tensor.shape).at(1)).try_into().unwrap();
-    let H: i32 = (*(tensor.shape).at(2)).try_into().unwrap();
-    let W: i32 = (*(tensor.shape).at(3)).try_into().unwrap();
-    let finalshape: Array<i32> = array![
-        b,
-        (C / (blocksize * blocksize)).try_into().unwrap(),
-        (H * blocksize_i32),
-        (W * blocksize_i32)
-    ];
+    let b = (tensor.shape).at(0);
+    let C = (tensor.shape).at(1);
+    let H = (tensor.shape).at(2);
+    let W = (tensor.shape).at(3);
+    let finalshape = array![*b, *C / (blocksize * blocksize), *H * blocksize, *W * blocksize];
 
     if mode == 'DCR' {
-        let tmpshape: Array<i32> = array![
-            b, blocksize_i32, blocksize_i32, (C / (blocksize * blocksize)).try_into().unwrap(), H, W
-        ];
+        let tmpshape = array![*b, blocksize, blocksize, *C / (blocksize * blocksize), *H, *W];
         let reshaped = (tensor).reshape(target_shape: tmpshape.span());
         let transposed = reshaped.transpose(axes: array![0, 3, 4, 1, 5, 2].span());
 
         transposed.reshape(target_shape: finalshape.span())
     } else {
         // assert mode == "CRD"
-        let tmpshape: Array<i32> = array![
-            b, (C / (blocksize * blocksize)).try_into().unwrap(), blocksize_i32, blocksize_i32, H, W
-        ];
+        let tmpshape = array![*b, *C / (blocksize * blocksize), blocksize, blocksize, *H, *W];
         let reshaped = (tensor).reshape(target_shape: tmpshape.span());
         let transposed = reshaped.transpose(axes: array![0, 1, 4, 2, 5, 3].span());
 

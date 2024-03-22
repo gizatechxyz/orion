@@ -1,7 +1,7 @@
 #tensor.equal
 
 ```rust
-    fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
+    fn equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
 ```
 
 Check if two tensors are equal element-wise.
@@ -20,7 +20,7 @@ The input tensors must have either:
 
 ## Returns
 
-A new `Tensor<i32>` (1 if equal, 0 otherwise) with the same shape as the broadcasted inputs.
+A new `Tensor<usize>` of booleans (1 if equal, 0 otherwise) with the same shape as the broadcasted inputs.
 
 ## Examples
 
@@ -31,7 +31,7 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-fn eq_example() -> Tensor<i32> {
+fn eq_example() -> Tensor<usize> {
     let tensor_1 = TensorTrait::<u32>::new(
         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     );
@@ -43,7 +43,7 @@ fn eq_example() -> Tensor<i32> {
     // We can call `equal` function as follows.
     return tensor_1.equal(@tensor_2);
 }
->>> [true,true,true,true,true,false,false,false]
+>>> [1,1,1,1,1,0,0,0]
 ```
 
 Case 2: Compare tensors with different shapes
@@ -53,7 +53,7 @@ use core::array::{ArrayTrait, SpanTrait};
 
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
 
-fn eq_example() -> Tensor<i32> {
+fn eq_example() -> Tensor<usize> {
     let tensor_1 = TensorTrait::<u32>::new(
         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     );
@@ -63,5 +63,5 @@ fn eq_example() -> Tensor<i32> {
     // We can call `equal` function as follows.
     return tensor_1.equal(@tensor_2);
 }
->>> [true,true,true,false,false,false,false,false,false]
+>>> [1,1,1,0,0,0,0,0,0]
 ```
