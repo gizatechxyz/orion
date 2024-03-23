@@ -576,6 +576,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn det(self: @Tensor<FP8x23W>) -> Tensor<FP8x23W> {
+        math::det::det(*self)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.

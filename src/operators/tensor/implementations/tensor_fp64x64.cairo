@@ -635,6 +635,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn det(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        math::det::det(*self)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.
