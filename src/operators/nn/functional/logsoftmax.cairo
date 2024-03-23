@@ -10,7 +10,7 @@ fn logsoftmax<
     z: @Tensor<T>, axis: usize
 ) -> Tensor<T> {
     let exp_tensor = z.exp();
-    let sum = exp_tensor.reduce_sum(axis, true);
+    let sum = exp_tensor.reduce_sum_single_axis(axis, true);
     let softmax = exp_tensor / sum;
     let logsoftmax = softmax.log();
 
@@ -38,7 +38,7 @@ fn logsoftmaxWide<
     z: @Tensor<T>, axis: usize
 ) -> Tensor<T> {
     let exp_tensor: Tensor<W> = exp_upcast(*z);
-    let sum = exp_tensor.reduce_sum(axis, true);
+    let sum = exp_tensor.reduce_sum_single_axis(axis, true);
     let softmax = div_downcast(@exp_tensor, @sum);
 
     softmax.log()
