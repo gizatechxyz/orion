@@ -148,6 +148,7 @@
     * [tensor.unique](framework/operators/tensor/tensor.unique.md)
     * [tensor.compress](framework/operators/tensor/tensor.compress.md)
     * [tensor.layer_normalization](framework/operators/tensor/tensor.layer_normalization.md)
+    * [tensor.group_normalization](framework/operators/tensor/tensor.group_normalization.md)
     * [tensor.scatter\_nd](framework/operators/tensor/tensor.scatter\_nd.md)
     * [tensor.dynamic_quantize_linear](framework/operators/tensor/tensor.dequantize_linear.md)
     * [tensor.optional](framework/operators/tensor/tensor.optional.md)
