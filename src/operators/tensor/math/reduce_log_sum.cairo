@@ -15,7 +15,7 @@ fn reduce_log_sum<
 >(
     self: @Tensor<T>, axis: usize, keepdims: bool
 ) -> Tensor<T> {
-    let tensor_square_sum = self.reduce_sum(axis: axis, keepdims: keepdims);
+    let tensor_square_sum = self.reduce_sum(Option::Some(array![axis].span()), Option::Some(keepdims), Option::Some(false));
     let tensor_square_sum_log = tensor_square_sum.log();
 
     tensor_square_sum_log

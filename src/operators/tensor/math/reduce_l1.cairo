@@ -16,5 +16,5 @@ fn reduce_l1<
 ) -> Tensor<T> {
     let data_abs = self.abs();
 
-    data_abs.reduce_sum(axis: axis, keepdims: keepdims)
+    data_abs.reduce_sum(Option::Some(array![axis].span()), Option::Some(keepdims), Option::Some(false))
 }

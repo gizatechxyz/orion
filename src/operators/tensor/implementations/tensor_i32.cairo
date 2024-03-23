@@ -72,8 +72,13 @@ impl I32Tensor of TensorTrait<i32> {
         reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<i32>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<i32> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
 

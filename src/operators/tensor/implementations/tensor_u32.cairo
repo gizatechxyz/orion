@@ -69,8 +69,13 @@ impl U32Tensor of TensorTrait<u32> {
         reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<u32>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<u32> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
     fn reduce_prod(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {

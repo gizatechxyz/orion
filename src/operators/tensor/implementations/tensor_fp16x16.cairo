@@ -75,8 +75,13 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<FP16x16>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP16x16> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
     fn reduce_prod(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {

@@ -46,7 +46,7 @@ fn reduce_l2<
     self: @Tensor<T>, axis: usize, keepdims: bool
 ) -> Tensor<T> {
     let tensor_square = square(self);
-    let tensor_square_sum = tensor_square.reduce_sum(axis: axis, keepdims: keepdims);
+    let tensor_square_sum = tensor_square.reduce_sum(Option::Some(array![axis].span()), Option::Some(keepdims), Option::Some(false));
 
     tensor_square_sum.sqrt()
 }
@@ -64,7 +64,7 @@ fn reduce_l2_complex<
     self: @Tensor<T>, axis: usize, keepdims: bool
 ) -> Tensor<T> {
     let mut tensor_square = square(@self.abs());
-    let mut tensor_square_sum = tensor_square.reduce_sum(axis: axis, keepdims: keepdims);
+    let mut tensor_square_sum = tensor_square.reduce_sum(Option::Some(array![axis].span()), Option::Some(keepdims), Option::Some(false));
 
     tensor_square_sum.sqrt()
 }

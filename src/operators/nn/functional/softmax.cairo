@@ -13,7 +13,8 @@ fn softmax<
     z: @Tensor<T>, axis: usize
 ) -> Tensor<T> {
     let exp_tensor = z.exp();
-    let sum = exp_tensor.reduce_sum(axis, true);
+    let sum = exp_tensor
+        .reduce_sum(Option::Some(array![axis].span()), Option::Some(true), Option::Some(false));
 
     exp_tensor / sum
 }
@@ -39,7 +40,8 @@ fn softmaxWide<
     z: @Tensor<T>, axis: usize
 ) -> Tensor<T> {
     let exp_tensor: Tensor<W> = exp_upcast(*z);
-    let sum = exp_tensor.reduce_sum(axis, true);
+    let sum = exp_tensor
+        .reduce_sum(Option::Some(array![axis].span()), Option::Some(true), Option::Some(false));
 
     div_downcast(@exp_tensor, @sum)
 }

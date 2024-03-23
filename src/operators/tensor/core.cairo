@@ -681,7 +681,12 @@ trait TensorTrait<T> {
     /// >>> [[4,6],[8,10]]
     /// ```
     ///
-    fn reduce_sum(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
+    fn reduce_sum(
+        self: @Tensor<T>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<T>; 
     /// # tensor.argmax
     ///
     /// ```rust 

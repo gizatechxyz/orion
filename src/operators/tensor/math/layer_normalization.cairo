@@ -92,13 +92,14 @@ fn layer_normalization<
     one_tensor.append(NumberTrait::one());
 
     let x_mat = self.reshape(shape_matrix.span(), false);
-    let x_mean = x_mat.reduce_sum(1, true)
+    let x_mean = x_mat
+        .reduce_sum(Option::Some(array![1].span()), Option::Some(true), Option::Some(false))
         / TensorTrait::new(shape_one.span(), col_number_tensor.span());
 
     let x_diff = x_mat - x_mean;
     let x_squared_diff = x_diff * x_diff;
 
-    let variance = x_squared_diff.reduce_sum(1, true)
+    let variance = x_squared_diff.reduce_sum(Option::Some(array![1].span()), Option::Some(true), Option::Some(false))
         / TensorTrait::new(shape_one.span(), col_number_tensor.span());
     let variance_eps = variance + TensorTrait::new(shape_one.span(), epsilon_tensor.span());
 
