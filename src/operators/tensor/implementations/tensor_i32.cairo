@@ -431,7 +431,7 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn gather_elements(
-        self: @Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<i32>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<i32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }

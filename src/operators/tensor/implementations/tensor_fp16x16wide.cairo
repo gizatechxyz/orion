@@ -411,7 +411,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     }
 
     fn gather_elements(
-        self: @Tensor<FP16x16W>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP16x16W>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP16x16W> {
         math::gather_elements::gather_elements(self, indices, axis)
     }

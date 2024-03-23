@@ -426,7 +426,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     }
 
     fn gather_elements(
-        self: @Tensor<FP8x23>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP8x23>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP8x23> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
