@@ -77,7 +77,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
 
     fn reduce_sum(
         self: @Tensor<FP16x16>,
-        axes: Option<Span<usize>>,
+        axes: Option<Span<i32>>,
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<FP16x16> {

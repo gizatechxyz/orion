@@ -74,7 +74,7 @@ impl I32Tensor of TensorTrait<i32> {
 
     fn reduce_sum(
         self: @Tensor<i32>,
-        axes: Option<Span<usize>>,
+        axes: Option<Span<i32>>,
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<i32> {

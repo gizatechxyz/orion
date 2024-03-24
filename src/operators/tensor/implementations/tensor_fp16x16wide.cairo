@@ -81,7 +81,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
 
     fn reduce_sum(
         self: @Tensor<FP16x16W>,
-        axes: Option<Span<usize>>,
+        axes: Option<Span<i32>>,
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<FP16x16W> {

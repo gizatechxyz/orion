@@ -683,7 +683,7 @@ trait TensorTrait<T> {
     ///
     fn reduce_sum(
         self: @Tensor<T>,
-        axes: Option<Span<usize>>,
+        axes: Option<Span<i32>>,
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<T>; 

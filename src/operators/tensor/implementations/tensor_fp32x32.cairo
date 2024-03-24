@@ -74,7 +74,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
 
     fn reduce_sum(
         self: @Tensor<FP32x32>,
-        axes: Option<Span<usize>>,
+        axes: Option<Span<i32>>,
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<FP32x32> {

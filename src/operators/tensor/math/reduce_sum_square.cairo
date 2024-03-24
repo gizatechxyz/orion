@@ -45,7 +45,12 @@ fn reduce_sum_square<
     self: @Tensor<T>, axis: usize, keepdims: bool
 ) -> Tensor<T> {
     let tensor_square = square(self);
-    let tensor_square_sum = tensor_square.reduce_sum(Option::Some(array![axis].span()), Option::Some(keepdims), Option::Some(false));
+    let tensor_square_sum = tensor_square
+        .reduce_sum(
+            Option::Some(array![axis.try_into().unwrap()].span()),
+            Option::Some(keepdims),
+            Option::Some(false)
+        );
 
     tensor_square_sum
 }

@@ -71,7 +71,7 @@ impl U32Tensor of TensorTrait<u32> {
 
     fn reduce_sum(
         self: @Tensor<u32>,
-        axes: Option<Span<usize>>,
+        axes: Option<Span<i32>>,
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<u32> {

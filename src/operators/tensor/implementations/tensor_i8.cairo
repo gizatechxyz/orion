@@ -72,7 +72,7 @@ impl I8Tensor of TensorTrait<i8> {
 
     fn reduce_sum(
         self: @Tensor<i8>,
-        axes: Option<Span<usize>>,
+        axes: Option<Span<i32>>,
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<i8> {

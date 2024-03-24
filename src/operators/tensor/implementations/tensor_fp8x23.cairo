@@ -74,7 +74,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
 
     fn reduce_sum(
         self: @Tensor<FP8x23>,
-        axes: Option<Span<usize>>,
+        axes: Option<Span<i32>>,
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<FP8x23> {
