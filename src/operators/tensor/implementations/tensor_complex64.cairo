@@ -134,7 +134,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
-    fn less(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<bool> {
+    fn less(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 

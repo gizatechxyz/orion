@@ -1252,7 +1252,7 @@ trait TensorTrait<T> {
     /// #tensor.less
     ///
     /// ```rust
-    ///     fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<bool>;
+    ///     fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// ```
     ///
     /// Check if each element of the first tensor is less than the corresponding element of the second tensor.
@@ -1282,7 +1282,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn less_example() -> Tensor<usize> {
+    /// fn less_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1294,7 +1294,7 @@ trait TensorTrait<T> {
     ///     // We can call `less` function as follows.
     ///     return tensor_1.less(@tensor_2);
     /// }
-    /// >>> [false,false,false,false,false,false,true,false,false]
+    /// >>> [0,0,0,0,0,0,1,0,0]
     /// ```
     ///
     /// Case 2: Compare tensors with different shapes
@@ -1304,7 +1304,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn less_example() -> Tensor<usize> {
+    /// fn less_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1314,10 +1314,10 @@ trait TensorTrait<T> {
     ///     // We can call `less` function as follows.
     ///     return tensor_1.less(@tensor_2);
     /// }
-    /// >>> [false,false,false,false,false,false,false,true,true]
+    /// >>> [0,0,0,0,0,0,0,1,1]
     /// ```
     ///
-    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<bool>;
+    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// #tensor.less_equal
     ///
     /// ```rust
