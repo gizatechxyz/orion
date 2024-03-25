@@ -12,7 +12,7 @@ impl I8NN of NNTrait<i8> {
         panic(array!['not supported!'])
     }
 
-    fn softmax(tensor: @Tensor<i8>, axis: usize) -> Tensor<i8> {
+    fn softmax(tensor: @Tensor<i8>, axis: Option<i32>) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
 

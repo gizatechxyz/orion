@@ -112,7 +112,7 @@ trait NNTrait<T> {
     ///     // [[0.2689, 0.7311],[0.2689, 0.7311]]
     /// ```
     ///
-    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<T>;
+    fn softmax(tensor: @Tensor<T>, axis: Option<i32>) -> Tensor<T>;
     /// # NNTrait::softmax_zero
     ///
     /// ```rust 

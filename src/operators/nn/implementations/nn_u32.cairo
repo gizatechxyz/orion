@@ -12,7 +12,7 @@ impl U32NN of NNTrait<u32> {
         panic(array!['not supported!'])
     }
 
-    fn softmax(tensor: @Tensor<u32>, axis: usize) -> Tensor<u32> {
+    fn softmax(tensor: @Tensor<u32>, axis: Option<i32>) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
 
