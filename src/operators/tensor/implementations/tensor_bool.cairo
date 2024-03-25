@@ -78,8 +78,8 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn argmax(
-        self: @Tensor<bool>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<bool>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 

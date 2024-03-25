@@ -89,8 +89,8 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     }
 
     fn argmax(
-        self: @Tensor<FP16x16>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<FP16x16>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 

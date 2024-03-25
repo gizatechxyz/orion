@@ -86,8 +86,8 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     }
 
     fn argmax(
-        self: @Tensor<FP8x23>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<FP8x23>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 

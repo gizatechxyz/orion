@@ -765,8 +765,8 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn argmax(
-        self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize>;
+        self: @Tensor<T>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32>;
     /// # tensor.argmin
     ///
     /// ```rust 
