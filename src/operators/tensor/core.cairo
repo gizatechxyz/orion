@@ -1317,7 +1317,7 @@ trait TensorTrait<T> {
     /// >>> [false,false,false,false,false,false,false,true,true]
     /// ```
     ///
-    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<bool>;
+    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// #tensor.less_equal
     ///
     /// ```rust
