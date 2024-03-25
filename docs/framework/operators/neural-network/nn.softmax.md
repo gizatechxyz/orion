@@ -1,7 +1,7 @@
 # NNTrait::softmax
 
 ```rust 
-   fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<T>;
+   fn softmax(tensor: @Tensor<T>, axis: Option<i32>) -> Tensor<T>;
 ```
 
 Applies the Softmax function to an n-dimensional input Tensor rescaling them so that the elements of the n-dimensional output Tensor lie in the range \[0,1] and sum to 1.
@@ -13,7 +13,7 @@ $$
 ## Args
 
 * `tensor`(`@Tensor<T>`) - The input tensor.
-* `axis`(`usize`) - The axis along which to compute the softmax.
+* `axis`(`usize`) - Describes the dimension Softmax will be performed on. Negative value means counting dimensions from the back. Accepted range is [-r, r-1] where r = rank(input).
 
 ## Returns
 
@@ -44,7 +44,7 @@ fn softmax_example() -> Tensor<FP8x23> {
             .span(),
     );
 
-    return NNTrait::softmax(@tensor, 1);
+    return NNTrait::softmax(@tensor, Option::Some(1));
 }
 >>> [[2255697,6132911],[2255697,6132911]]
     // The fixed point representation of

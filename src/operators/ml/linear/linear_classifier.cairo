@@ -185,7 +185,7 @@ impl LinearClassifierImpl<
         // Post Transform
         scores = match classifier.post_transform {
             POST_TRANSFORM::NONE => { scores },
-            POST_TRANSFORM::SOFTMAX => { NNTrait::softmax(@scores, 1) },
+            POST_TRANSFORM::SOFTMAX => { NNTrait::softmax(@scores, Option::Some(1)) },
             POST_TRANSFORM::LOGISTIC => { NNTrait::sigmoid(@scores) },
             POST_TRANSFORM::SOFTMAXZERO => { NNTrait::softmax_zero(@scores, 1) },
             POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
