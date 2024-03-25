@@ -383,7 +383,7 @@ impl U32Tensor of TensorTrait<u32> {
     }
 
     fn gather_elements(
-        self: @Tensor<u32>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<u32>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<u32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }

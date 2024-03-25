@@ -374,7 +374,7 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn gather_elements(
-        self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<bool>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<bool> {
         math::gather_elements::gather_elements(self, indices, axis)
     }

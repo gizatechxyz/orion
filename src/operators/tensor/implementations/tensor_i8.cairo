@@ -439,7 +439,7 @@ impl I8Tensor of TensorTrait<i8> {
     }
 
     fn gather_elements(
-        self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<i8>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<i8> {
         math::gather_elements::gather_elements(self, indices, axis)
     }

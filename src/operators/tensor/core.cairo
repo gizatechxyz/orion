@@ -4232,7 +4232,7 @@ trait TensorTrait<T> {
     /// # tensor.gather_elements
     ///
     /// ```rust 
-    ///    fn gather_elements(self: @Tensor<T>, indices: Tensor<T>, axis: Option<usize>) -> Tensor<T>;
+    ///    fn gather_elements(self: @Tensor<T>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<T>;
     /// ```
     ///
     /// GatherElements is an indexing operation that produces its output by indexing into the input data tensor at index positions determined by elements of the indices tensor.
@@ -4240,8 +4240,8 @@ trait TensorTrait<T> {
     /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
-    /// * `indices`(`Tensor<T>`) - Tensor of indices.
-    /// * `axis`(`Option<usize>`) - Axis to gather_elements on. Default: axis=0.
+    /// * `indices`(`Tensor<i32>`) - Tensor of indices.
+    /// * `axis`(`Option<i32>`) - Axis to gather_elements on. Default: axis=0.
     ///
     /// ## Panics
     ///
@@ -4263,7 +4263,7 @@ trait TensorTrait<T> {
     ///         shape: array![3, 3].span(), 
     ///         data: array![[ 1, 2, 3],[4, 5, 6], [7, 8, 9]].span(), 
     ///     );
-    ///     let indices = TensorTrait::<u32>::new(
+    ///     let indices = TensorTrait::<i32>::new(
     ///         shape: array![1, 2, 0].span(), 
     ///         data: array![2, 0, 0].span(), 
     ///     );
@@ -4277,7 +4277,7 @@ trait TensorTrait<T> {
     ///      [7. 2. 3.]]
     /// ```
     ///
-    fn gather_elements(self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<T>;
+    fn gather_elements(self: @Tensor<T>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<T>;
     /// # tensor.binarizer
     /// 
     /// ```rust

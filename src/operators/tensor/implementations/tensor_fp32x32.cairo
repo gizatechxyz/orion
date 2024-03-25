@@ -443,7 +443,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     }
 
     fn gather_elements(
-        self: @Tensor<FP32x32>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP32x32>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP32x32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
