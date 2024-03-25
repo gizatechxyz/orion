@@ -68,12 +68,17 @@ impl I32Tensor of TensorTrait<i32> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<i32>, target_shape: Span<usize>) -> Tensor<i32> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<i32>, target_shape: Span<i32>, allowzero: bool) -> Tensor<i32> {
+        reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<i32>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<i32> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
 
@@ -82,8 +87,8 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn argmax(
-        self: @Tensor<i32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<i32>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 
@@ -121,11 +126,11 @@ impl I32Tensor of TensorTrait<i32> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+    fn less(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -340,7 +345,7 @@ impl I32Tensor of TensorTrait<i32> {
         core_tensor::slice::<i32>(self, starts, ends, axes, steps)
     }
 
-    fn gather(self: @Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i32> {
+    fn gather(self: @Tensor<i32>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<i32> {
         math::gather::gather(self, indices, axis)
     }
 
@@ -431,7 +436,7 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn gather_elements(
-        self: @Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<i32>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<i32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
