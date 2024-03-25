@@ -64,7 +64,12 @@ impl BoolTensor of TensorTrait<bool> {
         reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
+    fn reduce_sum(
+        self: @Tensor<bool>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
@@ -570,17 +575,19 @@ impl BoolTryIntobool of TryInto<bool, bool> {
 fn tensor_eq(mut lhs: Tensor<bool>, mut rhs: Tensor<bool>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0 && is_eq {
-        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() != 0 && is_eq {
-        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
-    };
+    while lhs.data.len() != 0
+        && is_eq {
+            is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+        };
 
     is_eq
 }
