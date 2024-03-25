@@ -8,7 +8,6 @@ use orion::numbers::NumberTrait;
 fn argmax<
     T,
     MAG,
-    impl UsizeTensor: TensorTrait<usize>,
     impl TNumber: NumberTrait<T, MAG>,
     impl TPartialOrd: PartialOrd<T>,
     impl TPartialEq: PartialEq<T>,
@@ -17,31 +16,25 @@ fn argmax<
 >(
     self: @Tensor<T>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
 ) -> Tensor<i32> {
-    let keepdims = match keepdims {
-        Option::Some(val) => val,
-        Option::None => true,
-    };
+    let keepdims = keepdims.unwrap_or(true);
+    let select_last_index = select_last_index.unwrap_or(false);
 
-    let select_last_index = match select_last_index {
-        Option::Some(val) => val,
-        Option::None => false,
-    };
-
-    // Adjust the axis if it's negative
-    let axis: usize = if axis < 0 {
+    // Convert negative axis to positive
+    let axis = if axis < 0 {
         ((*self.shape).len().try_into().unwrap() + axis).try_into().unwrap()
     } else {
         axis.try_into().unwrap()
     };
-    assert(axis < (*self.shape).len(), 'axis out of dimensions');
+
+    assert(axis <= (*self.shape).len(), 'axis out of dimensions');
 
     if (*self.shape).len() == 1 {
-        return find_argmax_1D::<T>(*self, axis, keepdims, select_last_index);
+        return find_argmax_1D::<T>(*self, axis, true, select_last_index);
     }
 
     let mut output_data: Array<i32> = array![];
 
-    let output_shape = reduce_output_shape(*self.shape, axis, keepdims);
+    let output_shape = reduce_output_shape(*self.shape, axis, false);
     let output_data_len = len_from_shape(output_shape);
 
     let MIN = NumberTrait::min_value();
