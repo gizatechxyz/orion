@@ -138,7 +138,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
-    fn less_equal(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 

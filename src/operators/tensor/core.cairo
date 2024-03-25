@@ -1386,7 +1386,7 @@ trait TensorTrait<T> {
     /// >>> [1,1,1,0,0,0,1,1,1]
     /// ```
     ///
-    fn less_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn less_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// #tensor.abs
     ///
     /// ```rust

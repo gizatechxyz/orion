@@ -126,7 +126,7 @@ impl U32Tensor of TensorTrait<u32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
