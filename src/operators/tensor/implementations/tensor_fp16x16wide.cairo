@@ -94,10 +94,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
 
     fn argmax(
         self: @Tensor<FP16x16W>,
-        axis: usize,
+        axis: i32,
         keepdims: Option<bool>,
         select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 

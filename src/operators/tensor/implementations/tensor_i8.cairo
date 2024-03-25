@@ -84,8 +84,8 @@ impl I8Tensor of TensorTrait<i8> {
     }
 
     fn argmax(
-        self: @Tensor<i8>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<i8>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 

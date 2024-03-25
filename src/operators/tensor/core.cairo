@@ -687,7 +687,7 @@ trait TensorTrait<T> {
     /// # tensor.argmax
     ///
     /// ```rust 
-    ///    fn argmax(self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize>;
+    ///    fn argmax(self: @Tensor<T>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<i32>;
     /// ```
     ///
     /// Returns the index of the maximum value along the specified axis.
@@ -695,7 +695,7 @@ trait TensorTrait<T> {
     /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
-    /// * `axis`(`usize`) - The axis along which to compute the argmax.
+    /// * `axis`(`i32`) - The axis along which to compute the argmax.
     /// * `keepdims`(`Option<bool>`) - If true, retains reduced dimensions with length 1. Defaults to true.
     /// * `select_last_index`(`Option<bool>`) - If true, the index of the last occurrence of the maximum value is returned. Defaults to false.   
     ///
@@ -765,8 +765,8 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn argmax(
-        self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize>;
+        self: @Tensor<T>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32>;
     /// # tensor.argmin
     ///
     /// ```rust 
