@@ -1,6 +1,7 @@
 use core::array::{ArrayTrait, SpanTrait};
 use orion::operators::tensor::{TensorTrait, Tensor};
-use orion::operators::tensor::{I8Tensor, I8TensorDiv};
+use orion::operators::tensor::{I8Tensor, I8TensorAdd};
+use orion::numbers::NumberTrait;
 
 fn input_0() -> Tensor<i8> {
     let mut shape = ArrayTrait::<usize>::new();
@@ -9,7 +10,7 @@ fn input_0() -> Tensor<i8> {
 
     let mut data = ArrayTrait::new();
     data.append(-3);
-    data.append(-1);
+    data.append(2);
     data.append(-1);
     data.append(-2);
     TensorTrait::new(shape.span(), data.span())

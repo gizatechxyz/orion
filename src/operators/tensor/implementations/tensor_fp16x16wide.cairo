@@ -142,7 +142,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 

@@ -129,7 +129,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
