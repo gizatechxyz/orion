@@ -13,7 +13,7 @@ $$
 ## Args
 
 * `tensor`(`@Tensor<T>`) - The input tensor.
-* `axis`(`usize`) - Describes the dimension Softmax will be performed on. Negative value means counting dimensions from the back. Accepted range is [-r, r-1] where r = rank(input).
+* `axis`(`Option<i32>`) - Describes the dimension Softmax will be performed on. Negative value means counting dimensions from the back. Accepted range is [-r, r-1] where r = rank(input).
 
 ## Returns
 
