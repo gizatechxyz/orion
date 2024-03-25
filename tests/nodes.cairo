@@ -288,8 +288,6 @@
 // mod sin_fp8x23;
 // mod sinh_fp16x16;
 // mod sinh_fp8x23;
-// mod softmax_fp16x16;
-// mod softmax_fp8x23;
 // mod softplus_fp8x23;
 // mod softplus_fp16x16;
 // mod softsign_fp8x23;
@@ -1020,3 +1018,7 @@ mod gather_elements_default;
 mod gather_elements_axis1;
 mod gather_elements_axis2;
 mod gather_elements_negative_indices;
+mod softmax_axis_0;
+mod softmax_axis_1;
+mod softmax_axis_2;
+mod softmax_axis_minus_1;
