@@ -71,12 +71,17 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP16x16>, target_shape: Span<usize>) -> Tensor<FP16x16> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<FP16x16>, target_shape: Span<i32>, allowzero: bool) -> Tensor<FP16x16> {
+        reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<FP16x16>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP16x16> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
     fn reduce_prod(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
@@ -84,8 +89,8 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     }
 
     fn argmax(
-        self: @Tensor<FP16x16>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<FP16x16>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 
@@ -123,11 +128,11 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
+    fn less(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<i32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -349,7 +354,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     }
 
     fn gather(
-        self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP16x16>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP16x16> {
         math::gather::gather(self, indices, axis)
     }
@@ -441,7 +446,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     }
 
     fn gather_elements(
-        self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP16x16>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP16x16> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
