@@ -10,7 +10,7 @@ use array::{ArrayTrait, SpanTrait};
 
 #[test]
 #[available_gas(2000000000)]
-fn test_reduce_max_fp16x16_1D() {
+fn test_reduce_max_fp16x16_2D_default() {
     let input_0 = input_0::input_0();
     let z = output_0::output_0();
 

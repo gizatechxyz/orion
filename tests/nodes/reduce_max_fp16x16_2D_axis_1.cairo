@@ -10,11 +10,11 @@ use array::{ArrayTrait, SpanTrait};
 
 #[test]
 #[available_gas(2000000000)]
-fn test_reduce_max_fp16x16_1D() {
+fn test_reduce_max_fp16x16_2D_axis_1() {
     let input_0 = input_0::input_0();
     let z = output_0::output_0();
 
-    let y = input_0.reduce_max(Option::None(()), Option::None(()), Option::None(()));
+    let y = input_0.reduce_max(Option::Some(array![1].span()), Option::None(()), Option::None(()));
 
     assert_eq(y, z);
 }
