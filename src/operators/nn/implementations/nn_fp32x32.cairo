@@ -15,7 +15,7 @@ impl FP32x32NN of NNTrait<FP32x32> {
         functional::sigmoid::sigmoid(*tensor)
     }
 
-    fn softmax(tensor: @Tensor<FP32x32>, axis: usize) -> Tensor<FP32x32> {
+    fn softmax(tensor: @Tensor<FP32x32>, axis: Option<i32>) -> Tensor<FP32x32> {
         functional::softmax::softmax(tensor, axis)
     }
 

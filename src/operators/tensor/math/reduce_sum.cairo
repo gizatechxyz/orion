@@ -1,3 +1,5 @@
+use core::option::OptionTrait;
+use core::traits::TryInto;
 use alexandria_sorting::bubble_sort;
 use alexandria_data_structures::array_ext::{SpanTraitExt};
 
@@ -18,7 +20,7 @@ fn reduce_sum<
     impl TDrop: Drop<T>
 >(
     self: @Tensor<T>,
-    axes: Option<Span<usize>>,
+    axes: Option<Span<i32>>,
     keepdims: Option<bool>,
     noop_with_empty_axes: Option<bool>
 ) -> Tensor<T> {
@@ -33,10 +35,20 @@ fn reduce_sum<
             } else {
                 assert(axes.len() == axes.unique().len(), 'duplicated axis.');
                 let mut axes_arr: Array<usize> = array![];
-                let mut copy_axes = axes;
+                let mut copy_axes = axes.clone();
                 loop {
                     match copy_axes.pop_front() {
-                        Option::Some(axis) => { axes_arr.append(*axis); },
+                        Option::Some(axis) => {
+                            // Adjust negative axes to positive
+                            let adjusted_axis = if *axis < 0 {
+                                ((*self.shape).len().try_into().unwrap() + *axis)
+                                    .try_into()
+                                    .unwrap()
+                            } else {
+                                (*axis).try_into().unwrap()
+                            };
+                            axes_arr.append(adjusted_axis);
+                        },
                         Option::None => { break; }
                     };
                 };
@@ -57,7 +69,7 @@ fn reduce_sum<
     };
 
     let mut axis_c = 0;
-    let mut copy_axes = axes;
+    let mut copy_axes = axes.clone();
     let mut shape = *self.shape;
     let mut data = *self.data;
     loop {
@@ -90,7 +102,7 @@ fn reduce_sum<
         };
     };
 
-    let mut axes_copy = axes;
+    let mut axes_copy = axes.clone();
     if keepdims {
         shape = *self.shape;
         loop {
@@ -120,8 +132,7 @@ fn reduce_sum<
 /// # Returns
 /// * A value representing the accumulated sum along the specified axis.
 fn accumulate_sum<
-    T, MAG, impl TNumber: NumberTrait<T, MAG>,
-    impl TCopy: Copy<T>, impl TDrop: Drop<T>
+    T, MAG, impl TNumber: NumberTrait<T, MAG>, impl TCopy: Copy<T>, impl TDrop: Drop<T>
 >(
     mut input_data: Span<T>, input_shape: Span<usize>, output_indices: Span<usize>, axis: usize
 ) -> T {

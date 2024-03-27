@@ -68,23 +68,17 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP64x64>, target_shape: Span<usize>) -> Tensor<FP64x64> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<FP64x64>, target_shape: Span<i32>, allowzero: bool) -> Tensor<FP64x64> {
+        reshape(self, target_shape, allowzero)
     }
 
     fn reduce_sum(
         self: @Tensor<FP64x64>,
-        axes: Option<Span<usize>>,
+        axes: Option<Span<i32>>,
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<FP64x64> {
         math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
-    }
-
-    fn reduce_sum_single_axis(
-        self: @Tensor<FP64x64>, axis: usize, keepdims: bool
-    ) -> Tensor<FP64x64> {
-        math::reduce_sum_single_axis::reduce_sum_single_axis(self, axis, keepdims)
     }
 
     fn reduce_prod(self: @Tensor<FP64x64>, axis: usize, keepdims: bool) -> Tensor<FP64x64> {
@@ -92,8 +86,8 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     }
 
     fn argmax(
-        self: @Tensor<FP64x64>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<FP64x64>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 
@@ -131,11 +125,11 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<usize> {
+    fn less(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<i32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<FP64x64>, other: @Tensor<FP64x64>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -357,7 +351,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     }
 
     fn gather(
-        self: @Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP64x64>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP64x64> {
         math::gather::gather(self, indices, axis)
     }
@@ -449,7 +443,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     }
 
     fn gather_elements(
-        self: @Tensor<FP64x64>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP64x64>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP64x64> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
@@ -777,19 +771,17 @@ fn relative_eq(lhs: @FP64x64, rhs: @FP64x64) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP64x64>, mut rhs: Tensor<FP64x64>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0
-        && is_eq {
-            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-        };
+    while lhs.shape.len() != 0 && is_eq {
+        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+    };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.shape.len() != 0
-        && is_eq {
-            is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
-        };
+    while lhs.shape.len() != 0 && is_eq {
+        is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+    };
 
     is_eq
 }

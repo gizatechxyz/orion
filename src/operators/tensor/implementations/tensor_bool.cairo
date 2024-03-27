@@ -60,20 +60,16 @@ impl BoolTensor of TensorTrait<bool> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<bool>, target_shape: Span<usize>) -> Tensor<bool> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<bool>, target_shape: Span<i32>, allowzero: bool) -> Tensor<bool> {
+        reshape(self, target_shape, allowzero)
     }
 
     fn reduce_sum(
         self: @Tensor<bool>,
-        axes: Option<Span<usize>>,
+        axes: Option<Span<i32>>,
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<bool> {
-        panic(array!['not supported!'])
-    }
-
-    fn reduce_sum_single_axis(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
@@ -82,8 +78,8 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn argmax(
-        self: @Tensor<bool>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<bool>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
@@ -121,11 +117,11 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn less(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn less(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
-    fn less_equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
@@ -235,7 +231,7 @@ impl BoolTensor of TensorTrait<bool> {
         core_ops::slice::<bool>(self, starts, ends, axes, steps)
     }
 
-    fn gather(self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
+    fn gather(self: @Tensor<bool>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<bool> {
         math::gather::gather(self, indices, axis)
     }
 
@@ -378,7 +374,7 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn gather_elements(
-        self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<bool>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<bool> {
         math::gather_elements::gather_elements(self, indices, axis)
     }

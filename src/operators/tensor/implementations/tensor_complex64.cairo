@@ -69,26 +69,20 @@ impl Complex64Tensor of TensorTrait<complex64> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<complex64>, target_shape: Span<usize>) -> Tensor<complex64> {
-        reshape(self, target_shape)
+    fn reshape(
+        self: @Tensor<complex64>, target_shape: Span<i32>, allowzero: bool
+    ) -> Tensor<complex64> {
+        reshape(self, target_shape, allowzero)
     }
 
     fn reduce_sum(
         self: @Tensor<complex64>,
-        axes: Option<Span<usize>>,
+        axes: Option<Span<i32>>,
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
     ) -> Tensor<complex64> {
         math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
-
-
-    fn reduce_sum_single_axis(
-        self: @Tensor<complex64>, axis: usize, keepdims: bool
-    ) -> Tensor<complex64> {
-        math::reduce_sum_single_axis::reduce_sum_single_axis(self, axis, keepdims)
-    }
-
 
     fn reduce_prod(self: @Tensor<complex64>, axis: usize, keepdims: bool) -> Tensor<complex64> {
         math::reduce_prod::reduce_prod(self, axis, keepdims)
@@ -96,10 +90,10 @@ impl Complex64Tensor of TensorTrait<complex64> {
 
     fn argmax(
         self: @Tensor<complex64>,
-        axis: usize,
+        axis: i32,
         keepdims: Option<bool>,
         select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+    ) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
@@ -140,11 +134,11 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
-    fn less(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<usize> {
+    fn less(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
-    fn less_equal(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
@@ -314,7 +308,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
     }
 
     fn gather(
-        self: @Tensor<complex64>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<complex64>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<complex64> {
         math::gather::gather(self, indices, axis)
     }
@@ -421,7 +415,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
 
 
     fn gather_elements(
-        self: @Tensor<complex64>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<complex64>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<complex64> {
         math::gather_elements::gather_elements(self, indices, axis)
     }

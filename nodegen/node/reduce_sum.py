@@ -51,6 +51,22 @@ class Reduce_sum(RunAll):
         name = "reduce_sum_default_axes_keepdims"
         make_test(
             [x], y, "input_0.reduce_sum(Option::Some(array![].span()), Option::Some(true), Option::None)", name)
+        
+    @staticmethod
+    def reduce_sum_negative_axes_keepdims():
+        axes = np.array([-2], dtype=np.int64)
+        keepdims = 1
+
+        x = np.array([[[1, 2], [3, 4]], [[5, 6], [7, 8]], [
+            [9, 10], [11, 12]]]).astype(np.uint32)
+        y = np.sum(x, axis=tuple(axes.tolist()), keepdims=keepdims == 1)
+
+        x = Tensor(Dtype.U32, x.shape, x.flatten())
+        y = Tensor(Dtype.U32, y.shape, y.flatten())
+
+        name = "reduce_sum_negative_axes_keepdims"
+        make_test(
+            [x], y, "input_0.reduce_sum(Option::Some(array![-2].span()), Option::Some(true), Option::None)", name)
 
     @staticmethod
     def reduce_sum_empty_axes_input_noop():
