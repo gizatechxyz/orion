@@ -1,0 +1,2 @@
+[crate_roots]
+orion_tests = "src"

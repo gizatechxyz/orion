@@ -41,10 +41,12 @@ Follow the instructions [here](https://docs.swmansion.com/scarb/docs/guides/crea
 If your `Scarb.toml` doesn't already have a `[dependencies]` section, add it, then list the package name and the URL to its Git repository.
 
 {% code title="Scarb.toml" %}
+
 ```toml
 [dependencies]
 orion = { git = "https://github.com/gizatechxyz/onnx-cairo" }
 ```
+
 {% endcode %}
 
 Now, run `scarb build`, and Scarb will fetch `orion` dependency and all its dependencies. Then it will compile your package with all of these packages included:
