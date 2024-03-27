@@ -581,6 +581,15 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
+    fn center_crop_pad(
+        self: @Tensor<complex64>,
+        shape: Tensor<usize>, 
+        axes: Option<Array<i64>>
+    ) -> Tensor<complex64> {
+        let zero = ComplexTrait::zero();
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+    
     fn label_encoder(
         self: @Tensor<complex64>,
         default_list: Option<Span<complex64>>,
