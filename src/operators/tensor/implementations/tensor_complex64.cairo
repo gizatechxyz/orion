@@ -484,6 +484,15 @@ impl Complex64Tensor of TensorTrait<complex64> {
         math::reduce_log_sum_exp::reduce_log_sum_exp(self, axis, keepdims)
     }
 
+    fn instance_normalization(
+        self: @Tensor<complex64>,
+        scale: @Tensor<complex64>,
+        bias: @Tensor<complex64>,
+        epsilon: Option<complex64>,
+    ) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+
     fn layer_normalization(
         self: @Tensor<complex64>,
         scale: @Tensor<complex64>,

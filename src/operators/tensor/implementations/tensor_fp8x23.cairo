@@ -506,6 +506,15 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn instance_normalization(
+        self: @Tensor<FP8x23>,
+        scale: @Tensor<FP8x23>,
+        bias: @Tensor<FP8x23>,
+        epsilon: Option<FP8x23>,
+    ) -> Tensor<FP8x23> {
+        math::instance_normalization::instance_normalization(self, scale, bias, epsilon)
+    }
+
     fn layer_normalization(
         self: @Tensor<FP8x23>,
         scale: @Tensor<FP8x23>,

@@ -470,6 +470,15 @@ impl U32Tensor of TensorTrait<u32> {
         math::compress::compress(self, condition, axis)
     }
 
+    fn instance_normalization(
+        self: @Tensor<u32>,
+        scale: @Tensor<u32>,
+        bias: @Tensor<u32>,
+        epsilon: Option<u32>,
+    ) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
     fn layer_normalization(
         self: @Tensor<u32>,
         scale: @Tensor<u32>,

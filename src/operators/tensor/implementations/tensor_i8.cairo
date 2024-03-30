@@ -526,6 +526,15 @@ impl I8Tensor of TensorTrait<i8> {
         math::compress::compress(self, condition, axis)
     }
 
+    fn instance_normalization(
+        self: @Tensor<i8>,
+        scale: @Tensor<i8>,
+        bias: @Tensor<i8>,
+        epsilon: Option<i8>,
+    ) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn layer_normalization(
         self: @Tensor<i8>,
         scale: @Tensor<i8>,
