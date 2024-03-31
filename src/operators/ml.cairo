@@ -3,6 +3,8 @@ mod linear;
 mod svm;
 mod normalizer;
 
+use orion::operators::ml::tree_ensemble::tree_ensemble::{TreeEnsembleTrait};
+
 use orion::operators::ml::tree_ensemble::core::{
     TreeEnsemble, TreeEnsembleAttributes, TreeEnsembleImpl, NODE_MODES
 };
@@ -32,3 +34,4 @@ enum POST_TRANSFORM {
     SOFTMAXZERO,
     PROBIT,
 }
+
