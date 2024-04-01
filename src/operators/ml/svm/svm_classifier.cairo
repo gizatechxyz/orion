@@ -266,11 +266,12 @@ impl SVMClassifierImpl<
         let (vectors_per_class_, starting_vector_) = match self.vectors_per_class {
             Option::Some(vectors_per_class) => {
                 let mut i = 0;
-                while i != vectors_per_class.len() {
-                    starting_vector_.append(vector_count_);
-                    vector_count_ += *vectors_per_class.at(i);
-                    i += 1;
-                };
+                while i != vectors_per_class
+                    .len() {
+                        starting_vector_.append(vector_count_);
+                        vector_count_ += *vectors_per_class.at(i);
+                        i += 1;
+                    };
 
                 (vectors_per_class, starting_vector_.span())
             },
@@ -309,17 +310,19 @@ impl SVMClassifierImpl<
             MODE::SVM_LINEAR => {
                 let mut res: Array<T> = array![];
                 let mut n = 0;
-                while n != *X.shape.at(0) {
-                    let mut x_n = get_row(@X, n);
-                    let scores = run_linear(ref self, x_n, coefs, class_count_, kernel_type_);
-                    let mut i = 0;
-                    while i != scores.len() {
-                        res.append(*scores.at(i));
-                        i += 1;
-                    };
+                while n != *X
+                    .shape
+                    .at(0) {
+                        let mut x_n = get_row(@X, n);
+                        let scores = run_linear(ref self, x_n, coefs, class_count_, kernel_type_);
+                        let mut i = 0;
+                        while i != scores.len() {
+                            res.append(*scores.at(i));
+                            i += 1;
+                        };
 
-                    n += 1;
-                };
+                        n += 1;
+                    };
 
                 (
                     TensorTrait::new(array![*X.shape.at(0), class_count_].span(), res.span()),
@@ -330,33 +333,35 @@ impl SVMClassifierImpl<
                 let mut res: Array<T> = array![];
                 let mut votes: Array<T> = array![];
                 let mut n = 0;
-                while n != *X.shape.at(0) {
-                    let mut x_n = get_row(@X, n);
-                    let (scores, mut vote) = run_svm(
-                        ref self,
-                        x_n,
-                        sv,
-                        vector_count_,
-                        kernel_type_,
-                        class_count_,
-                        starting_vector_,
-                        coefs,
-                        vectors_per_class_
-                    );
-                    let mut i = 0;
-                    while i != scores.len() {
-                        res.append(*scores.at(i));
-                        i += 1;
-                    };
+                while n != *X
+                    .shape
+                    .at(0) {
+                        let mut x_n = get_row(@X, n);
+                        let (scores, mut vote) = run_svm(
+                            ref self,
+                            x_n,
+                            sv,
+                            vector_count_,
+                            kernel_type_,
+                            class_count_,
+                            starting_vector_,
+                            coefs,
+                            vectors_per_class_
+                        );
+                        let mut i = 0;
+                        while i != scores.len() {
+                            res.append(*scores.at(i));
+                            i += 1;
+                        };
 
-                    let mut i = 0;
-                    while i != vote.len() {
-                        votes.append(vote.at(i));
-                        i += 1;
-                    };
+                        let mut i = 0;
+                        while i != vote.len() {
+                            votes.append(vote.at(i));
+                            i += 1;
+                        };
 
-                    n += 1;
-                };
+                        n += 1;
+                    };
 
                 (
                     TensorTrait::new(
@@ -377,18 +382,20 @@ impl SVMClassifierImpl<
                 let (scores, has_proba) = if self.prob_a.len() > 0 {
                     let mut scores: Array<T> = array![];
                     let mut n = 0;
-                    while n != *res.shape.at(0) {
-                        let res_n = get_row(@res, n);
-                        let mut s = probablities(ref self, res_n, class_count_);
+                    while n != *res
+                        .shape
+                        .at(0) {
+                            let res_n = get_row(@res, n);
+                            let mut s = probablities(ref self, res_n, class_count_);
 
-                        let mut i = 0;
-                        while i != s.len() {
-                            scores.append(s.at(i));
-                            i += 1;
+                            let mut i = 0;
+                            while i != s.len() {
+                                scores.append(s.at(i));
+                                i += 1;
+                            };
+
+                            n += 1;
                         };
-
-                        n += 1;
-                    };
                     (
                         TensorTrait::new(
                             array![*res.shape.at(0), scores.len() / *res.shape.at(0)].span(),
@@ -409,50 +416,56 @@ impl SVMClassifierImpl<
         let mut final_scores: Array<T> = array![];
 
         let mut n = 0;
-        while n != *scores.shape.at(0) {
-            let mut scores_n = get_row(@scores, n);
-            match votes {
-                Option::Some(votes) => {
-                    let mut votes_n = get_row(@votes, n);
-                    let (label, new_scores) = compute_final_scores(
-                        ref self,
-                        votes_n,
-                        scores_n,
-                        weights_are_all_positive_,
-                        has_proba,
-                        self.classlabels
-                    );
+        while n != *scores
+            .shape
+            .at(0) {
+                let mut scores_n = get_row(@scores, n);
+                match votes {
+                    Option::Some(votes) => {
+                        let mut votes_n = get_row(@votes, n);
+                        let (label, new_scores) = compute_final_scores(
+                            ref self,
+                            votes_n,
+                            scores_n,
+                            weights_are_all_positive_,
+                            has_proba,
+                            self.classlabels
+                        );
 
-                    let mut i = 0;
-                    while i != new_scores.data.len() {
-                        final_scores.append(*new_scores.data.at(i));
-                        i += 1;
-                    };
+                        let mut i = 0;
+                        while i != new_scores
+                            .data
+                            .len() {
+                                final_scores.append(*new_scores.data.at(i));
+                                i += 1;
+                            };
 
-                    labels.append(label);
-                },
-                Option::None => {
-                    let (label, new_scores) = compute_final_scores(
-                        ref self,
-                        array![].span(),
-                        scores_n,
-                        weights_are_all_positive_,
-                        has_proba,
-                        self.classlabels
-                    );
+                        labels.append(label);
+                    },
+                    Option::None => {
+                        let (label, new_scores) = compute_final_scores(
+                            ref self,
+                            array![].span(),
+                            scores_n,
+                            weights_are_all_positive_,
+                            has_proba,
+                            self.classlabels
+                        );
 
-                    let mut i = 0;
-                    while i != new_scores.data.len() {
-                        final_scores.append(*new_scores.data.at(i));
-                        i += 1;
-                    };
+                        let mut i = 0;
+                        while i != new_scores
+                            .data
+                            .len() {
+                                final_scores.append(*new_scores.data.at(i));
+                                i += 1;
+                            };
 
-                    labels.append(label);
-                },
-            }
+                        labels.append(label);
+                    },
+                }
 
-            n += 1;
-        };
+                n += 1;
+            };
 
         let labels = labels.span();
 
@@ -460,10 +473,11 @@ impl SVMClassifierImpl<
         if self.classlabels.len() > 0 {
             let mut class_labels: Array<usize> = array![];
             let mut i = 0;
-            while i != labels.len() {
-                class_labels.append(*self.classlabels.at(*labels.at(i)));
-                i += 1;
-            };
+            while i != labels
+                .len() {
+                    class_labels.append(*self.classlabels.at(*labels.at(i)));
+                    i += 1;
+                };
 
             return (
                 class_labels.span(),
@@ -1070,11 +1084,12 @@ fn dot_start_end<
     let mut sum = NumberTrait::zero();
     let mut index_a = a_start;
     let mut index_b = b_start;
-    while index_a != a_end && index_b != b_end {
-        sum = sum + *pA.at(index_a) * *pB.at(index_b);
-        index_a += 1;
-        index_b += 1;
-    };
+    while index_a != a_end
+        && index_b != b_end {
+            sum = sum + *pA.at(index_a) * *pB.at(index_b);
+            index_a += 1;
+            index_b += 1;
+        };
 
     sum
 }
@@ -1110,10 +1125,11 @@ fn squared_diff<
 ) -> T {
     let mut i = 0;
     let mut sum = NumberTrait::zero();
-    while i != pA.len() {
-        sum = sum + (*pA.at(i) - *pB.at(i)).pow(NumberTrait::one() + NumberTrait::one());
-        i += 1;
-    };
+    while i != pA
+        .len() {
+            sum = sum + (*pA.at(i) - *pB.at(i)).pow(NumberTrait::one() + NumberTrait::one());
+            i += 1;
+        };
 
     sum
 }

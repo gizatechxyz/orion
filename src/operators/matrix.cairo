@@ -90,65 +90,69 @@ impl MutMatrixImpl<
 
         if axis == 0 {
             let mut col: usize = 0;
-            while col != self.cols {
-                let mut max_value = self.get(0, col);
+            while col != self
+                .cols {
+                    let mut max_value = self.get(0, col);
+                    let mut max_value = match max_value {
+                        Option::Some => { max_value.unwrap() },
+                        Option::None => { NumberTrait::min_value() }
+                    };
+                    let mut max_index = 0;
+
+                    let mut row: usize = 1;
+                    while row != self
+                        .rows {
+                            let mut value = self.get(row, col);
+                            let mut value = match value {
+                                Option::Some => { value.unwrap() },
+                                Option::None => { NumberTrait::min_value() }
+                            };
+
+                            if value > max_value {
+                                max_value = value;
+                                max_index = row;
+                            }
+
+                            row += 1;
+                        };
+
+                    result.append(max_index);
+                    col += 1;
+                };
+
+            return result.span();
+        }
+
+        let mut row: usize = 0;
+        while row != self
+            .rows {
+                let mut max_value = self.get(row, 0);
                 let mut max_value = match max_value {
                     Option::Some => { max_value.unwrap() },
                     Option::None => { NumberTrait::min_value() }
                 };
                 let mut max_index = 0;
 
-                let mut row: usize = 1;
-                while row != self.rows {
-                    let mut value = self.get(row, col);
-                    let mut value = match value {
-                        Option::Some => { value.unwrap() },
-                        Option::None => { NumberTrait::min_value() }
+                let mut col: usize = 1;
+                while col != self
+                    .cols {
+                        let mut value = self.get(row, col);
+                        let mut value = match value {
+                            Option::Some => { value.unwrap() },
+                            Option::None => { NumberTrait::min_value() }
+                        };
+
+                        if value > max_value {
+                            max_value = value;
+                            max_index = col;
+                        }
+
+                        col += 1;
                     };
 
-                    if value > max_value {
-                        max_value = value;
-                        max_index = row;
-                    }
-
-                    row += 1;
-                };
-
                 result.append(max_index);
-                col += 1;
+                row += 1;
             };
-
-            return result.span();
-        }
-
-        let mut row: usize = 0;
-        while row != self.rows {
-            let mut max_value = self.get(row, 0);
-            let mut max_value = match max_value {
-                Option::Some => { max_value.unwrap() },
-                Option::None => { NumberTrait::min_value() }
-            };
-            let mut max_index = 0;
-
-            let mut col: usize = 1;
-            while col != self.cols {
-                let mut value = self.get(row, col);
-                let mut value = match value {
-                    Option::Some => { value.unwrap() },
-                    Option::None => { NumberTrait::min_value() }
-                };
-
-                if value > max_value {
-                    max_value = value;
-                    max_index = col;
-                }
-
-                col += 1;
-            };
-
-            result.append(max_index);
-            row += 1;
-        };
 
         result.span()
     }
@@ -161,50 +165,56 @@ impl MutMatrixImpl<
 
         if axis == 0 {
             let mut col: usize = 0;
-            while col != self.cols {
-                let mut sum_exp = NumberTrait::zero();
-                let mut row: usize = 0;
-                while row != self.rows {
-                    let value = self.get(row, col).unwrap().into();
-                    sum_exp += value.exp();
+            while col != self
+                .cols {
+                    let mut sum_exp = NumberTrait::zero();
+                    let mut row: usize = 0;
+                    while row != self
+                        .rows {
+                            let value = self.get(row, col).unwrap().into();
+                            sum_exp += value.exp();
 
-                    row += 1;
+                            row += 1;
+                        };
+
+                    row = 0;
+                    while row != self
+                        .rows {
+                            let value = self.get(row, col).unwrap().into();
+                            let softmax_value = (value.exp() / sum_exp).into();
+                            result.set(row, col, softmax_value);
+
+                            row += 1;
+                        };
+
+                    col += 1;
                 };
-
-                row = 0;
-                while row != self.rows {
-                    let value = self.get(row, col).unwrap().into();
-                    let softmax_value = (value.exp() / sum_exp).into();
-                    result.set(row, col, softmax_value);
-
-                    row += 1;
-                };
-
-                col += 1;
-            };
         } else {
             let mut row: usize = 0;
-            while row != self.rows {
-                let mut sum_exp = NumberTrait::zero();
-                let mut col: usize = 0;
-                while col != self.cols {
-                    let value = self.get(row, col).unwrap().into();
-                    sum_exp += value.exp();
+            while row != self
+                .rows {
+                    let mut sum_exp = NumberTrait::zero();
+                    let mut col: usize = 0;
+                    while col != self
+                        .cols {
+                            let value = self.get(row, col).unwrap().into();
+                            sum_exp += value.exp();
 
-                    col += 1;
+                            col += 1;
+                        };
+
+                    col = 0;
+                    while col != self
+                        .cols {
+                            let value = self.get(row, col).unwrap().into();
+                            let softmax_value = (value.exp() / sum_exp).into();
+                            result.set(row, col, softmax_value);
+
+                            col += 1;
+                        };
+
+                    row += 1;
                 };
-
-                col = 0;
-                while col != self.cols {
-                    let value = self.get(row, col).unwrap().into();
-                    let softmax_value = (value.exp() / sum_exp).into();
-                    result.set(row, col, softmax_value);
-
-                    col += 1;
-                };
-
-                row += 1;
-            };
         }
 
         result
@@ -220,65 +230,71 @@ impl MutMatrixImpl<
 
         if axis == 0 {
             let mut col: usize = 0;
-            while col != self.cols {
-                let mut sum_exp = NumberTrait::zero();
-                let mut row: usize = 0;
-                while row != self.rows {
-                    let value = self.get(row, col).unwrap().into();
+            while col != self
+                .cols {
+                    let mut sum_exp = NumberTrait::zero();
+                    let mut row: usize = 0;
+                    while row != self
+                        .rows {
+                            let value = self.get(row, col).unwrap().into();
 
-                    if value != NumberTrait::zero() {
-                        sum_exp += value.exp();
-                    }
+                            if value != NumberTrait::zero() {
+                                sum_exp += value.exp();
+                            }
 
-                    row += 1;
+                            row += 1;
+                        };
+
+                    row = 0;
+                    while row != self
+                        .rows {
+                            let value = self.get(row, col).unwrap().into();
+
+                            if value != NumberTrait::zero() {
+                                let softmax_value = (value.exp() / sum_exp).into();
+                                result.set(row, col, softmax_value);
+                            } else {
+                                result.set(row, col, NumberTrait::zero());
+                            }
+
+                            row += 1;
+                        };
+
+                    col += 1;
                 };
-
-                row = 0;
-                while row != self.rows {
-                    let value = self.get(row, col).unwrap().into();
-
-                    if value != NumberTrait::zero() {
-                        let softmax_value = (value.exp() / sum_exp).into();
-                        result.set(row, col, softmax_value);
-                    } else {
-                        result.set(row, col, NumberTrait::zero());
-                    }
-
-                    row += 1;
-                };
-
-                col += 1;
-            };
         } else {
             let mut row: usize = 0;
-            while row != self.rows {
-                let mut sum_exp = NumberTrait::zero();
-                let mut col: usize = 0;
-                while col != self.cols {
-                    let value = self.get(row, col).unwrap().into();
-                    if value != NumberTrait::zero() {
-                        sum_exp += value.exp();
-                    }
+            while row != self
+                .rows {
+                    let mut sum_exp = NumberTrait::zero();
+                    let mut col: usize = 0;
+                    while col != self
+                        .cols {
+                            let value = self.get(row, col).unwrap().into();
+                            if value != NumberTrait::zero() {
+                                sum_exp += value.exp();
+                            }
 
-                    col += 1;
+                            col += 1;
+                        };
+
+                    col = 0;
+                    while col != self
+                        .cols {
+                            let value = self.get(row, col).unwrap().into();
+
+                            if value != NumberTrait::zero() {
+                                let softmax_value = (value.exp() / sum_exp).into();
+                                result.set(row, col, softmax_value);
+                            } else {
+                                result.set(row, col, NumberTrait::zero());
+                            }
+
+                            col += 1;
+                        };
+
+                    row += 1;
                 };
-
-                col = 0;
-                while col != self.cols {
-                    let value = self.get(row, col).unwrap().into();
-
-                    if value != NumberTrait::zero() {
-                        let softmax_value = (value.exp() / sum_exp).into();
-                        result.set(row, col, softmax_value);
-                    } else {
-                        result.set(row, col, NumberTrait::zero());
-                    }
-
-                    col += 1;
-                };
-
-                row += 1;
-            };
         }
 
         result
@@ -289,23 +305,26 @@ impl MutMatrixImpl<
         let mut result = MutMatrixImpl::new(self.rows, self.cols);
 
         let mut row: usize = 0;
-        while row != self.rows {
-            let mut col: usize = 0;
-            while col != self.cols {
-                let value = self.get(row, col);
+        while row != self
+            .rows {
+                let mut col: usize = 0;
+                while col != self
+                    .cols {
+                        let value = self.get(row, col);
 
-                if value.is_some() {
-                    let value = NumberTrait::one()
-                        / (NumberTrait::one() + (value.unwrap() * NumberTrait::neg_one()).exp());
+                        if value.is_some() {
+                            let value = NumberTrait::one()
+                                / (NumberTrait::one()
+                                    + (value.unwrap() * NumberTrait::neg_one()).exp());
 
-                    result.set(row, col, value);
-                }
+                            result.set(row, col, value);
+                        }
 
-                col += 1;
+                        col += 1;
+                    };
+
+                row += 1;
             };
-
-            row += 1;
-        };
 
         result
     }

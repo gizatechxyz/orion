@@ -130,4 +130,20 @@ impl U32NN of NNTrait<u32> {
     ) -> Tensor<u32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
+
+    fn roi_align(
+        X: @Tensor<u32>,
+        roi: @Tensor<u32>,
+        batch_indices: @Tensor<usize>,
+        coordinate_transformation_mode: Option<
+            orion::operators::nn::functional::roi_align::TRANSFORMATION_MODE
+        >,
+        mode: Option<orion::operators::nn::functional::roi_align::MODE>,
+        output_height: Option<usize>,
+        output_width: Option<usize>,
+        sampling_ratio: Option<u32>,
+        spatial_scale: Option<u32>,
+    ) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
 }

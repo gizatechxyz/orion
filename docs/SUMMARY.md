@@ -178,6 +178,7 @@
     * [nn.conv](framework/operators/neural-network/nn.conv.md)
     * [nn.depth_to_space](framework/operators/neural-network/nn.depth_to_space.md)
     * [nn.space_to_depth](framework/operators/neural-network/nn.space_to_depth.md)
+    * [nn.roi\_align](framework/operators/neural-network/nn.roi\_align.md)
   * [Machine Learning](framework/operators/machine-learning/README.md)
     * [Tree Ensemble Classifier](framework/operators/machine-learning/tree-ensemble-classifier/README.md)
       * [tree\_ensemble\_classifier.predict](framework/operators/machine-learning/tree-ensemble-classifier/tree\_ensemble\_classifier.predict.md)

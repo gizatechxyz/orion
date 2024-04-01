@@ -283,13 +283,14 @@ fn interpolate_nd<
                 KEEP_ASPECT_RATIO_POLICY::NOT_LARGER => {
                     let mut scale = *scale_factors.at(*axes.at(0));
                     let mut i = 1;
-                    while i != axes.len() {
-                        if scale > *scale_factors.at(*axes.at(i)) {
-                            scale = *scale_factors.at(*axes.at(i));
-                        }
+                    while i != axes
+                        .len() {
+                            if scale > *scale_factors.at(*axes.at(i)) {
+                                scale = *scale_factors.at(*axes.at(i));
+                            }
 
-                        i += 1;
-                    };
+                            i += 1;
+                        };
 
                     let mut scale_factors: Array<T> = array![];
                     let mut d = 0;
@@ -341,13 +342,14 @@ fn interpolate_nd<
                 KEEP_ASPECT_RATIO_POLICY::NOT_SMALLER => {
                     let mut scale = *scale_factors.at(*axes.at(0));
                     let mut i = 1;
-                    while i != axes.len() {
-                        if scale < *scale_factors.at(*axes.at(i)) {
-                            scale = *scale_factors.at(*axes.at(i));
-                        }
+                    while i != axes
+                        .len() {
+                            if scale < *scale_factors.at(*axes.at(i)) {
+                                scale = *scale_factors.at(*axes.at(i));
+                            }
 
-                        i += 1;
-                    };
+                            i += 1;
+                        };
 
                     let mut scale_factors: Array<T> = array![];
                     let mut d = 0;
@@ -409,12 +411,13 @@ fn interpolate_nd<
             };
 
             let mut i = 0;
-            while i != scale_factors.len() {
-                let item = *scale_factors.at(i)
-                    * NumberTrait::new_unscaled((*(*(data).shape).at(i)).into(), false);
-                output_size.append(item.try_into().unwrap());
-                i += 1;
-            };
+            while i != scale_factors
+                .len() {
+                    let item = *scale_factors.at(i)
+                        * NumberTrait::new_unscaled((*(*(data).shape).at(i)).into(), false);
+                    output_size.append(item.try_into().unwrap());
+                    i += 1;
+                };
 
             (output_size.span(), scale_factors)
         },
@@ -422,17 +425,18 @@ fn interpolate_nd<
 
     let mut ret: Array<Span<usize>> = array![];
     let mut i = 0;
-    while i != output_size.len() {
-        let mut temp = ArrayTrait::<usize>::new();
-        let mut j = 0;
-        while j != *output_size.at(i) {
-            temp.append(j);
-            j += 1;
-        };
+    while i != output_size
+        .len() {
+            let mut temp = ArrayTrait::<usize>::new();
+            let mut j = 0;
+            while j != *output_size.at(i) {
+                temp.append(j);
+                j += 1;
+            };
 
-        ret.append(temp.span());
-        i += 1;
-    };
+            ret.append(temp.span());
+            i += 1;
+        };
 
     let mut ret = cartesian(ret.span());
     let mut ret_data = array![];
@@ -442,10 +446,11 @@ fn interpolate_nd<
             Option::Some(X) => {
                 let mut x: Array<T> = array![];
                 let mut i = 0;
-                while i != X.len() {
-                    x.append(NumberTrait::new_unscaled((*X.at(i)).into(), false));
-                    i += 1;
-                };
+                while i != X
+                    .len() {
+                        x.append(NumberTrait::new_unscaled((*X.at(i)).into(), false));
+                        i += 1;
+                    };
 
                 let mut x = x.span();
                 let item = interpolate_nd_with_x(
@@ -499,14 +504,15 @@ fn cartesian(mut arrays: Span<Span<usize>>,) -> Array<Array<usize>> {
     let mut m = n;
 
     let mut i = 0;
-    while i != arrays.len() {
-        m = m / (*(arrays.at(i))).len();
-        let mut out = repeat(*(arrays.at(i)), m);
-        out = repeat_2(out, size_arrays, i);
+    while i != arrays
+        .len() {
+            m = m / (*(arrays.at(i))).len();
+            let mut out = repeat(*(arrays.at(i)), m);
+            out = repeat_2(out, size_arrays, i);
 
-        output_arrays.append(out);
-        i += 1;
-    };
+            output_arrays.append(out);
+            i += 1;
+        };
 
     let output_arrays = output_arrays.span();
 
@@ -532,15 +538,16 @@ fn repeat_2(mut array: Array<usize>, size_array: Span<usize>, index: usize) -> A
     let mut i = 0;
     while i != index {
         let mut j = 1;
-        while j != *size_array.at(index - 1 - i) {
-            let mut k = 0;
-            while k != size {
-                array.append(*array.at(k));
-                k += 1;
-            };
+        while j != *size_array
+            .at(index - 1 - i) {
+                let mut k = 0;
+                while k != size {
+                    array.append(*array.at(k));
+                    k += 1;
+                };
 
-            j += 1;
-        };
+                j += 1;
+            };
 
         size = size * *size_array.at(index - 1 - i);
         i += 1;
@@ -552,15 +559,16 @@ fn repeat_2(mut array: Array<usize>, size_array: Span<usize>, index: usize) -> A
 fn repeat(array: Span<usize>, m: usize,) -> Array<usize> {
     let mut out = array![];
     let mut j = 0;
-    while j != array.len() {
-        let mut k = 0;
-        while k != m {
-            out.append(*array.at(j));
-            k += 1;
-        };
+    while j != array
+        .len() {
+            let mut k = 0;
+            while k != m {
+                out.append(*array.at(j));
+                k += 1;
+            };
 
-        j += 1;
-    };
+            j += 1;
+        };
 
     out
 }
@@ -648,34 +656,36 @@ fn interpolate_nd_with_x<
     };
 
     let mut i = 0;
-    while i != *(*data).shape.at(0) {
-        let data = get_row_n(data, i);
+    while i != *(*data)
+        .shape
+        .at(0) {
+            let data = get_row_n(data, i);
 
-        let mut r = interpolate_nd_with_x(
-            @data,
-            n - 1,
-            scale_factor,
-            output_size,
-            x,
-            antialias,
-            mode,
-            nearest_mode,
-            reduced_roi,
-            extrapolation_value,
-            coordinate_transformation_mode,
-            exclude_outside,
-            cubic_coeff_a
-        );
+            let mut r = interpolate_nd_with_x(
+                @data,
+                n - 1,
+                scale_factor,
+                output_size,
+                x,
+                antialias,
+                mode,
+                nearest_mode,
+                reduced_roi,
+                extrapolation_value,
+                coordinate_transformation_mode,
+                exclude_outside,
+                cubic_coeff_a
+            );
 
-        loop {
-            match r.data.pop_front() {
-                Option::Some(item) => { res1d.append(*item); },
-                Option::None => { break; }
-            }
+            loop {
+                match r.data.pop_front() {
+                    Option::Some(item) => { res1d.append(*item); },
+                    Option::None => { break; }
+                }
+            };
+
+            i += 1;
         };
-
-        i += 1;
-    };
 
     let mut shape = array![];
     shape.append(res1d.len());
@@ -727,14 +737,16 @@ fn get_row_n<T, +TensorTrait<T>, +Copy<T>, +Drop<T>,>(
     let mut stride_output = 1;
 
     let mut i = 0;
-    while i != (*data).shape.len() {
-        if i != 0 {
-            output_shape.append(*(*data).shape.at(i));
-            stride_output = stride_output * *(*data).shape.at(i);
-        }
+    while i != (*data)
+        .shape
+        .len() {
+            if i != 0 {
+                output_shape.append(*(*data).shape.at(i));
+                stride_output = stride_output * *(*data).shape.at(i);
+            }
 
-        i += 1;
-    };
+            i += 1;
+        };
 
     let mut i = 0;
     while i != stride_output {
@@ -897,17 +909,19 @@ fn interpolate_1d_with_x<
         let mut coeffs_exclude_outside: Array<T> = array![];
         let mut sum = NumberTrait::zero();
         let mut i = 0;
-        while i != idxes.data.len() {
-            if *idxes.data.at(i) {
-                coeffs_exclude_outside.append(NumberTrait::zero());
-                sum += NumberTrait::zero();
-            } else {
-                coeffs_exclude_outside.append(*coeffs.data.at(i));
-                sum += *coeffs.data.at(i);
-            }
+        while i != idxes
+            .data
+            .len() {
+                if *idxes.data.at(i) {
+                    coeffs_exclude_outside.append(NumberTrait::zero());
+                    sum += NumberTrait::zero();
+                } else {
+                    coeffs_exclude_outside.append(*coeffs.data.at(i));
+                    sum += *coeffs.data.at(i);
+                }
 
-            i += 1;
-        };
+                i += 1;
+            };
 
         let mut coeff_div: Array<T> = array![];
         let mut i = 0;
@@ -974,21 +988,23 @@ fn get_neighbor<
     let mut idxes_centered = array![];
     let mut ret = array![];
     let mut i = 0;
-    while i != idxes.data.len() {
-        ret.append(*padded.at(*idxes.data.at(i)));
+    while i != idxes
+        .data
+        .len() {
+            ret.append(*padded.at(*idxes.data.at(i)));
 
-        if *idxes.data.at(i) >= pad_width {
-            if (*idxes.data.at(i) - pad_width) >= (*data).data.len() {
-                idxes_centered.append(true);
+            if *idxes.data.at(i) >= pad_width {
+                if (*idxes.data.at(i) - pad_width) >= (*data).data.len() {
+                    idxes_centered.append(true);
+                } else {
+                    idxes_centered.append(false);
+                }
             } else {
-                idxes_centered.append(false);
+                idxes_centered.append(true);
             }
-        } else {
-            idxes_centered.append(true);
-        }
 
-        i += 1;
-    };
+            i += 1;
+        };
 
     let mut shape = array![];
     shape.append(idxes.data.len());
@@ -1049,22 +1065,23 @@ fn get_neighbor_idxes<
         }
 
         let mut i = 0;
-        while i != n / 2 {
-            if i_low - i < 0 {
-                idxes.append(i_high + i);
-                i_high += 1;
-            } else {
-                idxes.append(i_low - i);
-            }
-            if i_high + i >= limit {
-                i_low -= 1;
-                idxes.append(i_low - i);
-            } else {
-                idxes.append(i_high + i);
-            }
+        while i != n
+            / 2 {
+                if i_low - i < 0 {
+                    idxes.append(i_high + i);
+                    i_high += 1;
+                } else {
+                    idxes.append(i_low - i);
+                }
+                if i_high + i >= limit {
+                    i_low -= 1;
+                    idxes.append(i_low - i);
+                } else {
+                    idxes.append(i_high + i);
+                }
 
-            i += 1;
-        }
+                i += 1;
+            }
     } else {
         core::panic_with_felt252('MUST BE EVEN');
     }
@@ -1129,21 +1146,22 @@ fn linear_coeffs_antialias<
 
     // arange and clip + compute sum
     let mut i = start;
-    while i != start + footprint {
-        let value = NumberTrait::one() - NumberTrait::abs((i - ratio) * scale);
+    while i != start
+        + footprint {
+            let value = NumberTrait::one() - NumberTrait::abs((i - ratio) * scale);
 
-        if value < NumberTrait::zero() {
-            coeffs.append(NumberTrait::zero());
-        } else if value > NumberTrait::one() {
-            coeffs.append(NumberTrait::one());
-            sum += NumberTrait::one();
-        } else {
-            coeffs.append(value);
-            sum += value;
-        }
+            if value < NumberTrait::zero() {
+                coeffs.append(NumberTrait::zero());
+            } else if value > NumberTrait::one() {
+                coeffs.append(NumberTrait::one());
+                sum += NumberTrait::one();
+            } else {
+                coeffs.append(value);
+                sum += value;
+            }
 
-        i += NumberTrait::one();
-    };
+            i += NumberTrait::one();
+        };
 
     let n = coeffs.len();
 

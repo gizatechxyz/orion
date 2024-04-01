@@ -137,4 +137,30 @@ impl FP32x32NN of NNTrait<FP32x32> {
     ) -> Tensor<FP32x32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
+
+    fn roi_align(
+        X: @Tensor<FP32x32>,
+        roi: @Tensor<FP32x32>,
+        batch_indices: @Tensor<usize>,
+        coordinate_transformation_mode: Option<
+            orion::operators::nn::functional::roi_align::TRANSFORMATION_MODE
+        >,
+        mode: Option<orion::operators::nn::functional::roi_align::MODE>,
+        output_height: Option<usize>,
+        output_width: Option<usize>,
+        sampling_ratio: Option<FP32x32>,
+        spatial_scale: Option<FP32x32>,
+    ) -> Tensor<FP32x32> {
+        functional::roi_align::roi_align(
+            X,
+            roi,
+            batch_indices,
+            coordinate_transformation_mode,
+            mode,
+            output_height,
+            output_width,
+            sampling_ratio,
+            spatial_scale,
+        )
+    }
 }

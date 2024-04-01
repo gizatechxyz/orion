@@ -47,6 +47,7 @@ You can see below the list of current supported ONNX Operators:
 |            [Col2im](operators/neural-network/nn.col2im\_sigmoid.md)           | :white\_check\_mark: |
 |       [ConvTranspose](operators/neural-network/nn.conv\_transpose_.md)        | :white\_check\_mark: |
 |                  [Conv](operators/neural-network/nn.conv.md)                  | :white\_check\_mark: |
+|             [RoiAlign](operators/neural-network/nn.roi\_align.md)             | :white\_check\_mark: |
 |                    [Sinh](operators/tensor/tensor.sinh.md)                    | :white\_check\_mark: |
 |                   [Asinh](operators/tensor/tensor.asinh.md)                   | :white\_check\_mark: |
 |                   [Atanh](operators/tensor/tensor.atanh.md)                   | :white\_check\_mark: |

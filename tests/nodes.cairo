@@ -985,3 +985,6 @@ mod argmax_negative_axis_keepdims;
 mod argmax_negative_axis_keepdims_select_last_index;
 mod argmax_no_keepdims;
 mod argmax_no_keepdims_select_last_index;
+mod roi_align_mode_max;
+mod roi_align_aligned_false;
+mod roi_align_aligned_true;

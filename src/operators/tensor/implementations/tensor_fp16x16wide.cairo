@@ -75,7 +75,9 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP16x16W>, target_shape: Span<i32>, allowzero: bool) -> Tensor<FP16x16W> {
+    fn reshape(
+        self: @Tensor<FP16x16W>, target_shape: Span<i32>, allowzero: bool
+    ) -> Tensor<FP16x16W> {
         reshape(self, target_shape, allowzero)
     }
 
@@ -93,10 +95,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     }
 
     fn argmax(
-        self: @Tensor<FP16x16W>,
-        axis: i32,
-        keepdims: Option<bool>,
-        select_last_index: Option<bool>
+        self: @Tensor<FP16x16W>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
@@ -724,17 +723,19 @@ fn relative_eq(lhs: @FP16x16W, rhs: @FP16x16W) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP16x16W>, mut rhs: Tensor<FP16x16W>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0 && is_eq {
-        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() != 0 && is_eq {
-        is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
-    };
+    while lhs.data.len() != 0
+        && is_eq {
+            is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+        };
 
     is_eq
 }

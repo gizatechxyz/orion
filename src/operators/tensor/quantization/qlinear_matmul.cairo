@@ -78,14 +78,15 @@ fn qlinear_matmul<
     b_shape_reduced.append(n);
 
     let mut i = 0;
-    while i != stride(a_shape) / (m * k) {
-        result_updates(
-            @subtensor(@dequantized_a, i * (m * k), a_shape_reduced.span()),
-            @subtensor(@dequantized_b, i * (k * n), b_shape_reduced.span()),
-            ref x_data
-        );
-        i += 1;
-    };
+    while i != stride(a_shape)
+        / (m * k) {
+            result_updates(
+                @subtensor(@dequantized_a, i * (m * k), a_shape_reduced.span()),
+                @subtensor(@dequantized_b, i * (k * n), b_shape_reduced.span()),
+                ref x_data
+            );
+            i += 1;
+        };
 
     x_shape(ref x_shape, a_shape, m, n);
     let x = TensorTrait::new(x_shape.span(), x_data.span());
@@ -94,12 +95,13 @@ fn qlinear_matmul<
 }
 
 fn x_shape(ref x_data: Array<usize>, mut shape: Span<usize>, m: usize, n: usize) {
-    while shape.len() != 2 {
-        match shape.pop_front() {
-            Option::Some(elem) => { x_data.append(*elem); },
-            Option::None => { break; }
+    while shape
+        .len() != 2 {
+            match shape.pop_front() {
+                Option::Some(elem) => { x_data.append(*elem); },
+                Option::None => { break; }
+            };
         };
-    };
 
     x_data.append(m);
     x_data.append(n);

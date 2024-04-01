@@ -127,10 +127,11 @@ fn gather_nd<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDr
 
                 if (index == *indices_shape_last - 1) {
                     let mut data_ind: usize = result;
-                    while data_ind != result + incrementer {
-                        index_data.append(data_ind + incr);
-                        data_ind += 1;
-                    };
+                    while data_ind != result
+                        + incrementer {
+                            index_data.append(data_ind + incr);
+                            data_ind += 1;
+                        };
 
                     result = 0;
                 };
