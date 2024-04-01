@@ -9,7 +9,7 @@
 ) -> Tensor<T>;
 ```
 
-Computes instance normalization on the input tensor.
+Computes instance normalization on a given input tensor.
 
 The overall computation has two stages:
 1. The first stage normalizes the elements to have zero mean and unit variance for each instance.
@@ -21,7 +21,7 @@ The overall computation has two stages:
   `C` is the number of channels, and `D1`, `D2`, ..., `Dn` are the remaining dimensions.
 * `scale` (`@Tensor<T>`) - Scale tensor of shape `(C)`.
 * `bias` (`Option<@Tensor<T>>`) - Bias tensor of shape `(C)`. If `None`, no bias is applied.
-* `epsilon` (`Option<T>`) (default is 1e-5) - The epsilon value to use to avoid division by zero.
+* `epsilon` (`Option<T>`) (default is zero) - The epsilon value to use to avoid division by zero.
 
 ## Panics
 
@@ -82,7 +82,6 @@ fn instance_normalization_example() -> Tensor<FP16x16> {
     data.append(FP16x16 { mag: 122125, sign: false });
     data.append(FP16x16 { mag: 97543, sign: false });
     let bias = TensorTrait::new(shape.span(), data.span());
-
 
     return X.instance_normalization(@scale,@bias, epsilon);
 }
