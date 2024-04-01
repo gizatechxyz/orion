@@ -640,6 +640,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn mean(args: Span<Tensor<FP32x32>>) -> Tensor<FP32x32> {
+        math::mean::mean(args)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

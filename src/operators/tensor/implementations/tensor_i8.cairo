@@ -607,6 +607,10 @@ impl I8Tensor of TensorTrait<i8> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn mean(args: Span<Tensor<i8>>) -> Tensor<i8> {
+        math::mean::mean(args)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

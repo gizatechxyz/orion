@@ -644,6 +644,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn mean(args: Span<Tensor<FP16x16>>) -> Tensor<FP16x16> {
+        math::mean::mean(args)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

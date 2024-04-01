@@ -131,6 +131,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// dynamic_quantize_linear - Computes the Scale, Zero Point and FP32->8Bit conversion of FP32 Input data. 
 /// scatter_nd - The output of the operation is produced by creating a copy of the input data, and then updating its value to values specified by updates at specific index positions specified by indices. Its output shape is the same as the shape of data
 /// label_encoder - Maps each element in the input tensor to another value.
+/// mean - Element-wise mean of each of the input tensors.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -5858,6 +5859,60 @@ trait TensorTrait<T> {
         values: Option<Span<T>>,
         values_tensor: Option<Tensor<T>>
     ) -> Tensor<T>;
+    /// # tensor.mean
+    ///
+    /// ```rust 
+    ///    fn mean(args: Span<Tensor<T>>) -> Tensor<T>;
+    /// ```
+    ///
+    /// Element-wise mean of each of the input tensors.
+    /// 
+    ///
+    /// * `args`(`Span<Tensor<T>>`) - List of tensors for mean.
+    ///
+    /// ## Returns
+    ///
+    /// Output tensor. 
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use orion::operators::tensor::{FP8x23Tensor, FP8x23TensorAdd};
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor};
+    /// use orion::utils::{assert_eq, assert_seq_eq};
+    /// use orion::operators::tensor::FP8x23TensorPartialEq;
+    /// use orion::numbers::{FixedTrait, FP8x23};
+    ///
+    ///
+    /// fn example() -> Tensor<FP8x23> {
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(2);
+    ///     shape.append(2);
+    ///
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(FP8x23 { mag: 16777216, sign: true });
+    ///     data.append(FP8x23 { mag: 16777216, sign: false });
+    ///     data.append(FP8x23 { mag: 16777216, sign: true });
+    ///     data.append(FP8x23 { mag: 16777216, sign: false });
+    ///     let tensor1 = TensorTrait::new(shape.span(), data.span());
+    ///
+    ///     let mut shape2 = ArrayTrait::<usize>::new();
+    ///     shape2.append(2);
+    ///     shape2.append(2);
+    ///
+    ///     let mut data2 = ArrayTrait::new();
+    ///     data2.append(FP8x23 { mag: 8388608, sign: false });
+    ///     data2.append(FP8x23 { mag: 0, sign: false });
+    ///     data2.append(FP8x23 { mag: 0, sign: false });
+    ///     data2.append(FP8x23 { mag: 8388608, sign: false });
+    ///     let tensor2 = TensorTrait::new(shape2.span(), data2.span());
+    ///     return TensorTrait::mean(array![tensor1, tensor2].span());
+    /// }
+    /// >>> [FP8x23 { mag: 4194304, sign: false }, FP8x23 { mag: 8388608, sign: true }, FP8x23 { mag: 8388608, sign: false }, FP8x23 { mag: 12582912, sign: true }]
+    /// ```
+    /// 
+    fn mean(args: Span<Tensor<T>>) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring

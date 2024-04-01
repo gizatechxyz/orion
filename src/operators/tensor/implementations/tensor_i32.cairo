@@ -604,6 +604,10 @@ impl I32Tensor of TensorTrait<i32> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn mean(args: Span<Tensor<i32>>) -> Tensor<i32> {
+        math::mean::mean(args)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.
