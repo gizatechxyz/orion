@@ -604,6 +604,10 @@ impl I32Tensor of TensorTrait<i32> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn tile(self: @Tensor<i32>, repeats: Span<usize>) -> Tensor<i32> {
+        math::tile::tile(*self, repeats)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

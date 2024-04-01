@@ -607,6 +607,10 @@ impl I8Tensor of TensorTrait<i8> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn tile(self: @Tensor<i8>, repeats: Span<usize>) -> Tensor<i8> {
+        math::tile::tile(*self, repeats)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

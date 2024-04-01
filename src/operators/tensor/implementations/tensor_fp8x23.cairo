@@ -636,6 +636,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn tile(self: @Tensor<FP8x23>, repeats: Span<usize>) -> Tensor<FP8x23> {
+        math::tile::tile(*self, repeats)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

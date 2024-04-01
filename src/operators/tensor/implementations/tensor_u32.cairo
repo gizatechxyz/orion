@@ -551,6 +551,10 @@ impl U32Tensor of TensorTrait<u32> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn tile(self: @Tensor<u32>, repeats: Span<usize>) -> Tensor<u32> {
+        math::tile::tile(*self, repeats)
+    }
 }
 
 /// Implements addition for `Tensor<u32>` using the `Add` trait.

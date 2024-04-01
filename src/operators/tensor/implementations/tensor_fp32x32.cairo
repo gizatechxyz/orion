@@ -640,6 +640,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn tile(self: @Tensor<FP32x32>, repeats: Span<usize>) -> Tensor<FP32x32> {
+        math::tile::tile(*self, repeats)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.
