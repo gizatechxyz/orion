@@ -604,6 +604,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn tile(self: @Tensor<FP16x16W>, repeats: Span<usize>) -> Tensor<FP16x16W> {
+        math::tile::tile(*self, repeats)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16W>` using the `Add` trait.
