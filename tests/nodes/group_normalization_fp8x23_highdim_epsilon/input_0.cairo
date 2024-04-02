@@ -1,0 +1,65 @@
+use core::array::{ArrayTrait, SpanTrait};
+use orion::operators::tensor::{TensorTrait, Tensor};
+use orion::operators::tensor::{FP8x23Tensor, FP8x23TensorAdd};
+use orion::numbers::{FixedTrait, FP8x23};
+
+fn input_0() -> Tensor<FP8x23> {
+    let mut shape = ArrayTrait::<usize>::new();
+    shape.append(1);
+    shape.append(2);
+    shape.append(2);
+    shape.append(2);
+    shape.append(3);
+    shape.append(2);
+
+    let mut data = ArrayTrait::new();
+    data.append(FP8x23 { mag: 16534593, sign: false });
+    data.append(FP8x23 { mag: 2364497, sign: false });
+    data.append(FP8x23 { mag: 19839052, sign: true });
+    data.append(FP8x23 { mag: 4350120, sign: false });
+    data.append(FP8x23 { mag: 6292139, sign: true });
+    data.append(FP8x23 { mag: 8354814, sign: false });
+    data.append(FP8x23 { mag: 6114249, sign: true });
+    data.append(FP8x23 { mag: 4889008, sign: true });
+    data.append(FP8x23 { mag: 638940, sign: true });
+    data.append(FP8x23 { mag: 13961429, sign: true });
+    data.append(FP8x23 { mag: 5833993, sign: false });
+    data.append(FP8x23 { mag: 2134048, sign: false });
+    data.append(FP8x23 { mag: 2242034, sign: false });
+    data.append(FP8x23 { mag: 16334257, sign: true });
+    data.append(FP8x23 { mag: 9128606, sign: true });
+    data.append(FP8x23 { mag: 1900700, sign: true });
+    data.append(FP8x23 { mag: 15350931, sign: true });
+    data.append(FP8x23 { mag: 13177092, sign: true });
+    data.append(FP8x23 { mag: 3310393, sign: false });
+    data.append(FP8x23 { mag: 6466875, sign: false });
+    data.append(FP8x23 { mag: 6051107, sign: true });
+    data.append(FP8x23 { mag: 12421609, sign: false });
+    data.append(FP8x23 { mag: 17380852, sign: false });
+    data.append(FP8x23 { mag: 12695288, sign: true });
+    data.append(FP8x23 { mag: 3826609, sign: true });
+    data.append(FP8x23 { mag: 1022078, sign: false });
+    data.append(FP8x23 { mag: 5060725, sign: true });
+    data.append(FP8x23 { mag: 15300733, sign: true });
+    data.append(FP8x23 { mag: 7436149, sign: true });
+    data.append(FP8x23 { mag: 4642551, sign: false });
+    data.append(FP8x23 { mag: 9349416, sign: true });
+    data.append(FP8x23 { mag: 3635071, sign: true });
+    data.append(FP8x23 { mag: 1196797, sign: false });
+    data.append(FP8x23 { mag: 4372424, sign: true });
+    data.append(FP8x23 { mag: 8567397, sign: false });
+    data.append(FP8x23 { mag: 13518269, sign: true });
+    data.append(FP8x23 { mag: 4879187, sign: false });
+    data.append(FP8x23 { mag: 14775071, sign: true });
+    data.append(FP8x23 { mag: 3783932, sign: false });
+    data.append(FP8x23 { mag: 3098240, sign: false });
+    data.append(FP8x23 { mag: 6944207, sign: false });
+    data.append(FP8x23 { mag: 3205143, sign: true });
+    data.append(FP8x23 { mag: 12310822, sign: false });
+    data.append(FP8x23 { mag: 12686898, sign: false });
+    data.append(FP8x23 { mag: 6310561, sign: true });
+    data.append(FP8x23 { mag: 2261477, sign: false });
+    data.append(FP8x23 { mag: 1437513, sign: true });
+    data.append(FP8x23 { mag: 791050, sign: false });
+    TensorTrait::new(shape.span(), data.span())
+}

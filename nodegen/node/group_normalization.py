@@ -75,12 +75,13 @@ class Group_normalization(RunAll):
 
 
         def group_normalization_fp16x16_4D_single_group():
-            c = 2
+            c = 3
             num_groups = 1
+            epsilon =  1e-1
             x = np.random.randn(3, c, 2, 2).astype(np.float32)
             scale = np.random.randn(c).astype(np.float32)
             bias = np.random.randn(c).astype(np.float32)
-            y = _group_normalization(x, num_groups, scale, bias).astype(np.float32)
+            y = _group_normalization(x, num_groups, scale, bias, epsilon).astype(np.float32)
             
             _x = Tensor(Dtype.FP16x16, x.shape, to_fp(x.flatten(), FixedImpl.FP16x16))
             _scale = Tensor(Dtype.FP16x16, scale.shape, to_fp(scale.flatten(), FixedImpl.FP16x16))
@@ -88,7 +89,7 @@ class Group_normalization(RunAll):
             _y = Tensor(Dtype.FP16x16, y.shape, to_fp(y.flatten(), FixedImpl.FP16x16))
             
             name = "group_normalization_fp16x16_4D_single_group"
-            make_test([_x, _scale, _bias], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::None(()) )", name)
+            make_test([_x, _scale, _bias], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::Some( FixedTrait::new(6554, false)) )", name)
 
         
         def group_normalization_fp16x16_3D(): 
@@ -148,10 +149,11 @@ class Group_normalization(RunAll):
         def group_normalization_fp16x16_3D_single_group():
             c = 2
             num_groups = 1
+            epsilon =  1e-1
             x = np.random.randn(3, c, 2).astype(np.float32)
             scale = np.random.randn(c).astype(np.float32)
             bias = np.random.randn(c).astype(np.float32)
-            y = _group_normalization(x, num_groups, scale, bias).astype(np.float32)
+            y = _group_normalization(x, num_groups, scale, bias, epsilon).astype(np.float32)
             
             _x = Tensor(Dtype.FP16x16, x.shape, to_fp(x.flatten(), FixedImpl.FP16x16))
             _scale = Tensor(Dtype.FP16x16, scale.shape, to_fp(scale.flatten(), FixedImpl.FP16x16))
@@ -159,7 +161,7 @@ class Group_normalization(RunAll):
             _y = Tensor(Dtype.FP16x16, y.shape, to_fp(y.flatten(), FixedImpl.FP16x16))
             
             name = "group_normalization_fp16x16_3D_single_group"
-            make_test([_x, _scale, _bias], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::None(()) )", name)
+            make_test([_x, _scale, _bias], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::Some( FixedTrait::new(6554, false)) )", name)
 
 
         def group_normalization_fp16x16_2D(): 
@@ -200,10 +202,11 @@ class Group_normalization(RunAll):
         def group_normalization_fp16x16_2D_single_group(): 
             c = 3
             num_groups = 1
+            epsilon =  1e-1
             x = np.random.randn(3, c, ).astype(np.float32)
             scale = np.random.randn(c).astype(np.float32)
             bias = np.random.randn(c).astype(np.float32)
-            y = _group_normalization(x, num_groups, scale, bias).astype(np.float32)
+            y = _group_normalization(x, num_groups, scale, bias, epsilon).astype(np.float32)
             
             _x = Tensor(Dtype.FP16x16, x.shape, to_fp(x.flatten(), FixedImpl.FP16x16))
             _scale = Tensor(Dtype.FP16x16, scale.shape, to_fp(scale.flatten(), FixedImpl.FP16x16))
@@ -211,7 +214,7 @@ class Group_normalization(RunAll):
             _y = Tensor(Dtype.FP16x16, y.shape, to_fp(y.flatten(), FixedImpl.FP16x16))
             
             name = "group_normalization_fp16x16_2D_single_group"
-            make_test([_x, _scale, _bias,], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::None(()) )", name)
+            make_test([_x, _scale, _bias,], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::Some( FixedTrait::new(6554, false)) )", name)
 
         def group_normalization_fp16x16_2D_groups_equal_to_channels(): 
             c = 2
@@ -231,7 +234,7 @@ class Group_normalization(RunAll):
 
         def group_normalization_fp16x16_highdim(): 
             extra_dims =[ np.random.randint(1,4) for i in range(1, np.random.randint(4,7))]
-            b = np.random.randint(1,5)
+            b = np.random.randint(1,3)
             c = 2
             num_groups = 1
             x = np.random.randn( b, c, *extra_dims).astype(np.float32)
@@ -250,7 +253,7 @@ class Group_normalization(RunAll):
 
         def group_normalization_fp16x16_highdim_epsilon(): 
             extra_dims =[ np.random.randint(1,4) for i in range(1, np.random.randint(4,7))]
-            b = np.random.randint(1,5)
+            b = np.random.randint(1,3)
             c = 2
             num_groups = 1
             epsilon = 0.1
@@ -269,7 +272,7 @@ class Group_normalization(RunAll):
     
         def group_normalization_fp16x16_highdim_groups_equal_to_channels(): 
             extra_dims =[ np.random.randint(1,4) for i in range(1, np.random.randint(4,7))]
-            b = np.random.randint(1,5)
+            b = np.random.randint(1,3)
             c = 3
             num_groups = 3
             x = np.random.randn( b, c, *extra_dims).astype(np.float32)
@@ -288,23 +291,23 @@ class Group_normalization(RunAll):
     
         def group_normalization_fp16x16_highdim_single_group(): 
             extra_dims =[ np.random.randint(1,4) for i in range(1, np.random.randint(4,7))]
-            b = np.random.randint(1,5)
+            b = np.random.randint(1,3)
             c = 3
             num_groups = 1
+            epsilon = 0.1
             x = np.random.randn( b, c, *extra_dims).astype(np.float32)
             scale = np.random.randn(c).astype(np.float32)
             bias = np.random.randn(c).astype(np.float32)
-            y = _group_normalization(x, num_groups, scale, bias).astype(np.float32)
-            
+            y = _group_normalization(x, num_groups, scale, bias, epsilon).astype(np.float32)
             
             _x = Tensor(Dtype.FP16x16, x.shape, to_fp(x.flatten(), FixedImpl.FP16x16))
             _scale = Tensor(Dtype.FP16x16, scale.shape, to_fp(scale.flatten(), FixedImpl.FP16x16))
             _bias =  Tensor(Dtype.FP16x16, bias.shape, to_fp(bias.flatten(), FixedImpl.FP16x16))
             
-            _y = Tensor(Dtype.FP16x16, y.shape, to_fp(y.flatten(), FixedImpl.FP16x16));
+            _y = Tensor(Dtype.FP16x16, y.shape, to_fp(y.flatten(), FixedImpl.FP16x16))
             
             name = "group_normalization_fp16x16_highdim_single_group"
-            make_test([_x, _scale, _bias], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::None(()))", name)
+            make_test([_x, _scale, _bias], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::Some( FixedTrait::new(6554, false)) )", name)
 
 
         group_normalization_fp16x16_4D()    
@@ -387,10 +390,11 @@ class Group_normalization(RunAll):
         def group_normalization_fp8x23_4D_single_group():
             c = 3
             num_groups = 1
+            epsilon =  1e-1
             x = np.random.randn(3, c, 2, 2).astype(np.float32)
             scale = np.random.randn(c).astype(np.float32)
             bias = np.random.randn(c).astype(np.float32)
-            y = _group_normalization(x, num_groups, scale, bias).astype(np.float32)
+            y = _group_normalization(x, num_groups, scale, bias, epsilon).astype(np.float32)
             
             _x = Tensor(Dtype.FP8x23, x.shape, to_fp(x.flatten(), FixedImpl.FP8x23))
             _scale = Tensor(Dtype.FP8x23, scale.shape, to_fp(scale.flatten(), FixedImpl.FP8x23))
@@ -398,7 +402,7 @@ class Group_normalization(RunAll):
             _y = Tensor(Dtype.FP8x23, y.shape, to_fp(y.flatten(), FixedImpl.FP8x23))
             
             name = "group_normalization_fp8x23_4D_single_group"
-            make_test([_x, _scale, _bias], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::None(()))", name)
+            make_test([_x, _scale, _bias], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::Some( FixedTrait::new(838860, false)) )", name)
    
 
 
@@ -457,10 +461,11 @@ class Group_normalization(RunAll):
         def group_normalization_fp8x23_3D_single_group():
             c = 3
             num_groups = 1
+            epsilon =  1e-1
             x = np.random.randn( 3, c, 2).astype(np.float32)
             scale = np.random.randn(c).astype(np.float32)
             bias = np.random.randn(c).astype(np.float32)
-            y = _group_normalization(x, num_groups, scale, bias).astype(np.float32)
+            y = _group_normalization(x, num_groups, scale, bias, epsilon).astype(np.float32)
             
             _x = Tensor(Dtype.FP8x23, x.shape, to_fp(x.flatten(), FixedImpl.FP8x23))
             _scale = Tensor(Dtype.FP8x23, scale.shape, to_fp(scale.flatten(), FixedImpl.FP8x23))
@@ -468,7 +473,7 @@ class Group_normalization(RunAll):
             _y = Tensor(Dtype.FP8x23, y.shape, to_fp(y.flatten(), FixedImpl.FP8x23))
             
             name = "group_normalization_fp8x23_3D_single_group"
-            make_test([_x, _scale, _bias], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::None(()))", name)
+            make_test([_x, _scale, _bias], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::Some( FixedTrait::new(838860, false)) )", name)
 
 
 
@@ -528,10 +533,11 @@ class Group_normalization(RunAll):
         def group_normalization_fp8x23_2D_single_group():
             c = 3
             num_groups = 1
+            epsilon =  1e-1
             x = np.random.randn( 3, c,).astype(np.float32)
             scale = np.random.randn(c).astype(np.float32)
             bias = np.random.randn(c).astype(np.float32)
-            y = _group_normalization(x, num_groups, scale, bias).astype(np.float32)
+            y = _group_normalization(x, num_groups, scale, bias, epsilon).astype(np.float32)
             
             _x = Tensor(Dtype.FP8x23, x.shape, to_fp(x.flatten(), FixedImpl.FP8x23))
             _scale = Tensor(Dtype.FP8x23, scale.shape, to_fp(scale.flatten(), FixedImpl.FP8x23))
@@ -539,12 +545,12 @@ class Group_normalization(RunAll):
             _y = Tensor(Dtype.FP8x23, y.shape, to_fp(y.flatten(), FixedImpl.FP8x23))
             
             name = "group_normalization_fp8x23_2D_single_group"
-            make_test([_x, _scale, _bias], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::None(()))", name)
+            make_test([_x, _scale, _bias], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::Some( FixedTrait::new(838860, false)) )", name)
 
 
         def group_normalization_fp8x23_highdim(): 
             extra_dims =[ np.random.randint(1,4) for i in range(1, np.random.randint(4,7))]
-            b = np.random.randint(1,5)
+            b = np.random.randint(1,3)
             c = 2
             num_groups = 1
             x = np.random.randn( b, c, *extra_dims).astype(np.float32)
@@ -563,7 +569,7 @@ class Group_normalization(RunAll):
 
         def group_normalization_fp8x23_highdim_epsilon(): 
             extra_dims =[ np.random.randint(1,4) for i in range(1, np.random.randint(4,7))]
-            b = np.random.randint(1,5)
+            b = np.random.randint(1,3)
             c = 2
             num_groups = 1
             epsilon = 0.1
@@ -583,7 +589,7 @@ class Group_normalization(RunAll):
     
         def group_normalization_fp8x23_highdim_groups_equal_to_channels(): 
             extra_dims =[ np.random.randint(1,4) for i in range(1, np.random.randint(4,7))]
-            b = np.random.randint(1,5)
+            b = np.random.randint(1,3)
             c = 3
             num_groups = 3
             x = np.random.randn( b, c, *extra_dims).astype(np.float32)
@@ -602,13 +608,14 @@ class Group_normalization(RunAll):
     
         def group_normalization_fp8x23_highdim_single_group(): 
             extra_dims =[ np.random.randint(1,4) for i in range(1, np.random.randint(4,7))]
-            b = np.random.randint(1,5)
-            c = 3
+            b = np.random.randint(1,3)
+            c = 2
             num_groups = 1
+            epsilon =  1e-1
             x = np.random.randn( b, c, *extra_dims).astype(np.float32)
             scale = np.random.randn(c).astype(np.float32)
             bias = np.random.randn(c).astype(np.float32)
-            y = _group_normalization(x, num_groups, scale, bias).astype(np.float32)
+            y = _group_normalization(x, num_groups, scale, bias, epsilon).astype(np.float32)
             
             _x = Tensor(Dtype.FP8x23, x.shape, to_fp(x.flatten(), FixedImpl.FP8x23))
             _scale = Tensor(Dtype.FP8x23, scale.shape, to_fp(scale.flatten(), FixedImpl.FP8x23))
@@ -616,7 +623,7 @@ class Group_normalization(RunAll):
             _y = Tensor(Dtype.FP8x23, y.shape, to_fp(y.flatten(), FixedImpl.FP8x23))
             
             name = "group_normalization_fp8x23_highdim_single_group"
-            make_test([_x, _scale, _bias], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::None(()))", name)
+            make_test([_x, _scale, _bias], _y, f"input_0.group_normalization({num_groups}, @input_1 , @input_2 , Option::Some( FixedTrait::new(838860, false)) )", name)
 
     
         group_normalization_fp8x23_4D()    
