@@ -29,12 +29,13 @@ fn transpose<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: D
         let mut input_indices: Array<u32> = array![];
 
         let mut output_axis: usize = 0;
-        while output_axis != axes.len() {
-            let input_axis = find_axis(axes, output_axis);
-            input_indices.append(*output_indices[input_axis]);
+        while output_axis != axes
+            .len() {
+                let input_axis = find_axis(axes, output_axis);
+                input_indices.append(*output_indices[input_axis]);
 
-            output_axis += 1;
-        };
+                output_axis += 1;
+            };
 
         let input_index = ravel_index(*self.shape, input_indices.span());
         output_data.append(*(*self.data)[input_index]);

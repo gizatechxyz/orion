@@ -14,7 +14,7 @@ fn test_reshape_reordered_all_dims() {
     let input_0 = input_0::input_0();
     let z_0 = output_0::output_0();
 
-    let y_0 = input_0.reshape(array![4,2,3].span(), false);
+    let y_0 = input_0.reshape(array![4, 2, 3].span(), false);
 
     assert_eq(y_0, z_0);
 }

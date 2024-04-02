@@ -3,7 +3,9 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
+use orion::operators::tensor::{
+    math, linalg, quantization, core as core_tensor, ml, manipulation, preview_training
+};
 use orion::numbers::{NumberTrait, FP64x64, FP64x64Impl};
 use orion::numbers::fixed_point::implementations::fp64x64::core::ONE;
 use orion::operators::tensor::implementations::{
@@ -89,10 +91,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
     }
 
     fn argmax(
-        self: @Tensor<complex64>,
-        axis: i32,
-        keepdims: Option<bool>,
-        select_last_index: Option<bool>
+        self: @Tensor<complex64>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
@@ -590,6 +589,18 @@ impl Complex64Tensor of TensorTrait<complex64> {
         values: Option<Span<complex64>>,
         values_tensor: Option<Tensor<complex64>>
     ) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+
+    fn momentum(
+        r: complex64,
+        t: complex64,
+        inputs: @Tensor<complex64>,
+        alpha: complex64,
+        beta: complex64,
+        mode: preview_training::momentum::MODE,
+        norm_coefficient: complex64,
+    ) -> (Tensor<complex64>, Tensor<complex64>) {
         panic(array!['not supported!'])
     }
 }

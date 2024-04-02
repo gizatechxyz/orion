@@ -69,42 +69,45 @@ fn split_num_outputs<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     let mut sli: MutMatrix<usize> = MutMatrixImpl::new((*t).shape.len(), 2);
     let mut pos: usize = 0;
     let mut i = 0;
-    while i != (*t).shape.len() {
-        let s: usize = *(*t).shape.at(i);
-        sli.set(i, 0, 0);
-        sli.set(i, 1, s);
-        i += 1;
-    };
+    while i != (*t)
+        .shape
+        .len() {
+            let s: usize = *(*t).shape.at(i);
+            sli.set(i, 0, 0);
+            sli.set(i, 1, s);
+            i += 1;
+        };
 
     let mut i: usize = 0;
-    while i != split.len() {
-        let spl = *split.at(i);
-        sli.set(axis, 0, pos);
-        pos += spl;
-        sli.set(axis, 1, pos);
+    while i != split
+        .len() {
+            let spl = *split.at(i);
+            sli.set(axis, 0, pos);
+            pos += spl;
+            sli.set(axis, 1, pos);
 
-        let end_ele_0 = match sli.get(axis, 0) {
-            Option::Some(res) => res,
-            Option::None => {
-                assert(false, 'Get end_ele_0 is failed');
-                0
-            },
+            let end_ele_0 = match sli.get(axis, 0) {
+                Option::Some(res) => res,
+                Option::None => {
+                    assert(false, 'Get end_ele_0 is failed');
+                    0
+                },
+            };
+            let end_ele_1 = match sli.get(axis, 1) {
+                Option::Some(res) => res,
+                Option::None => {
+                    assert(false, 'Get end_ele_0 is failed');
+                    0
+                },
+            };
+            let starts: Span<usize> = array![sli.get(0, 0).unwrap(), end_ele_0].span();
+            let ends: Span<usize> = array![sli.get(0, 1).unwrap(), end_ele_1].span();
+            let axes: Option<Span<usize>> = Option::None(());
+            let steps: Option<Span<usize>> = Option::None(());
+            let sub_t: Tensor<T> = t.slice(starts, ends, axes, steps);
+            splited_t.append(sub_t);
+            i += 1;
         };
-        let end_ele_1 = match sli.get(axis, 1) {
-            Option::Some(res) => res,
-            Option::None => {
-                assert(false, 'Get end_ele_0 is failed');
-                0
-            },
-        };
-        let starts: Span<usize> = array![sli.get(0, 0).unwrap(), end_ele_0].span();
-        let ends: Span<usize> = array![sli.get(0, 1).unwrap(), end_ele_1].span();
-        let axes: Option<Span<usize>> = Option::None(());
-        let steps: Option<Span<usize>> = Option::None(());
-        let sub_t: Tensor<T> = t.slice(starts, ends, axes, steps);
-        splited_t.append(sub_t);
-        i += 1;
-    };
 
     splited_t
 }
@@ -118,42 +121,46 @@ fn split_has_split<T, +Copy<T>, +Drop<T>, +TensorTrait<T>,>(
     let mut sli: MutMatrix<usize> = MutMatrixImpl::new((*t).shape.len(), 2);
     let mut pos: usize = 0;
     let mut i = 0;
-    while i != (*t).shape.len() {
-        let s: usize = *(*t).shape.at(i);
-        sli.set(i, 0, 0);
-        sli.set(i, 1, s);
-        i += 1;
-    };
+    while i != (*t)
+        .shape
+        .len() {
+            let s: usize = *(*t).shape.at(i);
+            sli.set(i, 0, 0);
+            sli.set(i, 1, s);
+            i += 1;
+        };
 
     let mut i: usize = 0;
-    while i != split.data.len() {
-        let spl: usize = split.at(indices: array![i].span());
-        sli.set(axis, 0, pos);
-        pos += spl;
-        sli.set(axis, 1, pos);
+    while i != split
+        .data
+        .len() {
+            let spl: usize = split.at(indices: array![i].span());
+            sli.set(axis, 0, pos);
+            pos += spl;
+            sli.set(axis, 1, pos);
 
-        let end_ele_0 = match sli.get(axis, 0) {
-            Option::Some(res) => res,
-            Option::None => {
-                assert(false, 'Get end_ele_0 is failed');
-                0
-            },
+            let end_ele_0 = match sli.get(axis, 0) {
+                Option::Some(res) => res,
+                Option::None => {
+                    assert(false, 'Get end_ele_0 is failed');
+                    0
+                },
+            };
+            let end_ele_1 = match sli.get(axis, 1) {
+                Option::Some(res) => res,
+                Option::None => {
+                    assert(false, 'Get end_ele_0 is failed');
+                    0
+                },
+            };
+            let starts: Span<usize> = array![sli.get(0, 0).unwrap(), end_ele_0].span();
+            let ends: Span<usize> = array![sli.get(0, 1).unwrap(), end_ele_1].span();
+            let axes: Option<Span<usize>> = Option::None(());
+            let steps: Option<Span<usize>> = Option::None(());
+            let sub_t: Tensor<T> = t.slice(starts, ends, axes, steps);
+            splited_t.append(sub_t);
+            i += 1;
         };
-        let end_ele_1 = match sli.get(axis, 1) {
-            Option::Some(res) => res,
-            Option::None => {
-                assert(false, 'Get end_ele_0 is failed');
-                0
-            },
-        };
-        let starts: Span<usize> = array![sli.get(0, 0).unwrap(), end_ele_0].span();
-        let ends: Span<usize> = array![sli.get(0, 1).unwrap(), end_ele_1].span();
-        let axes: Option<Span<usize>> = Option::None(());
-        let steps: Option<Span<usize>> = Option::None(());
-        let sub_t: Tensor<T> = t.slice(starts, ends, axes, steps);
-        splited_t.append(sub_t);
-        i += 1;
-    };
 
     splited_t
 }

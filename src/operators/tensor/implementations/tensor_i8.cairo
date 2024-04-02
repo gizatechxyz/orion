@@ -5,7 +5,9 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
+use orion::operators::tensor::{
+    math, linalg, quantization, core as core_tensor, ml, manipulation, preview_training
+};
 use orion::numbers::{NumberTrait};
 use orion::operators::tensor::implementations::{tensor_u32::U32Tensor, tensor_bool::BoolTensor};
 
@@ -438,9 +440,7 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
-    fn gather_elements(
-        self: @Tensor<i8>, indices: Tensor<i32>, axis: Option<i32>
-    ) -> Tensor<i8> {
+    fn gather_elements(self: @Tensor<i8>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<i8> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
@@ -607,6 +607,18 @@ impl I8Tensor of TensorTrait<i8> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn momentum(
+        r: i8,
+        t: i8,
+        inputs: @Tensor<i8>,
+        alpha: i8,
+        beta: i8,
+        mode: preview_training::momentum::MODE,
+        norm_coefficient: i8,
+    ) -> (Tensor<i8>, Tensor<i8>) {
+        preview_training::momentum::momentum(r, t, inputs, alpha, beta, mode, norm_coefficient)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
@@ -707,17 +719,19 @@ impl I8TensorPartialOrd of PartialOrd<Tensor<i8>> {
 fn tensor_eq(mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0 && is_eq {
-        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() == 0 && !is_eq {
-        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
-    };
+    while lhs.data.len() == 0
+        && !is_eq {
+            is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+        };
 
     is_eq
 }
