@@ -5287,7 +5287,7 @@ trait TensorTrait<T> {
     ///     let bias = TensorTrait::new(shape.span(), data.span());
     /// 
     /// 
-    ///     return X.group_normalization(2,scale,bias, epsilon); 
+    ///     return X.group_normalization(2, @scale, @bias, epsilon); 
     /// }
     /// >>> [
     ///      [[-16.5716552734375,3.568634033203125]
