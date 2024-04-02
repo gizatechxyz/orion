@@ -5199,7 +5199,7 @@ trait TensorTrait<T> {
     /// fn group_normalization(self: @Tensor<T>, num_groups: usize, scale: @Tensor<T>, bias: @Tensor<T>, epsilon: Option<T>,) -> Tensor<T> ;
     /// ```
     /// Computes group normalization of a given tensor. 
-    //  The operator divides the channels into groups and computes the mean and variance for each group, followed by normalization over the group and across channels.
+    ///  The operator divides the channels into groups and computes the mean and variance for each group, followed by normalization over the group and across channels.
     ///
     /// The overall process comprises of two stages:
     /// 1. The first stage normalizes the elements to have zero mean and unit variance for each instance.
@@ -5225,7 +5225,7 @@ trait TensorTrait<T> {
     ///
     /// ## Examples
     /// 
-     /// ```rust
+    /// ```rust
     /// use orion::operators::tensor::{TensorTrait, Tensor};
     /// use orion::operators::tensor::FP16x16TensorPartialEq;
     /// use core::array::{ArrayTrait, SpanTrait};
@@ -5285,7 +5285,6 @@ trait TensorTrait<T> {
     ///     data.append(FP16x16 { mag: 23584, sign: true });
     ///     data.append(FP16x16 { mag: 9188, sign: false });
     ///     let bias = TensorTrait::new(shape.span(), data.span());
-    /// 
     /// 
     ///     return X.group_normalization(2, @scale, @bias, epsilon); 
     /// }
