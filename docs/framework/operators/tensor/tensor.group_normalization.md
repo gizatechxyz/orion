@@ -2,7 +2,8 @@
  ``` rust 
 fn group_normalization(self: @Tensor<T>, num_groups: usize, scale: @Tensor<T>, bias: @Tensor<T>, epsilon: Option<T>,) -> Tensor<T> ;
 ```
-Computes group normalization of a given tensor. This normalization divides the channels into groups and computes the mean and variance for each group, followed by normalization over the group and across channels.
+Computes group normalization of a given tensor. 
+//  The operator divides the channels into groups and computes the mean and variance for each group, followed by normalization over the group and across channels.
 
 The overall process comprises of two stages:
 1. The first stage normalizes the elements to have zero mean and unit variance for each instance.
@@ -20,7 +21,7 @@ The overall process comprises of two stages:
 
 * Panics if the input tensor's channels are not divisible by `num_groups`.
 * Panics if the scale tensor's shape is not `(C)`.
-* Panics if the bias tensor is provided and its shape is not `(C)`.
+* Panics if the bias tensor's shape is not `(C)`.
 
 ## Returns
 
