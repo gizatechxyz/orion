@@ -189,40 +189,43 @@ impl SVMRegressorImpl<
 
         let mut z: Array<T> = array![];
         let mut n = 0;
-        while n != *X.shape.at(0) {
-            let mut s = NumberTrait::zero();
-            match mode_ {
-                MODE::SVM_LINEAR => {
-                    let mut x_n = get_row(@X, n);
-                    s = kernel_dot(self.kernel_params, x_n, self.coefficients, kernel_type_);
-                    s += *self.rho.at(0);
-                },
-                MODE::SVM_SVC => {
-                    let mut x_n = get_row(@X, n);
-                    let mut j = 0;
-                    while j != self.n_supports {
-                        let mut sv_j = get_row(@sv, j);
-                        let d = kernel_dot(self.kernel_params, x_n, sv_j, kernel_type_);
-                        s += *self.coefficients.at(j) * d;
-                        j += 1;
+        while n != *X
+            .shape
+            .at(0) {
+                let mut s = NumberTrait::zero();
+                match mode_ {
+                    MODE::SVM_LINEAR => {
+                        let mut x_n = get_row(@X, n);
+                        s = kernel_dot(self.kernel_params, x_n, self.coefficients, kernel_type_);
+                        s += *self.rho.at(0);
+                    },
+                    MODE::SVM_SVC => {
+                        let mut x_n = get_row(@X, n);
+                        let mut j = 0;
+                        while j != self
+                            .n_supports {
+                                let mut sv_j = get_row(@sv, j);
+                                let d = kernel_dot(self.kernel_params, x_n, sv_j, kernel_type_);
+                                s += *self.coefficients.at(j) * d;
+                                j += 1;
+                            };
+
+                        s += *self.rho.at(0);
+                    },
+                }
+                if self.one_class == 1 {
+                    let elem = if s > NumberTrait::zero() {
+                        NumberTrait::one()
+                    } else {
+                        -NumberTrait::one()
                     };
-
-                    s += *self.rho.at(0);
-                },
-            }
-            if self.one_class == 1 {
-                let elem = if s > NumberTrait::zero() {
-                    NumberTrait::one()
+                    z.append(elem);
                 } else {
-                    -NumberTrait::one()
+                    z.append(s);
                 };
-                z.append(elem);
-            } else {
-                z.append(s);
-            };
 
-            n += 1;
-        };
+                n += 1;
+            };
 
         // Post Transform
         let mut score = TensorTrait::new(array![*X.shape.at(0)].span(), z.span());

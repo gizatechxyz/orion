@@ -4,7 +4,9 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
+use orion::operators::tensor::{
+    math, linalg, quantization, core as core_tensor, ml, manipulation, preview_training
+};
 use orion::numbers::{NumberTrait, FP16x16, I8IntoFP16x16};
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
@@ -71,7 +73,9 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP16x16>, target_shape: Span<i32>, allowzero: bool) -> Tensor<FP16x16> {
+    fn reshape(
+        self: @Tensor<FP16x16>, target_shape: Span<i32>, allowzero: bool
+    ) -> Tensor<FP16x16> {
         reshape(self, target_shape, allowzero)
     }
 
@@ -353,9 +357,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         core_tensor::slice::<FP16x16>(self, starts, ends, axes, steps)
     }
 
-    fn gather(
-        self: @Tensor<FP16x16>, indices: Tensor<i32>, axis: Option<i32>
-    ) -> Tensor<FP16x16> {
+    fn gather(self: @Tensor<FP16x16>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<FP16x16> {
         math::gather::gather(self, indices, axis)
     }
 
@@ -644,6 +646,18 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn momentum(
+        r: FP16x16,
+        t: FP16x16,
+        inputs: @Tensor<FP16x16>,
+        alpha: FP16x16,
+        beta: FP16x16,
+        mode: preview_training::momentum::MODE,
+        norm_coefficient: FP16x16,
+    ) -> (Tensor<FP16x16>, Tensor<FP16x16>) {
+        preview_training::momentum::momentum(r, t, inputs, alpha, beta, mode, norm_coefficient)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.
@@ -765,17 +779,19 @@ fn relative_eq(lhs: @FP16x16, rhs: @FP16x16) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP16x16>, mut rhs: Tensor<FP16x16>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0 && is_eq {
-        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() != 0 && is_eq {
-        is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
-    };
+    while lhs.data.len() != 0
+        && is_eq {
+            is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+        };
 
     is_eq
 }

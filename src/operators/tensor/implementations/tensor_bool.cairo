@@ -3,7 +3,9 @@ use orion::operators::tensor::core::{
     constant_of_shape, new_tensor, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_ops, ml, manipulation};
+use orion::operators::tensor::{
+    math, linalg, quantization, core as core_ops, ml, manipulation, preview_training
+};
 use orion::numbers::{NumberTrait};
 use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
 
@@ -550,6 +552,18 @@ impl BoolTensor of TensorTrait<bool> {
         values: Option<Span<bool>>,
         values_tensor: Option<Tensor<bool>>
     ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
+    fn momentum(
+        r: bool,
+        t: bool,
+        inputs: @Tensor<bool>,
+        alpha: bool,
+        beta: bool,
+        mode: preview_training::momentum::MODE,
+        norm_coefficient: bool,
+    ) -> (Tensor<bool>, Tensor<bool>) {
         panic(array!['not supported!'])
     }
 }

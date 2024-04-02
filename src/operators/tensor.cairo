@@ -6,6 +6,7 @@ mod quantization;
 mod implementations;
 mod manipulation;
 mod ml;
+mod preview_training;
 
 use orion::operators::tensor::core::{Tensor, TensorSerde, TensorTrait};
 

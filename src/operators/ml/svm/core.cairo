@@ -81,10 +81,11 @@ fn squared_diff<
 ) -> T {
     let mut i = 0;
     let mut sum = NumberTrait::zero();
-    while i != pA.len() {
-        sum = sum + (*pA.at(i) - *pB.at(i)).pow(NumberTrait::one() + NumberTrait::one());
-        i += 1;
-    };
+    while i != pA
+        .len() {
+            sum = sum + (*pA.at(i) - *pB.at(i)).pow(NumberTrait::one() + NumberTrait::one());
+            i += 1;
+        };
 
     sum
 }

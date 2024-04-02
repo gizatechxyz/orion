@@ -4,7 +4,9 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_ops, ml, manipulation};
+use orion::operators::tensor::{
+    math, linalg, quantization, core as core_ops, ml, manipulation, preview_training
+};
 use orion::numbers::{NumberTrait, FP8x23, I8IntoFP8x23};
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
@@ -635,6 +637,18 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         ml::label_encoder::label_encoder(
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
+    }
+
+    fn momentum(
+        r: FP8x23,
+        t: FP8x23,
+        inputs: @Tensor<FP8x23>,
+        alpha: FP8x23,
+        beta: FP8x23,
+        mode: preview_training::momentum::MODE,
+        norm_coefficient: FP8x23,
+    ) -> (Tensor<FP8x23>, Tensor<FP8x23>) {
+        preview_training::momentum::momentum(r, t, inputs, alpha, beta, mode, norm_coefficient)
     }
 }
 

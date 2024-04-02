@@ -4,7 +4,9 @@ use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
     at_tensor,
 };
-use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
+use orion::operators::tensor::{
+    math, linalg, quantization, core as core_tensor, ml, manipulation, preview_training
+};
 use orion::numbers::{NumberTrait, FP8x23W};
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
@@ -71,7 +73,9 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP8x23W>, target_shape: Span<i32>, allowzero: bool) -> Tensor<FP8x23W> {
+    fn reshape(
+        self: @Tensor<FP8x23W>, target_shape: Span<i32>, allowzero: bool
+    ) -> Tensor<FP8x23W> {
         reshape(self, target_shape, allowzero)
     }
 
@@ -304,9 +308,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         core_tensor::slice::<FP8x23W>(self, starts, ends, axes, steps)
     }
 
-    fn gather(
-        self: @Tensor<FP8x23W>, indices: Tensor<i32>, axis: Option<i32>
-    ) -> Tensor<FP8x23W> {
+    fn gather(self: @Tensor<FP8x23W>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<FP8x23W> {
         math::gather::gather(self, indices, axis)
     }
 
@@ -581,6 +583,18 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn momentum(
+        r: FP8x23W,
+        t: FP8x23W,
+        inputs: @Tensor<FP8x23W>,
+        alpha: FP8x23W,
+        beta: FP8x23W,
+        mode: preview_training::momentum::MODE,
+        norm_coefficient: FP8x23W,
+    ) -> (Tensor<FP8x23W>, Tensor<FP8x23W>) {
+        preview_training::momentum::momentum(r, t, inputs, alpha, beta, mode, norm_coefficient)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.
@@ -725,17 +739,19 @@ fn relative_eq(lhs: @FP8x23W, rhs: @FP8x23W) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP8x23W>, mut rhs: Tensor<FP8x23W>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0 && is_eq {
-        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() != 0 && is_eq {
-        is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
-    };
+    while lhs.data.len() != 0
+        && is_eq {
+            is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+        };
 
     is_eq
 }

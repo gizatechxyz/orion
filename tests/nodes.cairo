@@ -985,3 +985,5 @@ mod argmax_negative_axis_keepdims;
 mod argmax_negative_axis_keepdims_select_last_index;
 mod argmax_no_keepdims;
 mod argmax_no_keepdims_select_last_index;
+mod momentum_standard;
+mod momentum_nesterov;
