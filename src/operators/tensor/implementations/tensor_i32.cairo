@@ -534,6 +534,16 @@ impl I32Tensor of TensorTrait<i32> {
         panic(array!['not supported!'])
     }
 
+    fn group_normalization(
+        self: @Tensor<i32>,
+        num_groups: usize,
+        scale: @Tensor<i32>,
+        bias: @Tensor<i32>,
+        epsilon: Option<i32>,
+    ) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
     fn split(
         self: @Tensor<i32>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<i32>> {

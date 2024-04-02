@@ -481,6 +481,16 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
+    fn group_normalization(
+        self: @Tensor<u32>,
+        num_groups: usize,
+        scale: @Tensor<u32>,
+        bias: @Tensor<u32>,
+        epsilon: Option<u32>,
+    ) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
     fn split(
         self: @Tensor<u32>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<u32>> {

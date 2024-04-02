@@ -502,6 +502,16 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::layer_normalization::layer_normalization(self, scale, B, axis, epsilon, stash_type)
     }
 
+    fn group_normalization(
+        self: @Tensor<FP16x16W>,
+        num_groups: usize,
+        scale: @Tensor<FP16x16W>,
+        bias: @Tensor<FP16x16W>,
+        epsilon: Option<FP16x16W>,
+    ) -> Tensor<FP16x16W> {
+        math::group_normalization::group_normalization(self, num_groups, scale, bias, epsilon)
+    }
+
     fn resize(
         self: @Tensor<FP16x16W>,
         roi: Option<Tensor<FP16x16W>>,
