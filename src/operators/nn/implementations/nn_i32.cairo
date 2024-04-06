@@ -31,6 +31,7 @@ impl I32NN of NNTrait<i32> {
     fn softplus(tensor: @Tensor<i32>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
+    
 
     fn linear(inputs: Tensor<i32>, weights: Tensor<i32>, bias: Tensor<i32>) -> Tensor<i32> {
         functional::linear::linear(inputs, weights, bias)
@@ -45,6 +46,10 @@ impl I32NN of NNTrait<i32> {
     }
 
     fn hard_sigmoid(tensor: @Tensor<i32>, alpha: @i32, beta: @i32) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
+    fn hard_swish(tensor: @Tensor<i32>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 

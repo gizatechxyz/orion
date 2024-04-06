@@ -53,6 +53,10 @@ impl FP32x32NN of NNTrait<FP32x32> {
         functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
     }
 
+    fn hard_swish(tensor: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        functional::hard_swish::hard_swish(*tensor)
+    }
+
     fn depth_to_space(
         tensor: @Tensor<FP32x32>, blocksize: usize, mode: felt252
     ) -> Tensor<FP32x32> {

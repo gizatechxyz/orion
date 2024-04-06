@@ -53,6 +53,10 @@ impl FP64x64NN of NNTrait<FP64x64> {
         functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
     }
 
+    fn hard_swish(tensor: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        functional::hard_swish::hard_swish(*tensor)
+    }
+
     fn depth_to_space(
         tensor: @Tensor<FP64x64>, blocksize: usize, mode: felt252
     ) -> Tensor<FP64x64> {

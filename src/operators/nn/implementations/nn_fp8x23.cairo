@@ -57,6 +57,10 @@ impl FP8x23NN of NNTrait<FP8x23> {
         functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
     }
 
+    fn hard_swish(tensor: @Tensor<FP8x23>) -> Tensor<FP8x23> {
+        functional::hard_swish::hard_swish(*tensor)
+    }
+
     fn depth_to_space(tensor: @Tensor<FP8x23>, blocksize: usize, mode: felt252) -> Tensor<FP8x23> {
         functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
     }
