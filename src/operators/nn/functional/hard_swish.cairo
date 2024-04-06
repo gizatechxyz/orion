@@ -17,7 +17,7 @@ fn hard_swish<
     + Mul<Tensor<T>>,
     +Into<usize, MAG>,
 >(
-    mut x: Tensor<T>, alpha: @T, beta: @T
+    mut x: Tensor<T>
 ) -> Tensor<T> {
     let x_cloned = x.clone();
     let mut data_result: Array<T> = array![];
