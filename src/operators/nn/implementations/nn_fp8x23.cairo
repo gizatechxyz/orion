@@ -3,7 +3,7 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
 use orion::operators::tensor::implementations::tensor_fp8x23::{
-    FP8x23Tensor, FP8x23TensorDiv, FP8x23TensorAdd
+    FP8x23Tensor, FP8x23TensorDiv, FP8x23TensorAdd, FP8x23TensorMul
 };
 use orion::numbers::fixed_point::implementations::fp8x23wide::core::{
     FP8x23WImpl, FP8x23WTryIntoFP8x23, FP8x23W, FP8x23IntoFP8x23W
