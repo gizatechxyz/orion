@@ -136,6 +136,7 @@
     * [tensor.gather\_elements](framework/operators/tensor/tensor.gather\_elements.md)
     * [tensor.gather\_nd](framework/operators/tensor/tensor.gather\_nd.md)
     * [tensor.reduce\_min](framework/operators/tensor/tensor.reduce\_min.md)
+    * [tensor.reduce_max](framework/operators/tensor/tensor.reduce_max.md)
     * [tensor.shrink](framework/operators/tensor/tensor.shrink.md)
     * [tensor.reduce\_mean](framework/operators/tensor/tensor.reduce\_mean.md)
     * [tensor.pow](framework/operators/tensor/tensor.pow.md)

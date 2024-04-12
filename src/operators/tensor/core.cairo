@@ -105,6 +105,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// reduce_l2 - Computes the L2 norm of the input tensor's elements along the provided axes.
 /// gather_elements - GatherElements is an indexing operation that produces its output by indexing into the input data tensor at index positions determined by elements of the indices tensor.
 /// reduce_min - Computes the min of the input tensor's elements along the provided axes.
+/// reduce_max - Computes the max of the input tensor's elements along the provided axes.
 /// shrink – Shrinks the input tensor element-wise to the output tensor with the same datatype and shape based on a defined formula.
 /// reduce_mean - Computes the mean of the input tensor's elements along the provided axes.
 /// pow - Pow takes input data (Tensor) and exponent Tensor, and produces one output data (Tensor) where the function f(x) = x^exponent, is applied to the data tensor elementwise.
