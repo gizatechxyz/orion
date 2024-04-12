@@ -49,6 +49,7 @@ mod bitwise_and;
 mod bitwise_xor;
 mod bitwise_or;
 mod gather_elements;
+mod reduce_max;
 mod reduce_min;
 mod shrink;
 mod reduce_mean;

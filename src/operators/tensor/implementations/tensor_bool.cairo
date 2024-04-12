@@ -409,6 +409,15 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn reduce_max(
+        self: @Tensor<bool>,
+        axes: Option<Span<usize>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
     fn pow(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
