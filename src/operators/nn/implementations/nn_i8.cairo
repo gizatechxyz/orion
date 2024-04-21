@@ -2,6 +2,7 @@ use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::operators::tensor::implementations::tensor_i8::{I8Tensor, I8TensorAdd};
+use orion::operators::nn::AUTO_PAD;
 
 impl I8NN of NNTrait<i8> {
     fn relu(tensor: @Tensor<i8>) -> Tensor<i8> {
@@ -129,5 +130,19 @@ impl I8NN of NNTrait<i8> {
         strides: Option<Span<usize>>,
     ) -> Tensor<i8> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn max_pool(
+        X: @Tensor<i8>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        pads: Option<Span<usize>>,
+        storage_order: Option<usize>,
+        strides: Option<Span<usize>>,
+        output_len: usize,
+    ) -> (Tensor<i8>, Option<Tensor<usize>>) {
+        panic(array!['not supported!'])
     }
 }

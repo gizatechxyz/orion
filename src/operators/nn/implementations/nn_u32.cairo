@@ -2,6 +2,7 @@ use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::operators::tensor::implementations::tensor_u32::{U32Tensor, U32TensorAdd};
+use orion::operators::nn::AUTO_PAD;
 
 impl U32NN of NNTrait<u32> {
     fn relu(tensor: @Tensor<u32>) -> Tensor<u32> {
@@ -129,5 +130,19 @@ impl U32NN of NNTrait<u32> {
         strides: Option<Span<usize>>,
     ) -> Tensor<u32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn max_pool(
+        X: @Tensor<u32>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        pads: Option<Span<usize>>,
+        storage_order: Option<usize>,
+        strides: Option<Span<usize>>,
+        output_len: usize,
+    ) -> (Tensor<u32>, Option<Tensor<usize>>) {
+        panic(array!['not supported!'])
     }
 }

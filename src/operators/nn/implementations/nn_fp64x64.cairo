@@ -5,6 +5,7 @@ use orion::numbers::fixed_point::implementations::fp64x64::core::{FP64x64, FP64x
 use orion::operators::tensor::implementations::tensor_fp64x64::{
     FP64x64Tensor, FP64x64TensorDiv, FP64x64TensorAdd
 };
+use orion::operators::nn::AUTO_PAD;
 
 impl FP64x64NN of NNTrait<FP64x64> {
     fn relu(tensor: @Tensor<FP64x64>) -> Tensor<FP64x64> {
@@ -136,5 +137,29 @@ impl FP64x64NN of NNTrait<FP64x64> {
         strides: Option<Span<usize>>,
     ) -> Tensor<FP64x64> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn max_pool(
+        X: @Tensor<FP64x64>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        pads: Option<Span<usize>>,
+        storage_order: Option<usize>,
+        strides: Option<Span<usize>>,
+        output_len: usize,
+    ) -> (Tensor<FP64x64>, Option<Tensor<usize>>) {
+        functional::max_pool::max_pool(
+            X,
+            auto_pad,
+            ceil_mode,
+            dilations,
+            kernel_shape,
+            pads,
+            storage_order,
+            strides,
+            output_len
+        )
     }
 }

@@ -9,6 +9,7 @@ use orion::numbers::fixed_point::implementations::fp8x23wide::core::{
     FP8x23WImpl, FP8x23WTryIntoFP8x23, FP8x23W, FP8x23IntoFP8x23W
 };
 use orion::operators::tensor::implementations::tensor_fp8x23wide::{FP8x23WTensor};
+use orion::operators::nn::AUTO_PAD;
 
 impl FP8x23NN of NNTrait<FP8x23> {
     fn relu(tensor: @Tensor<FP8x23>) -> Tensor<FP8x23> {
@@ -138,5 +139,29 @@ impl FP8x23NN of NNTrait<FP8x23> {
         strides: Option<Span<usize>>,
     ) -> Tensor<FP8x23> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn max_pool(
+        X: @Tensor<FP8x23>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        pads: Option<Span<usize>>,
+        storage_order: Option<usize>,
+        strides: Option<Span<usize>>,
+        output_len: usize,
+    ) -> (Tensor<FP8x23>, Option<Tensor<usize>>) {
+        functional::max_pool::max_pool(
+            X,
+            auto_pad,
+            ceil_mode,
+            dilations,
+            kernel_shape,
+            pads,
+            storage_order,
+            strides,
+            output_len
+        )
     }
 }
