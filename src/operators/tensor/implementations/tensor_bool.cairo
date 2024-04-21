@@ -541,6 +541,13 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn center_crop_pad(
+        self: @Tensor<bool>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<bool> {
+        let zero = false;
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+    
     fn label_encoder(
         self: @Tensor<bool>,
         default_list: Option<Span<bool>>,

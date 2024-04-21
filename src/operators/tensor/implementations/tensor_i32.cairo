@@ -591,6 +591,13 @@ impl I32Tensor of TensorTrait<i32> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 
+    fn center_crop_pad(
+        self: @Tensor<i32>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<i32> {
+        let zero = 0_i32;
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+    
     fn label_encoder(
         self: @Tensor<i32>,
         default_list: Option<Span<i32>>,

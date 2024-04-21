@@ -623,6 +623,13 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 
+    fn center_crop_pad(
+        self: @Tensor<FP8x23>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<FP8x23> {
+        let zero = NumberTrait::<FP8x23>::zero();
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+    
     fn label_encoder(
         self: @Tensor<FP8x23>,
         default_list: Option<Span<FP8x23>>,
