@@ -13,7 +13,7 @@ impl U32NN of NNTrait<u32> {
         panic(array!['not supported!'])
     }
 
-    fn softmax(tensor: @Tensor<u32>, axis: usize) -> Tensor<u32> {
+    fn softmax(tensor: @Tensor<u32>, axis: Option<i32>) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
 
@@ -130,5 +130,19 @@ impl U32NN of NNTrait<u32> {
         strides: Option<Span<usize>>,
     ) -> Tensor<u32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn max_pool(
+        X: @Tensor<u32>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        pads: Option<Span<usize>>,
+        storage_order: Option<usize>,
+        strides: Option<Span<usize>>,
+        output_len: usize,
+    ) -> (Tensor<u32>, Option<Tensor<usize>>) {
+        panic(array!['not supported!'])
     }
 }

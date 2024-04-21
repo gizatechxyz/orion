@@ -16,7 +16,7 @@ impl FP64x64NN of NNTrait<FP64x64> {
         functional::sigmoid::sigmoid(*tensor)
     }
 
-    fn softmax(tensor: @Tensor<FP64x64>, axis: usize) -> Tensor<FP64x64> {
+    fn softmax(tensor: @Tensor<FP64x64>, axis: Option<i32>) -> Tensor<FP64x64> {
         functional::softmax::softmax(tensor, axis)
     }
 
@@ -137,5 +137,29 @@ impl FP64x64NN of NNTrait<FP64x64> {
         strides: Option<Span<usize>>,
     ) -> Tensor<FP64x64> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn max_pool(
+        X: @Tensor<FP64x64>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        pads: Option<Span<usize>>,
+        storage_order: Option<usize>,
+        strides: Option<Span<usize>>,
+        output_len: usize,
+    ) -> (Tensor<FP64x64>, Option<Tensor<usize>>) {
+        functional::max_pool::max_pool(
+            X,
+            auto_pad,
+            ceil_mode,
+            dilations,
+            kernel_shape,
+            pads,
+            storage_order,
+            strides,
+            output_len
+        )
     }
 }

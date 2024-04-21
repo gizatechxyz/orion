@@ -76,12 +76,17 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP16x16W>, target_shape: Span<usize>) -> Tensor<FP16x16W> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<FP16x16W>, target_shape: Span<i32>, allowzero: bool) -> Tensor<FP16x16W> {
+        reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<FP16x16W>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP16x16W> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
     fn reduce_prod(self: @Tensor<FP16x16W>, axis: usize, keepdims: bool) -> Tensor<FP16x16W> {
@@ -90,10 +95,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
 
     fn argmax(
         self: @Tensor<FP16x16W>,
-        axis: usize,
+        axis: i32,
         keepdims: Option<bool>,
         select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 
@@ -134,11 +139,11 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<usize> {
+    fn less(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<i32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<FP16x16W>, other: @Tensor<FP16x16W>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -334,7 +339,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     }
 
     fn gather(
-        self: @Tensor<FP16x16W>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP16x16W>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP16x16W> {
         math::gather::gather(self, indices, axis)
     }
@@ -432,7 +437,7 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
     }
 
     fn gather_elements(
-        self: @Tensor<FP16x16W>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP16x16W>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP16x16W> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
@@ -607,6 +612,13 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 
+    fn center_crop_pad(
+        self: @Tensor<FP16x16W>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<FP16x16W> {
+        let zero = NumberTrait::<FP16x16W>::zero();
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+    
     fn label_encoder(
         self: @Tensor<FP16x16W>,
         default_list: Option<Span<FP16x16W>>,

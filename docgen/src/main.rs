@@ -59,6 +59,14 @@ fn main() {
     doc_trait(trait_path, doc_path, label);
     doc_functions(trait_path, doc_path, trait_name, label);
 
+    // TREE ENSEMBLE DOC
+    let trait_path = "src/operators/ml/tree_ensemble/tree_ensemble.cairo";
+    let doc_path = "docs/framework/operators/machine-learning/tree-ensemble";
+    let label = "tree_ensemble";
+    let trait_name: &str = "TreeEnsembleTrait";
+    doc_trait(trait_path, doc_path, label);
+    doc_functions(trait_path, doc_path, trait_name, label);
+
     // LINEAR REGRESSOR DOC
     let trait_path = "src/operators/ml/linear/linear_regressor.cairo";
     let doc_path = "docs/framework/operators/machine-learning/linear-regressor";

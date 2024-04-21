@@ -91,24 +91,35 @@ class CairoTest(File):
         This method generates a list of strings that form the template of a Cairo test function,
         including module imports, function definition, and assertions.
         """
-        return [
+        template = [
             *[f"mod input_{i};" for i in range(arg_cnt)],
             *[f"mod output_{i};" for i in range(out_cnt)],
-            *[""],
-            *[""],
+            "",
+            "",
             *[f"use {ref};" for ref in refs],
-            *[""],
-            *["#[test]"],
-            *["#[available_gas(2000000000)]"],
-            *[f"fn test_{name}()" + " {"],
+            "",
+            "#[test]",
+            "#[available_gas(2000000000)]",
+            f"fn test_{name}()" + " {",
             *[f"    let input_{i} = input_{i}::input_{i}();" for i in range(arg_cnt)],
             *[f"    let z_{i} = output_{i}::output_{i}();" for i in range(out_cnt)],
-            *[""],
-            *[f"    let ({', '.join(f'y_{i}' for i in range(out_cnt))}) = {func_sig};"],
-            *[""],
-            *[f"    assert_eq(y_{i}, z_{i});" for i in range(out_cnt)],
-            *["}"],
+            ""
         ]
+
+        # Handling conditional function signature based on the number of outputs
+        if out_cnt > 1:
+            template.append(f"    let ({', '.join(f'y_{i}' for i in range(out_cnt))}) = {func_sig};")
+        else:
+            template.append(f"    let y_0 = {func_sig};")
+
+        # Continue appending to the template
+        template.extend([
+            "",
+            *[f"    assert_eq(y_{i}, z_{i});" for i in range(out_cnt)],
+            "}"
+        ])
+
+        return template
 
     @classmethod
     def sequence_template(cls, name: str, arg_cnt: int, refs: list[str], func_sig: str) -> list[str]:

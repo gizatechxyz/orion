@@ -68,12 +68,17 @@ impl I8Tensor of TensorTrait<i8> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<i8>, target_shape: Span<usize>) -> Tensor<i8> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<i8>, target_shape: Span<i32>, allowzero: bool) -> Tensor<i8> {
+        reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<i8>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<i8> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
     fn reduce_prod(self: @Tensor<i8>, axis: usize, keepdims: bool) -> Tensor<i8> {
@@ -81,8 +86,8 @@ impl I8Tensor of TensorTrait<i8> {
     }
 
     fn argmax(
-        self: @Tensor<i8>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<i8>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 
@@ -120,11 +125,11 @@ impl I8Tensor of TensorTrait<i8> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
+    fn less(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<i8>, other: @Tensor<i8>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -383,7 +388,7 @@ impl I8Tensor of TensorTrait<i8> {
         core_tensor::slice::<i8>(self, starts, ends, axes, steps)
     }
 
-    fn gather(self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i8> {
+    fn gather(self: @Tensor<i8>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<i8> {
         math::gather::gather(self, indices, axis)
     }
 
@@ -474,7 +479,7 @@ impl I8Tensor of TensorTrait<i8> {
     }
 
     fn gather_elements(
-        self: @Tensor<i8>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<i8>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<i8> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
@@ -627,6 +632,13 @@ impl I8Tensor of TensorTrait<i8> {
         self: @Tensor<i8>, updates: Tensor<i8>, indices: Tensor<usize>, reduction: Option<usize>
     ) -> Tensor<i8> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
+
+    fn center_crop_pad(
+        self: @Tensor<i8>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<i8> {
+        let zero = 0_i8;
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
     }
 
     fn label_encoder(
