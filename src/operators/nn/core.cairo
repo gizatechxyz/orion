@@ -947,7 +947,7 @@ trait NNTrait<T> {
         X: @Tensor<T>,
         W: @Tensor<T>,
         B: Option<Span<T>>,
-        auto_pad: Option<orion::operators::nn::functional::conv::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,

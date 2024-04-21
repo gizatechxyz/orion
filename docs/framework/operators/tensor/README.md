@@ -86,6 +86,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.qlinear_matmul`](tensor.qlinear\_matmul.md) | Performs the product of two quantized i8 Tensors. |
 | [`tensor.qlinear_concat`](tensor.qlinear\_concat.md) | Concatenate a list of tensors after dequantizing them with their respective scales and zero_points and returns the quantized result. |
 | [`tensor.qlinear_leakyrelu`](tensor.qlinear\_leakyrelu.md) | Applies the Leaky Relu operator to a quantized Tensor |
+| [`tensor.qlinear_conv`](tensor.qlinear\_conv.md) | Performs convolution on quantized Tensors |
 | [`tensor.gather`](tensor.gather.md) | Gather entries of the axis dimension of data. |
 | [`tensor.nonzero`](tensor.nonzero.md) | Produces indices of the elements that are non-zero (in row-major order - by dimension). |
 | [`tensor.squeeze`](tensor.squeeze.md) | Removes dimensions of size 1 from the shape of a tensor. |

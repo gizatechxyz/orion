@@ -10,6 +10,8 @@ use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
 };
 use orion::numbers::fixed_point::implementations::fp8x23::math::trig::PI;
+use orion::operators::nn::AUTO_PAD;
+use orion::operators::nn::implementations::nn_fp8x23::FP8x23NN;
 
 impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn new(shape: Span<usize>, data: Span<FP8x23>) -> Tensor<FP8x23> {
@@ -335,6 +337,44 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
             a_scale,
             a_zero_point,
             alpha,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
+    fn qlinear_conv(
+        self: @Tensor<i8>,
+        X_scale: @Tensor<FP8x23>,
+        X_zero_point: @Tensor<FP8x23>,
+        W: @Tensor<i8>,
+        W_scale: @Tensor<FP8x23>,
+        W_zero_point: @Tensor<FP8x23>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        y_scale: @Tensor<FP8x23>,
+        y_zero_point: @Tensor<FP8x23>,
+    ) -> Tensor<i8> {
+        quantization::qlinear_conv::qlinear_conv(
+            self,
+            X_scale,
+            X_zero_point,
+            W,
+            W_scale,
+            W_zero_point,
+            B,
+            auto_pad,
+            dilations,
+            group,
+            kernel_shape,
+            pads,
+            strides,
+            y_scale,
+            y_zero_point,
             NumberTrait::new_unscaled(128, true),
             NumberTrait::new_unscaled(127, false)
         )

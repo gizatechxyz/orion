@@ -16,6 +16,7 @@ use orion::numbers::fixed_point::implementations::fp16x16wide::core::{
 };
 
 use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16;
+use orion::operators::nn::AUTO_PAD;
 
 
 impl FP16x16WTensor of TensorTrait<FP16x16W> {
@@ -304,6 +305,26 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         a_zero_point: @Tensor<FP16x16W>,
         alpha: FP16x16W
     ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn qlinear_conv(
+        self: @Tensor<i8>,
+        X_scale: @Tensor<FP16x16W>,
+        X_zero_point: @Tensor<FP16x16W>,
+        W: @Tensor<i8>,
+        W_scale: @Tensor<FP16x16W>,
+        W_zero_point: @Tensor<FP16x16W>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        y_scale: @Tensor<FP16x16W>,
+        y_zero_point: @Tensor<FP16x16W>,
+    ) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
 

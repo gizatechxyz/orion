@@ -122,7 +122,7 @@ impl U32NN of NNTrait<u32> {
         X: @Tensor<u32>,
         W: @Tensor<u32>,
         B: Option<Span<u32>>,
-        auto_pad: Option<functional::conv::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,

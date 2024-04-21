@@ -12,6 +12,8 @@ use orion::operators::tensor::implementations::{
 use orion::numbers::complex_number::complex_trait::ComplexTrait;
 use orion::numbers::complex_number::complex64::{Complex64Impl, complex64};
 
+use orion::operators::nn::AUTO_PAD;
+
 impl Complex64Tensor of TensorTrait<complex64> {
     fn new(shape: Span<usize>, data: Span<complex64>) -> Tensor<complex64> {
         new_tensor(shape, data)
@@ -294,6 +296,26 @@ impl Complex64Tensor of TensorTrait<complex64> {
         a_zero_point: @Tensor<complex64>,
         alpha: complex64
     ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn qlinear_conv(
+        self: @Tensor<i8>,
+        X_scale: @Tensor<complex64>,
+        X_zero_point: @Tensor<complex64>,
+        W: @Tensor<i8>,
+        W_scale: @Tensor<complex64>,
+        W_zero_point: @Tensor<complex64>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        y_scale: @Tensor<complex64>,
+        y_zero_point: @Tensor<complex64>,
+    ) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
 

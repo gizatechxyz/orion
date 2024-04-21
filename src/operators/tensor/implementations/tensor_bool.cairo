@@ -6,6 +6,7 @@ use orion::operators::tensor::core::{
 use orion::operators::tensor::{math, linalg, quantization, core as core_ops, ml, manipulation};
 use orion::numbers::{NumberTrait};
 use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
+use orion::operators::nn::AUTO_PAD;
 
 impl BoolTensor of TensorTrait<bool> {
     fn new(shape: Span<usize>, data: Span<bool>) -> Tensor<bool> {
@@ -324,6 +325,26 @@ impl BoolTensor of TensorTrait<bool> {
     fn qlinear_leakyrelu(
         self: @Tensor<i8>, a_scale: @Tensor<bool>, a_zero_point: @Tensor<bool>, alpha: bool,
     ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn qlinear_conv(
+        self: @Tensor<i8>,
+        X_scale: @Tensor<bool>,
+        X_zero_point: @Tensor<bool>,
+        W: @Tensor<i8>,
+        W_scale: @Tensor<bool>,
+        W_zero_point: @Tensor<bool>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        y_scale: @Tensor<bool>,
+        y_zero_point: @Tensor<bool>,
+    ) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
 

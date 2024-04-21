@@ -129,7 +129,7 @@ impl FP64x64NN of NNTrait<FP64x64> {
         X: @Tensor<FP64x64>,
         W: @Tensor<FP64x64>,
         B: Option<Span<FP64x64>>,
-        auto_pad: Option<functional::conv::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,

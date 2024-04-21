@@ -12,6 +12,7 @@ use orion::operators::tensor::implementations::{
 use orion::numbers::fixed_point::implementations::fp8x23wide::math::trig::PI;
 
 use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
+use orion::operators::nn::AUTO_PAD;
 
 
 impl FP8x23WTensor of TensorTrait<FP8x23W> {
@@ -291,6 +292,26 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     fn qlinear_leakyrelu(
         self: @Tensor<i8>, a_scale: @Tensor<FP8x23W>, a_zero_point: @Tensor<FP8x23W>, alpha: FP8x23W
     ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn qlinear_conv(
+        self: @Tensor<i8>,
+        X_scale: @Tensor<FP8x23W>,
+        X_zero_point: @Tensor<FP8x23W>,
+        W: @Tensor<i8>,
+        W_scale: @Tensor<FP8x23W>,
+        W_zero_point: @Tensor<FP8x23W>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        y_scale: @Tensor<FP8x23W>,
+        y_zero_point: @Tensor<FP8x23W>,
+    ) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
 

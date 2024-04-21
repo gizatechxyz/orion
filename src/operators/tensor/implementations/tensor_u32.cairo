@@ -7,6 +7,7 @@ use orion::operators::tensor::core::{
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
 use orion::numbers::{NumberTrait};
 use orion::operators::tensor::implementations::{tensor_i8::I8Tensor, tensor_bool::BoolTensor};
+use orion::operators::nn::AUTO_PAD;
 
 impl U32Tensor of TensorTrait<u32> {
     fn new(shape: Span<usize>, data: Span<u32>) -> Tensor<u32> {
@@ -279,6 +280,26 @@ impl U32Tensor of TensorTrait<u32> {
     fn qlinear_leakyrelu(
         self: @Tensor<i8>, a_scale: @Tensor<u32>, a_zero_point: @Tensor<u32>, alpha: u32
     ) -> Tensor::<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn qlinear_conv(
+        self: @Tensor<i8>,
+        X_scale: @Tensor<u32>,
+        X_zero_point: @Tensor<u32>,
+        W: @Tensor<i8>,
+        W_scale: @Tensor<u32>,
+        W_zero_point: @Tensor<u32>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        y_scale: @Tensor<u32>,
+        y_zero_point: @Tensor<u32>,
+    ) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
 

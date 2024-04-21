@@ -135,7 +135,7 @@ impl FP16x16NN of NNTrait<FP16x16> {
         X: @Tensor<FP16x16>,
         W: @Tensor<FP16x16>,
         B: Option<Span<FP16x16>>,
-        auto_pad: Option<functional::conv::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,
