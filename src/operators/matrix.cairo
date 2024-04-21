@@ -1,6 +1,3 @@
-use core::array::ArrayTrait;
-use core::option::OptionTrait;
-
 use orion::numbers::NumberTrait;
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
 
@@ -36,10 +33,10 @@ impl MutMatrixImpl<
 
     /// Get the value at (row, col)
     fn at(ref self: MutMatrix<T>, row: usize, col: usize) -> T {
-        return match self.get(row, col) {
+        match self.get(row, col) {
             Option::Some(val) => val,
             Option::None => NumberTrait::zero(),
-        };
+        }
     }
 
     /// Performs the product between a m x n `MutMatrix<T>` and a n x 1 `NullableVec<T>`. 
@@ -48,36 +45,34 @@ impl MutMatrixImpl<
         ref self: MutMatrix<T>, ref vec: NullableVec<T>
     ) -> NullableVec<T> {
         assert(self.cols == vec.len, 'wrong matrix shape for dot');
+
         let m = self.rows;
         let n = self.cols;
 
         let mut result_vec = VecTrait::new();
 
         let mut i = 0_usize;
-        loop {
-            if i == m {
-                break ();
-            }
+        while i != m {
             let mut sum: T = NumberTrait::zero();
             let mut k = 0_usize;
-            loop {
-                if k == n {
-                    break ();
-                }
+            while k != n {
                 sum += MutMatrixImpl::at(ref self, i, k) * VecTrait::at(ref vec, k);
+
                 k += 1;
             };
-            VecTrait::set(ref result_vec, i, sum);
 
+            VecTrait::set(ref result_vec, i, sum);
             i += 1;
         };
-        return result_vec;
+
+        result_vec
     }
 
     /// Set the value at (row, col)
     fn set(ref self: MutMatrix<T>, row: usize, col: usize, value: T) {
         if row < self.rows && col < self.cols {
             let index = row * self.cols + col;
+
             self.data.set(index, value)
         }
     }
@@ -92,13 +87,10 @@ impl MutMatrixImpl<
         assert(axis < 2, 'Invalid axis');
 
         let mut result: Array<usize> = ArrayTrait::new();
+
         if axis == 0 {
             let mut col: usize = 0;
-            loop {
-                if col == self.cols {
-                    break;
-                }
-
+            while col != self.cols {
                 let mut max_value = self.get(0, col);
                 let mut max_value = match max_value {
                     Option::Some => { max_value.unwrap() },
@@ -107,16 +99,13 @@ impl MutMatrixImpl<
                 let mut max_index = 0;
 
                 let mut row: usize = 1;
-                loop {
-                    if row == self.rows {
-                        break;
-                    }
-
+                while row != self.rows {
                     let mut value = self.get(row, col);
                     let mut value = match value {
                         Option::Some => { value.unwrap() },
                         Option::None => { NumberTrait::min_value() }
                     };
+
                     if value > max_value {
                         max_value = value;
                         max_index = row;
@@ -126,7 +115,6 @@ impl MutMatrixImpl<
                 };
 
                 result.append(max_index);
-
                 col += 1;
             };
 
@@ -134,11 +122,7 @@ impl MutMatrixImpl<
         }
 
         let mut row: usize = 0;
-        loop {
-            if row == self.rows {
-                break;
-            }
-
+        while row != self.rows {
             let mut max_value = self.get(row, 0);
             let mut max_value = match max_value {
                 Option::Some => { max_value.unwrap() },
@@ -147,16 +131,13 @@ impl MutMatrixImpl<
             let mut max_index = 0;
 
             let mut col: usize = 1;
-            loop {
-                if col == self.cols {
-                    break;
-                }
-
+            while col != self.cols {
                 let mut value = self.get(row, col);
                 let mut value = match value {
                     Option::Some => { value.unwrap() },
                     Option::None => { NumberTrait::min_value() }
                 };
+
                 if value > max_value {
                     max_value = value;
                     max_index = col;
@@ -166,11 +147,10 @@ impl MutMatrixImpl<
             };
 
             result.append(max_index);
-
             row += 1;
         };
 
-        return result.span();
+        result.span()
     }
 
     /// Apply softmax to the matrix along the specified axis
@@ -181,18 +161,10 @@ impl MutMatrixImpl<
 
         if axis == 0 {
             let mut col: usize = 0;
-            loop {
-                if col == self.cols {
-                    break;
-                }
-
+            while col != self.cols {
                 let mut sum_exp = NumberTrait::zero();
                 let mut row: usize = 0;
-                loop {
-                    if row == self.rows {
-                        break;
-                    }
-
+                while row != self.rows {
                     let value = self.get(row, col).unwrap().into();
                     sum_exp += value.exp();
 
@@ -200,11 +172,7 @@ impl MutMatrixImpl<
                 };
 
                 row = 0;
-                loop {
-                    if row == self.rows {
-                        break;
-                    }
-
+                while row != self.rows {
                     let value = self.get(row, col).unwrap().into();
                     let softmax_value = (value.exp() / sum_exp).into();
                     result.set(row, col, softmax_value);
@@ -216,18 +184,10 @@ impl MutMatrixImpl<
             };
         } else {
             let mut row: usize = 0;
-            loop {
-                if row == self.rows {
-                    break;
-                }
-
+            while row != self.rows {
                 let mut sum_exp = NumberTrait::zero();
                 let mut col: usize = 0;
-                loop {
-                    if col == self.cols {
-                        break;
-                    }
-
+                while col != self.cols {
                     let value = self.get(row, col).unwrap().into();
                     sum_exp += value.exp();
 
@@ -235,11 +195,7 @@ impl MutMatrixImpl<
                 };
 
                 col = 0;
-                loop {
-                    if col == self.cols {
-                        break;
-                    }
-
+                while col != self.cols {
                     let value = self.get(row, col).unwrap().into();
                     let softmax_value = (value.exp() / sum_exp).into();
                     result.set(row, col, softmax_value);
@@ -264,32 +220,23 @@ impl MutMatrixImpl<
 
         if axis == 0 {
             let mut col: usize = 0;
-            loop {
-                if col == self.cols {
-                    break;
-                }
-
+            while col != self.cols {
                 let mut sum_exp = NumberTrait::zero();
                 let mut row: usize = 0;
-                loop {
-                    if row == self.rows {
-                        break;
-                    }
-
+                while row != self.rows {
                     let value = self.get(row, col).unwrap().into();
+
                     if value != NumberTrait::zero() {
                         sum_exp += value.exp();
                     }
+
                     row += 1;
                 };
 
                 row = 0;
-                loop {
-                    if row == self.rows {
-                        break;
-                    }
-
+                while row != self.rows {
                     let value = self.get(row, col).unwrap().into();
+
                     if value != NumberTrait::zero() {
                         let softmax_value = (value.exp() / sum_exp).into();
                         result.set(row, col, softmax_value);
@@ -304,31 +251,20 @@ impl MutMatrixImpl<
             };
         } else {
             let mut row: usize = 0;
-            loop {
-                if row == self.rows {
-                    break;
-                }
-
+            while row != self.rows {
                 let mut sum_exp = NumberTrait::zero();
                 let mut col: usize = 0;
-                loop {
-                    if col == self.cols {
-                        break;
-                    }
-
+                while col != self.cols {
                     let value = self.get(row, col).unwrap().into();
                     if value != NumberTrait::zero() {
                         sum_exp += value.exp();
                     }
+
                     col += 1;
                 };
 
                 col = 0;
-                loop {
-                    if col == self.cols {
-                        break;
-                    }
-
+                while col != self.cols {
                     let value = self.get(row, col).unwrap().into();
 
                     if value != NumberTrait::zero() {
@@ -353,18 +289,11 @@ impl MutMatrixImpl<
         let mut result = MutMatrixImpl::new(self.rows, self.cols);
 
         let mut row: usize = 0;
-        loop {
-            if row == self.rows {
-                break;
-            }
-
+        while row != self.rows {
             let mut col: usize = 0;
-            loop {
-                if col == self.cols {
-                    break;
-                }
-
+            while col != self.cols {
                 let value = self.get(row, col);
+
                 if value.is_some() {
                     let value = NumberTrait::one()
                         / (NumberTrait::one() + (value.unwrap() * NumberTrait::neg_one()).exp());

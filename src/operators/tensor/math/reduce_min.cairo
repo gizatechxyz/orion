@@ -1,9 +1,5 @@
-use core::option::OptionTrait;
-use core::traits::TryInto;
-use core::traits::Into;
-
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
+use alexandria_sorting::bubble_sort;
+use alexandria_data_structures::array_ext::{SpanTraitExt};
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::numbers::NumberTrait;
@@ -11,10 +7,6 @@ use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_i
 use orion::operators::tensor::helpers::{
     reduce_output_shape, len_from_shape, combine_indices, get_all_axes
 };
-
-use alexandria_sorting::bubble_sort;
-use alexandria_data_structures::array_ext::{SpanTraitExt};
-
 
 /// Cf: TensorTrait::reduce_min docstring
 fn reduce_min<
@@ -33,7 +25,7 @@ fn reduce_min<
 ) -> Tensor<T> {
     let noop_with_empty_axes = match noop_with_empty_axes {
         Option::Some(noop_with_empty_axes) => noop_with_empty_axes,
-        Option::None => { false },
+        Option::None => false,
     };
     let axes = match axes {
         Option::Some(axes) => {
@@ -41,7 +33,7 @@ fn reduce_min<
                 get_all_axes(*self.shape)
             } else {
                 assert(axes.len() == axes.unique().len(), 'duplicated axis.');
-                let mut axes_arr = ArrayTrait::new();
+                let mut axes_arr: Array<usize> = array![];
                 let mut copy_axes = axes;
                 loop {
                     match copy_axes.pop_front() {
@@ -54,7 +46,7 @@ fn reduce_min<
             }
         },
         Option::None => {
-            if (noop_with_empty_axes == true) {
+            if noop_with_empty_axes {
                 return *self;
             }
             get_all_axes(*self.shape)
@@ -62,7 +54,7 @@ fn reduce_min<
     };
     let keepdims = match keepdims {
         Option::Some(keepdims) => keepdims,
-        Option::None => { true },
+        Option::None => true,
     };
 
     let mut axis_c = 0;
@@ -78,21 +70,19 @@ fn reduce_min<
                     data = array![current_min].span();
                     break ();
                 }
-                let mut temp_data = ArrayTrait::new();
+                let mut temp_data = array![];
                 let mut temp_shape = reduce_output_shape(shape, *axis - axis_c, false);
                 let data_len = len_from_shape(temp_shape);
                 let mut index: usize = 0;
-                loop {
+                while index != data_len {
                     let indices = unravel_index(index, temp_shape);
                     let current_min = accumulate_min::<T>(data, shape, indices, *axis - axis_c);
 
                     temp_data.append(current_min);
 
                     index += 1;
-                    if index == data_len {
-                        break ();
-                    };
                 };
+
                 shape = temp_shape;
                 data = temp_data.span();
                 axis_c += 1;
@@ -102,7 +92,7 @@ fn reduce_min<
     };
 
     let mut axes_copy = axes;
-    if keepdims == true {
+    if keepdims {
         shape = *self.shape;
         loop {
             match axes_copy.pop_front() {
@@ -110,9 +100,10 @@ fn reduce_min<
                 Option::None => { break; }
             };
         };
-        return TensorTrait::<T>::new(shape, data);
+
+        TensorTrait::<T>::new(shape, data)
     } else {
-        return TensorTrait::<T>::new(shape, data);
+        TensorTrait::<T>::new(shape, data)
     }
 }
 
@@ -145,11 +136,7 @@ fn accumulate_min<
     let mut axis_index = 0;
 
     if (input_shape).len() > 1 {
-        loop {
-            if axis_index == axis_len {
-                break ();
-            }
-
+        while axis_index != axis_len {
             let input_indices = combine_indices(output_indices, axis_index, axis);
             let input_index = ravel_index(input_shape, input_indices);
             let ele = *(input_data)[input_index];
@@ -169,5 +156,6 @@ fn accumulate_min<
             };
         };
     }
-    return min;
+
+    min
 }

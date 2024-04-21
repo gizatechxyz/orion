@@ -1,5 +1,3 @@
-use core::option::OptionTrait;
-
 use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
@@ -15,7 +13,7 @@ impl U32NN of NNTrait<u32> {
         panic(array!['not supported!'])
     }
 
-    fn softmax(tensor: @Tensor<u32>, axis: usize) -> Tensor<u32> {
+    fn softmax(tensor: @Tensor<u32>, axis: Option<i32>) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
 

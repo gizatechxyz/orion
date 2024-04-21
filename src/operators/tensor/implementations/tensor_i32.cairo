@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{TryInto, Into};
-
 use orion::numbers::{I32Div, I32DivEq};
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
@@ -15,7 +10,6 @@ use orion::numbers::{NumberTrait};
 use orion::operators::tensor::implementations::{
     tensor_u32::U32Tensor, tensor_i8::I8Tensor, tensor_bool::BoolTensor
 };
-
 
 impl I32Tensor of TensorTrait<i32> {
     fn new(shape: Span<usize>, data: Span<i32>) -> Tensor<i32> {
@@ -74,21 +68,27 @@ impl I32Tensor of TensorTrait<i32> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<i32>, target_shape: Span<usize>) -> Tensor<i32> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<i32>, target_shape: Span<i32>, allowzero: bool) -> Tensor<i32> {
+        reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<i32>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<i32> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
+
 
     fn reduce_prod(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         math::reduce_prod::reduce_prod(self, axis, keepdims)
     }
 
     fn argmax(
-        self: @Tensor<i32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<i32>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 
@@ -126,11 +126,11 @@ impl I32Tensor of TensorTrait<i32> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+    fn less(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -345,7 +345,7 @@ impl I32Tensor of TensorTrait<i32> {
         core_tensor::slice::<i32>(self, starts, ends, axes, steps)
     }
 
-    fn gather(self: @Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i32> {
+    fn gather(self: @Tensor<i32>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<i32> {
         math::gather::gather(self, indices, axis)
     }
 
@@ -436,7 +436,7 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn gather_elements(
-        self: @Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<i32>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<i32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
@@ -484,6 +484,10 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn reduce_log_sum(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
+    fn reduce_log_sum_exp(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
@@ -573,7 +577,6 @@ impl I32Tensor of TensorTrait<i32> {
         manipulation::reverse_sequence::reverse_sequence(self, sequence_lens, batch_axis, time_axis)
     }
 
-
     fn optional(self: @Tensor<i32>) -> Option<Tensor<i32>> {
         manipulation::optional::optional(self)
     }
@@ -586,6 +589,27 @@ impl I32Tensor of TensorTrait<i32> {
         self: @Tensor<i32>, updates: Tensor<i32>, indices: Tensor<usize>, reduction: Option<usize>
     ) -> Tensor<i32> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
+
+    fn center_crop_pad(
+        self: @Tensor<i32>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<i32> {
+        let zero = 0_i32;
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+    
+    fn label_encoder(
+        self: @Tensor<i32>,
+        default_list: Option<Span<i32>>,
+        default_tensor: Option<Tensor<i32>>,
+        keys: Option<Span<i32>>,
+        keys_tensor: Option<Tensor<i32>>,
+        values: Option<Span<i32>>,
+        values_tensor: Option<Tensor<i32>>
+    ) -> Tensor<i32> {
+        ml::label_encoder::label_encoder(
+            self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
+        )
     }
 }
 
@@ -676,35 +700,30 @@ impl TensorI8IntoTensorI32 of Into<Tensor<i8>, Tensor<i32>> {
 impl I32TensorPartialOrd of PartialOrd<Tensor<i32>> {
     #[inline(always)]
     fn ge(lhs: Tensor<i32>, rhs: Tensor<i32>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
+        SpanPartialOrd::ge(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn gt(lhs: Tensor<i32>, rhs: Tensor<i32>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
+        SpanPartialOrd::gt(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn le(lhs: Tensor<i32>, rhs: Tensor<i32>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
+        SpanPartialOrd::le(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn lt(lhs: Tensor<i32>, rhs: Tensor<i32>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
+        SpanPartialOrd::lt(lhs.data, rhs.data)
     }
 }
 
 // Internals
-
 fn tensor_eq(mut lhs: Tensor<i32>, mut rhs: Tensor<i32>,) -> bool {
     let mut is_eq = true;
 
-    loop {
-        if lhs.shape.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.shape.len() != 0 && is_eq {
         is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
     };
 
@@ -712,28 +731,20 @@ fn tensor_eq(mut lhs: Tensor<i32>, mut rhs: Tensor<i32>,) -> bool {
         return false;
     }
 
-    loop {
-        if lhs.data.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.data.len() != 0 && is_eq {
         is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
     };
 
-    return is_eq;
+    is_eq
 }
 
 fn tensor_i8_to_tensor_i32(x: @Tensor<i8>) -> Tensor<i32> {
     let mut result_data = ArrayTrait::<i32>::new();
     let mut data = *x.data;
 
-    loop {
+    while data.len() != 0 {
         result_data.append((*data.pop_front().unwrap()).into());
-
-        if data.len() == 0 {
-            break ();
-        };
     };
 
-    return TensorTrait::new(*x.shape, result_data.span());
+    TensorTrait::new(*x.shape, result_data.span())
 }

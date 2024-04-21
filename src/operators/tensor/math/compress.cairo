@@ -1,13 +1,4 @@
 use alexandria_data_structures::array_ext::SpanTraitExt;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-
-use core::traits::Into;
-use core::debug::PrintTrait;
-use core::traits::TryInto;
-use core::serde::Serde;
-use core::traits::Destruct;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::U32TensorPartialEq;
@@ -33,9 +24,9 @@ fn compress<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
         assert(*data_shape.at(axis) >= condition.data.len(), 'index out of bound');
     }
 
-    let mut output_shape = ArrayTrait::new();
-    let mut index_data = ArrayTrait::new();
-    let mut output_data = ArrayTrait::new();
+    let mut output_shape = array![];
+    let mut index_data = array![];
+    let mut output_data = array![];
 
     let mut condition_data = condition.data;
 
@@ -153,5 +144,6 @@ fn compress<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDro
     }
 
     let mut output_tensor = TensorTrait::<T>::new(output_shape.span(), output_data.span());
-    return output_tensor;
+
+    output_tensor
 }

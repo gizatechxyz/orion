@@ -10,7 +10,7 @@ import numpy as np
 class FixedImpl(Enum):
     FP8x23 = 'FP8x23'
     FP16x16 = 'FP16x16'
-    FP64x64 = 'FP64x64'
+    FP32x32 = 'FP32x32'
     
 
 
@@ -20,14 +20,15 @@ def to_fp(x: np.ndarray, fp_impl: FixedImpl):
             return (x * 2**23).astype(np.int64)
         case FixedImpl.FP16x16:
             return (x * 2**16).astype(np.int64)
-        case FixedImpl.FP64x64:
-            return (x * 2**64)
+        case FixedImpl.FP32x32:
+            return (x * 2**32).astype(np.int64)
+
 
 
 class Dtype(Enum):
     FP8x23 = 'FP8x23'
     FP16x16 = 'FP16x16'
-    FP64x64 = 'FP64x64'
+    FP32x32 = 'FP32x32'
     I8 = 'i8'
     I32 = 'i32'
     U32 = 'u32'
@@ -173,8 +174,8 @@ def get_data_statement(data: np.ndarray, dtype: Dtype) -> list[str]:
             return ["FP8x23 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
         case Dtype.FP16x16:
             return ["FP16x16 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
-        case Dtype.FP64x64:
-            return ["FP64x64 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
+        case Dtype.FP32x32:
+            return ["FP32x32 { "+f"mag: {abs(int(x))}, sign: {str(x < 0).lower()} "+"}" for x in data.flatten()]
         case Dtype.BOOL:
             return [str(x).lower() for x in data.flatten()]
         case Dtype.COMPLEX64:
@@ -253,6 +254,7 @@ dtype_to_tensor = {
     Dtype.FP16x16: ["orion::operators::tensor::{FP16x16Tensor, FP16x16TensorAdd}",],
     Dtype.BOOL: ["orion::operators::tensor::BoolTensor",],
     Dtype.COMPLEX64: ["orion::operators::tensor::Complex64Tensor",],
+    Dtype.FP32x32: ["orion::operators::tensor::FP32x32Tensor",],
 }
 
 
@@ -280,6 +282,7 @@ dtype_to_partial_eq = {
     Dtype.I8: ["orion::operators::tensor::I8TensorPartialEq",],
     Dtype.FP8x23: ["orion::operators::tensor::FP8x23TensorPartialEq",],
     Dtype.FP16x16: ["orion::operators::tensor::FP16x16TensorPartialEq",],
+    Dtype.FP32x32: ["orion::operators::tensor::FP32x32TensorPartialEq",],
     Dtype.BOOL: ["orion::operators::tensor::BoolTensorPartialEq",],
     Dtype.COMPLEX64: ["orion::operators::tensor::Complex64TensorPartialEq",],
 }
@@ -291,6 +294,7 @@ dtype_to_numbers = {
     Dtype.I8: ["orion::numbers::NumberTrait"],
     Dtype.FP8x23: ["orion::numbers::{FixedTrait, FP8x23}",],
     Dtype.FP16x16: ["orion::numbers::{FixedTrait, FP16x16}",],
+    Dtype.FP32x32: ["orion::numbers::{FixedTrait, FP32x32}",],
     Dtype.BOOL: [],
     Dtype.COMPLEX64: ["orion::numbers::{NumberTrait, complex64}",],
 }

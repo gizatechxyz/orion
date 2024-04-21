@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{TryInto, Into};
-
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -70,12 +65,17 @@ impl U32Tensor of TensorTrait<u32> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<u32>, target_shape: Span<usize>) -> Tensor<u32> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<u32>, target_shape: Span<i32>, allowzero: bool) -> Tensor<u32> {
+        reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<u32>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<u32> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
     fn reduce_prod(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
@@ -83,8 +83,8 @@ impl U32Tensor of TensorTrait<u32> {
     }
 
     fn argmax(
-        self: @Tensor<u32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<u32>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 
@@ -122,11 +122,11 @@ impl U32Tensor of TensorTrait<u32> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+    fn less(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<i32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<u32>, other: @Tensor<u32>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -292,7 +292,7 @@ impl U32Tensor of TensorTrait<u32> {
         core_tensor::slice::<u32>(self, starts, ends, axes, steps)
     }
 
-    fn gather(self: @Tensor<u32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<u32> {
+    fn gather(self: @Tensor<u32>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<u32> {
         math::gather::gather(self, indices, axis)
     }
 
@@ -383,7 +383,7 @@ impl U32Tensor of TensorTrait<u32> {
     }
 
     fn gather_elements(
-        self: @Tensor<u32>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<u32>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<u32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
@@ -431,6 +431,10 @@ impl U32Tensor of TensorTrait<u32> {
     }
 
     fn reduce_log_sum(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
+    fn reduce_log_sum_exp(self: @Tensor<u32>, axis: usize, keepdims: bool) -> Tensor<u32> {
         panic(array!['not supported!'])
     }
 
@@ -505,7 +509,6 @@ impl U32Tensor of TensorTrait<u32> {
         panic(array!['not supported!'])
     }
 
-
     fn split_to_sequence(
         self: @Tensor<u32>, axis: usize, keepdims: usize, split: Option<Tensor<usize>>
     ) -> Array<Tensor<u32>> {
@@ -533,6 +536,27 @@ impl U32Tensor of TensorTrait<u32> {
         self: @Tensor<u32>, updates: Tensor<u32>, indices: Tensor<usize>, reduction: Option<usize>
     ) -> Tensor<u32> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
+    }
+
+    fn center_crop_pad(
+        self: @Tensor<u32>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<u32> {
+        let zero = 0_u32;
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+    
+    fn label_encoder(
+        self: @Tensor<u32>,
+        default_list: Option<Span<u32>>,
+        default_tensor: Option<Tensor<u32>>,
+        keys: Option<Span<u32>>,
+        keys_tensor: Option<Tensor<u32>>,
+        values: Option<Span<u32>>,
+        values_tensor: Option<Tensor<u32>>
+    ) -> Tensor<u32> {
+        ml::label_encoder::label_encoder(
+            self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
+        )
     }
 }
 
@@ -620,22 +644,22 @@ impl U32TryIntoI8 of TryInto<u32, i8> {
 impl U32TensorPartialOrd of PartialOrd<Tensor<u32>> {
     #[inline(always)]
     fn ge(lhs: Tensor<u32>, rhs: Tensor<u32>) -> bool {
-        return SpanPartialOrd::ge(lhs.data, rhs.data);
+        SpanPartialOrd::ge(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn gt(lhs: Tensor<u32>, rhs: Tensor<u32>) -> bool {
-        return SpanPartialOrd::gt(lhs.data, rhs.data);
+        SpanPartialOrd::gt(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn le(lhs: Tensor<u32>, rhs: Tensor<u32>) -> bool {
-        return SpanPartialOrd::le(lhs.data, rhs.data);
+        SpanPartialOrd::le(lhs.data, rhs.data)
     }
 
     #[inline(always)]
     fn lt(lhs: Tensor<u32>, rhs: Tensor<u32>) -> bool {
-        return SpanPartialOrd::lt(lhs.data, rhs.data);
+        SpanPartialOrd::lt(lhs.data, rhs.data)
     }
 }
 
@@ -644,11 +668,7 @@ impl U32TensorPartialOrd of PartialOrd<Tensor<u32>> {
 fn tensor_eq(mut lhs: Tensor<u32>, mut rhs: Tensor<u32>,) -> bool {
     let mut is_eq = true;
 
-    loop {
-        if lhs.shape.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.shape.len() != 0 && is_eq {
         is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
     };
 
@@ -656,13 +676,9 @@ fn tensor_eq(mut lhs: Tensor<u32>, mut rhs: Tensor<u32>,) -> bool {
         return false;
     }
 
-    loop {
-        if lhs.data.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.data.len() != 0 && is_eq {
         is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
     };
 
-    return is_eq;
+    is_eq
 }

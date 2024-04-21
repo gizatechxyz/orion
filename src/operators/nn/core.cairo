@@ -17,8 +17,8 @@ use orion::operators::nn::AUTO_PAD;
 /// gemm - Performs General Matrix multiplication.
 /// grid_sample - Computes the grid sample of the input tensor and input grid.
 /// col2im - Rearranges column blocks back into a multidimensional image
-/// conv_transpose - Performs the convolution transpose of the input data tensor and weigth tensor.
-/// conv - Performs the convolution of the input data tensor and weigth tensor.
+/// conv_transpose - Performs the convolution transpose of the input data tensor and weight tensor.
+/// conv - Performs the convolution of the input data tensor and weight tensor.
 trait NNTrait<T> {
     /// # NNTrait::relu
     ///
@@ -63,7 +63,7 @@ trait NNTrait<T> {
     /// # NNTrait::softmax
     ///
     /// ```rust 
-    ///    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<T>;
+    ///    fn softmax(tensor: @Tensor<T>, axis: Option<i32>) -> Tensor<T>;
     /// ```
     ///
     /// Applies the Softmax function to an n-dimensional input Tensor rescaling them so that the elements of the n-dimensional output Tensor lie in the range \[0,1] and sum to 1.
@@ -75,7 +75,7 @@ trait NNTrait<T> {
     /// ## Args
     ///
     /// * `tensor`(`@Tensor<T>`) - The input tensor.
-    /// * `axis`(`usize`) - The axis along which to compute the softmax.
+    /// * `axis`(`Option<i32>`) - Describes the dimension Softmax will be performed on. Negative value means counting dimensions from the back. Accepted range is [-r, r-1] where r = rank(input).
     ///
     /// ## Returns
     ///
@@ -106,14 +106,14 @@ trait NNTrait<T> {
     ///             .span(),
     ///     );
     /// 
-    ///     return NNTrait::softmax(@tensor, 1);
+    ///     return NNTrait::softmax(@tensor, Option::Some(1));
     /// }
     /// >>> [[2255697,6132911],[2255697,6132911]]
     ///     // The fixed point representation of
     ///     // [[0.2689, 0.7311],[0.2689, 0.7311]]
     /// ```
     ///
-    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<T>;
+    fn softmax(tensor: @Tensor<T>, axis: Option<i32>) -> Tensor<T>;
     /// # NNTrait::softmax_zero
     ///
     /// ```rust 
@@ -835,7 +835,7 @@ trait NNTrait<T> {
     ///     ) -> Tensor<T>
     /// ```
     /// 
-    /// The convolution operator consumes an input tensor and a filter (input weigth tensor), and computes the output.
+    /// The convolution operator consumes an input tensor and a filter (input weight tensor), and computes the output.
     ///
     /// ## Args
     ///
@@ -972,7 +972,7 @@ trait NNTrait<T> {
     /// ) -> Tensor<T>
     /// ```
     /// 
-    /// The convolution transpose operator consumes an input tensor and a input weigth tensor, and computes the output.
+    /// The convolution transpose operator consumes an input tensor and a input weight tensor, and computes the output.
     ///
     /// ## Args
     ///

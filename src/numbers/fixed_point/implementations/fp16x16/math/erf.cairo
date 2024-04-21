@@ -1,4 +1,3 @@
-use core::traits::Into;
 use orion::numbers::fixed_point::implementations::fp16x16::core::{ONE, FP16x16, FixedTrait};
 use orion::numbers::fixed_point::implementations::fp16x16::math::lut::erf_lut;
 
@@ -20,5 +19,6 @@ fn erf(x: FP16x16) -> FP16x16 {
     } else {
         erf_value = ONE;
     }
+
     FP16x16 { mag: erf_value, sign: x.sign }
 }

@@ -545,4 +545,3 @@ impl TreeEnsembleClassifierImpl<
         return (labels_list.span(), new_scores);
     }
 }
-

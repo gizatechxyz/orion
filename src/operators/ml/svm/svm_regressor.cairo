@@ -187,12 +187,9 @@ impl SVMRegressorImpl<
             (mode_, kernel_type_, sv)
         };
 
-        let mut z = ArrayTrait::new();
+        let mut z: Array<T> = array![];
         let mut n = 0;
-        loop {
-            if n == *X.shape.at(0) {
-                break;
-            }
+        while n != *X.shape.at(0) {
             let mut s = NumberTrait::zero();
             match mode_ {
                 MODE::SVM_LINEAR => {
@@ -203,15 +200,13 @@ impl SVMRegressorImpl<
                 MODE::SVM_SVC => {
                     let mut x_n = get_row(@X, n);
                     let mut j = 0;
-                    loop {
-                        if j == self.n_supports {
-                            break;
-                        }
+                    while j != self.n_supports {
                         let mut sv_j = get_row(@sv, j);
                         let d = kernel_dot(self.kernel_params, x_n, sv_j, kernel_type_);
                         s += *self.coefficients.at(j) * d;
                         j += 1;
                     };
+
                     s += *self.rho.at(0);
                 },
             }
@@ -225,20 +220,22 @@ impl SVMRegressorImpl<
             } else {
                 z.append(s);
             };
+
             n += 1;
         };
 
         // Post Transform
         let mut score = TensorTrait::new(array![*X.shape.at(0)].span(), z.span());
+
         score = match self.post_transform {
             POST_TRANSFORM::NONE => score,
-            POST_TRANSFORM::SOFTMAX => NNTrait::softmax(@score, 1),
+            POST_TRANSFORM::SOFTMAX => NNTrait::softmax(@score, Option::Some(1)),
             POST_TRANSFORM::LOGISTIC => NNTrait::sigmoid(@score),
             POST_TRANSFORM::SOFTMAXZERO => NNTrait::softmax_zero(@score, 1),
             POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
         };
 
-        return score;
+        score
     }
 }
 

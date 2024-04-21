@@ -1,5 +1,3 @@
-use core::option::OptionTrait;
-
 use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
@@ -24,7 +22,7 @@ impl FP16x16NN of NNTrait<FP16x16> {
         functional::sigmoid::sigmoid(*tensor)
     }
 
-    fn softmax(tensor: @Tensor<FP16x16>, axis: usize) -> Tensor<FP16x16> {
+    fn softmax(tensor: @Tensor<FP16x16>, axis: Option<i32>) -> Tensor<FP16x16> {
         functional::softmax::softmaxWide::<FP16x16, u32, FP16x16W, u64>(tensor, axis)
     }
 

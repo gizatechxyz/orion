@@ -1,11 +1,14 @@
 use core::option::OptionTrait;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
+use core::traits::TryInto;
+use alexandria_sorting::bubble_sort;
+use alexandria_data_structures::array_ext::{SpanTraitExt};
 
+use orion::numbers::fixed_point::core::FixedTrait;
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
-use orion::operators::tensor::helpers::{reduce_output_shape, len_from_shape, combine_indices};
-
+use orion::operators::tensor::helpers::{
+    reduce_output_shape, len_from_shape, combine_indices, get_all_axes
+};
 
 /// Cf: TensorTrait::reduce_sum docstring
 fn reduce_sum<
@@ -13,49 +16,107 @@ fn reduce_sum<
     MAG,
     impl TTensor: TensorTrait<T>,
     impl TNumber: NumberTrait<T, MAG>,
-    impl TAddEq: AddEq<T>,
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>
 >(
-    self: @Tensor<T>, axis: usize, keepdims: bool
+    self: @Tensor<T>,
+    axes: Option<Span<i32>>,
+    keepdims: Option<bool>,
+    noop_with_empty_axes: Option<bool>
 ) -> Tensor<T> {
-    let mut output_data = ArrayTrait::new();
+    let noop_with_empty_axes = match noop_with_empty_axes {
+        Option::Some(noop_with_empty_axes) => noop_with_empty_axes,
+        Option::None => false,
+    };
+    let axes = match axes {
+        Option::Some(axes) => {
+            if (axes.len() == 0) {
+                get_all_axes(*self.shape)
+            } else {
+                assert(axes.len() == axes.unique().len(), 'duplicated axis.');
+                let mut axes_arr: Array<usize> = array![];
+                let mut copy_axes = axes.clone();
+                loop {
+                    match copy_axes.pop_front() {
+                        Option::Some(axis) => {
+                            // Adjust negative axes to positive
+                            let adjusted_axis = if *axis < 0 {
+                                ((*self.shape).len().try_into().unwrap() + *axis)
+                                    .try_into()
+                                    .unwrap()
+                            } else {
+                                (*axis).try_into().unwrap()
+                            };
+                            axes_arr.append(adjusted_axis);
+                        },
+                        Option::None => { break; }
+                    };
+                };
+                let sorted_axes = bubble_sort::bubble_sort_elements(axes_arr, true).span();
+                sorted_axes
+            }
+        },
+        Option::None => {
+            if noop_with_empty_axes {
+                return *self;
+            }
+            get_all_axes(*self.shape)
+        },
+    };
+    let keepdims = match keepdims {
+        Option::Some(keepdims) => keepdims,
+        Option::None => true,
+    };
 
-    if (*self.shape).len() == 1 {
-        assert(axis == 0, 'axis out of dimensions');
-        let current_sum = accumulate_sum::<T>(*self.data, *self.shape, *self.shape, axis);
-        output_data.append(current_sum);
+    let mut axis_c = 0;
+    let mut copy_axes = axes.clone();
+    let mut shape = *self.shape;
+    let mut data = *self.data;
+    loop {
+        match copy_axes.pop_front() {
+            Option::Some(axis) => {
+                if (shape.len() == 1) {
+                    let current_sum = accumulate_sum::<T>(data, shape, shape, 0);
+                    shape = array![].span();
+                    data = array![current_sum].span();
+                    break ();
+                }
+                let mut temp_data = array![];
+                let mut temp_shape = reduce_output_shape(shape, *axis - axis_c, false);
+                let data_len = len_from_shape(temp_shape);
+                let mut index: usize = 0;
+                while index != data_len {
+                    let indices = unravel_index(index, temp_shape);
+                    let current_sum = accumulate_sum::<T>(data, shape, indices, *axis - axis_c);
 
-        let mut output_shape = ArrayTrait::new();
-        output_shape.append(1);
+                    temp_data.append(current_sum);
 
-        return TensorTrait::new(output_shape.span(), output_data.span());
-    } else {
-        assert(axis <= (*self.shape).len(), 'axis out of dimensions');
-        let output_shape = reduce_output_shape(*self.shape, axis, false);
-        let output_data_len = len_from_shape(output_shape);
-        let mut index: usize = 0;
+                    index += 1;
+                };
+
+                shape = temp_shape;
+                data = temp_data.span();
+                axis_c += 1;
+            },
+            Option::None => { break; }
+        };
+    };
+
+    let mut axes_copy = axes.clone();
+    if keepdims {
+        shape = *self.shape;
         loop {
-            let output_indices = unravel_index(index, output_shape);
-            let current_sum = accumulate_sum::<T>(*self.data, *self.shape, output_indices, axis);
-
-            output_data.append(current_sum);
-
-            index += 1;
-            if index == output_data_len {
-                break ();
+            match axes_copy.pop_front() {
+                Option::Some(axis) => { shape = reduce_output_shape(shape, *axis, true); },
+                Option::None => { break; }
             };
         };
 
-        if keepdims {
-            let output_shape = reduce_output_shape(*self.shape, axis, true);
-            return TensorTrait::<T>::new(output_shape, output_data.span());
-        } else {
-            return TensorTrait::<T>::new(output_shape, output_data.span());
-        }
+        TensorTrait::<T>::new(shape, data)
+    } else {
+        TensorTrait::<T>::new(shape, data)
     }
 }
-
 
 /// Helper function that accumulates the sum of elements along a specific axis.
 ///
@@ -69,42 +130,34 @@ fn reduce_sum<
 /// * Panics if gas limit is exceeded during execution.
 ///
 /// # Returns
-/// * An i32 value representing the accumulated sum along the specified axis.
+/// * A value representing the accumulated sum along the specified axis.
 fn accumulate_sum<
-    T,
-    MAG,
-    impl TNumber: NumberTrait<T, MAG>,
-    impl TAddEq: AddEq<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>
+    T, MAG, impl TNumber: NumberTrait<T, MAG>, impl TCopy: Copy<T>, impl TDrop: Drop<T>
 >(
     mut input_data: Span<T>, input_shape: Span<usize>, output_indices: Span<usize>, axis: usize
 ) -> T {
     let axis_len = *(input_shape)[axis];
-    let mut acc: T = NumberTrait::zero();
+    let mut sum: T = NumberTrait::zero();
 
-    let mut axis_index: usize = 0;
+    let mut axis_index = 0;
 
     if (input_shape).len() > 1 {
-        loop {
-            if axis_index == axis_len {
-                break ();
-            }
-
+        while axis_index != axis_len {
             let input_indices = combine_indices(output_indices, axis_index, axis);
             let input_index = ravel_index(input_shape, input_indices);
             let ele = *(input_data)[input_index];
-            acc += ele;
+            sum = NumberTrait::add(sum, ele);
+
             axis_index += 1;
         };
     } else {
         loop {
             match input_data.pop_front() {
-                Option::Some(item) => { acc += *item; },
+                Option::Some(item) => sum = NumberTrait::add(sum, *item),
                 Option::None => { break; }
             };
         };
     }
 
-    return acc;
+    sum
 }

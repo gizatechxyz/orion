@@ -1,12 +1,10 @@
-use core::array::ArrayTrait;
 use alexandria_data_structures::array_ext::SpanTraitExt;
-use orion::numbers::NumberTrait;
-use orion::operators::tensor::{Tensor, TensorTrait, U32Tensor};
-use orion::utils::get_row;
-
 use alexandria_merkle_tree::merkle_tree::{pedersen::PedersenHasherImpl};
 use alexandria_data_structures::array_ext::ArrayTraitExt;
 
+use orion::numbers::NumberTrait;
+use orion::operators::tensor::{Tensor, TensorTrait, U32Tensor};
+use orion::utils::get_row;
 
 #[derive(Copy, Drop, Destruct)]
 struct TreeEnsembleAttributes<T> {
@@ -38,7 +36,6 @@ enum NODE_MODES {
     BRANCH_NEQ,
     LEAF
 }
-
 
 #[generate_trait]
 impl TreeEnsembleImpl<
@@ -91,18 +88,15 @@ impl TreeEnsembleImpl<
 
         index
     }
+
     fn leave_index_tree(ref self: TreeEnsemble<T>, x: Tensor<T>) -> Tensor<usize> {
-        let mut outputs = ArrayTrait::new();
+        let mut outputs: Array<usize> = array![];
 
         let mut i: usize = 0;
         let breaker: usize = *x.shape[0];
-        loop {
-            if i == breaker {
-                break;
-            }
-
+        while i != breaker {
             let row_data: Span<T> = get_row(@x, i);
-            let mut outs = ArrayTrait::new();
+            let mut outs: Array<usize> = array![];
             let mut tree_ids = self.tree_ids;
             loop {
                 match tree_ids.pop_front() {
@@ -115,6 +109,7 @@ impl TreeEnsembleImpl<
                     Option::None => { break; }
                 };
             };
+
             outputs.append_all(ref outs);
             i += 1;
         };

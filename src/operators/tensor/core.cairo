@@ -15,6 +15,8 @@ struct Tensor<T> {
     data: Span<T>,
 }
 
+
+
 //Implement TensorSerde
 impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<T>> {
     fn serialize(self: @Tensor<T>, ref output: Array<felt252>) {
@@ -117,6 +119,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// gather_nd - Given data tensor of rank r >= 1, indices tensor of rank q >= 1, and batch_dims integer b, this operator gathers slices of data into an output tensor of rank q + r - indices_shape[-1] - 1 - b.
 /// reduce_log_sum - Computes the log sum of the input tensor's elements along the provided axes. 
 /// erf - Computes the error function of the given input tensor element-wise.
+/// reduce_log_sum_exp - Computes the log sum of the exponentials of the input tensor's elements along the provided axes.
 /// layer_normalization - computes the layer normalization of the input tensor.
 /// split - Split a tensor into a list of tensors, along the specified ‘axis’. 
 /// random_uniform_like - RandomUniformLike generates a tensor with random values using a uniform distribution, matching the shape of the input tensor.
@@ -129,6 +132,10 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// optional - Constructs an optional-type value containing either an empty optional of a certain type specified by the attribute, or a non-empty value containing the input element.
 /// dynamic_quantize_linear - Computes the Scale, Zero Point and FP32->8Bit conversion of FP32 Input data. 
 /// scatter_nd - The output of the operation is produced by creating a copy of the input data, and then updating its value to values specified by updates at specific index positions specified by indices. Its output shape is the same as the shape of data
+/// center_crop_pad - Center crop or pad an input to given dimensions.
+/// label_encoder - Maps each element in the input tensor to another value.
+
+
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -276,7 +283,7 @@ trait TensorTrait<T> {
     ///    fn min(tensors: Span<Tensor<T>>) -> Tensor<T>;
     /// ```
     ///
-    /// Returns the element-wise minumum values from a list of input tensors
+    /// Returns the element-wise minimum values from a list of input tensors
     /// The input tensors must have either:
     /// * Exactly the same shape
     /// * The same number of dimensions and the length of each dimension is either a common length or 1.
@@ -556,15 +563,21 @@ trait TensorTrait<T> {
     /// # tensor.reshape
     ///
     /// ```rust 
-    ///    fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
+    ///    fn reshape(self: @Tensor<T>, target_shape: Span<i32>, allowzero: bool) -> Tensor<T>;
     /// ```
     ///
-    /// Returns a new tensor with the specified target shape and the same data as the input tensor.
+    /// Reshape the input tensor similar to numpy.reshape. First input is the data tensor, second 
+    /// input is a shape tensor which specifies the output shape. It outputs the reshaped tensor. 
+    /// At most one dimension of the new shape can be -1. In this case, the value is inferred from 
+    /// the size of the tensor and the remaining dimensions. A dimension could also be 0, in which case 
+    /// the actual dimension value is unchanged (i.e. taken from the input tensor). If 'allowzero' is set,
+    /// and the new shape includes 0, the dimension will be set explicitly to zero (i.e. not taken from input tensor)
     ///
     /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
-    /// * `target_shape`(Span<usize>) - A span containing the target shape of the tensor.
+    /// * `target_shape`(Span<i32>) - A span containing the target shape of the tensor.
+    /// * `allowzero`(`bool`) - Indicates that if any value in the 'shape' input is set to zero, the zero value is honored, similar to NumPy.
     ///
     /// ## Panics
     ///
@@ -587,12 +600,12 @@ trait TensorTrait<T> {
     ///     );
     /// 
     ///     // We can call `reshape` function as follows.
-    ///     return tensor.reshape(target_shape: array![2, 4].span());
+    ///     return tensor.reshape(target_shape: array![2, 4].span(), false);
     /// }
     /// >>> [[0,1,2,3], [4,5,6,7]]
     /// ```
     ///
-    fn reshape(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T>;
+    fn reshape(self: @Tensor<T>, target_shape: Span<i32>, allowzero: bool) -> Tensor<T>;
     /// # tensor.transpose
     ///
     /// ```rust 
@@ -636,7 +649,7 @@ trait TensorTrait<T> {
     /// ## tensor.reduce_sum
     ///
     /// ```rust 
-    ///    fn reduce_sum(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
+    ///    fn reduce_sum(self: @Tensor<T>, axes: Option<Span<i32>>, keepdims: Option<bool>, noop_with_empty_axes: Option<bool>) -> Tensor<T>;
     /// ```
     ///
     /// Reduces a tensor by summing its elements along a specified axis.
@@ -644,16 +657,13 @@ trait TensorTrait<T> {
     /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
-    /// * `axis`(`usize`) - The dimension to reduce.
-    /// * `keepdims`(`bool`) - If true, retains reduced dimensions with length 1.
-    ///
-    /// ## Panics 
-    /// 
-    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    /// * `axes`(`Option<Span<i32>>`) - Optional input list of integers, along which to reduce. The default is to reduce over all the dimensions of the input tensor if 'noop_with_empty_axes' is false, else act as an Identity op when 'noop_with_empty_axes' is true.
+    /// * `keepdims`(`Option<bool>`) - Keep the reduced dimension or not, default 1 means keep reduced dimension.
+    /// * `noop_with_empty_axes`(`Option<bool>`) - Defines behavior if 'axes' is empty. Default behavior with 'false' is to reduce all axes. When axes is empty and this attribute is set to true, input tensor will not be reduced,and the output tensor would be equivalent to input tensor.
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<T>` instance with the specified axis reduced by summing its elements.
+    /// Reduced output tensor.
     ///
     /// ## Examples
     ///
@@ -668,16 +678,21 @@ trait TensorTrait<T> {
     ///     );
     /// 
     ///     // We can call `reduce_sum` function as follows.
-    ///     return tensor.reduce_sum(axis: 0, keepdims: false);
+    ///     return tensor.reduce_sum(axes: Option::None, keepdims: false);
     /// }
     /// >>> [[4,6],[8,10]]
     /// ```
     ///
-    fn reduce_sum(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
+    fn reduce_sum(
+        self: @Tensor<T>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<T>; 
     /// # tensor.argmax
     ///
     /// ```rust 
-    ///    fn argmax(self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<usize>;
+    ///    fn argmax(self: @Tensor<T>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>) -> Tensor<i32>;
     /// ```
     ///
     /// Returns the index of the maximum value along the specified axis.
@@ -685,7 +700,7 @@ trait TensorTrait<T> {
     /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
-    /// * `axis`(`usize`) - The axis along which to compute the argmax.
+    /// * `axis`(`i32`) - The axis along which to compute the argmax.
     /// * `keepdims`(`Option<bool>`) - If true, retains reduced dimensions with length 1. Defaults to true.
     /// * `select_last_index`(`Option<bool>`) - If true, the index of the last occurrence of the maximum value is returned. Defaults to false.   
     ///
@@ -755,8 +770,8 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn argmax(
-        self: @Tensor<T>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize>;
+        self: @Tensor<T>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32>;
     /// # tensor.argmin
     ///
     /// ```rust 
@@ -1242,7 +1257,7 @@ trait TensorTrait<T> {
     /// #tensor.less
     ///
     /// ```rust
-    ///     fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// ```
     ///
     /// Check if each element of the first tensor is less than the corresponding element of the second tensor.
@@ -1261,7 +1276,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    /// A new `Tensor<bool>` of booleans with the same shape as the broadcasted inputs.
     ///
     /// ## Examples
     ///
@@ -1272,7 +1287,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn less_example() -> Tensor<usize> {
+    /// fn less_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1294,7 +1309,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn less_example() -> Tensor<usize> {
+    /// fn less_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1307,11 +1322,11 @@ trait TensorTrait<T> {
     /// >>> [0,0,0,0,0,0,0,1,1]
     /// ```
     ///
-    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn less(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// #tensor.less_equal
     ///
     /// ```rust
-    ///     fn less_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    ///     fn less_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// ```
     ///
     /// Check if each element of the first tensor is less than or equal to the corresponding element of the second tensor.
@@ -1330,7 +1345,7 @@ trait TensorTrait<T> {
     ///
     /// ## Returns
     ///
-    /// A new `Tensor<usize>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
+    /// A new `Tensor<i32>` of booleans (0 or 1) with the same shape as the broadcasted inputs.
     ///
     /// ## Examples
     ///
@@ -1341,7 +1356,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn less_equal_example() -> Tensor<usize> {
+    /// fn less_equal_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1363,7 +1378,7 @@ trait TensorTrait<T> {
     /// 
     /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
     /// 
-    /// fn less_equal_example() -> Tensor<usize> {
+    /// fn less_equal_example() -> Tensor<i32> {
     ///     let tensor_1 = TensorTrait::<u32>::new(
     ///         shape: array![3, 3, 3].span(), data: array![0, 1, 2, 3, 4, 5, 6, 7, 8].span(),
     ///     );
@@ -1376,7 +1391,7 @@ trait TensorTrait<T> {
     /// >>> [1,1,1,0,0,0,1,1,1]
     /// ```
     ///
-    fn less_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<usize>;
+    fn less_equal(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<i32>;
     /// #tensor.abs
     ///
     /// ```rust
@@ -2579,7 +2594,7 @@ trait TensorTrait<T> {
     ///
     /// It consumes two quantized input tensors, their scales and zero points, scale and zero point of output, and computes the quantized output. 
     /// The quantization formula is y = saturate((x / y_scale) + y_zero_point).
-    /// It perfoms the addition of the two vectors once dequantized, then return the quantization of the result of the addition.
+    /// It performs the addition of the two vectors once dequantized, then return the quantization of the result of the addition.
     /// The broadcasting is supported
     /// Scale and zero point must have same shape and the same type. They must be either scalar (per tensor) or N-D tensor (per row for 'a' and per column for 'b'). 
     /// Scalar refers to per tensor quantization whereas N-D refers to per row or per column quantization.
@@ -2677,7 +2692,7 @@ trait TensorTrait<T> {
     ///
     /// It consumes two quantized input tensors, their scales and zero points, scale and zero point of output, and computes the quantized output. 
     /// The quantization formula is y = saturate((x / y_scale) + y_zero_point).
-    /// It perfoms the element-wise multiplication of the two vectors once dequantized, then return the quantization of the result of the multiplication.
+    /// It performs the element-wise multiplication of the two vectors once dequantized, then return the quantization of the result of the multiplication.
     /// The broadcasting is supported
     /// Scale and zero point must have same shape and the same type. They must be either scalar (per tensor) or N-D tensor (per row for 'a' and per column for 'b'). 
     /// Scalar refers to per tensor quantization whereas N-D refers to per row or per column quantization.
@@ -2784,7 +2799,7 @@ trait TensorTrait<T> {
     ///
     /// It consumes two quantized input tensors, their scales and zero points, scale and zero point of output, and computes the quantized output. 
     /// The quantization formula is y = saturate((x / y_scale) + y_zero_point).
-    /// It perfoms the multiplication of the two vectors once dequantized. If either argument is N-D, N > 2, it is treated as a stack of matrices residing in the last two indexes.
+    /// It performs the multiplication of the two vectors once dequantized. If either argument is N-D, N > 2, it is treated as a stack of matrices residing in the last two indexes.
     /// Then return the quantization of the result of the multiplication.
     /// Scale and zero point must have same shape and the same type. They must be either scalar (per tensor) or N-D tensor (per row for 'a' and per column for 'b'). 
     /// Scalar refers to per tensor quantization whereas N-D refers to per row or per column quantization.
@@ -3164,7 +3179,7 @@ trait TensorTrait<T> {
     /// # tensor.gather
     ///
     /// ```rust 
-    ///    fn gather(self: @Tensor<T>, indices: Tensor<T>, axis: Option<usize>) -> Tensor<T>;
+    ///    fn gather(self: @Tensor<T>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<T>;
     /// ```
     ///
     /// Gather entries of the axis dimension of data.
@@ -3172,8 +3187,8 @@ trait TensorTrait<T> {
     /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
-    /// * `indices`(`Tensor<T>`) - Tensor of indices.
-    /// * `axis`(`Option<usize>`) - Axis to gather on. Default: axis=0.
+    /// * `indices`(`Tensor<i32>`) - Tensor of indices.
+    /// * `axis`(`Option<i32>`) - Axis to gather on. Default: axis=0.
     ///
     /// ## Panics
     ///
@@ -3195,7 +3210,7 @@ trait TensorTrait<T> {
     ///         shape: array![2, 3].span(), 
     ///         data: array![[ 1, 2, 3],[4, 5, 6]].span(), 
     ///     );
-    ///     let indices = TensorTrait::<u32>::new(
+    ///     let indices = TensorTrait::<i32>::new(
     ///         shape: array![1, 1].span(), 
     ///         data: array![1, 0].span(), 
     ///     );
@@ -3209,7 +3224,7 @@ trait TensorTrait<T> {
     ///      [1. 2. 3.]]
     /// ```
     ///
-    fn gather(self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<T>;
+    fn gather(self: @Tensor<T>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<T>;
     /// # tensor.unsqueeze
     ///
     /// ```rust 
@@ -4222,7 +4237,7 @@ trait TensorTrait<T> {
     /// # tensor.gather_elements
     ///
     /// ```rust 
-    ///    fn gather_elements(self: @Tensor<T>, indices: Tensor<T>, axis: Option<usize>) -> Tensor<T>;
+    ///    fn gather_elements(self: @Tensor<T>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<T>;
     /// ```
     ///
     /// GatherElements is an indexing operation that produces its output by indexing into the input data tensor at index positions determined by elements of the indices tensor.
@@ -4230,8 +4245,8 @@ trait TensorTrait<T> {
     /// ## Args
     ///
     /// * `self`(`@Tensor<T>`) - The input tensor.
-    /// * `indices`(`Tensor<T>`) - Tensor of indices.
-    /// * `axis`(`Option<usize>`) - Axis to gather_elements on. Default: axis=0.
+    /// * `indices`(`Tensor<i32>`) - Tensor of indices.
+    /// * `axis`(`Option<i32>`) - Axis to gather_elements on. Default: axis=0.
     ///
     /// ## Panics
     ///
@@ -4253,7 +4268,7 @@ trait TensorTrait<T> {
     ///         shape: array![3, 3].span(), 
     ///         data: array![[ 1, 2, 3],[4, 5, 6], [7, 8, 9]].span(), 
     ///     );
-    ///     let indices = TensorTrait::<u32>::new(
+    ///     let indices = TensorTrait::<i32>::new(
     ///         shape: array![1, 2, 0].span(), 
     ///         data: array![2, 0, 0].span(), 
     ///     );
@@ -4267,7 +4282,7 @@ trait TensorTrait<T> {
     ///      [7. 2. 3.]]
     /// ```
     ///
-    fn gather_elements(self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<T>;
+    fn gather_elements(self: @Tensor<T>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<T>;
     /// # tensor.binarizer
     /// 
     /// ```rust
@@ -4796,6 +4811,68 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn reduce_log_sum(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
+    /// ## tensor.reduce_log_sum_exp 
+    ///
+    /// ```rust 
+    ///    fn reduce_log_sum_exp(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>; 
+    /// ```
+    ///
+    /// Computes the log sum of the exponentials of the input tensor's elements along the provided axes. 
+    /// 
+    /// ## Args 
+    /// * 'self'(`@Tensor<T>`) - The input tensor.
+    /// * 'axis'(`usize`) - The dimension to reduce.
+    /// * 'keepdims'(`bool`) - If true, retains reduced dimensions with length 1.
+    ///
+    /// ## Panics 
+    ///
+    /// * Panics if axis is not in the range of the input tensor's dimensions.
+    ///
+    /// ## Returns 
+    ///
+    /// Returns a new `Tensor<T>` instance with the specified axis reduced by summing its elements.
+    ///
+    ///
+    /// ## Example
+    ///
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor};
+    /// use orion::operators::tensor::FP32x32Tensor;
+    /// use orion::numbers::{FixedTrait, FP32x32};
+    ///
+    /// fn reduce_log_sum_exp() -> Tensor<FP32x32> {
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(3);
+    ///     shape.append(2);
+    ///     shape.append(2);
+    ///
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(FP32x32 { mag: 4294967296, sign: false });
+    ///     data.append(FP32x32 { mag: 8589934592, sign: false });
+    ///     data.append(FP32x32 { mag: 12884901888, sign: false });
+    ///     data.append(FP32x32 { mag: 17179869184, sign: false });
+    ///     data.append(FP32x32 { mag: 21474836480, sign: false });
+    ///     data.append(FP32x32 { mag: 25769803776, sign: false });
+    ///     data.append(FP32x32 { mag: 30064771072, sign: false });
+    ///     data.append(FP32x32 { mag: 34359738368, sign: false });
+    ///     data.append(FP32x32 { mag: 38654705664, sign: false });
+    ///     data.append(FP32x32 { mag: 42949672960, sign: false });
+    ///     data.append(FP32x32 { mag: 47244640256, sign: false });
+    ///     data.append(FP32x32 { mag: 51539607552, sign: false });
+    ///     TensorTrait::new(shape.span(), data.span())
+    ///
+    ///     let tensor = TensorTrait::<FP32x32>::new(shape.span(), data.span());
+    ///
+    ///     return tensor.reduce_log_sum_exp(axis: 2, keepdims: false);
+    ///
+    ///  }   
+    ///  
+    ///    
+    /// >>> [[9215828, 16323477, 20115004], [22716772, 24699744, 26302432]]
+    /// ``` 
+    ///
+    fn reduce_log_sum_exp(self: @Tensor<T>, axis: usize, keepdims: bool) -> Tensor<T>;
     /// ## tensor.erf
     ///
     /// ```rust 
@@ -5666,6 +5743,172 @@ trait TensorTrait<T> {
     fn random_uniform_like(
         tensor: @Tensor<T>, high: Option<T>, low: Option<T>, seed: Option<usize>
     ) -> Tensor<T>;
+    /// # tensor.center_crop_pad
+    ///
+    /// ```rust
+    /// fn center_crop_pad(
+    ///     self: @Tensor<T>, shape: Tensor<usize>, axes: Option<Array<i64>>, zero: T
+    /// ) -> Tensor<T>
+    /// ```
+    ///
+    /// Center crop or pad an input to given dimensions.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - Input to extract the centered crop from.
+    /// * `shape`(Tensor<usize>) - 1-D tensor representing the cropping window dimensions.
+    /// * `axes`(Option<Array<i64>) - If provided, it specifies a subset of axes that ‘shape’ refer to.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if axes is a negative number, axis+rank (self) is less than 0.
+    ///
+    /// ## Returns
+    /// 
+    /// Output data of tensors after crop/pad.
+    ///
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// use core::option::OptionTrait;
+    /// fn center_crop_pad_example() -> Tensor<u32> {
+    ///     let tensor: Tensor<u32> = TensorTrait::<u32>::new(
+    ///         shape: array![5,4,1].span(), 
+    ///         data: array![
+    ///             1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16,17,18,19,20
+    ///             ].span(),
+    ///     );
+    ///     // We can call `center_crop_pad` function as follows.
+    ///     return tensor.center_crop_pad(TensorTrait::new(array![3].span(), array![5,2,1].span()), Option::None(()));
+    /// }
+    /// >>> [[2,3],[6,7],[10,11],[14,15],[18,19]]
+    /// ```
+    ///
+    fn center_crop_pad(
+        self: @Tensor<T>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<T>;
+    /// # tensor.label_encoder
+    /// 
+    /// ```rust
+    /// fn label_encoder(self: @Tensor<T>, default_list: Option<Span<T>>, default_tensor: Option<Tensor<T>>, keys: Option<Span<T>>, keys_tensor: Option<Tensor<T>>, values: Option<Span<T>>, values_tensor: Option<Tensor<T>>) -> Tensor<T>;
+    /// ```
+    /// 
+    /// Maps each element in the input tensor to another value.
+    ///
+    /// The mapping is determined by the two parallel attributes, 'keys_' and 'values_' attribute. 
+    /// The i-th value in the specified 'keys_' attribute would be mapped to the i-th value in the specified 'values_' attribute.
+    ///  It implies that input's element type and the element type of the specified 'keys_' should be identical while the output type is identical to the specified 'values_' attribute.
+    ///
+    /// ## Args
+    ///
+    /// * `self`(`@Tensor<T>`) - The input tensor.
+    /// * `default_list`(`Option<Span<T>>`) - The default span.
+    /// * `default_tensor`(`Option<Tensor<T>>`) - The default tensor.
+    /// * `keys`(`Option<Span<T>>`) - The keys span.
+    /// * `keys_tensor`(`Option<Tensor<T>>`) - The keys tensor.
+    /// * `values`(` Option<Span<T>>`) - The values span.
+    /// * `values_tensor`(`Option<Tensor<T>>`) - The values tensor.
+    ///
+    /// One and only one of 'default_*'s should be set
+    /// One and only one of 'keys*'s should be set
+    ///  One and only one of 'values*'s should be set.
+    ///
+    /// ## Panics
+    ///
+    /// * Panics if the len/shape of keys and values are not the same.
+    ///
+    /// ## Returns
+    ///
+    /// A new `Tensor<T>` which maps each element in the input tensor to another value..
+    ///
+    /// ## Type Constraints
+    ///
+    /// * `T` in (`Tensor<FP>`, `Tensor<i8>`, `Tensor<i32>`, `tensor<u32>,`)
+    ///
+    /// ## Examples
+    /// 
+    /// ```rust
+    /// use array::{ArrayTrait, SpanTrait};
+    /// use orion::operators::tensor::U32Tensor;
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn label_encoder_example() -> Tensor<T>,  {
+    ///    fn data() -> Tensor<u32> {
+    ///        let mut sizes = ArrayTrait::new();
+    ///        sizes.append(2);
+    ///        sizes.append(3);
+    ///        let mut data = ArrayTrait::new();
+    ///        data.append(1);
+    ///        data.append(2);
+    ///        data.append(3);
+    ///        data.append(1);
+    ///        data.append(4);
+    ///        data.append(5);
+    ///
+    ///        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
+    ///        return tensor;
+    ///    }
+    ///
+    ///    fn keys() -> Tensor<u32> {
+    ///        let mut sizes = ArrayTrait::new();
+    ///        sizes.append(3);
+    ///        sizes.append(1);
+    ///
+    ///        let mut data = ArrayTrait::new();
+    ///        data.append(1);
+    ///        data.append(2);
+    ///        data.append(1);
+    ///
+    ///        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
+    ///        return tensor;
+    ///    }
+    ///
+    ///    fn values() -> Tensor<u32> {
+    ///        let mut sizes = ArrayTrait::new();
+    ///        sizes.append(3);
+    ///        sizes.append(1);
+    ///
+    ///        let mut data = ArrayTrait::new();
+    ///        data.append(8);
+    ///        data.append(9);
+    ///        data.append(7);
+    ///
+    ///        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
+    ///        return tensor;
+    ///    }
+    ///
+    ///    fn default() -> Tensor<u32> {
+    ///        let mut sizes = ArrayTrait::new();
+    ///        sizes.append(1);
+    ///
+    ///        let mut data = ArrayTrait::new();
+    ///        data.append(999);
+    ///
+    ///        let tensor = TensorTrait::<u32>::new(sizes.span(), data.span());
+    ///        return tensor;
+    ///    }
+    ///
+    ///    let data = data();
+    ///    let keys = keys();
+    ///    let values = values();
+    ///    let default = default();
+    ///    return data.label_encoder(default_list: Option::None, default_tensor: Option::Some(default),
+    ///         keys: Option::None, keys_tensor: Option::Some(keys),  
+    ///         values: Option::None, values_tensor: Option::Some(values));
+    /// >>> [7, 9, 999, 7, 999, 999],
+    /// ```
+    ///
+    fn label_encoder(
+        self: @Tensor<T>,
+        default_list: Option<Span<T>>,
+        default_tensor: Option<Tensor<T>>,
+        keys: Option<Span<T>>,
+        keys_tensor: Option<Tensor<T>>,
+        values: Option<Span<T>>,
+        values_tensor: Option<Tensor<T>>
+    ) -> Tensor<T>;
 }
 
 /// Cf: TensorTrait::new docstring
@@ -5761,8 +6004,83 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
 
 
 /// Cf: TensorTrait::reshape docstring
-fn reshape<T>(self: @Tensor<T>, target_shape: Span<usize>) -> Tensor<T> {
-    new_tensor(target_shape, *self.data)
+fn reshape<T, +Copy<Tensor<T>>>(
+    self: @Tensor<T>, target_shape: Span<i32>, allowzero: bool
+) -> Tensor<T> {
+    // Calculate the total number of elements in the original tensor
+    let mut total_elements = 1;
+    let mut shape = *self.shape;
+    loop {
+        match shape.pop_front() {
+            Option::Some(val) => total_elements *= *val,
+            Option::None => { break; }
+        };
+    };
+
+    // Calculate 'elements_so_far' and find 'inferred_index'
+    let mut elements_so_far = 1;
+    let mut inferred_index = Option::None;
+    let mut target_shape_clone = target_shape.clone();
+    let mut i: usize = 0;
+    loop {
+        match target_shape_clone.pop_front() {
+            Option::Some(dim) => {
+                if *dim == -1 {
+                    if inferred_index.is_none() {
+                        inferred_index = Option::Some(i);
+                    } else {
+                        panic!("Only one dimension can be inferred");
+                    }
+                } else if *dim == 0 && allowzero == false {
+                    // When allowzero is not set, copy the dimension size from the original tensor
+                    if i >= (*self.shape).len() {
+                        panic!("Dimension out of bounds for using original dimension value");
+                    }
+                    elements_so_far *= *(*self).shape.at(i);
+                } else if *dim >= 0 {
+                    elements_so_far *= (*dim).try_into().unwrap();
+                } else {
+                    panic!("Invalid dimension size");
+                };
+            },
+            Option::None => { break; }
+        };
+        i += 1;
+    };
+
+    let mut target_shape_clone = target_shape.clone();
+    let mut inferred_shape = ArrayTrait::<u32>::new();
+    i = 0; // Reset the index for the next loop
+    loop {
+        match target_shape_clone.pop_front() {
+            Option::Some(dim) => {
+                if *dim == -1 {
+                    inferred_shape.append(total_elements / elements_so_far) // Inferred dimension
+                } else if *dim == 0 {
+                    if allowzero == true {
+                        inferred_shape
+                            .append(
+                                0
+                            ) // Explicitly set the dimension to zero when allowzero is enabled
+                    } else if i < (*self.shape).len() {
+                        inferred_shape
+                            .append(
+                                *(*self).shape.at(i)
+                            ) // Dimension unchanged from original when allowzero is not enabled
+                    } else {
+                        panic!("Dimension out of bounds for using original dimension value");
+                    }
+                } else {
+                    inferred_shape
+                        .append((*dim).try_into().unwrap()) // Directly specified dimension
+                };
+            },
+            Option::None => { break; }
+        }
+        i += 1;
+    };
+
+    new_tensor(inferred_shape.span(), *self.data)
 }
 
 /// Cf: TensorTrait::at docstring

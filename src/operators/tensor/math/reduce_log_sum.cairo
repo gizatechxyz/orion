@@ -1,11 +1,6 @@
-use core::option::OptionTrait;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::debug::PrintTrait;
-
 use orion::numbers::NumberTrait;
-use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::numbers::fixed_point::core::FixedTrait;
+use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 
 /// Cf: TensorTrait::reduce_sum_square docstring
 fn reduce_log_sum<
@@ -20,8 +15,13 @@ fn reduce_log_sum<
 >(
     self: @Tensor<T>, axis: usize, keepdims: bool
 ) -> Tensor<T> {
-    let tensor_square_sum = self.reduce_sum(axis: axis, keepdims: keepdims);
+    let tensor_square_sum = self
+        .reduce_sum(
+            Option::Some(array![axis.try_into().unwrap()].span()),
+            Option::Some(keepdims),
+            Option::Some(false)
+        );
     let tensor_square_sum_log = tensor_square_sum.log();
 
-    return tensor_square_sum_log;
+    tensor_square_sum_log
 }

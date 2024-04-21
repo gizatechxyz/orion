@@ -168,7 +168,7 @@ impl LinearClassifierImpl<
             Option::None => { (0, ArrayTrait::<usize>::new().span()) },
         };
         if *coefficients.shape.at(1) == 1 && n_classes == 2 {
-            let mut new_scores = ArrayTrait::new();
+            let mut new_scores = array![];
 
             loop {
                 match scores.data.pop_front() {
@@ -179,24 +179,27 @@ impl LinearClassifierImpl<
                     Option::None => { break; },
                 }
             };
+
             scores = TensorTrait::new(array![*scores.shape.at(0), 2].span(), new_scores.span());
         }
         // Post Transform
         scores = match classifier.post_transform {
             POST_TRANSFORM::NONE => { scores },
-            POST_TRANSFORM::SOFTMAX => { NNTrait::softmax(@scores, 1) },
+            POST_TRANSFORM::SOFTMAX => { NNTrait::softmax(@scores, Option::Some(1)) },
             POST_TRANSFORM::LOGISTIC => { NNTrait::sigmoid(@scores) },
             POST_TRANSFORM::SOFTMAXZERO => { NNTrait::softmax_zero(@scores, 1) },
             POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
         };
 
         // Labels
-        let mut labels_list = ArrayTrait::new();
+        let mut labels_list = array![];
         if *scores.shape.at(1) > 1 {
             let mut labels = scores.argmax(1, Option::None, Option::None);
             loop {
                 match labels.data.pop_front() {
-                    Option::Some(i) => { labels_list.append(*classlabels[*i]); },
+                    Option::Some(i) => {
+                        labels_list.append(*classlabels[(*i).try_into().unwrap()]);
+                    },
                     Option::None => { break; }
                 };
             };
@@ -204,56 +207,56 @@ impl LinearClassifierImpl<
             let mut i = 0;
             match classifier.post_transform {
                 POST_TRANSFORM::NONE => {
-                    loop {
-                        if i == scores.data.len() {
-                            break;
-                        }
-                        if *scores.data.at(i) >= NumberTrait::zero() {
-                            labels_list.append(*classlabels[0]);
-                        } else {
-                            labels_list.append(0);
-                        }
-                        i += 1;
-                    };
+                    while i != scores
+                        .data
+                        .len() {
+                            if *scores.data.at(i) >= NumberTrait::zero() {
+                                labels_list.append(*classlabels[0]);
+                            } else {
+                                labels_list.append(0);
+                            }
+
+                            i += 1;
+                        };
                 },
                 POST_TRANSFORM::SOFTMAX => {
-                    loop {
-                        if i == scores.data.len() {
-                            break;
-                        }
-                        if *scores.data.at(i) >= NumberTrait::half() {
-                            labels_list.append(*classlabels[0]);
-                        } else {
-                            labels_list.append(0);
-                        }
-                        i += 1;
-                    };
+                    while i != scores
+                        .data
+                        .len() {
+                            if *scores.data.at(i) >= NumberTrait::half() {
+                                labels_list.append(*classlabels[0]);
+                            } else {
+                                labels_list.append(0);
+                            }
+
+                            i += 1;
+                        };
                 },
                 POST_TRANSFORM::LOGISTIC => {
-                    loop {
-                        if i == scores.data.len() {
-                            break;
-                        }
-                        if *scores.data.at(i) >= NumberTrait::half() {
-                            labels_list.append(*classlabels[0]);
-                        } else {
-                            labels_list.append(0);
-                        }
-                        i += 1;
-                    };
+                    while i != scores
+                        .data
+                        .len() {
+                            if *scores.data.at(i) >= NumberTrait::half() {
+                                labels_list.append(*classlabels[0]);
+                            } else {
+                                labels_list.append(0);
+                            }
+
+                            i += 1;
+                        };
                 },
                 POST_TRANSFORM::SOFTMAXZERO => {
-                    loop {
-                        if i == scores.data.len() {
-                            break;
-                        }
-                        if *scores.data.at(i) >= NumberTrait::half() {
-                            labels_list.append(*classlabels[0]);
-                        } else {
-                            labels_list.append(0);
-                        }
-                        i += 1;
-                    };
+                    while i != scores
+                        .data
+                        .len() {
+                            if *scores.data.at(i) >= NumberTrait::half() {
+                                labels_list.append(*classlabels[0]);
+                            } else {
+                                labels_list.append(0);
+                            }
+
+                            i += 1;
+                        };
                 },
                 POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
             };
@@ -263,12 +266,10 @@ impl LinearClassifierImpl<
     }
 }
 
-
 fn max(a: usize, b: usize) -> usize {
     if a > b {
-        return a;
+        a
     } else {
-        return b;
+        b
     }
 }
-

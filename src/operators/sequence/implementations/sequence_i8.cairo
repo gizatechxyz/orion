@@ -1,11 +1,8 @@
-use core::option::OptionTrait;
-
 use orion::operators::tensor::core::Tensor;
 use orion::operators::sequence::core::SequenceTrait;
 use orion::operators::sequence::functional;
 use orion::operators::tensor::implementations::tensor_i8::I8Tensor;
 use orion::operators::tensor::implementations::tensor_i32::I32Tensor;
-
 
 impl I8Sequence of SequenceTrait<i8> {
     fn sequence_construct(tensors: Array<Tensor<i8>>) -> Array<Tensor<i8>> {

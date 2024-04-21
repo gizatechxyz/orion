@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{TryInto, Into};
-
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::helpers::SpanPartialOrd;
 use orion::operators::tensor::core::{
@@ -73,12 +68,17 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP32x32>, target_shape: Span<usize>) -> Tensor<FP32x32> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<FP32x32>, target_shape: Span<i32>, allowzero: bool) -> Tensor<FP32x32> {
+        reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<FP32x32>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP32x32> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
     fn reduce_prod(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
@@ -86,8 +86,8 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     }
 
     fn argmax(
-        self: @Tensor<FP32x32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<FP32x32>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 
@@ -125,11 +125,11 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<usize> {
+    fn less(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<i32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<FP32x32>, other: @Tensor<FP32x32>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -351,7 +351,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     }
 
     fn gather(
-        self: @Tensor<FP32x32>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP32x32>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP32x32> {
         math::gather::gather(self, indices, axis)
     }
@@ -442,9 +442,8 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         panic(array!['not supported!'])
     }
 
-
     fn gather_elements(
-        self: @Tensor<FP32x32>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP32x32>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP32x32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
@@ -495,6 +494,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
 
     fn reduce_log_sum(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
+    }
+
+    fn reduce_log_sum_exp(self: @Tensor<FP32x32>, axis: usize, keepdims: bool) -> Tensor<FP32x32> {
+        math::reduce_log_sum_exp::reduce_log_sum_exp(self, axis, keepdims)
     }
 
     fn erf(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
@@ -623,6 +626,27 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Tensor<FP32x32> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
+
+    fn center_crop_pad(
+        self: @Tensor<FP32x32>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<FP32x32> {
+        let zero = NumberTrait::<FP32x32>::zero();
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+    
+    fn label_encoder(
+        self: @Tensor<FP32x32>,
+        default_list: Option<Span<FP32x32>>,
+        default_tensor: Option<Tensor<FP32x32>>,
+        keys: Option<Span<FP32x32>>,
+        keys_tensor: Option<Tensor<FP32x32>>,
+        values: Option<Span<FP32x32>>,
+        values_tensor: Option<Tensor<FP32x32>>
+    ) -> Tensor<FP32x32> {
+        ml::label_encoder::label_encoder(
+            self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
+        )
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.
@@ -736,9 +760,7 @@ impl FP32x32TensorPartialOrd of PartialOrd<Tensor<FP32x32>> {
     }
 }
 
-
 // Internals
-
 const PRECISION: u64 = 75497; // 0.009
 
 fn relative_eq(lhs: @FP32x32, rhs: @FP32x32) -> bool {
@@ -756,11 +778,7 @@ fn relative_eq(lhs: @FP32x32, rhs: @FP32x32) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP32x32>, mut rhs: Tensor<FP32x32>,) -> bool {
     let mut is_eq = true;
 
-    loop {
-        if lhs.shape.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.shape.len() != 0 && is_eq {
         is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
     };
 
@@ -768,28 +786,20 @@ fn tensor_eq(mut lhs: Tensor<FP32x32>, mut rhs: Tensor<FP32x32>,) -> bool {
         return false;
     }
 
-    loop {
-        if lhs.data.len() == 0 || !is_eq {
-            break;
-        }
-
+    while lhs.data.len() != 0 && is_eq {
         is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
     };
 
-    return is_eq;
+    is_eq
 }
 
 fn tensor_i8_to_tensor_fp32x32(x: @Tensor<i8>) -> Tensor<FP32x32> {
     let mut result_data = ArrayTrait::<FP32x32>::new();
     let mut data = *x.data;
 
-    loop {
+    while data.len() != 0 {
         result_data.append((*data.pop_front().unwrap()).into());
-
-        if data.len() == 0 {
-            break ();
-        };
     };
 
-    return TensorTrait::new(*x.shape, result_data.span());
+    TensorTrait::new(*x.shape, result_data.span())
 }

@@ -118,6 +118,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.gather_nd`](tensor.gather\_nd.md) | Given data tensor of rank r >= 1, indices tensor of rank q >= 1, and batch_dims integer b, this operator gathers slices of data into an output tensor of rank q + r - indices_shape[-1] - 1 - b. |
 | [`tensor.reduce_log_sum`](tensor.reduce\_log\_sum.md) | Computes the log sum of the input tensor's elements along the provided axes.  |
 | [`tensor.erf`](tensor.erf.md) | Computes the error function of the given input tensor element-wise. |
+| [`tensor.reduce_log_sum_exp`](tensor.reduce\_log\_sum\_exp.md) | Computes the log sum of the exponentials of the input tensor's elements along the provided axes. |
 | [`tensor.layer_normalization`](tensor.layer\_normalization.md) | computes the layer normalization of the input tensor. |
 | [`tensor.split`](tensor.split.md) | Split a tensor into a list of tensors, along the specified ‘axis’.  |
 | [`tensor.random_uniform_like`](tensor.random\_uniform\_like.md) | RandomUniformLike generates a tensor with random values using a uniform distribution, matching the shape of the input tensor. |
@@ -130,6 +131,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.optional`](tensor.optional.md) | Constructs an optional-type value containing either an empty optional of a certain type specified by the attribute, or a non-empty value containing the input element. |
 | [`tensor.dynamic_quantize_linear`](tensor.dynamic\_quantize\_linear.md) | Computes the Scale, Zero Point and FP32->8Bit conversion of FP32 Input data.  |
 | [`tensor.scatter_nd`](tensor.scatter\_nd.md) | The output of the operation is produced by creating a copy of the input data, and then updating its value to values specified by updates at specific index positions specified by indices. Its output shape is the same as the shape of data |
+| [`tensor.label_encoder`](tensor.label\_encoder.md) | Maps each element in the input tensor to another value. |
 
 ## Arithmetic Operations
 

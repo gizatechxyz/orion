@@ -1,5 +1,3 @@
-use core::array::{ArrayTrait, SpanTrait};
-
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait, unravel_index};
 use orion::operators::tensor::helpers::{
@@ -30,12 +28,8 @@ fn min<
 
     let mut tensor_counter: usize = 1;
 
-    loop {
-        if tensor_counter > tensors.len() - 1 {
-            break;
-        }
-
-        let mut new_min_data = ArrayTrait::<T>::new();
+    while tensor_counter != tensors.len() {
+        let mut new_min_data: Array<T> = array![];
 
         let mut current_tensor = *tensors.at(tensor_counter);
 
@@ -43,7 +37,7 @@ fn min<
 
         let num_elements = len_from_shape(broadcasted_shape);
         let mut n: usize = 0;
-        loop {
+        while n != num_elements {
             let mut indices_broadcasted = unravel_index(n, broadcasted_shape);
 
             let mut indices_self = broadcast_index_mapping(min_shape, indices_broadcasted);
@@ -57,9 +51,6 @@ fn min<
             new_min_data.append(min_value);
 
             n += 1;
-            if n == num_elements {
-                break ();
-            };
         };
 
         min_shape = broadcasted_shape;
@@ -67,5 +58,5 @@ fn min<
         tensor_counter += 1;
     };
 
-    return TensorTrait::<T>::new(min_shape, min_data);
+    TensorTrait::<T>::new(min_shape, min_data)
 }

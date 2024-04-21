@@ -1,6 +1,6 @@
+use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
 use orion::operators::tensor::math::{exp::exp_upcast, arithmetic::div_downcast};
-use orion::numbers::fixed_point::core::FixedTrait;
 
 /// Cf: NNTrait::softmax docstring
 fn softmax<
@@ -10,10 +10,17 @@ fn softmax<
     impl TCopy: Copy<T>,
     impl TDrop: Drop<T>,
 >(
-    z: @Tensor<T>, axis: usize
+    z: @Tensor<T>, axis: Option<i32>
 ) -> Tensor<T> {
+    let axis = match axis {
+        Option::Some(val) => val,
+        Option::None => -1
+    };
+
     let exp_tensor = z.exp();
-    let sum = exp_tensor.reduce_sum(axis, true);
+    let sum = exp_tensor
+        .reduce_sum(Option::Some(array![axis].span()), Option::Some(true), Option::Some(false));
+
     exp_tensor / sum
 }
 
@@ -35,10 +42,17 @@ fn softmaxWide<
     impl TFixed: FixedTrait<T, TMAG>,
     impl WFixed: FixedTrait<W, WMAG>,
 >(
-    z: @Tensor<T>, axis: usize
+    z: @Tensor<T>, axis: Option<i32>
 ) -> Tensor<T> {
+    let axis = match axis {
+        Option::Some(val) => val,
+        Option::None => -1
+    };
+
     let exp_tensor: Tensor<W> = exp_upcast(*z);
-    let sum = exp_tensor.reduce_sum(axis, true);
+    let sum = exp_tensor
+        .reduce_sum(Option::Some(array![axis].span()), Option::Some(true), Option::Some(false));
+
     div_downcast(@exp_tensor, @sum)
 }
 

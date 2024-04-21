@@ -1,11 +1,7 @@
-use core::option::OptionTrait;
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::debug::PrintTrait;
-
 use orion::numbers::NumberTrait;
-use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
 use orion::numbers::fixed_point::core::FixedTrait;
+use orion::operators::tensor::core::{Tensor, TensorTrait, ravel_index, unravel_index};
+
 /// Cf: TensorTrait::reduce_sum docstring
 fn reduce_l1<
     T,
@@ -19,5 +15,6 @@ fn reduce_l1<
     self: @Tensor<T>, axis: usize, keepdims: bool
 ) -> Tensor<T> {
     let data_abs = self.abs();
-    return data_abs.reduce_sum(axis: axis, keepdims: keepdims);
+
+    data_abs.reduce_sum(Option::Some(array![axis.try_into().unwrap()].span()), Option::Some(keepdims), Option::Some(false))
 }

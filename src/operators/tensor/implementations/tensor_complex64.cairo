@@ -1,8 +1,3 @@
-use core::array::ArrayTrait;
-use core::array::SpanTrait;
-use core::option::OptionTrait;
-use core::traits::{TryInto, Into};
-
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::operators::tensor::core::{
     new_tensor, constant_of_shape, stride, Tensor, TensorTrait, ravel_index, unravel_index, reshape,
@@ -16,7 +11,6 @@ use orion::operators::tensor::implementations::{
 };
 use orion::numbers::complex_number::complex_trait::ComplexTrait;
 use orion::numbers::complex_number::complex64::{Complex64Impl, complex64};
-
 
 impl Complex64Tensor of TensorTrait<complex64> {
     fn new(shape: Span<usize>, data: Span<complex64>) -> Tensor<complex64> {
@@ -75,12 +69,19 @@ impl Complex64Tensor of TensorTrait<complex64> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<complex64>, target_shape: Span<usize>) -> Tensor<complex64> {
-        reshape(self, target_shape)
+    fn reshape(
+        self: @Tensor<complex64>, target_shape: Span<i32>, allowzero: bool
+    ) -> Tensor<complex64> {
+        reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<complex64>, axis: usize, keepdims: bool) -> Tensor<complex64> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<complex64>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<complex64> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
     fn reduce_prod(self: @Tensor<complex64>, axis: usize, keepdims: bool) -> Tensor<complex64> {
@@ -89,10 +90,10 @@ impl Complex64Tensor of TensorTrait<complex64> {
 
     fn argmax(
         self: @Tensor<complex64>,
-        axis: usize,
+        axis: i32,
         keepdims: Option<bool>,
         select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+    ) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
@@ -133,11 +134,11 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
-    fn less(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<usize> {
+    fn less(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
-    fn less_equal(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<complex64>, other: @Tensor<complex64>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
@@ -307,7 +308,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
     }
 
     fn gather(
-        self: @Tensor<complex64>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<complex64>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<complex64> {
         math::gather::gather(self, indices, axis)
     }
@@ -414,7 +415,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
 
 
     fn gather_elements(
-        self: @Tensor<complex64>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<complex64>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<complex64> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
@@ -461,7 +462,6 @@ impl Complex64Tensor of TensorTrait<complex64> {
         math::reduce_log_sum::reduce_log_sum(self, axis, keepdims)
     }
 
-
     fn erf(self: @Tensor<complex64>) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }
@@ -476,6 +476,12 @@ impl Complex64Tensor of TensorTrait<complex64> {
         self: @Tensor<complex64>, condition: Tensor<usize>, axis: Option<usize>
     ) -> Tensor<complex64> {
         math::compress::compress(self, condition, axis)
+    }
+
+    fn reduce_log_sum_exp(
+        self: @Tensor<complex64>, axis: usize, keepdims: bool
+    ) -> Tensor<complex64> {
+        math::reduce_log_sum_exp::reduce_log_sum_exp(self, axis, keepdims)
     }
 
     fn layer_normalization(
@@ -574,6 +580,27 @@ impl Complex64Tensor of TensorTrait<complex64> {
     ) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }
+
+    fn center_crop_pad(
+        self: @Tensor<complex64>,
+        shape: Tensor<usize>, 
+        axes: Option<Array<i64>>
+    ) -> Tensor<complex64> {
+        let zero = ComplexTrait::zero();
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+    
+    fn label_encoder(
+        self: @Tensor<complex64>,
+        default_list: Option<Span<complex64>>,
+        default_tensor: Option<Tensor<complex64>>,
+        keys: Option<Span<complex64>>,
+        keys_tensor: Option<Tensor<complex64>>,
+        values: Option<Span<complex64>>,
+        values_tensor: Option<Tensor<complex64>>
+    ) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements addition for `Tensor<complex64>` using the `Add` trait.
@@ -647,37 +674,30 @@ impl Complex64TensorPartialEq of PartialEq<Tensor<complex64>> {
     }
 }
 
-
 // Internals
-
 fn eq(lhs: @complex64, rhs: @complex64) -> bool {
     let eq = (*lhs.real == *rhs.real) && (*lhs.img == *rhs.img);
+
     eq
 }
 
 fn tensor_eq(mut lhs: Tensor<complex64>, mut rhs: Tensor<complex64>,) -> bool {
     let mut is_eq = true;
 
-    loop {
-        if lhs.shape.len() == 0 || !is_eq {
-            break;
-        }
-
-        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
 
     if !is_eq {
         return false;
     }
 
-    loop {
-        if lhs.data.len() == 0 || !is_eq {
-            break;
-        }
+    while lhs.data.len() != 0
+        && is_eq {
+            is_eq = eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+        };
 
-        is_eq = eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
-    };
-
-    return is_eq;
+    is_eq
 }
 
