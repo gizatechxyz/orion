@@ -161,7 +161,8 @@ impl FP8x23NN of NNTrait<FP8x23> {
             pads,
             storage_order,
             strides,
-            output_len
+            output_len)
+    }
     fn deform_conv(
         X: @Tensor<FP8x23>,
         W: @Tensor<FP8x23>,

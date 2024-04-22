@@ -159,7 +159,8 @@ impl FP32x32NN of NNTrait<FP32x32> {
             pads,
             storage_order,
             strides,
-            output_len
+            output_len)
+    }
     fn deform_conv(
         X: @Tensor<FP32x32>,
         W: @Tensor<FP32x32>,

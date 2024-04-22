@@ -165,7 +165,8 @@ impl FP16x16NN of NNTrait<FP16x16> {
             pads,
             storage_order,
             strides,
-            output_len
+            output_len)
+    }
     fn deform_conv(
         X: @Tensor<FP16x16>,
         W: @Tensor<FP16x16>,

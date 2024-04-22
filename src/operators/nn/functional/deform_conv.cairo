@@ -128,12 +128,12 @@ fn deform_conv<
         'offset_group inconsistencies'
     );
 
-    let mut offset_shape = array![n, offset_group];
-    offset_shape.append_span(kernel_shape);
-    offset_shape.append(kernel_shape.len());
-    offset_shape.append_span(output_shape);
+    let mut offset_shape = array![n.into(), offset_group.into()];
+    offset_shape.append_span(span_U32_to_span_I32(kernel_shape.clone()));
+    offset_shape.append(kernel_shape.len().into());
+    offset_shape.append_span(span_U32_to_span_I32(output_shape.clone()));
 
-    let offset = offset.reshape(offset_shape.span());
+    let offset = offset.reshape(offset_shape.span(), false);
 
     let mask = match mask {
         Option::Some(mask) => mask,
@@ -151,10 +151,10 @@ fn deform_conv<
         },
     };
 
-    let mut mask_shape = array![n, offset_group];
-    mask_shape.append_span(kernel_shape);
-    mask_shape.append_span(output_shape);
-    let mask = mask.reshape(mask_shape.span());
+    let mut mask_shape = array![n.into(), offset_group.into()];
+    mask_shape.append_span(span_U32_to_span_I32(kernel_shape.clone()));
+    mask_shape.append_span(span_U32_to_span_I32(output_shape.clone()));
+    let mask = mask.reshape(mask_shape.span(), false);
 
     if (*X).shape.len() == 4 {
         let ih: T = NumberTrait::new_unscaled((*(*X).shape.at(2)).into(), false);
@@ -527,4 +527,22 @@ fn sum<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +AddEq
         i += 1;
     };
     return sum;
+}
+
+
+fn span_U32_to_span_I32(
+    mut x: Span<usize>
+) -> Span<i32> {
+    let mut res = ArrayTrait::new();
+
+    loop {
+        match x.pop_front() {
+            Option::Some(v) => {
+                res.append((*v).into());
+            },
+            Option::None => { break; }
+        };
+    };
+
+    return res.span();
 }
