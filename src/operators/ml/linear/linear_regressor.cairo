@@ -206,7 +206,7 @@ impl LinearRegressorImpl<
         // Post Transform
         let score = match regressor.post_transform {
             POST_TRANSFORM::NONE => score, // No action required
-            POST_TRANSFORM::SOFTMAX => NNTrait::softmax(@score, 1),
+            POST_TRANSFORM::SOFTMAX => NNTrait::softmax(@score, Option::Some(1)),
             POST_TRANSFORM::LOGISTIC => NNTrait::sigmoid(@score),
             POST_TRANSFORM::SOFTMAXZERO => NNTrait::softmax_zero(@score, 1),
             POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),

@@ -86,6 +86,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.qlinear_matmul`](tensor.qlinear\_matmul.md) | Performs the product of two quantized i8 Tensors. |
 | [`tensor.qlinear_concat`](tensor.qlinear\_concat.md) | Concatenate a list of tensors after dequantizing them with their respective scales and zero_points and returns the quantized result. |
 | [`tensor.qlinear_leakyrelu`](tensor.qlinear\_leakyrelu.md) | Applies the Leaky Relu operator to a quantized Tensor |
+| [`tensor.qlinear_conv`](tensor.qlinear\_conv.md) | Performs convolution on quantized Tensors |
 | [`tensor.gather`](tensor.gather.md) | Gather entries of the axis dimension of data. |
 | [`tensor.nonzero`](tensor.nonzero.md) | Produces indices of the elements that are non-zero (in row-major order - by dimension). |
 | [`tensor.squeeze`](tensor.squeeze.md) | Removes dimensions of size 1 from the shape of a tensor. |
@@ -133,6 +134,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.scatter_nd`](tensor.scatter\_nd.md) | The output of the operation is produced by creating a copy of the input data, and then updating its value to values specified by updates at specific index positions specified by indices. Its output shape is the same as the shape of data |
 | [`tensor.label_encoder`](tensor.label\_encoder.md) | Maps each element in the input tensor to another value. |
 | [`tensor.bit_shift`](tensor.bit\_shift.md) | Bitwise shift operator performs element-wise operation. For each input element, if the attribute "direction" is "RIGHT", this operator moves its binary representation toward the right side so that the input value is effectively decreased. If the attribute "direction" is "LEFT", bits of binary representation moves toward the left side, which results the increase of its actual value.  |
+| [`tensor.eye_like`](tensor.eye\_like.md) | Generate a 2D tensor (matrix) with ones on the diagonal and zeros everywhere else. Only 2D tensors are supported, i.e. input T1 must be of rank 2. The shape of the output tensor is the same as the input tensor.  |
 
 ## Arithmetic Operations
 

@@ -12,6 +12,7 @@ use orion::operators::tensor::implementations::{
 use orion::numbers::fixed_point::implementations::fp8x23wide::math::trig::PI;
 
 use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
+use orion::operators::nn::AUTO_PAD;
 
 
 impl FP8x23WTensor of TensorTrait<FP8x23W> {
@@ -71,12 +72,17 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP8x23W>, target_shape: Span<usize>) -> Tensor<FP8x23W> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<FP8x23W>, target_shape: Span<i32>, allowzero: bool) -> Tensor<FP8x23W> {
+        reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<FP8x23W>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP8x23W> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
     fn reduce_prod(self: @Tensor<FP8x23W>, axis: usize, keepdims: bool) -> Tensor<FP8x23W> {
@@ -84,8 +90,8 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     }
 
     fn argmax(
-        self: @Tensor<FP8x23W>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<FP8x23W>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 
@@ -123,11 +129,11 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
+    fn less(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<FP8x23W>, other: @Tensor<FP8x23W>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -289,6 +295,26 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_conv(
+        self: @Tensor<i8>,
+        X_scale: @Tensor<FP8x23W>,
+        X_zero_point: @Tensor<FP8x23W>,
+        W: @Tensor<i8>,
+        W_scale: @Tensor<FP8x23W>,
+        W_zero_point: @Tensor<FP8x23W>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        y_scale: @Tensor<FP8x23W>,
+        y_zero_point: @Tensor<FP8x23W>,
+    ) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn slice(
         self: @Tensor<FP8x23W>,
         starts: Span<usize>,
@@ -300,7 +326,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     }
 
     fn gather(
-        self: @Tensor<FP8x23W>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP8x23W>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP8x23W> {
         math::gather::gather(self, indices, axis)
     }
@@ -393,7 +419,7 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
     }
 
     fn gather_elements(
-        self: @Tensor<FP8x23W>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP8x23W>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP8x23W> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
@@ -563,6 +589,13 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 
+    fn center_crop_pad(
+        self: @Tensor<FP8x23W>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<FP8x23W> {
+        let zero = NumberTrait::<FP8x23W>::zero();
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+    
     fn label_encoder(
         self: @Tensor<FP8x23W>,
         default_list: Option<Span<FP8x23W>>,
@@ -581,6 +614,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         tensor1: @Tensor<FP8x23W>, tensor2: @Tensor<FP8x23W>, direction: felt252
     ) -> Tensor<FP8x23W> {
         panic(array!['not supported!'])
+    }
+    
+    fn eye_like(self: @Tensor<FP8x23W>, k: Option<i32>) -> Tensor<FP8x23W> {
+        math::eye_like::eye_like(self, k)
     }
 }
 

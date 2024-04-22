@@ -69,3 +69,4 @@ mod hamming_window;
 mod blackman_window;
 mod scatter_nd;
 mod bit_shift;
+mod eye_like;

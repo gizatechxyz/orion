@@ -12,6 +12,8 @@ use orion::operators::tensor::implementations::{
 use orion::numbers::fixed_point::implementations::fp16x16::math::trig::PI;
 
 use orion::numbers::fixed_point::implementations::fp16x16wide::core::FP16x16W;
+use orion::operators::nn::AUTO_PAD;
+use orion::operators::nn::implementations::nn_fp16x16::FP16x16NN;
 
 
 impl FP16x16Tensor of TensorTrait<FP16x16> {
@@ -71,12 +73,17 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP16x16>, target_shape: Span<usize>) -> Tensor<FP16x16> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<FP16x16>, target_shape: Span<i32>, allowzero: bool) -> Tensor<FP16x16> {
+        reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<FP16x16>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP16x16> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
     fn reduce_prod(self: @Tensor<FP16x16>, axis: usize, keepdims: bool) -> Tensor<FP16x16> {
@@ -84,8 +91,8 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     }
 
     fn argmax(
-        self: @Tensor<FP16x16>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<FP16x16>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 
@@ -123,11 +130,11 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
+    fn less(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<i32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<FP16x16>, other: @Tensor<FP16x16>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -338,6 +345,44 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         )
     }
 
+    fn qlinear_conv(
+        self: @Tensor<i8>,
+        X_scale: @Tensor<FP16x16>,
+        X_zero_point: @Tensor<FP16x16>,
+        W: @Tensor<i8>,
+        W_scale: @Tensor<FP16x16>,
+        W_zero_point: @Tensor<FP16x16>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        y_scale: @Tensor<FP16x16>,
+        y_zero_point: @Tensor<FP16x16>,
+    ) -> Tensor<i8> {
+        quantization::qlinear_conv::qlinear_conv(
+            self,
+            X_scale,
+            X_zero_point,
+            W,
+            W_scale,
+            W_zero_point,
+            B,
+            auto_pad,
+            dilations,
+            group,
+            kernel_shape,
+            pads,
+            strides,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn slice(
         self: @Tensor<FP16x16>,
         starts: Span<usize>,
@@ -349,7 +394,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     }
 
     fn gather(
-        self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP16x16>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP16x16> {
         math::gather::gather(self, indices, axis)
     }
@@ -441,7 +486,7 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     }
 
     fn gather_elements(
-        self: @Tensor<FP16x16>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP16x16>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP16x16> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
@@ -625,6 +670,13 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
+    
+    fn center_crop_pad(
+        self: @Tensor<FP16x16>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<FP16x16> {
+        let zero = NumberTrait::<FP16x16>::zero();
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
 
     fn label_encoder(
         self: @Tensor<FP16x16>,
@@ -644,6 +696,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         tensor1: @Tensor<FP16x16>, tensor2: @Tensor<FP16x16>, direction: felt252
     ) -> Tensor<FP16x16> {
         panic(array!['not supported!'])
+    }
+    
+    fn eye_like(self: @Tensor<FP16x16>, k: Option<i32>) -> Tensor<FP16x16> {
+        math::eye_like::eye_like(self, k)
     }
 }
 

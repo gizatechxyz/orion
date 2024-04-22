@@ -1,3 +1,5 @@
+use core::option::OptionTrait;
+use core::traits::TryInto;
 use alexandria_data_structures::array_ext::SpanTraitExt;
 
 use orion::numbers::NumberTrait;
@@ -5,17 +7,41 @@ use orion::operators::tensor::{TensorTrait, Tensor};
 
 /// Cf: TensorTrait::gather docstring
 fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>,>(
-    self: @Tensor<T>, indices: Tensor<usize>, axis: Option<usize>
+    self: @Tensor<T>, indices: Tensor<i32>, axis: Option<i32>
 ) -> Tensor<T> {
-    let axis = match axis {
-        Option::Some(val) => val,
+    let axis: usize = match axis {
+        Option::Some(val) => {
+            if val < 0 {
+                (((*self.shape).len()).try_into().unwrap() + val).try_into().unwrap()
+            } else {
+                val.try_into().unwrap()
+            }
+        },
         Option::None => 0
     };
     assert(axis < (*self.shape).len(), 'axis out of dimensions');
 
     let axis_shape = *(*self.shape).at(axis);
-    let ind_max = indices.data.max().unwrap();
-    assert(ind_max < axis_shape, 'this index out of bounds');
+
+    // Adjust indices that are negative
+    let mut adjusted_indices = array![];
+    let mut indices_data = indices.data.clone();
+    loop {
+        match indices_data.pop_front() {
+            Option::Some(index) => {
+                let adjusted_index: usize = if *index < 0 {
+                    let val: u32 = (axis_shape.try_into().unwrap() + *index).try_into().unwrap();
+                    val
+                } else {
+                    let val: u32 = (*index).try_into().unwrap();
+                    val
+                };
+                assert(adjusted_index >= 0 && adjusted_index < axis_shape, 'Index out of bounds');
+                adjusted_indices.append(adjusted_index);
+            },
+            Option::None => { break; }
+        };
+    };
 
     let mut output_data = array![];
     let mut output_size = array![];
@@ -80,14 +106,14 @@ fn gather<T, impl TTensorTrait: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop:
     let mut outer_loop: usize = 0;
     let axis_index = *self.shape[axis];
     while outer_loop != outer_loop_break {
-        let mut data_indices = indices.data;
+        let mut adjusted_indices_iter = adjusted_indices.clone();
         loop {
-            match data_indices.pop_front() {
+            match adjusted_indices_iter.pop_front() {
                 Option::Some(indice) => {
                     let mut inner_loop = 0;
                     while inner_loop != break_loop {
                         let new_val = inner_loop / divisor % axis_index;
-                        if *indice == new_val {
+                        if indice == new_val {
                             output_data.append(*self.data[break_loop * outer_loop + inner_loop]);
                         }
 
