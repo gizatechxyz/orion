@@ -144,7 +144,7 @@ impl FP8x23NN of NNTrait<FP8x23> {
     fn global_average_pool(tensor: @Tensor<FP8x23>) -> Tensor<FP8x23> {
         functional::global_average_pool::global_average_pool(*tensor)
     }
-    
+
     fn conv_integer(
         X: @Tensor<FP8x23>,
         W: @Tensor<FP8x23>,
@@ -159,7 +159,7 @@ impl FP8x23NN of NNTrait<FP8x23> {
     ) -> Tensor<usize> {
         panic(array!['not supported!'])
     }
-    
+
     fn max_pool(
         X: @Tensor<FP8x23>,
         auto_pad: Option<AUTO_PAD>,
@@ -180,7 +180,8 @@ impl FP8x23NN of NNTrait<FP8x23> {
             pads,
             storage_order,
             strides,
-            output_len)
+            output_len
+        )
     }
     fn deform_conv(
         X: @Tensor<FP8x23>,
@@ -197,6 +198,22 @@ impl FP8x23NN of NNTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         functional::deform_conv::deform_conv(
             X, W, offset, B, mask, dilations, group, kernel_shape, offset_group, pads, strides,
+        )
+    }
+
+    fn lp_pool(
+        X: @Tensor<FP8x23>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        p: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        count_include_pad: Option<usize>,
+    ) -> Tensor<FP8x23> {
+        functional::lp_pool::lp_pool(
+            X, auto_pad, ceil_mode, dilations, kernel_shape, p, pads, strides, count_include_pad
         )
     }
 }

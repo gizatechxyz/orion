@@ -568,7 +568,7 @@ impl BoolTensor of TensorTrait<bool> {
         let zero = false;
         manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
     }
-    
+
     fn label_encoder(
         self: @Tensor<bool>,
         default_list: Option<Span<bool>>,

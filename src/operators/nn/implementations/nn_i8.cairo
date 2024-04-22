@@ -166,7 +166,7 @@ impl I8NN of NNTrait<i8> {
             strides,
         )
     }
-    
+
     fn max_pool(
         X: @Tensor<i8>,
         auto_pad: Option<AUTO_PAD>,
@@ -192,6 +192,20 @@ impl I8NN of NNTrait<i8> {
         offset_group: Option<usize>,
         pads: Option<Span<usize>>,
         strides: Option<Span<usize>>,
+    ) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
+    fn lp_pool(
+        X: @Tensor<i8>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        p: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        count_include_pad: Option<usize>,
     ) -> Tensor<i8> {
         panic(array!['not supported!'])
     }

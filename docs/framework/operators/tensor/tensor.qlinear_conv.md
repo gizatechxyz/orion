@@ -29,7 +29,7 @@ It means they must be either scalars (per tensor) or 1-D tensors (per output cha
 
 ## Args
 
-* `X`(`@Tensor<i8>`) - Quantized input data tensor, has size (N x C x H x W), where N is the batch size, C is the number of channels, and H and W are the height and width. Note that this is for the 2D image. Otherwise the size is (N x C x D1 x D2 ... x Dn).
+* `self`(`@Tensor<i8>`) - Quantized input data tensor, has size (N x C x H x W), where N is the batch size, C is the number of channels, and H and W are the height and width. Note that this is for the 2D image. Otherwise the size is (N x C x D1 x D2 ... x Dn).
 * `X_scale`(`@Tensor<T>`) - Scale for input `X`.
 * `X_zero_point`(`@Tensor<T>`) - Zero point for input `X`.
 * `W`(`@Tensor<i8>`) - Quantized weight tensor that will be used in the convolutions; has size (M x C/group x kH x kW), where C is the number of channels, and kH and kW are the height and width of the kernel, and M is the number of feature maps. For more than 2 dimensions, the kernel shape will be (M x C/group x k1 x k2 x ... x kn), where (k1 x k2 x ... kn) is the dimension of the kernel. 

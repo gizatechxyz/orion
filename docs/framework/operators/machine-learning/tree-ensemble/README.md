@@ -20,3 +20,4 @@ Orion supports currently only fixed point data types for `TreeEnsembleTrait`.
 | function | description |
 | --- | --- |
 | [`tree_ensemble.predict`](tree_ensemble.predict.md) | Returns the regressed values for each input in a batch. |
+

@@ -669,7 +669,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         let zero = NumberTrait::<FP8x23>::zero();
         manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
     }
-    
+
     fn label_encoder(
         self: @Tensor<FP8x23>,
         default_list: Option<Span<FP8x23>>,
@@ -689,7 +689,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         panic(array!['not supported!'])
     }
-    
+
     fn eye_like(self: @Tensor<FP8x23>, k: Option<i32>) -> Tensor<FP8x23> {
         math::eye_like::eye_like(self, k)
     }

@@ -85,67 +85,69 @@ fn grid_sample<
             let all_coords = get_all_coord(SpanTrait::slice(grid_dims, 1, grid_dims.len() - 2));
 
             let mut ix = 0;
-            while ix != all_coords.len() {
-                let ox = *all_coords.at(ix);
-                let nx = get_grid_data_subset(grid_data, grid_data_stride, ox);
-                let nx = reverse(nx);
-                let x = gs_denormalize_coordinates(nx, dims, align_corner);
+            while ix != all_coords
+                .len() {
+                    let ox = *all_coords.at(ix);
+                    let nx = get_grid_data_subset(grid_data, grid_data_stride, ox);
+                    let nx = reverse(nx);
+                    let x = gs_denormalize_coordinates(nx, dims, align_corner);
 
-                let x = match mode {
-                    MODE::NEAREST => { rint(x) },
-                    MODE::LINEAR => { x },
-                    MODE::CUBIC => { x },
-                };
-
-                let mut new_x: Array<T> = array![];
-                let mut i = 0;
-                while i != x.len() {
-                    let v = *x.at(i);
-                    let mut x_min = *border.at(i);
-                    let mut x_max = *border.at(i + num_dims);
-                    let new_v = if v < x_min || v > x_max {
-                        let v = match padding_mode {
-                            PADDING_MODE::ZEROS => { v },
-                            PADDING_MODE::BORDER => {
-                                clamp(
-                                    v,
-                                    NumberTrait::zero(),
-                                    NumberTrait::new_unscaled((*dims.at(i)).into(), false)
-                                        - NumberTrait::one()
-                                )
-                            },
-                            PADDING_MODE::REFLECTION => { gs_reflect(v, x_min, x_max) },
-                        };
-                        v
-                    } else {
-                        v
+                    let x = match mode {
+                        MODE::NEAREST => { rint(x) },
+                        MODE::LINEAR => { x },
+                        MODE::CUBIC => { x },
                     };
 
-                    new_x.append(new_v);
-                    i += 1;
+                    let mut new_x: Array<T> = array![];
+                    let mut i = 0;
+                    while i != x
+                        .len() {
+                            let v = *x.at(i);
+                            let mut x_min = *border.at(i);
+                            let mut x_max = *border.at(i + num_dims);
+                            let new_v = if v < x_min || v > x_max {
+                                let v = match padding_mode {
+                                    PADDING_MODE::ZEROS => { v },
+                                    PADDING_MODE::BORDER => {
+                                        clamp(
+                                            v,
+                                            NumberTrait::zero(),
+                                            NumberTrait::new_unscaled((*dims.at(i)).into(), false)
+                                                - NumberTrait::one()
+                                        )
+                                    },
+                                    PADDING_MODE::REFLECTION => { gs_reflect(v, x_min, x_max) },
+                                };
+                                v
+                            } else {
+                                v
+                            };
+
+                            new_x.append(new_v);
+                            i += 1;
+                        };
+
+                    let x = new_x.span();
+
+                    let y = match mode {
+                        MODE::NEAREST => {
+                            pixel_at_ndarray(X_data, dims, X_data_stride, x, border, padding_mode)
+                        },
+                        MODE::LINEAR => {
+                            gs_linear_interpolation_nd_with_x(
+                                X_data, dims, X_data_stride, x, border, padding_mode
+                            )
+                        },
+                        MODE::CUBIC => {
+                            gs_cubic_interpolation_nd_with_x(
+                                X_data, dims, X_data_stride, x, border, padding_mode
+                            )
+                        },
+                    };
+
+                    Y.append(y);
+                    ix += 1;
                 };
-
-                let x = new_x.span();
-
-                let y = match mode {
-                    MODE::NEAREST => {
-                        pixel_at_ndarray(X_data, dims, X_data_stride, x, border, padding_mode)
-                    },
-                    MODE::LINEAR => {
-                        gs_linear_interpolation_nd_with_x(
-                            X_data, dims, X_data_stride, x, border, padding_mode
-                        )
-                    },
-                    MODE::CUBIC => {
-                        gs_cubic_interpolation_nd_with_x(
-                            X_data, dims, X_data_stride, x, border, padding_mode
-                        )
-                    },
-                };
-
-                Y.append(y);
-                ix += 1;
-            };
 
             c += 1;
         };
@@ -272,26 +274,27 @@ fn gs_cubic_interpolation_nd_with_x<
     let mut res1d: Array<T> = array![];
 
     let mut i = 0;
-    while i != *data_dims.at(0) {
-        let sub_data = SpanTrait::slice(data, i * *data_stride.at(0), *data_stride.at(0));
-        let sub_x = SpanTrait::slice(x, 1, x.len() - 1);
+    while i != *data_dims
+        .at(0) {
+            let sub_data = SpanTrait::slice(data, i * *data_stride.at(0), *data_stride.at(0));
+            let sub_x = SpanTrait::slice(x, 1, x.len() - 1);
 
-        let data_dims_sub = SpanTrait::slice(data_dims, 1, data_dims.len() - 1);
-        let data_stride_sub = SpanTrait::slice(data_stride, 1, data_stride.len() - 1);
+            let data_dims_sub = SpanTrait::slice(data_dims, 1, data_dims.len() - 1);
+            let data_stride_sub = SpanTrait::slice(data_stride, 1, data_stride.len() - 1);
 
-        let border1 = SpanTrait::slice(border, 1, num_dims - 1);
-        let border2 = SpanTrait::slice(border, num_dims + 1, num_dims - 1);
-        let mut border = ArrayTrait::new();
-        border.append_span(border1);
-        border.append_span(border2);
+            let border1 = SpanTrait::slice(border, 1, num_dims - 1);
+            let border2 = SpanTrait::slice(border, num_dims + 1, num_dims - 1);
+            let mut border = ArrayTrait::new();
+            border.append_span(border1);
+            border.append_span(border2);
 
-        let r = gs_cubic_interpolation_nd_with_x(
-            sub_data, data_dims_sub, data_stride_sub, sub_x, border.span(), padding_mode
-        );
+            let r = gs_cubic_interpolation_nd_with_x(
+                sub_data, data_dims_sub, data_stride_sub, sub_x, border.span(), padding_mode
+            );
 
-        res1d.append(r);
-        i += 1;
-    };
+            res1d.append(r);
+            i += 1;
+        };
 
     gs_cubic_interpolation_1d_with_x(
         res1d.span(), *x.at(0), array![*border.at(0), *border.at(num_dims)].span(), padding_mode
@@ -377,26 +380,27 @@ fn gs_linear_interpolation_nd_with_x<
     let mut res1d: Array<T> = array![];
 
     let mut i = 0;
-    while i != *data_dims.at(0) {
-        let sub_data = SpanTrait::slice(data, i * *data_stride.at(0), *data_stride.at(0));
-        let sub_x = SpanTrait::slice(x, 1, x.len() - 1);
+    while i != *data_dims
+        .at(0) {
+            let sub_data = SpanTrait::slice(data, i * *data_stride.at(0), *data_stride.at(0));
+            let sub_x = SpanTrait::slice(x, 1, x.len() - 1);
 
-        let data_dims_sub = SpanTrait::slice(data_dims, 1, data_dims.len() - 1);
-        let data_stride_sub = SpanTrait::slice(data_stride, 1, data_stride.len() - 1);
+            let data_dims_sub = SpanTrait::slice(data_dims, 1, data_dims.len() - 1);
+            let data_stride_sub = SpanTrait::slice(data_stride, 1, data_stride.len() - 1);
 
-        let border1 = SpanTrait::slice(border, 1, num_dims - 1);
-        let border2 = SpanTrait::slice(border, num_dims + 1, num_dims - 1);
-        let mut border = ArrayTrait::new();
-        border.append_span(border1);
-        border.append_span(border2);
+            let border1 = SpanTrait::slice(border, 1, num_dims - 1);
+            let border2 = SpanTrait::slice(border, num_dims + 1, num_dims - 1);
+            let mut border = ArrayTrait::new();
+            border.append_span(border1);
+            border.append_span(border2);
 
-        let r = gs_linear_interpolation_nd_with_x(
-            sub_data, data_dims_sub, data_stride_sub, sub_x, border.span(), padding_mode
-        );
+            let r = gs_linear_interpolation_nd_with_x(
+                sub_data, data_dims_sub, data_stride_sub, sub_x, border.span(), padding_mode
+            );
 
-        res1d.append(r);
-        i += 1;
-    };
+            res1d.append(r);
+            i += 1;
+        };
 
     gs_linear_interpolation_1d_with_x(
         res1d.span(), *x.at(0), array![*border.at(0), *border.at(num_dims)].span(), padding_mode
@@ -650,12 +654,13 @@ fn gs_denormalize_coordinates<
     let mut x: Array<T> = array![];
 
     let mut i = 0;
-    while i != n.len() {
-        let v = *n.at(i);
-        let dim = *dims.at(i);
-        x.append(gs_denormalize(v, dim, align_corner));
-        i += 1;
-    };
+    while i != n
+        .len() {
+            let v = *n.at(i);
+            let dim = *dims.at(i);
+            x.append(gs_denormalize(v, dim, align_corner));
+            i += 1;
+        };
 
     x.span()
 }

@@ -1,8 +1,9 @@
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{TensorTrait, Tensor};
-use orion::operators::tensor::core::{stride, unravel_index};
+use orion::operators::tensor::core::{stride, unravel_index, ravel_index};
 use orion::operators::tensor::math::max_in_tensor::max_in_tensor;
 use orion::operators::tensor::math::min_in_tensor::min_in_tensor;
+use orion::operators::vec::{NullableVec, NullableVecImpl};
 
 
 /// Computes the Cartesian product of multiple arrays.
@@ -75,6 +76,20 @@ fn cartesian(mut arrays: Span<Span<usize>>,) -> Span<Span<usize>> {
     return res.span();
 }
 
+fn get_all_coords(shape: Span<usize>) -> Span<Span<usize>> {
+    let mut all_indices = ArrayTrait::new();
+
+    let mut i = 0;
+    loop {
+        if i == shape.len() {
+            break;
+        }
+        all_indices.append(arange(0, *shape.at(i), 1));
+        i += 1;
+    };
+
+    return cartesian(all_indices.span());
+}
 
 /// Computes all coordinates given the shape of a tensor.
 ///
@@ -271,20 +286,21 @@ fn rint<
     let two: T = NumberTrait::one() + NumberTrait::one();
 
     let mut i = 0;
-    while i != data.len() {
-        let x = *data.at(i);
-        let mut round = NumberTrait::round(x);
+    while i != data
+        .len() {
+            let x = *data.at(i);
+            let mut round = NumberTrait::round(x);
 
-        let diff = round - x;
-        if diff == NumberTrait::half() {
-            if round % two != NumberTrait::zero() {
-                round -= NumberTrait::one()
+            let diff = round - x;
+            if diff == NumberTrait::half() {
+                if round % two != NumberTrait::zero() {
+                    round -= NumberTrait::one()
+                }
             }
-        }
 
-        rint.append(round);
-        i += 1;
-    };
+            rint.append(round);
+            i += 1;
+        };
 
     rint.span()
 }
@@ -308,3 +324,50 @@ fn reverse<T, +Copy<T>, +Drop<T>,>(data: Span<T>) -> Span<T> {
     rev.span()
 }
 
+/// Return the average of the input span
+///
+/// # Arguments
+/// * `a` - Span<T>
+fn average<
+    T,
+    MAG,
+    +NumberTrait<T, MAG>,
+    +Into<usize, MAG>,
+    +AddEq<T>,
+    +Drop<T>,
+    +Copy<T>,
+    +PartialOrd<T>,
+    +Div<T>
+>(
+    mut a: Span<T>
+) -> T {
+    assert(a.len() > 0, 'span cannot be empty');
+
+    let mut sum = *a.at(0);
+    let n = NumberTrait::new_unscaled((a.len()).into(), false);
+    loop {
+        match a.pop_front() {
+            Option::Some(v) => { sum += *v; },
+            Option::None => { break sum / n; }
+        };
+    }
+}
+
+
+/// Returns a NullableVec<T> of len `len` with value `fill_value`
+///
+/// # Arguments
+/// * `len` - usize
+/// * `fill_value` - T
+fn full<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>,>(
+    len: usize, fill_value: T
+) -> NullableVec<T> {
+    let mut full = NullableVecImpl::new();
+
+    let mut i = 0;
+    while i != len {
+        full.set(i, fill_value);
+        i += 1;
+    };
+    return full;
+}

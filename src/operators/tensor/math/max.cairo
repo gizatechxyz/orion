@@ -28,35 +28,36 @@ fn max<
 
     let mut tensor_counter: usize = 1;
 
-    while tensor_counter != tensors.len() {
-        let mut new_max_data: Array<T> = array![];
+    while tensor_counter != tensors
+        .len() {
+            let mut new_max_data: Array<T> = array![];
 
-        let mut current_tensor = *tensors.at(tensor_counter);
+            let mut current_tensor = *tensors.at(tensor_counter);
 
-        let mut broadcasted_shape = broadcast_shape(max_shape, current_tensor.shape);
+            let mut broadcasted_shape = broadcast_shape(max_shape, current_tensor.shape);
 
-        let num_elements = len_from_shape(broadcasted_shape);
-        let mut n: usize = 0;
-        while n != num_elements {
-            let mut indices_broadcasted = unravel_index(n, broadcasted_shape);
+            let num_elements = len_from_shape(broadcasted_shape);
+            let mut n: usize = 0;
+            while n != num_elements {
+                let mut indices_broadcasted = unravel_index(n, broadcasted_shape);
 
-            let mut indices_self = broadcast_index_mapping(max_shape, indices_broadcasted);
-            let mut indices_other = broadcast_index_mapping(
-                current_tensor.shape, indices_broadcasted
-            );
+                let mut indices_self = broadcast_index_mapping(max_shape, indices_broadcasted);
+                let mut indices_other = broadcast_index_mapping(
+                    current_tensor.shape, indices_broadcasted
+                );
 
-            let mut max_value = NumberTrait::max(
-                *(max_data)[indices_self], *(current_tensor.data)[indices_other]
-            );
-            new_max_data.append(max_value);
+                let mut max_value = NumberTrait::max(
+                    *(max_data)[indices_self], *(current_tensor.data)[indices_other]
+                );
+                new_max_data.append(max_value);
 
-            n += 1;
+                n += 1;
+            };
+
+            max_shape = broadcasted_shape;
+            max_data = new_max_data.span();
+            tensor_counter += 1;
         };
-
-        max_shape = broadcasted_shape;
-        max_data = new_max_data.span();
-        tensor_counter += 1;
-    };
 
     TensorTrait::<T>::new(max_shape, max_data)
 }

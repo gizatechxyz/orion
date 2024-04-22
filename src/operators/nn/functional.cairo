@@ -21,3 +21,4 @@ mod conv_integer;
 mod max_pool;
 mod common_pool;
 mod deform_conv;
+mod lp_pool;

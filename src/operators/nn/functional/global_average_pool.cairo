@@ -27,7 +27,7 @@ fn global_average_pool<
     let N = *(tensor.shape).at(0);
     let C = *(tensor.shape).at(1);
     let mut shape = array![N, C];
-    let mut i:usize = 2;
+    let mut i: usize = 2;
     let one: T = NumberTrait::one();
     let len = (tensor.shape).len();
     let mut num: usize = 1;
@@ -35,7 +35,7 @@ fn global_average_pool<
     while i < len {
         shape.append(1);
         let v = *(tensor.shape).at(i);
-        let mut v_t: T =  one;
+        let mut v_t: T = one;
         let mut j: usize = 1;
         while j != v {
             v_t = v_t + one;
@@ -49,7 +49,7 @@ fn global_average_pool<
     i = 0;
     let tensor_len = (tensor.data).len();
     while i < tensor_len {
-        let mut j:usize = 0;
+        let mut j: usize = 0;
         let mut r: T = NumberTrait::zero();
         while j != num {
             r += *(tensor.data).at(i);
