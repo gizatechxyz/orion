@@ -10,6 +10,8 @@ use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
 };
 use orion::numbers::fixed_point::implementations::fp8x23::math::trig::PI;
+use orion::operators::nn::AUTO_PAD;
+use orion::operators::nn::implementations::nn_fp8x23::FP8x23NN;
 
 impl FP8x23Tensor of TensorTrait<FP8x23> {
     fn new(shape: Span<usize>, data: Span<FP8x23>) -> Tensor<FP8x23> {
@@ -68,12 +70,17 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP8x23>, target_shape: Span<usize>) -> Tensor<FP8x23> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<FP8x23>, target_shape: Span<i32>, allowzero: bool) -> Tensor<FP8x23> {
+        reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<FP8x23>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<FP8x23> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
     fn reduce_prod(self: @Tensor<FP8x23>, axis: usize, keepdims: bool) -> Tensor<FP8x23> {
@@ -81,8 +88,8 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     }
 
     fn argmax(
-        self: @Tensor<FP8x23>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<FP8x23>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 
@@ -120,11 +127,11 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<usize> {
+    fn less(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<i32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<FP8x23>, other: @Tensor<FP8x23>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -335,6 +342,44 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         )
     }
 
+    fn qlinear_conv(
+        self: @Tensor<i8>,
+        X_scale: @Tensor<FP8x23>,
+        X_zero_point: @Tensor<FP8x23>,
+        W: @Tensor<i8>,
+        W_scale: @Tensor<FP8x23>,
+        W_zero_point: @Tensor<FP8x23>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        y_scale: @Tensor<FP8x23>,
+        y_zero_point: @Tensor<FP8x23>,
+    ) -> Tensor<i8> {
+        quantization::qlinear_conv::qlinear_conv(
+            self,
+            X_scale,
+            X_zero_point,
+            W,
+            W_scale,
+            W_zero_point,
+            B,
+            auto_pad,
+            dilations,
+            group,
+            kernel_shape,
+            pads,
+            strides,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn slice(
         self: @Tensor<FP8x23>,
         starts: Span<usize>,
@@ -345,9 +390,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         core_ops::slice::<FP8x23>(self, starts, ends, axes, steps)
     }
 
-    fn gather(
-        self: @Tensor<FP8x23>, indices: Tensor<usize>, axis: Option<usize>
-    ) -> Tensor<FP8x23> {
+    fn gather(self: @Tensor<FP8x23>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<FP8x23> {
         math::gather::gather(self, indices, axis)
     }
 
@@ -426,7 +469,7 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
     }
 
     fn gather_elements(
-        self: @Tensor<FP8x23>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<FP8x23>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<FP8x23> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
@@ -620,6 +663,13 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 
+    fn center_crop_pad(
+        self: @Tensor<FP8x23>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<FP8x23> {
+        let zero = NumberTrait::<FP8x23>::zero();
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+    
     fn label_encoder(
         self: @Tensor<FP8x23>,
         default_list: Option<Span<FP8x23>>,
@@ -632,6 +682,16 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
         ml::label_encoder::label_encoder(
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
+    }
+
+    fn bit_shift(
+        tensor1: @Tensor<FP8x23>, tensor2: @Tensor<FP8x23>, direction: felt252
+    ) -> Tensor<FP8x23> {
+        panic(array!['not supported!'])
+    }
+    
+    fn eye_like(self: @Tensor<FP8x23>, k: Option<i32>) -> Tensor<FP8x23> {
+        math::eye_like::eye_like(self, k)
     }
 }
 
@@ -777,17 +837,19 @@ fn relative_eq(lhs: @FP8x23, rhs: @FP8x23) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP8x23>, mut rhs: Tensor<FP8x23>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0 && is_eq {
-        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() != 0 && is_eq {
-        is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
-    };
+    while lhs.data.len() != 0
+        && is_eq {
+            is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+        };
 
     is_eq
 }

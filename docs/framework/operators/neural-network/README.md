@@ -40,4 +40,5 @@ Orion supports currently these `NN` types.
 | [`nn.conv_transpose`](nn.conv\_transpose.md) | Performs the convolution transpose of the input data tensor and weight tensor. |
 | [`nn.conv`](nn.conv.md) | Performs the convolution of the input data tensor and weight tensor. |
 | [`nn.global_average_pool`](nn.global\_average\_pool.md) | GlobalAveragePool consumes an input tensor X and applies average pooling across the values in the same channel. |
+| [`nn.conv_integer`](nn.conv\_integer.md) | Performs integer convolution  |
 

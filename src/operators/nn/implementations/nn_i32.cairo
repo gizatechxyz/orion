@@ -1,7 +1,12 @@
 use orion::operators::tensor::core::Tensor;
 use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
-use orion::operators::tensor::implementations::tensor_i32::{I32Tensor, I32TensorAdd};
+use orion::operators::tensor::implementations::tensor_i32::{
+    I32Tensor, I32TensorAdd, I32TensorMul, I32TensorSub, I32TensorDiv
+};
+use orion::numbers::{I32Div};
+use orion::operators::tensor::implementations::tensor_i32::{I32TensorTryIntoU32Tensor};
+use orion::operators::nn::{AUTO_PAD, MODE, PADDING_MODE};
 
 impl I32NN of NNTrait<i32> {
     fn relu(tensor: @Tensor<i32>) -> Tensor<i32> {
@@ -12,7 +17,7 @@ impl I32NN of NNTrait<i32> {
         panic(array!['not supported!'])
     }
 
-    fn softmax(tensor: @Tensor<i32>, axis: usize) -> Tensor<i32> {
+    fn softmax(tensor: @Tensor<i32>, axis: Option<i32>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
@@ -72,8 +77,8 @@ impl I32NN of NNTrait<i32> {
         X: @Tensor<i32>,
         grid: @Tensor<i32>,
         align_corner: Option<usize>,
-        mode: Option<functional::grid_sample::MODE>,
-        padding_mode: Option<functional::grid_sample::PADDING_MODE>,
+        mode: Option<MODE>,
+        padding_mode: Option<PADDING_MODE>,
     ) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
@@ -121,7 +126,7 @@ impl I32NN of NNTrait<i32> {
         X: @Tensor<i32>,
         W: @Tensor<i32>,
         B: Option<Span<i32>>,
-        auto_pad: Option<functional::conv::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,
@@ -132,6 +137,61 @@ impl I32NN of NNTrait<i32> {
     }
 
     fn global_average_pool(tensor: @Tensor<i32>) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
+    fn conv_integer(
+        X: @Tensor<i32>,
+        W: @Tensor<i32>,
+        X_zero_point: Option<@Tensor<i32>>,
+        W_zero_point: Option<@Tensor<i32>>,
+        auto_pad: Option<functional::conv::AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<usize> {
+        functional::conv_integer::conv_integer(
+            X,
+            W,
+            X_zero_point,
+            W_zero_point,
+            auto_pad,
+            dilations,
+            group,
+            kernel_shape,
+            pads,
+            strides,
+        )
+    }
+    
+    fn max_pool(
+        X: @Tensor<i32>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        pads: Option<Span<usize>>,
+        storage_order: Option<usize>,
+        strides: Option<Span<usize>>,
+        output_len: usize,
+    ) -> (Tensor<i32>, Option<Tensor<usize>>) {
+        panic(array!['not supported!'])
+    }
+    fn deform_conv(
+        X: @Tensor<i32>,
+        W: @Tensor<i32>,
+        offset: @Tensor<i32>,
+        B: Option<Span<i32>>,
+        mask: Option<Tensor<i32>>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        offset_group: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 }

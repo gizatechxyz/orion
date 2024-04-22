@@ -1,25 +1,12 @@
-use core::debug::PrintTrait;
-
 use orion::numbers::FP16x16;
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{stride};
 use orion::operators::tensor::{FP16x16Tensor, TensorTrait, Tensor, U32Tensor,};
 use orion::operators::vec::{NullableVec, NullableVecImpl};
+use orion::operators::nn::{MODE, PADDING_MODE};
+use orion::operators::nn::helpers::{dot, get_all_coord, prod, zeros, rint, reverse};
 
-#[derive(Copy, Drop)]
-enum MODE {
-    NEAREST,
-    LINEAR,
-    CUBIC,
-}
-
-#[derive(Copy, Drop)]
-enum PADDING_MODE {
-    ZEROS,
-    BORDER,
-    REFLECTION,
-}
-
+/// Cf: NNTrait::grid_sample docstring
 fn grid_sample<
     T,
     MAG,
@@ -32,7 +19,6 @@ fn grid_sample<
     +Sub<T>,
     +Div<T>,
     +AddEq<T>,
-    +PrintTrait<T>,
     +PartialOrd<T>,
     +PartialEq<T>,
     +TryInto<T, usize>,
@@ -79,7 +65,7 @@ fn grid_sample<
     y_dims.append_span(SpanTrait::slice(grid_dims, 1, grid_dims.len() - 2));
     let y_dims = y_dims.span();
 
-    if prod(y_dims, 0) == 0 {
+    if prod(y_dims) == 0 {
         return TensorTrait::new(array![].span(), array![].span());
     }
 
@@ -96,12 +82,12 @@ fn grid_sample<
                 (*X).data, n * *x_stride.at(0) + c * *x_stride.at(1), *x_stride.at(1)
             );
             let X_data_stride = SpanTrait::slice(x_stride, 2, grid_stride.len() - 2);
-            let all_coords = get_all_coords(SpanTrait::slice(grid_dims, 1, grid_dims.len() - 2));
+            let all_coords = get_all_coord(SpanTrait::slice(grid_dims, 1, grid_dims.len() - 2));
 
             let mut ix = 0;
             while ix != all_coords.len() {
                 let ox = *all_coords.at(ix);
-                let nx = get_sub(grid_data, grid_data_stride, ox);
+                let nx = get_grid_data_subset(grid_data, grid_data_stride, ox);
                 let nx = reverse(nx);
                 let x = gs_denormalize_coordinates(nx, dims, align_corner);
 
@@ -187,7 +173,6 @@ fn gs_cubic_interpolation_1d_with_x<
     +PartialOrd<T>,
     +PartialEq<T>,
     +Rem<T>,
-    +PrintTrait<T>,
 >(
     data: Span<T>, x: T, border: Span<T>, padding_mode: PADDING_MODE
 ) -> T {
@@ -266,7 +251,6 @@ fn gs_cubic_interpolation_nd_with_x<
     +PartialOrd<T>,
     +PartialEq<T>,
     +Rem<T>,
-    +PrintTrait<T>,
 >(
     data: Span<T>,
     data_dims: Span<usize>,
@@ -338,7 +322,7 @@ fn gs_linear_interpolation_1d_with_x<
     +PartialOrd<T>,
     +PartialEq<T>,
     +Rem<T>,
-    +PrintTrait<T>
+    +AddEq<T>,
 >(
     data: Span<T>, x: T, border: Span<T>, padding_mode: PADDING_MODE
 ) -> T {
@@ -353,21 +337,6 @@ fn gs_linear_interpolation_1d_with_x<
     let v: Span<T> = array![v_0, v_1].span();
 
     dot(coeffs, v)
-}
-
-fn dot<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +Add<T>, +TensorTrait<T>, +Mul<T>,>(
-    a: Span<T>, b: Span<T>
-) -> T {
-    assert(a.len() == b.len(), 'dot: wrong len');
-
-    let mut i = 0;
-    let mut sum = NumberTrait::zero();
-    while i != a.len() {
-        sum = sum + *a.at(i) * *b.at(i);
-        i += 1;
-    };
-
-    sum
 }
 
 fn gs_linear_interpolation_nd_with_x<
@@ -386,7 +355,7 @@ fn gs_linear_interpolation_nd_with_x<
     +PartialOrd<T>,
     +PartialEq<T>,
     +Rem<T>,
-    +PrintTrait<T>
+    +AddEq<T>
 >(
     data: Span<T>,
     data_dims: Span<usize>,
@@ -450,7 +419,6 @@ fn pixel_at_ndarray<
     +PartialOrd<T>,
     +PartialEq<T>,
     +Rem<T>,
-    +PrintTrait<T>,
 >(
     ndarray: Span<T>,
     ndarray_dims: Span<usize>,
@@ -525,7 +493,6 @@ fn pixel_at_array<
     +PartialOrd<T>,
     +PartialEq<T>,
     +Rem<T>,
-    +PrintTrait<T>,
 >(
     array: Span<T>, i: T, border: Span<T>, padding_mode: PADDING_MODE
 ) -> T {
@@ -555,68 +522,6 @@ fn pixel_at_array<
     pixel
 }
 
-fn zeros<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>>(n: usize) -> Span<T> {
-    let mut zeros: Array<T> = array![];
-    let mut i = 0;
-    while i != n {
-        zeros.append(NumberTrait::zero());
-        i += 1;
-    };
-
-    zeros.span()
-}
-
-fn rint<
-    T,
-    MAG,
-    +Drop<T>,
-    +Copy<T>,
-    +NumberTrait<T, MAG>,
-    +SubEq<T>,
-    +Rem<T>,
-    +PartialEq<T>,
-    +PartialOrd<T>,
-    +Add<T>,
-    +Sub<T>
->(
-    data: Span<T>
-) -> Span<T> {
-    // round to nearest if ties rounds to the nearest even value. 
-    let mut rint: Array<T> = array![];
-    let two: T = NumberTrait::one() + NumberTrait::one();
-
-    let mut i = 0;
-    while i != data.len() {
-        let x = *data.at(i);
-        let mut round = NumberTrait::round(x);
-
-        let diff = round - x;
-        if diff == NumberTrait::half() {
-            if round % two != NumberTrait::zero() {
-                round -= NumberTrait::one()
-            }
-        }
-
-        rint.append(round);
-        i += 1;
-    };
-
-    rint.span()
-}
-
-fn clamp<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +PartialOrd<T>>(
-    val: T, low: T, high: T
-) -> T {
-    if val < low {
-        return low;
-    }
-
-    if val > high {
-        return high;
-    }
-
-    val
-}
 
 fn gs_reflect<
     T,
@@ -631,7 +536,6 @@ fn gs_reflect<
     +Div<T>,
     +Mul<T>,
     +Rem<T>,
-    +PrintTrait<T>,
 >(
     x: T, x_min: T, x_max: T
 ) -> T {
@@ -667,18 +571,8 @@ fn gs_reflect<
     fx
 }
 
-fn reverse<T, +Copy<T>, +Drop<T>,>(data: Span<T>) -> Span<T> {
-    let mut rev: Array<T> = array![];
-    let mut i = data.len();
-    while i != 0 {
-        rev.append(*data.at(i - 1));
-        i -= 1;
-    };
 
-    rev.span()
-}
-
-fn get_sub<T, +Copy<T>, +Drop<T>,>(
+fn get_grid_data_subset<T, +Copy<T>, +Drop<T>,>(
     data: Span<T>, stride_data: Span<usize>, index: Span<usize>,
 ) -> Span<T> {
     let mut acc_indices = 0;
@@ -691,18 +585,6 @@ fn get_sub<T, +Copy<T>, +Drop<T>,>(
     SpanTrait::slice(data, acc_indices, *stride_data.at(index.len() - 1))
 }
 
-fn prod<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +Mul<T>,>(
-    pA: Span<T>, start: usize
-) -> T {
-    let mut i = start;
-    let mut prod = NumberTrait::one();
-    while i != pA.len() {
-        prod = prod * (*pA.at(i));
-        i += 1;
-    };
-
-    prod
-}
 
 fn prepare_border<
     T,
@@ -749,17 +631,6 @@ fn prepare_border<
     borders1.span()
 }
 
-fn arange(start: usize, end: usize, step: usize) -> Span<usize> {
-    assert((end - start) % step == 0, 'incompatible step value');
-    let mut arr: Array<usize> = array![];
-    let mut i = start;
-    while i != end {
-        arr.append(i);
-        i += step;
-    };
-
-    arr.span()
-}
 
 fn gs_denormalize_coordinates<
     T,
@@ -816,103 +687,17 @@ fn gs_denormalize<
     x
 }
 
-fn get_all_coords(shape: Span<usize>) -> Span<Span<usize>> {
-    let mut all_indices = array![];
 
-    let mut i = 0;
-    while i != shape.len() {
-        all_indices.append(arange(0, *shape.at(i), 1));
-        i += 1;
-    };
+fn clamp<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +PartialOrd<T>>(
+    val: T, low: T, high: T
+) -> T {
+    if val < low {
+        return low;
+    }
 
-    cartesian(all_indices.span())
-}
+    if val > high {
+        return high;
+    }
 
-fn cartesian(mut arrays: Span<Span<usize>>,) -> Span<Span<usize>> {
-    let mut n = 1;
-    let mut i = arrays.len() - 1;
-    loop {
-        n = n * (*(arrays.at(i))).len();
-        if i == 0 {
-            break;
-        }
-        i -= 1;
-    };
-
-    let mut i = 0;
-    let mut size_arrays: Array<usize> = array![];
-    while i != arrays.len() {
-        size_arrays.append((*(arrays.at(i))).len());
-        i += 1;
-    };
-
-    let size_arrays = size_arrays.span();
-    let mut output_arrays = ArrayTrait::<Array<usize>>::new();
-    let mut m = n;
-
-    let mut i = 0;
-    while i != arrays.len() {
-        m = m / (*(arrays.at(i))).len();
-        let mut out = repeat(*(arrays.at(i)), m);
-        out = repeat_2(out, size_arrays, i);
-
-        output_arrays.append(out);
-        i += 1;
-    };
-
-    let output_arrays = output_arrays.span();
-
-    let mut i = 0;
-    let mut ret = array![];
-    while i != n {
-        let mut j = 0;
-        let mut x = ArrayTrait::new();
-        while j != arrays.len() {
-            x.append(*(output_arrays.at(j)).at(i));
-            j += 1;
-        };
-
-        ret.append(x.span());
-        i += 1;
-    };
-
-    ret.span()
-}
-
-fn repeat_2(mut array: Array<usize>, size_array: Span<usize>, index: usize) -> Array<usize> {
-    let mut size = array.len();
-    let mut i = 0;
-    while i != index {
-        let mut j = 1;
-        while j != *size_array.at(index - 1 - i) {
-            let mut k = 0;
-            while k != size {
-                array.append(*array.at(k));
-                k += 1;
-            };
-
-            j += 1;
-        };
-
-        size = size * *size_array.at(index - 1 - i);
-        i += 1;
-    };
-
-    array
-}
-
-fn repeat(array: Span<usize>, m: usize,) -> Array<usize> {
-    let mut out: Array<usize> = array![];
-    let mut j = 0;
-    while j != array.len() {
-        let mut k = 0;
-        while k != m {
-            out.append(*array.at(j));
-            k += 1;
-        };
-
-        j += 1;
-    };
-
-    out
+    val
 }
