@@ -580,6 +580,10 @@ impl BoolTensor of TensorTrait<bool> {
     ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
+
+    fn eye_like(self: @Tensor<bool>, k: Option<i32>) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
 }
 
 /// Implements partial equal for two `Tensor<bool>` using the `PartialEq` trait.

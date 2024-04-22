@@ -683,6 +683,10 @@ impl FP8x23Tensor of TensorTrait<FP8x23> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn eye_like(self: @Tensor<FP8x23>, k: Option<i32>) -> Tensor<FP8x23> {
+        math::eye_like::eye_like(self, k)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23>` using the `Add` trait.

@@ -691,6 +691,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn eye_like(self: @Tensor<FP16x16>, k: Option<i32>) -> Tensor<FP16x16> {
+        math::eye_like::eye_like(self, k)
+    }
 }
 
 /// Implements addition for `Tensor<FP16x16>` using the `Add` trait.

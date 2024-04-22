@@ -654,6 +654,10 @@ impl I8Tensor of TensorTrait<i8> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn eye_like(self: @Tensor<i8>, k: Option<i32>) -> Tensor<i8> {
+        math::eye_like::eye_like(self, k)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.

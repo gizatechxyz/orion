@@ -133,6 +133,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.dynamic_quantize_linear`](tensor.dynamic\_quantize\_linear.md) | Computes the Scale, Zero Point and FP32->8Bit conversion of FP32 Input data.  |
 | [`tensor.scatter_nd`](tensor.scatter\_nd.md) | The output of the operation is produced by creating a copy of the input data, and then updating its value to values specified by updates at specific index positions specified by indices. Its output shape is the same as the shape of data |
 | [`tensor.label_encoder`](tensor.label\_encoder.md) | Maps each element in the input tensor to another value. |
+| [`tensor.eye_like`](tensor.eye\_like.md) | Generate a 2D tensor (matrix) with ones on the diagonal and zeros everywhere else. Only 2D tensors are supported, i.e. input T1 must be of rank 2. The shape of the output tensor is the same as the input tensor.  |
 
 ## Arithmetic Operations
 
