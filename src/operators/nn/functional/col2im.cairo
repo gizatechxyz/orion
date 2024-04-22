@@ -57,42 +57,52 @@ fn col2im<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Ad
     let bl = prod(block_shape);
     let C = *(*data).shape.at(1) / bl;
 
-    let mut new_shape = array![*(*data).shape.at(0), C, bl];
+    let mut new_shape: Array<i32> = array![
+        (*(*data).shape.at(0)).try_into().unwrap(), C.try_into().unwrap(), bl.try_into().unwrap()
+    ];
     let mut i = 2;
-    while i != (*data).shape.len() {
-        new_shape.append(*(*data).shape.at(i));
-        i += 1;
-    };
+    while i != (*data)
+        .shape
+        .len() {
+            new_shape.append((*(*data).shape.at(i)).try_into().unwrap());
+            i += 1;
+        };
 
-    let data = data.reshape(new_shape.span());
+    let data = data.reshape(new_shape.span(), false);
 
     let mut res: Array<T> = array![];
     let data_stride = stride(data.shape);
 
     let mut n = 0;
-    while n != *data.shape.at(0) {
-        let mut c = 0;
-        while c != *data.shape.at(1) {
-            let data_n_c = TensorTrait::new(
-                SpanTrait::slice(data.shape, 2, data.shape.len() - 2),
-                SpanTrait::slice(
-                    data.data, n * *data_stride.at(0) + c * *data_stride.at(1), *data_stride.at(1)
-                )
-            );
-            let mut out = col2im_naive_implementation(
-                @data_n_c, image_shape, block_shape, dilations, pads, strides
-            );
-            let mut i = 0;
-            while i != out.len() {
-                res.append(out.at(i));
-                i += 1;
-            };
+    while n != *data
+        .shape
+        .at(0) {
+            let mut c = 0;
+            while c != *data
+                .shape
+                .at(1) {
+                    let data_n_c = TensorTrait::new(
+                        SpanTrait::slice(data.shape, 2, data.shape.len() - 2),
+                        SpanTrait::slice(
+                            data.data,
+                            n * *data_stride.at(0) + c * *data_stride.at(1),
+                            *data_stride.at(1)
+                        )
+                    );
+                    let mut out = col2im_naive_implementation(
+                        @data_n_c, image_shape, block_shape, dilations, pads, strides
+                    );
+                    let mut i = 0;
+                    while i != out.len() {
+                        res.append(out.at(i));
+                        i += 1;
+                    };
 
-            c += 1;
+                    c += 1;
+                };
+
+            n += 1;
         };
-
-        n += 1;
-    };
 
     let mut new_shape = array![*data.shape.at(0), *data.shape.at(1)];
     let mut i = 0;
@@ -234,4 +244,60 @@ fn col2im_shape_check<T, +TensorTrait<T>, +Copy<T>, +Drop<T>,>(
     let block_size = prod(n_blocks.span());
 
     assert(input_length == block_size, 'input_length != block_size');
+}
+
+fn get_indices(index: usize, shape: Span<usize>,) -> Array<usize> {
+    let mut i = index;
+    let mut res: Array<usize> = array![];
+    let mut k = shape.len() - 1;
+    while k != 0 {
+        let m = i % *shape.at(k);
+        res.append(m);
+        i -= m;
+        i /= *shape.at(k);
+        k -= 1;
+    };
+
+    let mut new_res: Array<usize> = array![];
+    new_res.append(i);
+    let mut i = shape.len() - 1;
+    while i != 0 {
+        new_res.append(*res.at(i - 1));
+        i -= 1;
+    };
+
+    new_res
+}
+
+fn is_out(ind: Span<usize>, shape: Span<usize>,) -> bool {
+    let mut n = 0;
+    let is_out = loop {
+        if n == ind.len() {
+            break false;
+        }
+        let s = *shape.at(n);
+        let i = *ind.at(n);
+        if i < 0 {
+            break true;
+        }
+        if i >= s {
+            break true;
+        }
+        n += 1;
+    };
+
+    is_out
+}
+
+fn prod<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +Mul<T>,>(
+    pA: Span<T>, start: usize
+) -> T {
+    let mut i = start;
+    let mut prod = NumberTrait::one();
+    while i != pA.len() {
+        prod = prod * (*pA.at(i));
+        i += 1;
+    };
+
+    prod
 }

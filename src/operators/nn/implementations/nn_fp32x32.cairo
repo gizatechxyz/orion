@@ -3,7 +3,7 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::numbers::fixed_point::implementations::fp32x32::core::{FP32x32, FP32x32Impl};
 use orion::operators::tensor::implementations::tensor_fp32x32::{
-    FP32x32Tensor, FP32x32TensorDiv, FP32x32TensorAdd
+    FP32x32Tensor, FP32x32TensorDiv, FP32x32TensorAdd, FP32x32TensorMul
 };
 use orion::operators::nn::{AUTO_PAD, MODE, PADDING_MODE};
 
@@ -16,7 +16,7 @@ impl FP32x32NN of NNTrait<FP32x32> {
         functional::sigmoid::sigmoid(*tensor)
     }
 
-    fn softmax(tensor: @Tensor<FP32x32>, axis: usize) -> Tensor<FP32x32> {
+    fn softmax(tensor: @Tensor<FP32x32>, axis: Option<i32>) -> Tensor<FP32x32> {
         functional::softmax::softmax(tensor, axis)
     }
 
@@ -129,7 +129,7 @@ impl FP32x32NN of NNTrait<FP32x32> {
         X: @Tensor<FP32x32>,
         W: @Tensor<FP32x32>,
         B: Option<Span<FP32x32>>,
-        auto_pad: Option<functional::conv::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,
@@ -137,5 +137,45 @@ impl FP32x32NN of NNTrait<FP32x32> {
         strides: Option<Span<usize>>,
     ) -> Tensor<FP32x32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn max_pool(
+        X: @Tensor<FP32x32>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        pads: Option<Span<usize>>,
+        storage_order: Option<usize>,
+        strides: Option<Span<usize>>,
+        output_len: usize,
+    ) -> (Tensor<FP32x32>, Option<Tensor<usize>>) {
+        functional::max_pool::max_pool(
+            X,
+            auto_pad,
+            ceil_mode,
+            dilations,
+            kernel_shape,
+            pads,
+            storage_order,
+            strides,
+            output_len)
+    }
+    fn deform_conv(
+        X: @Tensor<FP32x32>,
+        W: @Tensor<FP32x32>,
+        offset: @Tensor<FP32x32>,
+        B: Option<Span<FP32x32>>,
+        mask: Option<Tensor<FP32x32>>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        offset_group: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP32x32> {
+        functional::deform_conv::deform_conv(
+            X, W, offset, B, mask, dilations, group, kernel_shape, offset_group, pads, strides,
+        )
     }
 }

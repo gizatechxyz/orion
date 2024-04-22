@@ -6,6 +6,8 @@ use orion::operators::tensor::core::{stride};
 use orion::operators::nn::helpers::{cartesian, arange, max_in_tensor, min_in_tensor, dot};
 use orion::operators::nn::AUTO_PAD;
 
+
+/// Cf: NNTrait::conv docstring
 fn conv<
     T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Add<T>, +Mul<T>, +AddEq<T>,
 >(

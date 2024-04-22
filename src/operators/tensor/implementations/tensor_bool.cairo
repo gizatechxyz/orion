@@ -6,6 +6,7 @@ use orion::operators::tensor::core::{
 use orion::operators::tensor::{math, linalg, quantization, core as core_ops, ml, manipulation};
 use orion::numbers::{NumberTrait};
 use orion::operators::tensor::implementations::tensor_u32::U32Tensor;
+use orion::operators::nn::AUTO_PAD;
 
 impl BoolTensor of TensorTrait<bool> {
     fn new(shape: Span<usize>, data: Span<bool>) -> Tensor<bool> {
@@ -60,11 +61,16 @@ impl BoolTensor of TensorTrait<bool> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<bool>, target_shape: Span<usize>) -> Tensor<bool> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<bool>, target_shape: Span<i32>, allowzero: bool) -> Tensor<bool> {
+        reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<bool>, axis: usize, keepdims: bool) -> Tensor<bool> {
+    fn reduce_sum(
+        self: @Tensor<bool>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
 
@@ -73,8 +79,8 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn argmax(
-        self: @Tensor<bool>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<bool>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
@@ -112,11 +118,11 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
-    fn less(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn less(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
-    fn less_equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<bool>, other: @Tensor<bool>) -> Tensor<i32> {
         panic(array!['not supported!'])
     }
 
@@ -226,7 +232,7 @@ impl BoolTensor of TensorTrait<bool> {
         core_ops::slice::<bool>(self, starts, ends, axes, steps)
     }
 
-    fn gather(self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<bool> {
+    fn gather(self: @Tensor<bool>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<bool> {
         math::gather::gather(self, indices, axis)
     }
 
@@ -322,6 +328,26 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn qlinear_conv(
+        self: @Tensor<i8>,
+        X_scale: @Tensor<bool>,
+        X_zero_point: @Tensor<bool>,
+        W: @Tensor<i8>,
+        W_scale: @Tensor<bool>,
+        W_zero_point: @Tensor<bool>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        y_scale: @Tensor<bool>,
+        y_zero_point: @Tensor<bool>,
+    ) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn round(self: @Tensor<bool>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }
@@ -369,7 +395,7 @@ impl BoolTensor of TensorTrait<bool> {
     }
 
     fn gather_elements(
-        self: @Tensor<bool>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<bool>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<bool> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
@@ -536,6 +562,13 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn center_crop_pad(
+        self: @Tensor<bool>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<bool> {
+        let zero = false;
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+    
     fn label_encoder(
         self: @Tensor<bool>,
         default_list: Option<Span<bool>>,
@@ -570,17 +603,19 @@ impl BoolTryIntobool of TryInto<bool, bool> {
 fn tensor_eq(mut lhs: Tensor<bool>, mut rhs: Tensor<bool>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0 && is_eq {
-        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() != 0 && is_eq {
-        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
-    };
+    while lhs.data.len() != 0
+        && is_eq {
+            is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+        };
 
     is_eq
 }

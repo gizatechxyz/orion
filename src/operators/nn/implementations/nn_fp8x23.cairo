@@ -3,7 +3,7 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::numbers::fixed_point::implementations::fp8x23::core::FP8x23;
 use orion::operators::tensor::implementations::tensor_fp8x23::{
-    FP8x23Tensor, FP8x23TensorDiv, FP8x23TensorAdd
+    FP8x23Tensor, FP8x23TensorDiv, FP8x23TensorAdd, FP8x23TensorMul
 };
 use orion::numbers::fixed_point::implementations::fp8x23wide::core::{
     FP8x23WImpl, FP8x23WTryIntoFP8x23, FP8x23W, FP8x23IntoFP8x23W
@@ -20,7 +20,7 @@ impl FP8x23NN of NNTrait<FP8x23> {
         functional::sigmoid::sigmoid(*tensor)
     }
 
-    fn softmax(tensor: @Tensor<FP8x23>, axis: usize) -> Tensor<FP8x23> {
+    fn softmax(tensor: @Tensor<FP8x23>, axis: Option<i32>) -> Tensor<FP8x23> {
         functional::softmax::softmaxWide::<FP8x23, u32, FP8x23W, u64>(tensor, axis)
     }
 
@@ -139,5 +139,45 @@ impl FP8x23NN of NNTrait<FP8x23> {
         strides: Option<Span<usize>>,
     ) -> Tensor<FP8x23> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn max_pool(
+        X: @Tensor<FP8x23>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        pads: Option<Span<usize>>,
+        storage_order: Option<usize>,
+        strides: Option<Span<usize>>,
+        output_len: usize,
+    ) -> (Tensor<FP8x23>, Option<Tensor<usize>>) {
+        functional::max_pool::max_pool(
+            X,
+            auto_pad,
+            ceil_mode,
+            dilations,
+            kernel_shape,
+            pads,
+            storage_order,
+            strides,
+            output_len)
+    }
+    fn deform_conv(
+        X: @Tensor<FP8x23>,
+        W: @Tensor<FP8x23>,
+        offset: @Tensor<FP8x23>,
+        B: Option<Span<FP8x23>>,
+        mask: Option<Tensor<FP8x23>>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        offset_group: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP8x23> {
+        functional::deform_conv::deform_conv(
+            X, W, offset, B, mask, dilations, group, kernel_shape, offset_group, pads, strides,
+        )
     }
 }

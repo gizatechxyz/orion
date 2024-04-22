@@ -4,7 +4,7 @@ mod functional;
 mod common;
 mod helpers;
 
-use orion::operators::nn::common::{AUTO_PAD, MODE, PADDING_MODE};
+use orion::operators::nn::common::{AUTO_PAD, MODE, PADDING_MODE, POOLING_TYPE};
 
 use orion::operators::nn::core::NNTrait;
 

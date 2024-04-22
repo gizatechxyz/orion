@@ -3,7 +3,7 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::numbers::fixed_point::implementations::fp64x64::core::{FP64x64, FP64x64Impl};
 use orion::operators::tensor::implementations::tensor_fp64x64::{
-    FP64x64Tensor, FP64x64TensorDiv, FP64x64TensorAdd
+    FP64x64Tensor, FP64x64TensorDiv, FP64x64TensorAdd, FP64x64TensorMul
 };
 use orion::operators::nn::{AUTO_PAD, MODE, PADDING_MODE};
 
@@ -16,7 +16,7 @@ impl FP64x64NN of NNTrait<FP64x64> {
         functional::sigmoid::sigmoid(*tensor)
     }
 
-    fn softmax(tensor: @Tensor<FP64x64>, axis: usize) -> Tensor<FP64x64> {
+    fn softmax(tensor: @Tensor<FP64x64>, axis: Option<i32>) -> Tensor<FP64x64> {
         functional::softmax::softmax(tensor, axis)
     }
 
@@ -129,7 +129,7 @@ impl FP64x64NN of NNTrait<FP64x64> {
         X: @Tensor<FP64x64>,
         W: @Tensor<FP64x64>,
         B: Option<Span<FP64x64>>,
-        auto_pad: Option<functional::conv::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,
@@ -137,5 +137,45 @@ impl FP64x64NN of NNTrait<FP64x64> {
         strides: Option<Span<usize>>,
     ) -> Tensor<FP64x64> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn max_pool(
+        X: @Tensor<FP64x64>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        pads: Option<Span<usize>>,
+        storage_order: Option<usize>,
+        strides: Option<Span<usize>>,
+        output_len: usize,
+    ) -> (Tensor<FP64x64>, Option<Tensor<usize>>) {
+        functional::max_pool::max_pool(
+            X,
+            auto_pad,
+            ceil_mode,
+            dilations,
+            kernel_shape,
+            pads,
+            storage_order,
+            strides,
+            output_len)
+    }
+    fn deform_conv(
+        X: @Tensor<FP64x64>,
+        W: @Tensor<FP64x64>,
+        offset: @Tensor<FP64x64>,
+        B: Option<Span<FP64x64>>,
+        mask: Option<Tensor<FP64x64>>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        offset_group: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP64x64> {
+        functional::deform_conv::deform_conv(
+            X, W, offset, B, mask, dilations, group, kernel_shape, offset_group, pads, strides,
+        )
     }
 }

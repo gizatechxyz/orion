@@ -10,6 +10,8 @@ use orion::numbers::{NumberTrait};
 use orion::operators::tensor::implementations::{
     tensor_u32::U32Tensor, tensor_i8::I8Tensor, tensor_bool::BoolTensor
 };
+use orion::operators::nn::AUTO_PAD;
+use orion::operators::nn::implementations::nn_i32::I32NN;
 
 impl I32Tensor of TensorTrait<i32> {
     fn new(shape: Span<usize>, data: Span<i32>) -> Tensor<i32> {
@@ -68,12 +70,17 @@ impl I32Tensor of TensorTrait<i32> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<i32>, target_shape: Span<usize>) -> Tensor<i32> {
-        reshape(self, target_shape)
+    fn reshape(self: @Tensor<i32>, target_shape: Span<i32>, allowzero: bool) -> Tensor<i32> {
+        reshape(self, target_shape, allowzero)
     }
 
-    fn reduce_sum(self: @Tensor<i32>, axis: usize, keepdims: bool) -> Tensor<i32> {
-        math::reduce_sum::reduce_sum(self, axis, keepdims)
+    fn reduce_sum(
+        self: @Tensor<i32>,
+        axes: Option<Span<i32>>,
+        keepdims: Option<bool>,
+        noop_with_empty_axes: Option<bool>
+    ) -> Tensor<i32> {
+        math::reduce_sum::reduce_sum(self, axes, keepdims, noop_with_empty_axes)
     }
 
 
@@ -82,8 +89,8 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn argmax(
-        self: @Tensor<i32>, axis: usize, keepdims: Option<bool>, select_last_index: Option<bool>
-    ) -> Tensor<usize> {
+        self: @Tensor<i32>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
+    ) -> Tensor<i32> {
         math::argmax::argmax(self, axis, keepdims, select_last_index)
     }
 
@@ -121,11 +128,11 @@ impl I32Tensor of TensorTrait<i32> {
         math::greater_equal::greater_equal(self, other)
     }
 
-    fn less(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+    fn less(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         math::less::less(self, other)
     }
 
-    fn less_equal(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<usize> {
+    fn less_equal(self: @Tensor<i32>, other: @Tensor<i32>) -> Tensor<i32> {
         math::less_equal::less_equal(self, other)
     }
 
@@ -330,6 +337,44 @@ impl I32Tensor of TensorTrait<i32> {
         )
     }
 
+    fn qlinear_conv(
+        self: @Tensor<i8>,
+        X_scale: @Tensor<i32>,
+        X_zero_point: @Tensor<i32>,
+        W: @Tensor<i8>,
+        W_scale: @Tensor<i32>,
+        W_zero_point: @Tensor<i32>,
+        B: Option<Span<i8>>,
+        auto_pad: Option<AUTO_PAD>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        y_scale: @Tensor<i32>,
+        y_zero_point: @Tensor<i32>,
+    ) -> Tensor<i8> {
+        quantization::qlinear_conv::qlinear_conv(
+            self,
+            X_scale,
+            X_zero_point,
+            W,
+            W_scale,
+            W_zero_point,
+            B,
+            auto_pad,
+            dilations,
+            group,
+            kernel_shape,
+            pads,
+            strides,
+            y_scale,
+            y_zero_point,
+            NumberTrait::new_unscaled(128, true),
+            NumberTrait::new_unscaled(127, false)
+        )
+    }
+
     fn slice(
         self: @Tensor<i32>,
         starts: Span<usize>,
@@ -340,7 +385,7 @@ impl I32Tensor of TensorTrait<i32> {
         core_tensor::slice::<i32>(self, starts, ends, axes, steps)
     }
 
-    fn gather(self: @Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>) -> Tensor<i32> {
+    fn gather(self: @Tensor<i32>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<i32> {
         math::gather::gather(self, indices, axis)
     }
 
@@ -431,7 +476,7 @@ impl I32Tensor of TensorTrait<i32> {
     }
 
     fn gather_elements(
-        self: @Tensor<i32>, indices: Tensor<usize>, axis: Option<usize>
+        self: @Tensor<i32>, indices: Tensor<i32>, axis: Option<i32>
     ) -> Tensor<i32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
@@ -586,6 +631,13 @@ impl I32Tensor of TensorTrait<i32> {
         math::scatter_nd::scatter_nd(self, updates, indices, reduction)
     }
 
+    fn center_crop_pad(
+        self: @Tensor<i32>, shape: Tensor<usize>, axes: Option<Array<i64>>
+    ) -> Tensor<i32> {
+        let zero = 0_i32;
+        manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
+    }
+    
     fn label_encoder(
         self: @Tensor<i32>,
         default_list: Option<Span<i32>>,

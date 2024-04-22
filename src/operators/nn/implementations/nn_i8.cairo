@@ -13,7 +13,7 @@ impl I8NN of NNTrait<i8> {
         panic(array!['not supported!'])
     }
 
-    fn softmax(tensor: @Tensor<i8>, axis: usize) -> Tensor<i8> {
+    fn softmax(tensor: @Tensor<i8>, axis: Option<i32>) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
 
@@ -122,7 +122,7 @@ impl I8NN of NNTrait<i8> {
         X: @Tensor<i8>,
         W: @Tensor<i8>,
         B: Option<Span<i8>>,
-        auto_pad: Option<functional::conv::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,
@@ -130,5 +130,34 @@ impl I8NN of NNTrait<i8> {
         strides: Option<Span<usize>>,
     ) -> Tensor<i8> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
+    }
+
+    fn max_pool(
+        X: @Tensor<i8>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        pads: Option<Span<usize>>,
+        storage_order: Option<usize>,
+        strides: Option<Span<usize>>,
+        output_len: usize,
+    ) -> (Tensor<i8>, Option<Tensor<usize>>) {
+        panic(array!['not supported!'])
+    }
+    fn deform_conv(
+        X: @Tensor<i8>,
+        W: @Tensor<i8>,
+        offset: @Tensor<i8>,
+        B: Option<Span<i8>>,
+        mask: Option<Tensor<i8>>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        offset_group: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<i8> {
+        panic(array!['not supported!'])
     }
 }

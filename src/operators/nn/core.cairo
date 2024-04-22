@@ -63,7 +63,7 @@ trait NNTrait<T> {
     /// # NNTrait::softmax
     ///
     /// ```rust 
-    ///    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<T>;
+    ///    fn softmax(tensor: @Tensor<T>, axis: Option<i32>) -> Tensor<T>;
     /// ```
     ///
     /// Applies the Softmax function to an n-dimensional input Tensor rescaling them so that the elements of the n-dimensional output Tensor lie in the range \[0,1] and sum to 1.
@@ -75,7 +75,7 @@ trait NNTrait<T> {
     /// ## Args
     ///
     /// * `tensor`(`@Tensor<T>`) - The input tensor.
-    /// * `axis`(`usize`) - The axis along which to compute the softmax.
+    /// * `axis`(`Option<i32>`) - Describes the dimension Softmax will be performed on. Negative value means counting dimensions from the back. Accepted range is [-r, r-1] where r = rank(input).
     ///
     /// ## Returns
     ///
@@ -106,14 +106,14 @@ trait NNTrait<T> {
     ///             .span(),
     ///     );
     /// 
-    ///     return NNTrait::softmax(@tensor, 1);
+    ///     return NNTrait::softmax(@tensor, Option::Some(1));
     /// }
     /// >>> [[2255697,6132911],[2255697,6132911]]
     ///     // The fixed point representation of
     ///     // [[0.2689, 0.7311],[0.2689, 0.7311]]
     /// ```
     ///
-    fn softmax(tensor: @Tensor<T>, axis: usize) -> Tensor<T>;
+    fn softmax(tensor: @Tensor<T>, axis: Option<i32>) -> Tensor<T>;
     /// # NNTrait::softmax_zero
     ///
     /// ```rust 
@@ -1304,5 +1304,290 @@ trait NNTrait<T> {
         align_corner: Option<usize>,
         mode: Option<MODE>,
         padding_mode: Option<PADDING_MODE>,
+    ) -> Tensor<T>;
+    ///
+    /// # NNTrait::max_pool
+    /// 
+    /// ```rust
+    ///     fn max_pool(
+    ///     X: @Tensor<T>,
+    ///     auto_pad: Option<AUTO_PAD>,
+    ///     ceil_mode: Option<usize>,
+    ///     dilations: Option<Span<usize>>,
+    ///     kernel_shape: Span<usize>,
+    ///     pads: Option<Span<usize>>,
+    ///     storage_order: Option<usize>,
+    ///     strides: Option<Span<usize>>,
+    ///     output_len: usize,
+    /// ) -> (Tensor<T>, Option<Tensor<usize>>);
+    /// ```
+    /// 
+    /// MaxPool consumes an input tensor X and applies max pooling across the tensor according to kernel sizes, stride sizes, and pad lengths. max pooling consisting of computing the max on all values of a subset of the input tensor according to the kernel size and downsampling the data into the output tensor Y for further processing. The output spatial shape is calculated differently depending on whether explicit padding is used, where pads is employed, or auto padding is used, where auto_pad is utilized.
+    ///
+    /// ## Args
+    ///
+    /// * `X`(`@Tensor<T>`) - Input data tensor from the previous operator; dimensions for image case are (N x C x H x W), where N is the batch size, C is the number of channels, and H and W are the height and the width of the data. For non image case, the dimensions are in the form of (N x C x D1 x D2 ... Dn), where N is the batch size. 
+    /// * `auto_pad`(`Option<AUTO_PAD>`) - Default is NOTSET, auto_pad must be either NOTSET, SAME_UPPER, SAME_LOWER or VALID. NOTSET means explicit padding is used. SAME_UPPER or SAME_LOWER mean pad the input so that `output_shape[i] = ceil(input_shape[i] / strides[i])` for each axis `i`.
+    /// * `ceil_mode`(`Option<usize>`) - Default is 1, Whether to use ceil or floor (default) to compute the output shape.
+    /// * `dilations`(`Option<Span<usize>>`) - Dilation value along each spatial axis of the filter. If not present, the dilation defaults to 1 along each spatial axis.
+    /// * `kernel_shape`(`Span<usize>`) - The size of the kernel along each axis.
+    /// * `pads`(`Option<Span<usize>>`) - Padding for the beginning and ending along each spatial axis, it can take any value greater than or equal to 0. The value represent the number of pixels added to the beginning and end part of the corresponding axis. `pads` format should be as follow [x1_begin, x2_begin...x1_end, x2_end,...], where xi_begin the number of pixels added at the beginning of axis `i` and xi_end, the number of pixels added at the end of axis `i`. This attribute cannot be used simultaneously with auto_pad attribute. If not present, the padding defaults to 0 along start and end of each spatial axis.
+    /// * `storage_order`(`Option<usize>`) - Default is 0, The storage order of the tensor. 0 is row major, and 1 is column major. 
+    /// * `strides`(`Option<Span<usize>>`) - Stride along each spatial axis. If not present, the stride defaults to 1 along each spatial axis.
+    /// * `output_len`(`Option<usize>`) - Default is 1, If set to 2, return the indices tensor.
+    ///
+    /// ## Returns
+    ///
+    /// A `Tensor<T>` that contains the result of the max pool.
+    /// A `Option<Tensor<usize>>` with the indices tensor from max pooling across the input tensor. The dimensions of indices are the same as output tensor. 
+    /// ## Examples
+    ///     
+    /// ```rust
+    /// use orion::operators::nn::NNTrait;
+    /// use orion::numbers::FixedTrait;
+    /// use orion::operators::nn::FP16x16NN;
+    /// use orion::numbers::FP16x16;
+    /// use orion::operators::tensor::{Tensor, TensorTrait, FP16x16Tensor};
+    /// 
+    /// 
+    /// fn example_max_pool() -> (Tensor<FP16x16>, Option<Tensor<usize>>) {
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///    shape.append(1);
+    ///    shape.append(1);
+    ///    shape.append(5);
+    ///    shape.append(5);
+    ///    let mut data = ArrayTrait::new();
+    ///    data.append(FP16x16 { mag: 65536, sign: false });
+    ///    data.append(FP16x16 { mag: 131072, sign: false });
+    ///    data.append(FP16x16 { mag: 196608, sign: false });
+    ///    data.append(FP16x16 { mag: 262144, sign: false });
+    ///    data.append(FP16x16 { mag: 327680, sign: false });
+    ///    data.append(FP16x16 { mag: 393216, sign: false });
+    ///    data.append(FP16x16 { mag: 458752, sign: false });
+    ///    data.append(FP16x16 { mag: 524288, sign: false });
+    ///    data.append(FP16x16 { mag: 589824, sign: false });
+    ///    data.append(FP16x16 { mag: 655360, sign: false });
+    ///    data.append(FP16x16 { mag: 720896, sign: false });
+    ///    data.append(FP16x16 { mag: 786432, sign: false });
+    ///    data.append(FP16x16 { mag: 851968, sign: false });
+    ///    data.append(FP16x16 { mag: 917504, sign: false });
+    ///    data.append(FP16x16 { mag: 983040, sign: false });
+    ///    data.append(FP16x16 { mag: 1048576, sign: false });
+    ///    data.append(FP16x16 { mag: 1114112, sign: false });
+    ///    data.append(FP16x16 { mag: 1179648, sign: false });
+    ///    data.append(FP16x16 { mag: 1245184, sign: false });
+    ///    data.append(FP16x16 { mag: 1310720, sign: false });
+    ///    data.append(FP16x16 { mag: 1376256, sign: false });
+    ///    data.append(FP16x16 { mag: 1441792, sign: false });
+    ///    data.append(FP16x16 { mag: 1507328, sign: false });
+    ///    data.append(FP16x16 { mag: 1572864, sign: false });
+    ///    data.append(FP16x16 { mag: 1638400, sign: false });
+    ///    let mut X = TensorTrait::new(shape.span(), data.span());
+    ///    return NNTrait::max_pool(
+    ///        @X,
+    ///        Option::None,
+    ///        Option::None,
+    ///        Option::None,
+    ///        array![5, 5, 5].span(),
+    ///        Option::Some(array![2, 2, 2, 2].span()),
+    ///        Option::None,
+    ///        Option::None,
+    ///        1
+    ///    );
+    /// 
+    /// }
+    ///
+    /// >>> ([
+    ///            [
+    ///                [
+    ///                    [13, 14, 15, 15, 15],
+    ///                    [18, 19, 20, 20, 20],
+    ///                    [23, 24, 25, 25, 25],
+    ///                    [23, 24, 25, 25, 25],
+    ///                    [23, 24, 25, 25, 25],
+    ///                ]
+    ///            ]
+    ///        ], 
+    ///        Option::None)
+    ///
+    ///
+    /// ````
+    ///
+
+    fn max_pool(
+        X: @Tensor<T>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        pads: Option<Span<usize>>,
+        storage_order: Option<usize>,
+        strides: Option<Span<usize>>,
+        output_len: usize,
+    ) -> (Tensor<T>, Option<Tensor<usize>>);
+    /// # NNTrait::deform_conv
+    /// 
+    /// ```rust
+    ///    fn deform_conv(
+    ///        X: @Tensor<T>,
+    ///        W: @Tensor<T>,
+    ///        offset: @Tensor<T>,
+    ///        B: Option<Span<T>>,
+    ///        mask: Option<Tensor<T>>,
+    ///        dilations: Option<Span<usize>>,
+    ///        group: Option<usize>,
+    ///        kernel_shape: Option<Span<usize>>,
+    ///        offset_group: Option<usize>,
+    ///        pads: Option<Span<usize>>,
+    ///        strides: Option<Span<usize>>,
+    ///    ) -> Tensor<T>
+    /// ```
+    /// 
+    /// Performs deformable convolution as described in https://arxiv.org/abs/1703.06211 and https://arxiv.org/abs/1811.11168. This operator specification supports the 2-D case.
+    ///
+    /// ## Args
+    ///
+    ///    X: @Tensor<T>,
+    ///    W: @Tensor<T>,
+    ///    offset: @Tensor<T>,
+    ///    B: Option<Span<T>>,
+    ///    mask: Option<Tensor<T>>,
+    ///    dilations: Option<Span<usize>>,
+    ///    group: Option<usize>,
+    ///    kernel_shape: Option<Span<usize>>,
+    ///    offset_group: Option<usize>,
+    ///    pads: Option<Span<usize>>,
+    ///    strides: Option<Span<usize>>,
+    ///
+    /// * `X`(`@Tensor<T>`) - Input data tensor. For 2D image data, it has shape (N, C, H, W) where N is the batch size, C is the number of input channels, and H and W are the height and width. 
+    /// * `W`(`@Tensor<T>`) - Weight tensor that will be used in the convolutions. It has shape (oC, C/group, kH, kW), where oC is the number of output channels and kH and kW are the kernel height and width.
+    /// * `offset`(`@Tensor<T>`) - Offset tensor denoting the offset for the sampling locations in the convolution kernel. It has shape (N, offset_group * kH * kW * 2, oH, oW) for 2D data
+    /// * `B`(`Option<Span<T>>`) - Default is a tensor of zeros, optional 1D bias of length oC to be added to the convolution.
+    /// * `mask`(`Option<Tensor<T>>`) -  Default is a tensor of ones, the mask tensor to be applied to each position in the convolution kernel. It has shape (N, offset_group * kH * kW, oH, oW) for 2D data.
+    /// * `dilations`(`Option<Span<usize>>`) - Default is 1 along each axis, dilation value along each spatial axis of the kernel.
+    /// * `group`(`usize`) - Default is 1, number of groups the input and output channels, C and oC, are divided into.
+    /// * `kernel_shape`(`Option<Span<usize>>`) - Shape of the convolution kernel. If not present, it is inferred from the shape of input W.
+    /// * `offset_group`(`Option<usize>`) - Default is 1, number of groups of offset. C must be divisible by offset_group.
+    /// * `pads`(`Option<Span<usize>>`) - Default is 0 along each axis, padding for the beginning and end along each spatial axis. The values represent the number of pixels added to the beginning and end of the corresponding axis and can take any nonnegative value.
+    /// * `strides`(`Option<Span<usize>>`) - Default is 1 along each axis, stride along each spatial axis.
+    ///
+    /// ## Returns
+    ///
+    /// A `Tensor<T>` output tensor that contains the result of convolution.
+    ///
+    /// ## Examples
+    ///     
+    /// ```rust
+    /// fn example_deform_conv() -> Tensor<FP16x16> {
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(1);
+    ///     shape.append(1);
+    ///     shape.append(3);
+    ///     shape.append(3);
+    /// 
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 65536, sign: false });
+    ///     data.append(FP16x16 { mag: 131072, sign: false });
+    ///     data.append(FP16x16 { mag: 196608, sign: false });
+    ///     data.append(FP16x16 { mag: 262144, sign: false });
+    ///     data.append(FP16x16 { mag: 327680, sign: false });
+    ///     data.append(FP16x16 { mag: 393216, sign: false });
+    ///     data.append(FP16x16 { mag: 458752, sign: false });
+    ///     data.append(FP16x16 { mag: 524288, sign: false });
+    ///     let mut X = TensorTrait::new(shape.span(), data.span());
+    /// 
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(1);
+    ///     shape.append(1);
+    ///     shape.append(2);
+    ///     shape.append(2);
+    /// 
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(FP16x16 { mag: 65536, sign: false });
+    ///     data.append(FP16x16 { mag: 65536, sign: false });
+    ///     data.append(FP16x16 { mag: 65536, sign: false });
+    ///     data.append(FP16x16 { mag: 65536, sign: false });
+    ///     let mut W = TensorTrait::new(shape.span(), data.span());
+    /// 
+    ///     let mut shape = ArrayTrait::<usize>::new();
+    ///     shape.append(1);
+    ///     shape.append(8);
+    ///     shape.append(2);
+    ///     shape.append(2);
+    /// 
+    ///     let mut data = ArrayTrait::new();
+    ///     data.append(FP16x16 { mag: 32768, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 6553, sign: true });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     data.append(FP16x16 { mag: 0, sign: false });
+    ///     let mut offset = TensorTrait::new(shape.span(), data.span());
+    /// 
+    /// 
+    ///     return NNTrait::deform_conv(
+    ///         @X,
+    ///         @W,
+    ///         @offset,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::None,
+    ///         Option::Some(array![2, 2].span()),
+    ///         Option::None,
+    ///         Option::Some(array![0, 0, 0, 0].span()),
+    ///         Option::None,
+    ///     );
+    /// }
+    ///
+    /// >>> [
+    ///         [
+    ///             [
+    ///                 [9.5, 11.9],  
+    ///                 [20.0, 24.0],
+    ///             ]
+    ///         ]
+    ///     ]
+    ///
+    /// ````
+    fn deform_conv(
+        X: @Tensor<T>,
+        W: @Tensor<T>,
+        offset: @Tensor<T>,
+        B: Option<Span<T>>,
+        mask: Option<Tensor<T>>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        offset_group: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
     ) -> Tensor<T>;
 }
