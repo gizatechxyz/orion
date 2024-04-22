@@ -727,6 +727,12 @@ impl I8TensorPartialEq of PartialEq<Tensor<i8>> {
     }
 }
 
+impl I8TensorTryIntoU32Tensor of TryInto<Tensor<i8>, Tensor<u32>> {
+    fn try_into(self: Tensor<i8>) -> Option<Tensor<u32>> {
+        tensor_i8_to_tensor_u32(@self)
+    }
+}
+
 /// Implements partial ord for two `Tensor<i8>` using `PartialOrd` trait.
 impl I8TensorPartialOrd of PartialOrd<Tensor<i8>> {
     #[inline(always)]
@@ -767,4 +773,16 @@ fn tensor_eq(mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,) -> bool {
     };
 
     is_eq
+}
+
+
+fn tensor_i8_to_tensor_u32(x: @Tensor<i8>) -> Option<Tensor<u32>> {
+    let mut result_data = ArrayTrait::<u32>::new();
+    let mut data = *x.data;
+
+    while data.len() != 0 {
+        result_data.append((*data.pop_front().unwrap()).try_into().unwrap());
+    };
+
+    Option::Some(TensorTrait::new(*x.shape, result_data.span()))
 }

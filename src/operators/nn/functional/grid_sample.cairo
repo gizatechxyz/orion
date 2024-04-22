@@ -6,6 +6,7 @@ use orion::operators::vec::{NullableVec, NullableVecImpl};
 use orion::operators::nn::{MODE, PADDING_MODE};
 use orion::operators::nn::helpers::{dot, get_all_coord, prod, zeros, rint, reverse};
 
+/// Cf: NNTrait::grid_sample docstring
 fn grid_sample<
     T,
     MAG,

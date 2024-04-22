@@ -955,6 +955,8 @@ mod label_encoder_fp8x23_default;
 mod label_encoder_i8_default;
 mod label_encoder_i32_default;
 mod label_encoder_u32_default;
+mod conv_interger_with_padding;
+mod conv_interger_no_padding;
 mod qlinear_conv;
 mod gather_fp16x16_3d_default;
 mod gather_fp16x16_3d_axis1;

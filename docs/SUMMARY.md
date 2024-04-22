@@ -177,6 +177,7 @@
     * [nn.col2im](framework/operators/neural-network/nn.col2im.md)
     * [nn.conv\_transpose](framework/operators/neural-network/nn.conv\_transpose.md)
     * [nn.conv](framework/operators/neural-network/nn.conv.md)
+    * [nn.conv_integer](framework/operators/neural-network/nn.conv\_integer.md)
     * [nn.depth_to_space](framework/operators/neural-network/nn.depth_to_space.md)
     * [nn.space_to_depth](framework/operators/neural-network/nn.space_to_depth.md)
     * [nn.max\_pool](framework/operators/neural-network/nn.max\_pool.md)

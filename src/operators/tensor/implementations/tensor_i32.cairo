@@ -730,9 +730,15 @@ impl I8TryIntoI8 of TryInto<i32, i32> {
     }
 }
 
-impl TensorI8IntoTensorI32 of Into<Tensor<i8>, Tensor<i32>> {
+impl I8TensorIntoI32Tensor of Into<Tensor<i8>, Tensor<i32>> {
     fn into(self: Tensor<i8>) -> Tensor<i32> {
         tensor_i8_to_tensor_i32(@self)
+    }
+}
+
+impl I32TensorTryIntoU32Tensor of TryInto<Tensor<i32>, Tensor<u32>> {
+    fn try_into(self: Tensor<i32>) -> Option<Tensor<u32>> {
+        tensor_i32_to_tensor_u32(@self)
     }
 }
 
@@ -787,4 +793,16 @@ fn tensor_i8_to_tensor_i32(x: @Tensor<i8>) -> Tensor<i32> {
     };
 
     TensorTrait::new(*x.shape, result_data.span())
+}
+
+
+fn tensor_i32_to_tensor_u32(x: @Tensor<i32>) -> Option<Tensor<u32>> {
+    let mut result_data = ArrayTrait::<u32>::new();
+    let mut data = *x.data;
+
+    while data.len() != 0 {
+        result_data.append((*data.pop_front().unwrap()).try_into().unwrap());
+    };
+
+    Option::Some(TensorTrait::new(*x.shape, result_data.span()))
 }

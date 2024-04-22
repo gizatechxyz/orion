@@ -4,7 +4,7 @@ use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor,};
 use orion::operators::vec::{NullableVec, NullableVecImpl};
 use orion::operators::nn::helpers::{is_out, prod};
 
-fn col2im<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Add<T>, +MulEq<T>,>(
+fn col2im<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Add<T>, +Mul<T>, +MulEq<T>,>(
     data: @Tensor<T>,
     image_shape: Span<usize>,
     block_shape: Span<usize>,

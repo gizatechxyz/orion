@@ -9,6 +9,7 @@ use orion::operators::nn::functional::col2im::{
 use orion::operators::nn::AUTO_PAD;
 
 
+/// Cf: NNTrait::conv_transpose docstring
 fn conv_transpose<
     T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Add<T>, +Mul<T>,
 >(
