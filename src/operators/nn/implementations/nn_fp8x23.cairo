@@ -9,7 +9,7 @@ use orion::numbers::fixed_point::implementations::fp8x23wide::core::{
     FP8x23WImpl, FP8x23WTryIntoFP8x23, FP8x23W, FP8x23IntoFP8x23W
 };
 use orion::operators::tensor::implementations::tensor_fp8x23wide::{FP8x23WTensor};
-use orion::operators::nn::AUTO_PAD;
+use orion::operators::nn::{AUTO_PAD, MODE, PADDING_MODE};
 
 impl FP8x23NN of NNTrait<FP8x23> {
     fn relu(tensor: @Tensor<FP8x23>) -> Tensor<FP8x23> {
@@ -82,8 +82,8 @@ impl FP8x23NN of NNTrait<FP8x23> {
         X: @Tensor<FP8x23>,
         grid: @Tensor<FP8x23>,
         align_corner: Option<usize>,
-        mode: Option<functional::grid_sample::MODE>,
-        padding_mode: Option<functional::grid_sample::PADDING_MODE>,
+        mode: Option<MODE>,
+        padding_mode: Option<PADDING_MODE>,
     ) -> Tensor<FP8x23> {
         functional::grid_sample::grid_sample(X, grid, align_corner, mode, padding_mode)
     }
@@ -103,7 +103,7 @@ impl FP8x23NN of NNTrait<FP8x23> {
         X: @Tensor<FP8x23>,
         W: @Tensor<FP8x23>,
         B: Option<@Tensor<FP8x23>>,
-        auto_pad: Option<functional::conv_transpose::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,

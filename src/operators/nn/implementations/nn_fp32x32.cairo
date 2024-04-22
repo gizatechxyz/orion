@@ -5,7 +5,7 @@ use orion::numbers::fixed_point::implementations::fp32x32::core::{FP32x32, FP32x
 use orion::operators::tensor::implementations::tensor_fp32x32::{
     FP32x32Tensor, FP32x32TensorDiv, FP32x32TensorAdd, FP32x32TensorMul
 };
-use orion::operators::nn::AUTO_PAD;
+use orion::operators::nn::{AUTO_PAD, MODE, PADDING_MODE};
 
 impl FP32x32NN of NNTrait<FP32x32> {
     fn relu(tensor: @Tensor<FP32x32>) -> Tensor<FP32x32> {
@@ -80,8 +80,8 @@ impl FP32x32NN of NNTrait<FP32x32> {
         X: @Tensor<FP32x32>,
         grid: @Tensor<FP32x32>,
         align_corner: Option<usize>,
-        mode: Option<functional::grid_sample::MODE>,
-        padding_mode: Option<functional::grid_sample::PADDING_MODE>,
+        mode: Option<MODE>,
+        padding_mode: Option<PADDING_MODE>,
     ) -> Tensor<FP32x32> {
         functional::grid_sample::grid_sample(X, grid, align_corner, mode, padding_mode)
     }

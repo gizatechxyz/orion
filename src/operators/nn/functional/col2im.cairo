@@ -1,9 +1,10 @@
 use orion::numbers::NumberTrait;
-use orion::operators::tensor::core::{stride};
+use orion::operators::tensor::core::{stride, unravel_index};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor,};
 use orion::operators::vec::{NullableVec, NullableVecImpl};
+use orion::operators::nn::helpers::{is_out, prod};
 
-fn col2im<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Add<T>, +Mul<T>,>(
+fn col2im<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Add<T>, +MulEq<T>,>(
     data: @Tensor<T>,
     image_shape: Span<usize>,
     block_shape: Span<usize>,
@@ -53,7 +54,7 @@ fn col2im<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Ad
         },
     };
 
-    let bl = prod(block_shape, 0);
+    let bl = prod(block_shape);
     let C = *(*data).shape.at(1) / bl;
 
     let mut new_shape: Array<i32> = array![
@@ -158,15 +159,15 @@ fn col2im_naive_implementation<
     let mut data_im = NullableVecImpl::new();
     data_im.set(*image_shape.at(0) * *stride_img.at(0) - 1, NumberTrait::zero());
 
-    let kernel_size = prod(kernel_shape, 0);
-    let col_size = prod(dim_col, 0);
+    let kernel_size = prod(kernel_shape);
+    let col_size = prod(dim_col);
     let mut c_col = 0;
     while c_col != kernel_size {
-        let offset = get_indices(c_col, kernel_shape).span();
+        let offset = unravel_index(c_col, kernel_shape);
 
         let mut col = 0;
         while col != col_size {
-            let ind_col = get_indices(col, dim_col).span();
+            let ind_col = unravel_index(col, dim_col);
             let mut ind_im: Array<usize> = array![];
             let mut i = 0;
             while i != n_dims {
@@ -218,7 +219,7 @@ fn col2im_shape_check<T, +TensorTrait<T>, +Copy<T>, +Drop<T>,>(
 ) {
     let n_input_plane = *(*X).shape.at(0);
 
-    let kernel_size = prod(kernel_shape, 0);
+    let kernel_size = prod(kernel_shape);
 
     assert(n_input_plane % kernel_size == 0, 'wrong input dimension');
 
@@ -240,7 +241,7 @@ fn col2im_shape_check<T, +TensorTrait<T>, +Copy<T>, +Drop<T>,>(
         i += 1;
     };
 
-    let block_size = prod(n_blocks.span(), 0);
+    let block_size = prod(n_blocks.span());
 
     assert(input_length == block_size, 'input_length != block_size');
 }
@@ -266,37 +267,4 @@ fn get_indices(index: usize, shape: Span<usize>,) -> Array<usize> {
     };
 
     new_res
-}
-
-fn is_out(ind: Span<usize>, shape: Span<usize>,) -> bool {
-    let mut n = 0;
-    let is_out = loop {
-        if n == ind.len() {
-            break false;
-        }
-        let s = *shape.at(n);
-        let i = *ind.at(n);
-        if i < 0 {
-            break true;
-        }
-        if i >= s {
-            break true;
-        }
-        n += 1;
-    };
-
-    is_out
-}
-
-fn prod<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +Mul<T>,>(
-    pA: Span<T>, start: usize
-) -> T {
-    let mut i = start;
-    let mut prod = NumberTrait::one();
-    while i != pA.len() {
-        prod = prod * (*pA.at(i));
-        i += 1;
-    };
-
-    prod
 }

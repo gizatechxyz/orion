@@ -12,3 +12,17 @@ enum POOLING_TYPE {
     LPPOOL,
     MAX,
 }
+
+#[derive(Copy, Drop)]
+enum MODE {
+    NEAREST,
+    LINEAR,
+    CUBIC,
+}
+
+#[derive(Copy, Drop)]
+enum PADDING_MODE {
+    ZEROS,
+    BORDER,
+    REFLECTION,
+}
