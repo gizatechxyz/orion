@@ -268,36 +268,3 @@ fn get_indices(index: usize, shape: Span<usize>,) -> Array<usize> {
 
     new_res
 }
-
-fn is_out(ind: Span<usize>, shape: Span<usize>,) -> bool {
-    let mut n = 0;
-    let is_out = loop {
-        if n == ind.len() {
-            break false;
-        }
-        let s = *shape.at(n);
-        let i = *ind.at(n);
-        if i < 0 {
-            break true;
-        }
-        if i >= s {
-            break true;
-        }
-        n += 1;
-    };
-
-    is_out
-}
-
-fn prod<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +Mul<T>,>(
-    pA: Span<T>, start: usize
-) -> T {
-    let mut i = start;
-    let mut prod = NumberTrait::one();
-    while i != pA.len() {
-        prod = prod * (*pA.at(i));
-        i += 1;
-    };
-
-    prod
-}
