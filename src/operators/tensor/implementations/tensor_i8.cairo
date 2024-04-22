@@ -436,6 +436,10 @@ impl I8Tensor of TensorTrait<i8> {
         math::bitwise_or::bitwise_or(self, other)
     }
 
+    fn bitwise_not(self: @Tensor<i8>) -> Tensor<i8> {
+        math::bitwise_not::bitwise_not(self)
+    }
+
     fn round(self: @Tensor<i8>) -> Tensor<i8> {
         math::round::round(*self)
     }

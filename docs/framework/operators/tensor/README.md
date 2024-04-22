@@ -99,6 +99,7 @@ use orion::operators::tensor::TensorTrait;
 | [`tensor.bitwise_and`](tensor.bitwise\_and.md) | Computes the bitwise AND of two tensors element-wise. |
 | [`tensor.bitwise_xor`](tensor.bitwise\_xor.md) | Computes the bitwise XOR of two tensors element-wise. |
 | [`tensor.bitwise_or`](tensor.bitwise\_or.md) | Computes the bitwise OR of two tensors element-wise. |
+| [`tensor.bitwise_not`](tensor.bitwise\_not.md) | Computes the bitwise NOT of tensor element-wise. |
 | [`tensor.resize`](tensor.resize.md) | Resizes the input tensor. |
 | [`tensor.round`](tensor.round.md) | Computes the round value of all elements in the input tensor. |
 | [`tensor.reduce_l1`](tensor.reduce\_l1.md) | Computes the L1 norm of the input tensor's elements along the provided axes. |

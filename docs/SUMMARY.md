@@ -125,6 +125,7 @@
     * [tensor.bitwise\_and](framework/operators/tensor/tensor.bitwise\_and.md)
     * [tensor.bitwise\_xor](framework/operators/tensor/tensor.bitwise\_xor.md)
     * [tensor.bitwise\_or](framework/operators/tensor/tensor.bitwise\_or.md)
+    * [tensor.bitwise\_not](framework/operators/tensor/tensor.bitwise\_not.md)
     * [tensor.resize](framework/operators/tensor/tensor.resize.md)
     * [tensor.round](framework/operators/tensor/tensor.round.md)
     * [tensor.scatter](framework/operators/tensor/tensor.scatter.md)

@@ -85,6 +85,7 @@ You can see below the list of current supported ONNX Operators:
 |             [BitwiseAnd](operators/tensor/tensor.bitwise_and.md)              | :white\_check\_mark: |
 |              [BitwiseOr](operators/tensor/tensor.bitwise_or.md)               | :white\_check\_mark: |
 |             [BitwiseXor](operators/tensor/tensor.bitwise_xor.md)              | :white\_check\_mark: |
+|             [BitwiseNot](operators/tensor/tensor.bitwise_not.md)              | :white\_check\_mark: |
 |                  [Resize](operators/tensor/tensor.resize.md)                  | :white\_check\_mark: |
 |                   [Round](operators/tensor/tensor.round.md)                   | :white\_check\_mark: |
 |           [MaxInTensor](operators/tensor/tensor.max\_in\_tensor.md)           | :white\_check\_mark: |
@@ -130,4 +131,4 @@ You can see below the list of current supported ONNX Operators:
 |      [RandomUniformLike](operators/tensor/tensor.tensor.random_uniform_like.md)      | :white\_check\_mark: |
 |           [LabelEncoder](operators/tensor/tensor.label_encoder.md)            | :white\_check\_mark: |
 
-Current Operators support: **118/156 (75%)**
+Current Operators support: **119/156 (75%)**

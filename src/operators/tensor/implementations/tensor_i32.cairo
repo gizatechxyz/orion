@@ -433,6 +433,10 @@ impl I32Tensor of TensorTrait<i32> {
         math::bitwise_or::bitwise_or(self, other)
     }
 
+    fn bitwise_not(self: @Tensor<i32>) -> Tensor<i32> {
+        math::bitwise_not::bitwise_not(self)
+    }
+
     fn round(self: @Tensor<i32>) -> Tensor<i32> {
         math::round::round(*self)
     }

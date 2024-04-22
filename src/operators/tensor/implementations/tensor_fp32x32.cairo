@@ -440,6 +440,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::bitwise_or::bitwise_or(self, other)
     }
 
+    fn bitwise_not(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        math::bitwise_not::bitwise_not(self)
+    }
+
     fn round(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::round::round(*self)
     }

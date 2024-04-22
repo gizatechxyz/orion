@@ -1144,4 +1144,5 @@ trait FixedTrait<T, MAG> {
     fn is_inf(self: T) -> bool;
     fn is_pos_inf(self: T) -> bool;
     fn is_neg_inf(self: T) -> bool;
+    fn bitwise_not(self: T) -> T;
 }

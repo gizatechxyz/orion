@@ -443,6 +443,10 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         math::bitwise_or::bitwise_or(self, other)
     }
 
+    fn bitwise_not(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        math::bitwise_not::bitwise_not(self)
+    }
+
     fn round(self: @Tensor<FP16x16>) -> Tensor<FP16x16> {
         math::round::round(*self)
     }

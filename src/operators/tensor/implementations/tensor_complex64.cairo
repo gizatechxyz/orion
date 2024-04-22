@@ -389,6 +389,10 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
+    fn bitwise_not(self: @Tensor<complex64>) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+
     fn round(self: @Tensor<complex64>) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }

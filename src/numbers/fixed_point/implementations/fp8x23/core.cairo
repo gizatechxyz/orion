@@ -217,6 +217,10 @@ impl FP8x23Impl of FixedTrait<FP8x23, u32> {
     fn erf(self: FP8x23) -> FP8x23 {
         erf::erf(self)
     }
+
+    fn bitwise_not(self: FP8x23) -> FP8x23 {
+        FP8x23 { mag: ~self.mag, sign: !self.sign }
+    }
 }
 
 impl FP8x23Print of PrintTrait<FP8x23> {
