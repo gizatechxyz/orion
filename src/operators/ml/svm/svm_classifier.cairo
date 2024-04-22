@@ -680,7 +680,7 @@ fn write_scores<
     let new_scores = if n_classes >= 2 {
         let new_scores = match post_transform {
             POST_TRANSFORM::NONE => scores,
-            POST_TRANSFORM::SOFTMAX => NNTrait::softmax(@scores, 0),
+            POST_TRANSFORM::SOFTMAX => NNTrait::softmax(@scores, Option::Some(0)),
             POST_TRANSFORM::LOGISTIC => NNTrait::sigmoid(@scores),
             POST_TRANSFORM::SOFTMAXZERO => NNTrait::softmax_zero(@scores, 0),
             POST_TRANSFORM::PROBIT => core::panic_with_felt252('Probit not supported yet'),
@@ -716,7 +716,7 @@ fn write_scores<
                         @TensorTrait::new(
                             array![2].span(), array![-*scores.data.at(0), *scores.data.at(0)].span()
                         ),
-                        0
+                        Option::Some(0)
                     )
                 } else {
                     TensorTrait::new(array![1].span(), array![*scores.data.at(0)].span())

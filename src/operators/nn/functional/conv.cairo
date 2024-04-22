@@ -1,30 +1,15 @@
-use core::debug::PrintTrait;
-
 use orion::numbers::NumberTrait;
 use orion::numbers::{U32IntoI32, I32IntoU32, I32Div, I32Number};
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor,};
 use orion::operators::vec::{NullableVec, NullableVecImpl};
 use orion::operators::tensor::core::{stride};
+use orion::operators::nn::helpers::{cartesian, arange, max_in_tensor, min_in_tensor, dot};
+use orion::operators::nn::AUTO_PAD;
 
-#[derive(Copy, Drop)]
-enum AUTO_PAD {
-    NOTSET,
-    SAME_UPPER,
-    SAME_LOWER,
-    VALID
-}
 
+/// Cf: NNTrait::conv docstring
 fn conv<
-    T,
-    MAG,
-    +TensorTrait<T>,
-    +NumberTrait<T, MAG>,
-    +Copy<T>,
-    +Drop<T>,
-    +Add<T>,
-    +Mul<T>,
-    +AddEq<T>,
-    +PrintTrait<T>,
+    T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>, +Add<T>, +Mul<T>, +AddEq<T>,
 >(
     X: @Tensor<T>,
     W: @Tensor<T>,
@@ -245,7 +230,8 @@ fn conv<
     }
 
     // group == 1
-    if *dilations.at(0) != 1 || min(dilations.clone()) != max(dilations.clone()) {
+    if *dilations.at(0) != 1
+        || min_in_tensor(dilations.clone()) != min_in_tensor(dilations.clone()) {
         // computation of the dilated kernel
         let nd = dilations.len();
         let mut new_kernel_shape: Array<usize> = array![];
@@ -1228,161 +1214,3 @@ fn r_index_check(r_index: Span<i32>, shape_out: Span<usize>) -> bool {
     flag
 }
 
-fn prod<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +Mul<T>,>(
-    pA: Span<T>, start: usize
-) -> T {
-    let mut i = start;
-    let mut prod = NumberTrait::one();
-    while i != pA.len() {
-        prod = prod * (*pA.at(i));
-        i += 1;
-    };
-
-    prod
-}
-
-fn min(mut a: Span<usize>) -> usize {
-    assert(a.len() > 0, 'span cannot be empty');
-
-    let mut min = *a.at(0);
-    loop {
-        match a.pop_front() {
-            Option::Some(v) => { if *v < min {
-                min = *v;
-            }; },
-            Option::None => { break min; }
-        };
-    }
-}
-
-fn max(mut a: Span<usize>) -> usize {
-    assert(a.len() > 0, 'span cannot be empty');
-
-    let mut max = *a.at(0);
-    loop {
-        match a.pop_front() {
-            Option::Some(v) => { if *v > max {
-                max = *v;
-            }; },
-            Option::None => { break max; }
-        };
-    }
-}
-
-fn arange(start: usize, end: usize, step: usize) -> Span<usize> {
-    assert((end - start) % step == 0, 'incompatible step value');
-
-    let mut arr: Array<usize> = array![];
-    let mut i = start;
-    while i < end {
-        arr.append(i);
-        i += step;
-    };
-
-    arr.span()
-}
-
-
-fn cartesian(mut arrays: Span<Span<usize>>,) -> Span<Span<usize>> {
-    let mut n = 1;
-    let mut i = arrays.len() - 1;
-    loop {
-        n = n * (*(arrays.at(i))).len();
-        if i == 0 {
-            break;
-        }
-        i -= 1;
-    };
-
-    let mut i = 0;
-    let mut size_arrays: Array<usize> = array![];
-    while i != arrays.len() {
-        size_arrays.append((*(arrays.at(i))).len());
-        i += 1;
-    };
-
-    let size_arrays = size_arrays.span();
-    let mut output_arrays = array![];
-    let mut m = n;
-
-    let mut i = 0;
-    while i != arrays.len() {
-        m = m / (*(arrays.at(i))).len();
-        let mut out = repeat(*(arrays.at(i)), m);
-        out = repeat_2(out, size_arrays, i);
-
-        output_arrays.append(out);
-        i += 1;
-    };
-
-    let output_arrays = output_arrays.span();
-
-    let mut i = 0;
-    let mut ret = ArrayTrait::new();
-    while i != n {
-        let mut j = 0;
-        let mut x: Array<usize> = array![];
-        while j != arrays.len() {
-            x.append(*(output_arrays.at(j)).at(i));
-            j += 1;
-        };
-
-        ret.append(x.span());
-        i += 1;
-    };
-
-    ret.span()
-}
-
-fn repeat_2(mut array: Array<usize>, size_array: Span<usize>, index: usize) -> Array<usize> {
-    let mut size = array.len();
-    let mut i = 0;
-    while i != index {
-        let mut j = 1;
-        while j != *size_array.at(index - 1 - i) {
-            let mut k = 0;
-            while k != size {
-                array.append(*array.at(k));
-                k += 1;
-            };
-
-            j += 1;
-        };
-
-        size = size * *size_array.at(index - 1 - i);
-        i += 1;
-    };
-
-    array
-}
-
-fn repeat(array: Span<usize>, m: usize,) -> Array<usize> {
-    let mut out: Array<usize> = array![];
-    let mut j = 0;
-    while j != array.len() {
-        let mut k = 0;
-        while k != m {
-            out.append(*array.at(j));
-            k += 1;
-        };
-
-        j += 1;
-    };
-
-    out
-}
-
-fn dot<
-    T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +Add<T>, +TensorTrait<T>, +AddEq<T>, +Mul<T>,
->(
-    a: Span<T>, b: Span<T>
-) -> T {
-    let mut i = 0;
-    let mut sum = NumberTrait::zero();
-    while i != a.len() {
-        sum = sum + *a.at(i) * *b.at(i);
-        i += 1;
-    };
-
-    sum
-}

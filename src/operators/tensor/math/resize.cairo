@@ -5,6 +5,7 @@ use orion::operators::tensor::{
     TensorTrait, Tensor, I8Tensor, I32Tensor, U32Tensor, FP16x16Tensor, BoolTensor
 };
 use orion::numbers::{FP16x16, FP16x16Impl, FP32x32, FP32x32Impl, FixedTrait};
+use orion::operators::nn::helpers::{get_all_coord};
 
 #[derive(Copy, Drop)]
 enum MODE {
@@ -434,12 +435,14 @@ fn interpolate_nd<
         i += 1;
     };
 
-    let mut ret = cartesian(ret.span());
+    //let mut ret = cartesian(ret.span());
+    let mut ret = get_all_coord(output_size);
     let mut ret_data = array![];
 
     loop {
         match ret.pop_front() {
             Option::Some(X) => {
+                let X = *X;
                 let mut x: Array<T> = array![];
                 let mut i = 0;
                 while i != X.len() {
@@ -476,94 +479,6 @@ fn interpolate_nd<
     TensorTrait::new(output_size, ret_data.span())
 }
 
-fn cartesian(mut arrays: Span<Span<usize>>,) -> Array<Array<usize>> {
-    let mut n = 1;
-    let mut i = arrays.len() - 1;
-    loop {
-        n = n * (*(arrays.at(i))).len();
-        if i == 0 {
-            break;
-        }
-        i -= 1;
-    };
-
-    let mut i = 0;
-    let mut size_arrays = array![];
-    while i != arrays.len() {
-        size_arrays.append((*(arrays.at(i))).len());
-        i += 1;
-    };
-
-    let size_arrays = size_arrays.span();
-    let mut output_arrays = array![];
-    let mut m = n;
-
-    let mut i = 0;
-    while i != arrays.len() {
-        m = m / (*(arrays.at(i))).len();
-        let mut out = repeat(*(arrays.at(i)), m);
-        out = repeat_2(out, size_arrays, i);
-
-        output_arrays.append(out);
-        i += 1;
-    };
-
-    let output_arrays = output_arrays.span();
-
-    let mut i = 0;
-    let mut ret = array![];
-    while i != n {
-        let mut j = 0;
-        let mut x = array![];
-        while j != arrays.len() {
-            x.append(*(output_arrays.at(j)).at(i));
-            j += 1;
-        };
-
-        ret.append(x);
-        i += 1;
-    };
-
-    ret
-}
-
-fn repeat_2(mut array: Array<usize>, size_array: Span<usize>, index: usize) -> Array<usize> {
-    let mut size = array.len();
-    let mut i = 0;
-    while i != index {
-        let mut j = 1;
-        while j != *size_array.at(index - 1 - i) {
-            let mut k = 0;
-            while k != size {
-                array.append(*array.at(k));
-                k += 1;
-            };
-
-            j += 1;
-        };
-
-        size = size * *size_array.at(index - 1 - i);
-        i += 1;
-    };
-
-    array
-}
-
-fn repeat(array: Span<usize>, m: usize,) -> Array<usize> {
-    let mut out = array![];
-    let mut j = 0;
-    while j != array.len() {
-        let mut k = 0;
-        while k != m {
-            out.append(*array.at(j));
-            k += 1;
-        };
-
-        j += 1;
-    };
-
-    out
-}
 
 fn interpolate_nd_with_x<
     T,
