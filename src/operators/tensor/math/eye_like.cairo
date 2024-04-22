@@ -21,7 +21,7 @@ fn eye_like<
 ) -> Tensor<T> {
     assert((*self.shape).len() == 2 || (*self.shape).len() == 1, 'Unexpected shape.');
     let mut shape = *self.shape;
-    if (*self.shape).len()==1 {
+    if (*self.shape).len() == 1 {
         shape = (array![*(*self.shape).at(0), *(*self.shape).at(0)]).span();
     };
     let M = *shape.at(1);
@@ -40,7 +40,7 @@ fn eye_like<
         return TensorTrait::<T>::new(shape, arr.span());
     };
     let mut j: usize = 0;
-    if (K < 0){
+    if (K < 0) {
         j = (-(K)).try_into().unwrap() * M;
     } else {
         j = K.try_into().unwrap();

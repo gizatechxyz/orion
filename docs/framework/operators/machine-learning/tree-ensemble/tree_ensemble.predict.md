@@ -2,23 +2,23 @@
 
 ```rust 
    fn predict(X: @Tensor<T>,
-                  nodes_splits: Tensor<T>,
-                  nodes_featureids: Span<usize>,
-                  nodes_modes: Span<MODE>,
-                  nodes_truenodeids: Span<usize>,
-                  nodes_falsenodeids: Span<usize>,
-                  nodes_trueleafs: Span<usize>,
-                  nodes_falseleafs: Span<usize>,
-                  leaf_targetids: Span<usize>,
-                  leaf_weights: Tensor<T>,
-                  tree_roots: Span<usize>,
-                  post_transform: POST_TRANSFORM,
-                  aggregate_function: AGGREGATE_FUNCTION,
-                  nodes_hitrates: Option<Tensor<T>>,
-                  nodes_missing_value_tracks_true: Option<Span<usize>>,
-                  membership_values: Option<Tensor<T>>,
-                  n_targets: usize
-              ) -> MutMatrix::<T>;
+              nodes_splits: Tensor<T>,
+              nodes_featureids: Span<usize>,
+              nodes_modes: Span<MODE>,
+              nodes_truenodeids: Span<usize>,
+              nodes_falsenodeids: Span<usize>,
+              nodes_trueleafs: Span<usize>,
+              nodes_falseleafs: Span<usize>,
+              leaf_targetids: Span<usize>,
+              leaf_weights: Tensor<T>,
+              tree_roots: Span<usize>,
+              post_transform: POST_TRANSFORM,
+              aggregate_function: AGGREGATE_FUNCTION,
+              nodes_hitrates: Option<Tensor<T>>,
+              nodes_missing_value_tracks_true: Option<Span<usize>>,
+              membership_values: Option<Tensor<T>>,
+              n_targets: usize
+             ) -> MutMatrix::<T>;
 ```
 
 Tree Ensemble operator. Returns the regressed values for each input in a batch. Inputs have dimensions [N, F] where N is the input batch size and F is the number of input features. Outputs have dimensions [N, num_targets] where N is the batch size and num_targets is the number of targets, which is a configurable attribute.
@@ -50,7 +50,7 @@ Tree Ensemble operator. Returns the regressed values for each input in a batch. 
 
 ## Type Constraints
 
-`TreeEnsembleClassifier` and `X` must be fixed points
+`T` must be fixed point
 
 ## Examples
 

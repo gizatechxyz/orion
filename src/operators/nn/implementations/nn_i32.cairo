@@ -165,7 +165,7 @@ impl I32NN of NNTrait<i32> {
             strides,
         )
     }
-    
+
     fn max_pool(
         X: @Tensor<i32>,
         auto_pad: Option<AUTO_PAD>,
@@ -191,6 +191,20 @@ impl I32NN of NNTrait<i32> {
         offset_group: Option<usize>,
         pads: Option<Span<usize>>,
         strides: Option<Span<usize>>,
+    ) -> Tensor<i32> {
+        panic(array!['not supported!'])
+    }
+
+    fn lp_pool(
+        X: @Tensor<i32>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        p: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+        count_include_pad: Option<usize>,
     ) -> Tensor<i32> {
         panic(array!['not supported!'])
     }

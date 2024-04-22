@@ -17,9 +17,18 @@ fn test_maxpool_2d_constraint_index() {
     let input_0 = input_0::input_0();
     let z_0 = output_0::output_0();
 
-    let (_, y_0) = NNTrait::max_pool(@input_0,Option::None,Option::None,Option::None,array![2, 2].span(),Option::None,Option::Some(1),Option::Some(array![2, 2].span()),2);
+    let (_, y_0) = NNTrait::max_pool(
+        @input_0,
+        Option::None,
+        Option::None,
+        Option::None,
+        array![2, 2].span(),
+        Option::None,
+        Option::Some(1),
+        Option::Some(array![2, 2].span()),
+        2
+    );
 
     assert_eq(y_0.unwrap(), z_0);
 }
-
 

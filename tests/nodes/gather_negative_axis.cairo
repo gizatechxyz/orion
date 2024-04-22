@@ -18,7 +18,7 @@ fn test_gather_negative_axis() {
     let input_1 = input_1::input_1();
     let z_0 = output_0::output_0();
 
-    let y_0 = input_0.gather(indices:input_1, axis:Option::Some(-1));
+    let y_0 = input_0.gather(indices: input_1, axis: Option::Some(-1));
 
     assert_eq(y_0, z_0);
 }

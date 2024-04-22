@@ -15,7 +15,10 @@ fn test_export_center_crop_pad_pad() {
     let input_0 = input_0::input_0();
     let z_0 = output_0::output_0();
 
-    let y_0 = input_0.center_crop_pad(TensorTrait::new(array![3].span(), array![20,10,3].span()), Option::None(()));
+    let y_0 = input_0
+        .center_crop_pad(
+            TensorTrait::new(array![3].span(), array![20, 10, 3].span()), Option::None(())
+        );
 
     assert_eq(y_0, z_0);
 }

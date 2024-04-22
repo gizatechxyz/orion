@@ -432,16 +432,16 @@ fn meshgrid(x: Span<usize>, y: Span<usize>) -> (Span<usize>, Span<usize>) {
     let mut yv = ArrayTrait::new();
 
     let mut i = 0;
-    while i != y.len() {
-
-        xv.append_span(x);
-        let mut j = 0;
-        while j != x.len() {
-            yv.append(*y.at(i));
-            j += 1;
+    while i != y
+        .len() {
+            xv.append_span(x);
+            let mut j = 0;
+            while j != x.len() {
+                yv.append(*y.at(i));
+                j += 1;
+            };
+            i += 1;
         };
-        i += 1;
-    };
     return (xv.span(), yv.span());
 }
 
@@ -515,7 +515,6 @@ fn prod<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +Mul<
 }
 
 
-
 fn sum<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +AddEq<T>,>(
     a: Span<T>, start: usize
 ) -> T {
@@ -530,16 +529,12 @@ fn sum<T, MAG, +Drop<T>, +Copy<T>, +NumberTrait<T, MAG>, +TensorTrait<T>, +AddEq
 }
 
 
-fn span_U32_to_span_I32(
-    mut x: Span<usize>
-) -> Span<i32> {
+fn span_U32_to_span_I32(mut x: Span<usize>) -> Span<i32> {
     let mut res = ArrayTrait::new();
 
     loop {
         match x.pop_front() {
-            Option::Some(v) => {
-                res.append((*v).into());
-            },
+            Option::Some(v) => { res.append((*v).into()); },
             Option::None => { break; }
         };
     };

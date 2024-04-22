@@ -247,47 +247,51 @@ fn max_pool_implementation<
     let output_spatial_shape = if ceil_mode == 1 {
         let mut output_spatial_shape = ArrayTrait::<usize>::new();
         let mut i = 0;
-        while i != input_spatial_shape.len() {
-            let oss: T = NumberTrait::ceil(
-                (NumberTrait::new_unscaled(
-                    (*input_spatial_shape.at(i) + *pads.at(i) + *pads.at(i + n_dims)).into(), false
-                )
-                    - NumberTrait::new_unscaled(
-                        ((*kernel_shape.at(i) - 1) * *dilations.at(i) + 1).into(), false
-                    ))
-                    / NumberTrait::new_unscaled((*strides.at(i)).into(), false)
-                    + NumberTrait::one()
-            );
+        while i != input_spatial_shape
+            .len() {
+                let oss: T = NumberTrait::ceil(
+                    (NumberTrait::new_unscaled(
+                        (*input_spatial_shape.at(i) + *pads.at(i) + *pads.at(i + n_dims)).into(),
+                        false
+                    )
+                        - NumberTrait::new_unscaled(
+                            ((*kernel_shape.at(i) - 1) * *dilations.at(i) + 1).into(), false
+                        ))
+                        / NumberTrait::new_unscaled((*strides.at(i)).into(), false)
+                        + NumberTrait::one()
+                );
 
-            let need_to_reduce_out_size_in_ceil_mode = (oss.try_into().unwrap() - 1)
-                * *strides.at(i) >= *input_spatial_shape.at(i)
-                + *pads.at(i);
-            if need_to_reduce_out_size_in_ceil_mode {
-                output_spatial_shape.append(oss.try_into().unwrap() - 1);
-            } else {
-                output_spatial_shape.append(oss.try_into().unwrap());
+                let need_to_reduce_out_size_in_ceil_mode = (oss.try_into().unwrap() - 1)
+                    * *strides.at(i) >= *input_spatial_shape.at(i)
+                    + *pads.at(i);
+                if need_to_reduce_out_size_in_ceil_mode {
+                    output_spatial_shape.append(oss.try_into().unwrap() - 1);
+                } else {
+                    output_spatial_shape.append(oss.try_into().unwrap());
+                };
+                i += 1;
             };
-            i += 1;
-        };
 
         output_spatial_shape.span()
     } else {
         let mut output_spatial_shape = ArrayTrait::<usize>::new();
         let mut i = 0;
-        while i != input_spatial_shape.len() {
-            let oss: T = NumberTrait::floor(
-                (NumberTrait::new_unscaled(
-                    (*input_spatial_shape.at(i) + *pads.at(i) + *pads.at(i + n_dims)).into(), false
-                )
-                    - NumberTrait::new_unscaled(
-                        ((*kernel_shape.at(i) - 1) * *dilations.at(i) + 1).into(), false
-                    ))
-                    / NumberTrait::new_unscaled((*strides.at(i)).into(), false)
-                    + NumberTrait::one()
-            );
-            output_spatial_shape.append(oss.try_into().unwrap());
-            i += 1;
-        };
+        while i != input_spatial_shape
+            .len() {
+                let oss: T = NumberTrait::floor(
+                    (NumberTrait::new_unscaled(
+                        (*input_spatial_shape.at(i) + *pads.at(i) + *pads.at(i + n_dims)).into(),
+                        false
+                    )
+                        - NumberTrait::new_unscaled(
+                            ((*kernel_shape.at(i) - 1) * *dilations.at(i) + 1).into(), false
+                        ))
+                        / NumberTrait::new_unscaled((*strides.at(i)).into(), false)
+                        + NumberTrait::one()
+                );
+                output_spatial_shape.append(oss.try_into().unwrap());
+                i += 1;
+            };
         output_spatial_shape.span()
     };
 
@@ -300,22 +304,23 @@ fn max_pool_implementation<
             let mut pads = ArrayTrait::new();
 
             let mut i = 0;
-            while i != input_spatial_shape.len() {
-                let oss: T = NumberTrait::ceil(
-                    NumberTrait::new_unscaled((*input_spatial_shape.at(i)).into(), false)
-                        / NumberTrait::new_unscaled((*strides.at(i)).into(), false)
-                );
-                output_spatial_shape.append(oss.try_into().unwrap());
+            while i != input_spatial_shape
+                .len() {
+                    let oss: T = NumberTrait::ceil(
+                        NumberTrait::new_unscaled((*input_spatial_shape.at(i)).into(), false)
+                            / NumberTrait::new_unscaled((*strides.at(i)).into(), false)
+                    );
+                    output_spatial_shape.append(oss.try_into().unwrap());
 
-                let pad_i = (*output_spatial_shape[i] - 1) * *strides[i]
-                    + ((*kernel_shape[i] - 1) * *dilations[i] + 1)
-                    - *input_spatial_shape[i];
+                    let pad_i = (*output_spatial_shape[i] - 1) * *strides[i]
+                        + ((*kernel_shape[i] - 1) * *dilations[i] + 1)
+                        - *input_spatial_shape[i];
 
-                pad_1.append(pad_i / 2);
-                pad_2.append(pad_i - (pad_i / 2));
+                    pad_1.append(pad_i / 2);
+                    pad_2.append(pad_i - (pad_i / 2));
 
-                i += 1;
-            };
+                    i += 1;
+                };
 
             pads.append_span(pad_1.span());
             pads.append_span(pad_2.span());
@@ -329,23 +334,23 @@ fn max_pool_implementation<
             let mut pads = ArrayTrait::new();
 
             let mut i = 0;
-            while i != input_spatial_shape.len() {
+            while i != input_spatial_shape
+                .len() {
+                    let oss: T = NumberTrait::floor(
+                        NumberTrait::new_unscaled((*input_spatial_shape.at(i)).into(), false)
+                            / NumberTrait::new_unscaled((*strides.at(i)).into(), false)
+                    );
+                    output_spatial_shape.append(oss.try_into().unwrap());
 
-                let oss: T = NumberTrait::floor(
-                    NumberTrait::new_unscaled((*input_spatial_shape.at(i)).into(), false)
-                        / NumberTrait::new_unscaled((*strides.at(i)).into(), false)
-                );
-                output_spatial_shape.append(oss.try_into().unwrap());
+                    let pad_i = (*output_spatial_shape[i] - 1) * *strides[i]
+                        + ((*kernel_shape[i] - 1) * *dilations[i] + 1)
+                        - *input_spatial_shape[i];
 
-                let pad_i = (*output_spatial_shape[i] - 1) * *strides[i]
-                    + ((*kernel_shape[i] - 1) * *dilations[i] + 1)
-                    - *input_spatial_shape[i];
+                    pad_1.append(pad_i / 2);
+                    pad_2.append(pad_i - (pad_i / 2));
 
-                pad_1.append(pad_i / 2);
-                pad_2.append(pad_i - (pad_i / 2));
-
-                i += 1;
-            };
+                    i += 1;
+                };
 
             pads.append_span(pad_1.span());
             pads.append_span(pad_2.span());
@@ -355,19 +360,20 @@ fn max_pool_implementation<
         AUTO_PAD::VALID => {
             let mut output_spatial_shape = ArrayTrait::<usize>::new();
             let mut i = 0;
-            while i != input_spatial_shape.len() {
-                let oss: T = NumberTrait::ceil(
-                    (NumberTrait::new_unscaled((*input_spatial_shape.at(i)).into(), false)
-                        - NumberTrait::new_unscaled(
-                            ((*kernel_shape.at(i) - 1) * *dilations.at(i) + 1).into(), false
-                        )
-                        + NumberTrait::one())
-                        / NumberTrait::new_unscaled((*strides.at(i)).into(), false)
-                );
-                output_spatial_shape.append(oss.try_into().unwrap());
+            while i != input_spatial_shape
+                .len() {
+                    let oss: T = NumberTrait::ceil(
+                        (NumberTrait::new_unscaled((*input_spatial_shape.at(i)).into(), false)
+                            - NumberTrait::new_unscaled(
+                                ((*kernel_shape.at(i) - 1) * *dilations.at(i) + 1).into(), false
+                            )
+                            + NumberTrait::one())
+                            / NumberTrait::new_unscaled((*strides.at(i)).into(), false)
+                    );
+                    output_spatial_shape.append(oss.try_into().unwrap());
 
-                i += 1;
-            };
+                    i += 1;
+                };
 
             (pads, output_spatial_shape.span())
         },
@@ -841,7 +847,6 @@ fn max_pool_nd<
 
         let mut p = 0;
         while p != y_step {
-
             let mut flatten_index = p;
 
             let mut nstart = ArrayTrait::new();

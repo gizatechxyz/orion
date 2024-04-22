@@ -4,12 +4,7 @@ use orion::operators::tensor::helpers::{
 };
 
 /// Cf: TensorTrait::less_equal docstring
-fn less_equal<
-    T,
-    impl TPartialOrd: PartialOrd<T>,
-    impl TCopy: Copy<T>,
-    impl TDrop: Drop<T>
->(
+fn less_equal<T, impl TPartialOrd: PartialOrd<T>, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     y: @Tensor<T>, z: @Tensor<T>
 ) -> Tensor<i32> {
     let broadcasted_shape = broadcast_shape(*y.shape, *z.shape);

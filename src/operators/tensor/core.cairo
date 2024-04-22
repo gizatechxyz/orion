@@ -18,7 +18,6 @@ struct Tensor<T> {
 }
 
 
-
 //Implement TensorSerde
 impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<T>> {
     fn serialize(self: @Tensor<T>, ref output: Array<felt252>) {
@@ -691,7 +690,7 @@ trait TensorTrait<T> {
         axes: Option<Span<i32>>,
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
-    ) -> Tensor<T>; 
+    ) -> Tensor<T>;
     /// # tensor.argmax
     ///
     /// ```rust 

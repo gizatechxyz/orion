@@ -70,7 +70,9 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP32x32>, target_shape: Span<i32>, allowzero: bool) -> Tensor<FP32x32> {
+    fn reshape(
+        self: @Tensor<FP32x32>, target_shape: Span<i32>, allowzero: bool
+    ) -> Tensor<FP32x32> {
         reshape(self, target_shape, allowzero)
     }
 
@@ -390,9 +392,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         core_tensor::slice::<FP32x32>(self, starts, ends, axes, steps)
     }
 
-    fn gather(
-        self: @Tensor<FP32x32>, indices: Tensor<i32>, axis: Option<i32>
-    ) -> Tensor<FP32x32> {
+    fn gather(self: @Tensor<FP32x32>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<FP32x32> {
         math::gather::gather(self, indices, axis)
     }
 
@@ -673,7 +673,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         let zero = NumberTrait::<FP32x32>::zero();
         manipulation::center_crop_pad::center_crop_pad(self, shape, axes, zero)
     }
-    
+
     fn label_encoder(
         self: @Tensor<FP32x32>,
         default_list: Option<Span<FP32x32>>,
@@ -693,7 +693,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Tensor<FP32x32> {
         panic(array!['not supported!'])
     }
-    
+
     fn eye_like(self: @Tensor<FP32x32>, k: Option<i32>) -> Tensor<FP32x32> {
         math::eye_like::eye_like(self, k)
     }
@@ -828,17 +828,19 @@ fn relative_eq(lhs: @FP32x32, rhs: @FP32x32) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP32x32>, mut rhs: Tensor<FP32x32>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0 && is_eq {
-        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() != 0 && is_eq {
-        is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
-    };
+    while lhs.data.len() != 0
+        && is_eq {
+            is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+        };
 
     is_eq
 }

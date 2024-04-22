@@ -10,6 +10,9 @@ use core::traits::Into;
 use orion::numbers::{U32IntoI32, I32IntoU32, I32Div, I32Number};
 use orion::numbers::FP16x16;
 use orion::operators::nn::{AUTO_PAD, POOLING_TYPE};
+use orion::operators::nn::helpers::{
+    cartesian, arange, average, max_in_tensor, ravel_index, full, get_all_coord
+};
 
 fn common_pool<
     T,
@@ -251,9 +254,9 @@ fn pool<
         y_shape.append(NumberTrait::floor(((a - b) / c + NumberTrait::one())).try_into().unwrap());
         i += 1;
     };
-    let y_stride = stride(y_shape.span());
+    let y_shape = y_shape.span();
     let padded_stride = stride(*padded.shape);
-    let mut all_coords = get_all_coords(y_shape.span());
+    let mut all_coords = get_all_coord(y_shape);
 
     loop {
         match all_coords.pop_front() {
@@ -264,7 +267,7 @@ fn pool<
                     *coord.at(0) * *padded_stride.at(0) + *coord.at(1) * *padded_stride.at(1),
                     *padded_stride.at(1)
                 );
-                let window_stride = SpanTrait::slice(padded_stride, 2, n_dims);
+                let window_shape = SpanTrait::slice(*padded.shape, 2, n_dims);
                 let mut window_vals = ArrayTrait::new();
 
                 let mut all_indices = ArrayTrait::new();
@@ -288,7 +291,7 @@ fn pool<
                 loop {
                     match all_indices.pop_front() {
                         Option::Some(index) => {
-                            let flatten_index = flatten_index((*index), window_stride);
+                            let flatten_index = ravel_index(window_shape, (*index));
 
                             window_vals.append(*window.at(flatten_index));
                         },
@@ -297,19 +300,18 @@ fn pool<
                 };
                 match pooling_type {
                     POOLING_TYPE::AVG => {
-                        let flatten_index = flatten_index(coord, y_stride);
+                        let flatten_index = ravel_index(y_shape, coord);
 
-                        if count_include_pad == 1 {
-                            y.set(flatten_index, average(window_vals.span()));
-                        } else {
-                            y.set(flatten_index, average(window_vals.span()));
-                        }
+                        y.set(flatten_index, average(window_vals.span()));
                     },
-                    POOLING_TYPE::LPPOOL => { panic(array!['supported soon']) },
+                    POOLING_TYPE::LPPOOL => {
+                        let flatten_index = ravel_index(y_shape, coord);
+                        y.set(flatten_index, lp_pool(window_vals.span(), p));
+                    },
                     POOLING_TYPE::MAX => {
-                        let flatten_index = flatten_index(coord, y_stride);
+                        let flatten_index = ravel_index(y_shape, coord);
 
-                        y.set(flatten_index, max(window_vals.span()));
+                        y.set(flatten_index, max_in_tensor(window_vals.span()));
                     }
                 }
             },
@@ -325,7 +327,7 @@ fn pool<
         y_data.append(y.at(i));
         i += 1;
     };
-    return TensorTrait::new(y_shape.span(), y_data.span());
+    return TensorTrait::new(y_shape, y_data.span());
 }
 
 fn get_output_shape_auto_pad(
@@ -724,198 +726,7 @@ fn pad_constant_value<
 }
 
 
-// return a span of len ceil((end - start) / step)
-fn full<T, MAG, +TensorTrait<T>, +NumberTrait<T, MAG>, +Copy<T>, +Drop<T>,>(
-    len: usize, fill_value: T
-) -> NullableVec<T> {
-    let mut full = NullableVecImpl::new();
-    let mut i = 0;
-    loop {
-        if i == len {
-            break;
-        }
-        full.set(i, fill_value);
-        i += 1;
-    };
-    return full;
-}
-
-
-fn flatten_index(index: Span<usize>, stride: Span<usize>) -> usize {
-    let mut flatten_index = 0;
-    let n = index.len();
-
-    let mut i = 0;
-    loop {
-        if i == n {
-            break;
-        }
-        flatten_index += *index.at(i) * *stride.at(i);
-        i += 1;
-    };
-
-    return flatten_index;
-}
-
-
-fn get_all_coords(shape: Span<usize>) -> Span<Span<usize>> {
-    let mut all_indices = ArrayTrait::new();
-
-    let mut i = 0;
-    loop {
-        if i == shape.len() {
-            break;
-        }
-        all_indices.append(arange(0, *shape.at(i), 1));
-        i += 1;
-    };
-
-    return cartesian(all_indices.span());
-}
-
-fn cartesian(mut arrays: Span<Span<usize>>,) -> Span<Span<usize>> {
-    let mut n = 1;
-    let mut i = arrays.len() - 1;
-    loop {
-        n = n * (*(arrays.at(i))).len();
-        if i == 0 {
-            break;
-        }
-        i -= 1;
-    };
-
-    let mut i = 0;
-    let mut size_arrays = ArrayTrait::new();
-    loop {
-        if i == arrays.len() {
-            break;
-        }
-        size_arrays.append((*(arrays.at(i))).len());
-
-        i += 1;
-    };
-    let size_arrays = size_arrays.span();
-    let mut output_arrays = ArrayTrait::<Array<usize>>::new();
-    let mut m = n;
-
-    let mut i = 0;
-    loop {
-        if i == arrays.len() {
-            break;
-        }
-        m = m / (*(arrays.at(i))).len();
-        let mut out = repeat(*(arrays.at(i)), m);
-        out = repeat_2(out, size_arrays, i);
-
-        output_arrays.append(out);
-        i += 1;
-    };
-    let output_arrays = output_arrays.span();
-
-    let mut i = 0;
-    let mut ret = ArrayTrait::new();
-    loop {
-        if i == n {
-            break;
-        }
-        let mut j = 0;
-        let mut x = ArrayTrait::new();
-        loop {
-            if j == arrays.len() {
-                break;
-            }
-
-            x.append(*(output_arrays.at(j)).at(i));
-            j += 1;
-        };
-        ret.append(x.span());
-        i += 1;
-    };
-
-    return ret.span();
-}
-
-
-fn repeat_2(mut array: Array<usize>, size_array: Span<usize>, index: usize) -> Array<usize> {
-    let mut size = array.len();
-    let mut i = 0;
-    loop {
-        if i == index {
-            break;
-        }
-        let mut j = 1;
-        loop {
-            if j == *size_array.at(index - 1 - i) {
-                break;
-            }
-            let mut k = 0;
-            loop {
-                if k == size {
-                    break;
-                }
-                array.append(*array.at(k));
-                k += 1;
-            };
-            j += 1;
-        };
-        size = size * *size_array.at(index - 1 - i);
-        i += 1;
-    };
-    array
-}
-
-fn repeat(array: Span<usize>, m: usize,) -> Array<usize> {
-    let mut out = ArrayTrait::new();
-    let mut j = 0;
-    loop {
-        if j == array.len() {
-            break;
-        }
-        let mut k = 0;
-        loop {
-            if k == m {
-                break;
-            }
-            out.append(*array.at(j));
-            k += 1;
-        };
-        j += 1;
-    };
-
-    out
-}
-
-
-fn arange(start: usize, end: usize, step: usize) -> Span<usize> {
-    let mut arr = ArrayTrait::new();
-    let mut i = start;
-    loop {
-        if i >= end {
-            break;
-        }
-        arr.append(i);
-        i += step;
-    };
-    return arr.span();
-}
-
-
-fn max<T, MAG, +NumberTrait<T, MAG>, +Drop<T>, +Copy<T>, +PartialOrd<T>,>(mut a: Span<T>) -> T {
-    assert(a.len() > 0, 'span cannot be empty');
-
-    let mut max = *a.at(0);
-    loop {
-        match a.pop_front() {
-            Option::Some(v) => { if *v > max {
-                max = *v;
-            }; },
-            Option::None => { break max; }
-        };
-    }
-}
-
-
-fn average<
+fn lp_pool<
     T,
     MAG,
     +NumberTrait<T, MAG>,
@@ -926,16 +737,14 @@ fn average<
     +PartialOrd<T>,
     +Div<T>
 >(
-    mut a: Span<T>
+    mut a: Span<T>, p: usize
 ) -> T {
-    assert(a.len() > 0, 'span cannot be empty');
-
-    let mut sum = *a.at(0);
-    let n = NumberTrait::new_unscaled((a.len()).into(), false);
+    let mut y = NumberTrait::zero();
+    let pow = NumberTrait::new_unscaled(p.into(), false);
     loop {
         match a.pop_front() {
-            Option::Some(v) => { sum += *v; },
-            Option::None => { break sum / n; }
+            Option::Some(v) => { y += NumberTrait::pow(NumberTrait::abs(*v), pow); },
+            Option::None => { break NumberTrait::pow(y, NumberTrait::one() / pow); }
         };
     }
 }
