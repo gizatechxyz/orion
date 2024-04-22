@@ -37,6 +37,7 @@ def conv(
         pads = [0 for s in X.shape[2:]] * 2
     if strides is None:
         strides = [1 for s in X.shape[2:]]
+        
     if group is None:
         group=1
 

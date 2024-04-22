@@ -17,3 +17,6 @@ mod depth_to_space;
 mod space_to_depth;
 mod conv;
 mod conv_integer;
+mod max_pool;
+mod common_pool;
+mod deform_conv;

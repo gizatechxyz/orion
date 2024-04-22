@@ -3,14 +3,15 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::numbers::fixed_point::implementations::fp16x16::core::FP16x16;
 use orion::operators::tensor::implementations::tensor_fp16x16::{
-    FP16x16Tensor, FP16x16TensorDiv, FP16x16TensorAdd
+    FP16x16Tensor, FP16x16TensorDiv, FP16x16TensorAdd, FP16x16TensorMul
 };
 use orion::numbers::fixed_point::implementations::fp16x16wide::core::{
     FP16x16WImpl, FP16x16WTryIntoFP16x16, FP16x16W, FP16x16IntoFP16x16W
 };
 use orion::operators::tensor::implementations::tensor_fp16x16wide::{
-    FP16x16WTensor, FP16x16WTensorDiv, FP16x16WTensorAdd
+    FP16x16WTensor, FP16x16WTensorDiv, FP16x16WTensorAdd, FP16x16WTensorMul
 };
+use orion::operators::nn::{AUTO_PAD, MODE, PADDING_MODE};
 
 impl FP16x16NN of NNTrait<FP16x16> {
     fn relu(tensor: @Tensor<FP16x16>) -> Tensor<FP16x16> {
@@ -21,7 +22,7 @@ impl FP16x16NN of NNTrait<FP16x16> {
         functional::sigmoid::sigmoid(*tensor)
     }
 
-    fn softmax(tensor: @Tensor<FP16x16>, axis: usize) -> Tensor<FP16x16> {
+    fn softmax(tensor: @Tensor<FP16x16>, axis: Option<i32>) -> Tensor<FP16x16> {
         functional::softmax::softmaxWide::<FP16x16, u32, FP16x16W, u64>(tensor, axis)
     }
 
@@ -85,8 +86,8 @@ impl FP16x16NN of NNTrait<FP16x16> {
         X: @Tensor<FP16x16>,
         grid: @Tensor<FP16x16>,
         align_corner: Option<usize>,
-        mode: Option<functional::grid_sample::MODE>,
-        padding_mode: Option<functional::grid_sample::PADDING_MODE>,
+        mode: Option<MODE>,
+        padding_mode: Option<PADDING_MODE>,
     ) -> Tensor<FP16x16> {
         functional::grid_sample::grid_sample(X, grid, align_corner, mode, padding_mode)
     }
@@ -134,7 +135,7 @@ impl FP16x16NN of NNTrait<FP16x16> {
         X: @Tensor<FP16x16>,
         W: @Tensor<FP16x16>,
         B: Option<Span<FP16x16>>,
-        auto_pad: Option<functional::conv::AUTO_PAD>,
+        auto_pad: Option<AUTO_PAD>,
         dilations: Option<Span<usize>>,
         group: Option<usize>,
         kernel_shape: Option<Span<usize>>,
@@ -157,5 +158,45 @@ impl FP16x16NN of NNTrait<FP16x16> {
         strides: Option<Span<usize>>,
     ) -> Tensor<usize> {
         panic(array!['not supported!'])
+    }
+    
+    fn max_pool(
+        X: @Tensor<FP16x16>,
+        auto_pad: Option<AUTO_PAD>,
+        ceil_mode: Option<usize>,
+        dilations: Option<Span<usize>>,
+        kernel_shape: Span<usize>,
+        pads: Option<Span<usize>>,
+        storage_order: Option<usize>,
+        strides: Option<Span<usize>>,
+        output_len: usize,
+    ) -> (Tensor<FP16x16>, Option<Tensor<usize>>) {
+        functional::max_pool::max_pool(
+            X,
+            auto_pad,
+            ceil_mode,
+            dilations,
+            kernel_shape,
+            pads,
+            storage_order,
+            strides,
+            output_len)
+    }
+    fn deform_conv(
+        X: @Tensor<FP16x16>,
+        W: @Tensor<FP16x16>,
+        offset: @Tensor<FP16x16>,
+        B: Option<Span<FP16x16>>,
+        mask: Option<Tensor<FP16x16>>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        offset_group: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP16x16> {
+        functional::deform_conv::deform_conv(
+            X, W, offset, B, mask, dilations, group, kernel_shape, offset_group, pads, strides,
+        )
     }
 }
