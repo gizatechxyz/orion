@@ -580,6 +580,12 @@ impl U32Tensor of TensorTrait<u32> {
         )
     }
 
+    fn bit_shift(
+        tensor1: @Tensor<u32>, tensor2: @Tensor<u32>, direction: felt252
+    ) -> Tensor<u32> {
+        math::bit_shift::bit_shift(tensor1, tensor2, direction)
+    }
+    
     fn eye_like(self: @Tensor<u32>, k: Option<i32>) -> Tensor<u32> {
         math::eye_like::eye_like(self, k)
     }

@@ -581,6 +581,12 @@ impl BoolTensor of TensorTrait<bool> {
         panic(array!['not supported!'])
     }
 
+    fn bit_shift(
+        tensor1: @Tensor<bool>, tensor2: @Tensor<bool>, direction: felt252
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
     fn eye_like(self: @Tensor<bool>, k: Option<i32>) -> Tensor<bool> {
         panic(array!['not supported!'])
     }

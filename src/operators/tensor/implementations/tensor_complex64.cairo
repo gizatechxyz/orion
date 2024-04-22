@@ -624,6 +624,12 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
+    fn bit_shift(
+        tensor1: @Tensor<complex64>, tensor2: @Tensor<complex64>, direction: felt252
+    ) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+
     fn eye_like(self: @Tensor<complex64>, k: Option<i32>) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }

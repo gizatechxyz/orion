@@ -633,6 +633,12 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         )
     }
 
+    fn bit_shift(
+        tensor1: @Tensor<FP16x16W>, tensor2: @Tensor<FP16x16W>, direction: felt252
+    ) -> Tensor<FP16x16W> {
+        panic(array!['not supported!'])
+    }
+    
     fn eye_like(self: @Tensor<FP16x16W>, k: Option<i32>) -> Tensor<FP16x16W> {
         math::eye_like::eye_like(self, k)
     }

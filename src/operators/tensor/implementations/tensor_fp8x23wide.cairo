@@ -610,6 +610,12 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
         )
     }
 
+    fn bit_shift(
+        tensor1: @Tensor<FP8x23W>, tensor2: @Tensor<FP8x23W>, direction: felt252
+    ) -> Tensor<FP8x23W> {
+        panic(array!['not supported!'])
+    }
+    
     fn eye_like(self: @Tensor<FP8x23W>, k: Option<i32>) -> Tensor<FP8x23W> {
         math::eye_like::eye_like(self, k)
     }

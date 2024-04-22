@@ -688,6 +688,12 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         )
     }
 
+    fn bit_shift(
+        tensor1: @Tensor<FP32x32>, tensor2: @Tensor<FP32x32>, direction: felt252
+    ) -> Tensor<FP32x32> {
+        panic(array!['not supported!'])
+    }
+    
     fn eye_like(self: @Tensor<FP32x32>, k: Option<i32>) -> Tensor<FP32x32> {
         math::eye_like::eye_like(self, k)
     }

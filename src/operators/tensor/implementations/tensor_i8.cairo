@@ -655,6 +655,12 @@ impl I8Tensor of TensorTrait<i8> {
         )
     }
 
+    fn bit_shift(
+        tensor1: @Tensor<i8>, tensor2: @Tensor<i8>, direction: felt252
+    ) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+    
     fn eye_like(self: @Tensor<i8>, k: Option<i32>) -> Tensor<i8> {
         math::eye_like::eye_like(self, k)
     }
