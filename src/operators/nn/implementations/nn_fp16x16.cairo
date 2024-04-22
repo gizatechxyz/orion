@@ -145,6 +145,10 @@ impl FP16x16NN of NNTrait<FP16x16> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
 
+    fn global_average_pool(tensor: @Tensor<FP16x16>) -> Tensor<FP16x16> {
+        functional::global_average_pool::global_average_pool(*tensor)
+    }
+    
     fn conv_integer(
         X: @Tensor<FP16x16>,
         W: @Tensor<FP16x16>,

@@ -139,6 +139,10 @@ impl FP64x64NN of NNTrait<FP64x64> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
 
+    fn global_average_pool(tensor: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        functional::global_average_pool::global_average_pool(*tensor)
+    }
+    
     fn conv_integer(
         X: @Tensor<FP64x64>,
         W: @Tensor<FP64x64>,

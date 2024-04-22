@@ -139,6 +139,10 @@ impl FP32x32NN of NNTrait<FP32x32> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
 
+    fn global_average_pool(tensor: @Tensor<FP32x32>) -> Tensor<FP32x32> {
+        functional::global_average_pool::global_average_pool(*tensor)
+    }
+    
     fn conv_integer(
         X: @Tensor<FP32x32>,
         W: @Tensor<FP32x32>,
