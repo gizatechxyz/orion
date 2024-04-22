@@ -4,6 +4,7 @@ use orion::operators::nn::functional;
 use orion::operators::tensor::implementations::tensor_i8::{I8Tensor, I8TensorAdd};
 use orion::operators::nn::AUTO_PAD;
 
+
 impl I8NN of NNTrait<i8> {
     fn relu(tensor: @Tensor<i8>) -> Tensor<i8> {
         functional::relu::relu(*tensor)
@@ -143,6 +144,21 @@ impl I8NN of NNTrait<i8> {
         strides: Option<Span<usize>>,
         output_len: usize,
     ) -> (Tensor<i8>, Option<Tensor<usize>>) {
+        panic(array!['not supported!'])
+    }
+    fn deform_conv(
+        X: @Tensor<i8>,
+        W: @Tensor<i8>,
+        offset: @Tensor<i8>,
+        B: Option<Span<i8>>,
+        mask: Option<Tensor<i8>>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        offset_group: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<i8> {
         panic(array!['not supported!'])
     }
 }

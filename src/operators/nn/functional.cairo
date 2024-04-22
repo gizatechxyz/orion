@@ -18,3 +18,4 @@ mod space_to_depth;
 mod conv;
 mod max_pool;
 mod common_pool;
+mod deform_conv;

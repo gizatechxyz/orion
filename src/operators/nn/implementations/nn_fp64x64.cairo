@@ -3,7 +3,7 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::numbers::fixed_point::implementations::fp64x64::core::{FP64x64, FP64x64Impl};
 use orion::operators::tensor::implementations::tensor_fp64x64::{
-    FP64x64Tensor, FP64x64TensorDiv, FP64x64TensorAdd
+    FP64x64Tensor, FP64x64TensorDiv, FP64x64TensorAdd, FP64x64TensorMul
 };
 use orion::operators::nn::AUTO_PAD;
 
@@ -159,7 +159,23 @@ impl FP64x64NN of NNTrait<FP64x64> {
             pads,
             storage_order,
             strides,
-            output_len
+            output_len)
+    }
+    fn deform_conv(
+        X: @Tensor<FP64x64>,
+        W: @Tensor<FP64x64>,
+        offset: @Tensor<FP64x64>,
+        B: Option<Span<FP64x64>>,
+        mask: Option<Tensor<FP64x64>>,
+        dilations: Option<Span<usize>>,
+        group: Option<usize>,
+        kernel_shape: Option<Span<usize>>,
+        offset_group: Option<usize>,
+        pads: Option<Span<usize>>,
+        strides: Option<Span<usize>>,
+    ) -> Tensor<FP64x64> {
+        functional::deform_conv::deform_conv(
+            X, W, offset, B, mask, dilations, group, kernel_shape, offset_group, pads, strides,
         )
     }
 }
