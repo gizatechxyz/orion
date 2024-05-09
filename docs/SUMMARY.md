@@ -85,6 +85,7 @@
     * [tensor.less](framework/operators/tensor/tensor.less.md)
     * [tensor.less\_equal](framework/operators/tensor/tensor.less\_equal.md)
     * [tensor.abs](framework/operators/tensor/tensor.abs.md)
+    * [tensor.modulo](framework/operators/tensor/tensor.modulo.md)
     * [tensor.neg](framework/operators/tensor/tensor.neg.md)
     * [tensor.ceil](framework/operators/tensor/tensor.ceil.md)
     * [tensor.cumsum](framework/operators/tensor/tensor.cumsum.md)
