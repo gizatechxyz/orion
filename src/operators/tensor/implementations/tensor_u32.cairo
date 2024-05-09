@@ -134,6 +134,10 @@ impl U32Tensor of TensorTrait<u32> {
         math::abs::abs(*self)
     }
 
+    fn modulo( self: @Tensor<u32>,  divisor: @Tensor<u32>, fmod: Option<bool> ) -> Tensor<u32> {
+        math::modulo::modulo(self, divisor, fmod)
+    }
+
     fn neg(self: @Tensor<u32>) -> Tensor<u32> {
         math::neg::neg(*self)
     }

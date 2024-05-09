@@ -146,6 +146,10 @@ impl Complex64Tensor of TensorTrait<complex64> {
         math::abs::abs(*self)
     }
 
+    fn modulo( self: @Tensor<complex64>,  divisor: @Tensor<complex64>, fmod: Option<bool> ) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+
     fn neg(self: @Tensor<complex64>) -> Tensor<complex64> {
         panic(array!['not supported!'])
     }
