@@ -1,5 +1,5 @@
 [package]
-name = "orion_cairo"
+name = "orion_numbers"
 version = "0.1.0"
 edition = "2023_11"
 
@@ -9,7 +9,6 @@ edition = "2023_11"
 
 [scripts]
 test = "scarb cairo-test -f test"
-
 
 [cairo]
 enable-gas=false
