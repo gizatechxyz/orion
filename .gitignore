@@ -4,7 +4,8 @@ Scarb
 
 target
 __pycache__
-
+.pytest_cache
+.ruff_cache
 neural_network/.venv
 
 .vscode/

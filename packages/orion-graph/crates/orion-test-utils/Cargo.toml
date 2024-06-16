@@ -1,0 +1,14 @@
+[package]
+name = "orion-test-utils"
+version.workspace = true
+edition.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+orion = { path = "../orion" }
+byteorder = "1.5.0"
+prost = "0.12.4"
+onnx = { path = "../onnx" }
+onnx-decomp = { path = "../onnx-decomp" }
+primops-decomp = { path = "../primops-decomp" }

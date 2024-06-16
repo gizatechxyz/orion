@@ -1,0 +1,13 @@
+[workspace]
+members = [ "crates/compilers","crates/onnx", "crates/onnx-decomp", "crates/orion", "crates/orion-test-utils", "crates/primops-decomp"]
+default-members = ["crates/onnx", "crates/onnx-decomp", "crates/orion", "crates/orion-test-utils", "crates/primops-decomp"]
+resolver = "2"
+
+[workspace.package]
+name = "orion2"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[workspace.dependencies]
