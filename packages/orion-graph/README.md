@@ -1,8 +1,8 @@
-# Orion2 - A scalable and modular ZKML framework
+# Orion-Graph - A ZKML framework for graph-based models
 
-Orion2 is a ZKML frameworks that uses composable ZK compilers to achieve modularity and scalability.
+Orion-Graph is a ZKML frameworks that uses composable ZK compilers to achieve modularity and scalability.
 
-With Orion2 you only need to add 11 primitive operations (primops) to support a new ZK backend:
+With Orion-Graph you only need to add 11 primitive operations (primops) to support a new ZK backend:
 - **Unary** - Log2, Exp2, Sin, Sqrt, Recip
 - **Binary** - Add, Mul, Mod, LessThan
 - **Other** - SumReduce, MaxReduce, Contiguous
@@ -13,4 +13,4 @@ Once the graph is built, iterative ZK compiler passes can modify it to replace p
 
 This approach leads to a simple library, and performance is only limited by the creativity of the compiler programmer, not the model programmer.
 
-![Orion2](https://github.com/gizatechxyz/orion2/assets/113879115/75320a2f-336f-49c8-a40e-7538aee50f9d)
+![Orion Diagram](packages/orion-graph/imgs/Orion-Graph-Diagram.png)
