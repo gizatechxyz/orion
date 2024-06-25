@@ -1,5 +1,7 @@
 use orion_numbers::f16x16::core::{FixedTrait, f16x16, ONE, HALF};
 
+use orion_numbers::f16x16::core_trait::I32Div;
+
 const DEFAULT_PRECISION: i32 = 7; // 1e-4
 
 // To use `DEFAULT_PRECISION`, final arg is: `Option::None(())`.
@@ -15,7 +17,7 @@ pub fn assert_precise(
     let diff = (result - FixedTrait::from_felt(expected));
 
     if (diff > precision) {
-        println!("{}", result);
+        //println!("{}", result);
         assert(diff <= precision, msg);
     }
 }
@@ -32,7 +34,7 @@ pub fn assert_relative(
     let rel_diff = diff / result;
 
     if (rel_diff > precision) {
-        println!("{}", result);
+        //println!("{}", result);
         assert(rel_diff <= precision, msg);
     }
 }

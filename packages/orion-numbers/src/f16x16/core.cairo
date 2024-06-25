@@ -47,7 +47,7 @@ pub impl f16x16Impl of FixedTrait {
     }
 
     fn from_unscaled_felt(x: felt252) -> f16x16 {
-        return Self::from_felt(x * ONE.into());
+        return FixedTrait::from_felt(x * ONE.into());
     }
 
     fn abs(self: f16x16) -> f16x16 {

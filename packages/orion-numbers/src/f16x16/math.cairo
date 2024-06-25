@@ -5,6 +5,8 @@ use core::integer;
 
 use orion_numbers::f16x16::{core::{FixedTrait, f16x16, ONE, HALF}, lut};
 
+use orion_numbers::f16x16::core_trait::{I32Rem, I32Div, I64Div}; //I32TryIntoNonZero, I32DivRem
+
 
 pub fn abs(a: f16x16) -> f16x16 {
     if a >= 0 {
@@ -23,7 +25,9 @@ pub fn sub(a: f16x16, b: f16x16) -> f16x16 {
 }
 
 pub fn ceil(a: f16x16) -> f16x16 {
-    let (div, rem) = DivRem::div_rem(a, ONE.try_into().unwrap());
+    //let (div, rem) = DivRem::div_rem(a, ONE.try_into().unwrap());
+    let div = Div::div(a, ONE);
+    let rem = Rem::rem(a, ONE);
 
     if rem == 0 {
         FixedTrait::new_unscaled(div)
@@ -51,7 +55,10 @@ pub fn exp2(a: f16x16) -> f16x16 {
         return FixedTrait::ONE();
     }
 
-    let (int_part, frac_part) = DivRem::div_rem(a.abs(), ONE.try_into().unwrap());
+    //let (int_part, frac_part) = DivRem::div_rem(a.abs(), ONE.try_into().unwrap());
+    let int_part = Div::div(a.abs(), ONE);
+    let frac_part = Rem::rem(a.abs(), ONE);
+
     let int_res = FixedTrait::new_unscaled(lut::exp2(int_part));
     let mut res_u = int_res;
 
@@ -79,7 +86,9 @@ fn exp2_int(exp: i32) -> f16x16 {
 }
 
 pub fn floor(a: f16x16) -> f16x16 {
-    let (div, rem) = DivRem::div_rem(a, ONE.try_into().unwrap());
+    //let (div, rem) = DivRem::div_rem(a, ONE.try_into().unwrap());
+    let div = Div::div(a, ONE);
+    let rem = Rem::rem(a, ONE);
 
     if rem == 0 {
         a
@@ -146,7 +155,7 @@ pub fn mul(a: f16x16, b: f16x16) -> f16x16 {
 // self is a FP16x16 point value
 // b is a FP16x16 point value
 pub fn pow(a: f16x16, b: f16x16) -> f16x16 {
-    let (_, rem) = DivRem::div_rem(b, ONE.try_into().unwrap());
+    let rem = Rem::rem(b, ONE);
 
     // use the more performant integer pow when y is an int
     if (rem == 0) {
@@ -174,7 +183,9 @@ fn pow_int(a: f16x16, b: i32) -> f16x16 {
     let two: i32 = 2;
 
     while n > 1 {
-        let (div, rem) = DivRem::div_rem(n, two.try_into().unwrap());
+        //let (div, rem) = DivRem::div_rem(n, two.try_into().unwrap());
+        let div = Div::div(n, two);
+        let rem = Rem::rem(n, two);
 
         if rem == 1 {
             y = FixedTrait::mul(x, y);
@@ -188,7 +199,9 @@ fn pow_int(a: f16x16, b: i32) -> f16x16 {
 }
 
 pub fn round(a: f16x16) -> f16x16 {
-    let (div, rem) = DivRem::div_rem(a, ONE.try_into().unwrap());
+    //let (div, rem) = DivRem::div_rem(a, ONE.try_into().unwrap());
+    let div = Div::div(a, ONE);
+    let rem = Rem::rem(a, ONE);
 
     if (HALF <= rem) {
         FixedTrait::new_unscaled(div + 1)
@@ -233,6 +246,8 @@ mod tests {
         ln, log2, log10, pow, round, sign
     };
 
+    use orion_numbers::f16x16::core_trait::{I32Rem, I32Div};
+
     #[test]
     fn test_into() {
         let a = FixedTrait::new_unscaled(5);
@@ -246,7 +261,7 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(1000000)]
+    #[available_gas(10000000)]
     fn test_exp() {
         let a = FixedTrait::new_unscaled(2);
         assert_relative(exp(a), 484249, 'invalid exp of 2', Option::None(())); // 7.389056098793725

@@ -4,6 +4,8 @@ use core::integer;
 use orion_numbers::f16x16::core::{FixedTrait, f16x16, ONE, HALF, TWO};
 use orion_numbers::f16x16::lut;
 
+use orion_numbers::f16x16::core_trait::{I32Div, I32Rem};
+
 // CONSTANTS
 const TWO_PI: i32 = 411775;
 const PI: i32 = 205887;
@@ -86,7 +88,10 @@ pub fn cos_fast(a: f16x16) -> f16x16 {
 
 pub fn sin_fast(a: f16x16) -> f16x16 {
     let a1 = a.abs() % TWO_PI;
-    let (whole_rem, mut partial_rem) = DivRem::div_rem(a1, PI.try_into().unwrap());
+    //let (whole_rem, mut partial_rem) = DivRem::div_rem(a1, PI.try_into().unwrap());
+    let whole_rem = Div::div(a1, PI);
+    let mut partial_rem = Rem::rem(a1, PI);
+
     let partial_sign = whole_rem == 1;
 
     if partial_rem >= HALF_PI {
@@ -175,6 +180,7 @@ mod tests {
         sin_fast, tan_fast, acosh, asinh, atanh, cosh, sinh, tanh
     };
 
+    use orion_numbers::f16x16::core_trait::I32Div;
 
     #[test]
     #[available_gas(8000000)]
