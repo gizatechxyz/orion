@@ -94,8 +94,8 @@ pub impl f16x16Impl of FixedTrait {
         trig::cosh(self)
     }
 
-    fn div(lhs: f16x16, rhs: f16x16) -> f16x16 {
-        math::div(lhs, rhs)
+    fn div(self: f16x16, rhs: f16x16) -> f16x16 {
+        math::div(self, rhs)
     }
 
     // Calculates the natural exponent of x: e^x
@@ -130,8 +130,8 @@ pub impl f16x16Impl of FixedTrait {
         math::log10(self)
     }
 
-    fn mul(lhs: f16x16, rhs: f16x16) -> f16x16 {
-        math::mul(lhs, rhs)
+    fn mul(self: f16x16, rhs: f16x16) -> f16x16 {
+        math::mul(self, rhs)
     }
 
     // Calclates the value of x^y and checks for overflow before returning
