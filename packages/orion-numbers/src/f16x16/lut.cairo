@@ -1,6 +1,6 @@
 use orion_numbers::f16x16::core::ONE;
 
-use orion_numbers::f16x16::core_trait::I32Div;
+use orion_numbers::core_trait::I32Div;
 
 // Calculates the most significant bit
 pub fn msb(whole: i32) -> (i32, i32) {

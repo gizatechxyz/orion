@@ -1,7 +1,5 @@
 use orion_numbers::f16x16::{math, trig, erf};
-use core::traits::TryInto;
-use core::option::OptionTrait;
-use core::traits::Mul;
+use orion_numbers::FixedTrait;
 
 pub type f16x16 = i32;
 
@@ -12,8 +10,8 @@ pub const HALF: f16x16 = 32768; // 2 ** 15
 pub const MAX: f16x16 = 2147483647; // 2 ** 31 -1 
 pub const MIN: f16x16 = -2147483648; // 2 ** 31
 
-#[generate_trait]
-pub impl f16x16Impl of FixedTrait {
+
+pub impl F16x16Impl of FixedTrait<f16x16> {
     fn ZERO() -> f16x16 {
         0
     }

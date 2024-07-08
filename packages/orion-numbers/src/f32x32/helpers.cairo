@@ -1,19 +1,19 @@
-use orion_numbers::f16x16::core::{F16x16Impl, f16x16, ONE, HALF};
-use orion_numbers::core_trait::I32Div;
+use orion_numbers::f32x32::core::{F32x32Impl, f32x32, ONE, HALF};
+use orion_numbers::core_trait::I64Div;
 
-const DEFAULT_PRECISION: i32 = 7; // 1e-4
+const DEFAULT_PRECISION: i64 = 429497; // 1e-4
 
 // To use `DEFAULT_PRECISION`, final arg is: `Option::None(())`.
-// To use `custom_precision` of 430_i32: `Option::Some(430_i32)`.
+// To use `custom_precision` of 430_i64: `Option::Some(430_i64)`.
 pub fn assert_precise(
-    result: f16x16, expected: felt252, msg: felt252, custom_precision: Option<i32>
+    result: f32x32, expected: felt252, msg: felt252, custom_precision: Option<i64>
 ) {
     let precision = match custom_precision {
         Option::Some(val) => val,
         Option::None => DEFAULT_PRECISION,
     };
 
-    let diff = (result - F16x16Impl::from_felt(expected));
+    let diff = (result - F32x32Impl::from_felt(expected));
 
     if (diff > precision) {
         //println!("{}", result);
@@ -22,14 +22,14 @@ pub fn assert_precise(
 }
 
 pub fn assert_relative(
-    result: f16x16, expected: felt252, msg: felt252, custom_precision: Option<i32>
+    result: f32x32, expected: felt252, msg: felt252, custom_precision: Option<i64>
 ) {
     let precision = match custom_precision {
         Option::Some(val) => val,
         Option::None => DEFAULT_PRECISION,
     };
 
-    let diff = result - F16x16Impl::from_felt(expected);
+    let diff = result - F32x32Impl::from_felt(expected);
     let rel_diff = diff / result;
 
     if (rel_diff > precision) {

@@ -1,10 +1,8 @@
-use core::option::OptionTrait;
-use core::traits::TryInto;
 use core::integer;
-use orion_numbers::f16x16::core::{FixedTrait, f16x16, ONE, HALF, TWO};
-use orion_numbers::f16x16::lut;
+use orion_numbers::f16x16::{core::{f16x16, ONE, HALF, TWO}, lut};
+use orion_numbers::FixedTrait;
 
-use orion_numbers::f16x16::core_trait::{I32Div, I32Rem};
+use orion_numbers::core_trait::{I32Div, I32Rem};
 
 // CONSTANTS
 const TWO_PI: i32 = 411775;
@@ -180,7 +178,7 @@ mod tests {
         sin_fast, tan_fast, acosh, asinh, atanh, cosh, sinh, tanh
     };
 
-    use orion_numbers::f16x16::core_trait::I32Div;
+    use orion_numbers::core_trait::I32Div;
 
     #[test]
     #[available_gas(8000000)]

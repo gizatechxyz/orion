@@ -1,4 +1,5 @@
-use orion_numbers::f16x16::{core::{FixedTrait, f16x16, ONE}, lut};
+use orion_numbers::f16x16::{core::{f16x16, ONE}, lut};
+use orion_numbers::FixedTrait;
 
 const ERF_COMPUTATIONAL_ACCURACY: i32 = 100;
 const ROUND_CHECK_NUMBER: i32 = 10;
