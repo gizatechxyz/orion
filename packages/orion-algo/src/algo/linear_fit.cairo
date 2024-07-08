@@ -1,6 +1,6 @@
-use orion_numbers::f16x16::core::{f16x16, FixedTrait};
-use orion_algo::span_math::core::SpanMathTrait;
-use orion_numbers::f16x16::core_trait::I32Div;
+use orion_numbers::{f16x16::core::{f16x16}, FixedTrait};
+use orion_algo::span_math::SpanMathTrait;
+use orion_numbers::core_trait::I32Div;
 
 pub fn linear_fit(x: Span<f16x16>, y: Span<f16x16>) -> (f16x16, f16x16) {
     if x.len() != y.len() || x.len() == 0 {
@@ -23,7 +23,6 @@ pub fn linear_fit(x: Span<f16x16>, y: Span<f16x16>) -> (f16x16, f16x16) {
 
     (a, b)
 }
-
 
 #[cfg(test)]
 mod tests {
