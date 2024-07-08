@@ -31,7 +31,7 @@ pub impl F16x16SpanMath of SpanMathTrait<f16x16> {
 }
 
 
-pub(crate) fn arange(n: u32) -> Span<f16x16> {
+fn arange(n: u32) -> Span<f16x16> {
     let mut i = 0;
     let mut arr = array![];
     while i < n {
@@ -42,7 +42,7 @@ pub(crate) fn arange(n: u32) -> Span<f16x16> {
     arr.span()
 }
 
-pub(crate) fn dot(a: Span<f16x16>, b: Span<f16x16>) -> f16x16 {
+fn dot(a: Span<f16x16>, b: Span<f16x16>) -> f16x16 {
     let mut i = 0;
     let mut acc = 0;
     while i != a.len() {
@@ -53,7 +53,7 @@ pub(crate) fn dot(a: Span<f16x16>, b: Span<f16x16>) -> f16x16 {
     acc
 }
 
-pub(crate) fn max(mut a: Span<f16x16>) -> f16x16 {
+fn max(mut a: Span<f16x16>) -> f16x16 {
     assert(a.len() > 0, 'span cannot be empty');
 
     let mut max = FixedTrait::MIN();
@@ -68,7 +68,7 @@ pub(crate) fn max(mut a: Span<f16x16>) -> f16x16 {
     }
 }
 
-pub(crate) fn min(mut a: Span<f16x16>) -> f16x16 {
+fn min(mut a: Span<f16x16>) -> f16x16 {
     assert(a.len() > 0, 'span cannot be empty');
 
     let mut min = FixedTrait::MAX();
@@ -83,7 +83,7 @@ pub(crate) fn min(mut a: Span<f16x16>) -> f16x16 {
     }
 }
 
-pub(crate) fn prod(mut a: Span<f16x16>) -> f16x16 {
+fn prod(mut a: Span<f16x16>) -> f16x16 {
     let mut prod = 1;
     loop {
         match a.pop_front() {
@@ -93,7 +93,7 @@ pub(crate) fn prod(mut a: Span<f16x16>) -> f16x16 {
     }
 }
 
-pub(crate) fn sum(mut a: Span<f16x16>) -> f16x16 {
+fn sum(mut a: Span<f16x16>) -> f16x16 {
     let mut prod = 1;
     loop {
         match a.pop_front() {

@@ -103,29 +103,6 @@ fn sum(mut a: Span<f32x32>) -> f32x32 {
 }
 
 
-pub fn linear_fit(x: Span<f32x32>, y: Span<f32x32>) -> (f32x32, f32x32) {
-    if x.len() != y.len() || x.len() == 0 {
-        panic!("x and y should be of the same lenght")
-    }
-
-    let n: f32x32 = x.len().try_into().unwrap();
-    let sum_x = x.sum();
-    let sum_y = y.sum();
-    let sum_xx = x.dot(x);
-    let sum_xy = x.dot(y);
-
-    let denominator = n * sum_xx - (sum_x.mul(sum_x));
-    if denominator == 0 {
-        panic!("division by zero exception")
-    }
-
-    let a = ((n * sum_xy) - sum_x.mul(sum_y)).div(denominator);
-    let b = (sum_y - a.mul(sum_x)) / n;
-
-    (a, b)
-}
-
-
 #[cfg(test)]
 mod tests {
     use super::{arange, dot, max, min, prod, sum, ONE};
