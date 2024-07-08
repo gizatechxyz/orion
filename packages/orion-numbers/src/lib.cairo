@@ -6,7 +6,7 @@ use orion_numbers::f16x16::core::F16x16Impl;
 use orion_numbers::f32x32::core::F32x32Impl;
 
 
-trait FixedTrait<T> {
+pub trait FixedTrait<T> {
     fn ZERO() -> T;
     fn HALF() -> T;
     fn ONE() -> T;
