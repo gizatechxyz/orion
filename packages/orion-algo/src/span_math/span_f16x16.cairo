@@ -28,7 +28,6 @@ pub impl F16x16SpanMath of SpanMathTrait<f16x16> {
     fn sum(self: Span<f16x16>) -> f16x16 {
         sum(self)
     }
-
 }
 
 
@@ -123,7 +122,6 @@ mod tests {
         assert_precise(*res.at(3), *x.at(3), 'should be equal', Option::None);
         assert_precise(*res.at(4), *x.at(4), 'should be equal', Option::None);
         assert_precise(*res.at(5), *x.at(5), 'should be equal', Option::None);
-        
     }
 
     #[test]
@@ -131,7 +129,7 @@ mod tests {
         let x = array![0, 65536, 131072, 196608, 262144, 327680].span(); // 0, 1, 2, 3, 4, 5
         let y = array![0, 131072, 262144, 393216, 524288, 655360].span(); // 0, 2, 4, 6, 8, 10
         let result = dot(x, y);
-        
+
         assert_precise(result, (110 * ONE).into(), 'should be equal', Option::None);
     }
 
