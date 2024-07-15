@@ -7,10 +7,10 @@ description = "ONNX Runtime in Cairo for verifiable ML inference using STARK"
 homepage = "https://github.com/gizatechxyz/orion"
 
 [dependencies]
-alexandria_merkle_tree = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "800f5ad" }
-alexandria_data_structures = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "800f5ad" }
-alexandria_sorting = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "800f5ad" }
-cubit = { git = "https://github.com/influenceth/cubit.git", rev = "6275608" }
+alexandria_merkle_tree = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "0aa7cca" }
+alexandria_data_structures = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "0aa7cca" }
+alexandria_sorting = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "0aa7cca" }
+cubit = { git = "https://github.com/influenceth/cubit.git", rev = "8eacc2b" }
 
 [scripts]
 sierra = "cairo-compile . -r"

@@ -1,4 +1,5 @@
-use alexandria_data_structures::array_ext::SpanTraitExt;
+use alexandria_data_structures::array_ext::ArrayTraitExt;
+use alexandria_data_structures::span_ext::SpanTraitExt;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
@@ -38,7 +39,9 @@ fn scatter<
 
     assert((data_rank == updates_rank) & (updates_rank == indices_rank), 'must be same rank');
     let data_shape = *self.shape;
-    let ind_max = indices.data.max().unwrap();
+    let mut indices_arr: Array<usize> = array![];
+    indices_arr.extend_from_span(indices.data);
+    let ind_max = indices_arr.max().unwrap();
     assert(ind_max < *data_shape.at(axis), 'index is out of bound');
 
     let data_shape = *self.shape;

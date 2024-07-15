@@ -1,7 +1,7 @@
 use core::option::OptionTrait;
 use core::traits::TryInto;
-use alexandria_sorting::bubble_sort;
-use alexandria_data_structures::array_ext::{SpanTraitExt};
+use alexandria_sorting::BubbleSort;
+use alexandria_data_structures::span_ext::SpanTraitExt;
 
 use orion::numbers::fixed_point::core::FixedTrait;
 use orion::numbers::NumberTrait;
@@ -52,7 +52,7 @@ fn reduce_sum<
                         Option::None => { break; }
                     };
                 };
-                let sorted_axes = bubble_sort::bubble_sort_elements(axes_arr, true).span();
+                let sorted_axes = BubbleSort::sort(axes_arr.span()).span();
                 sorted_axes
             }
         },

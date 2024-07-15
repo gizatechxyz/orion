@@ -1,4 +1,4 @@
-use alexandria_data_structures::array_ext::SpanTraitExt;
+use alexandria_data_structures::span_ext::SpanTraitExt;
 use alexandria_merkle_tree::merkle_tree::{pedersen::PedersenHasherImpl};
 use alexandria_data_structures::array_ext::ArrayTraitExt;
 

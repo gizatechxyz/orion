@@ -1,4 +1,4 @@
-use alexandria_sorting::bubble_sort;
+use alexandria_sorting::BubbleSort;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{
@@ -1069,7 +1069,7 @@ fn get_neighbor_idxes<
         core::panic_with_felt252('MUST BE EVEN');
     }
 
-    idxes = bubble_sort::bubble_sort_elements(idxes, true);
+    idxes = BubbleSort::sort(idxes.span());
 
     let mut shape = array![];
     shape.append(n);
