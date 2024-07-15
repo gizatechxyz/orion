@@ -68,7 +68,9 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP64x64>, target_shape: Span<i32>, allowzero: bool) -> Tensor<FP64x64> {
+    fn reshape(
+        self: @Tensor<FP64x64>, target_shape: Span<i32>, allowzero: bool
+    ) -> Tensor<FP64x64> {
         reshape(self, target_shape, allowzero)
     }
 
@@ -350,9 +352,7 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         core_tensor::slice::<FP64x64>(self, starts, ends, axes, steps)
     }
 
-    fn gather(
-        self: @Tensor<FP64x64>, indices: Tensor<i32>, axis: Option<i32>
-    ) -> Tensor<FP64x64> {
+    fn gather(self: @Tensor<FP64x64>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<FP64x64> {
         math::gather::gather(self, indices, axis)
     }
 
@@ -771,17 +771,19 @@ fn relative_eq(lhs: @FP64x64, rhs: @FP64x64) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP64x64>, mut rhs: Tensor<FP64x64>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0 && is_eq {
-        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.shape.len() != 0 && is_eq {
-        is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+        };
 
     is_eq
 }

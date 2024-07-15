@@ -28,35 +28,36 @@ fn min<
 
     let mut tensor_counter: usize = 1;
 
-    while tensor_counter != tensors.len() {
-        let mut new_min_data: Array<T> = array![];
+    while tensor_counter != tensors
+        .len() {
+            let mut new_min_data: Array<T> = array![];
 
-        let mut current_tensor = *tensors.at(tensor_counter);
+            let mut current_tensor = *tensors.at(tensor_counter);
 
-        let mut broadcasted_shape = broadcast_shape(min_shape, current_tensor.shape);
+            let mut broadcasted_shape = broadcast_shape(min_shape, current_tensor.shape);
 
-        let num_elements = len_from_shape(broadcasted_shape);
-        let mut n: usize = 0;
-        while n != num_elements {
-            let mut indices_broadcasted = unravel_index(n, broadcasted_shape);
+            let num_elements = len_from_shape(broadcasted_shape);
+            let mut n: usize = 0;
+            while n != num_elements {
+                let mut indices_broadcasted = unravel_index(n, broadcasted_shape);
 
-            let mut indices_self = broadcast_index_mapping(min_shape, indices_broadcasted);
-            let mut indices_other = broadcast_index_mapping(
-                current_tensor.shape, indices_broadcasted
-            );
+                let mut indices_self = broadcast_index_mapping(min_shape, indices_broadcasted);
+                let mut indices_other = broadcast_index_mapping(
+                    current_tensor.shape, indices_broadcasted
+                );
 
-            let mut min_value = NumberTrait::min(
-                *(min_data)[indices_self], *(current_tensor.data)[indices_other]
-            );
-            new_min_data.append(min_value);
+                let mut min_value = NumberTrait::min(
+                    *(min_data)[indices_self], *(current_tensor.data)[indices_other]
+                );
+                new_min_data.append(min_value);
 
-            n += 1;
+                n += 1;
+            };
+
+            min_shape = broadcasted_shape;
+            min_data = new_min_data.span();
+            tensor_counter += 1;
         };
-
-        min_shape = broadcasted_shape;
-        min_data = new_min_data.span();
-        tensor_counter += 1;
-    };
 
     TensorTrait::<T>::new(min_shape, min_data)
 }

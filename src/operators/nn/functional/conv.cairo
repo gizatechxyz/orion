@@ -193,22 +193,23 @@ fn conv<
         let mut p = 0;
         let mut i = 0;
 
-        while i != res_b.len() {
-            let cv = *res_cv.at(i);
+        while i != res_b
+            .len() {
+                let cv = *res_cv.at(i);
 
-            let mut n = 0;
-            while n != cv.data.len() {
-                final.append(*cv.data.at(n));
-                n += 1;
+                let mut n = 0;
+                while n != cv.data.len() {
+                    final.append(*cv.data.at(n));
+                    n += 1;
+                };
+
+                p += *cv.shape.at(1);
+                if p >= td {
+                    p = 0;
+                }
+
+                i += 1;
             };
-
-            p += *cv.shape.at(1);
-            if p >= td {
-                p = 0;
-            }
-
-            i += 1;
-        };
 
         let final = final.span();
 
@@ -217,24 +218,32 @@ fn conv<
                 let mut final_b: Array<T> = array![];
                 let final_stride = stride(final_shape);
                 let mut i = 0;
-                while i != *final_shape.at(0) {
-                    let mut j = 0;
-                    while j != B.len() {
-                        let mut k = 0;
-                        while k != *final_stride.at(1) {
-                            final_b
-                                .append(
-                                    *final.at(i * *final_stride.at(0) + j * *final_stride.at(1) + k)
-                                        + *B.at(j)
-                                );
-                            k += 1;
-                        };
+                while i != *final_shape
+                    .at(0) {
+                        let mut j = 0;
+                        while j != B
+                            .len() {
+                                let mut k = 0;
+                                while k != *final_stride
+                                    .at(1) {
+                                        final_b
+                                            .append(
+                                                *final
+                                                    .at(
+                                                        i * *final_stride.at(0)
+                                                            + j * *final_stride.at(1)
+                                                            + k
+                                                    )
+                                                    + *B.at(j)
+                                            );
+                                        k += 1;
+                                    };
 
-                        j += 1;
+                                j += 1;
+                            };
+
+                        i += 1;
                     };
-
-                    i += 1;
-                };
 
                 final_b.span()
             },
@@ -253,13 +262,14 @@ fn conv<
         new_shape.append_span(SpanTrait::slice((*W).shape, 0, (*W).shape.len() - nd));
 
         let mut i = 0;
-        while i != dilations.len() {
-            let d = *dilations.at(i);
-            let di = (*W).shape.len() - nd + i;
-            new_shape.append(*(*W).shape.at(di) + (*(*W).shape.at(di) - 1) * (d - 1));
-            new_kernel_shape.append(*kernel_shape.at(i) + (*kernel_shape.at(i) - 1) * (d - 1));
-            i += 1;
-        };
+        while i != dilations
+            .len() {
+                let d = *dilations.at(i);
+                let di = (*W).shape.len() - nd + i;
+                new_shape.append(*(*W).shape.at(di) + (*(*W).shape.at(di) - 1) * (d - 1));
+                new_kernel_shape.append(*kernel_shape.at(i) + (*kernel_shape.at(i) - 1) * (d - 1));
+                i += 1;
+            };
 
         let new_shape = new_shape.span();
         let new_w_strides = stride(new_shape);
@@ -273,12 +283,13 @@ fn conv<
         indices.append(arange(0, *new_shape.at(1), 1));
 
         let mut i = 0;
-        while i != dilations.len() {
-            let d = *dilations.at(i);
-            let di = (*W).shape.len() - nd + i;
-            indices.append(arange(0, *new_shape.at(di), d));
-            i += 1;
-        };
+        while i != dilations
+            .len() {
+                let d = *dilations.at(i);
+                let di = (*W).shape.len() - nd + i;
+                indices.append(arange(0, *new_shape.at(di), d));
+                i += 1;
+            };
 
         let set_of_all_indices = cartesian(indices.span());
 
@@ -286,29 +297,32 @@ fn conv<
 
         let mut i = 0;
         let mut prev = 0;
-        while i != (*W).data.len() {
-            let nd_index = *set_of_all_indices.at(i);
-            let mut flatten_index = 0;
-            let mut j = 0;
-            while j != nd_index.len() {
-                flatten_index += *nd_index.at(j) * *new_w_strides.at(j);
-                j += 1;
+        while i != (*W)
+            .data
+            .len() {
+                let nd_index = *set_of_all_indices.at(i);
+                let mut flatten_index = 0;
+                let mut j = 0;
+                while j != nd_index
+                    .len() {
+                        flatten_index += *nd_index.at(j) * *new_w_strides.at(j);
+                        j += 1;
+                    };
+
+                if flatten_index > prev + 1 {
+                    let mut j = prev + 1;
+                    while j != flatten_index {
+                        new_w_arr.append(NumberTrait::zero());
+                    };
+
+                    j += 1;
+                }
+
+                new_w_arr.append(*(*W).data.at(i));
+                new_w.set(flatten_index, *(*W).data.at(i));
+                prev = flatten_index;
+                i += 1;
             };
-
-            if flatten_index > prev + 1 {
-                let mut j = prev + 1;
-                while j != flatten_index {
-                    new_w_arr.append(NumberTrait::zero());
-                };
-
-                j += 1;
-            }
-
-            new_w_arr.append(*(*W).data.at(i));
-            new_w.set(flatten_index, *(*W).data.at(i));
-            prev = flatten_index;
-            i += 1;
-        };
     }
 
     let pads = match auto_pad {
@@ -425,42 +439,51 @@ fn conv<
                     let w = SpanTrait::slice((*W).data, nw * sC * kh + c * kh, kh);
 
                     let mut io = bh;
-                    while io < eh.into() {
-                        let hr = (io - bh) / sth.into();
-                        if hr < h_out.into() {
-                            let i = io + (kh % 2).into();
+                    while io < eh
+                        .into() {
+                            let hr = (io - bh) / sth.into();
+                            if hr < h_out.into() {
+                                let i = io + (kh % 2).into();
 
-                            let ih1 = I32Number::max(0, i + oh).into();
-                            let ih2 = I32Number::min(i + oh + kh.into(), sH.into()).into();
-                            let img = SpanTrait::slice((*X).data, n * sN + c * sC + ih1, ih2 - ih1);
-
-                            let s = if w.len() != img.len() {
-                                let jh1 = I32Number::max(0, -i - oh).into();
-                                let jh2 = I32Number::min(sH.into() - (i + oh), kh.into()).into();
-
-                                let w_ = SpanTrait::slice(w, jh1, jh2 - jh1);
-                                assert(w_.len() == img.len(), 'unexpected w and img len');
-                                dot(img, w_)
-                            } else {
-                                dot(img, w)
-                            };
-
-                            let hr = if hr < 0 {
-                                *res_strides.at(1) - hr.into()
-                            } else {
-                                hr.into()
-                            };
-
-                            res
-                                .set(
-                                    n * *res_strides.at(0) + nw * *res_strides.at(1) + hr,
-                                    res.at(n * *res_strides.at(0) + nw * *res_strides.at(1) + hr)
-                                        + s
+                                let ih1 = I32Number::max(0, i + oh).into();
+                                let ih2 = I32Number::min(i + oh + kh.into(), sH.into()).into();
+                                let img = SpanTrait::slice(
+                                    (*X).data, n * sN + c * sC + ih1, ih2 - ih1
                                 );
-                        }
 
-                        io += sth.into();
-                    };
+                                let s = if w.len() != img.len() {
+                                    let jh1 = I32Number::max(0, -i - oh).into();
+                                    let jh2 = I32Number::min(sH.into() - (i + oh), kh.into())
+                                        .into();
+
+                                    let w_ = SpanTrait::slice(w, jh1, jh2 - jh1);
+                                    assert(w_.len() == img.len(), 'unexpected w and img len');
+                                    dot(img, w_)
+                                } else {
+                                    dot(img, w)
+                                };
+
+                                let hr = if hr < 0 {
+                                    *res_strides.at(1) - hr.into()
+                                } else {
+                                    hr.into()
+                                };
+
+                                res
+                                    .set(
+                                        n * *res_strides.at(0) + nw * *res_strides.at(1) + hr,
+                                        res
+                                            .at(
+                                                n * *res_strides.at(0)
+                                                    + nw * *res_strides.at(1)
+                                                    + hr
+                                            )
+                                            + s
+                                    );
+                            }
+
+                            io += sth.into();
+                        };
 
                     c += 1;
                 };
@@ -558,102 +581,114 @@ fn conv<
                     );
 
                     let mut io = bh;
-                    while io < eh.into() {
-                        let hr = (io - bh) / sth.into();
-                        if hr < h_out.into() {
-                            let i = io + (kh % 2).into();
-                            let ih1 = I32Number::max(0, i + oh).into();
-                            let ih2 = I32Number::min(i + oh + kh.into(), sH.into()).into();
+                    while io < eh
+                        .into() {
+                            let hr = (io - bh) / sth.into();
+                            if hr < h_out.into() {
+                                let i = io + (kh % 2).into();
+                                let ih1 = I32Number::max(0, i + oh).into();
+                                let ih2 = I32Number::min(i + oh + kh.into(), sH.into()).into();
 
-                            let mut jo = bw;
-                            while jo < ew.into() {
-                                let wr = (jo - bw) / stw.into();
-                                if wr < w_out.into() {
-                                    let j = jo + (kw % 2).into();
-                                    let iw1 = I32Number::max(0, j + ow).into();
-                                    let iw2 = I32Number::min(j + ow + kw.into(), sW.into()).into();
+                                let mut jo = bw;
+                                while jo < ew
+                                    .into() {
+                                        let wr = (jo - bw) / stw.into();
+                                        if wr < w_out.into() {
+                                            let j = jo + (kw % 2).into();
+                                            let iw1 = I32Number::max(0, j + ow).into();
+                                            let iw2 = I32Number::min(j + ow + kw.into(), sW.into())
+                                                .into();
 
-                                    let mut img: Array<T> = array![];
-                                    let mut ihi = ih1;
-                                    while ihi != ih2 {
-                                        img
-                                            .append_span(
-                                                SpanTrait::slice(
-                                                    (*X).data,
-                                                    n * (sC * sH * sW)
-                                                        + c * (sH * sW)
-                                                        + ihi * sW
-                                                        + iw1,
-                                                    iw2 - iw1
+                                            let mut img: Array<T> = array![];
+                                            let mut ihi = ih1;
+                                            while ihi != ih2 {
+                                                img
+                                                    .append_span(
+                                                        SpanTrait::slice(
+                                                            (*X).data,
+                                                            n * (sC * sH * sW)
+                                                                + c * (sH * sW)
+                                                                + ihi * sW
+                                                                + iw1,
+                                                            iw2 - iw1
+                                                        )
+                                                    );
+                                                ihi += 1;
+                                            };
+
+                                            let img = img.span();
+
+                                            let s = if w.len() != img.len() {
+                                                let jh1 = I32Number::max(0, -i - oh).into();
+                                                let jh2 = I32Number::min(
+                                                    sH.into() - (i + oh), kh.into()
                                                 )
-                                            );
-                                        ihi += 1;
-                                    };
+                                                    .into();
 
-                                    let img = img.span();
+                                                let jw1 = I32Number::max(0, -j - ow).into();
+                                                let jw2 = I32Number::min(
+                                                    sW.into() - (j + ow), kw.into()
+                                                )
+                                                    .into();
 
-                                    let s = if w.len() != img.len() {
-                                        let jh1 = I32Number::max(0, -i - oh).into();
-                                        let jh2 = I32Number::min(sH.into() - (i + oh), kh.into())
-                                            .into();
+                                                let mut w_: Array<T> = array![];
+                                                let mut jhj = jh1;
+                                                while jhj != jh2 {
+                                                    w_
+                                                        .append_span(
+                                                            SpanTrait::slice(
+                                                                w, jhj * kw + jw1, jw2 - jw1
+                                                            )
+                                                        );
+                                                    jhj += 1;
+                                                };
 
-                                        let jw1 = I32Number::max(0, -j - ow).into();
-                                        let jw2 = I32Number::min(sW.into() - (j + ow), kw.into())
-                                            .into();
+                                                let w_ = w_.span();
 
-                                        let mut w_: Array<T> = array![];
-                                        let mut jhj = jh1;
-                                        while jhj != jh2 {
-                                            w_
-                                                .append_span(
-                                                    SpanTrait::slice(w, jhj * kw + jw1, jw2 - jw1)
+                                                assert(
+                                                    w_.len() == img.len(),
+                                                    'unexpected w and img len'
                                                 );
-                                            jhj += 1;
-                                        };
+                                                dot(img, w_)
+                                            } else {
+                                                dot(img, w)
+                                            };
 
-                                        let w_ = w_.span();
+                                            let hr = if hr < 0 {
+                                                h_out - hr.into()
+                                            } else {
+                                                hr.into()
+                                            };
 
-                                        assert(w_.len() == img.len(), 'unexpected w and img len');
-                                        dot(img, w_)
-                                    } else {
-                                        dot(img, w)
-                                    };
+                                            let wr = if wr < 0 {
+                                                w_out - wr.into()
+                                            } else {
+                                                wr.into()
+                                            };
 
-                                    let hr = if hr < 0 {
-                                        h_out - hr.into()
-                                    } else {
-                                        hr.into()
-                                    };
-
-                                    let wr = if wr < 0 {
-                                        w_out - wr.into()
-                                    } else {
-                                        wr.into()
-                                    };
-
-                                    res
-                                        .set(
-                                            n * *res_strides.at(0)
-                                                + nw * *res_strides.at(1)
-                                                + hr * *res_strides.at(2)
-                                                + wr,
                                             res
-                                                .at(
+                                                .set(
                                                     n * *res_strides.at(0)
                                                         + nw * *res_strides.at(1)
                                                         + hr * *res_strides.at(2)
-                                                        + wr
-                                                )
-                                                + s
-                                        );
-                                }
+                                                        + wr,
+                                                    res
+                                                        .at(
+                                                            n * *res_strides.at(0)
+                                                                + nw * *res_strides.at(1)
+                                                                + hr * *res_strides.at(2)
+                                                                + wr
+                                                        )
+                                                        + s
+                                                );
+                                        }
 
-                                jo += stw.into();
-                            };
-                        }
+                                        jo += stw.into();
+                                    };
+                            }
 
-                        io += sth.into();
-                    };
+                            io += sth.into();
+                        };
 
                     c += 1;
                 };
@@ -767,151 +802,165 @@ fn conv<
                     );
 
                     let mut io = bh;
-                    while io < eh.into() {
-                        let hr = (io - bh) / sth.into();
-                        if hr < h_out.into() {
-                            let i = io + (kh % 2).into();
-                            let ih1 = I32Number::max(0, i + oh).into();
-                            let ih2 = I32Number::min(i + oh + kh.into(), sH.into()).into();
+                    while io < eh
+                        .into() {
+                            let hr = (io - bh) / sth.into();
+                            if hr < h_out.into() {
+                                let i = io + (kh % 2).into();
+                                let ih1 = I32Number::max(0, i + oh).into();
+                                let ih2 = I32Number::min(i + oh + kh.into(), sH.into()).into();
 
-                            let mut jo = bw;
-                            while jo < ew.into() {
-                                let wr = (jo - bw) / stw.into();
-                                if wr < w_out.into() {
-                                    let j = jo + (kw % 2).into();
-                                    let iw1 = I32Number::max(0, j + ow).into();
-                                    let iw2 = I32Number::min(j + ow + kw.into(), sW.into()).into();
-
-                                    let mut zo = bz;
-                                    while zo < ez.into() {
-                                        let zr = (zo - bz) / stz.into();
-                                        if zr < z_out.into() {
-                                            let z = zo + (kz % 2).into();
-                                            let iz1 = I32Number::max(0, z + oz).into();
-                                            let iz2 = I32Number::min(z + oz + kz.into(), sW.into())
+                                let mut jo = bw;
+                                while jo < ew
+                                    .into() {
+                                        let wr = (jo - bw) / stw.into();
+                                        if wr < w_out.into() {
+                                            let j = jo + (kw % 2).into();
+                                            let iw1 = I32Number::max(0, j + ow).into();
+                                            let iw2 = I32Number::min(j + ow + kw.into(), sW.into())
                                                 .into();
 
-                                            let mut img: Array<T> = array![];
-                                            let mut ihi = ih1;
-                                            while ihi != ih2 {
-                                                let mut iwi = iw1;
-                                                while iwi != iw2 {
-                                                    img
-                                                        .append_span(
-                                                            SpanTrait::slice(
-                                                                (*X).data,
-                                                                n * (sC * sH * sW * sZ)
-                                                                    + c * (sH * sW * sZ)
-                                                                    + ihi * (sW * sZ)
-                                                                    + iwi * sZ
-                                                                    + iz1,
-                                                                iz2 - iz1
-                                                            )
-                                                        );
-                                                    iwi += 1;
-                                                };
-
-                                                ihi += 1;
-                                            };
-
-                                            let img = img.span();
-
-                                            let s = if w.len() != img.len() {
-                                                let jh1 = I32Number::max(0, -i - oh).into();
-                                                let jh2 = I32Number::min(
-                                                    sH.into() - (i + oh), kh.into()
-                                                )
-                                                    .into();
-
-                                                let jw1 = I32Number::max(0, -j - ow).into();
-                                                let jw2 = I32Number::min(
-                                                    sW.into() - (j + ow), kw.into()
-                                                )
-                                                    .into();
-
-                                                let jz1 = I32Number::max(0, -z - oz).into();
-                                                let jz2 = I32Number::min(
-                                                    sZ.into() - (z + oz), kz.into()
-                                                )
-                                                    .into();
-
-                                                let mut w_: Array<T> = array![];
-                                                let mut jhj = jh1;
-                                                while jhj != jh2 {
-                                                    let mut jwj = jw1;
-                                                    while jwj != jw2 {
-                                                        w_
-                                                            .append_span(
-                                                                SpanTrait::slice(
-                                                                    w,
-                                                                    jhj * kw * kz + jwj * kz + jz1,
-                                                                    jz2 - jz1
-                                                                )
-                                                            );
-                                                        jwj += 1;
-                                                    };
-
-                                                    jhj += 1;
-                                                };
-
-                                                let w_ = w_.span();
-
-                                                assert(
-                                                    w_.len() == img.len(),
-                                                    'unexpected w and img len'
-                                                );
-                                                dot(img, w_)
-                                            } else {
-                                                dot(img, w)
-                                            };
-
-                                            let hr = if hr < 0 {
-                                                h_out - hr.into()
-                                            } else {
-                                                hr.into()
-                                            };
-
-                                            let wr = if wr < 0 {
-                                                w_out - wr.into()
-                                            } else {
-                                                wr.into()
-                                            };
-
-                                            let zr = if zr < 0 {
-                                                z_out - zr.into()
-                                            } else {
-                                                zr.into()
-                                            };
-
-                                            res
-                                                .set(
-                                                    n * *res_strides.at(0)
-                                                        + nw * *res_strides.at(1)
-                                                        + hr * *res_strides.at(2)
-                                                        + wr * *res_strides.at(3)
-                                                        + zr,
-                                                    res
-                                                        .at(
-                                                            n * *res_strides.at(0)
-                                                                + nw * *res_strides.at(1)
-                                                                + hr * *res_strides.at(2)
-                                                                + wr * *res_strides.at(3)
-                                                                + zr
+                                            let mut zo = bz;
+                                            while zo < ez
+                                                .into() {
+                                                    let zr = (zo - bz) / stz.into();
+                                                    if zr < z_out.into() {
+                                                        let z = zo + (kz % 2).into();
+                                                        let iz1 = I32Number::max(0, z + oz).into();
+                                                        let iz2 = I32Number::min(
+                                                            z + oz + kz.into(), sW.into()
                                                         )
-                                                        + s
-                                                );
+                                                            .into();
+
+                                                        let mut img: Array<T> = array![];
+                                                        let mut ihi = ih1;
+                                                        while ihi != ih2 {
+                                                            let mut iwi = iw1;
+                                                            while iwi != iw2 {
+                                                                img
+                                                                    .append_span(
+                                                                        SpanTrait::slice(
+                                                                            (*X).data,
+                                                                            n * (sC * sH * sW * sZ)
+                                                                                + c * (sH * sW * sZ)
+                                                                                + ihi * (sW * sZ)
+                                                                                + iwi * sZ
+                                                                                + iz1,
+                                                                            iz2 - iz1
+                                                                        )
+                                                                    );
+                                                                iwi += 1;
+                                                            };
+
+                                                            ihi += 1;
+                                                        };
+
+                                                        let img = img.span();
+
+                                                        let s = if w.len() != img.len() {
+                                                            let jh1 = I32Number::max(0, -i - oh)
+                                                                .into();
+                                                            let jh2 = I32Number::min(
+                                                                sH.into() - (i + oh), kh.into()
+                                                            )
+                                                                .into();
+
+                                                            let jw1 = I32Number::max(0, -j - ow)
+                                                                .into();
+                                                            let jw2 = I32Number::min(
+                                                                sW.into() - (j + ow), kw.into()
+                                                            )
+                                                                .into();
+
+                                                            let jz1 = I32Number::max(0, -z - oz)
+                                                                .into();
+                                                            let jz2 = I32Number::min(
+                                                                sZ.into() - (z + oz), kz.into()
+                                                            )
+                                                                .into();
+
+                                                            let mut w_: Array<T> = array![];
+                                                            let mut jhj = jh1;
+                                                            while jhj != jh2 {
+                                                                let mut jwj = jw1;
+                                                                while jwj != jw2 {
+                                                                    w_
+                                                                        .append_span(
+                                                                            SpanTrait::slice(
+                                                                                w,
+                                                                                jhj * kw * kz
+                                                                                    + jwj * kz
+                                                                                    + jz1,
+                                                                                jz2 - jz1
+                                                                            )
+                                                                        );
+                                                                    jwj += 1;
+                                                                };
+
+                                                                jhj += 1;
+                                                            };
+
+                                                            let w_ = w_.span();
+
+                                                            assert(
+                                                                w_.len() == img.len(),
+                                                                'unexpected w and img len'
+                                                            );
+                                                            dot(img, w_)
+                                                        } else {
+                                                            dot(img, w)
+                                                        };
+
+                                                        let hr = if hr < 0 {
+                                                            h_out - hr.into()
+                                                        } else {
+                                                            hr.into()
+                                                        };
+
+                                                        let wr = if wr < 0 {
+                                                            w_out - wr.into()
+                                                        } else {
+                                                            wr.into()
+                                                        };
+
+                                                        let zr = if zr < 0 {
+                                                            z_out - zr.into()
+                                                        } else {
+                                                            zr.into()
+                                                        };
+
+                                                        res
+                                                            .set(
+                                                                n * *res_strides.at(0)
+                                                                    + nw * *res_strides.at(1)
+                                                                    + hr * *res_strides.at(2)
+                                                                    + wr * *res_strides.at(3)
+                                                                    + zr,
+                                                                res
+                                                                    .at(
+                                                                        n * *res_strides.at(0)
+                                                                            + nw
+                                                                                * *res_strides.at(1)
+                                                                            + hr
+                                                                                * *res_strides.at(2)
+                                                                            + wr
+                                                                                * *res_strides.at(3)
+                                                                            + zr
+                                                                    )
+                                                                    + s
+                                                            );
+                                                    }
+
+                                                    zo += stz.into();
+                                                };
                                         }
 
-                                        zo += stz.into();
+                                        jo += stw.into();
                                     };
-                                }
+                            }
 
-                                jo += stw.into();
-                            };
-                        }
-
-                        io += sth.into();
-                    };
+                            io += sth.into();
+                        };
 
                     c += 1;
                 };
@@ -990,10 +1039,11 @@ fn conv<
                 while j != sM {
                     let b_j = *B.at(j);
                     let mut k = 0;
-                    while k != *res_strides.at(1) {
-                        res.set(i * *res_strides.at(0) + j * *res_strides.at(1) + k, b_j);
-                        k += 1;
-                    };
+                    while k != *res_strides
+                        .at(1) {
+                            res.set(i * *res_strides.at(0) + j * *res_strides.at(1) + k, b_j);
+                            k += 1;
+                        };
 
                     j += 1;
                 };
@@ -1014,185 +1064,211 @@ fn conv<
                     (*W).data, nw * *w_stride.at(0) + c * *w_stride.at(1), *w_stride.at(1)
                 );
                 let mut i = 0;
-                while i != *range_len.at(0) * *range_stride.at(0) {
-                    let mut io_index: Array<i32> = array![];
-                    let mut r_index: Array<i32> = array![];
-                    let mut flatten_index = i;
-
-                    let mut nx = 0;
-                    while nx != nd {
-                        let (n_index, rem) = DivRem::div_rem(
-                            flatten_index, (*range_stride.at(nx)).try_into().unwrap()
-                        );
-
-                        flatten_index = rem;
-                        io_index
-                            .append(n_index.into() * (*strides.at(nx)).into() + *b_index.at(nx));
-                        r_index.append(n_index.into());
-                        nx += 1;
-                    };
-
-                    if r_index_check(r_index.span(), shape_out) {
-                        let mut indices: Array<i32> = array![];
-                        let mut i1_index: Array<usize> = array![];
-                        let mut i2_index: Array<usize> = array![];
-                        let mut idiff_index: Array<usize> = array![];
-
-                        let mut nx = 0;
-                        while nx != nd {
-                            indices.append(*io_index.at(nx) + (*kernel_shape.at(nx) % 2).into());
-                            i1_index
-                                .append(
-                                    I32Number::max(0, *indices.at(nx) + *o_index.at(nx)).into()
-                                );
-                            i2_index
-                                .append(
-                                    I32Number::min(
-                                        (*(*X).shape.at(nx + 2)).into(),
-                                        *indices.at(nx)
-                                            + *o_index.at(nx)
-                                            + (*kernel_shape.at(nx)).into()
-                                    )
-                                        .into()
-                                );
-
-                            if nx != nd - 1 {
-                                idiff_index.append(*i2_index.at(nx) - *i1_index.at(nx));
-                            }
-                            nx += 1;
-                        };
-
-                        let i1_index = i1_index.span();
-                        let mut img: Array<T> = array![];
-
-                        let img = if nx == 1 {
-                            let img = SpanTrait::slice(
-                                (*X).data,
-                                n * sN + c * sC + *i1_index.at(nd - 1),
-                                *i2_index.at(nd - 1) - *i1_index.at(nd - 1)
-                            );
-                            img
-                        } else {
-                            let i_stride = stride(idiff_index.span());
-
-                            let mut ii = 0;
-                            while ii != *i_stride.at(0) * *idiff_index.at(0) {
-                                let mut flatten_index = ii;
-                                let mut start = n * *x_stride.at(0) + c * *x_stride.at(1);
-
-                                let mut nx = 0;
-                                while nx != nd - 1 {
-                                    let (ii_index, rem) = DivRem::div_rem(
-                                        flatten_index, (*i_stride.at(nx)).try_into().unwrap()
-                                    );
-                                    flatten_index = rem;
-
-                                    start += (*i1_index.at(nx) + ii_index) * *x_stride.at(2 + nx);
-                                    nx += 1;
-                                };
-
-                                img
-                                    .append_span(
-                                        SpanTrait::slice(
-                                            (*X).data,
-                                            start + *i1_index.at(nd - 1),
-                                            *i2_index.at(nd - 1) - *i1_index.at(nd - 1)
-                                        )
-                                    );
-                                ii += 1;
-                            };
-
-                            img.span()
-                        };
-
-                        let s = if w.len() != img.len() {
-                            let mut j1_index: Array<usize> = array![];
-                            let mut j2_index: Array<usize> = array![];
-                            let mut jdiff_index: Array<usize> = array![];
+                while i != *range_len.at(0)
+                    * *range_stride
+                        .at(0) {
+                            let mut io_index: Array<i32> = array![];
+                            let mut r_index: Array<i32> = array![];
+                            let mut flatten_index = i;
 
                             let mut nx = 0;
                             while nx != nd {
-                                j1_index
+                                let (n_index, rem) = DivRem::div_rem(
+                                    flatten_index, (*range_stride.at(nx)).try_into().unwrap()
+                                );
+
+                                flatten_index = rem;
+                                io_index
                                     .append(
-                                        I32Number::max(0, -*indices.at(nx) - *o_index.at(nx)).into()
+                                        n_index.into() * (*strides.at(nx)).into() + *b_index.at(nx)
                                     );
-                                j2_index
-                                    .append(
-                                        I32Number::min(
-                                            (*(*X).shape.at(nx + 2)).into()
-                                                - *indices.at(nx)
-                                                - *o_index.at(nx),
-                                            (*kernel_shape.at(nx)).into()
-                                        )
-                                            .into()
-                                    );
-                                if nx != nd - 1 {
-                                    jdiff_index.append(*j2_index.at(nx) - *j1_index.at(nx));
-                                }
+                                r_index.append(n_index.into());
                                 nx += 1;
                             };
 
-                            let j1_index = j1_index.span();
+                            if r_index_check(r_index.span(), shape_out) {
+                                let mut indices: Array<i32> = array![];
+                                let mut i1_index: Array<usize> = array![];
+                                let mut i2_index: Array<usize> = array![];
+                                let mut idiff_index: Array<usize> = array![];
 
-                            let mut w_: Array<T> = array![];
-
-                            let w_ = if nx == 1 {
-                                let w_ = SpanTrait::slice(
-                                    w,
-                                    *j1_index.at(nd - 1),
-                                    *j2_index.at(nd - 1) - *j1_index.at(nd - 1)
-                                );
-                                w_
-                            } else {
-                                let j_stride = stride(jdiff_index.span());
-
-                                let mut jj = 0;
-                                while jj != *j_stride.at(0) * *jdiff_index.at(0) {
-                                    let mut flatten_index = jj;
-                                    let mut start = 0;
-
-                                    let mut nx = 0;
-                                    while nx != nd - 1 {
-                                        let (jj_index, rem) = DivRem::div_rem(
-                                            flatten_index, (*j_stride.at(nx)).try_into().unwrap()
+                                let mut nx = 0;
+                                while nx != nd {
+                                    indices
+                                        .append(
+                                            *io_index.at(nx) + (*kernel_shape.at(nx) % 2).into()
                                         );
-                                        flatten_index = rem;
-                                        start += (*j1_index.at(nx) + jj_index)
-                                            * *kernel_shape.at(nx);
-                                        nx += 1;
-                                    };
-                                    w_
-                                        .append_span(
-                                            SpanTrait::slice(
-                                                w,
-                                                start + *j1_index.at(nd - 1),
-                                                *j2_index.at(nd - 1) - *j1_index.at(nd - 1)
+                                    i1_index
+                                        .append(
+                                            I32Number::max(0, *indices.at(nx) + *o_index.at(nx))
+                                                .into()
+                                        );
+                                    i2_index
+                                        .append(
+                                            I32Number::min(
+                                                (*(*X).shape.at(nx + 2)).into(),
+                                                *indices.at(nx)
+                                                    + *o_index.at(nx)
+                                                    + (*kernel_shape.at(nx)).into()
                                             )
+                                                .into()
                                         );
-                                    jj += 1;
+
+                                    if nx != nd - 1 {
+                                        idiff_index.append(*i2_index.at(nx) - *i1_index.at(nx));
+                                    }
+                                    nx += 1;
                                 };
 
-                                w_.span()
+                                let i1_index = i1_index.span();
+                                let mut img: Array<T> = array![];
+
+                                let img = if nx == 1 {
+                                    let img = SpanTrait::slice(
+                                        (*X).data,
+                                        n * sN + c * sC + *i1_index.at(nd - 1),
+                                        *i2_index.at(nd - 1) - *i1_index.at(nd - 1)
+                                    );
+                                    img
+                                } else {
+                                    let i_stride = stride(idiff_index.span());
+
+                                    let mut ii = 0;
+                                    while ii != *i_stride.at(0)
+                                        * *idiff_index
+                                            .at(0) {
+                                                let mut flatten_index = ii;
+                                                let mut start = n * *x_stride.at(0)
+                                                    + c * *x_stride.at(1);
+
+                                                let mut nx = 0;
+                                                while nx != nd
+                                                    - 1 {
+                                                        let (ii_index, rem) = DivRem::div_rem(
+                                                            flatten_index,
+                                                            (*i_stride.at(nx)).try_into().unwrap()
+                                                        );
+                                                        flatten_index = rem;
+
+                                                        start += (*i1_index.at(nx) + ii_index)
+                                                            * *x_stride.at(2 + nx);
+                                                        nx += 1;
+                                                    };
+
+                                                img
+                                                    .append_span(
+                                                        SpanTrait::slice(
+                                                            (*X).data,
+                                                            start + *i1_index.at(nd - 1),
+                                                            *i2_index.at(nd - 1)
+                                                                - *i1_index.at(nd - 1)
+                                                        )
+                                                    );
+                                                ii += 1;
+                                            };
+
+                                    img.span()
+                                };
+
+                                let s = if w.len() != img.len() {
+                                    let mut j1_index: Array<usize> = array![];
+                                    let mut j2_index: Array<usize> = array![];
+                                    let mut jdiff_index: Array<usize> = array![];
+
+                                    let mut nx = 0;
+                                    while nx != nd {
+                                        j1_index
+                                            .append(
+                                                I32Number::max(
+                                                    0, -*indices.at(nx) - *o_index.at(nx)
+                                                )
+                                                    .into()
+                                            );
+                                        j2_index
+                                            .append(
+                                                I32Number::min(
+                                                    (*(*X).shape.at(nx + 2)).into()
+                                                        - *indices.at(nx)
+                                                        - *o_index.at(nx),
+                                                    (*kernel_shape.at(nx)).into()
+                                                )
+                                                    .into()
+                                            );
+                                        if nx != nd - 1 {
+                                            jdiff_index.append(*j2_index.at(nx) - *j1_index.at(nx));
+                                        }
+                                        nx += 1;
+                                    };
+
+                                    let j1_index = j1_index.span();
+
+                                    let mut w_: Array<T> = array![];
+
+                                    let w_ = if nx == 1 {
+                                        let w_ = SpanTrait::slice(
+                                            w,
+                                            *j1_index.at(nd - 1),
+                                            *j2_index.at(nd - 1) - *j1_index.at(nd - 1)
+                                        );
+                                        w_
+                                    } else {
+                                        let j_stride = stride(jdiff_index.span());
+
+                                        let mut jj = 0;
+                                        while jj != *j_stride.at(0)
+                                            * *jdiff_index
+                                                .at(0) {
+                                                    let mut flatten_index = jj;
+                                                    let mut start = 0;
+
+                                                    let mut nx = 0;
+                                                    while nx != nd
+                                                        - 1 {
+                                                            let (jj_index, rem) = DivRem::div_rem(
+                                                                flatten_index,
+                                                                (*j_stride.at(nx))
+                                                                    .try_into()
+                                                                    .unwrap()
+                                                            );
+                                                            flatten_index = rem;
+                                                            start += (*j1_index.at(nx) + jj_index)
+                                                                * *kernel_shape.at(nx);
+                                                            nx += 1;
+                                                        };
+                                                    w_
+                                                        .append_span(
+                                                            SpanTrait::slice(
+                                                                w,
+                                                                start + *j1_index.at(nd - 1),
+                                                                *j2_index.at(nd - 1)
+                                                                    - *j1_index.at(nd - 1)
+                                                            )
+                                                        );
+                                                    jj += 1;
+                                                };
+
+                                        w_.span()
+                                    };
+
+                                    dot(img, w_)
+                                } else {
+                                    dot(img, w)
+                                };
+
+                                let mut res_index = n * *res_strides.at(0)
+                                    + nw * *res_strides.at(1);
+
+                                let mut nx = 0;
+                                while nx != nd {
+                                    res_index += (*r_index.at(nx)).into() * *res_strides.at(2 + nx);
+                                    nx += 1;
+                                };
+
+                                res.set(res_index, res.at(res_index) + s);
                             };
 
-                            dot(img, w_)
-                        } else {
-                            dot(img, w)
+                            i += 1
                         };
-
-                        let mut res_index = n * *res_strides.at(0) + nw * *res_strides.at(1);
-
-                        let mut nx = 0;
-                        while nx != nd {
-                            res_index += (*r_index.at(nx)).into() * *res_strides.at(2 + nx);
-                            nx += 1;
-                        };
-
-                        res.set(res_index, res.at(res_index) + s);
-                    };
-
-                    i += 1
-                };
 
                 c += 1;
             };
@@ -1306,14 +1382,15 @@ fn cartesian(mut arrays: Span<Span<usize>>,) -> Span<Span<usize>> {
     let mut m = n;
 
     let mut i = 0;
-    while i != arrays.len() {
-        m = m / (*(arrays.at(i))).len();
-        let mut out = repeat(*(arrays.at(i)), m);
-        out = repeat_2(out, size_arrays, i);
+    while i != arrays
+        .len() {
+            m = m / (*(arrays.at(i))).len();
+            let mut out = repeat(*(arrays.at(i)), m);
+            out = repeat_2(out, size_arrays, i);
 
-        output_arrays.append(out);
-        i += 1;
-    };
+            output_arrays.append(out);
+            i += 1;
+        };
 
     let output_arrays = output_arrays.span();
 
@@ -1339,15 +1416,16 @@ fn repeat_2(mut array: Array<usize>, size_array: Span<usize>, index: usize) -> A
     let mut i = 0;
     while i != index {
         let mut j = 1;
-        while j != *size_array.at(index - 1 - i) {
-            let mut k = 0;
-            while k != size {
-                array.append(*array.at(k));
-                k += 1;
-            };
+        while j != *size_array
+            .at(index - 1 - i) {
+                let mut k = 0;
+                while k != size {
+                    array.append(*array.at(k));
+                    k += 1;
+                };
 
-            j += 1;
-        };
+                j += 1;
+            };
 
         size = size * *size_array.at(index - 1 - i);
         i += 1;
@@ -1359,15 +1437,16 @@ fn repeat_2(mut array: Array<usize>, size_array: Span<usize>, index: usize) -> A
 fn repeat(array: Span<usize>, m: usize,) -> Array<usize> {
     let mut out: Array<usize> = array![];
     let mut j = 0;
-    while j != array.len() {
-        let mut k = 0;
-        while k != m {
-            out.append(*array.at(j));
-            k += 1;
-        };
+    while j != array
+        .len() {
+            let mut k = 0;
+            while k != m {
+                out.append(*array.at(j));
+                k += 1;
+            };
 
-        j += 1;
-    };
+            j += 1;
+        };
 
     out
 }
