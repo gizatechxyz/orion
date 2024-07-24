@@ -1,7 +1,7 @@
 use core::integer;
+use core::num::traits::{WideMul, Sqrt};
 use orion_numbers::f32x32::core::{F32x32Impl, f32x32, ONE, HALF};
 
-use orion_numbers::core_trait::{I64Div, I64Rem, I128Div}; 
 
 
 pub fn abs(a: f32x32) -> f32x32 {
@@ -13,7 +13,7 @@ pub fn abs(a: f32x32) -> f32x32 {
 }
 
 pub fn div(a: f32x32, b: f32x32) -> f32x32 {
-    let a_i128 = integer::i64_wide_mul(a, ONE);
+    let a_i128 = WideMul::wide_mul(a, ONE);
     let res_i128 = a_i128 / b.into();
 
     // Re-apply sign
@@ -21,7 +21,7 @@ pub fn div(a: f32x32, b: f32x32) -> f32x32 {
 }
 
 pub fn mul(a: f32x32, b: f32x32) -> f32x32 {
-    let prod_i128 = integer::i64_wide_mul(a, b);
+    let prod_i128 = WideMul::wide_mul(a, b);
 
     // Re-apply sign
     F32x32Impl::new((prod_i128 / ONE.into()).try_into().unwrap())
@@ -62,7 +62,6 @@ mod tests {
 
 
     #[test]
-    #[available_gas(2000000)]
     fn test_sign() {
         let a = F32x32Impl::new(0);
         assert(a.sign() == 0, 'invalid sign (0)');

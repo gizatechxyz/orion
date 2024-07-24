@@ -1,5 +1,4 @@
 use orion_numbers::f32x32::core::{F32x32Impl, f32x32, ONE, HALF};
-use orion_numbers::core_trait::I64Div;
 
 const DEFAULT_PRECISION: i64 = 429497; // 1e-4
 

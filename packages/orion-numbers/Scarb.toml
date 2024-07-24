@@ -7,8 +7,8 @@ edition = "2023_11"
 
 [dependencies]
 
-[scripts]
-test = "scarb cairo-test -f test"
+[dev-dependencies]
+cairo_test = "2.7.0-rc.3"
 
 [cairo]
 enable-gas=false

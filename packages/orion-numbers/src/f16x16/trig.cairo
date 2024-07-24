@@ -2,8 +2,6 @@ use core::integer;
 use orion_numbers::f16x16::{core::{f16x16, ONE, HALF, TWO}, lut};
 use orion_numbers::FixedTrait;
 
-use orion_numbers::core_trait::{I32Div, I32Rem};
-
 // CONSTANTS
 const TWO_PI: i32 = 411775;
 const PI: i32 = 205887;
@@ -178,10 +176,7 @@ mod tests {
         sin_fast, tan_fast, acosh, asinh, atanh, cosh, sinh, tanh
     };
 
-    use orion_numbers::core_trait::I32Div;
-
     #[test]
-    #[available_gas(8000000)]
     fn test_acos_fast() {
         let error = Option::Some(84); // 1e-5
 
@@ -203,14 +198,12 @@ mod tests {
 
     #[test]
     #[should_panic]
-    #[available_gas(8000000)]
     fn test_acos_fail() {
         let a = FixedTrait::new(2 * ONE);
         acos_fast(a);
     }
 
     #[test]
-    #[available_gas(8000000)]
     fn test_atan_fast() {
         let error = Option::Some(84); // 1e-5
 
@@ -237,7 +230,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(8000000)]
     fn test_asin() {
         let error = Option::Some(84); // 1e-5
 
@@ -261,14 +253,12 @@ mod tests {
 
     #[test]
     #[should_panic]
-    #[available_gas(8000000)]
     fn test_asin_fail() {
         let a = FixedTrait::new(2 * ONE);
         asin_fast(a);
     }
 
     #[test]
-    #[available_gas(8000000)]
     fn test_cos_fast() {
         let error = Option::Some(84); // 1e-5
 
@@ -289,7 +279,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(8000000)]
     fn test_sin_fast() {
         let error = Option::Some(84); // 1e-5
 
@@ -313,7 +302,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(8000000)]
     fn test_tan_fast() {
         let a = FixedTrait::new(HALF_PI / 2);
         assert_precise(tan_fast(a), ONE.into(), 'invalid quarter pi', Option::None(()));
@@ -330,7 +318,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(10000000)]
     fn test_acosh() {
         let a = FixedTrait::new(246559); // 3.5954653836066
         assert_precise(acosh(a), 131072, 'invalid two', Option::None(()));
@@ -343,7 +330,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(10000000)]
     fn test_asinh() {
         let a = FixedTrait::new(237690); // 3.48973469357602
         assert_precise(asinh(a), 131072, 'invalid two', Option::None(()));
@@ -362,7 +348,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(10000000)]
     fn test_atanh() {
         let a = FixedTrait::new(58982); // 0.9
         assert_precise(atanh(a), 96483, 'invalid 0.9', Option::None(())); // 1.36892147623689
@@ -381,7 +366,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(10000000)]
     fn test_cosh() {
         let a = FixedTrait::new(TWO);
         assert_precise(cosh(a), 246550, 'invalid two', Option::None(())); // 3.5954653836066
@@ -400,7 +384,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(10000000)]
     fn test_sinh() {
         let a = FixedTrait::new(TWO);
         assert_precise(sinh(a), 237681, 'invalid two', Option::None(())); // 3.48973469357602
@@ -419,7 +402,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(10000000)]
     fn test_tanh() {
         let a = FixedTrait::new(TWO);
         assert_precise(tanh(a), 63179, 'invalid two', Option::None(())); // 0.75314654693321

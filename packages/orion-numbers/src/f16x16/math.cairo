@@ -1,8 +1,8 @@
+use core::option::OptionTrait;
+use core::traits::TryInto;
 use core::integer;
+use core::num::traits::{WideMul, Sqrt};
 use orion_numbers::f16x16::{core::{F16x16Impl, f16x16, ONE, HALF}, lut};
-
-use orion_numbers::core_trait::{I32Rem, I32Div, I64Div}; //I32TryIntoNonZero, I32DivRem
-
 
 pub fn abs(a: f16x16) -> f16x16 {
     if a >= 0 {
@@ -33,7 +33,7 @@ pub fn ceil(a: f16x16) -> f16x16 {
 }
 
 pub fn div(a: f16x16, b: f16x16) -> f16x16 {
-    let a_i64 = integer::i32_wide_mul(a, ONE);
+    let a_i64 = WideMul::wide_mul(a, ONE);
     let res_i64 = a_i64 / b.into();
 
     // Re-apply sign
@@ -141,7 +141,7 @@ pub fn log10(a: f16x16) -> f16x16 {
 }
 
 pub fn mul(a: f16x16, b: f16x16) -> f16x16 {
-    let prod_i64 = integer::i32_wide_mul(a, b);
+    let prod_i64 = WideMul::wide_mul(a, b);
 
     // Re-apply sign
     F16x16Impl::new((prod_i64 / ONE.into()).try_into().unwrap())
@@ -220,9 +220,11 @@ pub fn sign(a: f16x16) -> f16x16 {
 // x must be positive
 pub fn sqrt(a: f16x16) -> f16x16 {
     assert(a >= 0, 'must be positive');
-    //let a: usize = a.try_into().unwrap();
 
-    let root = integer::u64_sqrt(a.try_into().unwrap() * ONE.try_into().unwrap());
+    let a: u64 = a.try_into().unwrap();
+    let one: u64 = ONE.try_into().unwrap();
+
+    let root: u32 = Sqrt::sqrt(a * one);
 
     F16x16Impl::new(root.try_into().unwrap())
 }
@@ -230,7 +232,7 @@ pub fn sqrt(a: f16x16) -> f16x16 {
 
 // Tests
 //
-// 
+//
 // --------------------------------------------------------------------------------------------------------------
 
 #[cfg(test)]
@@ -241,8 +243,6 @@ mod tests {
         F16x16Impl, ONE, HALF, f16x16, integer, lut, ceil, add, sqrt, floor, exp, exp2, exp2_int,
         ln, log2, log10, pow, round, sign
     };
-
-    use orion_numbers::core_trait::{I32Rem, I32Div};
 
     #[test]
     fn test_into() {
@@ -257,21 +257,18 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(10000000)]
     fn test_exp() {
         let a = F16x16Impl::new_unscaled(2);
         assert_relative(exp(a), 484249, 'invalid exp of 2', Option::None(())); // 7.389056098793725
     }
 
     #[test]
-    #[available_gas(400000)]
     fn test_exp2() {
         let a = F16x16Impl::new_unscaled(5);
         assert(exp2(a) == 2097152, 'invalid exp2 of 2');
     }
 
     #[test]
-    #[available_gas(20000)]
     fn test_exp2_int() {
         assert(exp2_int(5).into() == 2097152, 'invalid exp2 of 2');
     }
@@ -283,7 +280,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(1000000)]
     fn test_ln() {
         let mut a = F16x16Impl::new_unscaled(1);
         assert(ln(a) == 0, 'invalid ln of 1');
@@ -293,7 +289,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(1000000)]
     fn test_log2() {
         let mut a = F16x16Impl::new_unscaled(32);
         assert(log2(a) == F16x16Impl::new_unscaled(5), 'invalid log2 32');
@@ -303,7 +298,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(1000000)]
     fn test_log10() {
         let a = F16x16Impl::new_unscaled(100);
         assert_relative(log10(a), 2 * ONE.into(), 'invalid log10', Option::None(()));
@@ -311,7 +305,6 @@ mod tests {
 
 
     #[test]
-    #[available_gas(600000)]
     fn test_pow() {
         let a = F16x16Impl::new_unscaled(3);
         let b = F16x16Impl::new_unscaled(4);
@@ -319,7 +312,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(900000)]
     fn test_pow_frac() {
         let a = F16x16Impl::new_unscaled(3);
         let b = F16x16Impl::new(32768); // 0.5
@@ -352,7 +344,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(2000000)]
     fn test_sign() {
         let a = F16x16Impl::new(0);
         assert(a.sign() == 0, 'invalid sign (0)');
@@ -371,7 +362,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(100000)]
     fn test_msb() {
         let a = F16x16Impl::new_unscaled(100);
         let (msb, div) = lut::msb(a / ONE);
@@ -427,7 +417,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(100000)]
     fn test_mul_pos() {
         let a = 190054;
         let b = 190054;

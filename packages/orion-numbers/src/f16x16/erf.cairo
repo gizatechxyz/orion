@@ -35,7 +35,6 @@ mod tests {
     use super::{erf, f16x16};
 
     #[test]
-    #[available_gas(1000000000)]
     fn test_erf() {
         // 1.0
         let f1 = 65536;

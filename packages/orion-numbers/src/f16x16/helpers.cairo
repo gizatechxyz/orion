@@ -1,5 +1,4 @@
 use orion_numbers::f16x16::core::{F16x16Impl, f16x16, ONE, HALF};
-use orion_numbers::core_trait::I32Div;
 
 const DEFAULT_PRECISION: i32 = 7; // 1e-4
 
