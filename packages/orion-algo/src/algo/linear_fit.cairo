@@ -1,7 +1,5 @@
 use orion_numbers::{f16x16::core::{f16x16}, FixedTrait};
 use orion_algo::span_math::SpanMathTrait;
-use orion_numbers::core_trait::{I32Div, I64Div};
-
 
 pub fn linear_fit<
     T,
@@ -43,7 +41,6 @@ mod tests {
     use super::linear_fit;
     use orion_numbers::f16x16;
     use orion_numbers::f32x32;
-    use orion_numbers::core_trait::{I32Div, I64Div};
 
     #[test]
     fn linear_fit_line_test() {

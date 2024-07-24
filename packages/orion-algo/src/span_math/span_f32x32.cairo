@@ -1,4 +1,4 @@
-use orion_numbers::{core_trait::{I64Rem, I64Div}, FixedTrait};
+use orion_numbers::{FixedTrait};
 use orion_numbers::f32x32::core::{f32x32, ONE};
 
 use orion_algo::span_math::SpanMathTrait;

@@ -1,5 +1,4 @@
 use orion_numbers::{f16x16::core::{f16x16, ONE}, FixedTrait};
-use orion_numbers::core_trait::{I32Rem, I32Div};
 
 use orion_algo::span_math::SpanMathTrait;
 
