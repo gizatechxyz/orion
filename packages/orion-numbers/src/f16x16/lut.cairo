@@ -1,4 +1,4 @@
-use orion_numbers::f16x16::core::ONE;
+use orion_numbers::FixedTrait;
 
 // Calculates the most significant bit
 pub fn msb(whole: i32) -> (i32, i32) {
@@ -1928,5 +1928,5 @@ pub fn erf_lut(x: i32) -> i32 {
         }
     }
 
-    ONE
+    FixedTrait::ONE
 }

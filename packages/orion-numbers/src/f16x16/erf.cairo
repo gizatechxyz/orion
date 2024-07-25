@@ -1,5 +1,5 @@
-use orion_numbers::f16x16::{core::{f16x16, ONE}, lut};
-use orion_numbers::FixedTrait;
+use orion_numbers::f16x16::{core::{f16x16}, lut};
+use orion_numbers::{FixedTrait};
 
 const ERF_COMPUTATIONAL_ACCURACY: i32 = 100;
 const ROUND_CHECK_NUMBER: i32 = 10;
@@ -18,7 +18,7 @@ pub fn erf(x: f16x16) -> f16x16 {
     if x.abs() < MAX_ERF_NUMBER {
         erf_value = lut::erf_lut(x.abs());
     } else {
-        erf_value = ONE;
+        erf_value = FixedTrait::ONE;
     }
 
     FixedTrait::mul(erf_value, x.sign())
@@ -27,7 +27,7 @@ pub fn erf(x: f16x16) -> f16x16 {
 
 // Tests
 //
-// 
+//
 // --------------------------------------------------------------------------------------------------------------
 
 #[cfg(test)]

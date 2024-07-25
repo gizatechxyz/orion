@@ -1,5 +1,5 @@
 use orion_numbers::{FixedTrait};
-use orion_numbers::f32x32::core::{f32x32, ONE};
+use orion_numbers::f32x32::core::f32x32;
 
 use orion_algo::span_math::SpanMathTrait;
 
@@ -34,7 +34,7 @@ fn arange(n: u32) -> Span<f32x32> {
     let mut i = 0;
     let mut arr = array![];
     while i < n {
-        arr.append(i.try_into().unwrap() * ONE);
+        arr.append(i.try_into().unwrap() * FixedTrait::ONE);
         i += 1;
     };
 
@@ -55,7 +55,7 @@ fn dot(a: Span<f32x32>, b: Span<f32x32>) -> f32x32 {
 fn max(mut a: Span<f32x32>) -> f32x32 {
     assert(a.len() > 0, 'span cannot be empty');
 
-    let mut max = FixedTrait::MIN();
+    let mut max = FixedTrait::MIN;
 
     loop {
         match a.pop_front() {
@@ -70,7 +70,7 @@ fn max(mut a: Span<f32x32>) -> f32x32 {
 fn min(mut a: Span<f32x32>) -> f32x32 {
     assert(a.len() > 0, 'span cannot be empty');
 
-    let mut min = FixedTrait::MAX();
+    let mut min = FixedTrait::MAX;
 
     loop {
         match a.pop_front() {
@@ -105,8 +105,9 @@ fn sum(mut a: Span<f32x32>) -> f32x32 {
 
 #[cfg(test)]
 mod tests {
-    use super::{arange, dot, max, min, prod, sum, ONE};
+    use super::{arange, dot, max, min, prod, sum};
     use orion_numbers::f32x32::helpers::assert_precise;
+    use orion_numbers::F32x32Impl;
 
     #[test]
     fn test_arange() {
@@ -131,7 +132,7 @@ mod tests {
             .span(); // 0, 2, 4, 6, 8, 10
         let result = dot(x, y);
 
-        assert_precise(result, (7208960 * ONE).into(), 'should be equal', Option::None);
+        assert_precise(result, (7208960 * F32x32Impl::ONE).into(), 'should be equal', Option::None);
     }
 
     #[test]
@@ -171,6 +172,8 @@ mod tests {
 
         let result = sum(x);
 
-        assert_precise(result, (98304000 * ONE).into(), 'should be equal', Option::None);
+        assert_precise(
+            result, (98304000 * F32x32Impl::ONE).into(), 'should be equal', Option::None
+        );
     }
 }

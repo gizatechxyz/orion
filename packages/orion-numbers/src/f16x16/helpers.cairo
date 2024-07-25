@@ -1,4 +1,5 @@
-use orion_numbers::f16x16::core::{F16x16Impl, f16x16, ONE, HALF};
+use core::traits::PanicDestruct;
+use orion_numbers::f16x16::core::{F16x16Impl, f16x16};
 
 const DEFAULT_PRECISION: i32 = 7; // 1e-4
 
@@ -20,6 +21,26 @@ pub fn assert_precise(
     }
 }
 
+pub fn assert_precise_span(
+    results: Span<f16x16>, expected: Span<felt252>, msg: felt252, custom_precision: Option<i32>
+) {
+    assert(results.len() == expected.len(), 'Arrays must have same length');
+
+    let mut i: usize = 0;
+    loop {
+        if i == results.len() {
+            break;
+        }
+
+        let result = *results.at(i);
+        let expected_val = *expected.at(i);
+
+        assert_precise(result, expected_val, msg, custom_precision);
+
+        i += 1;
+    }
+}
+
 pub fn assert_relative(
     result: f16x16, expected: felt252, msg: felt252, custom_precision: Option<i32>
 ) {
@@ -37,3 +58,22 @@ pub fn assert_relative(
     }
 }
 
+pub fn assert_relative_span(
+    results: Span<f16x16>, expected: Span<felt252>, msg: felt252, custom_precision: Option<i32>
+) {
+    assert(results.len() == expected.len(), 'Arrays must have same length');
+
+    let mut i: usize = 0;
+    loop {
+        if i == results.len() {
+            break;
+        }
+
+        let result = *results.at(i);
+        let expected_val = *expected.at(i);
+
+        assert_relative(result, expected_val, msg, custom_precision);
+
+        i += 1;
+    }
+}

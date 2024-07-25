@@ -2,7 +2,7 @@ use core::option::OptionTrait;
 use core::traits::TryInto;
 use core::integer;
 use core::num::traits::{WideMul, Sqrt};
-use orion_numbers::f16x16::{core::{F16x16Impl, f16x16, ONE, HALF}, lut};
+use orion_numbers::f16x16::{core::{F16x16Impl, f16x16}, lut};
 
 pub fn abs(a: f16x16) -> f16x16 {
     if a >= 0 {
@@ -22,18 +22,18 @@ pub fn sub(a: f16x16, b: f16x16) -> f16x16 {
 
 pub fn ceil(a: f16x16) -> f16x16 {
     //let (div, rem) = DivRem::div_rem(a, ONE.try_into().unwrap());
-    let div = Div::div(a, ONE);
-    let rem = Rem::rem(a, ONE);
+    let div = Div::div(a, F16x16Impl::ONE);
+    let rem = Rem::rem(a, F16x16Impl::ONE);
 
     if rem == 0 {
         F16x16Impl::new_unscaled(div)
     } else {
-        F16x16Impl::new_unscaled(div) + ONE
+        F16x16Impl::new_unscaled(div) + F16x16Impl::ONE
     }
 }
 
 pub fn div(a: f16x16, b: f16x16) -> f16x16 {
-    let a_i64 = WideMul::wide_mul(a, ONE);
+    let a_i64 = WideMul::wide_mul(a, F16x16Impl::ONE);
     let res_i64 = a_i64 / b.into();
 
     // Re-apply sign
@@ -48,12 +48,12 @@ pub fn exp(a: f16x16) -> f16x16 {
 // Calculates the binary exponent of x: 2^x
 pub fn exp2(a: f16x16) -> f16x16 {
     if (a == 0) {
-        return F16x16Impl::ONE();
+        return F16x16Impl::ONE;
     }
 
     //let (int_part, frac_part) = DivRem::div_rem(a.abs(), ONE.try_into().unwrap());
-    let int_part = Div::div(a.abs(), ONE);
-    let frac_part = Rem::rem(a.abs(), ONE);
+    let int_part = Div::div(a.abs(), F16x16Impl::ONE);
+    let frac_part = Rem::rem(a.abs(), F16x16Impl::ONE);
 
     let int_res = F16x16Impl::new_unscaled(lut::exp2(int_part));
     let mut res_u = int_res;
@@ -67,11 +67,11 @@ pub fn exp2(a: f16x16) -> f16x16 {
         let r3 = F16x16Impl::mul((r4 + F16x16Impl::new(3638)), frac);
         let r2 = F16x16Impl::mul((r3 + F16x16Impl::new(15743)), frac);
         let r1 = F16x16Impl::mul((r2 + F16x16Impl::new(45426)), frac);
-        res_u = F16x16Impl::mul(res_u, (r1 + F16x16Impl::ONE()));
+        res_u = F16x16Impl::mul(res_u, (r1 + F16x16Impl::ONE));
     }
 
     if a < 0 {
-        F16x16Impl::div(F16x16Impl::ONE(), res_u)
+        F16x16Impl::div(F16x16Impl::ONE, res_u)
     } else {
         res_u
     }
@@ -83,8 +83,8 @@ fn exp2_int(exp: i32) -> f16x16 {
 
 pub fn floor(a: f16x16) -> f16x16 {
     //let (div, rem) = DivRem::div_rem(a, ONE.try_into().unwrap());
-    let div = Div::div(a, ONE);
-    let rem = Rem::rem(a, ONE);
+    let div = Div::div(a, F16x16Impl::ONE);
+    let rem = Rem::rem(a, F16x16Impl::ONE);
 
     if rem == 0 {
         a
@@ -106,18 +106,18 @@ pub fn ln(a: f16x16) -> f16x16 {
 pub fn log2(a: f16x16) -> f16x16 {
     assert(a >= 0, 'must be positive');
 
-    if (a == ONE) {
-        return F16x16Impl::ZERO();
-    } else if (a < ONE) {
+    if (a == F16x16Impl::ONE) {
+        return F16x16Impl::ZERO;
+    } else if (a < F16x16Impl::ONE) {
         // Compute true inverse binary log if 0 < x < 1
-        let div = F16x16Impl::div(F16x16Impl::ONE(), a);
+        let div = F16x16Impl::div(F16x16Impl::ONE, a);
         return -log2(div);
     }
 
-    let whole = a / ONE;
+    let whole = a / F16x16Impl::ONE;
     let (msb, div) = lut::msb(whole);
 
-    if a == div * ONE {
+    if a == div * F16x16Impl::ONE {
         F16x16Impl::new_unscaled(msb)
     } else {
         let norm = F16x16Impl::div(a, F16x16Impl::new_unscaled(div));
@@ -144,18 +144,18 @@ pub fn mul(a: f16x16, b: f16x16) -> f16x16 {
     let prod_i64 = WideMul::wide_mul(a, b);
 
     // Re-apply sign
-    F16x16Impl::new((prod_i64 / ONE.into()).try_into().unwrap())
+    F16x16Impl::new((prod_i64 / F16x16Impl::ONE.into()).try_into().unwrap())
 }
 
 // Calclates the value of x^y and checks for overflow before returning
 // self is a FP16x16 point value
 // b is a FP16x16 point value
 pub fn pow(a: f16x16, b: f16x16) -> f16x16 {
-    let rem = Rem::rem(b, ONE);
+    let rem = Rem::rem(b, F16x16Impl::ONE);
 
     // use the more performant integer pow when y is an int
     if (rem == 0) {
-        return pow_int(a, b / ONE);
+        return pow_int(a, b / F16x16Impl::ONE);
     }
 
     // x^y = exp(y*ln(x)) for x > 0 will error for x < 0
@@ -168,14 +168,14 @@ fn pow_int(a: f16x16, b: i32) -> f16x16 {
     let mut n = b.abs();
 
     if b < 0 {
-        x = F16x16Impl::div(ONE, x);
+        x = F16x16Impl::div(F16x16Impl::ONE, x);
     }
 
     if n == 0 {
-        return ONE;
+        return F16x16Impl::ONE;
     }
 
-    let mut y = ONE;
+    let mut y = F16x16Impl::ONE;
     let two: i32 = 2;
 
     while n > 1 {
@@ -196,10 +196,10 @@ fn pow_int(a: f16x16, b: i32) -> f16x16 {
 
 pub fn round(a: f16x16) -> f16x16 {
     //let (div, rem) = DivRem::div_rem(a, ONE.try_into().unwrap());
-    let div = Div::div(a, ONE);
-    let rem = Rem::rem(a, ONE);
+    let div = Div::div(a, F16x16Impl::ONE);
+    let rem = Rem::rem(a, F16x16Impl::ONE);
 
-    if (HALF <= rem) {
+    if (F16x16Impl::HALF <= rem) {
         F16x16Impl::new_unscaled(div + 1)
     } else {
         F16x16Impl::new_unscaled(div)
@@ -210,9 +210,9 @@ pub fn sign(a: f16x16) -> f16x16 {
     if a == 0 {
         F16x16Impl::new(0)
     } else if a > 0 {
-        ONE
+        F16x16Impl::ONE
     } else {
-        -ONE
+        -F16x16Impl::ONE
     }
 }
 
@@ -222,7 +222,7 @@ pub fn sqrt(a: f16x16) -> f16x16 {
     assert(a >= 0, 'must be positive');
 
     let a: u64 = a.try_into().unwrap();
-    let one: u64 = ONE.try_into().unwrap();
+    let one: u64 = F16x16Impl::ONE.try_into().unwrap();
 
     let root: u32 = Sqrt::sqrt(a * one);
 
@@ -240,20 +240,20 @@ mod tests {
     use orion_numbers::f16x16::helpers::{assert_precise, assert_relative};
 
     use super::{
-        F16x16Impl, ONE, HALF, f16x16, integer, lut, ceil, add, sqrt, floor, exp, exp2, exp2_int,
-        ln, log2, log10, pow, round, sign
+        F16x16Impl, f16x16, integer, lut, ceil, add, sqrt, floor, exp, exp2, exp2_int, ln, log2,
+        log10, pow, round, sign
     };
 
     #[test]
     fn test_into() {
         let a = F16x16Impl::new_unscaled(5);
-        assert(a == 5 * ONE, 'invalid result');
+        assert(a == 5 * F16x16Impl::ONE, 'invalid result');
     }
 
     #[test]
     fn test_ceil() {
         let a = F16x16Impl::new(190054); // 2.9
-        assert(ceil(a) == 3 * ONE, 'invalid pos decimal');
+        assert(ceil(a) == 3 * F16x16Impl::ONE, 'invalid pos decimal');
     }
 
     #[test]
@@ -276,7 +276,7 @@ mod tests {
     #[test]
     fn test_floor() {
         let a = F16x16Impl::new(190054); // 2.9
-        assert(floor(a) == 2 * ONE, 'invalid pos decimal');
+        assert(floor(a) == 2 * F16x16Impl::ONE, 'invalid pos decimal');
     }
 
     #[test]
@@ -285,7 +285,7 @@ mod tests {
         assert(ln(a) == 0, 'invalid ln of 1');
 
         a = F16x16Impl::new(178145);
-        assert_relative(ln(a), ONE.into(), 'invalid ln of 2.7...', Option::None(()));
+        assert_relative(ln(a), F16x16Impl::ONE.into(), 'invalid ln of 2.7...', Option::None(()));
     }
 
     #[test]
@@ -300,7 +300,7 @@ mod tests {
     #[test]
     fn test_log10() {
         let a = F16x16Impl::new_unscaled(100);
-        assert_relative(log10(a), 2 * ONE.into(), 'invalid log10', Option::None(()));
+        assert_relative(log10(a), 2 * F16x16Impl::ONE.into(), 'invalid log10', Option::None(()));
     }
 
 
@@ -308,7 +308,7 @@ mod tests {
     fn test_pow() {
         let a = F16x16Impl::new_unscaled(3);
         let b = F16x16Impl::new_unscaled(4);
-        assert(pow(a, b) == 81 * ONE, 'invalid pos base power');
+        assert(pow(a, b) == 81 * F16x16Impl::ONE, 'invalid pos base power');
     }
 
     #[test]
@@ -323,7 +323,7 @@ mod tests {
     #[test]
     fn test_round() {
         let a = F16x16Impl::new(190054); // 2.9
-        assert(round(a) == 3 * ONE, 'invalid pos decimal');
+        assert(round(a) == 3 * F16x16Impl::ONE, 'invalid pos decimal');
     }
 
 
@@ -333,7 +333,7 @@ mod tests {
 
         assert(sqrt(a) == 0, 'invalid zero root');
         a = F16x16Impl::new_unscaled(25);
-        assert(sqrt(a) == 5 * ONE, 'invalid pos root');
+        assert(sqrt(a) == 5 * F16x16Impl::ONE, 'invalid pos root');
     }
 
     #[test]
@@ -348,23 +348,23 @@ mod tests {
         let a = F16x16Impl::new(0);
         assert(a.sign() == 0, 'invalid sign (0)');
 
-        let a = F16x16Impl::new(-HALF);
-        assert(a.sign() == -ONE, 'invalid sign (-HALF)');
+        let a = F16x16Impl::new(-F16x16Impl::HALF);
+        assert(a.sign() == -F16x16Impl::ONE, 'invalid sign (-HALF)');
 
-        let a = F16x16Impl::new(HALF);
-        assert(a.sign() == ONE, 'invalid sign (HALF)');
+        let a = F16x16Impl::new(F16x16Impl::HALF);
+        assert(a.sign() == F16x16Impl::ONE, 'invalid sign (HALF)');
 
-        let a = F16x16Impl::new(-ONE);
-        assert(a.sign() == -ONE, 'invalid sign (-ONE)');
+        let a = F16x16Impl::new(-F16x16Impl::ONE);
+        assert(a.sign() == -F16x16Impl::ONE, 'invalid sign (-ONE)');
 
-        let a = F16x16Impl::new(ONE);
-        assert(a.sign() == ONE, 'invalid sign (ONE)');
+        let a = F16x16Impl::new(F16x16Impl::ONE);
+        assert(a.sign() == F16x16Impl::ONE, 'invalid sign (ONE)');
     }
 
     #[test]
     fn test_msb() {
         let a = F16x16Impl::new_unscaled(100);
-        let (msb, div) = lut::msb(a / ONE);
+        let (msb, div) = lut::msb(a / F16x16Impl::ONE);
         assert(msb == 6, 'invalid msb');
         assert(div == 64, 'invalid msb ceil');
     }

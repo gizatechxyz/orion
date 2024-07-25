@@ -3,37 +3,18 @@ use orion_numbers::FixedTrait;
 
 pub type f32x32 = i64;
 
-// CONSTANTS
-pub const TWO: f32x32 = 8589934592; // 2 ** 33
-pub const ONE: f32x32 = 4294967296; // 2 ** 32
-pub const HALF: f32x32 = 2147483648; // 2 ** 31
-pub const MAX: f32x32 = 9223372036854775807; // 2 ** 63 -1 
-pub const MIN: f32x32 = -9223372036854775808; // -2 ** 63
-
 
 pub impl F32x32Impl of FixedTrait<f32x32> {
-    fn ZERO() -> f32x32 {
-        0
-    }
-
-    fn HALF() -> f32x32 {
-        HALF
-    }
-
-    fn ONE() -> f32x32 {
-        ONE
-    }
-
-    fn MAX() -> f32x32 {
-        MAX
-    }
-
-    fn MIN() -> f32x32 {
-        MIN
-    }
+    // CONSTANTS
+    const ZERO: f32x32 = 0;
+    const HALF: f32x32 = 2147483648; // 2 ** 31
+    const ONE: f32x32 = 4294967296; // 2 ** 32
+    const TWO: f32x32 = 8589934592; // 2 ** 33
+    const MAX: f32x32 = 9223372036854775807; // 2 ** 63 -1 
+    const MIN: f32x32 = -9223372036854775808; // -2 ** 63
 
     fn new_unscaled(x: i64) -> f32x32 {
-        x * ONE
+        x * Self::ONE
     }
 
     fn new(x: i64) -> f32x32 {
@@ -45,7 +26,7 @@ pub impl F32x32Impl of FixedTrait<f32x32> {
     }
 
     fn from_unscaled_felt(x: felt252) -> f32x32 {
-        return FixedTrait::from_felt(x * ONE.into());
+        return FixedTrait::from_felt(x * Self::ONE.into());
     }
 
     fn abs(self: f32x32) -> f32x32 {
@@ -170,32 +151,30 @@ pub impl F32x32Impl of FixedTrait<f32x32> {
     }
 
     fn INF() -> f32x32 {
-        MAX
+        Self::MAX
     }
 
     fn POS_INF() -> f32x32 {
-        MAX
+        Self::MAX
     }
 
     fn NEG_INF() -> f32x32 {
-        MIN
+        Self::MIN
     }
 
     fn is_inf(self: f32x32) -> bool {
-        self == MAX
+        self == Self::MAX
     }
 
     fn is_pos_inf(self: f32x32) -> bool {
-        self == MAX
+        self == Self::MAX
     }
 
     fn is_neg_inf(self: f32x32) -> bool {
-        self == MIN
+        self == Self::MIN
     }
 
     fn erf(self: f32x32) -> f32x32 {
         panic!("not implem yet")
     }
-
-    
 }

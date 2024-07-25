@@ -26,7 +26,7 @@ pub fn linear_fit<
     let sum_xy = x.dot(y);
 
     let denominator = n * sum_xx - (sum_x.mul(sum_x));
-    if denominator == FixedTrait::ZERO() {
+    if denominator == FixedTrait::ZERO {
         panic!("division by zero exception")
     }
 

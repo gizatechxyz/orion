@@ -1,4 +1,4 @@
-use orion_numbers::{f16x16::core::{f16x16, ONE}, FixedTrait};
+use orion_numbers::{f16x16::core::f16x16, FixedTrait};
 
 use orion_algo::span_math::SpanMathTrait;
 
@@ -34,7 +34,7 @@ fn arange(n: u32) -> Span<f16x16> {
     let mut i = 0;
     let mut arr = array![];
     while i < n {
-        arr.append(i.try_into().unwrap() * ONE);
+        arr.append(i.try_into().unwrap() * FixedTrait::ONE);
         i += 1;
     };
 
@@ -55,7 +55,7 @@ fn dot(a: Span<f16x16>, b: Span<f16x16>) -> f16x16 {
 fn max(mut a: Span<f16x16>) -> f16x16 {
     assert(a.len() > 0, 'span cannot be empty');
 
-    let mut max = FixedTrait::MIN();
+    let mut max = FixedTrait::MIN;
 
     loop {
         match a.pop_front() {
@@ -70,7 +70,7 @@ fn max(mut a: Span<f16x16>) -> f16x16 {
 fn min(mut a: Span<f16x16>) -> f16x16 {
     assert(a.len() > 0, 'span cannot be empty');
 
-    let mut min = FixedTrait::MAX();
+    let mut min = FixedTrait::MAX;
 
     loop {
         match a.pop_front() {
@@ -105,8 +105,9 @@ fn sum(mut a: Span<f16x16>) -> f16x16 {
 
 #[cfg(test)]
 mod tests {
-    use super::{arange, dot, max, min, prod, sum, ONE};
+    use super::{arange, dot, max, min, prod, sum};
     use orion_numbers::f16x16::helpers::assert_precise;
+    use orion_numbers::F16x16Impl;
 
     #[test]
     fn test_arange() {
@@ -129,7 +130,7 @@ mod tests {
         let y = array![0, 131072, 262144, 393216, 524288, 655360].span(); // 0, 2, 4, 6, 8, 10
         let result = dot(x, y);
 
-        assert_precise(result, (110 * ONE).into(), 'should be equal', Option::None);
+        assert_precise(result, (110 * F16x16Impl::ONE).into(), 'should be equal', Option::None);
     }
 
     #[test]
@@ -165,6 +166,6 @@ mod tests {
 
         let result = sum(x);
 
-        assert_precise(result, (15 * ONE).into(), 'should be equal', Option::None);
+        assert_precise(result, (15 * F16x16Impl::ONE).into(), 'should be equal', Option::None);
     }
 }

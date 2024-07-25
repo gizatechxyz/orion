@@ -2,16 +2,17 @@ pub mod f16x16;
 pub mod f32x32;
 pub mod core_trait;
 
-use orion_numbers::f16x16::core::F16x16Impl;
-use orion_numbers::f32x32::core::F32x32Impl;
-
+pub use orion_numbers::f16x16::core::F16x16Impl;
+pub use orion_numbers::f32x32::core::F32x32Impl;
 
 pub trait FixedTrait<T> {
-    fn ZERO() -> T;
-    fn HALF() -> T;
-    fn ONE() -> T;
-    fn MAX() -> T;
-    fn MIN() -> T;
+    const ZERO: T;
+    const HALF: T;
+    const ONE: T;
+    const TWO: T;
+    const MAX: T;
+    const MIN: T;
+
     fn new_unscaled(x: T) -> T;
     fn new(x: T) -> T;
     fn from_felt(x: felt252) -> T;
