@@ -1,6 +1,41 @@
 use orion_numbers::{f16x16::core::{f16x16}, FixedTrait};
 use orion_algo::span_math::SpanMathTrait;
 
+/// Performs a linear least squares fitting to provided data points. This function calculates
+/// the slope and intercept for the line of best fit using the formulae derived from the method
+/// of least squares.
+///
+/// # Arguments
+/// * `x` - A `Span<T>` containing the x-coordinates of the data points.
+/// * `y` - A `Span<T>` containing the y-coordinates of the data points.
+///
+/// # Returns
+/// A tuple `(T, T)` where the first element is the slope (`a`) and the second element is the
+/// intercept (`b`) of the line of best fit.
+///
+/// # Panics
+/// * The function panics if the lengths of `x` and `y` are not the same or if either is empty.
+/// * It also panics if a division by zero occurs, which can happen if the points are perfectly
+///   collinear along the x-axis resulting in zero variance in `x`.
+///
+/// # Examples
+/// Basic usage:
+///
+/// ```
+/// let x = array![0, 65536, 131072, 196608, 262144, 327680].span();
+/// let y = array![0, 131072, 262144, 393216, 524288, 655360].span();
+/// let (slope, intercept) = linear_fit(x, y);
+/// // Expected output: (slope, intercept) where slope should closely match the true slope of the data.
+/// ```
+///
+/// With noisy data:
+///
+/// ```
+/// let x = array![0, 65536, 131072, 196608, 262144, 327680].span();
+/// let y = array![6554, 144179, 255590, 399770, 517734, 668467].span();
+/// let (slope, intercept) = linear_fit(x, y);
+/// // Expected output: (slope, intercept) that best fits the provided noisy data.
+/// ```
 pub fn linear_fit<
     T,
     +SpanMathTrait<T>,
