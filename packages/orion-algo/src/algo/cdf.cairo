@@ -60,12 +60,12 @@ pub fn cdf<
 
     // single value or same length as x
     if loc.len() > 1 {
-        assert_eq!(loc.len(), x.len(), "`loc` must be a single value or same length as x");
+        assert!(loc.len() == x.len(), "`loc` must be a single value or same length as x");
     }
 
     // single value or same length as x
     if scale.len() > 1 {
-        assert_eq!(scale.len(), x.len(), "`scale` must be a single value or same length as x");
+        assert!(scale.len() == x.len(), "`scale` must be a single value or same length as x");
     }
 
     let mut res_data = array![];
