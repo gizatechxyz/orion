@@ -10,20 +10,20 @@ use orion_numbers::FixedTrait;
 
 // CONSTANTS
 
-const TWO: i64 = 8589934592; // 2 ** 33
-const ONE: i64 = 4294967296; // 2 ** 32
-const HALF: i64 = 2147483648; // 2 ** 31
-const MAX_i128: i128 = 18_446_744_073_709_551_615; //2**64 - 1
+pub const TWO: i64 = 8589934592; // 2 ** 33
+pub const ONE: i64 = 4294967296; // 2 ** 32
+pub const HALF: i64 = 2147483648; // 2 ** 31
+pub const MAX_i128: i128 = 18_446_744_073_709_551_615; //2**64 - 1
 
 // STRUCTS
 
 #[derive(Copy, Drop, Serde)]
-struct F64 {
-    d: i64,
+pub struct F64 {
+    pub d: i64,
 }
 
 
-impl F64Impl of FixedTrait<F64, i64> {
+pub impl F64Impl of FixedTrait<F64, i64> {
     fn ZERO() -> F64 {
         return core::num::traits::Zero::zero();
     }
@@ -160,13 +160,13 @@ impl F64Impl of FixedTrait<F64, i64> {
 }
 
 // Into a raw felt without unscaling
-impl FixedIntoFelt252 of Into<F64, felt252> {
+pub impl F64IntoFelt252 of Into<F64, felt252> {
     fn into(self: F64) -> felt252 {
         self.d.into()
     }
 }
 
-impl FixedTryIntoU128 of TryInto<F64, u128> {
+pub impl F64TryIntoU128 of TryInto<F64, u128> {
     fn try_into(self: F64) -> Option<u128> {
         if self.d < 0 {
             return Option::None(());
@@ -177,7 +177,7 @@ impl FixedTryIntoU128 of TryInto<F64, u128> {
     }
 }
 
-impl FixedTryIntoU64 of TryInto<F64, u64> {
+pub impl F64TryIntoU64 of TryInto<F64, u64> {
     fn try_into(self: F64) -> Option<u64> {
         if self.d < 0 {
             return Option::None(());
@@ -188,7 +188,7 @@ impl FixedTryIntoU64 of TryInto<F64, u64> {
     }
 }
 
-impl FixedTryIntoU32 of TryInto<F64, u32> {
+pub impl F64TryIntoU32 of TryInto<F64, u32> {
     fn try_into(self: F64) -> Option<u32> {
         if self.d < 0 {
             return Option::None(());
@@ -199,7 +199,7 @@ impl FixedTryIntoU32 of TryInto<F64, u32> {
     }
 }
 
-impl FixedTryIntoU16 of TryInto<F64, u16> {
+pub impl F64TryIntoU16 of TryInto<F64, u16> {
     fn try_into(self: F64) -> Option<u16> {
         if self.d < 0 {
             return Option::None(());
@@ -210,7 +210,7 @@ impl FixedTryIntoU16 of TryInto<F64, u16> {
     }
 }
 
-impl FixedTryIntoU8 of TryInto<F64, u8> {
+pub impl F64TryIntoU8 of TryInto<F64, u8> {
     fn try_into(self: F64) -> Option<u8> {
         if self.d < 0 {
             return Option::None(());
@@ -221,26 +221,26 @@ impl FixedTryIntoU8 of TryInto<F64, u8> {
     }
 }
 
-impl U8IntoFixed of Into<u8, F64> {
+pub impl U8IntoF64 of Into<u8, F64> {
     fn into(self: u8) -> F64 {
         FixedTrait::new_unscaled(self.into())
     }
 }
 
-impl U16IntoFixed of Into<u16, F64> {
+pub impl U16IntoF64 of Into<u16, F64> {
     fn into(self: u16) -> F64 {
         FixedTrait::new_unscaled(self.into())
     }
 }
 
-impl U32IntoFixed of Into<u32, F64> {
+pub impl U32IntoF64 of Into<u32, F64> {
     fn into(self: u32) -> F64 {
         FixedTrait::new_unscaled(self.into())
     }
 }
 
 
-impl F16PartialEq of PartialEq<F64> {
+pub impl F64PartialEq of PartialEq<F64> {
     #[inline(always)]
     fn eq(lhs: @F64, rhs: @F64) -> bool {
         return ops::eq(lhs, rhs);
@@ -253,26 +253,26 @@ impl F16PartialEq of PartialEq<F64> {
 }
 
 
-impl F16Add of Add<F64> {
+pub impl F64Add of Add<F64> {
     fn add(lhs: F64, rhs: F64) -> F64 {
         return ops::add(lhs, rhs);
     }
 }
 
-impl F16AddAssign of core::ops::AddAssign<F64, F64> {
+pub impl F64AddAssign of core::ops::AddAssign<F64, F64> {
     #[inline(always)]
     fn add_assign(ref self: F64, rhs: F64) {
         self = Add::add(self, rhs);
     }
 }
 
-impl F16Sub of Sub<F64> {
+pub impl F64Sub of Sub<F64> {
     fn sub(lhs: F64, rhs: F64) -> F64 {
         return ops::sub(lhs, rhs);
     }
 }
 
-impl F16SubAssign of core::ops::SubAssign<F64, F64> {
+pub impl F64SubAssign of core::ops::SubAssign<F64, F64> {
     #[inline(always)]
     fn sub_assign(ref self: F64, rhs: F64) {
         self = Sub::sub(self, rhs);
@@ -280,33 +280,33 @@ impl F16SubAssign of core::ops::SubAssign<F64, F64> {
 }
 
 
-impl F16Mul of Mul<F64> {
+pub impl F64Mul of Mul<F64> {
     fn mul(lhs: F64, rhs: F64) -> F64 {
         return ops::mul(lhs, rhs);
     }
 }
 
-impl F16MulAssign of core::ops::MulAssign<F64, F64> {
+pub impl F64MulAssign of core::ops::MulAssign<F64, F64> {
     #[inline(always)]
     fn mul_assign(ref self: F64, rhs: F64) {
         self = Mul::mul(self, rhs);
     }
 }
 
-impl F16Div of Div<F64> {
+pub impl F64Div of Div<F64> {
     fn div(lhs: F64, rhs: F64) -> F64 {
         return ops::div(lhs, rhs);
     }
 }
 
-impl F16DivAssign of core::ops::DivAssign<F64, F64> {
+pub impl F64DivAssign of core::ops::DivAssign<F64, F64> {
     #[inline(always)]
     fn div_assign(ref self: F64, rhs: F64) {
         self = Div::div(self, rhs);
     }
 }
 
-impl F16PartialOrd of PartialOrd<F64> {
+pub impl F64PartialOrd of PartialOrd<F64> {
     #[inline(always)]
     fn ge(lhs: F64, rhs: F64) -> bool {
         return ops::ge(lhs, rhs);
@@ -328,21 +328,21 @@ impl F16PartialOrd of PartialOrd<F64> {
     }
 }
 
-impl F16Neg of Neg<F64> {
+pub impl F64Neg of Neg<F64> {
     #[inline(always)]
     fn neg(a: F64) -> F64 {
         return ops::neg(a);
     }
 }
 
-impl F16Rem of Rem<F64> {
+pub impl F64Rem of Rem<F64> {
     #[inline(always)]
     fn rem(lhs: F64, rhs: F64) -> F64 {
         return ops::rem(lhs, rhs);
     }
 }
 
-impl F16Zero of core::num::traits::Zero<F64> {
+pub impl F64Zero of core::num::traits::Zero<F64> {
     fn zero() -> F64 {
         F64 { d: 0 }
     }
@@ -357,7 +357,7 @@ impl F16Zero of core::num::traits::Zero<F64> {
 }
 
 // One trait implementations
-impl F16One of core::num::traits::One<F64> {
+pub impl F64One of core::num::traits::One<F64> {
     fn one() -> F64 {
         F64 { d: ONE }
     }

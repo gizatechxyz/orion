@@ -1,6 +1,6 @@
 pub mod f64;
 
-trait FixedTrait<T, S> {
+pub trait FixedTrait<T, S> {
     fn ZERO() -> T;
     fn ONE() -> T;
 
@@ -41,3 +41,9 @@ trait FixedTrait<T, S> {
 
     fn erf(self: T) -> T;
 }
+
+pub use f64::{
+    F64, F64Add, F64AddAssign, F64Div, F64DivAssign, F64Mul, F64MulAssign, F64Neg, F64One,
+    F64PartialEq, F64PartialOrd, F64Rem, F64Sub, F64SubAssign, F64Zero, F64Impl, F64IntoFelt252,
+    F64TryIntoU128, F64TryIntoU16, F64TryIntoU32, F64TryIntoU64, F64TryIntoU8,
+};
