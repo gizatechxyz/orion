@@ -102,13 +102,9 @@ pub fn cdf<
                 };
 
                 // Calculate: 0.5 * (1.0 + erf((x_val - loc_val) / (scale_val * sqrt(2.0))))
-                let sqrt_2 = FixedTrait::sqrt(FixedTrait::TWO());
-                let x_minus_loc = *x_val - loc_val;
-                let scale_times_sqrt_2 = scale_val * sqrt_2;
-                let division_result = x_minus_loc / scale_times_sqrt_2;
-                let erf_result = FixedTrait::erf(division_result);
-                let one_plus_erf = FixedTrait::ONE() + erf_result;
-                let calc = FixedTrait::HALF() * one_plus_erf;
+                let calc = FixedTrait::HALF()
+                    * (FixedTrait::ONE()
+                        + ((*x_val - loc_val) / (scale_val * FixedTrait::TWO().sqrt())).erf());
 
                 res_data.append(calc);
             },
@@ -123,26 +119,27 @@ pub fn cdf<
 mod tests {
     use super::cdf;
     use orion_numbers::{F64, F64Impl, f64::helpers::{assert_relative_span, assert_relative}};
-    // #[test]
-// fn test_cdf_loc_scale_are_none() {
-//     let x: Span<F64> = array![F64Impl::ONE(), F64Impl::HALF(), F64Impl::ZERO()].span();
+    #[test]
+    fn test_cdf_loc_scale_are_none() {
+        let x: Span<F64> = array![F64Impl::ONE(), F64Impl::HALF(), F64Impl::ZERO()].span();
 
-    //     let res = cdf(x, Option::None, Option::None);
-//     let expected: Span<felt252> = array![3613548169, 2969808657, 2147483648].span();
+        let res = cdf(x, Option::None, Option::None);
+        let expected: Span<felt252> = array![3613548169, 2969808657, 2147483648].span();
 
-    //     assert_relative_span(res, expected, 'res != expected', Option::None);
-// }
-// #[test]
-// fn test_cdf_loc_scale_are_some() {
-//     let x: Span<F64> = array![F64Impl::ONE(), F64Impl::HALF(), F64Impl::ZERO()].span();
+        assert_relative_span(res, expected, 'res != expected', Option::Some(4294967));
+    }
 
-    //     let loc: Span<F64> = array![F64Impl::HALF(), F64Impl::HALF(), F64Impl::HALF()].span();
+    #[test]
+    fn test_cdf_loc_scale_are_some() {
+        let x: Span<F64> = array![F64Impl::ONE(), F64Impl::HALF(), F64Impl::ZERO()].span();
 
-    //     let scale: Span<F64> = array![F64Impl::HALF(), F64Impl::HALF(), F64Impl::HALF()].span();
+        let loc: Span<F64> = array![F64Impl::HALF(), F64Impl::HALF(), F64Impl::HALF()].span();
 
-    //     let res = cdf(x, Option::Some(loc), Option::Some(scale));
-//     let expected = array![3613548169, 2147483648, 681419126].span();
+        let scale: Span<F64> = array![F64Impl::HALF(), F64Impl::HALF(), F64Impl::HALF()].span();
 
-    //     assert_relative_span(res, expected, 'res != expected', Option::None);
-// }
+        let res = cdf(x, Option::Some(loc), Option::Some(scale));
+        let expected = array![3613548169, 2147483648, 681419126].span();
+
+        assert_relative_span(res, expected, 'res != expected', Option::Some(4294967));
+    }
 }

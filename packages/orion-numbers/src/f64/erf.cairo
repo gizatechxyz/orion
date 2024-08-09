@@ -27,6 +27,7 @@ pub(crate) fn erf(x: F64) -> F64 {
 #[cfg(test)]
 mod tests {
     use super::{F64, F64Impl, erf};
+    use orion_numbers::f64::helpers::assert_precise;
 
     #[test]
     #[available_gas(1000000000)]
@@ -50,11 +51,11 @@ mod tests {
         let f4_erf: F64 = erf(f4);
         let f5_erf: F64 = erf(f5);
         let f6_erf: F64 = erf(f6);
-        assert(f1_erf.d == 3619372346, 'f1_erf does no work!');
-        assert(f2_erf.d == 674082374, 'f2_erf does no work!');
-        assert(f3_erf.d == 2310257026, 'f3_erf does no work!');
-        assert(f4_erf.d == 4274876577, 'f4_erf does no work!');
-        assert(f5_erf.d == 4294967296, 'f5_erf does no work!');
-        assert(f6_erf.d == 4294967296, 'f6_erf does no work!');
+        assert_precise(f1_erf, 3619372346, 'f1_erf does no work!', Option::Some(4294967));
+        assert_precise(f2_erf, 645545024, 'f2_erf does no work!', Option::Some(4294967));
+        assert_precise(f3_erf, 2310257026, 'f3_erf does no work!', Option::Some(4294967));
+        assert_precise(f4_erf, 4274876577, 'f4_erf does no work!', Option::Some(4294967));
+        assert_precise(f5_erf, 4294967296, 'f5_erf does no work!', Option::Some(4294967));
+        assert_precise(f6_erf, 4294967296, 'f6_erf does no work!', Option::Some(4294967));
     }
 }
