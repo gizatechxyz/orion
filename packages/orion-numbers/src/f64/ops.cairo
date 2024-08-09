@@ -259,7 +259,6 @@ pub(crate) fn sub(a: F64, b: F64) -> F64 {
 
 #[cfg(test)]
 mod tests {
-    use orion_numbers::f64::trig::{PI, HALF_PI};
     use orion_numbers::f64::helpers::{assert_precise, assert_relative};
 
     use super::{
@@ -273,27 +272,6 @@ mod tests {
         assert(a.d == 5 * ONE, 'invalid result');
     }
 
-    #[test]
-    #[available_gas(1000000)]
-    fn test_acos() {
-        let a: F64 = FixedTrait::ONE();
-        assert(a.acos().into() == 0, 'invalid one');
-    }
-
-    #[test]
-    #[available_gas(1000000)]
-    fn test_asin() {
-        let a = FixedTrait::ONE();
-        assert_precise(a.asin(), HALF_PI.into(), 'invalid one', Option::None(())); // PI / 2
-    }
-
-    // TODO: fix it
-    // #[test]
-    // #[available_gas(2000000)]
-    // fn test_atan() {
-    //     let a = FixedTrait::new(2 * ONE);
-    //     assert_relative(a.atan(), 4755167535, 'invalid two', Option::None(()));
-    // }
 
     #[test]
     fn test_ceil() {
@@ -561,26 +539,5 @@ mod tests {
         assert(c > a == false, 'c > a');
         assert(c > b == false, 'c > b');
         assert(c > c == false, 'c > c');
-    }
-
-    #[test]
-    #[available_gas(1000000)]
-    fn test_cos() {
-        let a: F64 = FixedTrait::new(HALF_PI);
-        assert(a.cos().into() == 0, 'invalid half pi');
-    }
-
-    #[test]
-    #[available_gas(1000000)]
-    fn test_sin() {
-        let a: F64 = FixedTrait::new(HALF_PI);
-        assert_precise(a.sin(), ONE.into(), 'invalid half pi', Option::None(()));
-    }
-
-    #[test]
-    #[available_gas(2000000)]
-    fn test_tan() {
-        let a: F64 = FixedTrait::new(HALF_PI / 2);
-        assert(a.tan().d == ONE, 'invalid quarter pi');
     }
 }

@@ -1,7 +1,5 @@
 pub(crate) mod ops;
 pub(crate) mod lut;
-pub(crate) mod trig;
-pub(crate) mod hyp;
 pub(crate) mod comp;
 pub(crate) mod erf;
 pub mod helpers;
@@ -70,28 +68,28 @@ pub impl F64Impl of FixedTrait<F64, i64> {
     }
 
     fn acos(self: F64) -> F64 {
-        return trig::acos_fast(self);
+        panic!("Not implemented yet!")
     }
 
     fn acosh(self: F64) -> F64 {
-        return hyp::acosh(self);
+        panic!("Not implemented yet!")
     }
 
     fn asin(self: F64) -> F64 {
-        return trig::asin_fast(self);
+        panic!("Not implemented yet!")
     }
 
 
     fn asinh(self: F64) -> F64 {
-        return hyp::asinh(self);
+        panic!("Not implemented yet!")
     }
 
     fn atan(self: F64) -> F64 {
-        return trig::atan_fast(self);
+        panic!("Not implemented yet!")
     }
 
     fn atanh(self: F64) -> F64 {
-        return hyp::atanh(self);
+        panic!("Not implemented yet!")
     }
 
     fn ceil(self: F64) -> F64 {
@@ -99,11 +97,11 @@ pub impl F64Impl of FixedTrait<F64, i64> {
     }
 
     fn cos(self: F64) -> F64 {
-        return trig::cos_fast(self);
+        panic!("Not implemented yet!")
     }
 
     fn cosh(self: F64) -> F64 {
-        return hyp::cosh(self);
+        panic!("Not implemented yet!")
     }
 
     fn floor(self: F64) -> F64 {
@@ -150,11 +148,11 @@ pub impl F64Impl of FixedTrait<F64, i64> {
     }
 
     fn sin(self: F64) -> F64 {
-        return trig::sin_fast(self);
+        panic!("Not implemented yet!")
     }
 
     fn sinh(self: F64) -> F64 {
-        return hyp::sinh(self);
+        panic!("Not implemented yet!")
     }
 
     // Calculates the square root of a fixed point value
@@ -164,11 +162,11 @@ pub impl F64Impl of FixedTrait<F64, i64> {
     }
 
     fn tan(self: F64) -> F64 {
-        return trig::tan_fast(self);
+        panic!("Not implemented yet!")
     }
 
     fn tanh(self: F64) -> F64 {
-        return hyp::tanh(self);
+        panic!("Not implemented yet!")
     }
 
     fn erf(self: F64) -> F64 {
