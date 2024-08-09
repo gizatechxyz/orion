@@ -1,8 +1,8 @@
-pub mod span_f32x32;
-pub mod span_f16x16;
+pub mod span_fixed;
 
-use span_f16x16::F16x16SpanMath;
-use span_f32x32::F32x32SpanMath;
+use orion_numbers::FixedTrait;
+
+use span_fixed::FixedSpanMath;
 
 pub trait SpanMathTrait<T> {
     fn arange(n: u32) -> Span<T>;

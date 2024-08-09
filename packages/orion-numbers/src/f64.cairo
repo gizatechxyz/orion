@@ -4,7 +4,7 @@ pub(crate) mod trig;
 pub(crate) mod hyp;
 pub(crate) mod comp;
 pub(crate) mod erf;
-pub(crate) mod helpers;
+pub mod helpers;
 
 use orion_numbers::FixedTrait;
 
@@ -13,7 +13,8 @@ use orion_numbers::FixedTrait;
 pub const TWO: i64 = 8589934592; // 2 ** 33
 pub const ONE: i64 = 4294967296; // 2 ** 32
 pub const HALF: i64 = 2147483648; // 2 ** 31
-pub const MAX_i128: i128 = 18_446_744_073_709_551_615; //2**64 - 1
+pub const MAX: i64 = 9223372036854775807; //2**63 - 1
+const MIN: i64 = -9223372036854775808; // -2 ** 63
 
 // STRUCTS
 
@@ -28,8 +29,24 @@ pub impl F64Impl of FixedTrait<F64, i64> {
         return core::num::traits::Zero::zero();
     }
 
+    fn HALF() -> F64 {
+        return F64 { d: HALF };
+    }
+
     fn ONE() -> F64 {
         return core::num::traits::One::one();
+    }
+
+    fn TWO() -> F64 {
+        return F64 { d: TWO };
+    }
+
+    fn MIN() -> F64 {
+        return F64 { d: MIN };
+    }
+
+    fn MAX() -> F64 {
+        return F64 { d: MAX };
     }
 
     fn new(val: i64) -> F64 {

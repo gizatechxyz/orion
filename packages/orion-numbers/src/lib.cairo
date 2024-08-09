@@ -3,6 +3,10 @@ pub mod f64;
 pub trait FixedTrait<T, S> {
     fn ZERO() -> T;
     fn ONE() -> T;
+    fn HALF() -> T;
+    fn TWO() -> T;
+    fn MIN() -> T;
+    fn MAX() -> T;
 
     // Constructors
     fn new(val: S) -> T;
