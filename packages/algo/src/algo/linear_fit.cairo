@@ -1,4 +1,4 @@
-use orion_algo::span_math::SpanMathTrait;
+use orion_data_structures::SpanMathTrait;
 use orion_numbers::FixedTrait;
 
 /// Performs a linear least squares fitting to provided data points. This function calculates

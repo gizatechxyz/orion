@@ -1,6 +1,6 @@
 use core::array::{SpanTrait, SpanIter};
-use orion_algo::span_math::SpanMathTrait;
 use orion_numbers::FixedTrait;
+use orion_data_structures::SpanMathTrait;
 
 /// Computes the cumulative distribution function (CDF) for a given set of values using the
 /// standard normal distribution formula. This implementation allows for optional location (`loc`)

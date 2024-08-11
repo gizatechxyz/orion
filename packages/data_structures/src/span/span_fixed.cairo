@@ -2,7 +2,7 @@ use core::ops::AddAssign;
 
 use orion_numbers::{FixedTrait};
 
-use orion_algo::span_math::SpanMathTrait;
+use super::SpanMathTrait;
 
 
 pub impl FixedSpanMath<

@@ -1,5 +1,5 @@
 [package]
-name = "orion_algo"
+name = "orion_data_structures"
 version = "0.1.0"
 edition = "2023_11"
 
@@ -10,7 +10,6 @@ cairo_test = "2.7.0"
 
 [dependencies]
 orion_numbers = { path = "../numbers" }
-orion_data_structures = { path = "../data_structures" }
 
 [cairo]
 enable-gas=false

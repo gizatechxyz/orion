@@ -1,5 +1,10 @@
 [workspace]
-members = ["packages/algo", "packages/ml", "packages/numbers"]
+members = [
+    "packages/algo",
+    "packages/ml",
+    "packages/numbers",
+    "package/data_structures",
+]
 name = "orion"
 version = "0.1.0"
 description = "Cairo libraries to build the intelligence of verifiable agents"
@@ -15,4 +20,3 @@ definitions = "proto/orion.proto"
 
 [cairo]
 enable-gas = false
-
