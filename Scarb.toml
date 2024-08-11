@@ -4,7 +4,6 @@ members = [
     "packages/machine-learning",
     "packages/numbers",
     "packages/data-structures",
-    "packages/deep-learning",
 ]
 name = "orion"
 version = "0.1.0"
