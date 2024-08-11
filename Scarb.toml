@@ -1,0 +1,18 @@
+[workspace]
+members = ["packages/algo", "packages/ml", "packages/numbers"]
+name = "orion"
+version = "0.1.0"
+description = "Cairo libraries to build the intelligence of verifiable agents"
+homepage = "https://github.com/gizatechxyz/orion/"
+cairo-version = "2.7.0"
+
+[dev-dependencies]
+cairo_test = "2.7.0"
+
+[tool.hints]
+definitions = "proto/orion.proto"
+
+
+[cairo]
+enable-gas = false
+
