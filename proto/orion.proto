@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package orion;
+
+message F64 {
+    int64 d = 1;
+}
