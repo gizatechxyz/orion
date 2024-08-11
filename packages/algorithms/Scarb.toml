@@ -10,7 +10,7 @@ cairo_test = "2.7.0"
 
 [dependencies]
 orion_numbers = { path = "../numbers" }
-orion_data_structures = { path = "../data_structures" }
+orion_data_structures = { path = "../data-structures" }
 
 [cairo]
 enable-gas=false
