@@ -1,5 +1,9 @@
+pub(crate) mod ops;
 pub(crate) mod utils;
-pub mod tensor;
 
+pub use ops::binary::{BinaryOpMetadata, tensor_add, tensor_mul};
 
-pub use tensor::Tensor;
+#[derive(Drop, Copy)]
+pub struct Tensor<T> {
+    pub data: Span<T>,
+}
