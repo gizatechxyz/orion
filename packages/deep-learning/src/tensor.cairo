@@ -7,23 +7,29 @@ struct Tensor<T> {
 struct BinaryOpMetadata {
     lhs_indices: Span<usize>,
     rhs_indices: Span<usize>,
-    result_len: usize,
 }
 
 fn tensor_add<T, +Add<T>, +Copy<T>, +Drop<T>>(
-    lhs: Tensor<T>, rhs: Tensor<T>, metadata: BinaryOpMetadata
+    lhs: Tensor<T>, rhs: Tensor<T>, ref metadata: BinaryOpMetadata
 ) -> Tensor<T> {
     let mut result_data = ArrayTrait::new();
 
-    let mut i: usize = 0;
     loop {
-        if i == metadata.result_len {
-            break;
-        }
-        let lhs_value = *lhs.data.at(*metadata.lhs_indices.at(i));
-        let rhs_value = *rhs.data.at(*metadata.rhs_indices.at(i));
-        result_data.append(lhs_value + rhs_value);
-        i += 1;
+        match metadata.lhs_indices.pop_front() {
+            Option::Some(lhs_index) => {
+                match metadata.rhs_indices.pop_front() {
+                    Option::Some(rhs_index) => {
+                        let lhs_value = *lhs.data.at(*lhs_index);
+                        let rhs_value = *rhs.data.at(*rhs_index);
+                        result_data.append(lhs_value + rhs_value);
+                    },
+                    Option::None(_) => {
+                        break; // This should never happen if metadata is correct
+                    }
+                }
+            },
+            Option::None(_) => { break; }
+        };
     };
 
     Tensor { data: result_data.span() }
@@ -41,17 +47,14 @@ mod tests {
         let rhs_data: Array<i32> = array![10, 20, 30];
         let lhs_indices: Array<usize> = array![0, 1, 2, 3, 4, 5];
         let rhs_indices: Array<usize> = array![0, 1, 2, 0, 1, 2];
-        let result_len = 6;
 
         let lhs = Tensor { data: lhs_data.span() };
         let rhs = Tensor { data: rhs_data.span() };
-        let info = BinaryOpMetadata {
-            lhs_indices: lhs_indices.span(),
-            rhs_indices: rhs_indices.span(),
-            result_len: result_len,
+        let mut info = BinaryOpMetadata {
+            lhs_indices: lhs_indices.span(), rhs_indices: rhs_indices.span(),
         };
 
-        let result = tensor_add(lhs, rhs, info);
+        let result = tensor_add(lhs, rhs, ref info);
 
         let expected = array![11, 22, 33, 14, 25, 36];
         let mut i = 0;

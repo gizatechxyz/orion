@@ -9,7 +9,7 @@ edition = "2023_11"
 cairo_test = "2.7.0"
 
 [dependencies]
-orion_numbers = { path = "../numbers" }
+# orion_numbers = { path = "../numbers" }
 
 [cairo]
 enable-gas = false
