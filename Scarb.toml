@@ -20,4 +20,4 @@ definitions = "proto/orion.proto"
 
 
 [cairo]
-enable-gas = true
+enable-gas = false

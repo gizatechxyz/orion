@@ -1,15 +1,15 @@
 #[derive(Drop, Copy)]
-struct Tensor<T> {
-    data: Span<T>,
+pub struct Tensor<T> {
+    pub data: Span<T>,
 }
 
 #[derive(Drop, Copy)]
-struct BinaryOpMetadata {
-    lhs_indices: Span<usize>,
-    rhs_indices: Span<usize>,
+pub struct BinaryOpMetadata {
+    pub lhs_indices: Span<usize>,
+    pub rhs_indices: Span<usize>,
 }
 
-fn tensor_add<T, +Add<T>, +Copy<T>, +Drop<T>>(
+pub fn tensor_add<T, +Add<T>, +Copy<T>, +Drop<T>>(
     lhs: Tensor<T>, rhs: Tensor<T>, ref metadata: BinaryOpMetadata
 ) -> Tensor<T> {
     let mut result_data = ArrayTrait::new();
