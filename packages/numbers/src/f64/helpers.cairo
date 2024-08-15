@@ -1,6 +1,15 @@
 use super::{F64Impl, F64, FixedTrait};
+use core::integer::i64_diff;
 
 const DEFAULT_PRECISION: i64 = 430; // 1e-7
+
+pub(crate) fn abs_and_sign(self: i64) -> (u64, bool) {
+    match i64_diff(self, 0) {
+        Result::Ok(v) => (v, false),
+        Result::Err(v) => (~v + 1, true),
+    }
+}
+
 
 // To use `DEFAULT_PRECISION`, final arg is: `Option::None(())`.
 // To use `custom_precision` of 430_i64: `Option::Some(430_i64)`.

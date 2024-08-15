@@ -1,4 +1,5 @@
 pub(crate) mod ops;
+pub(crate) mod trig;
 pub(crate) mod lut;
 pub(crate) mod comp;
 pub(crate) mod erf;
@@ -148,7 +149,7 @@ pub impl F64Impl of FixedTrait<F64, i64> {
     }
 
     fn sin(self: F64) -> F64 {
-        panic!("Not implemented yet!")
+        return trig::sin_fast(self);
     }
 
     fn sinh(self: F64) -> F64 {
