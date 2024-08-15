@@ -46,9 +46,24 @@ pub(crate) fn tensor_sin<T, S, +FixedTrait<T, S>, +Copy<T>, +Drop<T>>(
     Tensor { data: result_data.span() }
 }
 
+pub(crate) fn tensor_sqrt<T, S, +FixedTrait<T, S>, +Copy<T>, +Drop<T>>(
+    ref self: Tensor<T>
+) -> Tensor<T> {
+    let mut result_data = ArrayTrait::new();
+
+    loop {
+        match self.data.pop_front() {
+            Option::Some(ele) => { result_data.append(FixedTrait::sqrt(*ele)); },
+            Option::None(_) => { break; }
+        };
+    };
+
+    Tensor { data: result_data.span() }
+}
+
 #[cfg(test)]
 mod tests {
-    use super::{Tensor, tensor_log2, tensor_exp2, tensor_sin};
+    use super::{Tensor, tensor_log2, tensor_exp2, tensor_sin, tensor_sqrt};
     use orion_numbers::{F64, F64Impl, f64::helpers::assert_precise_span};
 
     #[test]
@@ -99,5 +114,21 @@ mod tests {
         let expected = array![3614090360, 3905402710, 606105819, -3250441966].span();
 
         assert_precise_span(result.data, expected, 'Incorrect sin result', error);
+    }
+
+    #[test]
+    fn test_tensor_sqrt() {
+        let self_data: Array<F64> = array![
+            F64Impl::new_unscaled(1),
+            F64Impl::new_unscaled(2),
+            F64Impl::new_unscaled(3),
+            F64Impl::new_unscaled(4),
+        ];
+        let mut self = Tensor { data: self_data.span() };
+
+        let result = tensor_sqrt(ref self);
+        let expected = array![4294967296, 6074000999, 7439101573, 8589934592].span();
+
+        assert_precise_span(result.data, expected, 'Incorrect sin result', Option::None);
     }
 }
