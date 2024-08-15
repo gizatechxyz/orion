@@ -1,5 +1,4 @@
 use core::num::traits::{Zero, One};
-
 use orion_dl::Tensor;
 
 #[derive(Drop, Copy)]
@@ -122,7 +121,6 @@ mod tests {
     use super::{Tensor, BinaryOpMetadata, tensor_add, tensor_mul, tensor_rem, tensor_lt};
 
     #[test]
-    #[available_gas(20000000)]
     fn test_tensor_add() {
         // This would be precomputed
         let lhs_data: Array<i32> = array![1, 2, 3, 4, 5, 6];
@@ -150,7 +148,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(20000000)]
     fn test_tensor_mul() {
         // This would be precomputed
         let lhs_data: Array<i32> = array![1, 2, 3, 4, 5, 6];
@@ -178,7 +175,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(20000000)]
     fn test_tensor_rem() {
         // This would be precomputed
         let lhs_data: Array<i32> = array![10, 11, 12, 13, 14, 15];
@@ -206,7 +202,6 @@ mod tests {
     }
 
     #[test]
-    #[available_gas(20000000)]
     fn test_tensor_lt() {
         // This would be precomputed
         let lhs_data: Array<i32> = array![1, 2, 3, 4, 5, 6];
