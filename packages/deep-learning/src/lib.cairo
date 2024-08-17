@@ -3,6 +3,7 @@ pub(crate) mod utils;
 
 pub use ops::binary::{BinaryOpMetadata, tensor_add, tensor_mul, tensor_rem, tensor_lt};
 pub use ops::unary::{tensor_log2, tensor_exp2, tensor_sin, tensor_sqrt, tensor_recip};
+pub use ops::reduce::{tensor_reduce_sum, ReduceOpMetadata};
 
 #[derive(Drop, Copy)]
 pub struct Tensor<T> {
