@@ -1,6 +1,7 @@
 use core::num::traits::Zero;
 use core::fmt::Debug;
-use orion_dl::Tensor;
+use orion_dl::{Tensor, MutTensor};
+use orion_data_structures::vec::{NullableVec, VecTrait};
 use core::ops::AddAssign;
 
 
@@ -10,62 +11,71 @@ pub(crate) struct ReduceOpMetadata {
     output_size: usize,
 }
 
-pub(crate) fn tensor_reduce_sum<
-    T, +Add<T>, +AddAssign<T, T>, +Zero<T>, +Copy<T>, +Drop<T>, +Debug<T>
->(
-    mut input: Tensor<T>, ref metadata: ReduceOpMetadata
+pub(crate) fn tensor_reduce_sum_1d<T, +Add<T>, +Zero<T>, +Copy<T>, +Drop<T>, +Debug<T>>(
+    mut input: Tensor<T>
 ) -> Tensor<T> {
+    let mut result = Zero::<T>::zero();
+
+    loop {
+        match input.data.pop_front() {
+            Option::Some(input_value) => { result = result + *input_value; },
+            Option::None(_) => { break; }
+        };
+    };
+
     let mut result_data = ArrayTrait::new();
-    let mut partial_sums = ArrayTrait::new();
-    let mut partial_indices = ArrayTrait::new();
+    result_data.append(result);
+
+    Tensor { data: result_data.span() }
+}
+
+pub(crate) fn tensor_reduce_sum_nd<T, +Add<T>, +Copy<T>, +Drop<T>, +Debug<T>, +Zero<T>>(
+    mut input: Tensor<T>, ref metadata: ReduceOpMetadata
+) -> MutTensor<T> {
+    let mut result_data: NullableVec<T> = VecTrait::new(metadata.output_size);
 
     loop {
         match input.data.pop_front() {
             Option::Some(input_value) => {
                 match metadata.output_indices.pop_front() {
                     Option::Some(output_index) => {
-                        partial_sums.append(*input_value);
-                        partial_indices.append(*output_index);
+                        let current_sum = result_data.at(*output_index);
+                        result_data.set(*output_index, current_sum + *input_value);
                     },
                     Option::None(_) => {
                         break; // This should never happen if metadata is correct
                     }
                 }
             },
-            Option::None(_) => { break; }
-        };
-    };
-
-    // Combine partial sums
-    let mut i = 0;
-    loop {
-        if i == metadata.output_size {
-            break;
+            Option::None => { break; },
         }
-        let mut current_sum = Zero::<T>::zero();
-        let mut partial_sums_span = partial_sums.span();
-        let mut partial_indices_span = partial_indices.span();
-        loop {
-            match partial_indices_span.pop_front() {
-                Option::Some(index) => {
-                    let sum = partial_sums_span.pop_front().unwrap();
-                    if *index == i {
-                        current_sum = current_sum + *sum
-                    }
-                },
-                Option::None(_) => { break; }
-            }
-        };
-        result_data.append(current_sum);
-        i += 1;
     };
 
-    Tensor { data: result_data.span() }
+    MutTensor { data: result_data }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{Tensor, ReduceOpMetadata, tensor_reduce_sum};
+    use super::{
+        Tensor, MutTensor, VecTrait, NullableVec, ReduceOpMetadata, tensor_reduce_sum_1d,
+        tensor_reduce_sum_nd
+    };
+
+
+    #[test]
+    #[available_gas(20000000)]
+    fn test_tensor_reduce_sum_1d() {
+        // Test case: Reduce sum along axis 0 for a 1D tensor (full reduction)
+        let input_data: Array<u32> = array![1, 2, 3, 4, 5];
+
+        let input = Tensor { data: input_data.span() };
+
+        let result = tensor_reduce_sum_1d(input);
+
+        let expected = array![15]; // [1+2+3+4+5]
+        assert_eq!(result.data.len(), expected.len(), "Incorrect result length");
+        assert_eq!(*result.data.at(0), *expected[0], "Incorrect sum");
+    }
 
     #[test]
     #[available_gas(20000000)]
@@ -79,12 +89,12 @@ mod tests {
             output_indices: output_indices.span(), output_size: 2,
         };
 
-        let result = tensor_reduce_sum(input, ref metadata);
+        let mut result = tensor_reduce_sum_nd(input, ref metadata);
 
         let expected = array![6, 15]; // [1+2+3, 4+5+6]
         assert_eq!(result.data.len(), expected.len(), "Incorrect result length");
-        assert_eq!(*result.data.at(0), *expected[0], "Incorrect first sum");
-        assert_eq!(*result.data.at(1), *expected[1], "Incorrect second sum");
+        assert_eq!(result.data.at(0), *expected[0], "Incorrect first sum");
+        assert_eq!(result.data.at(1), *expected[1], "Incorrect second sum");
     }
 
     #[test]
@@ -99,7 +109,7 @@ mod tests {
             output_indices: output_indices.span(), output_size: 4,
         };
 
-        let result = tensor_reduce_sum(input, ref metadata);
+        let mut result = tensor_reduce_sum_nd(input, ref metadata);
 
         let expected = array![6, 8, 10, 12]; // [1+5, 2+6, 3+7, 4+8]
         assert_eq!(result.data.len(), expected.len(), "Incorrect result length");
@@ -108,7 +118,7 @@ mod tests {
             if i == expected.len() {
                 break;
             }
-            assert_eq!(*result.data.at(i), *expected[i], "Incorrect sum at index");
+            assert_eq!(result.data.at(i), *expected[i], "Incorrect sum at index");
             i += 1;
         };
     }
@@ -125,7 +135,7 @@ mod tests {
             output_indices: output_indices.span(), output_size: 4,
         };
 
-        let result = tensor_reduce_sum(input, ref metadata);
+        let mut result = tensor_reduce_sum_nd(input, ref metadata);
 
         let expected = array![9, 12, 27, 30]; // [1+3+5, 2+4+6, 7+9+11, 8+10+12]
         assert_eq!(result.data.len(), expected.len(), "Incorrect result length");
@@ -134,28 +144,9 @@ mod tests {
             if i == expected.len() {
                 break;
             }
-            assert_eq!(*result.data.at(i), *expected[i], "Incorrect sum at index");
+            assert_eq!(result.data.at(i), *expected[i], "Incorrect sum at index");
             i += 1;
         };
-    }
-
-    #[test]
-    #[available_gas(20000000)]
-    fn test_tensor_reduce_sum_1d() {
-        // Test case: Reduce sum along axis 0 for a 1D tensor (full reduction)
-        let input_data: Array<u32> = array![1, 2, 3, 4, 5];
-        let output_indices: Array<usize> = array![0, 0, 0, 0, 0];
-
-        let input = Tensor { data: input_data.span() };
-        let mut metadata = ReduceOpMetadata {
-            output_indices: output_indices.span(), output_size: 1,
-        };
-
-        let result = tensor_reduce_sum(input, ref metadata);
-
-        let expected = array![15]; // [1+2+3+4+5]
-        assert_eq!(result.data.len(), expected.len(), "Incorrect result length");
-        assert_eq!(*result.data.at(0), *expected[0], "Incorrect sum");
     }
 
     #[test]
@@ -174,7 +165,7 @@ mod tests {
             output_indices: output_indices.span(), output_size: 8,
         };
 
-        let result = tensor_reduce_sum(input, ref metadata);
+        let mut result = tensor_reduce_sum_nd(input, ref metadata);
 
         let expected = array![9, 12, 27, 30, 45, 48, 63, 66];
         // [1+3+5, 2+4+6, 7+9+11, 8+10+12, 13+15+17, 14+16+18, 19+21+23, 20+22+24]
@@ -184,7 +175,7 @@ mod tests {
             if i == expected.len() {
                 break;
             }
-            assert_eq!(*result.data.at(i), *expected[i], "Incorrect sum at index");
+            assert_eq!(result.data.at(i), *expected[i], "Incorrect sum at index");
             i += 1;
         };
     }
