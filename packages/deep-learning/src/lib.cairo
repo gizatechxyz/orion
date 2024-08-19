@@ -1,9 +1,11 @@
 pub(crate) mod ops;
-pub(crate) mod utils;
 
 pub use ops::binary::{BinaryOpMetadata, tensor_add, tensor_mul, tensor_rem, tensor_lt};
 pub use ops::unary::{tensor_log2, tensor_exp2, tensor_sin, tensor_sqrt, tensor_recip};
-pub use ops::reduce::{tensor_reduce_sum_1d, tensor_reduce_sum_nd, ReduceOpMetadata};
+pub use ops::reduce::{
+    tensor_sum_reduce_1d, tensor_sum_reduce_nd, tensor_max_reduce_1d, tensor_max_reduce_nd,
+    ReduceOpMetadata
+};
 
 
 #[derive(Drop, Copy)]
