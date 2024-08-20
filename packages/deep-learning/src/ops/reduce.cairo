@@ -12,7 +12,7 @@ pub(crate) struct ReduceOpMetadata {
     output_size: usize,
 }
 
-pub(crate) fn tensor_sum_reduce_1d<T, +Add<T>, +Zero<T>, +Copy<T>, +Drop<T>, +Debug<T>>(
+pub(crate) fn tensor_sum_reduce_1d<T, +Add<T>, +Zero<T>, +Copy<T>, +Drop<T>>(
     mut input: Tensor<T>
 ) -> Tensor<T> {
     let mut result = Zero::<T>::zero();
@@ -30,7 +30,7 @@ pub(crate) fn tensor_sum_reduce_1d<T, +Add<T>, +Zero<T>, +Copy<T>, +Drop<T>, +De
     Tensor { data: result_data.span() }
 }
 
-pub(crate) fn tensor_sum_reduce_nd<T, +Add<T>, +Copy<T>, +Drop<T>, +Debug<T>, +Zero<T>>(
+pub(crate) fn tensor_sum_reduce_nd<T, +Add<T>, +Copy<T>, +Drop<T>, +Zero<T>>(
     mut input: Tensor<T>, ref metadata: ReduceOpMetadata
 ) -> MutTensor<T> {
     let mut result_data: NullableVec<T> = VecTrait::new(metadata.output_size);
@@ -56,7 +56,7 @@ pub(crate) fn tensor_sum_reduce_nd<T, +Add<T>, +Copy<T>, +Drop<T>, +Debug<T>, +Z
 }
 
 
-pub(crate) fn tensor_max_reduce_1d<T, +Copy<T>, +Drop<T>, +Debug<T>, +PartialOrd<T>>(
+pub(crate) fn tensor_max_reduce_1d<T, +Copy<T>, +Drop<T>, +PartialOrd<T>>(
     mut input: Tensor<T>
 ) -> Tensor<T> {
     let mut result: Option<T> = Option::None(());
@@ -79,7 +79,7 @@ pub(crate) fn tensor_max_reduce_1d<T, +Copy<T>, +Drop<T>, +Debug<T>, +PartialOrd
     Tensor { data: result_data.span() }
 }
 
-pub(crate) fn tensor_max_reduce_nd<T, +Copy<T>, +Drop<T>, +Debug<T>, +PartialOrd<T>, +Zero<T>>(
+pub(crate) fn tensor_max_reduce_nd<T, +Copy<T>, +Drop<T>, +PartialOrd<T>, +Zero<T>>(
     mut input: Tensor<T>, ref metadata: ReduceOpMetadata
 ) -> MutTensor<T> {
     let mut result_data: NullableVec<T> = VecTrait::new(metadata.output_size);
