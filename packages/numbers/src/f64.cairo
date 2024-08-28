@@ -14,6 +14,7 @@ pub const ONE: i64 = 4294967296; // 2 ** 32
 pub const HALF: i64 = 2147483648; // 2 ** 31
 pub const MAX: i64 = 9223372036854775807; //2**63 - 1
 const MIN: i64 = -9223372036854775808; // -2 ** 63
+pub const NaN: i64 = 0x4e614e;
 
 // STRUCTS
 

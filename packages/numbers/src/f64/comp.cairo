@@ -1,6 +1,10 @@
-use super::{F64, FixedTrait, F64Impl};
+use super::{F64, NaN, FixedTrait, F64Impl};
 
 fn max(a: F64, b: F64) -> F64 {
+    if a.d == NaN || b.d == NaN {
+        return F64 { d: NaN };
+    }
+
     if (a >= b) {
         return a;
     } else {
@@ -9,6 +13,10 @@ fn max(a: F64, b: F64) -> F64 {
 }
 
 fn min(a: F64, b: F64) -> F64 {
+    if a.d == NaN || b.d == NaN {
+        return F64 { d: NaN };
+    }
+
     if (a <= b) {
         return a;
     } else {

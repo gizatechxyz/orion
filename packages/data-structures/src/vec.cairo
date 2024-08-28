@@ -58,8 +58,8 @@ impl VecIndex<V, T, +VecTrait<V, T>> of Index<V, usize> {
 }
 
 pub struct NullableVec<T> {
-    items: Felt252Dict<Nullable<T>>,
-    len: usize,
+    pub items: Felt252Dict<Nullable<T>>,
+    pub len: usize,
 }
 
 impl DestructNullableVec<T, +Drop<T>> of Destruct<NullableVec<T>> {

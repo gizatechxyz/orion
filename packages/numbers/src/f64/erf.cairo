@@ -1,4 +1,4 @@
-use super::{F64, F64Impl, ONE};
+use super::{F64, NaN, F64Impl, ONE};
 use super::lut;
 
 const ERF_COMPUTATIONAL_ACCURACY: i64 = 100;
@@ -10,6 +10,10 @@ const MAX_ERF_NUMBER: i64 = 15032385536;
 const ERF_TRUNCATION_NUMBER: i64 = 8589934592;
 
 pub(crate) fn erf(x: F64) -> F64 {
+    if x.d == NaN {
+        return F64 { d: NaN };
+    }
+
     // Lookup
     // 1. if x.mag < 3.5 { lookup table }
     // 2. else{ return 1}

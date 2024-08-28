@@ -1,4 +1,4 @@
-use super::{F64, F64Impl, lut, helpers::abs_and_sign, HALF, ONE};
+use super::{F64, NaN, F64Impl, lut, helpers::abs_and_sign, HALF, ONE};
 
 const TWO_PI: i64 = 26986075409;
 const PI: i64 = 13493037705;
@@ -6,6 +6,10 @@ const HALF_PI: i64 = 6746518852;
 
 
 pub(crate) fn sin_fast(a: F64) -> F64 {
+    if a.d == NaN {
+        return F64 { d: NaN };
+    }
+
     let (a_abs, _) = abs_and_sign(a.d);
 
     let a1 = a_abs.try_into().unwrap() % TWO_PI;
