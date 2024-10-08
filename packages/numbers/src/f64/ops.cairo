@@ -8,8 +8,8 @@ pub(crate) fn abs(a: F64) -> F64 {
         return F64 { d: NaN };
     }
 
-    if a.d <= 0 {
-        F64 { d: a.d * ONE }
+    if a.d < 0 {
+        F64 { d: -a.d }
     } else {
         a
     }
@@ -416,6 +416,14 @@ mod tests {
     fn test_exp2() {
         let a = FixedTrait::new_unscaled(24);
         assert(exp2(a).d == 72057594037927936, 'invalid exp2 of 2');
+    }
+
+    #[test]
+    #[available_gas(400000)]
+    fn test_exp2_neg() {
+        let a: F64 = FixedTrait::new(-925062941);
+        println!("A: {:}", exp2(a).d);
+        assert(exp2(a).d == -6835341966, 'invalid exp2 of 2');
     }
 
     #[test]
