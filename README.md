@@ -17,13 +17,13 @@
 
 [![GitHub Workflow Status](https://github.com/gizatechxyz/orion/actions/workflows/test.yaml/badge.svg)](https://github.com/gizatechxyz/orion/actions/workflows/test.yaml)
 [![Project license](https://img.shields.io/github/license/gizatechxyz/orion.svg?style=flat-square)](LICENSE)
-[![Pull Requests welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg?style=flat-square)](https://github.com/gizatechxyz/orion/pulls)
+[![Pull Requests welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg?style=flat-square)](https://github.com/gizatechxyz/orion/issues)
 [![Discord](https://img.shields.io/discord/1067165013397213286?label=discord)](https://discord.gg/kvqVYbCpU3)
 </div>
 
 # Orion: An Open-source Framework for Validity and ZK ML ✨
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-32-orange.svg?style=flat-square)](https://github.com/gizatechxyz/orion/graphs/contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-32-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Orion is an open-source, community-driven framework dedicated to Provable Machine Learning. It provides essential components and a new ONNX runtime for building verifiable Machine Learning models using [STARKs](https://starkware.co/stark/).
