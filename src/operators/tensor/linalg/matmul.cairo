@@ -1,5 +1,6 @@
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::core::{Tensor, TensorTrait};
+use core::debug::PrintTrait;
 
 /// Cf: TensorTrait::matmul docstring
 fn matmul<
@@ -19,7 +20,7 @@ fn matmul<
     let self_ndim = (self_shape).len();
     let other_ndim = (other_shape).len();
 
-    assert(self_ndim <= 2 || other_ndim <= 2, 'supports only 1D and 2D matmul');
+    assert(self_ndim <= 3 || other_ndim <= 3, 'supports only 1D and 2D matmul');
 
     //! Case: Both tensors are 1-dimensional
     if self_ndim == 1 && other_ndim == 1 {
@@ -27,20 +28,33 @@ fn matmul<
         let mut result_shape = ArrayTrait::new();
         let mut result_data = ArrayTrait::new();
         result_shape.append(1);
-        result_data.append(dot);
+        result_data.append(dot); 
 
         return TensorTrait::new(result_shape.span(), result_data.span());
+    };
+
+     //! Case: if one tensors is 2-dimensional
+    if (self_ndim == 2 && other_ndim <= 2) || (self_ndim <= 2 && other_ndim == 2) {
+        let self_shape = prepare_shape_for_matmul(self_shape, true);
+        let other_shape = prepare_shape_for_matmul(other_shape, false);
+
+        let result = matrix_multiply(*self.data, self_shape, *other.data, other_shape);
+
+        let result_shape = adjust_output_shape_after_matmul(result.shape, self_ndim, other_ndim);
+
+        return TensorTrait::new(result_shape, result.data);
+    };
+
+     //! Case: Both tensors are 3-dimensional
+    let self_shape = prepare_shape_for_matmul_3d(self_shape);
+    let other_shape = prepare_shape_for_matmul_3d(other_shape);
+
+    let result = matrix_multiply_3d(*self.data, self_shape, *other.data, other_shape);
+
+    return  result;
+
     }
 
-    let self_shape = prepare_shape_for_matmul(self_shape, true);
-    let other_shape = prepare_shape_for_matmul(other_shape, false);
-
-    let result = matrix_multiply(*self.data, self_shape, *other.data, other_shape);
-
-    let result_shape = adjust_output_shape_after_matmul(result.shape, self_ndim, other_ndim);
-
-    TensorTrait::new(result_shape, result.data)
-}
 
 /// Computes the dot product of two 1-dimensional i32 tensors.
 ///
@@ -140,6 +154,69 @@ fn matrix_multiply<
     TensorTrait::new(result_shape.span(), result_data.span())
 }
 
+/// Computes the matrix multiplication of two 3-dimensional tensors.
+///
+/// # Arguments
+/// * `mat1` - A Span containing the data elements of the first 3D tensor.
+/// * `mat1_shape` - A Span containing the shape of the first 3D tensor as usize elements.
+/// * `mat2` - A Span containing the data elements of the second 3D tensor.
+/// * `mat2_shape` - A Span containing the shape of the second 3D tensor as usize elements.
+///
+/// # Panics
+/// * Panics if the inner dimensions of the tensors do not match.
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * Returns the resulting tensor after 3D matrix multiplication.
+fn matrix_multiply_3d<
+    T,
+    MAG,
+    impl TTensor: TensorTrait<T>,
+    impl TNumber: NumberTrait<T, MAG>,
+    impl TMul: Mul<T>,
+    impl TAddEq: AddEq<T>,
+    impl TCopy: Copy<T>,
+    impl TDrop: Drop<T>
+>(
+    mat1: Span<T>, mat1_shape: Span<usize>, mat2: Span<T>, mat2_shape: Span<usize>
+) -> Tensor<T> {
+
+    let l = *mat1_shape[0];
+    let m = *mat1_shape[1];
+    let n = *mat1_shape[2];
+    let p = *mat2_shape[1];
+    let q = *mat2_shape[2];
+
+    assert(n == p , 'shape incompatible');
+
+    let mut result_data: Array<T> = array![];
+    let mut result_shape: Array<usize> = array![l, m, q];
+
+    let mut l_idx = 0_usize;
+    while l_idx != l {
+        let mut i = 0_usize;
+        while i != m {
+            let mut j = 0_usize;
+            while j != q {
+                let mut sum: T = NumberTrait::zero();
+                let mut k = 0_usize;
+                while k != n {
+                    let mat1_index = l_idx * m * n + i * n + k;
+                    let mat2_index = k * p + j;
+                    sum += *mat1[mat1_index] * *mat2[mat2_index];
+                    k += 1;
+                };
+                result_data.append(sum);
+                j += 1;
+            };
+            i += 1;
+        };
+        l_idx += 1;
+    };
+
+    TensorTrait::new(result_shape.span(), result_data.span())
+}
+
 /// Prepares the shape of a tensor for matrix multiplication.
 ///
 /// # Arguments
@@ -190,6 +267,49 @@ fn prepare_shape_for_matmul(mut shape: Span<usize>, is_first_tensor: bool) -> Sp
     }
 
     shape
+}
+
+/// Prepares the shape of a tensor for 3D matrix multiplication.
+///
+/// # Arguments
+/// * `shape` - A mutable span representing the shape of the tensor.
+///
+/// # Behavior
+/// This function adjusts the shapes of the tensors based on their dimensionality:
+/// * If the tensor is 1-dimensional or 2-dimensional, it prepends 1s to the shape to make it 3-dimensional.
+/// * If the tensor is already 3-dimensional, it returns the shape unchanged.
+///
+/// # Panics
+/// * Panics if gas limit is exceeded during execution.
+///
+/// # Returns
+/// * A span representing the adjusted shape of the tensor, ensuring it is 3-dimensional.
+fn prepare_shape_for_matmul_3d(mut shape: Span<usize>) -> Span<usize> {
+    let ndim = shape.len();
+    let diff = 3 - ndim;
+
+    let mut shape_adjusted = ArrayTrait::new();
+
+    if ndim == 2 || ndim==1 {
+        // Prepend 1 to shape if it's 1-dimensional
+        let mut i = 0;
+        while i != diff {
+            shape_adjusted.append( 1);
+            i+=1
+        };
+
+        loop {
+            match shape.pop_front() {
+                Option::Some(item) => { shape_adjusted.append(*item); },
+                Option::None => { break; }
+            };
+        };
+
+        return shape_adjusted.span();
+};
+
+shape
+
 }
 
 /// Adjusts the output shape of the matrix multiplication result based on the
