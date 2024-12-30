@@ -946,7 +946,28 @@ trait TensorTrait<T> {
     /// }
     /// >>> [5,14,23]
     /// ```
-    ///
+    /// ```
+    /// 
+    /// Case 4: Matrix multiplication (3D \* 2D)
+    /// 
+    /// ```rust
+    /// use core::array::{ArrayTrait, SpanTrait};
+    /// 
+    /// use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
+    /// 
+    /// fn matrix_mul_example() -> Tensor<u32> {
+    ///     let tensor_1 = TensorTrait::<u32>::new(
+    ///         shape: array![3, 2].span(), data: array![243, 185, 207, 31, 183, 250].span()
+    ///     );
+    /// 
+    ///     let tensor_2 = TensorTrait::<u32>::new(
+    ///         shape: array![2, 3].span(), data: array![143, 215,  214, 80, 174, 21 ].span()
+    ///     );
+    /// 
+    ///     // We can call `matmul` function as follows.
+    ///     return tensor_1.matmul(@tensor_2);
+    /// }
+    /// >>> [[49549, 84435, 55887],[32081, 49899, 44949], [46169, 82845, 44412]]
     fn matmul(self: @Tensor<T>, other: @Tensor<T>) -> Tensor<T>;
     /// # tensor.exp
     ///
