@@ -562,11 +562,11 @@ impl RegressionOperation of MultipleLinearRegressionModelTrait {
 }
 
 fn MultipleLinearRegression(dataset: Dataset) -> MultipleLinearRegressionModel {
-    let x_values_tranposed = transpose_tensor(dataset.x_values);
-    let x_values_tranposed_with_bias = add_bias_term(x_values_tranposed, 0);
-    let decorrelated_x_features = decorrelate_x_features(x_values_tranposed_with_bias);
+    let x_values_transposed = transpose_tensor(dataset.x_values);
+    let x_values_transposed_with_bias = add_bias_term(x_values_transposed, 0);
+    let decorrelated_x_features = decorrelate_x_features(x_values_transposed_with_bias);
     let coefficients = compute_gradients(
-        decorrelated_x_features, dataset.y_values, x_values_tranposed_with_bias
+        decorrelated_x_features, dataset.y_values, x_values_transposed_with_bias
     );
     return MultipleLinearRegressionModel { coefficients };
 }
