@@ -299,14 +299,14 @@ Scarb is the Cairo package manager specifically created to streamline our Cairo 
 To create a new Scarb project, open your terminal and run:
 
 ```sh
-scarb new multiple_linear_regresion
+scarb new multiple_linear_regression
 ```
 
 A new project folder should be created for you and make sure to replace the content in Scarb.toml file with the following code:
 
 ```toml
 [package]
-name = "multiple_linear_regresion"
+name = "multiple_linear_regression"
 version = "0.1.0"
 [dependencies]
 orion = { git = "https://github.com/gizatechxyz/onnx-cairo" }
@@ -400,7 +400,7 @@ use orion::operators::tensor::{
     FP16x16TensorDiv, FP16x16TensorMul
 };
 use orion::numbers::{FP16x16, FixedTrait};
-use multiple_linear_regresion::helper_functions::{
+use multiple_linear_regression::helper_functions::{
     get_tensor_data_by_row, transpose_tensor, calculate_mean, calculate_r_score,
     normalize_user_x_inputs, rescale_predictions
 };
@@ -507,8 +507,8 @@ use orion::operators::tensor::{
     FP16x16TensorDiv, FP16x16TensorMul
 };
 use orion::numbers::{FP16x16, FixedTrait};
-use multiple_linear_regresion::data_preprocessing::{Dataset, DatasetTrait};
-use multiple_linear_regresion::helper_functions::{
+use multiple_linear_regression::data_preprocessing::{Dataset, DatasetTrait};
+use multiple_linear_regression::helper_functions::{
     get_tensor_data_by_row, transpose_tensor, calculate_mean, calculate_r_score,
     normalize_user_x_inputs, rescale_predictions
 };
@@ -1009,15 +1009,15 @@ At this stage, we have already implemented all the important sections of this tu
 use debug::PrintTrait;
 use array::{ArrayTrait, SpanTrait};
 
-use multiple_linear_regresion::datasets::aave_data::aave_x_features::aave_x_features;
-use multiple_linear_regresion::datasets::aave_data::aave_y_labels::aave_y_labels; 
-use multiple_linear_regresion::datasets::user_inputs_data::aave_weth_revenue_data_input::{aave_weth_revenue_data_input };  
+use multiple_linear_regression::datasets::aave_data::aave_x_features::aave_x_features;
+use multiple_linear_regression::datasets::aave_data::aave_y_labels::aave_y_labels; 
+use multiple_linear_regression::datasets::user_inputs_data::aave_weth_revenue_data_input::{aave_weth_revenue_data_input };  
 
-use multiple_linear_regresion::model::multiple_linear_regression_model::{
+use multiple_linear_regression::model::multiple_linear_regression_model::{
      MultipleLinearRegressionModel, MultipleLinearRegression, MultipleLinearRegressionModelTrait
 };
-use multiple_linear_regresion::data_preprocessing::{Dataset, DatasetTrait};
-use multiple_linear_regresion::helper_functions::{get_tensor_data_by_row, transpose_tensor, calculate_mean , 
+use multiple_linear_regression::data_preprocessing::{Dataset, DatasetTrait};
+use multiple_linear_regression::helper_functions::{get_tensor_data_by_row, transpose_tensor, calculate_mean , 
 calculate_r_score, normalize_user_x_inputs, rescale_predictions};
 
 use orion::numbers::{FP16x16,  FixedTrait};
@@ -1081,10 +1081,10 @@ Finally, we can execute the test file by running:
 ```shell
 >> scarb cairo-test -f multiple_linear_regression_test
 
-testing multiple_linear_regresion ...
+testing multiple_linear_regression ...
 running 1 tests
 
-test multiple_linear_regresion::test::multiple_linear_regression_test ... 
+test multiple_linear_regression::test::multiple_linear_regression_test ... 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 filtered out;
 ```
 
