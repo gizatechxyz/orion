@@ -26,6 +26,17 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-32-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
+
+🚨⚠️🚨⚠️🚨⚠️
+
+**This project has been archived and is no longer maintained. We're now developing [LuminAIR](https://github.com/gizatechxyz/LuminAIR), a new and super-efficient zkML framework based on a custom AIR, proven with the [STWO](https://github.com/starkware-libs/stwo) Prover.**
+
+**We'd like to thank all the Orion contributors and hope to see you again in this new journey.**
+
+🚨⚠️🚨⚠️🚨⚠️
+
+---
+
 Orion is an open-source, community-driven framework dedicated to Provable Machine Learning. It provides essential components and a new ONNX runtime for building verifiable Machine Learning models using [STARKs](https://starkware.co/stark/).
 
 ## 🤔 What is ONNX Runtime?
