@@ -491,6 +491,15 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::compress::compress(self, condition, axis)
     }
 
+    fn instance_normalization(
+        self: @Tensor<FP16x16W>,
+        scale: @Tensor<FP16x16W>,
+        bias: @Tensor<FP16x16W>,
+        epsilon: Option<FP16x16W>,
+    ) -> Tensor<FP16x16W> {
+        math::instance_normalization::instance_normalization(self, scale, bias, epsilon)
+    }
+
     fn layer_normalization(
         self: @Tensor<FP16x16W>,
         scale: @Tensor<FP16x16W>,

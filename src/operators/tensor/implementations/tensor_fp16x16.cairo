@@ -514,6 +514,15 @@ impl FP16x16Tensor of TensorTrait<FP16x16> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn instance_normalization(
+        self: @Tensor<FP16x16>,
+        scale: @Tensor<FP16x16>,
+        bias: @Tensor<FP16x16>,
+        epsilon: Option<FP16x16>,
+    ) -> Tensor<FP16x16> {
+        math::instance_normalization::instance_normalization(self, scale, bias, epsilon)
+    }
+
     fn layer_normalization(
         self: @Tensor<FP16x16>,
         scale: @Tensor<FP16x16>,

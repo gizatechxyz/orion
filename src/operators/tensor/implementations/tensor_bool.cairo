@@ -453,6 +453,15 @@ impl BoolTensor of TensorTrait<bool> {
         math::compress::compress(self, condition, axis)
     }
 
+    fn instance_normalization(
+        self: @Tensor<bool>,
+        scale: @Tensor<bool>,
+        bias: @Tensor<bool>,
+        epsilon: Option<bool>,
+    ) -> Tensor<bool> {
+        panic(array!['not supported!'])
+    }
+
     fn layer_normalization(
         self: @Tensor<bool>,
         scale: @Tensor<bool>,

@@ -510,6 +510,15 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         manipulation::unique::unique(self, axis, sorted)
     }
 
+    fn instance_normalization(
+        self: @Tensor<FP64x64>,
+        scale: @Tensor<FP64x64>,
+        bias: @Tensor<FP64x64>,
+        epsilon: Option<FP64x64>,
+    ) -> Tensor<FP64x64> {
+        math::instance_normalization::instance_normalization(self, scale, bias, epsilon)
+    }
+
     fn layer_normalization(
         self: @Tensor<FP64x64>,
         scale: @Tensor<FP64x64>,

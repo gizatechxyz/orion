@@ -147,6 +147,7 @@
     * [tensor.reduce\_log\_sum\_exp](framework/operators/tensor/tensor.reduce\_log\_sum\_exp.md)
     * [tensor.unique](framework/operators/tensor/tensor.unique.md)
     * [tensor.compress](framework/operators/tensor/tensor.compress.md)
+    * [tensor.instance_normalization](framework/operators/tensor/tensor.instance_normalization.md)
     * [tensor.layer_normalization](framework/operators/tensor/tensor.layer_normalization.md)
     * [tensor.scatter\_nd](framework/operators/tensor/tensor.scatter\_nd.md)
     * [tensor.dynamic_quantize_linear](framework/operators/tensor/tensor.dequantize_linear.md)
