@@ -521,6 +521,16 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::layer_normalization::layer_normalization(self, scale, B, axis, epsilon, stash_type)
     }
 
+    fn group_normalization(
+        self: @Tensor<FP32x32>,
+        num_groups: usize,
+        scale: @Tensor<FP32x32>,
+        bias: @Tensor<FP32x32>,
+        epsilon: Option<FP32x32>,
+    ) -> Tensor<FP32x32> {
+        math::group_normalization::group_normalization(self, num_groups, scale, bias, epsilon)
+    }
+
     fn resize(
         self: @Tensor<FP32x32>,
         roi: Option<Tensor<FP32x32>>,

@@ -537,6 +537,16 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
+    fn group_normalization(
+        self: @Tensor<i8>,
+        num_groups: usize,
+        scale: @Tensor<i8>,
+        bias: @Tensor<i8>,
+        epsilon: Option<i8>,
+    ) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn split(
         self: @Tensor<i8>, axis: usize, num_outputs: Option<usize>, spl: Option<Tensor<usize>>
     ) -> Array<Tensor<i8>> {

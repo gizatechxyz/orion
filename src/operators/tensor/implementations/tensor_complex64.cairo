@@ -495,6 +495,16 @@ impl Complex64Tensor of TensorTrait<complex64> {
         panic(array!['not supported!'])
     }
 
+    fn group_normalization(
+        self: @Tensor<complex64>,
+        num_groups: usize,
+        scale: @Tensor<complex64>,
+        bias: @Tensor<complex64>,
+        epsilon: Option<complex64>,
+    ) -> Tensor<complex64> {
+        panic(array!['not supported!'])
+    }
+
     fn split(
         self: @Tensor<complex64>,
         axis: usize,
