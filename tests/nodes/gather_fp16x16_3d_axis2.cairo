@@ -18,7 +18,7 @@ fn test_gather_fp16x16_3d_axis2() {
     let input_1 = input_1::input_1();
     let z_0 = output_0::output_0();
 
-    let y_0 = input_0.gather(indices:input_1, axis:Option::Some(2));
+    let y_0 = input_0.gather(indices: input_1, axis: Option::Some(2));
 
     assert_eq(y_0, z_0);
 }

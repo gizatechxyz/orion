@@ -683,7 +683,7 @@ trait TensorTrait<T> {
         axes: Option<Span<i32>>,
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
-    ) -> Tensor<T>; 
+    ) -> Tensor<T>;
     /// # tensor.argmax
     ///
     /// ```rust 

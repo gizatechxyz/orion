@@ -143,4 +143,30 @@ impl FP16x16NN of NNTrait<FP16x16> {
     ) -> Tensor<FP16x16> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
+
+    fn roi_align(
+        X: @Tensor<FP16x16>,
+        roi: @Tensor<FP16x16>,
+        batch_indices: @Tensor<usize>,
+        coordinate_transformation_mode: Option<
+            orion::operators::nn::functional::roi_align::TRANSFORMATION_MODE
+        >,
+        mode: Option<orion::operators::nn::functional::roi_align::MODE>,
+        output_height: Option<usize>,
+        output_width: Option<usize>,
+        sampling_ratio: Option<FP16x16>,
+        spatial_scale: Option<FP16x16>,
+    ) -> Tensor<FP16x16> {
+        functional::roi_align::roi_align(
+            X,
+            roi,
+            batch_indices,
+            coordinate_transformation_mode,
+            mode,
+            output_height,
+            output_width,
+            sampling_ratio,
+            spatial_scale,
+        )
+    }
 }

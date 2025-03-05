@@ -139,4 +139,28 @@ impl FP8x23NN of NNTrait<FP8x23> {
     ) -> Tensor<FP8x23> {
         functional::conv::conv(X, W, B, auto_pad, dilations, group, kernel_shape, pads, strides)
     }
+
+    fn roi_align(
+        X: @Tensor<FP8x23>,
+        roi: @Tensor<FP8x23>,
+        batch_indices: @Tensor<usize>,
+        coordinate_transformation_mode: Option<functional::roi_align::TRANSFORMATION_MODE>,
+        mode: Option<functional::roi_align::MODE>,
+        output_height: Option<usize>,
+        output_width: Option<usize>,
+        sampling_ratio: Option<FP8x23>,
+        spatial_scale: Option<FP8x23>,
+    ) -> Tensor<FP8x23> {
+        functional::roi_align::roi_align(
+            X,
+            roi,
+            batch_indices,
+            coordinate_transformation_mode,
+            mode,
+            output_height,
+            output_width,
+            sampling_ratio,
+            spatial_scale,
+        )
+    }
 }

@@ -438,9 +438,7 @@ impl I8Tensor of TensorTrait<i8> {
         panic(array!['not supported!'])
     }
 
-    fn gather_elements(
-        self: @Tensor<i8>, indices: Tensor<i32>, axis: Option<i32>
-    ) -> Tensor<i8> {
+    fn gather_elements(self: @Tensor<i8>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<i8> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
@@ -707,17 +705,19 @@ impl I8TensorPartialOrd of PartialOrd<Tensor<i8>> {
 fn tensor_eq(mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0 && is_eq {
-        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() == 0 && !is_eq {
-        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
-    };
+    while lhs.data.len() == 0
+        && !is_eq {
+            is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+        };
 
     is_eq
 }
