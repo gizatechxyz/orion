@@ -985,3 +985,8 @@ mod argmax_negative_axis_keepdims;
 mod argmax_negative_axis_keepdims_select_last_index;
 mod argmax_no_keepdims;
 mod argmax_no_keepdims_select_last_index;
+mod mean_fp16x16;
+mod mean_fp8x23;
+mod mean_i32;
+mod mean_i8;
+mod mean_u32;

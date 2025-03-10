@@ -581,6 +581,10 @@ impl FP8x23WTensor of TensorTrait<FP8x23W> {
             self, default_list, default_tensor, keys, keys_tensor, values, values_tensor
         )
     }
+
+    fn mean(args: Span<Tensor<FP8x23W>>) -> Tensor<FP8x23W> {
+        math::mean::mean(args)
+    }
 }
 
 /// Implements addition for `Tensor<FP8x23W>` using the `Add` trait.
