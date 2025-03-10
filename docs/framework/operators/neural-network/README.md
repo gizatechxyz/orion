@@ -39,4 +39,5 @@ Orion supports currently these `NN` types.
 | [`nn.col2im`](nn.col2im.md) | Rearranges column blocks back into a multidimensional image |
 | [`nn.conv_transpose`](nn.conv\_transpose.md) | Performs the convolution transpose of the input data tensor and weight tensor. |
 | [`nn.conv`](nn.conv.md) | Performs the convolution of the input data tensor and weight tensor. |
+| [`nn.hard_swish`](nn.hard\_swish.md) | Applies the Hard Swish function to an n-dimensional input tensor. |
 

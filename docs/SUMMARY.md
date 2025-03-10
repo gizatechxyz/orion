@@ -170,6 +170,7 @@
     * [nn.softplus](framework/operators/neural-network/nn.softplus.md)
     * [nn.linear](framework/operators/neural-network/nn.linear.md)
     * [nn.hard\_sigmoid](framework/operators/neural-network/nn.hard\_sigmoid.md)
+    * [nn.hard\_swish](framework/operators/neural-network/nn.hard\_swish.md)
     * [nn.thresholded\_relu](framework/operators/neural-network/nn.thresholded\_relu.md)
     * [nn.gemm](framework/operators/neural-network/nn.gemm.md)
     * [nn.grid\_sample](framework/operators/neural-network/nn.grid\_sample.md)
