@@ -1,0 +1,17 @@
+name: Amarna Analysis
+on: [push, pull_request]
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: ['src/', 'tests'] 
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Amarna
+        uses: crytic/amarna-action@v0.1.1
+        id: amarna
+        continue-on-error: true
+        with:
+          target: ${{ matrix.target }}
