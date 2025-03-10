@@ -135,6 +135,10 @@ impl I8Tensor of TensorTrait<i8> {
         math::abs::abs(*self)
     }
 
+    fn modulo( self: @Tensor<i8>,  divisor: @Tensor<i8>, fmod: Option<bool> ) -> Tensor<i8> {
+        panic(array!['not supported!'])
+    }
+
     fn neg(self: @Tensor<i8>) -> Tensor<i8> {
         math::neg::neg(*self)
     }

@@ -137,6 +137,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         math::abs::abs(*self)
     }
 
+    fn modulo( self: @Tensor<FP32x32>,  divisor: @Tensor<FP32x32>, fmod: Option<bool> ) -> Tensor<FP32x32> {
+        math::modulo::modulo(self, divisor, fmod)
+    }
+
     fn neg(self: @Tensor<FP32x32>) -> Tensor<FP32x32> {
         math::neg::neg(*self)
     }

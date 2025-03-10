@@ -137,6 +137,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
         math::abs::abs(*self)
     }
 
+    fn modulo( self: @Tensor<FP64x64>,  divisor: @Tensor<FP64x64>, fmod: Option<bool> ) -> Tensor<FP64x64> {
+        math::modulo::modulo(self, divisor, fmod)
+    }
+
     fn neg(self: @Tensor<FP64x64>) -> Tensor<FP64x64> {
         math::neg::neg(*self)
     }

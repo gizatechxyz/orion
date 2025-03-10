@@ -150,6 +150,10 @@ impl FP16x16WTensor of TensorTrait<FP16x16W> {
         math::abs::abs(*self)
     }
 
+    fn modulo( self: @Tensor<FP16x16W>,  divisor: @Tensor<FP16x16W>, fmod: Option<bool> ) -> Tensor<FP16x16W> {
+        math::modulo::modulo(self, divisor, fmod)
+    }
+
     fn neg(self: @Tensor<FP16x16W>) -> Tensor<FP16x16W> {
         math::neg::neg(*self)
     }
