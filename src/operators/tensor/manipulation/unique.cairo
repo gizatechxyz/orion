@@ -1,5 +1,6 @@
-use alexandria_data_structures::array_ext::{SpanTraitExt, ArrayTraitExt};
-use alexandria_sorting::merge_sort::merge;
+use alexandria_data_structures::array_ext::ArrayTraitExt;
+use alexandria_data_structures::span_ext::SpanTraitExt;
+use alexandria_sorting::MergeSort;
 
 use orion::numbers::{NumberTrait, U32IntoI32};
 use orion::operators::tensor::core::{Tensor, TensorTrait, stride};
@@ -53,7 +54,7 @@ fn unique_flatten<T, +Copy<T>, +Drop<T>, +PartialOrd<T>, +PartialEq<T>,>(
     let mut new_shape: Array<usize> = array![unique_elements.len()];
 
     if (sorted) {
-        unique_elements = merge(unique_elements);
+        unique_elements = MergeSort::sort(unique_elements.span());
     }
 
     let mut unique_elements_span = unique_elements.span();
@@ -61,9 +62,9 @@ fn unique_flatten<T, +Copy<T>, +Drop<T>, +PartialOrd<T>, +PartialEq<T>,>(
     loop {
         match unique_elements_span.pop_front() {
             Option::Some(value) => {
-                let occurences = data_cpy.occurrences_of(*value);
+                let occurences = data_cpy.occurrences(value);
                 count.append(occurences.into());
-                let idx_in_data = data_cpy.index_of(*value).unwrap();
+                let idx_in_data = data_cpy.position(value).unwrap();
                 indices.append(idx_in_data.into());
             },
             Option::None => { break; }
@@ -73,7 +74,7 @@ fn unique_flatten<T, +Copy<T>, +Drop<T>, +PartialOrd<T>, +PartialEq<T>,>(
     loop {
         match data_cpy.pop_front() {
             Option::Some(value) => {
-                let idx_in_uniques = unique_elements_span.index_of(*value).unwrap();
+                let idx_in_uniques = unique_elements_span.position(value).unwrap();
                 inverse_indices.append(idx_in_uniques.into());
             },
             Option::None => { break; }
@@ -120,7 +121,7 @@ fn unique_along_axis<
     };
 
     if (sorted) {
-        unique_tensors = merge(unique_tensors);
+        unique_tensors = MergeSort::sort(unique_tensors.span());
     }
 
     let mut all_tensors_span = all_tensors.span();
@@ -128,9 +129,9 @@ fn unique_along_axis<
     loop {
         match unique_tensors_span.pop_front() {
             Option::Some(t) => {
-                let occurences = all_tensors_span.occurrences_of(*t);
+                let occurences = all_tensors_span.occurrences(t);
                 count.append(occurences.into());
-                let idx_in_all = all_tensors_span.index_of(*t).unwrap();
+                let idx_in_all = all_tensors_span.position(t).unwrap();
                 indices.append(idx_in_all.into());
             },
             Option::None => { break; }
@@ -140,7 +141,7 @@ fn unique_along_axis<
     loop {
         match all_tensors_span.pop_front() {
             Option::Some(t) => {
-                let idx_in_uniques = unique_tensors_span.index_of(*t).unwrap();
+                let idx_in_uniques = unique_tensors_span.position(t).unwrap();
                 inverse_indices.append(idx_in_uniques.into());
             },
             Option::None => { break; }

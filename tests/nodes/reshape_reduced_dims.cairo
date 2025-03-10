@@ -14,7 +14,7 @@ fn test_reshape_reduced_dims() {
     let input_0 = input_0::input_0();
     let z_0 = output_0::output_0();
 
-    let y_0 = input_0.reshape(array![2,12].span(), false);
+    let y_0 = input_0.reshape(array![2, 12].span(), false);
 
     assert_eq(y_0, z_0);
 }

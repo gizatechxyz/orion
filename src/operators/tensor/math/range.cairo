@@ -18,11 +18,12 @@ fn range<
 ) -> Tensor<T> {
     let mut result: Array<T> = array![];
     let zero: T = NumberTrait::zero();
-    while !(step >= zero && start >= end) && !(step <= zero && start <= end) {
-        let v = start;
-        result.append(v);
-        start += step;
-    };
+    while !(step >= zero && start >= end)
+        && !(step <= zero && start <= end) {
+            let v = start;
+            result.append(v);
+            start += step;
+        };
 
     let shape = array![result.len()];
 

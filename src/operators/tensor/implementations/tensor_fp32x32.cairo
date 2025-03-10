@@ -5,7 +5,7 @@ use orion::operators::tensor::core::{
     at_tensor,
 };
 use orion::operators::tensor::{math, linalg, quantization, core as core_tensor, ml, manipulation};
-use orion::numbers::{NumberTrait, FP32x32, FP32x32Impl, I8IntoFP32x32};
+use orion::numbers::{NumberTrait, FP32x32, FP32x32Impl};
 use orion::numbers::fixed_point::implementations::fp32x32::core::ONE;
 use orion::operators::tensor::implementations::{
     tensor_i8::I8Tensor, tensor_u32::U32Tensor, tensor_bool::BoolTensor
@@ -68,7 +68,9 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         unravel_index(index, *self.shape)
     }
 
-    fn reshape(self: @Tensor<FP32x32>, target_shape: Span<i32>, allowzero: bool) -> Tensor<FP32x32> {
+    fn reshape(
+        self: @Tensor<FP32x32>, target_shape: Span<i32>, allowzero: bool
+    ) -> Tensor<FP32x32> {
         reshape(self, target_shape, allowzero)
     }
 
@@ -350,9 +352,7 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
         core_tensor::slice::<FP32x32>(self, starts, ends, axes, steps)
     }
 
-    fn gather(
-        self: @Tensor<FP32x32>, indices: Tensor<i32>, axis: Option<i32>
-    ) -> Tensor<FP32x32> {
+    fn gather(self: @Tensor<FP32x32>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<FP32x32> {
         math::gather::gather(self, indices, axis)
     }
 
@@ -771,17 +771,19 @@ fn relative_eq(lhs: @FP32x32, rhs: @FP32x32) -> bool {
 fn tensor_eq(mut lhs: Tensor<FP32x32>, mut rhs: Tensor<FP32x32>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0 && is_eq {
-        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() != 0 && is_eq {
-        is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
-    };
+    while lhs.data.len() != 0
+        && is_eq {
+            is_eq = relative_eq(lhs.data.pop_front().unwrap(), rhs.data.pop_front().unwrap());
+        };
 
     is_eq
 }

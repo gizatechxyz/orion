@@ -52,32 +52,33 @@ fn check_compatibility(mut shape_1: Span<usize>, mut shape_2: Span<usize>) {
     let mut iter_2 = shape_2.len();
 
     // Iterate while there are dimensions left in either shape
-    while iter_1 > 0 || iter_2 > 0 {
-        // Get the current dimension for each shape, defaulting to 1 if we've run out of dimensions
-        let dim_1 = if iter_1 > 0 {
-            *shape_1[iter_1 - 1]
-        } else {
-            1
-        };
-        let dim_2 = if iter_2 > 0 {
-            *shape_2[iter_2 - 1]
-        } else {
-            1
-        };
+    while iter_1 > 0
+        || iter_2 > 0 {
+            // Get the current dimension for each shape, defaulting to 1 if we've run out of dimensions
+            let dim_1 = if iter_1 > 0 {
+                *shape_1[iter_1 - 1]
+            } else {
+                1
+            };
+            let dim_2 = if iter_2 > 0 {
+                *shape_2[iter_2 - 1]
+            } else {
+                1
+            };
 
-        // Check the broadcasting rule for the current dimension
-        if dim_1 != dim_2 && dim_1 != 1 && dim_2 != 1 {
-            panic(array!['tensors shape must match']);
-        }
+            // Check the broadcasting rule for the current dimension
+            if dim_1 != dim_2 && dim_1 != 1 && dim_2 != 1 {
+                panic(array!['tensors shape must match']);
+            }
 
-        // Move to the next dimension
-        if iter_1 > 0 {
-            iter_1 -= 1;
+            // Move to the next dimension
+            if iter_1 > 0 {
+                iter_1 -= 1;
+            }
+            if iter_2 > 0 {
+                iter_2 -= 1;
+            }
         }
-        if iter_2 > 0 {
-            iter_2 -= 1;
-        }
-    }
 }
 
 /// Computes the index in the broadcasted tensor corresponding to the given indices and shape.
@@ -250,17 +251,18 @@ fn combine_indices(mut output_indices: Span<usize>, axis_index: usize, axis: usi
     let mut result: Array<u32> = array![];
     let mut n: usize = 0;
 
-    while n != output_indices.len() + 1 {
-        if n == axis {
-            result.append(axis_index);
-        } else if n > axis {
-            result.append(*output_indices[n - 1_usize]);
-        } else {
-            result.append(*output_indices[n]);
-        }
+    while n != output_indices.len()
+        + 1 {
+            if n == axis {
+                result.append(axis_index);
+            } else if n > axis {
+                result.append(*output_indices[n - 1_usize]);
+            } else {
+                result.append(*output_indices[n]);
+            }
 
-        n += 1;
-    };
+            n += 1;
+        };
 
     result.span()
 }
@@ -313,15 +315,17 @@ fn broadcast_shape(mut shape1: Span<usize>, mut shape2: Span<usize>) -> Span<usi
     check_compatibility(shape1, shape2);
     let mut result: Array<usize> = array![];
 
-    while !shape1.is_empty() || !shape2.is_empty() {
-        let dim1 = *shape1.pop_back().unwrap_or(@1);
-        let dim2 = *shape2.pop_back().unwrap_or(@1);
+    while !shape1.is_empty()
+        || !shape2
+            .is_empty() {
+                let dim1 = *shape1.pop_back().unwrap_or(@1);
+                let dim2 = *shape2.pop_back().unwrap_or(@1);
 
-        let broadcasted_dim = u32_max(dim1, dim2);
-        result.append(broadcasted_dim);
-    };
+                let broadcasted_dim = u32_max(dim1, dim2);
+                result.append(broadcasted_dim);
+            };
 
-    result.reverse().span()
+    result.reversed().span()
 }
 
 /// Substitute a value in a shape at a given index

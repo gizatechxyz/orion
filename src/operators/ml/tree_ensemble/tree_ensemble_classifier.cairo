@@ -16,7 +16,7 @@ use orion::numbers::NumberTrait;
 use orion::utils::get_row;
 
 use alexandria_merkle_tree::merkle_tree::{pedersen::PedersenHasherImpl};
-use alexandria_data_structures::array_ext::{SpanTraitExt};
+use alexandria_data_structures::span_ext::SpanTraitExt;
 
 use orion::operators::matrix::{MutMatrix, MutMatrixImpl};
 use orion::operators::vec::{VecTrait, NullableVec, NullableVecImpl};
@@ -333,7 +333,7 @@ impl TreeEnsembleClassifierImpl<
                 FromNullableResult::NotNull(val) => {
                     let mut new_val = val.unbox();
                     let new_val = new_val.concat(array![i].span());
-                    class_index.insert(key, NullableTrait::new(new_val));
+                    class_index.insert(key, NullableTrait::new(new_val.span()));
                 },
             }
 

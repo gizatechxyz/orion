@@ -89,10 +89,7 @@ impl Complex64Tensor of TensorTrait<complex64> {
     }
 
     fn argmax(
-        self: @Tensor<complex64>,
-        axis: i32,
-        keepdims: Option<bool>,
-        select_last_index: Option<bool>
+        self: @Tensor<complex64>, axis: i32, keepdims: Option<bool>, select_last_index: Option<bool>
     ) -> Tensor<i32> {
         panic(array!['not supported!'])
     }

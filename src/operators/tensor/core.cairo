@@ -3,7 +3,7 @@ use core::array::{ArrayTrait, SpanTrait};
 use core::serde::Serde;
 use core::option::OptionTrait;
 
-use alexandria_data_structures::array_ext::{SpanTraitExt};
+use alexandria_data_structures::span_ext::SpanTraitExt;
 //::resize::{MODE, NEAREST_MODE, KEEP_ASPECT_RATIO_POLICY, TRANSFORMATION_MODE};
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
@@ -683,7 +683,7 @@ trait TensorTrait<T> {
         axes: Option<Span<i32>>,
         keepdims: Option<bool>,
         noop_with_empty_axes: Option<bool>
-    ) -> Tensor<T>; 
+    ) -> Tensor<T>;
     /// # tensor.argmax
     ///
     /// ```rust 
@@ -5948,7 +5948,7 @@ fn stride(mut shape: Span<usize>) -> Span<usize> {
         };
     };
 
-    strides.reverse().span()
+    strides.reversed().span()
 }
 
 
@@ -6122,7 +6122,7 @@ fn slice<T, impl TTensor: TensorTrait<T>, impl TCopy: Copy<T>, impl TDrop: Drop<
     loop {
         match shape.pop_front() {
             Option::Some(ele) => {
-                let (axis_index, is_found) = match axes.index_of(i) {
+                let (axis_index, is_found) = match axes.position(@i) {
                     Option::Some(axis_index) => (axis_index, true),
                     Option::None => (0, false),
                 };
@@ -6381,7 +6381,7 @@ fn unsqueeze<T>(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T> {
     let mut added_axes_count: usize = 0;
     let mut output_shape: Array<usize> = ArrayTrait::new();
     loop {
-        if axes.contains(i + added_axes_count) {
+        if axes.contains(@(i + added_axes_count)) {
             output_shape.append(1);
             added_axes_count += 1;
         } else {
@@ -6397,7 +6397,7 @@ fn unsqueeze<T>(self: @Tensor<T>, axes: Span<usize>) -> Tensor<T> {
 
     let mut j: usize = output_shape.len();
     loop {
-        if axes.contains(j) {
+        if axes.contains(@j) {
             output_shape.append(1);
         } else {
             break ();

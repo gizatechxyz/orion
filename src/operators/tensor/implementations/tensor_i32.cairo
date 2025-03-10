@@ -435,9 +435,7 @@ impl I32Tensor of TensorTrait<i32> {
         panic(array!['not supported!'])
     }
 
-    fn gather_elements(
-        self: @Tensor<i32>, indices: Tensor<i32>, axis: Option<i32>
-    ) -> Tensor<i32> {
+    fn gather_elements(self: @Tensor<i32>, indices: Tensor<i32>, axis: Option<i32>) -> Tensor<i32> {
         math::gather_elements::gather_elements(self, indices, axis)
     }
 
@@ -716,17 +714,19 @@ impl I32TensorPartialOrd of PartialOrd<Tensor<i32>> {
 fn tensor_eq(mut lhs: Tensor<i32>, mut rhs: Tensor<i32>,) -> bool {
     let mut is_eq = true;
 
-    while lhs.shape.len() != 0 && is_eq {
-        is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
-    };
+    while lhs.shape.len() != 0
+        && is_eq {
+            is_eq = lhs.shape.pop_front().unwrap() == rhs.shape.pop_front().unwrap();
+        };
 
     if !is_eq {
         return false;
     }
 
-    while lhs.data.len() != 0 && is_eq {
-        is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
-    };
+    while lhs.data.len() != 0
+        && is_eq {
+            is_eq = lhs.data.pop_front().unwrap() == rhs.data.pop_front().unwrap();
+        };
 
     is_eq
 }

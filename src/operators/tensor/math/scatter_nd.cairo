@@ -1,6 +1,7 @@
 use core::nullable::{nullable_from_box, match_nullable, FromNullableResult};
 
-use alexandria_data_structures::array_ext::SpanTraitExt;
+use alexandria_data_structures::array_ext::ArrayTraitExt;
+use alexandria_data_structures::span_ext::SpanTraitExt;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{TensorTrait, Tensor, U32Tensor};
@@ -31,7 +32,9 @@ fn scatter_nd<
     let indices_last_axis = indices_shape.pop_back().unwrap();
     assert(*indices_last_axis <= data_rank, 'must be <= data rank');
 
-    let ind_max = indices.data.max().unwrap();
+    let mut indices_arr: Array<usize> = array![];
+    indices_arr.extend_from_span(indices.data);
+    let ind_max = indices_arr.max().unwrap();
     if (data_rank > 1) {
         assert(ind_max < data_rank, 'index is out of bound');
     }

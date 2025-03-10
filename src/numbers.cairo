@@ -1760,38 +1760,6 @@ impl I8IntoFP16x16 of Into<i8, FP16x16> {
     }
 }
 
-impl I8IntoFP64x64 of Into<i8, FP64x64> {
-    fn into(self: i8) -> FP64x64 {
-        let number_sign: bool = self < 0;
-        let mut self_positive: i8 = self;
-
-        if number_sign {
-            self_positive = self_positive * -1_i8
-        }
-
-        let number_felt: felt252 = self_positive.into();
-        let number_u128: u128 = number_felt.try_into().unwrap();
-
-        FP64x64 { mag: number_u128 * ONE_fp64x64, sign: number_sign }
-    }
-}
-
-impl I8IntoFP32x32 of Into<i8, FP32x32> {
-    fn into(self: i8) -> FP32x32 {
-        let number_sign: bool = self < 0;
-        let mut self_positive: i8 = self;
-
-        if number_sign {
-            self_positive = self_positive * -1_i8
-        }
-
-        let number_felt: felt252 = self_positive.into();
-        let number_u128: u64 = number_felt.try_into().unwrap();
-
-        FP32x32 { mag: number_u128 * ONE_fp32x32, sign: number_sign }
-    }
-}
-
 impl I16Number of NumberTrait<i16, i16> {
     fn new(mag: i16, sign: bool) -> i16 {
         if sign {

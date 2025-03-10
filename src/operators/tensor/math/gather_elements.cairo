@@ -1,4 +1,4 @@
-use alexandria_data_structures::array_ext::SpanTraitExt;
+use alexandria_data_structures::span_ext::SpanTraitExt;
 
 use orion::numbers::NumberTrait;
 use orion::operators::tensor::{TensorTrait, Tensor};
