@@ -3,7 +3,7 @@ use orion::operators::nn::core::NNTrait;
 use orion::operators::nn::functional;
 use orion::numbers::fixed_point::implementations::fp64x64::core::{FP64x64, FP64x64Impl};
 use orion::operators::tensor::implementations::tensor_fp64x64::{
-    FP64x64Tensor, FP64x64TensorDiv, FP64x64TensorAdd
+    FP64x64Tensor, FP64x64TensorDiv, FP64x64TensorAdd, FP64x64TensorMul
 };
 
 impl FP64x64NN of NNTrait<FP64x64> {
@@ -51,6 +51,10 @@ impl FP64x64NN of NNTrait<FP64x64> {
 
     fn hard_sigmoid(tensor: @Tensor<FP64x64>, alpha: @FP64x64, beta: @FP64x64) -> Tensor<FP64x64> {
         functional::hard_sigmoid::hard_sigmoid(*tensor, alpha, beta)
+    }
+
+    fn hard_swish(tensor: @Tensor<FP64x64>) -> Tensor<FP64x64> {
+        functional::hard_swish::hard_swish(*tensor)
     }
 
     fn depth_to_space(

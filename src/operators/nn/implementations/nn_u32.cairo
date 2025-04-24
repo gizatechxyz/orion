@@ -48,6 +48,10 @@ impl U32NN of NNTrait<u32> {
         panic(array!['not supported!'])
     }
 
+    fn hard_swish(tensor: @Tensor<u32>) -> Tensor<u32> {
+        panic(array!['not supported!'])
+    }
+
     fn depth_to_space(tensor: @Tensor<u32>, blocksize: usize, mode: felt252) -> Tensor<u32> {
         functional::depth_to_space::depth_to_space(*tensor, blocksize, mode)
     }
